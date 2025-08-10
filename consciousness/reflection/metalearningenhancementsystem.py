@@ -35,7 +35,7 @@ import json
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -81,7 +81,7 @@ class Systemintegrationstatus:
     symbolic_feedback_active: bool
     federation_enabled: bool
     last_health_check: datetime
-    integration_errors: List[str]
+    integration_errors: list[str]
 
 
 class MetaLearningEnhancementsystem:
@@ -133,7 +133,7 @@ class MetaLearningEnhancementsystem:
             )
 
         # System state and integration tracking
-        self.enhanced_systems: List[Any] = []
+        self.enhanced_systems: list[Any] = []
         self.integration_status = SystemIntegrationStatus(
             meta_learning_systems_found=0,
             systems_enhanced=0,
@@ -146,16 +146,16 @@ class MetaLearningEnhancementsystem:
         )
 
         # Performance and coordination tracking
-        self.enhancement_history: List[Dict[str, Any]] = []
-        self.coordination_events: List[Dict[str, Any]] = []
-        self.ethical_audit_trail: List[Dict[str, Any]] = []
+        self.enhancement_history: list[dict[str, Any]] = []
+        self.coordination_events: list[dict[str, Any]] = []
+        self.ethical_audit_trail: list[dict[str, Any]] = []
 
         logger.info(f"Meta-Learning Enhancement System initialized for node {node_id}")
         logger.info(f"Mode: {enhancement_mode.value}, Federation: {enable_federation}")
 
     async def discover_and_enhance_meta_learning_systems(
-        self, search_paths: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        self, search_paths: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """
         Discover existing MetaLearningSystem instances and enhance them
 
@@ -232,7 +232,7 @@ class MetaLearningEnhancementsystem:
 
         return discovery_results
 
-    async def start_enhancement_operations(self) -> Dict[str, Any]:
+    async def start_enhancement_operations(self) -> dict[str, Any]:
         """Start all enhancement operations based on current mode"""
 
         operations_status = {
@@ -300,7 +300,7 @@ class MetaLearningEnhancementsystem:
 
         return operations_status
 
-    async def run_enhancement_cycle(self) -> Dict[str, Any]:
+    async def run_enhancement_cycle(self) -> dict[str, Any]:
         """Run a complete enhancement cycle across all integrated systems"""
 
         cycle_start = datetime.now()
@@ -369,7 +369,7 @@ class MetaLearningEnhancementsystem:
 
         return cycle_results
 
-    async def get_comprehensive_status(self) -> Dict[str, Any]:
+    async def get_comprehensive_status(self) -> dict[str, Any]:
         """Get comprehensive status of the entire enhancement system"""
 
         status = {
@@ -414,7 +414,7 @@ class MetaLearningEnhancementsystem:
 
         return status
 
-    async def generate_enhancement_report(self) -> Dict[str, Any]:
+    async def generate_enhancement_report(self) -> dict[str, Any]:
         """Generate comprehensive report on enhancement system performance"""
 
         report = {
@@ -447,7 +447,7 @@ class MetaLearningEnhancementsystem:
 
     async def integrate_with_collapse_engine(
         self, collapse_engine_instance: Any
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Integrate with existing CollapseEngine for enhanced coherence-inspired processing"""
 
         integration_result = {
@@ -490,7 +490,7 @@ class MetaLearningEnhancementsystem:
 
     async def integrate_with_intent_node(
         self, intent_node_instance: Any
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Integrate with existing IntentNode for enhanced intent processing"""
 
         integration_result = {
@@ -532,7 +532,7 @@ class MetaLearningEnhancementsystem:
 
     async def integrate_with_voice_pack(
         self, voice_pack_instance: Any
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Integrate with existing Voice_Pack for enhanced voice processing"""
 
         integration_result = {
@@ -586,7 +586,7 @@ class MetaLearningEnhancementsystem:
 
     # Private helper methods
 
-    def _simulate_meta_learning_system_discovery(self) -> List[Dict[str, Any]]:
+    def _simulate_meta_learning_system_discovery(self) -> list[dict[str, Any]]:
         """Simulate discovery of existing MetaLearningSystem instances"""
 
         # Based on the actual search results showing 60+ MetaLearningSystem instances
@@ -646,8 +646,8 @@ class MetaLearningEnhancementsystem:
         return discovered_systems
 
     async def _enhance_individual_system(
-        self, system_info: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, system_info: dict[str, Any]
+    ) -> dict[str, Any]:
         """Enhance an individual MetaLearningSystem instance"""
 
         enhancement_result = {
@@ -719,7 +719,7 @@ class MetaLearningEnhancementsystem:
 
         return enhancement_result
 
-    def _create_mock_system(self, system_info: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_mock_system(self, system_info: dict[str, Any]) -> dict[str, Any]:
         """Create mock system object for testing/simulation"""
         return {
             "system_info": system_info,
@@ -729,7 +729,7 @@ class MetaLearningEnhancementsystem:
             "federation_ready": False,
         }
 
-    async def _apply_monitoring_enhancement(self, system: Dict[str, Any]) -> bool:
+    async def _apply_monitoring_enhancement(self, system: dict[str, Any]) -> bool:
         """Apply monitoring enhancement to a system"""
         try:
             # Track system in monitoring dashboard
@@ -746,7 +746,7 @@ class MetaLearningEnhancementsystem:
             return False
 
     async def _apply_rate_optimization_enhancement(
-        self, system: Dict[str, Any]
+        self, system: dict[str, Any]
     ) -> bool:
         """Apply rate optimization enhancement to a system"""
         try:
@@ -769,7 +769,7 @@ class MetaLearningEnhancementsystem:
             return False
 
     async def _apply_symbolic_feedback_enhancement(
-        self, system: Dict[str, Any]
+        self, system: dict[str, Any]
     ) -> bool:
         """Apply symbolic feedback enhancement to a system"""
         try:
@@ -787,7 +787,7 @@ class MetaLearningEnhancementsystem:
         except Exception:
             return False
 
-    async def _apply_federation_enhancement(self, system: Dict[str, Any]) -> bool:
+    async def _apply_federation_enhancement(self, system: dict[str, Any]) -> bool:
         """Apply federation enhancement to a system"""
         try:
             if self.federated_integration:
@@ -802,7 +802,7 @@ class MetaLearningEnhancementsystem:
             pass
         return False
 
-    async def _start_federated_operations(self) -> Dict[str, Any]:
+    async def _start_federated_operations(self) -> dict[str, Any]:
         """Start federated learning operations"""
         if not self.federated_integration:
             return {"active": False, "error": "Federation not initialized"}
@@ -821,8 +821,8 @@ class MetaLearningEnhancementsystem:
             return {"active": False, "error": str(e)}
 
     async def _process_system_enhancement_cycle(
-        self, system: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, system: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process enhancement cycle for a single system"""
 
         result = {"optimizations": 0, "insights": 0, "ethical_passed": 0}
@@ -850,7 +850,7 @@ class MetaLearningEnhancementsystem:
 
         return result
 
-    async def _generate_cross_system_insights(self) -> List[Dict[str, Any]]:
+    async def _generate_cross_system_insights(self) -> list[dict[str, Any]]:
         """Generate insights across all enhanced systems"""
 
         insights = []
@@ -876,7 +876,7 @@ class MetaLearningEnhancementsystem:
 
         return insights
 
-    async def _coordinate_federation_cycle(self) -> Dict[str, Any]:
+    async def _coordinate_federation_cycle(self) -> dict[str, Any]:
         """Coordinate federation cycle operations"""
 
         if not self.federated_integration:
@@ -898,8 +898,8 @@ class MetaLearningEnhancementsystem:
             return {"updates_processed": 0}
 
     async def _perform_cycle_ethical_audit(
-        self, cycle_results: Dict[str, Any]
-    ) -> Dict[str, bool]:
+        self, cycle_results: dict[str, Any]
+    ) -> dict[str, bool]:
         """Perform ethical audit for enhancement cycle"""
 
         audit_result = {"passed": True, "issues": []}
@@ -940,7 +940,7 @@ class MetaLearningEnhancementsystem:
 
         return audit_result
 
-    async def _get_dashboard_status(self) -> Dict[str, Any]:
+    async def _get_dashboard_status(self) -> dict[str, Any]:
         """Get monitoring dashboard status"""
         return {
             "active": self.integration_status.monitoring_active,
@@ -948,7 +948,7 @@ class MetaLearningEnhancementsystem:
             "last_update": datetime.now().isoformat(),
         }
 
-    async def _get_rate_modulator_status(self) -> Dict[str, Any]:
+    async def _get_rate_modulator_status(self) -> dict[str, Any]:
         """Get rate modulator status"""
         return {
             "active": self.integration_status.rate_optimization_active,
@@ -960,7 +960,7 @@ class MetaLearningEnhancementsystem:
             ),
         }
 
-    async def _get_symbolic_feedback_status(self) -> Dict[str, Any]:
+    async def _get_symbolic_feedback_status(self) -> dict[str, Any]:
         """Get symbolic feedback status"""
         return {
             "active": self.integration_status.symbolic_feedback_active,
@@ -972,7 +972,7 @@ class MetaLearningEnhancementsystem:
             ),
         }
 
-    async def _get_federation_status(self) -> Dict[str, Any]:
+    async def _get_federation_status(self) -> dict[str, Any]:
         """Get federation status"""
         if not self.federated_integration:
             return {"enabled": False}
@@ -994,7 +994,7 @@ class MetaLearningEnhancementsystem:
 
     # Report generation methods
 
-    async def _generate_executive_summary(self) -> Dict[str, Any]:
+    async def _generate_executive_summary(self) -> dict[str, Any]:
         """Generate executive summary for enhancement report"""
         return {
             "total_systems_enhanced": self.integration_status.systems_enhanced,
@@ -1016,7 +1016,7 @@ class MetaLearningEnhancementsystem:
             ),
         }
 
-    async def _generate_integration_analysis(self) -> Dict[str, Any]:
+    async def _generate_integration_analysis(self) -> dict[str, Any]:
         """Generate integration analysis for enhancement report"""
         return {
             "meta_learning_systems_discovered": self.integration_status.meta_learning_systems_found,
@@ -1040,7 +1040,7 @@ class MetaLearningEnhancementsystem:
             ),
         }
 
-    async def _generate_performance_analysis(self) -> Dict[str, Any]:
+    async def _generate_performance_analysis(self) -> dict[str, Any]:
         """Generate performance analysis for enhancement report"""
 
         recent_cycles = [
@@ -1094,7 +1094,7 @@ class MetaLearningEnhancementsystem:
             ),
         }
 
-    async def _generate_ethical_analysis(self) -> Dict[str, Any]:
+    async def _generate_ethical_analysis(self) -> dict[str, Any]:
         """Generate ethical analysis for enhancement report"""
 
         passed_audits = [audit for audit in self.ethical_audit_trail if audit["passed"]]
@@ -1116,7 +1116,7 @@ class MetaLearningEnhancementsystem:
             "transparency_score": 0.95,  # High transparency due to audit trails and quantum signatures
         }
 
-    async def _generate_federation_analysis(self) -> Dict[str, Any]:
+    async def _generate_federation_analysis(self) -> dict[str, Any]:
         """Generate federation analysis for enhancement report"""
 
         if not self.federated_integration:
@@ -1143,7 +1143,7 @@ class MetaLearningEnhancementsystem:
             ],
         }
 
-    async def _generate_recommendations(self) -> List[Dict[str, Any]]:
+    async def _generate_recommendations(self) -> list[dict[str, Any]]:
         """Generate recommendations for enhancement system optimization"""
 
         recommendations = []
@@ -1213,7 +1213,7 @@ class MetaLearningEnhancementsystem:
 
         return recommendations
 
-    def _analyze_common_ethical_issues(self) -> List[str]:
+    def _analyze_common_ethical_issues(self) -> list[str]:
         """Analyze common ethical issues from audit trail"""
 
         all_issues = []

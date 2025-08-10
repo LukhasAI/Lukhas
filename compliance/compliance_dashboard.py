@@ -1,11 +1,12 @@
-
-
 # ════════════════════════════════════════════════════════════════════════
 # 📁 FILE: compliance_dashboard.py
 # 🛡️ PURPOSE: Institutional compliance viewer for emergency logs and GDPR status
 # 🎯 AUDIENCE: Governance reviewers (e.g. Sam Altman, auditors)
 # ════════════════════════════════════════════════════════════════════════
 
+from core.tracing import trace_tools  # assuming trace_tools.py is importable
+import pandas as pd
+from pathlib import Path
 import json
 import os
 
@@ -41,11 +42,6 @@ st.caption("🔒 All emergency actions are traceable, tiered, and GDPR-aligned."
 # Symbolic Trace Dashboard Viewer (Enhanced via trace_tools)
 # ────────────────────────────────────────────────────────────────────────────────
 
-from pathlib import Path
-
-import pandas as pd
-
-from core.tracing import trace_tools  # assuming trace_tools.py is importable
 
 trace_path = Path("logs/symbolic_trace_dashboard.csv")
 if trace_path.exists():
@@ -53,7 +49,9 @@ if trace_path.exists():
 
     try:
         df = pd.read_csv(trace_path)
-        filter_cols = st.multiselect("Filter Columns", df.columns.tolist(), default=df.columns.tolist())
+        filter_cols = st.multiselect(
+            "Filter Columns", df.columns.tolist(), default=df.columns.tolist()
+        )
         st.dataframe(df[filter_cols] if filter_cols else df)
 
         # Optional Summary Tools

@@ -52,7 +52,7 @@ from enum import Enum
 from pathlib import Path
 
 # import hmac # hmac not used in the provided code, can be removed if not planned
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import structlog  # Standardized logging
 
@@ -120,7 +120,7 @@ class QuantumCertificateManager:
     Manages quantum-resistant certificates, including their lifecycle.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.log = log.bind(manager_id=hex(id(self))[-6:])
         self.config = config or {}
 
@@ -142,7 +142,7 @@ class QuantumCertificateManager:
             "renewal_check_interval_seconds", 3600
         )
 
-        self.quantum_ca_endpoints: Dict[str, str] = self.config.get(
+        self.quantum_ca_endpoints: dict[str, str] = self.config.get(
             "quantum_ca_endpoints",
             {
                 "primary_ca_simulation_url": "https://quantum-ca.lukhas.ai/api/v1/simulate",
@@ -150,10 +150,10 @@ class QuantumCertificateManager:
             },
         )
 
-        self.certificates: Dict[str, Dict[str, Any]] = {}
-        self.certificate_metadata: Dict[str, Dict[str, Any]] = {}
+        self.certificates: dict[str, dict[str, Any]] = {}
+        self.certificate_metadata: dict[str, dict[str, Any]] = {}
 
-        self.renewal_tasks: Dict[str, asyncio.Task[Any]] = {}  # type: ignore
+        self.renewal_tasks: dict[str, asyncio.Task[Any]] = {}  # type: ignore
         self.validation_task: Optional[asyncio.Task[Any]] = None
 
         self.quantum_entropy_enabled: bool = self.config.get(
@@ -263,8 +263,8 @@ class QuantumCertificateManager:
         """Validates all loaded certificates, checking expiry and triggering renewals if needed."""
         self.log.debug("Starting validation process for all certificates.")
         current_utc_time = datetime.now(timezone.utc)
-        expiring_soon_certs: List[str] = []
-        actually_expired_certs: List[str] = []
+        expiring_soon_certs: list[str] = []
+        actually_expired_certs: list[str] = []
 
         for cert_id, cert_data in list(self.certificates.items()):
             try:
@@ -318,7 +318,7 @@ class QuantumCertificateManager:
 
     @lukhas_tier_required(3)
     async def _validate_single_certificate(
-        self, cert_id: str, cert_data: Dict[str, Any], current_time_utc: datetime
+        self, cert_id: str, cert_data: dict[str, Any], current_time_utc: datetime
     ) -> CertificateStatus:
         """Validates an individual certificate against various criteria."""
         self.log.debug("Validating certificate.", cert_id=cert_id)
@@ -362,7 +362,7 @@ class QuantumCertificateManager:
             return CertificateStatus.UNKNOWN
 
     @lukhas_tier_required(3)
-    async def _validate_quantum_signature(self, cert_data: Dict[str, Any]) -> bool:
+    async def _validate_quantum_signature(self, cert_data: dict[str, Any]) -> bool:
         """Validates the quantum-resistant signature of the certificate (simulated)."""
         self.log.debug(
             "Validating quantum signature.", cert_id=cert_data.get("certificate_id")
@@ -394,11 +394,20 @@ class QuantumCertificateManager:
                 (qa for qa in QuantumAlgorithm if qa.value == algorithm), None
             )
             if algo_enum_member == QuantumAlgorithm.CRYSTALS_DILITHIUM:
-                return await self._verify_dilithium_signature_sim(message_bytes, signature_b64, public_key_b64)  # type: ignore
+                # type: ignore
+                return await self._verify_dilithium_signature_sim(
+                    message_bytes, signature_b64, public_key_b64
+                )
             elif algo_enum_member == QuantumAlgorithm.FALCON:
-                return await self._verify_falcon_signature_sim(message_bytes, signature_b64, public_key_b64)  # type: ignore
+                # type: ignore
+                return await self._verify_falcon_signature_sim(
+                    message_bytes, signature_b64, public_key_b64
+                )
             elif algo_enum_member == QuantumAlgorithm.SPHINCS_PLUS:
-                return await self._verify_sphincs_signature_sim(message_bytes, signature_b64, public_key_b64)  # type: ignore
+                # type: ignore
+                return await self._verify_sphincs_signature_sim(
+                    message_bytes, signature_b64, public_key_b64
+                )
             else:
                 self.log.warning(
                     "Unsupported quantum algorithm for signature validation.",
@@ -434,7 +443,7 @@ class QuantumCertificateManager:
         return True
 
     async def _validate_certificate_chain_to_trusted_root(
-        self, cert_data: Dict[str, Any]
+        self, cert_data: dict[str, Any]
     ) -> bool:
         await asyncio.sleep(0.001)
         return True
@@ -444,7 +453,7 @@ class QuantumCertificateManager:
         return False
 
     @lukhas_tier_required(3)
-    async def _schedule_renewal_tasks(self, cert_ids: List[str]):
+    async def _schedule_renewal_tasks(self, cert_ids: list[str]):
         """Schedules renewal tasks for certificates that are expiring soon."""
         for cert_id in cert_ids:
             if cert_id not in self.renewal_tasks or self.renewal_tasks[cert_id].done():
@@ -506,7 +515,7 @@ class QuantumCertificateManager:
     @lukhas_tier_required(3)
     async def _generate_quantum_key_pair(
         self, algorithm_name: str
-    ) -> Tuple[str, str]:  # Renamed algorithm
+    ) -> tuple[str, str]:  # Renamed algorithm
         self.log.debug(
             "Generating quantum-resistant key pair.", algorithm=algorithm_name
         )
@@ -515,7 +524,8 @@ class QuantumCertificateManager:
             if self.quantum_entropy_enabled
             else secrets.token_bytes(64)
         )
-        # ΛNOTE: Actual key generation is complex and uses PQC libraries. This is simulated.
+        # ΛNOTE: Actual key generation is complex and uses PQC libraries. This is
+        # simulated.
         algo_enum = next(
             (qa for qa in QuantumAlgorithm if qa.value == algorithm_name),
             QuantumAlgorithm.CRYSTALS_DILITHIUM,
@@ -539,8 +549,8 @@ class QuantumCertificateManager:
 
     @lukhas_tier_required(3)
     async def _create_certificate_signing_request(
-        self, old_cert_data: Dict[str, Any], new_key_pair: Tuple[str, str]
-    ) -> Dict[str, Any]:  # Renamed
+        self, old_cert_data: dict[str, Any], new_key_pair: tuple[str, str]
+    ) -> dict[str, Any]:  # Renamed
         self.log.debug("Creating CSR.", subject=old_cert_data.get("subject"))
         _, public_key_b64 = new_key_pair
         csr = {
@@ -554,13 +564,14 @@ class QuantumCertificateManager:
             "submission_timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
         }
         # ΛTODO: CSR should be signed by the new private key. This simulation omits that step for brevity.
-        # csr["csr_signature"] = await self._sign_csr_data(csr, new_key_pair[0], old_cert_data.get('quantum_algorithm'))
+        # csr["csr_signature"] = await self._sign_csr_data(csr, new_key_pair[0],
+        # old_cert_data.get('quantum_algorithm'))
         return csr
 
     @lukhas_tier_required(3)
     async def _submit_renewal_request_to_ca(
-        self, csr_data: Dict[str, Any]
-    ) -> Optional[Dict[str, Any]]:  # Renamed
+        self, csr_data: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:  # Renamed
         self.log.debug("Submitting CSR to CA.", subject=csr_data.get("subject"))
         if not AIOHTTP_AVAILABLE:
             self.log.warning(
@@ -614,8 +625,8 @@ class QuantumCertificateManager:
 
     @lukhas_tier_required(3)
     async def _create_emergency_self_signed_certificate(
-        self, csr_data: Dict[str, Any]
-    ) -> Dict[str, Any]:  # Renamed
+        self, csr_data: dict[str, Any]
+    ) -> dict[str, Any]:  # Renamed
         self.log.warning(
             "Creating emergency self-signed certificate.",
             subject=csr_data.get("subject"),
@@ -626,7 +637,8 @@ class QuantumCertificateManager:
         )  # Short validity
         cert_id = f"emergency_self_{uuid.uuid4().hex[:12]}"
         # ΛNOTE: Self-signing logic is highly simplified for this simulation.
-        #        A real self-signed cert would involve using the private key to sign the public key and attributes.
+        # A real self-signed cert would involve using the private key to sign the
+        # public key and attributes.
         return {
             "certificate_id": cert_id,
             "subject": csr_data.get("subject"),
@@ -644,7 +656,7 @@ class QuantumCertificateManager:
 
     @lukhas_tier_required(3)
     async def _install_renewed_certificate_to_store(
-        self, old_cert_id: str, new_cert_data: Dict[str, Any]
+        self, old_cert_id: str, new_cert_data: dict[str, Any]
     ):  # Renamed
         """Installs a renewed certificate, backing up the old one and saving the new one."""
         new_cert_id = new_cert_data.get(
@@ -701,7 +713,7 @@ class QuantumCertificateManager:
 
     @lukhas_tier_required(3)
     async def _handle_critically_expired_certificates(
-        self, expired_cert_ids: List[str]
+        self, expired_cert_ids: list[str]
     ):  # Renamed
         """Handles certificates that have passed their expiry date."""
         for cert_id in expired_cert_ids:
@@ -729,7 +741,7 @@ class QuantumCertificateManager:
         self.log.info("📊 Initial renewal monitoring scan complete.")
 
     @lukhas_tier_required(1)
-    def get_certificate_status(self, cert_id: str) -> Optional[Dict[str, Any]]:
+    def get_certificate_status(self, cert_id: str) -> Optional[dict[str, Any]]:
         """Retrieves the status and metadata for a specific certificate."""
         # ... (implementation as before, but ensure UTC ISO for dates)
         if cert_id not in self.certificates:
@@ -749,10 +761,10 @@ class QuantumCertificateManager:
         }
 
     @lukhas_tier_required(1)
-    def get_all_certificates_status(self) -> List[Dict[str, Any]]:
+    def get_all_certificates_status(self) -> list[dict[str, Any]]:
         """Retrieves the status of all managed certificates."""
-        statuses: List[Dict[str, Any]] = []  # Ensure proper typing
-        for cert_id in self.certificates.keys():
+        statuses: list[dict[str, Any]] = []  # Ensure proper typing
+        for cert_id in self.certificates:
             status = self.get_certificate_status(cert_id)
             if status:
                 statuses.append(status)

@@ -33,7 +33,7 @@ __tier__ = 2
 
 
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 import structlog
@@ -124,7 +124,7 @@ class MitochondrialQuantumBridge:
             quantum_oscillator or QuantumOscillator()
         )
 
-        self.complex_states: Dict[str, np.ndarray] = {
+        self.complex_states: dict[str, np.ndarray] = {
             "complex_i_nadh_dehydrogenase": np.zeros(4, dtype=float),
             "complex_ii_succinate_dehydrogenase": np.zeros(3, dtype=float),
             "complex_iii_cytochrome_bc1": np.zeros(4, dtype=float),
@@ -132,7 +132,7 @@ class MitochondrialQuantumBridge:
             "complex_v_atp_synthase": np.zeros(5, dtype=float),
         }
 
-        self.coherence_thresholds: Dict[str, float] = {
+        self.coherence_thresholds: dict[str, float] = {
             "electron_transport_simulation": 0.75,
             "proton_gradient_simulation": 0.85,
             "atp_synthesis_simulation": 0.90,
@@ -144,8 +144,8 @@ class MitochondrialQuantumBridge:
 
     @lukhas_tier_required(2)
     async def process_quantum_signal(
-        self, input_signal: np.ndarray, context: Optional[Dict[str, Any]] = None
-    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+        self, input_signal: np.ndarray, context: Optional[dict[str, Any]] = None
+    ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Processes a quantum signal through a simulated mitochondrial-inspired pathway.
         """
@@ -206,7 +206,11 @@ class MitochondrialQuantumBridge:
         self, input_signal: np.ndarray
     ) -> np.ndarray:
         """Simulates a quantum-enhanced electron transport chain process."""
-        self.log.debug("Simulating electron transport chain.", current_signal_norm=np.linalg.norm(input_signal).item(), timestamp=datetime.now(timezone.utc).isoformat())  # type: ignore
+        self.log.debug(
+            "Simulating electron transport chain.",
+            current_signal_norm=np.linalg.norm(input_signal).item(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
+        )  # type: ignore
         current_state = input_signal
 
         def _prepare_for_concat(
@@ -214,7 +218,9 @@ class MitochondrialQuantumBridge:
         ) -> np.ndarray:
             if len(arr) >= target_len_before_bias:
                 return arr[:target_len_before_bias]
-            return np.pad(arr, (0, target_len_before_bias - len(arr)), "constant")  # type: ignore
+            return np.pad(
+                arr, (0, target_len_before_bias - len(arr)), "constant"
+            )  # type: ignore
 
         state_c1_input = _prepare_for_concat(current_state, 3)
         self.complex_states["complex_i_nadh_dehydrogenase"] = (
@@ -236,7 +242,11 @@ class MitochondrialQuantumBridge:
             self.quantum_oscillator.quantum_modulate(current_state[:3])
         )
 
-        self.log.debug("Electron transport simulation step complete.", final_state_norm=np.linalg.norm(current_state).item(), timestamp=datetime.now(timezone.utc).isoformat())  # type: ignore
+        self.log.debug(
+            "Electron transport simulation step complete.",
+            final_state_norm=np.linalg.norm(current_state).item(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
+        )  # type: ignore
         return current_state
 
     @lukhas_tier_required(3)
@@ -244,7 +254,11 @@ class MitochondrialQuantumBridge:
         self, electron_transport_state: np.ndarray
     ) -> np.ndarray:
         """Simulates generation of a quantum-enhanced proton gradient."""
-        gradient_strength = np.mean(electron_transport_state).item() if electron_transport_state.size > 0 else 0.0  # type: ignore
+        gradient_strength = (
+            np.mean(electron_transport_state).item()
+            if electron_transport_state.size > 0
+            else 0.0
+        )  # type: ignore
         self.log.debug(
             "Simulating proton gradient generation.",
             gradient_strength=gradient_strength,
@@ -258,19 +272,35 @@ class MitochondrialQuantumBridge:
     @lukhas_tier_required(3)
     def _simulate_quantum_atp_synthesis(
         self, simulated_proton_gradient: np.ndarray
-    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+    ) -> tuple[np.ndarray, dict[str, Any]]:
         """Simulates quantum-enhanced ATP synthesis to produce an output signal."""
-        self.log.debug("Simulating quantum ATP synthesis.", gradient_norm=np.linalg.norm(simulated_proton_gradient).item(), timestamp=datetime.now(timezone.utc).isoformat())  # type: ignore
+        self.log.debug(
+            "Simulating quantum ATP synthesis.",
+            gradient_norm=np.linalg.norm(simulated_proton_gradient).item(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
+        )  # type: ignore
 
-        padded_gradient = np.pad(simulated_proton_gradient, (0, max(0, 3 - len(simulated_proton_gradient))), "constant")[:3]  # type: ignore
+        padded_gradient = np.pad(
+            simulated_proton_gradient,
+            (0, max(0, 3 - len(simulated_proton_gradient))),
+            "constant",
+        )[
+            :3
+        ]  # type: ignore
         self.complex_states["complex_v_atp_synthase"] = (
             self.quantum_oscillator.quantum_modulate(
                 np.concatenate([padded_gradient, [1.0, 0.7]])
             )
         )
 
-        coherence_values = [np.linalg.norm(state).item() for state in self.complex_states.values() if state.size > 0]  # type: ignore
-        overall_coherence = np.mean(coherence_values).item() if coherence_values else 0.0  # type: ignore
+        coherence_values = [
+            np.linalg.norm(state).item()
+            for state in self.complex_states.values()
+            if state.size > 0
+        ]  # type: ignore
+        overall_coherence = (
+            np.mean(coherence_values).item() if coherence_values else 0.0
+        )  # type: ignore
 
         metadata = {
             "coherence": overall_coherence,
@@ -307,8 +337,8 @@ class QuantumSynapticGate:
         self,
         pre_synaptic_signal: np.ndarray,
         post_synaptic_context_signal: np.ndarray,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Processes neural-like signals with quantum-enhancement simulation.
         """
@@ -331,7 +361,11 @@ class QuantumSynapticGate:
             )
             output_signal = self._generate_quantum_enhanced_output(interference_pattern)
 
-            current_coherence = float(np.mean(np.abs(self.internal_quantum_like_state)).item()) if self.internal_quantum_like_state.size > 0 else 0.0  # type: ignore
+            current_coherence = (
+                float(np.mean(np.abs(self.internal_quantum_like_state)).item())
+                if self.internal_quantum_like_state.size > 0
+                else 0.0
+            )  # type: ignore
             metadata = {
                 "internal_quantum_like_state_snapshot": self.internal_quantum_like_state.tolist(),
                 "simulated_interference_pattern": interference_pattern.tolist(),
@@ -408,7 +442,11 @@ class QuantumSynapticGate:
         self, interference_pattern: np.ndarray
     ) -> np.ndarray:
         """Generates a quantum-enhanced output signal based on the interference pattern."""
-        self.log.debug("Generating quantum enhanced output from interference pattern.", pattern_norm=np.linalg.norm(interference_pattern).item(), timestamp=datetime.now(timezone.utc).isoformat())  # type: ignore
+        self.log.debug(
+            "Generating quantum enhanced output from interference pattern.",
+            pattern_norm=np.linalg.norm(interference_pattern).item(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
+        )  # type: ignore
         return self.bio_oscillator.modulate_frequencies(interference_pattern)
 
 
@@ -439,8 +477,8 @@ class NeuroplasticityModulator:
         self,
         current_neural_state: np.ndarray,
         target_neural_state: np.ndarray,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Modulates neuroplasticity with simulated quantum enhancement.
         """
@@ -449,8 +487,12 @@ class NeuroplasticityModulator:
         current_timestamp = datetime.now(timezone.utc).isoformat()
         self.log.debug(
             "Modulating neuroplasticity.",
-            current_state_norm=np.linalg.norm(current_neural_state).item(),  # type: ignore
-            target_state_norm=np.linalg.norm(target_neural_state).item(),  # type: ignore
+            current_state_norm=np.linalg.norm(
+                current_neural_state
+            ).item(),  # type: ignore
+            target_state_norm=np.linalg.norm(
+                target_neural_state
+            ).item(),  # type: ignore
             context_keys=list(context.keys()) if context else [],
             timestamp=current_timestamp,
         )
@@ -462,7 +504,9 @@ class NeuroplasticityModulator:
                 plasticity_delta_signal
             )
 
-            # SYNTAX_ERROR_FIXED:             self.plasticity_state_vector = self.plasticity_state_vector * (1 - self.simulated_learning_rate) + " + "quantum_modulated_delta * self.simulated_learning_rate
+            # SYNTAX_ERROR_FIXED:             self.plasticity_state_vector =
+            # self.plasticity_state_vector * (1 - self.simulated_learning_rate) + " +
+            # "quantum_modulated_delta * self.simulated_learning_rate
 
             new_neural_state = current_neural_state + self.plasticity_state_vector
 
@@ -473,7 +517,11 @@ class NeuroplasticityModulator:
                 "quantum_modulated_delta_signal": quantum_modulated_delta.tolist(),
                 "timestamp_utc_iso": current_timestamp,  # Use consistent timestamp
             }
-            self.log.info("Neuroplasticity modulation complete.", new_state_norm=np.linalg.norm(new_neural_state).item(), timestamp=current_timestamp)  # type: ignore
+            self.log.info(
+                "Neuroplasticity modulation complete.",
+                new_state_norm=np.linalg.norm(new_neural_state).item(),
+                timestamp=current_timestamp,
+            )  # type: ignore
             return new_neural_state, metadata
 
         except Exception as e:

@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ConsentEntry:
     """Single consent decision in the path"""
+
     timestamp: datetime
     user_id: str
     glyphs: List[str]
@@ -36,7 +37,7 @@ class ConsentEntry:
             "glyphs": "".join(self.glyphs),
             "action": self.action,
             "outcome": self.outcome,
-            "parent_hash": self.parent_hash or "genesis"
+            "parent_hash": self.parent_hash or "genesis",
         }
         json_str = json.dumps(content, sort_keys=True)
         return hashlib.sha3_256(json_str.encode()).hexdigest()
@@ -56,12 +57,15 @@ class ConsentPathLogger:
     def __init__(self, db_path: str = "trusthelix_consent.db"):
         self.db_path = db_path
         self.genesis_hash = self._get_or_create_genesis()
-        logger.info(f"📝 Consent Path Logger initialized with genesis: {self.genesis_hash[:16]}...")
+        logger.info(
+            f"📝 Consent Path Logger initialized with genesis: {self.genesis_hash[:16]}..."
+        )
 
     def _init_database(self):
         """Initialize SQLite database for persistent storage"""
         with sqlite3.connect(self.db_path) as conn:
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE TABLE IF NOT EXISTS consent_paths (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     timestamp TEXT NOT NULL,
@@ -75,19 +79,26 @@ class ConsentPathLogger:
                     metadata TEXT,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
-            """)
+            """
+            )
 
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_user_id ON consent_paths(user_id)
-            """)
+            """
+            )
 
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_consent_hash ON consent_paths(consent_hash)
-            """)
+            """
+            )
 
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_timestamp ON consent_paths(timestamp)
-            """)
+            """
+            )
 
     def _get_or_create_genesis(self) -> str:
         """Get or create genesis entry"""
@@ -116,7 +127,7 @@ class ConsentPathLogger:
             drift_score=0.0,
             consent_hash="",
             parent_hash=None,
-            metadata={"type": "genesis", "version": "1.0.0"}
+            metadata={"type": "genesis", "version": "1.0.0"},
         )
         genesis.consent_hash = genesis.compute_hash()
 
@@ -124,7 +135,9 @@ class ConsentPathLogger:
         conn.close()
         return genesis.consent_hash
 
-    def _save_entry(self, entry: ConsentEntry, conn: Optional[sqlite3.Connection] = None):
+    def _save_entry(
+        self, entry: ConsentEntry, conn: Optional[sqlite3.Connection] = None
+    ):
         """Save entry to database"""
         if conn is None:
             conn = sqlite3.connect(self.db_path)
@@ -133,30 +146,39 @@ class ConsentPathLogger:
             close_conn = False
 
         try:
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT INTO consent_paths 
                 (timestamp, user_id, glyphs, action, outcome, drift_score, 
                  consent_hash, parent_hash, metadata)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                entry.timestamp.isoformat(),
-                entry.user_id,
-                json.dumps(entry.glyphs),
-                entry.action,
-                entry.outcome,
-                entry.drift_score,
-                entry.consent_hash,
-                entry.parent_hash,
-                json.dumps(entry.metadata)
-            ))
+            """,
+                (
+                    entry.timestamp.isoformat(),
+                    entry.user_id,
+                    json.dumps(entry.glyphs),
+                    entry.action,
+                    entry.outcome,
+                    entry.drift_score,
+                    entry.consent_hash,
+                    entry.parent_hash,
+                    json.dumps(entry.metadata),
+                ),
+            )
             conn.commit()
         finally:
             if close_conn:
                 conn.close()
 
-    def log_consent(self, user_id: str, glyphs: List[str], action: str,
-                   outcome: str = "success", drift_score: float = 0.0,
-                   metadata: Dict = None) -> ConsentEntry:
+    def log_consent(
+        self,
+        user_id: str,
+        glyphs: List[str],
+        action: str,
+        outcome: str = "success",
+        drift_score: float = 0.0,
+        metadata: Dict = None,
+    ) -> ConsentEntry:
         """Log a consent decision to the immutable chain"""
         # Get last entry for this user
         parent_hash = self._get_last_hash(user_id)
@@ -171,7 +193,7 @@ class ConsentPathLogger:
             drift_score=drift_score,
             consent_hash="",  # Will be computed
             parent_hash=parent_hash,
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         # Compute hash including parent
@@ -181,7 +203,9 @@ class ConsentPathLogger:
         self._save_entry(entry)
 
         # Log symbolic notation
-        logger.info(f"✓ Consent logged: {entry.to_symbolic_notation()} [hash: {entry.consent_hash[:8]}...]")
+        logger.info(
+            f"✓ Consent logged: {entry.to_symbolic_notation()} [hash: {entry.consent_hash[:8]}...]"
+        )
 
         return entry
 
@@ -192,7 +216,7 @@ class ConsentPathLogger:
                 """SELECT consent_hash FROM consent_paths 
                    WHERE user_id = ? 
                    ORDER BY id DESC LIMIT 1""",
-                (user_id,)
+                (user_id,),
             )
             result = cursor.fetchone()
             return result[0] if result else self.genesis_hash
@@ -207,22 +231,24 @@ class ConsentPathLogger:
                    WHERE user_id = ?
                    ORDER BY id DESC
                    LIMIT ?""",
-                (user_id, limit)
+                (user_id, limit),
             )
 
             entries = []
             for row in cursor.fetchall():
-                entries.append(ConsentEntry(
-                    timestamp=datetime.fromisoformat(row[0]),
-                    user_id=row[1],
-                    glyphs=json.loads(row[2]),
-                    action=row[3],
-                    outcome=row[4],
-                    drift_score=row[5],
-                    consent_hash=row[6],
-                    parent_hash=row[7],
-                    metadata=json.loads(row[8]) if row[8] else {}
-                ))
+                entries.append(
+                    ConsentEntry(
+                        timestamp=datetime.fromisoformat(row[0]),
+                        user_id=row[1],
+                        glyphs=json.loads(row[2]),
+                        action=row[3],
+                        outcome=row[4],
+                        drift_score=row[5],
+                        consent_hash=row[6],
+                        parent_hash=row[7],
+                        metadata=json.loads(row[8]) if row[8] else {},
+                    )
+                )
 
             return list(reversed(entries))  # Return chronological order
 
@@ -240,14 +266,14 @@ class ConsentPathLogger:
             with sqlite3.connect(self.db_path) as conn:
                 cursor = conn.execute(
                     "SELECT 1 FROM consent_paths WHERE consent_hash = ?",
-                    (path[0].parent_hash,)
+                    (path[0].parent_hash,),
                 )
                 if not cursor.fetchone():
                     errors.append(f"Invalid parent hash: {path[0].parent_hash[:16]}...")
 
         # Verify chain integrity
         for i in range(1, len(path)):
-            if path[i].parent_hash != path[i-1].consent_hash:
+            if path[i].parent_hash != path[i - 1].consent_hash:
                 errors.append(f"Chain broken at position {i}")
 
             # Recompute hash
@@ -269,7 +295,11 @@ class ConsentPathLogger:
 
         for i, entry in enumerate(path):
             # Create visual representation
-            drift_indicator = "🟢" if entry.drift_score < 0.3 else "🟡" if entry.drift_score < 0.7 else "🔴"
+            drift_indicator = (
+                "🟢"
+                if entry.drift_score < 0.3
+                else "🟡" if entry.drift_score < 0.7 else "🔴"
+            )
 
             lines.append(f"\n[{i+1}] {entry.timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
             lines.append(f"    {entry.to_symbolic_notation()}")
@@ -291,8 +321,9 @@ class ConsentPathLogger:
 
         return "\n".join(lines)
 
-    def generate_audit_report(self, start_date: Optional[datetime] = None,
-                            end_date: Optional[datetime] = None) -> Dict:
+    def generate_audit_report(
+        self, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None
+    ) -> Dict:
         """Generate audit report for date range"""
         with sqlite3.connect(self.db_path) as conn:
             # Build query
@@ -333,17 +364,21 @@ class ConsentPathLogger:
             return {
                 "period": {
                     "start": start_date.isoformat() if start_date else "genesis",
-                    "end": end_date.isoformat() if end_date else "current"
+                    "end": end_date.isoformat() if end_date else "current",
                 },
                 "summary": {
                     "total_entries": total_entries,
                     "unique_users": unique_users,
                     "average_drift": avg_drift,
-                    "success_rate": outcome_counts["success"] / total_entries if total_entries else 0
+                    "success_rate": (
+                        outcome_counts["success"] / total_entries
+                        if total_entries
+                        else 0
+                    ),
                 },
                 "action_distribution": action_counts,
                 "outcome_distribution": outcome_counts,
-                "generated_at": datetime.utcnow().isoformat()
+                "generated_at": datetime.utcnow().isoformat(),
             }
 
 
@@ -358,10 +393,18 @@ if __name__ == "__main__":
     user_id = "demo_user_001"
 
     # Log a sequence of actions
-    logger_instance.log_consent(user_id, ["🔐", "🧬", "🪷"], "authenticate", "success", 0.1)
-    logger_instance.log_consent(user_id, ["🔓", "🧬", "🌸"], "unlock_profile", "success", 0.15)
-    logger_instance.log_consent(user_id, ["🔓", "🧬", "🌸"], "view_data", "success", 0.17)
-    logger_instance.log_consent(user_id, ["🔒", "🦠", "🥀"], "suspicious_attempt", "failure", 0.45)
+    logger_instance.log_consent(
+        user_id, ["🔐", "🧬", "🪷"], "authenticate", "success", 0.1
+    )
+    logger_instance.log_consent(
+        user_id, ["🔓", "🧬", "🌸"], "unlock_profile", "success", 0.15
+    )
+    logger_instance.log_consent(
+        user_id, ["🔓", "🧬", "🌸"], "view_data", "success", 0.17
+    )
+    logger_instance.log_consent(
+        user_id, ["🔒", "🦠", "🥀"], "suspicious_attempt", "failure", 0.45
+    )
 
     # Get and display path
     print(logger_instance.export_path_visualization(user_id))

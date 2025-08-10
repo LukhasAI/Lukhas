@@ -47,7 +47,8 @@ from typing_extensions import Literal
 # If `_models.BaseModel` is part of a core LUKHAS framework library, an absolute import
 # (e.g., `from core_framework.core.models import BaseModel`) would be more robust.
 # ΛCAUTION: An incorrect or fragile import path for a base model can lead to runtime errors
-# and hinder maintainability, especially if this auto-generated code is part of a larger system.
+# and hinder maintainability, especially if this auto-generated code is
+# part of a larger system.
 from core.models import (
     BaseModel,  # Assuming this path is correct within the project structure.
 )
@@ -62,7 +63,8 @@ __all__ = ["ResponseReasoningDeltaEvent"]
 
 # ΛNOTE: This class defines the symbolic structure of a "delta" event for reasoning content.
 # It's designed for streaming partial updates, allowing for progressive display or processing
-# of reasoning steps as they are generated, rather than waiting for a complete reasoning chain.
+# of reasoning steps as they are generated, rather than waiting for a
+# complete reasoning chain.
 class ResponseReasoningDeltaEvent(BaseModel):
     """
     Represents a partial update event for reasoning content within a response item.
@@ -73,11 +75,14 @@ class ResponseReasoningDeltaEvent(BaseModel):
     """The index of the reasoning content part within the output item."""
 
     # ΛNOTE: The `delta` field carries the actual piece of changed or new reasoning content.
-    # Its flexible `object` type allows for various forms of symbolic updates (text, structured data).
-    delta: object  # Kept as 'object' as per original; could be Union[str, Dict, List] if known
+    # Its flexible `object` type allows for various forms of symbolic updates
+    # (text, structured data).
+    # Kept as 'object' as per original; could be Union[str, Dict, List] if known
+    delta: object
     """The partial update (delta) to the reasoning content. The exact type depends on the content being updated."""
 
-    # ΛNOTE: `item_id` links this delta to a specific element (e.g., a thought node) in a larger reasoning structure.
+    # ΛNOTE: `item_id` links this delta to a specific element (e.g., a thought
+    # node) in a larger reasoning structure.
     item_id: str
     """The unique identifier of the item (e.g., a specific thought or step in a chain) for which reasoning is being updated."""
 
@@ -91,7 +96,8 @@ class ResponseReasoningDeltaEvent(BaseModel):
     """A sequence number for this event, ensuring ordered processing of deltas for a given item."""
 
     # ΛNOTE: The `type` field is a fixed literal, acting as a discriminator for event routing and handling
-    # in a polymorphic event stream. It symbolically identifies this event as a reasoning delta.
+    # in a polymorphic event stream. It symbolically identifies this event as
+    # a reasoning delta.
     type: Literal["response.reasoning.delta"]
     """The type of the event. Always 'response.reasoning.delta' for this model."""
     # Human-readable comment: This fixed literal type is common in event-driven or union-type systems

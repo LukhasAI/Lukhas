@@ -178,7 +178,7 @@ async def create_memory(request: MemoryCreateRequest):
         return APIResponse(
             status="success",
             data=serializable_result,
-            message=f"Memory fold created with ID: {serializable_result.get('fold_id',
+            message=f"Memory fold created with ID: {serializable_result.get('fold_id',"
                                                                             'unknown')}",
         )
 

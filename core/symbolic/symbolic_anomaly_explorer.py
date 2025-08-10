@@ -943,7 +943,7 @@ class SymbolicAnomalyExplorer:
         elif len(anomalies) > 5:
             summary = f"MODERATE CONCERN: {len(anomalies)} anomalies detected across symbolic patterns."
         elif len(anomalies) > 0:
-            summary = f"LOW CONCERN: {len(anomalies)} minor anomalies detected,
+            summary = f"LOW CONCERN: {len(anomalies)} minor anomalies detected,"
     monitoring recommended."
        else:
             summary = "NOMINAL: No significant anomalies detected in dream sessions."

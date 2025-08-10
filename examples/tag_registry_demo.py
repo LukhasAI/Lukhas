@@ -4,17 +4,16 @@ LUKHAS Tag Registry Demonstration
 Shows how the tag system provides human interpretability
 """
 
-import os
-import sys
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from core.tags import (
     explain_tag,
     get_decision_tags,
     get_hormone_tags,
     get_tag_registry,
 )
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 def demonstrate_tag_registry():
@@ -31,6 +30,7 @@ def demonstrate_tag_registry():
     # 2. Show categories
     print("\n📁 Tag Categories:")
     from core.tags import TagCategory
+
     for category in TagCategory:
         tags = registry.get_tags_by_category(category)
         print(f"  - {category.value}: {len(tags)} tags")
@@ -44,7 +44,7 @@ def demonstrate_tag_registry():
     context = {
         "situation": "system overload",
         "memory_usage": "95%",
-        "response_time": "slow"
+        "response_time": "slow",
     }
     print(f"Context: {context}")
     print(explain_tag("#TAG:neuroplastic", context))
@@ -83,20 +83,27 @@ def demonstrate_tag_registry():
     print("\n⚡ High Priority Tags (priority <= 3):")
     report = registry.generate_tag_report()
     for tag_info in report["high_priority_tags"]:
-        print(f"  - {tag_info['name']} (priority {tag_info['priority']}): {tag_info['meaning']}")
+        print(
+            f"  - {tag_info['name']} (priority {tag_info['priority']}): {tag_info['meaning']}"
+        )
 
     # 9. Simulate a decision with tags
     print("\n💭 Simulating Decision Process:")
     print("Decision: Should we reorganize memory systems due to high load?")
 
     # Check relevant tags
-    relevant_tags = ["#TAG:neuroplastic", "#TAG:memory", "#TAG:cortisol", "#TAG:decision"]
+    relevant_tags = [
+        "#TAG:neuroplastic",
+        "#TAG:memory",
+        "#TAG:cortisol",
+        "#TAG:decision",
+    ]
     print("\nChecking relevant tags:")
 
     decision_context = {
         "memory_load": "high",
         "system_stress": "elevated",
-        "available_resources": "limited"
+        "available_resources": "limited",
     }
 
     for tag_name in relevant_tags:
@@ -106,7 +113,10 @@ def demonstrate_tag_registry():
             # Check if any triggers match
             triggered = False
             for trigger in tag.triggers:
-                if any(word in str(decision_context).lower() for word in trigger.lower().split()):
+                if any(
+                    word in str(decision_context).lower()
+                    for word in trigger.lower().split()
+                ):
                     print(f"    ✓ Triggered by: {trigger}")
                     triggered = True
                     break
@@ -123,6 +133,7 @@ def demonstrate_tag_registry():
     print("Tag registry provides human-readable explanations for all")
     print("system behaviors, making LUKHAS decisions interpretable!")
     print("=" * 60)
+
 
 if __name__ == "__main__":
     demonstrate_tag_registry()

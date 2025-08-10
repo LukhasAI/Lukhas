@@ -1,6 +1,6 @@
 """DNA Simulator for symbolic tag generation."""
 
-from typing import Dict, Optional, Tuple
+from typing import Optional
 
 from core.colonies.base_colony import BaseColony
 from core.symbolism.tags import TagPermission, TagScope
@@ -18,8 +18,8 @@ class DNASimulator:
 
     def parse_sequence(
         self, sequence: str
-    ) -> Dict[str, Tuple[str, TagScope, TagPermission, Optional[float]]]:
-        tags: Dict[str, Tuple[str, TagScope, TagPermission, Optional[float]]] = {}
+    ) -> dict[str, tuple[str, TagScope, TagPermission, Optional[float]]]:
+        tags: dict[str, tuple[str, TagScope, TagPermission, Optional[float]]] = {}
         for idx, char in enumerate(sequence):
             symbol = self.SYMBOL_MAP.get(char.upper())
             if symbol:

@@ -14,7 +14,7 @@ Analyzes isolated files to identify valuable prototypes vs archive candidates
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
 class IsolatedFilesAssessor:
@@ -66,7 +66,7 @@ class IsolatedFilesAssessor:
             "placeholder",
         ]
 
-    def assess_files(self, connectivity_report_path: str) -> Dict[str, Any]:
+    def assess_files(self, connectivity_report_path: str) -> dict[str, Any]:
         """Assess isolated files from connectivity report"""
         # Load connectivity report
         with open(connectivity_report_path) as f:
@@ -113,7 +113,7 @@ class IsolatedFilesAssessor:
 
         return assessment
 
-    def _categorize_file(self, file_path: Path, file_info: Dict) -> Dict[str, str]:
+    def _categorize_file(self, file_path: Path, file_info: dict) -> dict[str, str]:
         """Categorize a single file"""
         path_str = str(file_path).lower()
         file_name = file_path.name.lower()

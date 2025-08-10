@@ -8,7 +8,7 @@ Consolidated from 4 files:
 - memory/systems/episodic_replay_buffer.py
 """
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 class ConsolidatedEpisodicmemory:
@@ -16,7 +16,7 @@ class ConsolidatedEpisodicmemory:
         self.active_memories = {}
         self.processing_queue = []
 
-    async def process_memory(self, memory_data: Dict[str, Any]) -> Optional[Dict]:
+    async def process_memory(self, memory_data: dict[str, Any]) -> Optional[dict]:
         """Process memory through consolidated pipeline"""
         # TODO: Implement consolidated memory processing
         return None

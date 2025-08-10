@@ -2,21 +2,17 @@
 Memory Planning Wrapper
 Provides integration layer for memory planning components
 """
+import logging
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
 try:
     from .memory_planning import (
-        Allocation,
         AllocationPool,
-        AllocationTreeNode,
-        Empty,
         LiveRange,
         LiveRanges,
-        SpatialSplit,
-        TemporalSplit,
     )
 
     MEMORY_PLANNING_AVAILABLE = True
@@ -34,8 +30,8 @@ class MemoryPlanner:
         if not MEMORY_PLANNING_AVAILABLE:
             raise ImportError("Memory planning module not available")
 
-        self.allocation_pools: Dict[str, AllocationPool] = {}
-        self.live_ranges: Dict[str, LiveRanges] = {}
+        self.allocation_pools: dict[str, AllocationPool] = {}
+        self.live_ranges: dict[str, LiveRanges] = {}
         logger.info("MemoryPlanner initialized")
 
     def create_allocation_pool(self, pool_name: str, size: int) -> Any:
@@ -66,7 +62,7 @@ class MemoryPlanner:
 
         return self.live_ranges[tensor_id1].overlaps(self.live_ranges[tensor_id2])
 
-    def get_allocation_stats(self) -> Dict[str, Any]:
+    def get_allocation_stats(self) -> dict[str, Any]:
         """Get statistics about current allocations"""
         return {
             "allocation_pools": len(self.allocation_pools),
@@ -77,9 +73,10 @@ class MemoryPlanner:
             },
         }
 
-    def optimize_memory_layout(self) -> Dict[str, Any]:
+    def optimize_memory_layout(self) -> dict[str, Any]:
         """Optimize memory layout based on live ranges"""
-        # This is a simplified version - real implementation would do complex optimization
+        # This is a simplified version - real implementation would do complex
+        # optimization
         optimizations = {
             "reuse_opportunities": 0,
             "fragmentation_reduction": 0,

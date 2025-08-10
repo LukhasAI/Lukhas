@@ -571,5 +571,5 @@ if __name__ == "__main__":
 
     try:
         os.unlink("demo_quantum.json")
-    except:
+    except BaseException:
         pass

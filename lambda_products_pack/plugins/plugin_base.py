@@ -7,12 +7,13 @@ as plug-and-play components into LUKHAS PWM and other systems.
 """
 
 import asyncio
+import contextlib
 import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -48,11 +49,11 @@ class PluginManifest:
     version: str
     description: str
     author: str = "LUKHAS AI"
-    dependencies: List[str] = field(default_factory=list)
-    optional_dependencies: List[str] = field(default_factory=list)
-    endpoints: List[str] = field(default_factory=list)
-    capabilities: List[str] = field(default_factory=list)
-    config_schema: Dict[str, Any] = field(default_factory=dict)
+    dependencies: list[str] = field(default_factory=list)
+    optional_dependencies: list[str] = field(default_factory=list)
+    endpoints: list[str] = field(default_factory=list)
+    capabilities: list[str] = field(default_factory=list)
+    config_schema: dict[str, Any] = field(default_factory=dict)
     priority: PluginPriority = PluginPriority.NORMAL
     auto_enable: bool = True
     tier_requirements: Optional[str] = None  # For Lambda Products tiers (T1/T2/T3)
@@ -70,7 +71,7 @@ class HealthStatus:
     error_count: int = 0
     warning_count: int = 0
     uptime_seconds: float = 0.0
-    custom_metrics: Dict[str, Any] = field(default_factory=dict)
+    custom_metrics: dict[str, Any] = field(default_factory=dict)
 
 
 class LukhasPlugin(ABC):
@@ -84,14 +85,14 @@ class LukhasPlugin(ABC):
     def __init__(self, manifest: PluginManifest):
         self.manifest = manifest
         self.status = PluginStatus.UNINITIALIZED
-        self.config: Dict[str, Any] = {}
+        self.config: dict[str, Any] = {}
         self.health_status = HealthStatus(is_healthy=False, last_check=datetime.now())
         self._start_time = datetime.now()
-        self._error_handlers: List[Callable] = []
-        self._event_listeners: Dict[str, List[Callable]] = {}
+        self._error_handlers: list[Callable] = []
+        self._event_listeners: dict[str, list[Callable]] = {}
 
     @abstractmethod
-    async def initialize(self, config: Dict[str, Any]) -> bool:
+    async def initialize(self, config: dict[str, Any]) -> bool:
         """
         Initialize the plugin with configuration
 
@@ -101,7 +102,6 @@ class LukhasPlugin(ABC):
         Returns:
             bool: True if initialization successful
         """
-        pass
 
     @abstractmethod
     async def start(self) -> bool:
@@ -111,7 +111,6 @@ class LukhasPlugin(ABC):
         Returns:
             bool: True if started successfully
         """
-        pass
 
     @abstractmethod
     async def stop(self) -> bool:
@@ -121,7 +120,6 @@ class LukhasPlugin(ABC):
         Returns:
             bool: True if stopped successfully
         """
-        pass
 
     @abstractmethod
     async def health_check(self) -> HealthStatus:
@@ -131,7 +129,6 @@ class LukhasPlugin(ABC):
         Returns:
             HealthStatus: Current health status
         """
-        pass
 
     @abstractmethod
     async def process(self, input_data: Any) -> Any:
@@ -144,13 +141,12 @@ class LukhasPlugin(ABC):
         Returns:
             Any: Processed output
         """
-        pass
 
-    def get_capabilities(self) -> List[str]:
+    def get_capabilities(self) -> list[str]:
         """Get list of plugin capabilities"""
         return self.manifest.capabilities
 
-    def get_endpoints(self) -> List[str]:
+    def get_endpoints(self) -> list[str]:
         """Get API endpoints exposed by plugin"""
         return self.manifest.endpoints
 
@@ -176,7 +172,7 @@ class LukhasPlugin(ABC):
                 except Exception as e:
                     logger.error(f"Error in event listener for {event}: {e}")
 
-    def validate_config(self, config: Dict[str, Any]) -> bool:
+    def validate_config(self, config: dict[str, Any]) -> bool:
         """Validate configuration against schema"""
         # Basic validation - can be overridden for complex validation
         required_keys = self.manifest.config_schema.get("required", [])
@@ -195,11 +191,11 @@ class PluginSystem:
     """
 
     def __init__(self):
-        self.plugins: Dict[str, LukhasPlugin] = {}
-        self.plugin_order: List[str] = []  # For dependency resolution
+        self.plugins: dict[str, LukhasPlugin] = {}
+        self.plugin_order: list[str] = []  # For dependency resolution
         self._health_check_interval = 30  # seconds
         self._health_check_task = None
-        self._event_bus: Dict[str, List[Callable]] = {}
+        self._event_bus: dict[str, list[Callable]] = {}
 
     async def register_plugin(self, plugin: LukhasPlugin) -> bool:
         """
@@ -236,7 +232,7 @@ class PluginSystem:
             logger.error(f"Failed to register plugin: {e}")
             return False
 
-    async def initialize_plugin(self, plugin_id: str, config: Dict[str, Any]) -> bool:
+    async def initialize_plugin(self, plugin_id: str, config: dict[str, Any]) -> bool:
         """Initialize a specific plugin"""
         if plugin_id not in self.plugins:
             logger.error(f"Plugin {plugin_id} not found")
@@ -327,7 +323,7 @@ class PluginSystem:
 
     async def broadcast_event(self, event: str, data: Any = None):
         """Broadcast event to all active plugins"""
-        for plugin_id, plugin in self.plugins.items():
+        for _plugin_id, plugin in self.plugins.items():
             if plugin.status == PluginStatus.ACTIVE:
                 await plugin.emit_event(event, data)
 
@@ -343,10 +339,8 @@ class PluginSystem:
         """Stop health monitoring"""
         if self._health_check_task:
             self._health_check_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._health_check_task
-            except asyncio.CancelledError:
-                pass
             self._health_check_task = None
             logger.info("Health monitoring stopped")
 
@@ -373,7 +367,7 @@ class PluginSystem:
             except Exception as e:
                 logger.error(f"Error in health monitor loop: {e}")
 
-    def _check_dependencies(self, dependencies: List[str]) -> bool:
+    def _check_dependencies(self, dependencies: list[str]) -> bool:
         """Check if all dependencies are available"""
         return all(dep in self.plugins for dep in dependencies)
 
@@ -391,12 +385,12 @@ class PluginSystem:
             # Add this plugin
             self.plugin_order.append(plugin_id)
 
-    async def _handle_plugin_error(self, error_data: Dict[str, Any]):
+    async def _handle_plugin_error(self, error_data: dict[str, Any]):
         """Handle plugin error events"""
         logger.error(f"Plugin error: {error_data}")
         await self.emit_system_event("plugin_error", error_data)
 
-    async def _handle_status_change(self, status_data: Dict[str, Any]):
+    async def _handle_status_change(self, status_data: dict[str, Any]):
         """Handle plugin status change events"""
         logger.info(f"Plugin status change: {status_data}")
         await self.emit_system_event("plugin_status_change", status_data)
@@ -419,7 +413,7 @@ class PluginSystem:
             self._event_bus[event] = []
         self._event_bus[event].append(listener)
 
-    def get_plugin_status_summary(self) -> Dict[str, Any]:
+    def get_plugin_status_summary(self) -> dict[str, Any]:
         """Get summary of all plugin statuses"""
         return {
             plugin_id: {

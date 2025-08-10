@@ -75,7 +75,7 @@ import os
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
 
@@ -114,7 +114,7 @@ class CascadeBlockInfo:
     intervention_type: str
     duration_minutes: float
     status: str  # active, resolved, expired
-    related_metrics: Dict[str, float]
+    related_metrics: dict[str, float]
 
 
 @dataclass
@@ -127,7 +127,7 @@ class DriftEventSummary:
     entropy_delta: float
     event_timestamp: str
     drift_type: str
-    causative_factors: List[str]
+    causative_factors: list[str]
     stability_impact: float
     resolution_status: str
 
@@ -209,7 +209,7 @@ class MemoryHealthDashboard:
         return metrics
 
     # LUKHAS_TAG: cascade_monitoring
-    def list_active_cascade_blocks(self) -> List[CascadeBlockInfo]:
+    def list_active_cascade_blocks(self) -> list[CascadeBlockInfo]:
         """
         List all active cascade blocks and circuit breaker interventions.
 
@@ -242,7 +242,7 @@ class MemoryHealthDashboard:
     # LUKHAS_TAG: drift_event_analysis
     def view_recent_drift_events(
         self, hours_back: int = 24, limit: int = 50
-    ) -> List[DriftEventSummary]:
+    ) -> list[DriftEventSummary]:
         """
         View recent memory drift events with analysis.
 
@@ -277,7 +277,7 @@ class MemoryHealthDashboard:
         return drift_events
 
     # LUKHAS_TAG: dashboard_analytics
-    def get_dashboard_summary(self, time_window_hours: int = 24) -> Dict[str, Any]:
+    def get_dashboard_summary(self, time_window_hours: int = 24) -> dict[str, Any]:
         """
         Get comprehensive dashboard summary with key metrics and trends.
 
@@ -354,7 +354,7 @@ class MemoryHealthDashboard:
         return summary
 
     # LUKHAS_TAG: dream_integration_analytics
-    def get_dream_integration_analytics(self, days_back: int = 7) -> Dict[str, Any]:
+    def get_dream_integration_analytics(self, days_back: int = 7) -> dict[str, Any]:
         """
         Get analytics specific to dream-memory integration performance.
 
@@ -446,7 +446,7 @@ class MemoryHealthDashboard:
 
     # Helper methods for various analysis functions
 
-    def _analyze_fold_integrity_log(self) -> Dict[str, Any]:
+    def _analyze_fold_integrity_log(self) -> dict[str, Any]:
         """Analyze fold integrity log for health metrics."""
         stats = {
             "total_folds": 0,
@@ -506,7 +506,7 @@ class MemoryHealthDashboard:
 
         return stats
 
-    def _analyze_compression_efficiency(self) -> Dict[str, Any]:
+    def _analyze_compression_efficiency(self) -> dict[str, Any]:
         """Analyze compression efficiency metrics."""
         stats = {"average_efficiency": 0.0, "total_compressions": 0}
 
@@ -533,7 +533,7 @@ class MemoryHealthDashboard:
 
         return stats
 
-    def _analyze_dream_integration_metrics(self) -> Dict[str, Any]:
+    def _analyze_dream_integration_metrics(self) -> dict[str, Any]:
         """Analyze dream integration metrics."""
         stats = {"average_entanglement": 0.0, "total_dreams": 0}
 
@@ -575,7 +575,7 @@ class MemoryHealthDashboard:
 
         return max(0.0, min(stability, 1.0))
 
-    def _get_emotional_cascade_blocks(self) -> List[CascadeBlockInfo]:
+    def _get_emotional_cascade_blocks(self) -> list[CascadeBlockInfo]:
         """Get active emotional cascade blocks."""
         blocks = []
 
@@ -634,7 +634,7 @@ class MemoryHealthDashboard:
 
         return blocks
 
-    def _get_ethical_governance_blocks(self) -> List[CascadeBlockInfo]:
+    def _get_ethical_governance_blocks(self) -> list[CascadeBlockInfo]:
         """Get active ethical governance intervention blocks."""
         blocks = []
 
@@ -658,7 +658,8 @@ class MemoryHealthDashboard:
                                         datetime.now(timezone.utc) - timestamp
                                     ).total_seconds() / 60
 
-                                    # Consider high-severity blocks active for 120 minutes
+                                    # Consider high-severity blocks active for 120
+                                    # minutes
                                     if age_minutes < 120:
                                         block = CascadeBlockInfo(
                                             block_id=entry.get(
@@ -699,7 +700,7 @@ class MemoryHealthDashboard:
 
         return blocks
 
-    def _get_compression_loop_blocks(self) -> List[CascadeBlockInfo]:
+    def _get_compression_loop_blocks(self) -> list[CascadeBlockInfo]:
         """Get active compression loop blocks."""
         blocks = []
 
@@ -768,7 +769,7 @@ class MemoryHealthDashboard:
 
     def _analyze_drift_events_from_integrity_log(
         self, cutoff_time: datetime
-    ) -> List[DriftEventSummary]:
+    ) -> list[DriftEventSummary]:
         """Analyze drift events from integrity log."""
         events = []
 
@@ -811,7 +812,7 @@ class MemoryHealthDashboard:
 
     def _analyze_dream_induced_drifts(
         self, cutoff_time: datetime
-    ) -> List[DriftEventSummary]:
+    ) -> list[DriftEventSummary]:
         """Analyze dream-induced drift events."""
         events = []
 
@@ -859,8 +860,8 @@ class MemoryHealthDashboard:
         return events
 
     def _calculate_drift_trends(
-        self, recent_drifts: List[DriftEventSummary]
-    ) -> Dict[str, Any]:
+        self, recent_drifts: list[DriftEventSummary]
+    ) -> dict[str, Any]:
         """Calculate trends in drift events."""
         if not recent_drifts:
             return {"trend": "stable", "average_drift": 0.0, "event_frequency": 0.0}
@@ -895,8 +896,8 @@ class MemoryHealthDashboard:
         }
 
     def _calculate_cascade_trends(
-        self, active_cascades: List[CascadeBlockInfo]
-    ) -> Dict[str, Any]:
+        self, active_cascades: list[CascadeBlockInfo]
+    ) -> dict[str, Any]:
         """Calculate trends in cascade activations."""
         cascade_types = Counter([c.block_type for c in active_cascades])
         severity_levels = Counter([c.severity_level for c in active_cascades])
@@ -913,7 +914,7 @@ class MemoryHealthDashboard:
             ),
         }
 
-    def _get_system_performance_metrics(self, time_window_hours: int) -> Dict[str, Any]:
+    def _get_system_performance_metrics(self, time_window_hours: int) -> dict[str, Any]:
         """Get system performance metrics."""
         return {
             "memory_utilization": 0.75,  # Placeholder
@@ -923,7 +924,7 @@ class MemoryHealthDashboard:
             "dream_integration_rate": 0.92,  # Placeholder
         }
 
-    def _get_tier_usage_statistics(self, time_window_hours: int) -> Dict[str, Any]:
+    def _get_tier_usage_statistics(self, time_window_hours: int) -> dict[str, Any]:
         """Get tier access usage statistics."""
         return {
             "t0_t2_access_count": 150,  # Placeholder
@@ -935,7 +936,7 @@ class MemoryHealthDashboard:
 
     def _generate_system_recommendations(
         self, health_metrics, active_cascades, recent_drifts, performance_metrics
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate system optimization recommendations."""
         recommendations = []
 

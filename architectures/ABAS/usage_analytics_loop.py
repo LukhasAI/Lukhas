@@ -13,6 +13,7 @@ from typing import Any, Dict, List, Tuple
 
 class AnalyticsMetric(Enum):
     """Types of analytics metrics tracked"""
+
     TASK_COMPLETION_TIME = "task_completion_time"
     ERROR_RATE = "error_rate"
     FEATURE_USAGE = "feature_usage"
@@ -27,6 +28,7 @@ class AnalyticsMetric(Enum):
 
 class PainPointSeverity(Enum):
     """Severity levels for pain points"""
+
     CRITICAL = "critical"  # Blocking users
     HIGH = "high"  # Major friction
     MEDIUM = "medium"  # Noticeable issues
@@ -36,6 +38,7 @@ class PainPointSeverity(Enum):
 
 class OptimizationType(Enum):
     """Types of optimizations"""
+
     UI_IMPROVEMENT = "ui_improvement"
     WORKFLOW_SIMPLIFICATION = "workflow_simplification"
     FEATURE_SURFACE = "feature_surface"
@@ -49,6 +52,7 @@ class OptimizationType(Enum):
 @dataclass
 class UsagePattern:
     """Pattern detected in usage data"""
+
     pattern_id: str
     pattern_type: str
     frequency: int
@@ -61,6 +65,7 @@ class UsagePattern:
 @dataclass
 class PainPoint:
     """Identified pain point"""
+
     pain_point_id: str
     description: str
     severity: PainPointSeverity
@@ -76,6 +81,7 @@ class PainPoint:
 @dataclass
 class OptimizationRecommendation:
     """Recommendation for optimization"""
+
     recommendation_id: str
     optimization_type: OptimizationType
     title: str
@@ -98,7 +104,9 @@ class UsageAnalyticsLoop:
         self.pain_points: Dict[str, PainPoint] = {}
         self.usage_patterns: List[UsagePattern] = []
         self.recommendations: List[OptimizationRecommendation] = []
-        self.metrics_history: Dict[str, List[Tuple[datetime, float]]] = defaultdict(list)
+        self.metrics_history: Dict[str, List[Tuple[datetime, float]]] = defaultdict(
+            list
+        )
 
         # Thresholds for pain point detection
         self.thresholds = {
@@ -108,7 +116,7 @@ class UsageAnalyticsLoop:
             "low_feature_usage": 0.1,  # 10% usage
             "high_search_rate": 0.4,  # 40% sessions include search
             "short_session": 60.0,  # 1 minute sessions
-            "high_bounce": 0.5  # 50% bounce rate
+            "high_bounce": 0.5,  # 50% bounce rate
         }
 
         # Learning parameters
@@ -117,17 +125,14 @@ class UsageAnalyticsLoop:
         self.recommendation_confidence_threshold = 0.7
 
     def track_usage_event(
-        self,
-        user_id: str,
-        event_type: str,
-        event_data: Dict[str, Any]
+        self, user_id: str, event_type: str, event_data: Dict[str, Any]
     ) -> None:
         """Track a usage event for analysis"""
         event = {
             "user_id": user_id,
             "event_type": event_type,
             "timestamp": datetime.now(),
-            "data": event_data
+            "data": event_data,
         }
 
         self.usage_data[event_type].append(event)
@@ -146,7 +151,7 @@ class UsageAnalyticsLoop:
             "patterns": [],
             "pain_points": [],
             "metrics": {},
-            "recommendations": []
+            "recommendations": [],
         }
 
         # Analyze different aspects
@@ -157,8 +162,13 @@ class UsageAnalyticsLoop:
         search_patterns = self._analyze_search_patterns()
 
         # Combine patterns
-        all_patterns = task_patterns + error_patterns + navigation_patterns + \
-                      feature_patterns + search_patterns
+        all_patterns = (
+            task_patterns
+            + error_patterns
+            + navigation_patterns
+            + feature_patterns
+            + search_patterns
+        )
 
         # Filter significant patterns
         significant_patterns = self._filter_significant_patterns(all_patterns)
@@ -188,7 +198,7 @@ class UsageAnalyticsLoop:
             "current_issues": [],
             "trending_problems": [],
             "improving_areas": [],
-            "alerts": []
+            "alerts": [],
         }
 
         # Check for current issues
@@ -196,21 +206,28 @@ class UsageAnalyticsLoop:
 
         # High error rate alert
         if current_metrics.get("error_rate", 0) > self.thresholds["high_error_rate"]:
-            insights["alerts"].append({
-                "type": "high_error_rate",
-                "severity": "critical",
-                "message": f"Error rate is {current_metrics['error_rate']:.1%}",
-                "action": "Investigate error causes immediately"
-            })
+            insights["alerts"].append(
+                {
+                    "type": "high_error_rate",
+                    "severity": "critical",
+                    "message": f"Error rate is {current_metrics['error_rate']:.1%}",
+                    "action": "Investigate error causes immediately",
+                }
+            )
 
         # High abandonment alert
-        if current_metrics.get("abandonment_rate", 0) > self.thresholds["high_abandonment"]:
-            insights["alerts"].append({
-                "type": "high_abandonment",
-                "severity": "high",
-                "message": f"Abandonment rate is {current_metrics['abandonment_rate']:.1%}",
-                "action": "Review user flow for friction points"
-            })
+        if (
+            current_metrics.get("abandonment_rate", 0)
+            > self.thresholds["high_abandonment"]
+        ):
+            insights["alerts"].append(
+                {
+                    "type": "high_abandonment",
+                    "severity": "high",
+                    "message": f"Abandonment rate is {current_metrics['abandonment_rate']:.1%}",
+                    "action": "Review user flow for friction points",
+                }
+            )
 
         # Trending problems (getting worse)
         trending = self._identify_trending_problems()
@@ -236,7 +253,7 @@ class UsageAnalyticsLoop:
         sorted_recs = sorted(
             self.recommendations,
             key=lambda r: (r.priority, -sum(r.metrics_improvement.values())),
-            reverse=True
+            reverse=True,
         )
 
         improvement_plan = []
@@ -252,7 +269,7 @@ class UsageAnalyticsLoop:
                 "expected_impact": rec.expected_impact,
                 "metrics_improvement": rec.metrics_improvement,
                 "implementation_steps": self._generate_implementation_steps(rec),
-                "success_criteria": self._generate_success_criteria(rec)
+                "success_criteria": self._generate_success_criteria(rec),
             }
             improvement_plan.append(plan_item)
 
@@ -319,8 +336,8 @@ class UsageAnalyticsLoop:
                     context={
                         "task_type": task_type,
                         "avg_duration": avg_time,
-                        "threshold": self.thresholds["slow_task"]
-                    }
+                        "threshold": self.thresholds["slow_task"],
+                    },
                 )
                 patterns.append(pattern)
 
@@ -354,8 +371,10 @@ class UsageAnalyticsLoop:
                 last_occurrence=max(e["timestamp"] for e in events),
                 context={
                     "error_type": error_type,
-                    "error_locations": list(set(e["data"].get("location", "") for e in events))
-                }
+                    "error_locations": list(
+                        set(e["data"].get("location", "") for e in events)
+                    ),
+                },
             )
             patterns.append(pattern)
 
@@ -390,7 +409,7 @@ class UsageAnalyticsLoop:
                 users_affected=len(users_with_circular),
                 first_detected=min(e["timestamp"] for e in nav_events),
                 last_occurrence=max(e["timestamp"] for e in nav_events),
-                context={"issue": "Users navigating in circles"}
+                context={"issue": "Users navigating in circles"},
             )
             patterns.append(pattern)
 
@@ -423,8 +442,8 @@ class UsageAnalyticsLoop:
                     context={
                         "feature": feature,
                         "usage_rate": usage_rate,
-                        "threshold": self.thresholds["low_feature_usage"]
-                    }
+                        "threshold": self.thresholds["low_feature_usage"],
+                    },
                 )
                 patterns.append(pattern)
 
@@ -449,36 +468,50 @@ class UsageAnalyticsLoop:
                     pattern_id=f"frequent_search_{query[:20]}",
                     pattern_type="frequent_search",
                     frequency=count,
-                    users_affected=len(set(e["user_id"] for e in search_events if e["data"].get("query") == query)),
-                    first_detected=min(e["timestamp"] for e in search_events if e["data"].get("query") == query),
-                    last_occurrence=max(e["timestamp"] for e in search_events if e["data"].get("query") == query),
+                    users_affected=len(
+                        set(
+                            e["user_id"]
+                            for e in search_events
+                            if e["data"].get("query") == query
+                        )
+                    ),
+                    first_detected=min(
+                        e["timestamp"]
+                        for e in search_events
+                        if e["data"].get("query") == query
+                    ),
+                    last_occurrence=max(
+                        e["timestamp"]
+                        for e in search_events
+                        if e["data"].get("query") == query
+                    ),
                     context={
                         "query": query,
-                        "suggestion": f"Make '{query}' more discoverable"
-                    }
+                        "suggestion": f"Make '{query}' more discoverable",
+                    },
                 )
                 patterns.append(pattern)
 
         return patterns
 
     def _filter_significant_patterns(
-        self,
-        patterns: List[UsagePattern]
+        self, patterns: List[UsagePattern]
     ) -> List[UsagePattern]:
         """Filter patterns to keep only significant ones"""
         significant = []
 
         for pattern in patterns:
             # Check minimum thresholds
-            if (pattern.frequency >= self.pattern_min_occurrences and
-                pattern.users_affected >= self.pattern_min_users):
+            if (
+                pattern.frequency >= self.pattern_min_occurrences
+                and pattern.users_affected >= self.pattern_min_users
+            ):
                 significant.append(pattern)
 
         return significant
 
     def _identify_pain_points_from_patterns(
-        self,
-        patterns: List[UsagePattern]
+        self, patterns: List[UsagePattern]
     ) -> List[PainPoint]:
         """Convert patterns into actionable pain points"""
         pain_points = []
@@ -505,14 +538,14 @@ class UsageAnalyticsLoop:
                             {
                                 "type": "workflow_simplification",
                                 "description": "Reduce steps required",
-                                "expected_improvement": "50% time reduction"
+                                "expected_improvement": "50% time reduction",
                             },
                             {
                                 "type": "performance",
                                 "description": "Optimize backend processing",
-                                "expected_improvement": "30% speed increase"
-                            }
-                        ]
+                                "expected_improvement": "30% speed increase",
+                            },
+                        ],
                     )
                     pain_points.append(pain_point)
 
@@ -531,14 +564,14 @@ class UsageAnalyticsLoop:
                             {
                                 "type": "error_handling",
                                 "description": "Fix root cause of error",
-                                "expected_improvement": "90% error reduction"
+                                "expected_improvement": "90% error reduction",
                             },
                             {
                                 "type": "ui_improvement",
                                 "description": "Add better error messaging",
-                                "expected_improvement": "Improved user understanding"
-                            }
-                        ]
+                                "expected_improvement": "Improved user understanding",
+                            },
+                        ],
                     )
                     pain_points.append(pain_point)
 
@@ -557,9 +590,9 @@ class UsageAnalyticsLoop:
                             {
                                 "type": "feature_surface",
                                 "description": pattern.context["suggestion"],
-                                "expected_improvement": "80% reduction in searches"
+                                "expected_improvement": "80% reduction in searches",
                             }
-                        ]
+                        ],
                     )
                     pain_points.append(pain_point)
 
@@ -595,8 +628,7 @@ class UsageAnalyticsLoop:
         return metrics
 
     def _generate_optimization_recommendations(
-        self,
-        pain_points: List[PainPoint]
+        self, pain_points: List[PainPoint]
     ) -> List[OptimizationRecommendation]:
         """Generate optimization recommendations from pain points"""
         recommendations = []
@@ -612,13 +644,17 @@ class UsageAnalyticsLoop:
                     expected_impact=fix["expected_improvement"],
                     implementation_effort=self._estimate_effort(fix["type"]),
                     priority=self._calculate_priority(pain_point),
-                    metrics_improvement=self._estimate_metrics_improvement(pain_point, fix),
-                    evidence=[{
-                        "type": "pain_point",
-                        "description": pain_point.description,
-                        "users_affected": pain_point.users_affected,
-                        "occurrences": pain_point.occurrences
-                    }]
+                    metrics_improvement=self._estimate_metrics_improvement(
+                        pain_point, fix
+                    ),
+                    evidence=[
+                        {
+                            "type": "pain_point",
+                            "description": pain_point.description,
+                            "users_affected": pain_point.users_affected,
+                            "occurrences": pain_point.occurrences,
+                        }
+                    ],
                 )
                 recommendations.append(rec)
 
@@ -631,7 +667,7 @@ class UsageAnalyticsLoop:
 
         # Check for A-B-A-B pattern
         for i in range(len(path) - 3):
-            if path[i] == path[i+2] and path[i+1] == path[i+3]:
+            if path[i] == path[i + 2] and path[i + 1] == path[i + 3]:
                 return True
 
         return False
@@ -639,27 +675,27 @@ class UsageAnalyticsLoop:
     def _check_error_pattern(self, event: Dict) -> None:
         """Check for error patterns in real-time"""
         # Would implement real-time error pattern detection
-        pass
 
     def _check_search_pattern(self, event: Dict) -> None:
         """Check for search patterns in real-time"""
         # Would implement real-time search pattern detection
-        pass
 
     def _check_navigation_loop(self, event: Dict) -> None:
         """Check for navigation loops in real-time"""
         # Would implement real-time navigation loop detection
-        pass
 
     def _update_error_metrics(self, timestamp: datetime) -> None:
         """Update error-related metrics"""
         # Calculate current error rate
         recent_events = []
         for events in self.usage_data.values():
-            recent_events.extend([
-                e for e in events
-                if (timestamp - e["timestamp"]).total_seconds() < 3600
-            ])
+            recent_events.extend(
+                [
+                    e
+                    for e in events
+                    if (timestamp - e["timestamp"]).total_seconds() < 3600
+                ]
+            )
 
         if recent_events:
             error_count = sum(1 for e in recent_events if e["event_type"] == "error")
@@ -674,7 +710,9 @@ class UsageAnalyticsLoop:
     def _update_session_metrics(self, timestamp: datetime, data: Dict) -> None:
         """Update session-related metrics"""
         if "duration" in data:
-            self.metrics_history["session_duration"].append((timestamp, data["duration"]))
+            self.metrics_history["session_duration"].append(
+                (timestamp, data["duration"])
+            )
 
     def _identify_trending_problems(self) -> List[Dict]:
         """Identify problems that are getting worse"""
@@ -694,12 +732,14 @@ class UsageAnalyticsLoop:
 
                 # Check if getting worse (depends on metric)
                 if metric_name == "error_rate" and recent_avg > older_avg * 1.2:
-                    trending.append({
-                        "metric": metric_name,
-                        "trend": "increasing",
-                        "change": f"+{(recent_avg - older_avg) / older_avg * 100:.1f}%",
-                        "severity": "high"
-                    })
+                    trending.append(
+                        {
+                            "metric": metric_name,
+                            "trend": "increasing",
+                            "change": f"+{(recent_avg - older_avg) / older_avg * 100:.1f}%",
+                            "severity": "high",
+                        }
+                    )
 
         return trending
 
@@ -721,12 +761,14 @@ class UsageAnalyticsLoop:
 
                 # Check if improving (depends on metric)
                 if metric_name == "task_duration" and recent_avg < older_avg * 0.8:
-                    improving.append({
-                        "metric": metric_name,
-                        "trend": "decreasing",
-                        "change": f"-{(older_avg - recent_avg) / older_avg * 100:.1f}%",
-                        "impact": "positive"
-                    })
+                    improving.append(
+                        {
+                            "metric": metric_name,
+                            "trend": "decreasing",
+                            "change": f"-{(older_avg - recent_avg) / older_avg * 100:.1f}%",
+                            "impact": "positive",
+                        }
+                    )
 
         return improving
 
@@ -743,18 +785,19 @@ class UsageAnalyticsLoop:
             )
 
             if recent_occurrence:
-                active.append({
-                    "id": pain_point.pain_point_id,
-                    "description": pain_point.description,
-                    "severity": pain_point.severity.value,
-                    "users_affected": pain_point.users_affected
-                })
+                active.append(
+                    {
+                        "id": pain_point.pain_point_id,
+                        "description": pain_point.description,
+                        "severity": pain_point.severity.value,
+                        "users_affected": pain_point.users_affected,
+                    }
+                )
 
         return active
 
     def _generate_implementation_steps(
-        self,
-        recommendation: OptimizationRecommendation
+        self, recommendation: OptimizationRecommendation
     ) -> List[str]:
         """Generate implementation steps for recommendation"""
         steps_map = {
@@ -763,28 +806,29 @@ class UsageAnalyticsLoop:
                 "Create design mockups",
                 "Implement changes",
                 "A/B test with users",
-                "Deploy if successful"
+                "Deploy if successful",
             ],
             OptimizationType.WORKFLOW_SIMPLIFICATION: [
                 "Map current workflow",
                 "Identify redundant steps",
                 "Design simplified flow",
                 "Implement changes",
-                "Monitor adoption"
+                "Monitor adoption",
             ],
             OptimizationType.FEATURE_SURFACE: [
                 "Identify optimal placement",
                 "Update navigation/UI",
                 "Add discovery hints",
-                "Track usage changes"
-            ]
+                "Track usage changes",
+            ],
         }
 
-        return steps_map.get(recommendation.optimization_type, ["Implement recommendation"])
+        return steps_map.get(
+            recommendation.optimization_type, ["Implement recommendation"]
+        )
 
     def _generate_success_criteria(
-        self,
-        recommendation: OptimizationRecommendation
+        self, recommendation: OptimizationRecommendation
     ) -> List[str]:
         """Generate success criteria for recommendation"""
         criteria = []
@@ -806,7 +850,7 @@ class UsageAnalyticsLoop:
             "feature_surface": "low",
             "error_handling": "medium",
             "performance": "high",
-            "documentation": "low"
+            "documentation": "low",
         }
         return effort_map.get(fix_type, "medium")
 
@@ -817,7 +861,7 @@ class UsageAnalyticsLoop:
             PainPointSeverity.HIGH: 8,
             PainPointSeverity.MEDIUM: 5,
             PainPointSeverity.LOW: 3,
-            PainPointSeverity.INFO: 1
+            PainPointSeverity.INFO: 1,
         }
 
         priority = base_priority[pain_point.severity]
@@ -831,9 +875,7 @@ class UsageAnalyticsLoop:
         return priority
 
     def _estimate_metrics_improvement(
-        self,
-        pain_point: PainPoint,
-        fix: Dict
+        self, pain_point: PainPoint, fix: Dict
     ) -> Dict[str, float]:
         """Estimate metrics improvement from fix"""
         improvements = {}
@@ -861,7 +903,7 @@ if __name__ == "__main__":
         analytics.track_usage_event(
             f"user_{random.randint(1, 5)}",
             "task_complete",
-            {"task_type": "data_export", "duration": 45.0}  # Slow task
+            {"task_type": "data_export", "duration": 45.0},  # Slow task
         )
 
     # Some users encounter errors
@@ -869,15 +911,13 @@ if __name__ == "__main__":
         analytics.track_usage_event(
             f"user_{random.randint(1, 5)}",
             "error",
-            {"error_type": "validation_error", "location": "form_submit"}
+            {"error_type": "validation_error", "location": "form_submit"},
         )
 
     # Users searching for features
     for i in range(15):
         analytics.track_usage_event(
-            f"user_{random.randint(1, 10)}",
-            "search",
-            {"query": "export data"}
+            f"user_{random.randint(1, 10)}", "search", {"query": "export data"}
         )
 
     # Analyze patterns

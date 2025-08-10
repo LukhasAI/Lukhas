@@ -16,6 +16,7 @@ from typing import Any, Dict, List, Optional
 @dataclass
 class TrinityContent:
     """Represents content in the Trinity format"""
+
     layer_1_poetic: str
     layer_2_human: str
     layer_3_technical: str
@@ -34,12 +35,14 @@ class TrinityGenerator:
         with open(self.framework_path) as f:
             return json.load(f)
 
-    def generate_feature_documentation(self,
-                                     feature_name: str,
-                                     description: str,
-                                     benefits: List[str],
-                                     technical_details: Dict[str, Any],
-                                     code_examples: Optional[List[str]] = None) -> TrinityContent:
+    def generate_feature_documentation(
+        self,
+        feature_name: str,
+        description: str,
+        benefits: List[str],
+        technical_details: Dict[str, Any],
+        code_examples: Optional[List[str]] = None,
+    ) -> TrinityContent:
         """Generate complete Trinity documentation for a feature"""
 
         # Layer 1: Poetic Consciousness
@@ -49,19 +52,27 @@ class TrinityGenerator:
         layer_2 = self._generate_human_layer(feature_name, description, benefits)
 
         # Layer 3: Technical Precision
-        layer_3 = self._generate_technical_layer(feature_name, technical_details, code_examples)
+        layer_3 = self._generate_technical_layer(
+            feature_name, technical_details, code_examples
+        )
 
         metadata = {
             "generated_at": datetime.now().isoformat(),
             "feature_name": feature_name,
-            "framework_version": self.framework["lukhas_communication_framework"]["version"]
+            "framework_version": self.framework["lukhas_communication_framework"][
+                "version"
+            ],
         }
 
         return TrinityContent(layer_1, layer_2, layer_3, metadata)
 
-    def _generate_poetic_layer(self, feature_name: str, description: str, benefits: List[str]) -> str:
+    def _generate_poetic_layer(
+        self, feature_name: str, description: str, benefits: List[str]
+    ) -> str:
         """Generate Layer 1: Poetic Consciousness"""
-        layer_1_config = self.framework["lukhas_communication_framework"]["layers"]["layer_1"]
+        layer_1_config = self.framework["lukhas_communication_framework"]["layers"][
+            "layer_1"
+        ]
 
         # Extract key concepts for metaphorical language
         concepts = self._extract_concepts(description)
@@ -70,7 +81,7 @@ class TrinityGenerator:
             "streams of understanding converge",
             "symphonies of data dance",
             "bridges of light connect realms",
-            "gardens of possibility bloom"
+            "gardens of possibility bloom",
         ]
 
         poetic_content = f"""### 🎭 {layer_1_config['name']}
@@ -83,9 +94,13 @@ Through this digital alchemy, the boundary between human intuition and artificia
 
         return poetic_content
 
-    def _generate_human_layer(self, feature_name: str, description: str, benefits: List[str]) -> str:
+    def _generate_human_layer(
+        self, feature_name: str, description: str, benefits: List[str]
+    ) -> str:
         """Generate Layer 2: Human Connection"""
-        layer_2_config = self.framework["lukhas_communication_framework"]["layers"]["layer_2"]
+        layer_2_config = self.framework["lukhas_communication_framework"]["layers"][
+            "layer_2"
+        ]
 
         human_content = f"""### 🌈 {layer_2_config['name']}
 
@@ -99,16 +114,23 @@ Think of {feature_name} as your personal AI assistant that truly understands wha
 
         human_content += f"""
 
-**Real-world example:** 
+**Real-world example:**
 Imagine you're working on a complex project. Instead of manually figuring out each step, {feature_name} anticipates what you need, provides relevant suggestions, and adapts to your working style. It's like having a conversation with someone who truly "gets" what you're trying to accomplish.
 
 **The best part?** Everything works seamlessly in the background while keeping your data completely private and under your control. You focus on your creativity and goals—we handle the complex technical details."""
 
         return human_content
 
-    def _generate_technical_layer(self, feature_name: str, technical_details: Dict[str, Any], code_examples: Optional[List[str]]) -> str:
+    def _generate_technical_layer(
+        self,
+        feature_name: str,
+        technical_details: Dict[str, Any],
+        code_examples: Optional[List[str]],
+    ) -> str:
         """Generate Layer 3: Technical Precision"""
-        layer_3_config = self.framework["lukhas_communication_framework"]["layers"]["layer_3"]
+        layer_3_config = self.framework["lukhas_communication_framework"]["layers"][
+            "layer_3"
+        ]
 
         technical_content = f"""### 🎓 {layer_3_config['name']}
 
@@ -144,16 +166,20 @@ Imagine you're working on a complex project. Instead of manually figuring out ea
                     language = example.split("\n")[0].replace("```", "")
                     example = "\n".join(example.split("\n")[1:-1])
 
-                technical_content += f"### Example {i}\n\n```{language}\n{example}\n```\n\n"
+                technical_content += (
+                    f"### Example {i}\n\n```{language}\n{example}\n```\n\n"
+                )
 
         return technical_content
 
     def _extract_concepts(self, text: str) -> List[str]:
         """Extract key concepts from text for metaphorical use"""
         # Simple keyword extraction - can be enhanced with NLP
-        words = re.findall(r'\b\w+\b', text.lower())
-        technical_terms = ['api', 'system', 'data', 'process', 'interface', 'module']
-        concepts = [word for word in words if len(word) > 4 and word not in technical_terms]
+        words = re.findall(r"\b\w+\b", text.lower())
+        technical_terms = ["api", "system", "data", "process", "interface", "module"]
+        concepts = [
+            word for word in words if len(word) > 4 and word not in technical_terms
+        ]
         return concepts[:3]
 
     def generate_api_documentation(self, api_spec: Dict[str, Any]) -> TrinityContent:
@@ -196,7 +222,7 @@ Perfect for developers who want to add AI capabilities without the complexity.""
 
 """
 
-        for endpoint in api_spec.get('endpoints', []):
+        for endpoint in api_spec.get("endpoints", []):
             layer_3 += f"""### {endpoint['method']} {endpoint['path']}
 
 {endpoint.get('description', '')}
@@ -217,8 +243,8 @@ Perfect for developers who want to add AI capabilities without the complexity.""
 
         metadata = {
             "generated_at": datetime.now().isoformat(),
-            "api_name": api_spec['name'],
-            "documentation_type": "api"
+            "api_name": api_spec["name"],
+            "documentation_type": "api",
         }
 
         return TrinityContent(layer_1, layer_2, layer_3, metadata)
@@ -240,7 +266,7 @@ Perfect for developers who want to add AI capabilities without the complexity.""
 """
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             f.write(markdown_content)
 
     def validate_trinity_content(self, content: str) -> Dict[str, bool]:
@@ -249,7 +275,7 @@ Perfect for developers who want to add AI capabilities without the complexity.""
             "has_layer_1": "🎭" in content,
             "has_layer_2": "🌈" in content,
             "has_layer_3": "🎓" in content,
-            "proper_flow": False
+            "proper_flow": False,
         }
 
         # Check for proper layer ordering
@@ -274,19 +300,19 @@ def main():
         benefits=[
             "Intuitive conversation-based interaction",
             "Context-aware responses",
-            "Multi-modal communication support"
+            "Multi-modal communication support",
         ],
         technical_details={
             "architecture": {
                 "NLU Engine": "Transformer-based natural language understanding",
                 "Intent Recognition": "Multi-class classification with confidence scoring",
-                "Response Generation": "Template-based with dynamic content insertion"
+                "Response Generation": "Template-based with dynamic content insertion",
             },
             "performance": {
                 "Response Time": "<200ms",
                 "Accuracy": "94.2%",
-                "Concurrent Users": "10,000+"
-            }
+                "Concurrent Users": "10,000+",
+            },
         },
         code_examples=[
             """```python
@@ -299,7 +325,7 @@ response = await interface.process_input(
 )
 print(response)
 ```"""
-        ]
+        ],
     )
 
     # Save example

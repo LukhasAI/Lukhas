@@ -13,7 +13,7 @@ EMOTION_VOCABULARY = {
     "joy": {
         "emoji": "😊",
         "symbol": "JOY◊",
-        "meaning": "A positive emotional state characterized by feelings of happiness,
+        "meaning": "A positive emotional state characterized by feelings of happiness,"
         pleasure, and contentment.",
         "resonance": "positive",
         "guardian_weight": 0.1,

@@ -1,3 +1,5 @@
+import logging
+
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: agi_consciousness_engine_complete.py
 # MODULE: consciousness.core_consciousness.agi_consciousness_engine_complete
@@ -20,7 +22,7 @@ from collections import deque
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -46,7 +48,7 @@ class ConsciousnessEngineConfig:
         self.config = self._load_config()
         self._initialize_anthropic_client()
 
-    def _load_config(self) -> Dict[str, Any]:
+    def _load_config(self) -> dict[str, Any]:
         """Load configuration from file or use defaults."""
         if Path(self.config_path).exists():
             try:
@@ -134,7 +136,7 @@ class ConsciousnessEngineConfig:
         self._save_config(default_config)
         return default_config
 
-    def _save_config(self, config: Dict[str, Any]):
+    def _save_config(self, config: dict[str, Any]):
         """Save configuration to file."""
         Path(self.config_path).parent.mkdir(parents=True, exist_ok=True)
         with open(self.config_path, "w") as f:
@@ -236,7 +238,7 @@ class ConsciousnessState:
     temporal_continuity: float = 0.7
     last_update: datetime = field(default_factory=datetime.utcnow)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Serializes the dataclass to a dictionary."""
         return asdict(self)
 
@@ -259,14 +261,14 @@ class ConsciousnessPattern:
         """Initialize the ConsciousnessPattern detector."""
         self.config = config
         self.instance_logger = logger.getChild("ConsciousnessPattern")
-        self.user_patterns: Dict[str, Any] = {}
+        self.user_patterns: dict[str, Any] = {}
         self.symbolic_resonance_map = config.get("symbolic_resonance", {})
         self.instance_logger.info("ConsciousnessPattern initialized")
 
     @lukhas_tier_required(level=3)
     async def analyze_interaction(
-        self, user_id: str, interaction_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, interaction_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Analyze user interaction data for consciousness patterns.
         """
@@ -330,7 +332,7 @@ class ConsciousnessPattern:
         self.instance_logger.debug(f"Patterns detected: {patterns}")
         return patterns
 
-    def _ensure_interaction_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _ensure_interaction_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """Ensure interaction data has all required fields."""
         defaults = {
             "timestamps": [],
@@ -349,7 +351,7 @@ class ConsciousnessPattern:
 
         return data
 
-    def _calculate_temporal_coherence(self, timestamps: List[float]) -> float:
+    def _calculate_temporal_coherence(self, timestamps: list[float]) -> float:
         """Calculate temporal coherence from timestamp intervals."""
         if len(timestamps) < 2:
             return 0.5
@@ -367,7 +369,7 @@ class ConsciousnessPattern:
         coherence = 1.0 - (std_interval / (mean_interval + 1e-6))
         return float(np.clip(coherence, 0.0, 1.0))
 
-    def _calculate_symbolic_resonance(self, symbols: List[str]) -> float:
+    def _calculate_symbolic_resonance(self, symbols: list[str]) -> float:
         """Calculate average resonance of symbols used."""
         if not symbols:
             return 0.0
@@ -378,7 +380,7 @@ class ConsciousnessPattern:
 
         return float(np.mean(resonances))
 
-    def _measure_intentionality(self, actions: List[Dict[str, Any]]) -> float:
+    def _measure_intentionality(self, actions: list[dict[str, Any]]) -> float:
         """Measure intentionality from action patterns."""
         if not actions:
             return 0.0
@@ -393,7 +395,7 @@ class ConsciousnessPattern:
         return purposeful_count / len(actions) if actions else 0.0
 
     def _calculate_emotional_depth(
-        self, pressure_patterns: List[float], velocity_patterns: List[float]
+        self, pressure_patterns: list[float], velocity_patterns: list[float]
     ) -> float:
         """Calculate emotional depth from interaction patterns."""
         if not pressure_patterns and not velocity_patterns:
@@ -408,7 +410,7 @@ class ConsciousnessPattern:
         return float(np.clip(emotional_depth, 0.0, 1.0))
 
     def _generate_consciousness_signature(
-        self, user_id: str, interaction_data: Dict[str, Any]
+        self, user_id: str, interaction_data: dict[str, Any]
     ) -> str:
         """Generate unique consciousness signature for the interaction."""
         # Create a deterministic string representation
@@ -438,10 +440,9 @@ class AnthropicEthicsEngine(ABC):
 
     @abstractmethod
     async def evaluate_action(
-        self, action: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evaluate an action for ethical compliance."""
-        pass
 
 
 class DefaultEthicsEngine(AnthropicEthicsEngine):
@@ -451,8 +452,8 @@ class DefaultEthicsEngine(AnthropicEthicsEngine):
 
     @lukhas_tier_required(level=4)
     async def evaluate_action(
-        self, action: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Evaluate an action against ethical principles.
         """
@@ -511,10 +512,10 @@ class DefaultEthicsEngine(AnthropicEthicsEngine):
 
     async def _evaluate_principle(
         self,
-        action: Dict[str, Any],
-        context: Dict[str, Any],
+        action: dict[str, Any],
+        context: dict[str, Any],
         principle_name: str,
-        principle_data: Dict[str, Any],
+        principle_data: dict[str, Any],
     ) -> float:
         """Evaluate action against a specific principle."""
         # Rule-based evaluation (can be enhanced with ML)
@@ -584,14 +585,14 @@ class DefaultEthicsEngine(AnthropicEthicsEngine):
         return float(np.clip(score, 0.0, 1.0))
 
     def _generate_recommendations(
-        self, scores: Dict[str, float], violations: List[Dict[str, Any]]
-    ) -> List[str]:
+        self, scores: dict[str, float], violations: list[dict[str, Any]]
+    ) -> list[str]:
         """Generate recommendations based on evaluation results."""
         recommendations = []
 
         for violation in violations:
             principle = violation["principle"]
-            score = violation["score"]
+            violation["score"]
 
             if principle == "transparency":
                 recommendations.append(
@@ -649,8 +650,8 @@ class SelfAwareAdaptationModule:
 
     @lukhas_tier_required(level=4)
     async def reflect_on_performance(
-        self, performance_data: Dict[str, Any], current_state: ConsciousnessState
-    ) -> Dict[str, Any]:
+        self, performance_data: dict[str, Any], current_state: ConsciousnessState
+    ) -> dict[str, Any]:
         """
         Reflect on recent performance and generate insights.
         """
@@ -710,7 +711,7 @@ class SelfAwareAdaptationModule:
 
         return insights
 
-    def _analyze_consciousness_state(self, state: ConsciousnessState) -> Dict[str, Any]:
+    def _analyze_consciousness_state(self, state: ConsciousnessState) -> dict[str, Any]:
         """Analyze the current consciousness state."""
         analysis = {
             "overall_level": np.mean(
@@ -727,7 +728,7 @@ class SelfAwareAdaptationModule:
         }
 
         # Analyze each dimension
-        thresholds = self.config.get("thresholds", {})
+        self.config.get("thresholds", {})
 
         dimensions = {
             "awareness_level": "System awareness",
@@ -757,7 +758,7 @@ class SelfAwareAdaptationModule:
 
     @lukhas_tier_required(level=4)
     async def adapt_based_on_feedback(
-        self, feedback: Dict[str, Any], current_state: ConsciousnessState
+        self, feedback: dict[str, Any], current_state: ConsciousnessState
     ) -> ConsciousnessState:
         """
         Adapt consciousness state based on feedback.
@@ -765,7 +766,7 @@ class SelfAwareAdaptationModule:
         self.instance_logger.info("Adapting based on feedback")
 
         # Extract feedback metrics
-        success = feedback.get("success", True)
+        feedback.get("success", True)
         user_rating = feedback.get("user_rating", 0.5)
         auth_success = feedback.get("auth_success_rate", 0.5)
 
@@ -852,8 +853,8 @@ class AGIConsciousnessEngine:
         logger.info("AGIConsciousnessEngine initialized")
 
     async def authenticate_with_consciousness(
-        self, user_id: str, interaction_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, interaction_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Perform consciousness-aware authentication.
         """
@@ -936,7 +937,7 @@ class AGIConsciousnessEngine:
 
         return response
 
-    def _calculate_recent_performance(self) -> Dict[str, Any]:
+    def _calculate_recent_performance(self) -> dict[str, Any]:
         """Calculate recent performance metrics."""
         if not self.auth_history:
             return {"success_rate": 0.5, "user_satisfaction": 0.5, "ethical_score": 0.9}
@@ -970,11 +971,11 @@ class AGIConsciousnessEngine:
 
         return success_count / len(recent) if recent else 0.5
 
-    def get_consciousness_state(self) -> Dict[str, Any]:
+    def get_consciousness_state(self) -> dict[str, Any]:
         """Get current consciousness state."""
         return self.consciousness_state.to_dict()
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status."""
         return {
             "consciousness_state": self.consciousness_state.to_dict(),

@@ -8,7 +8,7 @@
 
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 @dataclass
@@ -17,7 +17,7 @@ class SensoryEcho:
 
     temperature: float
     light: float
-    tags: List[str]
+    tags: list[str]
     timestamp: str
 
 
@@ -28,7 +28,7 @@ class SymbolicNervousSystem:
         self.memory_manager = memory_manager
 
     # ΛTAG: sensory_mapping
-    def map_inputs_to_tags(self, temperature: float, light: float) -> List[str]:
+    def map_inputs_to_tags(self, temperature: float, light: float) -> list[str]:
         """Convert raw sensor values to symbolic tags."""
         tags = []
 
@@ -50,8 +50,8 @@ class SymbolicNervousSystem:
 
     # ΛTAG: memory_tagging
     async def store_sensory_echo(
-        self, dream: Dict[str, Any], temperature: float, light: float
-    ) -> Dict[str, Any]:
+        self, dream: dict[str, Any], temperature: float, light: float
+    ) -> dict[str, Any]:
         """Attach sensory echo to dream and persist via memory manager."""
         tags = self.map_inputs_to_tags(temperature, light)
         echo = SensoryEcho(

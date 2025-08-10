@@ -5,7 +5,7 @@ Combines Steve Jobs' perfect UX with Sam Altman's AI vision.
 
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from pydantic import BaseModel
 
@@ -46,7 +46,7 @@ class LearningObjective(BaseModel):
 
     id: str
     description: str
-    required_concepts: List[str] = []
+    required_concepts: list[str] = []
     difficulty: DifficultyLevel
     estimated_time_minutes: int = 15
 
@@ -56,9 +56,9 @@ class TutorMessage(BaseModel):
 
     content: str
     message_type: TutorMessageType
-    voice_style: Optional[Dict[str, Any]] = None
+    voice_style: Optional[dict[str, Any]] = None
     cultural_context: Optional[str] = None
-    visual_aids: Optional[List[str]] = None
+    visual_aids: Optional[list[str]] = None
 
 
 class LearningSession(BaseModel):
@@ -67,11 +67,11 @@ class LearningSession(BaseModel):
     session_id: str
     user_id: str
     topic: str
-    objectives: List[LearningObjective]
+    objectives: list[LearningObjective]
     current_objective_index: int = 0
     start_time: datetime
-    messages: List[TutorMessage] = []
-    bio_metrics: Dict[str, float] = {}
+    messages: list[TutorMessage] = []
+    bio_metrics: dict[str, float] = {}
     voice_enabled: bool = False
 
     class Config:
@@ -93,7 +93,7 @@ class TutorEngine:
         self.skg = skg
         self.voice = voice_interface
         self.bio = bio_interface
-        self.active_sessions: Dict[str, LearningSession] = {}
+        self.active_sessions: dict[str, LearningSession] = {}
         logger.info("TutorEngine initialized")
 
     async def create_session(
@@ -101,7 +101,7 @@ class TutorEngine:
         topic: str,
         user_id: str,
         difficulty: DifficultyLevel,
-        config: Dict[str, Any],
+        config: dict[str, Any],
     ) -> LearningSession:
         """Create a new learning session."""
         # Generate session ID using Lukhas's identity system
@@ -135,7 +135,7 @@ class TutorEngine:
 
     def _generate_learning_objectives(
         self, topic: str, difficulty: DifficultyLevel
-    ) -> List[LearningObjective]:
+    ) -> list[LearningObjective]:
         """Generate learning objectives from the knowledge graph."""
         objectives = []
 
@@ -211,7 +211,7 @@ class TutorEngine:
 
     async def handle_user_response(
         self, session_id: str, response: str
-    ) -> List[TutorMessage]:
+    ) -> list[TutorMessage]:
         """Handle user's response and provide appropriate feedback."""
         session = self.active_sessions.get(session_id)
         if not session:
@@ -245,7 +245,7 @@ class TutorEngine:
 
         return stress_level > 0.7 or attention_level < 0.3
 
-    async def _adjust_difficulty(self, session: LearningSession) -> List[TutorMessage]:
+    async def _adjust_difficulty(self, session: LearningSession) -> list[TutorMessage]:
         """Adjust difficulty based on user's bio-metrics."""
         responses = []
 
@@ -273,7 +273,7 @@ class TutorEngine:
 
     async def _generate_responses(
         self, session: LearningSession, user_response: str
-    ) -> List[TutorMessage]:
+    ) -> list[TutorMessage]:
         """Generate appropriate responses based on user's input."""
         current_objective = session.objectives[session.current_objective_index]
         responses = []
@@ -340,7 +340,7 @@ class TutorEngine:
         # This would use more sophisticated NLP in production
         # For now, a simple keyword-based analysis
         required_concepts = set(objective.required_concepts)
-        mentioned_concepts = set(word.lower() for word in response.split())
+        mentioned_concepts = {word.lower() for word in response.split()}
 
         overlap = len(required_concepts.intersection(mentioned_concepts))
         return min(1.0, overlap / max(1, len(required_concepts)))
@@ -353,7 +353,7 @@ class TutorEngine:
             voice_style={"emotion": "helpful", "pace": "slow"},
         )
 
-    async def end_session(self, session_id: str) -> Dict[str, Any]:
+    async def end_session(self, session_id: str) -> dict[str, Any]:
         """End a learning session and provide summary."""
         session = self.active_sessions.get(session_id)
         if not session:

@@ -8,6 +8,7 @@ Author: lukhas AI Team
 
 TAGS: [CRITICAL, KeyFile, Memory]
 """
+import logging
 
 """
 lukhas AI System - Function Library
@@ -25,19 +26,18 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
 
-import base64
 import hashlib
+import base64
 import json
 import os
 import time
-from typing import Any, Dict, Optional
-
+from typing import Any, Optional
 import numpy as np
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
+from core.common import get_logger
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -93,7 +93,7 @@ class TraumaLockSystem:
         # Generate a secure random key
         return Fernet.generate_key()
 
-    def _initialize_access_policies(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_access_policies(self) -> dict[str, dict[str, Any]]:
         """Initialize access policies for different security levels"""
         return {
             "standard": {
@@ -117,8 +117,8 @@ class TraumaLockSystem:
         }
 
     def encrypt_memory(
-        self, memory_data: Dict[str, Any], access_level: str = "standard"
-    ) -> Dict[str, Any]:
+        self, memory_data: dict[str, Any], access_level: str = "standard"
+    ) -> dict[str, Any]:
         """
         Encrypt memory data with trauma-lock protection.
 
@@ -167,9 +167,9 @@ class TraumaLockSystem:
 
     def decrypt_memory(
         self,
-        encrypted_memory: Dict[str, Any],
-        access_context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        encrypted_memory: dict[str, Any],
+        access_context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Decrypt and return memory data.
 
@@ -290,7 +290,7 @@ class TraumaLockSystem:
         cipher = Fernet(key)
         return cipher.decrypt(data)
 
-    def _generate_secure_vector(self, memory_data: Dict[str, Any]) -> np.ndarray:
+    def _generate_secure_vector(self, memory_data: dict[str, Any]) -> np.ndarray:
         """
         Generate a secure vector representation of memory data.
 
@@ -332,7 +332,7 @@ class TraumaLockSystem:
 
         return vector
 
-    def _generate_context_vector(self, context: Dict[str, Any]) -> np.ndarray:
+    def _generate_context_vector(self, context: dict[str, Any]) -> np.ndarray:
         """
         Generate a vector representation of an access context.
 
@@ -403,7 +403,7 @@ class TraumaLockSystem:
                 f"Memory access denied: vector={vector_id}, level={access_level}, reason={reason}"
             )
 
-    def get_access_stats(self) -> Dict[str, Any]:
+    def get_access_stats(self) -> dict[str, Any]:
         """Get statistics about memory access attempts"""
         if not self.access_log:
             return {"total_attempts": 0}

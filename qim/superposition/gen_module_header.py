@@ -40,7 +40,7 @@
 def generate_module_header():
     module_name = input("📦 Enter the MODULE name (e.g., compliance_hooks.py): ")
     description = input("🧾 Enter a short DESCRIPTION: ")
-    module_type = input("🧩 Enter the TYPE (e.g., Core, Tool, Subsystem): ")
+    input("🧩 Enter the TYPE (e.g., Core, Tool, Subsystem): ")
     version = input("🔧 Enter the VERSION (e.g., v1.0.0): ")
     updated = input("📅 Enter the UPDATED date (e.g., 2025-04-28): ")
     dependencies = input("📚 Enter DEPENDENCIES (comma-separated if multiple): ")

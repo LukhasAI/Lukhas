@@ -11,4 +11,8 @@ from .multi_jurisdiction_engine import (
     GlobalComplianceReport,
 )
 
-__all__ = ['GlobalComplianceEngine', 'GlobalComplianceProfile', 'GlobalComplianceReport']
+__all__ = [
+    "GlobalComplianceEngine",
+    "GlobalComplianceProfile",
+    "GlobalComplianceReport",
+]

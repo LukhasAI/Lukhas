@@ -33,7 +33,7 @@ ASCII_PATTERN = re.compile(
 def fix_ascii_in_file(filepath: Path) -> bool:
     """Fix ASCII art in a single file."""
 
-    if not filepath.suffix == ".py":
+    if filepath.suffix != ".py":
         return False
 
     try:

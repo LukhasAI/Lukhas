@@ -17,7 +17,7 @@ import statistics
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import psutil
 
@@ -64,7 +64,7 @@ class PerformanceValidator:
         self.system_info = self._get_system_info()
         self.is_m1_mac = self._check_m1_mac()
 
-    def _get_system_info(self) -> Dict[str, str]:
+    def _get_system_info(self) -> dict[str, str]:
         """Get system information"""
         return {
             "platform": platform.platform(),
@@ -79,7 +79,7 @@ class PerformanceValidator:
         """Check if running on M1 Mac"""
         return platform.system() == "Darwin" and platform.machine() == "arm64"
 
-    def validate_memory_cascade_prevention(self) -> Dict[str, Any]:
+    def validate_memory_cascade_prevention(self) -> dict[str, Any]:
         """Validate memory cascade prevention rate"""
         print("🧬 Validating memory cascade prevention...")
 
@@ -87,7 +87,7 @@ class PerformanceValidator:
         cascade_prevented = 0
         total_operations = 1000
 
-        for i in range(total_operations):
+        for _i in range(total_operations):
             # Simulate memory fold with cascade check
             # In production, this would call actual memory fold logic
             if self._simulate_memory_fold():
@@ -103,7 +103,7 @@ class PerformanceValidator:
             "note": "Simulated validation - production system required for full test",
         }
 
-    def validate_api_response_time(self) -> Dict[str, Any]:
+    def validate_api_response_time(self) -> dict[str, Any]:
         """Validate API response times"""
         print("⚡ Validating API response times...")
 
@@ -129,7 +129,7 @@ class PerformanceValidator:
             "note": f"M1 optimized: {self.is_m1_mac}",
         }
 
-    def validate_dream_exploration_speed(self) -> Dict[str, Any]:
+    def validate_dream_exploration_speed(self) -> dict[str, Any]:
         """Validate multiverse exploration speed"""
         print("🌌 Validating dream exploration speed...")
 
@@ -138,7 +138,7 @@ class PerformanceValidator:
         for _ in range(50):
             start = time.perf_counter()
             # Simulate exploring 5 universes
-            for universe in range(5):
+            for _universe in range(5):
                 self._simulate_universe_exploration()
             end = time.perf_counter()
             exploration_times.append((end - start) * 1000)
@@ -154,7 +154,7 @@ class PerformanceValidator:
             "note": "Simulated quantum coherence",
         }
 
-    def validate_resource_efficiency(self) -> Dict[str, Any]:
+    def validate_resource_efficiency(self) -> dict[str, Any]:
         """Validate resource usage on M1 MacBook"""
         print("💻 Validating M1 resource efficiency...")
 
@@ -212,7 +212,7 @@ class PerformanceValidator:
         result = sum(sum(row) for row in data)
         return result
 
-    def generate_validation_report(self) -> Dict[str, Any]:
+    def generate_validation_report(self) -> dict[str, Any]:
         """Generate complete validation report"""
         print("\n🔍 Running LUKHAS Performance Validation Suite...")
         print(f"System: {self.system_info['platform']}")
@@ -245,7 +245,7 @@ class PerformanceValidator:
 
         return report
 
-    def _generate_recommendations(self, validations: List[Dict]) -> List[str]:
+    def _generate_recommendations(self, validations: list[dict]) -> list[str]:
         """Generate recommendations based on validation results"""
         recommendations = []
 

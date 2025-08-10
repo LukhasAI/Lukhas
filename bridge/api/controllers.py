@@ -303,7 +303,7 @@ def ethics_assess_action_endpoint():  # Renamed for clarity
             )
 
         logger.debug(
-            f"ΛTRACE: Calling ethics_service.assess_action for user '{user_id}',
+            f"ΛTRACE: Calling ethics_service.assess_action for user '{user_id}',"
             action: '{data['action']}'."
         )
         result = ethics_service.assess_action(

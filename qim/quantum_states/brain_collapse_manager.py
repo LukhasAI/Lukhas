@@ -13,7 +13,7 @@
 
 import asyncio
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import structlog
 
@@ -76,17 +76,15 @@ class BrainCollapseManager:
         """
         # #ΛPENDING_PATCH: This is a placeholder.
         #                A real implementation would need to be more sophisticated.
-        analysis: Dict[str, Any] = self.symbolic_trace_logger.get_pattern_analysis()
+        analysis: dict[str, Any] = self.symbolic_trace_logger.get_pattern_analysis()
         if analysis.get("bio_metrics_trends", {}).get("proton_gradient", 1.0) < 0.1:
             return True
-        if (
+        return (
             analysis.get("quantum_like_state_trends", {}).get(
                 "avg_coherence_trend", 1.0
             )
             < 0.1
-        ):
-            return True
-        return False
+        )
 
     # ΛPROPAGATOR
     async def handle_collapse(self) -> None:
@@ -161,16 +159,16 @@ class BrainCollapseManager:
 
             await asyncio.sleep(60)
 
-    def collapse_trace_matrix(self) -> List[List[Any]]:
+    def collapse_trace_matrix(self) -> list[list[Any]]:
         """
         Generates a matrix of the symbolic collapse trace.
 
         Returns:
             List[List[Any]]: A matrix representing the state of the collapse mesh.
         """
-        matrix: List[List[Any]] = []
+        matrix: list[list[Any]] = []
         for node in self.collapse_mesh.nodes.values():
-            row: List[Any] = [
+            row: list[Any] = [
                 node.node_id,
                 node.node_type,
                 node.status,
@@ -195,7 +193,7 @@ class CollapseSynchronizer:
             brain_integrator (Any): The main brain integrator instance.
         """
         self.brain_integrator: Any = brain_integrator
-        self.component_states: Dict[str, Any] = {}
+        self.component_states: dict[str, Any] = {}
 
     async def record_component_states(self) -> None:
         """

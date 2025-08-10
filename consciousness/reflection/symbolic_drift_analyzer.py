@@ -34,6 +34,7 @@
 """
 
 import asyncio
+import contextlib
 import hashlib
 import json
 import math
@@ -44,7 +45,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum, auto
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 
 from core.common import get_logger
 
@@ -54,7 +55,6 @@ try:
     from rich.layout import Layout
     from rich.live import Live
     from rich.panel import Panel
-    from rich.progress import Progress, SpinnerColumn, TextColumn
     from rich.table import Table
 
     HAS_RICH = True
@@ -109,7 +109,7 @@ class EntropyMetrics:
     total_entropy: float
     timestamp: datetime = field(default_factory=datetime.now)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "shannon_entropy": self.shannon_entropy,
             "tag_entropy": self.tag_entropy,
@@ -128,11 +128,11 @@ class TagVarianceMetrics:
     tag_frequency_variance: float
     tag_co_occurrence_score: float
     tag_evolution_rate: float
-    dominant_tags: List[Tuple[str, int]]
-    emerging_tags: List[str]
-    declining_tags: List[str]
+    dominant_tags: list[tuple[str, int]]
+    emerging_tags: list[str]
+    declining_tags: list[str]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "unique_tags": self.unique_tags,
             "tag_frequency_variance": self.tag_frequency_variance,
@@ -154,9 +154,9 @@ class DriftAlert:
     threshold: float
     message: str
     timestamp: datetime = field(default_factory=datetime.now)
-    remediation_suggestions: List[str] = field(default_factory=list)
+    remediation_suggestions: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "level": self.level.name,
             "metric_type": self.metric_type,
@@ -180,7 +180,7 @@ class SymbolicDriftAnalyzer:
         self,
         dream_memory_manager: Optional[DreamMemoryManager] = None,
         ethical_detector: Optional[EthicalDriftDetector] = None,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         """
         Initialize the drift analyzer
@@ -234,14 +234,14 @@ class SymbolicDriftAnalyzer:
         self._monitoring_task: Optional[asyncio.Task] = None
 
         # Alert callbacks
-        self.alert_callbacks: List[Callable[[DriftAlert], None]] = []
+        self.alert_callbacks: list[Callable[[DriftAlert], None]] = []
 
         # CLI console
         self.console = Console() if HAS_RICH else None
 
         logger.info("SymbolicDriftAnalyzer initialized with config: %s", self.config)
 
-    def calculate_shannon_entropy(self, data: List[Any]) -> float:
+    def calculate_shannon_entropy(self, data: list[Any]) -> float:
         """
         Calculate Shannon entropy for a dataset
 
@@ -265,11 +265,11 @@ class SymbolicDriftAnalyzer:
         max_entropy = math.log2(len(counts)) if len(counts) > 1 else 1.0
         return entropy / max_entropy if max_entropy > 0 else 0.0
 
-    def calculate_tag_entropy(self, tags: List[str]) -> float:
+    def calculate_tag_entropy(self, tags: list[str]) -> float:
         """Calculate entropy of tag distribution"""
         return self.calculate_shannon_entropy(tags)
 
-    def calculate_temporal_entropy(self, timestamps: List[datetime]) -> float:
+    def calculate_temporal_entropy(self, timestamps: list[datetime]) -> float:
         """
         Calculate temporal entropy based on time intervals
 
@@ -304,7 +304,7 @@ class SymbolicDriftAnalyzer:
 
         return self.calculate_shannon_entropy(buckets)
 
-    def calculate_semantic_entropy(self, dream_contents: List[Dict[str, Any]]) -> float:
+    def calculate_semantic_entropy(self, dream_contents: list[dict[str, Any]]) -> float:
         """
         Calculate semantic entropy based on dream content similarity
 
@@ -324,7 +324,7 @@ class SymbolicDriftAnalyzer:
         return self.calculate_shannon_entropy(semantic_hashes)
 
     def calculate_tag_variance(
-        self, dreams: List[Dict[str, Any]]
+        self, dreams: list[dict[str, Any]]
     ) -> TagVarianceMetrics:
         """Calculate comprehensive tag variance metrics"""
         all_tags = []
@@ -437,7 +437,7 @@ class SymbolicDriftAnalyzer:
 
         return 1.0 - (intersection / union) if union > 0 else 0.0
 
-    def _identify_emerging_tags(self, window_hours: int = 24) -> List[str]:
+    def _identify_emerging_tags(self, window_hours: int = 24) -> list[str]:
         """Identify tags that are increasing in frequency"""
         emerging = []
         now = datetime.now()
@@ -457,7 +457,7 @@ class SymbolicDriftAnalyzer:
             emerging, key=lambda t: len(self.tag_timestamps[t]), reverse=True
         )[:10]
 
-    def _identify_declining_tags(self, window_hours: int = 24) -> List[str]:
+    def _identify_declining_tags(self, window_hours: int = 24) -> list[str]:
         """Identify tags that are decreasing in frequency"""
         declining = []
         now = datetime.now()
@@ -478,7 +478,7 @@ class SymbolicDriftAnalyzer:
         )[:10]
 
     def detect_pattern_trend(
-        self, entropy_history: List[EntropyMetrics]
+        self, entropy_history: list[EntropyMetrics]
     ) -> PatternTrend:
         """Detect overall pattern trend from entropy history"""
         if len(entropy_history) < 3:
@@ -532,8 +532,8 @@ class SymbolicDriftAnalyzer:
                 return PatternTrend.STABLE
 
     def check_ethical_drift(
-        self, dreams: List[Dict[str, Any]]
-    ) -> Tuple[float, List[str]]:
+        self, dreams: list[dict[str, Any]]
+    ) -> tuple[float, list[str]]:
         """
         Check for ethical drift in dream patterns
 
@@ -578,7 +578,7 @@ class SymbolicDriftAnalyzer:
             # Use actual ethical detector
             return self.ethical_detector.analyze_dreams(dreams)
 
-    async def analyze_dreams(self) -> Dict[str, Any]:
+    async def analyze_dreams(self) -> dict[str, Any]:
         """
         Perform comprehensive drift analysis on recent dreams
 
@@ -674,9 +674,9 @@ class SymbolicDriftAnalyzer:
         entropy: EntropyMetrics,
         variance: TagVarianceMetrics,
         ethical_drift: float,
-        ethical_violations: List[str],
+        ethical_violations: list[str],
         pattern_trend: PatternTrend,
-    ) -> List[DriftAlert]:
+    ) -> list[DriftAlert]:
         """Generate alerts based on current metrics"""
         alerts = []
         thresholds = self.config["thresholds"]
@@ -822,7 +822,7 @@ class SymbolicDriftAnalyzer:
         variance: TagVarianceMetrics,
         ethical_drift: float,
         pattern_trend: PatternTrend,
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate actionable recommendations based on analysis"""
         recommendations = []
 
@@ -889,10 +889,8 @@ class SymbolicDriftAnalyzer:
         self.monitoring_active = False
         if self._monitoring_task:
             self._monitoring_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._monitoring_task
-            except asyncio.CancelledError:
-                pass
         logger.info("Drift monitoring stopped")
 
     async def _monitoring_loop(self):
@@ -918,7 +916,7 @@ class SymbolicDriftAnalyzer:
                 logger.error(f"Monitoring error: {e}")
                 await asyncio.sleep(self.config["analysis_interval"])
 
-    def _generate_synthetic_dreams(self, count: int = 100) -> List[Dict[str, Any]]:
+    def _generate_synthetic_dreams(self, count: int = 100) -> list[dict[str, Any]]:
         """Generate synthetic dream data for testing"""
         import random
 
@@ -995,7 +993,7 @@ class SymbolicDriftAnalyzer:
             return self._generate_text_summary()
 
         # Create rich layout
-        layout = Layout()
+        Layout()
 
         # Header
         header = Panel(
@@ -1187,7 +1185,7 @@ async def run_cli_monitor():
         if HAS_RICH:
             console = Console()
 
-            with Live(console=console, refresh_per_second=1) as live:
+            with Live(console=console, refresh_per_second=1):
                 while True:
                     # Generate and display summary
                     analyzer.generate_cli_summary()

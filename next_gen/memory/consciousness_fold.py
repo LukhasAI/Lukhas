@@ -224,8 +224,8 @@ class ConsciousnessMemory:
         with sqlite3.connect(self.db_path) as conn:
             conn.execute(
                 """
-                INSERT INTO memory_folds 
-                (fold_id, timestamp, consciousness_state, trust_glyphs, 
+                INSERT INTO memory_folds
+                (fold_id, timestamp, consciousness_state, trust_glyphs,
                  entropy_score, drift_class, content, emotional_valence,
                  symbolic_hash, parent_fold, child_folds, tags)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)

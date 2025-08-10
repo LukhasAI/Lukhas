@@ -6,7 +6,7 @@ Provides biological adaptation and biometric processing capabilities
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 
 class BiometricType(Enum):
@@ -30,7 +30,7 @@ class BiometricProfile:
     arousal_sensitivity: float
     attention_span: float
     temperature_norm: float
-    sleep_pattern: Dict[str, Any]
+    sleep_pattern: dict[str, Any]
     created_at: datetime
     updated_at: datetime
 
@@ -42,7 +42,7 @@ class AdaptationRecommendation:
     recommendation_type: str
     priority: str  # high, medium, low
     description: str
-    parameters: Dict[str, Any]
+    parameters: dict[str, Any]
     confidence: float
 
 
@@ -62,17 +62,17 @@ class BioAdaptationEngine:
         }
 
     async def analyze_biometric_patterns(
-        self, biometric_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, biometric_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Analyze biometric data patterns"""
         user_id = biometric_data.get("user_id", "unknown")
 
         # Extract biometric values
         heart_rate = biometric_data.get("heart_rate", 70)
         stress_level = biometric_data.get("stress_level", 0.3)
-        arousal = biometric_data.get("arousal", 0.5)
+        biometric_data.get("arousal", 0.5)
         attention = biometric_data.get("attention", 0.7)
-        temperature = biometric_data.get("temperature", 37.0)
+        biometric_data.get("temperature", 37.0)
         sleep_quality = biometric_data.get("sleep_quality", 0.8)
 
         # Analyze patterns
@@ -167,8 +167,8 @@ class BioAdaptationEngine:
         }
 
     async def adapt_dream_parameters(
-        self, biometric_data: Dict[str, Any], dream_params: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, biometric_data: dict[str, Any], dream_params: dict[str, Any]
+    ) -> dict[str, Any]:
         """Adapt dream parameters based on biometric data"""
 
         # Get current biometric analysis
@@ -204,7 +204,7 @@ class BioAdaptationEngine:
             adapted_params["duration"] = min(base_duration * 1.2, 120)
 
         # Adapt type based on overall state
-        current_type = adapted_params.get("type", "free")
+        adapted_params.get("type", "free")
         if stress_level > 0.8:
             adapted_params["type"] = "guided"  # More structure for high stress
         elif attention > 0.9 and stress_level < 0.3:
@@ -225,8 +225,8 @@ class BioAdaptationEngine:
         return adapted_params
 
     async def generate_bio_feedback(
-        self, biometric_data: Dict[str, Any]
-    ) -> List[AdaptationRecommendation]:
+        self, biometric_data: dict[str, Any]
+    ) -> list[AdaptationRecommendation]:
         """Generate biometric feedback recommendations"""
 
         analysis = await self.analyze_biometric_patterns(biometric_data)
@@ -318,8 +318,8 @@ class BioAdaptationEngine:
         return recommendations
 
     async def update_bio_profile(
-        self, user_id: str, biometric_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, biometric_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Update user biometric profile"""
 
         if user_id not in self.user_profiles:

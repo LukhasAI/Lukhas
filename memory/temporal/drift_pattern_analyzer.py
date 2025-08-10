@@ -12,7 +12,7 @@
 # ΛCOMMIT_WINDOW: post-ZIP
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
-from typing import Any, Dict, List
+from typing import Any
 
 # TAG:memory
 # TAG:temporal
@@ -34,7 +34,7 @@ class DriftPatternAnalyzer:
         """
         self.brain_integrator: Any = brain_integrator
 
-    async def analyze(self) -> List[Dict[str, Any]]:
+    async def analyze(self) -> list[dict[str, Any]]:
         """
         Analyzes drift patterns in the LUKHAS brain.
 
@@ -45,11 +45,11 @@ class DriftPatternAnalyzer:
 
         # 1. Read the drift log.
         with open("orchestration/brain/DRIFT_LOG.md") as f:
-            drift_log: List[str] = f.readlines()
+            f.readlines()
 
         # 2. Identify recurring drift motifs.
         # #ΛPENDING_PATCH: This is a placeholder.
         #                A real implementation would need to be more sophisticated.
-        motifs: List[Dict[str, Any]] = []
+        motifs: list[dict[str, Any]] = []
 
         return motifs

@@ -9,6 +9,7 @@ from core.common import get_logger
 
 logger = get_logger(__name__)
 
+
 class EmotionConnector:
     """Connects isolated components into the EMOTION nervous system"""
 
@@ -28,10 +29,11 @@ class EmotionConnector:
     def get_stress_response(self) -> Dict[str, float]:
         """Get current stress hormones for neuroplastic reorganization"""
         return {
-            'cortisol': self.hormone_tags.get('cortisol', 0.0),
-            'adrenaline': self.hormone_tags.get('adrenaline', 0.0),
-            'norepinephrine': self.hormone_tags.get('norepinephrine', 0.0)
+            "cortisol": self.hormone_tags.get("cortisol", 0.0),
+            "adrenaline": self.hormone_tags.get("adrenaline", 0.0),
+            "norepinephrine": self.hormone_tags.get("norepinephrine", 0.0),
         }
+
 
 # Global connector instance
 connector = EmotionConnector()

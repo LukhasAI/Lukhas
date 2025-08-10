@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 ```plaintext
@@ -54,7 +56,7 @@
 """
 
 import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 
 class MemoryManager:
@@ -73,7 +75,7 @@ class MemoryManager:
         self,
         user_id: str,
         input: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         response: str,
         timestamp: datetime.datetime,
     ) -> None:
@@ -99,7 +101,7 @@ class MemoryManager:
 
     def get_relevant_memories(
         self, user_id: str, limit: int = 20
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Get relevant memories for a user, sorted by importance and recency."""
         if not user_id or user_id not in self.memories:
             return []
@@ -112,7 +114,7 @@ class MemoryManager:
         return sorted_memories[:limit]
 
     def store_voice_preference(
-        self, user_id: str, parameters: Dict[str, Any], feedback: Dict[str, Any]
+        self, user_id: str, parameters: dict[str, Any], feedback: dict[str, Any]
     ) -> None:
         """Store voice preferences for a user based on feedback."""
         if user_id not in self.voice_preferences:
@@ -130,7 +132,7 @@ class MemoryManager:
         if len(self.voice_preferences[user_id]) > 10:
             self.voice_preferences[user_id] = self.voice_preferences[user_id][-10:]
 
-    def get_voice_preferences(self, user_id: str) -> Dict[str, Any]:
+    def get_voice_preferences(self, user_id: str) -> dict[str, Any]:
         """Get the latest voice preferences for a user."""
         if user_id not in self.voice_preferences or not self.voice_preferences[user_id]:
             return {}
@@ -139,7 +141,7 @@ class MemoryManager:
         latest_preference = self.voice_preferences[user_id][-1]
         return latest_preference.get("parameters", {})
 
-    def get_user_interactions(self, user_id: str) -> List[Dict[str, Any]]:
+    def get_user_interactions(self, user_id: str) -> list[dict[str, Any]]:
         """Get all interactions for a specific user."""
         if user_id not in self.memories:
             return []
@@ -168,7 +170,7 @@ class MemoryManager:
                     f"Removed {removed_count} old interactions for user {user_id}"
                 )
 
-    def _calculate_importance(self, context: Dict[str, Any]) -> float:
+    def _calculate_importance(self, context: dict[str, Any]) -> float:
         """Calculate the importance score of an interaction based on context."""
         importance = 0.5
 

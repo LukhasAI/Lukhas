@@ -7,6 +7,7 @@ Command-line interface for running symbolic anomaly analysis on dream sessions.
 Part of the Jules-13 task implementation for dream pattern detection.
 """
 
+from dream.tools.symbolic_anomaly_explorer import SymbolicAnomalyExplorer
 import argparse
 import sys
 from pathlib import Path
@@ -14,8 +15,6 @@ from pathlib import Path
 # Add parent directories to path for imports
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
-
-from dream.tools.symbolic_anomaly_explorer import SymbolicAnomalyExplorer
 
 
 def main():

@@ -2,17 +2,15 @@
 Trauma Repair Wrapper
 Integration wrapper for advanced trauma repair system
 """
+import logging
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
 try:
     from .advanced_trauma_repair import (
-        HealingPhase,
-        HelicalRepairMechanism,
-        RepairStrategy,
         TraumaRepairSystem,
         TraumaSignature,
         TraumaType,
@@ -25,10 +23,6 @@ except ImportError as e:
     # Try mock implementation
     try:
         from .trauma_repair_mock import (
-            MemoryTraumaRepair as MockMemoryTraumaRepair,
-        )
-        from .trauma_repair_mock import (
-            RepairStrategy,
             TraumaRepairSystem,
             TraumaSignature,
             TraumaType,
@@ -95,8 +89,8 @@ class MemoryTraumaRepair:
         self,
         memory_id: str,
         memory_content: Any,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Scan a memory for trauma and initiate repair if needed"""
         self.repair_stats["total_scans"] += 1
 
@@ -151,7 +145,7 @@ class MemoryTraumaRepair:
 
         return result
 
-    async def get_active_traumas(self) -> List[Dict[str, Any]]:
+    async def get_active_traumas(self) -> list[dict[str, Any]]:
         """Get list of currently active traumas"""
         active_traumas = []
 
@@ -181,7 +175,7 @@ class MemoryTraumaRepair:
 
     async def force_repair(
         self, memory_id: str, repair_strategy: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Force repair of a specific memory"""
         result = {
             "memory_id": memory_id,
@@ -214,7 +208,7 @@ class MemoryTraumaRepair:
 
         return result
 
-    def get_repair_statistics(self) -> Dict[str, Any]:
+    def get_repair_statistics(self) -> dict[str, Any]:
         """Get comprehensive repair statistics"""
         stats = self.repair_stats.copy()
 
@@ -241,12 +235,12 @@ class MemoryTraumaRepair:
 
         return stats
 
-    async def get_healing_history(self, limit: int = 10) -> List[Dict[str, Any]]:
+    async def get_healing_history(self, limit: int = 10) -> list[dict[str, Any]]:
         """Get recent healing history"""
         # Return the most recent healing log entries
         return self.repair_system.healing_log[-limit:]
 
-    async def check_memory_health(self, memory_id: str) -> Dict[str, Any]:
+    async def check_memory_health(self, memory_id: str) -> dict[str, Any]:
         """Check the health status of a specific memory"""
         health_status = {
             "memory_id": memory_id,
@@ -257,7 +251,7 @@ class MemoryTraumaRepair:
         }
 
         # Check for active trauma
-        for trauma_id, trauma in self.repair_system.active_traumas.items():
+        for _trauma_id, trauma in self.repair_system.active_traumas.items():
             if hasattr(trauma, "memory_id") and trauma.memory_id == memory_id:
                 health_status["active_trauma"] = True
                 health_status["is_healthy"] = False

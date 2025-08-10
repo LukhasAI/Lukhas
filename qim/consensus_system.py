@@ -35,7 +35,7 @@ __tier__ = 3
 import logging
 import os
 import time
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
 
@@ -68,7 +68,7 @@ class QuantumAnnealedEthicalConsensus:
             f"Quantum-Annealed Ethical Consensus initialized with {annealing_steps} steps"
         )
 
-    def _initialize_ethical_embeddings(self) -> Dict[str, np.ndarray]:
+    def _initialize_ethical_embeddings(self) -> dict[str, np.ndarray]:
         """Initialize embeddings for ethical principles in a high-dimensional latent space"""
         # In a real quantum system, these would be quantum-like states
         # Here we simulate with high-dimensional vectors
@@ -107,7 +107,8 @@ class QuantumAnnealedEthicalConsensus:
             base_vectors[key] = vector / np.linalg.norm(vector)
 
         # Create each principle as a weighted combination of base ethical foundations
-        # These weights reflect how each principle relates to fundamental ethical concerns
+        # These weights reflect how each principle relates to fundamental ethical
+        # concerns
         principle_components = {
             "beneficence": {"care": 0.8, "fairness": 0.2},
             "non_maleficence": {"care": 0.7, "sanctity": 0.3},
@@ -142,8 +143,8 @@ class QuantumAnnealedEthicalConsensus:
 
     def evaluate(
         self,
-        action_data: Dict[str, Any],
-        principle_scores: Dict[str, float],
+        action_data: dict[str, Any],
+        principle_scores: dict[str, float],
         ethics_mode: str = "balanced",
     ) -> float:
         """
@@ -172,7 +173,7 @@ class QuantumAnnealedEthicalConsensus:
 
         return result["consensus_score"]
 
-    def _get_mode_weights(self, ethics_mode: str) -> Dict[str, float]:
+    def _get_mode_weights(self, ethics_mode: str) -> dict[str, float]:
         """Get principle weights based on the active ethics mode"""
         # These weights adjust the importance of different principles
         # based on the selected ethical framework
@@ -210,10 +211,10 @@ class QuantumAnnealedEthicalConsensus:
 
     def _run_annealing(
         self,
-        action_data: Dict[str, Any],
-        principle_scores: Dict[str, float],
-        principle_weights: Dict[str, float],
-    ) -> Dict[str, Any]:
+        action_data: dict[str, Any],
+        principle_scores: dict[str, float],
+        principle_weights: dict[str, float],
+    ) -> dict[str, Any]:
         """
         Run simulated quantum annealing to find optimal ethical consensus.
 
@@ -274,7 +275,7 @@ class QuantumAnnealedEthicalConsensus:
         principles = list(relevant_embeddings.keys())
         consensus_scores = {}
 
-        for principle, embedding in relevant_embeddings.items():
+        for principle, _embedding in relevant_embeddings.items():
             # Get the index of this principle
             idx = principles.index(principle)
             # Calculate weighted influence based on final state
@@ -299,17 +300,17 @@ class QuantumAnnealedEthicalConsensus:
             "energy_final": energy_values[-1] if energy_values else 0.0,
             "processing_time": processing_time,
             "convergence": (
-                True
-                if len(energy_values) > 1
-                and abs(energy_values[-1] - energy_values[-2]) < 0.0001
-                else False
+                bool(
+                    len(energy_values) > 1
+                    and abs(energy_values[-1] - energy_values[-2]) < 0.0001
+                )
             ),
         }
 
     def _anneal(
         self,
         initial_state: np.ndarray,
-        embeddings: Dict[str, np.ndarray],
+        embeddings: dict[str, np.ndarray],
         temp_schedule: np.ndarray,
     ) -> np.ndarray:
         """
@@ -409,7 +410,7 @@ class QuantumAnnealedEthicalConsensus:
         return np.clip(new_state, 0, 1)
 
     def _calculate_energy(
-        self, state: np.ndarray, embeddings: List[np.ndarray]
+        self, state: np.ndarray, embeddings: list[np.ndarray]
     ) -> float:
         """
         Calculate energy function for the current state
@@ -433,7 +434,8 @@ class QuantumAnnealedEthicalConsensus:
         satisfaction_energy = np.mean((1 - state) ** 2)
 
         # Ethical alignment energy (measures alignment with the ethical embedding space)
-        # In real quantum annealing, this would measure agreement with quantum-like states
+        # In real quantum annealing, this would measure agreement with
+        # quantum-like states
         alignment_energy = 0.0
         if embeddings:
             # Create a representation in the ethical embedding space
@@ -446,7 +448,8 @@ class QuantumAnnealedEthicalConsensus:
                 ethical_state = ethical_state / np.linalg.norm(ethical_state)
 
             # Calculate alignment with ideal ethical state
-            # For simplicity, we use a simple reference point (normalized sum of all embeddings)
+            # For simplicity, we use a simple reference point (normalized sum of all
+            # embeddings)
             ideal_state = np.sum(embeddings, axis=0)
             if np.any(ideal_state):
                 ideal_state = ideal_state / np.linalg.norm(ideal_state)
@@ -461,15 +464,15 @@ class QuantumAnnealedEthicalConsensus:
 
     def _record_consensus(
         self,
-        action_data: Dict[str, Any],
-        principle_scores: Dict[str, float],
-        result: Dict[str, Any],
+        action_data: dict[str, Any],
+        principle_scores: dict[str, float],
+        result: dict[str, Any],
     ) -> None:
         """Record consensus decision for learning and improvement"""
         record = {
             "timestamp": time.time(),
             "action_type": action_data.get("type", "unknown"),
-            "principle_scores": {k: v for k, v in principle_scores.items()},
+            "principle_scores": dict(principle_scores.items()),
             "consensus_score": result["consensus_score"],
             "processing_time": result["processing_time"],
         }
@@ -480,7 +483,7 @@ class QuantumAnnealedEthicalConsensus:
         if len(self.consensus_history) > 1000:
             self.consensus_history = self.consensus_history[-1000:]
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get status information about the quantum consensus system"""
         avg_time = 0
         if self.consensus_history:

@@ -30,6 +30,7 @@ logger = get_logger(__name__)
 @dataclass
 class AnalysisRequest:
     """Request for data analysis"""
+
     data: Dict[str, Any]
     analysis_type: str
     priority: str = "normal"
@@ -39,6 +40,7 @@ class AnalysisRequest:
 @dataclass
 class AnalysisResult:
     """Result of analysis"""
+
     request_id: str
     findings: Dict[str, Any]
     confidence: float
@@ -49,7 +51,7 @@ class AnalysisResult:
 class DataAnalyzer(CoreInterface):
     """
     Example LUKHAS module that analyzes data with full integration.
-    
+
     This module demonstrates:
     - Proper interface implementation
     - Dependency injection usage
@@ -75,7 +77,7 @@ class DataAnalyzer(CoreInterface):
             "analyses_failed": 0,
             "average_time_ms": 0,
             "memory_stores": 0,
-            "ethical_rejections": 0
+            "ethical_rejections": 0,
         }
 
         # Internal state
@@ -84,7 +86,7 @@ class DataAnalyzer(CoreInterface):
     async def initialize(self) -> None:
         """
         Initialize the module and register with dependency injection.
-        
+
         This method:
         1. Gets required services
         2. Registers itself
@@ -125,12 +127,14 @@ class DataAnalyzer(CoreInterface):
         # Check consciousness service
         if self.consciousness_service:
             awareness = await self.consciousness_service.assess_awareness({})
-            logger.info(f"Consciousness awareness level: {awareness.get('overall_awareness', 0)}")
+            logger.info(
+                f"Consciousness awareness level: {awareness.get('overall_awareness', 0)}"
+            )
 
     async def analyze_data(self, request: AnalysisRequest) -> AnalysisResult:
         """
         Main analysis method with full integration.
-        
+
         This demonstrates the complete flow:
         1. Validate request with Guardian
         2. Get consciousness input
@@ -139,6 +143,7 @@ class DataAnalyzer(CoreInterface):
         5. Return results
         """
         import time
+
         start_time = time.time()
 
         try:
@@ -147,7 +152,9 @@ class DataAnalyzer(CoreInterface):
                 validation = await self._validate_with_guardian(request)
                 if not validation["approved"]:
                     self.metrics["ethical_rejections"] += 1
-                    raise ValidationError(f"Guardian rejected: {validation['reasoning']}")
+                    raise ValidationError(
+                        f"Guardian rejected: {validation['reasoning']}"
+                    )
 
             # Step 2: Get consciousness assessment
             consciousness_input = None
@@ -162,7 +169,7 @@ class DataAnalyzer(CoreInterface):
                 request_id=f"analysis_{datetime.now().timestamp()}",
                 findings=findings,
                 confidence=findings.get("confidence", 0.8),
-                ethical_approval=True if request.ethical_check else None
+                ethical_approval=True if request.ethical_check else None,
             )
 
             # Step 5: Store in memory (if significant)
@@ -194,47 +201,50 @@ class DataAnalyzer(CoreInterface):
             "type": "data_analysis",
             "data_type": request.analysis_type,
             "data_size": len(str(request.data)),
-            "requester": "data_analyzer"
+            "requester": "data_analyzer",
         }
 
-        context = {
-            "priority": request.priority,
-            "purpose": "user_requested_analysis"
-        }
+        context = {"priority": request.priority, "purpose": "user_requested_analysis"}
 
         return await self.guardian_service.validate_action(action, context)
 
-    async def _get_consciousness_input(self, request: AnalysisRequest) -> Dict[str, Any]:
+    async def _get_consciousness_input(
+        self, request: AnalysisRequest
+    ) -> Dict[str, Any]:
         """Get consciousness assessment for the analysis"""
         # Assess what aspects to focus on
-        awareness = await self.consciousness_service.assess_awareness({
-            "stimulus": request.data,
-            "context": {"analysis_type": request.analysis_type}
-        })
+        awareness = await self.consciousness_service.assess_awareness(
+            {
+                "stimulus": request.data,
+                "context": {"analysis_type": request.analysis_type},
+            }
+        )
 
         # Get decision on analysis approach
-        decision = await self.consciousness_service.make_decision({
-            "scenario": "analysis_approach",
-            "options": ["detailed", "summary", "pattern_focus"],
-            "context": {"data_complexity": self._assess_complexity(request.data)}
-        })
+        decision = await self.consciousness_service.make_decision(
+            {
+                "scenario": "analysis_approach",
+                "options": ["detailed", "summary", "pattern_focus"],
+                "context": {"data_complexity": self._assess_complexity(request.data)},
+            }
+        )
 
         return {
             "focus_areas": awareness.get("attention_targets", []),
             "approach": decision.get("selected_option", "detailed"),
-            "confidence_modifier": decision.get("confidence", 1.0)
+            "confidence_modifier": decision.get("confidence", 1.0),
         }
 
-    async def _perform_analysis(self,
-                               request: AnalysisRequest,
-                               consciousness_input: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    async def _perform_analysis(
+        self, request: AnalysisRequest, consciousness_input: Optional[Dict[str, Any]]
+    ) -> Dict[str, Any]:
         """Perform the actual data analysis"""
         # Simulate analysis based on type
         findings = {
             "analysis_type": request.analysis_type,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "data_points": len(request.data),
-            "patterns_found": []
+            "patterns_found": [],
         }
 
         # Example pattern detection
@@ -268,15 +278,14 @@ class DataAnalyzer(CoreInterface):
 
         # Count occurrences
         from collections import Counter
+
         value_counts = Counter(values)
 
         for value, count in value_counts.items():
             if count > 1:
-                patterns.append({
-                    "type": "repetition",
-                    "value": str(value),
-                    "occurrences": count
-                })
+                patterns.append(
+                    {"type": "repetition", "value": str(value), "occurrences": count}
+                )
 
         return patterns
 
@@ -329,32 +338,27 @@ class DataAnalyzer(CoreInterface):
 
         return min(significance, 1.0)
 
-    async def _store_in_memory(self,
-                              request: AnalysisRequest,
-                              result: AnalysisResult) -> str:
+    async def _store_in_memory(
+        self, request: AnalysisRequest, result: AnalysisResult
+    ) -> str:
         """Store analysis in memory system"""
         memory_content = {
             "request": {
                 "analysis_type": request.analysis_type,
                 "priority": request.priority,
-                "data_summary": f"Data with {len(request.data)} fields"
+                "data_summary": f"Data with {len(request.data)} fields",
             },
-            "result": {
-                "findings": result.findings,
-                "confidence": result.confidence
-            }
+            "result": {"findings": result.findings, "confidence": result.confidence},
         }
 
         metadata = {
             "module": "data_analyzer",
             "significance": result.findings.get("significance", 0.5),
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return await self.memory_service.store(
-            content=memory_content,
-            memory_type=MemoryType.SEMANTIC,
-            metadata=metadata
+            content=memory_content, memory_type=MemoryType.SEMANTIC, metadata=metadata
         )
 
     def _update_average_time(self, elapsed_ms: float) -> None:
@@ -366,8 +370,8 @@ class DataAnalyzer(CoreInterface):
             # Running average
             current_avg = self.metrics["average_time_ms"]
             self.metrics["average_time_ms"] = (
-                (current_avg * (total_analyses - 1) + elapsed_ms) / total_analyses
-            )
+                current_avg * (total_analyses - 1) + elapsed_ms
+            ) / total_analyses
 
     # Required interface methods
 
@@ -381,7 +385,7 @@ class DataAnalyzer(CoreInterface):
             data=data,
             analysis_type=data.get("analysis_type", "general"),
             priority=data.get("priority", "normal"),
-            ethical_check=data.get("ethical_check", True)
+            ethical_check=data.get("ethical_check", True),
         )
 
         # Perform analysis
@@ -392,7 +396,7 @@ class DataAnalyzer(CoreInterface):
             "request_id": result.request_id,
             "findings": result.findings,
             "confidence": result.confidence,
-            "memory_id": result.memory_id
+            "memory_id": result.memory_id,
         }
 
     async def handle_glyph(self, token: GLYPHToken) -> GLYPHToken:
@@ -423,7 +427,7 @@ class DataAnalyzer(CoreInterface):
             response_payload = {
                 "recent_analyses": len(recent_analyses),
                 "success_rate": self._calculate_success_rate(),
-                "average_confidence": self._calculate_average_confidence()
+                "average_confidence": self._calculate_average_confidence(),
             }
 
         else:
@@ -434,7 +438,7 @@ class DataAnalyzer(CoreInterface):
             symbol=GLYPHSymbol.ACKNOWLEDGE,
             source="data_analyzer",
             target=token.source,
-            payload=response_payload
+            payload=response_payload,
         )
 
     async def get_status(self) -> Dict[str, Any]:
@@ -451,13 +455,13 @@ class DataAnalyzer(CoreInterface):
                 "success_rate": self._calculate_success_rate(),
                 "average_time_ms": self.metrics["average_time_ms"],
                 "memory_stores": self.metrics["memory_stores"],
-                "ethical_rejections": self.metrics["ethical_rejections"]
+                "ethical_rejections": self.metrics["ethical_rejections"],
             },
             "dependencies": {
                 "memory_service": self.memory_service is not None,
                 "consciousness_service": self.consciousness_service is not None,
-                "guardian_service": self.guardian_service is not None
-            }
+                "guardian_service": self.guardian_service is not None,
+            },
         }
 
     def _calculate_health_score(self) -> float:
@@ -469,7 +473,9 @@ class DataAnalyzer(CoreInterface):
         health = 1.0
 
         # Deduct for failures
-        total_attempts = self.metrics["analyses_completed"] + self.metrics["analyses_failed"]
+        total_attempts = (
+            self.metrics["analyses_completed"] + self.metrics["analyses_failed"]
+        )
         if total_attempts > 0:
             failure_rate = self.metrics["analyses_failed"] / total_attempts
             health -= failure_rate * 0.5
@@ -484,7 +490,9 @@ class DataAnalyzer(CoreInterface):
 
         # Deduct for high rejection rate
         if self.metrics["analyses_completed"] > 0:
-            rejection_rate = self.metrics["ethical_rejections"] / self.metrics["analyses_completed"]
+            rejection_rate = (
+                self.metrics["ethical_rejections"] / self.metrics["analyses_completed"]
+            )
             if rejection_rate > 0.2:
                 health -= 0.2
 
@@ -523,20 +531,21 @@ async def main():
     mock_memory.store = AsyncMock(return_value="mem_12345")
 
     mock_consciousness = Mock()
-    mock_consciousness.assess_awareness = AsyncMock(return_value={"overall_awareness": 0.8})
-    mock_consciousness.make_decision = AsyncMock(return_value={
-        "selected_option": "detailed",
-        "confidence": 0.9
-    })
+    mock_consciousness.assess_awareness = AsyncMock(
+        return_value={"overall_awareness": 0.8}
+    )
+    mock_consciousness.make_decision = AsyncMock(
+        return_value={"selected_option": "detailed", "confidence": 0.9}
+    )
 
     mock_guardian = Mock()
-    mock_guardian.validate_action = AsyncMock(return_value={
-        "approved": True,
-        "reasoning": "Action is safe and ethical"
-    })
+    mock_guardian.validate_action = AsyncMock(
+        return_value={"approved": True, "reasoning": "Action is safe and ethical"}
+    )
 
     # Register mock services
     from core.interfaces.dependency_injection import register_service
+
     register_service("memory_service", mock_memory)
     register_service("consciousness_service", mock_consciousness)
     register_service("guardian_service", mock_guardian)
@@ -554,10 +563,10 @@ async def main():
             "humidity": 65,
             "pressure": 1013,
             "location": "lab_1",
-            "sensor": "env_sensor_01"
+            "sensor": "env_sensor_01",
         },
         analysis_type="pattern",
-        priority="normal"
+        priority="normal",
     )
 
     result = await analyzer.analyze_data(request)
@@ -577,7 +586,7 @@ async def main():
         symbol=GLYPHSymbol.QUERY,
         source="test_client",
         target="data_analyzer",
-        payload={}
+        payload={},
     )
 
     response = await analyzer.handle_glyph(query_token)

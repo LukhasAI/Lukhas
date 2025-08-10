@@ -20,7 +20,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 from uuid import uuid4
 
 import numpy as np
@@ -98,7 +98,7 @@ class MemoryLink:
     link_type: LinkType
     weight: float = 1.0  # Connection strength
     bidirectional: bool = False  # Whether link goes both ways
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def strengthen(self, factor: float = 1.1) -> None:
         """Strengthen connection through use"""
@@ -125,20 +125,20 @@ class MemoryNode:
     content_hash: str = ""  # SHA-256 of content for integrity
 
     # Content and state
-    content: Dict[str, Any] = field(default_factory=dict)
+    content: dict[str, Any] = field(default_factory=dict)
     state: CognitiveState = field(default_factory=CognitiveState)
 
     # Connections
-    links: List[MemoryLink] = field(default_factory=list)
-    evolves_to: List[str] = field(default_factory=list)  # Future versions
-    evolved_from: Optional[str] = None  # Previous version
+    links: list[MemoryLink] = field(default_factory=list)
+    evolves_to: list[str] = field(default_factory=list)  # Future versions
+    evolved_from: str | None = None  # Previous version
 
     # Triggers and reflections
-    triggers: List[Dict[str, Any]] = field(default_factory=list)
-    reflections: List[Dict[str, Any]] = field(default_factory=list)
+    triggers: list[dict[str, Any]] = field(default_factory=list)
+    reflections: list[dict[str, Any]] = field(default_factory=list)
 
     # Metadata
-    tags: Set[str] = field(default_factory=set)
+    tags: set[str] = field(default_factory=set)
     privacy_level: int = 0  # 0=public, 1=private, 2=encrypted
 
     def __post_init__(self):
@@ -156,7 +156,7 @@ class MemoryNode:
         return self.content_hash == self._calculate_hash()
 
     def evolve(
-        self, new_content: Dict[str, Any], new_state: CognitiveState
+        self, new_content: dict[str, Any], new_state: CognitiveState
     ) -> MemoryNode:
         """
         Create evolved version of this node (immutable evolution).
@@ -175,7 +175,7 @@ class MemoryNode:
         return new_node
 
     def add_reflection(
-        self, reflection_type: str, cause: str, old_state: Dict, new_state: Dict
+        self, reflection_type: str, cause: str, old_state: dict, new_state: dict
     ):
         """Add meta-reflection about state changes"""
         self.reflections.append(
@@ -209,22 +209,22 @@ class DNAHelixMemory:
     """
 
     def __init__(self, max_nodes: int = 10000, decay_rate: float = 0.01):
-        self.nodes: Dict[str, MemoryNode] = {}
+        self.nodes: dict[str, MemoryNode] = {}
         self.max_nodes = max_nodes
         self.decay_rate = decay_rate
 
         # Indexes for efficient retrieval
-        self.temporal_index: Dict[datetime, List[str]] = {}
-        self.type_index: Dict[NodeType, List[str]] = {}
-        self.tag_index: Dict[str, Set[str]] = {}
+        self.temporal_index: dict[datetime, list[str]] = {}
+        self.type_index: dict[NodeType, list[str]] = {}
+        self.tag_index: dict[str, set[str]] = {}
 
         # Helix structure
-        self.spatial_strand: List[List[str]] = []  # Nodes at each time slice
-        self.temporal_strand: Dict[str, List[str]] = {}  # Evolution chains
+        self.spatial_strand: list[list[str]] = []  # Nodes at each time slice
+        self.temporal_strand: dict[str, list[str]] = {}  # Evolution chains
 
         # Privacy and security
-        self.encryption_key: Optional[bytes] = None
-        self.access_log: List[Dict[str, Any]] = []
+        self.encryption_key: bytes | None = None
+        self.access_log: list[dict[str, Any]] = []
 
     def add_node(self, node: MemoryNode) -> str:
         """Add new immutable node to memory"""
@@ -309,12 +309,12 @@ class DNAHelixMemory:
 
     def retrieve_by_similarity(
         self, query_state: CognitiveState, top_k: int = 5
-    ) -> List[MemoryNode]:
+    ) -> list[MemoryNode]:
         """Retrieve nodes most similar to query state"""
         query_vec = query_state.to_vector()
         similarities = []
 
-        for node_id, node in self.nodes.items():
+        for _node_id, node in self.nodes.items():
             node_vec = node.state.to_vector()
             # Cosine similarity
             similarity = np.dot(query_vec, node_vec) / (
@@ -326,7 +326,7 @@ class DNAHelixMemory:
         similarities.sort(key=lambda x: x[0], reverse=True)
         return [node for _, node in similarities[:top_k]]
 
-    def trace_causal_chain(self, node_id: str, max_depth: int = 10) -> List[str]:
+    def trace_causal_chain(self, node_id: str, max_depth: int = 10) -> list[str]:
         """Trace causal chain backwards from given node"""
         if node_id not in self.nodes:
             return []
@@ -375,7 +375,7 @@ class DNAHelixMemory:
             }
         )
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get memory system statistics"""
         return {
             "total_nodes": len(self.nodes),
@@ -391,7 +391,7 @@ class DNAHelixMemory:
 
 
 # Singleton instance
-_dna_memory_instance: Optional[DNAHelixMemory] = None
+_dna_memory_instance: DNAHelixMemory | None = None
 
 
 def get_dna_memory() -> DNAHelixMemory:

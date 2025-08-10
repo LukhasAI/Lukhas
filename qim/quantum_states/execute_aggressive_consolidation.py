@@ -128,7 +128,7 @@ from typing import Any, Dict, List
 
 class {submodule.title()}Colony:
     """Base colony for {submodule} components"""
-    
+
     def __init__(self):
         self.colony_id = "{module_name}_{submodule}"
         self.propagation_enabled = True
@@ -138,7 +138,7 @@ class {submodule.title()}Colony:
             'serotonin': 0.5,
             'oxytocin': 0.3
         }}
-    
+
     def propagate(self, signal: Dict[str, Any]) -> Dict[str, Any]:
         """Propagate signal through colony"""
         return {{
@@ -234,7 +234,7 @@ def consolidate_orphaned_files():
 
     for source in orphan_sources:
         if os.path.exists(source):
-            for root, dirs, files in os.walk(source):
+            for root, _dirs, files in os.walk(source):
                 for file in files:
                     if file.endswith(".py") and not file.startswith("test_"):
                         filepath = os.path.join(root, file)
@@ -281,7 +281,7 @@ def update_imports():
     # This would be more complex in practice, but here's a simple version
     updates_needed = []
 
-    for root, dirs, files in os.walk("."):
+    for root, _dirs, files in os.walk("."):
         if any(skip in root for skip in [".git", "__pycache__", ".venv", "quarantine"]):
             continue
 
@@ -297,7 +297,7 @@ def update_imports():
                         updates_needed.append(
                             {"file": filepath, "old": "from quantum", "new": "from qim"}
                         )
-                except:
+                except BaseException:
                     pass
 
     return updates_needed

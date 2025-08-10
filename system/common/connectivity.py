@@ -20,12 +20,12 @@ class ModuleConnector:
     def _register_core_modules(self):
         """Register core LUKHAS modules"""
         core_modules = {
-            'core': ['core.common', 'core.glyph', 'core.symbolic'],
-            'consciousness': ['consciousness.unified', 'consciousness.dream'],
-            'memory': ['memory.core', 'memory.folds'],
-            'orchestration': ['orchestration.brain', 'orchestration.agents'],
-            'governance': ['governance.guardian', 'governance.ethics'],
-            'vivox': ['vivox.consciousness', 'vivox.integration']
+            "core": ["core.common", "core.glyph", "core.symbolic"],
+            "consciousness": ["consciousness.unified", "consciousness.dream"],
+            "memory": ["memory.core", "memory.folds"],
+            "orchestration": ["orchestration.brain", "orchestration.agents"],
+            "governance": ["governance.guardian", "governance.ethics"],
+            "vivox": ["vivox.consciousness", "vivox.integration"],
         }
 
         for category, modules in core_modules.items():
@@ -48,12 +48,12 @@ class ModuleConnector:
 
         if source_module and target_module:
             # Establish bidirectional awareness
-            if hasattr(source_module, '_connected_modules'):
+            if hasattr(source_module, "_connected_modules"):
                 source_module._connected_modules.add(target)
             else:
                 source_module._connected_modules = {target}
 
-            if hasattr(target_module, '_connected_modules'):
+            if hasattr(target_module, "_connected_modules"):
                 target_module._connected_modules.add(source)
             else:
                 target_module._connected_modules = {source}
@@ -81,9 +81,9 @@ def enhance_import(module_name: str) -> Optional[Any]:
 
         # Try alternative paths
         alternatives = {
-            'core.base': 'core.common.base',
-            'consciousness.base': 'consciousness.unified.base',
-            'memory.base': 'memory.core.base'
+            "core.base": "core.common.base",
+            "consciousness.base": "consciousness.unified.base",
+            "memory.base": "memory.core.base",
         }
 
         if module_name in alternatives:

@@ -33,7 +33,7 @@ __tier__ = 2
 
 
 from datetime import datetime
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -74,8 +74,8 @@ class MitochondrialQuantumBridge:
         }
 
     async def process_quantum_signal(
-        self, input_signal: np.ndarray, context: Optional[Dict[str, Any]] = None
-    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+        self, input_signal: np.ndarray, context: Optional[dict[str, Any]] = None
+    ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Process quantum signal through mitochondrial-inspired pathway
         """
@@ -137,7 +137,7 @@ class MitochondrialQuantumBridge:
 
     def _quantum_synthesis(
         self, proton_gradient: np.ndarray
-    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+    ) -> tuple[np.ndarray, dict[str, Any]]:
         """Synthesize quantum-enhanced output"""
         # Complex V: ATP synthase simulation
         self.complex_states["complex_v"] = self.quantum_oscillator.quantum_modulate(
@@ -171,8 +171,8 @@ class QuantumSynapticGate:
         self,
         pre_synaptic: np.ndarray,
         post_synaptic: np.ndarray,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Process neural signals with quantum enhancement
         """
@@ -239,8 +239,8 @@ class NeuroplasticityModulator:
         self,
         current_state: np.ndarray,
         target_state: np.ndarray,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Modulate neuroplasticity with quantum enhancement
         """
@@ -254,7 +254,9 @@ class NeuroplasticityModulator:
             modulated_delta = self.quantum_oscillator.quantum_modulate(delta)
 
             # Update plasticity state
-            # SYNTAX_ERROR_FIXED:             self.plasticity_state = self.plasticity_state * (1 - self.learning_rate) + " + "modulated_delta * self.learning_rate
+            # SYNTAX_ERROR_FIXED:             self.plasticity_state =
+            # self.plasticity_state * (1 - self.learning_rate) + " + "modulated_delta
+            # * self.learning_rate
 
             # Calculate new state
             new_state = current_state + self.plasticity_state
@@ -379,7 +381,7 @@ class SelfAwareAgent:
             f"adaptations={model['adaptation_count']}, lr={model['learning_rate']:.4f}"
         )
 
-    def get_self_assessment_report(self) -> Dict[str, Any]:
+    def get_self_assessment_report(self) -> dict[str, Any]:
         """Generate comprehensive self-assessment report for consciousness monitoring"""
         if not self.performance_history:
             return {"status": "no_data", "consciousness_level": 0.0}
@@ -388,7 +390,7 @@ class SelfAwareAgent:
         avg_coherence = np.mean([h["coherence"] for h in recent_performance])
 
         # Calculate consciousness indicators
-        context_diversity = len(set(h["context"] for h in recent_performance))
+        context_diversity = len({h["context"] for h in recent_performance})
         adaptation_frequency = sum(
             1
             for model in self.internal_models.values()
@@ -443,9 +445,9 @@ class EnhancedMitochondrialQuantumBridge(MitochondrialQuantumBridge):
 
     def process_with_awareness(
         self,
-        input_data: Dict[str, Any],
-        expected_output: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        input_data: dict[str, Any],
+        expected_output: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Process input with self-awareness monitoring.
         Enables consciousness-driven quantum-bio processing.

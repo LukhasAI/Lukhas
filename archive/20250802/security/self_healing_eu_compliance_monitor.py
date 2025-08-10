@@ -20,7 +20,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import openai
 
@@ -62,7 +62,7 @@ class ComplianceViolation:
     auto_correctable: bool
     correction_applied: bool = False
     correction_timestamp: Optional[datetime] = None
-    openai_analysis: Optional[Dict] = None
+    openai_analysis: Optional[dict] = None
 
 
 class SelfHealingEuComplianceMonitor:
@@ -102,8 +102,8 @@ class SelfHealingEuComplianceMonitor:
         self.lukhas_connection_id = "self_healing_eu_compliance_monitor"
 
         # Monitoring State
-        self.active_violations: List[ComplianceViolation] = []
-        self.resolved_violations: List[ComplianceViolation] = []
+        self.active_violations: list[ComplianceViolation] = []
+        self.resolved_violations: list[ComplianceViolation] = []
         self.system_health_score: float = 1.0
         self.last_scan_timestamp: Optional[datetime] = None
         self.is_monitoring: bool = False
@@ -122,7 +122,7 @@ class SelfHealingEuComplianceMonitor:
 
         logger.info("🛡️ lukhasSelfHealingEuComplianceMonitor initialized")
 
-    def _initialize_eu_compliance_rules(self) -> Dict[str, List[Dict]]:
+    def _initialize_eu_compliance_rules(self) -> dict[str, list[dict]]:
         """Initialize comprehensive EU compliance rules database"""
         return {
             "eu_ai_act_2024": [
@@ -189,7 +189,7 @@ class SelfHealingEuComplianceMonitor:
             ],
         }
 
-    def _initialize_correction_strategies(self) -> Dict[str, callable]:
+    def _initialize_correction_strategies(self) -> dict[str, callable]:
         """Initialize self-healing correction strategies"""
         return {
             "disable_subliminal_processing": self._correct_subliminal_processing,
@@ -264,7 +264,7 @@ class SelfHealingEuComplianceMonitor:
         except Exception as e:
             logger.error(f"❌ Monitoring cycle failed: {e}")
 
-    async def _scan_for_violations(self) -> List[ComplianceViolation]:
+    async def _scan_for_violations(self) -> list[ComplianceViolation]:
         """Scan the system for EU compliance violations"""
         violations = []
 
@@ -289,7 +289,7 @@ class SelfHealingEuComplianceMonitor:
 
         return violations
 
-    async def _query_external_compliance_system(self) -> List[ComplianceViolation]:
+    async def _query_external_compliance_system(self) -> list[ComplianceViolation]:
         """Query your existing self-healing compliance system"""
         # This would integrate with your existing system
         # Placeholder implementation - replace with actual integration
@@ -298,7 +298,7 @@ class SelfHealingEuComplianceMonitor:
         # Simulate external system response
         return []
 
-    async def _detect_built_in_violations(self) -> List[ComplianceViolation]:
+    async def _detect_built_in_violations(self) -> list[ComplianceViolation]:
         """Detect violations using built-in EU compliance rules"""
         violations = []
 
@@ -327,8 +327,8 @@ class SelfHealingEuComplianceMonitor:
         return False  # Simulate violation for demo
 
     async def _enhance_violations_with_openai(
-        self, violations: List[ComplianceViolation]
-    ) -> List[ComplianceViolation]:
+        self, violations: list[ComplianceViolation]
+    ) -> list[ComplianceViolation]:
         """Enhance violation analysis using OpenAI API"""
         if not self.openai_client:
             return violations
@@ -340,12 +340,12 @@ class SelfHealingEuComplianceMonitor:
                 # Create OpenAI prompt for compliance analysis
                 prompt = f"""
                 Analyze this EU compliance violation and provide recommendations:
-                
+
                 Framework: {violation.framework.value}
                 Type: {violation.violation_type}
                 Description: {violation.description}
                 Affected System: {violation.affected_system}
-                
+
                 Please provide:
                 1. Severity assessment (1-10)
                 2. Specific EU law articles violated
@@ -367,7 +367,7 @@ class SelfHealingEuComplianceMonitor:
 
         return violations
 
-    async def _call_openai_api(self, prompt: str) -> Dict:
+    async def _call_openai_api(self, prompt: str) -> dict:
         """Call OpenAI API for compliance analysis"""
         try:
             response = await self.openai_client.ChatCompletion.acreate(
@@ -394,8 +394,8 @@ class SelfHealingEuComplianceMonitor:
             return {"error": str(e)}
 
     async def _apply_self_healing(
-        self, violations: List[ComplianceViolation]
-    ) -> List[ComplianceViolation]:
+        self, violations: list[ComplianceViolation]
+    ) -> list[ComplianceViolation]:
         """Apply self-healing corrections to violations"""
         if not self.auto_correction_enabled:
             return []
@@ -529,7 +529,7 @@ class SelfHealingEuComplianceMonitor:
                 0.1, 1.0 - violation_impact + correction_bonus
             )
 
-    def get_compliance_status(self) -> Dict[str, Any]:
+    def get_compliance_status(self) -> dict[str, Any]:
         """Get current compliance status"""
         return {
             "system_health_score": self.system_health_score,
@@ -561,7 +561,7 @@ class SelfHealingEuComplianceMonitor:
             ],
         }
 
-    def get_lukhas_status(self) -> Dict[str, Any]:
+    def get_lukhas_status(self) -> dict[str, Any]:
         """Return lukhas system connectivity status"""
         return {
             "component_id": self.lukhas_connection_id,
@@ -587,7 +587,7 @@ class SelfHealingEuComplianceMonitor:
             },
         }
 
-    async def force_compliance_scan(self) -> Dict[str, Any]:
+    async def force_compliance_scan(self) -> dict[str, Any]:
         """Force an immediate compliance scan"""
         logger.info("🔍 Forcing immediate compliance scan")
         violations = await self._scan_for_violations()

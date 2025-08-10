@@ -20,7 +20,7 @@ import statistics
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -67,10 +67,10 @@ class CognitiveLoadAssessment:
 
     load_level: CognitiveLoadLevel
     load_score: float  # Numerical load score 0.0-1.0
-    primary_factors: List[str]  # Main contributing factors
+    primary_factors: list[str]  # Main contributing factors
     indicators: CognitiveIndicators
     confidence: float  # Assessment confidence 0.0-1.0
-    recommendations: List[str]  # UI adaptation recommendations
+    recommendations: list[str]  # UI adaptation recommendations
     timestamp: datetime
 
 
@@ -87,7 +87,7 @@ class CognitiveLoadEstimator:
     - Performance degradation prediction
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or self._get_default_config()
 
         # Baseline measurements for this user
@@ -110,7 +110,7 @@ class CognitiveLoadEstimator:
         # Adaptation recommendations
         self.adaptation_rules = self._initialize_adaptation_rules()
 
-    def _get_default_config(self) -> Dict[str, Any]:
+    def _get_default_config(self) -> dict[str, Any]:
         """Get default configuration for cognitive load estimation."""
         return {
             "baseline_learning_enabled": True,
@@ -124,7 +124,7 @@ class CognitiveLoadEstimator:
             "confidence_threshold": 0.7,
         }
 
-    def _initialize_adaptation_rules(self) -> Dict[str, Any]:
+    def _initialize_adaptation_rules(self) -> dict[str, Any]:
         """Initialize UI adaptation rules based on cognitive load."""
         return {
             CognitiveLoadLevel.VERY_LOW: {
@@ -166,7 +166,7 @@ class CognitiveLoadEstimator:
         }
 
     async def initialize_baseline(
-        self, calibration_data: Optional[Dict[str, Any]] = None
+        self, calibration_data: Optional[dict[str, Any]] = None
     ) -> bool:
         """
         Initialize baseline cognitive metrics for this user.
@@ -202,7 +202,7 @@ class CognitiveLoadEstimator:
             logger.error(f"Failed to initialize baseline: {e}")
             return False
 
-    def _parse_calibration_data(self, data: Dict[str, Any]) -> CognitiveIndicators:
+    def _parse_calibration_data(self, data: dict[str, Any]) -> CognitiveIndicators:
         """Parse calibration data into baseline metrics."""
         return CognitiveIndicators(
             reaction_time_ms=data.get("avg_reaction_time", 750),
@@ -232,7 +232,7 @@ class CognitiveLoadEstimator:
         }
 
     def assess_cognitive_load(
-        self, performance_data: Dict[str, Any], context: Optional[Dict[str, Any]] = None
+        self, performance_data: dict[str, Any], context: Optional[dict[str, Any]] = None
     ) -> CognitiveLoadAssessment:
         """
         Assess current cognitive load based on performance data.
@@ -289,7 +289,7 @@ class CognitiveLoadEstimator:
         return assessment
 
     def _extract_cognitive_indicators(
-        self, performance_data: Dict[str, Any]
+        self, performance_data: dict[str, Any]
     ) -> CognitiveIndicators:
         """
         Extract cognitive indicators from performance data.
@@ -356,7 +356,7 @@ class CognitiveLoadEstimator:
             fatigue_level=fatigue_level,
         )
 
-    def _estimate_stress_level(self, performance_data: Dict[str, Any]) -> float:
+    def _estimate_stress_level(self, performance_data: dict[str, Any]) -> float:
         """Estimate stress level from performance indicators."""
         stress_indicators = []
 
@@ -390,7 +390,7 @@ class CognitiveLoadEstimator:
         else:
             return 0.3  # Baseline stress level
 
-    def _estimate_fatigue_level(self, performance_data: Dict[str, Any]) -> float:
+    def _estimate_fatigue_level(self, performance_data: dict[str, Any]) -> float:
         """Estimate fatigue level from performance degradation patterns."""
         fatigue_indicators = []
 
@@ -500,7 +500,7 @@ class CognitiveLoadEstimator:
 
     def _identify_load_factors(
         self, indicators: CognitiveIndicators, load_score: float
-    ) -> List[str]:
+    ) -> list[str]:
         """Identify primary factors contributing to cognitive load."""
         factors = []
 
@@ -535,7 +535,7 @@ class CognitiveLoadEstimator:
         return factors
 
     def _calculate_confidence(
-        self, indicators: CognitiveIndicators, context: Optional[Dict[str, Any]]
+        self, indicators: CognitiveIndicators, context: Optional[dict[str, Any]]
     ) -> float:
         """Calculate confidence in the cognitive load assessment."""
         confidence_factors = []
@@ -572,8 +572,8 @@ class CognitiveLoadEstimator:
         self,
         load_level: CognitiveLoadLevel,
         indicators: CognitiveIndicators,
-        context: Optional[Dict[str, Any]],
-    ) -> List[str]:
+        context: Optional[dict[str, Any]],
+    ) -> list[str]:
         """Generate UI adaptation recommendations based on cognitive load."""
         recommendations = []
 
@@ -618,7 +618,7 @@ class CognitiveLoadEstimator:
 
     def get_ui_adaptations(
         self, load_level: Optional[CognitiveLoadLevel] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get specific UI adaptation parameters for current or specified load level.
 
@@ -635,7 +635,7 @@ class CognitiveLoadEstimator:
         else:
             return self.adaptation_rules[CognitiveLoadLevel.MODERATE].copy()
 
-    def update_performance_tracking(self, performance_metrics: Dict[str, float]):
+    def update_performance_tracking(self, performance_metrics: dict[str, float]):
         """Update performance tracking for trend analysis."""
         if "accuracy" in performance_metrics:
             self.performance_metrics["accuracy"].append(performance_metrics["accuracy"])
@@ -651,7 +651,7 @@ class CognitiveLoadEstimator:
             if len(self.performance_metrics[key]) > 50:
                 self.performance_metrics[key] = self.performance_metrics[key][-25:]
 
-    def get_cognitive_status(self) -> Dict[str, Any]:
+    def get_cognitive_status(self) -> dict[str, Any]:
         """Get comprehensive cognitive load estimation status."""
         latest_assessment = self.load_history[-1] if self.load_history else None
 

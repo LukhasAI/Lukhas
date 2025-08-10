@@ -43,7 +43,7 @@ from typing import Any, Dict, Optional
 from emotion.mood_regulation.mood_entropy_tracker import " + "MoodEntropyTracker
 # LUKHAS imports
 from memory.emotional import (EmotionalMemory,
-                                                        EmotionVector)
+                              EmotionVector)
 
 # Optional imports with fallback
 try:
@@ -53,8 +53,10 @@ except ImportError:
     class DriftAlignmentController:
         def __init__(self, emotional_memory=None):
             pass
+
         def align_drift(self, *args, **kwargs):
             return 0.0
+
         def suggest_modulation(self, drift_score):
             if drift_score > 0.8:
                 return "Apply emotional grounding"
@@ -70,22 +72,25 @@ log = logger  # Compatibility alias
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "mood_regulator"
 
+
 class MoodRegulator:
     """
     Regulates emotional states based on drift scores and other metrics.
     """
 
-    def __init__(self, emotional_memory: EmotionalMemory, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, emotional_memory: EmotionalMemory,
+                 config: Optional[Dict[str, Any]] = None):
         self.emotional_memory = emotional_memory
         self.config = config or {}
         self.drift_threshold = self.config.get("drift_threshold", 0.7)
         self.adjustment_factor = self.config.get("adjustment_factor", 0.1)
-        self.drift_alignment_controller = DriftAlignmentController(self.emotional_memory)
+        self.drift_alignment_controller = DriftAlignmentController(
+            self.emotional_memory)
         self.entropy_tracker = MoodEntropyTracker()
         self.mood_drift_log_path = Path("dream/logs/mood_drift_log.jsonl")
         self.mood_drift_log_path.parent.mkdir(parents=True, exist_ok=True)
 
-    #LUKHAS_TAG: symbolic_affect_convergence
+    # LUKHAS_TAG: symbolic_affect_convergence
     def adjust_baseline_from_drift(self, drift_score: float) -> Dict[str, Any]:
         """
         Adjusts the emotional baseline in response to high symbolic drift.
@@ -98,9 +103,11 @@ class MoodRegulator:
         """
         trajectory_adjustment = {}
         if drift_score > self.drift_threshold:
-            log.warning(f"High symbolic drift detected: {drift_score}. Adjusting emotional baseline. LUKHAS_TAG=drift_affect_link")
+            log.warning(
+                f"High symbolic drift detected: {drift_score}. Adjusting emotional baseline. LUKHAS_TAG=drift_affect_link")
 
-            self.entropy_tracker.add_mood_vector(self.emotional_memory.current_emotion.values)
+            self.entropy_tracker.add_mood_vector(
+                self.emotional_memory.current_emotion.values)
             entropy = self.entropy_tracker.calculate_entropy()
             harmonics = self.entropy_tracker.get_mood_harmonics()
 
@@ -120,20 +127,32 @@ class MoodRegulator:
 
             # Shift the baseline towards a more neutral state.
             neutral_emotion = EmotionVector()
-            new_baseline = self.emotional_memory.personality["baseline"].blend(neutral_emotion, self.adjustment_factor)
+            new_baseline = self.emotional_memory.personality["baseline"].blend(
+                neutral_emotion, self.adjustment_factor)
 
             self.emotional_memory.personality["baseline"] = new_baseline
-            log.info(f"Emotional baseline adjusted. New baseline: {new_baseline}", event="mood_adjustment", LUKHAS_TAG="drift_affect_link")
+            log.info(
+                f"Emotional baseline adjusted. New baseline: {new_baseline}",
+                event="mood_adjustment",
+                LUKHAS_TAG="drift_affect_link")
 
             suggestion = self.drift_alignment_controller.suggest_modulation(drift_score)
-            log.info(f"Drift alignment suggestion: {suggestion}", event="drift_suggestion", LUKHAS_TAG="drift_affect_link")
+            log.info(
+                f"Drift alignment suggestion: {suggestion}",
+                event="drift_suggestion",
+                LUKHAS_TAG="drift_affect_link")
 
             if suggestion == "Apply emotional grounding":
-                trajectory_adjustment = {"emotional_context": {"sadness": 0.2, "fear": 0.1}}
+                trajectory_adjustment = {
+                    "emotional_context": {
+                        "sadness": 0.2, "fear": 0.1}}
             elif suggestion == "Reduce affect amplification":
-                trajectory_adjustment = {"emotional_context": {"joy": -0.2, "surprise": -0.1}}
+                trajectory_adjustment = {
+                    "emotional_context": {
+                        "joy": -0.2, "surprise": -0.1}}
 
         return trajectory_adjustment
+
 
 """
 ===============================================================================

@@ -5,6 +5,12 @@ Advanced: voice_interface.py
 Integration Date: 2025-05-31T07:55:28.355963
 """
 
+from voice.voice_system_integrator import VoiceSystemIntegrator
+from voice.voice_integration import VoiceIntegrationLayer
+from voice.message_handler import VoiceMessage, VoiceMessageHandler
+from typing import Any, Callable, Optional
+from datetime import datetime
+import subprocess
 import logging
 
 """
@@ -15,13 +21,6 @@ Handles text-to-speech synthesis with support for multiple providers (system,
     ElevenLabs, etc.)
 """
 
-import subprocess
-from datetime import datetime
-from typing import Any, Callable, Optional
-
-from voice.message_handler import VoiceMessage, VoiceMessageHandler
-from voice.voice_integration import VoiceIntegrationLayer
-from voice.voice_system_integrator import VoiceSystemIntegrator
 
 logger = logging.getLogger("voice_interface")
 

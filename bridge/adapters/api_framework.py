@@ -523,7 +523,7 @@ async def fold_memory_v2(
     if request.tier_level > user_tier:
         raise HTTPException(
             status_code=403,
-            detail=f"Insufficient tier level. Required: {request.tier_level.name},
+            detail=f"Insufficient tier level. Required: {request.tier_level.name},"
             Current: {user_tier.name}",
         )
 

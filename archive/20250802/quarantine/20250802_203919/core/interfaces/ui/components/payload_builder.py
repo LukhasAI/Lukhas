@@ -13,22 +13,27 @@ Integration Date: 2025-5-31T07:55:31.354032
 +──────────────────────────────────────────────────────────────────────────────+
 """
 
+from datetime import datetime
 import streamlit as st
 import json
-from datetime import datetime
 
 st.title("🧠 LUCΛS :: Symbolic Payload Builder")
-st.caption("Generate sample payloads for dream delivery, NIAS testing, and consent flow simulations.")
+st.caption(
+    "Generate sample payloads for dream delivery, NIAS testing, and consent flow simulations.")
 
 # Define default values
 user_id = st.text_input("User ID", value="user_alpha")
-message_id = st.text_input("Message ID", value=f"msg_{datetime.utcnow().strftime('%H%M%S')}")
+message_id = st.text_input(
+    "Message ID",
+     value=f"msg_{datetime.utcnow().strftime('%H%M%S')}")
 tier = st.selectbox("Tier", [0, 1, 2, 3, 4, 5])
 context_tier = st.selectbox("Context Tier", [0, 1, 2, 3, 4, 5])
 source_widget = st.text_input("Source Widget", value="dream_widget")
 
 tags = st.text_input("Tags (comma separated)", value="lucidity,soft")
-message = st.text_area("Symbolic Message", value="Lukhas, I dreamed I was glowing like a waveform.")
+message = st.text_area(
+    "Symbolic Message",
+     value="Lukhas, I dreamed I was glowing like a waveform.")
 
 joy = st.slider("Joy", 0.0, 1.0, 0.7)
 stress = st.slider("Stress", 0.0, 1.0, 0.1)
@@ -62,7 +67,9 @@ st.subheader("🧾 Generated Payload")
 st.json(payload)
 
 # Save to file
-filename = st.text_input("Output filename", value="core/sample_payloads/sample_payload_generated.json")
+filename = st.text_input(
+    "Output filename",
+     value="core/sample_payloads/sample_payload_generated.json")
 
 if st.button("💾 Save Payload to File"):
     try:

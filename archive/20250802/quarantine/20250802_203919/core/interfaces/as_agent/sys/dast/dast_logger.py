@@ -73,7 +73,8 @@ class DASTLogger:
         self.event_logs: List[Dict[str, Any]] = []
         self.event_history: List[Dict[str, Any]] = []
 
-    def log_tag_event(self, event_type: str, tag_name: str, context: Dict[str, Any] = None) -> Dict[str, Any]:
+    def log_tag_event(self, event_type: str, tag_name: str,
+                      context: Dict[str, Any] = None) -> Dict[str, Any]:
         """
         Log a symbolic tag event with context.
 
@@ -119,7 +120,8 @@ class DASTLogger:
 
         return log_entry
 
-    def get_logs(self, event_type: str = None, tag_name: str = None) -> List[Dict[str, Any]]:
+    def get_logs(self, event_type: str = None,
+                 tag_name: str = None) -> List[Dict[str, Any]]:
         """
         Retrieve logs with optional filtering.
 
@@ -164,7 +166,8 @@ def get_logger() -> DASTLogger:
 
 
 # Backward compatibility function
-def log_tag_event(event_type: str, tag_name: str, context: Dict[str, Any] = None) -> Dict[str, Any]:
+def log_tag_event(event_type: str, tag_name: str,
+                  context: Dict[str, Any] = None) -> Dict[str, Any]:
     """Legacy function wrapper - delegates to DASTLogger clas"""
     logger = get_logger()
     return logger.log_tag_event(event_type, tag_name, context)

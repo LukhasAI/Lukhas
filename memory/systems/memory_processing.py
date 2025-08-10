@@ -15,12 +15,12 @@ This module provides memory management, emotional tagging, and adaptive interact
 It implements the MATADA node structure and integrates with the core memory helix.
 """
 
+from core.common import get_logger
+from typing import Any, Optional
+from enum import Enum
 import datetime
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import Any, Dict, List, Optional
 
-from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -38,12 +38,12 @@ class MemoryNode:
     """MATADA memory node structure"""
 
     content: str
-    context: Dict[str, Any]
+    context: dict[str, Any]
     timestamp: datetime.datetime
     emotional_state: EmotionalState = EmotionalState.NEUTRAL
     importance: float = 0.0
-    references: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    references: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class MemoryProcessor:
@@ -58,7 +58,7 @@ class MemoryProcessor:
         self,
         user_id: str,
         content: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         emotional_state: EmotionalState = EmotionalState.NEUTRAL,
     ) -> None:
         """Store an interaction in memory using MATADA node structure"""
@@ -91,8 +91,8 @@ class MemoryProcessor:
         )
 
     def get_relevant_memories(
-        self, user_id: str, context: Dict[str, Any], limit: int = 5
-    ) -> List[MemoryNode]:
+        self, user_id: str, context: dict[str, Any], limit: int = 5
+    ) -> list[MemoryNode]:
         """Retrieve relevant memories based on context similarity"""
         if user_id not in self.memories:
             return []
@@ -117,7 +117,7 @@ class MemoryProcessor:
 
         return memories[:limit]
 
-    def _calculate_importance(self, context: Dict[str, Any]) -> float:
+    def _calculate_importance(self, context: dict[str, Any]) -> float:
         """Calculate importance score for memory retention"""
         importance = 0.0
 
@@ -139,7 +139,7 @@ class MemoryProcessor:
         return importance
 
     def update_memory_references(
-        self, user_id: str, memory_id: str, referenced_ids: List[str]
+        self, user_id: str, memory_id: str, referenced_ids: list[str]
     ) -> None:
         """Update memory node references to build connections"""
         if user_id not in self.memories:
@@ -153,7 +153,7 @@ class MemoryProcessor:
 
     def get_emotional_summary(
         self, user_id: str, timeframe: Optional[datetime.timedelta] = None
-    ) -> Dict[EmotionalState, int]:
+    ) -> dict[EmotionalState, int]:
         """Get summary of emotional states from recent interactions"""
         if user_id not in self.memories:
             return dict.fromkeys(EmotionalState, 0)
@@ -172,7 +172,7 @@ class MemoryProcessor:
 
         return summary
 
-    def export_memories(self, user_id: str, format: str = "json") -> Dict[str, Any]:
+    def export_memories(self, user_id: str, format: str = "json") -> dict[str, Any]:
         """Export user memories in specified format"""
         if user_id not in self.memories:
             return {"memories": []}
@@ -197,7 +197,7 @@ class MemoryProcessor:
             "memories": memory_data,
         }
 
-    def import_memories(self, data: Dict[str, Any]) -> int:
+    def import_memories(self, data: dict[str, Any]) -> int:
         """Import memories from exported data"""
         user_id = data.get("user_id")
         if not user_id:
@@ -232,7 +232,7 @@ class MemoryProcessor:
         user_id: str,
         cluster_key: str = "emotional_state",
         min_cluster_size: int = 2,
-    ) -> Dict[Any, List[MemoryNode]]:
+    ) -> dict[Any, list[MemoryNode]]:
         """Cluster memories based on specified attribute"""
         if user_id not in self.memories:
             return {}
@@ -258,7 +258,7 @@ class MemoryProcessor:
         user_id: str,
         start_time: Optional[datetime.datetime] = None,
         end_time: Optional[datetime.datetime] = None,
-    ) -> List[MemoryNode]:
+    ) -> list[MemoryNode]:
         """Get chronological timeline of memories within timeframe"""
         if user_id not in self.memories:
             return []

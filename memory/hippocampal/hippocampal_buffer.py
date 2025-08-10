@@ -48,7 +48,7 @@ import time
 from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Optional, Union
 from uuid import uuid4
 
 import numpy as np
@@ -56,12 +56,9 @@ import numpy as np
 # Import LUKHAS components
 try:
     from core.symbolism.tags import TagScope
-    from memory.integrity.collapse_hash import CollapseHash
     from memory.persistence.orthogonal_persistence import (
-        OrthogonalPersistence,
         PersistenceMode,
     )
-    from memory.scaffold.atomic_memory_scaffold import AtomicMemoryScaffold
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:
@@ -110,7 +107,7 @@ class EpisodicMemory:
     timestamp: float = field(default_factory=time.time)
 
     # Contextual binding
-    spatial_context: Dict[str, float] = field(
+    spatial_context: dict[str, float] = field(
         default_factory=dict
     )  # Place cell activation
     temporal_context: float = 0.0  # Time cell activation
@@ -123,8 +120,8 @@ class EpisodicMemory:
     theta_phase: float = 0.0  # Phase when encoded
 
     # Associations
-    associated_memories: Set[str] = field(default_factory=set)
-    semantic_tags: Set[str] = field(default_factory=set)
+    associated_memories: set[str] = field(default_factory=set)
+    semantic_tags: set[str] = field(default_factory=set)
 
     # Replay statistics
     replay_count: int = 0
@@ -210,11 +207,11 @@ class HippocampalBuffer:
 
         # Memory storage
         self.episodic_buffer: deque = deque(maxlen=capacity)
-        self.memory_index: Dict[str, EpisodicMemory] = {}
+        self.memory_index: dict[str, EpisodicMemory] = {}
 
         # Neural architecture
-        self.place_cells: List[PlaceCell] = []
-        self.grid_cells: List[GridCell] = []
+        self.place_cells: list[PlaceCell] = []
+        self.grid_cells: list[GridCell] = []
         if enable_place_cells:
             self._initialize_place_cells()
         if enable_grid_cells:
@@ -231,7 +228,7 @@ class HippocampalBuffer:
 
         # Replay buffer for consolidation
         self.replay_queue: deque = deque(maxlen=1000)
-        self.ripple_events: List[Dict[str, Any]] = []
+        self.ripple_events: list[dict[str, Any]] = []
 
         # Metrics
         self.total_encoded = 0
@@ -298,8 +295,8 @@ class HippocampalBuffer:
         self,
         content: Any,
         spatial_location: Optional[np.ndarray] = None,
-        emotional_state: Optional[Tuple[float, float]] = None,
-        tags: Optional[Set[str]] = None,
+        emotional_state: Optional[tuple[float, float]] = None,
+        tags: Optional[set[str]] = None,
     ) -> str:
         """
         Encode a new episodic memory with full context.
@@ -414,8 +411,8 @@ class HippocampalBuffer:
         return best_match
 
     async def trigger_replay(
-        self, memory_ids: Optional[List[str]] = None, replay_count: int = 10
-    ) -> List[Dict[str, Any]]:
+        self, memory_ids: Optional[list[str]] = None, replay_count: int = 10
+    ) -> list[dict[str, Any]]:
         """
         Trigger sharp-wave ripple replay of memories.
         Used for consolidation to neocortex.
@@ -476,7 +473,7 @@ class HippocampalBuffer:
 
     def get_consolidation_candidates(
         self, min_replays: int = 3, min_age_seconds: float = 300, limit: int = 50
-    ) -> List[EpisodicMemory]:
+    ) -> list[EpisodicMemory]:
         """
         Get memories ready for consolidation to neocortex.
         Selection based on replay count, age, and importance.
@@ -499,7 +496,7 @@ class HippocampalBuffer:
 
         return candidates[:limit]
 
-    def _encode_spatial_context(self, location: np.ndarray) -> Dict[str, float]:
+    def _encode_spatial_context(self, location: np.ndarray) -> dict[str, float]:
         """Encode spatial location using place cells"""
         context = {}
 
@@ -551,7 +548,7 @@ class HippocampalBuffer:
 
     def _find_similar_memories(
         self, pattern: np.ndarray, threshold: float = None
-    ) -> List[EpisodicMemory]:
+    ) -> list[EpisodicMemory]:
         """Find memories with similar patterns"""
 
         threshold = threshold or self.pattern_separation_threshold
@@ -607,7 +604,7 @@ class HippocampalBuffer:
 
             await asyncio.sleep(5.0)  # Check every 5 seconds
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get hippocampal metrics"""
 
         return {

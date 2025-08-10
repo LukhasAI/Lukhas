@@ -11,6 +11,11 @@ Advanced: eleven_tts.py
 Integration Date: 2025-05-31T07:55:28.337770
 """
 
+from pathlib import Path
+import sys
+import os
+import asyncio
+import argparse
 import logging
 
 #!/usr/bin/env python3
@@ -19,11 +24,6 @@ ElevenLabs Text-to-Speech CLI interface for Lukhas
 Uses the existing elevenlabs_client.py for speech synthesis
 """
 
-import argparse
-import asyncio
-import os
-import sys
-from pathlib import Path
 
 # Set up logging
 logging.basicConfig(

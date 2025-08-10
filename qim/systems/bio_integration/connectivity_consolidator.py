@@ -40,7 +40,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
@@ -258,9 +258,7 @@ class LambdaAGIEliteConnectivityConsolidator:
         integrated_strategy = await self._integrate_triangle_enhancements()
 
         # Execute consolidation with elite-tier precision
-        consolidation_results = await self._execute_elite_consolidation(
-            integrated_strategy
-        )
+        await self._execute_elite_consolidation(integrated_strategy)
 
         # Validate 100% connectivity achievement
         final_metrics = await self._validate_connectivity_achievement()
@@ -303,7 +301,7 @@ class LambdaAGIEliteConnectivityConsolidator:
         topology_score = 0.0
         total_modules = 0
 
-        for root, dirs, files in os.walk(self.lambda_root):
+        for _root, _dirs, files in os.walk(self.lambda_root):
             python_files = [f for f in files if f.endswith(".py")]
             if python_files:
                 total_modules += 1
@@ -317,7 +315,7 @@ class LambdaAGIEliteConnectivityConsolidator:
         logger.info(f"📈 Structural efficiency: {structural_efficiency:.3f}")
         return structural_efficiency
 
-    async def _identify_fusion_candidates(self) -> List[Dict[str, Any]]:
+    async def _identify_fusion_candidates(self) -> list[dict[str, Any]]:
         """Identify modules that can be fused for better connectivity"""
         logger.info("🔗 Identifying fusion candidates")
 
@@ -340,7 +338,7 @@ class LambdaAGIEliteConnectivityConsolidator:
         logger.info(f"🎯 Found {len(fusion_candidates)} fusion candidates")
         return fusion_candidates
 
-    async def _analyze_import_patterns(self) -> Dict[str, Any]:
+    async def _analyze_import_patterns(self) -> dict[str, Any]:
         """Analyze import patterns across the system"""
         logger.info("🧠 Analyzing import patterns")
 
@@ -352,7 +350,7 @@ class LambdaAGIEliteConnectivityConsolidator:
         }
 
         # Analyze all Python files for import patterns
-        for root, dirs, files in os.walk(self.lambda_root):
+        for root, _dirs, files in os.walk(self.lambda_root):
             for file in files:
                 if file.endswith(".py"):
                     file_path = Path(root) / file
@@ -367,8 +365,8 @@ class LambdaAGIEliteConnectivityConsolidator:
         return patterns
 
     async def _learn_optimal_patterns(
-        self, import_patterns: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, import_patterns: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Learn optimal import organization patterns"""
         logger.info("📚 Learning optimal patterns")
 
@@ -405,8 +403,8 @@ class LambdaAGIEliteConnectivityConsolidator:
         return optimal_patterns
 
     async def _develop_resolution_strategies(
-        self, patterns: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, patterns: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Develop adaptive import resolution strategies"""
         logger.info("🎯 Developing resolution strategies")
 
@@ -434,7 +432,7 @@ class LambdaAGIEliteConnectivityConsolidator:
 
         return strategies
 
-    async def _analyze_system_coherence(self) -> Dict[str, Any]:
+    async def _analyze_system_coherence(self) -> dict[str, Any]:
         """Analyze quantum-level system coherence"""
         logger.info("🌌 Analyzing system coherence")
 
@@ -473,7 +471,7 @@ class LambdaAGIEliteConnectivityConsolidator:
 
         return coherence_data
 
-    async def _develop_bio_consolidation_strategies(self) -> List[Dict[str, Any]]:
+    async def _develop_bio_consolidation_strategies(self) -> list[dict[str, Any]]:
         """Develop bio-inspired consolidation strategies"""
         logger.info("🧬 Developing bio-consolidation strategies")
 
@@ -507,8 +505,8 @@ class LambdaAGIEliteConnectivityConsolidator:
         return strategies
 
     async def _optimize_consolidation_paths(
-        self, bio_strategies: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, bio_strategies: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Optimize consolidation paths using quantum principles"""
         logger.info("⚛️  Optimizing consolidation paths")
 
@@ -534,7 +532,7 @@ class LambdaAGIEliteConnectivityConsolidator:
 
         return quantum_paths
 
-    async def _integrate_triangle_enhancements(self) -> Dict[str, Any]:
+    async def _integrate_triangle_enhancements(self) -> dict[str, Any]:
         """Integrate all enhancement systems using Triangle Pattern"""
         logger.info("🔺 Integrating Triangle Enhancement Systems")
 
@@ -604,8 +602,8 @@ class LambdaAGIEliteConnectivityConsolidator:
         return integrated_strategy
 
     async def _execute_elite_consolidation(
-        self, strategy: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, strategy: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute elite-tier consolidation based on integrated strategy"""
         logger.info("⚡ Executing Elite Consolidation")
 
@@ -673,7 +671,7 @@ class LambdaAGIEliteConnectivityConsolidator:
 
         return metrics
 
-    async def _calculate_current_connectivity(self) -> Dict[str, Any]:
+    async def _calculate_current_connectivity(self) -> dict[str, Any]:
         """Calculate current connectivity metrics"""
         logger.info("📊 Calculating current connectivity")
 
@@ -720,7 +718,6 @@ class LambdaAGIEliteConnectivityConsolidator:
 
         report = {
             "timestamp": datetime.now().isoformat(),
-            "system": "Lambda (LUKHAS) System",
             "system": "Lambda (lukhas) System",
             "enhancement_approach": "AI Elite Enhancer Consolidation",
             "architecture_pattern": "Triangle Integration (Crista + Meta-Learning + Quantum Bio)",
@@ -758,19 +755,19 @@ class LambdaAGIEliteConnectivityConsolidator:
         logger.info(f"📋 Achievement report saved: {report_path}")
 
     # Helper methods for pattern analysis and execution
-    def _calculate_fusion_potential(self, import_info: Dict[str, Any]) -> float:
+    def _calculate_fusion_potential(self, import_info: dict[str, Any]) -> float:
         """Calculate fusion potential for a module pair"""
         # Simple scoring based on import frequency and module similarity
         return 0.8  # Placeholder implementation
 
-    def _calculate_pattern_confidence(self, patterns: List[Dict[str, Any]]) -> float:
+    def _calculate_pattern_confidence(self, patterns: list[dict[str, Any]]) -> float:
         """Calculate confidence in learned patterns"""
         if not patterns:
             return 0.0
         total_confidence = sum(p.get("frequency", 1) for p in patterns)
         return min(total_confidence / len(patterns) / 10.0, 1.0)
 
-    def _calculate_quantum_strength(self, quantum_paths: List[Dict[str, Any]]) -> float:
+    def _calculate_quantum_strength(self, quantum_paths: list[dict[str, Any]]) -> float:
         """Calculate quantum optimization strength"""
         if not quantum_paths:
             return 0.0
@@ -779,7 +776,7 @@ class LambdaAGIEliteConnectivityConsolidator:
         ) / len(quantum_paths)
         return avg_efficiency
 
-    def _extract_import_patterns(self, content: str) -> Dict[str, Any]:
+    def _extract_import_patterns(self, content: str) -> dict[str, Any]:
         """Extract import patterns from file content"""
         patterns = {"imports": [], "from_imports": [], "relative_imports": []}
 
@@ -796,7 +793,7 @@ class LambdaAGIEliteConnectivityConsolidator:
         return patterns
 
     def _update_pattern_statistics(
-        self, patterns: Dict[str, Any], file_patterns: Dict[str, Any]
+        self, patterns: dict[str, Any], file_patterns: dict[str, Any]
     ):
         """Update pattern statistics with file data"""
         for import_line in file_patterns.get("imports", []):
@@ -805,7 +802,7 @@ class LambdaAGIEliteConnectivityConsolidator:
                 patterns["common_imports"].get(module, 0) + 1
             )
 
-    def _group_related_modules(self, broken_imports: List[Any]) -> Dict[str, List[str]]:
+    def _group_related_modules(self, broken_imports: list[Any]) -> dict[str, list[str]]:
         """Group related modules for symbiotic pairing"""
         groups = {}
 
@@ -848,7 +845,7 @@ class LambdaAGIEliteConnectivityConsolidator:
 
         return broken_count
 
-    async def _execute_crista_action(self, action: Dict[str, Any]) -> bool:
+    async def _execute_crista_action(self, action: dict[str, Any]) -> bool:
         """Execute Crista optimizer action"""
         logger.info(f"🔬 Executing Crista action: {action['action']}")
 
@@ -863,7 +860,7 @@ class LambdaAGIEliteConnectivityConsolidator:
 
         return False
 
-    async def _execute_meta_action(self, action: Dict[str, Any]) -> bool:
+    async def _execute_meta_action(self, action: dict[str, Any]) -> bool:
         """Execute Meta-Learning action"""
         logger.info(f"🧠 Executing Meta-Learning action: {action['action']}")
 
@@ -877,7 +874,7 @@ class LambdaAGIEliteConnectivityConsolidator:
 
         return False
 
-    async def _execute_quantum_action(self, action: Dict[str, Any]) -> bool:
+    async def _execute_quantum_action(self, action: dict[str, Any]) -> bool:
         """Execute Quantum Bio-Optimization action"""
         logger.info(f"🧬 Executing Quantum Bio action: {action['action']}")
 
@@ -891,7 +888,7 @@ class LambdaAGIEliteConnectivityConsolidator:
 
         return False
 
-    def _generate_next_steps(self, metrics: ConnectivityMetrics) -> List[str]:
+    def _generate_next_steps(self, metrics: ConnectivityMetrics) -> list[str]:
         """Generate next steps based on current metrics"""
         next_steps = []
 

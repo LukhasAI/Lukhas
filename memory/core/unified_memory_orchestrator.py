@@ -21,7 +21,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -57,20 +57,15 @@ try:
         SleepStage,
     )
     from ..hippocampal.hippocampal_buffer import (
-        EpisodicMemory,
         HippocampalBuffer,
     )
     from ..neocortical.neocortical_network import (
         NeocorticalNetwork,
-        SemanticMemory,
     )
-    from ..systems.trauma_lock import TraumaLockSystem
     from .colony_memory_validator import ColonyMemoryValidator, ValidationMode
     from .interfaces import (
-        BaseMemoryInterface,
         EpisodicMemoryInterface,
         MemoryOperation,
-        MemoryResponse,
         MemoryType,
         SemanticMemoryInterface,
         memory_registry,
@@ -142,13 +137,13 @@ class MemoryTrace:
     access_count: int = 0
     last_accessed: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     hippocampal_index: Optional[int] = None
-    neocortical_indices: List[int] = field(default_factory=list)
+    neocortical_indices: list[int] = field(default_factory=list)
     emotional_valence: float = 0.0  # -1 to 1
-    semantic_links: Set[str] = field(default_factory=set)
-    colony_validations: Dict[str, float] = field(default_factory=dict)
+    semantic_links: set[str] = field(default_factory=set)
+    colony_validations: dict[str, float] = field(default_factory=dict)
     replay_count: int = 0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization"""
         return {
             "memory_id": self.memory_id,
@@ -210,19 +205,19 @@ class UnifiedMemoryOrchestrator:
 
         # Core memory systems
         self.hippocampal_buffer: deque[MemoryTrace] = deque(maxlen=hippocampal_capacity)
-        self.neocortical_network: Dict[str, MemoryTrace] = {}
-        self.working_memory: Dict[str, MemoryTrace] = {}
+        self.neocortical_network: dict[str, MemoryTrace] = {}
+        self.working_memory: dict[str, MemoryTrace] = {}
 
         # Indexing structures
-        self.semantic_index: Dict[str, Set[str]] = defaultdict(set)
-        self.temporal_index: Dict[datetime, Set[str]] = defaultdict(set)
-        self.emotional_index: Dict[float, Set[str]] = defaultdict(set)
+        self.semantic_index: dict[str, set[str]] = defaultdict(set)
+        self.temporal_index: dict[datetime, set[str]] = defaultdict(set)
+        self.emotional_index: dict[float, set[str]] = defaultdict(set)
 
         # Bio-inspired components
         self.oscillations = OscillationPattern()
         self.sleep_stage = SleepStage.AWAKE
         self.consolidation_queue: deque[str] = deque()
-        self.replay_buffer: List[MemoryTrace] = []
+        self.replay_buffer: list[MemoryTrace] = []
 
         # Initialize subsystems if available
         if LUKHAS_COMPONENTS_AVAILABLE:
@@ -247,7 +242,7 @@ class UnifiedMemoryOrchestrator:
             self.colony_validator = None
 
         # Colony integration
-        self.memory_colonies: Dict[MemoryType, str] = {
+        self.memory_colonies: dict[MemoryType, str] = {
             MemoryType.EPISODIC: "episodic_memory_colony",
             MemoryType.SEMANTIC: "semantic_memory_colony",
             MemoryType.EMOTIONAL: "emotional_memory_colony",
@@ -503,7 +498,7 @@ class UnifiedMemoryOrchestrator:
         """Start background processes for consolidation and maintenance"""
         try:
             # Only start tasks if we have an event loop
-            loop = asyncio.get_running_loop()
+            asyncio.get_running_loop()
             asyncio.create_task(self._consolidation_loop())
             asyncio.create_task(self._oscillation_generator())
             asyncio.create_task(self._memory_replay_loop())
@@ -517,10 +512,10 @@ class UnifiedMemoryOrchestrator:
         self,
         content: Any,
         memory_type: MemoryType,
-        tags: List[str] = None,
+        tags: list[str] = None,
         emotional_valence: float = 0.0,
         importance: float = 0.5,
-        semantic_links: List[str] = None,
+        semantic_links: list[str] = None,
     ) -> str:
         """
         Encode a new memory into the hippocampal buffer.
@@ -655,7 +650,7 @@ class UnifiedMemoryOrchestrator:
 
     def _find_similar_memories(
         self, memory_trace: MemoryTrace, threshold: float = 0.7
-    ) -> List[MemoryTrace]:
+    ) -> list[MemoryTrace]:
         """Find memories similar to the given trace"""
         similar = []
 
@@ -678,7 +673,7 @@ class UnifiedMemoryOrchestrator:
         return similar
 
     async def _validate_with_colonies(
-        self, memory_trace: MemoryTrace, tags: List[str]
+        self, memory_trace: MemoryTrace, tags: list[str]
     ) -> bool:
         """
         Validate memory with specialized colonies
@@ -710,7 +705,7 @@ class UnifiedMemoryOrchestrator:
         return validation_id is not None
 
     async def _validate_memory_with_colonies(
-        self, memory_trace: MemoryTrace, tags: List[str]
+        self, memory_trace: MemoryTrace, tags: list[str]
     ) -> bool:
         """
         Validate memory using the new colony validator system with Byzantine fault tolerance
@@ -766,7 +761,7 @@ class UnifiedMemoryOrchestrator:
             logger.error(f"Colony validation failed: {e}")
             return False
 
-    def _create_memory_metadata(self, memory_trace: MemoryTrace, tags: List[str]):
+    def _create_memory_metadata(self, memory_trace: MemoryTrace, tags: list[str]):
         """Create metadata for memory validation"""
         if not MEMORY_COMPONENTS_AVAILABLE:
             return None
@@ -786,7 +781,7 @@ class UnifiedMemoryOrchestrator:
             },
         )
 
-    def _select_validation_colonies(self, memory_type: MemoryType) -> List[str]:
+    def _select_validation_colonies(self, memory_type: MemoryType) -> list[str]:
         """Select appropriate colonies for validation based on memory type"""
         # Primary colony for this memory type
         colonies = []
@@ -815,7 +810,7 @@ class UnifiedMemoryOrchestrator:
 
         return colonies
 
-    def _update_indices(self, memory_trace: MemoryTrace, tags: List[str]):
+    def _update_indices(self, memory_trace: MemoryTrace, tags: list[str]):
         """Update various indices for efficient retrieval"""
         memory_id = memory_trace.memory_id
 
@@ -838,11 +833,11 @@ class UnifiedMemoryOrchestrator:
 
     async def retrieve_memory(
         self,
-        query: Union[str, Dict[str, Any]],
-        memory_types: List[MemoryType] = None,
+        query: Union[str, dict[str, Any]],
+        memory_types: list[MemoryType] = None,
         use_pattern_completion: bool = True,
         max_results: int = 10,
-    ) -> List[Tuple[MemoryTrace, float]]:
+    ) -> list[tuple[MemoryTrace, float]]:
         """
         Retrieve memories using hippocampal pattern completion.
 
@@ -891,13 +886,13 @@ class UnifiedMemoryOrchestrator:
         return unique_results
 
     def _search_working_memory(
-        self, query: Union[str, Dict[str, Any]], memory_types: List[MemoryType] = None
-    ) -> List[Tuple[MemoryTrace, float]]:
+        self, query: Union[str, dict[str, Any]], memory_types: list[MemoryType] = None
+    ) -> list[tuple[MemoryTrace, float]]:
         """Fast search in working memory"""
         results = []
         query_str = str(query).lower()
 
-        for memory_id, trace in self.working_memory.items():
+        for _memory_id, trace in self.working_memory.items():
             if memory_types and trace.memory_type not in memory_types:
                 continue
 
@@ -911,10 +906,10 @@ class UnifiedMemoryOrchestrator:
 
     async def _search_hippocampal(
         self,
-        query: Union[str, Dict[str, Any]],
-        memory_types: List[MemoryType] = None,
+        query: Union[str, dict[str, Any]],
+        memory_types: list[MemoryType] = None,
         use_pattern_completion: bool = True,
-    ) -> List[Tuple[MemoryTrace, float]]:
+    ) -> list[tuple[MemoryTrace, float]]:
         """Search in hippocampal buffer with pattern completion"""
         results = []
 
@@ -990,8 +985,8 @@ class UnifiedMemoryOrchestrator:
         )
 
     async def _search_neocortical(
-        self, query: Union[str, Dict[str, Any]], memory_types: List[MemoryType] = None
-    ) -> List[Tuple[MemoryTrace, float]]:
+        self, query: Union[str, dict[str, Any]], memory_types: list[MemoryType] = None
+    ) -> list[tuple[MemoryTrace, float]]:
         """Search in consolidated neocortical memories"""
         results = []
 
@@ -1114,7 +1109,7 @@ class UnifiedMemoryOrchestrator:
             memory_trace.consolidation_state = ConsolidationState.ENCODING
             return False
 
-    async def _extract_semantic_features(self, memory_trace: MemoryTrace) -> List[str]:
+    async def _extract_semantic_features(self, memory_trace: MemoryTrace) -> list[str]:
         """
         Extract semantic features for neocortical representation.
         This simulates the abstraction process during consolidation.
@@ -1150,8 +1145,8 @@ class UnifiedMemoryOrchestrator:
         return list(set(features))  # Remove duplicates
 
     async def _create_neocortical_representation(
-        self, memory_trace: MemoryTrace, semantic_features: List[str]
-    ) -> List[int]:
+        self, memory_trace: MemoryTrace, semantic_features: list[str]
+    ) -> list[int]:
         """
         Create distributed neocortical representation.
         This simulates how memories are stored across cortical regions.
@@ -1315,7 +1310,8 @@ class UnifiedMemoryOrchestrator:
             self.semantic_index[link_id].add(memory1.memory_id)
             self.semantic_index[link_id].add(memory2.memory_id)
 
-            # If memories have opposite emotional valence, create emotional regulation link
+            # If memories have opposite emotional valence, create emotional regulation
+            # link
             if memory1.emotional_valence * memory2.emotional_valence < -0.5:
                 regulation_link = f"emotion_regulation_{link_id}"
                 memory1.semantic_links.add(regulation_link)
@@ -1353,7 +1349,7 @@ class UnifiedMemoryOrchestrator:
                 return True
 
         # Check in hippocampus (remove from buffer)
-        for i, trace in enumerate(self.hippocampal_buffer):
+        for _i, trace in enumerate(self.hippocampal_buffer):
             if trace.memory_id == memory_id:
                 # Can't directly remove from deque by index
                 # Mark for forgetting instead
@@ -1511,7 +1507,7 @@ class UnifiedMemoryOrchestrator:
                 logger.error(f"Health maintenance error: {e}")
                 await asyncio.sleep(600)
 
-    def get_memory_statistics(self) -> Dict[str, Any]:
+    def get_memory_statistics(self) -> dict[str, Any]:
         """
         Get comprehensive memory system statistics
         """
@@ -1567,7 +1563,7 @@ class UnifiedMemoryOrchestrator:
             "distributed_enabled": self.enable_distributed,
         }
 
-    def run_memory_lifecycle_test(self) -> Dict[str, Any]:
+    def run_memory_lifecycle_test(self) -> dict[str, Any]:
         """
         Run comprehensive memory lifecycle testing
         """
@@ -1597,7 +1593,7 @@ class UnifiedMemoryOrchestrator:
             logger.error(f"Memory lifecycle test error: {e}")
             return {"status": "error", "message": str(e)}
 
-    def run_error_condition_test(self) -> Dict[str, Any]:
+    def run_error_condition_test(self) -> dict[str, Any]:
         """
         Run comprehensive error condition testing
         """
@@ -1627,7 +1623,7 @@ class UnifiedMemoryOrchestrator:
             logger.error(f"Error condition test error: {e}")
             return {"status": "error", "message": str(e)}
 
-    def get_comprehensive_memory_status(self) -> Dict[str, Any]:
+    def get_comprehensive_memory_status(self) -> dict[str, Any]:
         """
         Get comprehensive memory system status and testing capabilities
         """

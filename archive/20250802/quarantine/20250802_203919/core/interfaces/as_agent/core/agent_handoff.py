@@ -19,19 +19,19 @@ logger = structlog.get_logger(__name__)
 
 """
 +────────────────────────────────────────────────────────────────────────────+
-| MODULE         : lukhas_agent_handoff.py                                    |
-| DESCRIPTION    :                                                           |
-|   Manages live symbolic handoffs from core.common to vendor or third-party AI   |
-|   agents within widget flows. Includes branded agent metadata, takeover   |
-|   styling, and GPT-driven persona integration.                             |
-|   Floating overlays can activate if user context allows it (e.g., mobile    |
+| MODULE: lukhas_agent_handoff.py |
+| DESCRIPTION: |
+|   Manages live symbolic handoffs from core.common to vendor or third - party AI |
+|   agents within widget flows. Includes branded agent metadata, takeover |
+|   styling, and GPT - driven persona integration. |
+|   Floating overlays can activate if user context allows it(e.g., mobile |
 |   UX, app notifications, symbolic reminders). Only after consent + ethics. |
-| TYPE           : Agent Persona Overlay        VERSION : v1.0.0            |
-| AUTHOR         : LUKHAS SYSTEMS                  CREATED : 2025-4-22       |
+| TYPE: Agent Persona Overlay        VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                  CREATED: 2025 - 4 - 22 |
 +────────────────────────────────────────────────────────────────────────────+
-| DEPENDENCIES   :                                                           |
-|   - lukhas_widget_engine.py                                                 |
-|   - lukhas_duet_conductor.py (future GPT voice link)                        |
+| DEPENDENCIES: |
+| - lukhas_widget_engine.py |
+| - lukhas_duet_conductor.py(future GPT voice link) |
 +────────────────────────────────────────────────────────────────────────────+
 """
 
@@ -57,7 +57,7 @@ def agent_handoff(vendor_name):
     Prepares a symbolic AI agent preview overlay for a vendor.
 
     Parameters:
-    - vendor_name (str): e.g., 'Uber', 'Booking.com'
+    - vendor_name(str): e.g., 'Uber', 'Booking.com'
 
     Returns:
     - dict: agent overlay metadata including greeting, avatar, color, voice, etc.
@@ -103,7 +103,7 @@ def agent_handoff(vendor_name):
 
 """
 ΛTRACE: End of lukhas_agent_handoff.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

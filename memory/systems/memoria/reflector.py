@@ -16,7 +16,12 @@
 """
 
 # Module imports
-from typing import Any, Dict, Optional
+import structlog
+from pathlib import Path
+from datetime import datetime, timezone
+import os
+import json
+from typing import Any, Optional
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -27,14 +32,8 @@ logger = get_logger(__name__)
 # ΛNOTE: This module enables LUKHAS to reflect on its dream narratives.
 
 # Standard Library Imports
-import json
-import os
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import List
 
 # Third-Party Imports
-import structlog
 
 try:
     # Consistent with lukhas_dreams.py log directory
@@ -57,7 +56,7 @@ def load_dream_memories_from_log(
     limit: int = 5,
     log_date: Optional[datetime] = None,
     specific_log_file: Optional[Path] = None,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Loads recent dream memory entries from core.common dream log file(s)."""
     log.debug(
         "Loading dream memories for reflection.",
@@ -77,7 +76,7 @@ def load_dream_memories_from_log(
         )
         return []
 
-    loaded_mems: List[Dict[str, Any]] = []
+    loaded_mems: list[dict[str, Any]] = []
     try:
         with open(target_log_path, encoding="utf-8") as f:
             all_lines = [line.strip() for line in f if line.strip()]
@@ -108,13 +107,13 @@ def load_dream_memories_from_log(
         return []
 
 
-def reflect_on_dream_memories(dream_memories: List[Dict[str, Any]]) -> List[str]:
+def reflect_on_dream_memories(dream_memories: list[dict[str, Any]]) -> list[str]:
     """Generates textual reflections based on provided dream memories."""
     if not dream_memories:
         log.info("No dream memories for reflection.")
         return []
     log.debug("Reflecting on dream memories.", count=len(dream_memories))
-    reflections: List[str] = []
+    reflections: list[str] = []
 
     for i, mem_item in enumerate(dream_memories):
         narrative = mem_item.get("dream_narrative_text", "")
@@ -150,7 +149,8 @@ def run_dream_reflection_cycle() -> None:
     """Orchestrates loading dream memories and generating reflections."""
     log.info("Initiating LUKHAS Dream Reflection Cycle.")
     # ΛNOTE: This cycle is vital for LUKHAS's introspective capabilities.
-    # Future enhancements could involve storing these reflections back into a specialized memory type.
+    # Future enhancements could involve storing these reflections back into a
+    # specialized memory type.
     loaded_dream_mems = load_dream_memories_from_log(
         limit=7
     )  # Reflect on up to 7 recent dreams

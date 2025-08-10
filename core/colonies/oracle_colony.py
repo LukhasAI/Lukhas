@@ -166,7 +166,7 @@ class OracleAgent:
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are an AI Dream Oracle that creates meaningful,
+                        "content": "You are an AI Dream Oracle that creates meaningful,"
                         symbolic dreams based on user context and predictive insights.",
                     },
                     {

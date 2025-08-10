@@ -422,13 +422,13 @@ class StructuralConscience:
 
             # Verify chain linkage
             if i > 0:
-                if entry.previous_hash != self.conscience_chain[i-1].entry_hash:
+                if entry.previous_hash != self.conscience_chain[i - 1].entry_hash:
                     invalid_indices.append(i)
                     logger.error(
                         "Conscience chain linkage broken",
                         index=i,
                         expected_previous=entry.previous_hash[:16],
-                        actual_previous=self.conscience_chain[i-1].entry_hash[:16]
+                        actual_previous=self.conscience_chain[i - 1].entry_hash[:16]
                     )
 
         is_valid = len(invalid_indices) == 0
@@ -546,12 +546,10 @@ class StructuralConscience:
     async def _persist_entry(self, entry: ConscienceEntry):
         """Persist entry to disk (implementation depends on storage backend)."""
         # TODO: Implement persistence based on chosen storage backend
-        pass
 
     def _load_conscience_chain(self):
         """Load existing conscience chain from persistence."""
         # TODO: Implement loading based on chosen storage backend
-        pass
 
 
 # Factory function for easy creation

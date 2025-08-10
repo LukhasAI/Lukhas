@@ -41,7 +41,7 @@ import asyncio
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Set
+from typing import Any
 from uuid import uuid4
 
 import numpy as np
@@ -96,8 +96,8 @@ class EpisodicMemoryRecord:
     last_accessed: float = field(default_factory=time.time)
 
     # Associations
-    related_episodes: Set[str] = field(default_factory=set)
-    causal_links: Dict[str, str] = field(
+    related_episodes: set[str] = field(default_factory=set)
+    causal_links: dict[str, str] = field(
         default_factory=dict
     )  # episode_id -> link_type
 
@@ -150,20 +150,20 @@ class EpisodicMemoryColony(BaseMemoryColony):
         )
 
         # Episodic-specific storage
-        self.episodic_records: Dict[str, EpisodicMemoryRecord] = {}
+        self.episodic_records: dict[str, EpisodicMemoryRecord] = {}
         self.memory_capacity = memory_capacity
 
         # Indexing for fast retrieval
-        self.temporal_index: Dict[str, Set[str]] = defaultdict(
+        self.temporal_index: dict[str, set[str]] = defaultdict(
             set
         )  # time_bucket -> memory_ids
-        self.spatial_index: Dict[str, Set[str]] = defaultdict(
+        self.spatial_index: dict[str, set[str]] = defaultdict(
             set
         )  # location_key -> memory_ids
-        self.emotional_index: Dict[str, Set[str]] = defaultdict(
+        self.emotional_index: dict[str, set[str]] = defaultdict(
             set
         )  # emotion_bucket -> memory_ids
-        self.event_type_index: Dict[str, Set[str]] = defaultdict(
+        self.event_type_index: dict[str, set[str]] = defaultdict(
             set
         )  # event_type -> memory_ids
 
@@ -173,7 +173,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
         # Replay and consolidation
         self.replay_queue: deque = deque()
-        self.consolidation_candidates: List[str] = []
+        self.consolidation_candidates: list[str] = []
 
         # Background processing
         self.replay_task = None
@@ -458,8 +458,8 @@ class EpisodicMemoryColony(BaseMemoryColony):
         )
 
     async def _cast_consensus_vote(
-        self, consensus_request: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, consensus_request: dict[str, Any]
+    ) -> dict[str, Any]:
         """Cast vote based on episodic memory expertise"""
 
         request_type = consensus_request.get("type", "unknown")
@@ -566,7 +566,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
         return min(1.0, significance)
 
-    def _find_similar_episodes(self, content: EpisodicMemoryContent) -> List[str]:
+    def _find_similar_episodes(self, content: EpisodicMemoryContent) -> list[str]:
         """Find episodes similar to the given content"""
         similar = []
 
@@ -603,7 +603,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
         return similar
 
     def _apply_pattern_separation(
-        self, content: EpisodicMemoryContent, similar_episodes: List[str]
+        self, content: EpisodicMemoryContent, similar_episodes: list[str]
     ) -> EpisodicMemoryContent:
         """Apply pattern separation to maintain episode distinctiveness"""
 
@@ -648,7 +648,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
             self.spatial_index[location_key].add(memory_id)
 
     def _matches_query(
-        self, record: EpisodicMemoryRecord, query: Dict[str, Any]
+        self, record: EpisodicMemoryRecord, query: dict[str, Any]
     ) -> bool:
         """Check if record matches structured query"""
 
@@ -712,7 +712,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
         if memory_id not in self.episodic_records:
             return
 
-        record = self.episodic_records[memory_id]
+        self.episodic_records[memory_id]
 
         # Remove from indices
         for index in [

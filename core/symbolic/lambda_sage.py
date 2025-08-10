@@ -2011,7 +2011,7 @@ class ΛSage:
                 "christian": "✝️",
             }.get(mythic_system.value, "🌟")
 
-            report += f"** {system_emoji} {mythic_system.value.replace('_',
+            report += f"** {system_emoji} {mythic_system.value.replace('_',"
                                                                        ' ').title()}**: {resonance: .3f}\n"
 
         report += f"""

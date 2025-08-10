@@ -275,7 +275,7 @@ class PRSecurityReviewTask:
         try:
             if not security_pr.security_issues:
                 logger.info(
-                    f"No security issues found in PR  # {security_pr.pr_number},
+                    f"No security issues found in PR  # {security_pr.pr_number},"
                     marking as reviewed"
                 )
                 return True

@@ -7,7 +7,7 @@ import json
 import os
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Optional
 
 from core.common import get_logger
 
@@ -29,7 +29,7 @@ class LukhasFederatedModel:
     collective learning across the LUKHAS network.
     """
 
-    def __init__(self, model_id: str, model_type: str, initial_parameters: Dict = None):
+    def __init__(self, model_id: str, model_type: str, initial_parameters: dict = None):
         self.model_id = model_id
         self.model_type = model_type
         self.parameters = initial_parameters or {}
@@ -43,7 +43,7 @@ class LukhasFederatedModel:
         )
 
     def update_with_gradients(
-        self, gradients: Dict, client_id: str, weight: float = 1.0
+        self, gradients: dict, client_id: str, weight: float = 1.0
     ):
         """
         Update model parameters with gradients from a client
@@ -77,7 +77,7 @@ class LukhasFederatedModel:
         )
         return True
 
-    def get_parameters(self, client_id: str = None) -> Dict:
+    def get_parameters(self, client_id: str = None) -> dict:
         """
         Get model parameters, optionally customized for a specific client
 
@@ -97,7 +97,7 @@ class LukhasFederatedModel:
             "client_count": len(self.client_contributions),
         }
 
-    def serialize(self) -> Dict:
+    def serialize(self) -> dict:
         """Serialize model for storage with LUKHAS metadata"""
         return {
             "model_id": self.model_id,
@@ -113,7 +113,7 @@ class LukhasFederatedModel:
         }
 
     @classmethod
-    def deserialize(cls, data: Dict) -> "LukhasFederatedModel":
+    def deserialize(cls, data: dict) -> "LukhasFederatedModel":
         """Create model from serialized data"""
         model = cls(
             model_id=data["model_id"],
@@ -162,7 +162,7 @@ class LukhasFederatedLearningManager:
         self.load_models()
 
     def register_model(
-        self, model_id: str, model_type: str, initial_parameters: Dict = None
+        self, model_id: str, model_type: str, initial_parameters: dict = None
     ) -> LukhasFederatedModel:
         """
         Register a new model for federated learning in LUKHAS
@@ -186,7 +186,7 @@ class LukhasFederatedLearningManager:
         logger.info(f"Registered new LUKHAS federated model: {model_id} ({model_type})")
         return model
 
-    def get_model(self, model_id: str, client_id: str = None) -> Optional[Dict]:
+    def get_model(self, model_id: str, client_id: str = None) -> Optional[dict]:
         """
         Get model parameters for a LUKHAS client
 
@@ -210,9 +210,9 @@ class LukhasFederatedLearningManager:
     def contribute_gradients(
         self,
         model_id: str,
-        gradients: Dict,
+        gradients: dict,
         client_id: str,
-        performance_metrics: Dict = None,
+        performance_metrics: dict = None,
     ) -> bool:
         """
         Accept gradient contribution from a LUKHAS client
@@ -307,7 +307,7 @@ class LukhasFederatedLearningManager:
                 except Exception as e:
                     logger.error(f"Failed to load model from {filename}: {e}")
 
-    def get_system_status(self) -> Dict:
+    def get_system_status(self) -> dict:
         """Get overall system status"""
         return {
             "lukhas_federated_learning": {

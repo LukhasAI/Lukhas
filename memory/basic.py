@@ -46,7 +46,7 @@
 import uuid
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -61,7 +61,7 @@ MODULE_NAME = "basic_memory"
 class MemoryEntry:
     """A single memory entry."""
 
-    def __init__(self, content: Any, metadata: Optional[Dict[str, Any]] = None):
+    def __init__(self, content: Any, metadata: Optional[dict[str, Any]] = None):
         self.id = str(uuid.uuid4())
         self.content = content
         self.metadata = metadata or {}
@@ -74,7 +74,7 @@ class MemoryEntry:
         self.accessed_at = datetime.now()
         self.access_count += 1
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation."""
         return {
             "id": self.id,
@@ -86,7 +86,7 @@ class MemoryEntry:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "MemoryEntry":
+    def from_dict(cls, data: dict[str, Any]) -> "MemoryEntry":
         """Create from dictionary representation."""
         entry = cls(data["content"], data.get("metadata"))
         entry.id = data["id"]
@@ -102,34 +102,29 @@ class MemoryStore(ABC):
     @abstractmethod
     def store(self, entry: MemoryEntry) -> str:
         """Store a memory entry and return its ID."""
-        pass
 
     @abstractmethod
     def retrieve(self, memory_id: str) -> Optional[MemoryEntry]:
         """Retrieve a memory entry by ID."""
-        pass
 
     @abstractmethod
-    def search(self, query: str, limit: int = 10) -> List[MemoryEntry]:
+    def search(self, query: str, limit: int = 10) -> list[MemoryEntry]:
         """Search for memory entries matching the query."""
-        pass
 
     @abstractmethod
-    def list_all(self, limit: int = 100) -> List[MemoryEntry]:
+    def list_all(self, limit: int = 100) -> list[MemoryEntry]:
         """List all memory entries."""
-        pass
 
     @abstractmethod
     def delete(self, memory_id: str) -> bool:
         """Delete a memory entry."""
-        pass
 
 
 class InMemoryStore(MemoryStore):
     """Simple in-memory implementation of MemoryStore."""
 
     def __init__(self):
-        self._memories: Dict[str, MemoryEntry] = {}
+        self._memories: dict[str, MemoryEntry] = {}
 
     def store(self, entry: MemoryEntry) -> str:
         """Store a memory entry and return its ID."""
@@ -143,7 +138,7 @@ class InMemoryStore(MemoryStore):
             entry.access()
         return entry
 
-    def search(self, query: str, limit: int = 10) -> List[MemoryEntry]:
+    def search(self, query: str, limit: int = 10) -> list[MemoryEntry]:
         """Search for memory entries matching the query."""
         results = []
         query_lower = query.lower()
@@ -161,7 +156,7 @@ class InMemoryStore(MemoryStore):
         results.sort(key=lambda x: x.accessed_at, reverse=True)
         return results
 
-    def list_all(self, limit: int = 100) -> List[MemoryEntry]:
+    def list_all(self, limit: int = 100) -> list[MemoryEntry]:
         """List all memory entries."""
         entries = list(self._memories.values())
         entries.sort(key=lambda x: x.created_at, reverse=True)
@@ -189,7 +184,7 @@ class MemoryManager:
     def __init__(self, store: Optional[MemoryStore] = None):
         self.store = store or InMemoryStore()
 
-    def remember(self, content: Any, metadata: Optional[Dict[str, Any]] = None) -> str:
+    def remember(self, content: Any, metadata: Optional[dict[str, Any]] = None) -> str:
         """Store new content in memory."""
         entry = MemoryEntry(content, metadata)
         return self.store.store(entry)
@@ -203,11 +198,11 @@ class MemoryManager:
         """Recall full memory entry by ID."""
         return self.store.retrieve(memory_id)
 
-    def search_memories(self, query: str, limit: int = 10) -> List[MemoryEntry]:
+    def search_memories(self, query: str, limit: int = 10) -> list[MemoryEntry]:
         """Search for memories matching query."""
         return self.store.search(query, limit)
 
-    def recent_memories(self, limit: int = 10) -> List[MemoryEntry]:
+    def recent_memories(self, limit: int = 10) -> list[MemoryEntry]:
         """Get most recent memories."""
         return self.store.list_all(limit)
 
@@ -215,7 +210,7 @@ class MemoryManager:
         """Delete a memory."""
         return self.store.delete(memory_id)
 
-    def memory_stats(self) -> Dict[str, Any]:
+    def memory_stats(self) -> dict[str, Any]:
         """Get memory statistics."""
         if isinstance(self.store, InMemoryStore):
             all_memories = self.store.list_all(1000)  # Get all
@@ -245,7 +240,7 @@ class MemoryManager:
 memory_manager = MemoryManager()
 
 
-def remember(content: Any, metadata: Optional[Dict[str, Any]] = None) -> str:
+def remember(content: Any, metadata: Optional[dict[str, Any]] = None) -> str:
     """Global function to remember content."""
     return memory_manager.remember(content, metadata)
 
@@ -255,7 +250,7 @@ def recall(memory_id: str) -> Optional[Any]:
     return memory_manager.recall(memory_id)
 
 
-def search(query: str, limit: int = 10) -> List[MemoryEntry]:
+def search(query: str, limit: int = 10) -> list[MemoryEntry]:
     """Global function to search memories."""
     return memory_manager.search_memories(query, limit)
 

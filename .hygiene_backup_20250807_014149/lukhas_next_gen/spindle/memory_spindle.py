@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class SpindleState:
     """Current state of the memory spindle"""
+
     rotation_speed: float  # 0.0 to 1.0
     coherence: float  # 0.0 to 1.0
     dominant_glyphs: List[str]
@@ -53,9 +54,9 @@ class MemorySpindle:
 
     # Entropy to spin speed mapping
     ENTROPY_SPIN_MAP = {
-        "stable": (0.1, 0.3),    # Slow, steady spin
-        "neutral": (0.3, 0.7),   # Moderate spin
-        "unstable": (0.7, 1.0)   # Fast, chaotic spin
+        "stable": (0.1, 0.3),  # Slow, steady spin
+        "neutral": (0.3, 0.7),  # Moderate spin
+        "unstable": (0.7, 1.0),  # Fast, chaotic spin
     }
 
     # Pattern emergence thresholds
@@ -63,11 +64,10 @@ class MemorySpindle:
         "weak": 0.3,
         "moderate": 0.5,
         "strong": 0.7,
-        "crystallized": 0.9
+        "crystallized": 0.9,
     }
 
-    def __init__(self, window_size: int = 100,
-                 log_file: str = "symbolic_recall.log"):
+    def __init__(self, window_size: int = 100, log_file: str = "symbolic_recall.log"):
         self.window_size = window_size
         self.log_file = Path(log_file)
         self.memory_window = deque(maxlen=window_size)
@@ -84,26 +84,28 @@ class MemorySpindle:
         logger.info(f"   Window size: {window_size}")
         logger.info(f"   Log file: {log_file}")
 
-    def add_memory(self, glyphs: List[str], entropy_score: float,
-                  entropy_class: str, content: Dict):
+    def add_memory(
+        self, glyphs: List[str], entropy_score: float, entropy_class: str, content: Dict
+    ):
         """Add a memory to the spindle"""
-        self.memory_window.append({
-            "glyphs": glyphs,
-            "entropy_score": entropy_score,
-            "entropy_class": entropy_class,
-            "content": content,
-            "timestamp": datetime.utcnow()
-        })
+        self.memory_window.append(
+            {
+                "glyphs": glyphs,
+                "entropy_score": entropy_score,
+                "entropy_class": entropy_class,
+                "content": content,
+                "timestamp": datetime.utcnow(),
+            }
+        )
 
         # Add glyphs to history
         self.glyph_history.extend(glyphs)
 
         # Log addition
-        self._log_event("memory_added", {
-            "glyphs": glyphs,
-            "entropy": entropy_score,
-            "class": entropy_class
-        })
+        self._log_event(
+            "memory_added",
+            {"glyphs": glyphs, "entropy": entropy_score, "class": entropy_class},
+        )
 
     def spin(self) -> SpindleState:
         """
@@ -120,7 +122,9 @@ class MemorySpindle:
 
         # Determine spin speed based on entropy
         speed_range = self.ENTROPY_SPIN_MAP[dominant_class]
-        avg_entropy = sum(m["entropy_score"] for m in self.memory_window) / len(self.memory_window)
+        avg_entropy = sum(m["entropy_score"] for m in self.memory_window) / len(
+            self.memory_window
+        )
         spin_speed = speed_range[0] + (speed_range[1] - speed_range[0]) * avg_entropy
 
         # Detect patterns
@@ -142,20 +146,23 @@ class MemorySpindle:
             entropy_class=dominant_class,
             pattern_strength=pattern_strength,
             active_memories=len(self.memory_window),
-            timestamp=datetime.utcnow()
+            timestamp=datetime.utcnow(),
         )
 
         # Check for emergent patterns
         self._check_emergence(patterns, pattern_strength)
 
         # Log spin cycle
-        self._log_event("spin_cycle", {
-            "cycle": self.spin_cycles,
-            "speed": spin_speed,
-            "coherence": coherence,
-            "patterns": len(patterns),
-            "state": self.current_state.to_symbolic()
-        })
+        self._log_event(
+            "spin_cycle",
+            {
+                "cycle": self.spin_cycles,
+                "speed": spin_speed,
+                "coherence": coherence,
+                "patterns": len(patterns),
+                "state": self.current_state.to_symbolic(),
+            },
+        )
 
         return self.current_state
 
@@ -209,7 +216,7 @@ class MemorySpindle:
         repetitions = 0
 
         for i in range(len(self.glyph_history) - 1):
-            if self.glyph_history[i] == self.glyph_history[i+1]:
+            if self.glyph_history[i] == self.glyph_history[i + 1]:
                 repetitions += 1
             else:
                 transitions += 1
@@ -236,7 +243,7 @@ class MemorySpindle:
                 "type": "crystallized" if strength > 0.9 else "strong",
                 "dominant_pattern": patterns[0] if patterns else None,
                 "spindle_state": self.current_state.to_symbolic(),
-                "insight": self._generate_insight(patterns)
+                "insight": self._generate_insight(patterns),
             }
 
             self.emergent_patterns.append(emergence)
@@ -266,7 +273,7 @@ class MemorySpindle:
             "🌪️→🌿": "Chaos resolving to stability",
             "🧬→🌱": "Organic growth pattern",
             "🪷→🌸": "Consent flourishing",
-            "🌸→🥀": "Trust degradation warning"
+            "🌸→🥀": "Trust degradation warning",
         }
 
         # Check for known insights
@@ -289,7 +296,7 @@ class MemorySpindle:
             entropy_class="stable",
             pattern_strength=0.0,
             active_memories=0,
-            timestamp=datetime.utcnow()
+            timestamp=datetime.utcnow(),
         )
 
     def _log_event(self, event_type: str, data: Dict):
@@ -297,10 +304,10 @@ class MemorySpindle:
         log_entry = {
             "timestamp": datetime.utcnow().isoformat(),
             "event": event_type,
-            "data": data
+            "data": data,
         }
 
-        with open(self.log_file, 'a') as f:
+        with open(self.log_file, "a") as f:
             f.write(json.dumps(log_entry) + "\n")
 
     def get_recall_recommendations(self) -> List[Dict]:
@@ -312,30 +319,36 @@ class MemorySpindle:
 
         # Recommend based on pattern strength
         if self.current_state.pattern_strength > 0.7:
-            recommendations.append({
-                "type": "strong_pattern",
-                "action": "reinforce",
-                "glyphs": self.current_state.dominant_glyphs,
-                "reason": "Strong pattern detected - reinforce for stability"
-            })
+            recommendations.append(
+                {
+                    "type": "strong_pattern",
+                    "action": "reinforce",
+                    "glyphs": self.current_state.dominant_glyphs,
+                    "reason": "Strong pattern detected - reinforce for stability",
+                }
+            )
 
         # Recommend based on coherence
         if self.current_state.coherence < 0.4:
-            recommendations.append({
-                "type": "low_coherence",
-                "action": "stabilize",
-                "glyphs": ["🌿", "🧘", "💎"],
-                "reason": "Low coherence - introduce stabilizing elements"
-            })
+            recommendations.append(
+                {
+                    "type": "low_coherence",
+                    "action": "stabilize",
+                    "glyphs": ["🌿", "🧘", "💎"],
+                    "reason": "Low coherence - introduce stabilizing elements",
+                }
+            )
 
         # Recommend based on spin speed
         if self.current_state.rotation_speed > 0.8:
-            recommendations.append({
-                "type": "high_spin",
-                "action": "slow_down",
-                "glyphs": ["🌊", "🧘", "🌿"],
-                "reason": "High spin rate - reduce to prevent memory fragmentation"
-            })
+            recommendations.append(
+                {
+                    "type": "high_spin",
+                    "action": "slow_down",
+                    "glyphs": ["🌊", "🧘", "🌿"],
+                    "reason": "High spin rate - reduce to prevent memory fragmentation",
+                }
+            )
 
         return recommendations
 
@@ -348,13 +361,13 @@ class MemorySpindle:
             "top_patterns": list(self.recurring_sequences.items())[:10],
             "emergent_patterns": self.emergent_patterns[-5:],  # Last 5
             "recommendations": self.get_recall_recommendations(),
-            "glyph_distribution": dict(Counter(self.glyph_history).most_common(10))
+            "glyph_distribution": dict(Counter(self.glyph_history).most_common(10)),
         }
 
 
 # Example usage and testing
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format='%(message)s')
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
 
     # Create spindle
     spindle = MemorySpindle(window_size=50, log_file="test_spindle.log")

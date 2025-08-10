@@ -6,24 +6,20 @@ process memory items during storage and retrieval operations.
 ΛTAG: memory_hook_base
 """
 
+from core.common import LukhasError
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
 logger = get_logger(__name__)
 
 
-from core.common import LukhasError
-
-
 class HookExecutionError(LukhasError):
     """Raised when hook execution fails"""
-
-    pass
 
 
 @dataclass
@@ -35,10 +31,10 @@ class MemoryItem:
     """
 
     content: Any
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     fold_level: Optional[int] = None
-    glyphs: Optional[List[str]] = None
-    causal_lineage: Optional[List[str]] = None
+    glyphs: Optional[list[str]] = None
+    causal_lineage: Optional[list[str]] = None
     timestamp: datetime = field(default_factory=datetime.now)
     memory_id: str = field(default_factory=lambda: str(uuid.uuid4()))
 
@@ -58,7 +54,7 @@ class MemoryItem:
     # Emotional context
     emotional_valence: Optional[float] = None  # -1.0 to 1.0
     emotional_intensity: Optional[float] = None  # 0.0 to 1.0
-    emotional_tags: List[str] = field(default_factory=list)
+    emotional_tags: list[str] = field(default_factory=list)
 
     def __post_init__(self):
         """Validate memory item structure"""
@@ -145,7 +141,6 @@ class MemoryHook(ABC):
         Raises:
             HookExecutionError: If the memory should not be stored
         """
-        pass
 
     @abstractmethod
     def after_recall(self, item: MemoryItem) -> MemoryItem:
@@ -165,7 +160,6 @@ class MemoryHook(ABC):
         Raises:
             HookExecutionError: If the memory cannot be processed
         """
-        pass
 
     @abstractmethod
     def get_hook_name(self) -> str:
@@ -174,7 +168,6 @@ class MemoryHook(ABC):
         Returns:
             Unique hook name
         """
-        pass
 
     @abstractmethod
     def get_hook_version(self) -> str:
@@ -183,7 +176,6 @@ class MemoryHook(ABC):
         Returns:
             Hook version string
         """
-        pass
 
     def validate_fold_integrity(self, item: MemoryItem) -> bool:
         """Ensure memory fold integrity
@@ -268,7 +260,7 @@ class MemoryHook(ABC):
         """Check if hook is enabled"""
         return self._enabled
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get hook performance metrics"""
         total_calls = (
             self._metrics["before_store_count"] + self._metrics["after_recall_count"]

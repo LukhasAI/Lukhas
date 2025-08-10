@@ -5,7 +5,7 @@ Advanced: adaptive_interface_generator.py
 Integration Date: 2025-05-31T07:55:28.137208
 """
 
-from typing import Dict, List, Optional
+from typing import Optional
 
 
 class AdaptiveInterfaceGenerator:
@@ -32,10 +32,10 @@ class AdaptiveInterfaceGenerator:
     def generate_interface(
         self,
         user_id: str,
-        context: Dict,
-        available_functions: List[str],
-        device_info: Dict,
-    ) -> Dict:
+        context: dict,
+        available_functions: list[str],
+        device_info: dict,
+    ) -> dict:
         """
         Generate a complete interface specification adapted to user and context
         """
@@ -67,7 +67,7 @@ class AdaptiveInterfaceGenerator:
 
         return interface_spec
 
-    def _get_user_profile(self, user_id: str) -> Dict:
+    def _get_user_profile(self, user_id: str) -> dict:
         """Fetch or create user profile with preferences"""
         # This would connect to a user profile service
         # Placeholder implementation
@@ -80,7 +80,7 @@ class AdaptiveInterfaceGenerator:
             "past_interactions": [],
         }
 
-    def _analyze_context_needs(self, context: Dict, user_profile: Dict) -> List[Dict]:
+    def _analyze_context_needs(self, context: dict, user_profile: dict) -> list[dict]:
         """Determine the current user needs based on context"""
         # Analyze what the user likely needs most right now
         # Placeholder implementation
@@ -90,7 +90,7 @@ class AdaptiveInterfaceGenerator:
             {"need": "minimal_interaction", "priority": 0.7},
         ]
 
-    def _get_device_layout(self, device_info: Dict) -> Dict:
+    def _get_device_layout(self, device_info: dict) -> dict:
         """Get appropriate layout constraints for device"""
         device_type = device_info.get("type", "desktop")
         orientation = device_info.get("orientation", "landscape")
@@ -106,8 +106,8 @@ class AdaptiveInterfaceGenerator:
         return self.device_profiles["desktop"]
 
     def _select_components(
-        self, prioritized_needs: List[Dict], available_functions: List[str]
-    ) -> List[Dict]:
+        self, prioritized_needs: list[dict], available_functions: list[str]
+    ) -> list[dict]:
         """Select appropriate interface components"""
         selected = []
 
@@ -145,7 +145,7 @@ class AdaptiveInterfaceGenerator:
 
         return selected
 
-    def _arrange_components(self, components: List[Dict], device_layout: Dict) -> Dict:
+    def _arrange_components(self, components: list[dict], device_layout: dict) -> dict:
         """Arrange components in layout grid following design principles"""
         # Placeholder implementation of layout algorithm
         grid = device_layout["layout_grid"].copy()
@@ -167,7 +167,7 @@ class AdaptiveInterfaceGenerator:
 
         return layout
 
-    def _apply_styling(self, interface_layout: Dict, user_profile: Dict) -> Dict:
+    def _apply_styling(self, interface_layout: dict, user_profile: dict) -> dict:
         """Apply visual styling based on design principles and user preferences"""
         # Get base style
         base_style = self._get_base_style()
@@ -181,7 +181,7 @@ class AdaptiveInterfaceGenerator:
 
         return styled_layout
 
-    def _define_interactions(self, components: List[Dict]) -> Dict:
+    def _define_interactions(self, components: list[dict]) -> dict:
         """Define interaction patterns for components"""
         interactions = {}
 
@@ -194,7 +194,7 @@ class AdaptiveInterfaceGenerator:
 
         return interactions
 
-    def _define_animations(self, user_profile: Dict) -> Dict:
+    def _define_animations(self, user_profile: dict) -> dict:
         """Define subtle animations that enhance usability"""
         # Base animations focused on clarity and purpose
         animations = {
@@ -211,7 +211,7 @@ class AdaptiveInterfaceGenerator:
 
         return animations
 
-    def _enhance_accessibility(self, user_profile: Dict) -> Dict:
+    def _enhance_accessibility(self, user_profile: dict) -> dict:
         """Add accessibility features based on user needs"""
         accessibility = {
             "screen_reader_support": True,
@@ -229,7 +229,7 @@ class AdaptiveInterfaceGenerator:
 
         return accessibility
 
-    def _load_device_profiles(self) -> Dict:
+    def _load_device_profiles(self) -> dict:
         """Load device profiles with layout constraints"""
         # Simplified device profiles
         return {
@@ -250,7 +250,7 @@ class AdaptiveInterfaceGenerator:
             },
         }
 
-    def _load_components(self) -> Dict:
+    def _load_components(self) -> dict:
         """Load available interface components"""
         # This would load from a component library
         # Placeholder implementation
@@ -285,13 +285,13 @@ class AdaptiveInterfaceGenerator:
 
         return component_type in need_map and need in need_map[component_type]
 
-    def _get_component_spec(self, component_type: str) -> Optional[Dict]:
+    def _get_component_spec(self, component_type: str) -> Optional[dict]:
         """Get component specification by type"""
         return self.interface_components.get(component_type)
 
     def _find_optimal_placement(
-        self, component_spec: Dict, grid: Dict
-    ) -> Optional[Dict]:
+        self, component_spec: dict, grid: dict
+    ) -> Optional[dict]:
         """Find optimal placement for component in grid"""
         # Placeholder - this would implement a layout algorithm
         # For now, return a simple placement
@@ -302,7 +302,7 @@ class AdaptiveInterfaceGenerator:
             "height": component_spec["size_range"]["min"]["height"],
         }
 
-    def _get_base_style(self) -> Dict:
+    def _get_base_style(self) -> dict:
         """Get base visual style emphasizing simplicity and clarity"""
         return {
             "color_scheme": {
@@ -324,7 +324,7 @@ class AdaptiveInterfaceGenerator:
             "shadows": "subtle",  # none, subtle, pronounced
         }
 
-    def _adjust_for_user(self, base_style: Dict, user_profile: Dict) -> Dict:
+    def _adjust_for_user(self, base_style: dict, user_profile: dict) -> dict:
         """Adjust base style for user preferences"""
         style = base_style.copy()
 
@@ -346,11 +346,11 @@ class AdaptiveInterfaceGenerator:
 
         return style
 
-    def _rotate_grid(self, grid: Dict) -> Dict:
+    def _rotate_grid(self, grid: dict) -> dict:
         """Rotate grid for portrait orientation"""
         return {"rows": grid["columns"], "columns": grid["rows"]}
 
-    def _get_standard_interactions(self, component_type: str) -> Dict:
+    def _get_standard_interactions(self, component_type: str) -> dict:
         """Get standard interactions for component type"""
         # Common interaction patterns
         common = {

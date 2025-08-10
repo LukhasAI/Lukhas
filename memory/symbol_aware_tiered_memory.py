@@ -51,7 +51,7 @@
 ```
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .memory_optimization import MemoryTier, TieredMemoryCache
 
@@ -62,13 +62,13 @@ class SymbolAwareTieredMemory:
 
     def __init__(self):
         self.cache = TieredMemoryCache()
-        self.metadata: Dict[str, Dict[str, Any]] = {}
+        self.metadata: dict[str, dict[str, Any]] = {}
 
     def store(
         self,
         memory_id: str,
         data: Any,
-        symbols: Optional[List[str]] = None,
+        symbols: Optional[list[str]] = None,
         *,
         is_dream: bool = False,
         tier: MemoryTier = MemoryTier.HOT,
@@ -85,7 +85,7 @@ class SymbolAwareTieredMemory:
         """Retrieve an item if present."""
         return self.cache.get(memory_id)
 
-    def get_dream_flagged(self, limit: int = 5) -> List[Dict[str, Any]]:
+    def get_dream_flagged(self, limit: int = 5) -> list[dict[str, Any]]:
         """Return recent dream-flagged memories."""
         dreams = [
             {"id": mid, "data": self.cache.get(mid)}

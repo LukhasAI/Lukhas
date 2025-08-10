@@ -15,12 +15,14 @@ from dataclasses import dataclass
 
 logger = logging.getLogger(f"lukhas.{__name__}")
 
+
 @dataclass
 class EthicalEvaluatorConfig:
     """Configuration for EthicalEvaluatorComponent"""
     enabled: bool = True
     debug_mode: bool = False
     # Add specific config fields based on TODO requirements
+
 
 class EthicalEvaluatorComponent:
     """
@@ -61,12 +63,18 @@ class EthicalEvaluatorComponent:
         }
 
 # Factory function
+
+
 def create_ethical_evaluator_component() -> EthicalEvaluatorComponent:
     """Create EthicalEvaluatorComponent with default configuration"""
     return EthicalEvaluatorComponent()
 
+
 # Export main functionality
-__all__ = ['EthicalEvaluatorComponent', 'create_ethical_evaluator_component', 'EthicalEvaluatorConfig']
+__all__ = [
+    'EthicalEvaluatorComponent',
+    'create_ethical_evaluator_component',
+     'EthicalEvaluatorConfig']
 
 if __name__ == "__main__":
     # Demo/test functionality

@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 ```plaintext
@@ -72,7 +74,7 @@ import re
 from collections import defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -114,7 +116,7 @@ class SymbolicVaultScanner:
 
         logger.info(f"🩺 ΛVAULTSCAN initialized - Memory directory: {self.memory_dir}")
 
-    def load_memory_snapshots(self) -> Dict[str, Any]:
+    def load_memory_snapshots(self) -> dict[str, Any]:
         """
         Load memory entries from various formats across the memory directory
 
@@ -226,7 +228,7 @@ class SymbolicVaultScanner:
             logger.error(f"❌ Error scanning Python file {file_path}: {e}")
         return 0
 
-    def _process_memory_entry(self, entry: Dict[str, Any], source: str, line_num: int):
+    def _process_memory_entry(self, entry: dict[str, Any], source: str, line_num: int):
         """Process individual memory entry and extract symbols"""
         entry_id = f"{source}:{line_num}"
 
@@ -279,7 +281,7 @@ class SymbolicVaultScanner:
                 }
             )
 
-    def _extract_symbols_from_text(self, text: str, source: str) -> List[str]:
+    def _extract_symbols_from_text(self, text: str, source: str) -> list[str]:
         """Extract ΛTAG and GLYPH symbols from text content"""
         symbols = []
 
@@ -299,7 +301,7 @@ class SymbolicVaultScanner:
 
     def detect_stale_symbols(
         self, days_threshold: int = 30, frequency_threshold: int = 2
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Detect stale or low-frequency symbols that may indicate decay
 
@@ -348,7 +350,7 @@ class SymbolicVaultScanner:
                 "latest_timestamp": (
                     latest_timestamp.isoformat() if latest_timestamp else None
                 ),
-                "sources": list(set(occ["source"] for occ in occurrences)),
+                "sources": list({occ["source"] for occ in occurrences}),
             }
 
             # Flag as stale if score is high
@@ -375,7 +377,7 @@ class SymbolicVaultScanner:
             },
         }
 
-    def detect_missing_links(self) -> Dict[str, Any]:
+    def detect_missing_links(self) -> dict[str, Any]:
         """
         Detect broken symbolic co-occurrences and missing linkages
 
@@ -385,12 +387,11 @@ class SymbolicVaultScanner:
         logger.info("🔗 Detecting missing symbolic links...")
 
         missing_links = {}
-        link_stats = {}
         expected_links = defaultdict(int)
         actual_links = defaultdict(int)
 
         # Build co-occurrence matrix
-        for entry_id, entry in self.memory_snapshots.items():
+        for _entry_id, entry in self.memory_snapshots.items():
             symbols_in_entry = []
 
             # Extract symbols from this entry
@@ -399,7 +400,7 @@ class SymbolicVaultScanner:
 
             # Look for symbol references in text content
             entry_text = json.dumps(entry).upper()
-            for symbol in self.symbol_registry.keys():
+            for symbol in self.symbol_registry:
                 if symbol.upper() in entry_text:
                     symbols_in_entry.append(symbol)
 
@@ -463,7 +464,7 @@ class SymbolicVaultScanner:
             ),
         }
 
-    def assess_vault_health(self) -> Dict[str, Any]:
+    def assess_vault_health(self) -> dict[str, Any]:
         """
         Comprehensive vault health assessment with scoring
 
@@ -506,7 +507,7 @@ class SymbolicVaultScanner:
             self.load_memory_snapshots().get("file_distribution", {}).values()
         )
         files_with_symbols = len(
-            set(occ["source"] for occs in self.symbol_registry.values() for occ in occs)
+            {occ["source"] for occs in self.symbol_registry.values() for occ in occs}
         )
         coverage_efficiency = files_with_symbols / max(total_files_scanned, 1)
 
@@ -560,8 +561,8 @@ class SymbolicVaultScanner:
         }
 
     def _generate_health_recommendations(
-        self, health_score: float, stale_analysis: Dict, link_analysis: Dict
-    ) -> List[str]:
+        self, health_score: float, stale_analysis: dict, link_analysis: dict
+    ) -> list[str]:
         """Generate actionable health recommendations"""
         recommendations = []
 
@@ -640,7 +641,7 @@ class SymbolicVaultScanner:
         return report_content
 
     def _generate_markdown_report(
-        self, health_assessment: Dict, stale_analysis: Dict, link_analysis: Dict
+        self, health_assessment: dict, stale_analysis: dict, link_analysis: dict
     ) -> str:
         """Generate markdown format report"""
         health_emoji = health_assessment["health_emoji"]

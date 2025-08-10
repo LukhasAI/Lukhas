@@ -15,7 +15,7 @@
 import json
 import re
 from collections import Counter, defaultdict
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any
 
 
 class SemanticExtractor:
@@ -35,17 +35,17 @@ class SemanticExtractor:
         self.abstraction_levels = abstraction_levels
 
         # Pattern storage
-        self.observed_patterns: Dict[str, int] = Counter()
-        self.semantic_clusters: Dict[str, Set[str]] = defaultdict(set)
-        self.abstraction_hierarchy: Dict[int, Dict[str, Set[str]]] = {
+        self.observed_patterns: dict[str, int] = Counter()
+        self.semantic_clusters: dict[str, set[str]] = defaultdict(set)
+        self.abstraction_hierarchy: dict[int, dict[str, set[str]]] = {
             level: {} for level in range(abstraction_levels)
         }
 
         # Relationship extraction
-        self.entity_relations: Dict[str, Dict[str, Set[str]]] = defaultdict(
+        self.entity_relations: dict[str, dict[str, set[str]]] = defaultdict(
             lambda: defaultdict(set)
         )
-        self.causal_chains: List[Tuple[str, str, float]] = (
+        self.causal_chains: list[tuple[str, str, float]] = (
             []
         )  # (cause, effect, confidence)
 
@@ -59,7 +59,7 @@ class SemanticExtractor:
             abstraction_levels=abstraction_levels,
         )
 
-    def extract_semantics(self, episodes: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def extract_semantics(self, episodes: list[dict[str, Any]]) -> dict[str, Any]:
         """
         Extract semantic knowledge from a batch of episodes.
         Returns structured semantic representation.
@@ -100,7 +100,7 @@ class SemanticExtractor:
 
         return semantic_knowledge
 
-    def extract_concept(self, episode: Dict[str, Any]) -> Tuple[str, Dict[str, Any]]:
+    def extract_concept(self, episode: dict[str, Any]) -> tuple[str, dict[str, Any]]:
         """
         Extract primary concept and attributes from single episode.
         Returns (concept_name, attributes).
@@ -117,7 +117,7 @@ class SemanticExtractor:
         return concept, attributes
 
     def find_semantic_similarity(
-        self, episode1: Dict[str, Any], episode2: Dict[str, Any]
+        self, episode1: dict[str, Any], episode2: dict[str, Any]
     ) -> float:
         """Calculate semantic similarity between two episodes"""
 
@@ -150,7 +150,7 @@ class SemanticExtractor:
 
         return similarity
 
-    def _extract_episode_features(self, episode: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_episode_features(self, episode: dict[str, Any]) -> dict[str, Any]:
         """Extract semantic features from episode"""
 
         features = {
@@ -163,7 +163,7 @@ class SemanticExtractor:
         }
 
         # Convert to string for analysis
-        episode_str = json.dumps(episode, sort_keys=True)
+        json.dumps(episode, sort_keys=True)
 
         # Extract entities (simplified - would use NER in practice)
         for key, value in episode.items():
@@ -195,8 +195,8 @@ class SemanticExtractor:
         return features
 
     def _find_common_patterns(
-        self, feature_sets: List[Dict[str, Any]]
-    ) -> Dict[str, List[Any]]:
+        self, feature_sets: list[dict[str, Any]]
+    ) -> dict[str, list[Any]]:
         """Find patterns that occur frequently across episodes"""
 
         patterns = defaultdict(list)
@@ -259,8 +259,8 @@ class SemanticExtractor:
         return dict(patterns)
 
     def _cluster_semantically(
-        self, patterns: Dict[str, List[Any]]
-    ) -> Dict[str, Set[str]]:
+        self, patterns: dict[str, list[Any]]
+    ) -> dict[str, set[str]]:
         """Cluster patterns into semantic groups"""
 
         clusters = defaultdict(set)
@@ -291,7 +291,7 @@ class SemanticExtractor:
 
         return dict(clusters)
 
-    def _extract_relationships(self, episodes: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _extract_relationships(self, episodes: list[dict[str, Any]]) -> dict[str, Any]:
         """Extract relationships between entities and concepts"""
 
         relationships = {
@@ -356,14 +356,14 @@ class SemanticExtractor:
         return relationships
 
     def _build_abstractions(
-        self, clusters: Dict[str, Set[str]]
-    ) -> Dict[int, Dict[str, Set[str]]]:
+        self, clusters: dict[str, set[str]]
+    ) -> dict[int, dict[str, set[str]]]:
         """Build multi-level abstraction hierarchy"""
 
         hierarchy = {level: {} for level in range(self.abstraction_levels)}
 
         # Level 0: Direct clusters
-        hierarchy[0] = {k: v for k, v in clusters.items()}
+        hierarchy[0] = dict(clusters.items())
 
         # Level 1: Merge similar clusters
         if self.abstraction_levels > 1:
@@ -411,7 +411,7 @@ class SemanticExtractor:
 
         return hierarchy
 
-    def _identify_primary_concept(self, features: Dict[str, Any]) -> str:
+    def _identify_primary_concept(self, features: dict[str, Any]) -> str:
         """Identify the primary concept from features"""
 
         # Priority order for concept identification
@@ -430,8 +430,8 @@ class SemanticExtractor:
         return "unknown"
 
     def _extract_attributes(
-        self, features: Dict[str, Any], concept: str
-    ) -> Dict[str, Any]:
+        self, features: dict[str, Any], concept: str
+    ) -> dict[str, Any]:
         """Extract relevant attributes for a concept"""
 
         attributes = {}
@@ -459,7 +459,7 @@ class SemanticExtractor:
 
         return attributes
 
-    def _compare_sequences(self, seq1: List[Any], seq2: List[Any]) -> float:
+    def _compare_sequences(self, seq1: list[Any], seq2: list[Any]) -> float:
         """Compare two sequences for similarity"""
 
         if not seq1 or not seq2:
@@ -479,7 +479,7 @@ class SemanticExtractor:
         lcs_length = dp[m][n]
         return lcs_length / max(m, n)
 
-    def _compare_attributes(self, attrs1: Dict, attrs2: Dict) -> float:
+    def _compare_attributes(self, attrs1: dict, attrs2: dict) -> float:
         """Compare two attribute dictionaries"""
 
         if not attrs1 and not attrs2:
@@ -515,7 +515,7 @@ class SemanticExtractor:
 
         return 0.5 * key_similarity + 0.5 * value_similarity
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get extractor metrics"""
 
         return {

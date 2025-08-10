@@ -57,6 +57,7 @@
 | Symbolic Tags: {NEURAL}, {ADAPTIVE}, {QUANTUM}, {PATTERN}
 +==================================================================================
 """
+import logging
 
 import asyncio
 import json
@@ -68,7 +69,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 import torch
@@ -125,7 +126,7 @@ class NeuralPattern:
     created_at: datetime
     last_accessed: datetime
     access_count: int
-    associations: List[str]
+    associations: list[str]
     emotional_weight: float
 
 
@@ -135,11 +136,11 @@ class NeuralContext:
 
     mode: NeuralMode
     architecture_type: NeuralArchitectureType
-    input_dimensions: Tuple[int, ...]
-    output_dimensions: Tuple[int, ...]
-    processing_parameters: Dict[str, Any]
-    memory_context: Dict[str, Any]
-    emotional_context: Dict[str, float]
+    input_dimensions: tuple[int, ...]
+    output_dimensions: tuple[int, ...]
+    processing_parameters: dict[str, Any]
+    memory_context: dict[str, Any]
+    emotional_context: dict[str, float]
 
 
 class AdaptiveNeuralNetwork(nn.Module):
@@ -149,7 +150,7 @@ class AdaptiveNeuralNetwork(nn.Module):
     """
 
     def __init__(
-        self, input_size: int, output_size: int, hidden_sizes: List[int] = None
+        self, input_size: int, output_size: int, hidden_sizes: list[int] = None
     ):
         super().__init__()
         self.input_size = input_size
@@ -182,7 +183,7 @@ class AdaptiveNeuralNetwork(nn.Module):
             x = activation(x)
         return x
 
-    def adapt_architecture(self, performance_metrics: Dict[str, float]):
+    def adapt_architecture(self, performance_metrics: dict[str, float]):
         """Adapt network architecture based on performance"""
         # Store performance metrics
         self.performance_history.append(performance_metrics)
@@ -223,7 +224,7 @@ class AdaptiveNeuralNetwork(nn.Module):
                 f"Optimized neural architecture: {self.hidden_sizes} -> {optimized_sizes}"
             )
 
-    def _rebuild_network(self, new_hidden_sizes: List[int]):
+    def _rebuild_network(self, new_hidden_sizes: list[int]):
         """Rebuild network with new architecture"""
         # Save current weights (simplified - in practice would be more sophisticated)
         old_state_dict = self.state_dict()
@@ -282,13 +283,13 @@ class NeuralIntegrator:
         self.quantum_inspired_processor: Optional[QuantumInspiredProcessor] = None
 
         # Neural networks
-        self.neural_networks: Dict[str, AdaptiveNeuralNetwork] = {}
-        self.pattern_database: Dict[str, NeuralPattern] = {}
+        self.neural_networks: dict[str, AdaptiveNeuralNetwork] = {}
+        self.pattern_database: dict[str, NeuralPattern] = {}
 
         # Processing state
         self.processing_queue: asyncio.Queue = asyncio.Queue()
-        self.active_processes: Dict[str, bool] = {}
-        self.performance_metrics: Dict[str, List[float]] = defaultdict(list)
+        self.active_processes: dict[str, bool] = {}
+        self.performance_metrics: dict[str, list[float]] = defaultdict(list)
 
         # Configuration
         self.config = self._load_config(config_path)
@@ -299,7 +300,7 @@ class NeuralIntegrator:
 
         logger.info(f"Neural Integrator initialized: {self.integrator_id}")
 
-    def _load_config(self, config_path: Optional[str]) -> Dict[str, Any]:
+    def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
         """Load neural integration configuration"""
         default_config = {
             "neural_architectures": {
@@ -472,7 +473,8 @@ class NeuralIntegrator:
 
     async def _evaluate_neural_mode(self) -> NeuralMode:
         """Evaluate and determine appropriate neural mode"""
-        # This is a simplified evaluation - in practice, this would be more sophisticated
+        # This is a simplified evaluation - in practice, this would be more
+        # sophisticated
         if (
             self.consciousness_integrator
             and self.consciousness_integrator.current_context
@@ -507,7 +509,7 @@ class NeuralIntegrator:
             except Exception as e:
                 logger.error(f"Error processing neural patterns: {e}")
 
-    async def _learn_pattern(self, pattern_data: Dict[str, Any]):
+    async def _learn_pattern(self, pattern_data: dict[str, Any]):
         """Learn a new neural pattern"""
         pattern_id = str(uuid.uuid4())
 
@@ -692,7 +694,7 @@ class NeuralIntegrator:
 
     async def process_input(
         self, input_data: np.ndarray, context: NeuralContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Process input through neural network"""
         results = {}
 
@@ -727,7 +729,7 @@ class NeuralIntegrator:
 
     async def _find_similar_patterns(
         self, input_features: np.ndarray
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Find patterns similar to input feature"""
         similar_patterns = []
         threshold = self.config["processing"]["pattern_similarity_threshold"]
@@ -750,10 +752,11 @@ class NeuralIntegrator:
                 )
 
         # Sort by similarity
-        # SYNTAX_ERROR_FIXED:         similar_patterns.sort(key= x: x['similarity'], reverse=True)
+        # SYNTAX_ERROR_FIXED:         similar_patterns.sort(key= x:
+        # x['similarity'], reverse=True)
         return similar_patterns[:5]  # Return top 5
 
-    async def get_neural_status(self) -> Dict[str, Any]:
+    async def get_neural_status(self) -> dict[str, Any]:
         """Get current neural processing statu"""
         return {
             "integrator_id": self.integrator_id,

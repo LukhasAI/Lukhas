@@ -35,12 +35,12 @@
 ║ • Predictive Processing Framework (Clark, 2013)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 import asyncio
 from datetime import datetime
 from typing import (  # List not used in signatures but kept
     Any,
-    Dict,
     Optional,
 )
 
@@ -100,7 +100,7 @@ class AwarenessEngine:
     @lukhas_tier_required(level=3)
     def __init__(
         self,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
         user_id_context: Optional[str] = None,
     ):
         """
@@ -166,7 +166,7 @@ class AwarenessEngine:
 
     # Human-readable comment: Processes input data through the awareness engine.
     @lukhas_tier_required(level=3)
-    async def process(self, data: Any, user_id: Optional[str] = None) -> Dict[str, Any]:
+    async def process(self, data: Any, user_id: Optional[str] = None) -> dict[str, Any]:
         """
         Process input data through the consciousness/awareness logic.
         Args:
@@ -237,7 +237,8 @@ class AwarenessEngine:
         self.instance_logger.debug(
             f"ΛTRACE: Internal: _core_consciousness_processing for category '{category}'."
         )
-        # TODO: This dispatch logic should be more robust, potentially using a handler map.
+        # TODO: This dispatch logic should be more robust, potentially using a
+        # handler map.
         if category == "consciousness_stream":  # Example more specific category
             return await self._process_consciousness_data(data)
         elif category == "governance_query":
@@ -250,7 +251,7 @@ class AwarenessEngine:
             return await self._process_generic_data(data)
 
     # Specific processing methods (placeholders, to be implemented)
-    async def _process_consciousness_data(self, data: Any) -> Dict[str, Any]:
+    async def _process_consciousness_data(self, data: Any) -> dict[str, Any]:
         self.instance_logger.debug(
             "ΛTRACE: Internal: Processing consciousness-related data (placeholder)."
         )
@@ -259,7 +260,7 @@ class AwarenessEngine:
             "awareness_focus": "enhanced_simulation",
         }
 
-    async def _process_governance_data(self, data: Any) -> Dict[str, Any]:
+    async def _process_governance_data(self, data: Any) -> dict[str, Any]:
         self.instance_logger.debug(
             "ΛTRACE: Internal: Processing governance-related data (placeholder)."
         )
@@ -270,7 +271,7 @@ class AwarenessEngine:
 
     async def _process_voice_data(
         self, data: Any
-    ) -> Dict[str, Any]:  # Added from original logic, if used
+    ) -> dict[str, Any]:  # Added from original logic, if used
         self.instance_logger.debug(
             "ΛTRACE: Internal: Processing voice-related data (placeholder)."
         )
@@ -278,7 +279,7 @@ class AwarenessEngine:
 
     async def _process_identity_data(
         self, data: Any
-    ) -> Dict[str, Any]:  # Added from original logic, if used
+    ) -> dict[str, Any]:  # Added from original logic, if used
         self.instance_logger.debug(
             "ΛTRACE: Internal: Processing identity-related data (placeholder)."
         )
@@ -289,13 +290,13 @@ class AwarenessEngine:
 
     async def _process_quantum_data(
         self, data: Any
-    ) -> Dict[str, Any]:  # Added from original logic, if used
+    ) -> dict[str, Any]:  # Added from original logic, if used
         self.instance_logger.debug(
             "ΛTRACE: Internal: Processing quantum-related data (placeholder)."
         )
         return {"quantum_entanglement_status": "stable", "coherence_level": "high"}
 
-    async def _process_generic_data(self, data: Any) -> Dict[str, Any]:
+    async def _process_generic_data(self, data: Any) -> dict[str, Any]:
         self.instance_logger.debug(
             "ΛTRACE: Internal: Processing generic data (placeholder)."
         )
@@ -344,14 +345,15 @@ class AwarenessEngine:
         self.instance_logger.debug(
             "ΛTRACE: Internal: Performing internal validation checks (placeholder)."
         )
-        # TODO: Implement actual validation logic (e.g., check dependencies, internal state consistency).
+        # TODO: Implement actual validation logic (e.g., check dependencies,
+        # internal state consistency).
         return True  # Placeholder
 
     # Human-readable comment: Retrieves the current status of the component.
     @lukhas_tier_required(level=0)  # Basic status check
     def get_status(
         self, user_id: Optional[str] = None
-    ) -> Dict[str, Any]:  # Made sync as it reads attributes
+    ) -> dict[str, Any]:  # Made sync as it reads attributes
         """
         Get current component status, including initialization state.
         Args:
@@ -392,10 +394,11 @@ class AwarenessEngine:
 
 
 # Human-readable comment: Factory function for creating AwarenessEngine instances.
-# Tier check might be on usage, not factory itself, unless factory does privileged setup.
+# Tier check might be on usage, not factory itself, unless factory does
+# privileged setup.
 @lukhas_tier_required(level=3)
 def create_awareness_component(
-    config: Optional[Dict[str, Any]] = None, user_id: Optional[str] = None
+    config: Optional[dict[str, Any]] = None, user_id: Optional[str] = None
 ) -> AwarenessEngine:  # Standardized name
     """
     Factory function to create an AwarenessEngine instance.
@@ -411,10 +414,11 @@ def create_awareness_component(
     return AwarenessEngine(config, user_id_context=user_id)  # Pass user_id as context
 
 
-# Human-readable comment: Async factory function to create and initialize AwarenessEngine instances.
+# Human-readable comment: Async factory function to create and initialize
+# AwarenessEngine instances.
 @lukhas_tier_required(level=3)
 async def create_and_initialize_awareness_component(
-    config: Optional[Dict[str, Any]] = None, user_id: Optional[str] = None
+    config: Optional[dict[str, Any]] = None, user_id: Optional[str] = None
 ) -> AwarenessEngine:
     """
     Async factory function to create and initialize an AwarenessEngine instance.

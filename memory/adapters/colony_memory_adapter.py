@@ -42,7 +42,7 @@ import asyncio
 import time
 from collections import deque
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Callable, Optional, Union
 from uuid import uuid4
 
 from ..core.colony_memory_validator import (
@@ -70,7 +70,7 @@ class ColonyMemoryStats:
     failed_operations: int = 0
     average_response_time: float = 0.0
     last_operation_time: float = field(default_factory=time.time)
-    memory_types_handled: Set[MemoryType] = field(default_factory=set)
+    memory_types_handled: set[MemoryType] = field(default_factory=set)
 
     @property
     def success_rate(self) -> float:
@@ -116,20 +116,20 @@ class ColonyMemoryAdapter:
         self.validator = validator or ColonyMemoryValidator()
 
         # Interface management
-        self.memory_interfaces: Dict[MemoryType, BaseMemoryInterface] = {}
-        self.interface_factories: Dict[MemoryType, Callable] = {}
+        self.memory_interfaces: dict[MemoryType, BaseMemoryInterface] = {}
+        self.interface_factories: dict[MemoryType, Callable] = {}
 
         # Colony coordination
-        self.registered_colonies: Set[str] = set()
-        self.colony_stats: Dict[str, ColonyMemoryStats] = {}
+        self.registered_colonies: set[str] = set()
+        self.colony_stats: dict[str, ColonyMemoryStats] = {}
         self.colony_load_balancer = deque()  # Round-robin queue
 
         # Operation tracking
-        self.active_operations: Dict[str, MemoryOperation] = {}
+        self.active_operations: dict[str, MemoryOperation] = {}
         self.operation_history: deque = deque(maxlen=1000)
 
         # Caching
-        self.memory_cache: Dict[str, Tuple[Any, float]] = {}
+        self.memory_cache: dict[str, tuple[Any, float]] = {}
         self.cache_hits = 0
         self.cache_misses = 0
 
@@ -198,7 +198,7 @@ class ColonyMemoryAdapter:
 
         logger.info("Interface factory registered", memory_type=memory_type.value)
 
-    def register_colony(self, colony_id: str, colony_info: Dict[str, Any]):
+    def register_colony(self, colony_id: str, colony_info: dict[str, Any]):
         """Register a colony for distributed operations"""
         self.registered_colonies.add(colony_id)
         self.colony_stats[colony_id] = ColonyMemoryStats(colony_id=colony_id)
@@ -385,12 +385,12 @@ class ColonyMemoryAdapter:
     async def search_memories(
         self,
         memory_type: MemoryType,
-        query: Union[str, Dict[str, Any]],
-        filters: Optional[Dict[str, Any]] = None,
+        query: Union[str, dict[str, Any]],
+        filters: Optional[dict[str, Any]] = None,
         limit: int = 50,
         distributed: bool = False,
         **kwargs,
-    ) -> List[MemoryResponse]:
+    ) -> list[MemoryResponse]:
         """Search memories through the adapter"""
 
         interface = await self._get_interface(memory_type)
@@ -546,7 +546,7 @@ class ColonyMemoryAdapter:
         logger.error(f"No interface available for {memory_type.value}")
         return None
 
-    def _select_colonies(self) -> List[str]:
+    def _select_colonies(self) -> list[str]:
         """Select colonies for distributed operations"""
         if not self.config.load_balancing:
             return list(self.registered_colonies)
@@ -631,7 +631,7 @@ class ColonyMemoryAdapter:
                 logger.error(f"Stats collection error: {e}")
                 await asyncio.sleep(60)
 
-    def get_adapter_stats(self) -> Dict[str, Any]:
+    def get_adapter_stats(self) -> dict[str, Any]:
         """Get comprehensive adapter statistics"""
         success_rate = self.successful_operations / max(self.total_operations, 1)
         avg_response_time = (
@@ -660,7 +660,7 @@ class ColonyMemoryAdapter:
             "validator_stats": self.validator.get_metrics(),
         }
 
-    def get_colony_stats(self) -> Dict[str, Dict[str, Any]]:
+    def get_colony_stats(self) -> dict[str, dict[str, Any]]:
         """Get statistics for all registered colonies"""
         return {
             colony_id: {

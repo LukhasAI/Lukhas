@@ -11,7 +11,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
 import yaml
@@ -27,8 +27,8 @@ class PersonaMatch:
 
     persona_name: str
     similarity_score: float
-    matching_glyphs: List[str]
-    trait_alignment: Dict[str, float]
+    matching_glyphs: list[str]
+    trait_alignment: dict[str, float]
     explanation: str
     confidence: str  # high/medium/low
 
@@ -186,7 +186,7 @@ class PersonaSimilarityEngine:
 
         return dot_product / (norm1 * norm2)
 
-    def _create_session_embedding(self, symbolic_trace: Dict[str, Any]) -> np.ndarray:
+    def _create_session_embedding(self, symbolic_trace: dict[str, Any]) -> np.ndarray:
         """Create embedding for current session"""
         # Initialize embedding
         if not self.feature_map:
@@ -242,7 +242,7 @@ class PersonaSimilarityEngine:
 
         return embedding
 
-    def recommend_persona(self, symbolic_trace: Dict[str, Any]) -> PersonaMatch:
+    def recommend_persona(self, symbolic_trace: dict[str, Any]) -> PersonaMatch:
         """
         Recommend the best matching persona for current symbolic state.
 
@@ -268,8 +268,8 @@ class PersonaSimilarityEngine:
             )
 
     def rank_personas(
-        self, symbolic_trace: Dict[str, Any], top_n: int = 3
-    ) -> List[PersonaMatch]:
+        self, symbolic_trace: dict[str, Any], top_n: int = 3
+    ) -> list[PersonaMatch]:
         """
         Rank all personas by similarity to current state.
 
@@ -349,8 +349,8 @@ class PersonaSimilarityEngine:
         return matches
 
     def _calculate_trait_alignment(
-        self, symbolic_trace: Dict[str, Any], persona: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, symbolic_trace: dict[str, Any], persona: dict[str, Any]
+    ) -> dict[str, float]:
         """Calculate alignment between session state and persona traits"""
         alignment = {}
 
@@ -378,8 +378,8 @@ class PersonaSimilarityEngine:
 
     def _generate_explanation(
         self,
-        symbolic_trace: Dict[str, Any],
-        persona: Dict[str, Any],
+        symbolic_trace: dict[str, Any],
+        persona: dict[str, Any],
         score: float,
         glyph_overlap: int,
     ) -> str:
@@ -412,8 +412,8 @@ class PersonaSimilarityEngine:
         return "; ".join(explanations)
 
     def evolve_persona(
-        self, drift_history: List[Dict[str, Any]], current_persona: str
-    ) -> Dict[str, Any]:
+        self, drift_history: list[dict[str, Any]], current_persona: str
+    ) -> dict[str, Any]:
         """
         Suggest persona evolution based on drift history.
 
@@ -504,8 +504,8 @@ class PersonaSimilarityEngine:
             }
 
     def get_fallback_if_collapse(
-        self, symbolic_trace: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, symbolic_trace: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Get fallback persona if symbolic collapse detected.
 
@@ -565,7 +565,7 @@ class PersonaSimilarityEngine:
             "urgency": "critical" if len(collapse_type) > 1 else "high",
         }
 
-    def _generate_recovery_strategy(self, collapse_types: List[str]) -> str:
+    def _generate_recovery_strategy(self, collapse_types: list[str]) -> str:
         """Generate recovery strategy based on collapse type"""
         strategies = []
 
@@ -580,7 +580,7 @@ class PersonaSimilarityEngine:
 
         return "; ".join(strategies) if strategies else "General stabilization protocol"
 
-    def batch_analyze(self, session_traces: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def batch_analyze(self, session_traces: list[dict[str, Any]]) -> dict[str, Any]:
         """
         Analyze multiple sessions for patterns and recommendations.
 
@@ -636,8 +636,8 @@ class PersonaSimilarityEngine:
         }
 
     def _generate_batch_recommendations(
-        self, stability: float, transitions: List[Dict], dominant: str
-    ) -> List[str]:
+        self, stability: float, transitions: list[dict], dominant: str
+    ) -> list[str]:
         """Generate recommendations from batch analysis"""
         recommendations = []
 
@@ -663,7 +663,7 @@ class PersonaSimilarityEngine:
 
     def export_similarity_report(
         self,
-        symbolic_trace: Dict[str, Any],
+        symbolic_trace: dict[str, Any],
         output_path: str = "similarity_report.json",
     ) -> str:
         """
@@ -717,7 +717,7 @@ class PersonaSimilarityEngine:
         logger.info(f"📊 Similarity report exported to {output_path}")
         return str(output_path)
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get engine statistics"""
         embedding_dims = 0
         if self.persona_embeddings:

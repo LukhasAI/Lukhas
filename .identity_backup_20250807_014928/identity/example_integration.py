@@ -23,11 +23,12 @@ from identity import (
 app = FastAPI(
     title="LUKHΛS Protected Application",
     description="Example application with identity integration",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # Include the identity router
 app.include_router(identity_router)
+
 
 # Public endpoint - no authentication required
 @app.get("/")
@@ -42,9 +43,10 @@ async def root():
             "login": "/identity/login",
             "protected": "/protected (requires auth)",
             "dashboard": "/dashboard (requires T2+)",
-            "admin": "/admin (requires T5)"
-        }
+            "admin": "/admin (requires T5)",
+        },
     }
+
 
 # Protected endpoint - requires any authenticated user
 @app.get("/protected")
@@ -55,8 +57,9 @@ async def protected_route(user: AuthContext = Depends(get_current_user)):
         "tier": user.tier,
         "lambda_id": user.lambda_id,
         "glyphs": user.glyphs,
-        "trinity_score": user.trinity_score
+        "trinity_score": user.trinity_score,
     }
+
 
 # Dashboard endpoint - requires T2 or higher
 @app.get("/dashboard")
@@ -69,9 +72,10 @@ async def dashboard(user: AuthContext = Depends(require_t3_or_above)):
         "features_available": [
             "Consciousness Module",
             "Emotion Processing",
-            "Dream Engine"
-        ]
+            "Dream Engine",
+        ],
     }
+
 
 # Admin endpoint - requires T5 (Guardian)
 @app.get("/admin")
@@ -85,25 +89,19 @@ async def admin_panel(user: AuthContext = Depends(require_t5)):
             "User Management",
             "System Configuration",
             "Guardian Oversight",
-            "Drift Monitoring"
-        ]
+            "Drift Monitoring",
+        ],
     }
+
 
 # Example API endpoint with tier-based functionality
 @app.post("/api/process")
-async def process_data(
-    data: dict,
-    user: AuthContext = Depends(get_current_user)
-):
+async def process_data(data: dict, user: AuthContext = Depends(get_current_user)):
     """
     Process data with tier-based features.
     Higher tiers get more processing capabilities.
     """
-    result = {
-        "user": user.email,
-        "tier": user.tier,
-        "input": data
-    }
+    result = {"user": user.email, "tier": user.tier, "input": data}
 
     # Basic processing for all tiers
     result["basic_analysis"] = len(str(data))
@@ -112,7 +110,7 @@ async def process_data(
     if user.is_tier_or_above("T2"):
         result["enhanced_analysis"] = {
             "keys": list(data.keys()),
-            "complexity": len(data.keys())
+            "complexity": len(data.keys()),
         }
 
     # Consciousness processing for T3+
@@ -129,10 +127,11 @@ async def process_data(
         result["guardian_insights"] = {
             "drift_detected": False,
             "ethical_score": 1.0,
-            "recommendation": "approved"
+            "recommendation": "approved",
         }
 
     return result
+
 
 # Error handler for authentication failures
 @app.exception_handler(401)
@@ -142,9 +141,10 @@ async def unauthorized_handler(request, exc):
         content={
             "error": "Unauthorized",
             "message": str(exc.detail),
-            "login_endpoint": "/identity/login"
-        }
+            "login_endpoint": "/identity/login",
+        },
     )
+
 
 @app.exception_handler(403)
 async def forbidden_handler(request, exc):
@@ -153,9 +153,10 @@ async def forbidden_handler(request, exc):
         content={
             "error": "Forbidden",
             "message": str(exc.detail),
-            "required_tier": "Check endpoint documentation"
-        }
+            "required_tier": "Check endpoint documentation",
+        },
     )
+
 
 if __name__ == "__main__":
     print("🧠 LUKHΛS Identity Integration Example")

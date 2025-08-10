@@ -37,9 +37,11 @@ import os
 import json
 from pathlib import Path
 from typing import Dict, List
-import structlog # Added structlog
+import structlog  # Added structlog
 
-logger = structlog.get_logger("ΛTRACE.reasoning.scaffold_lukhas_modules_reasoning_engine")
+logger = structlog.get_logger(
+    "ΛTRACE.reasoning.scaffold_lukhas_modules_reasoning_engine")
+
 
 class ScaffoldLukhasModulesReasoningEngine:
     """
@@ -52,18 +54,24 @@ class ScaffoldLukhasModulesReasoningEngine:
     # ΛNOTE: Initializes the scaffolder with a base path for generation.
     # ΛCAUTION: The default `base_path` is hardcoded and specific to a particular environment.
     # This should be configurable or determined dynamically for better portability.
-    def __init__(self, base_path: str = "/Users/A_G_I/LUKHAS_REBIRTH_Workspace/Lukhas_Private/Lukhas-Flagship-Prototype-Pre-Modularitation/prot2"):
+    def __init__(
+            self,
+            base_path: str = "/Users/A_G_I/LUKHAS_REBIRTH_Workspace/Lukhas_Private/Lukhas-Flagship-Prototype-Pre-Modularitation/prot2"):
         self.logger = logger.bind(class_name=self.__class__.__name__)
         self.base_path = Path(base_path)
         self.lukhas_path = self.base_path / "lukhas"
-        self.logger.info("Scaffolder initialized.", base_path=str(self.base_path), lukhas_path=str(self.lukhas_path))
+        self.logger.info(
+            "Scaffolder initialized.", base_path=str(
+                self.base_path), lukhas_path=str(
+                self.lukhas_path))
 
-        # ΛNOTE: `core_modules` defines the foundational symbolic components of the LUKHAS architecture.
+        # ΛNOTE: `core_modules` defines the foundational symbolic components of
+        # the LUKHAS architecture.
         self.core_modules = [
             "core",      # Orchestration, symbolic loop, agent registration
             "memory",    # MemoryManager, folds, vault integration
             "identity",  # LucasID, access tiers, vault/biometrics
-            "governance",# Ethics engine, drift detection, compliance logs
+            "governance",  # Ethics engine, drift detection, compliance logs
             "dream",     # Dream engine, dream API, visual output format
             "bio",       # Oscillator, quantum core, awareness systems
             "emotion",   # Resonance engine, tone feedback, emoji mapping
@@ -141,7 +149,7 @@ class ScaffoldLukhasModulesReasoningEngine:
     # laying the physical groundwork for the symbolic architecture.
     def create_directory_structure(self):
         """Creates the /lukhas/ directory structure."""
-        self.logger.info("Creating Lukhas modular architecture...") #🏗️
+        self.logger.info("Creating Lukhas modular architecture...")  # 🏗️
 
         # Create main lukhas directory
         self.lukhas_path.mkdir(exist_ok=True)
@@ -159,7 +167,7 @@ class ScaffoldLukhasModulesReasoningEngine:
             (module_path / "docs").mkdir(exist_ok=True)
             (module_path / "examples").mkdir(exist_ok=True)
 
-            self.logger.info("Created module structure.", module_name=module) # ✅
+            self.logger.info("Created module structure.", module_name=module)  # ✅
 
     # ΛNOTE: Generates the content for a module's `__init__.py` file,
     # including boilerplate for module registration and purpose documentation.
@@ -828,7 +836,8 @@ core_registry = CoreRegistry()
     # module class structure, request dataclass, and placeholder processing logic.
     # ΛSEED_CHAIN: This method bootstraps the core symbolic logic container for each module.
     # ΛCAUTION: Generated class names currently include scaffolder class reference (e.g., ScaffoldLukhasModulesReasoningEngineRequest).
-    # Consider decoupling via template parameterization or `module_name` injection for semantic isolation.
+    # Consider decoupling via template parameterization or `module_name`
+    # injection for semantic isolation.
     def generate_module_core(self, module_name: str) -> str:
         """Generates core.py for a module."""
         # ... (template string as previously defined, ensure self.logger usage if any print was there)
@@ -953,7 +962,8 @@ class {module_name.title()}Module(BaseLucasModule): # Corrected from ScaffoldLuk
     # establishing the structure for module-specific and common configurations.
     # ΛSEED_CHAIN: Bootstraps the configuration parameters for a module.
     # ΛCAUTION: Generated class names currently include scaffolder class reference (e.g., ScaffoldLukhasModulesReasoningEngineConfig).
-    # Consider decoupling via template parameterization or `module_name` injection for semantic isolation.
+    # Consider decoupling via template parameterization or `module_name`
+    # injection for semantic isolation.
     def generate_module_config(self, module_name: str) -> str:
         """Generates config.py for a module."""
         return f'''"""
@@ -1014,7 +1024,8 @@ class {module_name.title()}Config(BaseLucasConfig): # Corrected from ScaffoldLuk
     # providing a structure for health metrics and status reporting.
     # ΛSEED_CHAIN: Bootstraps the health monitoring capabilities of a module.
     # ΛCAUTION: Generated class names currently include scaffolder class reference (e.g., ScaffoldLukhasModulesReasoningEngineHealthMetrics).
-    # Consider decoupling via template parameterization or `module_name` injection for semantic isolation.
+    # Consider decoupling via template parameterization or `module_name`
+    # injection for semantic isolation.
     def generate_module_health(self, module_name: str) -> str:
         """Generates health.py for a module."""
         return f'''"""
@@ -1134,7 +1145,8 @@ class {module_name.title()}Health(BaseLucasHealth): # Corrected from ScaffoldLuk
 
     # ΛNOTE: Generates the initial `vocabulary.json` file for a module,
     # seeding it with symbolic terms and their descriptions.
-    # ΛSEED_CHAIN: This method provides the initial symbolic vocabulary, a foundational element for module identity and communication.
+    # ΛSEED_CHAIN: This method provides the initial symbolic vocabulary, a
+    # foundational element for module identity and communication.
     def generate_symbolic_vocabulary(self, module_name: str) -> str:
         """Generates symbolic/vocabulary.json for a module."""
         vocab = self.symbolic_vocabularies.get(module_name, {})
@@ -1143,7 +1155,8 @@ class {module_name.title()}Health(BaseLucasHealth): # Corrected from ScaffoldLuk
     # ΛNOTE: Generates the content for a common `base_module.py`, providing an abstract
     # base class for all LUKHAS modules. This promotes architectural consistency.
     # ΛSEED_CHAIN: Defines the symbolic contract for all modules.
-    # ΛCAUTION: Generated class name `ScaffoldLukhasModulesReasoningEngine` in the template for `BaseLucasModule` should be `BaseLucasModule`.
+    # ΛCAUTION: Generated class name `ScaffoldLukhasModulesReasoningEngine` in
+    # the template for `BaseLucasModule` should be `BaseLucasModule`.
     def generate_common_base_module(self) -> str:
         """Generates the base module class."""
         return '''"""
@@ -1203,7 +1216,9 @@ class BaseLucasModule(ABC): # Corrected from ScaffoldLukhasModulesReasoningEngin
     # for module discovery, management, health monitoring, and hot-reloading.
     # This is a central piece of the symbolic orchestration architecture.
     # ΛSEED_CHAIN: Bootstraps the entire module management system.
-    # ΛCAUTION: Generated class names `ScaffoldLukhasModulesReasoningEngine` for `ModuleInfo` and `CoreRegistry` should be `ModuleInfo` and `CoreRegistry` respectively.
+    # ΛCAUTION: Generated class names `ScaffoldLukhasModulesReasoningEngine`
+    # for `ModuleInfo` and `CoreRegistry` should be `ModuleInfo` and
+    # `CoreRegistry` respectively.
     def generate_module_registry(self) -> str:
         """Generates the core module registry."""
         return '''"""
@@ -1488,7 +1503,7 @@ core_registry = CoreRegistry()
 
         # Create common utilities first
         common_path = self.lukhas_path / "common"
-        common_path.mkdir(exist_ok=True) # Ensure common path exists
+        common_path.mkdir(exist_ok=True)  # Ensure common path exists
 
         # Base module
         # ΛNOTE: Scaffolding a common base module for LUKHAS components.
@@ -1500,9 +1515,9 @@ core_registry = CoreRegistry()
         for module_name in self.core_modules:
             module_path = self.lukhas_path / module_name
             # Ensure module_path and its subdirectories like 'symbolic' exist,
-            # as create_directory_structure might be called separately or this ensures idempotency.
+            # as create_directory_structure might be called separately or this ensures
+            # idempotency.
             (module_path / "symbolic").mkdir(parents=True, exist_ok=True)
-
 
             # Core module files
             with open(module_path / "__init__.py", "w") as f:
@@ -1521,23 +1536,27 @@ core_registry = CoreRegistry()
             with open(module_path / "symbolic" / "vocabulary.json", "w") as f:
                 f.write(self.generate_symbolic_vocabulary(module_name))
 
-            self.logger.info("Generated module files.", module_name=module_name) # ✅
+            self.logger.info("Generated module files.", module_name=module_name)  # ✅
 
         # Generate core registry (special case)
-        core_module_path = self.lukhas_path / "core" # Corrected variable name
-        core_module_path.mkdir(exist_ok=True) # Ensure core path exists
+        core_module_path = self.lukhas_path / "core"  # Corrected variable name
+        core_module_path.mkdir(exist_ok=True)  # Ensure core path exists
         with open(core_module_path / "registry.py", "w") as f:
             f.write(self.generate_module_registry())
         self.logger.info("Generated core/registry.py")
 
-        self.logger.info("🎉 Lukhas modular architecture scaffolding complete!", target_directory=str(self.lukhas_path)) # 📁
+        self.logger.info(
+            "🎉 Lukhas modular architecture scaffolding complete!",
+            target_directory=str(
+                self.lukhas_path))  # 📁
 
         return True
 
 
 # ΛEXPOSE: This block allows the script to be run directly to execute the scaffolding process.
 # ΛNOTE: Defines the main execution flow when the script is run: instantiate the scaffolder and call `scaffold_all_modules`.
-# ΛECHO_TAGGING: The scaffolder's own execution is an echo of its purpose: to generate structure.
+# ΛECHO_TAGGING: The scaffolder's own execution is an echo of its purpose:
+# to generate structure.
 if __name__ == "__main__":
     # ΛNOTE: Configuring structlog for console output if the script is run directly.
     # This ensures that logs are visible during standalone execution.

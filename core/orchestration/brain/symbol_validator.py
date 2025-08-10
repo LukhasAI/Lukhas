@@ -482,7 +482,7 @@ class LukhasComplianceChecker:
                     line_number=None,
                     description="Critical module missing GDPR data subject rights implementation",
                     regulation="GDPR Articles 15-22",
-                    remediation="Implement data subject rights: access, rectification,
+                    remediation="Implement data subject rights: access, rectification,"
                     erasure, portability",
                 )
             )

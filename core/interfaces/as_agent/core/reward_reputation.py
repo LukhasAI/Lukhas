@@ -21,7 +21,7 @@ DEPENDENCIES:
 {
     "token_name": "LUX",
     "token_symbol": "🪙",
-    "token_description": "Symbolic credit used by LUKHAS Agent to unlock features,
+    "token_description": "Symbolic credit used by LUKHAS Agent to unlock features,"
     actions, and widgets.",
     "tiers": {
         "0": {

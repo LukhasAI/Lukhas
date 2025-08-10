@@ -14,7 +14,7 @@
 
 import hashlib
 import json
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
 
@@ -110,13 +110,13 @@ class PatternSeparator:
 
         return sparse_pattern
 
-    def separate_batch(self, input_patterns: List[np.ndarray]) -> List[np.ndarray]:
+    def separate_batch(self, input_patterns: list[np.ndarray]) -> list[np.ndarray]:
         """Separate multiple patterns in batch"""
         return [self.separate(pattern) for pattern in input_patterns]
 
     def compute_separation_quality(
         self, pattern1: np.ndarray, pattern2: np.ndarray
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """
         Compute metrics for pattern separation quality.
         Returns overlap, correlation, and orthogonality measures.
@@ -198,7 +198,7 @@ class PatternSeparator:
         if self.use_competitive_learning:
             self.competitive_weights = np.ones(self.output_dimension)
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get pattern separator metrics"""
         return {
             "patterns_separated": self.patterns_separated,

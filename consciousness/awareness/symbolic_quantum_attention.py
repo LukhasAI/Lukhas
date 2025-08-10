@@ -12,7 +12,9 @@ Advanced: quantum_attention.py
 Integration Date: 2025-05-31T07:55:28.192995
 """
 
-from typing import Any, Dict, Optional
+from orchestration_src.brain.attention.quantum_attention import *  # TODO: Specify imports
+from bio.core import BioOrchestrator, ResourcePriority
+from typing import Any, Optional
 
 import numpy as np
 
@@ -100,7 +102,7 @@ class QuantumInspiredAttention:
     def process(
         self,
         attention_distribution: np.ndarray,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> np.ndarray:
         """Process input attention using quantum-inspired tunneling
 
@@ -188,7 +190,8 @@ class QuantumInspiredAttention:
         # Calculate tunneling probabilities between attention points
         attention_matrix = np.outer(attention_distribution, attention_distribution)
 
-        # Apply barrier effects (higher values in barrier_matrix = lower tunneling probability)
+        # Apply barrier effects (higher values in barrier_matrix = lower tunneling
+        # probability)
         tunneling_probs = np.exp(-self.barrier_matrix * (1.0 - attention_matrix))
 
         # Apply tunneling effect to redistribute some attention
@@ -209,7 +212,7 @@ class QuantumInspiredAttention:
     def _apply_phase_adjustment(
         self,
         attention_distribution: np.ndarray,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> np.ndarray:
         """Apply phase adjustments to simulate quantum interference effects
 
@@ -310,7 +313,7 @@ class QuantumInspiredAttention:
             logger.error(f"Failed to repair quantum attention module: {e}")
             return False
 
-    def get_diagnostics(self) -> Dict[str, Any]:
+    def get_diagnostics(self) -> dict[str, Any]:
         """Get diagnostic information about the attention mechanism
 
         Returns:
@@ -321,7 +324,7 @@ class QuantumInspiredAttention:
             eigenvalues = np.linalg.eigvals(self.superposition_matrix)
             max_eigenvalue = np.max(np.abs(eigenvalues))
             is_stable = max_eigenvalue <= 1.0
-        except:
+        except BaseException:
             max_eigenvalue = None
             is_stable = None
 
@@ -380,7 +383,7 @@ class QuantumAttentionEnsemble:
     def process(
         self,
         attention_distribution: np.ndarray,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> np.ndarray:
         """Process attention using the ensemble
 
@@ -419,13 +422,13 @@ class QuantumAttentionEnsemble:
             bool: True if repair was successful
         """
         success = True
-        for i, module in enumerate(self.attention_modules):
+        for _i, module in enumerate(self.attention_modules):
             module_success = module.repair()
             success = success and module_success
 
         return success
 
-    def get_diagnostics(self) -> Dict[str, Any]:
+    def get_diagnostics(self) -> dict[str, Any]:
         """Get diagnostic information about the ensemble"""
         module_diagnostics = [
             module.get_diagnostics() for module in self.attention_modules
@@ -465,8 +468,6 @@ To use this module with your bio-orchestrator, you can update your integration c
 
 
 # In your main LUKHAS_AGI initialization
-from bio.core import BioOrchestrator, ResourcePriority
-from orchestration_src.brain.attention.quantum_attention import *  # TODO: Specify imports
 
 # Initialize bio-symbolic layer
 bio_orchestrator = BioOrchestrator(total_energy_capacity=2.0, monitoring_interval=10.0)

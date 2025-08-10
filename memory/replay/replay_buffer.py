@@ -49,7 +49,7 @@ import time
 from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 from uuid import uuid4
 
 import numpy as np
@@ -58,7 +58,6 @@ import numpy as np
 try:
     from memory.hippocampal.hippocampal_buffer import EpisodicMemory
     from memory.neocortical.neocortical_network import SemanticMemory
-    from memory.scaffold.atomic_memory_scaffold import AtomicMemoryScaffold
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:
@@ -123,7 +122,7 @@ class Experience:
     success_rate: float = 0.0  # Learning success rate
 
     # Associations
-    similar_experiences: Set[str] = field(default_factory=set)
+    similar_experiences: set[str] = field(default_factory=set)
 
     def calculate_sampling_weight(self, alpha: float = 0.6) -> float:
         """Calculate sampling weight based on priority"""
@@ -150,7 +149,7 @@ class ReplayBatch:
     """Batch of experiences for replay"""
 
     batch_id: str = field(default_factory=lambda: str(uuid4()))
-    experiences: List[Experience] = field(default_factory=list)
+    experiences: list[Experience] = field(default_factory=list)
 
     # Batch metadata
     sampling_mode: ReplayMode = ReplayMode.UNIFORM
@@ -205,7 +204,7 @@ class ReplayBuffer:
         self.scaffold = scaffold
 
         # Experience storage
-        self.experiences: Dict[str, Experience] = {}
+        self.experiences: dict[str, Experience] = {}
         self.experience_queue: deque = deque(maxlen=capacity)
 
         # Priority management
@@ -213,8 +212,8 @@ class ReplayBuffer:
         self.max_priority = 1.0
 
         # Clustering for semantic similarity
-        self.experience_clusters: Dict[str, Set[str]] = {}
-        self.cluster_centers: Dict[str, np.ndarray] = {}
+        self.experience_clusters: dict[str, set[str]] = {}
+        self.cluster_centers: dict[str, np.ndarray] = {}
 
         # Sampling statistics
         self.total_samples = 0
@@ -384,7 +383,7 @@ class ReplayBuffer:
 
         return batch
 
-    def update_priorities(self, experience_ids: List[str], td_errors: List[float]):
+    def update_priorities(self, experience_ids: list[str], td_errors: list[float]):
         """Update priorities based on TD errors"""
 
         for exp_id, td_error in zip(experience_ids, td_errors):
@@ -407,7 +406,7 @@ class ReplayBuffer:
         target_experience: Experience,
         similarity_threshold: float = 0.7,
         max_results: int = 10,
-    ) -> List[Experience]:
+    ) -> list[Experience]:
         """Find experiences similar to target"""
 
         similar = []
@@ -427,7 +426,7 @@ class ReplayBuffer:
         similar.sort(key=lambda x: x[0], reverse=True)
         return [exp for _, exp in similar[:max_results]]
 
-    def _sample_prioritized(self, batch_size: int) -> List[Experience]:
+    def _sample_prioritized(self, batch_size: int) -> list[Experience]:
         """Sample based on priorities"""
 
         if not self.priority_tree:
@@ -453,7 +452,7 @@ class ReplayBuffer:
 
         return sampled
 
-    def _sample_uniform(self, batch_size: int) -> List[Experience]:
+    def _sample_uniform(self, batch_size: int) -> list[Experience]:
         """Sample uniformly at random"""
 
         available = list(self.experiences.values())
@@ -467,7 +466,7 @@ class ReplayBuffer:
 
         return sampled.tolist()
 
-    def _sample_temporal(self, batch_size: int) -> List[Experience]:
+    def _sample_temporal(self, batch_size: int) -> list[Experience]:
         """Sample recent experiences with higher probability"""
 
         # Calculate temporal weights
@@ -501,7 +500,7 @@ class ReplayBuffer:
 
         return sampled
 
-    def _sample_curiosity(self, batch_size: int) -> List[Experience]:
+    def _sample_curiosity(self, batch_size: int) -> list[Experience]:
         """Sample experiences with high surprise/error"""
 
         experiences = list(self.experiences.values())
@@ -519,7 +518,7 @@ class ReplayBuffer:
 
         return sampled
 
-    def _sample_semantic(self, batch_size: int) -> List[Experience]:
+    def _sample_semantic(self, batch_size: int) -> list[Experience]:
         """Sample diverse experiences based on semantic clustering"""
 
         if not self.experience_clusters:
@@ -559,7 +558,7 @@ class ReplayBuffer:
         return sampled[:batch_size]
 
     def _calculate_importance_weights(
-        self, experiences: List[Experience]
+        self, experiences: list[Experience]
     ) -> np.ndarray:
         """Calculate importance sampling weights"""
 
@@ -656,7 +655,7 @@ class ReplayBuffer:
             if len(self.experiences) > 100:  # Minimum for clustering
                 # Simple k-means clustering
                 experiences = list(self.experiences.values())
-                features = [self._extract_features(exp.state) for exp in experiences]
+                [self._extract_features(exp.state) for exp in experiences]
 
                 # Create clusters (simplified)
                 num_clusters = min(10, len(experiences) // 10)
@@ -670,7 +669,7 @@ class ReplayBuffer:
 
             await asyncio.sleep(300)  # Every 5 minutes
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get replay buffer metrics"""
 
         metrics = {

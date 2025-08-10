@@ -322,12 +322,12 @@ Week 4:
 
     def get_total_customers(self) -> int:
         """Get total customer count"""
-        return sum(self.get_domain_customers(d) for d in self.domains.keys())
+        return sum(self.get_domain_customers(d) for d in self.domains)
 
     def get_subscription_revenue(self, tier: str) -> float:
         """Get revenue from specific tier"""
         revenue = 0
-        for domain, data in self.domains.items():
+        for _domain, data in self.domains.items():
             if "subscribers" in data and tier in data["subscribers"]:
                 if "pricing" in data and tier in data["pricing"]:
                     revenue += data["subscribers"][tier] * data["pricing"][tier]
@@ -339,7 +339,6 @@ Week 4:
         print("=" * 50)
 
         # Growth assumptions
-        monthly_growth_rate = 0.30  # 30% month-over-month
 
         for month in range(1, months + 1):
             # Add subscribers with growth

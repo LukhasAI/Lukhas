@@ -11,9 +11,7 @@ from core.drift_tracker import DriftTracker
 from core.mutation_tree import SymbolicMutationTree
 
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(message)s',
-    datefmt='%H:%M:%S'
+    level=logging.INFO, format="%(asctime)s - %(message)s", datefmt="%H:%M:%S"
 )
 
 
@@ -44,7 +42,7 @@ async def demo_trusthelix():
         ("view_data", "success", "Accesses personal data"),
         ("suspicious_attempt", "failure", "Unusual access pattern detected"),
         ("authenticate", "failure", "Failed login attempt"),
-        ("emergency_access", "partial", "Recovery mode activated")
+        ("emergency_access", "partial", "Recovery mode activated"),
     ]
 
     current_glyphs = initial_glyphs.copy()
@@ -64,14 +62,21 @@ async def demo_trusthelix():
 
         # Track drift
         drift_event = drift_tracker.record_drift(
-            user_id, drift_score, action, entropy,
-            {"outcome": outcome, "description": description}
+            user_id,
+            drift_score,
+            action,
+            entropy,
+            {"outcome": outcome, "description": description},
         )
 
         # Log consent
         consent_entry = consent_logger.log_consent(
-            user_id, new_glyphs, action, outcome, drift_score,
-            {"entropy": entropy, "description": description}
+            user_id,
+            new_glyphs,
+            action,
+            outcome,
+            drift_score,
+            {"entropy": entropy, "description": description},
         )
 
         # Show results
@@ -98,13 +103,13 @@ async def demo_trusthelix():
     print(f"   Average drift: {analysis['avg_drift']:.3f}")
     print(f"   Dominant state: {analysis['dominant_state']}")
     print("   Recommendations:")
-    for rec in analysis['recommendations']:
+    for rec in analysis["recommendations"]:
         print(f"      {rec}")
 
     # Pattern insights
     print("\n🔍 Pattern Insights:")
     patterns = drift_tracker.get_pattern_insights()
-    for insight in patterns['insights']:
+    for insight in patterns["insights"]:
         print(f"   {insight}")
 
     # Consent path

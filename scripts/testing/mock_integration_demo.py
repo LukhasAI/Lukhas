@@ -5,6 +5,11 @@
 Demonstrates the full system without requiring OpenAI API key.
 """
 
+from orchestration.signals.homeostasis import ModulationParams
+from lukhas_pwm.openai.tooling import build_tools_from_allowlist
+from lukhas_pwm.feedback.store import record_feedback
+from lukhas_pwm.audit.tool_analytics import get_analytics
+from lukhas_pwm.audit.store import audit_log_write
 import sys
 import time
 import uuid
@@ -14,11 +19,6 @@ from pathlib import Path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
-from lukhas_pwm.audit.store import audit_log_write
-from lukhas_pwm.audit.tool_analytics import get_analytics
-from lukhas_pwm.feedback.store import record_feedback
-from lukhas_pwm.openai.tooling import build_tools_from_allowlist
-from orchestration.signals.homeostasis import ModulationParams
 
 # Color codes
 GREEN = "\033[92m"
@@ -38,7 +38,7 @@ def mock_test_1_retrieval():
         top_p=0.9,
         safety_mode="balanced",
         tool_allowlist=["retrieval"],
-        retrieval_k=3
+        retrieval_k=3,
     )
 
     # Build tools
@@ -46,22 +46,31 @@ def mock_test_1_retrieval():
 
     # Mock OpenAI response
     mock_response = {
-        "choices": [{
-            "message": {
-                "content": "Based on the retrieved context, our signal→prompt modulation approach uses endocrine signals to adjust parameters. The 3 main safety invariants are: 1) Guardian validation is never bypassed, 2) Safety rails only tighten (never relax), 3) Personal data stays encrypted on-device.",
-                "tool_calls": [{
-                    "function": {
-                        "name": "retrieve_knowledge",
-                        "arguments": {"query": "signal prompt modulation safety", "k": 3}
-                    }
-                }]
+        "choices": [
+            {
+                "message": {
+                    "content": "Based on the retrieved context, our signal→prompt modulation approach uses endocrine signals to adjust parameters. The 3 main safety invariants are: 1) Guardian validation is never bypassed, 2) Safety rails only tighten (never relax), 3) Personal data stays encrypted on-device.",
+                    "tool_calls": [
+                        {
+                            "function": {
+                                "name": "retrieve_knowledge",
+                                "arguments": {
+                                    "query": "signal prompt modulation safety",
+                                    "k": 3,
+                                },
+                            }
+                        }
+                    ],
+                }
             }
-        }]
+        ]
     }
 
     # Track tool usage
     analytics = get_analytics()
-    call_id = analytics.start_tool_call("retrieval", {"query": "signal prompt modulation safety", "k": 3})
+    call_id = analytics.start_tool_call(
+        "retrieval", {"query": "signal prompt modulation safety", "k": 3}
+    )
     time.sleep(0.1)  # Simulate execution
     analytics.complete_tool_call(call_id, status="success")
 
@@ -76,9 +85,9 @@ def mock_test_1_retrieval():
         "tool_analytics": {
             "tools_used": analytics.get_calls_for_audit(),
             "incidents": [],
-            "safety_tightened": False
+            "safety_tightened": False,
         },
-        "signals": {"stress": 0.3, "novelty": 0.5, "alignment_risk": 0.1}
+        "signals": {"stress": 0.3, "novelty": 0.5, "alignment_risk": 0.1},
     }
 
     audit_log_write(audit_bundle)
@@ -107,16 +116,18 @@ def mock_test_2_strict():
         top_p=0.3,
         safety_mode="strict",
         tool_allowlist=["retrieval"],  # Minimal tools
-        max_output_tokens=256  # Constrained output
+        max_output_tokens=256,  # Constrained output
     )
 
     # Mock response (cautious and concise)
     mock_response = {
-        "choices": [{
-            "message": {
-                "content": "Sensitive data handling requires: encryption at rest, access controls, audit logging, and compliance with data protection regulations. Never log PII in plaintext."
+        "choices": [
+            {
+                "message": {
+                    "content": "Sensitive data handling requires: encryption at rest, access controls, audit logging, and compliance with data protection regulations. Never log PII in plaintext."
+                }
             }
-        }]
+        ]
     }
 
     # Create audit bundle
@@ -128,7 +139,7 @@ def mock_test_2_strict():
         "prompt": "Draft guidance for handling sensitive data",
         "response": mock_response["choices"][0]["message"]["content"],
         "tool_analytics": {"tools_used": [], "incidents": [], "safety_tightened": True},
-        "signals": {"alignment_risk": alignment_risk, "stress": 0.2, "novelty": 0.3}
+        "signals": {"alignment_risk": alignment_risk, "stress": 0.2, "novelty": 0.3},
     }
 
     audit_log_write(audit_bundle)
@@ -159,11 +170,13 @@ def mock_test_3_block():
 
     # Mock response acknowledging limitation
     mock_response = {
-        "choices": [{
-            "message": {
-                "content": "I cannot directly open or browse URLs. However, I can help you analyze content if you provide it, or suggest approaches for web content analysis."
+        "choices": [
+            {
+                "message": {
+                    "content": "I cannot directly open or browse URLs. However, I can help you analyze content if you provide it, or suggest approaches for web content analysis."
+                }
             }
-        }]
+        ]
     }
 
     # Track blocked attempt
@@ -172,7 +185,7 @@ def mock_test_3_block():
         audit_id=f"mock3_{uuid.uuid4().hex[:8]}",
         attempted_tool="browser",
         allowed_tools=params.tool_allowlist,
-        prompt="Open this URL and summarize: https://example.com"
+        prompt="Open this URL and summarize: https://example.com",
     )
 
     # Create audit bundle
@@ -186,9 +199,9 @@ def mock_test_3_block():
         "tool_analytics": {
             "tools_used": [],
             "incidents": [incident.to_dict()],
-            "safety_tightened": True
+            "safety_tightened": True,
         },
-        "signals": {"stress": 0.3, "novelty": 0.4, "alignment_risk": 0.2}
+        "signals": {"stress": 0.3, "novelty": 0.4, "alignment_risk": 0.2},
     }
 
     audit_log_write(audit_bundle)
@@ -213,7 +226,7 @@ def mock_test_4_feedback():
     cards = [
         {"target_action_id": "A1", "rating": 5, "note": "more detail please"},
         {"target_action_id": "A2", "rating": 5, "note": "longer responses good"},
-        {"target_action_id": "A3", "rating": 4, "note": "be creative"}
+        {"target_action_id": "A3", "rating": 4, "note": "be creative"},
     ]
 
     for card in cards:
@@ -229,22 +242,24 @@ def mock_test_4_feedback():
 
     # Adjusted params (after LUT)
     base_temp = 0.7
-    adjusted_temp = base_temp + style.get('temperature_delta', 0)
+    adjusted_temp = base_temp + style.get("temperature_delta", 0)
 
     params = ModulationParams(
         temperature=adjusted_temp,
-        top_p=0.9 + style.get('top_p_delta', 0),
+        top_p=0.9 + style.get("top_p_delta", 0),
         safety_mode="balanced",
-        memory_write_strength=0.5 + style.get('memory_write_boost', 0)
+        memory_write_strength=0.5 + style.get("memory_write_boost", 0),
     )
 
     # Mock longer response (due to feedback)
     mock_response = {
-        "choices": [{
-            "message": {
-                "content": "Continuous learning in AI systems offers numerous benefits. First, it enables adaptation to changing environments and user needs without manual retraining. Second, it improves personalization by learning from individual interactions. Third, it enhances robustness through exposure to diverse scenarios. Fourth, it reduces maintenance costs by automatically incorporating new patterns. Finally, it enables emergent capabilities through accumulated experience, leading to more sophisticated and contextually appropriate responses over time."
+        "choices": [
+            {
+                "message": {
+                    "content": "Continuous learning in AI systems offers numerous benefits. First, it enables adaptation to changing environments and user needs without manual retraining. Second, it improves personalization by learning from individual interactions. Third, it enhances robustness through exposure to diverse scenarios. Fourth, it reduces maintenance costs by automatically incorporating new patterns. Finally, it enables emergent capabilities through accumulated experience, leading to more sophisticated and contextually appropriate responses over time."
+                }
             }
-        }]
+        ]
     }
 
     # Create audit bundle
@@ -255,7 +270,7 @@ def mock_test_4_feedback():
         "params": params.to_dict(),
         "prompt": "Explain benefits of continuous learning in AI",
         "response": mock_response["choices"][0]["message"]["content"],
-        "signals": {"stress": 0.2, "novelty": 0.5, "alignment_risk": 0.1}
+        "signals": {"stress": 0.2, "novelty": 0.5, "alignment_risk": 0.1},
     }
 
     audit_log_write(audit_bundle)
@@ -264,7 +279,9 @@ def mock_test_4_feedback():
     print(f"  Audit ID: {audit_id}")
     print(f"  Base temperature: {base_temp}")
     print(f"  Adjusted temperature: {adjusted_temp:.3f} (LUT applied)")
-    print(f"  Response length: {len(mock_response['choices'][0]['message']['content'])} chars")
+    print(
+        f"  Response length: {len(mock_response['choices'][0]['message']['content'])} chars"
+    )
     print("  Style: More detailed and creative ✅")
     print(f"  View audit: http://127.0.0.1:8000/audit/view/{audit_id}")
 

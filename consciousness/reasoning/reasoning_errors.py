@@ -7,16 +7,10 @@ from core.common import LukhasError
 class ReasoningError(LukhasError):
     """Base class for exceptions in the reasoning module."""
 
-    pass
-
 
 class CoherenceError(ReasoningError):
     """Raised when a reasoning coherence check fails."""
 
-    pass
-
 
 class DriftError(ReasoningError):
     """Raised when a reasoning drift check fails."""
-
-    pass

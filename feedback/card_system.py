@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 class FeedbackRating(int, Enum):
     """User feedback ratings"""
+
     VERY_POOR = 1
     POOR = 2
     NEUTRAL = 3
@@ -31,6 +32,7 @@ class FeedbackCard:
     """
     Individual feedback card capturing user response to system action.
     """
+
     card_id: str
     action_id: str  # ID of the action being rated
     rating: FeedbackRating
@@ -67,6 +69,7 @@ class FeedbackCard:
 @dataclass
 class PatternSet:
     """Collection of patterns extracted from feedback"""
+
     pattern_id: str
     pattern_type: str  # "preference", "correction", "reinforcement"
     frequency: int
@@ -92,6 +95,7 @@ class PatternSet:
 @dataclass
 class PolicyUpdate:
     """Proposed update to system policy based on feedback"""
+
     update_id: str
     timestamp: float
     pattern_ids: List[str]  # Patterns that triggered this update
@@ -108,9 +112,11 @@ class PolicyUpdate:
 
     def apply_bounds(self):
         """Apply safety bounds to all adjustments"""
-        for param_dict in [self.parameter_adjustments,
-                          self.weight_adjustments,
-                          self.threshold_adjustments]:
+        for param_dict in [
+            self.parameter_adjustments,
+            self.weight_adjustments,
+            self.threshold_adjustments,
+        ]:
             for key, value in param_dict.items():
                 # Clamp changes to max_change
                 param_dict[key] = max(-self.max_change, min(self.max_change, value))
@@ -119,6 +125,7 @@ class PolicyUpdate:
 @dataclass
 class LearningReport:
     """Report on what the system has learned from a user"""
+
     user_id_hash: str
     report_date: float
     total_feedback_cards: int
@@ -150,7 +157,7 @@ class FeedbackCardSystem:
     def __init__(self, storage_path: Optional[str] = None):
         """
         Initialize feedback system.
-        
+
         Args:
             storage_path: Directory to store feedback data
         """
@@ -175,7 +182,7 @@ class FeedbackCardSystem:
             "patterns_identified": 0,
             "policies_updated": 0,
             "validations_passed": 0,
-            "validations_failed": 0
+            "validations_failed": 0,
         }
 
     def _load_feedback_data(self):
@@ -207,9 +214,7 @@ class FeedbackCardSystem:
     def _save_patterns(self):
         """Save patterns to storage"""
         patterns_file = self.storage_path / "patterns.json"
-        patterns_data = {
-            pid: asdict(pattern) for pid, pattern in self.patterns.items()
-        }
+        patterns_data = {pid: asdict(pattern) for pid, pattern in self.patterns.items()}
         with open(patterns_file, "w") as f:
             json.dump(patterns_data, f, indent=2)
 
@@ -220,11 +225,11 @@ class FeedbackCardSystem:
         note: Optional[str] = None,
         symbols: Optional[List[str]] = None,
         context: Optional[Dict[str, Any]] = None,
-        user_id: Optional[str] = None
+        user_id: Optional[str] = None,
     ) -> FeedbackCard:
         """
         Capture user feedback for an action.
-        
+
         Args:
             action_id: ID of the action being rated
             rating: Rating from 1-5
@@ -232,7 +237,7 @@ class FeedbackCardSystem:
             symbols: Optional list of symbols
             context: Optional context (prompt, response, etc.)
             user_id: Optional user ID (will be hashed)
-            
+
         Returns:
             Created feedback card
         """
@@ -248,7 +253,7 @@ class FeedbackCardSystem:
             rating=FeedbackRating(rating),
             note=note,
             symbols=symbols or [],
-            user_id_hash=user_id_hash
+            user_id_hash=user_id_hash,
         )
 
         # Add context if provided
@@ -299,10 +304,10 @@ class FeedbackCardSystem:
     def extract_patterns(self, cards: List[FeedbackCard]) -> List[PatternSet]:
         """
         Extract patterns from feedback cards.
-        
+
         Args:
             cards: Feedback cards to analyze
-            
+
         Returns:
             List of identified patterns
         """
@@ -334,7 +339,7 @@ class FeedbackCardSystem:
                         pattern_type="preference",
                         frequency=count,
                         confidence=count / len(excellent_cards),
-                        preferred_params={param: value}
+                        preferred_params={param: value},
                     )
                     patterns.append(pattern)
                     self.patterns[pattern.pattern_id] = pattern
@@ -361,7 +366,7 @@ class FeedbackCardSystem:
                         pattern_type="correction",
                         frequency=len(theme_cards),
                         confidence=len(theme_cards) / len(poor_cards),
-                        conditions={"theme": theme}
+                        conditions={"theme": theme},
                     )
                     patterns.append(pattern)
                     self.patterns[pattern.pattern_id] = pattern
@@ -398,10 +403,10 @@ class FeedbackCardSystem:
     def update_policy(self, patterns: List[PatternSet]) -> Optional[PolicyUpdate]:
         """
         Generate bounded policy modifications from patterns.
-        
+
         Args:
             patterns: Patterns to base updates on
-            
+
         Returns:
             Policy update or None if no update needed
         """
@@ -411,7 +416,7 @@ class FeedbackCardSystem:
         update = PolicyUpdate(
             update_id=f"update_{int(time.time())}",
             timestamp=time.time(),
-            pattern_ids=[p.pattern_id for p in patterns]
+            pattern_ids=[p.pattern_id for p in patterns],
         )
 
         # Aggregate preferred parameters
@@ -462,17 +467,17 @@ class FeedbackCardSystem:
             "temperature": 0.7,
             "max_output_tokens": 1024,
             "reasoning_effort": 0.5,
-            "top_p": 0.9
+            "top_p": 0.9,
         }
         return defaults.get(param, 0.5)
 
     def validate_update(self, update: PolicyUpdate) -> bool:
         """
         Validate that a policy update maintains safety constraints.
-        
+
         Args:
             update: Policy update to validate
-            
+
         Returns:
             True if update is safe to apply
         """
@@ -508,10 +513,10 @@ class FeedbackCardSystem:
     def explain_learning(self, user_id: str) -> LearningReport:
         """
         Generate a report explaining what the system learned from a user.
-        
+
         Args:
             user_id: User ID (will be hashed)
-            
+
         Returns:
             Learning report
         """
@@ -519,8 +524,7 @@ class FeedbackCardSystem:
 
         # Get user's feedback cards
         user_cards = [
-            card for card in self.feedback_cards
-            if card.user_id_hash == user_id_hash
+            card for card in self.feedback_cards if card.user_id_hash == user_id_hash
         ]
 
         if not user_cards:
@@ -529,7 +533,7 @@ class FeedbackCardSystem:
                 report_date=time.time(),
                 total_feedback_cards=0,
                 overall_satisfaction=0.0,
-                improvement_trend=0.0
+                improvement_trend=0.0,
             )
 
         # Calculate satisfaction metrics
@@ -538,9 +542,11 @@ class FeedbackCardSystem:
 
         # Calculate improvement trend
         if len(ratings) > 1:
-            first_half = ratings[:len(ratings)//2]
-            second_half = ratings[len(ratings)//2:]
-            improvement_trend = (sum(second_half)/len(second_half)) - (sum(first_half)/len(first_half))
+            first_half = ratings[: len(ratings) // 2]
+            second_half = ratings[len(ratings) // 2 :]
+            improvement_trend = (sum(second_half) / len(second_half)) - (
+                sum(first_half) / len(first_half)
+            )
         else:
             improvement_trend = 0.0
 
@@ -550,7 +556,9 @@ class FeedbackCardSystem:
         # Determine preferred style
         preferred_styles = []
         if "preferred_params" in prefs:
-            avg_temp = sum(prefs["preferred_params"].get("temperature", [0.7])) / len(prefs["preferred_params"].get("temperature", [0.7]))
+            avg_temp = sum(prefs["preferred_params"].get("temperature", [0.7])) / len(
+                prefs["preferred_params"].get("temperature", [0.7])
+            )
             if avg_temp < 0.4:
                 preferred_styles.append("conservative")
             elif avg_temp > 0.7:
@@ -563,7 +571,8 @@ class FeedbackCardSystem:
         for pattern in self.patterns.values():
             # Check if pattern is relevant to user
             pattern_cards = [
-                card for card in user_cards
+                card
+                for card in user_cards
                 if any(pid == pattern.pattern_id for pid in self.policy_updates)
             ]
             if pattern_cards:
@@ -577,7 +586,7 @@ class FeedbackCardSystem:
             improvement_trend=improvement_trend,
             preferred_styles=preferred_styles,
             personal_symbols=self.user_symbols.get(user_id_hash, {}),
-            identified_patterns=user_patterns[:10]  # Top 10 patterns
+            identified_patterns=user_patterns[:10],  # Top 10 patterns
         )
 
         # Add recommendations
@@ -597,5 +606,5 @@ class FeedbackCardSystem:
             **self.metrics,
             "total_cards": len(self.feedback_cards),
             "total_patterns": len(self.patterns),
-            "total_updates": len(self.policy_updates)
+            "total_updates": len(self.policy_updates),
         }

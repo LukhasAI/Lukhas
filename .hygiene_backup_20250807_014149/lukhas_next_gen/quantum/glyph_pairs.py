@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class GlyphPair:
     """Quantum-entangled glyph pair"""
+
     pair_id: str
     primary_glyph: str
     secondary_glyph: str
@@ -35,20 +36,22 @@ class GlyphPair:
         if self.metadata is None:
             self.metadata = {}
 
-    def compute_correlation(self, other_pair: 'GlyphPair') -> float:
+    def compute_correlation(self, other_pair: "GlyphPair") -> float:
         """Compute quantum correlation with another pair"""
         # Simulate quantum correlation using cryptographic properties
         combined_key = self.entanglement_key + other_pair.entanglement_key
         hash_result = hashlib.sha3_256(combined_key.encode()).digest()
 
         # Convert to correlation coefficient (-1 to 1)
-        correlation = (int.from_bytes(hash_result[:4], 'big') / (2**32 - 1)) * 2 - 1
+        correlation = (int.from_bytes(hash_result[:4], "big") / (2**32 - 1)) * 2 - 1
         return correlation
 
     def measure_state(self, observer_id: str) -> str:
         """Measure quantum state (collapses to deterministic glyph)"""
         # Quantum measurement simulation
-        measurement_seed = f"{self.pair_id}_{observer_id}_{datetime.utcnow().timestamp()}"
+        measurement_seed = (
+            f"{self.pair_id}_{observer_id}_{datetime.utcnow().timestamp()}"
+        )
         measurement_hash = hashlib.blake3(measurement_seed.encode()).hexdigest()
 
         # Use hash to determine which glyph is observed
@@ -67,6 +70,7 @@ class GlyphPair:
 @dataclass
 class QuantumAuthentication:
     """Quantum authentication challenge-response"""
+
     auth_id: str
     challenge_pair: GlyphPair
     response_pair: GlyphPair
@@ -86,14 +90,38 @@ class QuantumGlyphSystem:
 
     # Quantum glyph alphabet - carefully chosen for visual distinctiveness
     QUANTUM_GLYPHS = [
-        "🔐", "🔓", "🗝️", "🔑",  # Lock/key family
-        "⚛️", "🧬", "🔬", "🧪",  # Science family
-        "🪷", "🌸", "🌺", "🌻",  # Flower family
-        "💎", "💠", "🔮", "✨",  # Crystal family
-        "🌀", "🌪️", "💫", "⭐",  # Motion family
-        "🛡️", "⚔️", "🗡️", "🏹",  # Protection family
-        "🔥", "💧", "🌊", "❄️",  # Element family
-        "🌙", "☀️", "🌟", "🪐"   # Celestial family
+        "🔐",
+        "🔓",
+        "🗝️",
+        "🔑",  # Lock/key family
+        "⚛️",
+        "🧬",
+        "🔬",
+        "🧪",  # Science family
+        "🪷",
+        "🌸",
+        "🌺",
+        "🌻",  # Flower family
+        "💎",
+        "💠",
+        "🔮",
+        "✨",  # Crystal family
+        "🌀",
+        "🌪️",
+        "💫",
+        "⭐",  # Motion family
+        "🛡️",
+        "⚔️",
+        "🗡️",
+        "🏹",  # Protection family
+        "🔥",
+        "💧",
+        "🌊",
+        "❄️",  # Element family
+        "🌙",
+        "☀️",
+        "🌟",
+        "🪐",  # Celestial family
     ]
 
     # Entanglement rules - which glyphs can be paired
@@ -105,7 +133,7 @@ class QuantumGlyphSystem:
         "motion": (["🌀", "🌪️"], ["💫", "⭐"]),
         "protection": (["🛡️", "⚔️"], ["🗡️", "🏹"]),
         "element": (["🔥", "💧"], ["🌊", "❄️"]),
-        "celestial": (["🌙", "☀️"], ["🌟", "🪐"])
+        "celestial": (["🌙", "☀️"], ["🌟", "🪐"]),
     }
 
     def __init__(self, keystore_path: str = "quantum_glyphs.json"):
@@ -140,8 +168,12 @@ class QuantumGlyphSystem:
                         created_at=datetime.fromisoformat(pair_data["created_at"]),
                         trust_score=pair_data.get("trust_score", 0.5),
                         usage_count=pair_data.get("usage_count", 0),
-                        last_used=datetime.fromisoformat(pair_data["last_used"]) if pair_data.get("last_used") else None,
-                        metadata=pair_data.get("metadata", {})
+                        last_used=(
+                            datetime.fromisoformat(pair_data["last_used"])
+                            if pair_data.get("last_used")
+                            else None
+                        ),
+                        metadata=pair_data.get("metadata", {}),
                     )
 
                 # Rebuild correlation matrix
@@ -160,8 +192,8 @@ class QuantumGlyphSystem:
             "statistics": {
                 "total_pairs": len(self.glyph_pairs),
                 "total_authentications": len(self.authentication_log),
-                "correlation_entries": len(self.correlation_matrix)
-            }
+                "correlation_entries": len(self.correlation_matrix),
+            },
         }
 
         # Save pairs
@@ -175,10 +207,10 @@ class QuantumGlyphSystem:
                 "trust_score": pair.trust_score,
                 "usage_count": pair.usage_count,
                 "last_used": pair.last_used.isoformat() if pair.last_used else None,
-                "metadata": pair.metadata
+                "metadata": pair.metadata,
             }
 
-        with open(self.keystore_path, 'w') as f:
+        with open(self.keystore_path, "w") as f:
             json.dump(data, f, indent=2)
 
     def create_entangled_pair(self, family: str = None) -> Optional[GlyphPair]:
@@ -212,7 +244,7 @@ class QuantumGlyphSystem:
             entanglement_key=entanglement_key,
             created_at=datetime.utcnow(),
             trust_score=1.0,  # New pairs start with full trust
-            metadata={"family": family, "entropy_bits": 256}
+            metadata={"family": family, "entropy_bits": 256},
         )
 
         # Store pair
@@ -250,13 +282,14 @@ class QuantumGlyphSystem:
         pairs = list(self.glyph_pairs.values())
 
         for i, pair1 in enumerate(pairs):
-            for j, pair2 in enumerate(pairs[i+1:], i+1):
+            for j, pair2 in enumerate(pairs[i + 1 :], i + 1):
                 correlation = pair1.compute_correlation(pair2)
                 self.correlation_matrix[(pair1.pair_id, pair2.pair_id)] = correlation
                 self.correlation_matrix[(pair2.pair_id, pair1.pair_id)] = correlation
 
-    def create_authentication_challenge(self, challenger_id: str,
-                                      respondent_id: str) -> Optional[QuantumAuthentication]:
+    def create_authentication_challenge(
+        self, challenger_id: str, respondent_id: str
+    ) -> Optional[QuantumAuthentication]:
         """Create quantum authentication challenge"""
         if len(self.glyph_pairs) < 2:
             logger.error("Need at least 2 glyph pairs for authentication")
@@ -267,9 +300,12 @@ class QuantumGlyphSystem:
         challenge_pair_id = secrets.choice(pair_ids)
 
         # Find a correlated pair for response
-        response_candidates = [pid for pid in pair_ids
-                             if pid != challenge_pair_id and
-                             (challenge_pair_id, pid) in self.correlation_matrix]
+        response_candidates = [
+            pid
+            for pid in pair_ids
+            if pid != challenge_pair_id
+            and (challenge_pair_id, pid) in self.correlation_matrix
+        ]
 
         if not response_candidates:
             # No correlated pairs, use random
@@ -294,21 +330,25 @@ class QuantumGlyphSystem:
             expected_correlation=expected_correlation,
             timestamp=datetime.utcnow(),
             challenger_id=challenger_id,
-            respondent_id=respondent_id
+            respondent_id=respondent_id,
         )
 
         self.authentication_log.append(auth)
 
         logger.info(f"🎯 Created quantum auth challenge: {auth_id}")
-        logger.info(f"   Challenge: {challenge_pair.primary_glyph}↔{challenge_pair.secondary_glyph}")
-        logger.info(f"   Response: {response_pair.primary_glyph}↔{response_pair.secondary_glyph}")
+        logger.info(
+            f"   Challenge: {challenge_pair.primary_glyph}↔{challenge_pair.secondary_glyph}"
+        )
+        logger.info(
+            f"   Response: {response_pair.primary_glyph}↔{response_pair.secondary_glyph}"
+        )
         logger.info(f"   Expected correlation: {expected_correlation:.3f}")
 
         return auth
 
-    def verify_authentication(self, auth_id: str,
-                            challenge_measurement: str,
-                            response_measurement: str) -> bool:
+    def verify_authentication(
+        self, auth_id: str, challenge_measurement: str, response_measurement: str
+    ) -> bool:
         """Verify quantum authentication response"""
         # Find authentication
         auth = None
@@ -326,11 +366,15 @@ class QuantumGlyphSystem:
             return True
 
         # Verify measurements are valid for the pairs
-        challenge_valid = (challenge_measurement == auth.challenge_pair.primary_glyph or
-                          challenge_measurement == auth.challenge_pair.secondary_glyph)
+        challenge_valid = (
+            challenge_measurement == auth.challenge_pair.primary_glyph
+            or challenge_measurement == auth.challenge_pair.secondary_glyph
+        )
 
-        response_valid = (response_measurement == auth.response_pair.primary_glyph or
-                         response_measurement == auth.response_pair.secondary_glyph)
+        response_valid = (
+            response_measurement == auth.response_pair.primary_glyph
+            or response_measurement == auth.response_pair.secondary_glyph
+        )
 
         if not (challenge_valid and response_valid):
             logger.error("Invalid glyph measurements")
@@ -338,8 +382,10 @@ class QuantumGlyphSystem:
 
         # Calculate correlation between measurements
         measurement_correlation = self._calculate_measurement_correlation(
-            challenge_measurement, response_measurement,
-            auth.challenge_pair, auth.response_pair
+            challenge_measurement,
+            response_measurement,
+            auth.challenge_pair,
+            auth.response_pair,
         )
 
         # Verify correlation matches expectation (within tolerance)
@@ -351,26 +397,43 @@ class QuantumGlyphSystem:
             auth.verification_time = datetime.utcnow()
 
             # Update trust scores
-            auth.challenge_pair.trust_score = min(1.0, auth.challenge_pair.trust_score + 0.1)
-            auth.response_pair.trust_score = min(1.0, auth.response_pair.trust_score + 0.1)
+            auth.challenge_pair.trust_score = min(
+                1.0, auth.challenge_pair.trust_score + 0.1
+            )
+            auth.response_pair.trust_score = min(
+                1.0, auth.response_pair.trust_score + 0.1
+            )
 
             logger.info(f"✅ Quantum authentication verified: {auth_id}")
-            logger.info(f"   Correlation match: {measurement_correlation:.3f} ≈ {auth.expected_correlation:.3f}")
+            logger.info(
+                f"   Correlation match: {measurement_correlation:.3f} ≈ {auth.expected_correlation:.3f}"
+            )
 
             self._save_keystore()
             return True
         else:
             logger.warning(f"❌ Quantum authentication failed: {auth_id}")
-            logger.warning(f"   Correlation mismatch: {measurement_correlation:.3f} vs {auth.expected_correlation:.3f}")
+            logger.warning(
+                f"   Correlation mismatch: {measurement_correlation:.3f} vs {auth.expected_correlation:.3f}"
+            )
 
             # Reduce trust scores
-            auth.challenge_pair.trust_score = max(0.0, auth.challenge_pair.trust_score - 0.2)
-            auth.response_pair.trust_score = max(0.0, auth.response_pair.trust_score - 0.2)
+            auth.challenge_pair.trust_score = max(
+                0.0, auth.challenge_pair.trust_score - 0.2
+            )
+            auth.response_pair.trust_score = max(
+                0.0, auth.response_pair.trust_score - 0.2
+            )
 
             return False
 
-    def _calculate_measurement_correlation(self, challenge_glyph: str, response_glyph: str,
-                                        challenge_pair: GlyphPair, response_pair: GlyphPair) -> float:
+    def _calculate_measurement_correlation(
+        self,
+        challenge_glyph: str,
+        response_glyph: str,
+        challenge_pair: GlyphPair,
+        response_pair: GlyphPair,
+    ) -> float:
         """Calculate correlation between specific glyph measurements"""
         # Encode glyph states as binary
         challenge_state = 1 if challenge_glyph == challenge_pair.primary_glyph else 0
@@ -388,7 +451,9 @@ class QuantumGlyphSystem:
             return []
 
         entangled_ids = self.entanglement_network[pair_id]
-        return [self.glyph_pairs[pid] for pid in entangled_ids if pid in self.glyph_pairs]
+        return [
+            self.glyph_pairs[pid] for pid in entangled_ids if pid in self.glyph_pairs
+        ]
 
     def measure_glyph_state(self, pair_id: str, observer_id: str) -> Optional[str]:
         """Measure the quantum state of a glyph pair"""
@@ -424,24 +489,31 @@ class QuantumGlyphSystem:
 
         return {
             "total_pairs": len(self.glyph_pairs),
-            "entanglement_connections": sum(len(connections) for connections in self.entanglement_network.values()) // 2,
+            "entanglement_connections": sum(
+                len(connections) for connections in self.entanglement_network.values()
+            )
+            // 2,
             "correlation_entries": len(self.correlation_matrix),
             "average_trust_score": avg_trust,
             "total_measurements": total_usage,
             "authentications": {
                 "total": len(self.authentication_log),
                 "verified": verified_auths,
-                "success_rate": verified_auths / len(self.authentication_log) if self.authentication_log else 0
+                "success_rate": (
+                    verified_auths / len(self.authentication_log)
+                    if self.authentication_log
+                    else 0
+                ),
             },
             "family_distribution": family_dist,
             "quantum_alphabet_size": len(self.QUANTUM_GLYPHS),
-            "entanglement_families": len(self.ENTANGLEMENT_RULES)
+            "entanglement_families": len(self.ENTANGLEMENT_RULES),
         }
 
 
 # Example usage and testing
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format='%(message)s')
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
 
     # Create quantum glyph system
     qgs = QuantumGlyphSystem(keystore_path="demo_quantum.json")
@@ -468,14 +540,20 @@ if __name__ == "__main__":
     auth = qgs.create_authentication_challenge("alice", "bob")
     if auth:
         # Simulate measurements
-        challenge_measurement = qgs.measure_glyph_state(auth.challenge_pair.pair_id, "alice")
-        response_measurement = qgs.measure_glyph_state(auth.response_pair.pair_id, "bob")
+        challenge_measurement = qgs.measure_glyph_state(
+            auth.challenge_pair.pair_id, "alice"
+        )
+        response_measurement = qgs.measure_glyph_state(
+            auth.response_pair.pair_id, "bob"
+        )
 
         if challenge_measurement and response_measurement:
             verified = qgs.verify_authentication(
                 auth.auth_id, challenge_measurement, response_measurement
             )
-            print(f"   Authentication result: {'✅ VERIFIED' if verified else '❌ FAILED'}")
+            print(
+                f"   Authentication result: {'✅ VERIFIED' if verified else '❌ FAILED'}"
+            )
 
     # Generate system report
     print("\n📊 Quantum System Report:")
@@ -490,6 +568,7 @@ if __name__ == "__main__":
 
     # Cleanup demo file
     import os
+
     try:
         os.unlink("demo_quantum.json")
     except:

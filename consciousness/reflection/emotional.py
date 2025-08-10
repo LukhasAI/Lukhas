@@ -66,7 +66,7 @@ import json  # Unused
 import os  # Unused
 from collections import defaultdict
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional  # Tuple unused
+from typing import Any, Optional  # Tuple unused
 
 # Third-Party Imports
 import numpy as np
@@ -92,11 +92,9 @@ except ImportError:
 
             def register_drift(self, *args, **kwargs):
                 """Compatibility method from v1.0.0"""
-                pass
 
             def record_drift(self, *args, **kwargs):
                 """Compatibility method from v1.0.0"""
-                pass
 
 
 # from ..core.decorators import core_tier_required # Conceptual
@@ -125,7 +123,7 @@ class EmotionVector:
     """
 
     # AIDENTITY: Core emotional state representation.
-    DIMENSIONS: List[str] = [
+    DIMENSIONS: list[str] = [
         "joy",
         "sadness",
         "anger",
@@ -137,8 +135,8 @@ class EmotionVector:
     ]  # Plutchik's basic emotions
 
     # ΛSEED_CHAIN: `values` dictionary seeds the initial emotional state.
-    def __init__(self, values: Optional[Dict[str, float]] = None):
-        self.values: Dict[str, float] = dict.fromkeys(self.DIMENSIONS, 0.0)
+    def __init__(self, values: Optional[dict[str, float]] = None):
+        self.values: dict[str, float] = dict.fromkeys(self.DIMENSIONS, 0.0)
         if values:
             for dim, value in values.items():
                 if dim in self.DIMENSIONS:
@@ -209,7 +207,7 @@ class EmotionVector:
     def blend(self, other: "EmotionVector", weight: float = 0.5) -> "EmotionVector":
         """Blends this emotion vector with another, returning a new EmotionVector."""
         weight = np.clip(weight, 0.0, 1.0)
-        blended_values: Dict[str, float] = {
+        blended_values: dict[str, float] = {
             dim: (1 - weight) * self.values[dim] + weight * other.values.get(dim, 0.0)
             for dim in self.DIMENSIONS
         }
@@ -219,7 +217,7 @@ class EmotionVector:
         )
         return EmotionVector(blended_values)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Serializes the EmotionVector to a dictionary."""
         return {
             "dimensions": self.values.copy(),
@@ -237,7 +235,7 @@ class EmotionVector:
         return max(self.values.items(), key=lambda item: item[1])[0]
 
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> "EmotionVector":
+    def from_dict(data: dict[str, Any]) -> "EmotionVector":
         """Creates an EmotionVector from a dictionary."""
         return EmotionVector(
             data.get("dimensions", data)
@@ -255,22 +253,24 @@ class EmotionalMemory:
     #AIDENTITY: Personality config defines a core emotional identity/disposition.
     """
 
-    # ΛSEED_CHAIN: `config` and `personality` settings seed the initial state and dynamics.
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    # ΛSEED_CHAIN: `config` and `personality` settings seed the initial state
+    # and dynamics.
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.current_emotion: EmotionVector = (
             EmotionVector()
         )  # Initial state is neutral
-        self.emotional_memories: List[Dict[str, Any]] = (
+        self.emotional_memories: list[dict[str, Any]] = (
             []
         )  # Stores experiences linked with emotions
         self.max_memories: int = self.config.get("max_memories", 1000)
-        self.emotion_associations: Dict[str, List[Dict[str, Any]]] = defaultdict(
+        self.emotion_associations: dict[str, list[dict[str, Any]]] = defaultdict(
             list
         )  # concept -> list of emotional events
 
         # AIDENTITY: Personality defines baseline emotional tendencies and reactivity.
-        # ΛDRIFT_POINT: Changes to personality parameters will fundamentally alter emotional dynamics.
+        # ΛDRIFT_POINT: Changes to personality parameters will fundamentally alter
+        # emotional dynamics.
         default_pers = {
             "baseline_emotion_values": {"joy": 0.3, "trust": 0.3, "anticipation": 0.2},
             "volatility": 0.3,
@@ -293,7 +293,7 @@ class EmotionalMemory:
             ),  # How much of internal emotion is expressed
         }
 
-        self.emotional_history: List[Dict[str, Any]] = (
+        self.emotional_history: list[dict[str, Any]] = (
             []
         )  # Log of emotional states over time
         self.history_granularity_seconds: int = self.config.get(
@@ -309,14 +309,15 @@ class EmotionalMemory:
         # ΛRECALL
         # ΛLOOP_FIX
 
-    # ΛSEED_CHAIN: `experience_content` and `explicit_emotion_values` seed the emotional processing.
+    # ΛSEED_CHAIN: `experience_content` and `explicit_emotion_values` seed the
+    # emotional processing.
     @lukhas_tier_required(1)
     def process_experience(
         self,
-        experience_content: Dict[str, Any],
-        explicit_emotion_values: Optional[Dict[str, float]] = None,
+        experience_content: dict[str, Any],
+        explicit_emotion_values: Optional[dict[str, float]] = None,
         event_intensity: float = 0.5,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         # ΛTRACE: Processing new experience for emotional impact.
         log.debug(
             f"Processing experience. type={experience_content.get('type')}, intensity={event_intensity}, has_explicit_emotion={bool(explicit_emotion_values)}"
@@ -353,7 +354,8 @@ class EmotionalMemory:
 
         ts_utc = datetime.now(timezone.utc)
         ts_iso = ts_utc.isoformat()
-        # ΛRECALL: Storing the experience linked to its emotional impact, making it recallable.
+        # ΛRECALL: Storing the experience linked to its emotional impact, making
+        # it recallable.
         mem_entry = {
             "ts_utc_iso": ts_iso,
             "experience": experience_content,
@@ -398,7 +400,7 @@ class EmotionalMemory:
 
     # AINTERNAL: Infers emotion from experience content (stub).
     def _infer_emotion_from_experience(
-        self, experience: Dict[str, Any]
+        self, experience: dict[str, Any]
     ) -> EmotionVector:
         # ΛTRACE: Inferring emotion from experience (stubbed).
         log.debug(
@@ -425,7 +427,8 @@ class EmotionalMemory:
         )
         return inferred_vector
 
-    # ΛDRIFT_POINT: This function defines how the current emotional state changes in response to events.
+    # ΛDRIFT_POINT: This function defines how the current emotional state
+    # changes in response to events.
     def _update_current_emotional_state(
         self, new_emotion_event: EmotionVector, event_intensity: float
     ):
@@ -506,7 +509,7 @@ class EmotionalMemory:
 
     # LUKHAS_TAG: emotion_fuse_break
     def check_identity_emotion_cascade(
-        self, identity_delta: Dict[str, Any], emotion_volatility: float
+        self, identity_delta: dict[str, Any], emotion_volatility: float
     ) -> bool:
         """
         Identity→Emotion cascade circuit breaker to prevent unstable feedback loops.
@@ -580,7 +583,7 @@ class EmotionalMemory:
 
     # LUKHAS_TAG: emotion_fuse_break
     def _activate_emotion_identity_fuse(
-        self, identity_delta: Dict[str, Any], emotion_volatility: float
+        self, identity_delta: dict[str, Any], emotion_volatility: float
     ) -> None:
         """
         Activates the identity→emotion cascade circuit breaker.
@@ -635,7 +638,7 @@ class EmotionalMemory:
         )
 
     # LUKHAS_TAG: emotion_fuse_break
-    def _log_fuse_activation(self, fuse_data: Dict[str, Any]) -> None:
+    def _log_fuse_activation(self, fuse_data: dict[str, Any]) -> None:
         """
         Logs circuit breaker activations to dedicated monitoring file.
         """
@@ -674,15 +677,16 @@ class EmotionalMemory:
 
         return is_active
 
-    # ΛDRIFT_POINT: How concepts are extracted and associated with emotions shapes understanding.
-    def _update_emotion_associations(self, emotional_memory: Dict[str, Any]):
+    # ΛDRIFT_POINT: How concepts are extracted and associated with emotions
+    # shapes understanding.
+    def _update_emotion_associations(self, emotional_memory: dict[str, Any]):
         # ΛTRACE: Updating emotion associations based on new memory.
         triggered_vec = EmotionVector.from_dict(emotional_memory["triggered_emotion"])
         primary_emo = triggered_vec.get_primary_emotion()
         if not primary_emo:
             return  # No primary emotion, no specific association to update under it
 
-        concepts: List[str] = []
+        concepts: list[str] = []
         exp_data = emotional_memory.get("experience", {})
         # Basic concept extraction from text (keywords) and tags
         if "text" in exp_data:
@@ -739,11 +743,12 @@ class EmotionalMemory:
             f"Emotional history log updated. total_history_entries={len(self.emotional_history)}"
         )
 
-    # ΛEXPOSE: This method could be part of an API for observing the AGI's emotional reaction.
+    # ΛEXPOSE: This method could be part of an API for observing the AGI's
+    # emotional reaction.
     @lukhas_tier_required(1)
     def get_emotional_response(
-        self, stimulus_content: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, stimulus_content: dict[str, Any]
+    ) -> dict[str, Any]:
         # ΛTRACE: Generating emotional response to stimulus.
         log.debug(
             f"Generating emotional response. stimulus_type={stimulus_content.get('type')}, content_preview={str(stimulus_content)[:100]}"
@@ -756,7 +761,8 @@ class EmotionalMemory:
             processed_info["triggered_emotion_details"]
         )
         express_factor = self.personality["expressiveness"]
-        # Expressed emotion is a blend of internal reaction and neutral, based on expressiveness
+        # Expressed emotion is a blend of internal reaction and neutral, based on
+        # expressiveness
         expressed_vec = (
             internal_reaction_vec.blend(EmotionVector(), 1.0 - express_factor)
             if express_factor < 1.0
@@ -768,7 +774,8 @@ class EmotionalMemory:
             "internal_emotional_reaction": internal_reaction_vec.to_dict(),
             "expressed_emotional_state": expressed_vec.to_dict(),
             "primary_expressed_emotion": expressed_vec.get_primary_emotion(),
-            "current_system_emotion_after_stimulus": self.current_emotion.to_dict(),  # The state after internalizing the event
+            # The state after internalizing the event
+            "current_system_emotion_after_stimulus": self.current_emotion.to_dict(),
             "response_timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
             "personality_expressiveness_factor": express_factor,
         }
@@ -780,7 +787,7 @@ class EmotionalMemory:
 
     # ΛRECALL: Retrieves emotional associations for a concept.
     @lukhas_tier_required(0)
-    def get_associated_emotion(self, concept: str) -> Optional[Dict[str, Any]]:
+    def get_associated_emotion(self, concept: str) -> Optional[dict[str, Any]]:
         # ΛTRACE: Querying associated emotion for a concept.
         log.debug(f"Querying associated emotion. for_concept={concept}")
         normalized_concept = concept.lower().strip()
@@ -797,7 +804,7 @@ class EmotionalMemory:
         associations = self.emotion_associations[
             normalized_concept
         ]  # ΛRECALL (of past associations)
-        emotion_strengths: Dict[str, float] = defaultdict(float)
+        emotion_strengths: dict[str, float] = defaultdict(float)
         total_strength_sum = 0.0
 
         # #ΛCOLLAPSE_POINT (Aggregated data loses nuanced temporal sequence of emotions for a concept)
@@ -860,7 +867,7 @@ class EmotionalMemory:
 
     # ΛEXPOSE: Retrieves the current overall emotional state of the AI.
     @lukhas_tier_required(0)  # Informational query.
-    def get_current_emotional_state(self) -> Dict[str, Any]:
+    def get_current_emotional_state(self) -> dict[str, Any]:
         # ΛTRACE: Retrieving current emotional state.
         log.debug("Retrieving current emotional state.")
         state_data = {
@@ -877,14 +884,14 @@ class EmotionalMemory:
 
     # ΛRECALL: Retrieves recent emotional history.
     @lukhas_tier_required(0)
-    def get_emotional_history(self, hours_ago: int = 24) -> List[Dict[str, Any]]:
+    def get_emotional_history(self, hours_ago: int = 24) -> list[dict[str, Any]]:
         # ΛTRACE: Retrieving emotional history.
         log.debug(f"Retrieving emotional history. span_hours={hours_ago}")
         if not self.emotional_history:
             return []
 
         cutoff_ts = datetime.now(timezone.utc).timestamp() - (hours_ago * 3600)
-        recent_log: List[Dict[str, Any]] = []
+        recent_log: list[dict[str, Any]] = []
 
         for entry in self.emotional_history:
             try:
@@ -908,7 +915,7 @@ class EmotionalMemory:
     @lukhas_tier_required(1)
     def affect_delta(
         self, trigger_event: str, emotion_change: EmotionVector
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Computes and applies an affect delta to the current emotional state.
         Links with drift tracking for symbolic continuity.
@@ -983,7 +990,7 @@ class EmotionalMemory:
 
     # ΛTAG: core, symbolic, affect, trace
     @lukhas_tier_required(1)
-    def symbolic_affect_trace(self, depth: int = 10) -> Dict[str, Any]:
+    def symbolic_affect_trace(self, depth: int = 10) -> dict[str, Any]:
         """
         Generates a symbolic trace of recent affect changes for drift analysis.
 
@@ -1113,7 +1120,7 @@ class EmotionalMemory:
         self,
         content: str,
         emotion: EmotionVector,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ):
         """
         Stores an emotional memory.

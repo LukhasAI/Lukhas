@@ -14,9 +14,9 @@
 ║ Initialization for awareness components.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 # Module imports
-from typing import Any, Dict, Optional
 
 from core.common import get_logger
 
@@ -46,7 +46,8 @@ logger.info("ΛTRACE: Initializing 'core.advanced.brain.awareness' package.")
 # For example: from .my_module import MyClass
 # These would also be added to __all__.
 
-# Human-readable comment: Import core classes/functions to be available at package level.
+# Human-readable comment: Import core classes/functions to be available at
+# package level.
 try:
     from .bio_symbolic_awareness_adapter import BioSymbolicAwarenessAdapter
     from .lukhas_awareness_protocol import LucasAwarenessProtocol
@@ -57,7 +58,8 @@ except ImportError as e:
     logger.error(
         f"ΛTRACE: Failed to import core awareness components: {e}", exc_info=True
     )
-    # Define placeholders if needed for graceful degradation, though usually not for __init__.py
+    # Define placeholders if needed for graceful degradation, though usually
+    # not for __init__.py
     LucasAwarenessProtocol = None  # type: ignore
     BioSymbolicAwarenessAdapter = None  # type: ignore
     SymbolicTraceLogger = None  # type: ignore

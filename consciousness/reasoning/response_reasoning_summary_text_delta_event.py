@@ -67,7 +67,8 @@ class ResponseReasoningSummaryTextDeltaEvent(BaseModel):
     This is used for streaming text content of reasoning summaries.
     """
 
-    # ΛNOTE: `delta` contains the actual incremental piece of symbolic text for the summary.
+    # ΛNOTE: `delta` contains the actual incremental piece of symbolic text
+    # for the summary.
     delta: str
     """The text delta (a piece of text) that was added to the summary part."""
 
@@ -83,12 +84,14 @@ class ResponseReasoningSummaryTextDeltaEvent(BaseModel):
     sequence_number: int
     """The sequence number of this event, crucial for correctly ordering text deltas."""
 
-    # ΛNOTE: `summary_index` identifies which specific part of a multi-part summary this text delta pertains to.
+    # ΛNOTE: `summary_index` identifies which specific part of a multi-part
+    # summary this text delta pertains to.
     summary_index: int
     """The index of the specific summary part (within the reasoning item's summary list)
        that this text delta belongs to."""
 
-    # ΛNOTE: `type` is a fixed literal, symbolically identifying this event's specific purpose for text deltas of summaries.
+    # ΛNOTE: `type` is a fixed literal, symbolically identifying this event's
+    # specific purpose for text deltas of summaries.
     type: Literal["response.reasoning_summary_text.delta"]
     """The type of the event. Always 'response.reasoning_summary_text.delta' for this model."""
     # Human-readable comment: Fixed literal type for event discrimination.

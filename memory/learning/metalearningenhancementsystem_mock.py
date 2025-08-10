@@ -7,7 +7,7 @@ import random
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -34,7 +34,7 @@ class Systemintegrationstatus:
     symbolic_feedback_active: bool
     federation_enabled: bool
     last_health_check: datetime
-    integration_errors: List[str]
+    integration_errors: list[str]
 
 
 class MockMonitorDashboard:
@@ -44,12 +44,12 @@ class MockMonitorDashboard:
         self.active_sessions = {}
         self.metrics = {"accuracy": 0.85, "loss": 0.15, "convergence": 0.75}
 
-    async def start_monitoring_session(self, config: Dict[str, Any]) -> str:
+    async def start_monitoring_session(self, config: dict[str, Any]) -> str:
         session_id = f"monitor_{datetime.now().timestamp()}"
         self.active_sessions[session_id] = config
         return session_id
 
-    async def get_aggregated_metrics(self) -> Dict[str, Any]:
+    async def get_aggregated_metrics(self) -> dict[str, Any]:
         return self.metrics.copy()
 
     async def stop_all_monitoring(self):
@@ -63,7 +63,7 @@ class MockRateModulator:
         self.current_rate = 0.001
         self.optimization_history = []
 
-    async def optimize_rate(self, context: Dict[str, Any]) -> float:
+    async def optimize_rate(self, context: dict[str, Any]) -> float:
         # Simulate rate optimization
         new_rate = self.current_rate * random.uniform(0.8, 1.2)
         self.current_rate = new_rate
@@ -77,7 +77,7 @@ class MockSymbolicFeedback:
     def __init__(self):
         self.feedback_history = []
 
-    async def process_feedback(self, feedback_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_feedback(self, feedback_data: dict[str, Any]) -> dict[str, Any]:
         processed = {
             "feedback_id": f"fb_{datetime.now().timestamp()}",
             "processed": True,
@@ -128,8 +128,8 @@ class MetaLearningEnhancementsystem:
         )
 
     async def discover_and_enhance_meta_learning_systems(
-        self, search_paths: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        self, search_paths: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """Mock discovery and enhancement"""
         # Simulate finding some systems
         discovered_count = random.randint(5, 15)
@@ -171,8 +171,8 @@ class MetaLearningEnhancementsystem:
         return discovery_results
 
     async def create_enhanced_learning_config(
-        self, learning_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, learning_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Create mock enhanced config"""
         return {
             "base_config": learning_context,
@@ -185,8 +185,8 @@ class MetaLearningEnhancementsystem:
         }
 
     async def apply_dynamic_optimization(
-        self, config: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, config: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply mock optimization"""
         new_rate = await self.rate_modulator.optimize_rate(context)
         return {
@@ -238,8 +238,8 @@ class MetaLearningEnhancementWrapper:
         return True
 
     async def enhance_learning_process(
-        self, learning_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, learning_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Mock enhance learning process"""
         try:
             enhanced_config = (
@@ -277,25 +277,25 @@ class MetaLearningEnhancementWrapper:
             self.integration_stats["failed_enhancements"] += 1
             return {"success": False, "error": str(e)}
 
-    async def get_learning_metrics(self) -> Dict[str, Any]:
+    async def get_learning_metrics(self) -> dict[str, Any]:
         """Get mock learning metrics"""
         return await self.enhancement_system.monitor_dashboard.get_aggregated_metrics()
 
     async def apply_symbolic_feedback(
-        self, feedback_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, feedback_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply mock symbolic feedback"""
         return await self.enhancement_system.symbolic_feedback.process_feedback(
             feedback_data
         )
 
-    async def enable_federation(self, federation_config: Dict[str, Any]) -> bool:
+    async def enable_federation(self, federation_config: dict[str, Any]) -> bool:
         """Enable mock federation"""
         self.enhancement_system.enable_federation = True
         self.integration_stats["federated_nodes"] = 1
         return True
 
-    def get_integration_status(self) -> Dict[str, Any]:
+    def get_integration_status(self) -> dict[str, Any]:
         """Get mock integration status"""
         return {
             "node_id": self.enhancement_system.node_id,

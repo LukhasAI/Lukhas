@@ -7,7 +7,7 @@ MEMORY - folds Submodule
 """
 
 # Colony base for propagation
-from typing import Any, Dict, List
+from typing import Any
 
 
 class FoldsColony:
@@ -23,7 +23,7 @@ class FoldsColony:
             "oxytocin": 0.3,
         }
 
-    def propagate(self, signal: Dict[str, Any]) -> Dict[str, Any]:
+    def propagate(self, signal: dict[str, Any]) -> dict[str, Any]:
         """Propagate signal through colony"""
         return {
             "colony_id": self.colony_id,

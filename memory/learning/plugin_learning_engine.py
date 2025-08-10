@@ -4,7 +4,7 @@ Implements core integration patterns for connecting with Lukhas's systems.
 """
 
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Import Lukhas interfaces (these would be provided by Lukhas AI)
 from lucas_core import (
@@ -55,7 +55,7 @@ class PluginLearningEngine(LucasPlugin):
     Implements Lukhas's core patterns for perfect UX and safe AI.
     """
 
-    def __init__(self, plugin_config: Dict[str, Any] = None):
+    def __init__(self, plugin_config: dict[str, Any] = None):
         """Initialize plugin with Lukhas AI systems."""
         super().__init__(name="DocuTutor", version="1.0.0")
 
@@ -156,7 +156,7 @@ class PluginLearningEngine(LucasPlugin):
 
         return session
 
-    async def update_knowledge(self, content_id: str, feedback: Dict[str, Any]):
+    async def update_knowledge(self, content_id: str, feedback: dict[str, Any]):
         """
         Update documentation/tutorial content based on user feedback.
         Uses Lukhas's memory evolution patterns.

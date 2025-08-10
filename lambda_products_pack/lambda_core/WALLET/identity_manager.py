@@ -11,7 +11,7 @@ import os
 import time
 import uuid
 from collections import defaultdict
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .quantum_identity_core import LambdaWalletIdentity, QuantumTier
 from .symbolic_vault import WalletSymbolicVault
@@ -66,8 +66,8 @@ class WalletIdentityManager:
         }
 
         # Wallet-specific components
-        self.active_wallets: Dict[str, LambdaWalletIdentity] = {}
-        self.wallet_vaults: Dict[str, WalletSymbolicVault] = {}
+        self.active_wallets: dict[str, LambdaWalletIdentity] = {}
+        self.wallet_vaults: dict[str, WalletSymbolicVault] = {}
 
         # Transaction and access patterns
         self.transaction_patterns = defaultdict(list)
@@ -136,9 +136,9 @@ class WalletIdentityManager:
     def process_transaction_experience(
         self,
         lambda_id: str,
-        transaction_data: Dict[str, Any],
+        transaction_data: dict[str, Any],
         security_level: str = "high",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Process a transaction experience and update wallet identity components
 
@@ -153,7 +153,7 @@ class WalletIdentityManager:
         if lambda_id not in self.active_wallets:
             return {"error": "Wallet identity not found"}
 
-        wallet_identity = self.active_wallets[lambda_id]
+        self.active_wallets[lambda_id]
         vault = self.wallet_vaults[lambda_id]
 
         # Record transaction pattern
@@ -199,7 +199,7 @@ class WalletIdentityManager:
             "encrypted": False,
         }
 
-    def get_wallet_identity_state(self, lambda_id: str) -> Dict[str, Any]:
+    def get_wallet_identity_state(self, lambda_id: str) -> dict[str, Any]:
         """Get the current wallet identity state"""
         if lambda_id not in self.active_wallets:
             return {"error": "Wallet identity not found"}
@@ -222,8 +222,8 @@ class WalletIdentityManager:
         }
 
     def update_wallet_identity(
-        self, lambda_id: str, updates: Dict[str, Any], reason: str = "manual_update"
-    ) -> Dict[str, Any]:
+        self, lambda_id: str, updates: dict[str, Any], reason: str = "manual_update"
+    ) -> dict[str, Any]:
         """
         Update wallet identity attributes manually
 
@@ -241,10 +241,9 @@ class WalletIdentityManager:
         wallet_identity = self.active_wallets[lambda_id]
 
         # Save current state for snapshot
-        before_state = self.get_wallet_identity_state(lambda_id)
+        self.get_wallet_identity_state(lambda_id)
 
         # Apply updates to allowed fields
-        mutable_fields = ["tier"]
 
         for field, value in updates.items():
             if field == "tier" and isinstance(value, str):
@@ -259,11 +258,11 @@ class WalletIdentityManager:
         # Return updated state
         return self.get_wallet_identity_state(lambda_id)
 
-    def get_transaction_patterns(self, lambda_id: str) -> List[Dict[str, Any]]:
+    def get_transaction_patterns(self, lambda_id: str) -> list[dict[str, Any]]:
         """Get transaction patterns for wallet identity"""
         return self.transaction_patterns.get(lambda_id, [])
 
-    def get_wallet_evolution(self, lambda_id: str) -> List[Dict[str, Any]]:
+    def get_wallet_evolution(self, lambda_id: str) -> list[dict[str, Any]]:
         """Get the history of wallet identity evolution via snapshots"""
         return [
             {
@@ -277,7 +276,7 @@ class WalletIdentityManager:
         ]
 
     def _assess_transaction_significance(
-        self, transaction_data: Dict[str, Any]
+        self, transaction_data: dict[str, Any]
     ) -> float:
         """Assess the significance of a transaction"""
         significance = 0.0
@@ -375,7 +374,7 @@ class WalletIdentityManager:
             self.logger.error(f"Failed to save wallet identity to {identity_file}: {e}")
             return False
 
-    def get_security_summary(self) -> Dict[str, Any]:
+    def get_security_summary(self) -> dict[str, Any]:
         """Get security summary for all wallet identities"""
         total_wallets = len(self.active_wallets)
         biometric_protected = sum(

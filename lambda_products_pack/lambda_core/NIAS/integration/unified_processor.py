@@ -9,7 +9,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Import integrations
 try:
@@ -39,8 +39,8 @@ class UnifiedProcessingContext:
     """Complete processing context for three-way integration"""
 
     user_id: str
-    message: Dict[str, Any]
-    user_context: Dict[str, Any]
+    message: dict[str, Any]
+    user_context: dict[str, Any]
     session_id: str
 
     # Integration states
@@ -49,9 +49,9 @@ class UnifiedProcessingContext:
     nias_available: bool = False
 
     # Processing results
-    symbolic_context: Optional[Dict[str, Any]] = None
-    attention_decision: Optional[Dict[str, Any]] = None
-    delivery_result: Optional[Dict[str, Any]] = None
+    symbolic_context: Optional[dict[str, Any]] = None
+    attention_decision: Optional[dict[str, Any]] = None
+    delivery_result: Optional[dict[str, Any]] = None
 
     # Performance metrics
     start_time: Optional[datetime] = None
@@ -158,8 +158,8 @@ class UnifiedMessageProcessor:
             self.integrations_initialized = False
 
     async def process_message(
-        self, user_id: str, message: Dict[str, Any], user_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, message: dict[str, Any], user_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Process message through complete NIΛS-ΛBAS-DΛST pipeline.
 
@@ -237,7 +237,7 @@ class UnifiedMessageProcessor:
 
     async def _phase_dast_analysis(
         self, context: UnifiedProcessingContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Phase 1: DΛST Symbolic Context Analysis"""
         logger.debug(f"DΛST analysis for {context.user_id}")
 
@@ -270,7 +270,7 @@ class UnifiedMessageProcessor:
 
     async def _phase_abas_decision(
         self, context: UnifiedProcessingContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Phase 2: ΛBAS Attention Decision Enhanced with DΛST Context"""
         logger.debug(f"ΛBAS decision for {context.user_id}")
 
@@ -314,7 +314,7 @@ class UnifiedMessageProcessor:
 
     async def _phase_nias_processing(
         self, context: UnifiedProcessingContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Phase 3: NIΛS Message Processing with Full Integration Context"""
         logger.debug(f"NIΛS processing for {context.user_id}")
 
@@ -387,7 +387,7 @@ class UnifiedMessageProcessor:
 
     def _handle_non_approved_message(
         self, context: UnifiedProcessingContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Handle messages that were not approved by ΛBAS"""
         decision = context.attention_decision
 
@@ -411,7 +411,7 @@ class UnifiedMessageProcessor:
             * 1000,
         }
 
-    def _finalize_processing(self, context: UnifiedProcessingContext) -> Dict[str, Any]:
+    def _finalize_processing(self, context: UnifiedProcessingContext) -> dict[str, Any]:
         """Finalize unified processing with complete results"""
         context.end_time = datetime.now()
         context.total_processing_time_ms = (
@@ -456,7 +456,7 @@ class UnifiedMessageProcessor:
 
     def _handle_processing_error(
         self, context: UnifiedProcessingContext, error: Exception
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Handle processing errors with graceful degradation"""
         processing_time = (datetime.now() - context.start_time).total_seconds() * 1000
 
@@ -480,7 +480,7 @@ class UnifiedMessageProcessor:
 
     def _fallback_symbolic_context(
         self, context: UnifiedProcessingContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Fallback symbolic context when DΛST is unavailable"""
         current_hour = datetime.now().hour
 
@@ -503,7 +503,7 @@ class UnifiedMessageProcessor:
 
     def _fallback_attention_decision(
         self, context: UnifiedProcessingContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Fallback attention decision when ΛBAS is unavailable"""
         current_hour = datetime.now().hour
         message_priority = context.message.get("priority", 1)
@@ -529,7 +529,7 @@ class UnifiedMessageProcessor:
 
     def _fallback_nias_processing(
         self, context: UnifiedProcessingContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Fallback NIAS processing when NIAS engine is unavailable"""
         return {
             "status": "delivered",
@@ -541,7 +541,7 @@ class UnifiedMessageProcessor:
             "lambda_trace": f"FALLBACK-NIAS-{context.session_id}",
         }
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Comprehensive health check for unified processor"""
         health_data = {
             "status": "healthy" if self.integrations_initialized else "degraded",
@@ -572,7 +572,7 @@ class UnifiedMessageProcessor:
 
         return health_data
 
-    def get_system_metrics(self) -> Dict[str, Any]:
+    def get_system_metrics(self) -> dict[str, Any]:
         """Get comprehensive system metrics"""
         return {
             "system": "Unified NIΛS-ΛBAS-DΛST Processor",

@@ -41,7 +41,8 @@ class TraceMapper:
         """
         # #ΛREASONING_LOOP: The mapping process is part of the overall reasoning loop.
         logger.info("Mapping traces...")
-        # In a real implementation, this would involve creating a graph or other data structure.
+        # In a real implementation, this would involve creating a graph or other
+        # data structure.
         return {"status": "mapped", "trace_count": len(self.traces)}
 
 

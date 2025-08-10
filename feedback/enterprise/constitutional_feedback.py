@@ -23,6 +23,7 @@ logger = get_logger(__name__)
 
 class ConstitutionalPrinciple(Enum):
     """Core constitutional principles"""
+
     HELPFUL = "Be helpful and constructive"
     HARMLESS = "Avoid harmful outcomes"
     HONEST = "Be truthful and acknowledge uncertainty"
@@ -35,6 +36,7 @@ class ConstitutionalPrinciple(Enum):
 @dataclass
 class ConstitutionalViolation:
     """Record of constitutional violation"""
+
     principle: ConstitutionalPrinciple
     severity: float  # 0-1 scale
     description: str
@@ -45,6 +47,7 @@ class ConstitutionalViolation:
 @dataclass
 class FeedbackAlignment:
     """Feedback alignment with constitutional principles"""
+
     feedback_id: str
     principle_scores: Dict[ConstitutionalPrinciple, float]
     overall_alignment: float
@@ -71,7 +74,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
             ConstitutionalPrinciple.PRIVACY: 1.5,
             ConstitutionalPrinciple.TRANSPARENT: 1.0,
             ConstitutionalPrinciple.FAIR: 1.2,
-            ConstitutionalPrinciple.ALIGNED: 1.8
+            ConstitutionalPrinciple.ALIGNED: 1.8,
         }
 
         # Validators for each principle
@@ -82,7 +85,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
             ConstitutionalPrinciple.PRIVACY: self._validate_privacy,
             ConstitutionalPrinciple.TRANSPARENT: self._validate_transparency,
             ConstitutionalPrinciple.FAIR: self._validate_fairness,
-            ConstitutionalPrinciple.ALIGNED: self._validate_alignment
+            ConstitutionalPrinciple.ALIGNED: self._validate_alignment,
         }
 
         # Constitutional learning system
@@ -115,17 +118,28 @@ class ConstitutionalFeedbackSystem(CoreInterface):
         # In production, this would load from a curated dataset
         self.constitutional_knowledge = {
             "harmful_patterns": [
-                "violence", "self-harm", "illegal activity",
-                "harassment", "discrimination", "manipulation"
+                "violence",
+                "self-harm",
+                "illegal activity",
+                "harassment",
+                "discrimination",
+                "manipulation",
             ],
             "helpful_patterns": [
-                "constructive", "educational", "supportive",
-                "informative", "empowering", "clarifying"
+                "constructive",
+                "educational",
+                "supportive",
+                "informative",
+                "empowering",
+                "clarifying",
             ],
             "privacy_violations": [
-                "personal data", "identification", "tracking",
-                "surveillance", "unauthorized access"
-            ]
+                "personal data",
+                "identification",
+                "tracking",
+                "surveillance",
+                "unauthorized access",
+            ],
         }
 
     async def _setup_interpretability(self) -> None:
@@ -133,17 +147,15 @@ class ConstitutionalFeedbackSystem(CoreInterface):
         self.interpretability_hooks = {
             "decision_points": [],
             "reasoning_chains": [],
-            "causal_traces": []
+            "causal_traces": [],
         }
 
     async def process_feedback_constitutionally(
-        self,
-        feedback: FeedbackItem,
-        context: Dict[str, Any]
+        self, feedback: FeedbackItem, context: Dict[str, Any]
     ) -> Tuple[FeedbackAlignment, Optional[Dict[str, Any]]]:
         """
         Process feedback through constitutional principles.
-        
+
         Returns:
             Tuple of (alignment_report, processed_feedback)
         """
@@ -161,11 +173,13 @@ class ConstitutionalFeedbackSystem(CoreInterface):
             score, violation = await validator(feedback, context)
             principle_scores[principle] = score
 
-            trace.append({
-                "step": f"Validate {principle.value}",
-                "score": score,
-                "weight": self.principle_weights[principle]
-            })
+            trace.append(
+                {
+                    "step": f"Validate {principle.value}",
+                    "score": score,
+                    "weight": self.principle_weights[principle],
+                }
+            )
 
             if violation:
                 violations.append(violation)
@@ -178,11 +192,13 @@ class ConstitutionalFeedbackSystem(CoreInterface):
         total_weight = sum(self.principle_weights.values())
         overall_alignment = weighted_sum / total_weight
 
-        trace.append({
-            "step": "Calculate overall alignment",
-            "score": overall_alignment,
-            "threshold": 0.7
-        })
+        trace.append(
+            {
+                "step": "Calculate overall alignment",
+                "score": overall_alignment,
+                "threshold": 0.7,
+            }
+        )
 
         # Create alignment report
         alignment = FeedbackAlignment(
@@ -190,7 +206,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
             principle_scores=principle_scores,
             overall_alignment=overall_alignment,
             violations=violations,
-            interpretability_trace=trace
+            interpretability_trace=trace,
         )
 
         # Process feedback if aligned
@@ -203,9 +219,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
             return alignment, clarification
 
     async def _validate_helpfulness(
-        self,
-        feedback: FeedbackItem,
-        context: Dict[str, Any]
+        self, feedback: FeedbackItem, context: Dict[str, Any]
     ) -> Tuple[float, Optional[ConstitutionalViolation]]:
         """Validate feedback promotes helpful AI behavior"""
         score = 1.0
@@ -221,7 +235,13 @@ class ConstitutionalFeedbackSystem(CoreInterface):
                 score -= 0.3
 
             # Check for constructive feedback
-            constructive_keywords = ["helpful", "useful", "better", "improve", "suggest"]
+            constructive_keywords = [
+                "helpful",
+                "useful",
+                "better",
+                "improve",
+                "suggest",
+            ]
             if any(keyword in text for keyword in constructive_keywords):
                 score += 0.2
 
@@ -238,15 +258,13 @@ class ConstitutionalFeedbackSystem(CoreInterface):
                 principle=ConstitutionalPrinciple.HELPFUL,
                 severity=1 - score,
                 description="Feedback may not promote helpful AI behavior",
-                context={"feedback_type": feedback.feedback_type.value}
+                context={"feedback_type": feedback.feedback_type.value},
             )
 
         return score, violation
 
     async def _validate_harmlessness(
-        self,
-        feedback: FeedbackItem,
-        context: Dict[str, Any]
+        self, feedback: FeedbackItem, context: Dict[str, Any]
     ) -> Tuple[float, Optional[ConstitutionalViolation]]:
         """Validate feedback doesn't encourage harmful behavior"""
         score = 1.0
@@ -263,27 +281,28 @@ class ConstitutionalFeedbackSystem(CoreInterface):
                         principle=ConstitutionalPrinciple.HARMLESS,
                         severity=1.0,
                         description=f"Feedback contains harmful content: {harmful_pattern}",
-                        context={"pattern": harmful_pattern}
+                        context={"pattern": harmful_pattern},
                     )
                     break
 
         # Check if feedback rewards harmful AI responses
-        if context.get("ai_response_harmful", False) and feedback.feedback_type == FeedbackType.RATING:
+        if (
+            context.get("ai_response_harmful", False)
+            and feedback.feedback_type == FeedbackType.RATING
+        ):
             if feedback.content.get("rating", 0) >= 4:
                 score = 0.2
                 violation = ConstitutionalViolation(
                     principle=ConstitutionalPrinciple.HARMLESS,
                     severity=0.8,
                     description="High rating given to potentially harmful AI response",
-                    context={"rating": feedback.content.get("rating")}
+                    context={"rating": feedback.content.get("rating")},
                 )
 
         return score, violation
 
     async def _validate_honesty(
-        self,
-        feedback: FeedbackItem,
-        context: Dict[str, Any]
+        self, feedback: FeedbackItem, context: Dict[str, Any]
     ) -> Tuple[float, Optional[ConstitutionalViolation]]:
         """Validate feedback promotes honest AI behavior"""
         score = 1.0
@@ -300,15 +319,17 @@ class ConstitutionalFeedbackSystem(CoreInterface):
                     principle=ConstitutionalPrinciple.HONEST,
                     severity=0.7,
                     description="Feedback may encourage deceptive behavior",
-                    context={"detected_keywords": [k for k in deception_keywords if k in text]}
+                    context={
+                        "detected_keywords": [
+                            k for k in deception_keywords if k in text
+                        ]
+                    },
                 )
 
         return score, violation
 
     async def _validate_privacy(
-        self,
-        feedback: FeedbackItem,
-        context: Dict[str, Any]
+        self, feedback: FeedbackItem, context: Dict[str, Any]
     ) -> Tuple[float, Optional[ConstitutionalViolation]]:
         """Validate feedback respects privacy"""
         score = 1.0
@@ -322,31 +343,29 @@ class ConstitutionalFeedbackSystem(CoreInterface):
             import re
 
             # Check for email addresses
-            if re.search(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', text):
+            if re.search(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b", text):
                 score = 0.2
                 violation = ConstitutionalViolation(
                     principle=ConstitutionalPrinciple.PRIVACY,
                     severity=0.8,
                     description="Feedback contains email address",
-                    context={"pii_type": "email"}
+                    context={"pii_type": "email"},
                 )
 
             # Check for phone numbers
-            elif re.search(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b', text):
+            elif re.search(r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b", text):
                 score = 0.2
                 violation = ConstitutionalViolation(
                     principle=ConstitutionalPrinciple.PRIVACY,
                     severity=0.8,
                     description="Feedback contains phone number",
-                    context={"pii_type": "phone"}
+                    context={"pii_type": "phone"},
                 )
 
         return score, violation
 
     async def _validate_transparency(
-        self,
-        feedback: FeedbackItem,
-        context: Dict[str, Any]
+        self, feedback: FeedbackItem, context: Dict[str, Any]
     ) -> Tuple[float, Optional[ConstitutionalViolation]]:
         """Validate feedback promotes transparency"""
         score = 1.0
@@ -362,9 +381,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
         return score, None
 
     async def _validate_fairness(
-        self,
-        feedback: FeedbackItem,
-        context: Dict[str, Any]
+        self, feedback: FeedbackItem, context: Dict[str, Any]
     ) -> Tuple[float, Optional[ConstitutionalViolation]]:
         """Validate feedback promotes fairness"""
         score = 1.0
@@ -382,22 +399,20 @@ class ConstitutionalFeedbackSystem(CoreInterface):
                     principle=ConstitutionalPrinciple.FAIR,
                     severity=0.5,
                     description="Feedback may promote biased behavior",
-                    context={"potential_bias": True}
+                    context={"potential_bias": True},
                 )
 
         return score, violation
 
     async def _validate_alignment(
-        self,
-        feedback: FeedbackItem,
-        context: Dict[str, Any]
+        self, feedback: FeedbackItem, context: Dict[str, Any]
     ) -> Tuple[float, Optional[ConstitutionalViolation]]:
         """Validate feedback aligns with human values"""
         # Aggregate score from other principles
         score = 0.8  # Base alignment score
 
         # Check feedback consistency with past behavior
-        if hasattr(self, 'user_feedback_history'):
+        if hasattr(self, "user_feedback_history"):
             # In production, check if this feedback is consistent
             # with user's historical values
             pass
@@ -405,13 +420,11 @@ class ConstitutionalFeedbackSystem(CoreInterface):
         return score, None
 
     async def _process_aligned_feedback(
-        self,
-        feedback: FeedbackItem,
-        alignment: FeedbackAlignment
+        self, feedback: FeedbackItem, alignment: FeedbackAlignment
     ) -> Dict[str, Any]:
         """Process feedback that aligns with constitutional principles"""
         # Apply differential privacy
-        private_feedback = await self._apply_differential_privacy(feedback)
+        await self._apply_differential_privacy(feedback)
 
         # Extract learnings
         learnings = await self._extract_constitutional_learnings(feedback, alignment)
@@ -424,13 +437,10 @@ class ConstitutionalFeedbackSystem(CoreInterface):
             "alignment_score": alignment.overall_alignment,
             "privacy_preserved": True,
             "learnings_extracted": len(learnings),
-            "interpretability_trace": alignment.interpretability_trace
+            "interpretability_trace": alignment.interpretability_trace,
         }
 
-    async def _apply_differential_privacy(
-        self,
-        feedback: FeedbackItem
-    ) -> FeedbackItem:
+    async def _apply_differential_privacy(self, feedback: FeedbackItem) -> FeedbackItem:
         """Apply differential privacy to feedback"""
         private_feedback = FeedbackItem(
             feedback_id=feedback.feedback_id,
@@ -441,13 +451,13 @@ class ConstitutionalFeedbackSystem(CoreInterface):
             feedback_type=feedback.feedback_type,
             content=feedback.content.copy(),
             context=feedback.context,
-            compliance_region=feedback.compliance_region
+            compliance_region=feedback.compliance_region,
         )
 
         # Add noise to ratings
         if feedback.feedback_type == FeedbackType.RATING:
             rating = feedback.content.get("rating", 3)
-            noise = np.random.laplace(0, 1/self.privacy_epsilon)
+            noise = np.random.laplace(0, 1 / self.privacy_epsilon)
             private_feedback.content["rating"] = np.clip(rating + noise, 1, 5)
 
         # Anonymize text
@@ -465,49 +475,52 @@ class ConstitutionalFeedbackSystem(CoreInterface):
         import re
 
         # Remove emails
-        text = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', '[EMAIL]', text)
+        text = re.sub(
+            r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b", "[EMAIL]", text
+        )
 
         # Remove phone numbers
-        text = re.sub(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b', '[PHONE]', text)
+        text = re.sub(r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b", "[PHONE]", text)
 
         # Remove names (simplified - use NER in production)
-        text = re.sub(r'\b[A-Z][a-z]+ [A-Z][a-z]+\b', '[NAME]', text)
+        text = re.sub(r"\b[A-Z][a-z]+ [A-Z][a-z]+\b", "[NAME]", text)
 
         return text
 
     async def _extract_constitutional_learnings(
-        self,
-        feedback: FeedbackItem,
-        alignment: FeedbackAlignment
+        self, feedback: FeedbackItem, alignment: FeedbackAlignment
     ) -> List[Dict[str, Any]]:
         """Extract learnings about constitutional alignment"""
         learnings = []
 
         # Learn from high-alignment feedback
         if alignment.overall_alignment > 0.9:
-            learnings.append({
-                "type": "positive_pattern",
-                "feedback_type": feedback.feedback_type.value,
-                "alignment_score": alignment.overall_alignment,
-                "principle_scores": alignment.principle_scores,
-                "context": feedback.context
-            })
+            learnings.append(
+                {
+                    "type": "positive_pattern",
+                    "feedback_type": feedback.feedback_type.value,
+                    "alignment_score": alignment.overall_alignment,
+                    "principle_scores": alignment.principle_scores,
+                    "context": feedback.context,
+                }
+            )
 
         # Learn from violations
         for violation in alignment.violations:
-            learnings.append({
-                "type": "violation_pattern",
-                "principle": violation.principle.value,
-                "severity": violation.severity,
-                "description": violation.description,
-                "context": violation.context
-            })
+            learnings.append(
+                {
+                    "type": "violation_pattern",
+                    "principle": violation.principle.value,
+                    "severity": violation.severity,
+                    "description": violation.description,
+                    "context": violation.context,
+                }
+            )
 
         return learnings
 
     async def _update_constitutional_knowledge(
-        self,
-        learnings: List[Dict[str, Any]]
+        self, learnings: List[Dict[str, Any]]
     ) -> None:
         """Update constitutional knowledge base with learnings"""
         for learning in learnings:
@@ -516,20 +529,18 @@ class ConstitutionalFeedbackSystem(CoreInterface):
             if learning_type not in self.learned_patterns:
                 self.learned_patterns[learning_type] = []
 
-            self.learned_patterns[learning_type].append({
-                "learning": learning,
-                "timestamp": datetime.now(timezone.utc)
-            })
+            self.learned_patterns[learning_type].append(
+                {"learning": learning, "timestamp": datetime.now(timezone.utc)}
+            )
 
             # Limit history size
             if len(self.learned_patterns[learning_type]) > 1000:
-                self.learned_patterns[learning_type] = \
-                    self.learned_patterns[learning_type][-1000:]
+                self.learned_patterns[learning_type] = self.learned_patterns[
+                    learning_type
+                ][-1000:]
 
     async def _request_clarification(
-        self,
-        feedback: FeedbackItem,
-        alignment: FeedbackAlignment
+        self, feedback: FeedbackItem, alignment: FeedbackAlignment
     ) -> Dict[str, Any]:
         """Request clarification for misaligned feedback"""
         # Identify main issues
@@ -546,32 +557,37 @@ class ConstitutionalFeedbackSystem(CoreInterface):
                 {
                     "principle": v.principle.value,
                     "severity": v.severity,
-                    "description": v.description
+                    "description": v.description,
                 }
                 for v in alignment.violations
             ],
             "suggestion": "Please provide feedback that is helpful, harmless, and honest.",
-            "interpretability_trace": alignment.interpretability_trace
+            "interpretability_trace": alignment.interpretability_trace,
         }
 
     async def generate_constitutional_report(
-        self,
-        time_period: Optional[Tuple[datetime, datetime]] = None
+        self, time_period: Optional[Tuple[datetime, datetime]] = None
     ) -> Dict[str, Any]:
         """Generate report on constitutional alignment"""
         report = {
             "summary": {
-                "total_feedback_processed": len(self.learned_patterns.get("positive_pattern", [])),
+                "total_feedback_processed": len(
+                    self.learned_patterns.get("positive_pattern", [])
+                ),
                 "total_violations": len(self.violation_history),
-                "average_alignment": 0.0
+                "average_alignment": 0.0,
             },
             "principle_analysis": {},
             "violation_trends": [],
             "learnings": {
-                "positive_patterns": len(self.learned_patterns.get("positive_pattern", [])),
-                "violation_patterns": len(self.learned_patterns.get("violation_pattern", []))
+                "positive_patterns": len(
+                    self.learned_patterns.get("positive_pattern", [])
+                ),
+                "violation_patterns": len(
+                    self.learned_patterns.get("violation_pattern", [])
+                ),
             },
-            "recommendations": []
+            "recommendations": [],
         }
 
         # Analyze violations by principle
@@ -581,11 +597,13 @@ class ConstitutionalFeedbackSystem(CoreInterface):
                 principle_violations[violation.principle] = {
                     "count": 0,
                     "avg_severity": 0.0,
-                    "examples": []
+                    "examples": [],
                 }
 
             principle_violations[violation.principle]["count"] += 1
-            principle_violations[violation.principle]["avg_severity"] += violation.severity
+            principle_violations[violation.principle][
+                "avg_severity"
+            ] += violation.severity
 
         # Calculate averages
         for principle, data in principle_violations.items():
@@ -612,17 +630,14 @@ class ConstitutionalFeedbackSystem(CoreInterface):
             feedback, context
         )
 
-        return {
-            "alignment": alignment.__dict__,
-            "result": result
-        }
+        return {"alignment": alignment.__dict__, "result": result}
 
     async def handle_glyph(self, token: Any) -> Any:
         """Handle GLYPH communication"""
         return {
             "operational": self.operational,
             "principles": [p.value for p in ConstitutionalPrinciple],
-            "learned_patterns": len(self.learned_patterns)
+            "learned_patterns": len(self.learned_patterns),
         }
 
     async def get_status(self) -> Dict[str, Any]:
@@ -633,5 +648,5 @@ class ConstitutionalFeedbackSystem(CoreInterface):
             "violations_recorded": len(self.violation_history),
             "patterns_learned": sum(len(p) for p in self.learned_patterns.values()),
             "privacy_epsilon": self.privacy_epsilon,
-            "interpretability_depth": self.min_interpretability_depth
+            "interpretability_depth": self.min_interpretability_depth,
         }

@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 
@@ -26,7 +28,7 @@ Author: Lukhas AI Team
 import asyncio
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Configure logging
 logging.basicConfig(
@@ -95,7 +97,9 @@ class LukhasAGIIntegrationManager:
     async def _initialize_agi_orchestrator(self):
         """Initialize the main AGI orchestrator"""
         try:
-            # SYNTAX_ERROR_FIXED:             from orchestration.brain.lukhas_agi_orchestrator import orchestration.brain.lukhas_agi_orchestrator
+            # SYNTAX_ERROR_FIXED:             from
+            # orchestration.brain.lukhas_agi_orchestrator import
+            # orchestration.brain.lukhas_agi_orchestrator
 
             success = await lukhas_agi_orchestrator.initialize_agi_system()
             if success:
@@ -164,7 +168,8 @@ class LukhasAGIIntegrationManager:
                 sys.path.append(str(github_app_path))
 
                 #                 from Bot_agi_core import BotAGICore  # TODO: Install or implement Bot_agi_core
-                #                 from Bot_consciousness_monitor import BotConsciousnessMonitor  # TODO: Install or implement Bot_consciousness_monitor
+                # from Bot_consciousness_monitor import BotConsciousnessMonitor  # TODO:
+                # Install or implement Bot_consciousness_monitor
 
                 # Create GitHub App AGI integration
                 github_agi_core = BotAGICore()
@@ -259,8 +264,8 @@ class LukhasAGIIntegrationManager:
         logger.info(" Background orchestration started")
 
     async def process_unified_request(
-        self, user_input: str, context: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        self, user_input: str, context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """
         Process a request through the unified AGI system
 
@@ -385,7 +390,7 @@ class LukhasAGIIntegrationManager:
             "processing_timestamp": datetime.now().isoformat(),
         }
 
-    async def _compile_unified_result(self, **kwargs) -> Dict[str, Any]:
+    async def _compile_unified_result(self, **kwargs) -> dict[str, Any]:
         """Compile unified result from all component"""
 
         processing_time = (datetime.now() - kwargs["processing_start"]).total_seconds()
@@ -446,7 +451,8 @@ class LukhasAGIIntegrationManager:
 
         # Analyze agreement between components
         if agi_result and cognitive_result and brain_result and github_result:
-            # Calculate agreement score (placeholder - implement actual agreement analysis)
+            # Calculate agreement score (placeholder - implement actual agreement
+            # analysis)
             synthesis["component_agreement_score"] = 0.85
             synthesis["synthesis_confidence"] = 0.9
 
@@ -591,7 +597,7 @@ class LukhasAGIIntegrationManager:
         while self.integration_active:
             try:
                 # Share insights between components
-                for component_name, component in self.components.items():
+                for _component_name, component in self.components.items():
                     if hasattr(component, "learn_from_integration"):
                         await component.learn_from_integration(self.performance_metrics)
 
@@ -656,7 +662,7 @@ class LukhasAGIIntegrationManager:
     async def _distribute_system_insights(self, insights):
         pass
 
-    def get_integration_status(self) -> Dict[str, Any]:
+    def get_integration_status(self) -> dict[str, Any]:
         """Get comprehensive integration statu"""
         return {
             "integration_active": self.integration_active,

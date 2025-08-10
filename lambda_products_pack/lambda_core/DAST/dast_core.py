@@ -13,7 +13,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger("Lambda.DΛST")
 
@@ -67,7 +67,7 @@ class SymbolicTag:
     confidence: float  # Confidence level (0.0-1.0)
     weight: float = 1.0  # Importance weight
     expires_at: Optional[datetime] = None  # When tag becomes invalid
-    metadata: Dict[str, Any] = None  # Additional context
+    metadata: dict[str, Any] = None  # Additional context
     lambda_signature: str = None  # Λ authenticity signature
     created_at: datetime = None
     last_updated: datetime = None
@@ -87,9 +87,7 @@ class SymbolicTag:
 
     def is_valid(self) -> bool:
         """Check if symbolic tag is still valid"""
-        if self.expires_at and datetime.now() > self.expires_at:
-            return False
-        return True
+        return not (self.expires_at and datetime.now() > self.expires_at)
 
     def update_confidence(self, new_evidence: float, source_weight: float = 1.0):
         """Update confidence based on new evidence"""
@@ -107,7 +105,7 @@ class ContextSnapshot:
     """Complete symbolic context at a point in time"""
 
     user_id: str
-    tags: List[SymbolicTag]
+    tags: list[SymbolicTag]
     primary_activity: Optional[str] = None
     focus_score: float = 0.5  # How focused the context is (0.0-1.0)
     coherence_score: float = 0.5  # How coherent the tags are together
@@ -150,19 +148,19 @@ class DΛST:
     - Integration with NIΛS and ΛBAS systems
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or self._default_config()
         self.lambda_brand = "Λ"
 
         # Core storage
-        self.user_contexts: Dict[str, ContextSnapshot] = {}
-        self.symbol_histories: Dict[str, List[Tuple[datetime, List[SymbolicTag]]]] = {}
-        self.symbol_rules: Dict[str, List[SymbolRule]] = {}
-        self.symbol_patterns: Dict[str, Dict[str, Any]] = {}  # Learned patterns
+        self.user_contexts: dict[str, ContextSnapshot] = {}
+        self.symbol_histories: dict[str, list[tuple[datetime, list[SymbolicTag]]]] = {}
+        self.symbol_rules: dict[str, list[SymbolRule]] = {}
+        self.symbol_patterns: dict[str, dict[str, Any]] = {}  # Learned patterns
 
         # Integration connectors
-        self.data_sources: Dict[str, Any] = {}
-        self.external_integrations: Dict[str, bool] = {
+        self.data_sources: dict[str, Any] = {}
+        self.external_integrations: dict[str, bool] = {
             "calendar": False,
             "location": False,
             "activity_tracker": False,
@@ -170,16 +168,16 @@ class DΛST:
         }
 
         # Symbol analysis
-        self.symbol_relationships: Dict[str, Dict[str, float]] = (
+        self.symbol_relationships: dict[str, dict[str, float]] = (
             {}
         )  # Symbol co-occurrence
-        self.temporal_patterns: Dict[str, List[Tuple[int, List[str]]]] = (
+        self.temporal_patterns: dict[str, list[tuple[int, list[str]]]] = (
             {}
         )  # Hour -> common symbols
 
         logger.info("DΛST system initialized with symbolic consciousness")
 
-    def _default_config(self) -> Dict:
+    def _default_config(self) -> dict:
         """Default DΛST configuration"""
         return {
             "brand": "LUKHAS",
@@ -195,7 +193,7 @@ class DΛST:
         }
 
     async def register_user(
-        self, user_id: str, initial_tags: Optional[List[str]] = None
+        self, user_id: str, initial_tags: Optional[list[str]] = None
     ) -> bool:
         """Register a new user with DΛST system"""
         try:
@@ -280,7 +278,7 @@ class DΛST:
         category: SymbolCategory,
         source: SymbolSource = SymbolSource.USER_EXPLICIT,
         confidence: float = 1.0,
-        metadata: Optional[Dict] = None,
+        metadata: Optional[dict] = None,
         expires_in_hours: Optional[int] = None,
     ) -> bool:
         """Add a symbolic tag to user's context"""
@@ -404,7 +402,7 @@ class DΛST:
         user_id: str,
         category_filter: Optional[SymbolCategory] = None,
         confidence_threshold: Optional[float] = None,
-    ) -> List[str]:
+    ) -> list[str]:
         """Get current symbolic tags for a user (primary API for integrations)"""
         if user_id not in self.user_contexts:
             return []
@@ -506,13 +504,13 @@ class DΛST:
         if user_id in self.symbol_histories and self.symbol_histories[user_id]:
             recent_history = self.symbol_histories[user_id][-3:]  # Last 3 snapshots
             if len(recent_history) > 1:
-                current_symbols = set(tag.symbol for tag in valid_tags)
+                current_symbols = {tag.symbol for tag in valid_tags}
 
                 stability_scores = []
-                for timestamp, historical_tags in recent_history[
+                for _timestamp, historical_tags in recent_history[
                     :-1
                 ]:  # Exclude current
-                    historical_symbols = set(tag.symbol for tag in historical_tags)
+                    historical_symbols = {tag.symbol for tag in historical_tags}
 
                     if historical_symbols or current_symbols:
                         intersection = current_symbols.intersection(historical_symbols)
@@ -556,7 +554,7 @@ class DΛST:
                 self.symbol_relationships[user_id][relationship_key] = new_strength
 
     async def update_from_calendar(
-        self, user_id: str, calendar_events: List[Dict]
+        self, user_id: str, calendar_events: list[dict]
     ) -> bool:
         """Update symbols from calendar integration"""
         if not self.external_integrations.get("calendar", False):
@@ -567,7 +565,7 @@ class DΛST:
                 # Extract symbolic information from calendar events
                 event_title = event.get("title", "").lower()
                 event_type = event.get("type", "meeting")
-                start_time = event.get("start_time")
+                event.get("start_time")
 
                 # Determine symbols based on event content
                 symbols_to_add = []
@@ -604,7 +602,7 @@ class DΛST:
             logger.error(f"Error updating from calendar: {e}")
             return False
 
-    async def update_from_activity(self, user_id: str, activity_data: Dict) -> bool:
+    async def update_from_activity(self, user_id: str, activity_data: dict) -> bool:
         """Update symbols from activity tracker data"""
         if not self.external_integrations.get("activity_tracker", False):
             return False
@@ -613,7 +611,7 @@ class DΛST:
             # Extract symbols from activity data
             app_usage = activity_data.get("app_usage", {})
             location = activity_data.get("location")
-            device_state = activity_data.get("device_state")
+            activity_data.get("device_state")
 
             # App usage patterns
             for app, usage_minutes in app_usage.items():
@@ -654,7 +652,7 @@ class DΛST:
 
     def _infer_symbols_from_app(
         self, app_name: str
-    ) -> List[Tuple[str, SymbolCategory]]:
+    ) -> list[tuple[str, SymbolCategory]]:
         """Infer symbolic tags from application usage"""
         app_mappings = {
             "code": [
@@ -700,7 +698,7 @@ class DΛST:
 
     def _infer_symbol_from_location(
         self, location: str
-    ) -> Tuple[Optional[str], SymbolCategory]:
+    ) -> tuple[Optional[str], SymbolCategory]:
         """Infer symbolic tag from location"""
         location_lower = location.lower()
 
@@ -834,7 +832,7 @@ class DΛST:
             else:
                 await self.remove_symbol(user_id, target)
 
-    def get_symbol_analytics(self, user_id: str, hours: int = 24) -> Dict[str, Any]:
+    def get_symbol_analytics(self, user_id: str, hours: int = 24) -> dict[str, Any]:
         """Get analytics about user's symbolic patterns"""
         if user_id not in self.symbol_histories:
             return {"error": "No symbol history found"}
@@ -854,7 +852,7 @@ class DΛST:
         category_counts = {}
         source_counts = {}
 
-        for timestamp, tags in recent_history:
+        for _timestamp, tags in recent_history:
             for tag in tags:
                 all_symbols.append(tag.symbol)
                 category = tag.category.value
@@ -906,7 +904,7 @@ class DΛST:
             ),
         }
 
-    def get_system_metrics(self) -> Dict[str, Any]:
+    def get_system_metrics(self) -> dict[str, Any]:
         """Get DΛST system metrics"""
         total_users = len(self.user_contexts)
         total_symbols = sum(

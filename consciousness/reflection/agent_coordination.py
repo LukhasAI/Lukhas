@@ -24,7 +24,7 @@ import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -83,7 +83,7 @@ class Skill:
     success_rate: float = 1.0
     avg_completion_time: float = 0.0
     total_tasks: int = 0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def update_metrics(self, success: bool, completion_time: float):
         """Update skill metrics after task completion"""
@@ -110,12 +110,12 @@ class TaskAnnouncement:
 
     task_id: str
     description: str
-    required_skills: List[Tuple[str, SkillLevel]]  # (skill_name, min_level)
+    required_skills: list[tuple[str, SkillLevel]]  # (skill_name, min_level)
     initiator: ActorRef
     deadline: Optional[float] = None
     priority: MessagePriority = MessagePriority.NORMAL
     max_group_size: int = 5
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     announced_at: float = field(default_factory=time.time)
 
     def is_expired(self) -> bool:
@@ -132,11 +132,11 @@ class SkillOffer:
 
     agent_ref: ActorRef
     agent_id: str
-    offered_skills: List[Skill]
+    offered_skills: list[Skill]
     availability: float  # 0.0 to 1.0
     estimated_time: float
     cost_estimate: Optional[float] = None
-    constraints: Dict[str, Any] = field(default_factory=dict)
+    constraints: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -146,12 +146,12 @@ class WorkingGroup:
     group_id: str
     task: TaskAnnouncement
     leader: ActorRef
-    members: Dict[str, ActorRef]  # agent_id -> ref
-    skills_covered: Dict[str, List[str]]  # skill -> [agent_ids]
+    members: dict[str, ActorRef]  # agent_id -> ref
+    skills_covered: dict[str, list[str]]  # skill -> [agent_ids]
     status: TaskStatus = TaskStatus.NEGOTIATING
     formed_at: float = field(default_factory=time.time)
 
-    def add_member(self, agent_id: str, agent_ref: ActorRef, skills: List[Skill]):
+    def add_member(self, agent_id: str, agent_ref: ActorRef, skills: list[Skill]):
         """Add member to working group"""
         self.members[agent_id] = agent_ref
         for skill in skills:
@@ -199,8 +199,8 @@ class SkillRegistry:
     """Central registry for agent skills (could be distributed)"""
 
     def __init__(self):
-        self._skills_by_agent: Dict[str, List[Skill]] = {}
-        self._agents_by_skill: Dict[str, Set[str]] = defaultdict(set)
+        self._skills_by_agent: dict[str, list[Skill]] = {}
+        self._agents_by_skill: dict[str, set[str]] = defaultdict(set)
         self._lock = asyncio.Lock()
 
     async def register_skill(self, agent_id: str, skill: Skill):
@@ -230,7 +230,7 @@ class SkillRegistry:
 
     async def find_agents_with_skill(
         self, skill_name: str, min_level: SkillLevel = SkillLevel.NOVICE
-    ) -> List[Tuple[str, Skill]]:
+    ) -> list[tuple[str, Skill]]:
         """Find agents with a specific skill"""
         async with self._lock:
             results = []
@@ -261,9 +261,9 @@ class CoordinationHub(MailboxActor):
         )
 
         self.skill_registry = SkillRegistry()
-        self.active_announcements: Dict[str, TaskAnnouncement] = {}
-        self.working_groups: Dict[str, WorkingGroup] = {}
-        self.agent_groups: Dict[str, Set[str]] = defaultdict(
+        self.active_announcements: dict[str, TaskAnnouncement] = {}
+        self.working_groups: dict[str, WorkingGroup] = {}
+        self.agent_groups: dict[str, set[str]] = defaultdict(
             set
         )  # agent_id -> group_ids
 
@@ -363,7 +363,7 @@ class CoordinationHub(MailboxActor):
 
             # Send skill queries to candidates
             contacted = set()
-            for agent_id, skill in candidates:
+            for agent_id, _skill in candidates:
                 if agent_id not in contacted:
                     contacted.add(agent_id)
                     agent_ref = self.actor_system.get_actor_ref(agent_id)
@@ -608,7 +608,7 @@ class CoordinationHub(MailboxActor):
 class AutonomousAgent(MailboxActor):
     """Base class for agents that participate in coordination"""
 
-    def __init__(self, agent_id: str, skills: List[Skill] = None):
+    def __init__(self, agent_id: str, skills: list[Skill] = None):
         super().__init__(
             agent_id,
             mailbox_type=MailboxType.PRIORITY,
@@ -616,8 +616,8 @@ class AutonomousAgent(MailboxActor):
         )
 
         self.skills = skills or []
-        self.current_groups: Dict[str, WorkingGroup] = {}
-        self.task_queue: List[TaskAnnouncement] = []
+        self.current_groups: dict[str, WorkingGroup] = {}
+        self.task_queue: list[TaskAnnouncement] = []
         self.availability = 1.0  # Full availability
 
         # Coordination hub reference (would be discovered in real system)
@@ -652,7 +652,7 @@ class AutonomousAgent(MailboxActor):
         return ActorRef(self.actor_id, None)
 
     async def announce_task(
-        self, description: str, required_skills: List[Tuple[str, SkillLevel]], **kwargs
+        self, description: str, required_skills: list[tuple[str, SkillLevel]], **kwargs
     ) -> str:
         """Broadcast a task need to the network"""
         task_id = str(uuid.uuid4())
@@ -767,7 +767,7 @@ class AutonomousAgent(MailboxActor):
 
     async def _handle_task_complete(self, msg: ActorMessage):
         """Handle task completion"""
-        group_id = msg.payload.get("group_id")
+        msg.payload.get("group_id")
 
         # Update availability
         self.availability = min(1.0, self.availability * 1.3)
@@ -777,7 +777,7 @@ class AutonomousAgent(MailboxActor):
 
         return {"status": "acknowledged"}
 
-    async def _should_join_group(self, task_dict: Dict[str, Any]) -> bool:
+    async def _should_join_group(self, task_dict: dict[str, Any]) -> bool:
         """Decide whether to join a working group"""
         # Default implementation - override in subclass
         return self.availability > 0.3
@@ -839,17 +839,17 @@ class DataProcessorAgent(AutonomousAgent):
 
         return {"status": "completed", "result": result}
 
-    async def _clean_data(self, data: Any) -> Dict[str, Any]:
+    async def _clean_data(self, data: Any) -> dict[str, Any]:
         """Clean data (placeholder)"""
         await asyncio.sleep(0.1)  # Simulate work
         return {"cleaned": True, "records": len(data) if data else 0}
 
-    async def _transform_data(self, data: Any) -> Dict[str, Any]:
+    async def _transform_data(self, data: Any) -> dict[str, Any]:
         """Transform data (placeholder)"""
         await asyncio.sleep(0.2)
         return {"transformed": True}
 
-    async def _validate_data(self, data: Any) -> Dict[str, Any]:
+    async def _validate_data(self, data: Any) -> dict[str, Any]:
         """Validate data (placeholder)"""
         await asyncio.sleep(0.05)
         return {"valid": True, "errors": []}
@@ -914,7 +914,7 @@ async def demo_decentralized_coordination():
         await actor.register_skills()
 
     # Simulate a complex task requiring multiple skills
-    initiator = agents[0]  # First agent initiates
+    agents[0]  # First agent initiates
 
     task_id = await system.get_actor("data_agent_1").announce_task(
         description="Process and analyze customer data for ML model training",

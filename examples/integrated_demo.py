@@ -32,9 +32,9 @@ class IntegratedLukhasDemo:
 
     async def setup(self):
         """Initialize demo session"""
-        print("\n" + "="*70)
+        print("\n" + "=" * 70)
         print("🧠 LUKHAS Integrated Consciousness & Feedback Demo")
-        print("="*70)
+        print("=" * 70)
         print("\nThis demo showcases:")
         print("• Natural language AI consciousness interaction")
         print("• Real-time feedback collection (ratings, emojis, text)")
@@ -52,18 +52,17 @@ class IntegratedLukhasDemo:
                     "session_id": self.session_id,
                     "user_id": self.user_id,
                     "enable_feedback": True,
-                    "region": "global"
-                }
+                    "region": "global",
+                },
             ) as response:
                 data = await response.json()
                 self.session_id = data["session_id"]
                 self.action_history.append(data["action_id"])
                 return data
 
-    async def submit_feedback(self,
-                            action_id: str,
-                            feedback_type: str,
-                            content: Dict[str, Any]) -> Dict[str, Any]:
+    async def submit_feedback(
+        self, action_id: str, feedback_type: str, content: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Submit feedback for an action"""
         async with aiohttp.ClientSession() as session:
             async with session.post(
@@ -72,16 +71,18 @@ class IntegratedLukhasDemo:
                     "action_id": action_id,
                     "user_id": self.user_id,
                     "feedback_type": feedback_type,
-                    "content": content
-                }
+                    "content": content,
+                },
             ) as response:
                 data = await response.json()
-                self.feedback_history.append({
-                    "action_id": action_id,
-                    "type": feedback_type,
-                    "content": content,
-                    "timestamp": datetime.now(timezone.utc)
-                })
+                self.feedback_history.append(
+                    {
+                        "action_id": action_id,
+                        "type": feedback_type,
+                        "content": content,
+                        "timestamp": datetime.now(timezone.utc),
+                    }
+                )
                 return data
 
     async def get_dashboard_data(self) -> Dict[str, Any]:
@@ -94,8 +95,8 @@ class IntegratedLukhasDemo:
                     "session_id": self.session_id,
                     "time_range": "1h",
                     "include_feedback": True,
-                    "include_decisions": True
-                }
+                    "include_decisions": True,
+                },
             ) as response:
                 return await response.json()
 
@@ -133,9 +134,9 @@ class IntegratedLukhasDemo:
 
     async def collect_user_feedback(self, action_id: str) -> bool:
         """Interactively collect user feedback"""
-        print("\n" + "-"*40)
+        print("\n" + "-" * 40)
         print("💬 How was this response?")
-        print("-"*40)
+        print("-" * 40)
         print("1. ⭐ Rate (1-5 stars)")
         print("2. 😊 Emoji reaction")
         print("3. 💭 Text feedback")
@@ -151,9 +152,7 @@ class IntegratedLukhasDemo:
                 rating_value = int(rating)
                 if 1 <= rating_value <= 5:
                     result = await self.submit_feedback(
-                        action_id,
-                        "rating",
-                        {"rating": rating_value}
+                        action_id, "rating", {"rating": rating_value}
                     )
                     print(f"✅ {result['message']}")
                     return True
@@ -172,9 +171,7 @@ class IntegratedLukhasDemo:
                 emoji_idx = int(emoji_choice) - 1
                 if 0 <= emoji_idx < len(emojis):
                     result = await self.submit_feedback(
-                        action_id,
-                        "emoji",
-                        {"emoji": emojis[emoji_idx]}
+                        action_id, "emoji", {"emoji": emojis[emoji_idx]}
                     )
                     print(f"✅ {result['message']}")
                     return True
@@ -185,11 +182,7 @@ class IntegratedLukhasDemo:
             # Text feedback
             text = input("Your feedback: ").strip()
             if text:
-                result = await self.submit_feedback(
-                    action_id,
-                    "text",
-                    {"text": text}
-                )
+                result = await self.submit_feedback(action_id, "text", {"text": text})
                 print(f"✅ {result['message']}")
                 return True
 
@@ -198,17 +191,13 @@ class IntegratedLukhasDemo:
             quick = input("👍 or 👎? (+/-): ").strip()
             if quick in ["+", "👍", "up", "yes"]:
                 result = await self.submit_feedback(
-                    action_id,
-                    "quick",
-                    {"rating": 5, "thumbs_up": True}
+                    action_id, "quick", {"rating": 5, "thumbs_up": True}
                 )
                 print(f"✅ {result['message']}")
                 return True
             elif quick in ["-", "👎", "down", "no"]:
                 result = await self.submit_feedback(
-                    action_id,
-                    "quick",
-                    {"rating": 1, "thumbs_up": False}
+                    action_id, "quick", {"rating": 1, "thumbs_up": False}
                 )
                 print(f"✅ {result['message']}")
                 return True
@@ -217,15 +206,17 @@ class IntegratedLukhasDemo:
 
     async def show_dashboard_summary(self):
         """Display dashboard summary"""
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print("📊 Session Dashboard Summary")
-        print("="*50)
+        print("=" * 50)
 
         dashboard = await self.get_dashboard_data()
 
         # System health
         health = dashboard["system_health"]
-        print(f"\n🏥 System Status: {health['operational'] and 'Operational' or 'Degraded'}")
+        print(
+            f"\n🏥 System Status: {health['operational'] and 'Operational' or 'Degraded'}"
+        )
 
         # Feedback summary
         if dashboard.get("feedback_summary"):
@@ -234,11 +225,7 @@ class IntegratedLukhasDemo:
             print(f"   Total given: {summary.get('total_feedback', 0)}")
 
             if summary.get("satisfaction_trend"):
-                trend_emoji = {
-                    "positive": "📈",
-                    "negative": "📉",
-                    "neutral": "➡️"
-                }
+                trend_emoji = {"positive": "📈", "negative": "📉", "neutral": "➡️"}
                 trend = summary["satisfaction_trend"]
                 print(f"   Satisfaction: {trend_emoji.get(trend, '❓')} {trend}")
 
@@ -246,7 +233,9 @@ class IntegratedLukhasDemo:
         if dashboard.get("insights"):
             insights = dashboard["insights"]
             print("\n🎯 Decision Insights:")
-            print(f"   Feedback-driven decisions: {insights['feedback_driven_decisions']}")
+            print(
+                f"   Feedback-driven decisions: {insights['feedback_driven_decisions']}"
+            )
             print(f"   Average confidence: {insights['average_confidence']:.1%}")
 
             if insights.get("top_decision_types"):
@@ -259,9 +248,9 @@ class IntegratedLukhasDemo:
         influence = await self.get_feedback_influence()
 
         if influence["decisions_influenced"] > 0:
-            print("\n" + "="*50)
+            print("\n" + "=" * 50)
             print("🎯 Your Feedback Influence")
-            print("="*50)
+            print("=" * 50)
 
             print(f"\nTotal feedback given: {influence['total_feedback_given']}")
             print(f"Decisions influenced: {influence['decisions_influenced']}")
@@ -281,28 +270,28 @@ class IntegratedLukhasDemo:
             {
                 "name": "Awareness Query",
                 "message": "How aware are you right now? What are you focusing on?",
-                "expected_feedback": "rating"
+                "expected_feedback": "rating",
             },
             {
                 "name": "Decision Support",
                 "message": "Help me decide: Should I focus on learning or creating today?",
-                "expected_feedback": "emoji"
+                "expected_feedback": "emoji",
             },
             {
                 "name": "Emotional Check",
                 "message": "How are you feeling about our conversation so far?",
-                "expected_feedback": "text"
+                "expected_feedback": "text",
             },
             {
                 "name": "Creative Request",
                 "message": "Dream about a world where AI and humans collaborate perfectly",
-                "expected_feedback": "rating"
+                "expected_feedback": "rating",
             },
             {
                 "name": "Reflection",
                 "message": "Reflect on what we've discussed and what you've learned from my feedback",
-                "expected_feedback": "text"
-            }
+                "expected_feedback": "text",
+            },
         ]
 
         print("\n🎬 Running through demo scenarios...\n")
@@ -314,7 +303,7 @@ class IntegratedLukhasDemo:
 
             # Send message
             print(f"\n💭 You: {scenario['message']}")
-            response = await self.chat_interaction(scenario['message'])
+            response = await self.chat_interaction(scenario["message"])
 
             # Display response
             self.display_response(response)
@@ -325,7 +314,9 @@ class IntegratedLukhasDemo:
 
                 # Show immediate impact
                 if gave_feedback and i > 2:  # After a few interactions
-                    print("\n💡 Your feedback is being integrated into LUKHAS's understanding...")
+                    print(
+                        "\n💡 Your feedback is being integrated into LUKHAS's understanding..."
+                    )
 
             # Small delay between scenarios
             await asyncio.sleep(1)
@@ -342,13 +333,15 @@ class IntegratedLukhasDemo:
         while True:
             user_input = input("\n💭 You: ").strip()
 
-            if user_input.lower() in ['quit', 'exit', 'bye']:
-                print("\n👋 Thank you for exploring LUKHAS! Your feedback helps me grow.")
+            if user_input.lower() in ["quit", "exit", "bye"]:
+                print(
+                    "\n👋 Thank you for exploring LUKHAS! Your feedback helps me grow."
+                )
                 await self.show_dashboard_summary()
                 await self.show_feedback_influence()
                 break
 
-            elif user_input.lower() == 'help':
+            elif user_input.lower() == "help":
                 print("\n📚 Available commands:")
                 print("• 'dashboard' - View session summary")
                 print("• 'influence' - See your feedback impact")
@@ -357,15 +350,15 @@ class IntegratedLukhasDemo:
                 print("• 'quit' - Exit the demo")
                 continue
 
-            elif user_input.lower() == 'dashboard':
+            elif user_input.lower() == "dashboard":
                 await self.show_dashboard_summary()
                 continue
 
-            elif user_input.lower() == 'influence':
+            elif user_input.lower() == "influence":
                 await self.show_feedback_influence()
                 continue
 
-            elif user_input.lower() == 'export':
+            elif user_input.lower() == "export":
                 # Export session data
                 async with aiohttp.ClientSession() as session:
                     async with session.get(
@@ -374,13 +367,13 @@ class IntegratedLukhasDemo:
                         export_data = await response.json()
 
                         filename = f"lukhas_session_{self.session_id}.json"
-                        with open(filename, 'w') as f:
+                        with open(filename, "w") as f:
                             json.dump(export_data, f, indent=2)
 
                         print(f"✅ Session exported to {filename}")
                 continue
 
-            elif user_input.lower() == 'demo':
+            elif user_input.lower() == "demo":
                 await self.run_demo_scenarios()
                 continue
 
@@ -391,8 +384,10 @@ class IntegratedLukhasDemo:
 
                 # Offer feedback collection
                 if response.get("feedback_enabled"):
-                    collect = input("\n💬 Would you like to provide feedback? (y/n): ").strip()
-                    if collect.lower() in ['y', 'yes']:
+                    collect = input(
+                        "\n💬 Would you like to provide feedback? (y/n): "
+                    ).strip()
+                    if collect.lower() in ["y", "yes"]:
                         await self.collect_user_feedback(response["action_id"])
 
             except Exception as e:
@@ -409,8 +404,10 @@ class IntegratedLukhasDemo:
                 async with session.get(f"{self.api_url}/health") as response:
                     health = await response.json()
                     if health["status"] != "healthy":
-                        print("⚠️  API health check failed. Some features may be unavailable.")
-        except:
+                        print(
+                            "⚠️  API health check failed. Some features may be unavailable."
+                        )
+        except BaseException:
             print("❌ Cannot connect to API. Please ensure it's running on port 8080.")
             return
 
@@ -425,8 +422,10 @@ class IntegratedLukhasDemo:
             await self.run_demo_scenarios()
 
             # Offer to continue in interactive mode
-            continue_interactive = input("\n\nWould you like to continue in interactive mode? (y/n): ").strip()
-            if continue_interactive.lower() in ['y', 'yes']:
+            continue_interactive = input(
+                "\n\nWould you like to continue in interactive mode? (y/n): "
+            ).strip()
+            if continue_interactive.lower() in ["y", "yes"]:
                 await self.interactive_mode()
         else:
             await self.interactive_mode()
@@ -436,6 +435,7 @@ async def main():
     """Run the integrated demo"""
     # Check if custom API URL is provided
     import sys
+
     api_url = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:8080"
 
     demo = IntegratedLukhasDemo(api_url)

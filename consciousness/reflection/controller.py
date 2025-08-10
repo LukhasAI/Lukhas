@@ -32,6 +32,8 @@ COMPLIANCE STATUS: ENTERPRISE GRADE
 - ✅ SOX Section 404 (Audit Controls)
 - ✅ ISO 27001 Security Controls
 """
+from pathlib import Path
+import logging
 
 """
 Main AGI Controller for LUKHAS AGI System - Enterprise Compliance Edition
@@ -78,32 +80,25 @@ import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple
-
+from typing import Any, Callable, Optional
 import numpy as np
-
+from orchestration.brain.privacy_manager import PrivacyManager
 from identity.auth_backend.audit_logger import AuditLogger
 
+
 # 🛡️ Compliance and Security Imports
-from identity.backend.verifold.compliance.compliance_engine import (
-    ComplianceEngine,
-)
-from orchestration.brain.privacy_manager import PrivacyManager
 
 # Import core components
 try:
     from personas.persona_manager import PersonaManager
 
     from .consciousness.consciousness_integrator import (
-        ConsciousnessEvent,
         ConsciousnessIntegrator,
     )
     from .emotion.emotion_engine import EmotionEngine
     from .identity.identity_manager import IdentityManager
     from .integration.system_coordinator import (
-        IntegrationPriority,
         SystemCoordinator,
-        SystemRequest,
     )
     from .memory.enhanced_memory_manager import EnhancedMemoryManager
     from .neural_architectures.neural_integrator import (
@@ -123,13 +118,13 @@ logger = logging.getLogger("agi")
 class ComplianceContext:
     """Compliance context for AGI operations"""
 
-    user_consent: Dict[str, bool] = field(default_factory=dict)
+    user_consent: dict[str, bool] = field(default_factory=dict)
     data_processing_basis: str = "consent"  # GDPR Article 6 basis
     jurisdiction: str = "EU"  # Default to most restrictive
     retention_period: Optional[int] = None  # Days
     cross_border_transfer: bool = False
     biometric_data: bool = False
-    sensitive_categories: List[str] = field(default_factory=list)
+    sensitive_categories: list[str] = field(default_factory=list)
     audit_required: bool = True
     anonymization_required: bool = False
 
@@ -144,7 +139,7 @@ class PrivacyControls:
     right_to_erasure: bool = False  # GDPR Article 17
     right_to_rectification: bool = False  # GDPR Article 16
     transparency_level: str = "full"  # AI transparency
-    consent_granular: Dict[str, bool] = field(default_factory=dict)
+    consent_granular: dict[str, bool] = field(default_factory=dict)
 
 
 class AGIState(Enum):
@@ -168,14 +163,14 @@ class AGIRequest:
     user_id: str
     session_id: str
     request_type: str
-    input_data: Dict[str, Any]
-    context: Dict[str, Any]
+    input_data: dict[str, Any]
+    context: dict[str, Any]
     priority: str = "normal"
     # 🛡️ Compliance Fields
     compliance_context: Optional[ComplianceContext] = None
     privacy_controls: Optional[PrivacyControls] = None
     consent_timestamp: Optional[datetime] = None
-    data_subject_rights: List[str] = field(default_factory=list)
+    data_subject_rights: list[str] = field(default_factory=list)
     audit_trail_id: Optional[str] = None
 
 
@@ -186,14 +181,14 @@ class AGIResponse:
     request_id: str
     timestamp: datetime
     success: bool
-    response_data: Dict[str, Any]
-    emotional_context: Dict[str, float]
-    memory_references: List[str]
+    response_data: dict[str, Any]
+    emotional_context: dict[str, float]
+    memory_references: list[str]
     processing_time: float
     error: Optional[str] = None
     # 🛡️ Compliance Fields
     compliance_verified: bool = False
-    data_sources: List[str] = field(default_factory=list)
+    data_sources: list[str] = field(default_factory=list)
     decision_logic: Optional[str] = None  # AI transparency
     retention_applied: bool = False
     audit_logged: bool = False
@@ -208,14 +203,14 @@ class AGISession:
     user_id: str
     start_time: datetime
     interaction_mode: InteractionMode
-    current_context: Dict[str, Any]
-    conversation_history: List[Dict[str, Any]]
-    emotional_state: Dict[str, float]
-    memory_context: Dict[str, Any]
+    current_context: dict[str, Any]
+    conversation_history: list[dict[str, Any]]
+    emotional_state: dict[str, float]
+    memory_context: dict[str, Any]
     # 🛡️ Compliance Fields
     compliance_context: Optional[ComplianceContext] = None
     privacy_controls: Optional[PrivacyControls] = None
-    consent_records: Dict[str, datetime] = field(default_factory=dict)
+    consent_records: dict[str, datetime] = field(default_factory=dict)
     data_retention_end: Optional[datetime] = None
     cross_border_approved: bool = False
 
@@ -266,12 +261,12 @@ class AGIController:
         self.consent_management_active: bool = False
 
         # Session management
-        self.active_sessions: Dict[str, AGISession] = {}
+        self.active_sessions: dict[str, AGISession] = {}
         self.session_counter = 0
 
         # Request processing
         self.request_queue: asyncio.Queue = asyncio.Queue()
-        self.response_cache: Dict[str, AGIResponse] = {}
+        self.response_cache: dict[str, AGIResponse] = {}
 
         # Processing threads
         self.processing_thread: Optional[threading.Thread] = None
@@ -282,7 +277,7 @@ class AGIController:
         self.config = self._load_config(config_path)
 
         # Event handlers
-        self.event_handlers: Dict[str, List[Callable]] = {}
+        self.event_handlers: dict[str, list[Callable]] = {}
 
         # Signal handlers for graceful shutdown
         signal.signal(signal.SIGINT, self._signal_handler)
@@ -290,7 +285,7 @@ class AGIController:
 
         logger.info(f"AGI Controller initialized: {self.controller_id}")
 
-    def _load_config(self, config_path: Optional[str]) -> Dict[str, Any]:
+    def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
         """Load AGI controller configuration"""
         default_config = {
             "agi": {
@@ -596,7 +591,7 @@ class AGIController:
 
     async def _handle_conversation(
         self, request: AGIRequest, session: AGISession
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Handle conversation requests"""
         user_input = request.input_data.get("text", "")
         context = request.context
@@ -636,7 +631,7 @@ class AGIController:
 
     async def _handle_voice_interaction(
         self, request: AGIRequest, session: AGISession
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Handle voice interaction requests"""
         audio_data = request.input_data.get("audio_data")
         interaction_type = request.input_data.get("type", "speech_to_text")
@@ -691,7 +686,7 @@ class AGIController:
 
     async def _handle_memory_query(
         self, request: AGIRequest, session: AGISession
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Handle memory query requests"""
         query = request.input_data.get("query", "")
         memory_type = request.input_data.get("memory_type")
@@ -708,7 +703,7 @@ class AGIController:
 
     async def _handle_personality_change(
         self, request: AGIRequest, session: AGISession
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Handle personality change requests"""
         persona_config = request.input_data.get("persona_config", {})
 
@@ -730,10 +725,10 @@ class AGIController:
 
     async def _handle_system_command(
         self, request: AGIRequest, session: AGISession
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Handle system command requests"""
         command = request.input_data.get("command", "")
-        parameters = request.input_data.get("parameters", {})
+        request.input_data.get("parameters", {})
 
         if command == "get_status":
             return await self.get_agi_status()
@@ -754,7 +749,7 @@ class AGIController:
 
     async def _handle_learning_request(
         self, request: AGIRequest, session: AGISession
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Handle learning requests"""
         learning_data = request.input_data.get("learning_data", {})
         learning_type = request.input_data.get("learning_type", "general")
@@ -783,7 +778,7 @@ class AGIController:
 
     async def _handle_emotional_analysis(
         self, request: AGIRequest, session: AGISession
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Handle emotional analysis requests"""
         text = request.input_data.get("text", "")
 
@@ -801,8 +796,8 @@ class AGIController:
         }
 
     async def _process_emotional_context(
-        self, request: AGIRequest, response_data: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, request: AGIRequest, response_data: dict[str, Any]
+    ) -> dict[str, float]:
         """Process emotional context for request and response"""
         if not self.emotion_engine:
             return {}
@@ -819,8 +814,8 @@ class AGIController:
         return emotional_context
 
     async def _update_memory(
-        self, request: AGIRequest, response_data: Dict[str, Any]
-    ) -> List[str]:
+        self, request: AGIRequest, response_data: dict[str, Any]
+    ) -> list[str]:
         """Update memory with request and response"""
         if not self.memory_manager:
             return []
@@ -909,13 +904,13 @@ class AGIController:
         for session in self.active_sessions.values():
             # Update emotional state based on recent interactions
             if session.conversation_history:
-                recent_interactions = session.conversation_history[-5:]
+                session.conversation_history[-5:]
                 # Process emotional context from recent interactions
                 # This is a simplified implementation
 
     # 🛡️ ENTERPRISE COMPLIANCE MIDDLEWARE METHODS
 
-    async def validate_compliance(self, request: AGIRequest) -> Tuple[bool, List[str]]:
+    async def validate_compliance(self, request: AGIRequest) -> tuple[bool, list[str]]:
         """Validate compliance for an AGI request"""
         compliance_issues = []
 
@@ -939,9 +934,8 @@ class AGIController:
         if (
             request.compliance_context
             and request.compliance_context.cross_border_transfer
-        ):
-            if not await self._validate_cross_border_transfer(request):
-                compliance_issues.append("Cross-border data transfer not authorized")
+        ) and not await self._validate_cross_border_transfer(request):
+            compliance_issues.append("Cross-border data transfer not authorized")
 
         # Check biometric data handling
         if request.compliance_context and request.compliance_context.biometric_data:
@@ -1017,14 +1011,14 @@ class AGIController:
         )
 
     async def implement_data_subject_rights(
-        self, user_id: str, right_type: str, request_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, right_type: str, request_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Implement GDPR data subject rights (Articles 15-22)"""
         if not self.privacy_manager:
             return {"success": False, "error": "Privacy manager not available"}
 
         # Log the data subject rights request
-        audit_id = await self.audit_logger.log_data_subject_request(
+        await self.audit_logger.log_data_subject_request(
             user_id=user_id, right_type=right_type, request_data=request_data
         )
 
@@ -1047,8 +1041,8 @@ class AGIController:
             return {"success": False, "error": str(e)}
 
     async def _handle_data_access_request(
-        self, user_id: str, request_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, request_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle GDPR Article 15 - Right of access"""
         user_data = {}
 
@@ -1078,8 +1072,8 @@ class AGIController:
         return {"success": True, "data": user_data}
 
     async def _handle_data_erasure(
-        self, user_id: str, request_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, request_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle GDPR Article 17 - Right to erasure ('right to be forgotten')"""
         erasure_results = {}
 
@@ -1125,7 +1119,7 @@ class AGIController:
             timestamp=datetime.now(timezone.utc),
         )
 
-    async def get_compliance_status(self) -> Dict[str, Any]:
+    async def get_compliance_status(self) -> dict[str, Any]:
         """Get current compliance status"""
         return {
             "compliance_verified": self.compliance_verified,

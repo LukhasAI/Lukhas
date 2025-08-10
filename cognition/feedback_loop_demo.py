@@ -4,6 +4,8 @@ Symbolic Feedback Loop Demo
 Demonstrates the cognitive backbone of LUKHΛS in action
 """
 
+from orchestration.symbolic_kernel_bus import kernel_bus
+from cognition.symbolic_feedback_loop import SymbolicFeedbackLoop
 import asyncio
 import json
 import sys
@@ -11,9 +13,6 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from cognition.symbolic_feedback_loop import SymbolicFeedbackLoop
-from orchestration.symbolic_kernel_bus import kernel_bus
 
 
 async def simulate_system_activity(loop: SymbolicFeedbackLoop):

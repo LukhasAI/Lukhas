@@ -235,7 +235,7 @@ class IntentRouter:
             "endpoint": "/api/memory/explore",
             "parameters": intent.parameters,
             "glyphs": intent.glyphs,
-            "message": f"Searching memory folds for: {intent.parameters.get('topic',
+            "message": f"Searching memory folds for: {intent.parameters.get('topic',"
                                                                             'all memories')}",
         }
 

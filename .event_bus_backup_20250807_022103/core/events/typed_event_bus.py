@@ -18,21 +18,26 @@ from core.events.contracts import (
 
 logger = logging.getLogger(__name__)
 
-T = TypeVar('T', bound=DomainEvent)
+T = TypeVar("T", bound=DomainEvent)
+
 
 @dataclass
 class EventSubscription:
     """Represents a subscription to an event type"""
+
     event_type: Type[DomainEvent]
     handler: Callable[[DomainEvent], Union[None, asyncio.Future]]
     filter_func: Optional[Callable[[DomainEvent], bool]] = None
     subscription_id: str = ""
 
+
 class TypedEventBus:
     """Enhanced event bus with strong typing and domain event support"""
 
     def __init__(self):
-        self._subscribers: Dict[Type[DomainEvent], List[EventSubscription]] = defaultdict(list)
+        self._subscribers: Dict[Type[DomainEvent], List[EventSubscription]] = (
+            defaultdict(list)
+        )
         self._event_queue: asyncio.Queue[DomainEvent] = asyncio.Queue()
         self._priority_queue: asyncio.PriorityQueue = asyncio.PriorityQueue()
         self._worker_task: Optional[asyncio.Task] = None
@@ -53,7 +58,9 @@ class TypedEventBus:
         if not self._is_running:
             self._is_running = True
             self._worker_task = asyncio.create_task(self._process_events())
-            self._priority_worker_task = asyncio.create_task(self._process_priority_events())
+            self._priority_worker_task = asyncio.create_task(
+                self._process_priority_events()
+            )
             logger.info("Typed event bus started")
 
     async def stop(self) -> None:
@@ -80,7 +87,7 @@ class TypedEventBus:
         self,
         event_type: Type[T],
         handler: Callable[[T], Union[None, asyncio.Future]],
-        filter_func: Optional[Callable[[T], bool]] = None
+        filter_func: Optional[Callable[[T], bool]] = None,
     ) -> str:
         """Subscribe to a specific event type with type safety"""
         subscription_id = f"sub_{event_type.__name__}_{id(handler)}"
@@ -89,7 +96,7 @@ class TypedEventBus:
             event_type=event_type,
             handler=handler,
             filter_func=filter_func,
-            subscription_id=subscription_id
+            subscription_id=subscription_id,
         )
 
         self._subscribers[event_type].append(subscription)
@@ -111,7 +118,9 @@ class TypedEventBus:
         """Publish a typed domain event"""
         # Set metadata if not already set
         if not event.event_id:
-            event.event_id = f"evt_{event.__class__.__name__}_{datetime.now().timestamp()}"
+            event.event_id = (
+                f"evt_{event.__class__.__name__}_{datetime.now().timestamp()}"
+            )
         if not event.timestamp:
             event.timestamp = datetime.now()
 
@@ -150,7 +159,9 @@ class TypedEventBus:
         """Process high priority events"""
         while self._is_running:
             try:
-                _, event = await asyncio.wait_for(self._priority_queue.get(), timeout=1.0)
+                _, event = await asyncio.wait_for(
+                    self._priority_queue.get(), timeout=1.0
+                )
                 await self._dispatch_event(event)
             except asyncio.TimeoutError:
                 continue
@@ -192,7 +203,7 @@ class TypedEventBus:
         self,
         event_type: Optional[Type[DomainEvent]] = None,
         correlation_id: Optional[str] = None,
-        limit: int = 100
+        limit: int = 100,
     ) -> List[DomainEvent]:
         """Get event history with filtering"""
         events = self._event_history
@@ -211,12 +222,14 @@ class TypedEventBus:
             "events_published": self._events_published,
             "events_processed": self._events_processed,
             "events_failed": self._events_failed,
-            "success_rate": self._events_processed / max(1, self._events_processed + self._events_failed),
+            "success_rate": self._events_processed
+            / max(1, self._events_processed + self._events_failed),
             "subscriber_count": sum(len(subs) for subs in self._subscribers.values()),
             "event_types_subscribed": len(self._subscribers),
             "correlation_groups": len(self._correlation_tracking),
-            "history_size": len(self._event_history)
+            "history_size": len(self._event_history),
         }
+
 
 @injectable(ServiceLifetime.SINGLETON)
 class EventBusService:
@@ -244,12 +257,16 @@ class EventBusService:
         return {
             "status": "healthy" if self._initialized else "stopped",
             "initialized": self._initialized,
-            **stats
+            **stats,
         }
 
     # Delegate methods
-    def subscribe(self, event_type: Type[T], handler: Callable[[T], Union[None, asyncio.Future]],
-                  filter_func: Optional[Callable[[T], bool]] = None) -> str:
+    def subscribe(
+        self,
+        event_type: Type[T],
+        handler: Callable[[T], Union[None, asyncio.Future]],
+        filter_func: Optional[Callable[[T], bool]] = None,
+    ) -> str:
         return self._kernel_bus.subscribe(event_type, handler, filter_func)
 
     def unsubscribe(self, subscription_id: str) -> bool:
@@ -258,12 +275,18 @@ class EventBusService:
     async def publish(self, event: DomainEvent) -> None:
         await self._kernel_bus.emit(event)
 
-    def get_event_history(self, event_type: Optional[Type[DomainEvent]] = None,
-                         correlation_id: Optional[str] = None, limit: int = 100) -> List[DomainEvent]:
+    def get_event_history(
+        self,
+        event_type: Optional[Type[DomainEvent]] = None,
+        correlation_id: Optional[str] = None,
+        limit: int = 100,
+    ) -> List[DomainEvent]:
         return self._event_bus.get_event_history(event_type, correlation_id, limit)
+
 
 # Global instance
 _global_typed_event_bus: Optional[EventBusService] = None
+
 
 def get_typed_event_bus() -> EventBusService:
     """Get the global typed event bus instance"""
@@ -272,14 +295,18 @@ def get_typed_event_bus() -> EventBusService:
         _global_typed_event_bus = EventBusService()
     return _global_typed_event_bus
 
+
 # Convenience decorators for event handlers
 def event_handler(event_type: Type[DomainEvent]):
     """Decorator for marking event handlers"""
+
     def decorator(func: Callable[[DomainEvent], Union[None, asyncio.Future]]):
         # Add metadata to function
         func._event_handler_type = event_type
         return func
+
     return decorator
+
 
 def auto_subscribe_handlers(obj: Any, event_bus: EventBusService) -> List[str]:
     """Automatically subscribe all @event_handler decorated methods of an object"""
@@ -287,16 +314,19 @@ def auto_subscribe_handlers(obj: Any, event_bus: EventBusService) -> List[str]:
 
     for attr_name in dir(obj):
         attr = getattr(obj, attr_name)
-        if callable(attr) and hasattr(attr, '_event_handler_type'):
+        if callable(attr) and hasattr(attr, "_event_handler_type"):
             event_type = attr._event_handler_type
             subscription_id = kernel_bus.subscribe(event_type, attr)
             subscription_ids.append(subscription_id)
-            logger.info(f"Auto-subscribed {obj.__class__.__name__}.{attr_name} to {event_type.__name__}")
+            logger.info(
+                f"Auto-subscribed {obj.__class__.__name__}.{attr_name} to {event_type.__name__}"
+            )
 
     return subscription_ids
 
+
 # Neuroplastic tags
-#TAG:core
-#TAG:events
-#TAG:typed
-#TAG:professional_architecture
+# TAG:core
+# TAG:events
+# TAG:typed
+# TAG:professional_architecture

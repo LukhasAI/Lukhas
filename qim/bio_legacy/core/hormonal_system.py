@@ -7,7 +7,7 @@ Implements hormone-based regulation patterns for system homeostasis.
 import asyncio
 import logging
 from dataclasses import dataclass
-from typing import Callable, Dict, List
+from typing import Callable
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ class Hormone:
     production_rate: float
     decay_rate: float
     target_level: float
-    effects: Dict[str, float]  # System -> Effect magnitude
+    effects: dict[str, float]  # System -> Effect magnitude
 
 
 class HormonalSystem:
@@ -102,7 +102,7 @@ class HormonalSystem:
         }
 
         # System effect callbacks
-        self.effect_callbacks: Dict[str, List[Callable]] = {}
+        self.effect_callbacks: dict[str, list[Callable]] = {}
 
         # Regulation active
         self.regulation_active = True
@@ -162,7 +162,7 @@ class HormonalSystem:
             self.effect_callbacks[effect] = []
         self.effect_callbacks[effect].append(callback)
 
-    def get_hormone_levels(self) -> Dict[str, float]:
+    def get_hormone_levels(self) -> dict[str, float]:
         """Get current hormone levels"""
         return {name: h.current_level for name, h in self.hormones.items()}
 

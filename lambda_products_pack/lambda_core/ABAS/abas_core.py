@@ -13,7 +13,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger("Lambda.ΛBAS")
 
@@ -77,7 +77,7 @@ class AttentionBoundary:
     mode: BoundaryMode
     threshold: float  # Trigger threshold (0.0-1.0)
     duration: timedelta  # How long boundary stays active
-    exceptions: List[str]  # Exception categories
+    exceptions: list[str]  # Exception categories
     auto_adjust: bool = True  # Whether boundary self-adjusts
     lambda_signature: str = None  # Λ authenticity signature
     created_at: datetime = None
@@ -100,8 +100,8 @@ class AttentionRequest:
     cognitive_cost: float  # Estimated mental effort required
     duration_estimate: float  # Expected time required (minutes)
     interruptibility: float  # How ok it is to interrupt (0.0-1.0)
-    context_tags: List[str]  # Contextual information
-    metadata: Dict[str, Any] = None
+    context_tags: list[str]  # Contextual information
+    metadata: dict[str, Any] = None
 
 
 @dataclass
@@ -111,9 +111,9 @@ class AttentionDecision:
     request_id: str
     decision: str  # "allow", "defer", "block", "transform"
     confidence: float  # Confidence in decision (0.0-1.0)
-    reasoning: List[str]  # Human-readable reasoning
+    reasoning: list[str]  # Human-readable reasoning
     defer_until: Optional[datetime] = None
-    alternative_suggestions: List[str] = None
+    alternative_suggestions: list[str] = None
     lambda_trace: str = None  # Λ decision audit trail
     timestamp: datetime = None
 
@@ -141,20 +141,20 @@ class ΛBAS:
     - Integration with NIΛS and DΛST systems
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or self._default_config()
         self.lambda_brand = "Λ"
 
         # Core storage
-        self.user_attention_states: Dict[str, AttentionState] = {}
-        self.attention_metrics: Dict[str, AttentionMetrics] = {}
-        self.active_boundaries: Dict[str, List[AttentionBoundary]] = {}
-        self.attention_history: Dict[str, List[Tuple[datetime, AttentionMetrics]]] = {}
-        self.decision_log: List[AttentionDecision] = []
+        self.user_attention_states: dict[str, AttentionState] = {}
+        self.attention_metrics: dict[str, AttentionMetrics] = {}
+        self.active_boundaries: dict[str, list[AttentionBoundary]] = {}
+        self.attention_history: dict[str, list[tuple[datetime, AttentionMetrics]]] = {}
+        self.decision_log: list[AttentionDecision] = []
 
         # Request queues
-        self.pending_requests: Dict[str, List[AttentionRequest]] = {}
-        self.deferred_requests: Dict[str, List[Tuple[AttentionRequest, datetime]]] = {}
+        self.pending_requests: dict[str, list[AttentionRequest]] = {}
+        self.deferred_requests: dict[str, list[tuple[AttentionRequest, datetime]]] = {}
 
         # Integration detection
         self.nias_available = False
@@ -165,7 +165,7 @@ class ΛBAS:
 
         logger.info("ΛBAS system initialized with attention consciousness")
 
-    def _default_config(self) -> Dict:
+    def _default_config(self) -> dict:
         """Default ΛBAS configuration"""
         return {
             "brand": "LUKHAS",
@@ -336,7 +336,7 @@ class ΛBAS:
             return AttentionState.FOCUSED
 
         # Recently interrupted
-        current_time = datetime.now()
+        datetime.now()
         if user_id in self.attention_history and self.attention_history[user_id]:
             recent_metrics = self.attention_history[user_id][-3:]  # Last 3 data points
             if any(m.interruption_cost >= 0.5 for _, m in recent_metrics):
@@ -440,7 +440,7 @@ class ΛBAS:
 
     async def _check_boundary_violations(
         self, user_id: str, request: AttentionRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Check if request violates any active boundaries"""
         active_boundaries = self.active_boundaries[user_id]
         current_metrics = self.attention_metrics[user_id]
@@ -470,15 +470,12 @@ class ΛBAS:
                 violation = await self._check_temporal_boundary(boundary, request)
                 reason = "Temporal boundary violation"
 
-            elif boundary.type == BoundaryType.CREATIVE:
-                if (
-                    current_metrics.flow_probability >= boundary.threshold
-                    and request.interruptibility < 0.5
-                ):
-                    violation = True
-                    reason = (
-                        "Creative flow protection - interruption would be disruptive"
-                    )
+            elif boundary.type == BoundaryType.CREATIVE and (
+                current_metrics.flow_probability >= boundary.threshold
+                and request.interruptibility < 0.5
+            ):
+                violation = True
+                reason = "Creative flow protection - interruption would be disruptive"
 
             if violation:
                 return {
@@ -519,17 +516,14 @@ class ΛBAS:
         current_hour = datetime.now().hour
 
         # Example: No interruptions during deep work hours (9-11 AM)
-        if 9 <= current_hour <= 11 and request.urgency < 0.8:
-            return True
-
-        return False
+        return bool(9 <= current_hour <= 11 and request.urgency < 0.8)
 
     async def _evaluate_request_for_state(
         self,
         request: AttentionRequest,
         state: AttentionState,
         metrics: AttentionMetrics,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Evaluate request appropriateness for current attention state"""
 
         if state == AttentionState.FLOW_STATE:
@@ -712,7 +706,7 @@ class ΛBAS:
         state = self.user_attention_states[user_id]
         return state in [AttentionState.AVAILABLE, AttentionState.FOCUSED]
 
-    async def get_attention_status(self, user_id: str) -> Dict[str, Any]:
+    async def get_attention_status(self, user_id: str) -> dict[str, Any]:
         """Get comprehensive attention status for a user"""
         if user_id not in self.user_attention_states:
             return {"error": "User not registered"}
@@ -740,7 +734,7 @@ class ΛBAS:
             "boundaries": {
                 "total": len(boundaries),
                 "active": active_boundary_count,
-                "types": list(set(b.type.value for b in boundaries)),
+                "types": list({b.type.value for b in boundaries}),
             },
             "queues": {
                 "pending_requests": len(self.pending_requests.get(user_id, [])),
@@ -748,7 +742,7 @@ class ΛBAS:
             },
         }
 
-    def get_system_metrics(self) -> Dict[str, Any]:
+    def get_system_metrics(self) -> dict[str, Any]:
         """Get ΛBAS system metrics"""
         total_users = len(self.user_attention_states)
 
@@ -792,7 +786,7 @@ class ΛBAS:
         }
 
     async def create_custom_boundary(
-        self, user_id: str, boundary_config: Dict[str, Any]
+        self, user_id: str, boundary_config: dict[str, Any]
     ) -> str:
         """Create a custom attention boundary for a user"""
         if user_id not in self.user_attention_states:

@@ -47,6 +47,7 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛTODO: Add brain/memory orchestration integration when approved
 AIDEA: Implement LUKHAS cycle optimization with memory integration
 """
+import logging
 
 import asyncio
 import time
@@ -54,7 +55,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import orchestration components
 try:
@@ -72,8 +73,6 @@ try:
     from orchestration.swarm_orchestration_adapter import (
         SwarmOperationType,
         SwarmOrchestrationAdapter,
-        SwarmPriority,
-        SwarmTask,
     )
 
     ORCHESTRATION_COMPONENTS_AVAILABLE = True
@@ -137,12 +136,12 @@ class OrchestrationRequest:
     request_id: str
     orchestration_type: OrchestrationType
     priority: OrchestrationPriority
-    payload: Dict[str, Any]
-    target_orchestrators: List[str] = field(default_factory=list)
+    payload: dict[str, Any]
+    target_orchestrators: list[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     deadline: Optional[datetime] = None
     lukhas_cycle_phase: Optional[LukhasCyclePhase] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -152,7 +151,7 @@ class OrchestrationMetrics:
     total_requests_processed: int = 0
     average_response_time: float = 0.0
     request_success_rate: float = 0.0
-    orchestrator_utilization: Dict[str, float] = field(default_factory=dict)
+    orchestrator_utilization: dict[str, float] = field(default_factory=dict)
     cross_orchestrator_operations: int = 0
     lukhas_cycle_completions: int = 0
     bio_symbolic_coherence: float = 102.22
@@ -178,7 +177,7 @@ class MasterOrchestrator:
     7. Integration with bio-symbolic coherence system
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the master orchestrator
 
@@ -197,26 +196,26 @@ class MasterOrchestrator:
 
         # Request management
         self.request_queue: deque = deque()
-        self.running_requests: Dict[str, asyncio.Task] = {}
-        self.completed_requests: List[Dict[str, Any]] = []
-        self.failed_requests: List[Dict[str, Any]] = []
+        self.running_requests: dict[str, asyncio.Task] = {}
+        self.completed_requests: list[dict[str, Any]] = []
+        self.failed_requests: list[dict[str, Any]] = []
 
         # Performance metrics
         self.metrics = OrchestrationMetrics()
         self.performance_history: deque = deque(maxlen=1000)
 
         # LUKHAS cycle tracking
-        self.cycle_states: Dict[str, LukhasCyclePhase] = {}
-        self.active_cycles: Dict[str, Dict[str, Any]] = {}
+        self.cycle_states: dict[str, LukhasCyclePhase] = {}
+        self.active_cycles: dict[str, dict[str, Any]] = {}
 
         # System state
         self.is_running = False
-        self.orchestrator_registry: Dict[str, Any] = {}
+        self.orchestrator_registry: dict[str, Any] = {}
         self.initialization_time = datetime.now(timezone.utc)
 
         self.logger.info("Master orchestrator initialized")
 
-    def _default_config(self) -> Dict[str, Any]:
+    def _default_config(self) -> dict[str, Any]:
         """Default configuration for the master orchestrator"""
         return {
             "max_concurrent_requests": 50,
@@ -375,7 +374,7 @@ class MasterOrchestrator:
 
     async def orchestrate_request(
         self, request: OrchestrationRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Main orchestration entry point for processing requests
 
@@ -464,7 +463,7 @@ class MasterOrchestrator:
 
     async def _route_and_execute_request(
         self, request: OrchestrationRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Route request to appropriate orchestrators and execute"""
 
         results = {}
@@ -528,7 +527,7 @@ class MasterOrchestrator:
 
     def _determine_target_orchestrators(
         self, request: OrchestrationRequest
-    ) -> List[str]:
+    ) -> list[str]:
         """Determine which orchestrators should handle the request"""
 
         targets = []
@@ -550,9 +549,8 @@ class MasterOrchestrator:
         if (
             self.config.get("energy_optimization", True)
             and "energy" in self.orchestrator_registry
-        ):
-            if "energy" not in targets:
-                targets.append("energy")
+        ) and "energy" not in targets:
+            targets.append("energy")
 
         # If no specific targets, use capability-based routing
         if not targets:
@@ -560,7 +558,7 @@ class MasterOrchestrator:
 
         return targets
 
-    def _analyze_cross_orchestrator_targets(self, payload: Dict[str, Any]) -> List[str]:
+    def _analyze_cross_orchestrator_targets(self, payload: dict[str, Any]) -> list[str]:
         """Analyze payload to determine which orchestrators are needed for cross-orchestrator task"""
 
         targets = []
@@ -592,7 +590,7 @@ class MasterOrchestrator:
 
         return targets
 
-    def _route_by_capability(self, payload: Dict[str, Any]) -> List[str]:
+    def _route_by_capability(self, payload: dict[str, Any]) -> list[str]:
         """Route request based on required capabilities"""
 
         targets = []
@@ -614,7 +612,7 @@ class MasterOrchestrator:
 
     async def _execute_swarm_operation(
         self, swarm_adapter: SwarmOrchestrationAdapter, request: OrchestrationRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute swarm operation"""
 
         operation_type = SwarmOperationType(
@@ -641,7 +639,7 @@ class MasterOrchestrator:
 
     async def _execute_colony_task(
         self, colony_orchestrator: ColonyOrchestrator, request: OrchestrationRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute colony task"""
 
         if "spawn_colony" in request.payload:
@@ -673,7 +671,7 @@ class MasterOrchestrator:
         self,
         bio_symbolic_orchestrator: BioSymbolicOrchestrator,
         request: OrchestrationRequest,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute bio-symbolic processing"""
 
         task = BioSymbolicTask(
@@ -689,7 +687,7 @@ class MasterOrchestrator:
 
     async def _execute_workflow(
         self, workflow_engine: WorkflowEngine, request: OrchestrationRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute workflow"""
 
         workflow_definition = request.payload.get("workflow_definition", {})
@@ -703,7 +701,7 @@ class MasterOrchestrator:
 
     async def _execute_generic_operation(
         self, orchestrator: Any, request: OrchestrationRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute generic operation on any orchestrator"""
 
         # Try to call a process method if available
@@ -715,8 +713,8 @@ class MasterOrchestrator:
             return {"success": True, "generic_execution": True}
 
     async def _coordinate_cross_orchestrator_task(
-        self, request: OrchestrationRequest, orchestration_results: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, request: OrchestrationRequest, orchestration_results: dict[str, Any]
+    ) -> dict[str, Any]:
         """Coordinate results from multiple orchestrators"""
 
         successful_orchestrators = [
@@ -745,8 +743,8 @@ class MasterOrchestrator:
         }
 
     async def _optimize_energy_allocation(
-        self, request: OrchestrationRequest, orchestration_results: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, request: OrchestrationRequest, orchestration_results: dict[str, Any]
+    ) -> dict[str, Any]:
         """Optimize energy allocation for the request"""
 
         # This would integrate with actual EnergyAwareExecutionPlanner
@@ -799,7 +797,7 @@ class MasterOrchestrator:
     async def _update_orchestration_metrics(
         self,
         request: OrchestrationRequest,
-        results: Dict[str, Any],
+        results: dict[str, Any],
         processing_time: float,
     ):
         """Update performance metrics"""
@@ -908,7 +906,7 @@ class MasterOrchestrator:
                 self.logger.error(f"LUKHAS cycle monitoring error: {e}")
                 await asyncio.sleep(60)
 
-    def get_master_status(self) -> Dict[str, Any]:
+    def get_master_status(self) -> dict[str, Any]:
         """Get comprehensive status of master orchestration"""
         return {
             "orchestrator_status": "running" if self.is_running else "stopped",
@@ -957,7 +955,7 @@ class MasterOrchestrator:
         """Calculate overall system health score"""
         health_scores = []
 
-        for name, info in self.orchestrator_registry.items():
+        for _name, info in self.orchestrator_registry.items():
             if info["status"] == "active":
                 orchestrator = info["orchestrator"]
 
@@ -966,7 +964,7 @@ class MasterOrchestrator:
                     try:
                         health = await orchestrator.get_health_status()
                         health_scores.append(health.get("score", 0.5))
-                    except:
+                    except BaseException:
                         health_scores.append(0.5)  # Neutral score if unavailable
                 else:
                     health_scores.append(0.8)  # Assume healthy if no status method
@@ -986,7 +984,7 @@ class MasterOrchestrator:
                     try:
                         utilization = await orchestrator.get_utilization()
                         self.metrics.orchestrator_utilization[name] = utilization
-                    except:
+                    except BaseException:
                         self.metrics.orchestrator_utilization[name] = 0.0
                 else:
                     # Estimate utilization based on active tasks

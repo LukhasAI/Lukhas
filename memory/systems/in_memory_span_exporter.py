@@ -14,7 +14,7 @@
 
 import threading
 import typing
-from dataclasses import dataclass # For placeholder
+from dataclasses import dataclass  # For placeholder
 
 # OpenTelemetry SDK Imports (Original)
 try:
@@ -23,20 +23,27 @@ try:
 except ImportError:
     import structlog
 from core.common import get_logger
-    _log_otel_fallback.warning("OpenTelemetry SDK Trace components not found. InMemorySpanExporter placeholders in use.")
-    @dataclass # type: ignore
-    class ReadableSpan: name: str # Simplified placeholder # type: ignore
-    class SpanExporter: # type: ignore
-        def export(self, spans: typing.Sequence[ReadableSpan]) -> 'SpanExportResult': return SpanExportResult(False) # type: ignore
+ _log_otel_fallback.warning(
+     "OpenTelemetry SDK Trace components not found. InMemorySpanExporter placeholders in use.")
+  @dataclass  # type: ignore
+   class ReadableSpan:
+        name: str  # Simplified placeholder # type: ignore
+
+    class SpanExporter:  # type: ignore
+        def export(
+            self,
+            spans: typing.Sequence[ReadableSpan]) -> 'SpanExportResult': return SpanExportResult(False)  # type: ignore
         def shutdown(self) -> None: pass
         def force_flush(self, timeout_millis: int = 30000) -> bool: return True
-    @dataclass # type: ignore
-    class SpanExportResult: success: bool # type: ignore
-    SpanExportResult.SUCCESS = SpanExportResult(True) # type: ignore
-    SpanExportResult.FAILURE = SpanExportResult(False) # type: ignore
+
+    @dataclass  # type: ignore
+    class SpanExportResult:
+        success: bool  # type: ignore
+    SpanExportResult.SUCCESS = SpanExportResult(True)  # type: ignore
+    SpanExportResult.FAILURE = SpanExportResult(False)  # type: ignore
 
 
-class InMemorySpanExporter(SpanExporter): # type: ignore
+class InMemorySpanExporter(SpanExporter):  # type: ignore
     """
     Implementation of OpenTelemetry SpanExporter that stores spans in memory.
     Primarily for testing purposes. Exported spans can be retrieved via get_finished_spans().
@@ -57,13 +64,14 @@ class InMemorySpanExporter(SpanExporter): # type: ignore
         with self._lock:
             return tuple(self._finished_spans)
 
-    def export(self, spans: typing.Sequence[ReadableSpan]) -> SpanExportResult: # type: ignore
+    # type: ignore
+    def export(self, spans: typing.Sequence[ReadableSpan]) -> SpanExportResult:
         """Exports a sequence of ReadableSpans to an in-memory list."""
         if self._stopped:
-            return SpanExportResult.FAILURE # type: ignore
+            return SpanExportResult.FAILURE  # type: ignore
         with self._lock:
             self._finished_spans.extend(spans)
-        return SpanExportResult.SUCCESS # type: ignore
+        return SpanExportResult.SUCCESS  # type: ignore
 
     def shutdown(self) -> None:
         """Marks the exporter as stopped. Subsequent calls to export will fail."""

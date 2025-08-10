@@ -68,7 +68,7 @@ class IdentityAwareService(ABC):
         except Exception as e:
             if self.fallback_mode:
                 logger.warning(
-                    f"Identity client unavailable for {self.service_name},
+                    f"Identity client unavailable for {self.service_name},"
                     using fallback",
                     error=str(e),
                 )

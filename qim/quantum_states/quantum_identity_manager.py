@@ -41,7 +41,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import post-quantum cryptography components
 try:
@@ -58,8 +58,7 @@ except ImportError:
 
 # Import identity infrastructure
 try:
-    from core.identity_aware_base import IdentityAwareService
-    from core.identity_integration import LAMBDA_TIERS, get_identity_client
+    from core.identity_integration import get_identity_client
     from identity.interface import IdentityClient
 
     IDENTITY_AVAILABLE = True
@@ -123,14 +122,14 @@ class QuantumUserContext:
     # Identity evolution tracking
     identity_generation: int = 1
     parent_identity_id: Optional[str] = None
-    child_identity_ids: List[str] = field(default_factory=list)
+    child_identity_ids: list[str] = field(default_factory=list)
 
     # Resource allocation
-    allocated_resources: Dict[str, Any] = field(default_factory=dict)
+    allocated_resources: dict[str, Any] = field(default_factory=dict)
     resource_quantum_pool: Optional[str] = None
 
     # Behavioral patterns (for dynamic tier adjustment)
-    behavior_patterns: Dict[str, float] = field(default_factory=dict)
+    behavior_patterns: dict[str, float] = field(default_factory=dict)
     trust_score: float = 0.5
     intelligence_score: float = 0.5
     ethical_alignment: float = 0.8
@@ -141,11 +140,11 @@ class QuantumUserContext:
     expires_at: Optional[datetime] = None
 
     # Multi-agent support
-    composite_agents: List[str] = field(default_factory=list)
-    swarm_membership: List[str] = field(default_factory=list)
+    composite_agents: list[str] = field(default_factory=list)
+    swarm_membership: list[str] = field(default_factory=list)
     consciousness_level: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             "user_id": self.user_id,
@@ -173,7 +172,7 @@ class QuantumUserContext:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "QuantumUserContext":
+    def from_dict(cls, data: dict[str, Any]) -> "QuantumUserContext":
         """Create from dictionary."""
         return cls(
             user_id=data["user_id"],
@@ -218,8 +217,8 @@ class QuantumIdentityManager:
         self.logger.info("Initializing Quantum Identity Manager for Future AGI")
 
         # Identity storage (in production, this would be distributed/encrypted)
-        self.identity_cache: Dict[str, QuantumUserContext] = {}
-        self.identity_hierarchy: Dict[str, List[str]] = defaultdict(
+        self.identity_cache: dict[str, QuantumUserContext] = {}
+        self.identity_hierarchy: dict[str, list[str]] = defaultdict(
             list
         )  # parent -> children
 
@@ -229,11 +228,11 @@ class QuantumIdentityManager:
         self.quantum_timestamp_manager: Optional[QuantumVerifiableTimestamp] = None
 
         # Resource management
-        self.quantum_resource_pools: Dict[str, Dict[str, Any]] = {}
-        self.tier_resource_limits: Dict[QuantumTierLevel, Dict[str, Any]] = {}
+        self.quantum_resource_pools: dict[str, dict[str, Any]] = {}
+        self.tier_resource_limits: dict[QuantumTierLevel, dict[str, Any]] = {}
 
         # Dynamic tier management
-        self.behavior_analyzers: Dict[str, Any] = {}
+        self.behavior_analyzers: dict[str, Any] = {}
         self.tier_promotion_history: deque = deque(maxlen=10000)
 
         # Integration components
@@ -451,7 +450,7 @@ class QuantumIdentityManager:
         return context
 
     async def authenticate_quantum_identity(
-        self, user_id: str, credentials: Dict[str, Any]
+        self, user_id: str, credentials: dict[str, Any]
     ) -> Optional[QuantumUserContext]:
         """
         Authenticate user with quantum-proof verification.
@@ -582,7 +581,7 @@ class QuantumIdentityManager:
         return key_id
 
     async def _verify_quantum_credentials(
-        self, context: QuantumUserContext, credentials: Dict[str, Any]
+        self, context: QuantumUserContext, credentials: dict[str, Any]
     ) -> bool:
         """Verify quantum-proof credentials."""
         if not self.quantum_key_manager or not context.quantum_key_id:
@@ -631,7 +630,7 @@ class QuantumIdentityManager:
         pool["allocated_resources"][context.user_id] = context.allocated_resources
 
     async def _analyze_behavior_patterns(
-        self, context: QuantumUserContext, credentials: Dict[str, Any]
+        self, context: QuantumUserContext, credentials: dict[str, Any]
     ):
         """Analyze user behavior patterns for dynamic tier adjustment."""
         # Track authentication patterns
@@ -656,7 +655,7 @@ class QuantumIdentityManager:
 
         context.trust_score = consistency_score * 0.6 + security_score * 0.4
 
-    def _calculate_credential_strength(self, credentials: Dict[str, Any]) -> float:
+    def _calculate_credential_strength(self, credentials: dict[str, Any]) -> float:
         """Calculate strength of provided credentials."""
         strength = 0.0
 
@@ -672,7 +671,7 @@ class QuantumIdentityManager:
 
         return min(1.0, strength)
 
-    def _calculate_consistency_score(self, patterns: Dict[str, Any]) -> float:
+    def _calculate_consistency_score(self, patterns: dict[str, Any]) -> float:
         """Calculate behavioral consistency score."""
         # Simplified consistency calculation
         auth_hours = patterns.get("auth_hours", [])
@@ -686,7 +685,7 @@ class QuantumIdentityManager:
             std_dev = statistics.stdev(auth_hours[-10:])  # Last 10 auths
             consistency = max(0.0, 1.0 - (std_dev / 12.0))  # Normalize to 0-1
             return consistency
-        except:
+        except BaseException:
             return 0.5
 
     async def _evaluate_tier_promotion(self, context: QuantumUserContext):
@@ -794,7 +793,7 @@ class QuantumIdentityManager:
         return None
 
     async def _convert_legacy_identity(
-        self, legacy_identity: Dict[str, Any]
+        self, legacy_identity: dict[str, Any]
     ) -> QuantumUserContext:
         """Convert legacy identity to quantum context."""
         # Map legacy tier to quantum tier
@@ -845,7 +844,7 @@ class QuantumIdentityManager:
         except Exception as e:
             self.logger.error(f"Failed to sync with legacy system: {e}")
 
-    def get_identity_stats(self) -> Dict[str, Any]:
+    def get_identity_stats(self) -> dict[str, Any]:
         """Get comprehensive identity system statistics."""
         stats = {
             "total_identities": len(self.identity_cache),
@@ -896,7 +895,7 @@ async def create_agi_identity(
 
 
 async def authenticate_quantum_user(
-    user_id: str, credentials: Dict[str, Any]
+    user_id: str, credentials: dict[str, Any]
 ) -> Optional[QuantumUserContext]:
     """Authenticate user with quantum-proof verification."""
     manager = get_quantum_identity_manager()

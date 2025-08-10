@@ -16,7 +16,11 @@
 """
 
 # Module imports
-from typing import Any, Dict
+from pathlib import Path
+from datetime import datetime
+import sys
+import asyncio
+from typing import Any
 
 from core.common import get_logger
 
@@ -39,10 +43,6 @@ MODULE_NAME = "quantum consciousness integration"
 ╚═══════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
-import sys
-from datetime import datetime
-from pathlib import Path
 
 # Add parent directories for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -50,10 +50,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 # Import consciousness module if available
 try:
     from consciousness.consciousness_service import (
-        ConsciousExperience,
-        ConsciousnessLevel,
         ElevatedConsciousnessModule,
-        QualiaType,
     )
 
     CONSCIOUSNESS_AVAILABLE = True
@@ -106,7 +103,7 @@ class QuantumCreativeConsciousness:
         theme: str,
         style: str = "professional",
         consciousness_level: str = "elevated",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate content with consciousness-enhanced creativity.
 
@@ -181,8 +178,8 @@ class QuantumCreativeConsciousness:
         }
 
     async def _process_conscious_experience(
-        self, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process a conscious experience for content generation."""
         if not self.consciousness_module:
             return {"unity_score": 1.0}
@@ -383,7 +380,7 @@ The journey into {theme} through consciousness is not just an intellectual exerc
 
         return content
 
-    def get_consciousness_status(self) -> Dict[str, Any]:
+    def get_consciousness_status(self) -> dict[str, Any]:
         """Get current consciousness integration status."""
 
         return {
@@ -405,13 +402,13 @@ The journey into {theme} through consciousness is not just an intellectual exerc
 # Convenience functions for direct use
 async def generate_conscious_content(
     content_type: str, theme: str, style: str = "professional"
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Convenience function for generating conscious content."""
     consciousness = QuantumCreativeConsciousness()
     return await consciousness.generate_conscious_content(content_type, theme, style)
 
 
-def get_consciousness_integration_status() -> Dict[str, Any]:
+def get_consciousness_integration_status() -> dict[str, Any]:
     """Get the current status of consciousness integration."""
     consciousness = QuantumCreativeConsciousness()
     return consciousness.get_consciousness_status()

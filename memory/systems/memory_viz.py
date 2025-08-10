@@ -59,10 +59,7 @@ def _frame_filter(name, filename):
     for of in omit_functions:
         if of in name:
             return False
-    for of in omit_filenames:
-        if of in filename:
-            return False
-    return True
+    return all(of not in filename for of in omit_filenames)
 
 
 def _frames_fmt(frames, full_filename=False, reverse=False):
@@ -485,7 +482,8 @@ def _profile_to_snapshot(profile):
             key = TensorKey.from_allocation(event.extra_fields)
 
             # Corner case: If allocation doesn't have an ID (can't prove it was used as a Tensor)
-            #              key will be None. I should add some way to identify these, I just haven't yet.
+            # key will be None. I should add some way to identify these, I just
+            # haven't yet.
             if key and event.extra_fields.alloc_size > 0:
                 allocation_stacks[key] = python_parents
 
@@ -593,7 +591,9 @@ def _profile_to_snapshot(profile):
                 {"size": seg["total_size"] - last_addr, "state": "inactive"}
             )
 
-    snapshot["segments"] = [seg for seg in snapshot["segments"] if seg["blocks"]]  # type: ignore[attr-defined]
+    snapshot["segments"] = [
+        seg for seg in snapshot["segments"] if seg["blocks"]
+    ]  # type: ignore[attr-defined]
     for seg in snapshot["segments"]:  # type: ignore[attr-defined, name-defined, no-redef]
         seg["total_size"] -= seg["address"]
         if not seg["blocks"]:
@@ -700,10 +700,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     def _read(name):
-        if name == "-":
-            f = sys.stdin.buffer
-        else:
-            f = open(name, "rb")
+        f = sys.stdin.buffer if name == "-" else open(name, "rb")
         data = pickle.load(f)
         if isinstance(data, list):  # segments only...
             data = {"segments": data, "traces": []}

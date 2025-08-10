@@ -1,4 +1,3 @@
 """
 Dream_Adapter Module
 """
-

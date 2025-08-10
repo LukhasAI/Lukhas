@@ -26,6 +26,12 @@ Author: LUKHAS AI System
 License: LUKHAS Commercial License
 """
 
+from quantum_steganographic_demo import (
+    GlyphStyle,
+    QuantumQRInfluencer,
+    SteganographicGlyphGenerator,
+)
+from qrg_integration import LukhusQRGIntegrator, QRGType
 import os
 import sys
 import threading
@@ -36,13 +42,6 @@ import unittest
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Import all modules for comprehensive testing
-from qrg_integration import LukhusQRGIntegrator, QRGType
-
-from quantum_steganographic_demo import (
-    GlyphStyle,
-    QuantumQRInfluencer,
-    SteganographicGlyphGenerator,
-)
 
 
 class TestQRGEdgeCases(unittest.TestCase):
@@ -277,7 +276,7 @@ class TestQRGSecurityValidation(unittest.TestCase):
         # Generate QRGs at different times
         time_signatures = []
 
-        for i in range(10):
+        for _i in range(10):
             context = self.integrator.create_qrg_context(
                 user_id="temporal_test", security_level="secret"
             )
@@ -621,7 +620,7 @@ class TestIntegrationBoundaries(unittest.TestCase):
             (0.6, "protected", 0.4, ["culture"], QRGType.CONSCIOUSNESS_ADAPTIVE),
         ]
 
-        for consciousness, security, cognitive_load, attention, expected in test_cases:
+        for consciousness, security, cognitive_load, attention, _expected in test_cases:
             with self.subTest(
                 consciousness=consciousness,
                 security=security,

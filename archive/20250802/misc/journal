@@ -4,6 +4,7 @@ LUKHAS Journal CLI wrapper
 Makes the journal command available system-wide
 """
 
+from tools.journal.journal_cli import cli
 import sys
 import os
 
@@ -11,7 +12,6 @@ import os
 project_root = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, project_root)
 
-from tools.journal.journal_cli import cli
 
 if __name__ == '__main__':
     cli()

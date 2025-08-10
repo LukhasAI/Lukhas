@@ -8,7 +8,7 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 from ..symbolic_ai.memory import SymbolicMemoryEngine
 
@@ -23,8 +23,8 @@ class DreamProcessor:
         )
 
     async def process_dream_state(
-        self, recent_memories: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, recent_memories: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Process memories during dream state to find deeper patterns"""
         dream_patterns = []
         cross_memory_relationships = []
@@ -56,8 +56,8 @@ class DreamProcessor:
         return dream_insights
 
     def _find_memory_relationship(
-        self, memory1: Dict[str, Any], memory2: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, memory1: dict[str, Any], memory2: dict[str, Any]
+    ) -> dict[str, Any]:
         """Find relationships between two memories during dream state"""
         confidence = self.memory_engine.pattern_engine._calculate_pattern_match(
             memory1["data"], memory2["data"]
@@ -73,7 +73,7 @@ class DreamProcessor:
             }
         return None
 
-    def _consolidate_memories(self, memories: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _consolidate_memories(self, memories: list[dict[str, Any]]) -> dict[str, Any]:
         """Consolidate memories based on discovered patterns"""
         consolidated = {
             "common_patterns": [],
@@ -89,8 +89,8 @@ class DreamProcessor:
         return consolidated
 
     def _group_similar_patterns(
-        self, patterns: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, patterns: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Group similar patterns found across memories"""
         groups = []
         for pattern in patterns:

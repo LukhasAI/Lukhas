@@ -34,6 +34,9 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://lukhas.ai/docs
 """
 
+import sys
+import os
+
 __module_name__ = "Quantum Λbot Quantum Security"
 __version__ = "2.0.0"
 __tier__ = 2
@@ -45,7 +48,7 @@ import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -53,17 +56,13 @@ logging.basicConfig(
 logger = logging.getLogger("ΛBot_Quantum_Security")
 
 # Import brain system components for bio-symbolic threat detection
-import os
-import sys
 
 brain_path = os.path.join(os.path.dirname(__file__), "..", "brain")
 sys.path.append(brain_path)
 
 try:
     # from MultiBrainSymphony  # External dependency import MultiBrainSymphony
-    from abstract_reasoning.bio_quantum_engine import (
-        BioQuantumSymbolicReasoner,
-    )
+    pass
 
     BRAIN_SYSTEM_AVAILABLE = True
     logger.info("🧠 Brain system available for bio-symbolic threat detection")
@@ -80,8 +79,8 @@ class QuantumThreat:
     threat_type: str  # quantum_attack, bio_symbolic_manipulation, adaptive_exploit
     severity: str  # low, medium, high, critical, quantum_critical
     description: str
-    quantum_signature: Dict[str, Any]
-    bio_patterns: Dict[str, Any]
+    quantum_signature: dict[str, Any]
+    bio_patterns: dict[str, Any]
     confidence: float
     detected_at: str
     mitigation_strategy: Optional[str] = None
@@ -93,12 +92,12 @@ class SecurityAssessment:
 
     assessment_id: str
     target: str  # repository, code, system
-    quantum_threats: List[QuantumThreat]
-    bio_symbolic_anomalies: List[Dict[str, Any]]
+    quantum_threats: list[QuantumThreat]
+    bio_symbolic_anomalies: list[dict[str, Any]]
     security_score: float  # 0-1 scale
     post_quantum_readiness: float  # 0-1 scale
-    recommendations: List[str]
-    adaptive_mitigations: List[Dict[str, Any]]
+    recommendations: list[str]
+    adaptive_mitigations: list[dict[str, Any]]
 
 
 class PostQuantumCryptographyEngine:
@@ -127,7 +126,7 @@ class PostQuantumCryptographyEngine:
 
     async def generate_quantum_resistant_keys(
         self, algorithm: str = "kyber"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate quantum-resistant cryptographic keys"""
 
         if algorithm not in self.pq_standards:
@@ -147,7 +146,7 @@ class PostQuantumCryptographyEngine:
 
     async def quantum_encrypt(
         self, data: bytes, public_key: str, algorithm: str = "kyber"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Encrypt data using post-quantum-inspired algorithms"""
 
         # Implement post-quantum encryption
@@ -191,8 +190,8 @@ class BioSymbolicThreatDetector:
         logger.info("🧬 Bio-Symbolic Threat Detector initialized")
 
     async def detect_bio_threats(
-        self, input_data: Dict[str, Any]
-    ) -> List[QuantumThreat]:
+        self, input_data: dict[str, Any]
+    ) -> list[QuantumThreat]:
         """Detect threats using bio-symbolic pattern analysis"""
 
         detected_threats = []
@@ -212,8 +211,8 @@ class BioSymbolicThreatDetector:
         return enhanced_threats
 
     async def _brain_threat_analysis(
-        self, input_data: Dict[str, Any]
-    ) -> List[QuantumThreat]:
+        self, input_data: dict[str, Any]
+    ) -> list[QuantumThreat]:
         """Use brain symphony for advanced threat analysis"""
 
         # Dreams brain for creative threat detection
@@ -319,7 +318,7 @@ class QuantumVulnerabilityAnalyzer:
             bio_threats + quantum_threats
         )
 
-        processing_time = time.time() - start_time
+        time.time() - start_time
 
         return SecurityAssessment(
             assessment_id=assessment_id,
@@ -332,7 +331,7 @@ class QuantumVulnerabilityAnalyzer:
             adaptive_mitigations=adaptive_mitigations,
         )
 
-    async def _simulate_quantum_attacks(self, code_content: str) -> List[QuantumThreat]:
+    async def _simulate_quantum_attacks(self, code_content: str) -> list[QuantumThreat]:
         """Simulate various quantum attack scenarios"""
 
         quantum_threats = []
@@ -408,7 +407,7 @@ class AdaptiveSecurityOrchestrator:
 
     async def orchestrate_adaptive_security(
         self, assessment: SecurityAssessment
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Orchestrate adaptive security responses"""
 
         orchestration_result = {
@@ -445,7 +444,7 @@ class ΛBotQuantumSecurityOrchestrator:
     Master orchestrator for all quantum security capabilities
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Initialize brain symphony for bio-symbolic processing
@@ -505,7 +504,7 @@ class ΛBotQuantumSecurityOrchestrator:
 
     async def orchestrate_security_response(
         self, assessment: SecurityAssessment
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Orchestrate comprehensive security response"""
 
         response = await self.adaptive_orchestrator.orchestrate_adaptive_security(
@@ -524,7 +523,7 @@ class ΛBotQuantumSecurityOrchestrator:
 
     async def generate_post_quantum_keys(
         self, algorithm: str = "kyber"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate quantum-resistant cryptographic keys"""
 
         keys = await self.pq_crypto_engine.generate_quantum_resistant_keys(algorithm)
@@ -532,7 +531,7 @@ class ΛBotQuantumSecurityOrchestrator:
 
         return keys
 
-    async def get_security_metrics(self) -> Dict[str, Any]:
+    async def get_security_metrics(self) -> dict[str, Any]:
         """Get comprehensive security metrics"""
 
         return {
@@ -551,7 +550,8 @@ class ΛBotQuantumSecurityOrchestrator:
         }
 
 
-# Mock implementations for post-quantum crypto (would use actual libraries in production)
+# Mock implementations for post-quantum crypto (would use actual libraries
+# in production)
 class LatticeBasedCrypto:
     async def generate_keys(self):
         return {"public": "lattice_pub", "private": "lattice_priv"}
@@ -587,7 +587,7 @@ async def main():
     test_code = """
     import hashlib
     import rsa
-    
+
     # This code uses quantum-vulnerable RSA
     key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
     """

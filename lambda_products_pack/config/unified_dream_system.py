@@ -14,7 +14,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -35,12 +35,12 @@ class DreamScenario:
 
     id: str
     type: DreamType
-    dimensions: List[str]
+    dimensions: list[str]
     probability: float
-    emotional_context: Dict[str, float]
+    emotional_context: dict[str, float]
     causality_strength: float
     token_cost: int
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -49,11 +49,11 @@ class DreamSeed:
 
     id: str
     brand_id: Optional[str]
-    symbolic_elements: List[str]
+    symbolic_elements: list[str]
     resonance_score: float
     consent_verified: bool
     tier_level: str  # T1, T2, T3
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -61,13 +61,13 @@ class UnifiedDream:
     """Combined dream result from both systems"""
 
     id: str
-    scenarios: List[DreamScenario]
-    seeds: List[DreamSeed]
-    causality_map: Dict[str, Any]
+    scenarios: list[DreamScenario]
+    seeds: list[DreamSeed]
+    causality_map: dict[str, Any]
     total_token_cost: int
     processing_time_ms: float
     dream_type: DreamType
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class UnifiedDreamSystem:
@@ -82,7 +82,7 @@ class UnifiedDreamSystem:
     - Enterprise compliance
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize unified dream system
 
@@ -105,8 +105,8 @@ class UnifiedDreamSystem:
 
         # Tracking
         self.total_tokens_consumed = 0
-        self.dream_history: List[UnifiedDream] = []
-        self.causality_events: List[Dict[str, Any]] = []
+        self.dream_history: list[UnifiedDream] = []
+        self.causality_events: list[dict[str, Any]] = []
 
         # Initialize subsystems
         self._initialize_subsystems()
@@ -134,7 +134,7 @@ class UnifiedDreamSystem:
             # from consolidation.dream.hyperspace_dream_simulator import HyperspaceDreamSimulator
             # return HyperspaceDreamSimulator(self.config)
             return {"mock": True, "type": "hyperspace"}
-        except:
+        except BaseException:
             return None
 
     def _init_seed_manager(self):
@@ -144,7 +144,7 @@ class UnifiedDreamSystem:
             # from NIΛS.dream.dream_seed_manager import DreamSeedManager
             # return DreamSeedManager(self.tier_level)
             return {"mock": True, "type": "seeds"}
-        except:
+        except BaseException:
             return None
 
     def _init_causality_tracker(self):
@@ -154,14 +154,14 @@ class UnifiedDreamSystem:
             # from consolidation.dream.causality_tracker import CausalityTracker
             # return CausalityTracker()
             return {"mock": True, "type": "causality"}
-        except:
+        except BaseException:
             return None
 
     async def process_dream(
         self,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         dream_type: DreamType = DreamType.HYBRID,
-        seeds: Optional[List[DreamSeed]] = None,
+        seeds: Optional[list[DreamSeed]] = None,
     ) -> UnifiedDream:
         """
         Process a dream using unified system
@@ -239,7 +239,7 @@ class UnifiedDreamSystem:
 
         return unified_dream
 
-    async def _process_hyperspace(self, context: Dict[str, Any]) -> List[DreamScenario]:
+    async def _process_hyperspace(self, context: dict[str, Any]) -> list[DreamScenario]:
         """Process dream through hyperspace simulation"""
         if not self.hyperspace_enabled or not self.hyperspace_simulator:
             return []
@@ -268,8 +268,8 @@ class UnifiedDreamSystem:
         return scenarios
 
     async def _generate_seeds(
-        self, context: Dict[str, Any], scenarios: List[DreamScenario]
-    ) -> List[DreamSeed]:
+        self, context: dict[str, Any], scenarios: list[DreamScenario]
+    ) -> list[DreamSeed]:
         """Generate dream seeds from context and scenarios"""
         if not self.seed_enabled or not self.seed_manager:
             return []
@@ -303,8 +303,8 @@ class UnifiedDreamSystem:
         return seeds
 
     async def _enhance_seeds(
-        self, seeds: List[DreamSeed], scenarios: List[DreamScenario]
-    ) -> List[DreamSeed]:
+        self, seeds: list[DreamSeed], scenarios: list[DreamScenario]
+    ) -> list[DreamSeed]:
         """Enhance existing seeds with scenario data"""
         enhanced_seeds = []
 
@@ -321,8 +321,8 @@ class UnifiedDreamSystem:
         return enhanced_seeds
 
     async def _track_causality(
-        self, scenarios: List[DreamScenario], seeds: List[DreamSeed]
-    ) -> Dict[str, Any]:
+        self, scenarios: list[DreamScenario], seeds: list[DreamSeed]
+    ) -> dict[str, Any]:
         """Track causality between dreams, memory, and reasoning"""
         if not self.causality_tracker:
             return {}
@@ -377,7 +377,7 @@ class UnifiedDreamSystem:
         return causality_map
 
     def _calculate_token_cost(
-        self, scenarios: List[DreamScenario], seeds: List[DreamSeed]
+        self, scenarios: list[DreamScenario], seeds: list[DreamSeed]
     ) -> int:
         """Calculate total token cost for dream processing"""
         scenario_cost = sum(s.token_cost for s in scenarios)
@@ -403,7 +403,7 @@ class UnifiedDreamSystem:
                 f"WARNING: Token usage at {usage_percent:.1f}% ({self.total_tokens_consumed}/{self.token_budget})"
             )
 
-    async def get_dream_analytics(self) -> Dict[str, Any]:
+    async def get_dream_analytics(self) -> dict[str, Any]:
         """Get analytics for dream processing"""
         if not self.dream_history:
             return {"message": "No dreams processed yet"}
@@ -432,7 +432,7 @@ class UnifiedDreamSystem:
             "causality_events": len(self.causality_events),
         }
 
-    async def export_causality_trace(self) -> Dict[str, Any]:
+    async def export_causality_trace(self) -> dict[str, Any]:
         """Export complete causality trace for audit"""
         return {
             "trace_id": f"dream_trace_{datetime.now().isoformat()}",

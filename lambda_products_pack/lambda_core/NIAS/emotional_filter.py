@@ -8,7 +8,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from .nias_core import EmotionalState, SymbolicMessage
 
@@ -63,11 +63,11 @@ class EmotionalProfile:
     user_id: str
     baseline_vector: EmotionalVector
     protection_level: EmotionalProtectionLevel
-    sensitivity_factors: Dict[str, float]  # Sensitivity to different emotional triggers
-    preferred_transitions: List[EmotionalTransition]
-    blocked_emotional_tones: List[EmotionalState]
-    therapeutic_goals: List[str]  # e.g., ["reduce_stress", "increase_creativity"]
-    circadian_preferences: Dict[str, Any]  # Time-based emotional preferences
+    sensitivity_factors: dict[str, float]  # Sensitivity to different emotional triggers
+    preferred_transitions: list[EmotionalTransition]
+    blocked_emotional_tones: list[EmotionalState]
+    therapeutic_goals: list[str]  # e.g., ["reduce_stress", "increase_creativity"]
+    circadian_preferences: dict[str, Any]  # Time-based emotional preferences
 
 
 class EmotionalFilter:
@@ -83,18 +83,18 @@ class EmotionalFilter:
     - Integration with biometric data
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or self._default_config()
-        self.user_profiles: Dict[str, EmotionalProfile] = {}
-        self.emotional_history: Dict[str, List[Tuple[datetime, EmotionalVector]]] = {}
-        self.therapeutic_rules: Dict[str, Dict] = {}
+        self.user_profiles: dict[str, EmotionalProfile] = {}
+        self.emotional_history: dict[str, list[tuple[datetime, EmotionalVector]]] = {}
+        self.therapeutic_rules: dict[str, dict] = {}
 
         # Load default therapeutic rules
         self._initialize_therapeutic_rules()
 
         logger.info("NIΛS Emotional Filter initialized")
 
-    def _default_config(self) -> Dict:
+    def _default_config(self) -> dict:
         """Default emotional filter configuration"""
         return {
             "stress_threshold_high": 0.8,
@@ -217,7 +217,7 @@ class EmotionalFilter:
         message: SymbolicMessage,
         user_id: str,
         current_emotional_state: Optional[EmotionalVector] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Filter message based on user's emotional state
 
@@ -312,7 +312,7 @@ class EmotionalFilter:
         message: SymbolicMessage,
         emotional_state: EmotionalVector,
         profile: EmotionalProfile,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Check dream residue protection"""
         if not emotional_state.dream_residue:
             return {"approved": True}
@@ -346,7 +346,7 @@ class EmotionalFilter:
         message: SymbolicMessage,
         emotional_state: EmotionalVector,
         profile: EmotionalProfile,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Check stress-based protection"""
         stress_level = emotional_state.stress
 
@@ -387,7 +387,7 @@ class EmotionalFilter:
         message: SymbolicMessage,
         emotional_state: EmotionalVector,
         profile: EmotionalProfile,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Check if message emotional tone is compatible with current state"""
         # Check blocked tones for this user
         if message.emotional_tone in profile.blocked_emotional_tones:
@@ -426,7 +426,7 @@ class EmotionalFilter:
         message: SymbolicMessage,
         emotional_state: EmotionalVector,
         profile: EmotionalProfile,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Check if message intensity matches attention capacity"""
         attention_capacity = emotional_state.attention_capacity
         message_intensity = message.intensity
@@ -452,7 +452,7 @@ class EmotionalFilter:
         message: SymbolicMessage,
         emotional_state: EmotionalVector,
         profile: EmotionalProfile,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Check if message aligns with therapeutic goals"""
         if not self.config["therapeutic_mode"]:
             return {"approved": True}
@@ -484,22 +484,23 @@ class EmotionalFilter:
 
     async def _check_circadian_compatibility(
         self, message: SymbolicMessage, profile: EmotionalProfile
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Check circadian rhythm compatibility"""
         current_hour = datetime.now().hour
         circadian_prefs = profile.circadian_preferences
 
         # Night protection
-        if circadian_prefs.get("night_protection", True) and (
-            current_hour >= 22 or current_hour <= 6
+        if (
+            circadian_prefs.get("night_protection", True)
+            and (current_hour >= 22 or current_hour <= 6)
+            and message.intensity > 0.3
         ):
-            if message.intensity > 0.3:
-                return {
-                    "approved": False,
-                    "reason": "Night protection - high intensity messages blocked",
-                    "action": "defer",
-                    "defer_until": "morning",
-                }
+            return {
+                "approved": False,
+                "reason": "Night protection - high intensity messages blocked",
+                "action": "defer",
+                "defer_until": "morning",
+            }
 
         # Morning sensitivity
         if 6 <= current_hour <= 10:
@@ -531,7 +532,7 @@ class EmotionalFilter:
         message: SymbolicMessage,
         emotional_state: EmotionalVector,
         profile: EmotionalProfile,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get recommendation for optimal message delivery"""
         recommendations = {
             "timing": "immediate",
@@ -563,7 +564,7 @@ class EmotionalFilter:
 
         return recommendations
 
-    def get_emotional_insights(self, user_id: str, hours: int = 24) -> Dict[str, Any]:
+    def get_emotional_insights(self, user_id: str, hours: int = 24) -> dict[str, Any]:
         """Get emotional insights for a user over specified time period"""
         if user_id not in self.emotional_history:
             return {"error": "No emotional history found"}
@@ -616,8 +617,8 @@ class EmotionalFilter:
         }
 
     async def _generate_wellness_recommendations(
-        self, history: List[Tuple[datetime, EmotionalVector]]
-    ) -> List[str]:
+        self, history: list[tuple[datetime, EmotionalVector]]
+    ) -> list[str]:
         """Generate wellness recommendations based on emotional patterns"""
         recommendations = []
 

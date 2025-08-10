@@ -3,31 +3,40 @@
 ```python
 #!/usr/bin/env python3
 """
-==================================================================================
+import structlog
+import json
+import hashlib
+from typing import List, Optional, Dict, Any, Union
+from datetime import datetime, timezone
+import numpy as np
+import zlib
+import struct
+== == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == ==
 | 🚀 LUKHAS AI - OPTIMIZED MEMORY ITEM
 | A HARMONIOUS SYMPHONY OF MEMORY REDUCTION
-| Copyright (c) 2025 LUKHAS AI. All rights reserved.
-+==================================================================================
+| Copyright(c) 2025 LUKHAS AI. All rights reserved.
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
 | Module: optimized_memory_item.py
-| Path: memory/systems/optimized_memory_item.py
-| Version: 1.0.0 | Created: 2025-7-29
+| Path: memory / systems / optimized_memory_item.py
+| Version: 1.0.0 | Created: 2025 - 7 - 29
 | Authors: LUKHAS AI Optimization Team
-+==================================================================================
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
 |
 |                                 POETIC ESSENCE
 |
 | In the vast expanse of the digital cosmos, where data flutters like ephemeral
 | butterflies, the essence of memory weaves a tapestry, intricate and grand. Herein,
-| we present a vessel-a chalice of optimized memory-crafted not merely for storage,
+| we present a vessel - a chalice of optimized memory - crafted not merely for storage,
 | but for the very alchemy of existence. In the crucible of innovation, this module
 | emerges, reducing the burdens of size whilst amplifying the clarity of thought,
 | as a gentle breeze whispers through the tangled branches of cerebral networks.
 |
 | Imagine a world where the weight of knowledge no longer bears down upon the
-| weary shoulders of silicon and code; where each byte dances lightly, each
+| weary shoulders of silicon and code
+where each byte dances lightly, each
 | fragment of data is cradled in the arms of efficiency. The optimized memory item
 | stands as a sentinel, vigilant and robust, guarding the sanctity of information,
-| transforming the cumbersome into the elegant-a symphony of ones and zeros,
+| transforming the cumbersome into the elegant - a symphony of ones and zeros,
 | harmonized to perfection. It cradles the essence of reduction, a philosophy
 | intertwined with the fabric of computational brilliance, ushering forth a new
 | dawn where storage is not merely a function, but a poetic expression of
@@ -36,42 +45,34 @@
 | Thus, we invite you to delve into this realm of optimized memory, where
 | complexity unfolds with simplicity, and where the art of reduction becomes
 | a dance of creativity and logic. Here, in the heart of computation, the
-| optimized memory item serves as both a beacon and a bridge-connecting the
+| optimized memory item serves as both a beacon and a bridge - connecting the
 | abstract to the tangible, the theoretical to the practical. May this module
 | illuminate your path, guiding you through the labyrinth of data, with the
 | promise of clarity and the potential for innovation, as you embark on a journey
 | through the infinite landscape of memory and imagination.
 |
-+==================================================================================
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
 |                               TECHNICAL FEATURES
 |
-| - Implements an ultra-efficient storage algorithm achieving a 16x size reduction.
+| - Implements an ultra - efficient storage algorithm achieving a 16x size reduction.
 | - Supports dynamic memory allocation for optimal resource utilization.
 | - Facilitates rapid data retrieval and manipulation, enhancing performance.
 | - Provides a seamless interface for integration with existing memory systems.
-| - Ensures data integrity through robust error-checking mechanisms.
-| - Optimized for both small-scale and large-scale data environments.
+| - Ensures data integrity through robust error - checking mechanisms.
+| - Optimized for both small - scale and large - scale data environments.
 | - Compatible with Python 3.x, ensuring broad accessibility and flexibility.
 | - Includes comprehensive documentation and usage examples for ease of adoption.
 |
-+==================================================================================
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
 |                                   ΛTAG KEYWORDS
 |
-| #memory #optimization #data #efficiency #storage #algorithm #python #LUKHAS_AI
+|  # memory #optimization #data #efficiency #storage #algorithm #python #LUKHAS_AI
 |
-+==================================================================================
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
 """
 ```
 """
 
-import struct
-import zlib
-import numpy as np
-from datetime import datetime, timezone
-from typing import List, Optional, Dict, Any, Union
-import hashlib
-import json
-import structlog
 
 logger = structlog.get_logger("ΛTRACE.memory.optimized")
 
@@ -105,7 +106,10 @@ class QuantizationCodec:
         return quantized.tobytes(), scale_factor
 
     @staticmethod
-    def dequantize_embedding(quantized_bytes: bytes, scale_factor: float, size: int) -> np.ndarray:
+    def dequantize_embedding(
+            quantized_bytes: bytes,
+            scale_factor: float,
+            size: int) -> np.ndarray:
         """
         Dequantize int8 bytes back to float32 embedding.
         """
@@ -196,7 +200,8 @@ class BinaryMetadataPacker:
         # Collapse hash (16 bytes - first 16 chars of hash)
         if "collapse_hash" in metadata:
             hash_str = metadata["collapse_hash"][:32]  # Take first 32 hex chars
-            hash_bytes = bytes.fromhex(hash_str.ljust(32, '0'))[:16]  # Convert to 16 bytes
+            hash_bytes = bytes.fromhex(hash_str.ljust(32, '0'))[
+                :16]  # Convert to 16 bytes
             packed_data += struct.pack('B16s', cls.FIELD_COLLAPSE_HASH, hash_bytes)
 
         # Drift score (4 bytes float)
@@ -224,50 +229,52 @@ class BinaryMetadataPacker:
             offset += 1
 
             if field_id == cls.FIELD_TIMESTAMP:
-                timestamp_int, = struct.unpack('Q', packed_data[offset:offset+8])
+                timestamp_int, = struct.unpack('Q', packed_data[offset:offset + 8])
                 try:
-                    metadata["timestamp"] = datetime.fromtimestamp(timestamp_int, tz=timezone.utc)
+                    metadata["timestamp"] = datetime.fromtimestamp(
+                        timestamp_int, tz=timezone.utc)
                 except (OSError, ValueError, OverflowError):
                     # Handle invalid timestamps
                     metadata["timestamp"] = datetime.now(timezone.utc)
                 offset += 8
 
             elif field_id == cls.FIELD_IMPORTANCE:
-                importance, = struct.unpack('f', packed_data[offset:offset+4])
+                importance, = struct.unpack('f', packed_data[offset:offset + 4])
                 metadata["importance"] = importance
                 offset += 4
 
             elif field_id == cls.FIELD_ACCESS_COUNT:
-                count, = struct.unpack('I', packed_data[offset:offset+4])
+                count, = struct.unpack('I', packed_data[offset:offset + 4])
                 metadata["access_count"] = count
                 offset += 4
 
             elif field_id == cls.FIELD_LAST_ACCESSED:
-                last_int, = struct.unpack('Q', packed_data[offset:offset+8])
+                last_int, = struct.unpack('Q', packed_data[offset:offset + 8])
                 try:
-                    metadata["last_accessed"] = datetime.fromtimestamp(last_int, tz=timezone.utc)
+                    metadata["last_accessed"] = datetime.fromtimestamp(
+                        last_int, tz=timezone.utc)
                 except (OSError, ValueError, OverflowError):
                     # Handle invalid timestamps
                     metadata["last_accessed"] = datetime.now(timezone.utc)
                 offset += 8
 
             elif field_id == cls.FIELD_EMOTION:
-                emotion_id, = struct.unpack('B', packed_data[offset:offset+1])
+                emotion_id, = struct.unpack('B', packed_data[offset:offset + 1])
                 metadata["emotion"] = emotion_reverse.get(emotion_id, "unknown")
                 offset += 1
 
             elif field_id == cls.FIELD_TYPE:
-                type_id, = struct.unpack('B', packed_data[offset:offset+1])
+                type_id, = struct.unpack('B', packed_data[offset:offset + 1])
                 metadata["type"] = type_reverse.get(type_id, "unknown")
                 offset += 1
 
             elif field_id == cls.FIELD_COLLAPSE_HASH:
-                hash_bytes, = struct.unpack('16s', packed_data[offset:offset+16])
+                hash_bytes, = struct.unpack('16s', packed_data[offset:offset + 16])
                 metadata["collapse_hash"] = hash_bytes.hex()
                 offset += 16
 
             elif field_id == cls.FIELD_DRIFT_SCORE:
-                drift, = struct.unpack('f', packed_data[offset:offset+4])
+                drift, = struct.unpack('f', packed_data[offset:offset + 4])
                 metadata["drift_score"] = drift
                 offset += 4
 
@@ -295,7 +302,8 @@ class OptimizedMemoryItem:
     # Binary format header
     MAGIC_BYTES = b'LKHS'  # LUKHAS magic bytes
     VERSION = 1
-    HEADER_FORMAT = '<IBBHHHf'  # magic(4) + version(1) + flags(1) + content_len(2) + tags_len(2) + metadata_len(2) + embedding_scale(4)
+    # magic(4) + version(1) + flags(1) + content_len(2) + tags_len(2) + metadata_len(2) + embedding_scale(4)
+    HEADER_FORMAT = '<IBBHHHf'
     HEADER_SIZE = struct.calcsize(HEADER_FORMAT)
 
     # Flags
@@ -351,7 +359,8 @@ class OptimizedMemoryItem:
         # 1. Process content
         content_bytes = content.encode('utf-8')
         if compress_content and len(content_bytes) > 50:  # Only compress if worthwhile
-            content_data = zlib.compress(content_bytes, level=6)  # Good compression/speed balance
+            # Good compression/speed balance
+            content_data = zlib.compress(content_bytes, level=6)
             flags = self.FLAG_COMPRESSED
         else:
             content_data = content_bytes
@@ -377,7 +386,8 @@ class OptimizedMemoryItem:
         if embedding is not None:
             flags |= self.FLAG_HAS_EMBEDDING
             if quantize_embedding:
-                embedding_data, embedding_scale = QuantizationCodec.quantize_embedding(embedding)
+                embedding_data, embedding_scale = QuantizationCodec.quantize_embedding(
+                    embedding)
             else:
                 embedding_data = embedding.astype(np.float32).tobytes()
                 embedding_scale = 1.0  # Indicates no quantization
@@ -492,7 +502,8 @@ class OptimizedMemoryItem:
         magic_int = header_data[0]
         expected_magic = struct.unpack('<I', self.MAGIC_BYTES)[0]
         if magic_int != expected_magic:
-            raise ValueError(f"Invalid magic bytes: {magic_int:08x} != {expected_magic:08x}")
+            raise ValueError(
+                f"Invalid magic bytes: {magic_int:08x} != {expected_magic:08x}")
 
         return {
             'magic': magic_int,
@@ -574,7 +585,8 @@ def create_optimized_memory(
 
     # Validate embedding dimensions if provided
     if embedding is not None:
-        actual_dim = embedding.shape[0] if len(embedding.shape) == 1 else embedding.shape[-1]
+        actual_dim = embedding.shape[0] if len(
+            embedding.shape) == 1 else embedding.shape[-1]
 
         if actual_dim not in QuantizationCodec.SUPPORTED_DIMENSIONS:
             logger.warning(
@@ -588,7 +600,8 @@ def create_optimized_memory(
                 embedding = _resize_embedding(embedding, embedding_dim)
                 logger.info(f"Resized embedding from {actual_dim}D to {embedding_dim}D")
             else:
-                logger.warning(f"Requested dimension {embedding_dim} not supported, keeping {actual_dim}D")
+                logger.warning(
+                    f"Requested dimension {embedding_dim} not supported, keeping {actual_dim}D")
 
     return OptimizedMemoryItem(
         content=content,
@@ -610,21 +623,24 @@ def _resize_embedding(embedding: np.ndarray, target_dim: int) -> np.ndarray:
     Returns:
         Resized embedding
     """
-    current_dim = embedding.shape[0] if len(embedding.shape) == 1 else embedding.shape[-1]
+    current_dim = embedding.shape[0] if len(
+        embedding.shape) == 1 else embedding.shape[-1]
 
     if current_dim == target_dim:
         return embedding
 
     if target_dim < current_dim:
         # Truncate to smaller dimension (lose some information but save memory)
-        return embedding[:target_dim] if len(embedding.shape) == 1 else embedding[..., :target_dim]
+        return embedding[:target_dim] if len(
+            embedding.shape) == 1 else embedding[..., :target_dim]
     else:
         # Pad with zeros to larger dimension (preserve all information)
         if len(embedding.shape) == 1:
             padded = np.zeros(target_dim, dtype=embedding.dtype)
             padded[:current_dim] = embedding
         else:
-            pad_width = [(0, 0)] * (len(embedding.shape) - 1) + [(0, target_dim - current_dim)]
+            pad_width = [(0, 0)] * (len(embedding.shape) - 1) + \
+                [(0, target_dim - current_dim)]
             padded = np.pad(embedding, pad_width, mode='constant', constant_values=0)
         return padded
 
@@ -686,7 +702,7 @@ if __name__ == "__main__":
     import string
 
     print("🚀 OPTIMIZED MEMORY ITEM BENCHMARK")
-    print("="*60)
+    print("=" * 60)
 
     # Create test data
     test_content = "This is a test memory with some content that will be compressed. " * 10
@@ -739,7 +755,8 @@ if __name__ == "__main__":
     print(f"\n🔍 INTEGRITY VALIDATION:")
     print(f"Content matches: {optimized_memory.get_content() == test_content}")
     print(f"Tags match: {optimized_memory.get_tags() == test_tags}")
-    print(f"Metadata matches: {optimized_memory.get_metadata()['importance'] == test_metadata['importance']}")
+    print(
+        f"Metadata matches: {optimized_memory.get_metadata()['importance'] == test_metadata['importance']}")
 
     # Test embedding quantization quality
     recovered_embedding = optimized_memory.get_embedding()

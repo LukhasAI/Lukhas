@@ -44,7 +44,7 @@ class LUKHASDNALink:
             return f"[Reflection Error] {str(e)}"
 
     def translate(self, text, target_language="en"):
-        prompt = f"Translate the following text into {target_language},
+        prompt = f"Translate the following text into {target_language},"
     preserving symbolic tone: \n\n{text}"
        try:
             response = openai.ChatCompletion.create(

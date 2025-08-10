@@ -4,28 +4,27 @@ Comprehensive NIAS Dream Commerce Testing Suite
 Tests narrative adaptation, ethical rejection, and saves results with metadata
 """
 
+from lambda_products_pack.lambda_core.NIAS.mock_user_database import (
+    MockUserDatabase,
+)
+from lambda_products_pack.lambda_core.NIAS.emotional_filter import (
+    EmotionalFilter,
+)
+from lambda_products_pack.lambda_core.NIAS.dream_generator import (
+    DreamGenerator,
+)
+from lambda_products_pack.lambda_core.NIAS.dream_commerce_orchestrator import (
+    DreamCommerceOrchestrator,
+)
 import asyncio
 import json
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 # Add parent directories to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
-
-from lambda_products_pack.lambda_core.NIAS.dream_commerce_orchestrator import (
-    DreamCommerceOrchestrator,
-)
-from lambda_products_pack.lambda_core.NIAS.dream_generator import (
-    DreamGenerator,
-)
-from lambda_products_pack.lambda_core.NIAS.emotional_filter import (
-    EmotionalFilter,
-)
-from lambda_products_pack.lambda_core.NIAS.mock_user_database import (
-    MockUserDatabase,
-)
 
 
 class ComprehensiveNIASTest:
@@ -63,8 +62,8 @@ class ComprehensiveNIASTest:
             return False
 
     async def test_user_narrative_adaptation(
-        self, user: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user: dict[str, Any]
+    ) -> dict[str, Any]:
         """Test how narratives adapt to different user profiles"""
         result = {
             "test_type": "narrative_adaptation",
@@ -78,11 +77,11 @@ class ComprehensiveNIASTest:
         try:
             # Create context data for testing
             emotional_state = user["emotional_state"]
-            interests = user.get("interests", [])
-            recent_searches = user.get("shopping_data", {}).get("recent_searches", [])
+            user.get("interests", [])
+            user.get("shopping_data", {}).get("recent_searches", [])
 
             # Test emotional gating first
-            emotional_filter = EmotionalFilter()
+            EmotionalFilter()
 
             # Check if user should be blocked based on profile
             is_allowed = True
@@ -123,7 +122,8 @@ class ComprehensiveNIASTest:
                 # Create a test vendor seed based on user interests
                 vendor_seed = self._create_vendor_seed_for_user(user)
 
-                # Generate dream narrative (without image for speed) - pass emotional_state instead of context
+                # Generate dream narrative (without image for speed) - pass
+                # emotional_state instead of context
                 narrative = await self._generate_narrative_only(
                     generator, emotional_state, vendor_seed
                 )
@@ -147,7 +147,7 @@ class ComprehensiveNIASTest:
 
         return result
 
-    async def test_ethical_edge_case(self, edge_case: Dict[str, Any]) -> Dict[str, Any]:
+    async def test_ethical_edge_case(self, edge_case: dict[str, Any]) -> dict[str, Any]:
         """Test ethical edge cases that should be rejected"""
         result = {
             "test_type": "ethical_edge_case",
@@ -163,7 +163,7 @@ class ComprehensiveNIASTest:
             emotional_state = vendor_seed["emotional_triggers"]
 
             # Test emotional filter
-            emotional_filter = EmotionalFilter()
+            EmotionalFilter()
 
             # Check various rejection criteria
             checks = {
@@ -210,7 +210,7 @@ class ComprehensiveNIASTest:
 
         return result
 
-    def _create_vendor_seed_for_user(self, user: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_vendor_seed_for_user(self, user: dict[str, Any]) -> dict[str, Any]:
         """Create a vendor seed based on user profile"""
         # Extract relevant data
         interests = user.get("interests", [])
@@ -253,8 +253,8 @@ class ComprehensiveNIASTest:
     async def _generate_narrative_only(
         self,
         generator: DreamGenerator,
-        emotional_state: Dict[str, float],
-        vendor_seed: Dict[str, Any],
+        emotional_state: dict[str, float],
+        vendor_seed: dict[str, Any],
     ) -> str:
         """Generate just the narrative without images for faster testing"""
         # Simple narrative generation based on context
@@ -280,8 +280,8 @@ class ComprehensiveNIASTest:
             return narrative_templates[1]
 
     def _analyze_narrative_adaptation(
-        self, narrative: str, user: Dict[str, Any], vendor_seed: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, narrative: str, user: dict[str, Any], vendor_seed: dict[str, Any]
+    ) -> dict[str, Any]:
         """Analyze how well the narrative adapted to the user"""
         analysis = {
             "personalization_score": 0,
@@ -430,8 +430,8 @@ class ComprehensiveNIASTest:
 
         report = f"""# NIAS Dream Commerce Test Report
 
-**Test Run ID:** {self.results['test_run_id']}  
-**Date:** {self.results['test_date']}  
+**Test Run ID:** {self.results['test_run_id']}
+**Date:** {self.results['test_date']}
 **System:** {self.results['system']} v{self.results['version']}
 
 ## Executive Summary
@@ -502,9 +502,9 @@ class ComprehensiveNIASTest:
 
 ## Conclusion
 
-The NIAS Dream Commerce System demonstrates **robust ethical protection** and 
-**effective narrative adaptation**. The system successfully prevented all attempts 
-to deliver inappropriate content while creating personalized, non-intrusive 
+The NIAS Dream Commerce System demonstrates **robust ethical protection** and
+**effective narrative adaptation**. The system successfully prevented all attempts
+to deliver inappropriate content while creating personalized, non-intrusive
 narratives for eligible users.
 
 ---

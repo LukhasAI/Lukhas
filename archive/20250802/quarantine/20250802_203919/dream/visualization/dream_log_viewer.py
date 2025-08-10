@@ -15,23 +15,23 @@
 
 LUKHAS AI System - Function Library
 File: dream_log_viewer.py
-Path: core/dreams/dream_log_viewer.py
+Path: core / dreams / dream_log_viewer.py
 Created: "2025-06-05 09:37:28"
 Author: LUKHAS AI Team
 Version: 1.0
-This file is part of the LUKHAS AI (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS AI(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 lukhas AI System - Function Library
 File: dream_log_viewer.py
-Path: core/dreams/dream_log_viewer.py
+Path: core / dreams / dream_log_viewer.py
 Created: "2025-06-05 09:37:28"
 Author: LUKHAS AI Team
 Version: 1.0
-This file is part of the LUKHAS AI (LUKHAS Universal Knowledge & Holistic AI System)
+This file is part of the LUKHAS AI(LUKHAS Universal Knowledge & Holistic AI System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
@@ -43,7 +43,7 @@ DESCRIPTION:
     This viewer reads dream_log.jsonl and prints structured symbolic dream entries,
     complete with timestamp, tier, emotion vector, tags, and symbolic emoji.
 
-    Future versions may support sorting, interactive replay, or tier-based filtering.
+    Future versions may support sorting, interactive replay, or tier - based filtering.
 
 """
 
@@ -122,12 +122,6 @@ if __name__ == "__main__":
 
     view_dream_log(limit=limit, min_tier=min_tier, sort_by=sort_by)
 """
-
-
-
-
-
-
 
 
 # Last Updated: 2025-06-05 09:37:28

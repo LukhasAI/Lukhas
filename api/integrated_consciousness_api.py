@@ -34,7 +34,7 @@ logger = get_logger(__name__)
 app = FastAPI(
     title="LUKHAS Integrated Consciousness API",
     description="Natural language AI consciousness with real-time feedback and interpretability",
-    version="2.0.0"
+    version="2.0.0",
 )
 
 # Add CORS middleware
@@ -56,11 +56,18 @@ conversation_manager = None
 # Request/Response models
 class IntegratedChatRequest(BaseModel):
     """Integrated chat request with feedback options"""
+
     message: str = Field(..., description="User message to process")
-    session_id: Optional[str] = Field(None, description="Session ID for conversation continuity")
+    session_id: Optional[str] = Field(
+        None, description="Session ID for conversation continuity"
+    )
     user_id: Optional[str] = Field(None, description="User identifier")
-    enable_feedback: bool = Field(True, description="Enable feedback collection for this interaction")
-    region: Optional[ComplianceRegion] = Field(ComplianceRegion.GLOBAL, description="User's regulatory region")
+    enable_feedback: bool = Field(
+        True, description="Enable feedback collection for this interaction"
+    )
+    region: Optional[ComplianceRegion] = Field(
+        ComplianceRegion.GLOBAL, description="User's regulatory region"
+    )
 
     class Config:
         json_schema_extra = {
@@ -69,20 +76,23 @@ class IntegratedChatRequest(BaseModel):
                 "session_id": "session_123",
                 "user_id": "user_456",
                 "enable_feedback": True,
-                "region": "eu"
+                "region": "eu",
             }
         }
 
 
 class IntegratedChatResponse(BaseModel):
     """Enhanced response with feedback options"""
+
     response: str = Field(..., description="AI response")
     session_id: str = Field(..., description="Session ID")
     action_id: str = Field(..., description="Action ID for feedback")
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     metadata: Optional[Dict[str, Any]] = Field(None, description="Response metadata")
     feedback_enabled: bool = Field(True, description="Whether feedback is enabled")
-    decision_trace: Optional[Dict[str, Any]] = Field(None, description="Decision explanation")
+    decision_trace: Optional[Dict[str, Any]] = Field(
+        None, description="Decision explanation"
+    )
 
     class Config:
         json_schema_extra = {
@@ -94,15 +104,19 @@ class IntegratedChatResponse(BaseModel):
                 "metadata": {"intent": "make_decision", "confidence": 0.9},
                 "feedback_enabled": True,
                 "decision_trace": {
-                    "reasoning_steps": ["Analyzed request", "Identified decision context"],
-                    "confidence": 0.9
-                }
+                    "reasoning_steps": [
+                        "Analyzed request",
+                        "Identified decision context",
+                    ],
+                    "confidence": 0.9,
+                },
             }
         }
 
 
 class ConversationFeedback(BaseModel):
     """Feedback for a conversation turn"""
+
     action_id: str = Field(..., description="Action ID from chat response")
     user_id: str = Field(..., description="User identifier")
     feedback_type: str = Field(..., description="Type: rating, emoji, text, quick")
@@ -114,13 +128,14 @@ class ConversationFeedback(BaseModel):
                 "action_id": "action_789",
                 "user_id": "user_456",
                 "feedback_type": "rating",
-                "content": {"rating": 5}
+                "content": {"rating": 5},
             }
         }
 
 
 class DashboardRequest(BaseModel):
     """Dashboard data request"""
+
     user_id: Optional[str] = None
     session_id: Optional[str] = None
     time_range: Optional[str] = Field("1h", description="Time range: 1h, 24h, 7d, 30d")
@@ -137,23 +152,23 @@ async def startup_event():
     logger.info("Starting Integrated Consciousness API...")
 
     # Initialize natural language interface
-    nl_interface = NaturalLanguageConsciousnessInterface(config={
-        "enable_emotions": True,
-        "formality_level": "friendly",
-        "max_response_length": 500
-    })
+    nl_interface = NaturalLanguageConsciousnessInterface(
+        config={
+            "enable_emotions": True,
+            "formality_level": "friendly",
+            "max_response_length": 500,
+        }
+    )
 
     # Initialize feedback system
-    feedback_system = UserFeedbackSystem(config={
-        "enable_emoji": True,
-        "min_feedback_interval": 5  # 5 seconds for demo
-    })
+    feedback_system = UserFeedbackSystem(
+        config={"enable_emoji": True, "min_feedback_interval": 5}  # 5 seconds for demo
+    )
 
     # Initialize dashboard
-    dashboard = UnifiedInterpretabilityDashboard(config={
-        "enable_realtime": True,
-        "max_history": 1000
-    })
+    dashboard = UnifiedInterpretabilityDashboard(
+        config={"enable_realtime": True, "max_history": 1000}
+    )
 
     # Setup services
     await _setup_services()
@@ -191,9 +206,13 @@ async def _setup_services():
     async def assess_awareness(context):
         return {
             "overall_awareness": 0.85,
-            "attention_targets": ["user_query", "decision_support", "feedback_integration"],
+            "attention_targets": [
+                "user_query",
+                "decision_support",
+                "feedback_integration",
+            ],
             "self_awareness": 0.9,
-            "environmental_awareness": 0.8
+            "environmental_awareness": 0.8,
         }
 
     async def make_decision(scenario):
@@ -207,14 +226,14 @@ async def _setup_services():
                 "Analyzed user preferences from feedback history",
                 "Evaluated potential outcomes",
                 "Considered ethical implications",
-                "Aligned with user's stated goals"
+                "Aligned with user's stated goals",
             ],
             "alternatives_considered": options[1:],
             "feedback_influence": {
                 "historical_feedback_used": True,
                 "relevant_feedback_count": 3,
-                "feedback_weight": 0.3
-            }
+                "feedback_weight": 0.3,
+            },
         }
 
         return decision_result
@@ -224,16 +243,18 @@ async def _setup_services():
 
     # Mock memory service
     mock_memory = Mock()
-    mock_memory.search = AsyncMock(return_value=[
-        {"id": "mem1", "summary": "User prefers detailed explanations"},
-        {"id": "mem2", "summary": "User values transparency in decision-making"}
-    ])
+    mock_memory.search = AsyncMock(
+        return_value=[
+            {"id": "mem1", "summary": "User prefers detailed explanations"},
+            {"id": "mem2", "summary": "User values transparency in decision-making"},
+        ]
+    )
 
     # Mock emotion service
     mock_emotion = Mock()
-    mock_emotion.analyze_text = AsyncMock(return_value={
-        "emotions": {"joy": 0.5, "trust": 0.7, "anticipation": 0.6}
-    })
+    mock_emotion.analyze_text = AsyncMock(
+        return_value={"emotions": {"joy": 0.5, "trust": 0.7, "anticipation": 0.6}}
+    )
 
     # Mock audit service
     mock_audit = Mock()
@@ -262,15 +283,15 @@ async def root():
             "Real-time feedback collection",
             "Decision interpretability",
             "Regulatory compliance",
-            "Unified dashboard"
+            "Unified dashboard",
         ],
         "endpoints": {
             "chat": "/chat",
             "feedback": "/feedback",
             "dashboard": "/dashboard",
             "sessions": "/sessions",
-            "export": "/export"
-        }
+            "export": "/export",
+        },
     }
 
 
@@ -278,7 +299,7 @@ async def root():
 async def integrated_chat(request: IntegratedChatRequest):
     """
     Process chat with integrated feedback and interpretability.
-    
+
     This endpoint:
     1. Processes natural language input
     2. Tracks decisions for interpretability
@@ -287,7 +308,9 @@ async def integrated_chat(request: IntegratedChatRequest):
     """
     try:
         if not nl_interface or not nl_interface.operational:
-            raise HTTPException(status_code=503, detail="Consciousness interface not available")
+            raise HTTPException(
+                status_code=503, detail="Consciousness interface not available"
+            )
 
         # Generate IDs
         session_id = request.session_id or f"session_{uuid.uuid4().hex[:8]}"
@@ -296,9 +319,7 @@ async def integrated_chat(request: IntegratedChatRequest):
 
         # Process through NL interface
         response_text = await nl_interface.process_input(
-            request.message,
-            session_id=session_id,
-            user_id=request.user_id
+            request.message, session_id=session_id, user_id=request.user_id
         )
 
         # Get conversation context for metadata
@@ -315,7 +336,7 @@ async def integrated_chat(request: IntegratedChatRequest):
                     "intent": intent,
                     "turn_number": len(context.turns),
                     "topics": context.topics[:3],
-                    "emotional_state": context.emotional_state
+                    "emotional_state": context.emotional_state,
                 }
 
                 # Track decision if applicable
@@ -324,20 +345,22 @@ async def integrated_chat(request: IntegratedChatRequest):
                         "Understood user query",
                         "Retrieved relevant context",
                         "Applied decision logic",
-                        "Generated response"
+                        "Generated response",
                     ]
 
                     # Add feedback influence if available
                     if request.user_id and feedback_system:
                         try:
-                            recent_feedback = await feedback_system.get_user_feedback_history(
-                                request.user_id, limit=5
+                            recent_feedback = (
+                                await feedback_system.get_user_feedback_history(
+                                    request.user_id, limit=5
+                                )
                             )
                             if recent_feedback:
                                 reasoning_steps.append(
                                     f"Incorporated {len(recent_feedback)} recent feedback items"
                                 )
-                        except:
+                        except BaseException:
                             pass
 
                     # Track in dashboard
@@ -347,16 +370,18 @@ async def integrated_chat(request: IntegratedChatRequest):
                             module="consciousness_chat",
                             decision_type=intent,
                             input_data={"message": request.message},
-                            reasoning_steps=[{"step": s, "confidence": 0.8} for s in reasoning_steps],
+                            reasoning_steps=[
+                                {"step": s, "confidence": 0.8} for s in reasoning_steps
+                            ],
                             output={"response": response_text},
-                            confidence=0.85
+                            confidence=0.85,
                         )
 
                     decision_trace = {
                         "decision_id": decision_id,
                         "reasoning_steps": reasoning_steps,
                         "confidence": 0.85,
-                        "feedback_integrated": request.user_id is not None
+                        "feedback_integrated": request.user_id is not None,
                     }
 
         # Store action context for feedback
@@ -368,7 +393,7 @@ async def integrated_chat(request: IntegratedChatRequest):
                 "user_message": request.message,
                 "ai_response": response_text,
                 "intent": metadata.get("intent", "general_chat"),
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             # Store in dashboard for feedback integration
@@ -381,7 +406,7 @@ async def integrated_chat(request: IntegratedChatRequest):
             action_id=action_id,
             metadata=metadata,
             feedback_enabled=request.enable_feedback,
-            decision_trace=decision_trace
+            decision_trace=decision_trace,
         )
 
     except Exception as e:
@@ -393,7 +418,7 @@ async def integrated_chat(request: IntegratedChatRequest):
 async def submit_conversation_feedback(feedback: ConversationFeedback):
     """
     Submit feedback for a conversation turn.
-    
+
     Integrates with dashboard to show how feedback influences future decisions.
     """
     try:
@@ -410,10 +435,12 @@ async def submit_conversation_feedback(feedback: ConversationFeedback):
             "rating": FeedbackType.RATING,
             "emoji": FeedbackType.EMOJI,
             "text": FeedbackType.TEXT,
-            "quick": FeedbackType.QUICK
+            "quick": FeedbackType.QUICK,
         }
 
-        feedback_type = feedback_type_map.get(feedback.feedback_type, FeedbackType.GENERAL)
+        feedback_type = feedback_type_map.get(
+            feedback.feedback_type, FeedbackType.GENERAL
+        )
 
         # Collect feedback
         feedback_id = await feedback_system.collect_feedback(
@@ -422,15 +449,20 @@ async def submit_conversation_feedback(feedback: ConversationFeedback):
             action_id=feedback.action_id,
             feedback_type=feedback_type,
             content=feedback.content,
-            context=action_context
+            context=action_context,
         )
 
         # Integrate with dashboard
         if dashboard:
             # Find related decision
             for decision_id, decision in dashboard.decisions.items():
-                if decision.get("module") == "consciousness_chat" and \
-                   decision.get("timestamp", datetime.min) > datetime.now(timezone.utc).replace(tzinfo=None) - timezone.timedelta(minutes=5):
+                if decision.get("module") == "consciousness_chat" and decision.get(
+                    "timestamp", datetime.min
+                ) > datetime.now(timezone.utc).replace(
+                    tzinfo=None
+                ) - timezone.timedelta(
+                    minutes=5
+                ):
                     await dashboard.integrate_feedback(
                         decision_id=decision_id,
                         feedback_data={
@@ -438,8 +470,10 @@ async def submit_conversation_feedback(feedback: ConversationFeedback):
                             "user_id": feedback.user_id,
                             "type": feedback.feedback_type,
                             "content": feedback.content,
-                            "sentiment": feedback_system.feedback_items[feedback_id].processed_sentiment
-                        }
+                            "sentiment": feedback_system.feedback_items[
+                                feedback_id
+                            ].processed_sentiment,
+                        },
                     )
                     break
 
@@ -447,7 +481,7 @@ async def submit_conversation_feedback(feedback: ConversationFeedback):
             "success": True,
             "feedback_id": feedback_id,
             "message": "Feedback recorded and integrated",
-            "impact": "Your feedback will influence future interactions"
+            "impact": "Your feedback will influence future interactions",
         }
 
     except Exception as e:
@@ -459,7 +493,7 @@ async def submit_conversation_feedback(feedback: ConversationFeedback):
 async def get_dashboard_data(request: DashboardRequest):
     """
     Get unified dashboard data showing decisions and feedback.
-    
+
     Shows how user feedback influences AI decisions over time.
     """
     try:
@@ -468,11 +502,12 @@ async def get_dashboard_data(request: DashboardRequest):
 
         # Calculate time range
         from datetime import timedelta
+
         time_ranges = {
             "1h": timedelta(hours=1),
             "24h": timedelta(hours=24),
             "7d": timedelta(days=7),
-            "30d": timedelta(days=30)
+            "30d": timedelta(days=30),
         }
 
         time_delta = time_ranges.get(request.time_range, timedelta(hours=1))
@@ -483,7 +518,7 @@ async def get_dashboard_data(request: DashboardRequest):
             "modules": {},
             "decisions": [],
             "feedback_summary": {},
-            "system_health": await dashboard.get_status()
+            "system_health": await dashboard.get_status(),
         }
 
         # Get module statuses
@@ -493,21 +528,31 @@ async def get_dashboard_data(request: DashboardRequest):
         # Get recent decisions
         if request.include_decisions:
             for decision_id, decision in dashboard.decisions.items():
-                if decision.get("timestamp", datetime.min) > start_time.replace(tzinfo=None):
+                if decision.get("timestamp", datetime.min) > start_time.replace(
+                    tzinfo=None
+                ):
                     # Add feedback influence info
                     if "feedback_references" in decision:
                         decision["feedback_influence"] = {
                             "count": len(decision["feedback_references"]),
-                            "impact": "high" if len(decision["feedback_references"]) > 2 else "moderate"
+                            "impact": (
+                                "high"
+                                if len(decision["feedback_references"]) > 2
+                                else "moderate"
+                            ),
                         }
 
-                    dashboard_data["decisions"].append({
-                        "id": decision_id,
-                        "type": decision.get("decision_type"),
-                        "confidence": decision.get("confidence"),
-                        "timestamp": decision.get("timestamp"),
-                        "feedback_influence": decision.get("feedback_influence", {})
-                    })
+                    dashboard_data["decisions"].append(
+                        {
+                            "id": decision_id,
+                            "type": decision.get("decision_type"),
+                            "confidence": decision.get("confidence"),
+                            "timestamp": decision.get("timestamp"),
+                            "feedback_influence": decision.get(
+                                "feedback_influence", {}
+                            ),
+                        }
+                    )
 
         # Get feedback summary
         if request.include_feedback and feedback_system:
@@ -523,11 +568,11 @@ async def get_dashboard_data(request: DashboardRequest):
                         {
                             "timestamp": f.timestamp.isoformat(),
                             "type": f.feedback_type.value,
-                            "sentiment": f.processed_sentiment
+                            "sentiment": f.processed_sentiment,
                         }
                         for f in user_feedback[:5]
                     ],
-                    "satisfaction_trend": _calculate_satisfaction_trend(user_feedback)
+                    "satisfaction_trend": _calculate_satisfaction_trend(user_feedback),
                 }
             else:
                 # Overall feedback metrics
@@ -536,13 +581,15 @@ async def get_dashboard_data(request: DashboardRequest):
         # Add interpretability insights
         dashboard_data["insights"] = {
             "feedback_driven_decisions": sum(
-                1 for d in dashboard_data["decisions"]
+                1
+                for d in dashboard_data["decisions"]
                 if d.get("feedback_influence", {}).get("count", 0) > 0
             ),
             "average_confidence": sum(
                 d.get("confidence", 0) for d in dashboard_data["decisions"]
-            ) / max(len(dashboard_data["decisions"]), 1),
-            "top_decision_types": _get_top_decision_types(dashboard_data["decisions"])
+            )
+            / max(len(dashboard_data["decisions"]), 1),
+            "top_decision_types": _get_top_decision_types(dashboard_data["decisions"]),
         }
 
         return dashboard_data
@@ -556,7 +603,7 @@ async def get_dashboard_data(request: DashboardRequest):
 async def export_session_with_feedback(session_id: str):
     """
     Export complete session data including conversations and feedback.
-    
+
     Shows the full interaction history with feedback integration.
     """
     try:
@@ -566,7 +613,7 @@ async def export_session_with_feedback(session_id: str):
             "conversation": None,
             "feedback": [],
             "decisions": [],
-            "insights": {}
+            "insights": {},
         }
 
         # Get conversation history
@@ -576,7 +623,7 @@ async def export_session_with_feedback(session_id: str):
                 "user_id": context.user_id,
                 "turns": context.turns,
                 "topics": context.topics,
-                "emotional_journey": context.emotional_state
+                "emotional_journey": context.emotional_state,
             }
 
         # Get related feedback
@@ -589,22 +636,32 @@ async def export_session_with_feedback(session_id: str):
         if dashboard:
             for decision_id, decision in dashboard.decisions.items():
                 if decision.get("input_data", {}).get("session_id") == session_id:
-                    export_data["decisions"].append({
-                        "id": decision_id,
-                        "type": decision.get("decision_type"),
-                        "reasoning": decision.get("reasoning_steps"),
-                        "confidence": decision.get("confidence"),
-                        "feedback_integrated": len(decision.get("feedback_references", [])) > 0
-                    })
+                    export_data["decisions"].append(
+                        {
+                            "id": decision_id,
+                            "type": decision.get("decision_type"),
+                            "reasoning": decision.get("reasoning_steps"),
+                            "confidence": decision.get("confidence"),
+                            "feedback_integrated": len(
+                                decision.get("feedback_references", [])
+                            )
+                            > 0,
+                        }
+                    )
 
         # Generate insights
         export_data["insights"] = {
-            "total_interactions": len(export_data["conversation"]["turns"]) if export_data["conversation"] else 0,
+            "total_interactions": (
+                len(export_data["conversation"]["turns"])
+                if export_data["conversation"]
+                else 0
+            ),
             "feedback_given": len(export_data["feedback"]),
             "decisions_made": len(export_data["decisions"]),
             "feedback_influence_rate": sum(
                 1 for d in export_data["decisions"] if d["feedback_integrated"]
-            ) / max(len(export_data["decisions"]), 1)
+            )
+            / max(len(export_data["decisions"]), 1),
         }
 
         return export_data
@@ -618,7 +675,7 @@ async def export_session_with_feedback(session_id: str):
 async def get_feedback_influence(user_id: str):
     """
     Show how a user's feedback has influenced AI decisions.
-    
+
     Demonstrates the "LUKHAS made this decision because..." concept.
     """
     try:
@@ -627,14 +684,18 @@ async def get_feedback_influence(user_id: str):
             "total_feedback_given": 0,
             "decisions_influenced": 0,
             "influence_examples": [],
-            "impact_score": 0.0
+            "impact_score": 0.0,
         }
 
         if not feedback_system or not dashboard:
-            raise HTTPException(status_code=503, detail="Required services not available")
+            raise HTTPException(
+                status_code=503, detail="Required services not available"
+            )
 
         # Get user's feedback history
-        user_feedback = await feedback_system.get_user_feedback_history(user_id, limit=100)
+        user_feedback = await feedback_system.get_user_feedback_history(
+            user_id, limit=100
+        )
         influence_data["total_feedback_given"] = len(user_feedback)
 
         # Find decisions influenced by this user's feedback
@@ -647,23 +708,32 @@ async def get_feedback_influence(user_id: str):
 
                     # Create influence example
                     feedback_item = next(
-                        (f for f in user_feedback if f.feedback_id == ref.get("feedback_id")),
-                        None
+                        (
+                            f
+                            for f in user_feedback
+                            if f.feedback_id == ref.get("feedback_id")
+                        ),
+                        None,
                     )
 
                     if feedback_item and len(influence_data["influence_examples"]) < 5:
-                        influence_data["influence_examples"].append({
-                            "decision_made": decision.get("output", {}).get("summary", "Decision made"),
-                            "because": f"On {feedback_item.timestamp.strftime('%B %d at %H:%M')}, you {_describe_feedback(feedback_item)}",
-                            "decision_type": decision.get("decision_type"),
-                            "confidence_boost": 0.1  # Simulated confidence boost from feedback
-                        })
+                        influence_data["influence_examples"].append(
+                            {
+                                "decision_made": decision.get("output", {}).get(
+                                    "summary", "Decision made"
+                                ),
+                                "because": f"On {feedback_item.timestamp.strftime('%B %d at %H:%M')}, you {_describe_feedback(feedback_item)}",
+                                "decision_type": decision.get("decision_type"),
+                                "confidence_boost": 0.1,  # Simulated confidence boost from feedback
+                            }
+                        )
 
         # Calculate impact score
         if influence_data["total_feedback_given"] > 0:
             influence_data["impact_score"] = min(
-                influence_data["decisions_influenced"] / influence_data["total_feedback_given"],
-                1.0
+                influence_data["decisions_influenced"]
+                / influence_data["total_feedback_given"],
+                1.0,
             )
 
         return influence_data
@@ -707,10 +777,7 @@ def _get_top_decision_types(decisions):
     types = [d.get("type", "unknown") for d in decisions]
     counter = Counter(types)
 
-    return [
-        {"type": dtype, "count": count}
-        for dtype, count in counter.most_common(3)
-    ]
+    return [{"type": dtype, "count": count} for dtype, count in counter.most_common(3)]
 
 
 def _describe_feedback(feedback_item):
@@ -739,8 +806,8 @@ async def health_check():
         "services": {
             "consciousness": nl_interface and nl_interface.operational,
             "feedback": feedback_system and feedback_system.operational,
-            "dashboard": dashboard and dashboard.operational
-        }
+            "dashboard": dashboard and dashboard.operational,
+        },
     }
 
     # Overall status
@@ -754,9 +821,4 @@ if __name__ == "__main__":
     import uvicorn
 
     # Run the integrated API
-    uvicorn.run(
-        app,
-        host="0.0.0.0",
-        port=8080,
-        log_level="info"
-    )
+    uvicorn.run(app, host="0.0.0.0", port=8080, log_level="info")

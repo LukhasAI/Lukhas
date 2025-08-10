@@ -62,7 +62,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 from uuid import uuid4
 
 import numpy as np
@@ -152,7 +152,7 @@ class CausalConstraint(Enum):
 class HyperspaceVector:
     """Multidimensional vector in hyperspace"""
 
-    dimensions: Dict[str, float] = field(default_factory=dict)
+    dimensions: dict[str, float] = field(default_factory=dict)
     magnitude: float = 0.0
     phase: float = 0.0
     uncertainty: float = 0.0
@@ -208,21 +208,21 @@ class TimelineBranch:
 
     # Hyperspace position and trajectory
     current_position: HyperspaceVector = field(default_factory=HyperspaceVector)
-    trajectory: List[HyperspaceVector] = field(default_factory=list)
+    trajectory: list[HyperspaceVector] = field(default_factory=list)
 
     # Decision and outcome tracking
-    decisions: List[Dict[str, Any]] = field(default_factory=list)
-    outcomes: List[Dict[str, Any]] = field(default_factory=list)
+    decisions: list[dict[str, Any]] = field(default_factory=list)
+    outcomes: list[dict[str, Any]] = field(default_factory=list)
 
     # Constraints and violations
-    constraints: List[CausalConstraint] = field(default_factory=list)
-    violations: List[str] = field(default_factory=list)
+    constraints: list[CausalConstraint] = field(default_factory=list)
+    violations: list[str] = field(default_factory=list)
 
     # Metadata and context
-    context: Dict[str, Any] = field(default_factory=dict)
-    tags: List[str] = field(default_factory=list)
+    context: dict[str, Any] = field(default_factory=dict)
+    tags: list[str] = field(default_factory=list)
 
-    def add_decision(self, decision: Dict[str, Any]) -> None:
+    def add_decision(self, decision: dict[str, Any]) -> None:
         """Add a decision point to this timeline"""
         decision["timestamp"] = datetime.now(timezone.utc).isoformat()
         decision["branch_id"] = self.branch_id
@@ -239,7 +239,7 @@ class TimelineBranch:
             confidence=self.confidence,
         )
 
-    def add_outcome(self, outcome: Dict[str, Any]) -> None:
+    def add_outcome(self, outcome: dict[str, Any]) -> None:
         """Add an outcome to this timeline"""
         outcome["timestamp"] = datetime.now(timezone.utc).isoformat()
         outcome["branch_id"] = self.branch_id
@@ -256,7 +256,7 @@ class TimelineBranch:
             probability=self.probability,
         )
 
-    def check_constraints(self) -> List[str]:
+    def check_constraints(self) -> list[str]:
         """Check for constraint violations"""
         violations = []
 
@@ -301,9 +301,9 @@ class SimulationScenario:
     cultural_context: CulturalContext = CulturalContext.UNIVERSAL
 
     # Timeline management
-    timelines: Dict[str, TimelineBranch] = field(default_factory=dict)
+    timelines: dict[str, TimelineBranch] = field(default_factory=dict)
     root_timeline: str = ""
-    active_timelines: Set[str] = field(default_factory=set)
+    active_timelines: set[str] = field(default_factory=set)
 
     # Simulation parameters
     max_timeline_depth: int = 10
@@ -312,8 +312,8 @@ class SimulationScenario:
 
     # Results and analysis
     optimal_timeline: Optional[str] = None
-    convergence_points: List[Dict[str, Any]] = field(default_factory=list)
-    analysis_results: Dict[str, Any] = field(default_factory=dict)
+    convergence_points: list[dict[str, Any]] = field(default_factory=list)
+    analysis_results: dict[str, Any] = field(default_factory=dict)
 
     # Metadata
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -346,7 +346,7 @@ class SimulationScenario:
         return True
 
     def branch_timeline(
-        self, parent_id: str, branching_decision: Dict[str, Any]
+        self, parent_id: str, branching_decision: dict[str, Any]
     ) -> Optional[str]:
         """Create a new branch from an existing timeline"""
         if parent_id not in self.timelines:
@@ -448,8 +448,8 @@ class HyperspaceDreamSimulator:
         self.tokens_used = 0  # JULES05_NOTE: Loop-safe guard added
 
         # Scenario management
-        self.active_scenarios: Dict[str, SimulationScenario] = {}
-        self.scenario_history: List[str] = []
+        self.active_scenarios: dict[str, SimulationScenario] = {}
+        self.scenario_history: list[str] = []
 
         # Integration components (loaded asynchronously)
         self.dream_feedback_propagator: Optional[DreamFeedbackPropagator] = None
@@ -522,7 +522,7 @@ class HyperspaceDreamSimulator:
         description: str,
         simulation_type: SimulationType = SimulationType.STRATEGIC_PLANNING,
         cultural_context: CulturalContext = CulturalContext.UNIVERSAL,
-        initial_context: Dict[str, Any] = None,
+        initial_context: dict[str, Any] = None,
     ) -> str:
         """Create a new simulation scenario"""
 
@@ -575,10 +575,10 @@ class HyperspaceDreamSimulator:
         self,
         scenario_id: str,
         timeline_id: str,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         explore_alternatives: bool = True,
         recursion_depth: int = 0,
-    ) -> List[str]:  # JULES05_NOTE: Loop-safe guard added
+    ) -> list[str]:  # JULES05_NOTE: Loop-safe guard added
         """Simulate a decision and explore alternative outcomes"""
 
         # JULES05_NOTE: Loop-safe guard added
@@ -753,10 +753,10 @@ class HyperspaceDreamSimulator:
 
     async def _generate_outcomes(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         timeline: TimelineBranch,
         scenario: SimulationScenario,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generate possible outcomes for a decision"""
 
         decision_type = decision.get("type", "general")
@@ -816,8 +816,8 @@ class HyperspaceDreamSimulator:
         return outcomes
 
     def _estimate_emotional_impact(
-        self, decision: Dict[str, Any], outcome_type: str
-    ) -> Dict[str, float]:
+        self, decision: dict[str, Any], outcome_type: str
+    ) -> dict[str, float]:
         """Estimate emotional impact of a decision outcome"""
         base_impact = {"valence": 0.0, "arousal": 0.0, "dominance": 0.0}
 
@@ -842,8 +842,8 @@ class HyperspaceDreamSimulator:
         return base_impact
 
     def _extract_emotional_context(
-        self, outcomes: List[Dict[str, Any]]
-    ) -> Dict[str, float]:
+        self, outcomes: list[dict[str, Any]]
+    ) -> dict[str, float]:
         """Extract emotional context from outcomes"""
         if not outcomes:
             return {}
@@ -868,8 +868,8 @@ class HyperspaceDreamSimulator:
     async def _update_hyperspace_position(
         self,
         timeline: TimelineBranch,
-        decision: Dict[str, Any],
-        outcomes: List[Dict[str, Any]],
+        decision: dict[str, Any],
+        outcomes: list[dict[str, Any]],
     ):
         """Update timeline's position in hyperspace based on decision and outcomes"""
 
@@ -909,7 +909,7 @@ class HyperspaceDreamSimulator:
             uncertainty=timeline.current_position.uncertainty,
         )
 
-    async def analyze_scenario(self, scenario_id: str) -> Dict[str, Any]:
+    async def analyze_scenario(self, scenario_id: str) -> dict[str, Any]:
         """Analyze completed or ongoing scenario"""
 
         if scenario_id not in self.active_scenarios:
@@ -974,7 +974,7 @@ class HyperspaceDreamSimulator:
 
         return analysis_results
 
-    def _analyze_convergence(self, scenario: SimulationScenario) -> Dict[str, Any]:
+    def _analyze_convergence(self, scenario: SimulationScenario) -> dict[str, Any]:
         """Analyze convergence patterns in timeline branches"""
         # ΛTODO: Implement sophisticated convergence analysis
         # AIDEA: Use clustering algorithms to identify convergence points
@@ -1018,10 +1018,9 @@ class HyperspaceDreamSimulator:
             ),
         }
 
-    def _analyze_risks(self, scenario: SimulationScenario) -> Dict[str, Any]:
+    def _analyze_risks(self, scenario: SimulationScenario) -> dict[str, Any]:
         """Analyze risks across timeline branches"""
 
-        risk_factors = []
         high_risk_timelines = []
 
         for timeline_id, timeline in scenario.timelines.items():
@@ -1093,7 +1092,7 @@ class HyperspaceDreamSimulator:
 
     def _generate_recommendations(
         self, scenario: SimulationScenario, optimal_timeline_id: Optional[str]
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate recommendations based on scenario analysis"""
 
         recommendations = []
@@ -1137,7 +1136,7 @@ class HyperspaceDreamSimulator:
 
         return recommendations
 
-    async def complete_scenario(self, scenario_id: str) -> Dict[str, Any]:
+    async def complete_scenario(self, scenario_id: str) -> dict[str, Any]:
         """Complete and archive a scenario"""
 
         if scenario_id not in self.active_scenarios:
@@ -1202,7 +1201,7 @@ class HyperspaceDreamSimulator:
 
         return final_analysis
 
-    def get_scenario_status(self, scenario_id: str) -> Dict[str, Any]:
+    def get_scenario_status(self, scenario_id: str) -> dict[str, Any]:
         """Get current status of a scenario"""
 
         if scenario_id not in self.active_scenarios:
@@ -1236,7 +1235,7 @@ class HyperspaceDreamSimulator:
             ],  # Last 5 activities
         }
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get overall HDS system status"""
 
         return {
@@ -1259,11 +1258,11 @@ class HyperspaceDreamSimulator:
 
     def _profile_decision_tokens(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         token_cost: float,
         scenario_id: str,
         timeline_id: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Profiles token usage for decision processing with symbolic reasoning analysis.
 
@@ -1304,11 +1303,11 @@ class HyperspaceDreamSimulator:
 
     def _profile_outcome_tokens(
         self,
-        outcome: Dict[str, Any],
+        outcome: dict[str, Any],
         token_cost: float,
         scenario_id: str,
         timeline_id: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Profiles token usage for outcome generation with complexity analysis.
         """
@@ -1346,7 +1345,7 @@ class HyperspaceDreamSimulator:
         warning_type: str,
         scenario_id: str,
         timeline_id: str,
-        token_profile: Dict[str, Any],
+        token_profile: dict[str, Any],
     ) -> None:
         """
         Emits token usage warnings to dedicated monitoring system.
@@ -1414,7 +1413,7 @@ class HyperspaceDreamSimulator:
         else:
             return "OPTIMAL_RESOURCE_USAGE"
 
-    def _log_token_warning(self, warning_data: Dict[str, Any]) -> None:
+    def _log_token_warning(self, warning_data: dict[str, Any]) -> None:
         """
         Logs token warnings to dedicated monitoring file.
         """
@@ -1435,7 +1434,7 @@ class HyperspaceDreamSimulator:
                 f"ΛHDS_TOKEN_LOG_FAILED: Could not log token warning. error={str(e)}"
             )
 
-    def get_token_usage_report(self) -> Dict[str, Any]:
+    def get_token_usage_report(self) -> dict[str, Any]:
         """
         Generates comprehensive token usage report for analysis.
         """
@@ -1513,7 +1512,7 @@ class HyperspaceDreamSimulator:
 
         return report
 
-    def _analyze_symbolic_reasons(self) -> Dict[str, int]:
+    def _analyze_symbolic_reasons(self) -> dict[str, int]:
         """Analyzes frequency of symbolic reasons for token consumption."""
         reason_counts = {}
 
@@ -1544,9 +1543,9 @@ async def get_hds() -> HyperspaceDreamSimulator:
 # Convenience function for quick simulations
 async def quick_scenario_simulation(
     name: str,
-    decision_sequence: List[Dict[str, Any]],
+    decision_sequence: list[dict[str, Any]],
     simulation_type: SimulationType = SimulationType.STRATEGIC_PLANNING,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Run a quick scenario simulation with a sequence of decisions"""
 
     hds = await get_hds()

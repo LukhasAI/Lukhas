@@ -12,8 +12,6 @@ Suppresses: Pain, stress
 # ΛORIGIN_AGENT: Jules-04
 """
 
-from typing import Dict
-
 
 # LUKHAS_TAG: hormonal_feedback
 class ResilienceBoost:
@@ -27,8 +25,8 @@ class ResilienceBoost:
 
 
 def weight_modulator(
-    signal_type: str, affect_vector: Dict[str, float]
-) -> Dict[str, float]:
+    signal_type: str, affect_vector: dict[str, float]
+) -> dict[str, float]:
     """
     Modulates the weights of the symbolic hormones based on the signal type and affect vector.
 

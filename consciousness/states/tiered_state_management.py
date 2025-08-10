@@ -32,18 +32,13 @@ from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum
 from threading import RLock
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Optional
 
 from core.common import get_logger
 
 # Import dependencies
 try:
-    from .actor_system import ActorState as ActorSystemState
-    from .event_sourcing import Aggregate, Event, EventStore
-    from .lightweight_concurrency import (
-        LightweightActor,
-        MemoryEfficientScheduler,
-    )
+    from .event_sourcing import Event
 
     DEPENDENCIES_AVAILABLE = True
 except ImportError:
@@ -56,8 +51,8 @@ except ImportError:
         event_id: str
         event_type: str
         aggregate_id: str
-        data: Dict[str, Any]
-        metadata: Dict[str, Any]
+        data: dict[str, Any]
+        metadata: dict[str, Any]
         timestamp: float
         version: int
         correlation_id: Optional[str] = None
@@ -93,11 +88,11 @@ class StateSnapshot:
     snapshot_id: str
     aggregate_id: str
     version: int
-    state_data: Dict[str, Any]
+    state_data: dict[str, Any]
     timestamp: float
     state_type: StateType
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "snapshot_id": self.snapshot_id,
             "aggregate_id": self.aggregate_id,
@@ -113,23 +108,21 @@ class StateAggregator(ABC):
 
     @abstractmethod
     def aggregate(
-        self, events: List[Event], initial_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, events: list[Event], initial_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """Aggregate events into state"""
-        pass
 
     @abstractmethod
     def can_handle(self, event_type: str) -> bool:
         """Check if aggregator can handle event type"""
-        pass
 
 
 class DefaultStateAggregator(StateAggregator):
     """Default aggregation strategy applying events sequentially"""
 
     def aggregate(
-        self, events: List[Event], initial_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, events: list[Event], initial_state: dict[str, Any]
+    ) -> dict[str, Any]:
         state = initial_state.copy()
 
         for event in events:
@@ -178,20 +171,20 @@ class TieredStateManager:
         self.snapshot_interval = snapshot_interval
 
         # State storage
-        self.local_states: Dict[str, Dict[str, Any]] = {}
-        self.state_cache: Dict[str, Tuple[Dict[str, Any], float]] = {}
-        self.snapshots: Dict[str, StateSnapshot] = {}
+        self.local_states: dict[str, dict[str, Any]] = {}
+        self.state_cache: dict[str, tuple[dict[str, Any], float]] = {}
+        self.snapshots: dict[str, StateSnapshot] = {}
 
         # Aggregators
-        self.aggregators: List[StateAggregator] = [DefaultStateAggregator()]
+        self.aggregators: list[StateAggregator] = [DefaultStateAggregator()]
 
         # Synchronization
         self._lock = RLock()
-        self._event_counter: Dict[str, int] = defaultdict(int)
+        self._event_counter: dict[str, int] = defaultdict(int)
 
         # Replication management
-        self.replicated_state: Dict[str, Dict[str, Any]] = {}
-        self.replication_subscribers: Dict[str, Set[Callable]] = defaultdict(set)
+        self.replicated_state: dict[str, dict[str, Any]] = {}
+        self.replication_subscribers: dict[str, set[Callable]] = defaultdict(set)
 
         # Statistics
         self.stats = {
@@ -211,7 +204,7 @@ class TieredStateManager:
         state_type: StateType = StateType.GLOBAL_PERSISTENT,
         consistency: ConsistencyLevel = ConsistencyLevel.EVENTUAL,
         version: Optional[int] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Retrieve state for an aggregate with specified consistency level.
         """
@@ -245,10 +238,10 @@ class TieredStateManager:
     async def update_state(
         self,
         aggregate_id: str,
-        updates: Dict[str, Any],
+        updates: dict[str, Any],
         state_type: StateType = StateType.GLOBAL_PERSISTENT,
         event_type: str = "state_updated",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> bool:
         """
         Update state with the specified changes.
@@ -360,13 +353,13 @@ class TieredStateManager:
                 )
 
     def subscribe_to_replicated_state(
-        self, aggregate_id: str, callback: Callable[[str, Dict[str, Any]], None]
+        self, aggregate_id: str, callback: Callable[[str, dict[str, Any]], None]
     ) -> None:
         """Subscribe to changes in replicated state"""
         self.replication_subscribers[aggregate_id].add(callback)
 
     def unsubscribe_from_replicated_state(
-        self, aggregate_id: str, callback: Callable[[str, Dict[str, Any]], None]
+        self, aggregate_id: str, callback: Callable[[str, dict[str, Any]], None]
     ) -> None:
         """Unsubscribe from replicated state changes"""
         if aggregate_id in self.replication_subscribers:
@@ -374,7 +367,7 @@ class TieredStateManager:
 
     async def _reconstruct_from_events(
         self, aggregate_id: str, version: Optional[int], consistency: ConsistencyLevel
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Reconstruct state from event history"""
         if not self.event_store:
             return {}
@@ -442,7 +435,7 @@ class TieredStateManager:
             await self.create_snapshot(aggregate_id)
 
     async def _notify_replication_subscribers(
-        self, aggregate_id: str, updates: Dict[str, Any]
+        self, aggregate_id: str, updates: dict[str, Any]
     ) -> None:
         """Notify subscribers of replicated state changes"""
         subscribers = self.replication_subscribers.get(aggregate_id, set()).copy()
@@ -462,7 +455,7 @@ class TieredStateManager:
             self._event_counter[aggregate_id] += 1
             return self._event_counter[aggregate_id]
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get state management statistics"""
         with self._lock:
             return {
@@ -483,8 +476,8 @@ class StateCoordinator:
 
     def __init__(self, state_manager: TieredStateManager):
         self.state_manager = state_manager
-        self.actor_states: Dict[str, str] = {}  # actor_id -> aggregate_id mapping
-        self._sync_tasks: Dict[str, asyncio.Task] = {}
+        self.actor_states: dict[str, str] = {}  # actor_id -> aggregate_id mapping
+        self._sync_tasks: dict[str, asyncio.Task] = {}
 
     async def register_actor(
         self, actor: Any, aggregate_id: Optional[str] = None, auto_sync: bool = True
@@ -533,8 +526,8 @@ class StateCoordinator:
 
     async def coordinate_transaction(
         self,
-        actor_ids: List[str],
-        updates: Dict[str, Dict[str, Any]],
+        actor_ids: list[str],
+        updates: dict[str, dict[str, Any]],
         consistency: ConsistencyLevel = ConsistencyLevel.STRONG,
     ) -> bool:
         """
@@ -557,7 +550,7 @@ class StateCoordinator:
             return all(results)
 
     async def _two_phase_commit(
-        self, actor_ids: List[str], updates: Dict[str, Dict[str, Any]]
+        self, actor_ids: list[str], updates: dict[str, dict[str, Any]]
     ) -> bool:
         """Implement two-phase commit for strong consistency"""
         # Phase 1: Prepare
@@ -590,8 +583,8 @@ class CounterAggregator(StateAggregator):
     """Aggregator for counter-based state"""
 
     def aggregate(
-        self, events: List[Event], initial_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, events: list[Event], initial_state: dict[str, Any]
+    ) -> dict[str, Any]:
         state = initial_state.copy()
 
         for event in events:
@@ -613,8 +606,8 @@ class MetricsAggregator(StateAggregator):
     """Aggregator for metrics and statistics"""
 
     def aggregate(
-        self, events: List[Event], initial_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, events: list[Event], initial_state: dict[str, Any]
+    ) -> dict[str, Any]:
         state = initial_state.copy()
 
         for event in events:

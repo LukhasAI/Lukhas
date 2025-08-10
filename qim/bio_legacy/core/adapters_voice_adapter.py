@@ -8,7 +8,7 @@ Created: 2025-07-26
 """
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger("LUKHAS.VoiceBioAdapter")
 
@@ -51,8 +51,8 @@ class VoiceBioAdapter:
         logger.info("Voice adapter initialized with high-priority configuration")
 
     def process_audio_chunk(
-        self, audio_data: bytes, metadata: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, audio_data: bytes, metadata: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Process an audio chunk through the bio orchestrator.
 
@@ -64,7 +64,7 @@ class VoiceBioAdapter:
             Dict with processing results
         """
         # Prioritize voice processing
-        task_data = {
+        {
             "type": "voice_processing",
             "priority": self.voice_config["priority"].value,
             "data": audio_data,
@@ -109,7 +109,7 @@ class VoiceBioAdapter:
 
         logger.info("Optimized for real-time voice processing")
 
-    def get_voice_metrics(self) -> Dict[str, Any]:
+    def get_voice_metrics(self) -> dict[str, Any]:
         """Get voice-specific performance metrics"""
         base_metrics = self.orchestrator.get_system_status()
 

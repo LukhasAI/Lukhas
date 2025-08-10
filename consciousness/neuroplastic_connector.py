@@ -3,7 +3,7 @@ Neuroplastic Connector for CONSCIOUSNESS Module
 Auto-generated connector that integrates isolated components
 """
 
-from typing import Any, Dict
+from typing import Any
 
 from core.common import get_logger
 
@@ -26,7 +26,7 @@ class ConsciousnessConnector:
         """Emit hormone signal for neuroplastic response"""
         self.hormone_tags[hormone] = intensity
 
-    def get_stress_response(self) -> Dict[str, float]:
+    def get_stress_response(self) -> dict[str, float]:
         """Get current stress hormones for neuroplastic reorganization"""
         return {
             "cortisol": self.hormone_tags.get("cortisol", 0.0),
@@ -40,10 +40,8 @@ connector = ConsciousnessConnector()
 
 # Auto-import isolated components
 try:
-    from .connected.cognitive_sync_adapter import *
-    from .connected.cognitive_updater import *
+    pass
 
     # Components will be added here during consolidation
-    pass
 except ImportError as e:
     logger.warning(f"Failed to import some CONSCIOUSNESS components: {e}")

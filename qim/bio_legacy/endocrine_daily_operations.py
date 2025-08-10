@@ -50,7 +50,7 @@ import asyncio
 import logging
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 from core.bio_systems import BioSimulationController
 from core.bio_systems.endocrine_integration import EndocrineIntegration
@@ -87,9 +87,9 @@ class EnhancedDailyOperations:
     def __init__(self, bio_controller: BioSimulationController):
         self.bio_controller = bio_controller
         self.endocrine_integration = EndocrineIntegration(bio_controller)
-        self.task_queue: List[Dict[str, Any]] = []
-        self.active_tasks: List[Dict[str, Any]] = []
-        self.completed_tasks: List[Dict[str, Any]] = []
+        self.task_queue: list[dict[str, Any]] = []
+        self.active_tasks: list[dict[str, Any]] = []
+        self.completed_tasks: list[dict[str, Any]] = []
         self.operational = False
 
         # Performance metrics
@@ -191,8 +191,8 @@ class EnhancedDailyOperations:
             await asyncio.sleep(60)  # Adapt every minute
 
     def _select_suitable_tasks(
-        self, cognitive_state: Dict[str, Any], rhythm_phase: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, cognitive_state: dict[str, Any], rhythm_phase: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Select tasks suitable for current hormonal state."""
         suitable_tasks = []
         optimal_task_types = self._get_optimal_task_types(cognitive_state)
@@ -216,9 +216,9 @@ class EnhancedDailyOperations:
 
     def _calculate_task_suitability(
         self,
-        task: Dict[str, Any],
-        cognitive_state: Dict[str, Any],
-        optimal_types: List[TaskType],
+        task: dict[str, Any],
+        cognitive_state: dict[str, Any],
+        optimal_types: list[TaskType],
     ) -> float:
         """Calculate how suitable a task is for current state."""
         base_suitability = 0.5
@@ -249,8 +249,8 @@ class EnhancedDailyOperations:
         return max(0, min(1, base_suitability))
 
     def _get_optimal_task_types(
-        self, cognitive_state: Dict[str, Any]
-    ) -> List[TaskType]:
+        self, cognitive_state: dict[str, Any]
+    ) -> list[TaskType]:
         """Determine optimal task types for current hormonal state."""
         optimal_types = []
 
@@ -293,7 +293,7 @@ class EnhancedDailyOperations:
         return requirements.get(task_type, 0.5)
 
     def _can_start_task(
-        self, task: Dict[str, Any], cognitive_state: Dict[str, Any]
+        self, task: dict[str, Any], cognitive_state: dict[str, Any]
     ) -> bool:
         """Determine if a task can be started."""
         # Check resource availability
@@ -313,7 +313,7 @@ class EnhancedDailyOperations:
 
         return True
 
-    def _get_max_concurrent_tasks(self, cognitive_state: Dict[str, Any]) -> int:
+    def _get_max_concurrent_tasks(self, cognitive_state: dict[str, Any]) -> int:
         """Get maximum concurrent tasks based on cognitive state."""
         base_capacity = 3
 
@@ -324,7 +324,7 @@ class EnhancedDailyOperations:
         capacity = base_capacity * focus_factor * (1 - stress_penalty)
         return max(1, int(capacity))
 
-    async def _start_task(self, task: Dict[str, Any]):
+    async def _start_task(self, task: dict[str, Any]):
         """Start a task with hormonal enhancement."""
         task["start_time"] = datetime.now()
         task["hormonal_state"] = self.bio_controller.get_cognitive_state()
@@ -337,7 +337,7 @@ class EnhancedDailyOperations:
         # Simulate task execution
         await self._execute_task(task)
 
-    async def _execute_task(self, task: Dict[str, Any]):
+    async def _execute_task(self, task: dict[str, Any]):
         """Execute a task with hormonal modulation."""
         # Get performance modulation
         modulation = self._get_task_performance_modulation(task)
@@ -361,8 +361,8 @@ class EnhancedDailyOperations:
         await self._complete_task(task, modulation)
 
     def _get_task_performance_modulation(
-        self, task: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, task: dict[str, Any]
+    ) -> dict[str, float]:
         """Get performance modulation factors for task execution."""
         task_system_map = {
             TaskType.ANALYTICAL: "consciousness",
@@ -397,7 +397,7 @@ class EnhancedDailyOperations:
 
         return {"speed_factor": speed_factor, "quality_factor": quality_factor}
 
-    async def _complete_task(self, task: Dict[str, Any], modulation: Dict[str, float]):
+    async def _complete_task(self, task: dict[str, Any], modulation: dict[str, float]):
         """Complete a task and update metrics."""
         task["end_time"] = datetime.now()
         task["duration"] = (task["end_time"] - task["start_time"]).total_seconds()
@@ -419,7 +419,7 @@ class EnhancedDailyOperations:
                 f"Task completed: {task['name']} (quality: {task['quality_score']:.2f})"
             )
 
-    def _calculate_performance(self) -> Dict[str, float]:
+    def _calculate_performance(self) -> dict[str, float]:
         """Calculate current performance metrics."""
         if not self.completed_tasks:
             return {"efficiency": 0.5, "quality": 0.5, "throughput": 0}
@@ -445,7 +445,7 @@ class EnhancedDailyOperations:
             "throughput": throughput,
         }
 
-    def _detect_burnout_risk(self, cognitive_state: Dict[str, Any]) -> bool:
+    def _detect_burnout_risk(self, cognitive_state: dict[str, Any]) -> bool:
         """Detect risk of burnout from hormonal patterns."""
         return (
             cognitive_state["stress_level"] > 0.7
@@ -453,7 +453,7 @@ class EnhancedDailyOperations:
             and cognitive_state["mood"] < 0.4
         )
 
-    def _detect_understimulation(self, cognitive_state: Dict[str, Any]) -> bool:
+    def _detect_understimulation(self, cognitive_state: dict[str, Any]) -> bool:
         """Detect understimulation from hormonal patterns."""
         return (
             cognitive_state["stress_level"] < 0.2
@@ -499,7 +499,7 @@ class EnhancedDailyOperations:
 
     # Callback handlers for hormonal states
 
-    def _handle_high_stress(self, hormones: Dict[str, float]):
+    def _handle_high_stress(self, hormones: dict[str, float]):
         """Handle high stress state."""
         logger.warning("High stress state detected")
         self.metrics["stress_incidents"] += 1
@@ -514,7 +514,7 @@ class EnhancedDailyOperations:
                 self.active_tasks.remove(lowest_priority_task)
                 self.task_queue.insert(0, lowest_priority_task)
 
-    def _handle_optimal_state(self, hormones: Dict[str, float]):
+    def _handle_optimal_state(self, hormones: dict[str, float]):
         """Handle optimal performance state."""
         logger.info("Optimal performance state achieved")
         self.metrics["optimal_performance_periods"] += 1
@@ -523,7 +523,7 @@ class EnhancedDailyOperations:
         if any(t["priority"] == TaskPriority.HIGH for t in self.task_queue):
             logger.info("Prioritizing high-value tasks during optimal state")
 
-    def _handle_rest_needed(self, hormones: Dict[str, float]):
+    def _handle_rest_needed(self, hormones: dict[str, float]):
         """Handle rest needed state."""
         logger.info("Rest cycle needed")
 
@@ -533,7 +533,7 @@ class EnhancedDailyOperations:
             key=lambda t: 0 if t["priority"] == TaskPriority.MAINTENANCE else 1,
         )
 
-    def _handle_high_focus(self, hormones: Dict[str, float]):
+    def _handle_high_focus(self, hormones: dict[str, float]):
         """Handle high focus state."""
         logger.info("High focus state - optimizing for deep work")
 
@@ -564,7 +564,7 @@ class EnhancedDailyOperations:
         self.task_queue.append(task)
         logger.info(f"Task added: {name}")
 
-    def get_operational_status(self) -> Dict[str, Any]:
+    def get_operational_status(self) -> dict[str, Any]:
         """Get current operational status."""
         cognitive_state = self.bio_controller.get_cognitive_state()
         rhythm_phase = self.endocrine_integration.get_daily_rhythm_phase()

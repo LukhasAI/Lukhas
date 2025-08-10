@@ -4,7 +4,10 @@ Original: legacy_adapter.py
 Advanced: legacy_adapter.py
 Integration Date: 2025-05-31T07:55:29.984497
 """
+import uuid
 
+from typing import Any, Callable, Optional
+import logging
 import time
 
 """
@@ -14,8 +17,6 @@ Provides adapters and wrappers to help existing components communicate with
 the new UniversalIntegrationLayer while maintaining all functionality.
 """
 
-import logging
-from typing import Any, Callable, Optional
 
 logger = logging.getLogger("LegacyAdapter")
 

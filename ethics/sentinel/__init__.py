@@ -1,4 +1,3 @@
 """
 Sentinel Module
 """
-

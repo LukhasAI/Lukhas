@@ -14,6 +14,7 @@ snapshotting for efficient recovery and debugging of the actor system.
 """
 
 import asyncio
+import contextlib
 import gzip
 import hashlib
 import json
@@ -24,7 +25,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 
 import aiofiles
 
@@ -55,7 +56,7 @@ class Event:
     event_type: EventType
     actor_id: str
     timestamp: float
-    data: Dict[str, Any]
+    data: dict[str, Any]
     correlation_id: Optional[str] = None
     causation_id: Optional[str] = None  # ID of event that caused this one
 
@@ -98,7 +99,7 @@ class ActorStateSnapshot:
     event_id: str  # Event that triggered the snapshot
     state_data: bytes  # Pickled state
     state_hash: str  # For integrity verification
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
     @classmethod
     def create_from_actor(cls, actor: Actor, event_id: str) -> "ActorStateSnapshot":
@@ -165,8 +166,8 @@ class EventStore:
         self.memory_buffer: deque = deque(maxlen=max_memory_events)
 
         # Event indices for efficient queries
-        self.events_by_actor: Dict[str, List[Event]] = defaultdict(list)
-        self.events_by_correlation: Dict[str, List[Event]] = defaultdict(list)
+        self.events_by_actor: dict[str, list[Event]] = defaultdict(list)
+        self.events_by_correlation: dict[str, list[Event]] = defaultdict(list)
 
         # Persistence
         self.current_segment = 0
@@ -186,10 +187,8 @@ class EventStore:
         """Stop the event store"""
         if self._persist_task:
             self._persist_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._persist_task
-            except asyncio.CancelledError:
-                pass
 
         await self._flush_to_disk()
         logger.info("Event store stopped")
@@ -208,7 +207,7 @@ class EventStore:
         actor_id: str,
         start_time: Optional[float] = None,
         end_time: Optional[float] = None,
-    ) -> List[Event]:
+    ) -> list[Event]:
         """Get all events for a specific actor"""
         events = []
 
@@ -230,7 +229,7 @@ class EventStore:
 
         return sorted(events, key=lambda e: e.timestamp)
 
-    async def get_events_by_correlation(self, correlation_id: str) -> List[Event]:
+    async def get_events_by_correlation(self, correlation_id: str) -> list[Event]:
         """Get all events for a correlation ID"""
         with self._lock:
             memory_events = list(self.events_by_correlation.get(correlation_id, []))
@@ -243,7 +242,7 @@ class EventStore:
 
     async def replay_events(
         self,
-        events: List[Event],
+        events: list[Event],
         speed: float = 1.0,
         callback: Optional[Callable] = None,
     ) -> int:
@@ -303,7 +302,7 @@ class EventStore:
             await self._write_segment(self.current_segment, segment_events)
             self.current_segment += 1
 
-    async def _write_segment(self, segment_id: int, events: List[Event]):
+    async def _write_segment(self, segment_id: int, events: list[Event]):
         """Write a segment of events to disk"""
         filename = self.storage_path / f"events_{segment_id:08d}.jsonl"
 
@@ -338,7 +337,7 @@ class EventStore:
                     if event.correlation_id:
                         self.events_by_correlation[event.correlation_id].append(event)
 
-    async def _read_segment(self, filename: Path) -> List[Event]:
+    async def _read_segment(self, filename: Path) -> list[Event]:
         """Read a segment of events from disk"""
         events = []
 
@@ -360,7 +359,7 @@ class EventStore:
 
     async def _load_events_from_disk(
         self, actor_id: str, start_time: Optional[float], end_time: Optional[float]
-    ) -> List[Event]:
+    ) -> list[Event]:
         """Load events for an actor from disk"""
         events = []
 
@@ -382,7 +381,7 @@ class EventStore:
 
     async def _load_correlation_events_from_disk(
         self, correlation_id: str
-    ) -> List[Event]:
+    ) -> list[Event]:
         """Load events by correlation ID from disk"""
         events = []
 
@@ -404,7 +403,7 @@ class SnapshotStore:
         self.storage_path.mkdir(exist_ok=True)
 
         # Index of snapshots
-        self.snapshot_index: Dict[str, List[Tuple[float, str]]] = defaultdict(list)
+        self.snapshot_index: dict[str, list[tuple[float, str]]] = defaultdict(list)
         self._lock = threading.Lock()
 
         # Load existing snapshots
@@ -573,7 +572,7 @@ class EventSourcedActor(Actor):
         change_type: str,
         old_value: Any,
         new_value: Any,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ):
         """Record a state change event"""
         if self.event_store and not self.replay_mode:
@@ -663,7 +662,8 @@ class EventSourcedActor(Actor):
 
                 elif event.event_type == EventType.STATE_CHANGED:
                     # Apply state change
-                    # This is simplified - real implementation would be more sophisticated
+                    # This is simplified - real implementation would be more
+                    # sophisticated
                     logger.info(f"Replaying state change: {event.data}")
 
             count = await self.event_store.replay_events(events, speed, replay_callback)
@@ -689,7 +689,7 @@ class ReplayController:
 
     async def replay_scenario(
         self, correlation_id: str, speed: float = 1.0, isolated: bool = True
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Replay all events for a correlation ID"""
         # Get all events
         events = await self.event_store.get_events_by_correlation(correlation_id)
@@ -698,7 +698,7 @@ class ReplayController:
             return {"status": "error", "reason": "no_events_found"}
 
         # Find involved actors
-        involved_actors = set(e.actor_id for e in events)
+        involved_actors = {e.actor_id for e in events}
 
         # Create isolated environment if requested
         if isolated:
@@ -750,7 +750,7 @@ class ReplayController:
 
         # Take snapshots of all actors
         snapshot_tasks = []
-        for actor_id, actor in self.actor_system.actors.items():
+        for _actor_id, actor in self.actor_system.actors.items():
             if isinstance(actor, EventSourcedActor):
                 snapshot_tasks.append(actor.take_snapshot(checkpoint_id))
 

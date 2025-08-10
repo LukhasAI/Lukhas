@@ -181,7 +181,7 @@ except ImportError:
 def prompt_consent():
     print("Before proceeding, please confirm your consent to process this data.")
     consent = (
-        input("Do you agree to share this data for feedback, dream narration,
+        input("Do you agree to share this data for feedback, dream narration,"
               and voice synthesis? (yes / no): "
               )
         .strip()

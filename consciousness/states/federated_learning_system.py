@@ -77,7 +77,7 @@ import json
 import os
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Dict, Optional, Set  # Added Set
+from typing import Any, Optional  # Added Set
 
 import numpy as np
 
@@ -99,18 +99,19 @@ class LukhasFederatedModel:
 
     # # Initialization
     def __init__(
-        self, model_id: str, model_type: str, initial_parameters: Optional[Dict] = None
+        self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None
     ):
         # ΛNOTE: Initializes a federated model instance.
-        # ΛSEED: `initial_parameters` serve as the starting point (seed) for this model's learning.
+        # ΛSEED: `initial_parameters` serve as the starting point (seed) for this
+        # model's learning.
         self.model_id = model_id
         self.model_type = model_type
         self.parameters = initial_parameters or {}
         self.version = 1
         self.last_updated = datetime.datetime.now()
         self.contribution_count = 0
-        self.client_contributions: Set[str] = set()  # Type hint for clarity
-        self.performance_metrics: Dict[str, Any] = {}
+        self.client_contributions: set[str] = set()  # Type hint for clarity
+        self.performance_metrics: dict[str, Any] = {}
         self.lukhas_signature = (
             f"LUKHAS_{model_id}_{datetime.datetime.now().strftime('%Y%m%d')}"
         )
@@ -124,7 +125,7 @@ class LukhasFederatedModel:
     # # Update model parameters with gradients from a client
     # ΛEXPOSE: Core method for clients to contribute updates to the model.
     def update_with_gradients(
-        self, gradients: Dict, client_id: str, weight: float = 1.0
+        self, gradients: dict, client_id: str, weight: float = 1.0
     ) -> bool:
         """
         Update model parameters with gradients from a client
@@ -151,7 +152,9 @@ class LukhasFederatedModel:
 
         for param_name, grad_value in gradients.items():
             if param_name in self.parameters:
-                # ΛCAUTION: Simple additive update. Real-world scenarios might need more complex aggregation (e.g., for different types of parameters or averaging).
+                # ΛCAUTION: Simple additive update. Real-world scenarios might need more
+                # complex aggregation (e.g., for different types of parameters or
+                # averaging).
                 if (
                     isinstance(self.parameters[param_name], (int, float, np.number))
                     and isinstance(grad_value, (int, float, np.number))
@@ -160,7 +163,8 @@ class LukhasFederatedModel:
                 ):
                     self.parameters[param_name] += weight * grad_value
                 else:
-                    # ΛTRACE: Parameter type mismatch or unhandled type for gradient update
+                    # ΛTRACE: Parameter type mismatch or unhandled type for gradient
+                    # update
                     logger.warn(
                         "gradient_update_type_mismatch",
                         model_id=self.model_id,
@@ -196,7 +200,7 @@ class LukhasFederatedModel:
 
     # # Get model parameters
     # ΛEXPOSE: Allows clients or other systems to retrieve the current model state.
-    def get_parameters(self, client_id: Optional[str] = None) -> Dict:
+    def get_parameters(self, client_id: Optional[str] = None) -> dict:
         """
         Get model parameters, optionally customized for a specific client
 
@@ -225,7 +229,7 @@ class LukhasFederatedModel:
         }
 
     # # Serialize model for storage
-    def serialize(self) -> Dict:
+    def serialize(self) -> dict:
         """Serialize model for storage with LUKHAS metadata"""
         # ΛNOTE: Prepares the model data for JSON serialization.
         # ΛTRACE: Serializing model
@@ -233,7 +237,8 @@ class LukhasFederatedModel:
         return {
             "model_id": self.model_id,
             "model_type": self.model_type,
-            "parameters": self.parameters,  # Consider if parameters need special serialization (e.g., numpy arrays)
+            # Consider if parameters need special serialization (e.g., numpy arrays)
+            "parameters": self.parameters,
             "version": self.version,
             "last_updated": self.last_updated.isoformat(),
             "contribution_count": self.contribution_count,
@@ -242,12 +247,13 @@ class LukhasFederatedModel:
             ),  # Convert set to list
             "performance_metrics": self.performance_metrics,
             "lukhas_signature": self.lukhas_signature,
-            "lukhas_transferred": True,  # ΛNOTE: Indicates this model structure is LUKHAS specific.
+            # ΛNOTE: Indicates this model structure is LUKHAS specific.
+            "lukhas_transferred": True,
         }
 
     # # Deserialize model from stored data
     @classmethod
-    def deserialize(cls, data: Dict) -> "LukhasFederatedModel":
+    def deserialize(cls, data: dict) -> "LukhasFederatedModel":
         """Create model from serialized data"""
         # ΛNOTE: Reconstructs a model instance from its serialized form.
         # ΛTRACE: Deserializing model
@@ -277,7 +283,8 @@ class LukhasFederatedModel:
 
 
 # # LUKHAS Federated Learning Manager class
-# ΛEXPOSE: Manages the overall federated learning process across multiple models and clients.
+# ΛEXPOSE: Manages the overall federated learning process across multiple
+# models and clients.
 class LukhasFederatedLearningManager:
     """
     LUKHAS Federated Learning Manager
@@ -290,8 +297,8 @@ class LukhasFederatedLearningManager:
     def __init__(self, storage_dir: Optional[str] = None):
         # ΛNOTE: Sets up storage and initializes LUKHAS-specific metadata.
         # ΛSEED: `storage_dir` defines the root for all federated learning persistence.
-        self.models: Dict[str, LukhasFederatedModel] = {}
-        self.client_models: Dict[str, Set[str]] = defaultdict(set)
+        self.models: dict[str, LukhasFederatedModel] = {}
+        self.client_models: dict[str, set[str]] = defaultdict(set)
         self.aggregation_threshold = (
             3  # ΛNOTE: Min clients before (simulated) aggregation.
         )
@@ -321,7 +328,7 @@ class LukhasFederatedLearningManager:
     # # Register a new federated model
     # ΛEXPOSE: Entry point for creating new federated learning models.
     def register_model(
-        self, model_id: str, model_type: str, initial_parameters: Optional[Dict] = None
+        self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None
     ) -> LukhasFederatedModel:
         """
         Register a new model for federated learning in LUKHAS
@@ -358,7 +365,7 @@ class LukhasFederatedLearningManager:
     # ΛEXPOSE: Allows clients to retrieve models for local training.
     def get_model(
         self, model_id: str, client_id: Optional[str] = None
-    ) -> Optional[Dict]:
+    ) -> Optional[dict]:
         """
         Get model parameters for a LUKHAS client
 
@@ -393,9 +400,9 @@ class LukhasFederatedLearningManager:
     def contribute_gradients(
         self,
         model_id: str,
-        gradients: Dict,
+        gradients: dict,
         client_id: str,
-        performance_metrics: Optional[Dict] = None,
+        performance_metrics: Optional[dict] = None,
     ) -> bool:
         """
         Accept gradient contribution from a LUKHAS client
@@ -440,7 +447,8 @@ class LukhasFederatedLearningManager:
             self.save_model(model)
             if len(model.client_contributions) >= self.aggregation_threshold:
                 # ΛNOTE: Aggregation step is crucial for federated learning.
-                # ΛDREAM_LOOP: Aggregation forms a key part of the global model update cycle.
+                # ΛDREAM_LOOP: Aggregation forms a key part of the global model update
+                # cycle.
                 self._trigger_aggregation(model_id)
             # ΛTRACE: Gradient contribution successful
             logger.info(
@@ -482,7 +490,8 @@ class LukhasFederatedLearningManager:
                 model.client_contributions
             ):  # If total contributions far exceed unique clients
                 # This specific client's contribution history would be needed for a proper per-client weighting.
-                # Let's assume for now that high total contribution count implies some clients are very active.
+                # Let's assume for now that high total contribution count implies some
+                # clients are very active.
                 pass  # Placeholder for more complex logic
 
         # ΛTRACE: Client weight calculated
@@ -590,7 +599,7 @@ class LukhasFederatedLearningManager:
 
     # # Get overall system status
     # ΛEXPOSE: Provides a snapshot of the federated learning system's state.
-    def get_system_status(self) -> Dict:
+    def get_system_status(self) -> dict:
         """Get overall system status"""
         # ΛTRACE: Getting system status
         logger.info("get_system_status_requested")
@@ -623,7 +632,8 @@ class LukhasFederatedLearningManager:
 
 
 # # LUKHAS-specific federated learning model types
-# ΛSEED: This dictionary defines the types of models that can be part of the LUKHAS federated system.
+# ΛSEED: This dictionary defines the types of models that can be part of
+# the LUKHAS federated system.
 LUKHAS_MODEL_TYPES = {
     "identity": "User identity and preferences",
     "voice": "Voice adaptation and cultural learning",
@@ -631,7 +641,8 @@ LUKHAS_MODEL_TYPES = {
     "adaptation": "System adaptation to user behavior",
     "security": "Security and privacy preferences",
     "memory": "Memory organization and retrieval",
-    "dream": "Dream processing and narrative generation",  # ΛDREAM_LOOP: Dream generation itself can be a federated learning task.
+    # ΛDREAM_LOOP: Dream generation itself can be a federated learning task.
+    "dream": "Dream processing and narrative generation",
 }
 
 

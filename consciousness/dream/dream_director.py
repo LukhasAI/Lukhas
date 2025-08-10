@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any
 
 from core.common import get_logger
 
@@ -8,7 +8,7 @@ logger = get_logger(__name__)
 
 
 # ΛTAG: dream_director
-async def direct_dream_flow(memory_snaps: List[Dict[str, Any]]) -> Dict[str, Any]:
+async def direct_dream_flow(memory_snaps: list[dict[str, Any]]) -> dict[str, Any]:
     """Run a minimal dream cycle and produce tag metrics."""
     result = await dream_breath(memory_snaps)
     reflection = result.get("reflection", {})

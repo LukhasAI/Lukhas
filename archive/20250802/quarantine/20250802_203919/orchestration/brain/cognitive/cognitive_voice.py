@@ -12,16 +12,17 @@ from typing import Dict, Any
 import numpy as np
 from memory.helix_dna import HelixMemory
 
+
 class CognitiveVoice:
     """Advanced voice system with cognitive learning"""
-    
+
     def __init__(self):
         self.memory = HelixMemory()
         self.voice_patterns = self._initialize_patterns()
         self.emotional_state = self._create_emotional_state()
         self.modulation_engine = self._setup_modulation()
-    
-    async def process_voice(self, 
+
+    async def process_voice(self,
                           input_data: Dict[str, Any],
                           Λ_lambda_id: str) -> Dict[str, Any]:
         """Process voice with emotional and cognitive awarenes"""
@@ -31,7 +32,7 @@ class CognitiveVoice:
         """Process voice with emotional and cognitive awarenes"""
         # Verify Lukhas_ID and get encryption key
         encryption_key = self._get_encryption_key(lukhas_lambda_id)
-        
+
         # Process voice with cognitive learning
         cognitive_result = await self._analyze_cognitive_patterns(
             input_data,

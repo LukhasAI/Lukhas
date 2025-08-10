@@ -58,6 +58,7 @@ logger = logging.getLogger("ΛDependaBoT_UltraRobust")
 # Ultra-Robust Dependency Detection
 DEPENDENCIES_STATUS = {}
 
+
 def safe_import(module_name: str, package_name: str = None):
     """Ultra-safe import with fallback creation."""
     try:
@@ -69,6 +70,7 @@ def safe_import(module_name: str, package_name: str = None):
     except Exception as e:
         logger.warning(f"Could not import {module_name}: {e}")
         return None
+
 
 # Network analysis - multiple fallbacks
 networkx = safe_import('networkx')
@@ -92,6 +94,7 @@ try:
 except ImportError:
     ENCODING_DETECTION = False
 
+
 @dataclass
 class ΛErrorContext:
     """Comprehensive error context for AGI analysis."""
@@ -107,6 +110,7 @@ class ΛErrorContext:
     success_probability: float = 0.0
     context_lines: List[str] = field(default_factory=list)
 
+
 @dataclass
 class ΛFixResult:
     """Result of a fix attempt."""
@@ -117,6 +121,7 @@ class ΛFixResult:
     confidence_score: float
     side_effects: List[str] = field(default_factory=list)
     verification_passed: bool = False
+
 
 class UltraRobustNetworkEngine:
     """Ultra-robust network engine that never fails."""
@@ -147,7 +152,8 @@ class UltraRobustNetworkEngine:
         except Exception as e:
             logger.warning(f"Node addition handled gracefully: {e}")
             # Still add node with minimal data
-            self.nodes_data[str(node_id)] = {'id': str(node_id), 'error_recovered': True}
+            self.nodes_data[str(node_id)] = {'id': str(
+                node_id), 'error_recovered': True}
             return False
 
     def add_edge(self, source: str, target: str, **attributes):
@@ -165,7 +171,8 @@ class UltraRobustNetworkEngine:
         except Exception as e:
             logger.warning(f"Edge addition handled gracefully: {e}")
             # Still add edge with minimal data
-            self.edges_data.append({'source': str(source), 'target': str(target), 'error_recovered': True})
+            self.edges_data.append(
+                {'source': str(source), 'target': str(target), 'error_recovered': True})
             return False
 
     def nodes(self):
@@ -180,7 +187,8 @@ class UltraRobustNetworkEngine:
         """Get all edges with error protection."""
         try:
             if data:
-                return [(e['source'], e['target'], e.get('attributes', {})) for e in self.edges_data]
+                return [(e['source'], e['target'], e.get('attributes', {}))
+                         for e in self.edges_data]
             return [(e['source'], e['target']) for e in self.edges_data]
         except (AttributeError, KeyError, TypeError) as e:
             logger.debug(f"Failed to get edges: {e}")
@@ -244,7 +252,8 @@ class UltraRobustNetworkEngine:
                 cluster_size = len(cluster)
 
                 if cluster_size > 1:
-                    expected_internal = (cluster_size * (cluster_size - 1)) / (2 * total_edges)
+                    expected_internal = (
+                        cluster_size * (cluster_size - 1)) / (2 * total_edges)
                     modularity += (internal_edges - expected_internal) / total_edges
 
             return max(0.0, min(1.0, modularity))  # Clamp to [0,1]
@@ -278,7 +287,8 @@ class UltraRobustNetworkEngine:
                         elif target == node and weight > 0.5:
                             cluster.add(source)
                     except (AttributeError, KeyError, TypeError) as e:
-                        logger.debug(f"Failed to process edge in modularity calculation: {e}")
+                        logger.debug(
+                            f"Failed to process edge in modularity calculation: {e}")
                         continue
 
                 if cluster:
@@ -291,6 +301,7 @@ class UltraRobustNetworkEngine:
             logger.warning(f"Cluster detection gracefully handled: {e}")
             # Return each node as its own cluster
             return [{node} for node in self.nodes_data.keys()]
+
 
 class ΛUltraRobustParser:
     """Ultra-robust Python parser that handles any input."""
@@ -305,7 +316,10 @@ class ΛUltraRobustParser:
             self._heuristic_parse
         ]
 
-    async def parse_file_ultra_safe(self, file_path: Path, content: str) -> Tuple[Optional[ast.AST], List[ΛErrorContext]]:
+    async def parse_file_ultra_safe(self,
+    file_path: Path,
+    content: str) -> Tuple[Optional[ast.AST],
+     List[ΛErrorContext]]:
         """Parse file with multiple fallback strategies."""
         errors = []
 
@@ -314,7 +328,8 @@ class ΛUltraRobustParser:
                 logger.debug(f"Trying parsing strategy {i+1}: {strategy.__name__}")
                 result = await strategy(content, file_path)
                 if result:
-                    logger.info(f"✅ Parsing successful with strategy: {strategy.__name__}")
+                    logger.info(
+                        f"✅ Parsing successful with strategy: {strategy.__name__}")
                     return result, errors
             except Exception as e:
                 error_ctx = ΛErrorContext(
@@ -322,13 +337,14 @@ class ΛUltraRobustParser:
                     error_message=str(e),
                     file_path=str(file_path),
                     error_category="parsing",
-                    healing_attempts=i+1
+                    healing_attempts=i + 1
                 )
                 errors.append(error_ctx)
                 logger.debug(f"Strategy {strategy.__name__} failed: {e}")
 
         # If all strategies fail, create minimal AST
-        logger.warning(f"All parsing strategies failed for {file_path}, creating minimal AST")
+        logger.warning(
+            f"All parsing strategies failed for {file_path}, creating minimal AST")
         minimal_ast = ast.Module(body=[], type_ignores=[])
         return minimal_ast, errors
 
@@ -418,7 +434,8 @@ class ΛUltraRobustParser:
                 if current_tokens:
                     # Try to create statement from tokens
                     try:
-                        token_str = ''.join(t.string for t in current_tokens if t.string.strip())
+                        token_str = ''.join(
+    t.string for t in current_tokens if t.string.strip())
                         if token_str.strip():
                             stmt_ast = ast.parse(token_str)
                             statements.extend(stmt_ast.body)
@@ -431,7 +448,8 @@ class ΛUltraRobustParser:
 
         return ast.Module(body=statements, type_ignores=[])
 
-    async def _heuristic_parse(self, content: str, file_path: Path) -> Optional[ast.AST]:
+    async def _heuristic_parse(self, content: str,
+                               file_path: Path) -> Optional[ast.AST]:
         """Heuristic parsing based on patterns."""
         statements = []
 
@@ -493,7 +511,8 @@ class ΛFileHandler:
     """Ultra-robust file handling with multiple encoding strategies."""
 
     @staticmethod
-    async def read_file_ultra_safe(file_path: Path) -> Tuple[Optional[str], List[ΛErrorContext]]:
+    async def read_file_ultra_safe(
+        file_path: Path) -> Tuple[Optional[str], List[ΛErrorContext]]:
         """Read file with multiple encoding strategies."""
         errors = []
 
@@ -561,7 +580,10 @@ class ΛSelfHealingEngine:
         ]
         self.healing_cache = {}
 
-    async def heal_file_comprehensive(self, file_path: Path, error_contexts: List[ΛErrorContext]) -> ΛFixResult:
+    async def heal_file_comprehensive(
+    self,
+    file_path: Path,
+     error_contexts: List[ΛErrorContext]) -> ΛFixResult:
         """Comprehensive file healing with multiple strategies."""
         original_content = None
 
@@ -610,7 +632,11 @@ class ΛSelfHealingEngine:
 
         return best_result
 
-    async def _auto_format_healing(self, file_path: Path, content: str, errors: List[ΛErrorContext]) -> ΛFixResult:
+    async def _auto_format_healing(
+    self,
+    file_path: Path,
+    content: str,
+     errors: List[ΛErrorContext]) -> ΛFixResult:
         """Auto-format based healing."""
         if not CODE_FORMATTERS_AVAILABLE:
             return ΛFixResult(success=False, strategy_used="auto_format",
@@ -656,7 +682,11 @@ class ΛSelfHealingEngine:
         return ΛFixResult(success=False, strategy_used="auto_format",
                          original_content=content, fixed_content=content, confidence_score=0.0)
 
-    async def _pattern_based_healing(self, file_path: Path, content: str, errors: List[ΛErrorContext]) -> ΛFixResult:
+    async def _pattern_based_healing(
+    self,
+    file_path: Path,
+    content: str,
+     errors: List[ΛErrorContext]) -> ΛFixResult:
         """Pattern-based healing for common issues."""
         fixed_content = content
         confidence = 0.0
@@ -724,7 +754,11 @@ class ΛSelfHealingEngine:
             verification_passed=success
         )
 
-    async def _syntax_reconstruction_healing(self, file_path: Path, content: str, errors: List[ΛErrorContext]) -> ΛFixResult:
+    async def _syntax_reconstruction_healing(
+    self,
+    file_path: Path,
+    content: str,
+     errors: List[ΛErrorContext]) -> ΛFixResult:
         """Reconstruct valid syntax from broken code."""
         try:
             lines = content.splitlines()
@@ -769,7 +803,11 @@ class ΛSelfHealingEngine:
             return ΛFixResult(success=False, strategy_used="syntax_reconstruction",
                              original_content=content, fixed_content=content, confidence_score=0.0)
 
-    async def _llm_assisted_healing(self, file_path: Path, content: str, errors: List[ΛErrorContext]) -> ΛFixResult:
+    async def _llm_assisted_healing(
+    self,
+    file_path: Path,
+    content: str,
+     errors: List[ΛErrorContext]) -> ΛFixResult:
         """LLM-assisted code healing (placeholder for future LLM integration)."""
         # This would integrate with local LLMs like Ollama, Code Llama, etc.
         # For now, return a placeholder implementation
@@ -782,7 +820,11 @@ class ΛSelfHealingEngine:
             confidence_score=0.0
         )
 
-    async def _structural_healing(self, file_path: Path, content: str, errors: List[ΛErrorContext]) -> ΛFixResult:
+    async def _structural_healing(
+    self,
+    file_path: Path,
+    content: str,
+     errors: List[ΛErrorContext]) -> ΛFixResult:
         """Structural healing - ensure basic Python structure."""
         try:
             # Extract valid Python constructs
@@ -831,7 +873,11 @@ class ΛSelfHealingEngine:
             return ΛFixResult(success=False, strategy_used="structural_healing",
                              original_content=content, fixed_content=content, confidence_score=0.0)
 
-    async def _content_reconstruction_healing(self, file_path: Path, content: str, errors: List[ΛErrorContext]) -> ΛFixResult:
+    async def _content_reconstruction_healing(
+    self,
+    file_path: Path,
+    content: str,
+     errors: List[ΛErrorContext]) -> ΛFixResult:
         """Last resort - reconstruct minimal valid content."""
         try:
             # Create minimal valid Python file
@@ -881,7 +927,7 @@ class {file_name.replace('-', '_').replace('.', '_').title()}Placeholder:
         """Fix common string literal issues."""
         # Fix unclosed strings
         content = re.sub(r'"""[^"]*$', '"""placeholder"""', content, flags=re.MULTILINE)
-        content = re.sub(r"'''[^']*$", "'''placeholder'''", content, flags=re.MULTILINE)
+        content = re.sub(r"'''[^ ']*$", "'''placeholder'''", content, flags=re.MULTILINE)
 
         # Fix single quotes in strings
         content = re.sub(r'"[^"]*$', '"placeholder"', content, flags=re.MULTILINE)

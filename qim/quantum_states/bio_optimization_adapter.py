@@ -46,7 +46,7 @@ import time
 from dataclasses import asdict, dataclass, field  # Added asdict
 from datetime import datetime, timezone  # Standardized timestamping
 from pathlib import Path  # Not used in current code, but often useful
-from typing import Any, Dict, List, Optional  # Added Type
+from typing import Any, Optional  # Added Type
 
 import numpy as np
 import structlog  # Standardized logging
@@ -59,7 +59,8 @@ log = structlog.get_logger(__name__)
 #               If `lukhas.core` and `core` are distinct top-level packages, this could lead to conflicts.
 #               Assuming `lukhas.core` is the canonical path for these components.
 #               The import `from quantum.quantum_bio_coordinator import QuantumBioCoordinator`
-#               is particularly suspicious if other core modules are under `lukhas.core`.
+# is particularly suspicious if other core modules are under
+# `lukhas.core`.
 LUKHAS_CORE_COMPONENTS_AVAILABLE = False
 BioOrchestrator = Any  # Placeholder
 QuantumBioOscillator = Any  # Placeholder
@@ -83,7 +84,8 @@ try:
         QuantumAwarenessSystem,  # type: ignore
     )
 
-    # AIMPORT_TODO: Review this path for QuantumBioCoordinator. If it's part of lukhas.core, update path.
+    # AIMPORT_TODO: Review this path for QuantumBioCoordinator. If it's part
+    # of lukhas.core, update path.
     from quantum.quantum_bio_coordinator import (
         QuantumBioCoordinator,  # type: ignore
     )
@@ -132,9 +134,13 @@ except ImportError as e:
             return QuantumLikeState(vector, 0.9, 0.1, 1.0, 1.0, 0.8)  # type: ignore
 
         async def entangle_states(
-            self, states: List["QuantumLikeState"]
+            self, states: list["QuantumLikeState"]
         ) -> "QuantumLikeState":
-            return states[0] if states else QuantumLikeState(np.array([0.0]), 0.0, 0.0, 0.0, 0.0, 0.0)  # type: ignore
+            return (
+                states[0]
+                if states
+                else QuantumLikeState(np.array([0.0]), 0.0, 0.0, 0.0, 0.0, 0.0)
+            )  # type: ignore
 
     class QuantumLikeState:  # type: ignore
         def __init__(
@@ -304,10 +310,10 @@ class QuantumBioOptimizationAdapter:
 
         self._initialize_quantum_bio_systems()
 
-        self.metrics_history: List[QuantumBioMetrics] = []
+        self.metrics_history: list[QuantumBioMetrics] = []
         self.optimization_cycles_completed_total = 0
         self.is_currently_optimizing = False
-        self.optimization_performance_cache: Dict[str, Dict[str, Any]] = (
+        self.optimization_performance_cache: dict[str, dict[str, Any]] = (
             {}
         )  # Key changed to str
         self.last_optimization_timestamp: Optional[float] = None
@@ -324,13 +330,26 @@ class QuantumBioOptimizationAdapter:
                 decoherence_rate=self.config.decoherence_rate,
                 measurement_interval=0.1,
             )
-            self.quantum_bio_oscillator: QuantumBioOscillator = QuantumBioOscillator(base_freq=self.config.base_frequency, quantum_config=q_config)  # type: ignore
+            self.quantum_bio_oscillator: QuantumBioOscillator = QuantumBioOscillator(
+                base_freq=self.config.base_frequency, quantum_config=q_config
+            )  # type: ignore
 
-            self.quantum_awareness_system: QuantumAwarenessSystem = QuantumAwarenessSystem(orchestrator=self.bio_orchestrator, integration=None, config=None, metrics_dir=Path("./quantum_metrics_output"))  # type: ignore # TODO: integration=None needs review
-            self.quantum_dream_adapter: QuantumDreamAdapter = QuantumDreamAdapter(orchestrator=self.bio_orchestrator, config=None)  # type: ignore # TODO: config=None needs review
+            self.quantum_awareness_system: (
+                QuantumAwarenessSystem
+            ) = QuantumAwarenessSystem(
+                orchestrator=self.bio_orchestrator,
+                integration=None,
+                config=None,
+                metrics_dir=Path("./quantum_metrics_output"),
+            )  # type: ignore # TODO: integration=None needs review
+            self.quantum_dream_adapter: QuantumDreamAdapter = QuantumDreamAdapter(
+                orchestrator=self.bio_orchestrator, config=None
+            )  # type: ignore # TODO: config=None needs review
             self.bio_quantum_coordinator: QuantumBioCoordinator = QuantumBioCoordinator()  # type: ignore
 
-            self.bio_orchestrator.register_oscillator(self.quantum_bio_oscillator, "quantum_bio_optimizer_adapter_oscillator")  # type: ignore
+            self.bio_orchestrator.register_oscillator(
+                self.quantum_bio_oscillator, "quantum_bio_optimizer_adapter_oscillator"
+            )  # type: ignore
             self.log.info(
                 "Internal quantum-bio systems initialized and oscillator registered."
             )
@@ -345,9 +364,9 @@ class QuantumBioOptimizationAdapter:
     @lukhas_tier_required(2)
     async def optimize_quantum_bio_system(
         self,
-        input_data: Dict[str, Any],
-        target_metrics: Optional[Dict[str, float]] = None,
-    ) -> Dict[str, Any]:
+        input_data: dict[str, Any],
+        target_metrics: Optional[dict[str, float]] = None,
+    ) -> dict[str, Any]:
         """Performs a full cycle of quantum bio-optimization on the system."""
         if self.is_currently_optimizing:
             self.log.warning(
@@ -398,7 +417,12 @@ class QuantumBioOptimizationAdapter:
             return {
                 "optimized_data_payload": final_validated_result,
                 "cycle_metrics": asdict(current_cycle_metrics),
-                "current_quantum_like_state_snapshot": asdict(prepared_q_state) if isinstance(prepared_q_state, QuantumLikeState) else str(prepared_q_state),  # type: ignore
+                # type: ignore
+                "current_quantum_like_state_snapshot": (
+                    asdict(prepared_q_state)
+                    if isinstance(prepared_q_state, QuantumLikeState)
+                    else str(prepared_q_state)
+                ),
                 "optimization_run_id": f"qbo_run_{self.optimization_cycles_completed_total}_{int(datetime.now(timezone.utc).timestamp())}",
                 "total_cycles_completed_by_adapter": self.optimization_cycles_completed_total,
             }
@@ -418,16 +442,28 @@ class QuantumBioOptimizationAdapter:
             self.last_optimization_timestamp = time.monotonic()
 
     @lukhas_tier_required(3)
-    async def _prepare_quantum_like_state(self, input_data: Dict[str, Any]) -> QuantumLikeState:  # type: ignore
+    # type: ignore
+    async def _prepare_quantum_like_state(
+        self, input_data: dict[str, Any]
+    ) -> QuantumLikeState:
         self.log.debug(
             "Preparing quantum-like state from input data.",
             input_keys=list(input_data.keys()),
         )
         try:
             quantum_vector = self._data_to_quantum_vector(input_data)
-            initial_superposition_state = self.quantum_bio_oscillator.create_superposition(quantum_vector)  # type: ignore
-            entangled_state = await self.quantum_bio_oscillator.entangle_states([initial_superposition_state])  # type: ignore
-            self.log.debug("Quantum state prepared.", coherence=entangled_state.coherence, entanglement=getattr(entangled_state, "entanglement", "N/A"))  # type: ignore
+            initial_superposition_state = (
+                self.quantum_bio_oscillator.create_superposition(quantum_vector)
+            )  # type: ignore
+            # type: ignore
+            entangled_state = await self.quantum_bio_oscillator.entangle_states(
+                [initial_superposition_state]
+            )
+            self.log.debug(
+                "Quantum state prepared.",
+                coherence=entangled_state.coherence,
+                entanglement=getattr(entangled_state, "entanglement", "N/A"),
+            )  # type: ignore
             return entangled_state  # type: ignore
         except Exception as e:
             self.log.error(
@@ -435,15 +471,22 @@ class QuantumBioOptimizationAdapter:
                 error_message=str(e),
                 exc_info=True,
             )
-            return QuantumLikeState(np.array([0.0], dtype=float), 0.0, 0.0, 0.0, 0.0, self.config.base_frequency)  # type: ignore
+            return QuantumLikeState(
+                np.array([0.0], dtype=float),
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                self.config.base_frequency,
+            )  # type: ignore
 
     @lukhas_tier_required(1)
-    def _data_to_quantum_vector(self, data: Dict[str, Any]) -> np.ndarray:
+    def _data_to_quantum_vector(self, data: dict[str, Any]) -> np.ndarray:
         self.log.debug(
             "Converting data to quantum vector.", data_keys=list(data.keys())
         )
-        features: List[float] = []
-        for key, value in sorted(data.items()):
+        features: list[float] = []
+        for _key, value in sorted(data.items()):
             if isinstance(value, (int, float)):
                 features.append(float(value))
             elif isinstance(value, str):
@@ -464,13 +507,24 @@ class QuantumBioOptimizationAdapter:
         return vector / (norm + 1e-9) if norm > 1e-9 else vector
 
     @lukhas_tier_required(3)
-    def _extract_quantum_features(self, quantum_like_state: QuantumLikeState) -> Dict[str, float]:  # type: ignore
-        self.log.debug("Extracting quantum features from state.", coherence=quantum_like_state.coherence)  # type: ignore
+    # type: ignore
+    def _extract_quantum_features(
+        self, quantum_like_state: QuantumLikeState
+    ) -> dict[str, float]:
+        self.log.debug(
+            "Extracting quantum features from state.",
+            coherence=quantum_like_state.coherence,
+        )  # type: ignore
         try:
             return {
                 "coherence": quantum_like_state.coherence,
                 "phase": quantum_like_state.phase,  # type: ignore
-                "amplitude": abs(quantum_like_state.amplitude).mean().item() if isinstance(quantum_like_state.amplitude, np.ndarray) else abs(quantum_like_state.amplitude),  # type: ignore
+                # type: ignore
+                "amplitude": (
+                    abs(quantum_like_state.amplitude).mean().item()
+                    if isinstance(quantum_like_state.amplitude, np.ndarray)
+                    else abs(quantum_like_state.amplitude)
+                ),
                 "entanglement": getattr(quantum_like_state, "entanglement", 0.5),
                 "energy": getattr(quantum_like_state, "energy", 1.0),
                 "frequency": getattr(
@@ -493,8 +547,14 @@ class QuantumBioOptimizationAdapter:
             }
 
     @lukhas_tier_required(3)
-    async def _optimize_biological_systems(self, quantum_like_state: QuantumLikeState) -> Dict[str, Any]:  # type: ignore
-        self.log.debug("Optimizing biological systems (simulated).", quantum_like_state_coherence=quantum_like_state.coherence)  # type: ignore
+    # type: ignore
+    async def _optimize_biological_systems(
+        self, quantum_like_state: QuantumLikeState
+    ) -> dict[str, Any]:
+        self.log.debug(
+            "Optimizing biological systems (simulated).",
+            quantum_like_state_coherence=quantum_like_state.coherence,
+        )  # type: ignore
         await asyncio.sleep(0.01)
         quantum_features = self._extract_quantum_features(quantum_like_state)
         return {
@@ -505,63 +565,78 @@ class QuantumBioOptimizationAdapter:
             "quantum_features_used": quantum_features,
         }
 
-    # Placeholder implementations for sub-optimizations called by _optimize_biological_systems
+    # Placeholder implementations for sub-optimizations called by
+    # _optimize_biological_systems
     def _optimize_mitochondrial_function(
-        self, qf: Dict[str, float]
-    ) -> Dict[str, float]:
+        self, qf: dict[str, float]
+    ) -> dict[str, float]:
         return {"efficiency": qf["coherence"] * 0.8}
 
-    def _optimize_membrane_potential(self, qf: Dict[str, float]) -> Dict[str, float]:
+    def _optimize_membrane_potential(self, qf: dict[str, float]) -> dict[str, float]:
         return {"potential": -70 + qf["phase"] * 5}
 
-    def _optimize_proton_gradient(self, qf: Dict[str, float]) -> Dict[str, float]:
+    def _optimize_proton_gradient(self, qf: dict[str, float]) -> dict[str, float]:
         return {"strength": qf["entanglement"] * 0.9}
 
-    def _optimize_atp_synthesis(self, qf: Dict[str, float]) -> Dict[str, float]:
+    def _optimize_atp_synthesis(self, qf: dict[str, float]) -> dict[str, float]:
         return {"rate": qf["energy"] * 0.85}
 
     @lukhas_tier_required(3)
     async def _integrate_quantum_bio(
-        self, bio_optimized_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, bio_optimized_state: dict[str, Any]
+    ) -> dict[str, Any]:
         self.log.debug("Integrating quantum and bio systems via coordinator.")
-        integrated_result = await self.bio_quantum_coordinator.process_bio_quantum(bio_optimized_state, context={"current_optimization_cycle": self.optimization_cycles_completed_total})  # type: ignore
+        # type: ignore
+        integrated_result = await self.bio_quantum_coordinator.process_bio_quantum(
+            bio_optimized_state,
+            context={
+                "current_optimization_cycle": self.optimization_cycles_completed_total
+            },
+        )
         coherent_result = self._apply_quantum_coherence(integrated_result)
         entangled_result = self._apply_quantum_entanglement(coherent_result)
         return entangled_result
 
-    def _apply_quantum_coherence(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _apply_quantum_coherence(self, data: dict[str, Any]) -> dict[str, Any]:
         return data  # Placeholder
 
-    def _apply_quantum_entanglement(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _apply_quantum_entanglement(self, data: dict[str, Any]) -> dict[str, Any]:
         return data  # Placeholder
 
     @lukhas_tier_required(3)
     async def _enhance_consciousness(
-        self, integrated_result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, integrated_result: dict[str, Any]
+    ) -> dict[str, Any]:
         self.log.debug("Enhancing consciousness (simulated).")
-        awareness_result = await self.quantum_awareness_system.process_quantum_awareness(integrated_result)  # type: ignore
+        # type: ignore
+        awareness_result = (
+            await self.quantum_awareness_system.process_quantum_awareness(
+                integrated_result
+            )
+        )
         if self._should_trigger_dream_cycle():
             return await self._process_dream_consolidation(awareness_result)
         return awareness_result
 
     def _should_trigger_dream_cycle(self) -> bool:
-        cycles_threshold = (
+        (
             self.config.max_optimization_cycles_per_call // 10 or 1
         )  # Avoid division by zero
         time_threshold_sec = 300  # 5 minutes
-        # SYNTAX_ERROR_FIXED:         cycles_condition = (self.optimization_cycles_completed_total > 0 and " + "self.optimization_cycles_completed_total % cycles_threshold == 0)
+        # SYNTAX_ERROR_FIXED:         cycles_condition =
+        # (self.optimization_cycles_completed_total > 0 and " +
+        # "self.optimization_cycles_completed_total % cycles_threshold == 0)
         time_condition = self.last_optimization_timestamp is None or " + "(
             time.monotonic() - self.last_optimization_timestamp > time_threshold_sec
         )
         return cycles_condition and time_condition
 
     async def _process_dream_consolidation(
-        self, awareness_result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, awareness_result: dict[str, Any]
+    ) -> dict[str, Any]:
         self.log.info("Starting dream consolidation cycle.")
-        await self.quantum_dream_adapter.start_dream_cycle(duration_minutes=1)  # type: ignore
+        # type: ignore
+        await self.quantum_dream_adapter.start_dream_cycle(duration_minutes=1)
         await asyncio.sleep(0.02)  # Simulate consolidation time
         dream_state = await self.quantum_dream_adapter.get_quantum_like_state()  # type: ignore
         await self.quantum_dream_adapter.stop_dream_cycle()  # type: ignore
@@ -574,8 +649,8 @@ class QuantumBioOptimizationAdapter:
 
     @lukhas_tier_required(2)
     async def _validate_optimization(
-        self, enhanced_result: Dict[str, Any], targets: Dict[str, float]
-    ) -> Dict[str, Any]:
+        self, enhanced_result: dict[str, Any], targets: dict[str, float]
+    ) -> dict[str, Any]:
         self.log.debug(
             "Validating optimization results.", target_metrics_keys=list(targets.keys())
         )
@@ -598,8 +673,8 @@ class QuantumBioOptimizationAdapter:
 
     @lukhas_tier_required(1)
     def _calculate_current_performance_metrics(
-        self, result_data: Dict[str, Any]
-    ) -> Dict[str, float]:  # Renamed
+        self, result_data: dict[str, Any]
+    ) -> dict[str, float]:  # Renamed
         self.log.debug("Calculating current performance metrics from result data.")
         # Simplified: actual metrics would come from result_data structure
         return {
@@ -615,8 +690,8 @@ class QuantumBioOptimizationAdapter:
 
     @lukhas_tier_required(1)
     def _validate_against_targets(
-        self, performance_metrics: Dict[str, float], target_metrics: Dict[str, float]
-    ) -> Dict[str, Any]:
+        self, performance_metrics: dict[str, float], target_metrics: dict[str, float]
+    ) -> dict[str, Any]:
         self.log.debug("Validating performance against targets.")
         default_targets = {
             "overall_performance": 0.75,
@@ -624,7 +699,7 @@ class QuantumBioOptimizationAdapter:
         }  # Use config targets if available
         targets_to_check = {**default_targets, **target_metrics}
 
-        failed: List[str] = []
+        failed: list[str] = []
         for metric_name, target_value in targets_to_check.items():
             current_value = performance_metrics.get(metric_name, 0.0)
             if current_value < target_value:
@@ -635,8 +710,8 @@ class QuantumBioOptimizationAdapter:
 
     @lukhas_tier_required(2)
     async def _apply_corrective_actions(
-        self, result_data: Dict[str, Any], failed_targets_details: List[str]
-    ) -> Dict[str, Any]:  # Renamed
+        self, result_data: dict[str, Any], failed_targets_details: list[str]
+    ) -> dict[str, Any]:  # Renamed
         self.log.warning(
             "Applying corrective actions due to unmet targets.",
             failed_targets=failed_targets_details,
@@ -653,7 +728,7 @@ class QuantumBioOptimizationAdapter:
 
     @lukhas_tier_required(1)
     def _calculate_cycle_metrics(
-        self, result_data: Dict[str, Any], duration_ms: float
+        self, result_data: dict[str, Any], duration_ms: float
     ) -> QuantumBioMetrics:
         self.log.debug("Calculating metrics for completed cycle.")
         perf_metrics = self._calculate_current_performance_metrics(
@@ -689,14 +764,18 @@ class QuantumBioOptimizationAdapter:
             -self.config.stability_check_frequency_cycles :
         ]
         coherence_lvls = [m.quantum_coherence_level for m in recent_metrics]
-        stability = np.clip(1.0 - (np.var(coherence_lvls).item() * 5.0), 0.0, 1.0) if len(coherence_lvls) > 1 else 1.0  # type: ignore
+        stability = (
+            np.clip(1.0 - (np.var(coherence_lvls).item() * 5.0), 0.0, 1.0)
+            if len(coherence_lvls) > 1
+            else 1.0
+        )  # type: ignore
         return stability
 
     @lukhas_tier_required(1)
     def _cache_optimization_results(
         self,
-        input_data: Dict[str, Any],
-        result: Dict[str, Any],
+        input_data: dict[str, Any],
+        result: dict[str, Any],
         cycle_metrics: QuantumBioMetrics,
     ):
         self.log.debug("Caching optimization results.")
@@ -728,8 +807,8 @@ class QuantumBioOptimizationAdapter:
 
     @lukhas_tier_required(2)
     async def _queue_optimization_request_handler(
-        self, input_data: Dict[str, Any], target_metrics: Optional[Dict[str, float]]
-    ) -> Dict[str, Any]:  # Renamed
+        self, input_data: dict[str, Any], target_metrics: Optional[dict[str, float]]
+    ) -> dict[str, Any]:  # Renamed
         self.log.info(
             "Queueing optimization request as system is busy.",
             task_input_preview=str(input_data)[:100],
@@ -747,9 +826,9 @@ class QuantumBioOptimizationAdapter:
         return await self.optimize_quantum_bio_system(input_data, target_metrics)
 
     @lukhas_tier_required(0)
-    def get_optimization_status(self) -> Dict[str, Any]:
+    def get_optimization_status(self) -> dict[str, Any]:
         self.log.debug("Optimization status requested.")
-        latest_metrics_dict: Optional[Dict[str, Any]] = (
+        latest_metrics_dict: Optional[dict[str, Any]] = (
             asdict(self.metrics_history[-1]) if self.metrics_history else None
         )
         return {
@@ -780,8 +859,14 @@ class QuantumBioOptimizationAdapter:
         self.log.info("Shutting down QuantumBioOptimizationAdapter...")
         try:
             self.is_currently_optimizing = False
-            if hasattr(self, "quantum_dream_adapter") and hasattr(self.quantum_dream_adapter, "active") and self.quantum_dream_adapter.active:  # type: ignore
-                if hasattr(self.quantum_dream_adapter, "stop_dream_cycle") and callable(self.quantum_dream_adapter.stop_dream_cycle):  # type: ignore
+            if (
+                hasattr(self, "quantum_dream_adapter")
+                and hasattr(self.quantum_dream_adapter, "active")
+                and self.quantum_dream_adapter.active
+            ):  # type: ignore
+                if hasattr(self.quantum_dream_adapter, "stop_dream_cycle") and callable(
+                    self.quantum_dream_adapter.stop_dream_cycle
+                ):  # type: ignore
                     await self.quantum_dream_adapter.stop_dream_cycle()  # type: ignore
             self.optimization_performance_cache.clear()
             self.log.info("QuantumBioOptimizationAdapter shutdown complete.")
@@ -790,7 +875,7 @@ class QuantumBioOptimizationAdapter:
                 "Error during adapter shutdown.", error_message=str(e), exc_info=True
             )
 
-    def config_to_dict(self) -> Dict[str, Any]:  # Helper for config access
+    def config_to_dict(self) -> dict[str, Any]:  # Helper for config access
         return asdict(self.config)
 
 

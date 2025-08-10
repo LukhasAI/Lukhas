@@ -27,12 +27,13 @@
 ║ 6. Memory Storage → Dream Archive
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 import asyncio
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from .dream_engine.lukhas_oracle_dream import OracleDreamGenerator
 
@@ -119,7 +120,7 @@ class UnifiedDreamPipeline:
 
     async def generate_dream_from_voice(
         self, audio_file: str, dream_type: str = "narrative"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate a dream from voice input.
 
@@ -177,8 +178,8 @@ class UnifiedDreamPipeline:
         self,
         prompt: str,
         dream_type: str = "narrative",
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Generate a dream from text prompt.
 
@@ -233,8 +234,8 @@ class UnifiedDreamPipeline:
             return dream
 
     async def _generate_narrative_dream(
-        self, prompt: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, prompt: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Generate a narrative dream with full enhancements."""
         if self.use_openai and self.openai_integration:
             # Use OpenAI-enhanced generation
@@ -253,8 +254,8 @@ class UnifiedDreamPipeline:
         return result
 
     async def _generate_oracle_dream(
-        self, prompt: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, prompt: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Generate an oracle-style dream."""
 
         # Create mock consent profile and memory sampler
@@ -284,8 +285,8 @@ class UnifiedDreamPipeline:
         return result
 
     async def _generate_symbolic_dream(
-        self, prompt: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, prompt: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Generate a symbolic dream with GLYPHs and quantum elements."""
         # Generate base narrative
         narrative_dream = await self._generate_narrative_dream(prompt, context)
@@ -323,7 +324,7 @@ class UnifiedDreamPipeline:
 
         return narrative_dream
 
-    async def _get_emotional_context(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _get_emotional_context(self, context: dict[str, Any]) -> dict[str, Any]:
         """Extract emotional context from provided context."""
         if self.emotion_system:
             # Use emotion system to analyze context
@@ -334,7 +335,7 @@ class UnifiedDreamPipeline:
             }
         return {}
 
-    async def _store_dream_memory(self, dream: Dict[str, Any]):
+    async def _store_dream_memory(self, dream: dict[str, Any]):
         """Store dream in memory system."""
         if self.memory_manager:
             try:
@@ -353,7 +354,7 @@ class UnifiedDreamPipeline:
             except Exception as e:
                 logger.error(f"Failed to store dream in memory: {e}")
 
-    def _log_dream(self, dream: Dict[str, Any]):
+    def _log_dream(self, dream: dict[str, Any]):
         """Log dream to file."""
         try:
             with open(self.dream_log_path, "a") as f:
@@ -363,7 +364,7 @@ class UnifiedDreamPipeline:
         except Exception as e:
             logger.error(f"Failed to log dream: {e}")
 
-    async def replay_dream(self, dream_id: str) -> Optional[Dict[str, Any]]:
+    async def replay_dream(self, dream_id: str) -> Optional[dict[str, Any]]:
         """
         Replay a previously generated dream.
 
@@ -396,7 +397,7 @@ class UnifiedDreamPipeline:
         logger.warning(f"Dream not found: {dream_id}")
         return None
 
-    async def get_dream_analytics(self) -> Dict[str, Any]:
+    async def get_dream_analytics(self) -> dict[str, Any]:
         """Get analytics about generated dreams."""
         analytics = {
             "total_dreams": 0,

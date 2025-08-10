@@ -31,7 +31,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 import numpy as np
 
@@ -80,11 +80,11 @@ class EthicalSeverity(Enum):
 class QuantumEthicalState:
     """Represents the quantum-like state of an ethical decision."""
 
-    superposition_factors: List[float] = field(default_factory=list)
-    entanglement_map: Dict[str, str] = field(default_factory=dict)
+    superposition_factors: list[float] = field(default_factory=list)
+    entanglement_map: dict[str, str] = field(default_factory=dict)
     coherence_score: float = 1.0
-    measurement_history: List[Dict] = field(default_factory=list)
-    quantum_principles_active: Set[str] = field(default_factory=set)
+    measurement_history: list[dict] = field(default_factory=list)
+    quantum_principles_active: set[str] = field(default_factory=set)
 
 
 @dataclass
@@ -95,10 +95,10 @@ class EthicalViolation:
     principle: EthicalPrinciple
     severity: EthicalSeverity
     description: str
-    context: Dict[str, Any]
+    context: dict[str, Any]
     quantum_like_state: Optional[QuantumEthicalState] = None
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    remediation_actions: List[str] = field(default_factory=list)
+    remediation_actions: list[str] = field(default_factory=list)
     resolved: bool = False
 
 
@@ -115,8 +115,8 @@ class QuantumEthicsEngine:
 
     def __init__(
         self,
-        enabled_principles: Optional[Set[EthicalPrinciple]] = None,
-        compliance_frameworks: Optional[Set[ComplianceFramework]] = None,
+        enabled_principles: Optional[set[EthicalPrinciple]] = None,
+        compliance_frameworks: Optional[set[ComplianceFramework]] = None,
         quantum_coherence_threshold: float = 0.8,
         auto_remediation: bool = True,
     ):
@@ -132,8 +132,8 @@ class QuantumEthicsEngine:
 
         # Quantum ethical state
         self.quantum_like_state = QuantumEthicalState()
-        self.ethical_violations: List[EthicalViolation] = []
-        self.ethical_decisions_log: List[Dict] = []
+        self.ethical_violations: list[EthicalViolation] = []
+        self.ethical_decisions_log: list[dict] = []
 
         # Performance metrics
         self.decisions_processed = 0
@@ -162,9 +162,9 @@ class QuantumEthicsEngine:
     async def evaluate_ethical_decision(
         self,
         action: str,
-        context: Dict[str, Any],
-        stakeholders: Optional[List[str]] = None,
-    ) -> Dict[str, Any]:
+        context: dict[str, Any],
+        stakeholders: Optional[list[str]] = None,
+    ) -> dict[str, Any]:
         """
         Evaluate an action using quantum-enhanced ethical reasoning.
 
@@ -288,9 +288,9 @@ class QuantumEthicsEngine:
         self,
         principle: EthicalPrinciple,
         action: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         quantum_like_state: QuantumEthicalState,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Evaluate a specific ethical principle."""
 
         principle_result = {
@@ -355,9 +355,9 @@ class QuantumEthicsEngine:
     async def _evaluate_autonomy(
         self,
         action: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         quantum_like_state: QuantumEthicalState,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Evaluate user autonomy principle."""
         result = {
             "principle": "autonomy",
@@ -395,9 +395,9 @@ class QuantumEthicsEngine:
     async def _evaluate_non_maleficence(
         self,
         action: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         quantum_like_state: QuantumEthicalState,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Evaluate non-maleficence (do no harm) principle."""
         result = {
             "principle": "non_maleficence",
@@ -450,9 +450,9 @@ class QuantumEthicsEngine:
     async def _evaluate_privacy(
         self,
         action: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         quantum_like_state: QuantumEthicalState,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Evaluate privacy protection principle."""
         result = {
             "principle": "privacy",
@@ -495,9 +495,9 @@ class QuantumEthicsEngine:
     async def _evaluate_transparency(
         self,
         action: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         quantum_like_state: QuantumEthicalState,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Evaluate transparency principle."""
         result = {
             "principle": "transparency",
@@ -531,9 +531,9 @@ class QuantumEthicsEngine:
     async def _evaluate_justice(
         self,
         action: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         quantum_like_state: QuantumEthicalState,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Evaluate justice and fairness principle."""
         result = {
             "principle": "justice",
@@ -568,9 +568,9 @@ class QuantumEthicsEngine:
     async def _evaluate_beneficence(
         self,
         action: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         quantum_like_state: QuantumEthicalState,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Evaluate beneficence (do good) principle."""
         result = {
             "principle": "beneficence",
@@ -596,9 +596,9 @@ class QuantumEthicsEngine:
     async def _evaluate_dignity(
         self,
         action: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         quantum_like_state: QuantumEthicalState,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Evaluate human dignity principle."""
         result = {
             "principle": "dignity",
@@ -625,9 +625,9 @@ class QuantumEthicsEngine:
     async def _evaluate_sustainability(
         self,
         action: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         quantum_like_state: QuantumEthicalState,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Evaluate sustainability principle."""
         result = {
             "principle": "sustainability",
@@ -650,9 +650,9 @@ class QuantumEthicsEngine:
     async def _evaluate_consciousness_respect(
         self,
         action: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         quantum_like_state: QuantumEthicalState,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Evaluate consciousness respect principle."""
         result = {
             "principle": "consciousness_respect",
@@ -682,9 +682,9 @@ class QuantumEthicsEngine:
     async def _evaluate_quantum_coherence_principle(
         self,
         action: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         quantum_like_state: QuantumEthicalState,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Evaluate coherence-inspired processing principle."""
         result = {
             "principle": "quantum_coherence",
@@ -725,10 +725,10 @@ class QuantumEthicsEngine:
     async def _evaluate_stakeholder_impact(
         self,
         action: str,
-        context: Dict[str, Any],
-        stakeholders: List[str],
+        context: dict[str, Any],
+        stakeholders: list[str],
         quantum_like_state: QuantumEthicalState,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Evaluate impact on different stakeholders."""
         stakeholder_impact = {}
 
@@ -760,7 +760,7 @@ class QuantumEthicsEngine:
 
         return stakeholder_impact
 
-    def _generate_recommendations(self, evaluation_result: Dict[str, Any]) -> List[str]:
+    def _generate_recommendations(self, evaluation_result: dict[str, Any]) -> list[str]:
         """Generate comprehensive recommendations."""
         recommendations = []
 
@@ -779,8 +779,8 @@ class QuantumEthicsEngine:
         return list(set(recommendations))
 
     async def _attempt_auto_remediation(
-        self, evaluation_result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, evaluation_result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Attempt automatic remediation of ethical violations."""
         remediation_result = {
             "attempted": True,
@@ -809,7 +809,7 @@ class QuantumEthicsEngine:
 
         return remediation_result
 
-    def _get_remediation_action(self, violation: Dict[str, Any]) -> Optional[str]:
+    def _get_remediation_action(self, violation: dict[str, Any]) -> Optional[str]:
         """Get appropriate remediation action for a violation."""
         violation_type = violation.get("principle", "")
 
@@ -823,7 +823,7 @@ class QuantumEthicsEngine:
 
         return remediation_map.get(violation_type)
 
-    def get_ethics_report(self) -> Dict[str, Any]:
+    def get_ethics_report(self) -> dict[str, Any]:
         """Generate comprehensive ethics report."""
         resolution_rate = (
             self.violations_resolved / max(1, self.violations_detected)
@@ -854,7 +854,7 @@ class QuantumEthicsEngine:
             "recommendations": self._generate_system_recommendations(),
         }
 
-    def _generate_system_recommendations(self) -> List[str]:
+    def _generate_system_recommendations(self) -> list[str]:
         """Generate system-level recommendations."""
         recommendations = []
 

@@ -23,6 +23,7 @@
 ║ Implements key patterns for efficiency in the Symbiotic Swarm architecture.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 import asyncio
 import gc
@@ -38,11 +39,7 @@ from functools import wraps
 from typing import (
     Any,
     Callable,
-    Dict,
-    List,
     Optional,
-    Set,
-    Tuple,
     TypeVar,
     Union,
 )
@@ -64,12 +61,10 @@ class OptimizationStrategy(ABC):
     @abstractmethod
     def apply(self, *args, **kwargs) -> Any:
         """Apply the optimization strategy"""
-        pass
 
     @abstractmethod
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get metrics about strategy effectiveness"""
-        pass
 
 
 @dataclass
@@ -143,7 +138,7 @@ class AdaptiveCache(OptimizationStrategy):
         self.prefetch_success = 0
 
         # Prefetch predictions
-        self.access_patterns: Dict[str, List[str]] = defaultdict(list)
+        self.access_patterns: dict[str, list[str]] = defaultdict(list)
 
         logger.info(f"Adaptive cache initialized: {max_size_mb}MB, TTL={ttl_seconds}s")
 
@@ -231,7 +226,7 @@ class AdaptiveCache(OptimizationStrategy):
         try:
             # Use pickle for size estimation
             return len(pickle.dumps(value, protocol=pickle.HIGHEST_PROTOCOL))
-        except:
+        except BaseException:
             # Fallback estimation
             return 1024  # 1KB default
 
@@ -280,7 +275,7 @@ class AdaptiveCache(OptimizationStrategy):
         """Apply caching strategy"""
         return self.get(key, compute_fn)
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get cache metrics"""
         with self.lock:
             total_requests = self.hits + self.misses
@@ -321,8 +316,8 @@ class ObjectPool(OptimizationStrategy):
         self.max_size = max_size
         self.reset_fn = reset_fn
 
-        self.pool: List[T] = []
-        self.in_use: Set[int] = set()
+        self.pool: list[T] = []
+        self.in_use: set[int] = set()
         self.lock = threading.Lock()
 
         # Metrics
@@ -390,7 +385,7 @@ class ObjectPool(OptimizationStrategy):
         """Apply pooling strategy"""
         return self.acquire()
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get pool metrics"""
         with self.lock:
             reuse_rate = self.reuses / self.allocations if self.allocations > 0 else 0
@@ -440,7 +435,7 @@ class LazyComputation(OptimizationStrategy):
         """Apply lazy computation strategy"""
         return self.defer(compute_fn)
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get lazy computation metrics"""
         return {
             "deferred": self.deferred_computations,
@@ -489,7 +484,7 @@ class BatchProcessor(OptimizationStrategy):
 
     def __init__(
         self,
-        process_fn: Callable[[List[Any]], List[Any]],
+        process_fn: Callable[[list[Any]], list[Any]],
         batch_size: int = 100,
         timeout_seconds: float = 1.0,
     ):
@@ -505,7 +500,7 @@ class BatchProcessor(OptimizationStrategy):
         self.batch_size = batch_size
         self.timeout = timeout_seconds
 
-        self.pending_items: List[Tuple[Any, asyncio.Future]] = []
+        self.pending_items: list[tuple[Any, asyncio.Future]] = []
         self.lock = threading.Lock()
         self.condition = threading.Condition(self.lock)
 
@@ -583,12 +578,12 @@ class BatchProcessor(OptimizationStrategy):
         with self.condition:
             self.condition.notify()
 
-    def apply(self, items: List[Any]) -> List[Any]:
+    def apply(self, items: list[Any]) -> list[Any]:
         """Apply batch processing strategy"""
         futures = [self.add(item) for item in items]
         return [future.result() for future in futures]
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get batch processing metrics"""
         return {
             "total_items": self.total_items,
@@ -616,7 +611,7 @@ class MemoryMappedStorage(OptimizationStrategy):
     def __init__(self, base_path: str = "/tmp/mmap_storage"):
         """Initialize memory-mapped storage"""
         self.base_path = base_path
-        self.open_mmaps: Dict[str, np.memmap] = {}
+        self.open_mmaps: dict[str, np.memmap] = {}
         self.lock = threading.Lock()
 
         # Metrics
@@ -699,7 +694,7 @@ class MemoryMappedStorage(OptimizationStrategy):
         else:
             return self.get_array(key)
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get storage metrics"""
         return {
             "total_reads": self.total_reads,
@@ -726,7 +721,7 @@ class ComputationReuse(OptimizationStrategy):
         """Initialize computation reuse system"""
         self.max_cache_size = max_cache_size
         self.cache: OrderedDict[str, Any] = OrderedDict()
-        self.computation_graph: Dict[str, Set[str]] = defaultdict(set)
+        self.computation_graph: dict[str, set[str]] = defaultdict(set)
         self.lock = threading.RLock()
 
         # Metrics
@@ -777,7 +772,7 @@ class ComputationReuse(OptimizationStrategy):
     def share_computation(
         self,
         computation_id: str,
-        dependencies: List[str],
+        dependencies: list[str],
         compute_fn: Callable,
     ) -> Any:
         """Share computation results across nodes"""
@@ -825,7 +820,7 @@ class ComputationReuse(OptimizationStrategy):
         """Apply computation reuse strategy"""
         return self.share_computation(computation_id, [], compute_fn)
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get computation reuse metrics"""
         with self.lock:
             hit_rate = (
@@ -932,7 +927,7 @@ class ResourceManager:
         """Get specific optimization strategy"""
         return self.strategies.get(name)
 
-    def get_all_metrics(self) -> Dict[str, Dict[str, Any]]:
+    def get_all_metrics(self) -> dict[str, dict[str, Any]]:
         """Get metrics from all strategies"""
         return {
             name: strategy.get_metrics() for name, strategy in self.strategies.items()
@@ -942,7 +937,7 @@ class ResourceManager:
         self,
         computation_id: str,
         compute_fn: Callable,
-        optimization_hints: Optional[Dict[str, Any]] = None,
+        optimization_hints: Optional[dict[str, Any]] = None,
     ) -> Any:
         """
         Optimize a computation using appropriate strategies
@@ -1050,7 +1045,7 @@ class ResourceManager:
 
 
 # Practical optimization utilities
-def optimize_swarm_communication(payload: Dict[str, Any]) -> bytes:
+def optimize_swarm_communication(payload: dict[str, Any]) -> bytes:
     """
     Optimize inter-node communication in the swarm
     Uses compression and efficient serialization
@@ -1071,7 +1066,7 @@ def optimize_swarm_communication(payload: Dict[str, Any]) -> bytes:
     return b"U" + packed  # Uncompressed
 
 
-def deserialize_swarm_message(data: bytes) -> Dict[str, Any]:
+def deserialize_swarm_message(data: bytes) -> dict[str, Any]:
     """Deserialize optimized swarm message"""
     import zlib
 
@@ -1133,7 +1128,7 @@ if __name__ == "__main__":
     # Use objects from pool
     objects = []
     start = time.time()
-    for i in range(5):
+    for _i in range(5):
         obj = pool.acquire()
         objects.append(obj)
     print(f"   Acquired 5 objects: {time.time() - start:.3f}s")
@@ -1144,7 +1139,7 @@ if __name__ == "__main__":
 
     # Reacquire - should be faster
     start = time.time()
-    for i in range(5):
+    for _i in range(5):
         obj = pool.acquire()
     print(f"   Reacquired 5 objects: {time.time() - start:.3f}s")
     print(f"   Pool metrics: {pool.get_metrics()}\n")

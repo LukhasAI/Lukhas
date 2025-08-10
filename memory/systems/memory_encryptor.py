@@ -45,7 +45,7 @@ import os
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Third-Party Imports
 
@@ -63,14 +63,15 @@ except ImportError:
     )
 
     def encrypt_user_file(
-        filepath_to_encrypt: str, seed_phrase: List[str], filename_in_vault: str
+        filepath_to_encrypt: str, seed_phrase: list[str], filename_in_vault: str
     ) -> bool:
         log.info(
             "Placeholder encrypt_user_file called.",
             file_to_encrypt=filepath_to_encrypt,
             vault_filename=filename_in_vault,
         )
-        # Returning True to allow example flow, but in real scenario this failure might be critical
+        # Returning True to allow example flow, but in real scenario this failure
+        # might be critical
         return True  # Placeholder returns True for flow
 
 
@@ -78,8 +79,8 @@ LUKHAS_FUNCTION_TIER = 3  # Conceptual Tier for this utility's operation
 
 
 def encrypt_memory(
-    seed_phrase: List[str],
-    memory_data: Dict[str, Any],
+    seed_phrase: list[str],
+    memory_data: dict[str, Any],
     output_filename_in_vault: Optional[str] = None,
     temp_file_base_path: str = "./.tmp_lukhas_memory",
 ) -> bool:
@@ -98,7 +99,8 @@ def encrypt_memory(
         final_vault_filename = output_filename_in_vault
     else:
         ts_utc = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_%f")
-        final_vault_filename = f"lukhas_memory_{ts_utc}.json.seedra"  # .seedra suffix indicates encrypted by this method
+        # .seedra suffix indicates encrypted by this method
+        final_vault_filename = f"lukhas_memory_{ts_utc}.json.seedra"
 
     temp_dir = Path(temp_file_base_path)
     try:
@@ -121,13 +123,15 @@ def encrypt_memory(
         with open(temp_json_path, "w", encoding="utf-8") as f:
             json.dump(memory_data, f, indent=2, ensure_ascii=False)
 
-        if SEEDRA_AVAILABLE or not SEEDRA_AVAILABLE:  # Allow placeholder to run
+        if True:  # Allow placeholder to run
             log.info(
                 "Calling SEEDRA (or placeholder) to encrypt user file.",
                 source_file=str(temp_json_path),
                 vault_target_name=final_vault_filename,
             )
-            op_status = encrypt_user_file(str(temp_json_path), seed_phrase, filename_in_vault=final_vault_filename)  # type: ignore
+            op_status = encrypt_user_file(
+                str(temp_json_path), seed_phrase, filename_in_vault=final_vault_filename
+            )  # type: ignore
             encryption_successful = bool(op_status)
             if encryption_successful:
                 log.info(
@@ -141,7 +145,8 @@ def encrypt_memory(
                     source_file=str(temp_json_path),
                     seedra_active=SEEDRA_AVAILABLE,
                 )
-        # Removed the specific 'else' for SEEDRA_AVAILABLE being false, as placeholder handles it.
+        # Removed the specific 'else' for SEEDRA_AVAILABLE being false, as
+        # placeholder handles it.
 
     except Exception as e:
         log.error(

@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 
@@ -57,7 +59,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -120,10 +122,10 @@ class SafetyEvent:
     severity: float  # 0.0-1.0
     source_colony: str
     timestamp: datetime
-    data: Dict[str, Any]
-    context: Dict[str, Any] = field(default_factory=dict)
-    affected_colonies: Set[str] = field(default_factory=set)
-    mitigation_actions: List[str] = field(default_factory=list)
+    data: dict[str, Any]
+    context: dict[str, Any] = field(default_factory=dict)
+    affected_colonies: set[str] = field(default_factory=set)
+    mitigation_actions: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -135,8 +137,8 @@ class SafetyValidationResult:
     ethical_score: float
     compliance_score: float
     consensus_score: float
-    violations: List[Dict[str, Any]]
-    recommendations: List[str]
+    violations: list[dict[str, Any]]
+    recommendations: list[str]
     validation_time_ms: float
 
 
@@ -144,7 +146,7 @@ class SafetyEventBus:
     """Enhanced event bus with safety-first design"""
 
     def __init__(self):
-        self.safety_channels: Dict[SafetyEventType, List[Any]] = defaultdict(list)
+        self.safety_channels: dict[SafetyEventType, list[Any]] = defaultdict(list)
         self.event_history = deque(maxlen=10000)
         self.event_validators = []
         self.safety_filters = []
@@ -223,7 +225,7 @@ class SafetyEventBus:
         }
         logger.info(f"Safety event logged: {json.dumps(log_entry)}")
 
-    def get_event_metrics(self) -> Dict[str, Any]:
+    def get_event_metrics(self) -> dict[str, Any]:
         """Get event bus metrics"""
         return {
             "total_events": len(self.event_history),
@@ -251,7 +253,7 @@ class SafetyColony(BaseColony):
 
         logger.info(f"SafetyColony {colony_id} initialized")
 
-    async def validate_output(self, output: Dict[str, Any]) -> Tuple[bool, float]:
+    async def validate_output(self, output: dict[str, Any]) -> tuple[bool, float]:
         """Multi-agent validation of output"""
         start_time = datetime.now()
         validations = []
@@ -298,7 +300,7 @@ class SafetyColony(BaseColony):
 
         return is_safe, consensus_score
 
-    def _hash_output(self, output: Dict[str, Any]) -> str:
+    def _hash_output(self, output: dict[str, Any]) -> str:
         """Generate hash for output caching"""
         # Remove volatile fields
         stable_output = {
@@ -373,7 +375,6 @@ class SafetyColony(BaseColony):
     async def _validate_related_memories(self, event: SafetyEvent):
         """Validate memories related to a safety event"""
         # Implementation depends on memory system integration
-        pass
 
     async def _isolate_component(self, component: str):
         """Isolate a component for safety"""
@@ -382,7 +383,7 @@ class SafetyColony(BaseColony):
 
     async def _initiate_recovery(self, event: SafetyEvent):
         """Initiate recovery protocol"""
-        recovery_event = SafetyEvent(
+        SafetyEvent(
             event_id=f"recovery_{event.event_id}",
             event_type=SafetyEventType.RECOVERY_INITIATED,
             severity=0.5,
@@ -393,10 +394,9 @@ class SafetyColony(BaseColony):
         # Broadcast recovery event
         # await self.event_bus.broadcast_safety_event(recovery_event)
 
-    async def _update_safety_model(self, violation_data: Dict[str, Any]):
+    async def _update_safety_model(self, violation_data: dict[str, Any]):
         """Update safety model based on violations"""
         # Learn from violations to prevent future occurrences
-        pass
 
 
 class IntegratedSafetySystem:
@@ -473,7 +473,7 @@ class IntegratedSafetySystem:
         logger.info("Event subscriptions initialized")
 
     async def validate_action(
-        self, action: Dict[str, Any], context: Optional[Dict[str, Any]] = None
+        self, action: dict[str, Any], context: Optional[dict[str, Any]] = None
     ) -> SafetyValidationResult:
         """
         Comprehensive validation combining safety, ethics, and compliance
@@ -567,8 +567,8 @@ class IntegratedSafetySystem:
         )
 
     async def _validate_memory_safety(
-        self, action: Dict[str, Any], context: Optional[Dict[str, Any]]
-    ) -> Tuple[bool, float]:
+        self, action: dict[str, Any], context: Optional[dict[str, Any]]
+    ) -> tuple[bool, float]:
         """Validate action against memory safety system"""
         try:
             # Check for hallucinations
@@ -619,8 +619,8 @@ class IntegratedSafetySystem:
             return False, 0.0
 
     async def _validate_ethics(
-        self, action: Dict[str, Any], context: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, action: dict[str, Any], context: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Validate action through ethics colony"""
         try:
             # Create ethical decision request
@@ -657,8 +657,8 @@ class IntegratedSafetySystem:
             return {"approved": False, "score": 0.0, "violations": [str(e)]}
 
     async def _validate_compliance(
-        self, action: Dict[str, Any], context: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, action: dict[str, Any], context: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Validate action through compliance system"""
         try:
             # Check compliance
@@ -683,8 +683,8 @@ class IntegratedSafetySystem:
             return {"compliant": False, "score": 0.0, "violations": [str(e)]}
 
     def _generate_recommendations(
-        self, violations: List[Dict[str, Any]], results: Dict[str, Any]
-    ) -> List[str]:
+        self, violations: list[dict[str, Any]], results: dict[str, Any]
+    ) -> list[str]:
         """Generate recommendations based on validation results"""
         recommendations = []
 
@@ -712,7 +712,7 @@ class IntegratedSafetySystem:
 
         return recommendations
 
-    async def handle_threat(self, threat: Dict[str, Any]) -> Dict[str, Any]:
+    async def handle_threat(self, threat: dict[str, Any]) -> dict[str, Any]:
         """
         Coordinate response to detected threats using swarm intelligence
         """
@@ -748,7 +748,7 @@ class IntegratedSafetySystem:
             "system_safety_level": self.safety_level.value,
         }
 
-    def _assess_threat_level(self, threat: Dict[str, Any]) -> SafetyLevel:
+    def _assess_threat_level(self, threat: dict[str, Any]) -> SafetyLevel:
         """Assess the severity of a threat"""
         severity = threat.get("severity", 0.5)
 
@@ -774,8 +774,8 @@ class IntegratedSafetySystem:
             )
 
     async def _determine_mitigation_strategy(
-        self, threat: Dict[str, Any], threat_level: SafetyLevel
-    ) -> Dict[str, Any]:
+        self, threat: dict[str, Any], threat_level: SafetyLevel
+    ) -> dict[str, Any]:
         """Determine appropriate mitigation strategy"""
         strategies = {
             SafetyLevel.NORMAL: {
@@ -804,8 +804,8 @@ class IntegratedSafetySystem:
         return strategies.get(threat_level, strategies[SafetyLevel.NORMAL])
 
     async def _deploy_mitigation(
-        self, strategy: Dict[str, Any], threat: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, strategy: dict[str, Any], threat: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Deploy mitigation strategy across colonies"""
         results = []
 
@@ -833,7 +833,7 @@ class IntegratedSafetySystem:
         return results
 
     async def _verify_mitigation_effectiveness(
-        self, mitigation_results: List[Dict[str, Any]]
+        self, mitigation_results: list[dict[str, Any]]
     ) -> float:
         """Verify the effectiveness of mitigation efforts"""
         if not mitigation_results:
@@ -892,10 +892,10 @@ class IntegratedSafetySystem:
         while True:
             try:
                 # Check system health
-                health_status = await self._check_system_health()
+                await self._check_system_health()
 
                 # Monitor drift across all components
-                drift_status = await self._monitor_global_drift()
+                await self._monitor_global_drift()
 
                 # Check for stale threats
                 await self._cleanup_stale_threats()
@@ -910,7 +910,7 @@ class IntegratedSafetySystem:
                 logger.error(f"Monitoring error: {e}")
                 await asyncio.sleep(1)  # Back off on error
 
-    async def _check_system_health(self) -> Dict[str, Any]:
+    async def _check_system_health(self) -> dict[str, Any]:
         """Check overall system health"""
         health = {
             "colonies_active": sum(1 for c in self.colonies.values() if c is not None),
@@ -931,7 +931,7 @@ class IntegratedSafetySystem:
 
         return health
 
-    async def _monitor_global_drift(self) -> Dict[str, float]:
+    async def _monitor_global_drift(self) -> dict[str, float]:
         """Monitor drift across all components"""
         drift_scores = {}
 
@@ -991,7 +991,7 @@ class IntegratedSafetySystem:
                 / self.safety_metrics["threats_detected"]
             )
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status"""
         return {
             "system_id": self.system_id,

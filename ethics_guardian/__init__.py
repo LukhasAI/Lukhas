@@ -1,4 +1,3 @@
 """
 Ethics_Guardian Module
 """
-

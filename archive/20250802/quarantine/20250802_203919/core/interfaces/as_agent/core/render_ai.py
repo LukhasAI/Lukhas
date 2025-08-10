@@ -19,17 +19,17 @@ logger = structlog.get_logger(__name__)
 
 """
 +────────────────────────────────────────────────────────────────────────────+
-| MODULE         : lukhas_render_ai.py                                        |
-| DESCRIPTION    :                                                           |
-|   Handles prompt-based visual generation using OpenAI DALL·E and prepares |
-|   support for future video rendering (Sora). Integrates with widget flows |
-|   and symbolic emotional prompts.                                          |
-| TYPE           : AI Visual Generator          VERSION : v1.0.0            |
-| AUTHOR         : LUKHAS SYSTEMS                  CREATED : 2025-4-22       |
+| MODULE: lukhas_render_ai.py |
+| DESCRIPTION: |
+|   Handles prompt - based visual generation using OpenAI DALL·E and prepares |
+|   support for future video rendering(Sora). Integrates with widget flows |
+| and symbolic emotional prompts. |
+| TYPE: AI Visual Generator          VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                  CREATED: 2025 - 4 - 22 |
 +────────────────────────────────────────────────────────────────────────────+
-| DEPENDENCIES   :                                                           |
-|   - openai                                                                  |
-|   - lukhas_vision_prompts.json                                              |
+| DEPENDENCIES: |
+| - openai |
+| - lukhas_vision_prompts.json |
 +────────────────────────────────────────────────────────────────────────────+
 """
 
@@ -46,7 +46,7 @@ def enrich_prompt_with_emotion(prompt):
     Enriches the visual prompt based on current emotional state.
 
     Parameters:
-    - prompt (str): original prompt
+    - prompt(str): original prompt
 
     Returns:
     - str: enriched prompt with emotional layer
@@ -60,9 +60,9 @@ def generate_image(prompt, size="1024x1024", output_file="output_dalle.png"):
     Generates an image using DALL·E based on the given prompt and emotion.
 
     Parameters:
-    - prompt (str): Descriptive visual prompt
-    - size (str): Image resolution (e.g., '512x512', '1024x1024')
-    - output_file (str): Filename to save image to
+    - prompt(str): Descriptive visual prompt
+    - size(str): Image resolution(e.g., '512x512', '1024x1024')
+    - output_file(str): Filename to save image to
 
     Returns:
     - str: Path to saved image or error message
@@ -91,15 +91,15 @@ def generate_image(prompt, size="1024x1024", output_file="output_dalle.png"):
 
 def generate_video(prompt, duration=10, output_file="output_sora.mp4"):
     """
-    Prepares a stub for future video generation (e.g., Sora).
+    Prepares a stub for future video generation(e.g., Sora).
 
     Parameters:
-    - prompt (str): Descriptive video prompt
-    - duration (int): Video length in seconds
-    - output_file (str): Filename to save video to
+    - prompt(str): Descriptive video prompt
+    - duration(int): Video length in seconds
+    - output_file(str): Filename to save video to
 
     Returns:
-    - str: Placeholder message (until API integration)
+    - str: Placeholder message(until API integration)
     """
     return f"[Video Generation Pending] Prompt: {prompt}, Duration: {duration}s"
 
@@ -127,7 +127,7 @@ def generate_video(prompt, duration=10, output_file="output_sora.mp4"):
 
 """
 ΛTRACE: End of render_ai.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

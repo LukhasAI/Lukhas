@@ -2,9 +2,10 @@
 Memory Profiler Wrapper
 Provides integration layer for memory profiler components
 """
+import logging
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -12,12 +13,10 @@ try:
     from .memory_profiler import (
         Action,
         Category,
-        DataFlowEdge,
         DataFlowNode,
         OpTree,
         SchemaMatcher,
         SizeMap,
-        TensorKey,
     )
 
     MEMORY_PROFILER_AVAILABLE = True
@@ -38,9 +37,9 @@ class MemoryProfiler:
         self.schema_matcher = SchemaMatcher()
         self.op_tree = OpTree()
         self.size_map = SizeMap()
-        self.data_flow_nodes: Dict[str, DataFlowNode] = {}
-        self.memory_events: List[Dict[str, Any]] = []
-        self.category_stats: Dict[Category, Dict[str, Any]] = {
+        self.data_flow_nodes: dict[str, DataFlowNode] = {}
+        self.memory_events: list[dict[str, Any]] = []
+        self.category_stats: dict[Category, dict[str, Any]] = {
             cat: {"count": 0, "total_size": 0} for cat in Category
         }
 
@@ -85,7 +84,7 @@ class MemoryProfiler:
         logger.debug(f"Created data flow node: {node_id} ({operation})")
         return node
 
-    def get_memory_usage_by_category(self) -> Dict[str, Dict[str, Any]]:
+    def get_memory_usage_by_category(self) -> dict[str, dict[str, Any]]:
         """Get memory usage statistics by category"""
         return {
             cat.name: {
@@ -96,11 +95,11 @@ class MemoryProfiler:
             for cat, stats in self.category_stats.items()
         }
 
-    def get_memory_timeline(self, limit: int = 100) -> List[Dict[str, Any]]:
+    def get_memory_timeline(self, limit: int = 100) -> list[dict[str, Any]]:
         """Get timeline of memory events"""
         return self.memory_events[-limit:]
 
-    def analyze_memory_patterns(self) -> Dict[str, Any]:
+    def analyze_memory_patterns(self) -> dict[str, Any]:
         """Analyze memory usage patterns"""
         analysis = {
             "total_allocations": sum(

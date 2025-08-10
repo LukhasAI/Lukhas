@@ -13,7 +13,7 @@
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 # TAG:memory
 # TAG:temporal
@@ -30,7 +30,7 @@ class IntegrityProbe:
     def __init__(self, brain_integrator):
         self.brain_integrator = brain_integrator
 
-    async def probe(self) -> Dict[str, Any]:
+    async def probe(self) -> dict[str, Any]:
         """
         Probes the integrity of the brain's components.
         """

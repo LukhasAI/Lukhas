@@ -45,7 +45,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -65,7 +65,7 @@ MODULE_NAME = "dream_reflection_loop"
 
 # Try to import brain integration components
 try:
-    from orchestration.brain.brain_integration import BrainIntegration
+    pass
 
     BRAIN_INTEGRATION_AVAILABLE = True
     logger.info("Brain Integration module loaded successfully in Dream Engine")
@@ -88,7 +88,6 @@ except ImportError:
 # Import dream memory fold for snapshot introspection
 try:
     from memory.systems.dream_memory_fold import (
-        DreamMemoryFold,
         get_global_dream_memory_fold,
     )
 
@@ -98,7 +97,6 @@ except ImportError:
 
 # Try importing memory clustering components
 try:
-    import numpy as np
     from sklearn.cluster import DBSCAN
     from sklearn.feature_extraction.text import TfidfVectorizer
 
@@ -135,13 +133,13 @@ class DreamState:
     """State information for a dream being processed."""
 
     dream_id: str
-    content: Dict[str, Any]
+    content: dict[str, Any]
     timestamp: datetime
     reflection_count: int = 0
     quantum_coherence: float = 0.0
     bio_rhythm_phase: str = "unknown"
-    symbolic_tags: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    symbolic_tags: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class DreamReflectionLoop:
@@ -213,7 +211,7 @@ class DreamReflectionLoop:
         self.dream_buffer = []
         self.reflection_thread = None
         self.is_running = False
-        self.current_dreams: List[DreamState] = []
+        self.current_dreams: list[DreamState] = []
         self.processed_count = 0
         self.dream_thread = None
         self.dreaming = False
@@ -286,9 +284,9 @@ class DreamReflectionLoop:
 
     async def process_dream(
         self,
-        dream_content: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        dream_content: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Process a dream with full reflection and integration.
 
@@ -761,7 +759,7 @@ class DreamReflectionLoop:
 
     async def _consolidate_dream_memory(
         self, dream_state: DreamState
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Consolidate dream into memory system."""
         if not self.memory_manager:
             return {"status": "no_memory_manager"}
@@ -852,10 +850,9 @@ class DreamReflectionLoop:
                 if (
                     time.time() - self.last_activity_time
                     > self.config.idle_trigger_seconds
-                ):
-                    if not self.dreaming:
-                        logger.info("System idle detected - starting dream cycle")
-                        self.start_dream_cycle()
+                ) and not self.dreaming:
+                    logger.info("System idle detected - starting dream cycle")
+                    self.start_dream_cycle()
 
                 # Process any pending dreams
                 if self.dream_buffer:
@@ -868,7 +865,7 @@ class DreamReflectionLoop:
                 logger.error(f"Error in reflection loop: {e}")
                 time.sleep(5)
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current status of the dream reflection loop."""
         return {
             "running": self.is_running,
@@ -887,7 +884,7 @@ class DreamReflectionLoop:
             },
         }
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get performance metrics."""
         return self.metrics.copy()
 
@@ -967,8 +964,8 @@ class DreamReflectionLoop:
     async def create_dream_snapshot(
         self,
         fold_id: str,
-        content: Dict[str, Any],
-        metadata: Optional[Dict[str, Any]] = None,
+        content: dict[str, Any],
+        metadata: Optional[dict[str, Any]] = None,
     ) -> bool:
         """
         Create a dream snapshot in the memory fold system.
@@ -986,7 +983,7 @@ class DreamReflectionLoop:
             return False
 
         try:
-            snapshot = await self.dream_memory_fold.dream_snapshot(
+            await self.dream_memory_fold.dream_snapshot(
                 fold_id=fold_id,
                 dream_state={
                     "content": content,
@@ -1023,7 +1020,7 @@ class DreamReflectionLoop:
             logger.error(f"Failed to sync memory fold: {e}")
             return False
 
-    async def get_fold_snapshots(self, fold_id: str) -> List[Dict[str, Any]]:
+    async def get_fold_snapshots(self, fold_id: str) -> list[dict[str, Any]]:
         """
         Get all snapshots for a specific fold.
 
@@ -1043,7 +1040,7 @@ class DreamReflectionLoop:
             logger.error(f"Failed to get fold snapshots: {e}")
             return []
 
-    async def get_fold_statistics(self, fold_id: str) -> Dict[str, Any]:
+    async def get_fold_statistics(self, fold_id: str) -> dict[str, Any]:
         """
         Get statistics for a specific fold.
 

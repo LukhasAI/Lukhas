@@ -34,7 +34,7 @@ __tier__ = 2
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -107,8 +107,8 @@ class QuantumProcessingCore:
             return False
 
     async def process_quantum_enhanced(
-        self, input_data: Dict[str, Any], context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, input_data: dict[str, Any], context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Process data through quantum-enhanced pathway
 
@@ -178,7 +178,7 @@ class QuantumProcessingCore:
             logger.error(f"Quantum-inspired processing failed: {e}")
             return {"status": "error", "error": str(e)}
 
-    async def apply_learning_bias(self, learning_state: Dict[str, Any]) -> None:
+    async def apply_learning_bias(self, learning_state: dict[str, Any]) -> None:
         """Apply learning bias from meta-learning system"""
         try:
             # Extract learning parameters
@@ -206,7 +206,7 @@ class QuantumProcessingCore:
             logger.warning(f"Learning bias application failed: {e}")
 
     async def apply_quantum_optimization(
-        self, quantum_like_state: Dict[str, Any]
+        self, quantum_like_state: dict[str, Any]
     ) -> None:
         """Apply quantum optimization from other systems"""
         try:
@@ -235,14 +235,14 @@ class QuantumProcessingCore:
         except Exception as e:
             logger.warning(f"Quantum optimization application failed: {e}")
 
-    def _prepare_quantum_signal(self, input_data: Dict[str, Any]) -> np.ndarray:
+    def _prepare_quantum_signal(self, input_data: dict[str, Any]) -> np.ndarray:
         """Convert input data to quantum signal format"""
         try:
             # Extract numerical features from input data
             if isinstance(input_data, dict):
                 # Convert dict values to numerical array
                 values = []
-                for key, value in input_data.items():
+                for _key, value in input_data.items():
                     if isinstance(value, (int, float)):
                         values.append(value)
                     elif isinstance(value, str):
@@ -266,7 +266,7 @@ class QuantumProcessingCore:
             return np.random.random(5) * 0.5 + 0.25
 
     def _update_quantum_like_state(
-        self, output: np.ndarray, plasticity_meta: Dict[str, Any]
+        self, output: np.ndarray, plasticity_meta: dict[str, Any]
     ) -> None:
         """Update internal quantum-like state based on processing results"""
         try:
@@ -301,9 +301,9 @@ class QuantumProcessingCore:
 
     def _calculate_quantum_advantage(
         self,
-        bridge_meta: Dict[str, Any],
-        gate_meta: Dict[str, Any],
-        plasticity_meta: Dict[str, Any],
+        bridge_meta: dict[str, Any],
+        gate_meta: dict[str, Any],
+        plasticity_meta: dict[str, Any],
     ) -> float:
         """Calculate quantum advantage score"""
         try:
@@ -349,7 +349,7 @@ class QuantumProcessingCore:
         except Exception as e:
             logger.warning(f"Coherence setting failed: {e}")
 
-    def _get_entanglement_state(self) -> Dict[str, Any]:
+    def _get_entanglement_state(self) -> dict[str, Any]:
         """Get current entanglement state information"""
         try:
             return {
@@ -381,7 +381,7 @@ class QuantumProcessingCore:
         except Exception as e:
             logger.warning(f"Coherence time extension failed: {e}")
 
-    def get_quantum_like_state(self) -> Dict[str, Any]:
+    def get_quantum_like_state(self) -> dict[str, Any]:
         """Get current quantum-like state for integration"""
         return {
             "quantum_like_state": self.quantum_like_state.tolist(),
@@ -393,7 +393,7 @@ class QuantumProcessingCore:
             ),
         }
 
-    def get_quantum_metrics(self) -> Dict[str, Any]:
+    def get_quantum_metrics(self) -> dict[str, Any]:
         """Get quantum-inspired processing metrics"""
         avg_processing_time = self.metrics["processing_time_total"] / max(
             1, self.metrics["total_operations"]
@@ -415,7 +415,7 @@ class QuantumProcessingCore:
             "current_coherence": self._calculate_coherence(),
         }
 
-    async def optimize_quantum_performance(self) -> Dict[str, Any]:
+    async def optimize_quantum_performance(self) -> dict[str, Any]:
         """Optimize quantum-inspired processing performance"""
         try:
             optimization_results = {}

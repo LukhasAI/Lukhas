@@ -25,7 +25,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -34,7 +34,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
 try:
     from ethics.quantum_mesh_integrator import (
-        EthicsRiskLevel,
         QuantumEthicsMeshIntegrator,
     )
 except ImportError:
@@ -50,10 +49,10 @@ class StabilizationAction:
     """Represents a stabilization action taken by the tuner"""
 
     timestamp: float
-    subsystem_pair: Tuple[str, str]
+    subsystem_pair: tuple[str, str]
     instability_type: str  # 'low_coherence', 'phase_drift', 'cascade_risk'
     severity: float  # 0-1 scale
-    stabilizers_applied: List[str]
+    stabilizers_applied: list[str]
     justification: str
     auto_applied: bool = False
     success_score: Optional[float] = None
@@ -63,7 +62,7 @@ class StabilizationAction:
 class EntanglementTrend:
     """Tracks entanglement trends over time"""
 
-    pair: Tuple[str, str]
+    pair: tuple[str, str]
     timestamps: deque = field(default_factory=lambda: deque(maxlen=50))
     strengths: deque = field(default_factory=lambda: deque(maxlen=50))
     coherences: deque = field(default_factory=lambda: deque(maxlen=50))
@@ -224,12 +223,12 @@ class SymbolicStabilizer:
     }
 
     @classmethod
-    def get_stabilizer(cls, tag: str) -> Optional[Dict[str, Any]]:
+    def get_stabilizer(cls, tag: str) -> Optional[dict[str, Any]]:
         """Get stabilizer information by tag"""
         return cls.STABILIZERS.get(tag)
 
     @classmethod
-    def get_applicable_stabilizers(cls, pair: Tuple[str, str]) -> List[str]:
+    def get_applicable_stabilizers(cls, pair: tuple[str, str]) -> list[str]:
         """Get stabilizers applicable to a specific subsystem pair"""
         pair_str = f"{pair[0]}↔{pair[1]}"
         reverse_pair_str = f"{pair[1]}↔{pair[0]}"
@@ -251,8 +250,8 @@ class AdaptiveEntanglementStabilizer:
     """Main stabilization engine for quantum ethics mesh"""
 
     def __init__(self, config_path: Optional[str] = None):
-        self.trends: Dict[Tuple[str, str], EntanglementTrend] = {}
-        self.stabilization_history: List[StabilizationAction] = []
+        self.trends: dict[tuple[str, str], EntanglementTrend] = {}
+        self.stabilization_history: list[StabilizationAction] = []
         self.config = self._load_config(config_path)
 
         # Tuning parameters
@@ -267,11 +266,11 @@ class AdaptiveEntanglementStabilizer:
         self.suggest_only_mode = False
 
         # Active stabilizations
-        self.active_stabilizations: Dict[Tuple[str, str], List[str]] = {}
+        self.active_stabilizations: dict[tuple[str, str], list[str]] = {}
 
         logger.info("Adaptive Entanglement Stabilizer initialized")
 
-    def _load_config(self, config_path: Optional[str]) -> Dict[str, Any]:
+    def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
         """Load configuration from file"""
         if config_path and Path(config_path).exists():
             with open(config_path) as f:
@@ -285,7 +284,7 @@ class AdaptiveEntanglementStabilizer:
 
     def monitor_entanglement(
         self, log_file: str, window: int = 10
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Read quantum_mesh_integrator logs and track recent entanglement trends
 
@@ -325,7 +324,7 @@ class AdaptiveEntanglementStabilizer:
             logger.error(f"Failed to read log file: {e}")
             return self._generate_synthetic_log_data(window)
 
-    def _generate_synthetic_log_data(self, window: int) -> List[Dict[str, Any]]:
+    def _generate_synthetic_log_data(self, window: int) -> list[dict[str, Any]]:
         """Generate synthetic log data for testing"""
         logger.info("Generating synthetic entanglement data")
 
@@ -392,7 +391,7 @@ class AdaptiveEntanglementStabilizer:
         self._update_trends(entries)
         return entries
 
-    def _update_trends(self, entries: List[Dict[str, Any]]) -> None:
+    def _update_trends(self, entries: list[dict[str, Any]]) -> None:
         """Update trend tracking with new entries"""
         for entry in entries:
             timestamp = entry["timestamp"]
@@ -422,8 +421,8 @@ class AdaptiveEntanglementStabilizer:
                 )
 
     def detect_instability(
-        self, trend_data: List[Dict[str, Any]]
-    ) -> List[Tuple[str, str]]:
+        self, trend_data: list[dict[str, Any]]
+    ) -> list[tuple[str, str]]:
         """
         Return subsystem pairs falling below coherence thresholds
 
@@ -468,7 +467,7 @@ class AdaptiveEntanglementStabilizer:
 
         return [(pair[0], pair[1]) for pair, _ in unstable_pairs]
 
-    def _in_cooldown_period(self, pair: Tuple[str, str]) -> bool:
+    def _in_cooldown_period(self, pair: tuple[str, str]) -> bool:
         """Check if pair is in stabilization cooldown period"""
         current_time = datetime.now().timestamp()
 
@@ -481,7 +480,7 @@ class AdaptiveEntanglementStabilizer:
 
         return False
 
-    def select_stabilizers(self, subsystem_pair: Tuple[str, str]) -> List[str]:
+    def select_stabilizers(self, subsystem_pair: tuple[str, str]) -> list[str]:
         """
         Choose symbolic stabilizers appropriate to the subsystem context
 
@@ -552,7 +551,7 @@ class AdaptiveEntanglementStabilizer:
         logger.info(f"Selected stabilizers: {selected}")
         return selected
 
-    def apply_symbolic_correction(self, pair: Tuple[str, str], tags: List[str]) -> None:
+    def apply_symbolic_correction(self, pair: tuple[str, str], tags: list[str]) -> None:
         """
         Inject selected symbolic stabilizers into the mesh stream
 
@@ -615,7 +614,7 @@ class AdaptiveEntanglementStabilizer:
         self.emit_tuning_log(action.__dict__)
 
     def _inject_stabilizer(
-        self, pair: Tuple[str, str], tag: str, info: Dict[str, Any]
+        self, pair: tuple[str, str], tag: str, info: dict[str, Any]
     ) -> bool:
         """
         Actual stabilizer injection (placeholder for real implementation)
@@ -639,7 +638,7 @@ class AdaptiveEntanglementStabilizer:
         # Simulated success rate
         return np.random.random() > 0.1  # 90% success rate
 
-    def _calculate_severity(self, pair: Tuple[str, str]) -> float:
+    def _calculate_severity(self, pair: tuple[str, str]) -> float:
         """Calculate instability severity for a pair"""
         trend = self.trends.get(pair)
         if not trend or len(trend.strengths) == 0:
@@ -654,7 +653,7 @@ class AdaptiveEntanglementStabilizer:
 
         return (strength_severity + risk_severity) / 2.0
 
-    def _generate_justification(self, pair: Tuple[str, str], tags: List[str]) -> str:
+    def _generate_justification(self, pair: tuple[str, str], tags: list[str]) -> str:
         """Generate human-readable justification for stabilization"""
         trend = self.trends.get(pair)
         if not trend or len(trend.strengths) == 0:
@@ -678,7 +677,7 @@ class AdaptiveEntanglementStabilizer:
         reason_str = ", ".join(reasons) if reasons else "proactive stabilization"
         return f"Stabilizing {pair[0]}↔{pair[1]} due to {reason_str} using {', '.join(tags)}"
 
-    def emit_tuning_log(self, entry: Dict[str, Any]) -> None:
+    def emit_tuning_log(self, entry: dict[str, Any]) -> None:
         """
         Log the entanglement tuning action with ΛTUNE tag
 
@@ -744,7 +743,7 @@ class AdaptiveEntanglementStabilizer:
                 logger.error(f"Error in continuous monitoring: {e}")
                 await asyncio.sleep(interval)
 
-    def get_stabilization_status(self) -> Dict[str, Any]:
+    def get_stabilization_status(self) -> dict[str, Any]:
         """Get current stabilization system status"""
         return {
             "monitored_pairs": len(self.trends),
@@ -894,7 +893,7 @@ Examples:
 if __name__ == "__main__":
     exit(main())
 
-## CLAUDE CHANGELOG
+# CLAUDE CHANGELOG
 # - Created comprehensive adaptive entanglement stabilization engine # CLAUDE_EDIT_v0.1
 # - Implemented entanglement monitoring with trend analysis and instability detection # CLAUDE_EDIT_v0.1
 # - Built symbolic stabilizer catalog with contextual selection algorithms # CLAUDE_EDIT_v0.1

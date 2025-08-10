@@ -6,11 +6,12 @@ providing a centralized system for extending memory operations.
 ΛTAG: memory_hook_registry
 """
 
+from core.common import LukhasError
 import time
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import Dict, List, Optional, Set
+from typing import Optional
 
 from core.common import get_logger
 
@@ -19,13 +20,8 @@ from .base import HookExecutionError, MemoryHook, MemoryItem
 logger = get_logger(__name__)
 
 
-from core.common import LukhasError
-
-
 class HookRegistrationError(LukhasError):
     """Raised when hook registration fails"""
-
-    pass
 
 
 class HookPriority(IntEnum):
@@ -44,7 +40,7 @@ class RegisteredHook:
 
     hook: MemoryHook
     priority: HookPriority
-    tags: Set[str]
+    tags: set[str]
     max_retries: int = 3
     timeout_seconds: float = 5.0
     fail_on_error: bool = False
@@ -73,16 +69,16 @@ class HookRegistry:
             max_hooks_per_priority: Maximum hooks allowed per priority level
             global_timeout_seconds: Total timeout for all hook execution
         """
-        self._hooks: Dict[HookPriority, List[RegisteredHook]] = defaultdict(list)
-        self._hook_names: Set[str] = set()
+        self._hooks: dict[HookPriority, list[RegisteredHook]] = defaultdict(list)
+        self._hook_names: set[str] = set()
         self._max_hooks_per_priority = max_hooks_per_priority
         self._global_timeout = global_timeout_seconds
 
         # Circuit breaker state
         self._circuit_breaker_enabled = True
-        self._failed_hooks: Dict[str, int] = defaultdict(int)
+        self._failed_hooks: dict[str, int] = defaultdict(int)
         self._circuit_breaker_threshold = 5
-        self._disabled_hooks: Set[str] = set()
+        self._disabled_hooks: set[str] = set()
 
         # Performance monitoring
         self._execution_metrics = {
@@ -97,7 +93,7 @@ class HookRegistry:
         self,
         hook: MemoryHook,
         priority: HookPriority = HookPriority.NORMAL,
-        tags: Optional[Set[str]] = None,
+        tags: Optional[set[str]] = None,
         max_retries: int = 3,
         timeout_seconds: float = 5.0,
         fail_on_error: bool = False,
@@ -168,7 +164,7 @@ class HookRegistry:
         return False
 
     def execute_before_store(
-        self, item: MemoryItem, tags: Optional[Set[str]] = None
+        self, item: MemoryItem, tags: Optional[set[str]] = None
     ) -> MemoryItem:
         """Execute all before_store hooks in priority order
 
@@ -185,7 +181,7 @@ class HookRegistry:
         return self._execute_hooks("before_store", item, tags)
 
     def execute_after_recall(
-        self, item: MemoryItem, tags: Optional[Set[str]] = None
+        self, item: MemoryItem, tags: Optional[set[str]] = None
     ) -> MemoryItem:
         """Execute all after_recall hooks in priority order
 
@@ -202,7 +198,7 @@ class HookRegistry:
         return self._execute_hooks("after_recall", item, tags)
 
     def _execute_hooks(
-        self, operation: str, item: MemoryItem, tags: Optional[Set[str]] = None
+        self, operation: str, item: MemoryItem, tags: Optional[set[str]] = None
     ) -> MemoryItem:
         """Execute hooks for given operation
 
@@ -268,7 +264,7 @@ class HookRegistry:
 
         return processed_item
 
-    def _collect_hooks(self, tags: Optional[Set[str]] = None) -> List[RegisteredHook]:
+    def _collect_hooks(self, tags: Optional[set[str]] = None) -> list[RegisteredHook]:
         """Collect hooks to execute based on tags and priority
 
         Args:
@@ -395,7 +391,7 @@ class HookRegistry:
             self._failed_hooks.clear()
             logger.info("Reset all circuit breakers")
 
-    def get_registered_hooks(self) -> Dict[str, Dict[str, any]]:
+    def get_registered_hooks(self) -> dict[str, dict[str, any]]:
         """Get information about all registered hooks
 
         Returns:
@@ -420,7 +416,7 @@ class HookRegistry:
 
         return hooks_info
 
-    def get_registry_metrics(self) -> Dict[str, any]:
+    def get_registry_metrics(self) -> dict[str, any]:
         """Get registry performance metrics
 
         Returns:

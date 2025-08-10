@@ -5,6 +5,11 @@ Advanced: synthesis.py
 Integration Date: 2025-05-31T07:55:28.358534
 """
 
+from core.common import get_logger
+from typing import Any, Optional
+from dataclasses import dataclass
+import os
+import asyncio
 import logging
 
 """
@@ -16,12 +21,6 @@ It dynamically adjusts voice characteristics based on emotional context, convers
 flow, and user preferences to create a more natural and engaging experience.
 """
 
-import asyncio
-import os
-from dataclasses import dataclass
-from typing import Any, Optional
-
-from core.common import get_logger
 
 logger = get_logger(__name__)
 

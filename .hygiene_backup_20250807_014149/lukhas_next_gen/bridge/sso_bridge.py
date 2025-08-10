@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class SSOProvider:
     """SSO provider configuration"""
+
     provider_id: str
     provider_name: str
     provider_type: str  # oauth2, saml, openid
@@ -40,6 +41,7 @@ class SSOProvider:
 @dataclass
 class SSOSession:
     """Active SSO session"""
+
     session_id: str
     provider_id: str
     user_id: str
@@ -58,6 +60,7 @@ class SSOSession:
 @dataclass
 class SSOTransaction:
     """SSO authentication transaction"""
+
     transaction_id: str
     provider_id: str
     state: str
@@ -85,13 +88,11 @@ class SSOBridge:
         "write": "✍️",
         "delete": "🗑️",
         "create": "✨",
-
         # Enterprise role mappings
         "manager": "👑",
         "employee": "👤",
         "contractor": "🤝",
         "guest": "🚪",
-
         # Department mappings
         "engineering": "⚙️",
         "security": "🛡️",
@@ -99,16 +100,18 @@ class SSOBridge:
         "hr": "👥",
         "marketing": "📢",
         "sales": "💼",
-
         # Access levels
         "confidential": "🔒",
         "internal": "🏢",
         "public": "🌐",
-        "restricted": "⛔"
+        "restricted": "⛔",
     }
 
-    def __init__(self, config_file: str = "sso_config.json",
-                 session_store: str = "sso_sessions.json"):
+    def __init__(
+        self,
+        config_file: str = "sso_config.json",
+        session_store: str = "sso_sessions.json",
+    ):
         self.config_file = Path(config_file)
         self.session_store = Path(session_store)
         self.providers: Dict[str, SSOProvider] = {}
@@ -142,7 +145,7 @@ class SSOBridge:
                         client_secret=provider_config["client_secret"],
                         scopes=provider_config.get("scopes", []),
                         glyph_mapping=provider_config.get("glyph_mapping", {}),
-                        metadata=provider_config.get("metadata", {})
+                        metadata=provider_config.get("metadata", {}),
                     )
 
             except Exception as e:
@@ -174,12 +177,12 @@ class SSOBridge:
                         "Global Administrator": "🔐",
                         "User Administrator": "👑",
                         "Security Reader": "🛡️",
-                        "User": "🔓"
+                        "User": "🔓",
                     },
                     "metadata": {
                         "tenant_id": "your-tenant-id",
-                        "authority": "https://login.microsoftonline.com/your-tenant-id"
-                    }
+                        "authority": "https://login.microsoftonline.com/your-tenant-id",
+                    },
                 },
                 "okta": {
                     "provider_id": "okta",
@@ -195,11 +198,9 @@ class SSOBridge:
                         "Administrators": "🔐",
                         "Managers": "👑",
                         "Employees": "🔓",
-                        "Contractors": "🤝"
+                        "Contractors": "🤝",
                     },
-                    "metadata": {
-                        "domain": "your-domain.okta.com"
-                    }
+                    "metadata": {"domain": "your-domain.okta.com"},
                 },
                 "google_workspace": {
                     "provider_id": "google_workspace",
@@ -211,15 +212,12 @@ class SSOBridge:
                     "client_id": "your-client-id.apps.googleusercontent.com",
                     "client_secret": "your-client-secret",
                     "scopes": ["openid", "email", "profile"],
-                    "glyph_mapping": {
-                        "admin": "🔐",
-                        "user": "🔓"
-                    }
-                }
-            }
+                    "glyph_mapping": {"admin": "🔐", "user": "🔓"},
+                },
+            },
         }
 
-        with open(self.config_file, 'w') as f:
+        with open(self.config_file, "w") as f:
             json.dump(default_config, f, indent=2)
 
         logger.info("📝 Created default SSO configuration")
@@ -245,7 +243,9 @@ class SSOBridge:
                         user_claims=session_data["user_claims"],
                         assigned_glyphs=session_data["assigned_glyphs"],
                         created_at=datetime.fromisoformat(session_data["created_at"]),
-                        last_activity=datetime.fromisoformat(session_data["last_activity"])
+                        last_activity=datetime.fromisoformat(
+                            session_data["last_activity"]
+                        ),
                     )
 
             except Exception as e:
@@ -256,7 +256,7 @@ class SSOBridge:
         data = {
             "version": "1.0.0",
             "updated": datetime.utcnow().isoformat(),
-            "sessions": {}
+            "sessions": {},
         }
 
         for session_id, session in self.active_sessions.items():
@@ -273,14 +273,18 @@ class SSOBridge:
                 "user_claims": session.user_claims,
                 "assigned_glyphs": session.assigned_glyphs,
                 "created_at": session.created_at.isoformat(),
-                "last_activity": session.last_activity.isoformat()
+                "last_activity": session.last_activity.isoformat(),
             }
 
-        with open(self.session_store, 'w') as f:
+        with open(self.session_store, "w") as f:
             json.dump(data, f, indent=2)
 
-    def initiate_sso_flow(self, provider_id: str, redirect_uri: str,
-                          requested_scopes: Optional[List[str]] = None) -> Optional[Tuple[str, str]]:
+    def initiate_sso_flow(
+        self,
+        provider_id: str,
+        redirect_uri: str,
+        requested_scopes: Optional[List[str]] = None,
+    ) -> Optional[Tuple[str, str]]:
         """Initiate SSO authentication flow"""
         if provider_id not in self.providers:
             logger.error(f"Unknown SSO provider: {provider_id}")
@@ -303,7 +307,7 @@ class SSOBridge:
             nonce=nonce,
             redirect_uri=redirect_uri,
             requested_scopes=scopes,
-            created_at=datetime.utcnow()
+            created_at=datetime.utcnow(),
         )
 
         self.transactions[transaction_id] = transaction
@@ -315,7 +319,7 @@ class SSOBridge:
             "redirect_uri": redirect_uri,
             "scope": " ".join(scopes),
             "state": state,
-            "nonce": nonce
+            "nonce": nonce,
         }
 
         auth_url = f"{provider.endpoint_auth}?{urlencode(auth_params)}"
@@ -326,8 +330,9 @@ class SSOBridge:
 
         return auth_url, transaction_id
 
-    def handle_sso_callback(self, transaction_id: str, authorization_code: str,
-                           state: str) -> Optional[SSOSession]:
+    def handle_sso_callback(
+        self, transaction_id: str, authorization_code: str, state: str
+    ) -> Optional[SSOSession]:
         """Handle SSO callback and complete authentication"""
         if transaction_id not in self.transactions:
             logger.error(f"Unknown transaction: {transaction_id}")
@@ -368,16 +373,19 @@ class SSOBridge:
             session_id=session_id,
             provider_id=provider.provider_id,
             user_id=user_info.get("sub", user_info.get("id", "unknown")),
-            external_user_id=user_info.get("email", user_info.get("preferred_username", "unknown")),
+            external_user_id=user_info.get(
+                "email", user_info.get("preferred_username", "unknown")
+            ),
             access_token=token_response["access_token"],
             refresh_token=token_response.get("refresh_token"),
             token_type=token_response.get("token_type", "Bearer"),
-            expires_at=datetime.utcnow() + timedelta(seconds=token_response.get("expires_in", 3600)),
+            expires_at=datetime.utcnow()
+            + timedelta(seconds=token_response.get("expires_in", 3600)),
             scopes=transaction.requested_scopes,
             user_claims=user_info,
             assigned_glyphs=assigned_glyphs,
             created_at=datetime.utcnow(),
-            last_activity=datetime.utcnow()
+            last_activity=datetime.utcnow(),
         )
 
         # Store session
@@ -397,8 +405,9 @@ class SSOBridge:
 
         return session
 
-    def _exchange_code_for_tokens(self, provider: SSOProvider, code: str,
-                                redirect_uri: str) -> Optional[Dict]:
+    def _exchange_code_for_tokens(
+        self, provider: SSOProvider, code: str, redirect_uri: str
+    ) -> Optional[Dict]:
         """Exchange authorization code for access tokens (simulated)"""
         # In a real implementation, this would make an HTTP POST to the token endpoint
         logger.info("🔄 Simulating token exchange...")
@@ -409,10 +418,12 @@ class SSOBridge:
             "refresh_token": f"rt_{secrets.token_urlsafe(32)}",
             "token_type": "Bearer",
             "expires_in": 3600,
-            "scope": " ".join(provider.scopes)
+            "scope": " ".join(provider.scopes),
         }
 
-    def _get_user_info(self, provider: SSOProvider, access_token: str) -> Optional[Dict]:
+    def _get_user_info(
+        self, provider: SSOProvider, access_token: str
+    ) -> Optional[Dict]:
         """Get user information from provider (simulated)"""
         # In a real implementation, this would make an HTTP GET to the userinfo endpoint
         logger.info("👤 Simulating user info retrieval...")
@@ -426,26 +437,28 @@ class SSOBridge:
                 "given_name": "John",
                 "family_name": "Doe",
                 "roles": ["User", "Security Reader"],
-                "department": "Engineering"
+                "department": "Engineering",
             }
         elif provider.provider_id == "okta":
             return {
                 "sub": str(uuid.uuid4()),
                 "email": "user@company.com",
                 "name": "Jane Smith",
-                "groups": ["Employees", "Engineering"]
+                "groups": ["Employees", "Engineering"],
             }
         elif provider.provider_id == "google_workspace":
             return {
                 "sub": str(uuid.uuid4()),
                 "email": "user@company.com",
                 "name": "Bob Johnson",
-                "picture": "https://example.com/avatar.jpg"
+                "picture": "https://example.com/avatar.jpg",
             }
 
         return None
 
-    def _map_claims_to_glyphs(self, user_claims: Dict, provider_mapping: Dict[str, str]) -> List[str]:
+    def _map_claims_to_glyphs(
+        self, user_claims: Dict, provider_mapping: Dict[str, str]
+    ) -> List[str]:
         """Map user claims to LUKHAS glyphs"""
         assigned_glyphs = []
 
@@ -533,7 +546,7 @@ class SSOBridge:
 
             config["providers"][provider.provider_id] = asdict(provider)
 
-            with open(self.config_file, 'w') as f:
+            with open(self.config_file, "w") as f:
                 json.dump(config, f, indent=2)
 
             logger.info(f"➕ Added SSO provider: {provider.provider_name}")
@@ -571,16 +584,18 @@ class SSOBridge:
             "pending_transactions": len(self.transactions),
             "provider_usage": provider_usage,
             "glyph_distribution": glyph_usage,
-            "standard_mappings": len(self.STANDARD_GLYPH_MAPPINGS)
+            "standard_mappings": len(self.STANDARD_GLYPH_MAPPINGS),
         }
 
 
 # Example usage and testing
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format='%(message)s')
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
 
     # Create SSO bridge
-    sso = SSOBridge(config_file="demo_sso_config.json", session_store="demo_sso_sessions.json")
+    sso = SSOBridge(
+        config_file="demo_sso_config.json", session_store="demo_sso_sessions.json"
+    )
 
     print("🔗 SSO Bridge Demo")
     print("=" * 60)
@@ -592,7 +607,7 @@ if __name__ == "__main__":
     auth_url, transaction_id = sso.initiate_sso_flow(
         provider_id="azure_ad",
         redirect_uri="https://lukhas.ai/auth/callback",
-        requested_scopes=["openid", "profile", "email"]
+        requested_scopes=["openid", "profile", "email"],
     )
 
     print(f"   Auth URL: {auth_url[:80]}...")
@@ -603,7 +618,7 @@ if __name__ == "__main__":
     session = sso.handle_sso_callback(
         transaction_id=transaction_id,
         authorization_code="simulated_auth_code",
-        state=sso.transactions[transaction_id].state
+        state=sso.transactions[transaction_id].state,
     )
 
     if session:
@@ -634,6 +649,7 @@ if __name__ == "__main__":
 
     # Cleanup demo files
     import os
+
     try:
         os.unlink("demo_sso_config.json")
         os.unlink("demo_sso_sessions.json")

@@ -43,7 +43,7 @@
 import hashlib
 import json
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 
 class MemoryUtils:
@@ -55,7 +55,7 @@ class MemoryUtils:
         return hashlib.sha256(content.encode()).hexdigest()[:16]
 
     @staticmethod
-    def encrypt_memory_data(data: Dict[str, Any], key: str) -> str:
+    def encrypt_memory_data(data: dict[str, Any], key: str) -> str:
         """Encrypt memory data."""
         # Simple encryption for demonstration
         data_str = json.dumps(data)
@@ -66,7 +66,7 @@ class MemoryUtils:
         return encrypted
 
     @staticmethod
-    def decrypt_memory_data(encrypted_data: str, key: str) -> Dict[str, Any]:
+    def decrypt_memory_data(encrypted_data: str, key: str) -> dict[str, Any]:
         """Decrypt memory data."""
         # Simple decryption for demonstration
         decrypted = "".join(
@@ -77,14 +77,12 @@ class MemoryUtils:
 
     @staticmethod
     def validate_memory_access(
-        user_id: str, memory_id: str, access_policy: Dict[str, Any]
+        user_id: str, memory_id: str, access_policy: dict[str, Any]
     ) -> bool:
         """Validate memory access permissions."""
         if access_policy.get("public", False):
             return True
-        if user_id in access_policy.get("allowed_users", []):
-            return True
-        return False
+        return user_id in access_policy.get("allowed_users", [])
 
     @staticmethod
     def format_memory_timestamp(timestamp: datetime) -> str:
@@ -92,6 +90,6 @@ class MemoryUtils:
         return timestamp.strftime("%Y-%m-%d %H:%M:%S")
 
     @staticmethod
-    def calculate_memory_size(memory_data: Dict[str, Any]) -> int:
+    def calculate_memory_size(memory_data: dict[str, Any]) -> int:
         """Calculate memory size in bytes."""
         return len(json.dumps(memory_data).encode())

@@ -22,15 +22,11 @@ Integration Date: 2025-05-31T07:55:27.743225
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-import json
 from datetime import datetime
+import json
+from governance_extended.audit_logger import log_audit_event
 from pathlib import Path
 
-from governance_extended.audit_logger import log_audit_event
-from governance_extended.policy_manager import (
-    determine_active_regulations,
-    log_active_regulations,
-)
 
 COMPLIANCE_LOG_PATH = Path("../../logs/compliance/compliance_log_2025_04_28.json")
 

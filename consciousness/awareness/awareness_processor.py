@@ -1,3 +1,5 @@
+import logging
+
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: awareness_processor.py
 # MODULE: consciousness.core_consciousness.awareness_processor
@@ -16,7 +18,6 @@ import asyncio
 from datetime import datetime
 from typing import (  # List not used in signatures but kept
     Any,
-    Dict,
     Optional,
 )
 
@@ -78,7 +79,7 @@ class AwarenessProcessor:
     @lukhas_tier_required(level=3)
     def __init__(
         self,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
         user_id_context: Optional[str] = None,
     ):
         """
@@ -100,7 +101,8 @@ class AwarenessProcessor:
             f"ΛTRACE: AwarenessProcessor initialized with config: {self.config}, Status: {self.status}"
         )
 
-    # Human-readable comment: Asynchronously initializes the awareness processor component.
+    # Human-readable comment: Asynchronously initializes the awareness
+    # processor component.
     @lukhas_tier_required(level=3)
     async def initialize(self, user_id: Optional[str] = None) -> bool:
         """
@@ -130,7 +132,8 @@ class AwarenessProcessor:
             self.status = "initialization_failed"
             return False
 
-    # Human-readable comment: Internal method to set up core awareness processing systems.
+    # Human-readable comment: Internal method to set up core awareness
+    # processing systems.
     async def _setup_awareness_processing_system(self):  # Renamed
         """Placeholder for setting up the core awareness processing system."""
         self.instance_logger.debug(
@@ -144,7 +147,7 @@ class AwarenessProcessor:
 
     # Human-readable comment: Processes input data using awareness-specific logic.
     @lukhas_tier_required(level=3)
-    async def process(self, data: Any, user_id: Optional[str] = None) -> Dict[str, Any]:
+    async def process(self, data: Any, user_id: Optional[str] = None) -> dict[str, Any]:
         """
         Process input data using awareness-specific logic.
         Args:
@@ -207,7 +210,8 @@ class AwarenessProcessor:
                 "timestamp_utc": datetime.utcnow().isoformat(),
             }
 
-    # Human-readable comment: Core internal processing logic dispatch based on category. Renamed for clarity.
+    # Human-readable comment: Core internal processing logic dispatch based on
+    # category. Renamed for clarity.
     async def _core_awareness_data_processing(
         self, data: Any, category: Optional[str]
     ) -> Any:  # Renamed
@@ -215,7 +219,8 @@ class AwarenessProcessor:
         self.instance_logger.debug(
             f"ΛTRACE: Internal: _core_awareness_data_processing for category '{category}'."
         )
-        # TODO: This dispatch logic should be more robust and specific to AwarenessProcessor's role.
+        # TODO: This dispatch logic should be more robust and specific to
+        # AwarenessProcessor's role.
         if category == "sensor_fusion":  # Example more specific category
             return await self._process_sensor_data(data)
         elif category == "internal_state_monitoring":
@@ -229,14 +234,15 @@ class AwarenessProcessor:
                 data
             )  # Renamed for clarity
 
-    # Specific processing method placeholders, to be implemented based on AwarenessProcessor's actual role.
-    async def _process_sensor_data(self, data: Any) -> Dict[str, Any]:
+    # Specific processing method placeholders, to be implemented based on
+    # AwarenessProcessor's actual role.
+    async def _process_sensor_data(self, data: Any) -> dict[str, Any]:
         self.instance_logger.debug(
             "ΛTRACE: Internal: Processing sensor data (placeholder)."
         )
         return {"sensor_data_processed": True, "fusion_quality": "high_placeholder"}
 
-    async def _process_internal_state_data(self, data: Any) -> Dict[str, Any]:
+    async def _process_internal_state_data(self, data: Any) -> dict[str, Any]:
         self.instance_logger.debug(
             "ΛTRACE: Internal: Processing internal state data (placeholder)."
         )
@@ -247,7 +253,7 @@ class AwarenessProcessor:
 
     async def _process_generic_awareness_data(
         self, data: Any
-    ) -> Dict[str, Any]:  # Renamed for clarity
+    ) -> dict[str, Any]:  # Renamed for clarity
         self.instance_logger.debug(
             "ΛTRACE: Internal: Processing generic awareness data (placeholder)."
         )
@@ -290,7 +296,8 @@ class AwarenessProcessor:
             )
             return False
 
-    # Human-readable comment: Internal method to perform component-specific validation checks.
+    # Human-readable comment: Internal method to perform component-specific
+    # validation checks.
     async def _perform_internal_validation_checks(self) -> bool:  # Renamed
         """Perform component-specific validation checks (Placeholder)."""
         self.instance_logger.debug(
@@ -301,7 +308,7 @@ class AwarenessProcessor:
 
     # Human-readable comment: Retrieves the current status of the component.
     @lukhas_tier_required(level=0)
-    def get_status(self, user_id: Optional[str] = None) -> Dict[str, Any]:  # Made sync
+    def get_status(self, user_id: Optional[str] = None) -> dict[str, Any]:  # Made sync
         """
         Get current component status, including initialization state.
         Args:
@@ -344,7 +351,7 @@ class AwarenessProcessor:
 # Human-readable comment: Factory function for creating AwarenessProcessor instances.
 @lukhas_tier_required(level=3)
 def create_awareness_processor(
-    config: Optional[Dict[str, Any]] = None, user_id: Optional[str] = None
+    config: Optional[dict[str, Any]] = None, user_id: Optional[str] = None
 ) -> AwarenessProcessor:  # Standardized name
     """
     Factory function to create an AwarenessProcessor instance.
@@ -360,10 +367,11 @@ def create_awareness_processor(
     return AwarenessProcessor(config, user_id_context=user_id)
 
 
-# Human-readable comment: Async factory function to create and initialize AwarenessProcessor instances.
+# Human-readable comment: Async factory function to create and initialize
+# AwarenessProcessor instances.
 @lukhas_tier_required(level=3)
 async def create_and_initialize_awareness_processor(
-    config: Optional[Dict[str, Any]] = None, user_id: Optional[str] = None
+    config: Optional[dict[str, Any]] = None, user_id: Optional[str] = None
 ) -> AwarenessProcessor:  # Standardized name
     """
     Async factory function to create and initialize an AwarenessProcessor instance.

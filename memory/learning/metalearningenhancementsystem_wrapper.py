@@ -2,8 +2,9 @@
 Meta-Learning Enhancement System Wrapper
 Integration wrapper for meta-learning enhancement system
 """
+import logging
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -11,7 +12,6 @@ try:
     from .metalearningenhancementsystem import (
         Enhancementmode,
         MetaLearningEnhancementsystem,
-        Systemintegrationstatus,
     )
 
     # Use the correct case for the enum
@@ -25,7 +25,6 @@ except ImportError as e:
         from .metalearningenhancementsystem_mock import (
             EnhancementMode,
             MetaLearningEnhancementsystem,
-            Systemintegrationstatus,
         )
         from .metalearningenhancementsystem_mock import (
             get_meta_learning_enhancement as get_mock_enhancement,
@@ -97,8 +96,8 @@ class MetaLearningEnhancementWrapper:
             return False
 
     async def enhance_learning_process(
-        self, learning_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, learning_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Enhance a learning process with monitoring and optimization"""
         try:
             # Create enhanced learning configuration
@@ -142,7 +141,7 @@ class MetaLearningEnhancementWrapper:
             self.integration_stats["failed_enhancements"] += 1
             return {"success": False, "error": str(e)}
 
-    async def get_learning_metrics(self) -> Dict[str, Any]:
+    async def get_learning_metrics(self) -> dict[str, Any]:
         """Get current learning metrics from monitor dashboard"""
         if hasattr(self.enhancement_system, "monitor_dashboard"):
             return (
@@ -151,8 +150,8 @@ class MetaLearningEnhancementWrapper:
         return {}
 
     async def apply_symbolic_feedback(
-        self, feedback_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, feedback_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply symbolic feedback to learning process"""
         if hasattr(self.enhancement_system, "symbolic_feedback"):
             return await self.enhancement_system.symbolic_feedback.process_feedback(
@@ -160,7 +159,7 @@ class MetaLearningEnhancementWrapper:
             )
         return {"error": "Symbolic feedback not available"}
 
-    async def enable_federation(self, federation_config: Dict[str, Any]) -> bool:
+    async def enable_federation(self, federation_config: dict[str, Any]) -> bool:
         """Enable federated learning coordination"""
         try:
             if not self.enhancement_system.enable_federation:
@@ -194,7 +193,7 @@ class MetaLearningEnhancementWrapper:
             logger.error(f"Failed to enable federation: {e}")
             return False
 
-    def get_integration_status(self) -> Dict[str, Any]:
+    def get_integration_status(self) -> dict[str, Any]:
         """Get comprehensive integration status"""
         status = {
             "node_id": self.enhancement_system.node_id,

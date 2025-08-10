@@ -8,4 +8,4 @@ from .audit_decision_embedding_engine import (
     DecisionAuditEngine,
 )
 
-__all__ = ['DecisionAuditEngine', 'DecisionAuditDecorator']
+__all__ = ["DecisionAuditEngine", "DecisionAuditDecorator"]

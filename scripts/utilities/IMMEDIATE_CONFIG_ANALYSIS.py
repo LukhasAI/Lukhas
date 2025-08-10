@@ -26,12 +26,15 @@ def analyze_config_files():
     """Analyze all config files for consolidation opportunities."""
     config_files = []
 
-    for root, dirs, files in os.walk('.'):
-        if any(skip in root for skip in ['.pwm_cleanup_archive', '.cleanup_archive', '.git']):
+    for root, dirs, files in os.walk("."):
+        if any(
+            skip in root
+            for skip in [".pwm_cleanup_archive", ".cleanup_archive", ".git"]
+        ):
             continue
 
         for file in files:
-            if 'config' in file.lower() and file.endswith('.py'):
+            if "config" in file.lower() and file.endswith(".py"):
                 filepath = os.path.join(root, file)
                 config_files.append(filepath)
 
@@ -39,26 +42,26 @@ def analyze_config_files():
 
     # Categorize by type
     categories = {
-        'core_configs': [],
-        'module_configs': [],
-        'api_configs': [],
-        'duplicates': [],
-        'builders': [],
-        'managers': []
+        "core_configs": [],
+        "module_configs": [],
+        "api_configs": [],
+        "duplicates": [],
+        "builders": [],
+        "managers": [],
     }
 
     for filepath in config_files:
         name = os.path.basename(filepath).lower()
-        if name == 'config.py':
-            categories['core_configs'].append(filepath)
-        elif 'api' in filepath:
-            categories['api_configs'].append(filepath)
-        elif 'manager' in name:
-            categories['managers'].append(filepath)
-        elif 'builder' in name:
-            categories['builders'].append(filepath)
+        if name == "config.py":
+            categories["core_configs"].append(filepath)
+        elif "api" in filepath:
+            categories["api_configs"].append(filepath)
+        elif "manager" in name:
+            categories["managers"].append(filepath)
+        elif "builder" in name:
+            categories["builders"].append(filepath)
         else:
-            categories['module_configs'].append(filepath)
+            categories["module_configs"].append(filepath)
 
     # Report findings
     for category, files in categories.items():
@@ -70,6 +73,7 @@ def analyze_config_files():
 
     return categories
 
+
 if __name__ == "__main__":
     print("🔍 LUKHAS Config Consolidation Analysis")
     print("=" * 50)
@@ -79,4 +83,6 @@ if __name__ == "__main__":
     print(f"1. Merge {len(categories['core_configs'])} core config.py files")
     print(f"2. Standardize {len(categories['managers'])} config managers")
     print(f"3. Review {len(categories['api_configs'])} API configs for overlap")
-    print(f"4. Consider consolidating {len(categories['module_configs'])} module configs")
+    print(
+        f"4. Consider consolidating {len(categories['module_configs'])} module configs"
+    )

@@ -12,6 +12,9 @@ Advanced: ethics_engine.py
 Integration Date: 2025-05-31T07:55:28.248308
 """
 
+from typing import Any
+from datetime import datetime
+import json
 import logging
 
 """
@@ -19,9 +22,6 @@ Ethics Engine for v1_AGI
 Evaluates actions and content against ethical frameworks
 """
 
-import json
-from datetime import datetime
-from typing import Any
 
 logger = logging.getLogger("v1_AGI.compliance.ethics")
 

@@ -14,7 +14,7 @@
 import logging
 from collections import deque
 from datetime import datetime
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -55,7 +55,7 @@ class BioPreprocessingColony(BaseColony):
         # Rolling windows for temporal consistency
         self.signal_history = {
             signal: deque(maxlen=300)  # 5 minutes at 1Hz
-            for signal in self.bio_validators.keys()
+            for signal in self.bio_validators
         }
 
         # Kalman filter states
@@ -72,8 +72,8 @@ class BioPreprocessingColony(BaseColony):
         logger.info(f"🧬 BioPreprocessingColony '{colony_id}' initialized")
 
     async def execute_task(
-        self, task_id: str, task_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, task_id: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Execute preprocessing task on bio-symbolic data.
 
@@ -137,7 +137,7 @@ class BioPreprocessingColony(BaseColony):
                 "preprocessing", e, task_data, task_id
             )
 
-    async def _validate_signals(self, bio_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _validate_signals(self, bio_data: dict[str, Any]) -> dict[str, Any]:
         """Validate bio-signals against known ranges."""
         validated = {}
 
@@ -165,7 +165,7 @@ class BioPreprocessingColony(BaseColony):
 
         return validated
 
-    async def _kalman_filter(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _kalman_filter(self, data: dict[str, Any]) -> dict[str, Any]:
         """Apply Kalman filtering for noise reduction."""
         filtered = {}
 
@@ -195,7 +195,7 @@ class BioPreprocessingColony(BaseColony):
 
         return filtered
 
-    async def _detect_outliers(self, data: Dict[str, Any]) -> Dict[str, float]:
+    async def _detect_outliers(self, data: dict[str, Any]) -> dict[str, float]:
         """Detect outliers using statistical methods."""
         outlier_scores = {}
 
@@ -221,7 +221,7 @@ class BioPreprocessingColony(BaseColony):
 
         return outlier_scores
 
-    async def _adaptive_normalize(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _adaptive_normalize(self, data: dict[str, Any]) -> dict[str, Any]:
         """Apply adaptive normalization based on signal history."""
         normalized = {}
 
@@ -241,7 +241,7 @@ class BioPreprocessingColony(BaseColony):
 
         return normalized
 
-    async def _enhance_features(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _enhance_features(self, data: dict[str, Any]) -> dict[str, Any]:
         """Enhance features using signal processing techniques."""
         enhanced = data.copy()
 
@@ -268,7 +268,7 @@ class BioPreprocessingColony(BaseColony):
         return enhanced
 
     async def _assess_quality(
-        self, data: Dict[str, Any], outlier_scores: Dict[str, float]
+        self, data: dict[str, Any], outlier_scores: dict[str, float]
     ) -> float:
         """Assess overall data quality."""
         quality_factors = []
@@ -301,7 +301,7 @@ class BioPreprocessingColony(BaseColony):
         # Calculate overall quality score
         return np.mean(quality_factors) if quality_factors else 0.5
 
-    def _assign_quality_tag(self, quality_score: float) -> Tuple:
+    def _assign_quality_tag(self, quality_score: float) -> tuple:
         """Assign quality tag based on score."""
         if quality_score >= 0.8:
             return self.quality_tags["high"]
@@ -332,7 +332,7 @@ class BioPreprocessingColony(BaseColony):
             }
         )
 
-    def _log_preprocessing_event(self, result: Dict[str, Any]):
+    def _log_preprocessing_event(self, result: dict[str, Any]):
         """Log preprocessing event for tracing."""
         event_data = {
             "colony_id": self.colony_id,

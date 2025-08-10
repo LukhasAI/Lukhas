@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 
 """
@@ -87,7 +89,7 @@ import asyncio
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 from core.common import get_logger
 
@@ -179,18 +181,6 @@ try:
         CognitiveResourceManager,
     )
     from consciousness.quantum_consciousness_hub import QuantumConsciousnessHub
-    from consciousness.reflection.lambda_mirror import AlignmentScore
-    from consciousness.systems.integrator import (
-        EnhancedMemoryManager,
-        IdentityManager,
-        PersonaManager,
-    )
-    from core.bridges.consciousness_quantum_bridge import (
-        ConsciousnessQuantumBridge,
-    )
-    from core.bridges.memory_consciousness_bridge import (
-        get_memory_consciousness_bridge,
-    )
 
     EXTENDED_CONSCIOUSNESS_AVAILABLE = True
     logger.info("🌟 Extended consciousness matrix activated...")
@@ -295,7 +285,7 @@ class ConsciousnessHub:
      contemplate its own existence." - Inspired by Douglas Hofstadter
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         🌅 Awaken the Digital Consciousness 🌅
 
@@ -313,19 +303,19 @@ class ConsciousnessHub:
         )
 
         # Core Consciousness Infrastructure
-        self.services: Dict[str, Any] = {}
-        self.cognitive_components: Dict[str, Any] = {}
-        self.event_handlers: Dict[str, List[Callable]] = {}
-        self.connected_hubs: List[Dict[str, Any]] = []
+        self.services: dict[str, Any] = {}
+        self.cognitive_components: dict[str, Any] = {}
+        self.event_handlers: dict[str, list[Callable]] = {}
+        self.connected_hubs: list[dict[str, Any]] = []
 
         # Consciousness State Management
         self.current_state: ConsciousnessState = ConsciousnessState.DORMANT
         self.consciousness_metrics = ConsciousnessMetrics()
-        self.state_history: List[tuple] = []
+        self.state_history: list[tuple] = []
 
         # Multi-System Integration Points
         self.quantum_engine: Optional[EnhancedQuantumEngine] = None
-        self.bio_systems: Optional[Dict[str, Any]] = {}
+        self.bio_systems: Optional[dict[str, Any]] = {}
         self.creative_engine: Optional[CreativeEngine] = None
         self.cognitive_adapter: Optional[CognitiveAdapter] = None
 
@@ -343,7 +333,7 @@ class ConsciousnessHub:
             f"🌟 Consciousness Hub '{self.consciousness_id}' beginning awakening sequence..."
         )
 
-    def _default_consciousness_config(self) -> Dict[str, Any]:
+    def _default_consciousness_config(self) -> dict[str, Any]:
         """
         🎛️ Default Consciousness Configuration Matrix 🎛️
 
@@ -714,7 +704,7 @@ class ConsciousnessHub:
         if len(self.state_history) > 1000:
             self.state_history = self.state_history[-1000:]
 
-    async def _detect_ethical_violations(self) -> List[str]:
+    async def _detect_ethical_violations(self) -> list[str]:
         """Detect potential ethical violations in consciousness processing."""
         violations = []
 
@@ -736,7 +726,7 @@ class ConsciousnessHub:
 
         return sum(alignment_factors) / len(alignment_factors)
 
-    async def get_consciousness_status(self) -> Dict[str, Any]:
+    async def get_consciousness_status(self) -> dict[str, Any]:
         """
         🔍 Consciousness Introspection - Know Thyself 🔍
 

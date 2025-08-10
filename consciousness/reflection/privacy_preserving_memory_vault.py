@@ -97,7 +97,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 from uuid import uuid4
 
 import numpy as np  # Required for differential privacy
@@ -179,18 +179,18 @@ class PrivacyPolicy:
     # Privacy requirements
     privacy_level: PrivacyLevel = PrivacyLevel.PERSONAL
     encryption_scheme: EncryptionScheme = EncryptionScheme.AES_256_GCM
-    privacy_techniques: List[PrivacyTechnique] = field(default_factory=list)
+    privacy_techniques: list[PrivacyTechnique] = field(default_factory=list)
 
     # Compliance requirements
-    compliance_standards: List[ComplianceStandard] = field(default_factory=list)
+    compliance_standards: list[ComplianceStandard] = field(default_factory=list)
     data_residency: str = "local"  # local, eu, us, canada, etc.
     retention_period: timedelta = field(default=timedelta(days=365))
 
     # Access control
-    allowed_operations: List[str] = field(default_factory=lambda: ["read", "write"])
+    allowed_operations: list[str] = field(default_factory=lambda: ["read", "write"])
     required_tier: int = 1
-    authorized_users: List[str] = field(default_factory=list)
-    authorized_roles: List[str] = field(default_factory=list)
+    authorized_users: list[str] = field(default_factory=list)
+    authorized_roles: list[str] = field(default_factory=list)
 
     # Differential privacy parameters
     epsilon: float = 1.0  # Privacy budget
@@ -214,7 +214,7 @@ class EncryptedMemory:
 
     memory_id: str = field(default_factory=lambda: str(uuid4()))
     encrypted_content: bytes = b""
-    encryption_metadata: Dict[str, Any] = field(default_factory=dict)
+    encryption_metadata: dict[str, Any] = field(default_factory=dict)
 
     # Memory properties
     memory_type: str = "general"
@@ -238,8 +238,8 @@ class EncryptedMemory:
     anonymized: bool = False
 
     # Searchable encrypted index
-    encrypted_keywords: List[bytes] = field(default_factory=list)
-    encrypted_metadata: Dict[str, bytes] = field(default_factory=dict)
+    encrypted_keywords: list[bytes] = field(default_factory=list)
+    encrypted_metadata: dict[str, bytes] = field(default_factory=dict)
 
     # Emotional context (encrypted)
     encrypted_emotion_vector: Optional[bytes] = None
@@ -273,26 +273,22 @@ class EncryptionProvider(ABC):
     @abstractmethod
     async def encrypt(
         self, data: bytes, key_id: str = None
-    ) -> Tuple[bytes, Dict[str, Any]]:
+    ) -> tuple[bytes, dict[str, Any]]:
         """Encrypt data and return ciphertext with metadata"""
-        pass
 
     @abstractmethod
     async def decrypt(
-        self, ciphertext: bytes, key_id: str, metadata: Dict[str, Any]
+        self, ciphertext: bytes, key_id: str, metadata: dict[str, Any]
     ) -> bytes:
         """Decrypt ciphertext using key and metadata"""
-        pass
 
     @abstractmethod
     async def generate_key(self, key_id: str = None) -> str:
         """Generate a new encryption key"""
-        pass
 
     @abstractmethod
     async def rotate_key(self, old_key_id: str) -> str:
         """Rotate an existing key"""
-        pass
 
 
 class AESGCMProvider(EncryptionProvider):
@@ -301,11 +297,11 @@ class AESGCMProvider(EncryptionProvider):
     def __init__(self, key_storage_path: Path = Path("keys/aes")):
         self.key_storage_path = Path(key_storage_path)
         self.key_storage_path.mkdir(parents=True, exist_ok=True)
-        self.keys: Dict[str, bytes] = {}
+        self.keys: dict[str, bytes] = {}
 
     async def encrypt(
         self, data: bytes, key_id: str = None
-    ) -> Tuple[bytes, Dict[str, Any]]:
+    ) -> tuple[bytes, dict[str, Any]]:
         """Encrypt data using AES-256-GCM"""
 
         if not key_id:
@@ -337,7 +333,7 @@ class AESGCMProvider(EncryptionProvider):
         return ciphertext, metadata
 
     async def decrypt(
-        self, ciphertext: bytes, key_id: str, metadata: Dict[str, Any]
+        self, ciphertext: bytes, key_id: str, metadata: dict[str, Any]
     ) -> bytes:
         """Decrypt ciphertext using AES-256-GCM"""
 
@@ -412,11 +408,11 @@ class FernetProvider(EncryptionProvider):
     """Fernet encryption provider (simpler than AES-GCM)"""
 
     def __init__(self):
-        self.keys: Dict[str, Fernet] = {}
+        self.keys: dict[str, Fernet] = {}
 
     async def encrypt(
         self, data: bytes, key_id: str = None
-    ) -> Tuple[bytes, Dict[str, Any]]:
+    ) -> tuple[bytes, dict[str, Any]]:
         """Encrypt data using Fernet"""
 
         if not key_id:
@@ -437,7 +433,7 @@ class FernetProvider(EncryptionProvider):
         return ciphertext, metadata
 
     async def decrypt(
-        self, ciphertext: bytes, key_id: str, metadata: Dict[str, Any]
+        self, ciphertext: bytes, key_id: str, metadata: dict[str, Any]
     ) -> bytes:
         """Decrypt ciphertext using Fernet"""
 
@@ -498,8 +494,8 @@ class DifferentialPrivacyProvider:
         return value + noise
 
     def privatize_histogram(
-        self, histogram: Dict[str, int], sensitivity: float = 1.0
-    ) -> Dict[str, float]:
+        self, histogram: dict[str, int], sensitivity: float = 1.0
+    ) -> dict[str, float]:
         """Apply differential privacy to histogram data"""
 
         privatized = {}
@@ -532,12 +528,12 @@ class PrivacyPreservingMemoryVault:
         self.integration_mode = integration_mode
 
         # Storage and indexing
-        self.encrypted_memories: Dict[str, EncryptedMemory] = {}
-        self.privacy_policies: Dict[str, PrivacyPolicy] = {}
-        self.encrypted_index: Dict[str, Set[str]] = {}  # keyword -> memory_ids
+        self.encrypted_memories: dict[str, EncryptedMemory] = {}
+        self.privacy_policies: dict[str, PrivacyPolicy] = {}
+        self.encrypted_index: dict[str, set[str]] = {}  # keyword -> memory_ids
 
         # Encryption providers
-        self.encryption_providers: Dict[EncryptionScheme, EncryptionProvider] = {
+        self.encryption_providers: dict[EncryptionScheme, EncryptionProvider] = {
             EncryptionScheme.AES_256_GCM: AESGCMProvider(
                 self.vault_dir / "keys" / "aes"
             ),
@@ -553,8 +549,8 @@ class PrivacyPreservingMemoryVault:
         self.srd = None
 
         # Compliance and audit
-        self.audit_log: List[Dict[str, Any]] = []
-        self.compliance_checks: Dict[ComplianceStandard, bool] = {}
+        self.audit_log: list[dict[str, Any]] = []
+        self.compliance_checks: dict[ComplianceStandard, bool] = {}
 
         # Performance metrics
         self.metrics = {
@@ -668,8 +664,8 @@ class PrivacyPreservingMemoryVault:
         memory_type: str = "general",
         privacy_policy_id: str = "personal",
         emotion_vector: Optional[EmotionVector] = None,
-        keywords: List[str] = None,
-        metadata: Dict[str, Any] = None,
+        keywords: list[str] = None,
+        metadata: dict[str, Any] = None,
     ) -> str:
         """Store a memory with privacy protection"""
 
@@ -737,7 +733,8 @@ class PrivacyPreservingMemoryVault:
             # Create encrypted searchable index
             if keywords:
                 for keyword in keywords:
-                    # Simple keyword encryption (in production, use searchable encryption)
+                    # Simple keyword encryption (in production, use searchable
+                    # encryption)
                     keyword_hash = hashlib.sha256(keyword.encode("utf-8")).hexdigest()
                     encrypted_keyword = await self._encrypt_keyword(keyword, policy)
                     memory.encrypted_keywords.append(encrypted_keyword)
@@ -791,7 +788,7 @@ class PrivacyPreservingMemoryVault:
         memory_id: str,
         decrypt: bool = True,
         use_differential_privacy: bool = False,
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Optional[dict[str, Any]]:
         """Retrieve and decrypt a memory"""
 
         async with self._lock:
@@ -926,11 +923,11 @@ class PrivacyPreservingMemoryVault:
 
     async def search_memories(
         self,
-        keywords: List[str] = None,
+        keywords: list[str] = None,
         memory_type: str = None,
         privacy_level: PrivacyLevel = None,
         use_differential_privacy: bool = True,
-    ) -> List[str]:
+    ) -> list[str]:
         """Search for memories using encrypted search"""
 
         matching_memory_ids = set()
@@ -1041,7 +1038,7 @@ class PrivacyPreservingMemoryVault:
                     },
                 )
 
-                evaluation = await self.meg.evaluate_decision(decision)
+                await self.meg.evaluate_decision(decision)
                 # Note: Most deletion requests should be approved for privacy rights
 
             if secure_deletion:
@@ -1049,7 +1046,7 @@ class PrivacyPreservingMemoryVault:
                 await self._secure_delete_memory(memory)
 
             # Remove from encrypted index
-            for keyword_hash, memory_set in self.encrypted_index.items():
+            for _keyword_hash, memory_set in self.encrypted_index.items():
                 memory_set.discard(memory_id)
 
             # Remove from memory store
@@ -1093,8 +1090,8 @@ class PrivacyPreservingMemoryVault:
         return encrypted_keyword
 
     def _apply_differential_privacy(
-        self, result: Dict[str, Any], policy: PrivacyPolicy
-    ) -> Dict[str, Any]:
+        self, result: dict[str, Any], policy: PrivacyPolicy
+    ) -> dict[str, Any]:
         """Apply differential privacy to query results"""
 
         if "emotion_vector" in result:
@@ -1180,7 +1177,7 @@ class PrivacyPreservingMemoryVault:
         if memory_file.exists():
             memory_file.unlink()
 
-    async def _audit_log_action(self, action: str, details: Dict[str, Any]):
+    async def _audit_log_action(self, action: str, details: dict[str, Any]):
         """Log action for audit purposes"""
 
         audit_entry = {
@@ -1199,8 +1196,8 @@ class PrivacyPreservingMemoryVault:
             f.write(json.dumps(audit_entry) + "\n")
 
     async def export_memory_data(
-        self, memory_ids: List[str] = None, format: str = "json"
-    ) -> Dict[str, Any]:
+        self, memory_ids: list[str] = None, format: str = "json"
+    ) -> dict[str, Any]:
         """Export memory data (GDPR Article 20 - Data portability)"""
 
         if memory_ids is None:
@@ -1235,7 +1232,7 @@ class PrivacyPreservingMemoryVault:
 
         return exported_data
 
-    def get_compliance_status(self) -> Dict[str, Any]:
+    def get_compliance_status(self) -> dict[str, Any]:
         """Get compliance status for various standards"""
 
         compliance_status = {}
@@ -1257,7 +1254,7 @@ class PrivacyPreservingMemoryVault:
 
         return compliance_status
 
-    def _check_compliance_requirements(self, standard: ComplianceStandard) -> List[str]:
+    def _check_compliance_requirements(self, standard: ComplianceStandard) -> list[str]:
         """Check specific requirements for a compliance standard"""
 
         requirements_met = []
@@ -1287,7 +1284,7 @@ class PrivacyPreservingMemoryVault:
 
         return requirements_met
 
-    def get_vault_status(self) -> Dict[str, Any]:
+    def get_vault_status(self) -> dict[str, Any]:
         """Get comprehensive vault status"""
 
         return {
@@ -1318,10 +1315,10 @@ class PrivacyPreservingMemoryVault:
                         for memory in self.encrypted_memories.values()
                         if memory.memory_type == memory_type
                     )
-                    for memory_type in set(
+                    for memory_type in {
                         memory.memory_type
                         for memory in self.encrypted_memories.values()
-                    )
+                    }
                 },
             },
             "compliance_status": self.get_compliance_status(),
@@ -1365,7 +1362,7 @@ async def store_sensitive_memory(
 
 async def retrieve_private_memory(
     memory_id: str, use_differential_privacy: bool = True
-) -> Optional[Dict[str, Any]]:
+) -> Optional[dict[str, Any]]:
     """Retrieve a memory with privacy protection"""
 
     ppmv = await get_ppmv()

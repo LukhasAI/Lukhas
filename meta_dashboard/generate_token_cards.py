@@ -18,7 +18,7 @@ from pathlib import Path
 def generate_qr_placeholder():
     """Generate a placeholder for QR code."""
     return """
-    <div style="width: 100px; height: 100px; border: 2px solid #333; 
+    <div style="width: 100px; height: 100px; border: 2px solid #333;
                 display: flex; align-items: center; justify-content: center;
                 font-size: 10px; text-align: center; color: #666;">
         QR Code<br>Placeholder
@@ -77,28 +77,28 @@ def create_token_card_html():
             size: A4;
             margin: 10mm;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
             margin: 0;
             padding: 20px;
             background: #f5f5f5;
         }
-        
+
         .page-title {
             text-align: center;
             font-size: 24px;
             margin-bottom: 30px;
             color: #333;
         }
-        
+
         .cards-container {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
         }
-        
+
         .token-card {
             width: 350px;
             height: 200px;
@@ -110,20 +110,20 @@ def create_token_card_html():
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             page-break-inside: avoid;
         }
-        
+
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 15px;
         }
-        
+
         .card-title {
             font-size: 18px;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
-        
+
         .tier-badge {
             background: rgba(255, 255, 255, 0.2);
             padding: 4px 12px;
@@ -131,31 +131,31 @@ def create_token_card_html():
             font-size: 14px;
             font-weight: 500;
         }
-        
+
         .glyphs {
             font-size: 36px;
             margin: 10px 0;
             letter-spacing: 8px;
         }
-        
+
         .card-content {
             font-size: 14px;
             line-height: 1.6;
         }
-        
+
         .field {
             margin: 5px 0;
             display: flex;
             align-items: center;
         }
-        
+
         .label {
             font-weight: 500;
             margin-right: 8px;
             opacity: 0.8;
             min-width: 60px;
         }
-        
+
         .value {
             font-family: 'Courier New', monospace;
             background: rgba(255, 255, 255, 0.1);
@@ -163,7 +163,7 @@ def create_token_card_html():
             border-radius: 4px;
             font-size: 13px;
         }
-        
+
         .token-value {
             font-size: 16px;
             font-weight: 600;
@@ -174,14 +174,14 @@ def create_token_card_html():
             text-align: center;
             letter-spacing: 1px;
         }
-        
+
         .qr-section {
             position: absolute;
             bottom: 20px;
             right: 20px;
             text-align: center;
         }
-        
+
         .qr-placeholder {
             width: 60px;
             height: 60px;
@@ -193,14 +193,14 @@ def create_token_card_html():
             opacity: 0.5;
             border-radius: 4px;
         }
-        
+
         .hash {
             font-size: 10px;
             opacity: 0.6;
             margin-top: 5px;
             font-family: 'Courier New', monospace;
         }
-        
+
         .instructions {
             margin: 40px auto;
             max-width: 700px;
@@ -210,17 +210,17 @@ def create_token_card_html():
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             page-break-before: always;
         }
-        
+
         .instructions h2 {
             color: #333;
             margin-bottom: 20px;
         }
-        
+
         .instructions ul {
             line-height: 1.8;
             color: #555;
         }
-        
+
         .instructions code {
             background: #f0f0f0;
             padding: 2px 6px;
@@ -228,12 +228,12 @@ def create_token_card_html():
             font-family: 'Courier New', monospace;
             font-size: 14px;
         }
-        
+
         @media print {
             body {
                 background: white;
             }
-            
+
             .instructions {
                 box-shadow: none;
                 border: 1px solid #ddd;
@@ -243,7 +243,7 @@ def create_token_card_html():
 </head>
 <body>
     <h1 class="page-title">🛡️ LUKHΛS API Access Cards</h1>
-    
+
     <div class="cards-container">
 """
 
@@ -256,23 +256,23 @@ def create_token_card_html():
                 <div class="card-title">{card['title']}</div>
                 <div class="tier-badge">{card['tier']} • {card['tier_name']}</div>
             </div>
-            
+
             <div class="glyphs">{glyphs_str}</div>
-            
+
             <div class="card-content">
                 <div class="field">
                     <span class="label">Email:</span>
                     <span class="value">{card['email']}</span>
                 </div>
-                
+
                 <div class="token-value">{card['token']}</div>
-                
+
                 <div class="field">
                     <span class="label">Access:</span>
                     <span>{card['permissions']}</span>
                 </div>
             </div>
-            
+
             <div class="qr-section">
                 <div class="qr-placeholder">QR</div>
                 <div class="hash">{card['qrglyph_hash']}</div>
@@ -284,10 +284,10 @@ def create_token_card_html():
     html += (
         """
     </div>
-    
+
     <div class="instructions">
         <h2>📋 Usage Instructions</h2>
-        
+
         <h3>For OpenAI Reviewers:</h3>
         <ul>
             <li>Use the <strong>Guardian Access</strong> card (T5 tier) for full system access</li>
@@ -296,14 +296,14 @@ def create_token_card_html():
             <li>Password: <code>demo_password</code></li>
             <li>Token can be used directly in API requests with Bearer authentication</li>
         </ul>
-        
+
         <h3>API Authentication:</h3>
         <ul>
             <li>Header: <code>Authorization: Bearer LUKHAS-T5-GATE</code></li>
             <li>All protected endpoints require valid token</li>
             <li>Token provides access based on tier level</li>
         </ul>
-        
+
         <h3>Trinity Framework Glyphs:</h3>
         <ul>
             <li>🛡️ Guardian - Full system protection and oversight</li>
@@ -311,7 +311,7 @@ def create_token_card_html():
             <li>🧠 Consciousness - Advanced AI capabilities</li>
             <li>🔐 Security - Additional protection layer</li>
         </ul>
-        
+
         <h3>Tier Capabilities:</h3>
         <ul>
             <li><strong>T5 Guardian:</strong> Full access to all systems, logs, and controls</li>
@@ -320,7 +320,7 @@ def create_token_card_html():
             <li><strong>T2 Participant:</strong> Basic content and API access</li>
             <li><strong>T1 Observer:</strong> Read-only public content</li>
         </ul>
-        
+
         <h3>Security Notes:</h3>
         <ul>
             <li>Tokens are valid for the current session</li>
@@ -328,7 +328,7 @@ def create_token_card_html():
             <li>All actions are logged with symbolic tracking</li>
             <li>Guardian system monitors for ethical compliance</li>
         </ul>
-        
+
         <p style="margin-top: 30px; text-align: center; color: #666;">
             <em>Generated on """
         + datetime.now().strftime("%Y-%m-%d %H:%M:%S")

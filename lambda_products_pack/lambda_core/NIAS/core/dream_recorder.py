@@ -8,7 +8,7 @@ import logging
 import uuid
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -66,10 +66,10 @@ class DreamRecorder:
     async def record_dream_seed(
         self,
         brand_id: str,
-        dream_seed: Dict[str, Any],
+        dream_seed: dict[str, Any],
         user_id: str,
-        consent_context: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        consent_context: dict[str, Any],
+    ) -> dict[str, Any]:
         """
         Record a brand dream seed with full consent tracking.
 
@@ -122,8 +122,8 @@ class DreamRecorder:
         seed_id: str,
         user_id: str,
         interaction_type: str,
-        interaction_data: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        interaction_data: dict[str, Any],
+    ) -> dict[str, Any]:
         """
         Record user interaction with a dream seed.
 
@@ -184,9 +184,9 @@ class DreamRecorder:
         self,
         narrative_id: str,
         user_id: str,
-        dream_narrative: Dict[str, Any],
-        source_seeds: List[str],
-    ) -> Dict[str, Any]:
+        dream_narrative: dict[str, Any],
+        source_seeds: list[str],
+    ) -> dict[str, Any]:
         """
         Record a generated dream narrative from multiple seeds.
 
@@ -240,7 +240,7 @@ class DreamRecorder:
             self.logger.error(f"Failed to record dream narrative: {str(e)}")
             return {"success": False, "error": str(e)}
 
-    def _extract_symbolic_elements(self, dream_narrative: Dict[str, Any]) -> List[str]:
+    def _extract_symbolic_elements(self, dream_narrative: dict[str, Any]) -> list[str]:
         """Extract symbolic elements from dream narrative"""
         symbols = []
 
@@ -286,7 +286,7 @@ class DreamRecorder:
                 -1.0, min(1.0, resonance_score)
             )  # Clamp to [-1, 1]
 
-    async def _save_dream_seed(self, seed_record: Dict[str, Any]):
+    async def _save_dream_seed(self, seed_record: dict[str, Any]):
         """Save dream seed to persistent storage"""
         try:
             seeds_dir = self.storage_path / "seeds"
@@ -300,7 +300,7 @@ class DreamRecorder:
         except Exception as e:
             self.logger.error(f"Failed to save dream seed: {e}")
 
-    async def _save_dream_narrative(self, narrative_record: Dict[str, Any]):
+    async def _save_dream_narrative(self, narrative_record: dict[str, Any]):
         """Save dream narrative to persistent storage"""
         try:
             narratives_dir = self.storage_path / "narratives"
@@ -316,7 +316,7 @@ class DreamRecorder:
 
     async def get_user_dream_seeds(
         self, user_id: str, status: Optional[str] = None
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Get dream seeds for a specific user"""
         user_seeds = []
 
@@ -327,7 +327,7 @@ class DreamRecorder:
 
         return sorted(user_seeds, key=lambda x: x["planted_at"], reverse=True)
 
-    async def get_brand_performance(self, brand_id: str) -> Dict[str, Any]:
+    async def get_brand_performance(self, brand_id: str) -> dict[str, Any]:
         """Get performance analytics for a brand's dream seeds"""
         brand_seeds = [
             seed for seed in self.dream_seeds.values() if seed["brand_id"] == brand_id
@@ -362,7 +362,7 @@ class DreamRecorder:
 
     async def get_dream_analytics(
         self, user_id: Optional[str] = None, days: int = 30
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get comprehensive dream analytics"""
         cutoff_date = datetime.now() - timedelta(days=days)
 
@@ -430,7 +430,7 @@ class DreamRecorder:
             )[:5],
         }
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for dream recorder"""
         return {
             "status": "healthy",
@@ -458,10 +458,10 @@ def get_dream_recorder() -> DreamRecorder:
 
 async def record_dream_seed(
     brand_id: str,
-    dream_seed: Dict[str, Any],
+    dream_seed: dict[str, Any],
     user_id: str,
-    consent_context: Dict[str, Any],
-) -> Dict[str, Any]:
+    consent_context: dict[str, Any],
+) -> dict[str, Any]:
     """Convenience function to record a dream seed"""
     recorder = get_dream_recorder()
     return await recorder.record_dream_seed(
@@ -470,8 +470,8 @@ async def record_dream_seed(
 
 
 async def record_dream_interaction(
-    seed_id: str, user_id: str, interaction_type: str, interaction_data: Dict[str, Any]
-) -> Dict[str, Any]:
+    seed_id: str, user_id: str, interaction_type: str, interaction_data: dict[str, Any]
+) -> dict[str, Any]:
     """Convenience function to record dream interaction"""
     recorder = get_dream_recorder()
     return await recorder.record_dream_interaction(

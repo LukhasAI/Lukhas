@@ -6,7 +6,7 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-from typing import Dict, Optional
+from typing import Optional
 
 from core.helpers import get_utc_timestamp  # ΛUTIL: UTC timestamp utility
 from core.utils import SystemStatus  # ΛSHARED: System status enumeration
@@ -24,8 +24,8 @@ def create_diagnostic_payload(
     component_id: str,
     status: SystemStatus,
     message: str,
-    additional_data: Optional[Dict] = None,
-) -> Dict:
+    additional_data: Optional[dict] = None,
+) -> dict:
     """
     Creates a standardized diagnostic payload for LUKHAS components.
     # ΛNOTE: This utility helps in creating consistent diagnostic messages across the system.

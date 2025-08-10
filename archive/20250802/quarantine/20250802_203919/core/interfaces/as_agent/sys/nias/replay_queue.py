@@ -20,13 +20,14 @@ DESCRIPTION:
 
 """
 
+from datetime import datetime
 import json
 from pathlib import Path
-from datetime import datetime
 
 FEEDBACK_LOG_PATH = Path("core/logs/feedback_log.jsonl")
 REPLAY_QUEUE_PATH = Path("core/logs/replay_queue.jsonl")
 REPLAY_QUEUE_PATH.parent.mkdir(parents=True, exist_ok=True)
+
 
 def build_replay_queue():
     if not FEEDBACK_LOG_PATH.exists():
@@ -60,7 +61,9 @@ def build_replay_queue():
                 "suggest_voice": entry.get("suggest_voice", False)
             }) + "\n")
 
-    print(f"✅ Queued {len(replay_entries)} symbolic replay candidates to replay_queue.jsonl")
+    print(
+        f"✅ Queued {len(replay_entries)} symbolic replay candidates to replay_queue.jsonl")
+
 
 """
 ──────────────────────────────────────────────────────────────────────────────────────

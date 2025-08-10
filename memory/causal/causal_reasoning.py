@@ -49,7 +49,7 @@
 import re
 import time
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Configure module logger
 
@@ -100,12 +100,14 @@ class CausalReasoningModule:
         self.logger.info("ΛTRACE: Initializing CausalReasoningModule instance.")
 
         # ΛNOTE: The causal_graph acts as a persistent symbolic memory of identified causal relationships.
-        # It stores validated causal chains and their observed frequencies/confidences over time.
-        self.causal_graph: Dict[str, Any] = (
+        # It stores validated causal chains and their observed
+        # frequencies/confidences over time.
+        self.causal_graph: dict[str, Any] = (
             {}
         )  # Stores persistent causal relationships (chain_id -> chain_data)
-        # ΛNOTE: The causal_history logs summaries of reasoning sessions, enabling meta-analysis and trend detection.
-        self.causal_history: List[Dict[str, Any]] = (
+        # ΛNOTE: The causal_history logs summaries of reasoning sessions, enabling
+        # meta-analysis and trend detection.
+        self.causal_history: list[dict[str, Any]] = (
             []
         )  # Stores summaries of recent reasoning sessions
         self.confidence_threshold: float = confidence_threshold
@@ -114,7 +116,7 @@ class CausalReasoningModule:
 
     # ΛEXPOSE: Main public method to apply causal reasoning to provided data. This is the primary decision surface for this module.
     # LUKHAS_TAG: recursive_causal_trace
-    def reason(self, attended_data: Dict[str, Any]) -> Dict[str, Any]:
+    def reason(self, attended_data: dict[str, Any]) -> dict[str, Any]:
         """
         # ΛNOTE: This method orchestrates the symbolic inference flow for causal reasoning.
         # It follows a sequence: element identification -> chain construction -> confidence calculation -> primary cause selection.
@@ -180,8 +182,8 @@ class CausalReasoningModule:
                 confidence_threshold=self.confidence_threshold,
             )
 
-            primary_cause_details: Optional[Dict[str, Any]] = None
-            reasoning_path_summary: List[Dict[str, Any]] = []
+            primary_cause_details: Optional[dict[str, Any]] = None
+            reasoning_path_summary: list[dict[str, Any]] = []
 
             if valid_causal_chains:
                 # Step 5: Update the persistent causal graph with new findings.
@@ -246,8 +248,8 @@ class CausalReasoningModule:
 
     # Identifies potential causal elements from textual and contextual data.
     def _identify_causal_elements(
-        self, attended_data: Dict[str, Any], parent_logger: Any
-    ) -> List[Dict[str, Any]]:
+        self, attended_data: dict[str, Any], parent_logger: Any
+    ) -> list[dict[str, Any]]:
         """
         # ΛNOTE: This step performs symbolic pattern matching against textual data using regex
         # and analyzes structured context to extract potential causal triggers or effects.
@@ -270,14 +272,15 @@ class CausalReasoningModule:
             text_length=len(attended_data.get("text", "")),
         )
 
-        identified_elements: List[Dict[str, Any]] = []
+        identified_elements: list[dict[str, Any]] = []
         text_to_analyze = attended_data.get("text", "")
 
         # Regex patterns to identify textual causal indicators. Using raw strings.
         # Patterns aim to capture phrases following causal keywords.
         # Example: "X because Y" -> Y is a causal element. "A leads to B" -> B is an effect, A is a cause.
-        # These patterns are illustrative and would need significant refinement for robust NLP.
-        textual_causal_indicator_patterns: List[str] = [
+        # These patterns are illustrative and would need significant refinement
+        # for robust NLP.
+        textual_causal_indicator_patterns: list[str] = [
             r"because\s+of\s+(.+?)(?=\.|,|;|$)",
             r"due\s+to\s+(.+?)(?=\.|,|;|$)",
             r"results\s+in\s+(.+?)(?=\.|,|;|$)",
@@ -302,7 +305,8 @@ class CausalReasoningModule:
                 )
                 for match_tuple_or_str in found_matches:
                     # Extract the actual matched content (group 1, or whole match if no groups).
-                    # Some patterns might return tuples if they have multiple capture groups.
+                    # Some patterns might return tuples if they have multiple capture
+                    # groups.
                     relevant_match_text = ""
                     if isinstance(
                         match_tuple_or_str, tuple
@@ -315,7 +319,8 @@ class CausalReasoningModule:
 
                     if relevant_match_text:
                         # Base confidence can be tuned based on pattern reliability.
-                        # Patterns earlier in the list might be considered more reliable.
+                        # Patterns earlier in the list might be considered more
+                        # reliable.
                         element_base_confidence = 0.7 - (idx * 0.04)
                         identified_element = {
                             "element_type": "textual_causal_cue",
@@ -369,8 +374,8 @@ class CausalReasoningModule:
 
     # Builds potential causal chains from the list of identified causal elements.
     def _build_causal_chains(
-        self, causal_elements_list: List[Dict[str, Any]], parent_logger: Any
-    ) -> Dict[str, Any]:  # Renamed arg
+        self, causal_elements_list: list[dict[str, Any]], parent_logger: Any
+    ) -> dict[str, Any]:  # Renamed arg
         """
         # ΛNOTE: This method constructs symbolic causal chains by heuristically linking identified elements.
         # Each chain represents a potential sequence of cause-and-effect. The linking logic (content overlap)
@@ -395,7 +400,7 @@ class CausalReasoningModule:
             num_input_elements=len(causal_elements_list),
         )
 
-        constructed_causal_chains: Dict[str, Any] = {}
+        constructed_causal_chains: dict[str, Any] = {}
 
         # Simplistic chain building: each element can start a new chain.
         # Then, attempt to link other related elements to this chain.
@@ -421,12 +426,14 @@ class CausalReasoningModule:
                 current_content_lower = current_element_data["element_content"].lower()
                 other_content_lower = other_element_data["element_content"].lower()
 
-                # Link if one content string is found within the other (basic heuristic).
+                # Link if one content string is found within the other (basic
+                # heuristic).
                 if (
                     current_content_lower in other_content_lower
                     or other_content_lower in current_content_lower
                 ):
-                    # Limit chain length to prevent overly long, potentially weak chains.
+                    # Limit chain length to prevent overly long, potentially weak
+                    # chains.
                     if len(current_chain_details["chain_elements_data"]) < 5:
                         current_chain_details["chain_elements_data"].append(
                             other_element_data
@@ -458,8 +465,8 @@ class CausalReasoningModule:
 
     # Calculates and refines confidence scores for each identified causal chain.
     def _calculate_causal_confidences(
-        self, potential_causal_chains: Dict[str, Any], parent_logger: Any
-    ) -> Dict[str, Any]:  # Renamed arg
+        self, potential_causal_chains: dict[str, Any], parent_logger: Any
+    ) -> dict[str, Any]:  # Renamed arg
         """
         # ΛNOTE: This step assigns a symbolic belief (confidence score) to each constructed causal chain.
         # The calculation incorporates heuristics like chain length and element diversity,
@@ -483,7 +490,7 @@ class CausalReasoningModule:
             num_chains_to_process=len(potential_causal_chains),
         )
 
-        final_weighted_chains: Dict[str, Any] = {}
+        final_weighted_chains: dict[str, Any] = {}
 
         for (
             chain_id_key,
@@ -492,12 +499,13 @@ class CausalReasoningModule:
             initial_base_confidence = chain_data_obj["chain_base_confidence_score"]
             chain_elements_list = chain_data_obj["chain_elements_data"]
 
-            # Confidence adjustment based on chain length (more elements might imply stronger evidence, up to a point).
+            # Confidence adjustment based on chain length (more elements might imply
+            # stronger evidence, up to a point).
             length_adjustment_factor = min(0.15, 0.03 * len(chain_elements_list))
 
             # Confidence adjustment based on diversity of element types within the chain
             # (e.g., a chain with both textual cues and contextual factors might be stronger).
-            unique_element_types = set(el["element_type"] for el in chain_elements_list)
+            unique_element_types = {el["element_type"] for el in chain_elements_list}
             diversity_adjustment_factor = (
                 min(0.10, 0.05 * (len(unique_element_types) - 1))
                 if len(unique_element_types) > 1
@@ -536,7 +544,7 @@ class CausalReasoningModule:
 
     # Creates a concise textual summary of a causal chain.
     def _summarize_causal_chain(
-        self, chain_elements_data: List[Dict[str, Any]], parent_logger: Any
+        self, chain_elements_data: list[dict[str, Any]], parent_logger: Any
     ) -> str:  # Renamed arg
         """
         Creates a concise textual summary from the elements of a causal chain.
@@ -573,7 +581,7 @@ class CausalReasoningModule:
 
     # Updates the persistent causal graph with newly identified valid causes.
     def _update_causal_graph_knowledge(
-        self, valid_causal_chains_map: Dict[str, Any], parent_logger: Any
+        self, valid_causal_chains_map: dict[str, Any], parent_logger: Any
     ) -> None:  # Renamed args
         """
         # ΛNOTE: This method updates the module's symbolic memory (causal_graph) with validated causal chains.
@@ -635,8 +643,8 @@ class CausalReasoningModule:
 
     # Identifies the most likely primary cause from a set of valid causal chains.
     def _identify_primary_cause_from_chains(
-        self, valid_causal_chains_map: Dict[str, Any], parent_logger: Any
-    ) -> Optional[Dict[str, Any]]:  # Renamed args
+        self, valid_causal_chains_map: dict[str, Any], parent_logger: Any
+    ) -> Optional[dict[str, Any]]:  # Renamed args
         """
         # ΛNOTE: This step represents a symbolic decision-making process: selecting the "primary" cause.
         # The heuristic (highest confidence) is a common strategy for resolving ambiguity among competing hypotheses.
@@ -667,7 +675,8 @@ class CausalReasoningModule:
 
         # Select the chain with the highest confidence score as the primary cause.
         # If multiple chains have the same max confidence, this picks one based on dict iteration order.
-        # More sophisticated tie-breaking could be added (e.g., shortest chain, specific element types).
+        # More sophisticated tie-breaking could be added (e.g., shortest chain,
+        # specific element types).
         primary_cause_chain_id_key = max(
             valid_causal_chains_map,
             key=lambda k: valid_causal_chains_map[k]["confidence_score"],
@@ -696,8 +705,8 @@ class CausalReasoningModule:
 
     # Extracts a simplified, ordered reasoning path from the valid causal chains.
     def _extract_simplified_reasoning_path(
-        self, valid_causal_chains_map: Dict[str, Any], parent_logger: Any
-    ) -> List[Dict[str, Any]]:  # Renamed args
+        self, valid_causal_chains_map: dict[str, Any], parent_logger: Any
+    ) -> list[dict[str, Any]]:  # Renamed args
         """
         # ΛNOTE: This method constructs a narrative or trace of the symbolic reasoning process.
         # By ordering elements from valid chains (prioritizing higher confidence chains),
@@ -722,7 +731,7 @@ class CausalReasoningModule:
             num_valid_chains=len(valid_causal_chains_map),
         )
 
-        all_reasoning_steps: List[Dict[str, Any]] = []
+        all_reasoning_steps: list[dict[str, Any]] = []
         # Aggregate all elements from all valid chains, tagging them with chain info.
         for chain_id_key, chain_data_obj in valid_causal_chains_map.items():
             for idx, element_item_data in enumerate(
@@ -751,7 +760,8 @@ class CausalReasoningModule:
             reverse=True,
         )
 
-        # Limit the path to a manageable number of top steps for summary (e.g., top 5-10).
+        # Limit the path to a manageable number of top steps for summary (e.g.,
+        # top 5-10).
         max_path_steps_to_return = 7  # Example limit
         top_reasoning_path_steps = all_reasoning_steps[:max_path_steps_to_return]
 
@@ -764,7 +774,7 @@ class CausalReasoningModule:
 
     # Updates the internal history of causal reasoning results.
     def _add_to_reasoning_history(
-        self, reasoning_session_results: Dict[str, Any], parent_logger: Any
+        self, reasoning_session_results: dict[str, Any], parent_logger: Any
     ) -> None:  # Renamed args
         """
         Updates the internal history of causal reasoning results, ensuring the
@@ -820,8 +830,9 @@ class CausalReasoningModule:
         )
 
     # ΛEXPOSE: Retrieves aggregated insights and patterns from the causal reasoning history and graph.
-    # This method provides a meta-cognitive view of the module's performance and learned knowledge.
-    def get_causal_reasoning_insights(self) -> Dict[str, Any]:  # Renamed method
+    # This method provides a meta-cognitive view of the module's performance
+    # and learned knowledge.
+    def get_causal_reasoning_insights(self) -> dict[str, Any]:  # Renamed method
         """
         # ΛNOTE: This function performs meta-reasoning by analyzing the history of causal inferences (causal_history)
         # and the state of the learned knowledge (causal_graph). It extracts trends and summaries,
@@ -835,7 +846,8 @@ class CausalReasoningModule:
             Dict[str, Any]: A dictionary containing insights such as average confidence scores,
                             observed trends, and the current size of the causal knowledge graph.
         """
-        # Human-readable comment: Provides an overview of learned causal patterns and reasoning performance.
+        # Human-readable comment: Provides an overview of learned causal patterns
+        # and reasoning performance.
         insights_logger = self.logger.bind(method_name="get_causal_reasoning_insights")
         insights_logger.info("ΛTRACE: Generating aggregated causal reasoning insights.")
 
@@ -847,7 +859,8 @@ class CausalReasoningModule:
                 "insights_summary_message": "No causal reasoning history available to generate insights."
             }  # Renamed key
 
-        # Analyze confidence from recent history (e.g., last 20 entries or all if fewer).
+        # Analyze confidence from recent history (e.g., last 20 entries or all if
+        # fewer).
         num_recent_for_stats = min(len(self.causal_history), 20)
         recent_history_entries = self.causal_history[-num_recent_for_stats:]
 
@@ -910,7 +923,8 @@ class CausalReasoningModule:
         return aggregated_insights_data
 
 
-# Defines the public export of this module for `from reasoning.causal_reasoning import *`
+# Defines the public export of this module for `from
+# reasoning.causal_reasoning import *`
 __all__ = ["CausalReasoningModule"]
 logger.debug(
     "ΛTRACE: causal_reasoning.py module `__all__` defined.", exported_symbols=__all__

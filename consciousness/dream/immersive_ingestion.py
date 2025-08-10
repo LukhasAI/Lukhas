@@ -4,14 +4,15 @@ This module provides a minimal, breath-like entry point into the
 symbolic dream system. Complex orchestration is hidden so that first
 experiences feel magical.
 """
+import logging
 
-from typing import Any, Dict, List
+from typing import Any
 
 # ΛTAG: dream_ingestion_interface
 logger = logging.getLogger("dream.immersive_ingestion")
 
 
-def _compose_dream(memory_snapshots: List[Dict[str, Any]]) -> List[str]:
+def _compose_dream(memory_snapshots: list[dict[str, Any]]) -> list[str]:
     """Create a symbolic dream sequence from raw memory snapshots."""
     dream = []
     for snap in memory_snapshots:
@@ -20,14 +21,14 @@ def _compose_dream(memory_snapshots: List[Dict[str, Any]]) -> List[str]:
     return dream
 
 
-def _reflect_dream(dream: List[str]) -> Dict[str, Any]:
+def _reflect_dream(dream: list[str]) -> dict[str, Any]:
     """Generate a simple reflection summary."""
     length = len(dream)
     summary = " ".join(dream)[:80]
     return {"summary": summary, "length": length}
 
 
-async def dream_breath(memory_snapshots: List[Dict[str, Any]]) -> Dict[str, Any]:
+async def dream_breath(memory_snapshots: list[dict[str, Any]]) -> dict[str, Any]:
     """Run a minimal dream cycle and return reflection results."""
     dream_sequence = _compose_dream(memory_snapshots)
     reflection = _reflect_dream(dream_sequence)
@@ -46,7 +47,7 @@ async def dream_breath(memory_snapshots: List[Dict[str, Any]]) -> Dict[str, Any]
     }
 
 
-def run_dream_breath(memory_snapshots: List[Dict[str, Any]]) -> Dict[str, Any]:
+def run_dream_breath(memory_snapshots: list[dict[str, Any]]) -> dict[str, Any]:
     """Synchronous helper to execute :func:`dream_breath`."""
     import asyncio
 

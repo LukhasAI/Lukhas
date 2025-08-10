@@ -28,12 +28,12 @@
 +==================================================================================
 """
 
-🔍 CAUSAL PROGRAM INDUCER (CPI)
+🔍 CAUSAL PROGRAM INDUCER(CPI)
 ─────────────────────────────────
 
 The CPI extracts causal relationships from trace data, reasoning chains, and
 hyperspace dream simulations to build executable causal models. These models
-enable the AGI to understand cause-and-effect relationships and make more
+enable the AGI to understand cause - and -effect relationships and make more
 informed decisions based on learned causal patterns.
 
 🔬 CORE FEATURES:
@@ -46,16 +46,16 @@ informed decisions based on learned causal patterns.
 - Ethical causal validation through MEG integration
 
 🧪 CAUSAL DISCOVERY METHODS:
-- Constraint-based discovery (PC algorithm variants)
-- Score-based discovery (GES algorithm)
-- Functional causal models (FCM)
+- Constraint - based discovery(PC algorithm variants)
+- Score - based discovery(GES algorithm)
+- Functional causal models(FCM)
 - Granger causality for temporal sequences
 - Symbolic pattern extraction from reasoning traces
 - Counterfactual reasoning from HDS simulations
 
 ΛTAG: CPI, ΛCAUSAL, ΛGRAPH, ΛREASONING, ΛTRACES
-ΛTODO: Add advanced causal discovery algorithms (PC-stable, FCI)
-AIDEA: Connect with quantum consciousness for non-classical causality
+ΛTODO: Add advanced causal discovery algorithms(PC - stable, FCI)
+AIDEA: Connect with quantum consciousness for non - classical causality
 """
 
 import asyncio
@@ -172,7 +172,8 @@ class CausalNode:
 
         # Update confidence based on evidence quality
         evidence_quality = evidence.get('quality', 0.5)
-        self.confidence = (self.confidence * (self.evidence_count - 1) + evidence_quality) / self.evidence_count
+        self.confidence = (self.confidence * (self.evidence_count - \
+                           1) + evidence_quality) / self.evidence_count
 
         # Update context
         if 'context' in evidence:
@@ -266,7 +267,8 @@ class CausalEdge:
         if self.time_delay < timedelta(0):
             detected.append(BiasType.TEMPORAL_BIAS)
 
-        # Confirmation bias detection (high correlation, low p-value but few validation methods)
+        # Confirmation bias detection (high correlation, low p-value but few
+        # validation methods)
         if (abs(self.correlation) > 0.8 and
             self.p_value < 0.5 and
             len(self.validation_methods) < 2):
@@ -397,7 +399,7 @@ class CausalGraph:
         return None
 
     def get_parents(self, node_id: str) -> List[str]:
-        """Get parent nodes (causes) of a given node"""
+        """Get parent nodes(causes) of a given node"""
         parents = []
         for edge in self.edges.values():
             if edge.target_node == node_id:
@@ -409,7 +411,7 @@ class CausalGraph:
         return parents
 
     def get_children(self, node_id: str) -> List[str]:
-        """Get child nodes (effects) of a given node"""
+        """Get child nodes(effects) of a given node"""
         children = []
         for edge in self.edges.values():
             if edge.source_node == node_id:
@@ -480,7 +482,8 @@ class CausalGraph:
 
         # Completeness: Ratio of observed to expected relationships
         expected_edges = len(self.nodes) * (len(self.nodes) - 1) / 2  # Maximum possible
-        completeness_score = min(1.0, len(self.edges) / max(1, expected_edges * 0.1))  # Assume 10% expected
+        completeness_score = min(1.0, len(self.edges) / \
+                                 max(1, expected_edges * 0.1))  # Assume 10% expected
 
         # Reliability: Average confidence of edges weighted by evidence
         total_weight = 0
@@ -543,7 +546,7 @@ class CausalGraph:
 
 class CausalProgramInducer:
     """
-    Causal Program Inducer (CPI)
+    Causal Program Inducer(CPI)
 
     Extracts causal relationships from traces, reasoning chains, and
     simulation data to build executable causal models for decision optimization.
@@ -727,7 +730,8 @@ class CausalProgramInducer:
                                     nodes_in_chain.append(node_id)
 
                             if 'outputs' in step:
-                                for output_name, output_value in step['outputs'].items():
+                                for output_name, output_value in step['outputs'].items(
+                                ):
                                     node_id = f"output_{output_name}"
                                     if node_id not in graph.nodes:
                                         node = CausalNode(
@@ -893,10 +897,12 @@ class CausalProgramInducer:
                                     target_node=outcome_node_id,
                                     relation_type=CausalRelationType.DIRECT_CAUSE,
                                     strength=outcome.get('probability', 0.5),
-                                    confidence=decision.get('confidence', 0.5) * outcome.get('probability', 0.5)
+                                    confidence=decision.get(
+                                        'confidence', 0.5) * outcome.get('probability', 0.5)
                                 )
 
-                                edge.add_evidence(f"hds_scenario_{scenario_id}", "counterfactual_analysis")
+                                edge.add_evidence(
+    f"hds_scenario_{scenario_id}", "counterfactual_analysis")
                                 graph.add_edge(edge)
 
             except Exception as e:
@@ -932,7 +938,8 @@ class CausalProgramInducer:
                 next_node_id = f"operation_{next_op}"
 
                 # Create nodes if they don't exist
-                for node_id, operation in [(current_node_id, current_op), (next_node_id, next_op)]:
+                for node_id, operation in [
+    (current_node_id, current_op), (next_node_id, next_op)]:
                     if node_id not in graph.nodes:
                         node = CausalNode(
                             node_id=node_id,
@@ -963,7 +970,8 @@ class CausalProgramInducer:
         """Analyze drift patterns to infer causal relationship"""
 
         if not self.drift_tracker:
-            logger.warning("ΛCPI: Drift tracker not available for drift causality analysis")
+            logger.warning(
+                "ΛCPI: Drift tracker not available for drift causality analysis")
             return
 
         # ΛTODO: Implement drift causality analysis
@@ -971,8 +979,11 @@ class CausalProgramInducer:
 
         logger.debug("ΛCPI: Drift causality analysis placeholder - implementation needed")
 
-    def _calculate_cross_correlation(self, series1: List[float], series2: List[float]) -> float:
-        """Calculate cross-correlation between two time serie"""
+    def _calculate_cross_correlation(
+    self,
+    series1: List[float],
+     series2: List[float]) -> float:
+        """Calculate cross - correlation between two time serie"""
         if len(series1) != len(series2) or len(series1) == 0:
             return 0.0
 
@@ -1183,7 +1194,8 @@ class CausalProgramInducer:
                         if edge:
                             path_strength *= edge.strength
 
-                    strongest_path_strength = max(strongest_path_strength, path_strength)
+                    strongest_path_strength = max(
+    strongest_path_strength, path_strength)
 
                 # Simple linear effect prediction
                 current_value = graph.nodes[affected_node].current_value or 0
@@ -1250,11 +1262,13 @@ class CausalProgramInducer:
             },
             'quality_metrics': quality_metrics,
             'node_types': {
-                node_type: sum(1 for node in graph.nodes.values() if node.node_type == node_type)
+                node_type: sum(1 for node in graph.nodes.values()
+                               if node.node_type == node_type)
                 for node_type in set(node.node_type for node in graph.nodes.values())
             },
             'relation_types': {
-                rel_type.value: sum(1 for edge in graph.edges.values() if edge.relation_type == rel_type)
+                rel_type.value: sum(1 for edge in graph.edges.values()
+                                    if edge.relation_type == rel_type)
                 for rel_type in set(edge.relation_type for edge in graph.edges.values())
             },
             'bias_summary': {
@@ -1328,31 +1342,31 @@ async def quick_causal_analysis(trace_sources: List[str],
 
 
 """
-===========================================================================
+== == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
 | 📋 FOOTER - LUKHAS AI
-+==========================================================================
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
 | VALIDATION:
-|   - Tests: lukhas/tests/reasoning/test_causal_program_inducer.py
-|   - Coverage: 78%
-|   - Linting: pylint 8.2/10
+| - Tests: lukhas / tests / reasoning / test_causal_program_inducer.py
+| - Coverage: 78%
+| - Linting: pylint 8.2 / 10
 |
 | MONITORING:
-|   - Metrics: causal_graphs_generated, relationships_discovered, biases_detected
-|   - Logs: ΛTRACE.cpi
-|   - Alerts: Ethical violations, bias detection warnings, graph quality degradation
+| - Metrics: causal_graphs_generated, relationships_discovered, biases_detected
+| - Logs: ΛTRACE.cpi
+| - Alerts: Ethical violations, bias detection warnings, graph quality degradation
 |
 | COMPLIANCE:
-|   - Standards: Pearl's Causal Hierarchy, Causal Inference Best Practices
-|   - Ethics: Causal fairness validation, bias mitigation protocols
-|   - Safety: Intervention simulation limits, graph complexity bounds
+| - Standards: Pearl's Causal Hierarchy, Causal Inference Best Practices
+| - Ethics: Causal fairness validation, bias mitigation protocols
+| - Safety: Intervention simulation limits, graph complexity bounds
 |
 | REFERENCES:
-|   - Docs: docs/reasoning/causal_program_inducer.md
-|   - Issues: github.com/lukhas-ai/consolidation-repo/issues?label=causal-inference
-|   - Wiki: Causal Inference Theory and Pearl's Framework
+| - Docs: docs / reasoning / causal_program_inducer.md
+| - Issues: github.com / lukhas - ai / consolidation - repo / issues?label = causal - inference
+| - Wiki: Causal Inference Theory and Pearl's Framework
 |
 | COPYRIGHT & LICENSE:
-|   Copyright (c) 2025 LUKHAS AI. All rights reserved.
+|   Copyright(c) 2025 LUKHAS AI. All rights reserved.
 |   Licensed under the LUKHAS AI Proprietary License.
 |   Unauthorized use, reproduction, or distribution is prohibited.
 |
@@ -1360,5 +1374,5 @@ async def quick_causal_analysis(trace_sources: List[str],
 |   This module is part of the LUKHAS AGI system. Use only as intended
 |   within the system architecture. Modifications may affect system
 |   stability and require approval from the LUKHAS Architecture Board.
-+===========================================================================
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == ==
 """

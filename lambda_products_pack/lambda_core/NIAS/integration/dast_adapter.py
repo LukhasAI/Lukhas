@@ -7,7 +7,7 @@ import logging
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Add DAST to the path
 dast_path = Path(__file__).parent.parent.parent / "DΛST"
@@ -93,7 +93,7 @@ class NIASDastAdapter:
             f"NIΛS-DΛST adapter initialized (DAST available: {self.dast_available})"
         )
 
-    def _initialize_symbol_color_mapping(self) -> Dict[str, List[str]]:
+    def _initialize_symbol_color_mapping(self) -> dict[str, list[str]]:
         """Map DAST symbolic tags to NIAS color themes"""
         return {
             # Activity-based colors
@@ -116,7 +116,7 @@ class NIASDastAdapter:
             "productive": ["#43a047", "#66bb6a"],  # Achievement greens
         }
 
-    def _initialize_symbol_element_mapping(self) -> Dict[str, List[str]]:
+    def _initialize_symbol_element_mapping(self) -> dict[str, list[str]]:
         """Map DAST symbolic tags to NIAS symbolic elements"""
         return {
             # Activity elements
@@ -138,7 +138,7 @@ class NIASDastAdapter:
             "productive": ["✅", "🏆", "📈"],
         }
 
-    def _initialize_activity_tone_mapping(self) -> Dict[str, str]:
+    def _initialize_activity_tone_mapping(self) -> dict[str, str]:
         """Map DAST activities to NIAS communication tones"""
         return {
             "working": "professional",
@@ -153,7 +153,7 @@ class NIASDastAdapter:
             "calm": "soothing",
         }
 
-    def _initialize_message_symbol_mapping(self) -> Dict[str, List[str]]:
+    def _initialize_message_symbol_mapping(self) -> dict[str, list[str]]:
         """Map NIAS message types to relevant symbolic categories for DAST tracking"""
         return {
             "promotional": ["commercial", "product", "brand"],
@@ -166,7 +166,7 @@ class NIASDastAdapter:
         }
 
     async def register_user(
-        self, user_id: str, initial_symbols: Optional[List[str]] = None
+        self, user_id: str, initial_symbols: Optional[list[str]] = None
     ) -> bool:
         """Register user with DAST for symbolic context tracking"""
         if not self.dast_available or not self.dast_instance:
@@ -190,7 +190,7 @@ class NIASDastAdapter:
 
     async def get_symbolic_context(
         self, user_id: str, message_type: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get symbolic context for message processing.
         This is the primary integration point for NIAS symbolic processing phase.
@@ -265,7 +265,7 @@ class NIASDastAdapter:
             logger.error(f"DΛST symbolic context failed for {user_id}: {e}")
             return self._fallback_symbolic_context(user_id, message_type, error=str(e))
 
-    def _get_recommended_colors(self, symbolic_tags: List[str]) -> List[str]:
+    def _get_recommended_colors(self, symbolic_tags: list[str]) -> list[str]:
         """Get recommended colors based on symbolic tags"""
         colors = []
         for tag in symbolic_tags:
@@ -276,7 +276,7 @@ class NIASDastAdapter:
         unique_colors = list(dict.fromkeys(colors))
         return unique_colors[:3] if unique_colors else ["#4a90e2", "#2e7d32", "#1976d2"]
 
-    def _get_recommended_elements(self, symbolic_tags: List[str]) -> List[str]:
+    def _get_recommended_elements(self, symbolic_tags: list[str]) -> list[str]:
         """Get recommended symbolic elements based on tags"""
         elements = []
         for tag in symbolic_tags:
@@ -295,15 +295,15 @@ class NIASDastAdapter:
         return self.activity_to_tone_mapping.get(primary_activity.lower(), "neutral")
 
     def _calculate_message_coherence(
-        self, current_tags: List[str], message_symbols: List[str]
+        self, current_tags: list[str], message_symbols: list[str]
     ) -> float:
         """Calculate coherence between current context and message symbols"""
         if not current_tags or not message_symbols:
             return 0.5  # Neutral coherence
 
         # Simple overlap-based coherence calculation
-        current_set = set(tag.lower() for tag in current_tags)
-        message_set = set(symbol.lower() for symbol in message_symbols)
+        current_set = {tag.lower() for tag in current_tags}
+        message_set = {symbol.lower() for symbol in message_symbols}
 
         if not current_set or not message_set:
             return 0.5
@@ -318,7 +318,7 @@ class NIASDastAdapter:
         user_id: str,
         message_type: Optional[str] = None,
         error: Optional[str] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Fallback symbolic context when DAST is unavailable"""
 
         # Simple time-based context
@@ -366,7 +366,7 @@ class NIASDastAdapter:
         return fallback_context
 
     async def update_symbolic_context_from_message(
-        self, user_id: str, message: Dict[str, Any], interaction_result: Dict[str, Any]
+        self, user_id: str, message: dict[str, Any], interaction_result: dict[str, Any]
     ) -> bool:
         """Update user's symbolic context based on message interaction"""
         if not self.dast_available or not self.dast_instance:
@@ -433,8 +433,8 @@ class NIASDastAdapter:
             return False
 
     async def get_activity_suggestions(
-        self, user_id: str, current_context: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, user_id: str, current_context: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Get activity suggestions based on current symbolic context"""
         if not self.dast_available or not self.dast_instance:
             return []
@@ -485,7 +485,7 @@ class NIASDastAdapter:
 
     async def get_symbolic_analytics(
         self, user_id: str, hours: int = 24
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get symbolic analytics from DAST"""
         if not self.dast_available or not self.dast_instance:
             return {"error": "DAST not available"}
@@ -500,7 +500,7 @@ class NIASDastAdapter:
         """Check if DAST integration is available"""
         return self.dast_available and self.dast_instance is not None
 
-    def get_integration_status(self) -> Dict[str, Any]:
+    def get_integration_status(self) -> dict[str, Any]:
         """Get status of DAST integration"""
         status = {
             "dast_available": self.dast_available,

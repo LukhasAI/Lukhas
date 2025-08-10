@@ -41,6 +41,8 @@
 
 import logging
 
+from lukhas_pwm.branding.terminology import normalize_output
+
 # Module imports
 import requests
 
@@ -71,8 +73,14 @@ class PerplexityWrapper:
         **kwargs,
     ) -> str:
         """Generate response using Perplexity API"""
+        guidance = (
+            "When describing methods, prefer 'quantum-inspired' and 'bio-inspired'. "
+            "Refer to the project as 'Lukhas AI'."
+        )
+
         if not self.api_key:
-            return "Perplexity API key not found. Please set PERPLEXITY_API_KEY environment variable."
+            fb = "Perplexity API key not found. Please set PERPLEXITY_API_KEY environment variable."
+            return normalize_output(fb) or fb
 
         try:
             headers = {
@@ -82,7 +90,10 @@ class PerplexityWrapper:
 
             data = {
                 "model": model,
-                "messages": [{"role": "user", "content": prompt}],
+                "messages": [
+                    {"role": "system", "content": guidance},
+                    {"role": "user", "content": prompt},
+                ],
                 "max_tokens": kwargs.get("max_tokens", 2000),
                 "temperature": kwargs.get("temperature", 0.7),
             }
@@ -92,13 +103,17 @@ class PerplexityWrapper:
             )
             response.raise_for_status()
 
-            return response.json()["choices"][0]["message"]["content"]
+            content = response.json()["choices"][0]["message"].get("content")
+            return normalize_output(content) or content or ""
         except requests.exceptions.Timeout:
-            return "Perplexity API Error: Request timeout"
+            err = "Perplexity API Error: Request timeout"
+            return normalize_output(err) or err
         except requests.exceptions.RequestException as e:
-            return f"Perplexity API Error: Request failed - {str(e)}"
+            err = f"Perplexity API Error: Request failed - {str(e)}"
+            return normalize_output(err) or err
         except Exception as e:
-            return f"Perplexity API Error: {str(e)}"
+            err = f"Perplexity API Error: {str(e)}"
+            return normalize_output(err) or err
 
     def is_available(self) -> bool:
         """Check if Perplexity is available"""

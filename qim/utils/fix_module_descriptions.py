@@ -114,7 +114,7 @@ even as individual qubits decohere into classical states.
 def fix_description(filepath: Path) -> bool:
     """Fix verbose description with proper concise one."""
 
-    if not filepath.suffix == ".py":
+    if filepath.suffix != ".py":
         return False
 
     try:

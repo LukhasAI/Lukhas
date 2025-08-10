@@ -121,7 +121,7 @@ def export_as_text_narration():
         if elevenlabs_enabled:
             try:
                 print(
-                    f"🧪 Attempting to generate audio for: {entry.get('message_id',
+                    f"🧪 Attempting to generate audio for: {entry.get('message_id',"
                                                                      'unknown_dream')}"
                 )
                 client = ElevenLabs(api_key=ELEVENLABS_API_KEY)

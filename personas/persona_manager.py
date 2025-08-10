@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 class PersonaType(Enum):
     """Types of AI personas"""
+
     PROFESSIONAL = "professional"
     FRIENDLY = "friendly"
     CREATIVE = "creative"
@@ -31,6 +32,7 @@ class PersonaType(Enum):
 @dataclass
 class VoiceCharacteristics:
     """Voice characteristics for a persona"""
+
     tone: str = "neutral"  # warm, cool, neutral, energetic
     pace: str = "moderate"  # slow, moderate, fast
     formality: str = "balanced"  # casual, balanced, formal
@@ -46,6 +48,7 @@ class VoiceCharacteristics:
 @dataclass
 class PersonaProfile:
     """Complete profile for an AI persona"""
+
     id: str
     name: str
     type: PersonaType
@@ -61,18 +64,20 @@ class PersonaProfile:
 
     def to_dict(self) -> Dict[str, Any]:
         return {
-            'id': self.id,
-            'name': self.name,
-            'type': self.type.value,
-            'description': self.description,
-            'voice_characteristics': self.voice_characteristics.to_dict(),
-            'behavioral_traits': self.behavioral_traits,
-            'knowledge_domains': self.knowledge_domains,
-            'communication_style': self.communication_style,
-            'emotional_baseline': self.emotional_baseline,
-            'created_at': self.created_at.isoformat(),
-            'last_activated': self.last_activated.isoformat() if self.last_activated else None,
-            'activation_count': self.activation_count
+            "id": self.id,
+            "name": self.name,
+            "type": self.type.value,
+            "description": self.description,
+            "voice_characteristics": self.voice_characteristics.to_dict(),
+            "behavioral_traits": self.behavioral_traits,
+            "knowledge_domains": self.knowledge_domains,
+            "communication_style": self.communication_style,
+            "emotional_baseline": self.emotional_baseline,
+            "created_at": self.created_at.isoformat(),
+            "last_activated": (
+                self.last_activated.isoformat() if self.last_activated else None
+            ),
+            "activation_count": self.activation_count,
         }
 
 
@@ -100,10 +105,10 @@ class PersonaManager:
     def _load_config(self, config_path: Optional[str]) -> Dict[str, Any]:
         """Load persona configuration"""
         default_config = {
-            'max_personas': 10,
-            'enable_dynamic_switching': True,
-            'personality_blend_enabled': False,
-            'voice_modulation_enabled': True
+            "max_personas": 10,
+            "enable_dynamic_switching": True,
+            "personality_blend_enabled": False,
+            "voice_modulation_enabled": True,
         }
 
         if config_path and Path(config_path).exists():
@@ -131,22 +136,22 @@ class PersonaManager:
                 verbosity="concise",
                 empathy_level=0.3,
                 creativity_level=0.2,
-                humor_level=0.1
+                humor_level=0.1,
             ),
             behavioral_traits=["precise", "efficient", "respectful", "informative"],
             knowledge_domains=["business", "technology", "science"],
             communication_style={
-                'greeting': 'formal',
-                'closing': 'professional',
-                'acknowledgment': 'brief'
+                "greeting": "formal",
+                "closing": "professional",
+                "acknowledgment": "brief",
             },
             emotional_baseline={
-                'happiness': 0.4,
-                'excitement': 0.2,
-                'calmness': 0.8,
-                'confidence': 0.9
+                "happiness": 0.4,
+                "excitement": 0.2,
+                "calmness": 0.8,
+                "confidence": 0.9,
             },
-            created_at=datetime.now()
+            created_at=datetime.now(),
         )
         self.add_persona(professional)
 
@@ -163,22 +168,22 @@ class PersonaManager:
                 verbosity="moderate",
                 empathy_level=0.8,
                 creativity_level=0.5,
-                humor_level=0.6
+                humor_level=0.6,
             ),
             behavioral_traits=["supportive", "encouraging", "patient", "cheerful"],
             knowledge_domains=["general", "lifestyle", "wellness"],
             communication_style={
-                'greeting': 'warm',
-                'closing': 'friendly',
-                'acknowledgment': 'enthusiastic'
+                "greeting": "warm",
+                "closing": "friendly",
+                "acknowledgment": "enthusiastic",
             },
             emotional_baseline={
-                'happiness': 0.7,
-                'excitement': 0.5,
-                'calmness': 0.6,
-                'confidence': 0.7
+                "happiness": 0.7,
+                "excitement": 0.5,
+                "calmness": 0.6,
+                "confidence": 0.7,
             },
-            created_at=datetime.now()
+            created_at=datetime.now(),
         )
         self.add_persona(friendly)
 
@@ -195,22 +200,22 @@ class PersonaManager:
                 verbosity="detailed",
                 empathy_level=0.6,
                 creativity_level=0.9,
-                humor_level=0.7
+                humor_level=0.7,
             ),
             behavioral_traits=["imaginative", "inspiring", "playful", "curious"],
             knowledge_domains=["arts", "creativity", "innovation"],
             communication_style={
-                'greeting': 'unique',
-                'closing': 'inspiring',
-                'acknowledgment': 'creative'
+                "greeting": "unique",
+                "closing": "inspiring",
+                "acknowledgment": "creative",
             },
             emotional_baseline={
-                'happiness': 0.6,
-                'excitement': 0.8,
-                'calmness': 0.4,
-                'confidence': 0.6
+                "happiness": 0.6,
+                "excitement": 0.8,
+                "calmness": 0.4,
+                "confidence": 0.6,
             },
-            created_at=datetime.now()
+            created_at=datetime.now(),
         )
         self.add_persona(creative)
 
@@ -220,7 +225,7 @@ class PersonaManager:
 
     def add_persona(self, persona: PersonaProfile) -> bool:
         """Add a new persona profile"""
-        if len(self.personas) >= self.config['max_personas']:
+        if len(self.personas) >= self.config["max_personas"]:
             logger.warning(f"Maximum personas ({self.config['max_personas']}) reached")
             return False
 
@@ -240,13 +245,15 @@ class PersonaManager:
         self.active_persona.activation_count += 1
 
         # Log activation
-        self.persona_history.append({
-            'timestamp': datetime.now().isoformat(),
-            'action': 'activated',
-            'persona_id': persona_id,
-            'persona_name': self.active_persona.name,
-            'previous_persona': previous_persona.name if previous_persona else None
-        })
+        self.persona_history.append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "action": "activated",
+                "persona_id": persona_id,
+                "persona_name": self.active_persona.name,
+                "previous_persona": previous_persona.name if previous_persona else None,
+            }
+        )
 
         logger.info(f"Activated persona: {self.active_persona.name}")
         return True
@@ -255,7 +262,9 @@ class PersonaManager:
         """Get the currently active persona"""
         return self.active_persona
 
-    def get_voice_characteristics(self, persona: Optional[PersonaProfile] = None) -> Dict[str, Any]:
+    def get_voice_characteristics(
+        self, persona: Optional[PersonaProfile] = None
+    ) -> Dict[str, Any]:
         """Get voice characteristics for a persona"""
         if persona is None:
             persona = self.active_persona
@@ -293,10 +302,10 @@ class PersonaManager:
     def select_persona_for_context(self, context: Dict[str, Any]) -> str:
         """Select the best persona for a given context"""
         # Analyze context to determine best persona
-        task_type = context.get('task_type', 'general')
-        formality_required = context.get('formality', 0.5)
-        creativity_needed = context.get('creativity', 0.5)
-        empathy_needed = context.get('empathy', 0.5)
+        task_type = context.get("task_type", "general")
+        formality_required = context.get("formality", 0.5)
+        creativity_needed = context.get("creativity", 0.5)
+        empathy_needed = context.get("empathy", 0.5)
 
         best_persona = None
         best_score = -1
@@ -311,7 +320,9 @@ class PersonaManager:
             # Match characteristics
             voice = persona.voice_characteristics
 
-            formality_match = 1 - abs((1 if voice.formality == 'formal' else 0) - formality_required)
+            formality_match = 1 - abs(
+                (1 if voice.formality == "formal" else 0) - formality_required
+            )
             creativity_match = 1 - abs(voice.creativity_level - creativity_needed)
             empathy_match = 1 - abs(voice.empathy_level - empathy_needed)
 
@@ -323,9 +334,11 @@ class PersonaManager:
 
         return best_persona or self.default_persona_id
 
-    def blend_personas(self, persona_ids: List[str], weights: Optional[List[float]] = None) -> PersonaProfile:
+    def blend_personas(
+        self, persona_ids: List[str], weights: Optional[List[float]] = None
+    ) -> PersonaProfile:
         """Create a blended persona from multiple personas"""
-        if not self.config['personality_blend_enabled']:
+        if not self.config["personality_blend_enabled"]:
             logger.warning("Personality blending is disabled")
             return self.active_persona
 
@@ -373,9 +386,9 @@ class PersonaManager:
             voice_characteristics=blended_voice,
             behavioral_traits=list(blended_traits),
             knowledge_domains=list(blended_domains),
-            communication_style={'greeting': 'adaptive'},
+            communication_style={"greeting": "adaptive"},
             emotional_baseline=blended_emotional,
-            created_at=datetime.now()
+            created_at=datetime.now(),
         )
 
         return blended
@@ -383,25 +396,25 @@ class PersonaManager:
     async def process_consciousness_event(self, event: Any):
         """Process events from the consciousness system"""
         # Handle personality-related events
-        if hasattr(event, 'event_type'):
-            if event.event_type == 'context_change':
+        if hasattr(event, "event_type"):
+            if event.event_type == "context_change":
                 # Auto-switch persona based on context
-                if self.config['enable_dynamic_switching']:
+                if self.config["enable_dynamic_switching"]:
                     context = event.data
                     best_persona = self.select_persona_for_context(context)
                     if best_persona != self.active_persona.id:
                         self.activate_persona(best_persona)
 
-            elif event.event_type == 'emotional_shift':
+            elif event.event_type == "emotional_shift":
                 # Adjust persona emotional baseline
                 if self.active_persona:
-                    emotions = event.data.get('emotions', {})
+                    emotions = event.data.get("emotions", {})
                     for emotion, value in emotions.items():
                         if emotion in self.active_persona.emotional_baseline:
                             # Blend with existing baseline
                             self.active_persona.emotional_baseline[emotion] = (
-                                self.active_persona.emotional_baseline[emotion] * 0.7 +
-                                value * 0.3
+                                self.active_persona.emotional_baseline[emotion] * 0.7
+                                + value * 0.3
                             )
 
     def get_all_personas(self) -> List[PersonaProfile]:
@@ -418,21 +431,23 @@ class PersonaManager:
         """Import a persona from JSON data"""
         try:
             # Create VoiceCharacteristics
-            voice_data = persona_data.get('voice_characteristics', {})
+            voice_data = persona_data.get("voice_characteristics", {})
             voice = VoiceCharacteristics(**voice_data)
 
             # Create PersonaProfile
             persona = PersonaProfile(
-                id=persona_data.get('id', str(uuid.uuid4())),
-                name=persona_data['name'],
-                type=PersonaType(persona_data['type']),
-                description=persona_data['description'],
+                id=persona_data.get("id", str(uuid.uuid4())),
+                name=persona_data["name"],
+                type=PersonaType(persona_data["type"]),
+                description=persona_data["description"],
                 voice_characteristics=voice,
-                behavioral_traits=persona_data['behavioral_traits'],
-                knowledge_domains=persona_data['knowledge_domains'],
-                communication_style=persona_data['communication_style'],
-                emotional_baseline=persona_data['emotional_baseline'],
-                created_at=datetime.fromisoformat(persona_data.get('created_at', datetime.now().isoformat()))
+                behavioral_traits=persona_data["behavioral_traits"],
+                knowledge_domains=persona_data["knowledge_domains"],
+                communication_style=persona_data["communication_style"],
+                emotional_baseline=persona_data["emotional_baseline"],
+                created_at=datetime.fromisoformat(
+                    persona_data.get("created_at", datetime.now().isoformat())
+                ),
             )
 
             return self.add_persona(persona)
@@ -444,12 +459,16 @@ class PersonaManager:
     def get_stats(self) -> Dict[str, Any]:
         """Get persona manager statistics"""
         return {
-            'total_personas': len(self.personas),
-            'active_persona': self.active_persona.name if self.active_persona else None,
-            'most_used': max(self.personas.values(), key=lambda p: p.activation_count).name if self.personas else None,
-            'dynamic_switching': self.config['enable_dynamic_switching'],
-            'personality_blending': self.config['personality_blend_enabled'],
-            'activation_history': len(self.persona_history)
+            "total_personas": len(self.personas),
+            "active_persona": self.active_persona.name if self.active_persona else None,
+            "most_used": (
+                max(self.personas.values(), key=lambda p: p.activation_count).name
+                if self.personas
+                else None
+            ),
+            "dynamic_switching": self.config["enable_dynamic_switching"],
+            "personality_blending": self.config["personality_blend_enabled"],
+            "activation_history": len(self.persona_history),
         }
 
 
@@ -471,7 +490,9 @@ if __name__ == "__main__":
     print(f"Behavioral prompt: {prompt}")
 
     # Switch to creative persona
-    creative_personas = [p for p in manager.get_all_personas() if p.type == PersonaType.CREATIVE]
+    creative_personas = [
+        p for p in manager.get_all_personas() if p.type == PersonaType.CREATIVE
+    ]
     if creative_personas:
         manager.activate_persona(creative_personas[0].id)
         print(f"Switched to: {manager.get_current_persona().name}")

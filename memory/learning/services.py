@@ -4,7 +4,8 @@ Learning Services
 Dependency injection services for the learning module.
 """
 
-from typing import Any, Dict, List, Optional
+from hub.service_registry import register_factory
+from typing import Any, Optional
 
 from hub.service_registry import get_service, inject_services
 
@@ -46,11 +47,11 @@ class LearningService:
     async def train(
         self,
         agent_id: str,
-        training_data: Dict[str, Any],
-        config: Optional[Dict[str, Any]] = None,
+        training_data: dict[str, Any],
+        config: Optional[dict[str, Any]] = None,
         memory=None,
         identity=None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Train a model with injected dependencies.
         """
@@ -82,10 +83,10 @@ class LearningService:
     async def _perform_training(
         self,
         agent_id: str,
-        data: Dict[str, Any],
-        context: List[Dict[str, Any]],
-        config: Optional[Dict[str, Any]],
-    ) -> Dict[str, Any]:
+        data: dict[str, Any],
+        context: list[dict[str, Any]],
+        config: Optional[dict[str, Any]],
+    ) -> dict[str, Any]:
         """Perform actual training logic"""
         # Simplified training simulation
         return {
@@ -98,8 +99,8 @@ class LearningService:
 
     @inject_services(consciousness="consciousness_service")
     async def conscious_learning(
-        self, agent_id: str, experience: Dict[str, Any], consciousness=None
-    ) -> Dict[str, Any]:
+        self, agent_id: str, experience: dict[str, Any], consciousness=None
+    ) -> dict[str, Any]:
         """
         Learning that integrates with consciousness for meta-cognitive awareness.
         """
@@ -131,8 +132,8 @@ class LearningService:
         return result
 
     async def federated_learning(
-        self, agent_ids: List[str], global_model: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, agent_ids: list[str], global_model: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Coordinate federated learning across multiple agents.
         """
@@ -159,7 +160,7 @@ class LearningService:
 
         return aggregated
 
-    def _aggregate_updates(self, updates: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _aggregate_updates(self, updates: list[dict[str, Any]]) -> dict[str, Any]:
         """Aggregate federated learning updates"""
         # Simplified aggregation
         avg_loss = sum(u["metrics"]["loss"] for u in updates) / len(updates)
@@ -171,7 +172,7 @@ class LearningService:
             "aggregated_metrics": {"loss": avg_loss, "accuracy": avg_acc},
         }
 
-    async def get_learning_status(self, agent_id: str) -> Dict[str, Any]:
+    async def get_learning_status(self, agent_id: str) -> dict[str, Any]:
         """Get current learning status for an agent"""
         self._ensure_services()
 
@@ -206,7 +207,6 @@ def create_learning_service():
 
 
 # Register with hub on import
-from hub.service_registry import register_factory
 
 register_factory(
     "learning_service",

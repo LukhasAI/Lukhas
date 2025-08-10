@@ -19,18 +19,18 @@ logger = structlog.get_logger(__name__)
 
 """
 +────────────────────────────────────────────────────────────────────────────+
-| MODULE         : lukhas_checkout_handler.py                                 |
-| DESCRIPTION    :                                                           |
-|   Handles symbolic and real-world checkout flows triggered by AI widgets. |
-|   Supports tier-based payment validation, carbon scoring, and multi-agent |
+| MODULE: lukhas_checkout_handler.py |
+| DESCRIPTION: |
+|   Handles symbolic and real - world checkout flows triggered by AI widgets. |
+|   Supports tier - based payment validation, carbon scoring, and multi - agent |
 |   billing flows. Prepares payloads for Stripe, Apple Pay, or token logic. |
-| TYPE           : Tier-Gated Payment Logic      VERSION : v1.0.0           |
-| AUTHOR         : LUKHAS SYSTEMS                  CREATED : 2025-4-22       |
+| TYPE: Tier - Gated Payment Logic      VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                  CREATED: 2025 - 4 - 22 |
 +────────────────────────────────────────────────────────────────────────────+
-| DEPENDENCIES   :                                                           |
-|   - lukhas_wallet.py                                                        |
-|   - lukhas_gatekeeper.py                                                    |
-|   - future: Stripe API / Crypto Wallet                                     |
+| DEPENDENCIES: |
+| - lukhas_wallet.py |
+| - lukhas_gatekeeper.py |
+| - future: Stripe API / Crypto Wallet |
 +────────────────────────────────────────────────────────────────────────────+
 """
 
@@ -42,11 +42,11 @@ def process_checkout(user_id, item, price, user_tier, payment_method="token"):
     Processes a symbolic checkout request.
 
     Parameters:
-    - user_id (str): LUKHASID or session reference
-    - item (str): name of item/service
-    - price (float): numeric cost in standard currency or token
-    - user_tier (int): 0-5 access level
-    - payment_method (str): "token", "stripe", "apple_pay", etc.
+    - user_id(str): LUKHASID or session reference
+    - item(str): name of item / service
+    - price(float): numeric cost in standard currency or token
+    - user_tier(int): 0 - 5 access level
+    - payment_method(str): "token", "stripe", "apple_pay", etc.
 
     Returns:
     - dict: response with status, next step, and optional payment link
@@ -102,7 +102,7 @@ def process_checkout(user_id, item, price, user_tier, payment_method="token"):
 
 """
 ΛTRACE: End of checkout_handler.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

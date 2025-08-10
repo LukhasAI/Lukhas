@@ -21,7 +21,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from functools import wraps
-from typing import Any, Callable, Dict, List, Optional, Set
+from typing import Any, Callable, Optional
 
 
 class TierLevel(Enum):
@@ -68,7 +68,7 @@ class AccessContext:
     resource_scope: PermissionScope
     resource_id: str
     timestamp_utc: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 @dataclass
@@ -77,8 +77,8 @@ class TierPermission:
 
     tier_level: TierLevel
     scope: PermissionScope
-    allowed_operations: Set[AccessType]
-    restrictions: Dict[str, Any]
+    allowed_operations: set[AccessType]
+    restrictions: dict[str, Any]
     requires_approval: bool
     audit_required: bool
 
@@ -91,9 +91,9 @@ class AccessDecision:
     granted: bool
     tier_level: TierLevel
     reasoning: str
-    restrictions: List[str]
+    restrictions: list[str]
     requires_elevation: bool
-    audit_entry: Dict[str, Any]
+    audit_entry: dict[str, Any]
 
 
 # LUKHAS_TAG: tier_system_core
@@ -116,7 +116,7 @@ class DynamicTierSystem:
         self.tier_permissions = self._initialize_tier_permissions()
 
         # Active sessions and their tier levels
-        self.active_sessions: Dict[str, Dict[str, Any]] = {}
+        self.active_sessions: dict[str, dict[str, Any]] = {}
 
         # Special contexts that may require elevation
         self.sensitive_contexts = {
@@ -127,7 +127,7 @@ class DynamicTierSystem:
             "emergency_operations": TierLevel.SYSTEM,
         }
 
-    def _initialize_tier_permissions(self) -> Dict[TierLevel, List[TierPermission]]:
+    def _initialize_tier_permissions(self) -> dict[TierLevel, list[TierPermission]]:
         """Initialize the tier permission matrix."""
         permissions = {}
 
@@ -266,7 +266,7 @@ class DynamicTierSystem:
             TierPermission(
                 tier_level=TierLevel.SYSTEM,
                 scope=scope,
-                allowed_operations={op for op in AccessType},
+                allowed_operations=set(AccessType),
                 restrictions={},
                 requires_approval=False,
                 audit_required=True,
@@ -431,7 +431,7 @@ class DynamicTierSystem:
 
     def _get_applicable_permissions(
         self, tier_level: TierLevel, scope: PermissionScope
-    ) -> List[TierPermission]:
+    ) -> list[TierPermission]:
         """Get permissions applicable to the tier level and scope."""
         if tier_level not in self.tier_permissions:
             return []
@@ -442,7 +442,7 @@ class DynamicTierSystem:
 
     def _check_restrictions(
         self, permission: TierPermission, context: AccessContext
-    ) -> List[str]:
+    ) -> list[str]:
         """Check if any restrictions are violated."""
         violations = []
 
@@ -481,7 +481,7 @@ class DynamicTierSystem:
         target_tier: TierLevel,
         justification: str,
         duration_minutes: int = 60,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Elevate a session to a higher tier level temporarily.
 
@@ -559,7 +559,7 @@ class DynamicTierSystem:
 
     def _create_audit_entry(
         self, context: AccessContext, granted: bool, reason: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create an audit log entry for access decisions."""
         return {
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
@@ -593,7 +593,7 @@ class DynamicTierSystem:
         except Exception as e:
             logger.error("AccessDecisionLog_failed", error=str(e))
 
-    def _log_elevation(self, elevation_data: Dict[str, Any]):
+    def _log_elevation(self, elevation_data: dict[str, Any]):
         """Log tier elevation to persistent storage."""
         try:
             os.makedirs(os.path.dirname(self.elevation_log_path), exist_ok=True)
@@ -738,6 +738,4 @@ def check_access_level(user_context: dict, operation: str) -> bool:
     Returns False for Tier5Operation if tier < 5, True otherwise.
     """
     tier = user_context.get("tier", 0)
-    if operation == "Tier5Operation" and tier < 5:
-        return False
-    return True
+    return not (operation == "Tier5Operation" and tier < 5)

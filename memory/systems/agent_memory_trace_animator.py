@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Third-Party Imports
 import structlog
@@ -72,16 +72,19 @@ class MemoryNode:
     type: str
     content: Any
     timestamp: datetime
-    connections: Optional[List[str]] = field(default_factory=list)
+    connections: Optional[list[str]] = field(default_factory=list)
     importance_score: float = 0.5
     quantum_like_state: Optional[str] = (
-        None  # NOTE: Potential for #COLLAPSE_POINT if this state changes due to "measurement" in animation.
+        # NOTE: Potential for #COLLAPSE_POINT if this state changes due to
+        # "measurement" in animation.
+        None
     )
-    symbolic_tags: Optional[List[str]] = field(default_factory=list)
+    symbolic_tags: Optional[list[str]] = field(default_factory=list)
     agent_id: Optional[str] = None  # AIDENTITY
 
 
-# RECALL: A MemoryTrace object is a representation of a recalled sequence of memory nodes.
+# RECALL: A MemoryTrace object is a representation of a recalled sequence
+# of memory nodes.
 @dataclass
 class MemoryTrace:
     """
@@ -91,13 +94,13 @@ class MemoryTrace:
 
     id: str
     trace_type: MemoryTraceType
-    nodes: List[MemoryNode]  # This list of nodes is the recalled memory data.
+    nodes: list[MemoryNode]  # This list of nodes is the recalled memory data.
     start_time: datetime
     end_time: Optional[datetime] = None
     quantum_signature: Optional[str] = (
         None  # NOTE: Could be related to #AIDENTITY if unique.
     )
-    symbolic_metadata: Optional[Dict[str, Any]] = field(default_factory=dict)
+    symbolic_metadata: Optional[dict[str, Any]] = field(default_factory=dict)
 
 
 @lukhas_tier_required(1)  # Conceptual tier for visualization tool
@@ -108,7 +111,7 @@ class AgentMemoryTraceAnimator:
     """
 
     # SEED_CHAIN: The initial `config` seeds the animator's parameters.
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initializes the AgentMemoryTraceAnimator.
         Args:
@@ -124,14 +127,14 @@ class AgentMemoryTraceAnimator:
             "particle_count", 100
         )  # NOTE: Particle count relevant for some animation types.
 
-        self.active_traces: Dict[str, MemoryTrace] = {}
-        self.completed_traces: Dict[str, Any] = {}
-        self.visualization_cache: Dict[str, str] = (
+        self.active_traces: dict[str, MemoryTrace] = {}
+        self.completed_traces: dict[str, Any] = {}
+        self.visualization_cache: dict[str, str] = (
             {}
         )  # NOTE: Caching could be a #DRIFT_POINT if cache invalidation is imperfect.
 
         # DRIFT_POINT: Changes to color schemes will alter visual output over time.
-        self.color_schemes: Dict[MemoryTraceType, Dict[str, str]] = {
+        self.color_schemes: dict[MemoryTraceType, dict[str, str]] = {
             MemoryTraceType.AGENT_WORKFLOW: {
                 "primary": "#2563eb",
                 "secondary": "#06b6d4",
@@ -176,7 +179,7 @@ class AgentMemoryTraceAnimator:
             configured_speed=self.animation_speed,
         )
 
-    def _get_color_scheme(self, trace_type: MemoryTraceType) -> Dict[str, str]:
+    def _get_color_scheme(self, trace_type: MemoryTraceType) -> dict[str, str]:
         """Returns the color scheme for a given trace type, or a default."""
         # NOTE: Provides default color scheme if trace_type is unknown.
         default_scheme = {
@@ -199,7 +202,7 @@ class AgentMemoryTraceAnimator:
     @lukhas_tier_required(1)
     async def create_agent_workflow_animation(
         self, trace: MemoryTrace
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Creates an animation for an agent workflow memory trace."""
         # TRACE: Creating agent workflow animation.
         log.info(
@@ -214,7 +217,8 @@ class AgentMemoryTraceAnimator:
 
             metadata = {
                 "trace_id": trace.id,
-                "animation_type": AnimationType.NEURAL_NETWORK.value,  # NOTE: AnimationType.NEURAL_NETWORK seems like a specific style.
+                # NOTE: AnimationType.NEURAL_NETWORK seems like a specific style.
+                "animation_type": AnimationType.NEURAL_NETWORK.value,
                 "duration_ms": len(frames) * (100 / self.animation_speed),
                 "frame_count": len(frames),
                 "nodes_count": len(trace.nodes),
@@ -247,7 +251,7 @@ class AgentMemoryTraceAnimator:
     @lukhas_tier_required(1)
     async def create_symbolic_reasoning_animation(
         self, trace: MemoryTrace
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Creates an animation for a symbolic reasoning memory trace."""
         # TRACE: Creating symbolic reasoning animation.
         log.info(
@@ -266,7 +270,7 @@ class AgentMemoryTraceAnimator:
                 "trace_id": trace.id,
                 "animation_type": AnimationType.SYMBOLIC_GRAPH.value,
                 "symbolic_depth": len(
-                    set(tuple(node.symbolic_tags or []) for node in trace.nodes)
+                    {tuple(node.symbolic_tags or []) for node in trace.nodes}
                 ),  # NOTE: Interesting metric for symbolic depth.
                 "reasoning_steps": len(trace.nodes),
                 "color_scheme": self._get_color_scheme(trace.trace_type),
@@ -297,11 +301,12 @@ class AgentMemoryTraceAnimator:
     # RECALL: Processes MemoryTrace for entanglement-like correlation visualization.
     # GLYPH: Generates quantum wave animation (a visual glyph).
     # CAUTION: HTML generation is a STUB.
-    # COLLAPSE_POINT: Visualization of quantum_like_state could represent collapse if states change.
+    # COLLAPSE_POINT: Visualization of quantum_like_state could represent
+    # collapse if states change.
     @lukhas_tier_required(1)
     async def create_quantum_entanglement_animation(
         self, trace: MemoryTrace
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Creates an animation for entanglement-like correlation patterns."""
         # TRACE: Creating entanglement-like correlation animation.
         log.info(
@@ -354,7 +359,7 @@ class AgentMemoryTraceAnimator:
     # AIDENTITY: Uses node.agent_id if present in frame data.
     async def _generate_workflow_frames(
         self, trace: MemoryTrace
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         # TRACE: Generating workflow frames.
         log.debug(
             "Generating workflow frames.",
@@ -433,8 +438,9 @@ class AgentMemoryTraceAnimator:
         }
 
     # RECALL: Processes quantum_nodes from the trace.
-    # COLLAPSE_POINT: Visual representation of node.quantum_like_state could show collapse if animated.
-    async def _generate_quantum_waves(self, trace: MemoryTrace) -> Dict[str, Any]:
+    # COLLAPSE_POINT: Visual representation of node.quantum_like_state could
+    # show collapse if animated.
+    async def _generate_quantum_waves(self, trace: MemoryTrace) -> dict[str, Any]:
         # TRACE: Generating quantum wave data.
         log.debug(
             "Generating quantum wave data.",
@@ -469,7 +475,7 @@ class AgentMemoryTraceAnimator:
     # GLYPH: This method generates the actual HTML visual glyph.
     # CAUTION: Embedded JavaScript can be hard to maintain. Consider templating.
     async def _create_workflow_html(
-        self, trace: MemoryTrace, frames: List[Dict[str, Any]]
+        self, trace: MemoryTrace, frames: list[dict[str, Any]]
     ) -> str:
         colors = self._get_color_scheme(trace.trace_type)
         js_frames = json.dumps(frames)
@@ -545,7 +551,7 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
 
     # CAUTION: This HTML generation is a STUB.
     async def _create_symbolic_html_stub(
-        self, trace: MemoryTrace, graph_data: Dict[str, Any]
+        self, trace: MemoryTrace, graph_data: dict[str, Any]
     ) -> str:
         # TRACE: Generating symbolic HTML stub.
         log.warning(
@@ -555,7 +561,7 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
 
     # CAUTION: This HTML generation is a STUB.
     async def _create_quantum_html_stub(
-        self, trace: MemoryTrace, wave_data: Dict[str, Any]
+        self, trace: MemoryTrace, wave_data: dict[str, Any]
     ) -> str:
         # TRACE: Generating quantum HTML stub.
         log.warning(

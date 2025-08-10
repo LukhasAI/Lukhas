@@ -23,7 +23,7 @@ async def main():
     print("\n📋 Step 1: Checking environment...")
     try:
         # Check if we can import Lukhas PWM
-        from core.plugin_registry import PluginRegistry
+        pass
 
         print("✅ Lukhas PWM detected")
         pwm_available = True
@@ -47,7 +47,7 @@ async def main():
 
     # Step 3: Initialize plugin system
     print("\n🔌 Step 3: Initializing plugin system...")
-    plugin_system = PluginSystem()
+    PluginSystem()
     print("✅ Plugin system initialized")
 
     # Step 4: Register with PWM if available

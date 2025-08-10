@@ -23,16 +23,14 @@
 
 import json
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
 # Import optimized memory components
 try:
     from .hybrid_memory_fold import (
-        ContinuousLearningEngine,
         HybridMemoryFold,
-        MemoryAttentionLayer,
         VectorStorageLayer,
     )
     from .lazy_loading_embeddings import (
@@ -43,8 +41,6 @@ try:
     from .memory_fold_system import MemoryItem
     from .optimized_memory_item import (
         OptimizedMemoryItem,
-        convert_from_legacy,
-        convert_to_legacy,
         create_optimized_memory,
     )
 except ImportError:
@@ -102,7 +98,7 @@ class OptimizedVectorStorageLayer(VectorStorageLayer):
             quantized=self.enable_quantization,
         )
 
-    def get_memory_usage_stats(self) -> Dict[str, Any]:
+    def get_memory_usage_stats(self) -> dict[str, Any]:
         """Get detailed memory usage statistics"""
         num_vectors = len(self.vectors)
         avg_size_per_vector = (
@@ -203,7 +199,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
     async def fold_in_with_embedding(
         self,
         data: Any,
-        tags: List[str],
+        tags: list[str],
         embedding: Optional[np.ndarray] = None,
         text_content: Optional[str] = None,
         image_content: Optional[np.ndarray] = None,
@@ -256,7 +252,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         self.items[memory_id] = optimized_memory
 
         # Update tag registry (convert back to MemoryItem for compatibility)
-        legacy_memory = MemoryItem(
+        MemoryItem(
             item_id=memory_id,
             data=data,
             timestamp=metadata["timestamp"],
@@ -351,8 +347,8 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         top_k: int = 10,
         use_attention: bool = True,
         combine_with_tags: bool = True,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> List[Tuple[MemoryItem, float]]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> list[tuple[MemoryItem, float]]:
         """
         Semantic search with optimized memory retrieval.
 
@@ -423,9 +419,9 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
     def _estimate_legacy_size(
         self,
         data: Any,
-        tags: List[str],
+        tags: list[str],
         embedding: Optional[np.ndarray],
-        metadata: Dict[str, Any],
+        metadata: dict[str, Any],
     ) -> int:
         """Estimate size of legacy memory representation"""
         # Content size
@@ -456,7 +452,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             + system_overhead
         )
 
-    def get_optimization_statistics(self) -> Dict[str, Any]:
+    def get_optimization_statistics(self) -> dict[str, Any]:
         """Get detailed optimization statistics"""
         stats = self.optimization_stats.copy()
 
@@ -486,7 +482,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
 
         return stats
 
-    def get_enhanced_statistics(self) -> Dict[str, Any]:
+    def get_enhanced_statistics(self) -> dict[str, Any]:
         """Get comprehensive statistics including optimization metrics"""
         base_stats = super().get_enhanced_statistics()
 
@@ -516,7 +512,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
 
     async def run_optimization_benchmark(
         self, num_test_memories: int = 100, include_embeddings: bool = True
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Run optimization benchmark to validate memory savings.
 
@@ -808,7 +804,7 @@ async def migrate_to_optimized(
     source_memory_fold: HybridMemoryFold,
     target_memory_fold: OptimizedHybridMemoryFold,
     batch_size: int = 100,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Migrate memories from standard to optimized format.
 

@@ -7,7 +7,7 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
-from typing import Any, Dict, List
+from typing import Any
 
 try:
     import numpy as np  # type: ignore
@@ -48,8 +48,8 @@ class DreamEngine:
         self.cognitive = CognitiveVoiceEngine()
 
     async def generate_dream_sequence(
-        self, daily_data: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, daily_data: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Generate and process dream sequences"""
         dream_patterns = self._extract_dream_patterns(daily_data)
         learning_outcomes = self._process_dream_learning(dream_patterns)
@@ -77,7 +77,7 @@ class DreamEngine:
     # ΛTAG: recursion_fork
     async def detect_and_fork_recursive_dream(
         self,
-        dream_symbols: List[str],
+        dream_symbols: list[str],
         creativity_colony: CreativityColony,
         min_pattern: int = 2,
     ) -> bool:

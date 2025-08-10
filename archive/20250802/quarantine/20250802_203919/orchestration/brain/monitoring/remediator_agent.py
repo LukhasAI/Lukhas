@@ -21,7 +21,8 @@ METADATA TAGS: #LuKhas #AI #Professional #Deployment #AI Core NeuralNet Professi
 """
 LUKHAS AI System - Function Library
 File: remediator_agent.py
-Path: LUKHAS/core/integration/system_orchestrator/adaptive_agi/GUARDIAN/remediator_agent.py
+Path: LUKHAS/core/integration/system_orchestrator/ \
+    adaptive_agi/GUARDIAN/remediator_agent.py
 Created: "2025-06-05 11:43:39"
 Author: LUKHAS AI Team
 Version: 1.0
@@ -31,7 +32,8 @@ Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 lukhas AI System - Function Library
 File: remediator_agent.py
-Path: lukhas/core/integration/system_orchestrator/adaptive_agi/GUARDIAN/remediator_agent.py
+Path: lukhas/core/integration/system_orchestrator/ \
+    adaptive_agi/GUARDIAN/remediator_agent.py
 Created: "2025-06-05 11:43:39"
 Author: lukhas AI Team
 Version: 1.0
@@ -45,16 +47,16 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 """
 
-import json
 import time
+import json
 import logging
 import numpy as np
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass, field
 from enum import Enum
-import hashlib
 import asyncio
+import hashlib
 
 # Core LUKHAS Infrastructure Imports
 # Core lukhas Infrastructure Imports
@@ -70,12 +72,14 @@ try:
     from ...bio.symbolic_.glyph_id_hash import GlyphIDHasher
     from ....LUKHAS_ID.backend.app.crypto import generate_collapse_hash
 except ImportError as e:
-    logging.warning(f"LUKHAS infrastructure import failed: {e}. Running in standalone mode.")
+    logging.warning(
+        f"LUKHAS infrastructure import failed: {e}. Running in standalone mode.")
     from ....MODULES.memoria.lukhas_replayer import LUKHASReplayer
     from ...bio.symbolic_.glyph_id_hash import GlyphIDHasher
     from ....LUKHAS_ID.backend.app.crypto import generate_collapse_hash
 except ImportError as e:
-    logging.warning(f"lukhas infrastructure import failed: {e}. Running in standalone mode.")
+    logging.warning(
+        f"lukhas infrastructure import failed: {e}. Running in standalone mode.")
 
 # Meta-Learning System Integration
 try:
@@ -95,6 +99,7 @@ class RemediationLevel(Enum):
     CRITICAL = "critical"
     EMERGENCY = "emergency"
 
+
 class RemediationType(Enum):
 
     DRIFT_CORRECTION = "drift_correction"
@@ -103,6 +108,7 @@ class RemediationType(Enum):
     ETHICAL_REALIGNMENT = "ethical_realignment"
     MEMORY_CONSOLIDATION = "memory_consolidation"
     EMERGENCY_SHUTDOWN = "emergency_shutdown"
+
 
 @dataclass
 class RemediationEvent:
@@ -118,6 +124,7 @@ class RemediationEvent:
     resolution_time: Optional[float] = None
     success_rate: float = 0.0
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 class RemediatorAgent:
     """
@@ -476,7 +483,7 @@ class RemediatorAgent:
             if self.Λ_replayer:
                 replay_result = self.Λ_replayer.replay_memories(
             if self.lukhas_replayer:
-                replay_result = self.lukhas_replayer.replay_memories(
+                replay_result=self.lukhas_replayer.replay_memories(
                     count=10, filter_type="symbolic_drift"
                 )
                 if replay_result:
@@ -487,7 +494,7 @@ class RemediatorAgent:
 
             # Try quantum memory consolidation
             if self.quantum_memory:
-                consolidation_result = self.quantum_memory.consolidate_memories()
+                consolidation_result=self.quantum_memory.consolidate_memories()
                 if consolidation_result:
                     self.logger.info("✅ Quantum memory consolidation successful")
                     return True
@@ -509,10 +516,10 @@ class RemediatorAgent:
             self.logger.warning("🚫 Sub-agent spawn limit reached")
             return ""
 
-        sub_agent_id = f"{self.agent_id}_SUB_{agent_type}_{self.spawn_count}"
+        sub_agent_id=f"{self.agent_id}_SUB_{agent_type}_{self.spawn_count}"
         self.spawn_count += 1
 
-        sub_agent_config = {
+        sub_agent_config={
             "parent_id": self.agent_id,
             "agent_type": agent_type,
             "specialization": specialization,
@@ -520,7 +527,7 @@ class RemediatorAgent:
             "spawn_time": datetime.now().isoformat(),
         }
 
-        self.sub_agents[sub_agent_id] = sub_agent_config
+        self.sub_agents[sub_agent_id]=sub_agent_config
 
         self.logger.info(f"🤖 Spawned sub-agent: {sub_agent_id} ({specialization})")
 
@@ -537,7 +544,7 @@ class RemediatorAgent:
 
         try:
             if self.dashboard:
-                dashboard_data = {
+                dashboard_data={
                     "agent_id": self.agent_id,
                     "event_type": event.event_type.value,
                     "severity": event.severity.value,
@@ -558,7 +565,7 @@ class RemediatorAgent:
         if not self.config.get("voice_alerts_enabled", True):
             return
 
-        severity_prefixes = {
+        severity_prefixes={
             RemediationLevel.NORMAL: "System status normal.",
             RemediationLevel.CAUTION: "Attention: ",
             RemediationLevel.WARNING: "Warning: ",
@@ -566,7 +573,7 @@ class RemediatorAgent:
             RemediationLevel.EMERGENCY: "Emergency: ",
         }
 
-        voice_message = f"{severity_prefixes[severity]}{message}"
+        voice_message=f"{severity_prefixes[severity]}{message}"
 
         # TODO: Integrate with LUKHAS voice system
         # TODO: Integrate with lukhas voice system
@@ -577,9 +584,9 @@ class RemediatorAgent:
         """
         Execute remediation actions based on event type and severity
         """
-        start_time = time.time()
-        success = False
-        actions_taken = []
+        start_time=time.time()
+        success=False
+        actions_taken=[]
 
         try:
             self.logger.info(
@@ -597,17 +604,17 @@ class RemediatorAgent:
                     self.rate_modulator.adjust_for_drift(event.drift_score)
                     actions_taken.append("learning_rate_adjusted")
 
-                success = True
+                success=True
 
             elif event.event_type == RemediationType.COMPLIANCE_ENFORCEMENT:
                 # Log compliance violation with quantum signature
-                compliance_log = {
+                compliance_log={
                     "violation_type": "symbolic_drift",
                     "severity": event.severity.value,
                     "drift_score": event.drift_score,
                     "timestamp": event.timestamp.isoformat(),
                 }
-                signature = self._generate_quantum_signature(compliance_log)
+                signature=self._generate_quantum_signature(compliance_log)
                 self.logger.warning(
                     f"📋 COMPLIANCE VIOLATION LOGGED | Signature: {signature}"
                 )
@@ -618,7 +625,7 @@ class RemediatorAgent:
                     RemediationLevel.CRITICAL,
                     RemediationLevel.EMERGENCY,
                 ]:
-                    sub_agent_id = self.spawn_sub_agent(
+                    sub_agent_id=self.spawn_sub_agent(
                         "compliance_enforcer",
                         "eu_ai_act_compliance",
                         {"violation_data": compliance_log},
@@ -628,7 +635,7 @@ class RemediatorAgent:
                             f"compliance_sub_agent_spawned_{sub_agent_id}"
                         )
 
-                success = True
+                success=True
 
             elif event.event_type == RemediationType.PERFORMANCE_OPTIMIZATION:
                 # Memory consolidation
@@ -638,11 +645,11 @@ class RemediatorAgent:
 
                 # Enhanced memory optimization
                 if self.enhanced_memory:
-                    optimization_result = self.enhanced_memory.optimize_performance()
+                    optimization_result=self.enhanced_memory.optimize_performance()
                     if optimization_result:
                         actions_taken.append("enhanced_memory_optimized")
 
-                success = True
+                success=True
 
             elif event.event_type == RemediationType.ETHICAL_REALIGNMENT:
                 # Trigger ethical review process
@@ -650,7 +657,7 @@ class RemediatorAgent:
 
                 # Spawn ethics sub-agent for complex cases
                 if event.severity >= RemediationLevel.WARNING:
-                    sub_agent_id = self.spawn_sub_agent(
+                    sub_agent_id=self.spawn_sub_agent(
                         "ethics_guardian",
                         "ethical_alignment",
                         {"alignment_data": event.metadata},
@@ -658,11 +665,11 @@ class RemediatorAgent:
                     if sub_agent_id:
                         actions_taken.append(f"ethics_sub_agent_spawned_{sub_agent_id}")
 
-                success = True
+                success=True
 
             elif event.event_type == RemediationType.MEMORY_CONSOLIDATION:
                 # Force memory consolidation across all systems
-                consolidation_success = False
+                consolidation_success=False
 
                 if self.quantum_memory:
                     consolidation_success |= self.quantum_memory.consolidate_memories()
@@ -673,22 +680,22 @@ class RemediatorAgent:
                     )
 
                 if self.trigger_dream_replay("memory_consolidation"):
-                    consolidation_success = True
+                    consolidation_success=True
 
                 if consolidation_success:
                     actions_taken.append("full_memory_consolidation")
-                    success = True
+                    success=True
 
             elif event.event_type == RemediationType.EMERGENCY_SHUTDOWN:
                 # Emergency protocol - log and prepare for shutdown
-                emergency_log = {
+                emergency_log={
                     "emergency_type": "symbolic_collapse_risk",
                     "drift_score": event.drift_score,
                     "entropy_measure": event.entropy_measure,
                     "timestamp": event.timestamp.isoformat(),
                     "agent_state": "emergency_protocol_activated",
                 }
-                signature = self._generate_quantum_signature(emergency_log)
+                signature=self._generate_quantum_signature(emergency_log)
 
                 self.logger.critical(
                     f"🚨 EMERGENCY PROTOCOL ACTIVATED | Signature: {signature}"
@@ -700,12 +707,12 @@ class RemediatorAgent:
 
                 actions_taken.append("emergency_protocol_activated")
                 actions_taken.append("human_oversight_requested")
-                success = True
+                success=True
 
             # Update event with results
-            event.resolution_time = time.time() - start_time
-            event.success_rate = 1.0 if success else 0.0
-            event.remediation_actions = actions_taken
+            event.resolution_time=time.time() - start_time
+            event.success_rate=1.0 if success else 0.0
+            event.remediation_actions=actions_taken
 
             # Emit voice alert for significant events
             if event.severity >= RemediationLevel.WARNING:
@@ -721,12 +728,12 @@ class RemediatorAgent:
             )
 
         except Exception as e:
-            event.resolution_time = time.time() - start_time
-            event.success_rate = 0.0
-            event.metadata["error"] = str(e)
+            event.resolution_time=time.time() - start_time
+            event.success_rate=0.0
+            event.metadata["error"]=str(e)
 
             self.logger.error(f"❌ Remediation failed: {e}")
-            success = False
+            success=False
 
         return success
 
@@ -741,15 +748,15 @@ class RemediatorAgent:
         Returns:
             RemediationEvent describing current system state
         """
-        current_time = datetime.now()
+        current_time=datetime.now()
 
         # Extract or calculate metrics
-        current_vector = system_metrics.get("symbolic_vector", np.random.random(128))
-        baseline_vector = self.baseline_vectors.get("symbolic", np.ones(128) * 0.5)
+        current_vector=system_metrics.get("symbolic_vector", np.random.random(128))
+        baseline_vector=self.baseline_vectors.get("symbolic", np.ones(128) * 0.5)
 
         # Calculate drift using LUKHAS methodology
         # Calculate drift using lukhas methodology
-        drift_score = self.calculate_drift_score(current_vector, baseline_vector)
+        drift_score=self.calculate_drift_score(current_vector, baseline_vector)
 
         # Update entropy buffer
         self.entropy_buffer.append(drift_score)
@@ -757,28 +764,28 @@ class RemediatorAgent:
             self.entropy_buffer.pop(0)
 
         # Calculate entropy measure
-        entropy_measure = self.calculate_entropy_measure(self.entropy_buffer)
+        entropy_measure=self.calculate_entropy_measure(self.entropy_buffer)
 
         # Assess system state
-        enhanced_metrics = {
+        enhanced_metrics={
             **system_metrics,
             "drift_score": drift_score,
             "entropy_measure": entropy_measure,
         }
 
-        severity, issues = self.assess_system_state(enhanced_metrics)
+        severity, issues=self.assess_system_state(enhanced_metrics)
 
         # Determine remediation type
-        remediation_type = RemediationType.DRIFT_CORRECTION
+        remediation_type=RemediationType.DRIFT_CORRECTION
         if "compliance" in " ".join(issues).lower():
-            remediation_type = RemediationType.COMPLIANCE_ENFORCEMENT
+            remediation_type=RemediationType.COMPLIANCE_ENFORCEMENT
         elif "performance" in " ".join(issues).lower():
-            remediation_type = RemediationType.PERFORMANCE_OPTIMIZATION
+            remediation_type=RemediationType.PERFORMANCE_OPTIMIZATION
         elif "emergency" in " ".join(issues).lower():
-            remediation_type = RemediationType.EMERGENCY_SHUTDOWN
+            remediation_type=RemediationType.EMERGENCY_SHUTDOWN
 
         # Create remediation event
-        event = RemediationEvent(
+        event=RemediationEvent(
             timestamp=current_time,
             event_type=remediation_type,
             severity=severity,
@@ -797,7 +804,7 @@ class RemediatorAgent:
         )
 
         # Generate quantum signature
-        event.quantum_signature = self._generate_quantum_signature(event.__dict__)
+        event.quantum_signature=self._generate_quantum_signature(event.__dict__)
 
         # Log health check results
         self.logger.info(
@@ -806,9 +813,9 @@ class RemediatorAgent:
 
         # Update baseline if system is stable
         if severity == RemediationLevel.NORMAL:
-            self.baseline_vectors["symbolic"] = current_vector
+            self.baseline_vectors["symbolic"]=current_vector
 
-        self.last_health_check = current_time
+        self.last_health_check=current_time
         return event
 
     def run_monitoring_cycle(self, system_metrics: Dict[str, Any]) -> bool:
@@ -823,20 +830,20 @@ class RemediatorAgent:
         """
         try:
             # Perform health check
-            event = self.check_system_health(system_metrics)
+            event=self.check_system_health(system_metrics)
 
             # Add to history
             self.event_history.append(event)
 
             # Keep history manageable
             if len(self.event_history) > 1000:
-                self.event_history = self.event_history[-500:]
+                self.event_history=self.event_history[-500:]
 
             # Execute remediation if needed
             if event.severity != RemediationLevel.NORMAL:
-                self.active_remediations[event.quantum_signature] = event
+                self.active_remediations[event.quantum_signature]=event
 
-                remediation_success = self.execute_remediation(event)
+                remediation_success=self.execute_remediation(event)
 
                 if remediation_success:
                     self.active_remediations.pop(event.quantum_signature, None)
@@ -854,9 +861,9 @@ class RemediatorAgent:
 
             # Update compliance state
             if "compliance" in str(event.metadata.get("issues", [])).lower():
-                self.compliance_state = f"VIOLATION_{event.severity.value.upper()}"
+                self.compliance_state=f"VIOLATION_{event.severity.value.upper()}"
             else:
-                self.compliance_state = "COMPLIANT"
+                self.compliance_state="COMPLIANT"
 
             return event.severity in [RemediationLevel.NORMAL, RemediationLevel.CAUTION]
 
@@ -873,20 +880,20 @@ class RemediatorAgent:
         """
         self.logger.info("🤖 Starting autonomous monitoring mode")
 
-        monitoring_interval = self.config.get("drift_monitoring_interval", 5.0)
+        monitoring_interval=self.config.get("drift_monitoring_interval", 5.0)
 
         try:
             async for system_metrics in metrics_generator:
-                system_stable = self.run_monitoring_cycle(system_metrics)
+                system_stable=self.run_monitoring_cycle(system_metrics)
 
                 if not system_stable:
                     self.logger.warning(
                         "⚠️ System instability detected - increasing monitoring frequency"
                     )
-                    monitoring_interval = max(1.0, monitoring_interval * 0.5)
+                    monitoring_interval=max(1.0, monitoring_interval * 0.5)
                 else:
                     # Gradually return to normal interval
-                    monitoring_interval = min(
+                    monitoring_interval=min(
                         self.config.get("drift_monitoring_interval", 5.0),
                         monitoring_interval * 1.1,
                     )
@@ -900,9 +907,9 @@ class RemediatorAgent:
 
     def get_agent_status(self) -> Dict[str, Any]:
         """Get comprehensive agent status report"""
-        uptime = datetime.now() - self.start_time
+        uptime=datetime.now() - self.start_time
 
-        status = {
+        status={
             "agent_id": self.agent_id,
             "version": "v1.0.0",
             "status": "ACTIVE",
@@ -935,10 +942,10 @@ class RemediatorAgent:
 
     def shutdown(self):
         """Graceful agent shutdown with audit logging"""
-        shutdown_time = datetime.now()
-        uptime = shutdown_time - self.start_time
+        shutdown_time=datetime.now()
+        uptime=shutdown_time - self.start_time
 
-        shutdown_data = {
+        shutdown_data={
             "agent_id": self.agent_id,
             "shutdown_time": shutdown_time.isoformat(),
             "uptime_seconds": uptime.total_seconds(),
@@ -948,14 +955,14 @@ class RemediatorAgent:
             "final_compliance_state": self.compliance_state,
         }
 
-        signature = self._generate_quantum_signature(shutdown_data)
+        signature=self._generate_quantum_signature(shutdown_data)
         self.logger.info(
             f"🛡️ Remediator Agent shutdown | Uptime: {uptime} | Signature: {signature}"
         )
 
 
 # Convenience function for quick deployment
-def create_remediator_agent(config_path: Optional[str] = None) -> RemediatorAgent:
+def create_remediator_agent(config_path: Optional[str]=None) -> RemediatorAgent:
     """
     Factory function to create a configured Remediator Agent
 
@@ -965,7 +972,7 @@ def create_remediator_agent(config_path: Optional[str] = None) -> RemediatorAgen
     Returns:
         Configured RemediatorAgent instance
     """
-    agent = RemediatorAgent(config_path=config_path)
+    agent=RemediatorAgent(config_path=config_path)
     agent.logger.info("🚀 Remediator Agent v1.0.0 deployed and ready for duty")
     return agent
 
@@ -979,9 +986,9 @@ if __name__ == "__main__":
         """Generate test system metrics for demonstration"""
         while True:
             # Simulate varying system conditions
-            drift_level = np.random.random()
+            drift_level=np.random.random()
 
-            metrics = {
+            metrics={
                 "symbolic_vector": np.random.random(128) * (1 + drift_level),
                 "compliance_score": max(0.1, 1.0 - drift_level * 0.8),
                 "performance_score": max(0.2, 1.0 - drift_level * 0.6),
@@ -1000,10 +1007,10 @@ if __name__ == "__main__":
         print("=" * 50)
 
         # Create agent
-        agent = create_remediator_agent()
+        agent=create_remediator_agent()
 
         # Generate some test metrics
-        test_metrics = {
+        test_metrics={
             "symbolic_vector": np.random.random(128),
             "compliance_score": 0.95,
             "performance_score": 0.85,
@@ -1012,26 +1019,26 @@ if __name__ == "__main__":
 
         # Run single monitoring cycle
         print("\n📊 Running test monitoring cycle...")
-        stable = agent.run_monitoring_cycle(test_metrics)
+        stable=agent.run_monitoring_cycle(test_metrics)
         print(f"System stable: {stable}")
 
         # Show agent status
         print("\n📋 Agent Status:")
-        status = agent.get_agent_status()
+        status=agent.get_agent_status()
         for key, value in status.items():
             if key != "recent_events":
                 print(f"  {key}: {value}")
 
         # Simulate high drift scenario
         print("\n⚠️ Simulating high drift scenario...")
-        high_drift_metrics = {
+        high_drift_metrics={
             "symbolic_vector": np.random.random(128) * 2.0,  # High drift
             "compliance_score": 0.4,  # Compliance issue
             "performance_score": 0.3,  # Performance issue
             "components": ["symbolic_core", "meta_learning", "memoria"],
         }
 
-        stable = agent.run_monitoring_cycle(high_drift_metrics)
+        stable=agent.run_monitoring_cycle(high_drift_metrics)
         print(f"System stable after high drift: {stable}")
 
         # Shutdown

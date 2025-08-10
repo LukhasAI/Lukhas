@@ -5,7 +5,7 @@ import collections
 import dataclasses
 import itertools
 import pprint
-from typing import TYPE_CHECKING, Any, Optional, Protocol
+from typing import TYPE_CHECKING, Any, Protocol
 
 import sympy
 import torch
@@ -138,8 +138,8 @@ class Allocation(AllocationTreeNode):
     size_hint: int
     symbolic_size: sympy.Expr
     allocated: bool = False
-    pool: Optional[AllocationPool] = None
-    offset: Optional[sympy.Expr] = None
+    pool: AllocationPool | None = None
+    offset: sympy.Expr | None = None
 
     @property
     def device(self):
@@ -370,8 +370,8 @@ class AllocationPool:
     device: torch.device
     root: TemporalSplit
     can_expand: bool = True
-    restrict_live_range: Optional[LiveRange] = None
-    name: Optional[str] = None
+    restrict_live_range: LiveRange | None = None
+    name: str | None = None
     names_to_del: list[str] = dataclasses.field(default_factory=list)
     creation_cache: dict[str, str] = dataclasses.field(default_factory=dict)
 
@@ -513,7 +513,7 @@ class BufferGroup:
         self.node = node
         self.names = [node.get_name()]
         self.is_output = False
-        self.allocation: Optional[Allocation] = None
+        self.allocation: Allocation | None = None
         self.live_range = LiveRange(float("inf"), -float("inf"))
 
     def update_usage(self, timestep: int):
@@ -531,7 +531,8 @@ class BufferGroup:
         assert isinstance(self.live_range.begin, int), "live ranges not computed"
         nbytes = self.sym_nbytes()
         # For now, fallback value will be used if we encounter an unbacked SymInt. The longer-term plan is to have
-        # size_hint() use better heuristics for unbackeds, at which point the fallback value will be ignored.
+        # size_hint() use better heuristics for unbackeds, at which point the
+        # fallback value will be ignored.
         size_hint = V.graph.sizevars.size_hint(nbytes, fallback=64)
         self.allocation = Allocation(
             self.node,
@@ -552,7 +553,7 @@ class PoolMemoryPlanningLine(MemoryPlanningLine):
     """Abstract base class for {Alloc,Dealloc}FromPoolLine"""
 
     group: BufferGroup
-    timestep: Optional[int] = None
+    timestep: int | None = None
 
     @property
     def node(self):
@@ -610,7 +611,7 @@ class MemoryPlanner:
 
     wrapper: Any
     pools: AllocationPools = dataclasses.field(default_factory=AllocationPools)
-    buffer_groups: Optional[list[BufferGroup]] = None
+    buffer_groups: list[BufferGroup] | None = None
 
     def plan(self, lines: list[Any]) -> list[Any]:
         """Call all the memory planning passes in sequence"""
@@ -648,7 +649,8 @@ class MemoryPlanner:
                 old_name = line.node.get_name()
                 new_name = line.reused_as.get_name()
                 assert new_name not in name_to_group
-                # TODO(jansel): we should support reusing buffers created via ExternKernelAlloc
+                # TODO(jansel): we should support reusing buffers created via
+                # ExternKernelAlloc
                 if old_name in name_to_group:
                     name_to_group[old_name].names.append(new_name)
                     name_to_group[new_name] = name_to_group[old_name]

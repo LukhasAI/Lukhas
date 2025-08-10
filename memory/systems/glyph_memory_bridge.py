@@ -48,7 +48,7 @@ __status__ = "Production"
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Optional, Union
 
 from core.common import get_logger
 
@@ -65,9 +65,9 @@ logger = get_logger(__name__)
 class GlyphMemoryIndex:
     """Index structure linking glyphs to memory fold keys."""
 
-    glyph_to_memory: Dict[str, Set[str]]  # glyph_id -> set of memory_fold_keys
-    memory_to_glyph: Dict[str, Set[str]]  # memory_fold_key -> set of glyph_ids
-    binding_strength: Dict[Tuple[str, str], float]  # (glyph_id, memory_key) -> strength
+    glyph_to_memory: dict[str, set[str]]  # glyph_id -> set of memory_fold_keys
+    memory_to_glyph: dict[str, set[str]]  # memory_fold_key -> set of glyph_ids
+    binding_strength: dict[tuple[str, str], float]  # (glyph_id, memory_key) -> strength
     last_updated: datetime
 
     def __post_init__(self):
@@ -91,8 +91,8 @@ class GlyphMemoryBridge:
             binding_strength={},
             last_updated=datetime.now(),
         )
-        self.active_glyphs: Dict[str, Glyph] = {}
-        self.drift_anchors: Dict[str, float] = {}  # memory_key -> drift_anchor_score
+        self.active_glyphs: dict[str, Glyph] = {}
+        self.drift_anchors: dict[str, float] = {}  # memory_key -> drift_anchor_score
 
         logger.info("Glyph-Memory Bridge initialized")
 
@@ -101,10 +101,10 @@ class GlyphMemoryBridge:
         content: str,
         emotion: str,
         context: str,
-        glyphs: Optional[List[Union[str, Glyph]]] = None,
+        glyphs: Optional[list[Union[str, Glyph]]] = None,
         user_id: Optional[str] = None,
         drift_anchor_strength: float = 0.5,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create a memory fold with glyph indexing integration.
 
@@ -170,10 +170,10 @@ class GlyphMemoryBridge:
 
     def recall_by_glyph(
         self,
-        glyph_filters: Dict[str, Any],
+        glyph_filters: dict[str, Any],
         user_id: Optional[str] = None,
         limit: int = 100,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Recall memories using glyph-based filtering.
 
@@ -270,7 +270,7 @@ class GlyphMemoryBridge:
         )
         return anchor_glyph
 
-    def assess_memory_drift(self, memory_key: str) -> Dict[str, float]:
+    def assess_memory_drift(self, memory_key: str) -> dict[str, float]:
         """
         Assess drift for a specific memory using its glyph anchors.
 
@@ -323,7 +323,7 @@ class GlyphMemoryBridge:
 
     def get_memory_by_causal_link(
         self, causal_origin_id: str, max_depth: int = 5
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Retrieve memories connected through causal glyph linkages.
 
@@ -368,8 +368,8 @@ class GlyphMemoryBridge:
         return causal_memories
 
     def create_retrieval_filter(
-        self, filter_name: str, glyph_criteria: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, filter_name: str, glyph_criteria: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Create a reusable retrieval filter based on glyph criteria.
 
@@ -437,7 +437,7 @@ class GlyphMemoryBridge:
             f"Linked glyph {glyph_id} to memory {memory_key[:10]}... strength: {strength}"
         )
 
-    def _find_glyphs_by_filters(self, filters: Dict[str, Any]) -> Set[str]:
+    def _find_glyphs_by_filters(self, filters: dict[str, Any]) -> set[str]:
         """Find glyph IDs matching the specified filters."""
         matching_glyphs = set()
 
@@ -476,7 +476,7 @@ class GlyphMemoryBridge:
 
         return matching_glyphs
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get statistics about glyph-memory integration."""
         stats = {
             "total_glyphs": len(self.active_glyphs),

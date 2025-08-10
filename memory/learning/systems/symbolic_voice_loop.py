@@ -15,11 +15,6 @@ def speak(text):
     if not text:
         text = f"Hello, I am Lukhas. {lukhas_profile['motto']}"
 
-    payload = {
-        "text": text,
-        "model_id": "eleven_monolingual_v1",
-        "voice_settings": {"stability": 0.5, "similarity_boost": 0.9},
-    }
     ...
 
 
@@ -28,11 +23,6 @@ MEMORY_FILE = "logs/feedback_memory.json"
 
 
 def reflect_with_lukhas(user_input):
-    prompt = f"""
-    Act as Lukhas, an emotionally intelligent AI assistant with a dry wit and strong ethical compass.
-    User said: "{user_input}"
-    Respond in Lukhas’ tone:
-    """
     return openai.ChatCompletion.create(...)  # Your existing GPT call
 
 

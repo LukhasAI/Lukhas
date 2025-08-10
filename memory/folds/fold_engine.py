@@ -1,11 +1,29 @@
 
-#TAG:memory
-#TAG:folds
-#TAG:neuroplastic
-#TAG:colony
+# TAG:memory
+# TAG:folds
+# TAG:neuroplastic
+# TAG:colony
 
 
-22# ═══════════════════════════════════════════════════
+from core.common import get_logger
+from orchestration.brain.spine.fold_engine import AGIMemory
+import os  # LUKHAS_TAG: file_operations
+import hashlib  # LUKHAS_TAG: memory_integrity
+import structlog  # ΛTRACE: Standardized logging.
+# For np.clip in importance calculation. #ΛCAUTION: Ensure numpy is a
+# managed dependency.
+import numpy as np
+from collections import defaultdict  # ΛTRACE: Used for efficient indexing in AGIMemory.
+from datetime import datetime, timezone, timedelta
+from enum import Enum
+from typing import Dict, Any, List, Optional, Union, Set, Tuple
+# ΛNOTE: Potentially for generating unique keys if not provided. Not used
+# currently for fold keys.
+import uuid
+# ΛNOTE: Used for potential serialization if content is complex, though
+# not directly in to_dict.
+import json
+22  # ═══════════════════════════════════════════════════
 # FILENAME: fold_engine.py
 # MODULE: core.memory.fold_engine
 # DESCRIPTION: Core engine for managing memory folds, symbolic patterns, and associations within the LUKHAS AI system.
@@ -16,7 +34,8 @@
 # ΛTASK_ID: 177 (Memory-Core Linker)
 # ΛCOMMIT_WINDOW: pre-audit
 # ΛAPPROVED_BY: Human Overseer (GRDM)
-# ΛAUDIT: Standardized header/footer, structlog integration, comments, and ΛTAGs. Focus on memory lifecycle and linkage points.
+# ΛAUDIT: Standardized header/footer, structlog integration, comments, and
+# ΛTAGs. Focus on memory lifecycle and linkage points.
 
 """
 LUKHAS AI System - Memory Fold Engine (v1_AGI)
@@ -26,25 +45,16 @@ symbolic patterns within them. It forms a core part of the AGI's memory architec
 """
 
 # Standard Library Imports
-import json  # ΛNOTE: Used for potential serialization if content is complex, though not directly in to_dict.
-import uuid  # ΛNOTE: Potentially for generating unique keys if not provided. Not used currently for fold keys.
-from typing import Dict, Any, List, Optional, Union, Set, Tuple
-from enum import Enum
-from datetime import datetime, timezone, timedelta
-from collections import defaultdict  # ΛTRACE: Used for efficient indexing in AGIMemory.
 
 # Third-Party Imports
-import numpy as np  # For np.clip in importance calculation. #ΛCAUTION: Ensure numpy is a managed dependency.
-import structlog  # ΛTRACE: Standardized logging.
-import hashlib  # LUKHAS_TAG: memory_integrity
-import os  # LUKHAS_TAG: file_operations
 
 # LUKHAS Core Imports
-# from ..core.decorators import core_tier_required # Conceptual placeholder for tier system.
-from orchestration.brain.spine.fold_engine import AGIMemory
+# from ..core.decorators import core_tier_required # Conceptual
+# placeholder for tier system.
 
-# ΛTRACE: Initialize logger for the fold_engine module. #ΛTEMPORAL_HOOK (Logger init time) #AIDENTITY_BRIDGE (Module identity) #ΛECHO (Logger configuration echoes global settings)
-from core.common import get_logger
+# ΛTRACE: Initialize logger for the fold_engine module. #ΛTEMPORAL_HOOK
+# (Logger init time) #AIDENTITY_BRIDGE (Module identity) #ΛECHO (Logger
+# configuration echoes global settings)
     __name__
 )  # Changed from `log` to `logger` for consistency.
 
@@ -56,7 +66,8 @@ def lukhas_tier_required(level: int):  # ΛSIM_TRACE: Placeholder decorator.
 
     def decorator(func):
         func._lukhas_tier = level
-        # logger.debug("Tier decorator applied", function_name=func.__name__, level=level) # Example of how it might log
+        # logger.debug("Tier decorator applied", function_name=func.__name__,
+        # level=level) # Example of how it might log
         return func
 
     return decorator
@@ -69,13 +80,19 @@ class MemoryType(Enum):
     #ΛMEMORY_TIER: Foundational - Defines memory categorization.
     """
 
-    EPISODIC = "episodic"  # Memories of specific events or experiences. #ΛRECALL: Key type for recalling past events.
+    # Memories of specific events or experiences. #ΛRECALL: Key type for
+    # recalling past events.
+    EPISODIC = "episodic"
     SEMANTIC = "semantic"  # General knowledge, facts, concepts.
     PROCEDURAL = "procedural"  # Skills and how to perform tasks.
     EMOTIONAL = "emotional"  # Memories with strong emotional associations.
     ASSOCIATIVE = "associative"  # Links or relationships between other memories.
-    SYSTEM = "system"  # Internal system states, configurations, or operational logs. #ΛCAUTION: Potentially sensitive.
-    IDENTITY = "identity"  # Memories related to the AI's own identity or user identities. #ΛCAUTION: Highly sensitive.
+    # Internal system states, configurations, or operational logs. #ΛCAUTION:
+    # Potentially sensitive.
+    SYSTEM = "system"
+    # Memories related to the AI's own identity or user identities. #ΛCAUTION:
+    # Highly sensitive.
+    IDENTITY = "identity"
     CONTEXT = "context"  # Short-term contextual information.
     UNDEFINED = "undefined"  # Default for memories not yet categorized.
 

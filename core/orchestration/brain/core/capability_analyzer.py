@@ -143,7 +143,7 @@ class LUKHASCapabilityAnalyzer:
                     "drift_sensitivity": 0.9,
                 },
                 "test_description": "Meaning Collapse Processing",
-                "prompt": "Given multiple interpretations of 'consciousness',
+                "prompt": "Given multiple interpretations of 'consciousness',"
                 perform symbolic collapse to the most resonant meaning for AI development",
             },
         ]

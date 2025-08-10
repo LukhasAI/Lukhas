@@ -39,7 +39,7 @@ import asyncio
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List  # Added Optional
+from typing import Any  # Added Optional
 
 import structlog  # Replaced logging with structlog
 
@@ -75,12 +75,11 @@ try:
             path_added=str(abstract_reasoning_module_path),
         )
 
-    # Attempt to import components. Paths might need adjustment based on actual structure within abstract_reasoning
-    from confidence_calibrator import AdvancedConfidenceCalibrator
+    # Attempt to import components. Paths might need adjustment based on
+    # actual structure within abstract_reasoning
     from interface import AbstractReasoningBrainInterface, reason_about
 
     # Assuming bio_quantum_engine and confidence_calibrator are submodules or files
-    from bio_quantum_engine import BioQuantumSymbolicReasoner, BrainSymphony
     from core import AbstractReasoningBrainCore
 
     logger.info(
@@ -96,27 +95,27 @@ except ImportError as e:
     )
     ABSTRACT_REASONING_COMPONENTS_AVAILABLE = False
 
-    # Define dummy classes/functions if import fails, allowing the script to be parsed/run with warnings.
+    # Define dummy classes/functions if import fails, allowing the script to
+    # be parsed/run with warnings.
     class AbstractReasoningBrainInterface:  # type: ignore
         async def initialize(self):
             logger.warning(
                 "ΛTRACE: Using dummy AbstractReasoningBrainInterface.initialize"
             )
-            pass
 
-        async def reason_abstractly(self, *args: Any, **kwargs: Any) -> Dict[str, Any]:
+        async def reason_abstractly(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
             logger.warning(
                 "ΛTRACE: Using dummy AbstractReasoningBrainInterface.reason_abstractly"
             )
             return {"error": "dummy_interface_active"}
 
-        async def analyze_confidence(self, *args: Any, **kwargs: Any) -> Dict[str, Any]:
+        async def analyze_confidence(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
             logger.warning(
                 "ΛTRACE: Using dummy AbstractReasoningBrainInterface.analyze_confidence"
             )
             return {}
 
-        async def orchestrate_brains(self, *args: Any, **kwargs: Any) -> Dict[str, Any]:
+        async def orchestrate_brains(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
             logger.warning(
                 "ΛTRACE: Using dummy AbstractReasoningBrainInterface.orchestrate_brains"
             )
@@ -124,19 +123,19 @@ except ImportError as e:
 
         async def get_performance_summary(
             self, *args: Any, **kwargs: Any
-        ) -> Dict[str, Any]:
+        ) -> dict[str, Any]:
             logger.warning(
                 "ΛTRACE: Using dummy AbstractReasoningBrainInterface.get_performance_summary"
             )
             return {}
 
-        async def provide_feedback(self, *args: Any, **kwargs: Any) -> Dict[str, Any]:
+        async def provide_feedback(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
             logger.warning(
                 "ΛTRACE: Using dummy AbstractReasoningBrainInterface.provide_feedback"
             )
             return {}
 
-        async def get_reasoning_history(self, *args: Any, **kwargs: Any) -> List[Any]:
+        async def get_reasoning_history(self, *args: Any, **kwargs: Any) -> list[Any]:
             logger.warning(
                 "ΛTRACE: Using dummy AbstractReasoningBrainInterface.get_reasoning_history"
             )
@@ -146,9 +145,8 @@ except ImportError as e:
             logger.warning(
                 "ΛTRACE: Using dummy AbstractReasoningBrainInterface.shutdown"
             )
-            pass
 
-    async def reason_about(*args: Any, **kwargs: Any) -> Dict[str, Any]:  # type: ignore
+    async def reason_about(*args: Any, **kwargs: Any) -> dict[str, Any]:  # type: ignore
         logger.warning("ΛTRACE: Using dummy reason_about function.")
         return {"error": "dummy_reason_about_active"}
 
@@ -157,17 +155,16 @@ except ImportError as e:
             logger.warning(
                 "ΛTRACE: Using dummy AbstractReasoningBrainCore.activate_brain"
             )
-            pass
 
         async def process_independently(
             self, *args: Any, **kwargs: Any
-        ) -> Dict[str, Any]:
+        ) -> dict[str, Any]:
             logger.warning(
                 "ΛTRACE: Using dummy AbstractReasoningBrainCore.process_independently"
             )
             return {"error": "dummy_core_active"}
 
-        def get_brain_status(self) -> Dict[str, Any]:
+        def get_brain_status(self) -> dict[str, Any]:
             logger.warning(
                 "ΛTRACE: Using dummy AbstractReasoningBrainCore.get_brain_status"
             )
@@ -177,7 +174,6 @@ except ImportError as e:
             logger.warning(
                 "ΛTRACE: Using dummy AbstractReasoningBrainCore.shutdown_brain"
             )
-            pass
 
     logger.warning(
         "ΛTRACE: Using fallback dummy classes for Abstract Reasoning Brain components due to import failure. Demo may not function as intended."
@@ -191,7 +187,8 @@ async def demonstrate_abstract_reasoning() -> None:
     showcasing various examples of problem-solving and feature usage.
     This function orchestrates several sub-demonstrations.
     """
-    # Human-readable comment: Entry point for the main abstract reasoning demonstration sequence.
+    # Human-readable comment: Entry point for the main abstract reasoning
+    # demonstration sequence.
     req_id_main_demo = f"demo_main_{int(datetime.utcnow().timestamp()*1000)}"
     demo_logger = logger.bind(
         request_id=req_id_main_demo, demo_stage="main_reasoning_showcase"
@@ -225,7 +222,7 @@ async def demonstrate_abstract_reasoning() -> None:
         )
         demo_logger.info("-" * 40)
 
-        simple_problem_data: Dict[str, Any] = {
+        simple_problem_data: dict[str, Any] = {
             "description": "How can we design a sustainable city that balances technology and nature effectively?",
             "domain": "urban_planning_and_design",
             "complexity_level": "medium",  # Renamed for clarity
@@ -311,7 +308,8 @@ async def demonstrate_abstract_reasoning() -> None:
             "Orchestration results and brain contributions would be shown here."
         )
 
-        # Example 4: Quick Reasoning with Convenience Function (if `reason_about` is available)
+        # Example 4: Quick Reasoning with Convenience Function (if `reason_about`
+        # is available)
         if reason_about:
             demo_logger.info(" ")
             demo_logger.info(
@@ -376,7 +374,8 @@ async def demonstrate_abstract_reasoning() -> None:
 # Demonstration of advanced features of the Bio-Quantum engine.
 async def demonstrate_advanced_features() -> None:
     """Demonstrates advanced features, including direct core access and detailed metrics if components are available."""
-    # Human-readable comment: Showcases direct interaction with core components and advanced metrics.
+    # Human-readable comment: Showcases direct interaction with core
+    # components and advanced metrics.
     req_id_adv_demo = f"demo_adv_{int(datetime.utcnow().timestamp()*1000)}"
     adv_logger = logger.bind(request_id=req_id_adv_demo, demo_stage="advanced_features")
 
@@ -396,7 +395,7 @@ async def demonstrate_advanced_features() -> None:
     adv_logger.info("ΛTRACE: AbstractReasoningBrainCore activated.")
 
     try:
-        advanced_problem_request_data: Dict[str, Any] = {
+        advanced_problem_request_data: dict[str, Any] = {
             "problem_space_definition": {  # Renamed for clarity
                 "description": "Develop a novel quantum-inspired optimization algorithm for protein folding.",
                 "domain_tags": [
@@ -468,7 +467,8 @@ async def demonstrate_advanced_features() -> None:
 # Example of using the system for scientific research reasoning.
 async def scientific_research_example() -> None:
     """Demonstrates using the abstract reasoning engine for scientific research hypothesis generation if components are available."""
-    # Human-readable comment: Illustrates application in scientific hypothesis generation.
+    # Human-readable comment: Illustrates application in scientific hypothesis
+    # generation.
     req_id = f"demo_sci_{int(datetime.utcnow().timestamp()*1000)}"
     sci_logger = logger.bind(request_id=req_id, demo_stage="scientific_research")
     sci_logger.info(" ")
@@ -480,7 +480,7 @@ async def scientific_research_example() -> None:
         )
         return
 
-    research_problem_data: Dict[str, Any] = {
+    research_problem_data: dict[str, Any] = {
         "description": "Generate a novel testable hypothesis regarding the role of coherence-inspired processing in consciousness.",
         "domain": "quantum_biology_and_neuroscience",
         "existing_literature_keywords": [
@@ -504,7 +504,8 @@ async def scientific_research_example() -> None:
 # Example of using the system for business strategy reasoning.
 async def business_strategy_example() -> None:
     """Demonstrates using the abstract reasoning engine for business strategy formulation if components are available."""
-    # Human-readable comment: Illustrates application in formulating business strategies.
+    # Human-readable comment: Illustrates application in formulating business
+    # strategies.
     req_id = f"demo_biz_{int(datetime.utcnow().timestamp()*1000)}"
     biz_logger = logger.bind(request_id=req_id, demo_stage="business_strategy")
     biz_logger.info(" ")
@@ -516,7 +517,7 @@ async def business_strategy_example() -> None:
         )
         return
 
-    strategy_problem_data: Dict[str, Any] = {
+    strategy_problem_data: dict[str, Any] = {
         "description": "Formulate a market entry strategy for a new Quantum AI product in the FinTech sector.",
         "domain": "business_strategy_and_innovation",
         "target_market_segment": "quantitative_hedge_funds",
@@ -551,7 +552,7 @@ async def creative_design_example() -> None:
         )
         return
 
-    design_problem_data: Dict[str, Any] = {
+    design_problem_data: dict[str, Any] = {
         "description": "Conceptualize an augmented reality interface that enhances human intuition using AI-driven insights.",
         "domain": "human_computer_interaction_and_ux_design",
         "desired_features": [
@@ -612,7 +613,8 @@ async def run_all_demonstrations_sequentially() -> None:  # Renamed for clarity
 # Main execution block when the script is run directly.
 if __name__ == "__main__":
     # Human-readable comment: Script entry point for standalone execution.
-    # Setup basic structlog logging for ΛTRACE if no handlers are configured (e.g., when running standalone)
+    # Setup basic structlog logging for ΛTRACE if no handlers are configured
+    # (e.g., when running standalone)
     if not structlog.is_configured():  # Check if structlog is already configured
         structlog.configure(
             processors=[
@@ -621,7 +623,8 @@ if __name__ == "__main__":
                 structlog.processors.StackInfoRenderer(),
                 structlog.dev.set_exc_info,
                 structlog.dev.format_exc_info,
-                # structlog.processors.format_ gọi # This was a typo, replaced with ConsoleRenderer
+                # structlog.processors.format_ gọi # This was a typo, replaced with
+                # ConsoleRenderer
                 structlog.dev.ConsoleRenderer(colors=True),  # Recommended for dev
             ],
             logger_factory=structlog.stdlib.LoggerFactory(),
@@ -646,7 +649,8 @@ if __name__ == "__main__":
             error_message=str(e_main),
             exc_info=True,
         )
-        # The print statement is kept for direct visibility when run as a script, complementing the log.
+        # The print statement is kept for direct visibility when run as a script,
+        # complementing the log.
         print(f"❌ A critical error occurred during the script execution: {e_main}")
 
 # ═══════════════════════════════════════════════════════════════════════════

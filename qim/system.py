@@ -36,7 +36,7 @@ import asyncio
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from dream.quantum_dream_adapter import DreamQuantumConfig, QuantumDreamAdapter
 
@@ -165,7 +165,7 @@ class UnifiedQuantumSystem:
         except Exception as e:
             logger.error(f"Error stopping quantum systems: {e}")
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get status of all quantum systems
 
         Returns:
@@ -194,7 +194,7 @@ class UnifiedQuantumSystem:
 
         return status
 
-    async def handle_message(self, message: Dict[str, Any]) -> None:
+    async def handle_message(self, message: dict[str, Any]) -> None:
         """Handle incoming messages
 
         Args:

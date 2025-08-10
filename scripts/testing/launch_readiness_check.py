@@ -34,7 +34,7 @@ class LaunchReadinessChecker:
             async with httpx.AsyncClient() as client:
                 response = await client.get(f"{self.api_base}/tools/registry")
                 return response.status_code == 200
-        except:
+        except BaseException:
             return False
 
     async def check_metrics_endpoint(self) -> bool:
@@ -43,7 +43,7 @@ class LaunchReadinessChecker:
             async with httpx.AsyncClient() as client:
                 response = await client.get(f"{self.api_base}/metrics")
                 return response.status_code == 200 and b"lukhas_" in response.content
-        except:
+        except BaseException:
             return False
 
     async def check_incidents_clean(self) -> bool:
@@ -66,7 +66,7 @@ class LaunchReadinessChecker:
                             critical_count += 1
 
                 return critical_count == 0
-        except:
+        except BaseException:
             return False
 
     def check_env_vars(self) -> dict:
@@ -89,14 +89,14 @@ class LaunchReadinessChecker:
             ".lukhas_audit": Path(".lukhas_audit"),
             ".lukhas_feedback": Path(".lukhas_feedback"),
             "lukhas_pwm": Path("lukhas_pwm"),
-            "tests": Path("tests")
+            "tests": Path("tests"),
         }
 
         results = {}
         for name, path in dirs.items():
             results[name] = {
                 "exists": path.exists(),
-                "writable": path.exists() and os.access(path, os.W_OK)
+                "writable": path.exists() and os.access(path, os.W_OK),
             }
 
         return results
@@ -107,18 +107,17 @@ class LaunchReadinessChecker:
 
         try:
             import openai
+
             deps["openai"] = {"installed": True, "version": openai.__version__}
         except ImportError:
             deps["openai"] = {"installed": False}
 
         try:
-            import fastapi
             deps["fastapi"] = {"installed": True}
         except ImportError:
             deps["fastapi"] = {"installed": False}
 
         try:
-            import prometheus_client
             deps["prometheus_client"] = {"installed": True}
         except ImportError:
             deps["prometheus_client"] = {"installed": False}
@@ -156,13 +155,17 @@ class LaunchReadinessChecker:
                 self._report_check(f"ENV: {var}", info["set"])
             else:
                 status = "✅" if info["set"] else "⚠️"
-                print(f"  {status} {var}: {'Set' if info['set'] else 'Not set (optional)'}")
+                print(
+                    f"  {status} {var}: {'Set' if info['set'] else 'Not set (optional)'}"
+                )
 
         # 5. Directories
         print(f"\n{BLUE}▶ Checking Directories...{RESET}")
         dirs = self.check_directories()
         for name, info in dirs.items():
-            self._report_check(f"Directory: {name}", info["exists"] and info["writable"])
+            self._report_check(
+                f"Directory: {name}", info["exists"] and info["writable"]
+            )
 
         # 6. Dependencies
         print(f"\n{BLUE}▶ Checking Dependencies...{RESET}")
@@ -201,7 +204,7 @@ class LaunchReadinessChecker:
         critical = [
             "API Server Running",
             "No Critical Incidents (24h)",
-            "ENV: OPENAI_API_KEY"
+            "ENV: OPENAI_API_KEY",
         ]
 
         critical_ok = all(c in self.checks_passed for c in critical)

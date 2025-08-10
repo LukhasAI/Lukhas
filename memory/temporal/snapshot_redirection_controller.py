@@ -16,7 +16,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 from trace.drift_harmonizer import DriftHarmonizer
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 from dream.core.dream_snapshot import DreamSnapshotStore
@@ -37,7 +37,7 @@ class SnapshotRedirectionController:
         self,
         emotional_memory: EmotionalMemory,
         snapshot_store: DreamSnapshotStore,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         """
         Initializes the SnapshotRedirectionController.
@@ -58,7 +58,7 @@ class SnapshotRedirectionController:
         self.recent_redirects = []
         self.forecaster = RedirectForecaster()
 
-    def check_and_redirect(self, user_id: str) -> Optional[Dict[str, Any]]:
+    def check_and_redirect(self, user_id: str) -> Optional[dict[str, Any]]:
         """
         Checks for emotional drift and redirects the dream narrative if needed.
 
@@ -97,7 +97,7 @@ class SnapshotRedirectionController:
         return None
 
     def _calculate_emotional_drift(
-        self, snapshots: List[Dict[str, Any]]
+        self, snapshots: list[dict[str, Any]]
     ) -> Optional[float]:
         """
         Calculates the emotional drift across a series of snapshots.
@@ -147,7 +147,7 @@ class SnapshotRedirectionController:
 
         return np.mean(velocities) if velocities else None
 
-    def _select_new_narrative(self, emotional_drift: float) -> Dict[str, Any]:
+    def _select_new_narrative(self, emotional_drift: float) -> dict[str, Any]:
         """
         Selects a new dream narrative based on the emotional drift.
 
@@ -175,7 +175,7 @@ class SnapshotRedirectionController:
         }
 
     def _log_redirect(
-        self, snapshot: Dict[str, Any], drift_score: float, narrative: Dict[str, Any]
+        self, snapshot: dict[str, Any], drift_score: float, narrative: dict[str, Any]
     ):
         """
         Logs the redirection event.
@@ -271,7 +271,7 @@ class SnapshotRedirectionController:
         else:
             return "emotional_velocity_spike"
 
-    def preemptive_stabilize(self, user_id: str) -> Optional[Dict[str, Any]]:
+    def preemptive_stabilize(self, user_id: str) -> Optional[dict[str, Any]]:
         """
         Uses forecast score to proactively tune the next dream setup before drift begins.
 
@@ -302,7 +302,7 @@ class SnapshotRedirectionController:
 
         return None
 
-    def _log_symbolic_commentary(self, drift_score: float, narrative: Dict[str, Any]):
+    def _log_symbolic_commentary(self, drift_score: float, narrative: dict[str, Any]):
         """
         Logs the symbolic commentary for a redirect.
 

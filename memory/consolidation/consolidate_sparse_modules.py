@@ -15,7 +15,6 @@ import json
 import shutil
 from datetime import datetime
 from pathlib import Path
-from typing import List, Tuple
 
 # Consolidation mapping from the plan
 CONSOLIDATION_MAP = {
@@ -50,7 +49,7 @@ def backup_directory(source_path: Path, backup_base: Path = Path("backups")):
     return None
 
 
-def count_files(directory: Path) -> Tuple[int, List[str]]:
+def count_files(directory: Path) -> tuple[int, list[str]]:
     """Count files and list them"""
     files = []
     for path in directory.rglob("*"):
@@ -82,7 +81,7 @@ def consolidate_module(source_name: str, base_path: Path = Path(".")):
     print(f"   Target: {config['target']}/{config['subdirectory']}")
 
     # Create backup
-    backup_path = backup_directory(source_path)
+    backup_directory(source_path)
 
     # Ensure target directory exists
     target_path.mkdir(exist_ok=True)

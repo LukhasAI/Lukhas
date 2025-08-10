@@ -6,7 +6,7 @@ Converts reasoning traces and decision trees into symbolic narratives
 import asyncio
 import json
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -32,7 +32,7 @@ class TraceNode:
         child.metadata["depth"] = self.metadata["depth"] + 1
         self.children.append(child)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation"""
         return {
             "id": self.id,
@@ -65,8 +65,8 @@ class TraceSummaryBuilder:
         self.current_style = "explanatory"
 
     async def build_summary(
-        self, reason_tree: Dict[str, Any], style: str = "explanatory"
-    ) -> Dict[str, Any]:
+        self, reason_tree: dict[str, Any], style: str = "explanatory"
+    ) -> dict[str, Any]:
         """
         Build a comprehensive summary from a reasoning trace tree
 
@@ -126,7 +126,7 @@ class TraceSummaryBuilder:
                 "recommendations": ["Review reasoning trace for errors"],
             }
 
-    def _parse_trace_tree(self, tree_data: Dict[str, Any]) -> TraceNode:
+    def _parse_trace_tree(self, tree_data: dict[str, Any]) -> TraceNode:
         """Parse raw trace data into TraceNode structure"""
         node_type = tree_data.get("type", "unknown")
         node_id = tree_data.get("id", f"node_{datetime.now().timestamp()}")
@@ -147,7 +147,7 @@ class TraceSummaryBuilder:
 
         return root
 
-    async def _extract_insights(self, root: TraceNode) -> List[Dict[str, Any]]:
+    async def _extract_insights(self, root: TraceNode) -> list[dict[str, Any]]:
         """Extract key insights from the reasoning trace"""
         insights = []
 
@@ -193,7 +193,7 @@ class TraceSummaryBuilder:
 
         return False
 
-    def _trace_decision_path(self, root: TraceNode) -> List[Dict[str, Any]]:
+    def _trace_decision_path(self, root: TraceNode) -> list[dict[str, Any]]:
         """Trace the main decision path through the reasoning tree"""
         path = []
         current = root
@@ -231,7 +231,7 @@ class TraceSummaryBuilder:
                 return node.content["reason"]
         return f"{node.type} node"
 
-    def _analyze_confidence(self, root: TraceNode) -> Dict[str, Any]:
+    def _analyze_confidence(self, root: TraceNode) -> dict[str, Any]:
         """Analyze confidence levels throughout the trace"""
         confidences = []
 
@@ -257,7 +257,7 @@ class TraceSummaryBuilder:
         }
 
     async def _generate_narrative(
-        self, root: TraceNode, insights: List[Dict[str, Any]]
+        self, root: TraceNode, insights: list[dict[str, Any]]
     ) -> str:
         """Generate a narrative summary of the reasoning process"""
         narrative_parts = []
@@ -306,7 +306,7 @@ class TraceSummaryBuilder:
 
         return "\n".join(narrative_parts)
 
-    def _format_insight(self, insight: Dict[str, Any]) -> str:
+    def _format_insight(self, insight: dict[str, Any]) -> str:
         """Format an insight for the narrative"""
         content = insight.get("content", {})
         if isinstance(content, dict):
@@ -316,7 +316,7 @@ class TraceSummaryBuilder:
                 template = self.summary_templates[insight_type]
                 try:
                     return template.format(**content)
-                except:
+                except BaseException:
                     pass
 
         # Fallback to simple formatting
@@ -334,8 +334,8 @@ class TraceSummaryBuilder:
         return None
 
     def _generate_recommendations(
-        self, insights: List[Dict[str, Any]], confidence_analysis: Dict[str, Any]
-    ) -> List[str]:
+        self, insights: list[dict[str, Any]], confidence_analysis: dict[str, Any]
+    ) -> list[str]:
         """Generate recommendations based on the analysis"""
         recommendations = []
 
@@ -384,13 +384,13 @@ class TraceSummaryBuilder:
         """Count total nodes in the tree"""
         return 1 + sum(self._count_nodes(child) for child in root.children)
 
-    def _generate_cache_key(self, tree_data: Dict[str, Any]) -> str:
+    def _generate_cache_key(self, tree_data: dict[str, Any]) -> str:
         """Generate a cache key for the trace tree"""
         # Simple hash of tree structure
         tree_str = json.dumps(tree_data, sort_keys=True, default=str)
         return f"trace_{hash(tree_str)}"
 
-    def get_cached_summary(self, tree_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    def get_cached_summary(self, tree_data: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Retrieve a cached summary if available"""
         cache_key = self._generate_cache_key(tree_data)
         return self.trace_cache.get(cache_key)

@@ -347,7 +347,7 @@ class AIIntegrationManager:
                 for fp in task.files
             ]
         )  # Smaller context for OpenAI
-        sys_prompt = "You are an expert AI assistant for LUKHΛS. Provide detailed,
+        sys_prompt = "You are an expert AI assistant for LUKHΛS. Provide detailed,"
     actionable software engineering analysis."
      user_prompt = f"Task ID: {task.id}\nType: {task.type}\nInstruction: {task.prompt}\nContext: {json.dumps(task.context,indent=2)}\nFiles:\n{files_ctx}\nResponse:"
       payload = {

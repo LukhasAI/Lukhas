@@ -16,36 +16,36 @@
 
 LUKHAS AI System - Function Library
 File: Λ_oracle_dream.py
-Path: LUKHAS/core/dreams/Λ_oracle_dream.py
+Path: LUKHAS / core / dreams / Λ_oracle_dream.py
 Created: "2025-06-05 11:43:39"
 Author: LUKHAS AI Team
 Version: 1.0
-This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 lukhas AI System - Function Library
 File: lukhas_oracle_dream.py
-Path: lukhas/core/dreams/lukhas_oracle_dream.py
+Path: lukhas / core / dreams / lukhas_oracle_dream.py
 Created: "2025-06-05 11:43:39"
 Author: lukhas AI Team
 Version: 1.0
-This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 lukhas AI Research. All rights reserved.
+Copyright(c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
 
 """
-📄 MODULE      : Λ_oracle_dream.py
-🔮 PURPOSE     : Generates outward-facing symbolic dream suggestions for the user
-🧠 PART OF     : Lukhas Dream System (paired with memory_refiner.py)
-🛠️ VERSION     : v1.0.0 * 📅 CREATED: 2025-5-5 * ✍️ AUTHOR: LUKHAS AI
-📄 MODULE      : lukhas_oracle_dream.py
-🔮 PURPOSE     : Generates outward-facing symbolic dream suggestions for the user
-🧠 PART OF     : Lukhas Dream System (paired with memory_refiner.py)
-🛠️ VERSION     : v1.0.0 * 📅 CREATED: 2025-5-5 * ✍️ AUTHOR: LUKHAS AI
+📄 MODULE: Λ_oracle_dream.py
+🔮 PURPOSE: Generates outward - facing symbolic dream suggestions for the user
+🧠 PART OF: Lukhas Dream System(paired with memory_refiner.py)
+🛠️ VERSION: v1.0.0 * 📅 CREATED: 2025 - 5 - 5 * ✍️ AUTHOR: LUKHAS AI
+📄 MODULE: lukhas_oracle_dream.py
+🔮 PURPOSE: Generates outward - facing symbolic dream suggestions for the user
+🧠 PART OF: Lukhas Dream System(paired with memory_refiner.py)
+🛠️ VERSION: v1.0.0 * 📅 CREATED: 2025 - 5 - 5 * ✍️ AUTHOR: LUKHAS AI
 📦 DEPENDENCIES: dream_delivery_manager.py, nias_core.py, emotional_resonance.py
 
 """
@@ -57,7 +57,13 @@ import os
 from pathlib import Path
 
 class OracleDreamGenerator:
-    def __init__(self, user_id: str, consent_profile, external_context, memory_sampler, settings_path="settings.json"):
+    def __init__(
+    self,
+    user_id: str,
+    consent_profile,
+    external_context,
+    memory_sampler,
+     settings_path="settings.json"):
         self.user_id = user_id
         self.consent = consent_profile
         self.context = external_context
@@ -75,7 +81,8 @@ class OracleDreamGenerator:
         Generate a symbolic dream suggestion tailored for the user.
         Returns a dictionary dream object.
         """
-        theme = random.choice(["Reconnection", "Curiosity", "Disruption", "Companionship"])
+        theme = random.choice(["Reconnection", "Curiosity",
+                              "Disruption", "Companionship"])
         tone = random.choice(["whimsical", "reflective", "urgent", "warm"])
 
         memory_fragment = self.memory_sampler.pick_emotional_memory(

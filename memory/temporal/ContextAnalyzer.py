@@ -19,6 +19,7 @@ Advanced Cognitive Architecture for Artificial General Intelligence
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
+import logging
 
 """
 Context Analyzer Module for v1_AGI
@@ -29,14 +30,14 @@ urgency, formality, and other contextual factors critical for human-centered int
 """
 import datetime
 import time
-from typing import Any, Dict, List
+from typing import Any
 from zoneinfo import ZoneInfo
 
 logger = logging.getLogger("v1_AGI.context")
 
 
 class ContextAnalyzer:
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: dict[str, Any] = None):
         """
         Initialize the context analyzer with optional configuration.
 
@@ -55,8 +56,8 @@ class ContextAnalyzer:
         logger.info("Context Analyzer initialized")
 
     def analyze(
-        self, user_input: str, metadata: Dict[str, Any], memory: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, user_input: str, metadata: dict[str, Any], memory: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Analyze user input along with metadata and memory to extract context.
 
@@ -116,7 +117,7 @@ class ContextAnalyzer:
 
         return combined_context
 
-    def _analyze_text(self, text: str) -> Dict[str, Any]:
+    def _analyze_text(self, text: str) -> dict[str, Any]:
         """
         Analyze text to extract intent, sentiment, and other linguistic features.
         This is a simplified implementation. In a real system, this would use
@@ -153,7 +154,7 @@ class ContextAnalyzer:
             "confidence": 0.8,  # Placeholder confidence score
         }
 
-    def _analyze_time(self, timestamp: float, timezone: str) -> Dict[str, Any]:
+    def _analyze_time(self, timestamp: float, timezone: str) -> dict[str, Any]:
         """
         Analyze time-related context.
 
@@ -184,7 +185,7 @@ class ContextAnalyzer:
             "is_weekend": dt.weekday() >= 5,  # Saturday or Sunday
         }
 
-    def _analyze_location(self, location_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_location(self, location_data: dict[str, Any]) -> dict[str, Any]:
         """
         Analyze location-related context.
 
@@ -204,7 +205,7 @@ class ContextAnalyzer:
 
         return context
 
-    def _analyze_device(self, device_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_device(self, device_data: dict[str, Any]) -> dict[str, Any]:
         """
         Analyze device-related context.
 
@@ -226,8 +227,8 @@ class ContextAnalyzer:
         return context
 
     def _analyze_memory(
-        self, memory: List[Dict[str, Any]], current_intent: str
-    ) -> Dict[str, Any]:
+        self, memory: list[dict[str, Any]], current_intent: str
+    ) -> dict[str, Any]:
         """
         Analyze past interactions to inform current context.
 
@@ -258,9 +259,9 @@ class ContextAnalyzer:
 
     def _determine_urgency(
         self,
-        nlp_analysis: Dict[str, Any],
-        time_context: Dict[str, Any],
-        device_context: Dict[str, Any],
+        nlp_analysis: dict[str, Any],
+        time_context: dict[str, Any],
+        device_context: dict[str, Any],
     ) -> float:
         """
         Determine the urgency level of the interaction.
@@ -285,7 +286,7 @@ class ContextAnalyzer:
         return min(1.0, max(0.0, urgency))
 
     def _determine_formality(
-        self, nlp_analysis: Dict[str, Any], historical_context: Dict[str, Any]
+        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
     ) -> float:
         """
         Determine appropriate formality level.
@@ -303,8 +304,8 @@ class ContextAnalyzer:
         return max(0.1, min(0.9, formality))
 
     def _check_compliance(
-        self, user_input: str, metadata: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_input: str, metadata: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Check for compliance issues in the interaction.
 
@@ -341,7 +342,7 @@ class ContextAnalyzer:
         return flags
 
     def _calculate_confidence(
-        self, nlp_analysis: Dict[str, Any], historical_context: Dict[str, Any]
+        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
     ) -> float:
         """
         Calculate confidence in our context understanding.

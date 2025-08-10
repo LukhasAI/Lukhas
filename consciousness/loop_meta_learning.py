@@ -9,7 +9,7 @@ This is an INTENTIONAL circular dependency that creates emergent learning capabi
 import asyncio
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from dream.engine import DreamEngine  # Will be renamed to dream.synthesizer
 
@@ -25,10 +25,10 @@ class MetaLearningCycle:
     """Represents one cycle of the meta-learning loop"""
 
     cycle_id: str
-    learning_input: Dict[str, Any]
-    dream_synthesis: Optional[Dict[str, Any]] = None
-    creative_output: Optional[Dict[str, Any]] = None
-    memory_consolidation: Optional[Dict[str, Any]] = None
+    learning_input: dict[str, Any]
+    dream_synthesis: Optional[dict[str, Any]] = None
+    creative_output: Optional[dict[str, Any]] = None
+    memory_consolidation: Optional[dict[str, Any]] = None
     timestamp: datetime = None
 
     def __post_init__(self):
@@ -55,14 +55,14 @@ class MetaLearningLoop:
         self.memory = MemoryCore()
 
         # Track active cycles
-        self.active_cycles: Dict[str, MetaLearningCycle] = {}
+        self.active_cycles: dict[str, MetaLearningCycle] = {}
         self._lock = asyncio.Lock()
 
     async def execute_cycle(
         self,
         agent_id: str,
-        initial_data: Dict[str, Any],
-        cycle_params: Optional[Dict[str, Any]] = None,
+        initial_data: dict[str, Any],
+        cycle_params: Optional[dict[str, Any]] = None,
     ) -> MetaLearningCycle:
         """
         Execute one complete meta-learning cycle.
@@ -146,7 +146,7 @@ class MetaLearningLoop:
 
     async def run_continuous_cycles(
         self, agent_id: str, num_cycles: int = 5, cycle_delay: float = 1.0
-    ) -> List[MetaLearningCycle]:
+    ) -> list[MetaLearningCycle]:
         """
         Run multiple meta-learning cycles, each building on the previous.
 
@@ -180,7 +180,7 @@ class MetaLearningLoop:
 
         return cycles
 
-    async def get_meta_learning_insights(self, agent_id: str) -> Dict[str, Any]:
+    async def get_meta_learning_insights(self, agent_id: str) -> dict[str, Any]:
         """
         Extract insights from the meta-learning process.
 

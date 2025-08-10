@@ -59,7 +59,7 @@ class UnifiedConsciousnessEngine:
         try:
             # Self-reflection monitors all engines
             if (self.self_reflection and
-                hasattr(self.self_reflection, 'register_monitored_system')):
+                    hasattr(self.self_reflection, 'register_monitored_system')):
                 self.self_reflection.register_monitored_system(
                     "alt", self.engine_alt)
                 self.self_reflection.register_monitored_system(
@@ -69,14 +69,15 @@ class UnifiedConsciousnessEngine:
 
             # Poetic engine enhances expression
             if (self.engine_complete and
-                hasattr(self.engine_complete, 'register_expression_enhancer')):
+                    hasattr(self.engine_complete, 'register_expression_enhancer')):
                 self.engine_complete.register_expression_enhancer(
                     self.engine_poetic)
 
         except Exception as e:
             logger.warning(f"Could not establish full consciousness network: {e}")
 
-    async def process_consciousness_stream(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_consciousness_stream(
+            self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """Process input through unified consciousness pipeline"""
         try:
             # Route through appropriate engines based on input type
@@ -144,7 +145,7 @@ class UnifiedConsciousnessEngine:
             }
 
     def _synthesize_consciousness_results(self,
-                                        results: Dict[str, Any]) -> Dict[str, Any]:
+                                          results: Dict[str, Any]) -> Dict[str, Any]:
         """Synthesize results from multiple consciousness engine"""
         # Simple synthesis - can be enhanced with sophisticated integration
         return {
@@ -178,7 +179,7 @@ def get_unified_consciousness_engine() -> UnifiedConsciousnessEngine:
     global _unified_consciousness_instance
     if _unified_consciousness_instance is None:
         _unified_consciousness_instance = UnifiedConsciousnessEngine()
-    return _unified_consciousness_instance    global _unified_consciousness_instance
+    return _unified_consciousness_instance global _unified_consciousness_instance
     if _unified_consciousness_instance is None:
         _unified_consciousness_instance = UnifiedConsciousnessEngine()
     return _unified_consciousness_instance

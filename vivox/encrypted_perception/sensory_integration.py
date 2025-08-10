@@ -6,7 +6,7 @@ Processes multiple sensory modalities while maintaining encryption
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -21,6 +21,7 @@ logger = get_logger(__name__)
 
 class SensoryModality(Enum):
     """Types of sensory input"""
+
     VISUAL = "visual"
     THERMAL = "thermal"
     TEXTURE = "texture"
@@ -32,6 +33,7 @@ class SensoryModality(Enum):
 @dataclass
 class TextureFeatures:
     """Features extracted from texture analysis"""
+
     roughness: float
     smoothness: float
     regularity: float
@@ -41,19 +43,22 @@ class TextureFeatures:
 
     def to_vector(self) -> np.ndarray:
         """Convert to feature vector"""
-        return np.array([
-            self.roughness,
-            self.smoothness,
-            self.regularity,
-            self.complexity,
-            self.contrast,
-            self.homogeneity
-        ])
+        return np.array(
+            [
+                self.roughness,
+                self.smoothness,
+                self.regularity,
+                self.complexity,
+                self.contrast,
+                self.homogeneity,
+            ]
+        )
 
 
 @dataclass
 class MotionFeatures:
     """Features extracted from motion analysis"""
+
     velocity: float
     acceleration: float
     jerk: float
@@ -63,14 +68,16 @@ class MotionFeatures:
 
     def to_vector(self) -> np.ndarray:
         """Convert to feature vector"""
-        return np.array([
-            self.velocity,
-            self.acceleration,
-            self.jerk,
-            float(self.direction_changes),
-            self.trajectory_complexity,
-            self.stability
-        ])
+        return np.array(
+            [
+                self.velocity,
+                self.acceleration,
+                self.jerk,
+                float(self.direction_changes),
+                self.trajectory_complexity,
+                self.stability,
+            ]
+        )
 
 
 class TextureAnalyzer:
@@ -84,46 +91,46 @@ class TextureAnalyzer:
         self.texture_patterns = self._initialize_texture_patterns()
         self.analysis_cache = {}
 
-    def _initialize_texture_patterns(self) -> Dict[str, Any]:
+    def _initialize_texture_patterns(self) -> dict[str, Any]:
         """Initialize texture pattern library"""
         return {
-            'fabric_smooth': {
-                'roughness': (0.0, 0.3),
-                'smoothness': (0.7, 1.0),
-                'regularity': (0.8, 1.0)
+            "fabric_smooth": {
+                "roughness": (0.0, 0.3),
+                "smoothness": (0.7, 1.0),
+                "regularity": (0.8, 1.0),
             },
-            'fabric_rough': {
-                'roughness': (0.7, 1.0),
-                'smoothness': (0.0, 0.3),
-                'complexity': (0.6, 1.0)
+            "fabric_rough": {
+                "roughness": (0.7, 1.0),
+                "smoothness": (0.0, 0.3),
+                "complexity": (0.6, 1.0),
             },
-            'synthetic_material': {
-                'homogeneity': (0.8, 1.0),
-                'regularity': (0.7, 1.0),
-                'contrast': (0.2, 0.5)
+            "synthetic_material": {
+                "homogeneity": (0.8, 1.0),
+                "regularity": (0.7, 1.0),
+                "contrast": (0.2, 0.5),
             },
-            'natural_fabric': {
-                'complexity': (0.5, 0.8),
-                'homogeneity': (0.3, 0.7),
-                'regularity': (0.4, 0.7)
+            "natural_fabric": {
+                "complexity": (0.5, 0.8),
+                "homogeneity": (0.3, 0.7),
+                "regularity": (0.4, 0.7),
             },
-            'damaged_texture': {
-                'roughness': (0.8, 1.0),
-                'regularity': (0.0, 0.3),
-                'homogeneity': (0.0, 0.4)
-            }
+            "damaged_texture": {
+                "roughness": (0.8, 1.0),
+                "regularity": (0.0, 0.3),
+                "homogeneity": (0.0, 0.4),
+            },
         }
 
-    async def analyze_texture(self,
-                            encrypted_data: np.ndarray,
-                            context: Dict[str, Any]) -> Tuple[TextureFeatures, Dict[str, Any]]:
+    async def analyze_texture(
+        self, encrypted_data: np.ndarray, context: dict[str, Any]
+    ) -> tuple[TextureFeatures, dict[str, Any]]:
         """
         Analyze texture from encrypted perceptual data
-        
+
         Args:
             encrypted_data: Encrypted sensory input
             context: Analysis context
-            
+
         Returns:
             Texture features and analysis metadata
         """
@@ -138,10 +145,10 @@ class TextureAnalyzer:
 
         # Create metadata
         metadata = {
-            'pattern_matches': pattern_matches,
-            'anomalies': anomalies,
-            'confidence': self._calculate_confidence(features),
-            'timestamp': datetime.now().isoformat()
+            "pattern_matches": pattern_matches,
+            "anomalies": anomalies,
+            "confidence": self._calculate_confidence(features),
+            "timestamp": datetime.now().isoformat(),
         }
 
         return features, metadata
@@ -150,19 +157,25 @@ class TextureAnalyzer:
         """Extract texture features from encrypted data"""
 
         # Compute spatial frequency analysis
-        fft_2d = np.fft.fft2(encrypted_data.reshape(-1, int(np.sqrt(len(encrypted_data)))))
+        fft_2d = np.fft.fft2(
+            encrypted_data.reshape(-1, int(np.sqrt(len(encrypted_data))))
+        )
         power_spectrum = np.abs(fft_2d) ** 2
 
         # Roughness from high-frequency components
-        high_freq = power_spectrum[len(power_spectrum)//2:, len(power_spectrum[0])//2:]
+        high_freq = power_spectrum[
+            len(power_spectrum) // 2 :, len(power_spectrum[0]) // 2 :
+        ]
         roughness = float(np.mean(high_freq) / (np.mean(power_spectrum) + 1e-10))
 
         # Smoothness from low-frequency dominance
-        low_freq = power_spectrum[:len(power_spectrum)//4, :len(power_spectrum[0])//4]
+        low_freq = power_spectrum[
+            : len(power_spectrum) // 4, : len(power_spectrum[0]) // 4
+        ]
         smoothness = float(np.mean(low_freq) / (np.mean(power_spectrum) + 1e-10))
 
         # Regularity from autocorrelation
-        autocorr = np.correlate(encrypted_data, encrypted_data, mode='same')
+        autocorr = np.correlate(encrypted_data, encrypted_data, mode="same")
         regularity = float(np.std(autocorr) / (np.mean(autocorr) + 1e-10))
 
         # Complexity from entropy
@@ -172,7 +185,9 @@ class TextureAnalyzer:
         complexity = float(-np.sum(hist * np.log2(hist + 1e-10)) / np.log2(32))
 
         # Contrast from range
-        contrast = float(np.ptp(encrypted_data) / (np.max(np.abs(encrypted_data)) + 1e-10))
+        contrast = float(
+            np.ptp(encrypted_data) / (np.max(np.abs(encrypted_data)) + 1e-10)
+        )
 
         # Homogeneity from variance
         homogeneity = float(1.0 / (1.0 + np.var(encrypted_data)))
@@ -183,20 +198,20 @@ class TextureAnalyzer:
             regularity=np.clip(regularity, 0, 1),
             complexity=np.clip(complexity, 0, 1),
             contrast=np.clip(contrast, 0, 1),
-            homogeneity=np.clip(homogeneity, 0, 1)
+            homogeneity=np.clip(homogeneity, 0, 1),
         )
 
-    def _match_texture_patterns(self, features: TextureFeatures) -> Dict[str, float]:
+    def _match_texture_patterns(self, features: TextureFeatures) -> dict[str, float]:
         """Match features against known texture patterns"""
         matches = {}
 
         feature_dict = {
-            'roughness': features.roughness,
-            'smoothness': features.smoothness,
-            'regularity': features.regularity,
-            'complexity': features.complexity,
-            'contrast': features.contrast,
-            'homogeneity': features.homogeneity
+            "roughness": features.roughness,
+            "smoothness": features.smoothness,
+            "regularity": features.regularity,
+            "complexity": features.complexity,
+            "contrast": features.contrast,
+            "homogeneity": features.homogeneity,
         }
 
         for pattern_name, pattern_def in self.texture_patterns.items():
@@ -221,34 +236,46 @@ class TextureAnalyzer:
 
         return matches
 
-    def _detect_texture_anomalies(self,
-                                features: TextureFeatures,
-                                context: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _detect_texture_anomalies(
+        self, features: TextureFeatures, context: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Detect anomalies in texture"""
         anomalies = []
 
         # Check for extreme values
         if features.roughness > 0.9 and features.regularity < 0.2:
-            anomalies.append({
-                'type': 'severe_degradation',
-                'confidence': 0.8,
-                'features': {'roughness': features.roughness, 'regularity': features.regularity}
-            })
+            anomalies.append(
+                {
+                    "type": "severe_degradation",
+                    "confidence": 0.8,
+                    "features": {
+                        "roughness": features.roughness,
+                        "regularity": features.regularity,
+                    },
+                }
+            )
 
         if features.homogeneity < 0.1:
-            anomalies.append({
-                'type': 'material_inconsistency',
-                'confidence': 0.7,
-                'features': {'homogeneity': features.homogeneity}
-            })
+            anomalies.append(
+                {
+                    "type": "material_inconsistency",
+                    "confidence": 0.7,
+                    "features": {"homogeneity": features.homogeneity},
+                }
+            )
 
         # Check for unusual combinations
         if features.smoothness > 0.8 and features.complexity > 0.8:
-            anomalies.append({
-                'type': 'synthetic_anomaly',
-                'confidence': 0.6,
-                'features': {'smoothness': features.smoothness, 'complexity': features.complexity}
-            })
+            anomalies.append(
+                {
+                    "type": "synthetic_anomaly",
+                    "confidence": 0.6,
+                    "features": {
+                        "smoothness": features.smoothness,
+                        "complexity": features.complexity,
+                    },
+                }
+            )
 
         return anomalies
 
@@ -279,52 +306,54 @@ class MotionDetector:
         self.motion_history = []
         self.max_history = 100
 
-    def _initialize_motion_patterns(self) -> Dict[str, Any]:
+    def _initialize_motion_patterns(self) -> dict[str, Any]:
         """Initialize motion pattern library"""
         return {
-            'normal_walking': {
-                'velocity': (0.3, 0.7),
-                'acceleration': (0.0, 0.3),
-                'stability': (0.7, 1.0),
-                'direction_changes': (0, 5)
+            "normal_walking": {
+                "velocity": (0.3, 0.7),
+                "acceleration": (0.0, 0.3),
+                "stability": (0.7, 1.0),
+                "direction_changes": (0, 5),
             },
-            'running': {
-                'velocity': (0.7, 1.0),
-                'acceleration': (0.2, 0.6),
-                'stability': (0.5, 0.8),
-                'jerk': (0.3, 0.7)
+            "running": {
+                "velocity": (0.7, 1.0),
+                "acceleration": (0.2, 0.6),
+                "stability": (0.5, 0.8),
+                "jerk": (0.3, 0.7),
             },
-            'fall_event': {
-                'acceleration': (0.8, 1.0),
-                'jerk': (0.8, 1.0),
-                'stability': (0.0, 0.2),
-                'trajectory_complexity': (0.0, 0.3)
+            "fall_event": {
+                "acceleration": (0.8, 1.0),
+                "jerk": (0.8, 1.0),
+                "stability": (0.0, 0.2),
+                "trajectory_complexity": (0.0, 0.3),
             },
-            'unusual_stillness': {
-                'velocity': (0.0, 0.05),
-                'acceleration': (0.0, 0.01),
-                'direction_changes': (0, 1)
+            "unusual_stillness": {
+                "velocity": (0.0, 0.05),
+                "acceleration": (0.0, 0.01),
+                "direction_changes": (0, 1),
             },
-            'erratic_movement': {
-                'jerk': (0.7, 1.0),
-                'direction_changes': (10, 100),
-                'stability': (0.0, 0.3),
-                'trajectory_complexity': (0.8, 1.0)
-            }
+            "erratic_movement": {
+                "jerk": (0.7, 1.0),
+                "direction_changes": (10, 100),
+                "stability": (0.0, 0.3),
+                "trajectory_complexity": (0.8, 1.0),
+            },
         }
 
-    async def detect_motion(self,
-                          encrypted_sequence: List[np.ndarray],
-                          time_delta: float,
-                          context: Dict[str, Any]) -> Tuple[MotionFeatures, Dict[str, Any]]:
+    async def detect_motion(
+        self,
+        encrypted_sequence: list[np.ndarray],
+        time_delta: float,
+        context: dict[str, Any],
+    ) -> tuple[MotionFeatures, dict[str, Any]]:
         """
         Analyze motion from encrypted perceptual sequence
-        
+
         Args:
             encrypted_sequence: Time series of encrypted vectors
             time_delta: Time between samples
             context: Detection context
-            
+
         Returns:
             Motion features and detection metadata
         """
@@ -342,19 +371,19 @@ class MotionDetector:
 
         # Create metadata
         metadata = {
-            'pattern_matches': pattern_matches,
-            'critical_events': critical_events,
-            'confidence': self._calculate_motion_confidence(features),
-            'time_delta': time_delta,
-            'sequence_length': len(encrypted_sequence),
-            'timestamp': datetime.now().isoformat()
+            "pattern_matches": pattern_matches,
+            "critical_events": critical_events,
+            "confidence": self._calculate_motion_confidence(features),
+            "time_delta": time_delta,
+            "sequence_length": len(encrypted_sequence),
+            "timestamp": datetime.now().isoformat(),
         }
 
         return features, metadata
 
-    def _extract_motion_features(self,
-                               sequence: List[np.ndarray],
-                               time_delta: float) -> MotionFeatures:
+    def _extract_motion_features(
+        self, sequence: list[np.ndarray], time_delta: float
+    ) -> MotionFeatures:
         """Extract motion features from encrypted sequence"""
 
         if len(sequence) < 2:
@@ -383,8 +412,12 @@ class MotionDetector:
 
         # Direction changes
         if len(velocities) > 1:
-            directions = velocities / (np.linalg.norm(velocities, axis=1, keepdims=True) + 1e-10)
-            direction_changes = np.sum(np.linalg.norm(np.diff(directions, axis=0), axis=1) > 0.5)
+            directions = velocities / (
+                np.linalg.norm(velocities, axis=1, keepdims=True) + 1e-10
+            )
+            direction_changes = np.sum(
+                np.linalg.norm(np.diff(directions, axis=0), axis=1) > 0.5
+            )
         else:
             direction_changes = 0
 
@@ -395,7 +428,9 @@ class MotionDetector:
             power = np.abs(fft) ** 2
             power = power / (np.sum(power) + 1e-10)
             power = power[power > 0]
-            trajectory_complexity = float(-np.sum(power * np.log2(power + 1e-10)) / np.log2(len(power)))
+            trajectory_complexity = float(
+                -np.sum(power * np.log2(power + 1e-10)) / np.log2(len(power))
+            )
         else:
             trajectory_complexity = 0.0
 
@@ -409,7 +444,7 @@ class MotionDetector:
             jerk=np.clip(avg_jerk, 0, 1),
             direction_changes=int(direction_changes),
             trajectory_complexity=np.clip(trajectory_complexity, 0, 1),
-            stability=np.clip(stability, 0, 1)
+            stability=np.clip(stability, 0, 1),
         )
 
     def _estimate_position(self, encrypted_vector: np.ndarray) -> np.ndarray:
@@ -424,17 +459,17 @@ class MotionDetector:
         # Normalize to unit space
         return position / (np.linalg.norm(position) + 1e-10)
 
-    def _match_motion_patterns(self, features: MotionFeatures) -> Dict[str, float]:
+    def _match_motion_patterns(self, features: MotionFeatures) -> dict[str, float]:
         """Match features against motion patterns"""
         matches = {}
 
         feature_dict = {
-            'velocity': features.velocity,
-            'acceleration': features.acceleration,
-            'jerk': features.jerk,
-            'direction_changes': features.direction_changes,
-            'trajectory_complexity': features.trajectory_complexity,
-            'stability': features.stability
+            "velocity": features.velocity,
+            "acceleration": features.acceleration,
+            "jerk": features.jerk,
+            "direction_changes": features.direction_changes,
+            "trajectory_complexity": features.trajectory_complexity,
+            "stability": features.stability,
         }
 
         for pattern_name, pattern_def in self.motion_patterns.items():
@@ -462,51 +497,57 @@ class MotionDetector:
 
         return matches
 
-    def _detect_critical_motion_events(self,
-                                     features: MotionFeatures,
-                                     pattern_matches: Dict[str, float]) -> List[Dict[str, Any]]:
+    def _detect_critical_motion_events(
+        self, features: MotionFeatures, pattern_matches: dict[str, float]
+    ) -> list[dict[str, Any]]:
         """Detect critical motion events"""
         events = []
 
         # Fall detection
-        if pattern_matches.get('fall_event', 0) > 0.7:
-            events.append({
-                'type': 'fall_detected',
-                'severity': 'critical',
-                'confidence': pattern_matches['fall_event'],
-                'features': {
-                    'acceleration': features.acceleration,
-                    'jerk': features.jerk,
-                    'stability': features.stability
+        if pattern_matches.get("fall_event", 0) > 0.7:
+            events.append(
+                {
+                    "type": "fall_detected",
+                    "severity": "critical",
+                    "confidence": pattern_matches["fall_event"],
+                    "features": {
+                        "acceleration": features.acceleration,
+                        "jerk": features.jerk,
+                        "stability": features.stability,
+                    },
                 }
-            })
+            )
 
         # Unusual stillness detection
-        if pattern_matches.get('unusual_stillness', 0) > 0.8:
+        if pattern_matches.get("unusual_stillness", 0) > 0.8:
             # Check history for sudden change
             if self.motion_history and self.motion_history[-1].velocity > 0.3:
-                events.append({
-                    'type': 'sudden_stillness',
-                    'severity': 'high',
-                    'confidence': pattern_matches['unusual_stillness'],
-                    'features': {
-                        'velocity': features.velocity,
-                        'previous_velocity': self.motion_history[-1].velocity
+                events.append(
+                    {
+                        "type": "sudden_stillness",
+                        "severity": "high",
+                        "confidence": pattern_matches["unusual_stillness"],
+                        "features": {
+                            "velocity": features.velocity,
+                            "previous_velocity": self.motion_history[-1].velocity,
+                        },
                     }
-                })
+                )
 
         # Erratic movement detection
-        if pattern_matches.get('erratic_movement', 0) > 0.6:
-            events.append({
-                'type': 'erratic_movement',
-                'severity': 'moderate',
-                'confidence': pattern_matches['erratic_movement'],
-                'features': {
-                    'jerk': features.jerk,
-                    'direction_changes': features.direction_changes,
-                    'trajectory_complexity': features.trajectory_complexity
+        if pattern_matches.get("erratic_movement", 0) > 0.6:
+            events.append(
+                {
+                    "type": "erratic_movement",
+                    "severity": "moderate",
+                    "confidence": pattern_matches["erratic_movement"],
+                    "features": {
+                        "jerk": features.jerk,
+                        "direction_changes": features.direction_changes,
+                        "trajectory_complexity": features.trajectory_complexity,
+                    },
                 }
-            })
+            )
 
         return events
 
@@ -516,7 +557,7 @@ class MotionDetector:
 
         # Limit history size
         if len(self.motion_history) > self.max_history:
-            self.motion_history = self.motion_history[-self.max_history:]
+            self.motion_history = self.motion_history[-self.max_history :]
 
     def _calculate_motion_confidence(self, features: MotionFeatures) -> float:
         """Calculate motion detection confidence"""
@@ -525,7 +566,9 @@ class MotionDetector:
 
         # Remove direction changes from normalization
         normalized_features = feature_values[:3]  # velocity, acceleration, jerk
-        normalized_features = np.append(normalized_features, feature_values[4:])  # trajectory_complexity, stability
+        normalized_features = np.append(
+            normalized_features, feature_values[4:]
+        )  # trajectory_complexity, stability
 
         # Check physical plausibility
         physics_confidence = 1.0
@@ -543,7 +586,9 @@ class MotionDetector:
             physics_confidence *= 0.7
 
         # Feature range confidence
-        range_confidence = np.mean((normalized_features >= 0) & (normalized_features <= 1))
+        range_confidence = np.mean(
+            (normalized_features >= 0) & (normalized_features <= 1)
+        )
 
         return float((physics_confidence + range_confidence) / 2)
 
@@ -554,56 +599,60 @@ class MultimodalFusion:
     Creates unified perception while maintaining encryption
     """
 
-    def __init__(self,
-                 encryptor: Optional[PerceptualEncryptor] = None,
-                 anomaly_detector: Optional[AnomalyDetector] = None):
+    def __init__(
+        self,
+        encryptor: Optional[PerceptualEncryptor] = None,
+        anomaly_detector: Optional[AnomalyDetector] = None,
+    ):
         self.encryptor = encryptor or PerceptualEncryptor()
         self.anomaly_detector = anomaly_detector or AnomalyDetector()
         self.fusion_weights = self._initialize_fusion_weights()
         self.modality_correlations = {}
 
-    def _initialize_fusion_weights(self) -> Dict[str, Dict[str, float]]:
+    def _initialize_fusion_weights(self) -> dict[str, dict[str, float]]:
         """Initialize fusion weights for different scenarios"""
         return {
-            'default': {
+            "default": {
                 SensoryModality.VISUAL.value: 0.3,
                 SensoryModality.THERMAL.value: 0.2,
                 SensoryModality.TEXTURE.value: 0.2,
                 SensoryModality.MOTION.value: 0.2,
-                SensoryModality.AUDIO.value: 0.1
+                SensoryModality.AUDIO.value: 0.1,
             },
-            'safety_critical': {
+            "safety_critical": {
                 SensoryModality.MOTION.value: 0.4,
                 SensoryModality.THERMAL.value: 0.3,
                 SensoryModality.VISUAL.value: 0.2,
-                SensoryModality.AUDIO.value: 0.1
+                SensoryModality.AUDIO.value: 0.1,
             },
-            'comfort_monitoring': {
+            "comfort_monitoring": {
                 SensoryModality.THERMAL.value: 0.35,
                 SensoryModality.TEXTURE.value: 0.35,
                 SensoryModality.MOTION.value: 0.2,
-                SensoryModality.VISUAL.value: 0.1
+                SensoryModality.VISUAL.value: 0.1,
             },
-            'environmental': {
+            "environmental": {
                 SensoryModality.ENVIRONMENTAL.value: 0.4,
                 SensoryModality.THERMAL.value: 0.3,
                 SensoryModality.VISUAL.value: 0.2,
-                SensoryModality.AUDIO.value: 0.1
-            }
+                SensoryModality.AUDIO.value: 0.1,
+            },
         }
 
-    async def fuse_modalities(self,
-                            perceptual_vectors: List[PerceptualVector],
-                            fusion_strategy: str = 'default',
-                            context: Dict[str, Any] = None) -> Tuple[EncryptedPerception, Dict[str, Any]]:
+    async def fuse_modalities(
+        self,
+        perceptual_vectors: list[PerceptualVector],
+        fusion_strategy: str = "default",
+        context: dict[str, Any] = None,
+    ) -> tuple[EncryptedPerception, dict[str, Any]]:
         """
         Fuse multiple sensory modalities into unified perception
-        
+
         Args:
             perceptual_vectors: Vectors from different modalities
             fusion_strategy: Fusion strategy to use
             context: Fusion context
-            
+
         Returns:
             Fused encrypted perception and metadata
         """
@@ -618,13 +667,17 @@ class MultimodalFusion:
         self.modality_correlations = correlations
 
         # Apply fusion weights
-        weights = self.fusion_weights.get(fusion_strategy, self.fusion_weights['default'])
+        weights = self.fusion_weights.get(
+            fusion_strategy, self.fusion_weights["default"]
+        )
 
         # Perform weighted fusion
         fused_vector = self._weighted_fusion(modality_groups, weights)
 
         # Detect cross-modal anomalies
-        anomalies = await self._detect_cross_modal_anomalies(modality_groups, correlations)
+        anomalies = await self._detect_cross_modal_anomalies(
+            modality_groups, correlations
+        )
 
         # Create fused perception
         fused_perception = EncryptedPerception(
@@ -633,23 +686,24 @@ class MultimodalFusion:
             modality="multimodal",
             timestamp=datetime.now(),
             ethical_compliance=True,  # Ethical compliance is enforced at encryption level
-            privacy_level="maximum"
+            privacy_level="maximum",
         )
 
         # Create metadata
         metadata = {
-            'fusion_strategy': fusion_strategy,
-            'modalities_fused': list(modality_groups.keys()),
-            'cross_modal_correlations': correlations,
-            'anomalies_detected': anomalies,
-            'fusion_confidence': self._calculate_fusion_confidence(correlations),
-            'vector_count': len(perceptual_vectors)
+            "fusion_strategy": fusion_strategy,
+            "modalities_fused": list(modality_groups.keys()),
+            "cross_modal_correlations": correlations,
+            "anomalies_detected": anomalies,
+            "fusion_confidence": self._calculate_fusion_confidence(correlations),
+            "vector_count": len(perceptual_vectors),
         }
 
         return fused_perception, metadata
 
-    def _group_by_modality(self,
-                         vectors: List[PerceptualVector]) -> Dict[str, List[PerceptualVector]]:
+    def _group_by_modality(
+        self, vectors: list[PerceptualVector]
+    ) -> dict[str, list[PerceptualVector]]:
         """Group vectors by modality"""
         groups = {}
         for vector in vectors:
@@ -658,8 +712,9 @@ class MultimodalFusion:
             groups[vector.modality].append(vector)
         return groups
 
-    def _calculate_cross_modal_correlations(self,
-                                          modality_groups: Dict[str, List[PerceptualVector]]) -> Dict[str, float]:
+    def _calculate_cross_modal_correlations(
+        self, modality_groups: dict[str, list[PerceptualVector]]
+    ) -> dict[str, float]:
         """Calculate correlations between modalities"""
         correlations = {}
         modalities = list(modality_groups.keys())
@@ -678,7 +733,7 @@ class MultimodalFusion:
 
         return correlations
 
-    def _get_representative_vector(self, vectors: List[PerceptualVector]) -> np.ndarray:
+    def _get_representative_vector(self, vectors: list[PerceptualVector]) -> np.ndarray:
         """Get representative vector for modality"""
         if len(vectors) == 1:
             return vectors[0].encrypted_features
@@ -699,9 +754,11 @@ class MultimodalFusion:
         # Map to correlation coefficient range
         return float((similarity + 1) / 2)
 
-    def _weighted_fusion(self,
-                       modality_groups: Dict[str, List[PerceptualVector]],
-                       weights: Dict[str, float]) -> np.ndarray:
+    def _weighted_fusion(
+        self,
+        modality_groups: dict[str, list[PerceptualVector]],
+        weights: dict[str, float],
+    ) -> np.ndarray:
         """Perform weighted fusion of modalities"""
         fused = None
         total_weight = 0
@@ -729,55 +786,63 @@ class MultimodalFusion:
 
         return fused
 
-    async def _detect_cross_modal_anomalies(self,
-                                          modality_groups: Dict[str, List[PerceptualVector]],
-                                          correlations: Dict[str, float]) -> List[Dict[str, Any]]:
+    async def _detect_cross_modal_anomalies(
+        self,
+        modality_groups: dict[str, list[PerceptualVector]],
+        correlations: dict[str, float],
+    ) -> list[dict[str, Any]]:
         """Detect anomalies across modalities"""
         anomalies = []
 
         # Check for unusual correlation patterns
         for correlation_key, correlation_value in correlations.items():
-            modalities = correlation_key.split('_')
+            modalities = correlation_key.split("_")
 
             # Thermal-Motion correlation check
-            if 'thermal' in modalities and 'motion' in modalities:
+            if "thermal" in modalities and "motion" in modalities:
                 if correlation_value > 0.8:  # High correlation
-                    anomalies.append({
-                        'type': 'thermal_motion_correlation',
-                        'severity': 'high',
-                        'correlation': correlation_value,
-                        'interpretation': 'High activity with thermal stress'
-                    })
+                    anomalies.append(
+                        {
+                            "type": "thermal_motion_correlation",
+                            "severity": "high",
+                            "correlation": correlation_value,
+                            "interpretation": "High activity with thermal stress",
+                        }
+                    )
 
             # Visual-Texture mismatch
-            if 'visual' in modalities and 'texture' in modalities:
+            if "visual" in modalities and "texture" in modalities:
                 if correlation_value < 0.2:  # Low correlation
-                    anomalies.append({
-                        'type': 'visual_texture_mismatch',
-                        'severity': 'moderate',
-                        'correlation': correlation_value,
-                        'interpretation': 'Visual and texture data inconsistent'
-                    })
+                    anomalies.append(
+                        {
+                            "type": "visual_texture_mismatch",
+                            "severity": "moderate",
+                            "correlation": correlation_value,
+                            "interpretation": "Visual and texture data inconsistent",
+                        }
+                    )
 
         # Check individual modality anomalies
         for modality, vectors in modality_groups.items():
             if self.anomaly_detector:
                 modality_anomalies = await self.anomaly_detector.detect_anomalies(
-                    vectors, {'modality': modality}
+                    vectors, {"modality": modality}
                 )
 
                 for anomaly in modality_anomalies:
                     if anomaly.confidence > 0.7:
-                        anomalies.append({
-                            'type': f"{modality}_anomaly",
-                            'severity': anomaly.significance.value,
-                            'confidence': anomaly.confidence,
-                            'details': anomaly.anomaly_type
-                        })
+                        anomalies.append(
+                            {
+                                "type": f"{modality}_anomaly",
+                                "severity": anomaly.significance.value,
+                                "confidence": anomaly.confidence,
+                                "details": anomaly.anomaly_type,
+                            }
+                        )
 
         return anomalies
 
-    def _calculate_fusion_confidence(self, correlations: Dict[str, float]) -> float:
+    def _calculate_fusion_confidence(self, correlations: dict[str, float]) -> float:
         """Calculate confidence in fusion result"""
         if not correlations:
             return 0.5
@@ -797,12 +862,12 @@ class MultimodalFusion:
 
         return float(np.clip(confidence, 0, 1))
 
-    def get_fusion_statistics(self) -> Dict[str, Any]:
+    def get_fusion_statistics(self) -> dict[str, Any]:
         """Get statistics about fusion performance"""
         return {
-            'available_strategies': list(self.fusion_weights.keys()),
-            'last_correlations': self.modality_correlations,
-            'supported_modalities': [m.value for m in SensoryModality]
+            "available_strategies": list(self.fusion_weights.keys()),
+            "last_correlations": self.modality_correlations,
+            "supported_modalities": [m.value for m in SensoryModality],
         }
 
 
@@ -816,18 +881,17 @@ class SensoryCalibrator:
         self.calibration_params = {}
         self.calibration_history = []
 
-    def calibrate_sensor(self,
-                       sensor_id: str,
-                       raw_samples: List[np.ndarray],
-                       modality: SensoryModality) -> Dict[str, Any]:
+    def calibrate_sensor(
+        self, sensor_id: str, raw_samples: list[np.ndarray], modality: SensoryModality
+    ) -> dict[str, Any]:
         """
         Calibrate a sensor based on sample data
-        
+
         Args:
             sensor_id: Unique sensor identifier
             raw_samples: Sample readings from sensor
             modality: Sensor modality type
-            
+
         Returns:
             Calibration parameters
         """
@@ -835,15 +899,15 @@ class SensoryCalibrator:
         samples_array = np.array(raw_samples)
 
         calibration = {
-            'sensor_id': sensor_id,
-            'modality': modality.value,
-            'offset': np.mean(samples_array, axis=0),
-            'scale': np.std(samples_array, axis=0) + 1e-10,
-            'range': {
-                'min': np.min(samples_array, axis=0),
-                'max': np.max(samples_array, axis=0)
+            "sensor_id": sensor_id,
+            "modality": modality.value,
+            "offset": np.mean(samples_array, axis=0),
+            "scale": np.std(samples_array, axis=0) + 1e-10,
+            "range": {
+                "min": np.min(samples_array, axis=0),
+                "max": np.max(samples_array, axis=0),
             },
-            'timestamp': datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Store calibration
@@ -852,9 +916,7 @@ class SensoryCalibrator:
 
         return calibration
 
-    def apply_calibration(self,
-                        sensor_id: str,
-                        raw_data: np.ndarray) -> np.ndarray:
+    def apply_calibration(self, sensor_id: str, raw_data: np.ndarray) -> np.ndarray:
         """Apply calibration to raw sensor data"""
         if sensor_id not in self.calibration_params:
             # Return uncalibrated data
@@ -863,6 +925,6 @@ class SensoryCalibrator:
         calibration = self.calibration_params[sensor_id]
 
         # Apply calibration transform
-        calibrated = (raw_data - calibration['offset']) / calibration['scale']
+        calibrated = (raw_data - calibration["offset"]) / calibration["scale"]
 
         return calibrated

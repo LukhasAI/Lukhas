@@ -19,17 +19,17 @@ logger = structlog.get_logger(__name__)
 
 """
 +────────────────────────────────────────────────────────────────────────────+
-| MODULE         : lukhas_wallet.py                                           |
-| DESCRIPTION    :                                                           |
-|   Tracks symbolic token balances, performs deductions, and simulates      |
-|   AGI microtransactions. Supports tier-based spending and ethical logging.|
-|   Foundation for LUKHASPay / symbolic economy layers.                      |
-| TYPE           : Token Wallet Handler          VERSION : v1.0.0           |
-| AUTHOR         : LUKHAS SYSTEMS                 CREATED : 2025-4-22       |
+| MODULE: lukhas_wallet.py |
+| DESCRIPTION: |
+|   Tracks symbolic token balances, performs deductions, and simulates |
+|   AGI microtransactions. Supports tier - based spending and ethical logging.|
+|   Foundation for LUKHASPay / symbolic economy layers. |
+| TYPE: Token Wallet Handler          VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                 CREATED: 2025 - 4 - 22 |
 +────────────────────────────────────────────────────────────────────────────+
-| DEPENDENCIES   :                                                           |
-|   - lukhas_gatekeeper.py                                                    |
-|   - lukhas_overview_log.py                                                  |
+| DEPENDENCIES: |
+| - lukhas_gatekeeper.py |
+| - lukhas_overview_log.py |
 +────────────────────────────────────────────────────────────────────────────+
 """
 
@@ -44,9 +44,9 @@ def deduct_tokens(user_id, amount, reason="symbolic_action"):
     Deducts tokens from user’s wallet with optional logging.
 
     Parameters:
-    - user_id (str): Unique LUKHASID
-    - amount (float): symbolic cost
-    - reason (str): explanation of use
+    - user_id(str): Unique LUKHASID
+    - amount(float): symbolic cost
+    - reason(str): explanation of use
     """
     balance = get_balance(user_id)
     if balance < amount:
@@ -57,7 +57,11 @@ def deduct_tokens(user_id, amount, reason="symbolic_action"):
     # Optionally log the transaction
     try:
         from system_overview_log import log_event
-        log_event("wallet", f"{amount} tokens deducted for: {reason}", tier=3, source="lukhas_wallet")
+        log_event(
+    "wallet",
+    f"{amount} tokens deducted for: {reason}",
+    tier=3,
+     source="lukhas_wallet")
     except:
         pass
 
@@ -65,11 +69,11 @@ def deduct_tokens(user_id, amount, reason="symbolic_action"):
 
 def deduct_crypto_balance(user_id, amount):
     """
-    Deducts crypto balance (placeholder logic) for Tier 4+ users.
+    Deducts crypto balance(placeholder logic) for Tier 4 + users.
 
     Parameters:
-    - user_id (str): Unique LUKHASID
-    - amount (float): crypto cost in EUR equivalent
+    - user_id(str): Unique LUKHASID
+    - amount(float): crypto cost in EUR equivalent
 
     Returns:
     - dict: result of deduction attempt
@@ -85,7 +89,11 @@ def deduct_crypto_balance(user_id, amount):
     # Optionally log the crypto transaction
     try:
         from system_overview_log import log_event
-        log_event("wallet", f"{amount} EUR deducted from crypto balance", tier=4, source="lukhas_wallet")
+        log_event(
+    "wallet",
+    f"{amount} EUR deducted from crypto balance",
+    tier=4,
+     source="lukhas_wallet")
     except:
         pass
 
@@ -114,7 +122,7 @@ def deduct_crypto_balance(user_id, amount):
 
 """
 ΛTRACE: End of wallet.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

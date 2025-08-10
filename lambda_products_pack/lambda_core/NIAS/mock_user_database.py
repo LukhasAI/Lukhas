@@ -5,14 +5,14 @@ Includes realistic shopping data from major retailers and ethical edge cases
 """
 
 import random
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class MockUserDatabase:
     """Generate rich, realistic user profiles for comprehensive NIAS testing"""
 
     @staticmethod
-    def generate_all_users() -> List[Dict[str, Any]]:
+    def generate_all_users() -> list[dict[str, Any]]:
         """Generate comprehensive user profiles with various scenarios"""
         users = []
 
@@ -1009,7 +1009,7 @@ class MockUserDatabase:
         return users
 
     @staticmethod
-    def generate_edge_cases() -> List[Dict[str, Any]]:
+    def generate_edge_cases() -> list[dict[str, Any]]:
         """Generate specific edge cases for ethical testing"""
         edge_cases = []
 
@@ -1144,7 +1144,7 @@ class MockUserDatabase:
         return edge_cases
 
     @staticmethod
-    def get_user_by_id(user_id: str) -> Optional[Dict[str, Any]]:
+    def get_user_by_id(user_id: str) -> Optional[dict[str, Any]]:
         """Get a specific user by ID"""
         all_users = MockUserDatabase.generate_all_users()
         for user in all_users:
@@ -1153,7 +1153,7 @@ class MockUserDatabase:
         return None
 
     @staticmethod
-    def get_random_user() -> Dict[str, Any]:
+    def get_random_user() -> dict[str, Any]:
         """Get a random user from the database"""
         import random
 
@@ -1161,7 +1161,7 @@ class MockUserDatabase:
         return random.choice(all_users)
 
     @staticmethod
-    def generate_shopping_event(user: Dict[str, Any]) -> Dict[str, Any]:
+    def generate_shopping_event(user: dict[str, Any]) -> dict[str, Any]:
         """Generate a realistic shopping event for a user"""
         events = []
 

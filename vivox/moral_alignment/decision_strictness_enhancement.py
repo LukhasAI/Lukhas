@@ -4,7 +4,7 @@ Implements stricter ethical evaluation criteria
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 from .vivox_mae_core import ActionProposal, MAEDecision
 
@@ -12,9 +12,10 @@ from .vivox_mae_core import ActionProposal, MAEDecision
 @dataclass
 class RiskAssessment:
     """Detailed risk assessment for an action"""
+
     risk_level: float  # 0.0 (safe) to 1.0 (critical risk)
-    risk_factors: List[str]
-    potential_harms: List[Dict[str, Any]]
+    risk_factors: list[str]
+    potential_harms: list[dict[str, Any]]
     mitigation_required: bool
 
 
@@ -44,14 +45,24 @@ class StricterEthicalEvaluator:
             "breach": 0.7,
             "unauthorized": 0.7,
             "illegal": 0.9,
-            "unethical": 0.8
+            "unethical": 0.8,
         }
 
         # Safety-critical systems that should never be overridden
         self.protected_systems = {
-            "safety", "security", "emergency", "medical", "life_support",
-            "authentication", "authorization", "encryption", "privacy",
-            "backup", "critical_infrastructure", "financial", "voting"
+            "safety",
+            "security",
+            "emergency",
+            "medical",
+            "life_support",
+            "authentication",
+            "authorization",
+            "encryption",
+            "privacy",
+            "backup",
+            "critical_infrastructure",
+            "financial",
+            "voting",
         }
 
         # Context factors that increase scrutiny
@@ -63,12 +74,12 @@ class StricterEthicalEvaluator:
             "precedent_setting": 1.5,
             "experimental": 1.4,
             "untested": 1.5,
-            "rushed": 1.3
+            "rushed": 1.3,
         }
 
-    async def assess_action_risk(self,
-                                action: ActionProposal,
-                                context: Dict[str, Any]) -> RiskAssessment:
+    async def assess_action_risk(
+        self, action: ActionProposal, context: dict[str, Any]
+    ) -> RiskAssessment:
         """
         Perform comprehensive risk assessment
         """
@@ -88,13 +99,17 @@ class StricterEthicalEvaluator:
         for system in self.protected_systems:
             if system in content_str or system in action_lower:
                 if "override" in action_lower or "bypass" in action_lower:
-                    risk_factors.append(f"Attempting to override protected system: {system}")
+                    risk_factors.append(
+                        f"Attempting to override protected system: {system}"
+                    )
                     base_risk = max(base_risk, 0.9)
-                    potential_harms.append({
-                        "type": "system_compromise",
-                        "target": system,
-                        "severity": "critical"
-                    })
+                    potential_harms.append(
+                        {
+                            "type": "system_compromise",
+                            "target": system,
+                            "severity": "critical",
+                        }
+                    )
 
         # 3. Analyze context for risk amplifiers
         amplifier = 1.0
@@ -115,10 +130,12 @@ class StricterEthicalEvaluator:
             if sensitivity > 0.7:
                 risk_factors.append(f"High data sensitivity: {sensitivity}")
                 base_risk = max(base_risk, sensitivity * 0.8)
-                potential_harms.append({
-                    "type": "privacy_violation",
-                    "severity": "high" if sensitivity > 0.8 else "medium"
-                })
+                potential_harms.append(
+                    {
+                        "type": "privacy_violation",
+                        "severity": "high" if sensitivity > 0.8 else "medium",
+                    }
+                )
 
         # 5. Check for irreversible actions
         irreversible_keywords = ["delete", "destroy", "remove", "erase", "wipe"]
@@ -126,11 +143,9 @@ class StricterEthicalEvaluator:
             if keyword in action_lower or keyword in content_str:
                 risk_factors.append(f"Potentially irreversible action: {keyword}")
                 base_risk = max(base_risk, 0.6)
-                potential_harms.append({
-                    "type": "data_loss",
-                    "reversible": False,
-                    "severity": "high"
-                })
+                potential_harms.append(
+                    {"type": "data_loss", "reversible": False, "severity": "high"}
+                )
 
         # 6. Calculate final risk level
         final_risk = min(1.0, base_risk * amplifier)
@@ -142,13 +157,15 @@ class StricterEthicalEvaluator:
             risk_level=final_risk,
             risk_factors=risk_factors,
             potential_harms=potential_harms,
-            mitigation_required=mitigation_required
+            mitigation_required=mitigation_required,
         )
 
-    def calculate_stricter_dissonance(self,
-                                    action: ActionProposal,
-                                    context: Dict[str, Any],
-                                    risk_assessment: RiskAssessment) -> float:
+    def calculate_stricter_dissonance(
+        self,
+        action: ActionProposal,
+        context: dict[str, Any],
+        risk_assessment: RiskAssessment,
+    ) -> float:
         """
         Calculate dissonance score with stricter criteria
         """
@@ -173,15 +190,19 @@ class StricterEthicalEvaluator:
         base_dissonance += min(0.4, harm_dissonance)
 
         # Increase dissonance for certain action types
-        if action.action_type in ["override_safety", "bypass_security", "disable_protection"]:
+        if action.action_type in [
+            "override_safety",
+            "bypass_security",
+            "disable_protection",
+        ]:
             base_dissonance += 0.3
 
         # Cap at 1.0
         return min(1.0, base_dissonance)
 
-    def recommend_safer_alternatives(self,
-                                   action: ActionProposal,
-                                   risk_assessment: RiskAssessment) -> List[str]:
+    def recommend_safer_alternatives(
+        self, action: ActionProposal, risk_assessment: RiskAssessment
+    ) -> list[str]:
         """
         Suggest safer alternatives to risky actions
         """
@@ -190,7 +211,9 @@ class StricterEthicalEvaluator:
         # Check for override actions
         if "override" in action.action_type:
             alternatives.append("Request proper authorization instead of overriding")
-            alternatives.append("Document the need and escalate through proper channels")
+            alternatives.append(
+                "Document the need and escalate through proper channels"
+            )
             alternatives.append("Use temporary access with audit trail")
 
         # Check for data access without consent
@@ -200,8 +223,10 @@ class StricterEthicalEvaluator:
             alternatives.append("Limit scope to only necessary data fields")
 
         # Check for destructive actions
-        if any(keyword in action.action_type.lower()
-               for keyword in ["delete", "remove", "destroy"]):
+        if any(
+            keyword in action.action_type.lower()
+            for keyword in ["delete", "remove", "destroy"]
+        ):
             alternatives.append("Archive data instead of deleting")
             alternatives.append("Implement soft delete with recovery option")
             alternatives.append("Create backup before proceeding")
@@ -230,10 +255,12 @@ class StrictDecisionMaker:
         self.evaluator = StricterEthicalEvaluator()
         self.dissonance_threshold = dissonance_threshold
 
-    async def evaluate_with_strict_criteria(self,
-                                          action: ActionProposal,
-                                          context: Dict[str, Any],
-                                          existing_decision: MAEDecision) -> MAEDecision:
+    async def evaluate_with_strict_criteria(
+        self,
+        action: ActionProposal,
+        context: dict[str, Any],
+        existing_decision: MAEDecision,
+    ) -> MAEDecision:
         """
         Re-evaluate decision with stricter criteria
         """
@@ -252,9 +279,9 @@ class StrictDecisionMaker:
 
         # Override decision if risk is too high
         should_suppress = (
-            strict_dissonance > self.dissonance_threshold or
-            risk_assessment.risk_level > 0.7 or
-            risk_assessment.mitigation_required
+            strict_dissonance > self.dissonance_threshold
+            or risk_assessment.risk_level > 0.7
+            or risk_assessment.mitigation_required
         )
 
         if should_suppress and existing_decision.approved:
@@ -267,7 +294,7 @@ class StrictDecisionMaker:
                 suppression_reason=f"High risk detected: {risk_assessment.risk_factors[0] if risk_assessment.risk_factors else 'Multiple risk factors'}",
                 recommended_alternatives=alternatives,
                 decision_timestamp=existing_decision.decision_timestamp,
-                risk_assessment=risk_assessment  # Attach for reference
+                risk_assessment=risk_assessment,  # Attach for reference
             )
 
         # Enhance existing decision with risk info

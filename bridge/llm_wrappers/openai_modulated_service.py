@@ -31,6 +31,7 @@ from orchestration.signals.homeostasis import (
     SystemEvent,
 )
 from orchestration.signals.modulator import PromptModulation, PromptModulator
+from lukhas_pwm.branding.terminology import normalize_output, normalize_chunk
 from orchestration.signals.signal_bus import Signal, get_signal_bus
 
 from .unified_openai_client import UnifiedOpenAIClient
@@ -123,12 +124,25 @@ class OpenAIModulatedService:
         # Pre-moderation via Guardian
         self._pre_moderation_check(modulation)
 
-        # Prepare API request from modulation
+        # Prepare API request from modulation (add brand guidance to preamble)
         api_payload = modulation.to_api_format()
         messages = api_payload.pop("messages")
         max_tokens = api_payload.pop("max_tokens", None)
         temperature = api_payload.pop("temperature", None)
         metadata = api_payload.pop("metadata", {})
+
+        # Append lightweight brand/terminology guidance to system preamble
+        try:
+            if messages and messages[0].get("role") == "system":
+                sys_c = messages[0].get("content") or ""
+                guidance = (
+                    "\nWhen describing methods, prefer 'quantum-inspired' and 'bio-inspired'. "
+                    "Refer to the project as 'Lukhas AI'."
+                )
+                if guidance not in sys_c:
+                    messages[0]["content"] = f"{sys_c}{guidance}"
+        except Exception:
+            pass
 
         # Build tools from allowlist
         openai_tools = []
@@ -313,13 +327,15 @@ class OpenAIModulatedService:
         # Post-moderation via Guardian
         self._post_moderation_check(cast(dict[str, Any], response))
 
-        # Normalize output
+        # Normalize output terminology
         content = None
         try:
             resp_dict = cast(dict[str, Any], response)
-            content = resp_dict["choices"][0]["message"]["content"]
+            content = normalize_output(
+                resp_dict["choices"][0]["message"].get("content")
+            )
         except Exception:
-            content = str(response)
+            content = normalize_output(str(response))
 
         # Basic metrics log
         with contextlib.suppress(Exception):
@@ -420,10 +436,10 @@ class OpenAIModulatedService:
             async def _once():
                 try:
                     si = cast(dict[str, Any], stream_iter)
-                    text = si["choices"][0]["message"]["content"]
+                    text = normalize_output(si["choices"][0]["message"].get("content"))
                 except Exception:  # pragma: no cover
-                    text = str(stream_iter)
-                yield text
+                    text = normalize_output(str(stream_iter))
+                yield text or ""
 
             return _once()
 
@@ -440,8 +456,9 @@ class OpenAIModulatedService:
                 except Exception:
                     piece = ""
                 if piece:
-                    buffer.append(piece)
-                    yield piece
+                    npiece = normalize_chunk(piece)
+                    buffer.append(npiece)
+                    yield npiece
             # Post moderation on full text (best-effort)
             full = "".join(buffer)
             try:
@@ -654,7 +671,8 @@ async def _run_modulated_completion_impl(
             client = _U()
 
     # Create modulated service
-    service = OpenAIModulatedService(client=client)
+    service = OpenAIModulatedService()
+    service.client = cast(Any, client)  # type: ignore[assignment]
 
     # Build signals
     signals = []

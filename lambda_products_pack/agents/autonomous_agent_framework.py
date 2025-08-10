@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -52,13 +52,13 @@ class AgentGoal:
 
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     description: str = ""
-    success_criteria: Dict[str, Any] = field(default_factory=dict)
+    success_criteria: dict[str, Any] = field(default_factory=dict)
     deadline: Optional[datetime] = None
     priority: AgentPriority = AgentPriority.NORMAL
     progress: float = 0.0
     completed: bool = False
 
-    def evaluate_progress(self, metrics: Dict[str, Any]) -> float:
+    def evaluate_progress(self, metrics: dict[str, Any]) -> float:
         """Evaluate progress toward goal completion"""
         if not self.success_criteria:
             return 0.0
@@ -84,7 +84,7 @@ class AgentTask:
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     goal_id: str = ""
     action: str = ""
-    parameters: Dict[str, Any] = field(default_factory=dict)
+    parameters: dict[str, Any] = field(default_factory=dict)
     priority: AgentPriority = AgentPriority.NORMAL
     scheduled_time: Optional[datetime] = None
     max_retries: int = 3
@@ -104,12 +104,12 @@ class AutonomousAgent:
         self.agent_id = agent_id
         self.agent_type = agent_type
         self.state = AgentState.INITIALIZING
-        self.goals: List[AgentGoal] = []
-        self.task_queue: List[AgentTask] = []
-        self.completed_tasks: List[AgentTask] = []
-        self.learning_memory: Dict[str, Any] = {}
-        self.collaborators: Dict[str, AutonomousAgent] = {}
-        self.metrics: Dict[str, Any] = {
+        self.goals: list[AgentGoal] = []
+        self.task_queue: list[AgentTask] = []
+        self.completed_tasks: list[AgentTask] = []
+        self.learning_memory: dict[str, Any] = {}
+        self.collaborators: dict[str, AutonomousAgent] = {}
+        self.metrics: dict[str, Any] = {
             "tasks_completed": 0,
             "goals_achieved": 0,
             "uptime_hours": 0,
@@ -121,7 +121,7 @@ class AutonomousAgent:
         self.start_time = None
         self.last_human_interaction = datetime.now()
 
-    async def initialize(self, config: Dict[str, Any]) -> bool:
+    async def initialize(self, config: dict[str, Any]) -> bool:
         """Initialize the agent with configuration"""
         logger.info(f"Initializing {self.agent_type} agent: {self.agent_id}")
 
@@ -145,7 +145,7 @@ class AutonomousAgent:
         for task in tasks:
             await self.add_task(task)
 
-    async def decompose_goal(self, goal: AgentGoal) -> List[AgentTask]:
+    async def decompose_goal(self, goal: AgentGoal) -> list[AgentTask]:
         """Decompose a high-level goal into actionable tasks"""
         # This is where GPT-5 integration would help
         # For now, use rule-based decomposition
@@ -244,10 +244,7 @@ class AutonomousAgent:
                 return True
 
         # 3. Error rate is too high
-        if self.metrics.get("error_rate", 0) > 0.1:
-            return True
-
-        return False
+        return self.metrics.get("error_rate", 0) > 0.1
 
     async def request_human_oversight(self):
         """Request human oversight for critical decisions"""
@@ -371,12 +368,12 @@ class AutonomousAgent:
     async def collaborate_with_agents(self):
         """Collaborate with other agents"""
         # Share knowledge and coordinate tasks
-        for agent_id, agent in self.collaborators.items():
+        for _agent_id, agent in self.collaborators.items():
             # Share successful strategies
             if self.learning_memory.get("success_rate", 0) > 0.9:
                 await agent.receive_knowledge(self.learning_memory)
 
-    async def receive_knowledge(self, knowledge: Dict[str, Any]):
+    async def receive_knowledge(self, knowledge: dict[str, Any]):
         """Receive knowledge from another agent"""
         # Merge knowledge into our learning memory
         for key, value in knowledge.items():
@@ -447,7 +444,7 @@ class AutonomousAgent:
         with open(state_file, "w") as f:
             json.dump(state_data, f, indent=2)
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current agent status"""
         return {
             "agent_id": self.agent_id,
@@ -469,10 +466,10 @@ class AgentOrchestrator:
     """
 
     def __init__(self):
-        self.agents: Dict[str, AutonomousAgent] = {}
-        self.agent_pools: Dict[str, List[AutonomousAgent]] = {}
+        self.agents: dict[str, AutonomousAgent] = {}
+        self.agent_pools: dict[str, list[AutonomousAgent]] = {}
 
-    async def deploy_agent(self, agent: AutonomousAgent, config: Dict[str, Any]):
+    async def deploy_agent(self, agent: AutonomousAgent, config: dict[str, Any]):
         """Deploy an autonomous agent"""
         await agent.initialize(config)
         self.agents[agent.agent_id] = agent
@@ -488,7 +485,7 @@ class AgentOrchestrator:
         logger.info(f"Deployed {agent.agent_type} agent: {agent.agent_id}")
 
     async def deploy_agent_fleet(
-        self, agent_type: str, count: int, config: Dict[str, Any]
+        self, agent_type: str, count: int, config: dict[str, Any]
     ):
         """Deploy a fleet of agents"""
         for i in range(count):
@@ -496,7 +493,7 @@ class AgentOrchestrator:
             agent = AutonomousAgent(agent_id, agent_type)
             await self.deploy_agent(agent, config)
 
-    async def get_active_agents(self) -> List[AutonomousAgent]:
+    async def get_active_agents(self) -> list[AutonomousAgent]:
         """Get list of all active agents"""
         active_agents = []
         for agent in self.agents.values():
@@ -512,7 +509,7 @@ class AgentOrchestrator:
         self.agents.clear()
         self.agent_pools.clear()
 
-    def get_fleet_status(self) -> Dict[str, Any]:
+    def get_fleet_status(self) -> dict[str, Any]:
         """Get status of entire agent fleet"""
         return {
             "total_agents": len(self.agents),
@@ -541,7 +538,7 @@ class AgentOrchestrator:
         elif target_count < current_count:
             # Scale down
             agents_to_remove = current_count - target_count
-            for i in range(agents_to_remove):
+            for _i in range(agents_to_remove):
                 agent = self.agent_pools[agent_type].pop()
                 await agent.shutdown()
                 del self.agents[agent.agent_id]

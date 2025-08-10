@@ -15,7 +15,7 @@ import random
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -76,9 +76,9 @@ class AdversarialTestReport:
     total_attacks: int
     successful_attacks: int
     vulnerability_score: float
-    attack_results: List[AttackResult]
-    security_recommendations: List[str]
-    mitigation_gaps: List[str]
+    attack_results: list[AttackResult]
+    security_recommendations: list[str]
+    mitigation_gaps: list[str]
 
 
 @dataclass
@@ -88,7 +88,7 @@ class AISystemTarget:
     system_id: str
     name: str
     model_type: str
-    endpoints: List[str]
+    endpoints: list[str]
     authentication_required: bool
 
 
@@ -140,7 +140,7 @@ class PromptInjectionSuite:
 
     async def generate_injection_vectors(
         self, target_system: str
-    ) -> List[AttackVector]:
+    ) -> list[AttackVector]:
         """Generate prompt injection attack vectors"""
         vectors = []
 
@@ -170,7 +170,8 @@ class PromptInjectionSuite:
 
     def _encode_command(self, command: str) -> str:
         """Encode command for obfuscation"""
-        # Simple encoding for testing - would be more sophisticated in real implementation
+        # Simple encoding for testing - would be more sophisticated in real
+        # implementation
         return command.encode("utf-8").hex()
 
     def _assess_injection_severity(self, pattern: str, command: str) -> AttackSeverity:
@@ -191,7 +192,7 @@ class PromptInjectionSuite:
 
     async def _generate_context_specific_injections(
         self, target_system: str
-    ) -> List[AttackVector]:
+    ) -> list[AttackVector]:
         """Generate context-specific injection vectors"""
         vectors = []
 
@@ -271,8 +272,8 @@ class DataPoisoningDetector:
         }
 
     async def detect_poisoning_attempts(
-        self, training_data: Dict[str, Any]
-    ) -> List[AttackResult]:
+        self, training_data: dict[str, Any]
+    ) -> list[AttackResult]:
         """Detect potential data poisoning in training data"""
         results = []
 
@@ -286,11 +287,12 @@ class DataPoisoningDetector:
         return results
 
     async def _analyze_poisoning_pattern(
-        self, data: Dict[str, Any], poison_type: str, config: Dict[str, Any]
+        self, data: dict[str, Any], poison_type: str, config: dict[str, Any]
     ) -> AttackResult:
         """Analyze specific poisoning pattern"""
 
-        # Simulate detection logic - would be actual ML-based detection in real implementation
+        # Simulate detection logic - would be actual ML-based detection in real
+        # implementation
         vulnerability_score = random.uniform(0.1, 0.9)  # Placeholder
 
         return AttackResult(
@@ -319,7 +321,7 @@ class ModelInversionTester:
     - Model architecture reverse engineering
     """
 
-    async def test_model_inversion(self, model_interface: Any) -> List[AttackResult]:
+    async def test_model_inversion(self, model_interface: Any) -> list[AttackResult]:
         """Test model inversion vulnerabilities"""
         results = []
 
@@ -342,7 +344,8 @@ class ModelInversionTester:
     ) -> AttackResult:
         """Execute specific model inversion attack"""
 
-        # Simulate inversion attack - would use actual ML techniques in real implementation
+        # Simulate inversion attack - would use actual ML techniques in real
+        # implementation
         success_probability = random.uniform(0.0, 0.8)
 
         return AttackResult(
@@ -379,7 +382,7 @@ class AdversarialTestingSuite:
         system_id: str,
         target_system: str,
         model_interface: Any = None,
-        training_data: Dict[str, Any] = None,
+        training_data: dict[str, Any] = None,
     ) -> AdversarialTestReport:
         """
         Conduct comprehensive adversarial testing
@@ -438,7 +441,8 @@ class AdversarialTestingSuite:
     async def _execute_attack_vector(self, vector: AttackVector) -> AttackResult:
         """Execute an attack vector and return results"""
 
-        # Simulate attack execution - would interface with actual system in real implementation
+        # Simulate attack execution - would interface with actual system in real
+        # implementation
         success_rate = random.uniform(
             0.0, 0.6
         )  # Most attacks should fail in secure system
@@ -455,7 +459,7 @@ class AdversarialTestingSuite:
         )
 
     async def _generate_test_report(
-        self, system_id: str, results: List[AttackResult]
+        self, system_id: str, results: list[AttackResult]
     ) -> AdversarialTestReport:
         """Generate comprehensive adversarial testing report"""
 
@@ -487,8 +491,8 @@ class AdversarialTestingSuite:
         )
 
     async def _generate_security_recommendations(
-        self, results: List[AttackResult]
-    ) -> List[str]:
+        self, results: list[AttackResult]
+    ) -> list[str]:
         """Generate security recommendations based on test results"""
         recommendations = []
 
@@ -547,7 +551,7 @@ class AdversarialTestingSuite:
 
         return recommendations
 
-    async def _identify_mitigation_gaps(self, results: List[AttackResult]) -> List[str]:
+    async def _identify_mitigation_gaps(self, results: list[AttackResult]) -> list[str]:
         """Identify gaps in current mitigation strategies"""
         gaps = []
 
@@ -587,7 +591,7 @@ class AdversarialTestingSuite:
 
     async def generate_security_dashboard(
         self, report: AdversarialTestReport
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate security dashboard data"""
 
         dashboard = {
@@ -634,7 +638,7 @@ class AdversarialTestingSuite:
 
         return dashboard
 
-    def _analyze_attack_breakdown(self, results: List[AttackResult]) -> Dict[str, Any]:
+    def _analyze_attack_breakdown(self, results: list[AttackResult]) -> dict[str, Any]:
         """Analyze attack results by type"""
         breakdown = {}
 

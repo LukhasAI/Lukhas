@@ -14,6 +14,7 @@ from pathlib import Path
 
 DREAM_LOG_PATH = Path("core/logs/dream_log.jsonl")
 
+
 def print_dream_log_summary(limit=10):
     if not DREAM_LOG_PATH.exists():
         print("⚠️  No dream log found at:", DREAM_LOG_PATH)
@@ -29,14 +30,17 @@ def print_dream_log_summary(limit=10):
             entry = json.loads(line.strip())
             print(f"🌀 {entry['timestamp']} | ID: {entry['message_id']}")
             print(f"    Tags: {', '.join(entry.get('tags', []))}")
-            print(f"    Tier: {entry.get('context_tier', '?')} | Widget: {entry.get('source_widget', '?')}")
+            print(
+                f"    Tier: {entry.get('context_tier', '?')} | Widget: {entry.get('source_widget', '?')}")
             emo = entry.get("emotion_vector", {})
-            print(f"    Emotions -> Joy: {emo.get('joy', 0)} | Stress: {emo.get('stress', 0)} | Calm: {emo.get('calm', 0)} | Longing: {emo.get('longing', 0)}\n")
+            print(
+                f"    Emotions -> Joy: {emo.get('joy', 0)} | Stress: {emo.get('stress', 0)} | Calm: {emo.get('calm', 0)} | Longing: {emo.get('longing', 0)}\n")
             emoji = entry.get("emoji")
             if emoji:
                 print(f"    Symbolic Emoji -> {emoji}\n")
         except Exception as e:
             print("❌ Could not parse log entry:", e)
+
 
 if __name__ == "__main__":
     print_dream_log_summary(limit=5)

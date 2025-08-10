@@ -2,7 +2,7 @@
 Orchestration Bridge - Connects brain components to consciousness module
 """
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -21,7 +21,7 @@ class OrchestrationBridge:
         self.brain_components[name] = component
         logger.info(f"Registered brain component: {name}")
 
-    def think(self, thought: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    def think(self, thought: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Process a thought through brain components"""
         # Route through relevant brain components
         results = {}

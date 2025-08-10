@@ -23,7 +23,7 @@
 """
 
 import asyncio
-from typing import Any, Dict
+from typing import Any
 
 from consciousness.reflection.unified_memory_manager import (
     EnhancedMemoryManager,
@@ -68,9 +68,8 @@ class EnhancedMemoryIntegration:
         centralized data processing.
         """
         # Extend the engine's memory processing
-        original_process_memory = engine._process_memory
 
-        async def enhanced_process_memory(data: Any) -> Dict[str, Any]:
+        async def enhanced_process_memory(data: Any) -> dict[str, Any]:
             """Enhanced memory processing with hybrid fold"""
             # Extract tags and context
             tags = self._extract_tags(data)
@@ -180,7 +179,7 @@ class EnhancedMemoryIntegration:
                 # Default to tag-based
                 return await self.hybrid_memory.fold_out_by_tag(query)
 
-            async def analyze_patterns(self) -> Dict[str, Any]:
+            async def analyze_patterns(self) -> dict[str, Any]:
                 """Analyze memory patterns and connections"""
                 stats = self.hybrid_memory.get_enhanced_statistics()
 
@@ -204,7 +203,7 @@ class EnhancedMemoryIntegration:
 
                 # Content-based tags
                 if isinstance(data, dict):
-                    tags.extend([f"key:{k}" for k in data.keys()][:5])
+                    tags.extend([f"key:{k}" for k in data][:5])
                 elif isinstance(data, str):
                     # Simple keyword extraction
                     words = data.lower().split()[:10]
@@ -212,13 +211,13 @@ class EnhancedMemoryIntegration:
 
                 return tags
 
-            def _analyze_tag_clusters(self) -> Dict[str, int]:
+            def _analyze_tag_clusters(self) -> dict[str, int]:
                 """Analyze tag co-occurrence patterns"""
                 clusters = {}
                 # Implementation would analyze tag relationships
                 return clusters
 
-            def _analyze_attention_patterns(self) -> Dict[str, float]:
+            def _analyze_attention_patterns(self) -> dict[str, float]:
                 """Analyze attention distribution patterns"""
                 patterns = {}
                 # Implementation would track attention patterns over time

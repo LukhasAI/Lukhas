@@ -20,7 +20,7 @@ import logging
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 # Configure logging
 logging.basicConfig(
@@ -99,11 +99,11 @@ class EnhancedLUKHASDocumentationOrchestrator:
 
         # 1. Analyze current ecosystem state
         logger.info("📊 Analyzing LUKHAS ecosystem with ΛEasyDoc...")
-        changes = await self.change_detector.detect_changes()
+        await self.change_detector.detect_changes()
 
         # 2. Generate intelligent documentation gaps analysis
         logger.info("🔍 Detecting documentation gaps...")
-        gaps = await self.enhanced_generator.analyze_documentation_gaps(
+        await self.enhanced_generator.analyze_documentation_gaps(
             target_path=str(self.workspace_root)
         )
 
@@ -138,7 +138,7 @@ class EnhancedLUKHASDocumentationOrchestrator:
         logger.info("✅ Enhanced LUKHAS Ecosystem Documentation Generation Complete!")
         logger.info(f"📂 Documentation saved to: {self.output_dir}")
 
-    async def _create_intelligent_structure(self) -> Dict[str, Any]:
+    async def _create_intelligent_structure(self) -> dict[str, Any]:
         """Create documentation structure optimized by ΛEasyDoc."""
         return {
             "ecosystem_overview": {
@@ -232,7 +232,7 @@ class EnhancedLUKHASDocumentationOrchestrator:
         }
 
     async def _generate_intelligent_content(
-        self, section_id: str, filename: str, section_info: Dict[str, Any]
+        self, section_id: str, filename: str, section_info: dict[str, Any]
     ) -> str:
         """Generate content using ΛEasyDoc's intelligent capabilities."""
 

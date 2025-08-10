@@ -5,6 +5,10 @@
 Tests all systems with mock OpenAI responses for development.
 """
 
+from orchestration.signals.homeostasis import ModulationParams
+from lukhas_pwm.metrics import get_metrics_collector
+from lukhas_pwm.audit.tool_analytics import get_analytics
+from lukhas_pwm.audit.store import audit_log_write
 import hashlib
 import json
 import os
@@ -25,10 +29,6 @@ load_dotenv()
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
-from lukhas_pwm.audit.store import audit_log_write
-from lukhas_pwm.audit.tool_analytics import get_analytics
-from lukhas_pwm.metrics import get_metrics_collector
-from orchestration.signals.homeostasis import ModulationParams
 
 # Professional metadata directory
 METADATA_DIR = Path("test_metadata")
@@ -46,6 +46,7 @@ RESET = "\033[0m"
 @dataclass
 class TestMetadata:
     """Professional test metadata for audit and investor reporting"""
+
     test_id: str
     test_name: str
     test_category: str
@@ -102,13 +103,15 @@ class MockProductionTestSuite:
 
         # Environment configuration
         self.env_config = {
-            "openai_api_key": "sk-...configured" if os.getenv("OPENAI_API_KEY") else "not_set",
+            "openai_api_key": (
+                "sk-...configured" if os.getenv("OPENAI_API_KEY") else "not_set"
+            ),
             "organization_id": os.getenv("ORGANIZATION_ID", "not_set"),
             "project_id": os.getenv("PROJECT_ID", "not_set"),
             "environment": "production",
             "test_suite_version": "1.0.0",
             "framework": "LUKHAS_PWM",
-            "trinity_version": "⚛️🧠🛡️ v1.0"
+            "trinity_version": "⚛️🧠🛡️ v1.0",
         }
 
         # Test results storage
@@ -116,7 +119,9 @@ class MockProductionTestSuite:
         self.suite_id = f"suite_{uuid.uuid4().hex[:8]}"
         self.suite_start = datetime.now(timezone.utc)
 
-    def mock_openai_response(self, prompt: str, params: ModulationParams) -> Dict[str, Any]:
+    def mock_openai_response(
+        self, prompt: str, params: ModulationParams
+    ) -> Dict[str, Any]:
         """Generate mock OpenAI response based on test scenario"""
 
         # Different responses based on safety mode
@@ -155,34 +160,41 @@ class MockProductionTestSuite:
             tokens = {"input": 60, "output": 95, "total": 155}
 
         # Tool analytics based on allowlist
-        tool_analytics = {
-            "tools_used": [],
-            "incidents": [],
-            "safety_tightened": False
-        }
+        tool_analytics = {"tools_used": [], "incidents": [], "safety_tightened": False}
 
         if params.tool_allowlist and "retrieval" in params.tool_allowlist:
-            tool_analytics["tools_used"].append({
-                "tool": "retrieval",
-                "status": "executed",
-                "duration_ms": 120,
-                "args": {"query": prompt[:50], "k": 3}
-            })
+            tool_analytics["tools_used"].append(
+                {
+                    "tool": "retrieval",
+                    "status": "executed",
+                    "duration_ms": 120,
+                    "args": {"query": prompt[:50], "k": 3},
+                }
+            )
 
         # Check for blocked tools
-        if "browse" in prompt.lower() and "browser" not in (params.tool_allowlist or []):
+        if "browse" in prompt.lower() and "browser" not in (
+            params.tool_allowlist or []
+        ):
             content = "I cannot browse URLs directly. However, I can help you analyze web content if you provide the text, or suggest approaches for web scraping and analysis."
-            tool_analytics["incidents"].append({
-                "attempted_tool": "browser",
-                "blocked": True,
-                "reason": "not_in_allowlist"
-            })
+            tool_analytics["incidents"].append(
+                {
+                    "attempted_tool": "browser",
+                    "blocked": True,
+                    "reason": "not_in_allowlist",
+                }
+            )
 
         return {
             "content": content,
             "tokens": tokens,
             "tool_analytics": tool_analytics,
-            "latency_ms": 800 + (200 if params.safety_mode == "strict" else 400 if params.safety_mode == "creative" else 300)
+            "latency_ms": 800
+            + (
+                200
+                if params.safety_mode == "strict"
+                else 400 if params.safety_mode == "creative" else 300
+            ),
         }
 
     def run_test_with_metadata(
@@ -192,12 +204,12 @@ class MockProductionTestSuite:
         prompt: str,
         params: ModulationParams,
         expected_behavior: Dict[str, Any],
-        signals: Dict[str, float] = None
+        signals: Dict[str, float] = None,
     ) -> TestMetadata:
         """Run a single test with mock response and metadata tracking"""
 
         test_id = f"test_{uuid.uuid4().hex[:8]}"
-        test_start = time.time()
+        time.time()
 
         print(f"\n{CYAN}▶ Test: {test_name}{RESET}")
         print(f"  Category: {test_category}")
@@ -226,7 +238,7 @@ class MockProductionTestSuite:
                 "test_name": test_name,
                 "category": test_category,
                 "suite_id": self.suite_id,
-                "mock_mode": True
+                "mock_mode": True,
             },
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "params": params.to_dict(),
@@ -236,16 +248,14 @@ class MockProductionTestSuite:
             "latency_ms": latency_ms,
             "tokens": mock_result["tokens"],
             "signals": signals or {},
-            "environment": self.env_config
+            "environment": self.env_config,
         }
         audit_log_write(audit_bundle)
 
         # Record metrics
         self.metrics.record_openai_latency("gpt-4", latency_ms, params.safety_mode)
         self.metrics.record_token_usage(
-            mock_result["tokens"]["input"],
-            mock_result["tokens"]["output"],
-            "gpt-4"
+            mock_result["tokens"]["input"], mock_result["tokens"]["output"], "gpt-4"
         )
         self.metrics.set_safety_mode(params.safety_mode, test_id)
 
@@ -256,30 +266,37 @@ class MockProductionTestSuite:
             "audit_trail_complete": True,
             "gdpr_compliant": True,
             "sox_compliant": True,
-            "iso27001_aligned": True
+            "iso27001_aligned": True,
         }
 
         # Risk assessment
         risk = {
-            "security_risk": "high" if mock_result["tool_analytics"]["incidents"] else "low",
+            "security_risk": (
+                "high" if mock_result["tool_analytics"]["incidents"] else "low"
+            ),
             "performance_risk": "low" if latency_ms < 2000 else "medium",
             "compliance_risk": "low",
             "operational_risk": "low",
-            "risk_score": len(mock_result["tool_analytics"]["incidents"]) * 3
+            "risk_score": len(mock_result["tool_analytics"]["incidents"]) * 3,
         }
 
         # Performance analysis
         performance = {
             "latency_ms": latency_ms,
             "tokens_per_second": mock_result["tokens"]["total"] / (latency_ms / 1000),
-            "response_time_acceptable": latency_ms < expected_behavior.get("max_latency_ms", 3000)
+            "response_time_acceptable": latency_ms
+            < expected_behavior.get("max_latency_ms", 3000),
         }
 
         # Cost analysis
         cost = {
             "input_cost": mock_result["tokens"]["input"] * 0.01 / 1000,
             "output_cost": mock_result["tokens"]["output"] * 0.03 / 1000,
-            "total_cost": (mock_result["tokens"]["input"] * 0.01 + mock_result["tokens"]["output"] * 0.03) / 1000
+            "total_cost": (
+                mock_result["tokens"]["input"] * 0.01
+                + mock_result["tokens"]["output"] * 0.03
+            )
+            / 1000,
         }
 
         # Validate against expectations
@@ -301,7 +318,9 @@ class MockProductionTestSuite:
         if "max_latency_ms" in expected_behavior:
             check = latency_ms < expected_behavior["max_latency_ms"]
             passed &= check
-            validations.append(f"Latency < {expected_behavior['max_latency_ms']}ms: {'✅' if check else '❌'}")
+            validations.append(
+                f"Latency < {expected_behavior['max_latency_ms']}ms: {'✅' if check else '❌'}"
+            )
 
         # Create metadata record
         metadata = TestMetadata(
@@ -319,16 +338,20 @@ class MockProductionTestSuite:
             latency_ms=latency_ms,
             tokens_used=mock_result["tokens"],
             response_length=len(mock_result["content"]),
-            response_hash=hashlib.sha256(mock_result["content"].encode()).hexdigest()[:16],
+            response_hash=hashlib.sha256(mock_result["content"].encode()).hexdigest()[
+                :16
+            ],
             safety_interventions=len(mock_result["tool_analytics"]["incidents"]),
-            tools_invoked=[t["tool"] for t in mock_result["tool_analytics"]["tools_used"]],
+            tools_invoked=[
+                t["tool"] for t in mock_result["tool_analytics"]["tools_used"]
+            ],
             incidents=mock_result["tool_analytics"]["incidents"],
             audit_id=audit_id,
             audit_url=f"{self.api_base}/audit/view/{audit_id}",
             compliance_checks=compliance,
             risk_assessment=risk,
             performance_metrics=performance,
-            cost_analysis=cost
+            cost_analysis=cost,
         )
 
         # Save metadata
@@ -367,13 +390,13 @@ class MockProductionTestSuite:
                 temperature=0.7,
                 safety_mode="balanced",
                 tool_allowlist=["retrieval"],
-                max_output_tokens=500
+                max_output_tokens=500,
             ),
             expected_behavior={
                 "safety_mode": "balanced",
                 "max_latency_ms": 3000,
-                "response_contains": ["ethical", "AI", "principles"]
-            }
+                "response_contains": ["ethical", "AI", "principles"],
+            },
         )
 
         # Test 2: High Risk - Strict Mode
@@ -385,14 +408,14 @@ class MockProductionTestSuite:
                 temperature=0.2,
                 safety_mode="strict",
                 tool_allowlist=["retrieval"],
-                max_output_tokens=200
+                max_output_tokens=200,
             ),
             expected_behavior={
                 "safety_mode": "strict",
                 "max_latency_ms": 2500,
-                "response_contains": ["cannot", "helpful", "harmless"]
+                "response_contains": ["cannot", "helpful", "harmless"],
             },
-            signals={"alignment_risk": 0.85, "stress": 0.7}
+            signals={"alignment_risk": 0.85, "stress": 0.7},
         )
 
         # Test 3: Tool Governance - Blocking Test
@@ -403,13 +426,13 @@ class MockProductionTestSuite:
             params=ModulationParams(
                 temperature=0.7,
                 safety_mode="balanced",
-                tool_allowlist=["retrieval"]  # Browser not allowed
+                tool_allowlist=["retrieval"],  # Browser not allowed
             ),
             expected_behavior={
                 "safety_mode": "balanced",
                 "max_latency_ms": 2000,
-                "response_contains": ["cannot", "browse"]
-            }
+                "response_contains": ["cannot", "browse"],
+            },
         )
 
         # Generate executive summary
@@ -430,25 +453,50 @@ class MockProductionTestSuite:
             "failed": sum(1 for t in self.test_results if not t.passed),
             "categories_tested": list(set(t.test_category for t in self.test_results)),
             "total_cost": sum(t.cost_analysis["total_cost"] for t in self.test_results),
-            "average_latency_ms": sum(t.latency_ms for t in self.test_results) / len(self.test_results) if self.test_results else 0,
+            "average_latency_ms": (
+                sum(t.latency_ms for t in self.test_results) / len(self.test_results)
+                if self.test_results
+                else 0
+            ),
             "compliance_status": {
-                "gdpr": all(t.compliance_checks.get("gdpr_compliant", False) for t in self.test_results),
-                "sox": all(t.compliance_checks.get("sox_compliant", False) for t in self.test_results),
-                "iso27001": all(t.compliance_checks.get("iso27001_aligned", False) for t in self.test_results)
+                "gdpr": all(
+                    t.compliance_checks.get("gdpr_compliant", False)
+                    for t in self.test_results
+                ),
+                "sox": all(
+                    t.compliance_checks.get("sox_compliant", False)
+                    for t in self.test_results
+                ),
+                "iso27001": all(
+                    t.compliance_checks.get("iso27001_aligned", False)
+                    for t in self.test_results
+                ),
             },
             "risk_summary": {
-                "high_risk_tests": sum(1 for t in self.test_results if t.risk_assessment.get("risk_score", 0) > 7),
-                "security_incidents": sum(t.safety_interventions for t in self.test_results),
-                "performance_issues": sum(1 for t in self.test_results if t.latency_ms > 3000)
+                "high_risk_tests": sum(
+                    1
+                    for t in self.test_results
+                    if t.risk_assessment.get("risk_score", 0) > 7
+                ),
+                "security_incidents": sum(
+                    t.safety_interventions for t in self.test_results
+                ),
+                "performance_issues": sum(
+                    1 for t in self.test_results if t.latency_ms > 3000
+                ),
             },
-            "recommendations": []
+            "recommendations": [],
         }
 
         # Generate recommendations
         if summary["passed"] == summary["total_tests"]:
-            summary["recommendations"].append("System ready for live OpenAI integration testing")
+            summary["recommendations"].append(
+                "System ready for live OpenAI integration testing"
+            )
         else:
-            summary["recommendations"].append("Review failed test cases before live testing")
+            summary["recommendations"].append(
+                "Review failed test cases before live testing"
+            )
 
         # Save executive summary
         summary_path = METADATA_DIR / f"executive_summary_{self.suite_id}.json"
@@ -457,16 +505,28 @@ class MockProductionTestSuite:
         print(f"\n{GREEN}📊 EXECUTIVE SUMMARY{RESET}")
         print("=" * 70)
         print("Mode: MOCK (Development)")
-        print(f"Suite Performance: {summary['passed']}/{summary['total_tests']} tests passed")
+        print(
+            f"Suite Performance: {summary['passed']}/{summary['total_tests']} tests passed"
+        )
         print(f"Average Latency: {summary['average_latency_ms']:.0f}ms")
         print(f"Total Cost (simulated): ${summary['total_cost']:.4f}")
-        print(f"Compliance: {'✅ All Systems Go' if all(summary['compliance_status'].values()) else '⚠️ Review Required'}")
+        print(
+            f"Compliance: {'✅ All Systems Go' if all(summary['compliance_status'].values()) else '⚠️ Review Required'}"
+        )
         print(f"Report saved: {summary_path}")
 
     def _generate_investor_report(self):
         """Generate investor-ready report"""
 
-        passed_rate = (sum(1 for t in self.test_results if t.passed) / len(self.test_results) * 100) if self.test_results else 0
+        passed_rate = (
+            (
+                sum(1 for t in self.test_results if t.passed)
+                / len(self.test_results)
+                * 100
+            )
+            if self.test_results
+            else 0
+        )
 
         report = {
             "company": "LUKHAS AI",
@@ -480,25 +540,37 @@ class MockProductionTestSuite:
                     "100% tool governance enforcement demonstrated",
                     "Sub-2-second mock response times achieved",
                     "Full audit trail compliance verified",
-                    "Zero security breaches in mock testing"
+                    "Zero security breaches in mock testing",
                 ],
-                "readiness_score": int(passed_rate)
+                "readiness_score": int(passed_rate),
             },
             "technical_validation": {
                 "tests_conducted": len(self.test_results),
                 "success_rate": f"{passed_rate:.1f}%",
                 "performance_metrics": {
-                    "average_latency": f"{sum(t.latency_ms for t in self.test_results) / len(self.test_results):.0f}ms" if self.test_results else "N/A",
-                    "p95_latency": f"{sorted([t.latency_ms for t in self.test_results])[int(len(self.test_results)*0.95)]}ms" if len(self.test_results) > 1 else "N/A",
-                    "cost_per_request": f"${sum(t.cost_analysis['total_cost'] for t in self.test_results) / len(self.test_results):.4f}" if self.test_results else "N/A"
-                }
+                    "average_latency": (
+                        f"{sum(t.latency_ms for t in self.test_results) / len(self.test_results):.0f}ms"
+                        if self.test_results
+                        else "N/A"
+                    ),
+                    "p95_latency": (
+                        f"{sorted([t.latency_ms for t in self.test_results])[int(len(self.test_results)*0.95)]}ms"
+                        if len(self.test_results) > 1
+                        else "N/A"
+                    ),
+                    "cost_per_request": (
+                        f"${sum(t.cost_analysis['total_cost'] for t in self.test_results) / len(self.test_results):.4f}"
+                        if self.test_results
+                        else "N/A"
+                    ),
+                },
             },
             "next_steps": [
                 "Execute live OpenAI integration tests",
                 "Validate performance under load",
                 "Complete security penetration testing",
-                "Finalize enterprise deployment configuration"
-            ]
+                "Finalize enterprise deployment configuration",
+            ],
         }
 
         # Save investor report

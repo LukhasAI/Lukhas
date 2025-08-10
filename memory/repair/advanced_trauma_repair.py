@@ -50,19 +50,17 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 from uuid import uuid4
 
 # Import LUKHAS components
 try:
     from core.symbolism.tags import TagScope
-    from memory.integrity.collapse_hash import CollapseHash, IntegrityStatus
+    from memory.integrity.collapse_hash import IntegrityStatus
     from memory.persistence.orthogonal_persistence import OrthogonalPersistence
     from memory.proteome.symbolic_proteome import (
         PostTranslationalModification,
-        SymbolicProteome,
     )
-    from memory.scaffold.atomic_memory_scaffold import AtomicMemoryScaffold
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:
@@ -125,9 +123,9 @@ class TraumaSignature:
     trauma_id: str = field(default_factory=lambda: str(uuid4()))
     trauma_type: TraumaType = TraumaType.CORRUPTION
     severity: float = 0.5  # 0-1 scale
-    affected_memories: Set[str] = field(default_factory=set)
+    affected_memories: set[str] = field(default_factory=set)
     detection_time: float = field(default_factory=time.time)
-    symptoms: List[str] = field(default_factory=list)
+    symptoms: list[str] = field(default_factory=list)
 
     def calculate_priority(self) -> float:
         """Calculate repair priority based on severity and spread"""
@@ -144,9 +142,9 @@ class RepairScaffold:
 
     scaffold_id: str = field(default_factory=lambda: str(uuid4()))
     target_memory_id: str = ""
-    support_memories: List[str] = field(default_factory=list)
+    support_memories: list[str] = field(default_factory=list)
     repair_strategy: RepairStrategy = RepairStrategy.RECONSTRUCTION
-    integrity_checkpoints: List[Tuple[float, str]] = field(default_factory=list)
+    integrity_checkpoints: list[tuple[float, str]] = field(default_factory=list)
     healing_progress: float = 0.0
 
     def add_checkpoint(self, progress: float, state_hash: str):
@@ -161,8 +159,8 @@ class ImmuneResponse:
 
     response_id: str = field(default_factory=lambda: str(uuid4()))
     threat_signature: str = ""
-    antibodies: Set[str] = field(default_factory=set)  # Patterns to detect threats
-    memory_t_cells: Set[str] = field(default_factory=set)  # Remember past infections
+    antibodies: set[str] = field(default_factory=set)  # Patterns to detect threats
+    memory_t_cells: set[str] = field(default_factory=set)  # Remember past infections
     response_strength: float = 0.5
     activation_time: float = field(default_factory=time.time)
 
@@ -185,7 +183,7 @@ class HelicalRepairMechanism:
 
     async def repair_double_strand_break(
         self, primary_strand: Any, complementary_strand: Optional[Any] = None
-    ) -> Tuple[Any, float]:
+    ) -> tuple[Any, float]:
         """Repair using complementary information"""
 
         if complementary_strand is None:
@@ -244,11 +242,10 @@ class HelicalRepairMechanism:
         # Simplified corruption detection
         if data is None:
             return True
-        if isinstance(data, str) and any(
-            pattern in data.lower() for pattern in ["corrupt", "error", "�"]
-        ):
-            return True
-        return False
+        return bool(
+            isinstance(data, str)
+            and any(pattern in data.lower() for pattern in ["corrupt", "error", "�"])
+        )
 
 
 class TraumaRepairSystem:
@@ -275,13 +272,13 @@ class TraumaRepairSystem:
 
         # Repair components
         self.helical_repair = HelicalRepairMechanism()
-        self.active_traumas: Dict[str, TraumaSignature] = {}
-        self.repair_scaffolds: Dict[str, RepairScaffold] = {}
-        self.immune_responses: Dict[str, ImmuneResponse] = {}
+        self.active_traumas: dict[str, TraumaSignature] = {}
+        self.repair_scaffolds: dict[str, RepairScaffold] = {}
+        self.immune_responses: dict[str, ImmuneResponse] = {}
 
         # Healing history
-        self.healing_log: List[Dict[str, Any]] = []
-        self.scar_tissue: Dict[str, Any] = {}  # Strengthened areas from past trauma
+        self.healing_log: list[dict[str, Any]] = []
+        self.scar_tissue: dict[str, Any] = {}  # Strengthened areas from past trauma
 
         # EMDR-inspired bilateral processing
         self.bilateral_buffer_left: deque = deque(maxlen=10)
@@ -336,7 +333,7 @@ class TraumaRepairSystem:
         self,
         memory_id: str,
         memory_content: Any,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> Optional[TraumaSignature]:
         """Detect trauma in a memory"""
 
@@ -499,7 +496,7 @@ class TraumaRepairSystem:
         return processed_content
 
     async def build_scar_tissue(
-        self, memory_id: str, trauma_type: TraumaType, repair_data: Dict[str, Any]
+        self, memory_id: str, trauma_type: TraumaType, repair_data: dict[str, Any]
     ):
         """
         Build 'scar tissue' - strengthened memory structures
@@ -551,7 +548,7 @@ class TraumaRepairSystem:
             resilience=scar["resilience_score"],
         )
 
-    def get_healing_report(self) -> Dict[str, Any]:
+    def get_healing_report(self) -> dict[str, Any]:
         """Generate comprehensive healing report"""
 
         active_trauma_summary = {}
@@ -884,7 +881,7 @@ class TraumaRepairSystem:
                 # Auto-repair if below threshold
                 for trauma in sorted_traumas[:3]:  # Top 3
                     if trauma.severity < self.self_repair_threshold:
-                        scaffold_id = await self.initiate_repair(trauma.trauma_id)
+                        await self.initiate_repair(trauma.trauma_id)
                         logger.info(
                             "Auto-repair initiated",
                             trauma_id=trauma.trauma_id,

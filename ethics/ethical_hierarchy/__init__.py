@@ -1,4 +1,3 @@
 """
 Ethical_Hierarchy Module
 """
-

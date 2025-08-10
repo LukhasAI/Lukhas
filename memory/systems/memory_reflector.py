@@ -43,7 +43,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Dummy memory store for placeholder
 _RECENT_INTERACTIONS = []
@@ -51,7 +51,7 @@ MAX_RECENT_INTERACTIONS = 10
 
 
 def store_interaction(
-    user_input: str, system_response: str, context: Optional[Dict[str, Any]] = None
+    user_input: str, system_response: str, context: Optional[dict[str, Any]] = None
 ):
     """Stores an interaction for later recall."""
     if len(_RECENT_INTERACTIONS) >= MAX_RECENT_INTERACTIONS:
@@ -67,7 +67,7 @@ def store_interaction(
 
 def recall_last_interaction(
     current_input: Optional[str] = None,
-) -> Optional[Dict[str, Any]]:
+) -> Optional[dict[str, Any]]:
     """
     Recalls the last interaction.
     Placeholder implementation.

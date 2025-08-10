@@ -15,7 +15,7 @@ Enhanced system awareness integrating prot1's bio-inspired features with prot2's
 """
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import structlog
 
@@ -29,7 +29,8 @@ try:
         QuantumBioOscillator,
     )
 
-    # ΛNOTE: The following imports indicate dependencies on potentially complex or distant modules.
+    # ΛNOTE: The following imports indicate dependencies on potentially
+    # complex or distant modules.
     from ...quantum.quantum_processing.quantum_engine import QuantumOscillator
     from .quantum_bio_components import (
         CardiolipinEncoder,
@@ -124,14 +125,15 @@ class EnhancedSystemAwareness:
             self.logger.error(
                 "Error initializing bio-components.", error=str(e), exc_info=True
             )
-            # ΛCAUTION: Bio-component initialization failed. Awareness processing will be impaired.
+            # ΛCAUTION: Bio-component initialization failed. Awareness processing will
+            # be impaired.
             self.proton_gradient = None
             self.attention_gate = None
             self.crista_filter = None  # type: ignore
             self.identity_encoder = None  # type: ignore
 
         # System state tracking
-        self.awareness_state: Dict[str, Any] = {
+        self.awareness_state: dict[str, Any] = {
             "consciousness_level": 1.0,
             "attention_focus": {},
             "health_metrics": {},
@@ -141,7 +143,7 @@ class EnhancedSystemAwareness:
         }
 
         # Performance metrics
-        self.metrics: Dict[str, List[Any]] = {  # Type hint for list content
+        self.metrics: dict[str, list[Any]] = {  # Type hint for list content
             "consciousness_stability": [],
             "resource_efficiency": [],
             "error_rate": [],
@@ -149,7 +151,7 @@ class EnhancedSystemAwareness:
         }
 
         # ΛSEED: Safety thresholds for system health monitoring.
-        self.safety_thresholds: Dict[str, float] = {
+        self.safety_thresholds: dict[str, float] = {
             "consciousness": 0.7,
             "resources": 0.8,
             "errors": 0.2,
@@ -162,8 +164,8 @@ class EnhancedSystemAwareness:
         )
 
     async def monitor_system(
-        self, system_state: Dict[str, Any], context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, system_state: dict[str, Any], context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Monitor system state with quantum-enhanced bio processing
         """
@@ -177,7 +179,8 @@ class EnhancedSystemAwareness:
         )  # Use datetime for duration calculation consistency
 
         try:
-            # ΛCAUTION: Relies on potentially uninitialized components if __init__ faced errors.
+            # ΛCAUTION: Relies on potentially uninitialized components if __init__
+            # faced errors.
             if (
                 not self.attention_gate
                 or not self.crista_filter
@@ -215,7 +218,8 @@ class EnhancedSystemAwareness:
 
             # Process through quantum-enhanced gradient
             self.logger.debug("Processing with proton gradient.")
-            gradient_processed = await self.proton_gradient.process(filtered_state)  # type: ignore
+            # type: ignore
+            gradient_processed = await self.proton_gradient.process(filtered_state)
             self.logger.debug(
                 "Proton gradient processing complete.",
                 processed_keys=list(gradient_processed.keys()),
@@ -243,10 +247,11 @@ class EnhancedSystemAwareness:
             )
             self._handle_monitoring_error(e)  # Internal logging
             # Re-raise or return error state. For now, re-raising.
-            # ΛCAUTION: Errors in monitoring can leave system state unobserved or lead to cascading failures.
+            # ΛCAUTION: Errors in monitoring can leave system state unobserved or lead
+            # to cascading failures.
             raise
 
-    def _update_awareness_state(self, processed_state: Dict[str, Any]) -> None:
+    def _update_awareness_state(self, processed_state: dict[str, Any]) -> None:
         """Update system awareness state"""
         # ΛNOTE: Placeholder for _update_awareness_state. Needs full implementation.
         self.logger.debug(
@@ -254,13 +259,13 @@ class EnhancedSystemAwareness:
             processed_state_keys=list(processed_state.keys()),
         )
         # Example: self.awareness_state["consciousness_level"] = processed_state.get("new_consciousness_level", self.awareness_state["consciousness_level"])
-        pass
 
-    def _check_system_health(self) -> Dict[str, Any]:
+    def _check_system_health(self) -> dict[str, Any]:
         """Check system health against thresholds"""
         # ΛNOTE: Placeholder for _check_system_health. Needs full implementation.
         self.logger.debug("Checking system health (placeholder).")
-        # Example: if self.awareness_state["error_state"].get("critical_count", 0) > self.safety_thresholds["errors"] ...
+        # Example: if self.awareness_state["error_state"].get("critical_count", 0)
+        # > self.safety_thresholds["errors"] ...
         return {"status": "healthy", "details": "placeholder_check"}
 
     def _update_metrics(self, start_time_dt: datetime) -> None:
@@ -274,7 +279,6 @@ class EnhancedSystemAwareness:
         self.metrics["response_times"].append(processing_time_ms)
         if len(self.metrics["response_times"]) > 100:  # Keep last 100
             self.metrics["response_times"].pop(0)
-        pass
 
     def _handle_monitoring_error(self, error: Exception) -> None:
         """Handle monitoring errors with safety measures"""
@@ -287,7 +291,6 @@ class EnhancedSystemAwareness:
         )
         # Example: self.awareness_state["error_state"]["last_error"] = str(error)
         # Example: Trigger a specific remediation sub-agent via message bus if severe.
-        pass
 
 
 # ═══════════════════════════════════════════════════════════════════════════

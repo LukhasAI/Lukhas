@@ -13,7 +13,6 @@ from __future__ import annotations
 import random
 from collections.abc import Iterable
 from enum import Enum
-from typing import Dict
 
 
 class BrainwaveBand(Enum):
@@ -38,7 +37,7 @@ class SymbolicState(Enum):
 
 
 # ΛTAG: mock_signal_generation
-def ingest_mock_eeg(num_samples: int = 1) -> Iterable[Dict[str, float]]:
+def ingest_mock_eeg(num_samples: int = 1) -> Iterable[dict[str, float]]:
     """Generate mock EEG readings.
 
     Args:
@@ -53,7 +52,7 @@ def ingest_mock_eeg(num_samples: int = 1) -> Iterable[Dict[str, float]]:
 
 
 # ΛTAG: state_mapping
-def map_to_symbolic_state(signals: Dict[str, float]) -> Dict[str, float | str]:
+def map_to_symbolic_state(signals: dict[str, float]) -> dict[str, float | str]:
     """Map brainwave amplitudes to a symbolic dream state."""
 
     if not signals:

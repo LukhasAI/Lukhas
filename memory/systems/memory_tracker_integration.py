@@ -2,11 +2,12 @@
 Memory Tracker Integration Module
 Provides integration wrapper for connecting the memory tracker to the memory hub
 """
+import logging
 
 import os
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -33,7 +34,7 @@ class MemoryTrackerIntegration:
     Provides a simplified interface for the memory hub.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the memory tracker integration"""
         self.config = config or {
             "enable_memory_tracking": True,
@@ -138,7 +139,7 @@ class MemoryTrackerIntegration:
 
     async def start_memory_tracking(
         self, root_module=None, session_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Start memory tracking for a module or system
 
@@ -207,7 +208,7 @@ class MemoryTrackerIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def stop_memory_tracking(self, session_id: str) -> Dict[str, Any]:
+    async def stop_memory_tracking(self, session_id: str) -> dict[str, Any]:
         """
         Stop memory tracking for a session
 
@@ -272,7 +273,7 @@ class MemoryTrackerIntegration:
 
     async def get_memory_summary(
         self, session_id: Optional[str] = None, top_ops: int = 20
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get memory usage summary
 
@@ -313,7 +314,7 @@ class MemoryTrackerIntegration:
 
     async def visualize_memory_traces(
         self, session_id: Optional[str] = None, save_path: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate memory trace visualizations
 
@@ -368,7 +369,7 @@ class MemoryTrackerIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def get_tracking_sessions(self) -> List[Dict[str, Any]]:
+    async def get_tracking_sessions(self) -> list[dict[str, Any]]:
         """
         Get list of all tracking sessions
 
@@ -389,7 +390,7 @@ class MemoryTrackerIntegration:
             logger.error(f"Error getting tracking sessions: {e}")
             return []
 
-    async def get_memory_metrics(self) -> Dict[str, Any]:
+    async def get_memory_metrics(self) -> dict[str, Any]:
         """
         Get memory tracking metrics
 
@@ -432,7 +433,7 @@ class MemoryTrackerIntegration:
             logger.error(f"Error getting memory metrics: {e}")
             return {"error": str(e), "timestamp": datetime.now().isoformat()}
 
-    async def _extract_summary_data(self, top_ops: int) -> Dict[str, Any]:
+    async def _extract_summary_data(self, top_ops: int) -> dict[str, Any]:
         """Extract summary data from memory tracker"""
         try:
             # This would need to be adapted based on the actual memory tracker implementation
@@ -468,7 +469,7 @@ class MemoryTrackerIntegration:
             logger.error(f"Error extracting summary data: {e}")
             return {"error": str(e)}
 
-    async def _generate_session_summary(self, session_id: str) -> Dict[str, Any]:
+    async def _generate_session_summary(self, session_id: str) -> dict[str, Any]:
         """Generate summary for a specific session"""
         try:
             session = self.tracking_sessions.get(session_id, {})
@@ -507,7 +508,7 @@ class MemoryTrackerIntegration:
 
     async def _fallback_start_tracking(
         self, session_id: str, root_module
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Fallback tracking start when main tracker is not available"""
         self.tracking_sessions[session_id] = {
             "started_at": datetime.now().isoformat(),
@@ -527,7 +528,7 @@ class MemoryTrackerIntegration:
             "fallback": True,
         }
 
-    async def _fallback_stop_tracking(self, session_id: str) -> Dict[str, Any]:
+    async def _fallback_stop_tracking(self, session_id: str) -> dict[str, Any]:
         """Fallback tracking stop"""
         session = self.tracking_sessions[session_id]
         session["stopped_at"] = datetime.now().isoformat()
@@ -545,7 +546,7 @@ class MemoryTrackerIntegration:
 
     async def _fallback_get_summary(
         self, session_id: Optional[str], top_ops: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Fallback summary generation"""
         return {
             "success": True,
@@ -573,7 +574,7 @@ class MemoryTrackerIntegration:
 
     async def _fallback_visualize_traces(
         self, session_id: Optional[str], save_path: Optional[str]
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Fallback trace visualization"""
         return {
             "success": True,
@@ -586,7 +587,7 @@ class MemoryTrackerIntegration:
 
 # Factory function for creating the integration
 def create_memory_tracker_integration(
-    config: Optional[Dict[str, Any]] = None,
+    config: Optional[dict[str, Any]] = None,
 ) -> MemoryTrackerIntegration:
     """Create and return a memory tracker integration instance"""
     return MemoryTrackerIntegration(config)

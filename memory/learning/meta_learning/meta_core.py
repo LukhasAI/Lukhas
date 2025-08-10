@@ -4,8 +4,9 @@ Original: meta_core.py
 Advanced: meta_core.py
 Integration Date: 2025-05-31T07:55:28.137869
 """
+import logging
 
-from typing import Any, Dict
+from typing import Any
 
 
 class MetaCore:
@@ -19,7 +20,7 @@ class MetaCore:
             "efficiency": self._track_performance(),
         }
 
-    async def evolve(self, performance_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def evolve(self, performance_data: dict[str, Any]) -> dict[str, Any]:
         """Safely improve system capabilities"""
         return {
             "improvements": self._analyze_growth_opportunities(),

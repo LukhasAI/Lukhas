@@ -29,12 +29,11 @@ import logging
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
 try:
-    import plotly.express as px
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
 
@@ -44,9 +43,7 @@ except ImportError:
     logging.warning("Plotly not available. Install with: pip install plotly")
 
 try:
-    import matplotlib.patches as patches
-    import matplotlib.pyplot as plt
-    from matplotlib.animation import FuncAnimation
+    pass
 
     MATPLOTLIB_AVAILABLE = True
 except ImportError:
@@ -55,10 +52,7 @@ except ImportError:
 
 # Import Bio-Quantum components
 try:
-    from .bio_quantum_engine import BioQuantumSymbolicReasoningEngine
-    from .confidence_calibrator import AdvancedConfidenceCalibrator
-    from .interface import AbstractReasoningInterface
-    from .oscillator import BioOscillatorCoordinator
+    pass
 except ImportError:
     # Mock imports for standalone testing
     logging.warning("Bio-Quantum modules not available - using mock implementations")
@@ -71,12 +65,12 @@ class BioQuantumRadarMetrics:
 
     def __init__(self):
         self.logger = logging.getLogger(__name__)
-        self.metrics_history: List[Dict[str, Any]] = []
-        self.performance_cache: Dict[str, float] = {}
+        self.metrics_history: list[dict[str, Any]] = []
+        self.performance_cache: dict[str, float] = {}
 
     def extract_reasoning_metrics(
-        self, reasoning_result: Dict[str, Any], engine_state: Dict[str, Any] = None
-    ) -> Dict[str, Any]:
+        self, reasoning_result: dict[str, Any], engine_state: dict[str, Any] = None
+    ) -> dict[str, Any]:
         """
         Extract comprehensive metrics from Bio-Quantum reasoning results.
 
@@ -138,8 +132,8 @@ class BioQuantumRadarMetrics:
         return metrics
 
     def _extract_brain_performance(
-        self, reasoning_result: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, reasoning_result: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Extract individual brain performance metrics."""
         brains_data = []
 
@@ -182,8 +176,8 @@ class BioQuantumRadarMetrics:
         return brains_data
 
     def _extract_quantum_metrics(
-        self, reasoning_result: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, reasoning_result: dict[str, Any]
+    ) -> dict[str, float]:
         """Extract quantum-specific performance metrics."""
         quantum_data = reasoning_result.get("quantum_like_state", {})
 
@@ -206,8 +200,8 @@ class BioQuantumRadarMetrics:
         }
 
     def _extract_bio_oscillation_metrics(
-        self, reasoning_result: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, reasoning_result: dict[str, Any]
+    ) -> dict[str, float]:
         """Extract bio-oscillation coordination metrics."""
         bio_data = reasoning_result.get("bio_oscillation", {})
 
@@ -233,8 +227,8 @@ class BioQuantumRadarMetrics:
         self,
         base_confidence: float,
         coherence: float,
-        confidence_perspectives: Dict[str, float],
-    ) -> Dict[str, float]:
+        confidence_perspectives: dict[str, float],
+    ) -> dict[str, float]:
         """Calculate unified confidence metrics."""
         # Multi-perspective confidence averaging
         perspectives = confidence_perspectives if confidence_perspectives else {}
@@ -295,7 +289,7 @@ class BioQuantumRadarVisualizer:
             "quantum_enhancement": True,
         }
 
-    def create_bio_quantum_radar(self, metrics: Dict[str, Any]) -> Optional[str]:
+    def create_bio_quantum_radar(self, metrics: dict[str, Any]) -> Optional[str]:
         """
         Create comprehensive Bio-Quantum radar visualization.
 
@@ -344,7 +338,7 @@ class BioQuantumRadarVisualizer:
                 f"<sub>Timestamp: {metrics['timestamp']}</sub>",
                 height=800,
                 showlegend=True,
-                font=dict(size=10),
+                font={"size": 10},
             )
 
             # Save visualization
@@ -362,7 +356,7 @@ class BioQuantumRadarVisualizer:
             return None
 
     def _add_unified_confidence_radar(
-        self, fig, metrics: Dict[str, Any], row: int, col: int
+        self, fig, metrics: dict[str, Any], row: int, col: int
     ):
         """Add unified confidence radar to subplot."""
         unified_conf = metrics["unified_confidence"]
@@ -395,9 +389,9 @@ class BioQuantumRadarVisualizer:
                 theta=dimensions + [dimensions[0]],
                 fill="toself",
                 fillcolor="rgba(31, 184, 205, 0.4)",
-                line=dict(color="#1FB8CD", width=3),
+                line={"color": "#1FB8CD", "width": 3},
                 mode="lines+markers",
-                marker=dict(size=8, color="#1FB8CD"),
+                marker={"size": 8, "color": "#1FB8CD"},
                 name="Unified Confidence",
                 hovertemplate="<b>%{theta}</b><br>Value: %{r:.3f}<extra></extra>",
             ),
@@ -406,7 +400,7 @@ class BioQuantumRadarVisualizer:
         )
 
     def _add_brain_performance_radar(
-        self, fig, metrics: Dict[str, Any], row: int, col: int
+        self, fig, metrics: dict[str, Any], row: int, col: int
     ):
         """Add individual brain performance radar."""
         brain_data = metrics["individual_brains"]
@@ -445,9 +439,9 @@ class BioQuantumRadarVisualizer:
                     theta=dimensions + [dimensions[0]],
                     fill="toself",
                     fillcolor=f"rgba{self._hex_to_rgba(color, 0.3)}",
-                    line=dict(color=color, width=2),
+                    line={"color": color, "width": 2},
                     mode="lines+markers",
-                    marker=dict(size=6, color=color),
+                    marker={"size": 6, "color": color},
                     name=f"{brain_name} Brain",
                     hovertemplate=f"<b>{brain_name} - %{{theta}}</b><br>Value: %{{r:.3f}}<extra></extra>",
                 ),
@@ -456,7 +450,7 @@ class BioQuantumRadarVisualizer:
             )
 
     def _add_quantum_metrics_radar(
-        self, fig, metrics: Dict[str, Any], row: int, col: int
+        self, fig, metrics: dict[str, Any], row: int, col: int
     ):
         """Add quantum enhancement metrics radar."""
         quantum_metrics = metrics["quantum_metrics"]
@@ -486,9 +480,9 @@ class BioQuantumRadarVisualizer:
                 theta=dimensions + [dimensions[0]],
                 fill="toself",
                 fillcolor="rgba(155, 89, 182, 0.4)",  # Purple for quantum
-                line=dict(color="#9B59B6", width=3),
+                line={"color": "#9B59B6", "width": 3},
                 mode="lines+markers",
-                marker=dict(size=8, color="#9B59B6"),
+                marker={"size": 8, "color": "#9B59B6"},
                 name="Quantum Metrics",
                 hovertemplate="<b>%{theta}</b><br>Value: %{r:.3f}<extra></extra>",
             ),
@@ -497,7 +491,7 @@ class BioQuantumRadarVisualizer:
         )
 
     def _add_bio_oscillation_radar(
-        self, fig, metrics: Dict[str, Any], row: int, col: int
+        self, fig, metrics: dict[str, Any], row: int, col: int
     ):
         """Add bio-oscillation coordination radar."""
         bio_metrics = metrics["bio_oscillation"]
@@ -524,9 +518,9 @@ class BioQuantumRadarVisualizer:
                 theta=dimensions + [dimensions[0]],
                 fill="toself",
                 fillcolor="rgba(46, 204, 113, 0.4)",  # Green for bio
-                line=dict(color="#2ECC71", width=3),
+                line={"color": "#2ECC71", "width": 3},
                 mode="lines+markers",
-                marker=dict(size=8, color="#2ECC71"),
+                marker={"size": 8, "color": "#2ECC71"},
                 name="Bio-Oscillation",
                 hovertemplate="<b>%{theta}</b><br>Value: %{r:.3f}<extra></extra>",
             ),
@@ -534,7 +528,7 @@ class BioQuantumRadarVisualizer:
             col=col,
         )
 
-    def _add_confidence_zones(self, fig, dimensions: List[str], row: int, col: int):
+    def _add_confidence_zones(self, fig, dimensions: list[str], row: int, col: int):
         """Add confidence zone backgrounds."""
         # High confidence zone (0.7-1.0)
         fig.add_trace(
@@ -543,7 +537,7 @@ class BioQuantumRadarVisualizer:
                 theta=dimensions + [dimensions[0]],
                 fill="toself",
                 fillcolor="rgba(60, 150, 60, 0.1)",
-                line=dict(color="rgba(60, 150, 60, 0)", width=0),
+                line={"color": "rgba(60, 150, 60, 0)", "width": 0},
                 showlegend=False,
                 hoverinfo="skip",
             ),
@@ -558,7 +552,7 @@ class BioQuantumRadarVisualizer:
                 theta=dimensions + [dimensions[0]],
                 fill="toself",
                 fillcolor="rgba(255, 200, 50, 0.1)",
-                line=dict(color="rgba(255, 200, 50, 0)", width=0),
+                line={"color": "rgba(255, 200, 50, 0)", "width": 0},
                 showlegend=False,
                 hoverinfo="skip",
             ),
@@ -587,15 +581,15 @@ class BioQuantumRadarIntegration:
         self.monitoring_task: Optional[asyncio.Task] = None
 
         # Performance tracking
-        self.session_data: List[Dict[str, Any]] = []
+        self.session_data: list[dict[str, Any]] = []
         self.start_time = time.time()
 
     async def process_with_radar_analytics(
         self,
         problem_description: str,
-        context: Dict[str, Any] = None,
+        context: dict[str, Any] = None,
         generate_visualization: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Process abstract reasoning problem with integrated radar analytics.
 
@@ -687,7 +681,8 @@ class BioQuantumRadarIntegration:
                 if max_duration and (time.time() - start_time) > max_duration:
                     break
 
-                # Generate synthetic monitoring data (replace with actual reasoning calls)
+                # Generate synthetic monitoring data (replace with actual reasoning
+                # calls)
                 monitoring_data = await self._generate_monitoring_data()
 
                 # Extract metrics and create visualization
@@ -747,7 +742,7 @@ class BioQuantumRadarIntegration:
         self.logger.info(f"Session analytics exported to: {filepath}")
         return filepath
 
-    def _create_mock_reasoning_result(self, problem_description: str) -> Dict[str, Any]:
+    def _create_mock_reasoning_result(self, problem_description: str) -> dict[str, Any]:
         """Create mock reasoning result for testing when no interface available."""
         return {
             "solution": f"Mock Bio-Quantum solution for: {problem_description}",
@@ -778,11 +773,11 @@ class BioQuantumRadarIntegration:
             },
         }
 
-    async def _generate_monitoring_data(self) -> Dict[str, Any]:
+    async def _generate_monitoring_data(self) -> dict[str, Any]:
         """Generate synthetic monitoring data for real-time updates."""
         return self._create_mock_reasoning_result("Real-time monitoring query")
 
-    def _get_performance_summary(self) -> Dict[str, Any]:
+    def _get_performance_summary(self) -> dict[str, Any]:
         """Generate performance summary from session data."""
         if not self.session_data:
             return {"status": "No session data available"}
@@ -810,9 +805,9 @@ class BioQuantumRadarIntegration:
 # Convenience functions for easy integration
 async def reason_with_radar(
     problem_description: str,
-    context: Dict[str, Any] = None,
+    context: dict[str, Any] = None,
     abstract_reasoning_interface: Any = None,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Convenience function for Bio-Quantum reasoning with radar analytics.
 
@@ -828,7 +823,7 @@ async def reason_with_radar(
     return await integration.process_with_radar_analytics(problem_description, context)
 
 
-def create_bio_quantum_radar_config() -> Dict[str, Any]:
+def create_bio_quantum_radar_config() -> dict[str, Any]:
     """Create default configuration for Bio-Quantum radar analytics."""
     return {
         "update_interval_ms": 500,

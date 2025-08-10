@@ -1,4 +1,3 @@
 """
 Collapse_Reasoner Module
 """
-

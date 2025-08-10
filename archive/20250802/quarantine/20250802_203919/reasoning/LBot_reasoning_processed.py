@@ -32,7 +32,7 @@ import json
 import asyncio
 import time
 import uuid
-from datetime import datetime, timedelta, timezone # Added timezone
+from datetime import datetime, timedelta, timezone  # Added timezone
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass, field
 
@@ -71,90 +71,217 @@ try:
     )
     # ΛNOTE: Placeholder for actual scientific theory, ethical, mathematical, and multi-scale reasoners
     # These would need to be proper classes if this were fully implemented.
-    class ScientificTheoryFormer: # ΛCAUTION: Placeholder class
+
+    class ScientificTheoryFormer:  # ΛCAUTION: Placeholder class
         def __init__(self, reasoner): self.reasoner = reasoner
-        async def form_scientific_theory(self, obs, dk): return type('obj', (object,), {'theory': 'mock_theory', 'confidence_levels': {}, 'predictions': [], 'supporting_evidence': [], 'alternative_hypotheses': []})()
 
-    class EthicalReasoner: # ΛCAUTION: Placeholder class
-        def __init__(self, reasoner, symphony): self.reasoner, self.symphony = reasoner, symphony
-        async def analyze_ethical_dilemma(self, sit, stk, act): return type('obj', (object,), {'framework_analyses': {}, 'framework_tensions': [], 'creative_resolutions': [], 'holistic_assessment': 'mock_assessment', 'confidence': 0.5})()
+        async def form_scientific_theory(self,
+                                         obs,
+                                         dk): return type('obj',
+                                                          (object,
+                                                           ),
+                                                          {'theory': 'mock_theory',
+                                                              'confidence_levels': {},
+                                                              'predictions': [],
+                                                              'supporting_evidence': [],
+                                                              'alternative_hypotheses': []})()
 
-    class MathematicalReasoner: # ΛCAUTION: Placeholder class
-        def __init__(self, reasoner, symphony): self.reasoner, self.symphony = reasoner, symphony
-        async def solve_mathematical_problem(self, prob): return type('obj', (object,), {'solution': 'mock_solution', 'formal_proof': 'mock_proof', 'alternative_paths': [], 'confidence': 0.5})()
+    class EthicalReasoner:  # ΛCAUTION: Placeholder class
+        def __init__(
+            self, reasoner, symphony): self.reasoner, self.symphony = reasoner, symphony
 
-    class MultiScaleReasoning: # ΛCAUTION: Placeholder class
+        async def analyze_ethical_dilemma(self,
+                                          sit,
+                                          stk,
+                                          act): return type('obj',
+                                                            (object,
+                                                             ),
+                                                            {'framework_analyses': {},
+                                                                'framework_tensions': [],
+                                                                'creative_resolutions': [],
+                                                                'holistic_assessment': 'mock_assessment',
+                                                                'confidence': 0.5})()
+
+    class MathematicalReasoner:  # ΛCAUTION: Placeholder class
+        def __init__(
+            self, reasoner, symphony): self.reasoner, self.symphony = reasoner, symphony
+
+        async def solve_mathematical_problem(self,
+                                             prob): return type('obj',
+                                                                (object,
+                                                                 ),
+                                                                {'solution': 'mock_solution',
+                                                                    'formal_proof': 'mock_proof',
+                                                                    'alternative_paths': [],
+                                                                    'confidence': 0.5})()
+
+    class MultiScaleReasoning:  # ΛCAUTION: Placeholder class
         def __init__(self, reasoner): self.reasoner = reasoner
-        async def reason_across_scales(self, prob): return type('obj', (object,), {'confidence': 0.5, 'result': 'mock_multiscale_result'})()
 
-    class CrossBrainReasoningOrchestrator: # ΛCAUTION: Placeholder class
+        async def reason_across_scales(
+            self, prob): return type(
+            'obj', (object,), {
+                'confidence': 0.5, 'result': 'mock_multiscale_result'})()
+
+    class CrossBrainReasoningOrchestrator:  # ΛCAUTION: Placeholder class
         def __init__(self, symphony): self.symphony = symphony
         async def initialize_brain_oscillations(self): pass
-        async def orchestrate_reasoning_process(self, prob, ctx): return "mock_orchestrated_result"
+        async def orchestrate_reasoning_process(
+            self, prob, ctx): return "mock_orchestrated_result"
 
-    class QuantumBioSymbolicConfidenceIntegrator: # ΛCAUTION: Placeholder class
+    class QuantumBioSymbolicConfidenceIntegrator:  # ΛCAUTION: Placeholder class
         def __init__(self, symphony): self.symphony = symphony
-        async def integrate_confidence_signals(self, **kwargs): return type('obj', (object,), {'point_estimate': 0.75, 'uncertainty_components': {}})()
+
+        async def integrate_confidence_signals(self,
+                                               **kwargs): return type('obj',
+                                                                      (object,
+                                                                       ),
+                                                                      {'point_estimate': 0.75,
+                                                                          'uncertainty_components': {}})()
 
     ADVANCED_REASONING_AVAILABLE = True
-    logger.info("advanced_reasoning_systems_loaded", status="success") # ΛTRACE
+    logger.info("advanced_reasoning_systems_loaded", status="success")  # ΛTRACE
 except ImportError as e:
     ADVANCED_REASONING_AVAILABLE = False
-    logger.warning("advanced_reasoning_systems_unavailable", error=str(e)) # ΛTRACE
+    logger.warning("advanced_reasoning_systems_unavailable", error=str(e))  # ΛTRACE
     # ΛCAUTION: Mock implementations for missing advanced reasoning systems.
     # Functionality will be severely limited.
+
     class BioQuantumSymbolicReasoner:
-        def __init__(self, *args, **kwargs): logger.debug("Mock BioQuantumSymbolicReasoner initialized")
-        async def abstract_reasoning_cycle(self, problem_space, context): return {"mock_reasoning": True, "confidence": 0.5, "bio_patterns": {}}
-        async def _measure_quantum_coherence(self, res): return 0.5 # Mock method
+        def __init__(
+            self,
+            *
+            args,
+            **kwargs): logger.debug("Mock BioQuantumSymbolicReasoner initialized")
+        async def abstract_reasoning_cycle(self, problem_space, context): return {
+            "mock_reasoning": True, "confidence": 0.5, "bio_patterns": {}}
+
+        async def _measure_quantum_coherence(self, res): return 0.5  # Mock method
 
     class AdvancedConfidenceCalibrator:
-        def __init__(self, *args, **kwargs): logger.debug("Mock AdvancedConfidenceCalibrator initialized")
-        async def calibrate_confidence(self, res_result, problem_context): return type('obj', (object,), {'calibration_score': 0.5, 'uncertainty_decomposition': {}, 'point_estimate': 0.5, 'meta_confidence': 0.5})()
+        def __init__(
+            self,
+            *
+            args,
+            **kwargs): logger.debug("Mock AdvancedConfidenceCalibrator initialized")
+
+        async def calibrate_confidence(self,
+                                       res_result,
+                                       problem_context): return type('obj',
+                                                                     (object,
+                                                                      ),
+                                                                     {'calibration_score': 0.5,
+                                                                         'uncertainty_decomposition': {},
+                                                                         'point_estimate': 0.5,
+                                                                         'meta_confidence': 0.5})()
 
     class MultiBrainSymphonyOrchestrator:
-        def __init__(self, *args, **kwargs): logger.debug("Mock MultiBrainSymphonyOrchestrator initialized")
-        async def meta_cognitive_reflection(self, data): return {"mock_reflection": True}
+        def __init__(
+            self,
+            *
+            args,
+            **kwargs): logger.debug("Mock MultiBrainSymphonyOrchestrator initialized")
+        async def meta_cognitive_reflection(self, data): return {
+            "mock_reflection": True}
 
-    class ScientificTheoryFormer: # ΛCAUTION: Placeholder class (repeated for fallback)
-        def __init__(self, reasoner): self.reasoner = reasoner; logger.debug("Mock ScientificTheoryFormer initialized")
-        async def form_scientific_theory(self, obs, dk): return type('obj', (object,), {'theory': 'mock_theory', 'confidence_levels': {}, 'predictions': [], 'supporting_evidence': [], 'alternative_hypotheses': []})()
+    class ScientificTheoryFormer:  # ΛCAUTION: Placeholder class (repeated for fallback)
+        def __init__(self, reasoner): self.reasoner = reasoner; logger.debug(
+            "Mock ScientificTheoryFormer initialized")
 
-    class EthicalReasoner: # ΛCAUTION: Placeholder class (repeated for fallback)
-        def __init__(self, reasoner, symphony): self.reasoner, self.symphony = reasoner, symphony; logger.debug("Mock EthicalReasoner initialized")
-        async def analyze_ethical_dilemma(self, sit, stk, act): return type('obj', (object,), {'framework_analyses': {}, 'framework_tensions': [], 'creative_resolutions': [], 'holistic_assessment': 'mock_assessment', 'confidence': 0.5})()
+        async def form_scientific_theory(self,
+                                         obs,
+                                         dk): return type('obj',
+                                                          (object,
+                                                           ),
+                                                          {'theory': 'mock_theory',
+                                                              'confidence_levels': {},
+                                                              'predictions': [],
+                                                              'supporting_evidence': [],
+                                                              'alternative_hypotheses': []})()
 
-    class MathematicalReasoner: # ΛCAUTION: Placeholder class (repeated for fallback)
-        def __init__(self, reasoner, symphony): self.reasoner, self.symphony = reasoner, symphony; logger.debug("Mock MathematicalReasoner initialized")
-        async def solve_mathematical_problem(self, prob): return type('obj', (object,), {'solution': 'mock_solution', 'formal_proof': 'mock_proof', 'alternative_paths': [], 'confidence': 0.5})()
+    class EthicalReasoner:  # ΛCAUTION: Placeholder class (repeated for fallback)
+        def __init__(self, reasoner, symphony): self.reasoner, self.symphony = reasoner, symphony; logger.debug(
+            "Mock EthicalReasoner initialized")
 
-    class MultiScaleReasoning: # ΛCAUTION: Placeholder class (repeated for fallback)
-        def __init__(self, reasoner): self.reasoner = reasoner; logger.debug("Mock MultiScaleReasoning initialized")
-        async def reason_across_scales(self, prob): return type('obj', (object,), {'confidence': 0.5, 'result': 'mock_multiscale_result'})()
+        async def analyze_ethical_dilemma(self,
+                                          sit,
+                                          stk,
+                                          act): return type('obj',
+                                                            (object,
+                                                             ),
+                                                            {'framework_analyses': {},
+                                                                'framework_tensions': [],
+                                                                'creative_resolutions': [],
+                                                                'holistic_assessment': 'mock_assessment',
+                                                                'confidence': 0.5})()
 
-    class CrossBrainReasoningOrchestrator: # ΛCAUTION: Placeholder class (repeated for fallback)
-        def __init__(self, symphony): self.symphony = symphony; logger.debug("Mock CrossBrainReasoningOrchestrator initialized")
+    class MathematicalReasoner:  # ΛCAUTION: Placeholder class (repeated for fallback)
+        def __init__(self, reasoner, symphony): self.reasoner, self.symphony = reasoner, symphony; logger.debug(
+            "Mock MathematicalReasoner initialized")
+
+        async def solve_mathematical_problem(self,
+                                             prob): return type('obj',
+                                                                (object,
+                                                                 ),
+                                                                {'solution': 'mock_solution',
+                                                                    'formal_proof': 'mock_proof',
+                                                                    'alternative_paths': [],
+                                                                    'confidence': 0.5})()
+
+    class MultiScaleReasoning:  # ΛCAUTION: Placeholder class (repeated for fallback)
+        def __init__(self, reasoner): self.reasoner = reasoner; logger.debug(
+            "Mock MultiScaleReasoning initialized")
+
+        async def reason_across_scales(
+            self, prob): return type(
+            'obj', (object,), {
+                'confidence': 0.5, 'result': 'mock_multiscale_result'})()
+
+    # ΛCAUTION: Placeholder class (repeated for fallback)
+    class CrossBrainReasoningOrchestrator:
+        def __init__(self, symphony): self.symphony = symphony; logger.debug(
+            "Mock CrossBrainReasoningOrchestrator initialized")
+
         async def initialize_brain_oscillations(self): pass
-        async def orchestrate_reasoning_process(self, prob, ctx): return "mock_orchestrated_result"
+        async def orchestrate_reasoning_process(
+            self, prob, ctx): return "mock_orchestrated_result"
 
-    class QuantumBioSymbolicConfidenceIntegrator: # ΛCAUTION: Placeholder class (repeated for fallback)
-        def __init__(self, symphony): self.symphony = symphony; logger.debug("Mock QuantumBioSymbolicConfidenceIntegrator initialized")
-        async def integrate_confidence_signals(self, **kwargs): return type('obj', (object,), {'point_estimate': 0.75, 'uncertainty_components': {}})()
+    # ΛCAUTION: Placeholder class (repeated for fallback)
+    class QuantumBioSymbolicConfidenceIntegrator:
+        def __init__(self, symphony): self.symphony = symphony; logger.debug(
+            "Mock QuantumBioSymbolicConfidenceIntegrator initialized")
+
+        async def integrate_confidence_signals(self,
+                                               **kwargs): return type('obj',
+                                                                      (object,
+                                                                       ),
+                                                                      {'point_estimate': 0.75,
+                                                                          'uncertainty_components': {}})()
 
 
 # AIMPORT_TODO: These imports are potentially problematic if ΛBot modules are not structured as a package.
 # Import GitHub App components
 try:
-    from ΛBot_github_app import ΛBotTask # ΛCAUTION: Relies on specific file/module structure
-    from ΛBot_pr_security_analyzer import SecurityIssue, PRAnalysisResult # ΛCAUTION: Relies on specific file/module structure
-    from ΛBot_auditor import ΛBotAuditor # ΛCAUTION: Relies on specific file/module structure
+    from ΛBot_github_app import ΛBotTask  # ΛCAUTION: Relies on specific file/module structure
+    # ΛCAUTION: Relies on specific file/module structure
+    from ΛBot_pr_security_analyzer import SecurityIssue, PRAnalysisResult
+    from ΛBot_auditor import ΛBotAuditor  # ΛCAUTION: Relies on specific file/module structure
 except ImportError as e:
-    logger.error("Failed to import ΛBot components", error=str(e)) # ΛTRACE
-    class ΛBotTask: pass # ΛCAUTION: Mock class
-    class SecurityIssue: pass # ΛCAUTION: Mock class
-    class PRAnalysisResult: pass # ΛCAUTION: Mock class
+    logger.error("Failed to import ΛBot components", error=str(e))  # ΛTRACE
+
+    class ΛBotTask:
+        pass  # ΛCAUTION: Mock class
+
+    class SecurityIssue:
+        pass  # ΛCAUTION: Mock class
+
+    class PRAnalysisResult:
+        pass  # ΛCAUTION: Mock class
+
     class ΛBotAuditor:  # ΛCAUTION: Mock class
-        def log_event(self, **kwargs): logger.debug("Mock ΛBotAuditor event logged", **kwargs)
+        def log_event(self,
+                      **kwargs): logger.debug("Mock ΛBotAuditor event logged",
+                                              **kwargs)
 
 
 @dataclass
@@ -167,6 +294,7 @@ class AdvancedReasoningRequest:
     context: Dict[str, Any]
     priority: str  # low, medium, high, critical
     created_at: str
+
 
 @dataclass
 class AdvancedReasoningResult:
@@ -201,10 +329,11 @@ class ΛBotAdvancedReasoningOrchestrator:
     combining quantum-inspired computing principles with biological neural inspiration.
     """
 
-    def __init__(self, config: Dict[str, Any] = None): # ΛCAUTION: Default config to None
+    # ΛCAUTION: Default config to None
+    def __init__(self, config: Dict[str, Any] = None):
         """Initialize the Elite Bio-Quantum Reasoning Orchestrator"""
         # ΛNOTE: Initialization sets up core components and dependencies.
-        self.config = config if config else {} # Ensure config is a dict
+        self.config = config if config else {}  # Ensure config is a dict
         self.auditor = ΛBotAuditor()
 
         # Initialize attributes that might be conditionally set
@@ -218,15 +347,16 @@ class ΛBotAdvancedReasoningOrchestrator:
         self.cross_brain_orchestrator: Optional[CrossBrainReasoningOrchestrator] = None
         self.quantum_confidence_integrator: Optional[QuantumBioSymbolicConfidenceIntegrator] = None
 
-        # Specialist brains - assuming these are part of MultiBrainSymphonyOrchestrator or need separate init
-        self.dreams_brain: Optional[Any] = None # Placeholder for actual type
-        self.emotional_brain: Optional[Any] = None # Placeholder for actual type
-        self.memory_brain: Optional[Any] = None # Placeholder for actual type
-        self.learning_brain: Optional[Any] = None # Placeholder for actual type
+        # Specialist brains - assuming these are part of
+        # MultiBrainSymphonyOrchestrator or need separate init
+        self.dreams_brain: Optional[Any] = None  # Placeholder for actual type
+        self.emotional_brain: Optional[Any] = None  # Placeholder for actual type
+        self.memory_brain: Optional[Any] = None  # Placeholder for actual type
+        self.learning_brain: Optional[Any] = None  # Placeholder for actual type
 
         # Initialize quantum-enhanced brain symphony if available
         if ADVANCED_REASONING_AVAILABLE:
-            logger.info("initializing_advanced_reasoning_systems") # ΛTRACE
+            logger.info("initializing_advanced_reasoning_systems")  # ΛTRACE
             self.brain_symphony = MultiBrainSymphonyOrchestrator(
                 quantum_enhanced=True,
                 bio_symbolic_processing=True,
@@ -241,31 +371,55 @@ class ΛBotAdvancedReasoningOrchestrator:
                 adversarial_testing=True,
                 meta_learning=True
             )
-            self.scientific_theory_former = ScientificTheoryFormer(self.bio_quantum_reasoner)
-            self.ethical_reasoner = EthicalReasoner(self.bio_quantum_reasoner, self.brain_symphony)
-            self.mathematical_reasoner = MathematicalReasoner(self.bio_quantum_reasoner, self.brain_symphony)
+            self.scientific_theory_former = ScientificTheoryFormer(
+                self.bio_quantum_reasoner)
+            self.ethical_reasoner = EthicalReasoner(
+                self.bio_quantum_reasoner, self.brain_symphony)
+            self.mathematical_reasoner = MathematicalReasoner(
+                self.bio_quantum_reasoner, self.brain_symphony)
             self.multi_scale_reasoner = MultiScaleReasoning(self.bio_quantum_reasoner)
-            self.cross_brain_orchestrator = CrossBrainReasoningOrchestrator(self.brain_symphony)
-            self.quantum_confidence_integrator = QuantumBioSymbolicConfidenceIntegrator(self.brain_symphony)
+            self.cross_brain_orchestrator = CrossBrainReasoningOrchestrator(
+                self.brain_symphony)
+            self.quantum_confidence_integrator = QuantumBioSymbolicConfidenceIntegrator(
+                self.brain_symphony)
 
             # Assuming specialist brains might be components of brain_symphony or initialized here
             # self.dreams_brain = self.brain_symphony.get_specialist("dreams") # Example
             # self.emotional_brain = self.brain_symphony.get_specialist("emotional") # Example
-            # etc. For now, they remain None unless explicitly set up by ADVANCED_REASONING_AVAILABLE block.
+            # etc. For now, they remain None unless explicitly set up by
+            # ADVANCED_REASONING_AVAILABLE block.
 
-            logger.info("elite_bio_quantum_systems_initialized", system_count=8) # ΛTRACE
+            logger.info(
+                "elite_bio_quantum_systems_initialized",
+                system_count=8)  # ΛTRACE
         else:
-            logger.warning("running_with_mock_reasoning_implementations") # ΛTRACE
-            # Ensure mock instances if ADVANCED_REASONING_AVAILABLE was false from the start
-            if not self.bio_quantum_reasoner: self.bio_quantum_reasoner = BioQuantumSymbolicReasoner() # type: ignore
-            if not self.confidence_calibrator: self.confidence_calibrator = AdvancedConfidenceCalibrator() # type: ignore
-            if not self.brain_symphony: self.brain_symphony = MultiBrainSymphonyOrchestrator() # type: ignore
-            if not self.scientific_theory_former: self.scientific_theory_former = ScientificTheoryFormer(self.bio_quantum_reasoner) # type: ignore
-            if not self.ethical_reasoner: self.ethical_reasoner = EthicalReasoner(self.bio_quantum_reasoner, self.brain_symphony) # type: ignore
-            if not self.mathematical_reasoner: self.mathematical_reasoner = MathematicalReasoner(self.bio_quantum_reasoner, self.brain_symphony) # type: ignore
-            if not self.multi_scale_reasoner: self.multi_scale_reasoner = MultiScaleReasoning(self.bio_quantum_reasoner) # type: ignore
-            if not self.cross_brain_orchestrator: self.cross_brain_orchestrator = CrossBrainReasoningOrchestrator(self.brain_symphony) # type: ignore
-            if not self.quantum_confidence_integrator: self.quantum_confidence_integrator = QuantumBioSymbolicConfidenceIntegrator(self.brain_symphony) # type: ignore
+            logger.warning("running_with_mock_reasoning_implementations")  # ΛTRACE
+            # Ensure mock instances if ADVANCED_REASONING_AVAILABLE was false from the
+            # start
+            if not self.bio_quantum_reasoner:
+                self.bio_quantum_reasoner = BioQuantumSymbolicReasoner()  # type: ignore
+            if not self.confidence_calibrator:
+                self.confidence_calibrator = AdvancedConfidenceCalibrator()  # type: ignore
+            if not self.brain_symphony:
+                self.brain_symphony = MultiBrainSymphonyOrchestrator()  # type: ignore
+            if not self.scientific_theory_former:
+                self.scientific_theory_former = ScientificTheoryFormer(
+                    self.bio_quantum_reasoner)  # type: ignore
+            if not self.ethical_reasoner:
+                self.ethical_reasoner = EthicalReasoner(
+                    self.bio_quantum_reasoner, self.brain_symphony)  # type: ignore
+            if not self.mathematical_reasoner:
+                self.mathematical_reasoner = MathematicalReasoner(
+                    self.bio_quantum_reasoner, self.brain_symphony)  # type: ignore
+            if not self.multi_scale_reasoner:
+                self.multi_scale_reasoner = MultiScaleReasoning(
+                    self.bio_quantum_reasoner)  # type: ignore
+            if not self.cross_brain_orchestrator:
+                self.cross_brain_orchestrator = CrossBrainReasoningOrchestrator(
+                    self.brain_symphony)  # type: ignore
+            if not self.quantum_confidence_integrator:
+                self.quantum_confidence_integrator = QuantumBioSymbolicConfidenceIntegrator(
+                    self.brain_symphony)  # type: ignore
 
         self.reasoning_metrics = {
             'quantum_operations': 0,
@@ -279,13 +433,18 @@ class ΛBotAdvancedReasoningOrchestrator:
         }
 
         self.active_requests: Dict[str, AdvancedReasoningRequest] = {}
-        self.completed_requests: List[AdvancedReasoningRequest] = [] # Corrected to list
+        # Corrected to list
+        self.completed_requests: List[AdvancedReasoningRequest] = []
 
-        logger.info("ΛBot_Advanced_Reasoning_Orchestrator_initialized", config_present=bool(self.config)) # ΛTRACE
+        logger.info("ΛBot_Advanced_Reasoning_Orchestrator_initialized",
+                    config_present=bool(self.config))  # ΛTRACE
 
     # ΛEXPOSE: Public API method for PR analysis.
-    async def analyze_pull_request_advanced(self, repository: str, pr_number: int,
-                                           pr_data: Dict[str, Any]) -> AdvancedReasoningResult:
+    async def analyze_pull_request_advanced(self,
+                                            repository: str,
+                                            pr_number: int,
+                                            pr_data: Dict[str,
+                                                          Any]) -> AdvancedReasoningResult:
         """
         Perform advanced reasoning analysis on a pull request
 
@@ -309,14 +468,14 @@ class ΛBotAdvancedReasoningOrchestrator:
                 "depth": "comprehensive"
             },
             priority="high",
-            created_at=datetime.now(timezone.utc).isoformat() # Use timezone.utc
+            created_at=datetime.now(timezone.utc).isoformat()  # Use timezone.utc
         )
 
         self.active_requests[request_id] = request
 
         self.auditor.log_event(
             component="Advanced_Reasoning",
-            event_type="pr_analysis_start", # ΛTRACE
+            event_type="pr_analysis_start",  # ΛTRACE
             action="start",
             status="in_progress",
             repository=repository,
@@ -334,13 +493,13 @@ class ΛBotAdvancedReasoningOrchestrator:
             processing_time = time.time() - start_time
             result.processing_time = processing_time
 
-            if request_id in self.active_requests: # Check before deleting
+            if request_id in self.active_requests:  # Check before deleting
                 self.completed_requests.append(self.active_requests[request_id])
                 del self.active_requests[request_id]
 
             self.auditor.log_event(
                 component="Advanced_Reasoning",
-                event_type="pr_analysis_complete", # ΛTRACE
+                event_type="pr_analysis_complete",  # ΛTRACE
                 action="complete",
                 status="success",
                 repository=repository,
@@ -354,13 +513,17 @@ class ΛBotAdvancedReasoningOrchestrator:
             return result
 
         except Exception as e:
-            logger.error("advanced_pr_analysis_error", request_id=request_id, error=str(e), exc_info=True) # ΛTRACE
-            if request_id in self.active_requests: # Ensure it's removed on error too
+            logger.error(
+                "advanced_pr_analysis_error",
+                request_id=request_id,
+                error=str(e),
+                exc_info=True)  # ΛTRACE
+            if request_id in self.active_requests:  # Ensure it's removed on error too
                 del self.active_requests[request_id]
 
             self.auditor.log_event(
                 component="Advanced_Reasoning",
-                event_type="pr_analysis_error", # ΛTRACE
+                event_type="pr_analysis_error",  # ΛTRACE
                 action="error",
                 status="failure",
                 repository=repository,
@@ -373,11 +536,14 @@ class ΛBotAdvancedReasoningOrchestrator:
                 processing_time=time.time() - start_time
             )
 
-    async def _perform_quantum_reasoning_analysis(self, request: AdvancedReasoningRequest) -> AdvancedReasoningResult:
+    async def _perform_quantum_reasoning_analysis(
+            self, request: AdvancedReasoningRequest) -> AdvancedReasoningResult:
         """Perform analysis using the Bio-Quantum Symbolic Reasoning Engine"""
         # ΛNOTE: This is where the core quantum reasoning happens if available.
-        # ΛCAUTION: Method assumes ADVANCED_REASONING_AVAILABLE is true and components are initialized.
-        logger.info("performing_quantum_reasoning_analysis", request_id=request.request_id) # ΛTRACE
+        # ΛCAUTION: Method assumes ADVANCED_REASONING_AVAILABLE is true and
+        # components are initialized.
+        logger.info("performing_quantum_reasoning_analysis",
+                    request_id=request.request_id)  # ΛTRACE
 
         problem_space = {
             "type": "code_security_analysis",
@@ -386,8 +552,11 @@ class ΛBotAdvancedReasoningOrchestrator:
             "context": request.context
         }
 
-        if not self.bio_quantum_reasoner or not self.confidence_calibrator: # Should not happen if ADVANCED_REASONING_AVAILABLE
-            logger.error("quantum_reasoning_components_not_initialized_unexpectedly", request_id=request.request_id)
+        # Should not happen if ADVANCED_REASONING_AVAILABLE
+        if not self.bio_quantum_reasoner or not self.confidence_calibrator:
+            logger.error(
+                "quantum_reasoning_components_not_initialized_unexpectedly",
+                request_id=request.request_id)
             return await self._perform_fallback_analysis(request)
 
         reasoning_output = await self.bio_quantum_reasoner.abstract_reasoning_cycle(
@@ -413,49 +582,58 @@ class ΛBotAdvancedReasoningOrchestrator:
         return AdvancedReasoningResult(
             request_id=request.request_id,
             reasoning_result=reasoning_output,
-            confidence_metrics=confidence_output, # This should be the ConfidenceMetrics object or dict
+            confidence_metrics=confidence_output,
+            # This should be the ConfidenceMetrics object or dict
             brain_insights=brain_insights,
             recommendations=recommendations,
             meta_analysis=meta_analysis
         )
 
-    async def _perform_fallback_analysis(self, request: AdvancedReasoningRequest) -> AdvancedReasoningResult:
+    async def _perform_fallback_analysis(
+            self, request: AdvancedReasoningRequest) -> AdvancedReasoningResult:
         """Perform fallback analysis when advanced systems aren't available"""
         # ΛNOTE: Degraded functionality path.
-        logger.info("performing_fallback_analysis", request_id=request.request_id) # ΛTRACE
+        logger.info(
+            "performing_fallback_analysis",
+            request_id=request.request_id)  # ΛTRACE
 
         reasoning_result_data = {
             "analysis_type": "fallback",
             "repository": request.input_data["repository"],
             "pr_number": request.input_data.get("pr_number"),
             "basic_assessment": "Standard security and code quality analysis (fallback mode)",
-            "fallback_mode": True
-        }
+            "fallback_mode": True}
 
         return AdvancedReasoningResult(
             request_id=request.request_id,
             reasoning_result=reasoning_result_data,
-            recommendations=["Enable advanced reasoning systems for enhanced analysis. Currently in fallback mode."]
-        )
+            recommendations=["Enable advanced reasoning systems for enhanced analysis. Currently in fallback mode."])
 
     # ΛNOTE: Helper methods for extracting insights from specialized brains.
-    # ΛCAUTION: These rely on potentially uninitialized brain attributes if not ADVANCED_REASONING_AVAILABLE.
+    # ΛCAUTION: These rely on potentially uninitialized brain attributes if
+    # not ADVANCED_REASONING_AVAILABLE.
     async def _extract_dreams_insights(self, reasoning_output: Any) -> Dict[str, Any]:
         """Extract insights from the Dreams Brain (creative analysis)"""
-        if not ADVANCED_REASONING_AVAILABLE or not self.dreams_brain: # Check ADVANCED_REASONING_AVAILABLE
+        if not ADVANCED_REASONING_AVAILABLE or not self.dreams_brain:  # Check ADVANCED_REASONING_AVAILABLE
             return {"status": "unavailable_dreams_brain"}
         # Actual implementation would call self.dreams_brain methods
         return {
-            "creative_solutions": ["Alternative architectural approaches (mock)", "Novel security patterns (mock)"],
-            "symbolic_patterns": reasoning_output.get("symbolic_patterns", {}),
+            "creative_solutions": [
+                "Alternative architectural approaches (mock)",
+                "Novel security patterns (mock)"],
+            "symbolic_patterns": reasoning_output.get(
+                "symbolic_patterns",
+                {}),
             "metaphorical_insights": "Code structure reflects system architecture philosophy (mock)",
-            "possibility_space": reasoning_output.get("dream_patterns", {})
-        }
+            "possibility_space": reasoning_output.get(
+                "dream_patterns",
+                {})}
 
-    async def _extract_emotional_insights(self, reasoning_output: Any) -> Dict[str, Any]:
+    async def _extract_emotional_insights(
+            self, reasoning_output: Any) -> Dict[str, Any]:
         """Extract insights from the Emotional Brain (aesthetic evaluation)"""
         if not ADVANCED_REASONING_AVAILABLE or not self.emotional_brain:
-             return {"status": "unavailable_emotional_brain"}
+            return {"status": "unavailable_emotional_brain"}
         return {
             "code_aesthetics": "Clean and readable implementation (mock)",
             "security_intuition": "Strong security posture detected (mock)",
@@ -468,11 +646,14 @@ class ΛBotAdvancedReasoningOrchestrator:
         if not ADVANCED_REASONING_AVAILABLE or not self.memory_brain:
             return {"status": "unavailable_memory_brain"}
         return {
-            "similar_patterns": ["Historical vulnerability patterns (mock)", "Best practice implementations (mock)"],
-            "analogous_cases": reasoning_output.get("analogies", []),
+            "similar_patterns": [
+                "Historical vulnerability patterns (mock)",
+                "Best practice implementations (mock)"],
+            "analogous_cases": reasoning_output.get(
+                "analogies",
+                []),
             "precedent_analysis": "Similar patterns found in high-quality codebases (mock)",
-            "pattern_confidence": 0.85
-        }
+            "pattern_confidence": 0.85}
 
     async def _extract_learning_insights(self, reasoning_output: Any) -> Dict[str, Any]:
         """Extract insights from the Learning Brain (synthesis and validation)"""
@@ -480,12 +661,18 @@ class ΛBotAdvancedReasoningOrchestrator:
             return {"status": "unavailable_learning_brain"}
         return {
             "synthesis_quality": "High-quality reasoning synthesis achieved (mock)",
-            "validation_results": reasoning_output.get("validation", {}),
-            "learning_opportunities": ["Enhanced security patterns (mock)", "Architectural improvements (mock)"],
-            "reasoning_confidence": reasoning_output.get("confidence", 0.8)
-        }
+            "validation_results": reasoning_output.get(
+                "validation",
+                {}),
+            "learning_opportunities": [
+                "Enhanced security patterns (mock)",
+                "Architectural improvements (mock)"],
+            "reasoning_confidence": reasoning_output.get(
+                "confidence",
+                0.8)}
 
-    async def _generate_recommendations(self, reasoning_output: Any, brain_insights: Dict[str, Any]) -> List[str]:
+    async def _generate_recommendations(
+            self, reasoning_output: Any, brain_insights: Dict[str, Any]) -> List[str]:
         """Generate actionable recommendations based on reasoning and brain insight"""
         # ΛNOTE: Consolidates insights into actionable recommendations.
         recommendations = []
@@ -497,16 +684,20 @@ class ΛBotAdvancedReasoningOrchestrator:
         if brain_insights.get("emotional", {}).get("elegance_assessment", 0) < 0.7:
             recommendations.append("Improve code elegance and readability (mock)")
         if brain_insights.get("memory", {}).get("pattern_confidence", 0) < 0.8:
-            recommendations.append("Review against established security patterns (mock)")
+            recommendations.append(
+                "Review against established security patterns (mock)")
 
-        if reasoning_output and hasattr(reasoning_output, 'recommendations') and reasoning_output.recommendations: # Check if list and not empty
+        if reasoning_output and hasattr(
+                reasoning_output,
+                'recommendations') and reasoning_output.recommendations:  # Check if list and not empty
             recommendations.extend(reasoning_output.recommendations)
-        elif not recommendations: # If no other recommendations, add a generic one
+        elif not recommendations:  # If no other recommendations, add a generic one
             recommendations.append("General review recommended based on analysis.")
 
         return recommendations
 
-    async def _perform_meta_analysis(self, reasoning_output: Any, confidence_output: Any) -> Dict[str, Any]:
+    async def _perform_meta_analysis(
+            self, reasoning_output: Any, confidence_output: Any) -> Dict[str, Any]:
         """Perform meta-analysis of the reasoning proces"""
         # ΛNOTE: Reflects on the reasoning process itself.
         # ΛCAUTION: Assumes confidence_output has expected attributes or is a dict.
@@ -517,7 +708,8 @@ class ΛBotAdvancedReasoningOrchestrator:
             uncertainty_decomp = confidence_output.get('uncertainty_decomposition', {})
         elif hasattr(confidence_output, 'calibration_score'):
             calibration_score = confidence_output.calibration_score
-            uncertainty_decomp = confidence_output.uncertainty_decomposition if hasattr(confidence_output, 'uncertainty_decomposition') else {}
+            uncertainty_decomp = confidence_output.uncertainty_decomposition if hasattr(
+                confidence_output, 'uncertainty_decomposition') else {}
 
         return {
             "reasoning_quality": "High (mock)",
@@ -535,22 +727,31 @@ class ΛBotAdvancedReasoningOrchestrator:
         }
 
     # ΛEXPOSE: Public API for vulnerability analysis
-    async def analyze_vulnerability_advanced(self, vulnerability_data: Dict[str, Any]) -> AdvancedReasoningResult:
+    async def analyze_vulnerability_advanced(
+            self, vulnerability_data: Dict[str, Any]) -> AdvancedReasoningResult:
         """Perform advanced reasoning analysis on a security vulnerability"""
         # ΛCAUTION: Stubbed method. Not implemented.
-        logger.warning("analyze_vulnerability_advanced_stub_called", vulnerability_data=vulnerability_data) # ΛTRACE
-        return AdvancedReasoningResult(request_id="vuln_mock_id", reasoning_result={"status": "stub_not_implemented"})
+        logger.warning("analyze_vulnerability_advanced_stub_called",
+                       vulnerability_data=vulnerability_data)  # ΛTRACE
+        return AdvancedReasoningResult(
+            request_id="vuln_mock_id", reasoning_result={
+                "status": "stub_not_implemented"})
 
     # ΛEXPOSE: Public API for workflow failure analysis
-    async def analyze_workflow_failure_advanced(self, workflow_data: Dict[str, Any]) -> AdvancedReasoningResult:
+    async def analyze_workflow_failure_advanced(
+            self, workflow_data: Dict[str, Any]) -> AdvancedReasoningResult:
         """Perform advanced reasoning analysis on workflow failure"""
         # ΛCAUTION: Stubbed method. Not implemented.
-        logger.warning("analyze_workflow_failure_advanced_stub_called", workflow_data=workflow_data) # ΛTRACE
-        return AdvancedReasoningResult(request_id="wf_mock_id", reasoning_result={"status": "stub_not_implemented"})
+        logger.warning(
+            "analyze_workflow_failure_advanced_stub_called",
+            workflow_data=workflow_data)  # ΛTRACE
+        return AdvancedReasoningResult(
+            request_id="wf_mock_id", reasoning_result={
+                "status": "stub_not_implemented"})
 
     # ΛEXPOSE: Core public API for quantum confidence reasoning.
-    async def reason_with_quantum_confidence(self, problem: Dict[str, Any],
-                                            context: Dict[str, Any]) -> AdvancedReasoningResult:
+    async def reason_with_quantum_confidence(
+            self, problem: Dict[str, Any], context: Dict[str, Any]) -> AdvancedReasoningResult:
         """
         Perform elite bio-quantum reasoning with advanced confidence calibration
         """
@@ -561,7 +762,7 @@ class ΛBotAdvancedReasoningOrchestrator:
 
         self.auditor.log_event(
             component="AdvancedReasoning",
-            event_type="quantum_reasoning_start", # ΛTRACE
+            event_type="quantum_reasoning_start",  # ΛTRACE
             action="start",
             status="in_progress",
             details={"session_id": session_id, "problem_type": problem.get('type')}
@@ -570,9 +771,13 @@ class ΛBotAdvancedReasoningOrchestrator:
         try:
             if not ADVANCED_REASONING_AVAILABLE or not self.cross_brain_orchestrator or \
                not self.multi_scale_reasoner or not self.bio_quantum_reasoner or " + "not self.confidence_calibrator or not self.quantum_confidence_integrator or " + "not self.brain_symphony:
-                logger.warning("advanced_reasoning_components_missing_for_quantum_confidence", session_id=session_id) # ΛTRACE
+                logger.warning(
+                    "advanced_reasoning_components_missing_for_quantum_confidence",
+                    session_id=session_id)  # ΛTRACE
                 # Provide a more informative fallback result
-                fallback_result_data = {"status": "error", "message": "Advanced reasoning components not available."}
+                fallback_result_data = {
+                    "status": "error",
+                    "message": "Advanced reasoning components not available."}
                 return AdvancedReasoningResult(
                     request_id=session_id,
                     reasoning_result=fallback_result_data,
@@ -589,12 +794,12 @@ class ΛBotAdvancedReasoningOrchestrator:
                 reasoning_output, problem_context=context
             )
 
-            # Ensure reasoning_output and multi_scale_output have 'confidence' attributes or provide defaults
+            # Ensure reasoning_output and multi_scale_output have 'confidence'
+            # attributes or provide defaults
             reasoning_confidence = getattr(reasoning_output, 'confidence', 0.5)
             multi_scale_confidence = getattr(multi_scale_output, 'confidence', 0.5)
             calibrated_confidence = getattr(confidence_output, 'point_estimate', 0.5)
             quantum_coherence_val = await self.bio_quantum_reasoner._measure_quantum_coherence(reasoning_output) if hasattr(self.bio_quantum_reasoner, '_measure_quantum_coherence') else 0.5
-
 
             integrated_confidence_output = await self.quantum_confidence_integrator.integrate_confidence_signals(
                 reasoning_result=reasoning_output,
@@ -620,41 +825,50 @@ class ΛBotAdvancedReasoningOrchestrator:
             final_result = AdvancedReasoningResult(
                 request_id=session_id,
                 reasoning_result=reasoning_output,
-                confidence_metrics=integrated_confidence_output, # Should be ConfidenceMetrics object or dict
+                # Should be ConfidenceMetrics object or dict
+                confidence_metrics=integrated_confidence_output,
                 processing_time=processing_time,
                 brain_insights={
                     'multi_scale': multi_scale_output,
-                    'bio_quantum': reasoning_output, # Changed from reasoning_result to reasoning_output for consistency
+                    # Changed from reasoning_result to reasoning_output for consistency
+                    'bio_quantum': reasoning_output,
                     'meta_reflection': meta_reflection_output
                 },
                 recommendations=await self._generate_quantum_recommendations(reasoning_output),
                 meta_analysis={
                     'quantum_coherence': quantum_coherence_val,
-                    'bio_symbolic_patterns': getattr(reasoning_output, 'bio_patterns', {}), # Use getattr
-                    'confidence_decomposition': getattr(integrated_confidence_output, 'uncertainty_components', {}), # Use getattr
+                    # Use getattr
+                    'bio_symbolic_patterns': getattr(reasoning_output, 'bio_patterns', {}),
+                    # Use getattr
+                    'confidence_decomposition': getattr(integrated_confidence_output, 'uncertainty_components', {}),
                     'neural_oscillation_coherence': await self._measure_neural_coherence(),
                 }
             )
 
             self.auditor.log_event(
                 component="AdvancedReasoning",
-                event_type="quantum_reasoning_complete", # ΛTRACE
+                event_type="quantum_reasoning_complete",  # ΛTRACE
                 action="complete",
                 status="success",
                 details={
                     "session_id": session_id,
                     "processing_time": processing_time,
-                    "confidence": getattr(integrated_confidence_output, 'point_estimate', 0.0), # Use getattr
+                    # Use getattr
+                    "confidence": getattr(integrated_confidence_output, 'point_estimate', 0.0),
                     "quantum_enhanced": True
                 }
             )
             return final_result
 
         except Exception as e:
-            logger.error("quantum_confidence_reasoning_error", session_id=session_id, error=str(e), exc_info=True) # ΛTRACE
+            logger.error(
+                "quantum_confidence_reasoning_error",
+                session_id=session_id,
+                error=str(e),
+                exc_info=True)  # ΛTRACE
             self.auditor.log_event(
                 component="AdvancedReasoning",
-                event_type="quantum_reasoning_error", # ΛTRACE
+                event_type="quantum_reasoning_error",  # ΛTRACE
                 action="error",
                 status="failed",
                 details={"session_id": session_id, "error": str(e)}
@@ -671,16 +885,19 @@ class ΛBotAdvancedReasoningOrchestrator:
     async def _measure_neural_coherence(self) -> float: return 0.75
     async def _measure_cross_frequency_coupling(self) -> float: return 0.65
     async def _measure_brain_synchronization(self) -> float: return 0.70
-    async def _generate_quantum_recommendations(self, res_output) -> list: return ["Quantum recommendation (mock)"]
 
+    async def _generate_quantum_recommendations(
+        self, res_output) -> list: return ["Quantum recommendation (mock)"]
 
     # ΛEXPOSE: Public API for scientific theory formation.
+
     async def form_scientific_theory(self, observations: List[Dict[str, Any]],
-                                   domain_knowledge: Dict[str, Any]) -> Dict[str, Any]:
+                                     domain_knowledge: Dict[str, Any]) -> Dict[str, Any]:
         """Forms scientific theories using bio-quantum reasoning."""
         # ΛCAUTION: Relies on self.scientific_theory_former which might be a mock.
         if not ADVANCED_REASONING_AVAILABLE or not self.scientific_theory_former:
-            logger.warning("form_scientific_theory_fallback", advanced_reasoning=ADVANCED_REASONING_AVAILABLE) # ΛTRACE
+            logger.warning("form_scientific_theory_fallback",
+                           advanced_reasoning=ADVANCED_REASONING_AVAILABLE)  # ΛTRACE
             return {"theory": "Mock theory (fallback)", "confidence": 0.5}
 
         theory_output = await self.scientific_theory_former.form_scientific_theory(
@@ -695,14 +912,21 @@ class ΛBotAdvancedReasoningOrchestrator:
         }
 
     # ΛEXPOSE: Public API for ethical dilemma analysis.
-    async def analyze_ethical_dilemma(self, situation: Dict[str, Any],
-                                    stakeholders: List[str],
-                                    possible_actions: List[Dict[str, Any]]) -> Dict[str, Any]:
+    async def analyze_ethical_dilemma(self,
+                                      situation: Dict[str,
+                                                      Any],
+                                      stakeholders: List[str],
+                                      possible_actions: List[Dict[str,
+                                                                  Any]]) -> Dict[str,
+                                                                                 Any]:
         """Analyzes ethical dilemmas using multiple framework integration."""
         # ΛCAUTION: Relies on self.ethical_reasoner which might be a mock.
         if not ADVANCED_REASONING_AVAILABLE or not self.ethical_reasoner:
-            logger.warning("analyze_ethical_dilemma_fallback", advanced_reasoning=ADVANCED_REASONING_AVAILABLE) # ΛTRACE
-            return {"recommendation": "Mock ethical analysis (fallback)", "confidence": 0.5}
+            logger.warning("analyze_ethical_dilemma_fallback",
+                           advanced_reasoning=ADVANCED_REASONING_AVAILABLE)  # ΛTRACE
+            return {
+                "recommendation": "Mock ethical analysis (fallback)",
+                "confidence": 0.5}
 
         ethical_output = await self.ethical_reasoner.analyze_ethical_dilemma(
             situation, stakeholders, possible_actions
@@ -715,12 +939,16 @@ class ΛBotAdvancedReasoningOrchestrator:
         }
 
     # ΛEXPOSE: Public API for mathematical problem solving.
-    async def solve_mathematical_problem(self, problem: Dict[str, Any]) -> Dict[str, Any]:
+    async def solve_mathematical_problem(
+            self, problem: Dict[str, Any]) -> Dict[str, Any]:
         """Solves mathematical problems using quantum-enhanced reasoning."""
         # ΛCAUTION: Relies on self.mathematical_reasoner which might be a mock.
         if not ADVANCED_REASONING_AVAILABLE or not self.mathematical_reasoner:
-            logger.warning("solve_mathematical_problem_fallback", advanced_reasoning=ADVANCED_REASONING_AVAILABLE) # ΛTRACE
-            return {"solution": "Mock solution (fallback)", "proof": "Mock proof (fallback)"}
+            logger.warning("solve_mathematical_problem_fallback",
+                           advanced_reasoning=ADVANCED_REASONING_AVAILABLE)  # ΛTRACE
+            return {
+                "solution": "Mock solution (fallback)",
+                "proof": "Mock proof (fallback)"}
 
         math_output = await self.mathematical_reasoner.solve_mathematical_problem(problem)
         self.reasoning_metrics['mathematical_proofs'] += 1
@@ -731,12 +959,13 @@ class ΛBotAdvancedReasoningOrchestrator:
         }
 
     # ΛEXPOSE: Public API for cross-brain reasoning orchestration.
-    async def orchestrate_cross_brain_reasoning(self, problem: Dict[str, Any],
-                                              context: Dict[str, Any]) -> Dict[str, Any]:
+    async def orchestrate_cross_brain_reasoning(
+            self, problem: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
         """Orchestrates reasoning across all brain systems."""
         # ΛCAUTION: Relies on self.cross_brain_orchestrator which might be a mock.
         if not ADVANCED_REASONING_AVAILABLE or not self.cross_brain_orchestrator:
-            logger.warning("orchestrate_cross_brain_reasoning_fallback", advanced_reasoning=ADVANCED_REASONING_AVAILABLE) # ΛTRACE
+            logger.warning("orchestrate_cross_brain_reasoning_fallback",
+                           advanced_reasoning=ADVANCED_REASONING_AVAILABLE)  # ΛTRACE
             return {"result": "Mock cross-brain reasoning (fallback)"}
 
         orchestrated_output = await self.cross_brain_orchestrator.orchestrate_reasoning_process(
@@ -754,8 +983,10 @@ class ΛBotAdvancedReasoningOrchestrator:
         # ΛTRACE
         return {
             "advanced_systems_available": ADVANCED_REASONING_AVAILABLE,
-            "active_requests_count": len(self.active_requests),
-            "completed_requests_count": len(self.completed_requests),
+            "active_requests_count": len(
+                self.active_requests),
+            "completed_requests_count": len(
+                self.completed_requests),
             "reasoning_metrics": self.reasoning_metrics,
             "brain_systems_status": {
                 "dreams_brain_active": self.dreams_brain is not None if ADVANCED_REASONING_AVAILABLE else False,
@@ -764,14 +995,14 @@ class ΛBotAdvancedReasoningOrchestrator:
                 "learning_brain_active": self.learning_brain is not None if ADVANCED_REASONING_AVAILABLE else False,
                 "bio_quantum_reasoner_active": self.bio_quantum_reasoner is not None if ADVANCED_REASONING_AVAILABLE else False,
                 "confidence_calibrator_active": self.confidence_calibrator is not None if ADVANCED_REASONING_AVAILABLE else False,
-            }
-        }
+            }}
+
 
 # Example usage (for local testing)
 if __name__ == "__main__":
     # ΛNOTE: Example execution block for testing and demonstration.
     # ΛCAUTION: This block will run if the script is executed directly.
-    logger.info("ΛBotAdvancedReasoningOrchestrator_main_execution_start") # ΛTRACE
+    logger.info("ΛBotAdvancedReasoningOrchestrator_main_execution_start")  # ΛTRACE
 
     # Initialize with a default config if none provided, or an empty one
     orchestrator_instance = ΛBotAdvancedReasoningOrchestrator(config={})
@@ -793,13 +1024,18 @@ if __name__ == "__main__":
         )
     )
 
-    logger.info("pr_analysis_complete_main", request_id=analysis_result.request_id, processing_time_seconds=analysis_result.processing_time) # ΛTRACE
+    logger.info(
+        "pr_analysis_complete_main",
+        request_id=analysis_result.request_id,
+        processing_time_seconds=analysis_result.processing_time)  # ΛTRACE
     if analysis_result.recommendations:
-        logger.info("recommendations_generated_main", count=len(analysis_result.recommendations), recommendations=analysis_result.recommendations) # ΛTRACE
+        logger.info("recommendations_generated_main",
+                    count=len(analysis_result.recommendations),
+                    recommendations=analysis_result.recommendations)  # ΛTRACE
 
     current_status = orchestrator_instance.get_reasoning_status()
-    logger.info("orchestrator_status_main", status=current_status) # ΛTRACE
-    logger.info("ΛBotAdvancedReasoningOrchestrator_main_execution_end") # ΛTRACE
+    logger.info("orchestrator_status_main", status=current_status)  # ΛTRACE
+    logger.info("ΛBotAdvancedReasoningOrchestrator_main_execution_end")  # ΛTRACE
 
 #
 # Copyright (c) 2025 LukhasAI. All rights reserved.

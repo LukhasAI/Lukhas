@@ -34,6 +34,15 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://lukhas.ai/docs
 """
 
+from tools.documentation.symbolic_knowledge_core.knowledge_graph import (
+    MultiverseKnowledgeWeb,
+)
+from reasoning.symbolic_reasoning import SymbolicEngine
+from quantum.quantum_processing_core import BaseOscillator
+from core.testing.plugin_test_framework import QuantumTestOracle
+from core.integration.governance.__init__ import QuantumEthicsEngine
+from core.identity.identity_engine import QuantumIdentityEngine
+
 __module_name__ = "Quantum Phase Quantum Integration"
 __version__ = "2.0.0"
 __tier__ = 2
@@ -45,21 +54,12 @@ import os
 # Import quantum optimization modules
 import sys
 import time
-from typing import Any, Dict
+from typing import Any
 
 import numpy as np
 import pytest
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-
-from core.identity.identity_engine import QuantumIdentityEngine
-from core.integration.governance.__init__ import QuantumEthicsEngine
-from core.testing.plugin_test_framework import QuantumTestOracle
-from quantum.quantum_processing_core import BaseOscillator
-from reasoning.symbolic_reasoning import SymbolicEngine
-from tools.documentation.symbolic_knowledge_core.knowledge_graph import (
-    MultiverseKnowledgeWeb,
-)
 
 
 class QuantumIntegrationTestSuite:
@@ -78,7 +78,7 @@ class QuantumIntegrationTestSuite:
         }
         self.start_time = None
 
-    async def initialize_quantum_systems(self) -> Dict[str, Any]:
+    async def initialize_quantum_systems(self) -> dict[str, Any]:
         """Initialize all quantum optimization systems"""
         print("🔧 Initializing Quantum Systems...")
 
@@ -106,8 +106,8 @@ class QuantumIntegrationTestSuite:
         return systems
 
     async def test_quantum_entanglement_integration(
-        self, systems: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, systems: dict[str, Any]
+    ) -> dict[str, float]:
         """Test entanglement-like correlation between all optimization modules"""
         print("🔬 Testing Quantum Entanglement Integration...")
 
@@ -149,7 +149,7 @@ class QuantumIntegrationTestSuite:
         results["symbolic_testing_entanglement"] = symbolic_test_correlation
 
         # Test Knowledge-Quantum entanglement
-        knowledge_pattern = await systems["knowledge"].encrypt_and_store(
+        await systems["knowledge"].encrypt_and_store(
             "quantum_optimization_pattern",
             {"frequency": systems["quantum"].base_frequency},
         )
@@ -169,8 +169,8 @@ class QuantumIntegrationTestSuite:
         return results
 
     async def test_throughput_optimization(
-        self, systems: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, systems: dict[str, Any]
+    ) -> dict[str, float]:
         """Test 5-10x throughput improvement across all domains"""
         print("⚡ Testing Throughput Optimization...")
 
@@ -231,7 +231,7 @@ class QuantumIntegrationTestSuite:
         )
         return results
 
-    async def test_energy_efficiency(self, systems: Dict[str, Any]) -> Dict[str, float]:
+    async def test_energy_efficiency(self, systems: dict[str, Any]) -> dict[str, float]:
         """Test 40% energy reduction through quantum optimizations"""
         print("🔋 Testing Energy Efficiency...")
 
@@ -281,7 +281,7 @@ class QuantumIntegrationTestSuite:
         )
         return results
 
-    async def test_response_times(self, systems: Dict[str, Any]) -> Dict[str, float]:
+    async def test_response_times(self, systems: dict[str, Any]) -> dict[str, float]:
         """Test sub-100ms response times for critical operations"""
         print("⏱️ Testing Response Times...")
 
@@ -326,7 +326,7 @@ class QuantumIntegrationTestSuite:
         print(f"✅ Sub-100ms compliance: {results['sub_100ms_compliance']:.1f}%")
         return results
 
-    async def test_quantum_fidelity(self, systems: Dict[str, Any]) -> Dict[str, float]:
+    async def test_quantum_fidelity(self, systems: dict[str, Any]) -> dict[str, float]:
         """Test 95%+ quantum fidelity across all quantum operations"""
         print("🎯 Testing Quantum Fidelity...")
 
@@ -360,20 +360,12 @@ class QuantumIntegrationTestSuite:
         return results
 
     async def test_post_quantum_compliance(
-        self, systems: Dict[str, Any]
-    ) -> Dict[str, bool]:
+        self, systems: dict[str, Any]
+    ) -> dict[str, bool]:
         """Test NIST SP 800-208 post-quantum cryptographic compliance"""
         print("🛡️ Testing Post-Quantum Compliance...")
 
         results = {}
-
-        compliance_checks = {
-            "kyber_768_encryption": True,
-            "dilithium_signatures": True,
-            "lattice_based_crypto": True,
-            "quantum_resistant_hashing": True,
-            "nist_approved_algorithms": True,
-        }
 
         for domain, system in systems.items():
             if hasattr(system, "verify_post_quantum_compliance"):
@@ -394,7 +386,7 @@ class QuantumIntegrationTestSuite:
         print(f"✅ Overall NIST compliance: {results['compliance_percentage']:.1f}%")
         return results
 
-    async def run_comprehensive_integration_test(self) -> Dict[str, Any]:
+    async def run_comprehensive_integration_test(self) -> dict[str, Any]:
         """Run the complete integration test suite"""
         print("🚀 Starting lukhas Phase 3 Quantum Integration Test Suite")
         print("=" * 80)
@@ -650,18 +642,18 @@ async def test_quantum_performance_targets():
     """Test that performance targets are being met"""
     print("⚡ Testing Performance Targets...")
 
-    start_time = time.perf_counter()
+    time.perf_counter()
 
     # Initialize systems
     symbolic = SymbolicEngine()
-    identity = QuantumIdentityEngine()
-    ethics = QuantumEthicsEngine()
+    QuantumIdentityEngine()
+    QuantumEthicsEngine()
 
     # Test response time (sub-100ms target)
     test_start = time.perf_counter()
 
     # Simple reasoning test
-    reasoning_result = await symbolic.quantum_reason(
+    await symbolic.quantum_reason(
         {
             "query": "performance_test",
             "context": {"test_type": "performance", "complexity": 0.1},

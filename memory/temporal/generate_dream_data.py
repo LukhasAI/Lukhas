@@ -18,6 +18,7 @@ generate_dream_data.py
 Generates synthetic dream data for testing the REM visualizer.
 """
 
+import contextlib
 import datetime
 import json
 import pathlib
@@ -103,10 +104,8 @@ def main():
             for line in f:
                 line = line.strip()
                 if line and not line.startswith("#") and not line.startswith("//"):
-                    try:
+                    with contextlib.suppress(json.JSONDecodeError):
                         existing_dreams.append(json.loads(line))
-                    except json.JSONDecodeError:
-                        pass
 
     # Generate new dreams
     new_dreams = [generate_dream() for _ in range(NUM_DREAMS)]

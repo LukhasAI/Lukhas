@@ -19,17 +19,17 @@ logger = structlog.get_logger(__name__)
 
 """
 +────────────────────────────────────────────────────────────────────────────+
-| MODULE         : lukhas_vendor_sync.py                                      |
-| DESCRIPTION    :                                                           |
-|   Interfaces with external vendors (e.g., Uber, Booking.com, OpenTable)   |
+| MODULE: lukhas_vendor_sync.py |
+| DESCRIPTION: |
+|   Interfaces with external vendors(e.g., Uber, Booking.com, OpenTable) |
 |   to fetch live data, check availability, and report symbolic preferences.|
-|   Forms the foundation of DST fulfillment and predictive intent syncing.  |
-| TYPE           : Vendor Sync & Inventory Bridge  VERSION : v1.0.0         |
-| AUTHOR         : LUKHAS SYSTEMS                  CREATED : 2025-4-22       |
+|   Forms the foundation of DST fulfillment and predictive intent syncing. |
+| TYPE: Vendor Sync & Inventory Bridge  VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                  CREATED: 2025 - 4 - 22 |
 +────────────────────────────────────────────────────────────────────────────+
-| DEPENDENCIES   :                                                           |
-|   - lukhas_dst_tracker.py (optional)                                        |
-|   - lukhas_widget_engine.py                                                 |
+| DEPENDENCIES: |
+| - lukhas_dst_tracker.py(optional) |
+| - lukhas_widget_engine.py |
 +────────────────────────────────────────────────────────────────────────────+
 """
 
@@ -38,12 +38,12 @@ import uuid
 
 def fetch_vendor_availability(service_type, location, time=None):
     """
-    Simulates checking vendor-side availability or inventory.
+    Simulates checking vendor - side availability or inventory.
 
     Parameters:
-    - service_type (str): 'ride', 'hotel', 'dining', 'event'
-    - location (str): user or target destination
-    - time (str): optional time window for booking (e.g. '2025-04-22 19:00')
+    - service_type(str): 'ride', 'hotel', 'dining', 'event'
+    - location(str): user or target destination
+    - time(str): optional time window for booking(e.g. '2025-04-22 19:00')
 
     Returns:
     - dict: response with match or fallback
@@ -108,7 +108,7 @@ def sync_instagram_messages():
 
 def sync_imessage_conversations():
     """
-    Simulates scanning iMessage for commitments (e.g., meetups).
+    Simulates scanning iMessage for commitments(e.g., meetups).
     """
     return [{"conversation": "Dinner at 7 PM 🍽️", "status": "pending"}]
 
@@ -120,7 +120,7 @@ def sync_philips_hue():
 
 def sync_sonos_playlists():
     """
-    Simulates fetching Sonos playlists for mood-based playback.
+    Simulates fetching Sonos playlists for mood - based playback.
     """
     return [{"playlist": "Morning Chill ☀️", "tracks": 12}]
 
@@ -171,7 +171,7 @@ def wrap_dst_metadata(payload, vendor_name):
 
 """
 ΛTRACE: End of vendor_sync.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

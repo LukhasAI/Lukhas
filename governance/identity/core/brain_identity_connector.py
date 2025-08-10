@@ -5,6 +5,9 @@ Advanced: brain_identity_connector.py
 Integration Date: 2025-05-31T07:55:28.094841
 """
 
+from typing import Any, Optional, Union
+from enum import Enum
+from datetime import datetime
 import logging
 
 """
@@ -29,9 +32,6 @@ import logging
     • Emotional context preservation during identity transitions
 """
 
-from datetime import datetime
-from enum import Enum
-from typing import Any, Optional, Union
 
 # Set up logging
 logger = logging.getLogger("brain_identity")

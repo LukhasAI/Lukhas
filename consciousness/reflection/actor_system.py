@@ -23,6 +23,7 @@
 ║ 126-130 with AsyncIO-based concurrent processing and location transparency.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 import asyncio
 import json
@@ -32,7 +33,7 @@ import uuid
 from abc import ABC
 from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Optional, Union
 
 from core.common import get_logger
 
@@ -45,7 +46,6 @@ try:
         Mailbox,
         MailboxFactory,
         MailboxType,
-        MessagePriority,
     )
 
     ENHANCED_MAILBOX_AVAILABLE = True
@@ -84,12 +84,12 @@ class ActorMessage:
     sender: str
     recipient: str
     message_type: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     timestamp: float
     correlation_id: Optional[str] = None
     reply_to: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
 
@@ -103,7 +103,7 @@ class ActorRef:
     async def tell(
         self,
         message_type: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         correlation_id: Optional[str] = None,
         reply_to: Optional[str] = None,
         sender: Optional[str] = "unknown",
@@ -125,7 +125,7 @@ class ActorRef:
     async def ask(
         self,
         message_type: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         timeout: float = 5.0,
         correlation_id: Optional[str] = None,
     ) -> Any:
@@ -190,9 +190,9 @@ class Actor(ABC):
             # Fallback to standard asyncio queue
             self.mailbox = asyncio.Queue(maxsize=1000)
 
-        self.message_handlers: Dict[str, Callable] = {}
+        self.message_handlers: dict[str, Callable] = {}
         self.supervisor: Optional[ActorRef] = None
-        self.children: Dict[str, ActorRef] = {}
+        self.children: dict[str, ActorRef] = {}
         self.actor_system: Optional[ActorSystem] = None
         self.supervision_strategy: SupervisionStrategy = SupervisionStrategy.RESTART
         self._running = False
@@ -303,7 +303,7 @@ class Actor(ABC):
         """Register a message handler"""
         self.message_handlers[message_type] = handler
 
-    def become(self, new_handlers: Dict[str, Callable]):
+    def become(self, new_handlers: dict[str, Callable]):
         """
         Change the actor's behavior by replacing its message handlers.
         This is one of the three fundamental actor actions.
@@ -347,19 +347,15 @@ class Actor(ABC):
     # Abstract methods to be implemented by subclasses
     async def pre_start(self):
         """Called before actor starts"""
-        pass
 
     async def pre_stop(self):
         """Called before actor stops"""
-        pass
 
     async def post_stop(self):
         """Called after actor stops"""
-        pass
 
     async def pre_restart(self, reason: Exception):
         """Called before actor is restarted"""
-        pass
 
     async def unhandled_message(self, message: ActorMessage):
         """Handle unknown message types"""
@@ -379,13 +375,12 @@ class Actor(ABC):
             await self.actor_system.restart_actor(child_id)
         elif strategy == SupervisionStrategy.STOP:
             await self.actor_system.stop_actor(child_id)
-        elif strategy == SupervisionStrategy.ESCALATE:
-            if self.supervisor:
-                await self.supervisor.tell(
-                    "child_failed", {"child_id": self.actor_id, "error": str(error)}
-                )
+        elif strategy == SupervisionStrategy.ESCALATE and self.supervisor:
+            await self.supervisor.tell(
+                "child_failed", {"child_id": self.actor_id, "error": str(error)}
+            )
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get actor statistics"""
         stats = {
             **self._stats,
@@ -414,14 +409,14 @@ class ActorSystem:
 
     def __init__(self, system_name: str = "lukhas-actors"):
         self.system_name = system_name
-        self.actors: Dict[str, Actor] = {}
-        self.actor_refs: Dict[str, ActorRef] = {}
-        self.response_handlers: Dict[str, asyncio.Future] = {}
+        self.actors: dict[str, Actor] = {}
+        self.actor_refs: dict[str, ActorRef] = {}
+        self.response_handlers: dict[str, asyncio.Future] = {}
         self._lock = threading.Lock()
         self._running = False
 
         # P2P Management
-        self.p2p_nodes: Dict[str, P2PNode] = {}
+        self.p2p_nodes: dict[str, P2PNode] = {}
 
         # Sharding support (simple hash-based)
         self.shard_count = 16
@@ -577,7 +572,7 @@ class ActorSystem:
                 )
                 await self.stop_actor(supervisor.actor_id)
 
-    def get_system_stats(self) -> Dict[str, Any]:
+    def get_system_stats(self) -> dict[str, Any]:
         """Get system-wide statistics"""
         stats = {
             "system_name": self.system_name,
@@ -612,11 +607,11 @@ class AIAgentActor(Actor):
     It also shows how an actor can change its behavior using `become`.
     """
 
-    def __init__(self, actor_id: str, capabilities: List[str] = None):
+    def __init__(self, actor_id: str, capabilities: list[str] = None):
         super().__init__(actor_id)
         self.capabilities = capabilities or []
-        self.current_tasks: Dict[str, Dict] = {}
-        self.memory: Dict[str, Any] = {}
+        self.current_tasks: dict[str, dict] = {}
+        self.memory: dict[str, Any] = {}
         self.energy_level = 100.0  # Energy efficiency tracking
 
         # Register message handlers
@@ -629,7 +624,7 @@ class AIAgentActor(Actor):
         self.register_handler("p2p_connect", self._handle_p2p_connect)
         self.register_handler("p2p_send", self._handle_p2p_send)
 
-    async def _handle_p2p_connect(self, message: ActorMessage) -> Dict[str, Any]:
+    async def _handle_p2p_connect(self, message: ActorMessage) -> dict[str, Any]:
         """Handle a P2P connect request."""
         p2p_node = await self.actor_system.get_p2p_node(self.actor_id)
         if p2p_node:
@@ -640,7 +635,7 @@ class AIAgentActor(Actor):
                 return {"status": "connected", "peer_id": peer_id}
         return {"status": "failed"}
 
-    async def _handle_p2p_send(self, message: ActorMessage) -> Dict[str, Any]:
+    async def _handle_p2p_send(self, message: ActorMessage) -> dict[str, Any]:
         """Handle a P2P send request."""
         p2p_node = await self.actor_system.get_p2p_node(self.actor_id)
         if p2p_node:
@@ -664,7 +659,7 @@ class AIAgentActor(Actor):
         )
         self.memory["start_time"] = time.time()
 
-    async def _handle_assign_task(self, message: ActorMessage) -> Dict[str, Any]:
+    async def _handle_assign_task(self, message: ActorMessage) -> dict[str, Any]:
         """Handle task assignment"""
         task_data = message.payload
         task_id = task_data.get("task_id")
@@ -684,7 +679,7 @@ class AIAgentActor(Actor):
         logger.info(f"Agent {self.actor_id} accepted task {task_id}")
         return {"status": "accepted", "estimated_duration": 10.0}
 
-    async def _handle_complete_task(self, message: ActorMessage) -> Dict[str, Any]:
+    async def _handle_complete_task(self, message: ActorMessage) -> dict[str, Any]:
         """Handle task completion"""
         task_id = message.payload.get("task_id")
         result = message.payload.get("result")
@@ -711,7 +706,7 @@ class AIAgentActor(Actor):
 
         return {"status": "error", "reason": "task_not_found"}
 
-    async def _handle_query_status(self, message: ActorMessage) -> Dict[str, Any]:
+    async def _handle_query_status(self, message: ActorMessage) -> dict[str, Any]:
         """Handle status query"""
         return {
             "agent_id": self.actor_id,
@@ -722,14 +717,14 @@ class AIAgentActor(Actor):
             "uptime": time.time() - self.memory.get("start_time", time.time()),
         }
 
-    async def _handle_update_memory(self, message: ActorMessage) -> Dict[str, Any]:
+    async def _handle_update_memory(self, message: ActorMessage) -> dict[str, Any]:
         """Handle memory update"""
         memory_update = message.payload.get("memory_update", {})
         self.memory.update(memory_update)
 
         return {"status": "updated", "memory_size": len(self.memory)}
 
-    async def _handle_collaborate(self, message: ActorMessage) -> Dict[str, Any]:
+    async def _handle_collaborate(self, message: ActorMessage) -> dict[str, Any]:
         """Handle collaboration request from another agent"""
         request = message.payload
         collaboration_type = request.get("type")

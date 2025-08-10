@@ -63,7 +63,7 @@ Text content undergoes zlib compression with level-6 optimization, balanced for 
 The OptimizedMemoryItem class utilizes Python's `__slots__` mechanism to eliminate dictionary overhead, storing all data in a single binary blob. The memory layout follows a precise structure:
 
 ```
-[Header: 16 bytes] [Compressed Content: Variable] [Binary Tags: Variable] 
+[Header: 16 bytes] [Compressed Content: Variable] [Binary Tags: Variable]
 [Packed Metadata: Variable] [Quantized Embedding: 1024 bytes]
 ```
 

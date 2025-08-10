@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import logging
 from threading import RLock
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from memory.distributed_state_manager import MultiNodeStateManager
 
@@ -20,24 +20,24 @@ logger = logging.getLogger(__name__)
 class QuantumGlyphRegistry:
     """Distributed registry for glyph states."""
 
-    def __init__(self, node_configs: List[Dict[str, Any]]):
+    def __init__(self, node_configs: list[dict[str, Any]]):
         self.cluster = MultiNodeStateManager(node_configs)
         self._lock = RLock()
 
-    def register_glyph_state(self, glyph_id: str, state: Dict[str, Any]) -> None:
+    def register_glyph_state(self, glyph_id: str, state: dict[str, Any]) -> None:
         """Register or update a glyph state across the cluster."""
         key = f"glyph:{glyph_id}"
         with self._lock:
             self.cluster.set(key, state)
             logger.debug("Registered glyph", glyph=glyph_id)
 
-    def get_glyph_state(self, glyph_id: str) -> Optional[Dict[str, Any]]:
+    def get_glyph_state(self, glyph_id: str) -> dict[str, Any] | None:
         """Retrieve a glyph state from the cluster."""
         key = f"glyph:{glyph_id}"
         with self._lock:
             return self.cluster.get(key)
 
-    def list_glyphs(self) -> List[str]:
+    def list_glyphs(self) -> list[str]:
         """List all glyph identifiers known to the cluster."""
         glyphs: set[str] = set()
         with self._lock:
@@ -58,9 +58,9 @@ class QuantumGlyphRegistry:
                 for node in self.cluster.nodes.values():
                     node.set(f"glyph:{glyph_id}", state)
 
-    def recombine_dreams(self, glyph_ids: List[str]) -> Dict[str, Any]:
+    def recombine_dreams(self, glyph_ids: list[str]) -> dict[str, Any]:
         """Combine dream fragments from multiple glyphs."""
-        fragments: List[str] = []
+        fragments: list[str] = []
         drift_total = 0.0
         affect_total = 0.0
         for gid in glyph_ids:

@@ -11,7 +11,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from .user_data_integrator import UserDataIntegrator
 
@@ -50,14 +50,14 @@ class VendorProfile:
     created_at: datetime
     api_key: str
     api_secret: str
-    domains: List[str] = field(default_factory=list)
-    categories: List[str] = field(default_factory=list)
+    domains: list[str] = field(default_factory=list)
+    categories: list[str] = field(default_factory=list)
     ethical_score: float = 0.0
     active: bool = True
-    settings: Dict[str, Any] = field(default_factory=dict)
-    metrics: Dict[str, Any] = field(default_factory=dict)
+    settings: dict[str, Any] = field(default_factory=dict)
+    metrics: dict[str, Any] = field(default_factory=dict)
 
-    def generate_api_credentials(self) -> Tuple[str, str]:
+    def generate_api_credentials(self) -> tuple[str, str]:
         """Generate new API credentials for vendor"""
         api_key = f"vk_{uuid.uuid4().hex}"
         api_secret = hashlib.sha256(
@@ -75,16 +75,16 @@ class DreamSeed:
     seed_type: DreamSeedType
     title: str
     narrative: str  # Poetic narrative content
-    emotional_triggers: Dict[str, float]  # Joy, Calm, Stress, Longing scores
-    product_data: Dict[str, Any]
-    offer_details: Dict[str, Any]
-    media_assets: List[Dict[str, str]]  # URLs to images/videos
-    targeting_criteria: Dict[str, Any]
+    emotional_triggers: dict[str, float]  # Joy, Calm, Stress, Longing scores
+    product_data: dict[str, Any]
+    offer_details: dict[str, Any]
+    media_assets: list[dict[str, str]]  # URLs to images/videos
+    targeting_criteria: dict[str, Any]
     affiliate_link: str
-    one_click_data: Dict[str, Any]  # Pre-filled purchase data
+    one_click_data: dict[str, Any]  # Pre-filled purchase data
     expiry: Optional[datetime] = None
-    ethical_validation: Dict[str, Any] = field(default_factory=dict)
-    performance_metrics: Dict[str, Any] = field(default_factory=dict)
+    ethical_validation: dict[str, Any] = field(default_factory=dict)
+    performance_metrics: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.now)
 
     def is_valid(self) -> bool:
@@ -108,23 +108,23 @@ class VendorPortal:
     """
 
     def __init__(
-        self, config: Optional[Dict] = None, consent_manager: Optional[Any] = None
+        self, config: Optional[dict] = None, consent_manager: Optional[Any] = None
     ):
         self.config = config or self._default_config()
-        self.vendors: Dict[str, VendorProfile] = {}
-        self.dream_seeds: Dict[str, List[DreamSeed]] = {}
-        self.pending_seeds: List[DreamSeed] = []
+        self.vendors: dict[str, VendorProfile] = {}
+        self.dream_seeds: dict[str, list[DreamSeed]] = {}
+        self.pending_seeds: list[DreamSeed] = []
         # Create consent manager if not provided
         if consent_manager is None:
             from .consent_manager import ConsentManager
 
             consent_manager = ConsentManager()
         self.user_data_integrator = UserDataIntegrator(consent_manager)
-        self.performance_tracker: Dict[str, Dict] = {}
+        self.performance_tracker: dict[str, dict] = {}
 
         logger.info("NIΛS Vendor Portal initialized")
 
-    def _default_config(self) -> Dict:
+    def _default_config(self) -> dict:
         """Default vendor portal configuration"""
         return {
             "trial_duration_days": 30,
@@ -146,10 +146,10 @@ class VendorPortal:
     async def onboard_vendor(
         self,
         company_name: str,
-        domains: List[str],
-        categories: List[str],
+        domains: list[str],
+        categories: list[str],
         tier: VendorTier = VendorTier.TRIAL,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Onboard a new vendor to the platform
 
@@ -205,8 +205,8 @@ class VendorPortal:
             return {"error": str(e)}
 
     async def create_dream_seed(
-        self, vendor_id: str, seed_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, vendor_id: str, seed_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Create a new dream seed for vendor's products/offers
 
@@ -281,7 +281,7 @@ class VendorPortal:
             logger.error(f"Error creating dream seed: {e}")
             return {"error": str(e)}
 
-    async def _validate_dream_seed(self, seed: DreamSeed) -> Dict[str, Any]:
+    async def _validate_dream_seed(self, seed: DreamSeed) -> dict[str, Any]:
         """Validate dream seed for ethical compliance"""
         validation_results = {"approved": True, "score": 1.0, "checks": {}}
 
@@ -334,8 +334,8 @@ class VendorPortal:
         return validation_results
 
     async def _estimate_reach(
-        self, targeting_criteria: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, targeting_criteria: dict[str, Any]
+    ) -> dict[str, Any]:
         """Estimate potential reach for targeting criteria"""
         # Simplified estimation - would use real user data in production
         base_reach = 100000
@@ -357,7 +357,7 @@ class VendorPortal:
         }
 
     async def generate_affiliate_link(
-        self, vendor_id: str, product_id: str, user_context: Dict[str, Any]
+        self, vendor_id: str, product_id: str, user_context: dict[str, Any]
     ) -> str:
         """
         Generate a one-click affiliate link with pre-filled user data
@@ -420,8 +420,8 @@ class VendorPortal:
             return ""
 
     async def get_vendor_analytics(
-        self, vendor_id: str, date_range: Optional[Tuple[datetime, datetime]] = None
-    ) -> Dict[str, Any]:
+        self, vendor_id: str, date_range: Optional[tuple[datetime, datetime]] = None
+    ) -> dict[str, Any]:
         """Get performance analytics for a vendor"""
         if vendor_id not in self.vendors:
             return {"error": "Vendor not found"}
@@ -484,8 +484,8 @@ class VendorPortal:
         }
 
     def _get_top_seeds(
-        self, seeds: List[DreamSeed], limit: int = 5
-    ) -> List[Dict[str, Any]]:
+        self, seeds: list[DreamSeed], limit: int = 5
+    ) -> list[dict[str, Any]]:
         """Get top performing dream seeds"""
         # Sort by conversion rate
         sorted_seeds = sorted(
@@ -506,7 +506,7 @@ class VendorPortal:
         ]
 
     async def update_seed_performance(
-        self, seed_id: str, event_type: str, event_data: Dict[str, Any]
+        self, seed_id: str, event_type: str, event_data: dict[str, Any]
     ) -> bool:
         """Update performance metrics for a dream seed"""
         try:
@@ -583,55 +583,55 @@ class NIASDreamSDK:
         self.api_secret = "YOUR_API_SECRET"  # Store securely
         self.base_url = "https://api.nias.ai/v1"
         self.vendor_id = "{vendor_id}"
-    
+
     def create_dream_seed(self, seed_data: Dict[str, Any]) -> Dict[str, Any]:
         """Create a new dream seed"""
         endpoint = f"{{self.base_url}}/vendor/{{self.vendor_id}}/seeds"
-        
+
         headers = {{
             "X-API-Key": self.api_key,
             "X-API-Secret": self.api_secret,
             "Content-Type": "application/json"
         }}
-        
+
         response = requests.post(endpoint, json=seed_data, headers=headers)
         return response.json()
-    
+
     def get_analytics(self, date_from: str = None, date_to: str = None) -> Dict[str, Any]:
         """Get performance analytics"""
         endpoint = f"{{self.base_url}}/vendor/{{self.vendor_id}}/analytics"
-        
+
         params = {{}}
         if date_from:
             params["from"] = date_from
         if date_to:
             params["to"] = date_to
-        
+
         headers = {{
             "X-API-Key": self.api_key,
             "X-API-Secret": self.api_secret
         }}
-        
+
         response = requests.get(endpoint, params=params, headers=headers)
         return response.json()
-    
+
     def create_poetic_narrative(self, product_name: str, context: str) -> str:
         """Generate a poetic narrative for your product"""
         # This would call the NIAS narrative generation service
         endpoint = f"{{self.base_url}}/vendor/{{self.vendor_id}}/narrative"
-        
+
         data = {{
             "product_name": product_name,
             "context": context,
             "style": "poetic_dream"
         }}
-        
+
         headers = {{
             "X-API-Key": self.api_key,
             "X-API-Secret": self.api_secret,
             "Content-Type": "application/json"
         }}
-        
+
         response = requests.post(endpoint, json=data, headers=headers)
         return response.json().get("narrative", "")
 
@@ -685,10 +685,10 @@ class NIASDreamSDK {{
         this.baseUrl = 'https://api.nias.ai/v1';
         this.vendorId = '{vendor_id}';
     }}
-    
+
     async createDreamSeed(seedData) {{
         const endpoint = `${{this.baseUrl}}/vendor/${{this.vendorId}}/seeds`;
-        
+
         try {{
             const response = await axios.post(endpoint, seedData, {{
                 headers: {{
@@ -697,21 +697,21 @@ class NIASDreamSDK {{
                     'Content-Type': 'application/json'
                 }}
             }});
-            
+
             return response.data;
         }} catch (error) {{
             console.error('Error creating dream seed:', error);
             throw error;
         }}
     }}
-    
+
     async getAnalytics(dateFrom = null, dateTo = null) {{
         const endpoint = `${{this.baseUrl}}/vendor/${{this.vendorId}}/analytics`;
-        
+
         const params = {{}};
         if (dateFrom) params.from = dateFrom;
         if (dateTo) params.to = dateTo;
-        
+
         try {{
             const response = await axios.get(endpoint, {{
                 params,
@@ -720,7 +720,7 @@ class NIASDreamSDK {{
                     'X-API-Secret': this.apiSecret
                 }}
             }});
-            
+
             return response.data;
         }} catch (error) {{
             console.error('Error fetching analytics:', error);

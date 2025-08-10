@@ -34,6 +34,7 @@
 ║ Symbolic Tags: {ΛCOMPRESS}, {ΛDELTA}, {ΛLOOP}, {ΛENTROPY}
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+import numpy as np
 
 # Module imports
 import hashlib
@@ -43,7 +44,7 @@ import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 # Configure module logger
 
@@ -60,7 +61,7 @@ class SymbolicMotif:
     frequency: int
     emotional_weight: float
     importance_score: float
-    context_keys: Set[str]
+    context_keys: set[str]
     entropy_contribution: float
 
 
@@ -120,7 +121,7 @@ class AdvancedSymbolicDeltaCompressor:
     # LUKHAS_TAG: motif_extraction_engine
     def extract_advanced_motifs(
         self, content: str, fold_key: str
-    ) -> List[SymbolicMotif]:
+    ) -> list[SymbolicMotif]:
         """
         Extracts symbolic motifs using advanced pattern recognition.
         Combines linguistic patterns, emotional resonance, and importance scoring.
@@ -202,7 +203,7 @@ class AdvancedSymbolicDeltaCompressor:
         total_weight = 0.0
         matches = 0
 
-        for emotion, pattern in self.emotional_patterns.items():
+        for _emotion, pattern in self.emotional_patterns.items():
             if re.search(pattern, text, re.IGNORECASE):
                 total_weight += 1.0
                 matches += 1
@@ -214,7 +215,7 @@ class AdvancedSymbolicDeltaCompressor:
         base_score = 0.3
 
         # Check for importance markers
-        for marker, pattern in self.importance_markers.items():
+        for _marker, pattern in self.importance_markers.items():
             if re.search(pattern, full_content, re.IGNORECASE):
                 if text.lower() in full_content.lower():
                     base_score += 0.2
@@ -278,7 +279,7 @@ class AdvancedSymbolicDeltaCompressor:
         selected_sentences = []
         current_length = 0
 
-        for sentence, score in sentence_scores:
+        for sentence, _score in sentence_scores:
             if (
                 current_length + len(sentence) <= target_length
                 or len(selected_sentences) == 0
@@ -307,7 +308,7 @@ class AdvancedSymbolicDeltaCompressor:
         content: Any,
         previous_content: Optional[Any] = None,
         importance_score: float = 0.5,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Performs advanced delta compression with motif extraction and importance pruning.
         """
@@ -397,7 +398,7 @@ class AdvancedSymbolicDeltaCompressor:
 
         return compression_result
 
-    def _calculate_content_delta(self, current: str, previous: str) -> Dict[str, Any]:
+    def _calculate_content_delta(self, current: str, previous: str) -> dict[str, Any]:
         """Calculate semantic and structural differences between content versions."""
         current_words = set(re.findall(r"\b\w+\b", current.lower()))
         previous_words = set(re.findall(r"\b\w+\b", previous.lower()))
@@ -421,7 +422,7 @@ class AdvancedSymbolicDeltaCompressor:
             / max(len(current), len(previous), 1),
         }
 
-    def _store_compressed_memory(self, compression_data: Dict[str, Any]):
+    def _store_compressed_memory(self, compression_data: dict[str, Any]):
         """Store compressed memory data to persistent storage."""
         try:
             os.makedirs(os.path.dirname(self.compressed_memory_path), exist_ok=True)
@@ -434,7 +435,7 @@ class AdvancedSymbolicDeltaCompressor:
                 fold_key=compression_data.get("fold_key"),
             )
 
-    def _update_motif_database(self, motifs: List[SymbolicMotif], fold_key: str):
+    def _update_motif_database(self, motifs: list[SymbolicMotif], fold_key: str):
         """Update the global motif database with new patterns."""
         try:
             os.makedirs(os.path.dirname(self.motif_database_path), exist_ok=True)
@@ -459,7 +460,7 @@ class AdvancedSymbolicDeltaCompressor:
     # LUKHAS_TAG: compression_analytics
     def analyze_compression_patterns(
         self, time_window_hours: int = 24
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Analyze compression patterns and effectiveness over a time window."""
         cutoff_time = datetime.now(timezone.utc).replace(microsecond=0) - timedelta(
             hours=time_window_hours
@@ -521,8 +522,8 @@ class AdvancedSymbolicDeltaCompressor:
         return analysis
 
     def _detect_compression_loops(
-        self, motifs: List[SymbolicMotif], fold_key: str, content: str
-    ) -> Dict[str, Any]:
+        self, motifs: list[SymbolicMotif], fold_key: str, content: str
+    ) -> dict[str, Any]:
         """
         Detects compression loops using call stack inspection and symbol repetition tracking.
 
@@ -647,7 +648,7 @@ class AdvancedSymbolicDeltaCompressor:
 
         return loop_result
 
-    def _analyze_pattern_repetition(self, patterns: List[str]) -> Dict[str, Any]:
+    def _analyze_pattern_repetition(self, patterns: list[str]) -> dict[str, Any]:
         """Analyzes repetition patterns in extracted motifs."""
         from collections import Counter
 
@@ -690,7 +691,7 @@ class AdvancedSymbolicDeltaCompressor:
         max_entropy = math.log2(min(95, content_length))
         return max_entropy * content_length / 100  # Normalized per 100 characters
 
-    def _check_historical_compression_patterns(self, fold_key: str) -> Dict[str, Any]:
+    def _check_historical_compression_patterns(self, fold_key: str) -> dict[str, Any]:
         """Checks historical compression patterns for this fold to detect recurring loops."""
         try:
             # Initialize tracking if not exists
@@ -751,8 +752,8 @@ class AdvancedSymbolicDeltaCompressor:
             }
 
     def _analyze_motif_complexity_ratio(
-        self, motifs: List[SymbolicMotif], content: str
-    ) -> Dict[str, Any]:
+        self, motifs: list[SymbolicMotif], content: str
+    ) -> dict[str, Any]:
         """Analyzes the ratio of motif complexity to content complexity."""
         if not motifs:
             return {

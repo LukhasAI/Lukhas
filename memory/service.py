@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -41,7 +43,7 @@
 """
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -66,7 +68,7 @@ except ImportError:
             return True
 
         def log_activity(
-            self, activity_type: str, user_id: str, metadata: Dict[str, Any]
+            self, activity_type: str, user_id: str, metadata: dict[str, Any]
         ) -> None:
             logging.info(f"MEMORY_LOG: {activity_type} by {user_id}: {metadata}")
 
@@ -94,9 +96,9 @@ class MemoryService:
         self,
         user_id: str,
         memory_type: str,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         access_level: str = "personal",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Store information in the memory system with appropriate access controls.
 
@@ -170,7 +172,7 @@ class MemoryService:
             )
             return {"success": False, "error": error_msg}
 
-    def retrieve_memory(self, user_id: str, memory_id: str) -> Dict[str, Any]:
+    def retrieve_memory(self, user_id: str, memory_id: str) -> dict[str, Any]:
         """
         Retrieve a specific memory with access control checks.
 
@@ -254,7 +256,7 @@ class MemoryService:
         memory_type: Optional[str] = None,
         access_level: Optional[str] = None,
         limit: int = 10,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Search through memories with privacy controls.
 
@@ -309,7 +311,8 @@ class MemoryService:
                 if access_level and memory_record["access_level"] != access_level:
                     continue
 
-                # Simple search in content (would be more sophisticated in real implementation)
+                # Simple search in content (would be more sophisticated in real
+                # implementation)
                 content_str = str(memory_record["content"]).lower()
                 if query.lower() in content_str:
                     results.append(
@@ -359,7 +362,7 @@ class MemoryService:
             )
             return {"success": False, "error": error_msg}
 
-    def delete_memory(self, user_id: str, memory_id: str) -> Dict[str, Any]:
+    def delete_memory(self, user_id: str, memory_id: str) -> dict[str, Any]:
         """
         Delete a memory with proper access controls and audit logging.
 
@@ -426,7 +429,7 @@ class MemoryService:
             )
             return {"success": False, "error": error_msg}
 
-    def get_memory_stats(self, user_id: str) -> Dict[str, Any]:
+    def get_memory_stats(self, user_id: str) -> dict[str, Any]:
         """
         Get memory usage statistics for a user.
 
@@ -525,7 +528,7 @@ class MemoryService:
                 "storage_configured", "system", {"module": module, "config": config}
             )
 
-    def configure_storage(self, module: str, config: Dict[str, Any]) -> None:
+    def configure_storage(self, module: str, config: dict[str, Any]) -> None:
         """Configure storage for a specific module"""
         # Store configuration (in production, this would set up actual storage backends)
         if not hasattr(self, "storage_configs"):
@@ -547,15 +550,15 @@ class MemoryService:
 def store_memory(
     user_id: str,
     memory_type: str,
-    content: Dict[str, Any],
+    content: dict[str, Any],
     access_level: str = "personal",
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Simplified API for memory storage."""
     service = MemoryService()
     return service.store_memory(user_id, memory_type, content, access_level)
 
 
-def retrieve_memory(user_id: str, memory_id: str) -> Dict[str, Any]:
+def retrieve_memory(user_id: str, memory_id: str) -> dict[str, Any]:
     """Simplified API for memory retrieval."""
     service = MemoryService()
     return service.retrieve_memory(user_id, memory_id)
@@ -563,13 +566,13 @@ def retrieve_memory(user_id: str, memory_id: str) -> Dict[str, Any]:
 
 def search_memory(
     user_id: str, query: str, memory_type: Optional[str] = None
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Simplified API for memory search."""
     service = MemoryService()
     return service.search_memory(user_id, query, memory_type)
 
 
-def delete_memory(user_id: str, memory_id: str) -> Dict[str, Any]:
+def delete_memory(user_id: str, memory_id: str) -> dict[str, Any]:
     """Simplified API for memory deletion."""
     service = MemoryService()
     return service.delete_memory(user_id, memory_id)

@@ -66,7 +66,8 @@ class ResponseReasoningSummaryTextDoneEvent(BaseModel):
     reasoning summary part has been finalized.
     """
 
-    # AIDENTITY: `item_id` links this completed summary text back to its parent reasoning item.
+    # AIDENTITY: `item_id` links this completed summary text back to its
+    # parent reasoning item.
     item_id: str
     """The unique identifier of the main reasoning item to which this summary text belongs."""
 
@@ -78,16 +79,19 @@ class ResponseReasoningSummaryTextDoneEvent(BaseModel):
     sequence_number: int
     """The final sequence number for this summary text, corresponding to the last text delta event."""
 
-    # ΛNOTE: `summary_index` identifies which specific part of a multi-part summary this text completion refers to.
+    # ΛNOTE: `summary_index` identifies which specific part of a multi-part
+    # summary this text completion refers to.
     summary_index: int
     """The index of the specific summary part (within the reasoning item's summary list)
        for which the text is now complete."""
 
-    # ΛNOTE: `text` contains the complete and finalized symbolic text for this summary part.
+    # ΛNOTE: `text` contains the complete and finalized symbolic text for this
+    # summary part.
     text: str
     """The full and finalized text of the completed reasoning summary part."""
 
-    # ΛNOTE: `type` is a fixed literal, a symbolic discriminator for this specific event.
+    # ΛNOTE: `type` is a fixed literal, a symbolic discriminator for this
+    # specific event.
     type: Literal["response.reasoning_summary_text.done"]
     """The type of the event. Always 'response.reasoning_summary_text.done' for this model."""
     # Human-readable comment: Fixed literal type for event discrimination.

@@ -49,7 +49,7 @@ import io
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -70,7 +70,7 @@ except ImportError:
     AUDIO_AVAILABLE = False
 
 try:
-    import cv2
+    pass
 
     VIDEO_AVAILABLE = True
 except ImportError:
@@ -94,7 +94,7 @@ class ModalityMetadata:
     modality: ModalityType
     format: str  # File format (png, jpg, wav, mp4, etc.)
     size_bytes: int
-    dimensions: Optional[Tuple[int, ...]] = (
+    dimensions: Optional[tuple[int, ...]] = (
         None  # Image: (height, width), Audio: (samples,), etc.
     )
     duration_seconds: Optional[float] = None  # For audio/video
@@ -122,12 +122,12 @@ class MultiModalMemoryData:
     video_embedding: Optional[np.ndarray] = None
 
     # Metadata for each modality
-    modality_metadata: Dict[ModalityType, ModalityMetadata] = field(
+    modality_metadata: dict[ModalityType, ModalityMetadata] = field(
         default_factory=dict
     )
 
     # Cross-modal alignment information
-    alignment_scores: Dict[str, float] = field(
+    alignment_scores: dict[str, float] = field(
         default_factory=dict
     )  # e.g., "text-image": 0.85
 
@@ -155,7 +155,7 @@ class ImageProcessor:
 
     def process_image(
         self, image_data: bytes, format_hint: str = None
-    ) -> Tuple[bytes, ModalityMetadata]:
+    ) -> tuple[bytes, ModalityMetadata]:
         """
         Process image data for optimal AGI memory storage.
 
@@ -324,7 +324,7 @@ class AudioProcessor:
 
     def process_audio(
         self, audio_data: bytes, format_hint: str = None
-    ) -> Tuple[bytes, ModalityMetadata]:
+    ) -> tuple[bytes, ModalityMetadata]:
         """
         Process audio data for optimal AGI memory storage.
 
@@ -614,7 +614,7 @@ class MultiModalMemoryProcessor:
 
         logger.debug(
             "Multi-modal memory processed",
-            modalities=[m.value for m in memory_data.modality_metadata.keys()],
+            modalities=[m.value for m in memory_data.modality_metadata],
             unified_embedding_dim=(
                 len(memory_data.unified_embedding)
                 if memory_data.unified_embedding is not None
@@ -729,7 +729,7 @@ class MultiModalMemoryProcessor:
 
     async def _calculate_alignment_scores(
         self, memory_data: MultiModalMemoryData
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """
         Calculate cross-modal alignment scores.
 
@@ -830,27 +830,25 @@ class MultiModalMemoryItem:
         else:
             return base_content
 
-    def get_tags(self) -> List[str]:
+    def get_tags(self) -> list[str]:
         """Get tags including modality-specific tags"""
         base_tags = self.base_memory_item.get_tags()
 
         # Add modality tags
         modality_tags = [
             f"modality:{modality.value}"
-            for modality in self.multimodal_data.modality_metadata.keys()
+            for modality in self.multimodal_data.modality_metadata
         ]
 
         return base_tags + modality_tags
 
-    def get_metadata(self) -> Dict[str, Any]:
+    def get_metadata(self) -> dict[str, Any]:
         """Get metadata including multi-modal information"""
         base_metadata = self.base_memory_item.get_metadata()
 
         # Add multi-modal metadata
         multimodal_metadata = {
-            "modalities": [
-                m.value for m in self.multimodal_data.modality_metadata.keys()
-            ],
+            "modalities": [m.value for m in self.multimodal_data.modality_metadata],
             "unified_embedding_dim": (
                 len(self.multimodal_data.unified_embedding)
                 if self.multimodal_data.unified_embedding is not None
@@ -937,8 +935,8 @@ async def create_multimodal_memory(
     image_data: Optional[bytes] = None,
     audio_data: Optional[bytes] = None,
     video_data: Optional[bytes] = None,
-    tags: List[str] = None,
-    metadata: Dict[str, Any] = None,
+    tags: list[str] = None,
+    metadata: dict[str, Any] = None,
     **kwargs,
 ) -> MultiModalMemoryItem:
     """
@@ -975,7 +973,7 @@ async def create_multimodal_memory(
     # Create base optimized memory item
     display_content = text_content or "[Multi-modal memory]"
     memory_tags = (tags or []) + [
-        f"modality:{m.value}" for m in multimodal_data.modality_metadata.keys()
+        f"modality:{m.value}" for m in multimodal_data.modality_metadata
     ]
 
     base_memory = create_optimized_memory(

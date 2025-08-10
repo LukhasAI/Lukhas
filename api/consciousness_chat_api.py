@@ -25,7 +25,7 @@ logger = get_logger(__name__)
 app = FastAPI(
     title="LUKHAS Consciousness Chat API",
     description="Natural language interface to LUKHAS consciousness systems",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # Add CORS middleware for web clients
@@ -45,8 +45,11 @@ conversation_manager = None
 # Request/Response models
 class ChatRequest(BaseModel):
     """Chat request model"""
+
     message: str = Field(..., description="User message to process")
-    session_id: Optional[str] = Field(None, description="Session ID for conversation continuity")
+    session_id: Optional[str] = Field(
+        None, description="Session ID for conversation continuity"
+    )
     user_id: Optional[str] = Field(None, description="User identifier")
 
     class Config:
@@ -54,17 +57,20 @@ class ChatRequest(BaseModel):
             "example": {
                 "message": "How aware are you right now?",
                 "session_id": "session_123",
-                "user_id": "user_456"
+                "user_id": "user_456",
             }
         }
 
 
 class ChatResponse(BaseModel):
     """Chat response model"""
+
     response: str = Field(..., description="AI response")
     session_id: str = Field(..., description="Session ID for future requests")
     timestamp: datetime = Field(default_factory=datetime.now)
-    metadata: Optional[Dict[str, Any]] = Field(None, description="Additional response metadata")
+    metadata: Optional[Dict[str, Any]] = Field(
+        None, description="Additional response metadata"
+    )
 
     class Config:
         json_schema_extra = {
@@ -72,13 +78,14 @@ class ChatResponse(BaseModel):
                 "response": "My current awareness level is 85%. I'm highly aware and focused on our conversation.",
                 "session_id": "session_123",
                 "timestamp": "2024-01-15T10:30:00",
-                "metadata": {"intent": "query_awareness", "confidence": 0.9}
+                "metadata": {"intent": "query_awareness", "confidence": 0.9},
             }
         }
 
 
 class SessionInfo(BaseModel):
     """Session information model"""
+
     session_id: str
     user_id: Optional[str]
     turn_count: int
@@ -89,6 +96,7 @@ class SessionInfo(BaseModel):
 
 class SystemStatus(BaseModel):
     """System status model"""
+
     operational: bool
     active_sessions: int
     total_conversations: int
@@ -105,11 +113,13 @@ async def startup_event():
     logger.info("Starting Consciousness Chat API...")
 
     # Initialize interface
-    nl_interface = NaturalLanguageConsciousnessInterface(config={
-        "enable_emotions": True,
-        "formality_level": "friendly",
-        "max_response_length": 500
-    })
+    nl_interface = NaturalLanguageConsciousnessInterface(
+        config={
+            "enable_emotions": True,
+            "formality_level": "friendly",
+            "max_response_length": 500,
+        }
+    )
 
     # Initialize with mock services for demo
     # In production, these would be real service connections
@@ -137,15 +147,19 @@ async def _setup_mock_services():
 
     # Basic mock services for demo
     mock_consciousness = Mock()
-    mock_consciousness.assess_awareness = AsyncMock(return_value={
-        "overall_awareness": 0.85,
-        "attention_targets": ["conversation", "api_requests"]
-    })
-    mock_consciousness.make_decision = AsyncMock(return_value={
-        "selected_option": "Option A",
-        "confidence": 0.9,
-        "reasoning": ["Best outcome", "Aligns with goals"]
-    })
+    mock_consciousness.assess_awareness = AsyncMock(
+        return_value={
+            "overall_awareness": 0.85,
+            "attention_targets": ["conversation", "api_requests"],
+        }
+    )
+    mock_consciousness.make_decision = AsyncMock(
+        return_value={
+            "selected_option": "Option A",
+            "confidence": 0.9,
+            "reasoning": ["Best outcome", "Aligns with goals"],
+        }
+    )
 
     register_service("consciousness_service", mock_consciousness)
 
@@ -158,11 +172,7 @@ async def root():
         "service": "LUKHAS Consciousness Chat API",
         "version": "1.0.0",
         "description": "Natural language interface to AI consciousness",
-        "endpoints": {
-            "chat": "/chat",
-            "sessions": "/sessions",
-            "status": "/status"
-        }
+        "endpoints": {"chat": "/chat", "sessions": "/sessions", "status": "/status"},
     }
 
 
@@ -170,22 +180,22 @@ async def root():
 async def chat(request: ChatRequest):
     """
     Process a chat message through the consciousness interface.
-    
+
     - **message**: The user's natural language input
     - **session_id**: Optional session ID for conversation continuity
     - **user_id**: Optional user identifier
-    
+
     Returns the AI's response with session information.
     """
     try:
         if not nl_interface or not nl_interface.operational:
-            raise HTTPException(status_code=503, detail="Consciousness interface not available")
+            raise HTTPException(
+                status_code=503, detail="Consciousness interface not available"
+            )
 
         # Process the message
         response_text = await nl_interface.process_input(
-            request.message,
-            session_id=request.session_id,
-            user_id=request.user_id
+            request.message, session_id=request.session_id, user_id=request.user_id
         )
 
         # Get or create session ID
@@ -199,18 +209,18 @@ async def chat(request: ChatRequest):
                 last_turn = context.turns[-1]
                 metadata = {
                     "intent": last_turn.get("intent"),
-                    "turn_number": len(context.turns)
+                    "turn_number": len(context.turns),
                 }
 
         return ChatResponse(
-            response=response_text,
-            session_id=session_id,
-            metadata=metadata
+            response=response_text, session_id=session_id, metadata=metadata
         )
 
     except Exception as e:
         logger.error(f"Error processing chat request: {e}")
-        raise HTTPException(status_code=500, detail=f"Error processing request: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Error processing request: {str(e)}"
+        )
 
 
 @app.get("/sessions", response_model=List[SessionInfo], tags=["Sessions"])
@@ -222,14 +232,16 @@ async def get_sessions():
     sessions = []
     for session_id, context in nl_interface.active_sessions.items():
         if context.turns:
-            sessions.append(SessionInfo(
-                session_id=session_id,
-                user_id=context.user_id,
-                turn_count=len(context.turns),
-                created_at=context.turns[0]["timestamp"],
-                last_active=context.turns[-1]["timestamp"],
-                topics=context.topics[:5]  # First 5 topics
-            ))
+            sessions.append(
+                SessionInfo(
+                    session_id=session_id,
+                    user_id=context.user_id,
+                    turn_count=len(context.turns),
+                    created_at=context.turns[0]["timestamp"],
+                    last_active=context.turns[-1]["timestamp"],
+                    topics=context.topics[:5],  # First 5 topics
+                )
+            )
 
     return sessions
 
@@ -253,12 +265,12 @@ async def get_session_history(session_id: str):
                 "timestamp": turn["timestamp"],
                 "user": turn["user"],
                 "assistant": turn["system"],
-                "intent": turn.get("intent", "unknown")
+                "intent": turn.get("intent", "unknown"),
             }
             for turn in context.turns
         ],
         "emotional_state": context.emotional_state,
-        "topics": context.topics
+        "topics": context.topics,
     }
 
 
@@ -281,7 +293,7 @@ async def end_session(session_id: str):
     return {
         "message": "Session ended successfully",
         "session_id": session_id,
-        "total_turns": turn_count
+        "total_turns": turn_count,
     }
 
 
@@ -295,14 +307,15 @@ async def get_status():
 
     # Calculate uptime (simplified)
     import time
-    uptime = time.time() - startup_time if 'startup_time' in globals() else 0
+
+    uptime = time.time() - startup_time if "startup_time" in globals() else 0
 
     return SystemStatus(
         operational=status["operational"],
         active_sessions=status["active_sessions"],
         total_conversations=status["total_turns"],
         connected_services=status["connected_services"],
-        uptime_seconds=uptime
+        uptime_seconds=uptime,
     )
 
 
@@ -310,7 +323,7 @@ async def get_status():
 async def submit_feedback(
     session_id: str = Body(...),
     rating: int = Body(..., ge=1, le=5),
-    comment: Optional[str] = Body(None)
+    comment: Optional[str] = Body(None),
 ):
     """Submit feedback for a conversation"""
     logger.info(f"Feedback received for session {session_id}: rating={rating}")
@@ -319,7 +332,7 @@ async def submit_feedback(
     return {
         "message": "Thank you for your feedback!",
         "session_id": session_id,
-        "rating": rating
+        "rating": rating,
     }
 
 
@@ -328,8 +341,10 @@ async def submit_feedback(
 async def health_check():
     """Simple health check endpoint"""
     return {
-        "status": "healthy" if nl_interface and nl_interface.operational else "unhealthy",
-        "timestamp": datetime.now()
+        "status": (
+            "healthy" if nl_interface and nl_interface.operational else "unhealthy"
+        ),
+        "timestamp": datetime.now(),
     }
 
 
@@ -343,9 +358,4 @@ if __name__ == "__main__":
     startup_time = time.time()
 
     # Run the API
-    uvicorn.run(
-        app,
-        host="0.0.0.0",
-        port=8000,
-        log_level="info"
-    )
+    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")

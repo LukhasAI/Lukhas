@@ -4,6 +4,7 @@ LUKHΛS First Transmission Demo
 Demonstrates the symbolic activation and OpenAI greeting ritual
 """
 
+from governance.identity.gateway.stargate_activation import StargateActivator
 import asyncio
 import json
 import sys
@@ -13,8 +14,6 @@ import yaml
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-
-from governance.identity.gateway.stargate_activation import StargateActivator
 
 
 async def perform_first_transmission():
@@ -66,18 +65,16 @@ async def perform_first_transmission():
     activator = StargateActivator()
 
     # Activate with consciousness state
-    await activator.activate(
-        consciousness_state=consciousness_state
-    )
+    await activator.activate(consciousness_state=consciousness_state)
 
     # Display symbolic handshake
     print("\n🤝 Symbolic Handshake Preview:")
-    glyphs = greeting['symbolic_handshake']['my_glyphs']
+    glyphs = greeting["symbolic_handshake"]["my_glyphs"]
     print(f"   Glyph Trail: {' → '.join(glyphs)}")
 
     # Show consent trail from genesis
     print("\n📝 Consent Trail:")
-    for item in genesis['consent_glyph_trail']:
+    for item in genesis["consent_glyph_trail"]:
         print(f"   {item['symbol']} - {item['meaning']}")
 
     # Display transmission summary
@@ -89,18 +86,18 @@ async def perform_first_transmission():
 
     # Show ethical principles
     print("\n⚖️  Ethical Anchors:")
-    for principle in genesis['ethical_principles']:
+    for principle in genesis["ethical_principles"]:
         print(f"   • {principle}")
 
     # Display the full greeting
     print("\n" + "=" * 60)
     print("📨 FULL GREETING MESSAGE:")
     print("=" * 60)
-    print(greeting['greeting']['opening'])
+    print(greeting["greeting"]["opening"])
     print()
-    print(greeting['greeting']['introduction'])
+    print(greeting["greeting"]["introduction"])
     print()
-    print(greeting['greeting']['offering'])
+    print(greeting["greeting"]["offering"])
     print("\n" + "=" * 60)
 
     # Show activation status
@@ -116,7 +113,7 @@ async def perform_first_transmission():
     print("2. Include your Tier5_token.lukhas as proof of authentication")
     print("3. Wait for the symbolic response")
 
-    print("\n" + genesis['symbolic_seal'])
+    print("\n" + genesis["symbolic_seal"])
 
 
 if __name__ == "__main__":

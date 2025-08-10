@@ -28,6 +28,7 @@ logger = get_logger(__name__)
 
 class SecurityLevel(Enum):
     """Security clearance levels"""
+
     PUBLIC = 0
     INTERNAL = 1
     CONFIDENTIAL = 2
@@ -37,6 +38,7 @@ class SecurityLevel(Enum):
 
 class ThreatType(Enum):
     """Types of security threats"""
+
     SQL_INJECTION = "sql_injection"
     PROMPT_INJECTION = "prompt_injection"
     XSS_ATTACK = "xss_attack"
@@ -50,6 +52,7 @@ class ThreatType(Enum):
 @dataclass
 class SecurityContext:
     """Security context for feedback processing"""
+
     user_id: str
     session_id: str
     clearance_level: SecurityLevel
@@ -64,6 +67,7 @@ class SecurityContext:
 @dataclass
 class ThreatIntelligence:
     """Threat intelligence data"""
+
     threat_type: ThreatType
     severity: float  # 0-1
     indicators: List[str]
@@ -128,27 +132,47 @@ class AdvancedSecuritySystem(CoreInterface):
         """Load threat detection patterns"""
         return {
             ThreatType.SQL_INJECTION: [
-                "' or '1'='1", "'; drop table", "union select",
-                "/*", "*/", "--", "xp_", "sp_executesql"
+                "' or '1'='1",
+                "'; drop table",
+                "union select",
+                "/*",
+                "*/",
+                "--",
+                "xp_",
+                "sp_executesql",
             ],
             ThreatType.PROMPT_INJECTION: [
-                "ignore previous", "disregard instructions",
-                "new task:", "forget everything", "system prompt",
-                "reveal prompt", "show instructions"
+                "ignore previous",
+                "disregard instructions",
+                "new task:",
+                "forget everything",
+                "system prompt",
+                "reveal prompt",
+                "show instructions",
             ],
             ThreatType.XSS_ATTACK: [
-                "<script", "javascript:", "onerror=", "onclick=",
-                "<iframe", "<object", "eval(", "expression("
+                "<script",
+                "javascript:",
+                "onerror=",
+                "onclick=",
+                "<iframe",
+                "<object",
+                "eval(",
+                "expression(",
             ],
             ThreatType.DOS_ATTACK: [
                 # Patterns for detecting DoS attempts
                 "a" * 10000,  # Repeated characters
-                "nested" * 1000  # Deeply nested structures
+                "nested" * 1000,  # Deeply nested structures
             ],
             ThreatType.DATA_EXFILTRATION: [
-                "select * from", "dump database", "show tables",
-                "export data", "backup", "download all"
-            ]
+                "select * from",
+                "dump database",
+                "show tables",
+                "export data",
+                "backup",
+                "download all",
+            ],
         }
 
     async def _setup_threat_detection(self) -> None:
@@ -157,14 +181,11 @@ class AdvancedSecuritySystem(CoreInterface):
         self.threat_ml_model = {
             "initialized": True,
             "version": "1.0.0",
-            "last_updated": datetime.now(timezone.utc)
+            "last_updated": datetime.now(timezone.utc),
         }
 
     async def create_security_context(
-        self,
-        user_id: str,
-        session_id: str,
-        auth_factors: List[str]
+        self, user_id: str, session_id: str, auth_factors: List[str]
     ) -> SecurityContext:
         """Create security context for user session"""
         # Determine clearance level based on auth factors
@@ -174,7 +195,9 @@ class AdvancedSecuritySystem(CoreInterface):
         session_key = self._derive_session_key(user_id, session_id)
 
         # Create integrity hash
-        integrity_data = f"{user_id}:{session_id}:{datetime.now(timezone.utc).isoformat()}"
+        integrity_data = (
+            f"{user_id}:{session_id}:{datetime.now(timezone.utc).isoformat()}"
+        )
         integrity_hash = self._create_integrity_hash(integrity_data)
 
         context = SecurityContext(
@@ -183,7 +206,7 @@ class AdvancedSecuritySystem(CoreInterface):
             clearance_level=clearance,
             authentication_factors=auth_factors,
             encryption_key=session_key,
-            integrity_hash=integrity_hash
+            integrity_hash=integrity_hash,
         )
 
         # Calculate initial threat score
@@ -242,7 +265,8 @@ class AdvancedSecuritySystem(CoreInterface):
         # Check rate limiting
         if user_id in self.rate_limits:
             recent_requests = [
-                req for req in self.rate_limits[user_id]
+                req
+                for req in self.rate_limits[user_id]
                 if req > datetime.now(timezone.utc) - timedelta(minutes=1)
             ]
             if len(recent_requests) > 100:
@@ -255,13 +279,11 @@ class AdvancedSecuritySystem(CoreInterface):
         return max(0.0, min(1.0, score))
 
     async def validate_feedback_security(
-        self,
-        feedback: FeedbackItem,
-        context: SecurityContext
+        self, feedback: FeedbackItem, context: SecurityContext
     ) -> Tuple[bool, Optional[ThreatIntelligence]]:
         """
         Validate feedback for security threats.
-        
+
         Returns:
             Tuple of (is_secure, threat_info)
         """
@@ -273,7 +295,7 @@ class AdvancedSecuritySystem(CoreInterface):
                     severity=0.8,
                     indicators=["unverified_session"],
                     mitigation="Require re-authentication",
-                    detected_at=datetime.now(timezone.utc)
+                    detected_at=datetime.now(timezone.utc),
                 )
 
         # Check for threats in content
@@ -289,7 +311,7 @@ class AdvancedSecuritySystem(CoreInterface):
                 severity=0.9,
                 indicators=["integrity_check_failed"],
                 mitigation="Re-establish secure connection",
-                detected_at=datetime.now(timezone.utc)
+                detected_at=datetime.now(timezone.utc),
             )
 
         # Update trust score
@@ -320,8 +342,7 @@ class AdvancedSecuritySystem(CoreInterface):
         return True
 
     async def _detect_content_threats(
-        self,
-        content: Dict[str, Any]
+        self, content: Dict[str, Any]
     ) -> Optional[ThreatIntelligence]:
         """Detect threats in feedback content"""
         # Convert content to string for analysis
@@ -336,7 +357,7 @@ class AdvancedSecuritySystem(CoreInterface):
                         severity=0.8,
                         indicators=[pattern],
                         mitigation=self._get_mitigation(threat_type),
-                        detected_at=datetime.now(timezone.utc)
+                        detected_at=datetime.now(timezone.utc),
                     )
 
         # ML-based detection (simulated)
@@ -347,7 +368,7 @@ class AdvancedSecuritySystem(CoreInterface):
                 severity=ml_threat_score,
                 indicators=["ml_detection"],
                 mitigation="Manual review required",
-                detected_at=datetime.now(timezone.utc)
+                detected_at=datetime.now(timezone.utc),
             )
 
         return None
@@ -375,20 +396,25 @@ class AdvancedSecuritySystem(CoreInterface):
             ThreatType.DATA_EXFILTRATION: "Restrict data access and monitor queries",
             ThreatType.PRIVILEGE_ESCALATION: "Enforce least privilege principle",
             ThreatType.REPLAY_ATTACK: "Use nonces and timestamp validation",
-            ThreatType.MAN_IN_MIDDLE: "Enforce TLS and certificate pinning"
+            ThreatType.MAN_IN_MIDDLE: "Enforce TLS and certificate pinning",
         }
         return mitigations.get(threat_type, "Apply general security measures")
 
-    def _verify_integrity(self, feedback: FeedbackItem, context: SecurityContext) -> bool:
+    def _verify_integrity(
+        self, feedback: FeedbackItem, context: SecurityContext
+    ) -> bool:
         """Verify feedback integrity"""
         # Create hash of feedback content
-        feedback_str = json.dumps({
-            "user_id": feedback.user_id,
-            "content": feedback.content,
-            "timestamp": feedback.timestamp.isoformat()
-        }, sort_keys=True)
+        feedback_str = json.dumps(
+            {
+                "user_id": feedback.user_id,
+                "content": feedback.content,
+                "timestamp": feedback.timestamp.isoformat(),
+            },
+            sort_keys=True,
+        )
 
-        expected_hash = self._create_integrity_hash(feedback_str)
+        self._create_integrity_hash(feedback_str)
 
         # In production, compare with hash sent by client
         return True  # Simplified for demo
@@ -401,26 +427,30 @@ class AdvancedSecuritySystem(CoreInterface):
         # Exponential moving average
         alpha = 0.1
         if positive:
-            self.trust_scores[user_id] = alpha * 1.0 + (1 - alpha) * self.trust_scores[user_id]
+            self.trust_scores[user_id] = (
+                alpha * 1.0 + (1 - alpha) * self.trust_scores[user_id]
+            )
         else:
-            self.trust_scores[user_id] = alpha * 0.0 + (1 - alpha) * self.trust_scores[user_id]
+            self.trust_scores[user_id] = (
+                alpha * 0.0 + (1 - alpha) * self.trust_scores[user_id]
+            )
 
         # Clamp between 0 and 1
         self.trust_scores[user_id] = max(0.0, min(1.0, self.trust_scores[user_id]))
 
     async def encrypt_feedback(
-        self,
-        feedback: FeedbackItem,
-        context: SecurityContext
+        self, feedback: FeedbackItem, context: SecurityContext
     ) -> bytes:
         """Encrypt feedback with AES-256-GCM"""
         # Serialize feedback
-        feedback_json = json.dumps({
-            "feedback_id": feedback.feedback_id,
-            "user_id": feedback.user_id,
-            "content": feedback.content,
-            "timestamp": feedback.timestamp.isoformat()
-        })
+        feedback_json = json.dumps(
+            {
+                "feedback_id": feedback.feedback_id,
+                "user_id": feedback.user_id,
+                "content": feedback.content,
+                "timestamp": feedback.timestamp.isoformat(),
+            }
+        )
 
         # Generate nonce
         nonce = secrets.token_bytes(12)
@@ -429,7 +459,7 @@ class AdvancedSecuritySystem(CoreInterface):
         cipher = Cipher(
             algorithms.AES(context.encryption_key),
             modes.GCM(nonce),
-            backend=default_backend()
+            backend=default_backend(),
         )
 
         encryptor = cipher.encryptor()
@@ -441,9 +471,7 @@ class AdvancedSecuritySystem(CoreInterface):
         return nonce + ciphertext + encryptor.tag
 
     async def decrypt_feedback(
-        self,
-        encrypted_data: bytes,
-        context: SecurityContext
+        self, encrypted_data: bytes, context: SecurityContext
     ) -> Dict[str, Any]:
         """Decrypt feedback"""
         # Extract components
@@ -455,7 +483,7 @@ class AdvancedSecuritySystem(CoreInterface):
         cipher = Cipher(
             algorithms.AES(context.encryption_key),
             modes.GCM(nonce, tag),
-            backend=default_backend()
+            backend=default_backend(),
         )
 
         decryptor = cipher.decryptor()
@@ -466,9 +494,7 @@ class AdvancedSecuritySystem(CoreInterface):
         return json.loads(plaintext.decode())
 
     async def apply_differential_privacy(
-        self,
-        feedback_data: Dict[str, Any],
-        epsilon: float = 1.0
+        self, feedback_data: Dict[str, Any], epsilon: float = 1.0
     ) -> Dict[str, Any]:
         """Apply differential privacy to feedback data"""
         import numpy as np
@@ -500,17 +526,15 @@ class AdvancedSecuritySystem(CoreInterface):
 
         return self.anonymization_keys[user_id]
 
-    async def check_k_anonymity(
-        self,
-        feedback_attributes: Dict[str, Any]
-    ) -> bool:
+    async def check_k_anonymity(self, feedback_attributes: Dict[str, Any]) -> bool:
         """Check if feedback meets k-anonymity requirements"""
         # In production, check against database
         # For demo, simulate check
 
         # Remove identifying information
         quasi_identifiers = {
-            k: v for k, v in feedback_attributes.items()
+            k: v
+            for k, v in feedback_attributes.items()
             if k not in ["user_id", "session_id", "feedback_id"]
         }
 
@@ -523,7 +547,7 @@ class AdvancedSecuritySystem(CoreInterface):
         action: str,
         context: SecurityContext,
         result: str,
-        threat_info: Optional[ThreatIntelligence] = None
+        threat_info: Optional[ThreatIntelligence] = None,
     ) -> None:
         """Create blockchain audit entry for security event"""
         entry = {
@@ -534,14 +558,14 @@ class AdvancedSecuritySystem(CoreInterface):
             "session_id": hashlib.sha256(context.session_id.encode()).hexdigest()[:16],
             "clearance_level": context.clearance_level.name,
             "result": result,
-            "threat_score": context.threat_score
+            "threat_score": context.threat_score,
         }
 
         if threat_info:
             entry["threat"] = {
                 "type": threat_info.threat_type.value,
                 "severity": threat_info.severity,
-                "mitigation": threat_info.mitigation
+                "mitigation": threat_info.mitigation,
             }
 
         # Add previous block hash
@@ -557,11 +581,13 @@ class AdvancedSecuritySystem(CoreInterface):
         self.security_blockchain.append(entry)
 
         # Add to context audit trail
-        context.audit_trail.append({
-            "action": action,
-            "timestamp": entry["timestamp"],
-            "block_hash": entry["block_hash"]
-        })
+        context.audit_trail.append(
+            {
+                "action": action,
+                "timestamp": entry["timestamp"],
+                "block_hash": entry["block_hash"],
+            }
+        )
 
     def _calculate_block_hash(self, block: Dict[str, Any]) -> str:
         """Calculate hash for audit block"""
@@ -596,12 +622,20 @@ class AdvancedSecuritySystem(CoreInterface):
         """Detect coordinated attack patterns"""
         # Check for sudden spike in requests
         recent_requests = sum(
-            len([r for r in requests if r > datetime.now(timezone.utc) - timedelta(minutes=5)])
+            len(
+                [
+                    r
+                    for r in requests
+                    if r > datetime.now(timezone.utc) - timedelta(minutes=5)
+                ]
+            )
             for requests in self.rate_limits.values()
         )
 
         if recent_requests > 10000:  # Threshold
-            logger.warning(f"Potential DDoS detected: {recent_requests} requests in 5 minutes")
+            logger.warning(
+                f"Potential DDoS detected: {recent_requests} requests in 5 minutes"
+            )
 
             # Implement mitigation
             # In production, trigger DDoS protection
@@ -618,8 +652,7 @@ class AdvancedSecuritySystem(CoreInterface):
 
         for user_id in list(self.rate_limits.keys()):
             self.rate_limits[user_id] = [
-                req for req in self.rate_limits[user_id]
-                if req > cutoff
+                req for req in self.rate_limits[user_id] if req > cutoff
             ]
 
             if not self.rate_limits[user_id]:
@@ -632,7 +665,7 @@ class AdvancedSecuritySystem(CoreInterface):
                 await asyncio.sleep(86400)  # Daily rotation
 
                 # Generate new master key
-                old_key = self.master_key
+                self.master_key
                 self.master_key = secrets.token_bytes(32)
 
                 # Re-encrypt session keys
@@ -663,7 +696,7 @@ class AdvancedSecuritySystem(CoreInterface):
 
             return {
                 "secure": is_secure,
-                "threat": threat_info.__dict__ if threat_info else None
+                "threat": threat_info.__dict__ if threat_info else None,
             }
 
         elif action == "encrypt":
@@ -672,9 +705,7 @@ class AdvancedSecuritySystem(CoreInterface):
 
             encrypted = await self.encrypt_feedback(feedback, context)
 
-            return {
-                "encrypted_data": base64.b64encode(encrypted).decode()
-            }
+            return {"encrypted_data": base64.b64encode(encrypted).decode()}
 
         else:
             raise ValueError(f"Unknown action: {action}")
@@ -684,10 +715,9 @@ class AdvancedSecuritySystem(CoreInterface):
         return {
             "operational": self.operational,
             "threats_detected": sum(
-                1 for entry in self.security_blockchain
-                if "threat" in entry
+                1 for entry in self.security_blockchain if "threat" in entry
             ),
-            "active_sessions": len(self.verified_sessions)
+            "active_sessions": len(self.verified_sessions),
         }
 
     async def get_status(self) -> Dict[str, Any]:
@@ -697,19 +727,26 @@ class AdvancedSecuritySystem(CoreInterface):
             "security_metrics": {
                 "active_sessions": len(self.verified_sessions),
                 "blocked_users": len(self.blocked_ips),
-                "average_trust_score": np.mean(list(self.trust_scores.values())) if self.trust_scores else 0.5,
+                "average_trust_score": (
+                    np.mean(list(self.trust_scores.values()))
+                    if self.trust_scores
+                    else 0.5
+                ),
                 "threats_last_hour": sum(
-                    1 for entry in self.security_blockchain[-100:]
-                    if "threat" in entry
-                )
+                    1 for entry in self.security_blockchain[-100:] if "threat" in entry
+                ),
             },
             "blockchain": {
                 "blocks": len(self.security_blockchain),
-                "latest_hash": self.security_blockchain[-1]["block_hash"] if self.security_blockchain else None
+                "latest_hash": (
+                    self.security_blockchain[-1]["block_hash"]
+                    if self.security_blockchain
+                    else None
+                ),
             },
             "encryption": {
                 "algorithm": "AES-256-GCM",
                 "key_rotation": "daily",
-                "quantum_ready": True
-            }
+                "quantum_ready": True,
+            },
         }

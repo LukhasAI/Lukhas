@@ -31,14 +31,22 @@ class DriftAlignmentController:
 
     def assess_alignment(self, drift_score: float) -> bool:
         """Returns True if within alignment threshold."""
-        affect_delta = self.emotional_memory.symbolic_affect_trace(depth=1).get('affect_patterns', [{}])[0].get('valence_change', 0)
+        affect_delta = (
+            self.emotional_memory.symbolic_affect_trace(depth=1)
+            .get("affect_patterns", [{}])[0]
+            .get("valence_change", 0)
+        )
         misalignment = abs(drift_score - affect_delta)
         self.history.append((drift_score, affect_delta, misalignment))
         return misalignment <= self.tolerance
 
     def suggest_modulation(self, drift_score: float) -> str:
         """Suggests symbolic corrective action based on deviation."""
-        affect_delta = self.emotional_memory.symbolic_affect_trace(depth=1).get('affect_patterns', [{}])[0].get('valence_change', 0)
+        affect_delta = (
+            self.emotional_memory.symbolic_affect_trace(depth=1)
+            .get("affect_patterns", [{}])[0]
+            .get("valence_change", 0)
+        )
         if drift_score > affect_delta:
             return "Apply emotional grounding"
         elif affect_delta > drift_score:

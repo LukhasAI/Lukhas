@@ -20,17 +20,16 @@ DEPENDENCIES:
 - voice_memory_helix.py
 """
 
-import base64
 import hashlib
+import base64
 import logging
 import random
 import re
 from datetime import datetime
 from typing import Any, Optional
-
+from core.identity.vault.lukhas_id import get_encryption_key, has_access, log_access
 from cryptography.fernet import Fernet
 
-from core.identity.vault.lukhas_id import get_encryption_key, has_access, log_access
 
 # Initialize logger
 logger = logging.getLogger("accent_adapter")
@@ -326,7 +325,7 @@ class AccentAdapter:
                 if memory.get("words") and len(memory["words"]) > 0:
                     word = random.choice(memory["words"])
                     word_phrase = f"I learned the word '{word}' there."
-                memory_phrase = f"We visited {memory.get('visit_count',
+                memory_phrase = f"We visited {memory.get('visit_count',"
                                                          1)} times. The last time was quite memorable."
                 template = random.choice(templates)
                 reminiscence = template.format(

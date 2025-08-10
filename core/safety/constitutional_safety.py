@@ -126,7 +126,7 @@ class NIASConstitutionalSafety:
             SafetyPrinciple(
                 id="wellbeing_first",
                 principle="Prioritize user wellbeing over engagement metrics",
-                description="User health, happiness, and growth matter more than clicks,
+                description="User health, happiness, and growth matter more than clicks,"
                 views, or revenue.",
                 priority=9,
                 violation_types=[SafetyViolationType.HARM_RISK],

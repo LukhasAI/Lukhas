@@ -5,7 +5,7 @@ Adapted from system-pwm-advanced for Lambda Products integration
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ..event_system.event_bus import NIASEventType, get_global_nias_event_bus
 
@@ -16,8 +16,8 @@ class NIASHub:
     """Central hub for NIΛS system coordination"""
 
     def __init__(self):
-        self.services: Dict[str, Any] = {}
-        self.event_handlers: Dict[str, List[callable]] = {}
+        self.services: dict[str, Any] = {}
+        self.event_handlers: dict[str, list[callable]] = {}
         self.event_bus = None
         self.is_initialized = False
         self.tier_configs = {
@@ -191,8 +191,8 @@ class NIASHub:
         return self.services.get(name)
 
     async def process_symbolic_message(
-        self, message: Dict[str, Any], user_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, message: dict[str, Any], user_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process a symbolic message through NIΛS system"""
 
         user_id = user_context.get("user_id")
@@ -283,7 +283,7 @@ class NIASHub:
             logger.warning(f"Could not register with Lambda Products: {e}")
 
     async def _update_user_metrics(
-        self, user_id: str, interaction_type: str, payload: Dict
+        self, user_id: str, interaction_type: str, payload: dict
     ):
         """Update user engagement and interaction metrics"""
         # This would integrate with analytics service
@@ -292,7 +292,6 @@ class NIASHub:
     async def _check_tier_upgrade(self, user_id: str):
         """Check if user qualifies for tier upgrade"""
         # Logic for suggesting tier upgrades based on usage
-        pass
 
     async def _activate_subscription(self, user_id: str, tier: str):
         """Activate subscription for user"""
@@ -305,7 +304,7 @@ class NIASHub:
         # Downgrade to T3 (freemium)
         await self._activate_subscription(user_id, "T3")
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for all registered NIΛS services"""
         health = {"status": "healthy", "services": {}, "event_bus": "disconnected"}
 
@@ -331,11 +330,11 @@ class NIASHub:
 
         return health
 
-    def get_tier_config(self, tier: str) -> Dict[str, Any]:
+    def get_tier_config(self, tier: str) -> dict[str, Any]:
         """Get configuration for a specific tier"""
         return self.tier_configs.get(tier, self.tier_configs["T3"])
 
-    def get_all_tiers(self) -> Dict[str, Dict[str, Any]]:
+    def get_all_tiers(self) -> dict[str, dict[str, Any]]:
         """Get all tier configurations"""
         return self.tier_configs
 

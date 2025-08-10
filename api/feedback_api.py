@@ -27,7 +27,7 @@ logger = get_logger(__name__)
 app = FastAPI(
     title="LUKHAS Feedback Collection API",
     description="Multi-modal feedback collection with regulatory compliance",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # Add CORS middleware
@@ -46,13 +46,16 @@ feedback_system = None
 # Request/Response models
 class FeedbackRequest(BaseModel):
     """Feedback submission request"""
+
     user_id: str = Field(..., description="User identifier")
     session_id: str = Field(..., description="Session identifier")
     action_id: str = Field(..., description="Action being given feedback on")
     feedback_type: FeedbackType = Field(..., description="Type of feedback")
     content: Dict[str, Any] = Field(..., description="Feedback content")
     context: Dict[str, Any] = Field(..., description="Context about the action")
-    region: Optional[ComplianceRegion] = Field(ComplianceRegion.GLOBAL, description="User's regulatory region")
+    region: Optional[ComplianceRegion] = Field(
+        ComplianceRegion.GLOBAL, description="User's regulatory region"
+    )
 
     class Config:
         json_schema_extra = {
@@ -62,14 +65,18 @@ class FeedbackRequest(BaseModel):
                 "action_id": "decision_789",
                 "feedback_type": "rating",
                 "content": {"rating": 5},
-                "context": {"action_type": "recommendation", "decision": "Suggested option A"},
-                "region": "eu"
+                "context": {
+                    "action_type": "recommendation",
+                    "decision": "Suggested option A",
+                },
+                "region": "eu",
             }
         }
 
 
 class QuickFeedbackRequest(BaseModel):
     """Quick feedback submission (simplified)"""
+
     user_id: str
     action_id: str
     thumbs_up: bool
@@ -80,20 +87,21 @@ class QuickFeedbackRequest(BaseModel):
             "example": {
                 "user_id": "user_123",
                 "action_id": "decision_789",
-                "thumbs_up": True
+                "thumbs_up": True,
             }
         }
 
 
 class EmojiFeedbackRequest(BaseModel):
     """Emoji feedback submission"""
+
     user_id: str
     session_id: str
     action_id: str
     emoji: str
     context: Optional[Dict[str, Any]] = None
 
-    @validator('emoji')
+    @validator("emoji")
     def validate_emoji(cls, v):
         valid_emojis = [e.value for e in EmotionEmoji]
         if v not in valid_emojis:
@@ -103,6 +111,7 @@ class EmojiFeedbackRequest(BaseModel):
 
 class TextFeedbackRequest(BaseModel):
     """Natural language feedback submission"""
+
     user_id: str
     session_id: str
     action_id: str
@@ -112,6 +121,7 @@ class TextFeedbackRequest(BaseModel):
 
 class FeedbackEditRequest(BaseModel):
     """Edit existing feedback"""
+
     feedback_id: str
     user_id: str
     new_content: Dict[str, Any]
@@ -119,6 +129,7 @@ class FeedbackEditRequest(BaseModel):
 
 class FeedbackResponse(BaseModel):
     """Standard feedback response"""
+
     success: bool
     feedback_id: Optional[str] = None
     message: str
@@ -127,6 +138,7 @@ class FeedbackResponse(BaseModel):
 
 class FeedbackHistoryResponse(BaseModel):
     """User feedback history"""
+
     user_id: str
     feedback_items: List[Dict[str, Any]]
     total_count: int
@@ -134,6 +146,7 @@ class FeedbackHistoryResponse(BaseModel):
 
 class FeedbackSummaryResponse(BaseModel):
     """Aggregated feedback summary"""
+
     action_id: str
     total_feedback: int
     average_rating: Optional[float]
@@ -145,6 +158,7 @@ class FeedbackSummaryResponse(BaseModel):
 
 class ConsentRequest(BaseModel):
     """User consent for feedback collection"""
+
     user_id: str
     consent_given: bool
     region: ComplianceRegion
@@ -161,11 +175,13 @@ async def startup_event():
     logger.info("Starting Feedback Collection API...")
 
     # Initialize feedback system
-    feedback_system = UserFeedbackSystem(config={
-        "enable_emoji": True,
-        "enable_voice": False,  # Future feature
-        "min_feedback_interval": 10  # 10 seconds minimum between feedback
-    })
+    feedback_system = UserFeedbackSystem(
+        config={
+            "enable_emoji": True,
+            "enable_voice": False,  # Future feature
+            "min_feedback_interval": 10,  # 10 seconds minimum between feedback
+        }
+    )
 
     # Setup mock services for demo
     await _setup_mock_services()
@@ -191,10 +207,9 @@ async def _setup_mock_services():
 
     # Mock natural language interface
     mock_nl = Mock()
-    mock_nl._analyze_emotion = AsyncMock(return_value={
-        "positive": 0.7,
-        "negative": 0.3
-    })
+    mock_nl._analyze_emotion = AsyncMock(
+        return_value={"positive": 0.7, "negative": 0.3}
+    )
 
     # Mock audit service
     mock_audit = Mock()
@@ -219,8 +234,8 @@ async def root():
             "text": "/feedback/text",
             "history": "/feedback/history",
             "summary": "/feedback/summary",
-            "consent": "/consent"
-        }
+            "consent": "/consent",
+        },
     }
 
 
@@ -228,7 +243,7 @@ async def root():
 async def submit_feedback(request: FeedbackRequest):
     """
     Submit comprehensive feedback.
-    
+
     Supports all feedback types with full context and compliance options.
     """
     try:
@@ -242,13 +257,13 @@ async def submit_feedback(request: FeedbackRequest):
             feedback_type=request.feedback_type,
             content=request.content,
             context=request.context,
-            region=request.region
+            region=request.region,
         )
 
         return FeedbackResponse(
             success=True,
             feedback_id=feedback_id,
-            message="Feedback collected successfully"
+            message="Feedback collected successfully",
         )
 
     except Exception as e:
@@ -260,7 +275,7 @@ async def submit_feedback(request: FeedbackRequest):
 async def submit_quick_feedback(request: QuickFeedbackRequest):
     """
     Submit quick thumbs up/down feedback.
-    
+
     Simplified endpoint for binary feedback.
     """
     try:
@@ -277,13 +292,11 @@ async def submit_quick_feedback(request: QuickFeedbackRequest):
             action_id=request.action_id,
             feedback_type=FeedbackType.QUICK,
             content={"rating": rating, "thumbs_up": request.thumbs_up},
-            context={"quick_feedback": True}
+            context={"quick_feedback": True},
         )
 
         return FeedbackResponse(
-            success=True,
-            feedback_id=feedback_id,
-            message="Quick feedback recorded"
+            success=True, feedback_id=feedback_id, message="Quick feedback recorded"
         )
 
     except Exception as e:
@@ -295,7 +308,7 @@ async def submit_quick_feedback(request: QuickFeedbackRequest):
 async def submit_emoji_feedback(request: EmojiFeedbackRequest):
     """
     Submit emoji reaction feedback.
-    
+
     Express emotions through standardized emoji set.
     """
     try:
@@ -308,13 +321,13 @@ async def submit_emoji_feedback(request: EmojiFeedbackRequest):
             action_id=request.action_id,
             feedback_type=FeedbackType.EMOJI,
             content={"emoji": request.emoji},
-            context=request.context or {"emoji_feedback": True}
+            context=request.context or {"emoji_feedback": True},
         )
 
         return FeedbackResponse(
             success=True,
             feedback_id=feedback_id,
-            message=f"Emoji feedback {request.emoji} recorded"
+            message=f"Emoji feedback {request.emoji} recorded",
         )
 
     except Exception as e:
@@ -326,7 +339,7 @@ async def submit_emoji_feedback(request: EmojiFeedbackRequest):
 async def submit_text_feedback(request: TextFeedbackRequest):
     """
     Submit natural language feedback.
-    
+
     Provide detailed feedback in your own words.
     """
     try:
@@ -339,13 +352,11 @@ async def submit_text_feedback(request: TextFeedbackRequest):
             action_id=request.action_id,
             feedback_type=FeedbackType.TEXT,
             content={"text": request.text},
-            context=request.context or {"text_feedback": True}
+            context=request.context or {"text_feedback": True},
         )
 
         return FeedbackResponse(
-            success=True,
-            feedback_id=feedback_id,
-            message="Text feedback recorded"
+            success=True, feedback_id=feedback_id, message="Text feedback recorded"
         )
 
     except Exception as e:
@@ -363,13 +374,17 @@ async def edit_feedback(request: FeedbackEditRequest):
         success = await feedback_system.edit_feedback(
             feedback_id=request.feedback_id,
             user_id=request.user_id,
-            new_content=request.new_content
+            new_content=request.new_content,
         )
 
         return FeedbackResponse(
             success=success,
             feedback_id=request.feedback_id,
-            message="Feedback updated successfully" if success else "Failed to update feedback"
+            message=(
+                "Feedback updated successfully"
+                if success
+                else "Failed to update feedback"
+            ),
         )
 
     except Exception as e:
@@ -377,10 +392,11 @@ async def edit_feedback(request: FeedbackEditRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.delete("/feedback/{feedback_id}", response_model=FeedbackResponse, tags=["Feedback"])
+@app.delete(
+    "/feedback/{feedback_id}", response_model=FeedbackResponse, tags=["Feedback"]
+)
 async def delete_feedback(
-    feedback_id: str,
-    user_id: str = Query(..., description="User ID for verification")
+    feedback_id: str, user_id: str = Query(..., description="User ID for verification")
 ):
     """Delete feedback (soft delete for audit trail)."""
     try:
@@ -388,14 +404,13 @@ async def delete_feedback(
             raise HTTPException(status_code=503, detail="Feedback system not available")
 
         success = await feedback_system.delete_feedback(
-            feedback_id=feedback_id,
-            user_id=user_id
+            feedback_id=feedback_id, user_id=user_id
         )
 
         return FeedbackResponse(
             success=success,
             feedback_id=feedback_id,
-            message="Feedback deleted" if success else "Failed to delete feedback"
+            message="Feedback deleted" if success else "Failed to delete feedback",
         )
 
     except Exception as e:
@@ -403,10 +418,14 @@ async def delete_feedback(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/feedback/history/{user_id}", response_model=FeedbackHistoryResponse, tags=["Feedback"])
+@app.get(
+    "/feedback/history/{user_id}",
+    response_model=FeedbackHistoryResponse,
+    tags=["Feedback"],
+)
 async def get_feedback_history(
     user_id: str,
-    limit: int = Query(50, ge=1, le=100, description="Maximum items to return")
+    limit: int = Query(50, ge=1, le=100, description="Maximum items to return"),
 ):
     """Get user's feedback history."""
     try:
@@ -418,7 +437,7 @@ async def get_feedback_history(
         return FeedbackHistoryResponse(
             user_id=user_id,
             feedback_items=[item.to_audit_entry() for item in history],
-            total_count=len(history)
+            total_count=len(history),
         )
 
     except Exception as e:
@@ -426,7 +445,11 @@ async def get_feedback_history(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/feedback/summary/{action_id}", response_model=FeedbackSummaryResponse, tags=["Feedback"])
+@app.get(
+    "/feedback/summary/{action_id}",
+    response_model=FeedbackSummaryResponse,
+    tags=["Feedback"],
+)
 async def get_feedback_summary(action_id: str):
     """Get aggregated feedback summary for an action."""
     try:
@@ -442,7 +465,7 @@ async def get_feedback_summary(action_id: str):
             sentiment_distribution=summary.sentiment_distribution,
             emoji_distribution=summary.emoji_distribution,
             common_themes=summary.common_themes,
-            improvement_suggestions=summary.improvement_suggestions
+            improvement_suggestions=summary.improvement_suggestions,
         )
 
     except Exception as e:
@@ -466,10 +489,12 @@ async def update_consent(request: ConsentRequest):
             feedback_frequency="sometimes",
             total_feedback_given=0,
             consent_given=request.consent_given,
-            consent_timestamp=datetime.now(timezone.utc) if request.consent_given else None,
-            data_retention_days=request.data_retention_days or
-                feedback_system.compliance_rules[request.region]["data_retention_days"],
-            allow_anonymized_usage=request.allow_anonymized_usage
+            consent_timestamp=(
+                datetime.now(timezone.utc) if request.consent_given else None
+            ),
+            data_retention_days=request.data_retention_days
+            or feedback_system.compliance_rules[request.region]["data_retention_days"],
+            allow_anonymized_usage=request.allow_anonymized_usage,
         )
 
         feedback_system.user_profiles[request.user_id] = profile
@@ -478,7 +503,7 @@ async def update_consent(request: ConsentRequest):
             "success": True,
             "message": "Consent preferences updated",
             "user_id": request.user_id,
-            "consent_given": request.consent_given
+            "consent_given": request.consent_given,
         }
 
     except Exception as e:
@@ -506,7 +531,7 @@ async def export_user_data(user_id: str):
 async def generate_feedback_report(
     start_date: datetime = Query(..., description="Report start date"),
     end_date: datetime = Query(..., description="Report end date"),
-    anonymize: bool = Query(True, description="Anonymize user data")
+    anonymize: bool = Query(True, description="Anonymize user data"),
 ):
     """Generate feedback analytics report."""
     try:
@@ -514,9 +539,7 @@ async def generate_feedback_report(
             raise HTTPException(status_code=503, detail="Feedback system not available")
 
         report = await feedback_system.generate_feedback_report(
-            start_date=start_date,
-            end_date=end_date,
-            anonymize=anonymize
+            start_date=start_date, end_date=end_date, anonymize=anonymize
         )
 
         return report
@@ -540,8 +563,12 @@ async def get_status():
 async def health_check():
     """Health check endpoint."""
     return {
-        "status": "healthy" if feedback_system and feedback_system.operational else "unhealthy",
-        "timestamp": datetime.now(timezone.utc)
+        "status": (
+            "healthy"
+            if feedback_system and feedback_system.operational
+            else "unhealthy"
+        ),
+        "timestamp": datetime.now(timezone.utc),
     }
 
 
@@ -590,5 +617,5 @@ if __name__ == "__main__":
         app,
         host="0.0.0.0",
         port=8001,  # Different port from consciousness API
-        log_level="info"
+        log_level="info",
     )

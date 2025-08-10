@@ -127,7 +127,7 @@ async def log_dream(request: DreamLogRequest):
                 "dream_memory": dream_memory,
                 "dream_type": request.dream_type,
             },
-            message=f"Dream logged successfully with ID: {dream_log.get('fold_id',
+            message=f"Dream logged successfully with ID: {dream_log.get('fold_id',"
                                                                         'unknown')}",
         )
 

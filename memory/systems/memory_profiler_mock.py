@@ -6,7 +6,7 @@ Provides lightweight memory profiling functionality without PyTorch dependencies
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum, auto
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -42,16 +42,16 @@ class MemoryEvent:
     tensor_id: str
     size: int = 0
     category: Optional[Category] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class MemoryProfiler:
     """Lightweight memory profiler without PyTorch dependencies"""
 
     def __init__(self):
-        self.memory_events: List[MemoryEvent] = []
-        self.tensor_registry: Dict[str, Dict[str, Any]] = {}
-        self.category_stats: Dict[Category, Dict[str, Any]] = {
+        self.memory_events: list[MemoryEvent] = []
+        self.tensor_registry: dict[str, dict[str, Any]] = {}
+        self.category_stats: dict[Category, dict[str, Any]] = {
             cat: {"count": 0, "total_size": 0, "current_size": 0} for cat in Category
         }
         self.peak_memory_usage = 0
@@ -119,7 +119,7 @@ class MemoryProfiler:
 
         logger.debug(f"Recorded deallocation: {tensor_id} ({size} bytes)")
 
-    def get_memory_usage_by_category(self) -> Dict[str, Dict[str, Any]]:
+    def get_memory_usage_by_category(self) -> dict[str, dict[str, Any]]:
         """Get memory usage statistics by category"""
         total_current = sum(
             stats["current_size"] for stats in self.category_stats.values()
@@ -139,7 +139,7 @@ class MemoryProfiler:
             for cat, stats in self.category_stats.items()
         }
 
-    def get_memory_timeline(self, limit: int = 100) -> List[Dict[str, Any]]:
+    def get_memory_timeline(self, limit: int = 100) -> list[dict[str, Any]]:
         """Get timeline of memory events"""
         events = []
         for event in self.memory_events[-limit:]:
@@ -154,7 +154,7 @@ class MemoryProfiler:
             )
         return events
 
-    def get_active_tensors(self) -> Dict[str, Dict[str, Any]]:
+    def get_active_tensors(self) -> dict[str, dict[str, Any]]:
         """Get information about currently allocated tensors"""
         return {
             tensor_id: {
@@ -167,7 +167,7 @@ class MemoryProfiler:
             for tensor_id, info in self.tensor_registry.items()
         }
 
-    def analyze_memory_patterns(self) -> Dict[str, Any]:
+    def analyze_memory_patterns(self) -> dict[str, Any]:
         """Analyze memory usage patterns"""
         analysis = {
             "total_allocations": sum(

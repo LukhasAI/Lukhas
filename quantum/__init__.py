@@ -1,4 +1,3 @@
 """
 Quantum Module
 """
-

@@ -4,6 +4,7 @@ Test Unified Three-Way Integration (NIAS-ABAS-DAST)
 Comprehensive test of the unified processor orchestrating all three systems
 """
 
+from NIΛS.integration.unified_processor import get_unified_processor
 import asyncio
 import logging
 import sys
@@ -14,7 +15,6 @@ lambda_products_path = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(lambda_products_path))
 
 # Import unified processor
-from NIΛS.integration.unified_processor import get_unified_processor
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s - %(message)s")

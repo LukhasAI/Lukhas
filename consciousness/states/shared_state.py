@@ -62,7 +62,7 @@ import uuid
 from copy import deepcopy
 from dataclasses import asdict, dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set
+from typing import Any, Callable, Optional
 
 # Configure module logger
 
@@ -74,7 +74,8 @@ MODULE_NAME = "shared_state"
 # Identity integration
 # AIMPORT_TODO: Review robustness of importing IdentityClient from core.lukhas_id.
 # Consider if it should be part of a shared, installable library or if current path assumptions are stable.
-# ΛNOTE: The system attempts to use IdentityClient. If unavailable, it falls back, limiting identity-based features.
+# ΛNOTE: The system attempts to use IdentityClient. If unavailable, it
+# falls back, limiting identity-based features.
 identity_available = False
 IdentityClient = None  # Placeholder
 try:
@@ -89,7 +90,7 @@ except ImportError as e:
     )
 
     class _DummyIdentityClient:  # Fallback for type hinting and basic structure
-        def get_user_info(self, user_id: str) -> Optional[Dict[str, Any]]:
+        def get_user_info(self, user_id: str) -> Optional[dict[str, Any]]:
             logger.debug(
                 "Fallback IdentityClient: get_user_info called", user_id=user_id
             )
@@ -132,10 +133,11 @@ class StateValue:
     user_id: Optional[str] = None
     tier: Optional[str] = None
     ttl: Optional[float] = None  # Time to live in seconds
-    metadata: Dict[str, Any] = field(default_factory=dict)  # Ensure it's always a dict
+    metadata: dict[str, Any] = field(default_factory=dict)  # Ensure it's always a dict
 
     def __post_init__(self):
-        # Ensure timestamp is set if not provided, though field default_factory is better
+        # Ensure timestamp is set if not provided, though field default_factory is
+        # better
         if (
             getattr(self, "timestamp", None) is None
         ):  # Check if exists, as field default_factory is used
@@ -194,10 +196,10 @@ class SharedStateManager:
             "Initializing SharedStateManager instance",
             conflict_strategy=conflict_strategy.value,
         )
-        self.state: Dict[str, StateValue] = {}
-        self.change_history: List[StateChange] = []
-        self.subscribers: Dict[str, Set[Callable[[str, Any, str], Any]]] = {}
-        self.locks: Dict[str, threading.RLock] = {}
+        self.state: dict[str, StateValue] = {}
+        self.change_history: list[StateChange] = []
+        self.subscribers: dict[str, set[Callable[[str, Any, str], Any]]] = {}
+        self.locks: dict[str, threading.RLock] = {}
         self.conflict_strategy = conflict_strategy
         self.max_history: int = 10000
 
@@ -218,7 +220,7 @@ class SharedStateManager:
                 "IdentityClient integration NOT available/enabled for SharedStateManager. Access control may be limited."
             )
 
-        self.stats: Dict[str, int] = {
+        self.stats: dict[str, int] = {
             "reads": 0,
             "writes": 0,
             "deletes": 0,
@@ -241,7 +243,8 @@ class SharedStateManager:
         user_id: Optional[str] = None,
     ) -> bool:
         """Check if module/user has access to perform operation on key"""
-        # AIDENTITY: Access control logic based on state ownership, access level, and user tier (if IdentityClient is available).
+        # AIDENTITY: Access control logic based on state ownership, access level,
+        # and user tier (if IdentityClient is available).
         self.logger.debug(
             "Checking access",
             key=key,
@@ -289,15 +292,14 @@ class SharedStateManager:
                 if (
                     access_level == StateAccessLevel.PROTECTED
                     and operation == StateOperation.READ
-                ):
-                    if tier in ["DEVELOPER", "RESEARCHER", "SYSTEM"]:
-                        self.logger.debug(
-                            "Access granted: PROTECTED read for authorized tier",
-                            key=key,
-                            user_id=user_id,
-                            tier=tier,
-                        )
-                        return True
+                ) and tier in ["DEVELOPER", "RESEARCHER", "SYSTEM"]:
+                    self.logger.debug(
+                        "Access granted: PROTECTED read for authorized tier",
+                        key=key,
+                        user_id=user_id,
+                        tier=tier,
+                    )
+                    return True
                 if access_level == StateAccessLevel.ADMIN:
                     self.logger.debug(
                         "Access denied: ADMIN level required, user is not ADMIN",
@@ -374,7 +376,8 @@ class SharedStateManager:
         self, key: str, existing: StateValue, new_value: Any, module: str
     ) -> bool:
         """Resolve state conflicts based on strategy"""
-        # ΛNOTE: Conflict resolution strategy is applied here. Current merge is simple dict update.
+        # ΛNOTE: Conflict resolution strategy is applied here. Current merge is
+        # simple dict update.
         self.stats["conflicts"] += 1
         self.logger.warning(
             "State conflict detected",
@@ -491,7 +494,7 @@ class SharedStateManager:
         user_id: Optional[str] = None,
         access_level: StateAccessLevel = StateAccessLevel.PROTECTED,
         ttl: Optional[float] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> bool:
         """Set a state value"""
         self.logger.debug(
@@ -826,7 +829,7 @@ class SharedStateManager:
 
     def get_keys_by_prefix(
         self, prefix: str, module: str, user_id: Optional[str] = None
-    ) -> List[str]:
+    ) -> list[str]:
         """Get all keys matching a prefix, respecting access controls."""
         self.logger.debug(
             "Getting keys by prefix", prefix=prefix, module_name=module, user_id=user_id
@@ -846,7 +849,7 @@ class SharedStateManager:
 
     def get_state_info(
         self, key: str, module: str, user_id: Optional[str] = None
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Optional[dict[str, Any]]:
         """Get metadata about a state value"""
         self.logger.debug(
             "Getting state info", key=key, module_name=module, user_id=user_id
@@ -880,7 +883,7 @@ class SharedStateManager:
 
     def get_change_history(
         self, key: Optional[str] = None, limit: int = 100
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Get change history for a key or all changes"""
         self.logger.debug("Fetching change history", key=key, limit=limit)
 
@@ -900,7 +903,7 @@ class SharedStateManager:
         )
         return serialized_history
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get state manager statistics"""
         self.logger.debug("Fetching current state manager statistics")
         mem_usage = 0
@@ -1023,7 +1026,8 @@ class SharedStateManager:
 
 # Global shared state manager
 # ΛEXPOSE (Implicitly, as module-level functions use it)
-# ΛNOTE: A global singleton instance `shared_state` is created. Consider alternatives for testability and flexibility.
+# ΛNOTE: A global singleton instance `shared_state` is created. Consider
+# alternatives for testability and flexibility.
 shared_state = SharedStateManager()
 
 

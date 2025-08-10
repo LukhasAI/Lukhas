@@ -113,8 +113,8 @@ except ImportError as e:
 # ΛNOTE: The system attempts to use IdentityClient and a custom LTraceLogger. If these are unavailable,
 # it falls back to basic operation without these advanced identity/tracing features.
 identity_available = False
-IdentityClient = None # Placeholder
-LTraceLogger = None # Placeholder
+IdentityClient = None  # Placeholder
+LTraceLogger = None  # Placeholder
 try:
     from core.identity.vault.lukhas_id import IdentityClient  # type: ignore
 
@@ -122,14 +122,20 @@ try:
     identity_available = True
     logger.info("IdentityClient imported successfully from core.lukhas_id.")
 except ImportError as e:
-    logger.warning("Failed to import IdentityClient from core.lukhas_id. Identity features will be limited.", error=str(e))
-    # Fallback dummy classes if needed for type hinting or basic structure, though direct None checks are used.
+    logger.warning(
+    "Failed to import IdentityClient from core.lukhas_id. Identity features will be limited.",
+     error=str(e))
+    # Fallback dummy classes if needed for type hinting or basic structure,
+    # though direct None checks are used.
+
     class _DummyIdentityClient:
         def get_user_info(self, user_id: str) -> Optional[Dict[str, Any]]:
-            logger.debug("Fallback IdentityClient: get_user_info called", user_id=user_id)
-            return None # Simulate user not found or basic info
+            logger.debug(
+    "Fallback IdentityClient: get_user_info called",
+     user_id=user_id)
+            return None  # Simulate user not found or basic info
         # Add other methods if a more complete dummy is needed
-    IdentityClient = _DummyIdentityClient # type: ignore
+    IdentityClient = _DummyIdentityClient  # type: ignore
 
 
 # Enum for message priority levels.
@@ -144,6 +150,8 @@ class MessagePriority(Enum):
 
 # Enum for types of inter-module messages.
 # Categorizes messages to enable type-based subscriptions and handling.
+
+
 class MessageType(Enum):
     """Types of inter-module message"""
     COMMAND = "command"
@@ -156,6 +164,8 @@ class MessageType(Enum):
 
 # Dataclass representing the core message structure for inter-module communication.
 # Encapsulates message details including identity, type, payload, and metadata.
+
+
 @dataclass
 class Message:
     """Core message structure for inter-module communication"""
@@ -176,6 +186,8 @@ class Message:
 
 # ΛEXPOSE
 # Main MessageBus class for orchestrating inter-module communication.
+
+
 class MessageBus:
     """
     Central message bus for inter-module communication
@@ -190,16 +202,20 @@ class MessageBus:
     """
 
     def __init__(self, max_workers: int = 10):
-        self.logger = logger.bind(message_bus_instance_id=str(uuid.uuid4())[:8]) # Instance specific logger
+        self.logger = logger.bind(
+    message_bus_instance_id=str(
+        uuid.uuid4())[
+            :8])  # Instance specific logger
         self.logger.info("Initializing MessageBus instance", max_workers=max_workers)
-        self.subscriptions: Dict[str, Set[Callable[[Message], Any]]] = {} # Hinting handler takes Message
-        self.module_queues: Dict[str, asyncio.Queue[Message]] = {} # Queue of Messages
+        # Hinting handler takes Message
+        self.subscriptions: Dict[str, Set[Callable[[Message], Any]]] = {}
+        self.module_queues: Dict[str, asyncio.Queue[Message]] = {}  # Queue of Messages
         self.active_modules: Set[str] = set()
         self.message_history: List[Message] = []
-        self.max_history: int = 10000 # Made type explicit
+        self.max_history: int = 10000  # Made type explicit
         self.executor = ThreadPoolExecutor(max_workers=max_workers)
         self.running: bool = False
-        self.stats: Dict[str, Any] = { # More specific type hint
+        self.stats: Dict[str, Any] = {  # More specific type hint
             'messages_sent': 0,
             'messages_received': 0,
             'errors': 0,
@@ -207,13 +223,17 @@ class MessageBus:
         }
 
         # Identity integration
-        # AIDENTITY: IdentityClient is used here for verifying module registration if available.
-        if identity_available and IdentityClient is not None and not isinstance(IdentityClient, _DummyIdentityClient):
-            self.identity_client: Optional[IdentityClient] = IdentityClient() # type: ignore
+        # AIDENTITY: IdentityClient is used here for verifying module registration
+        # if available.
+        if identity_available and IdentityClient is not None and not isinstance(
+            IdentityClient, _DummyIdentityClient):
+            # type: ignore
+            self.identity_client: Optional[IdentityClient] = IdentityClient()
             self.logger.info("IdentityClient integration enabled for MessageBus.")
         else:
             self.identity_client = None
-            self.logger.info("IdentityClient integration NOT available/enabled for MessageBus. Using fallback or no identity checks.")
+            self.logger.info(
+                "IdentityClient integration NOT available/enabled for MessageBus. Using fallback or no identity checks.")
 
         # Agent 1 Task 11: Bridge Trace Logger integration
         if BRIDGE_TRACE_LOGGER_AVAILABLE and BridgeTraceLogger is not None:
@@ -228,14 +248,17 @@ class MessageBus:
             )
 
         # Circuit breaker for module health
-        # ΛNOTE: Implements a circuit breaker pattern per module to prevent cascading failures.
-        self.circuit_breakers: Dict[str, Dict[str, Any]] = {} # More specific type hint
+        # ΛNOTE: Implements a circuit breaker pattern per module to prevent
+        # cascading failures.
+        self.circuit_breakers: Dict[str, Dict[str, Any]] = {}  # More specific type hint
 
     async def start(self):
         """Initialize the message bus system"""
         # ΛPHASE_NODE: Message Bus Starting
         self.running = True
-        self.logger.info("🚀 AGI Message Bus starting up", max_workers=self.executor._max_workers)
+        self.logger.info(
+    "🚀 AGI Message Bus starting up",
+     max_workers=self.executor._max_workers)
         # ΛTRACE: system.message_bus.started
         self.logger.info(
             "AGI Message Bus started successfully.",
@@ -250,7 +273,9 @@ class MessageBus:
         self.running = False
 
         active_modules_copy = list(self.active_modules)
-        self.logger.debug("Sending shutdown messages to active modules", active_modules=active_modules_copy)
+        self.logger.debug(
+    "Sending shutdown messages to active modules",
+     active_modules=active_modules_copy)
         for module in active_modules_copy:
             self.logger.debug("Sending SHUTDOWN to module", target_module=module)
             await self.send_message(Message(
@@ -272,16 +297,21 @@ class MessageBus:
             final_stats=self.stats
         )
 
-
     def register_module(self, module_name: str, user_id: Optional[str] = None) -> bool:
         """Register a module with the message bu"""
-        # AIDENTITY: Module registration potentially involves user_id and tier checks via IdentityClient.
-        self.logger.info("Attempting to register module", module_name=module_name, user_id=user_id)
+        # AIDENTITY: Module registration potentially involves user_id and tier
+        # checks via IdentityClient.
+        self.logger.info(
+    "Attempting to register module",
+    module_name=module_name,
+     user_id=user_id)
         try:
             if self.identity_client and user_id:
                 user_info = self.identity_client.get_user_info(user_id)
-                # ΛNOTE: Example tiers for module registration. These should be configurable or defined by policy.
-                if not user_info or user_info.get('tier') not in ['ADMIN', 'DEVELOPER', 'RESEARCHER', 'SYSTEM']:
+                # ΛNOTE: Example tiers for module registration. These should be
+                # configurable or defined by policy.
+                if not user_info or user_info.get('tier') not in [
+    'ADMIN', 'DEVELOPER', 'RESEARCHER', 'SYSTEM']:
                     self.logger.warning("🚫 Module registration denied due to insufficient tier",
                                         module_name=module_name, user_id=user_id,
                                         user_tier=user_info.get('tier') if user_info else "unknown")
@@ -291,12 +321,16 @@ class MessageBus:
             self.module_queues[module_name] = asyncio.Queue()
             self.circuit_breakers[module_name] = {
                 'failures': 0,
-                'last_failure': None, # type: Optional[float]
+                'last_failure': None,  # type: Optional[float]
                 'state': 'closed'  # closed, open, half-open
             }
 
             self.stats['modules_connected'] += 1
-            self.logger.info("✅ Module registered", module_name=module_name, user_id=user_id, total_modules=self.stats['modules_connected'])
+            self.logger.info(
+    "✅ Module registered",
+    module_name=module_name,
+    user_id=user_id,
+     total_modules=self.stats['modules_connected'])
             # ΛTRACE: module.registered
             self.logger.info(
                 "Module registration event",
@@ -307,7 +341,11 @@ class MessageBus:
             return True
 
         except Exception as e:
-            self.logger.error("❌ Failed to register module", module_name=module_name, error=str(e), exc_info=True)
+            self.logger.error(
+    "❌ Failed to register module",
+    module_name=module_name,
+    error=str(e),
+     exc_info=True)
             return False
 
     def unregister_module(self, module_name: str):
@@ -322,7 +360,10 @@ class MessageBus:
             self.logger.debug("Module circuit breaker removed", module_name=module_name)
 
         self.stats['modules_connected'] = len(self.active_modules)
-        self.logger.info("📤 Module unregistered", module_name=module_name, total_modules=self.stats['modules_connected'])
+        self.logger.info(
+    "📤 Module unregistered",
+    module_name=module_name,
+     total_modules=self.stats['modules_connected'])
         # ΛTRACE: module.unregistered
         self.logger.info(
             "Module unregistration event",
@@ -330,26 +371,47 @@ class MessageBus:
             module_name=module_name
         )
 
-    def subscribe(self, message_type: MessageType, handler: Callable[[Message], Any], module_name: str):
+    def subscribe(self, message_type: MessageType,
+                  handler: Callable[[Message], Any], module_name: str):
         """Subscribe to specific message type"""
-        subscription_key = f"{message_type.value}:{module_name}" # Target specific module subscriptions
+        subscription_key = f"{message_type.value}:{module_name}"  # Target specific module subscriptions
         if subscription_key not in self.subscriptions:
             self.subscriptions[subscription_key] = set()
         self.subscriptions[subscription_key].add(handler)
-        self.logger.info("📧 Subscription added", module_name=module_name, message_type=message_type.value, handler_name=getattr(handler, '__name__', str(handler)))
+        self.logger.info(
+    "📧 Subscription added",
+    module_name=module_name,
+    message_type=message_type.value,
+    handler_name=getattr(
+        handler,
+        '__name__',
+         str(handler)))
 
-    def unsubscribe(self, message_type: MessageType, handler: Callable[[Message], Any], module_name: str):
+    def unsubscribe(self, message_type: MessageType,
+                    handler: Callable[[Message], Any], module_name: str):
         """Unsubscribe from message type"""
         subscription_key = f"{message_type.value}:{module_name}"
         if subscription_key in self.subscriptions:
             self.subscriptions[subscription_key].discard(handler)
             if not self.subscriptions[subscription_key]:
                 del self.subscriptions[subscription_key]
-            self.logger.info("🗑️ Subscription removed", module_name=module_name, message_type=message_type.value, handler_name=getattr(handler, '__name__', str(handler)))
+            self.logger.info(
+    "🗑️ Subscription removed",
+    module_name=module_name,
+    message_type=message_type.value,
+    handler_name=getattr(
+        handler,
+        '__name__',
+         str(handler)))
 
     async def send_message(self, message: Message) -> bool:
         """Send a message through the bu"""
-        self.logger.debug("Attempting to send message", message_id=message.id, type=message.type.value, target=message.target_module, source=message.source_module)
+        self.logger.debug(
+    "Attempting to send message",
+    message_id=message.id,
+    type=message.type.value,
+    target=message.target_module,
+     source=message.source_module)
 
         # Agent 1 Task 11: Bridge trace logging for message operations
         if self.bridge_trace_logger and TraceCategory and TraceLevel:
@@ -378,25 +440,43 @@ class MessageBus:
 
         try:
             # AIDENTITY: Message sending involves user_id and tier from the message object.
-            # Actual permission checks based on tier for sending TO a module could be added here if IdentityClient supports it.
+            # Actual permission checks based on tier for sending TO a module could be
+            # added here if IdentityClient supports it.
             if self.identity_client and message.user_id:
-                self.logger.debug("Processing message with user identity", message_id=message.id, user_id=message.user_id, tier=message.tier)
+                self.logger.debug(
+    "Processing message with user identity",
+    message_id=message.id,
+    user_id=message.user_id,
+     tier=message.tier)
 
             if not self._is_circuit_closed(message.target_module):
                 return False
 
             if message.ttl and (time.time() - message.timestamp) > message.ttl:
-                self.logger.warning("⏱️ Message expired, not sending", message_id=message.id, source=message.source_module, target=message.target_module, ttl=message.ttl)
+                self.logger.warning(
+    "⏱️ Message expired, not sending",
+    message_id=message.id,
+    source=message.source_module,
+    target=message.target_module,
+     ttl=message.ttl)
                 return False
 
             if message.target_module in self.module_queues:
                 await self.module_queues[message.target_module].put(message)
-                self.logger.debug("Message enqueued for target module", message_id=message.id, target_module=message.target_module)
+                self.logger.debug(
+    "Message enqueued for target module",
+    message_id=message.id,
+     target_module=message.target_module)
 
-            # ΛNOTE: Messages are delivered via module-specific queues AND direct topic-based subscriptions (message_type:target_module).
+            # ΛNOTE: Messages are delivered via module-specific queues AND direct
+            # topic-based subscriptions (message_type:target_module).
             subscription_key = f"{message.type.value}:{message.target_module}"
             if subscription_key in self.subscriptions:
-                self.logger.debug("Dispatching to subscribers", subscription_key=subscription_key, num_handlers=len(self.subscriptions[subscription_key]))
+                self.logger.debug(
+    "Dispatching to subscribers",
+    subscription_key=subscription_key,
+    num_handlers=len(
+        self.subscriptions[subscription_key]))
                 for handler in self.subscriptions[subscription_key]:
                     try:
                         if asyncio.iscoroutinefunction(handler):
@@ -405,9 +485,19 @@ class MessageBus:
                             await asyncio.get_event_loop().run_in_executor(
                                 self.executor, handler, message
                             )
-                        self.logger.debug("Message handled by subscriber", handler_name=getattr(handler, '__name__', str(handler)), message_id=message.id)
+                        self.logger.debug(
+    "Message handled by subscriber", handler_name=getattr(
+        handler, '__name__', str(handler)), message_id=message.id)
                     except Exception as e_handler:
-                        self.logger.error("❌ Error in message handler", handler_name=getattr(handler, '__name__', str(handler)), message_id=message.id, error=str(e_handler), exc_info=True)
+                        self.logger.error(
+    "❌ Error in message handler",
+    handler_name=getattr(
+        handler,
+        '__name__',
+        str(handler)),
+        message_id=message.id,
+        error=str(e_handler),
+         exc_info=True)
                         self._record_circuit_failure(message.target_module)
 
             self.message_history.append(message)
@@ -431,16 +521,28 @@ class MessageBus:
 
         except Exception as e_send:
             self.stats['errors'] += 1
-            self.logger.error("❌ Failed to send message", message_id=message.id, error=str(e_send), exc_info=True)
+            self.logger.error(
+    "❌ Failed to send message",
+    message_id=message.id,
+    error=str(e_send),
+     exc_info=True)
             return False
 
-    async def receive_message(self, module_name: str, timeout: Optional[float] = None) -> Optional[Message]:
+    async def receive_message(
+    self,
+    module_name: str,
+     timeout: Optional[float] = None) -> Optional[Message]:
         """Receive a message for a specific module"""
         if module_name not in self.module_queues:
-            self.logger.warning("Attempt to receive message for unregistered/unknown module", module_name=module_name)
+            self.logger.warning(
+    "Attempt to receive message for unregistered/unknown module",
+     module_name=module_name)
             return None
 
-        self.logger.debug("Attempting to receive message", module_name=module_name, timeout=timeout)
+        self.logger.debug(
+    "Attempting to receive message",
+    module_name=module_name,
+     timeout=timeout)
         try:
             if timeout:
                 message = await asyncio.wait_for(
@@ -462,16 +564,25 @@ class MessageBus:
             return message
 
         except asyncio.TimeoutError:
-            self.logger.debug("Message receive timeout", module_name=module_name, timeout_seconds=timeout)
+            self.logger.debug(
+    "Message receive timeout",
+    module_name=module_name,
+     timeout_seconds=timeout)
             return None
         except Exception as e_receive:
-            self.logger.error("❌ Failed to receive message", module_name=module_name, error=str(e_receive), exc_info=True)
+            self.logger.error(
+    "❌ Failed to receive message",
+    module_name=module_name,
+    error=str(e_receive),
+     exc_info=True)
             return None
 
     def _is_circuit_closed(self, module_name: str) -> bool:
         """Check if circuit breaker allows communication"""
         if module_name not in self.circuit_breakers:
-            self.logger.debug("No circuit breaker for module, assuming closed", module_name=module_name)
+            self.logger.debug(
+    "No circuit breaker for module, assuming closed",
+     module_name=module_name)
             return True
 
         breaker = self.circuit_breakers[module_name]
@@ -482,18 +593,26 @@ class MessageBus:
             # ΛNOTE: Circuit breaker half-open timeout is fixed at 60s.
             if breaker['last_failure'] and (time.time() - breaker['last_failure']) > 60:
                 breaker['state'] = 'half-open'
-                self.logger.info("⚡ Circuit breaker state changed to half-open", module_name=module_name)
+                self.logger.info(
+    "⚡ Circuit breaker state changed to half-open",
+     module_name=module_name)
                 return True
-            self.logger.warning("⚡ Circuit breaker is open, blocking message", module_name=module_name)
+            self.logger.warning(
+    "⚡ Circuit breaker is open, blocking message",
+     module_name=module_name)
             return False
         else:
-            self.logger.debug("Circuit breaker is half-open, allowing test message", module_name=module_name)
+            self.logger.debug(
+    "Circuit breaker is half-open, allowing test message",
+     module_name=module_name)
             return True
 
     def _record_circuit_failure(self, module_name: str):
         """Record a failure for circuit breaker logic"""
         if module_name not in self.circuit_breakers:
-            self.logger.warning("Attempted to record circuit failure for unknown module", module_name=module_name)
+            self.logger.warning(
+    "Attempted to record circuit failure for unknown module",
+     module_name=module_name)
             return
 
         breaker = self.circuit_breakers[module_name]
@@ -501,23 +620,34 @@ class MessageBus:
         if breaker['state'] == 'half-open':
             breaker['state'] = 'open'
             breaker['last_failure'] = time.time()
-            self.logger.warning("⚡ Circuit breaker re-opened due to failure in half-open state", module_name=module_name)
+            self.logger.warning(
+    "⚡ Circuit breaker re-opened due to failure in half-open state",
+     module_name=module_name)
             return
 
         breaker['failures'] += 1
         breaker['last_failure'] = time.time()
-        self.logger.debug("Circuit failure recorded", module_name=module_name, failure_count=breaker['failures'])
+        self.logger.debug(
+    "Circuit failure recorded",
+    module_name=module_name,
+     failure_count=breaker['failures'])
 
         # ΛNOTE: Circuit breaker opens after 5 failures.
         if breaker['failures'] >= 5:
             breaker['state'] = 'open'
-            self.logger.warning("⚡ Circuit breaker OPENED due to repeated failures", module_name=module_name, failure_count=breaker['failures'])
+            self.logger.warning(
+    "⚡ Circuit breaker OPENED due to repeated failures",
+    module_name=module_name,
+     failure_count=breaker['failures'])
 
     def get_stats(self) -> Dict[str, Any]:
         """Get message bus statistic"""
         self.logger.debug("Fetching message bus statistics")
-        queue_sizes = {module: queue.qsize() for module, queue in self.module_queues.items()}
-        breaker_states = {module: breaker['state'] for module, breaker in self.circuit_breakers.items()}
+        queue_sizes = {
+    module: queue.qsize() for module,
+     queue in self.module_queues.items()}
+        breaker_states = {module: breaker['state']
+            for module, breaker in self.circuit_breakers.items()}
         stats_snapshot = {
             **self.stats,
             'active_modules_count': len(self.active_modules),
@@ -525,14 +655,16 @@ class MessageBus:
             'current_queue_sizes': queue_sizes,
             'current_circuit_breaker_states': breaker_states
         }
-        self.logger.info("Message bus statistics retrieved", stats_snapshot=stats_snapshot) # Log the whole snapshot
+        self.logger.info("Message bus statistics retrieved",
+     stats_snapshot=stats_snapshot)  # Log the whole snapshot
         return stats_snapshot
 
     def get_message_history(self, limit: int = 100) -> List[Dict[str, Any]]:
         """Get recent message history"""
         self.logger.debug("Fetching message history", limit=limit)
         # ΛNOTE: Message history is stored in memory and capped at `self.max_history`.
-        # For production, consider external persistent storage for comprehensive audit trails.
+        # For production, consider external persistent storage for comprehensive
+        # audit trails.
         return [asdict(msg) for msg in self.message_history[-limit:]]
 
     # Agent 1 Task 11: Bridge Trace Logger interface methods
@@ -615,12 +747,18 @@ class MessageBus:
             )) if self.bridge_trace_logger else 0
         }
 
+
 # Global message bus instance
 # ΛEXPOSE (Implicitly, as module-level functions use it)
-# ΛNOTE: A global singleton instance `message_bus` is created. This pattern can simplify access but might make testing or multiple bus instances harder. Consider a factory or dependency injection for more flexibility.
+# ΛNOTE: A global singleton instance `message_bus` is created. This
+# pattern can simplify access but might make testing or multiple bus
+# instances harder. Consider a factory or dependency injection for more
+# flexibility.
 message_bus = MessageBus()
 
 # ΛEXPOSE
+
+
 async def init_message_bus():
     """Initialize the global message bu"""
     logger.info("Initializing global message bus instance.")
@@ -630,11 +768,18 @@ async def init_message_bus():
 
 # Convenience functions
 # ΛEXPOSE
+
+
 async def send_command(source: str, target: str, command: str, params: Dict[str, Any],
                       user_id: Optional[str] = None, priority: MessagePriority = MessagePriority.NORMAL) -> bool:
     """Send a command message"""
     # AIDENTITY: `user_id` is passed for command messages.
-    logger.debug("Convenience function send_command called", source=source, target=target, command=command, user_id=user_id)
+    logger.debug(
+    "Convenience function send_command called",
+    source=source,
+    target=target,
+    command=command,
+     user_id=user_id)
     message = Message(
         type=MessageType.COMMAND,
         source_module=source,
@@ -647,16 +792,23 @@ async def send_command(source: str, target: str, command: str, params: Dict[str,
     return await message_bus.send_message(message)
 
 # ΛEXPOSE
+
+
 async def send_query(source: str, target: str, query: str, params: Dict[str, Any],
-                    user_id: Optional[str] = None, priority: MessagePriority = MessagePriority.NORMAL) -> bool: # Added priority
+                    user_id: Optional[str] = None, priority: MessagePriority = MessagePriority.NORMAL) -> bool:  # Added priority
     """Send a query message"""
     # AIDENTITY: `user_id` is passed for query messages.
-    logger.debug("Convenience function send_query called", source=source, target=target, query=query, user_id=user_id)
+    logger.debug(
+    "Convenience function send_query called",
+    source=source,
+    target=target,
+    query=query,
+     user_id=user_id)
     message = Message(
         type=MessageType.QUERY,
         source_module=source,
         target_module=target,
-        priority=priority, # Use passed priority
+        priority=priority,  # Use passed priority
         payload={"query": query, "params": params},
         user_id=user_id,
         response_required=True
@@ -664,19 +816,30 @@ async def send_query(source: str, target: str, query: str, params: Dict[str, Any
     return await message_bus.send_message(message)
 
 # ΛEXPOSE
-async def send_event(source: str, event_name: str, data: Dict[str, Any], # Renamed event to event_name for clarity
-                    user_id: Optional[str] = None, priority: MessagePriority = MessagePriority.NORMAL) -> bool: # Added priority
+
+
+async def send_event(source: str, event_name: str, data: Dict[str, Any],  # Renamed event to event_name for clarity
+                    user_id: Optional[str] = None, priority: MessagePriority = MessagePriority.NORMAL) -> bool:  # Added priority
     """Send an event message (broadcast to all other active modules)"""
     # AIDENTITY: `user_id` is passed for event messages.
-    # ΛNOTE: This broadcasts to ALL other active modules. Consider if targeted events or topic-based subscriptions are also needed for more complex scenarios.
-    logger.debug("Convenience function send_event called (broadcast)", source=source, event_name=event_name, user_id=user_id)
+    # ΛNOTE: This broadcasts to ALL other active modules. Consider if targeted
+    # events or topic-based subscriptions are also needed for more complex
+    # scenarios.
+    logger.debug("Convenience function send_event called (broadcast)",
+                 source=source, event_name=event_name, user_id=user_id)
     overall_success = True
     active_targets = [m for m in message_bus.active_modules if m != source]
     if not active_targets:
-        logger.info("No other active modules to send event to", source_module=source, event_name=event_name)
+        logger.info("No other active modules to send event to",
+                    source_module=source, event_name=event_name)
         return True
 
-    logger.info("Broadcasting event to targets", source_module=source, event_name=event_name, targets=active_targets, num_targets=len(active_targets))
+    logger.info(
+    "Broadcasting event to targets",
+    source_module=source,
+    event_name=event_name,
+    targets=active_targets,
+     num_targets=len(active_targets))
     for target_module in active_targets:
         message = Message(
             type=MessageType.EVENT,
@@ -688,9 +851,17 @@ async def send_event(source: str, event_name: str, data: Dict[str, Any], # Renam
         )
         result = await message_bus.send_message(message)
         if not result:
-            logger.warning("Failed to send event to a target module", target_module=target_module, event_name=event_name, source_module=source)
+            logger.warning(
+    "Failed to send event to a target module",
+    target_module=target_module,
+    event_name=event_name,
+     source_module=source)
             overall_success = False
-    logger.info("Event broadcast process finished", event_name=event_name, source_module=source, overall_success=overall_success)
+    logger.info(
+    "Event broadcast process finished",
+    event_name=event_name,
+    source_module=source,
+     overall_success=overall_success)
     return overall_success
 
 # ===========================================================================
@@ -717,7 +888,8 @@ async def send_event(source: str, event_name: str, data: Dict[str, Any], # Renam
 #   await message_bus.init_message_bus()
 #   await message_bus.send_command("module_A", "module_B", "do_task", {"param":1})
 #   msg = await message_bus.receive_message("module_B")
-# INTEGRATION NOTES: The optional IdentityClient (`core.lukhas_id`) enhances security and tracing.
+# INTEGRATION NOTES: The optional IdentityClient (`core.lukhas_id`)
+# enhances security and tracing.
 """
 ===============================================================================
 | 📋 FOOTER - LUKHAS AI
@@ -753,5 +925,5 @@ async def send_event(source: str, event_name: str, data: Dict[str, Any], # Renam
 |   stability and require approval from the LUKHAS Architecture Board.
 +===========================================================================
 """
-+===========================================================================
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == ==
 """

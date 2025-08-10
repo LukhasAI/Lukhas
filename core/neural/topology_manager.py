@@ -194,7 +194,7 @@ class TopologyManager:
             else 0.0
         )
         self.logger.debug(
-            f"ΛTRACE: Basic metrics: Nodes={node_count}, Connections={connection_count},
+            f"ΛTRACE: Basic metrics: Nodes={node_count}, Connections={connection_count},"
             Density={connection_density: .4f}"
         )
 

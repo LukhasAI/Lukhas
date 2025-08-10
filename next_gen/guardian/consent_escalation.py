@@ -450,8 +450,8 @@ class ConsentEscalationResolver:
 
     async def _analyze_trust_paths(self, request: ConsentRequest) -> Dict:
         """Analyze available trust paths for the request"""
-        requester = request.requester
-        target_resource = request.target_resource
+        request.requester
+        request.target_resource
 
         # Find applicable trust paths
         applicable_paths = []

@@ -61,6 +61,8 @@ logger.info("Initializing reasoning.py (SymbolicEngine).", module_path=__file__)
 # and logical operators.
 # ΛCAUTION: As noted in the file header, this class structure is very similar to other
 # SymbolicEngine implementations in the codebase, indicating potential redundancy.
+
+
 class SymbolicEngine:
     """
     Symbolic reasoning engine for v1_AGI.
@@ -80,38 +82,47 @@ class SymbolicEngine:
         Args:
             config: Configuration settings
         """
-        self.logger = logger.getChild("SymbolicEngine") # structlog child logger
-        self.logger.info("Initializing SymbolicEngine instance.") # Removed manual ΛTRACE prefix
+        self.logger = logger.getChild("SymbolicEngine")  # structlog child logger
+        # Removed manual ΛTRACE prefix
+        self.logger.info("Initializing SymbolicEngine instance.")
 
         self.config = config or {}
 
         # Configure engine parameters
         self.confidence_threshold = self.config.get("confidence_threshold", 0.8)
-        self.max_depth = self.config.get("max_depth", 3) # Currently unused in methods shown
+        # Currently unused in methods shown
+        self.max_depth = self.config.get("max_depth", 3)
 
         # Initialize reasoning components
-        self.reasoning_graph: Dict[str, Any] = {} # Type hint added
-        self.reasoning_history: List[Dict[str, Any]] = [] # Type hint added
+        self.reasoning_graph: Dict[str, Any] = {}  # Type hint added
+        self.reasoning_history: List[Dict[str, Any]] = []  # Type hint added
 
         # Symbolic rules for reasoning
         self.symbolic_rules = {
-            'causation': ['because', 'cause', 'reason', 'due to', 'results in', 'leads to', 'produces'],
-            'correlation': ['associated with', 'linked to', 'related to', 'connected with'],
-            'conditional': ['if', 'when', 'assuming', 'provided that', 'unless'],
-            'temporal': ['before', 'after', 'during', 'while', 'since'],
-            'logical': ['and', 'or', 'not', 'implies', 'equivalent', 'therefore']
-        }
+            'causation': [
+                'because', 'cause', 'reason', 'due to', 'results in', 'leads to', 'produces'], 'correlation': [
+                'associated with', 'linked to', 'related to', 'connected with'], 'conditional': [
+                'if', 'when', 'assuming', 'provided that', 'unless'], 'temporal': [
+                    'before', 'after', 'during', 'while', 'since'], 'logical': [
+                        'and', 'or', 'not', 'implies', 'equivalent', 'therefore']}
 
         # Logic operators for symbolic inference
-        self.logic_operators = { # Lambdas are fine, consider named functions if they grow complex
+        self.logic_operators = {  # Lambdas are fine, consider named functions if they grow complex
             'and': lambda x, y: x and y, 'or': lambda x, y: x or y, 'not': lambda x: not x,
             'implies': lambda x, y: (not x) or y, 'equivalent': lambda x, y: x == y
         }
 
         # Metrics for performance measurement
-        self.metrics = {"total_inputs": 0, "successful_reasoning": 0, "failed_reasoning": 0, "average_confidence": 0.0, "processing_time_ms_total": 0}
+        self.metrics = {
+            "total_inputs": 0,
+            "successful_reasoning": 0,
+            "failed_reasoning": 0,
+            "average_confidence": 0.0,
+            "processing_time_ms_total": 0}
 
-        self.logger.info("SymbolicEngine initialized.", confidence_threshold=self.confidence_threshold, max_depth=self.max_depth) # Removed manual ΛTRACE prefix
+        self.logger.info("SymbolicEngine initialized.",
+                         confidence_threshold=self.confidence_threshold,
+                         max_depth=self.max_depth)  # Removed manual ΛTRACE prefix
 
     # ΛEXPOSE: Main public method to apply symbolic reasoning to input data.
     # This is the primary decision surface for this engine.
@@ -136,61 +147,96 @@ class SymbolicEngine:
             Dict containing reasoning results, including conclusions and confidence.
         """
         req_id = f"se_reason_{int(time.time()*1000)}"
-        method_logger = self.logger.bind(request_id=req_id, operation="reason") # Bind for method context
+        method_logger = self.logger.bind(
+            request_id=req_id,
+            operation="reason")  # Bind for method context
         start_time = time.time()
-        method_logger.info("Starting symbolic reasoning.", input_keys=list(input_data.keys())) # Removed manual ΛTRACE prefix
+        method_logger.info(
+            "Starting symbolic reasoning.", input_keys=list(
+                input_data.keys()))  # Removed manual ΛTRACE prefix
         self.metrics["total_inputs"] += 1
 
         try:
             semantic_content = self._extract_semantic_content(input_data)
-            method_logger.debug("Extracted semantic content.", content_length=len(semantic_content)) # Removed manual ΛTRACE prefix
+            method_logger.debug("Extracted semantic content.", content_length=len(
+                semantic_content))  # Removed manual ΛTRACE prefix
 
-            symbolic_content_patterns = self._extract_symbolic_patterns(semantic_content) # Renamed for clarity
-            method_logger.debug("Extracted symbolic patterns.", patterns=symbolic_content_patterns) # Removed manual ΛTRACE prefix
+            symbolic_content_patterns = self._extract_symbolic_patterns(
+                semantic_content)  # Renamed for clarity
+            method_logger.debug(
+                "Extracted symbolic patterns.",
+                patterns=symbolic_content_patterns)  # Removed manual ΛTRACE prefix
 
             contextual_content = input_data.get("context", {})
 
-            logical_elements = self._extract_logical_elements(semantic_content, symbolic_content_patterns, contextual_content)
-            method_logger.debug("Extracted logical elements.", num_elements=len(logical_elements)) # Removed manual ΛTRACE prefix
+            logical_elements = self._extract_logical_elements(
+                semantic_content, symbolic_content_patterns, contextual_content)
+            method_logger.debug("Extracted logical elements.", num_elements=len(
+                logical_elements))  # Removed manual ΛTRACE prefix
 
             logical_chains = self._build_symbolic_logical_chains(logical_elements)
-            method_logger.debug("Built logical chains.", num_chains=len(logical_chains)) # Removed manual ΛTRACE prefix
+            method_logger.debug("Built logical chains.", num_chains=len(
+                logical_chains))  # Removed manual ΛTRACE prefix
 
             weighted_logic = self._calculate_symbolic_confidences(logical_chains)
-            valid_logic = {k: v for k, v in weighted_logic.items() if v.get('confidence', 0) >= self.confidence_threshold}
-            method_logger.info("Identified valid logical chains.", num_valid_chains=len(valid_logic), confidence_threshold=self.confidence_threshold) # Removed manual ΛTRACE prefix
+            valid_logic = {
+                k: v for k,
+                v in weighted_logic.items() if v.get(
+                    'confidence',
+                    0) >= self.confidence_threshold}
+            method_logger.info(
+                "Identified valid logical chains.",
+                num_valid_chains=len(valid_logic),
+                confidence_threshold=self.confidence_threshold)  # Removed manual ΛTRACE prefix
 
-            if valid_logic: self._update_reasoning_graph(valid_logic)
+            if valid_logic:
+                self._update_reasoning_graph(valid_logic)
 
-            primary_conclusion_info = self._identify_primary_conclusion(valid_logic) # Renamed
-            reasoning_path_list = self._extract_symbolic_reasoning_path(valid_logic) # Renamed
+            primary_conclusion_info = self._identify_primary_conclusion(
+                valid_logic)  # Renamed
+            reasoning_path_list = self._extract_symbolic_reasoning_path(
+                valid_logic)  # Renamed
 
-            overall_confidence = max([v.get('confidence', 0) for v in valid_logic.values()]) if valid_logic else 0.0
+            overall_confidence = max([v.get('confidence', 0)
+                                     for v in valid_logic.values()]) if valid_logic else 0.0
 
             reasoning_results = {
-                "identified_logical_chains": valid_logic, # Renamed key
-                "derived_primary_conclusion": primary_conclusion_info, # Renamed key
-                "overall_confidence_score": overall_confidence, # Renamed key
-                "extracted_reasoning_path": reasoning_path_list, # Renamed key
-                "reasoning_timestamp": datetime.now(timezone.utc).isoformat(), # Renamed key, ensure UTC
+                "identified_logical_chains": valid_logic,  # Renamed key
+                "derived_primary_conclusion": primary_conclusion_info,  # Renamed key
+                "overall_confidence_score": overall_confidence,  # Renamed key
+                "extracted_reasoning_path": reasoning_path_list,  # Renamed key
+                # Renamed key, ensure UTC
+                "reasoning_timestamp": datetime.now(timezone.utc).isoformat(),
                 "request_id": req_id
             }
 
             self._update_history(reasoning_results)
-            self._update_metrics(reasoning_results, success=True) # Pass success flag
+            self._update_metrics(reasoning_results, success=True)  # Pass success flag
 
             processing_time_ms = (time.time() - start_time) * 1000
             self.metrics["processing_time_ms_total"] += processing_time_ms
-            method_logger.info("Symbolic reasoning successful.", overall_confidence=round(overall_confidence, 2), processing_time_ms=round(processing_time_ms, 2)) # Removed manual ΛTRACE prefix
+            method_logger.info(
+                "Symbolic reasoning successful.", overall_confidence=round(
+                    overall_confidence, 2), processing_time_ms=round(
+                    processing_time_ms, 2))  # Removed manual ΛTRACE prefix
             return reasoning_results
 
         except Exception as e:
-            method_logger.error("Error during symbolic reasoning.", error_message=str(e), exc_info=True) # Removed manual ΛTRACE prefix
+            method_logger.error(
+                "Error during symbolic reasoning.",
+                error_message=str(e),
+                exc_info=True)  # Removed manual ΛTRACE prefix
             self.metrics["failed_reasoning"] += 1
-            self._update_metrics({"overall_confidence_score": 0.0}, success=False) # Ensure key exists for update_metrics
+            # Ensure key exists for update_metrics
+            self._update_metrics({"overall_confidence_score": 0.0}, success=False)
             processing_time_ms = (time.time() - start_time) * 1000
             self.metrics["processing_time_ms_total"] += processing_time_ms
-            return {"error_message": str(e), "overall_confidence_score": 0.0, "reasoning_timestamp": datetime.now(timezone.utc).isoformat(), "request_id": req_id} # Standardized error response, ensure UTC
+            return {
+                "error_message": str(e),
+                "overall_confidence_score": 0.0,
+                "reasoning_timestamp": datetime.now(
+                    timezone.utc).isoformat(),
+                "request_id": req_id}  # Standardized error response, ensure UTC
 
     # ΛNOTE: Extracts raw semantic content (primarily text) from potentially varied input data structures.
     # This is the first step in preparing data for symbolic analysis.
@@ -217,16 +263,29 @@ class SymbolicEngine:
         patterns = {}
 
         # Detect logical operators
-        patterns['logical_operators'] = any(op in text.lower() for op in
-                                           ['if', 'then', 'and', 'or', 'not', 'therefore'])
+        patterns['logical_operators'] = any(
+            op in text.lower() for op in [
+                'if', 'then', 'and', 'or', 'not', 'therefore'])
 
         # Detect categorical structures
-        patterns['categorical'] = any(cat in text.lower() for cat in
-                                     ['is a', 'type of', 'category', 'class', 'belongs to'])
+        patterns['categorical'] = any(
+            cat in text.lower() for cat in [
+                'is a',
+                'type of',
+                'category',
+                'class',
+                'belongs to'])
 
         # Detect quantifiers
-        patterns['quantifiers'] = any(q in text.lower() for q in
-                                     ['all', 'some', 'none', 'every', 'any', 'few', 'many'])
+        patterns['quantifiers'] = any(
+            q in text.lower() for q in [
+                'all',
+                'some',
+                'none',
+                'every',
+                'any',
+                'few',
+                'many'])
 
         # Check for formal logic structures
         patterns['formal_logic'] = self._detect_formal_logic(text)
@@ -244,11 +303,24 @@ class SymbolicEngine:
         # Check for universal/existential quantifiers
         if any(q in text.lower() for q in ['all', 'every', 'any', 'for all']):
             logic['universal'] = True
-        if any(q in text.lower() for q in ['some', 'exists', 'there is', 'at least one']):
+        if any(
+            q in text.lower() for q in [
+                'some',
+                'exists',
+                'there is',
+                'at least one']):
             logic['existential'] = True
 
         # Check for negation
-        if any(n in text.lower() for n in ['not', 'no', 'never', "doesn't", "isn't", "aren't", "won't"]):
+        if any(
+            n in text.lower() for n in [
+                'not',
+                'no',
+                'never',
+                "doesn't",
+                "isn't",
+                "aren't",
+                "won't"]):
             logic['negation'] = True
 
         # Check for conjunction/disjunction
@@ -334,7 +406,13 @@ class SymbolicEngine:
         if contextual_content and isinstance(contextual_content, dict):
             # Process key contextual elements
             for key, value in contextual_content.items():
-                if key in ['goal', 'constraint', 'condition', 'requirement', 'rule', 'priority']:
+                if key in [
+                    'goal',
+                    'constraint',
+                    'condition',
+                    'requirement',
+                    'rule',
+                        'priority']:
                     logical_elements.append({
                         'type': 'contextual',
                         'content': f"{key}: {value}",
@@ -349,7 +427,8 @@ class SymbolicEngine:
     # Each chain represents a potential line of reasoning or a set of interconnected symbolic facts.
     # ΛCAUTION: The semantic overlap check is basic. More advanced semantic similarity measures
     # would improve the quality and relevance of chain building.
-    def _build_symbolic_logical_chains(self, logical_elements: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _build_symbolic_logical_chains(
+            self, logical_elements: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Build logical chains using symbolic structures."""
         logical_chains = {}
 
@@ -380,7 +459,8 @@ class SymbolicEngine:
                     if other_type != rel_type:
                         # Check for semantic overlap between this chain and other items
                         for other_item in other_items:
-                            if any(self._check_semantic_overlap(item, other_item) for item in items):
+                            if any(self._check_semantic_overlap(item, other_item)
+                                   for item in items):
                                 logical_chains[chain_id]['elements'].append(other_item)
                                 # Strengthen confidence due to cross-domain evidence
                                 logical_chains[chain_id]['base_confidence'] = min(
@@ -390,13 +470,18 @@ class SymbolicEngine:
 
         return logical_chains
 
-    def _check_semantic_overlap(self, item1: Dict[str, Any], item2: Dict[str, Any]) -> bool:
+    def _check_semantic_overlap(
+            self, item1: Dict[str, Any], item2: Dict[str, Any]) -> bool:
         """Check for semantic overlap between two items."""
         if 'content' not in item1 or 'content' not in item2:
             return False
 
-        content1 = item1['content'].lower() if isinstance(item1['content'], str) else str(item1['content']).lower()
-        content2 = item2['content'].lower() if isinstance(item2['content'], str) else str(item2['content']).lower()
+        content1 = item1['content'].lower() if isinstance(
+            item1['content'], str) else str(
+            item1['content']).lower()
+        content2 = item2['content'].lower() if isinstance(
+            item2['content'], str) else str(
+            item2['content']).lower()
 
         # Check for direct word overlap (simplified semantic matching)
         words1 = set(content1.split())
@@ -414,7 +499,8 @@ class SymbolicEngine:
     # like element type diversity, presence of strong symbolic types (e.g., formal_logic),
     # and the number of high-confidence elements within a chain.
     # This method assigns a degree of belief to each symbolic inference.
-    def _calculate_symbolic_confidences(self, logical_chains: Dict[str, Any]) -> Dict[str, Any]:
+    def _calculate_symbolic_confidences(
+            self, logical_chains: Dict[str, Any]) -> Dict[str, Any]:
         """Calculate confidence levels using symbolic logic."""
         weighted_logic = {}
 
@@ -437,7 +523,8 @@ class SymbolicEngine:
             type_diversity_bonus = min(0.1, 0.3 * type_count)
 
             # Rule 2: Symbolic types have higher weight
-            symbolic_types = sum(1 for t in elements_by_type.keys() if 'symbolic' in t or 'formal_logic' in t)
+            symbolic_types = sum(1 for t in elements_by_type.keys()
+                                 if 'symbolic' in t or 'formal_logic' in t)
             symbolic_bonus = min(0.15, 0.5 * symbolic_types)
 
             # Rule 3: More elements in high-confidence types increase confidence
@@ -447,10 +534,16 @@ class SymbolicEngine:
                     evidence_strength += 0.5 * min(3, len(elems))
 
             # Calculate final confidence with caps
-            final_confidence = min(0.99, base_confidence + type_diversity_bonus + symbolic_bonus + evidence_strength)
+            final_confidence = min(
+                0.99,
+                base_confidence +
+                type_diversity_bonus +
+                symbolic_bonus +
+                evidence_strength)
 
             weighted_logic[chain_id] = {
-                'elements': chain['elements'][:3],  # Limit elements stored for efficiency
+                # Limit elements stored for efficiency
+                'elements': chain['elements'][:3],
                 'confidence': final_confidence,
                 'relation_type': chain.get('relation_type', 'unknown'),
                 'summary': self._create_symbolic_summary(chain['elements'], chain.get('relation_type', 'unknown'))
@@ -458,7 +551,8 @@ class SymbolicEngine:
 
         return weighted_logic
 
-    def _create_symbolic_summary(self, elements: List[Dict[str, Any]], relation_type: str) -> str:
+    def _create_symbolic_summary(
+            self, elements: List[Dict[str, Any]], relation_type: str) -> str:
         """Create a symbolic summary of a logical chain."""
         if not elements:
             return ""
@@ -466,7 +560,8 @@ class SymbolicEngine:
         # Different summary formats based on relation type
         if relation_type == 'logical':
             # Format like a logical statement
-            return "Logical relationship: " + " AND ".join([e['content'] for e in elements[:2]])
+            return "Logical relationship: " + \
+                " AND ".join([e['content'] for e in elements[:2]])
         elif relation_type == 'formal_logic':
             # Format with formal logic notation
             contents = [e['content'] for e in elements[:2]]
@@ -492,7 +587,7 @@ class SymbolicEngine:
     # reasoning patterns. Includes logic for pruning older/less frequent entries.
     def _update_reasoning_graph(self, valid_logic: Dict[str, Any]) -> None:
         """Update the internal reasoning graph."""
-        timestamp = datetime.now(timezone.utc).isoformat() # Ensure UTC
+        timestamp = datetime.now(timezone.utc).isoformat()  # Ensure UTC
 
         for chain_id, chain_data in valid_logic.items():
             relation_type = chain_data.get('relation_type', 'unknown')
@@ -515,7 +610,8 @@ class SymbolicEngine:
                 entry['frequency'] += 1
                 entry['last_seen'] = timestamp
                 # Running average of confidence
-                entry['avg_confidence'] = (entry['avg_confidence'] * (entry['frequency'] - 1) + confidence) / entry['frequency']
+                entry['avg_confidence'] = (
+                    entry['avg_confidence'] * (entry['frequency'] - 1) + confidence) / entry['frequency']
 
         # Limit reasoning graph size by pruning oldest and least frequent entries
         if len(self.reasoning_graph) > 30:  # Reduced size limit for efficiency
@@ -533,7 +629,8 @@ class SymbolicEngine:
     # and then confidence. This is a heuristic for symbolic summarization of the reasoning outcome.
     # ΛCAUTION: The prioritization logic is rule-based and might not always capture the most salient
     # conclusion in complex scenarios.
-    def _identify_primary_conclusion(self, valid_logic: Dict[str, Any]) -> Dict[str, Any]:
+    def _identify_primary_conclusion(
+            self, valid_logic: Dict[str, Any]) -> Dict[str, Any]:
         """Identify the most likely primary conclusion."""
         if not valid_logic:
             return None
@@ -587,23 +684,28 @@ class SymbolicEngine:
         return {'type': 'unknown', 'structure': None}
 
     # ΛNOTE: Updates a concise history of reasoning sessions, storing key outcome details
-    # like timestamp, primary conclusion type, and confidence. Used for tracking and potentially meta-analysis.
+    # like timestamp, primary conclusion type, and confidence. Used for
+    # tracking and potentially meta-analysis.
     def _update_history(self, reasoning_results: Dict) -> None:
         """Update reasoning history with minimal footprint"""
         # Only store essential information
         self.reasoning_history.append({
-            'timestamp': reasoning_results['reasoning_timestamp'], # Corrected key
-            'primary_conclusion_type': reasoning_results.get('derived_primary_conclusion', {}).get('type', 'unknown'), # Corrected key
-            'confidence': reasoning_results.get('overall_confidence_score', 0) # Corrected key
+            'timestamp': reasoning_results['reasoning_timestamp'],  # Corrected key
+            # Corrected key
+            'primary_conclusion_type': reasoning_results.get('derived_primary_conclusion', {}).get('type', 'unknown'),
+            # Corrected key
+            'confidence': reasoning_results.get('overall_confidence_score', 0)
         })
 
         # Limit history size
-        self.reasoning_history = self.reasoning_history[-30:]  # Limited to last 30 for efficiency
+        # Limited to last 30 for efficiency
+        self.reasoning_history = self.reasoning_history[-30:]
 
     # ΛNOTE: This method appears to be intended to format reasoning results for consumption
     # by a core AGI system, though its current implementation details are not fully clear
     # from the provided snippet (e.g., _extract_symbolic_structure is missing).
-    # ΛCAUTION: The method `_extract_symbolic_structure` is not defined in this file, which would cause a runtime error.
+    # ΛCAUTION: The method `_extract_symbolic_structure` is not defined in
+    # this file, which would cause a runtime error.
     def _format_result_for_core(self, valid_logic: Dict) -> Dict:
         """Format the reasoning results for the AGI core"""
         if not valid_logic:
@@ -636,7 +738,10 @@ class SymbolicEngine:
     # AIMPORT_TODO: Implement or import `_extract_symbolic_structure`.
     def _extract_symbolic_structure(self, valid_logic: Dict) -> Dict:
         """Placeholder for a method that should extract symbolic structure."""
-        self.logger.warning("_extract_symbolic_structure is not implemented.", called_for_logic_keys=list(valid_logic.keys()))
+        self.logger.warning(
+            "_extract_symbolic_structure is not implemented.",
+            called_for_logic_keys=list(
+                valid_logic.keys()))
         return {"type": "unknown_structure", "structure": "not_implemented"}
 
     # ΛEXPOSE: Allows updating the symbolic reasoning engine's parameters (e.g., confidence threshold) based on feedback.
@@ -654,9 +759,11 @@ class SymbolicEngine:
 
             # Adjust confidence threshold based on feedback
             if 'confidence_threshold' in adjustment:
-                self.confidence_threshold = min(0.95, max(0.6, adjustment['confidence_threshold']))
+                self.confidence_threshold = min(
+                    0.95, max(0.6, adjustment['confidence_threshold']))
 
-        logger.info(f"Symbolic reasoning updated from feedback: threshold={self.confidence_threshold}")
+        logger.info(
+            f"Symbolic reasoning updated from feedback: threshold={self.confidence_threshold}")
 
 
 """

@@ -38,7 +38,8 @@ class GuardianAuditExporter:
         """Generate complete audit export in all formats"""
         export_files = {}
 
-        # Generate mock audit data (in production, this would read from actual Guardian logs)
+        # Generate mock audit data (in production, this would read from actual
+        # Guardian logs)
         audit_data = self._generate_mock_audit_data()
 
         # Export to JSON
@@ -347,18 +348,18 @@ type Query {
     threatType: ThreatType
     minSeverity: Float
   ): [GuardianIntervention!]!
-  
+
   # Get system-wide metrics
   systemMetrics(
     startTime: String
     endTime: String
   ): SystemMetrics!
-  
+
   # Search by symbolic sequence
   interventionsBySymbolicSequence(
     sequence: [String!]!
   ): [GuardianIntervention!]!
-  
+
   # Get intervention by ID
   intervention(id: String!): GuardianIntervention
 }
@@ -419,9 +420,9 @@ query EmergencyLockdowns {
 
         report = f"""# 🛡️ Guardian System Audit Summary
 
-**Report Generated**: {self.export_timestamp.isoformat()}  
-**Data Period**: {audit_data["export_metadata"]["data_period_start"]} to {audit_data["export_metadata"]["data_period_end"]}  
-**Guardian Version**: {audit_data["export_metadata"]["guardian_system_version"]}  
+**Report Generated**: {self.export_timestamp.isoformat()}
+**Data Period**: {audit_data["export_metadata"]["data_period_start"]} to {audit_data["export_metadata"]["data_period_end"]}
+**Guardian Version**: {audit_data["export_metadata"]["guardian_system_version"]}
 
 ## 📊 Executive Summary
 
@@ -484,8 +485,8 @@ Based on this audit period:
 
 ---
 
-**Guardian Status**: 🛡️ **OPERATIONAL**  
-**Trinity Framework**: ⚛️🧠🛡️ **PROTECTING**  
+**Guardian Status**: 🛡️ **OPERATIONAL**
+**Trinity Framework**: ⚛️🧠🛡️ **PROTECTING**
 
 *Audit complete - System under continuous protection*
 """.format(

@@ -19,23 +19,25 @@ METADATA TAGS: #LuKhas #AI #Professional #Deployment #AI Core NeuralNet Professi
 
 LUKHAS AI System - Function Library
 File: rate_modulator.py
-Path: LUKHAS/core/integration/system_orchestrator/adaptive_agi/Meta_Learning/rate_modulator.py
+Path: LUKHAS / core / integration / system_orchestrator / \
+    adaptive_agi / Meta_Learning / rate_modulator.py
 Created: "2025-06-05 11:43:39"
 Author: LUKHAS AI Team
 Version: 1.0
-This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 lukhas AI System - Function Library
 File: rate_modulator.py
-Path: lukhas/core/integration/system_orchestrator/adaptive_agi/Meta_Learning/rate_modulator.py
+Path: lukhas / core / integration / system_orchestrator / \
+    adaptive_agi / Meta_Learning / rate_modulator.py
 Created: "2025-06-05 11:43:39"
 Author: lukhas AI Team
 Version: 1.0
-This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 lukhas AI Research. All rights reserved.
+Copyright(c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
@@ -43,15 +45,15 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 Dynamic Learning Rate Adjustment Module
 
-Priority #2: Dynamic Learning Rate Adjustment for Meta-Learning Enhancement System
-Enables real-time adaptation based on dashboard metrics from monitor_dashboard.py.
+Priority  # 2: Dynamic Learning Rate Adjustment for Meta-Learning Enhancement System
+Enables real - time adaptation based on dashboard metrics from monitor_dashboard.py.
 Integrates with existing meta_learning_subsystem.py for enhanced performance.
 
 🔗 Integration Points:
-- Links learning rate adjustment to convergence signals (entropy decay/stability)
-- Connects ethical load metrics (more drift -> lower LR)
+- Links learning rate adjustment to convergence signals(entropy decay / stability)
+- Connects ethical load metrics(more drift -> lower LR)
 - Enhances existing _adjust_learning_rate() and _update_meta_parameters() methods
-- Provides symbolic feedback-driven optimization
+- Provides symbolic feedback - driven optimization
 
 __meta__ = {
     "signature": "QNTM-ETH-FED-v1",
@@ -115,7 +117,7 @@ class ConvergenceSignal:
 class DynamicLearningRateModulator:
     """
     Dynamic Learning Rate Adjustment Module
-    Enhances existing meta-learning systems with intelligent rate adaptation
+    Enhances existing meta - learning systems with intelligent rate adaptation
     based on performance monitoring, symbolic feedback, and ethical compliance.
     """
 
@@ -146,10 +148,11 @@ class DynamicLearningRateModulator:
         self.performance_tracker = defaultdict(list)
         self.rate_effectiveness_scores = defaultdict(lambda: 0.5)
 
-        logger.info(f"Dynamic Learning Rate Modulator initialized - Strategy: {strategy.value}")
+        logger.info(
+            f"Dynamic Learning Rate Modulator initialized - Strategy: {strategy.value}")
 
     def _initialize_strategy_config(self) -> Dict[str, Dict[str, float]]:
-        """Initialize strategy-specific configuration parameter"""
+        """Initialize strategy - specific configuration parameter"""
         return {
             AdaptationStrategy.CONSERVATIVE.value: {
                 "adjustment_factor": 0.05,
@@ -213,8 +216,10 @@ class DynamicLearningRateModulator:
             convergence_score = convergence_data.get("convergence_score", 0.5)
 
             # Analyze trends
-            accuracy_trend = self._calculate_trend_score(convergence_data.get("accuracy_trend", "stable"))
-            loss_trend = self._calculate_trend_score(convergence_data.get("loss_trend", "stable"))
+            accuracy_trend = self._calculate_trend_score(
+                convergence_data.get("accuracy_trend", "stable"))
+            loss_trend = self._calculate_trend_score(
+                convergence_data.get("loss_trend", "stable"))
 
             # Calculate stability index
             stability_index = self._calculate_stability_index()
@@ -257,7 +262,7 @@ class DynamicLearningRateModulator:
                            current_metrics: Optional[Dict[str, Any]] = None) -> float:
         """
         Dynamically adjust learning rate for a specific strategy
-        Integrates with existing meta-learning systems
+        Integrates with existing meta - learning systems
         """
         try:
             # Get current learning rate
@@ -268,9 +273,12 @@ class DynamicLearningRateModulator:
 
             # Get ethical compliance and symbolic feedback
             dashboard_metrics = self.dashboard.get_dashboard_metrics()
-            ethical_compliance = dashboard_metrics.get("performance", {}).get("avg_ethical_compliance", 0.8)
+            ethical_compliance = dashboard_metrics.get(
+    "performance", {}).get(
+        "avg_ethical_compliance", 0.8)
             symbolic_health = dashboard_metrics.get("symbolic_health", {})
-            symbolic_reasoning_score = symbolic_health.get("avg_reasoning_confidence", 0.7)
+            symbolic_reasoning_score = symbolic_health.get(
+                "avg_reasoning_confidence", 0.7)
 
             # Calculate adjustment based on strategy
             adjustment_factor = self._calculate_adjustment_factor(
@@ -293,7 +301,8 @@ class DynamicLearningRateModulator:
                 strategy_name=strategy_name,
                 old_rate=current_rate,
                 new_rate=new_rate,
-                reason=self._generate_adjustment_reason(convergence_signal, adjustment_factor),
+                reason=self._generate_adjustment_reason(
+                    convergence_signal, adjustment_factor),
                 confidence=convergence_signal.convergence_score,
                 ethical_compliance=ethical_compliance,
                 symbolic_reasoning_score=symbolic_reasoning_score,
@@ -309,9 +318,11 @@ class DynamicLearningRateModulator:
             self.current_learning_rates[strategy_name] = new_rate
 
             # Update effectiveness tracking
-            self._update_effectiveness_tracking(strategy_name, new_rate, convergence_signal)
+            self._update_effectiveness_tracking(
+    strategy_name, new_rate, convergence_signal)
 
-            logger.debug(f"Learning rate adjusted for {strategy_name}: {current_rate:.6f} -> {new_rate:.6f}")
+            logger.debug(
+                f"Learning rate adjusted for {strategy_name}: {current_rate:.6f} -> {new_rate:.6f}")
             return new_rate
 
         except Exception as e:
@@ -443,7 +454,8 @@ class DynamicLearningRateModulator:
             if len(self.convergence_history) < 3:
                 return 0.0
 
-            recent_convergence = [c.convergence_score for c in list(self.convergence_history)[-5:]]
+            recent_convergence = [c.convergence_score for c in list(
+                self.convergence_history)[-5:]]
 
             if len(recent_convergence) >= 2:
                 # Simple linear trend estimation
@@ -462,7 +474,7 @@ class DynamicLearningRateModulator:
                                            accuracy_trend: float,
                                            loss_trend: float,
                                            stability_index: float) -> str:
-        """Generate convergence-based recommendation"""
+        """Generate convergence - based recommendation"""
 
         if convergence_score > 0.8 and stability_index > 0.7:
             return "maintain_rate"
@@ -478,7 +490,7 @@ class DynamicLearningRateModulator:
     def _generate_adjustment_reason(self,
                                   convergence_signal: ConvergenceSignal,
                                   adjustment_factor: float) -> str:
-        """Generate human-readable reason for adjustment"""
+        """Generate human - readable reason for adjustment"""
 
         if abs(adjustment_factor) < 0.1:
             return "minimal_adjustment_required"
@@ -527,7 +539,7 @@ class DynamicLearningRateModulator:
 
     def get_enhancement_recommendations(self) -> Dict[str, Any]:
         """
-        Get recommendations for enhancing existing meta-learning systems
+        Get recommendations for enhancing existing meta - learning systems
         """
         try:
             dashboard_metrics = self.dashboard.get_dashboard_metrics()
@@ -543,8 +555,10 @@ class DynamicLearningRateModulator:
             # Analyze recent adjustments
             if self.adjustment_history:
                 recent_adjustments = list(self.adjustment_history)[-10:]
-                avg_ethical_compliance = np.mean([adj.ethical_compliance for adj in recent_adjustments])
-                avg_symbolic_score = np.mean([adj.symbolic_reasoning_score for adj in recent_adjustments])
+                avg_ethical_compliance = np.mean(
+                    [adj.ethical_compliance for adj in recent_adjustments])
+                avg_symbolic_score = np.mean(
+                    [adj.symbolic_reasoning_score for adj in recent_adjustments])
 
                 if avg_ethical_compliance < self.ethical_threshold:
                     recommendations["recommendations"].append({
@@ -564,7 +578,8 @@ class DynamicLearningRateModulator:
 
             # Strategy-specific recommendations
             if self.strategy == AdaptationStrategy.AGGRESSIVE:
-                convergence_scores = [c.convergence_score for c in list(self.convergence_history)[-5:]]
+                convergence_scores = [c.convergence_score for c in list(
+                    self.convergence_history)[-5:]]
                 if convergence_scores and np.mean(convergence_scores) < 0.4:
                     recommendations["recommendations"].append({
                         "type": "strategy_adjustment",
@@ -577,7 +592,10 @@ class DynamicLearningRateModulator:
 
         except Exception as e:
             logger.error(f"Error generating enhancement recommendations: {e}")
-            return {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
+            return {
+    "error": str(e),
+    "timestamp": datetime.now(
+        timezone.utc).isoformat()}
 
     def integrate_with_meta_learning_subsystem(self,
                                              meta_learning_system: Any,
@@ -588,7 +606,8 @@ class DynamicLearningRateModulator:
         """
         try:
             if not hasattr(meta_learning_system, 'learning_strategies'):
-                logger.warning("Meta learning system does not have learning_strategies attribute")
+                logger.warning(
+                    "Meta learning system does not have learning_strategies attribute")
                 return False
 
             # Get enhanced learning rate
@@ -596,13 +615,16 @@ class DynamicLearningRateModulator:
 
             # Update the strategy in the meta learning system
             if strategy_name in meta_learning_system.learning_strategies:
-                old_rate = meta_learning_system.learning_strategies[strategy_name]["parameters"].get("learning_rate", 0.01)
+                old_rate = meta_learning_system.learning_strategies[strategy_name]["parameters"].get(
+                    "learning_rate", 0.01)
                 meta_learning_system.learning_strategies[strategy_name]["parameters"]["learning_rate"] = enhanced_rate
 
-                logger.info(f"Enhanced {strategy_name} learning rate: {old_rate:.6f} -> {enhanced_rate:.6f}")
+                logger.info(
+                    f"Enhanced {strategy_name} learning rate: {old_rate:.6f} -> {enhanced_rate:.6f}")
                 return True
             else:
-                logger.warning(f"Strategy {strategy_name} not found in meta learning system")
+                logger.warning(
+                    f"Strategy {strategy_name} not found in meta learning system")
                 return False
 
         except Exception as e:
@@ -640,15 +662,17 @@ def enhance_existing_meta_learning_system(meta_learning_system: Any,
     # Enhance each learning strategy in the system
     if hasattr(meta_learning_system, 'learning_strategies'):
         for strategy_name in meta_learning_system.learning_strategies.keys():
-            modulator.integrate_with_meta_learning_subsystem(meta_learning_system, strategy_name)
+            modulator.integrate_with_meta_learning_subsystem(
+                meta_learning_system, strategy_name)
 
-    logger.info(f"Enhanced existing meta-learning system with {len(meta_learning_system.learning_strategies) if hasattr(meta_learning_system, 'learning_strategies') else 0} strategies")
+    logger.info(
+        f"Enhanced existing meta-learning system with {len(meta_learning_system.learning_strategies) if hasattr(meta_learning_system, 'learning_strategies') else 0} strategies")
     return modulator
 
 def create_enhanced_rate_adjustment_callback(modulator: DynamicLearningRateModulator,
                                            strategy_name: str) -> Callable[[Dict[str, Any]], float]:
     """
-    Create a callback function for existing meta-learning systems
+    Create a callback function for existing meta - learning systems
     """
     def enhanced_rate_callback(performance_metrics: Dict[str, Any]) -> float:
         """Enhanced learning rate callback with symbolic and ethical consideration"""

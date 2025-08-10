@@ -158,10 +158,9 @@ class SymbolicMutationTree:
 
         for glyph in glyphs:
             # Check if this glyph has a mutation rule
-            mutation_rule = None
             for base_glyph, mutations in self.TRUST_MUTATIONS.items():
                 if glyph == base_glyph or glyph in mutations.values():
-                    mutation_rule = mutations
+                    pass
                     # Find the current state
                     if glyph != base_glyph:
                         # Find which state this glyph represents
@@ -294,7 +293,8 @@ class SymbolicMutationTree:
                 p = count / total
                 entropy -= p * math.log2(p)
 
-        # Normalize to 0-1 range (max entropy is log2(n) where n is number of unique mutations)
+        # Normalize to 0-1 range (max entropy is log2(n) where n is number of
+        # unique mutations)
         max_entropy = math.log2(len(mutation_counts)) if len(mutation_counts) > 1 else 1
         return min(1.0, entropy / max_entropy if max_entropy > 0 else 0)
 

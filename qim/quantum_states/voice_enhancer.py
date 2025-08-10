@@ -41,7 +41,7 @@ __tier__ = 2
 
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from learning.systems.voice_duet import VoiceIntegrator
 
@@ -118,8 +118,8 @@ class QuantumVoiceEnhancer:
         original_generate_speech = self.voice_integrator.generate_speech_output
 
         async def quantum_process_voice(
-            audio_data: bytes, context: Optional[Dict[str, Any]] = None
-        ) -> Dict[str, Any]:
+            audio_data: bytes, context: Optional[dict[str, Any]] = None
+        ) -> dict[str, Any]:
             """Quantum-enhanced voice input processing"""
             try:
                 # Enter superposition-like state for processing
@@ -141,8 +141,8 @@ class QuantumVoiceEnhancer:
                 return original_process_voice(audio_data, context)
 
         async def quantum_generate_speech(
-            text: str, voice_params: Optional[Dict[str, Any]] = None
-        ) -> Dict[str, Any]:
+            text: str, voice_params: Optional[dict[str, Any]] = None
+        ) -> dict[str, Any]:
             """Quantum-enhanced speech generation"""
             try:
                 # Enter superposition-like state for generation
@@ -170,9 +170,9 @@ class QuantumVoiceEnhancer:
     async def _quantum_voice_process(
         self,
         audio_data: bytes,
-        context: Optional[Dict[str, Any]],
+        context: Optional[dict[str, Any]],
         original_method: Callable,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Process voice input with quantum enhancement"""
         try:
             # Get baseline result
@@ -199,9 +199,9 @@ class QuantumVoiceEnhancer:
     async def _quantum_speech_generate(
         self,
         text: str,
-        voice_params: Optional[Dict[str, Any]],
+        voice_params: Optional[dict[str, Any]],
         original_method: Callable,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate speech with quantum enhancement"""
         try:
             params = voice_params or {}
@@ -226,7 +226,7 @@ class QuantumVoiceEnhancer:
             return original_method(text, voice_params)
 
     async def _enhance_emotion_detection(
-        self, base_emotion: Optional[str], context: Optional[Dict[str, Any]]
+        self, base_emotion: Optional[str], context: Optional[dict[str, Any]]
     ) -> Optional[str]:
         """Enhance emotion detection with quantum-inspired processing"""
         if not base_emotion:

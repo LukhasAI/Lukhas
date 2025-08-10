@@ -15,12 +15,14 @@ from dataclasses import dataclass
 
 logger = logging.getLogger(f"lukhas.{__name__}")
 
+
 @dataclass
 class AuditLogConfig:
     """Configuration for AuditLogComponent"""
     enabled: bool = True
     debug_mode: bool = False
     # Add specific config fields based on TODO requirements
+
 
 class AuditLogComponent:
     """
@@ -61,9 +63,12 @@ class AuditLogComponent:
         }
 
 # Factory function
+
+
 def create_audit_log_component() -> AuditLogComponent:
     """Create AuditLogComponent with default configuration"""
     return AuditLogComponent()
+
 
 # Export main functionality
 __all__ = ['AuditLogComponent', 'create_audit_log_component', 'AuditLogConfig']

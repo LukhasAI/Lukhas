@@ -13,5 +13,5 @@ __all__ = [
     "SymbolicMutationTree",
     "DriftTracker",
     "ConsentPathLogger",
-    "DriftStateRenderer"
+    "DriftStateRenderer",
 ]

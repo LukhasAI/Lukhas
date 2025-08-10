@@ -1,4 +1,3 @@
 """
 Consent_Manager Module
 """
-

@@ -148,8 +148,8 @@ class ConsentPathLogger:
         try:
             conn.execute(
                 """
-                INSERT INTO consent_paths 
-                (timestamp, user_id, glyphs, action, outcome, drift_score, 
+                INSERT INTO consent_paths
+                (timestamp, user_id, glyphs, action, outcome, drift_score,
                  consent_hash, parent_hash, metadata)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
@@ -213,8 +213,8 @@ class ConsentPathLogger:
         """Get the last consent hash for a user"""
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.execute(
-                """SELECT consent_hash FROM consent_paths 
-                   WHERE user_id = ? 
+                """SELECT consent_hash FROM consent_paths
+                   WHERE user_id = ?
                    ORDER BY id DESC LIMIT 1""",
                 (user_id,),
             )
@@ -225,7 +225,7 @@ class ConsentPathLogger:
         """Get consent path for a specific user"""
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.execute(
-                """SELECT timestamp, user_id, glyphs, action, outcome, 
+                """SELECT timestamp, user_id, glyphs, action, outcome,
                           drift_score, consent_hash, parent_hash, metadata
                    FROM consent_paths
                    WHERE user_id = ?

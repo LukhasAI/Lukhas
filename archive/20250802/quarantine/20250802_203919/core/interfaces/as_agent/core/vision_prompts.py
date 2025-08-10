@@ -40,7 +40,7 @@ def get_prompt_by_type(prompt_type):
     Fetches a random visual prompt by type.
 
     Parameters:
-    - prompt_type (str): e.g., 'travel', 'emotion', 'ambient'
+    - prompt_type(str): e.g., 'travel', 'emotion', 'ambient'
 
     Returns:
     - str: a prompt string
@@ -54,7 +54,7 @@ def get_vision_render_spec(prompt_type):
     Provides structured render spec for frontend to visualize vision prompts.
 
     Parameters:
-    - prompt_type (str): e.g., 'travel', 'emotion_reflective'
+    - prompt_type(str): e.g., 'travel', 'emotion_reflective'
 
     Returns:
     - dict: containing prompt text and render metadata
@@ -77,7 +77,7 @@ def get_vision_render_spec(prompt_type):
 
 """
 ΛTRACE: End of vision_prompts.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

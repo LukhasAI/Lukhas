@@ -12,11 +12,12 @@ Brain-side cognitive enhancement capabilities for external bot systems.
 This module provides the brain's cognitive capabilities as services
 that can enhance external bot systems through the bridge layer.
 """
+import logging
 
 import asyncio
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger("BotEnhancement")
 
@@ -27,7 +28,7 @@ class EnhancementRequest:
 
     bot_id: str
     enhancement_type: str
-    request_data: Dict[str, Any]
+    request_data: dict[str, Any]
     priority: int = 1
     timestamp: datetime = None
 
@@ -42,7 +43,7 @@ class EnhancementResponse:
 
     request_id: str
     bot_id: str
-    enhancement_data: Dict[str, Any]
+    enhancement_data: dict[str, Any]
     processing_time: float
     confidence: float
     timestamp: datetime = None
@@ -188,8 +189,8 @@ class BotEnhancementEngine:
             return self._create_error_response(request, str(e))
 
     async def _apply_cognitive_reasoning(
-        self, problem: str, context: Dict
-    ) -> Dict[str, Any]:
+        self, problem: str, context: dict
+    ) -> dict[str, Any]:
         """Apply brain's reasoning capabilities to a problem"""
         # This would integrate with the actual brain reasoning systems
         # For now, return a placeholder structure
@@ -202,7 +203,7 @@ class BotEnhancementEngine:
 
     async def _query_brain_memory(
         self, query: str, access_level: str, bot_id: str
-    ) -> List[Dict]:
+    ) -> list[dict]:
         """Query brain memory with access controls"""
         # This would integrate with the actual brain memory systems
         # For now, return a placeholder structure
@@ -217,7 +218,7 @@ class BotEnhancementEngine:
 
     async def _apply_cognitive_analysis(
         self, data: Any, analysis_type: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Apply cognitive analysis to data"""
         # This would integrate with the actual brain analysis systems
         # For now, return a placeholder structure

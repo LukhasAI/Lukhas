@@ -16,7 +16,6 @@
 """
 
 # Module imports
-from typing import Any, Dict, Optional
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -29,12 +28,9 @@ logger = get_logger(__name__)
 #        Its stability is critical for higher-order cognitive functions.
 
 # Standard Library Imports
-from typing import List
 
 # Third-Party Imports
-import structlog
 
-from core.common import get_logger
 
 # --- Module Information ---
 __author__ = "LUKHAS AI Development Team"
@@ -57,27 +53,17 @@ This `__init__.py` file makes key components and functionalities of the Memoria
 subsystem available for import at the package level.
 """
 
-_exported_components_list: List[str] = []
+_exported_components_list: list[str] = []
 try:
-    from .lukhas_dreams import (
-        extract_visual_prompts,
-        generate_dream,
-        save_dream_log,
-    )
+    pass
 
     _exported_components_list.extend(
         ["generate_dream", "extract_visual_prompts", "save_dream_log"]
     )
 
-    from .lukhas_reflector import load_dream_memories, reflect_on_dreams
-
     _exported_components_list.extend(["load_dream_memories", "reflect_on_dreams"])
 
-    from .lukhas_replayer import load_recent_dreams, replay_dreams
-
     _exported_components_list.extend(["load_recent_dreams", "replay_dreams"])
-
-    from .gpt_reflection import generate_gpt_reflection
 
     _exported_components_list.extend(["generate_gpt_reflection"])
 

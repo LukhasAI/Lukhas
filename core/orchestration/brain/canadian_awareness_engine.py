@@ -705,7 +705,7 @@ if __name__ == "__main__":
     print(f"Provincial Status: {result.provincial_compliance_status}")
     print(f"AI Assessment Required: {result.ai_impact_assessment_required}")
     print(
-        f"Bilingual Support: EN={result.english_documentation_available},
+        f"Bilingual Support: EN={result.english_documentation_available},"
         FR={result.french_documentation_available}"
     )
 

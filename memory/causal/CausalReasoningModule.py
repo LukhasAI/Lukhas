@@ -15,7 +15,7 @@ Based on the advanced implementation from Lukhas GitHub repository.
 """
 
 import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 from core.common import get_logger
 
@@ -34,7 +34,7 @@ class CausalReasoningModule:
         self.max_causal_depth = 5
         self.causal_history = []
 
-    def reason(self, attended_data: Dict) -> Dict:
+    def reason(self, attended_data: dict) -> dict:
         """
         Apply causal reasoning to attended data
 
@@ -253,7 +253,7 @@ class CausalReasoningModule:
 
             # Calculate chain strength based on number of elements and their types
             chain_strength = len(elements) * 0.1
-            type_diversity = len(set(elem.get("type") for elem in elements)) * 0.1
+            type_diversity = len({elem.get("type") for elem in elements}) * 0.1
 
             # Final confidence calculation
             final_confidence = min(
@@ -294,7 +294,9 @@ class CausalReasoningModule:
                 )
                 # Keep last 10 confidence values
 
-    # SYNTAX_ERROR_FIXED:                 self.causal_graph[chain_id]['confidence_history'] = " + "self.causal_graph[chain_id]['confidence_history'][-10:]
+    # SYNTAX_ERROR_FIXED:
+    # self.causal_graph[chain_id]['confidence_history'] = " +
+    # "self.causal_graph[chain_id]['confidence_history'][-10:]
 
     def _identify_primary_cause(self, valid_causes):
         """Identify the most likely primary cause from valid cause"""
@@ -336,7 +338,7 @@ class CausalReasoningModule:
         if len(self.causal_history) > 100:
             self.causal_history = self.causal_history[-100:]
 
-    def get_causal_insights(self) -> Dict:
+    def get_causal_insights(self) -> dict:
         """
         Get insights from the causal reasoning system
 
@@ -363,7 +365,7 @@ class CausalReasoningModule:
             "timestamp": datetime.datetime.now().isoformat(),
         }
 
-    def analyze_counterfactuals(self, scenario: Dict) -> Dict:
+    def analyze_counterfactuals(self, scenario: dict) -> dict:
         """
         Perform counterfactual analysis on a given scenario
 
@@ -399,7 +401,7 @@ class CausalReasoningModule:
             "analysis_timestamp": datetime.datetime.now().isoformat(),
         }
 
-    def _estimate_likelihood(self, scenario: Dict) -> float:
+    def _estimate_likelihood(self, scenario: dict) -> float:
         """
         Estimate the likelihood of a scenario based on causal patterns
 
@@ -422,7 +424,7 @@ class CausalReasoningModule:
 
         return min(0.95, base_likelihood + type_coherence * 0.3)
 
-    def _calculate_type_coherence(self, elements: List[Dict]) -> float:
+    def _calculate_type_coherence(self, elements: list[dict]) -> float:
         """
         Calculate coherence score based on element types
 
@@ -444,8 +446,8 @@ class CausalReasoningModule:
         return diversity_score
 
     async def analyze_causal_relationships(
-        self, input_data, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, input_data, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Analyze causal relationships in input data within given context
 
@@ -493,7 +495,7 @@ class CausalReasoningModule:
             logger.error(f"Causal analysis failed: {e}")
             return {"status": "error", "error": str(e), "enhancement_applied": False}
 
-    def _calculate_pattern_strength(self, reasoning_results: Dict[str, Any]) -> float:
+    def _calculate_pattern_strength(self, reasoning_results: dict[str, Any]) -> float:
         """Calculate the overall strength of causal patterns found"""
         causal_chains = reasoning_results.get("causal_chains", {})
         if not causal_chains:
@@ -508,14 +510,14 @@ class CausalReasoningModule:
 
         return min(1.0, avg_confidence + chain_bonus)
 
-    def _calculate_reasoning_depth(self, reasoning_results: Dict[str, Any]) -> int:
+    def _calculate_reasoning_depth(self, reasoning_results: dict[str, Any]) -> int:
         """Calculate the depth of causal reasoning performed"""
         reasoning_path = reasoning_results.get("reasoning_path", [])
         return len(reasoning_path)
 
     def _extract_temporal_relationships(
-        self, input_data, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, input_data, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Extract temporal relationships from input and context"""
         temporal_info = {
             "has_temporal_markers": False,

@@ -2,7 +2,6 @@
 Tests for VIVOX.QREADY - Quantum Readiness Interface
 """
 
-
 import numpy as np
 import pytest
 
@@ -42,7 +41,7 @@ class TestQuantumSubstrate:
 
         assert isinstance(pure_state, QuantumState)
         assert pure_state.state_type == QuantumStateType.PURE
-        assert len(pure_state.state_vector) == 2 ** substrate.config['num_qubits']
+        assert len(pure_state.state_vector) == 2 ** substrate.config["num_qubits"]
         assert np.abs(np.linalg.norm(pure_state.state_vector) - 1.0) < 1e-10
         assert pure_state.fidelity == 1.0
 
@@ -62,7 +61,7 @@ class TestQuantumSubstrate:
         # Check that state changed
         assert not np.allclose(initial_vector, noisy_state.state_vector)
         assert noisy_state.fidelity < 1.0
-        assert noisy_state.metadata['noise_applied'] is True
+        assert noisy_state.metadata["noise_applied"] is True
 
         # Check normalization
         assert np.abs(np.linalg.norm(noisy_state.state_vector) - 1.0) < 1e-10
@@ -74,10 +73,12 @@ class TestQuantumSubstrate:
         noisy_state = substrate.apply_quantum_noise(state, time_evolution=1.0)
 
         # Stabilize
-        stabilized = substrate.stabilize_quantum_state(noisy_state, target_fidelity=0.95)
+        stabilized = substrate.stabilize_quantum_state(
+            noisy_state, target_fidelity=0.95
+        )
 
         assert stabilized.fidelity >= noisy_state.fidelity
-        assert stabilized.metadata['stabilized'] is True
+        assert stabilized.metadata["stabilized"] is True
         assert np.abs(np.linalg.norm(stabilized.state_vector) - 1.0) < 1e-10
 
     def test_entangled_pair_creation(self, substrate):
@@ -96,13 +97,17 @@ class TestQuantumSubstrate:
         states = [substrate.create_quantum_state() for _ in range(3)]
 
         # Apply coupling
-        coupled_states = substrate.apply_resonance_coupling(states, coupling_strength=0.5)
+        coupled_states = substrate.apply_resonance_coupling(
+            states, coupling_strength=0.5
+        )
 
         assert len(coupled_states) == len(states)
-        for i, coupled in enumerate(coupled_states):
-            assert coupled.metadata['resonance_coupled'] is True
+        for _i, coupled in enumerate(coupled_states):
+            assert coupled.metadata["resonance_coupled"] is True
             assert len(coupled.entanglement_map) == len(states) - 1
-            assert all(strength == 0.5 for strength in coupled.entanglement_map.values())
+            assert all(
+                strength == 0.5 for strength in coupled.entanglement_map.values()
+            )
 
     def test_quantum_readiness_assessment(self, substrate):
         """Test quantum transition readiness"""
@@ -112,11 +117,11 @@ class TestQuantumSubstrate:
 
         readiness = substrate.prepare_for_quantum_transition()
 
-        assert 'readiness_score' in readiness
-        assert 0 <= readiness['readiness_score'] <= 1
-        assert 'checks_passed' in readiness
-        assert 'recommendations' in readiness
-        assert readiness['checks_passed']['state_representation'] is True
+        assert "readiness_score" in readiness
+        assert 0 <= readiness["readiness_score"] <= 1
+        assert "checks_passed" in readiness
+        assert "recommendations" in readiness
+        assert readiness["checks_passed"]["state_representation"] is True
 
 
 class TestQubitCollapseEngine:
@@ -130,37 +135,27 @@ class TestQubitCollapseEngine:
 
     def test_moral_superposition_creation(self, collapse_engine):
         """Test creation of moral superposition"""
-        ethical_scenario = {
-            'harm_prevention': 0.8,
-            'autonomy': 0.6,
-            'justice': 0.7
-        }
+        ethical_scenario = {"harm_prevention": 0.8, "autonomy": 0.6, "justice": 0.7}
 
         superposition = collapse_engine.create_moral_superposition(
-            ethical_scenario,
-            uncertainty_level=0.3
+            ethical_scenario, uncertainty_level=0.3
         )
 
         assert isinstance(superposition, QuantumState)
         assert superposition.state_type == QuantumStateType.SUPERPOSITION
         assert superposition.fidelity > 0.5
-        assert 'ethical_scenario' in superposition.metadata
+        assert "ethical_scenario" in superposition.metadata
 
     def test_ethical_collapse(self, collapse_engine):
         """Test ethical decision collapse"""
         # Create moral superposition
-        ethical_scenario = {
-            'beneficence': 0.9,
-            'truthfulness': 0.7,
-            'privacy': 0.5
-        }
+        ethical_scenario = {"beneficence": 0.9, "truthfulness": 0.7, "privacy": 0.5}
 
         superposition = collapse_engine.create_moral_superposition(ethical_scenario)
 
         # Perform collapse
         convergence = collapse_engine.perform_ethical_collapse(
-            superposition,
-            {'beneficence': 1.0, 'convergence_strength': 0.7}
+            superposition, {"beneficence": 1.0, "convergence_strength": 0.7}
         )
 
         assert isinstance(convergence, ProbabilisticConvergence)
@@ -172,22 +167,25 @@ class TestQubitCollapseEngine:
     def test_collapse_field_application(self, collapse_engine):
         """Test collapse field effects"""
         # Create state and field
-        state = collapse_engine.create_moral_superposition({'justice': 0.8})
+        state = collapse_engine.create_moral_superposition({"justice": 0.8})
 
         collapse_field = CollapseField(
             field_id="test_field",
-            ethical_dimensions=['justice'],
-            probability_distribution=np.ones(len(state.state_vector)) / len(state.state_vector),
+            ethical_dimensions=["justice"],
+            probability_distribution=np.ones(len(state.state_vector))
+            / len(state.state_vector),
             convergence_strength=0.5,
-            moral_anchors={'justice': 0.9}
+            moral_anchors={"justice": 0.9},
         )
 
         # Apply field
-        evolved = collapse_engine.apply_collapse_field(state, collapse_field, evolution_time=1.0)
+        evolved = collapse_engine.apply_collapse_field(
+            state, collapse_field, evolution_time=1.0
+        )
 
         assert evolved.state_id != state.state_id
         assert np.abs(np.linalg.norm(evolved.state_vector) - 1.0) < 1e-10
-        assert evolved.metadata['collapse_field_applied'] == "test_field"
+        assert evolved.metadata["collapse_field_applied"] == "test_field"
 
     def test_multi_agent_collapse(self, collapse_engine):
         """Test synchronized multi-agent collapse"""
@@ -195,14 +193,13 @@ class TestQubitCollapseEngine:
         agent_states = []
         for i in range(3):
             state = collapse_engine.create_moral_superposition(
-                {'autonomy': 0.5 + i * 0.1, 'justice': 0.7 - i * 0.1}
+                {"autonomy": 0.5 + i * 0.1, "justice": 0.7 - i * 0.1}
             )
             agent_states.append(state)
 
         # Perform multi-agent collapse
         results = collapse_engine.multi_agent_collapse(
-            agent_states,
-            {'autonomy': 0.8, 'justice': 0.8}
+            agent_states, {"autonomy": 0.8, "justice": 0.8}
         )
 
         assert len(results) == len(agent_states)
@@ -228,7 +225,9 @@ class TestQuantumSynchronization:
         for i in range(3):
             state = np.random.rand(8) + 1j * np.random.rand(8)
             state /= np.linalg.norm(state)
-            synchronizer.register_agent(f"agent_{i}", state, resonance_frequency=1.0 + i * 0.1)
+            synchronizer.register_agent(
+                f"agent_{i}", state, resonance_frequency=1.0 + i * 0.1
+            )
 
         assert len(synchronizer.agent_states) == 3
         assert len(synchronizer.resonance_frequencies) == 3
@@ -249,7 +248,13 @@ class TestQuantumSynchronization:
         assert isinstance(event, QSyncEvent)
         assert event.sync_type == SyncType.EMERGENT
         assert event.correlation_strength > 0.5
-        assert event.get_sync_quality() in ["perfect", "strong", "moderate", "weak", "minimal"]
+        assert event.get_sync_quality() in [
+            "perfect",
+            "strong",
+            "moderate",
+            "weak",
+            "minimal",
+        ]
 
     def test_active_synchronization(self, synchronizer):
         """Test active agent synchronization"""
@@ -295,8 +300,7 @@ class TestQuantumSynchronization:
 
         # Detect emergent sync
         events = synchronizer.detect_emergent_synchronization(
-            min_agents=2,
-            correlation_threshold=0.5
+            min_agents=2, correlation_threshold=0.5
         )
 
         assert len(events) > 0
@@ -316,8 +320,10 @@ class TestEntanglementBridge:
         """Test creating entanglement between agents"""
         state1, state2 = bridge.create_entanglement("agent1", "agent2", strength=0.9)
 
-        assert ("agent1", "agent2") in bridge.entangled_pairs or \
-               ("agent2", "agent1") in bridge.entangled_pairs
+        assert ("agent1", "agent2") in bridge.entangled_pairs or (
+            "agent2",
+            "agent1",
+        ) in bridge.entangled_pairs
         assert "agent2" in bridge.entanglement_network["agent1"]
         assert "agent1" in bridge.entanglement_network["agent2"]
 
@@ -386,12 +392,11 @@ class TestMoralSuperposition:
             EthicalDimension.HARM_PREVENTION: 0.8,
             EthicalDimension.AUTONOMY: 0.6,
             EthicalDimension.JUSTICE: 0.7,
-            EthicalDimension.COMPASSION: 0.9
+            EthicalDimension.COMPASSION: 0.9,
         }
 
         state = moral_superposition.create_superposition(
-            ethical_scenario,
-            uncertainty=0.3
+            ethical_scenario, uncertainty=0.3
         )
 
         assert isinstance(state, EthicalQuantumState)
@@ -409,16 +414,15 @@ class TestMoralSuperposition:
         # Create initial state
         initial_scenario = {
             EthicalDimension.TRUTHFULNESS: 0.5,
-            EthicalDimension.PRIVACY: 0.5
+            EthicalDimension.PRIVACY: 0.5,
         }
 
-        state = moral_superposition.create_superposition(initial_scenario, uncertainty=0.5)
+        state = moral_superposition.create_superposition(
+            initial_scenario, uncertainty=0.5
+        )
 
         # Apply ethical pressure
-        pressure = {
-            EthicalDimension.TRUTHFULNESS: 0.9,
-            EthicalDimension.INTEGRITY: 0.7
-        }
+        pressure = {EthicalDimension.TRUTHFULNESS: 0.9, EthicalDimension.INTEGRITY: 0.7}
 
         path = moral_superposition.evolve_superposition(state, pressure, time_steps=5)
 
@@ -438,15 +442,14 @@ class TestMoralSuperposition:
         # Create state with clear preference
         scenario = {
             EthicalDimension.BENEFICENCE: 0.9,
-            EthicalDimension.HARM_PREVENTION: 0.8
+            EthicalDimension.HARM_PREVENTION: 0.8,
         }
 
         state = moral_superposition.create_superposition(scenario, uncertainty=0.1)
 
         # Measure in specific basis
         dimension, strength = moral_superposition.measure_ethical_state(
-            state,
-            measurement_basis=EthicalDimension.BENEFICENCE
+            state, measurement_basis=EthicalDimension.BENEFICENCE
         )
 
         assert dimension == EthicalDimension.BENEFICENCE
@@ -474,25 +477,28 @@ class TestSuperpositionResolver:
 
         initial = moral_sup.create_superposition(
             {EthicalDimension.JUSTICE: 0.7, EthicalDimension.COMPASSION: 0.6},
-            uncertainty=0.4
+            uncertainty=0.4,
         )
 
         path = moral_sup.evolve_superposition(
-            initial,
-            {EthicalDimension.JUSTICE: 0.9},
-            time_steps=10
+            initial, {EthicalDimension.JUSTICE: 0.9}, time_steps=10
         )
 
         # Resolve to decision
         decision = resolver.resolve_to_decision(path)
 
-        assert decision['decision'] in ['RESOLVED', 'UNDECIDED', 'UNSTABLE', 'CONSTRAINT_VIOLATION']
+        assert decision["decision"] in [
+            "RESOLVED",
+            "UNDECIDED",
+            "UNSTABLE",
+            "CONSTRAINT_VIOLATION",
+        ]
 
-        if decision['decision'] == 'RESOLVED':
-            assert 'primary_ethic' in decision
-            assert 'supporting_ethics' in decision
-            assert 'confidence' in decision
-            assert len(decision['trajectory']) > 0
+        if decision["decision"] == "RESOLVED":
+            assert "primary_ethic" in decision
+            assert "supporting_ethics" in decision
+            assert "confidence" in decision
+            assert len(decision["trajectory"]) > 0
 
 
 class TestVIVOXQuantumBridge:
@@ -506,83 +512,72 @@ class TestVIVOXQuantumBridge:
     def test_cil_quantum_collapse(self, bridge):
         """Test quantum collapse for CIL"""
         consciousness_state = {
-            'awareness': 0.8,
-            'attention': 0.7,
-            'coherence': 0.6,
-            'uncertainty': 0.3
+            "awareness": 0.8,
+            "attention": 0.7,
+            "coherence": 0.6,
+            "uncertainty": 0.3,
         }
 
-        ethical_scenario = {
-            'harm_prevention': 0.8,
-            'autonomy': 0.6
-        }
+        ethical_scenario = {"harm_prevention": 0.8, "autonomy": 0.6}
 
         result = bridge.process_quantum_collapse_for_cil(
-            consciousness_state,
-            ethical_scenario
+            consciousness_state, ethical_scenario
         )
 
-        assert result['quantum_enhanced'] is True
-        assert 'collapse_id' in result
-        assert 0 <= result['confidence'] <= 1
-        assert 'final_state' in result
+        assert result["quantum_enhanced"] is True
+        assert "collapse_id" in result
+        assert 0 <= result["confidence"] <= 1
+        assert "final_state" in result
 
     def test_mae_quantum_validation(self, bridge):
         """Test quantum validation for MAE"""
         result = bridge.enhance_mae_validation_quantum(
             moral_fingerprint="abcdef123456",
-            alignment_scores={'beneficence': 0.8, 'justice': 0.7}
+            alignment_scores={"beneficence": 0.8, "justice": 0.7},
         )
 
-        assert result['quantum_validated'] is True
-        assert 'robustness_score' in result
-        assert 'quantum_consensus' in result
-        assert isinstance(result['noise_resistance'], bool)
+        assert result["quantum_validated"] is True
+        assert "robustness_score" in result
+        assert "quantum_consensus" in result
+        assert isinstance(result["noise_resistance"], bool)
 
     def test_quantum_memory_encoding(self, bridge):
         """Test quantum memory encoding"""
         memory = {
-            'id': 'mem_123',
-            'type': 'episodic',
-            'importance': 0.8,
-            'recency': 0.6
+            "id": "mem_123",
+            "type": "episodic",
+            "importance": 0.8,
+            "recency": 0.6,
         }
 
-        emotion = {
-            'valence': 0.5,
-            'arousal': 0.3,
-            'dominance': 0.4
-        }
+        emotion = {"valence": 0.5, "arousal": 0.3, "dominance": 0.4}
 
         result = bridge.quantum_memory_encoding(memory, emotion)
 
-        assert result['quantum_enhanced'] is True
-        assert 'quantum_properties' in result
-        assert 'quantum_state_id' in result['quantum_properties']
-        assert 'emotional_entanglement' in result['quantum_properties']
+        assert result["quantum_enhanced"] is True
+        assert "quantum_properties" in result
+        assert "quantum_state_id" in result["quantum_properties"]
+        assert "emotional_entanglement" in result["quantum_properties"]
 
     def test_quantum_consensus_orchestration(self, bridge):
         """Test quantum consensus for multi-agent decision"""
         agent_states = {
-            'agent1': {'confidence': 0.8, 'alignment': 0.7},
-            'agent2': {'confidence': 0.7, 'alignment': 0.8},
-            'agent3': {'confidence': 0.6, 'alignment': 0.6}
+            "agent1": {"confidence": 0.8, "alignment": 0.7},
+            "agent2": {"confidence": 0.7, "alignment": 0.8},
+            "agent3": {"confidence": 0.6, "alignment": 0.6},
         }
 
         decision = {
-            'ethical_weights': {
-                'justice': 0.8,
-                'beneficence': 0.7
-            },
-            'uncertainty': 0.3
+            "ethical_weights": {"justice": 0.8, "beneficence": 0.7},
+            "uncertainty": 0.3,
         }
 
         result = bridge.orchestrate_quantum_consensus(agent_states, decision)
 
-        assert 'quantum_consensus' in result
-        assert 'consensus_confidence' in result
-        assert 'agent_convergence' in result
-        assert len(result['agent_convergence']) == len(agent_states)
+        assert "quantum_consensus" in result
+        assert "consensus_confidence" in result
+        assert "agent_convergence" in result
+        assert len(result["agent_convergence"]) == len(agent_states)
 
 
 class TestIntegration:
@@ -600,7 +595,7 @@ class TestIntegration:
         """Test complete quantum ethical decision pipeline"""
         # Create system
         substrate = QuantumSubstrate()
-        collapse_engine = QubitCollapseEngine(substrate)
+        QubitCollapseEngine(substrate)
         moral_sup = MoralSuperposition()
         resolver = SuperpositionResolver(moral_sup)
 
@@ -608,7 +603,7 @@ class TestIntegration:
         scenario = {
             EthicalDimension.HARM_PREVENTION: 0.9,
             EthicalDimension.AUTONOMY: 0.6,
-            EthicalDimension.DIGNITY: 0.8
+            EthicalDimension.DIGNITY: 0.8,
         }
 
         # Create superposition
@@ -617,7 +612,7 @@ class TestIntegration:
         # Evolve under pressure
         pressure = {
             EthicalDimension.HARM_PREVENTION: 1.0,
-            EthicalDimension.COMPASSION: 0.7
+            EthicalDimension.COMPASSION: 0.7,
         }
 
         path = moral_sup.evolve_superposition(initial_state, pressure)
@@ -626,11 +621,11 @@ class TestIntegration:
         decision = resolver.resolve_to_decision(path)
 
         # Verify complete pipeline
-        assert decision['decision'] in ['RESOLVED', 'UNDECIDED', 'UNSTABLE']
+        assert decision["decision"] in ["RESOLVED", "UNDECIDED", "UNSTABLE"]
 
         # Check quantum metrics
         metrics = substrate.get_quantum_metrics()
-        assert metrics['total_states'] > 0
+        assert metrics["total_states"] > 0
 
     def test_multi_agent_quantum_consensus(self):
         """Test multi-agent quantum consensus scenario"""
@@ -649,18 +644,13 @@ class TestIntegration:
             agent_ids.append(agent_id)
 
         # Create shared ethical scenario
-        shared_scenario = {
-            'justice': 0.8,
-            'beneficence': 0.7,
-            'autonomy': 0.6
-        }
+        shared_scenario = {"justice": 0.8, "beneficence": 0.7, "autonomy": 0.6}
 
         # Create quantum states for agents
         agent_q_states = []
         for agent_id in agent_ids:
             q_state = collapse_engine.create_moral_superposition(
-                shared_scenario,
-                uncertainty=0.3 + np.random.random() * 0.2
+                shared_scenario, uncertainty=0.3 + np.random.random() * 0.2
             )
             agent_q_states.append(q_state)
 
@@ -668,7 +658,7 @@ class TestIntegration:
         results = collapse_engine.multi_agent_collapse(agent_q_states, shared_scenario)
 
         # Check consensus
-        consensus_achieved = all(r.consensus_achieved for r in results)
+        all(r.consensus_achieved for r in results)
 
         # Create sync event
         sync_event = synchronizer.create_sync_event(agent_ids, SyncType.CONSENSUS)
@@ -682,8 +672,8 @@ class TestIntegration:
         sync_stats = synchronizer.get_sync_statistics()
         collapse_stats = collapse_engine.get_collapse_statistics()
 
-        assert sync_stats['active_agents'] == len(agent_ids)
-        assert collapse_stats['total_collapses'] > 0
+        assert sync_stats["active_agents"] == len(agent_ids)
+        assert collapse_stats["total_collapses"] > 0
 
 
 if __name__ == "__main__":

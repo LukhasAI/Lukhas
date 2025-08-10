@@ -4,7 +4,7 @@ Provides the DreamBridge interface required by consciousness_hub
 """
 
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 from core.common import get_logger
 
@@ -44,8 +44,8 @@ class DreamBridge:
             raise
 
     async def process_consciousness_state(
-        self, state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, state: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process a consciousness state through the dream bridge"""
         if not self.is_initialized:
             await self.initialize()
@@ -60,8 +60,8 @@ class DreamBridge:
         return {"dream_id": dream_id, "dream_data": dream_result, "status": "active"}
 
     async def integrate_dream_feedback(
-        self, dream_id: str, feedback: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, dream_id: str, feedback: dict[str, Any]
+    ) -> dict[str, Any]:
         """Integrate feedback from a dream back into consciousness"""
         if dream_id not in self.active_dreams:
             return {"error": "Dream not found", "dream_id": dream_id}
@@ -85,7 +85,7 @@ class DreamBridge:
 
         return consciousness_result
 
-    async def get_active_dreams(self) -> Dict[str, Any]:
+    async def get_active_dreams(self) -> dict[str, Any]:
         """Get all currently active dreams"""
         return {
             "active_dreams": list(self.active_dreams.keys()),
@@ -104,7 +104,7 @@ class DreamBridge:
         """Get the history of consciousness feedback"""
         return self.consciousness_feedback
 
-    async def update_awareness(self, awareness_state: Dict[str, Any]):
+    async def update_awareness(self, awareness_state: dict[str, Any]):
         """Update dream bridge with current awareness state"""
         # This method is called by consciousness hub during awareness broadcasts
         logger.debug(f"Dream bridge received awareness update: {awareness_state}")

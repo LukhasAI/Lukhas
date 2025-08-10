@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Basic qim example"""
 
-from qim import *
-
 
 def main():
     print("Using qim module")

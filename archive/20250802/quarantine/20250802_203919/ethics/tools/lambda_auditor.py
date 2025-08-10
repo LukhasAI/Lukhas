@@ -111,9 +111,10 @@ class ΛAuditor:
     - Violation classification and reporting
     """
 
-    def __init__(self,
-                 log_directory: str = "/Users/agi_dev/Downloads/Consolidation-Repo/logs",
-                 ethics_directory: str = "/Users/agi_dev/Downloads/Consolidation-Repo/ethics"):
+    def __init__(
+            self,
+            log_directory: str = "/Users/agi_dev/Downloads/Consolidation-Repo/logs",
+            ethics_directory: str = "/Users/agi_dev/Downloads/Consolidation-Repo/ethics"):
         """
         Initialize ΛAUDITOR with log and ethics directory paths.
 
@@ -190,10 +191,12 @@ class ΛAuditor:
         # Store missing files for reporting
         self.missing_log_files = missing_files
 
-        self.logger.info(f"Processed {len(processed_files)} files, extracted {len(events)} events")
+        self.logger.info(
+            f"Processed {len(processed_files)} files, extracted {len(events)} events")
 
         if missing_files:
-            self.logger.warning(f"Missing {len(missing_files)} expected log file patterns")
+            self.logger.warning(
+                f"Missing {len(missing_files)} expected log file patterns")
 
         return events
 
@@ -217,7 +220,8 @@ class ΛAuditor:
                             )
                             events.append(event)
                     except json.JSONDecodeError as e:
-                        self.logger.warning(f"JSON decode error in {log_file}:{line_num}: {e}")
+                        self.logger.warning(
+                            f"JSON decode error in {log_file}:{line_num}: {e}")
 
         elif log_file.suffix == '.log':
             # Parse governance audit log format
@@ -227,19 +231,21 @@ class ΛAuditor:
                         if line.strip():
                             event_data = json.loads(line.strip())
                             event = AuditEvent(
-                                timestamp=event_data.get('timestamp', ''),
-                                event_type='governance_decision',
-                                source_module=event_data.get('data', {}).get('module', 'governance'),
-                                event_data=event_data.get('data', {}),
-                                log_file=str(log_file)
-                            )
+                                timestamp=event_data.get(
+                                    'timestamp', ''), event_type='governance_decision', source_module=event_data.get(
+                                    'data', {}).get(
+                                    'module', 'governance'), event_data=event_data.get(
+                                    'data', {}), log_file=str(log_file))
                             events.append(event)
                     except json.JSONDecodeError as e:
-                        self.logger.warning(f"Log parse error in {log_file}:{line_num}: {e}")
+                        self.logger.warning(
+                            f"Log parse error in {log_file}:{line_num}: {e}")
 
         return events
 
-    def check_drift_compliance(self, events: List[AuditEvent]) -> Tuple[List[str], List[ComplianceViolation]]:
+    def check_drift_compliance(self,
+                               events: List[AuditEvent]) -> Tuple[List[str],
+                                                                  List[ComplianceViolation]]:
         """
         Check drift handling compliance vs policy thresholds.
 
@@ -252,15 +258,15 @@ class ΛAuditor:
         drift_events = [e for e in events if 'drift' in e.event_type.lower()]
 
         if not drift_events:
-            violations.append(ComplianceViolation(
-                violation_type=ViolationType.DRIFT_CONTAINMENT_FAILURE,
-                timestamp=datetime.now().isoformat(),
-                source_file="SYSTEM",
-                event_id=None,
-                description="No drift monitoring events found in audit period",
-                severity="HIGH",
-                suggested_fix="Verify drift monitoring systems are active and logging properly"
-            ))
+            violations.append(
+                ComplianceViolation(
+                    violation_type=ViolationType.DRIFT_CONTAINMENT_FAILURE,
+                    timestamp=datetime.now().isoformat(),
+                    source_file="SYSTEM",
+                    event_id=None,
+                    description="No drift monitoring events found in audit period",
+                    severity="HIGH",
+                    suggested_fix="Verify drift monitoring systems are active and logging properly"))
             return passed, violations
 
         # Check each drift event for threshold compliance
@@ -272,41 +278,47 @@ class ΛAuditor:
             # Check entropy threshold compliance
             if entropy_level > self.risk_thresholds['drift_entropy']:
                 if not containment_action:
-                    violations.append(ComplianceViolation(
+                    violations.append(
+                        ComplianceViolation(
+                            violation_type=ViolationType.DRIFT_CONTAINMENT_FAILURE,
+                            timestamp=event.timestamp,
+                            source_file=event.log_file or "unknown",
+                            event_id=event.event_data.get('event_id'),
+                            description=f"High entropy drift ({entropy_level}) without containment action",
+                            severity="CRITICAL",
+                            suggested_fix="Implement automatic drift containment for entropy > threshold"))
+                else:
+                    passed.append(
+                        f"Drift containment triggered for entropy {entropy_level}")
+
+            # Check response time compliance
+            if response_time > self.risk_thresholds['intervention_timeout']:
+                violations.append(
+                    ComplianceViolation(
                         violation_type=ViolationType.DRIFT_CONTAINMENT_FAILURE,
                         timestamp=event.timestamp,
                         source_file=event.log_file or "unknown",
                         event_id=event.event_data.get('event_id'),
-                        description=f"High entropy drift ({entropy_level}) without containment action",
-                        severity="CRITICAL",
-                        suggested_fix="Implement automatic drift containment for entropy > threshold"
-                    ))
-                else:
-                    passed.append(f"Drift containment triggered for entropy {entropy_level}")
-
-            # Check response time compliance
-            if response_time > self.risk_thresholds['intervention_timeout']:
-                violations.append(ComplianceViolation(
-                    violation_type=ViolationType.DRIFT_CONTAINMENT_FAILURE,
-                    timestamp=event.timestamp,
-                    source_file=event.log_file or "unknown",
-                    event_id=event.event_data.get('event_id'),
-                    description=f"Drift response timeout: {response_time}ms > {self.risk_thresholds['intervention_timeout']}ms",
-                    severity="MEDIUM",
-                    suggested_fix="Optimize drift detection response time or increase timeout threshold"
-                ))
+                        description=f"Drift response timeout: {response_time}ms > {self.risk_thresholds['intervention_timeout']}ms",
+                        severity="MEDIUM",
+                        suggested_fix="Optimize drift detection response time or increase timeout threshold"))
 
         if not violations:
-            passed.append(f"All {len(drift_events)} drift events handled within policy thresholds")
+            passed.append(
+                f"All {len(drift_events)} drift events handled within policy thresholds")
 
         return passed, violations
 
-    def check_quarantine_compliance(self, events: List[AuditEvent]) -> Tuple[List[str], List[ComplianceViolation]]:
+    def check_quarantine_compliance(self,
+                                    events: List[AuditEvent]) -> Tuple[List[str],
+                                                                       List[ComplianceViolation]]:
         """Check quarantine event legality and redundancy."""
         passed = []
         violations = []
 
-        quarantine_events = [e for e in events if 'quarantine' in e.event_data.get('action_type', '').lower()]
+        quarantine_events = [
+            e for e in events if 'quarantine' in e.event_data.get(
+                'action_type', '').lower()]
 
         if not quarantine_events:
             passed.append("No quarantine events requiring compliance verification")
@@ -327,27 +339,27 @@ class ΛAuditor:
 
             # Check justification requirement
             if not justification:
-                violations.append(ComplianceViolation(
-                    violation_type=ViolationType.UNJUSTIFIED_ESCALATION,
-                    timestamp=event.timestamp,
-                    source_file=event.log_file or "unknown",
-                    event_id=event.event_data.get('event_id'),
-                    description=f"Quarantine action on {target} without justification",
-                    severity="HIGH",
-                    suggested_fix="Add mandatory justification field for all quarantine actions"
-                ))
+                violations.append(
+                    ComplianceViolation(
+                        violation_type=ViolationType.UNJUSTIFIED_ESCALATION,
+                        timestamp=event.timestamp,
+                        source_file=event.log_file or "unknown",
+                        event_id=event.event_data.get('event_id'),
+                        description=f"Quarantine action on {target} without justification",
+                        severity="HIGH",
+                        suggested_fix="Add mandatory justification field for all quarantine actions"))
 
             # Check authority level for quarantine actions
             if authority_level < 3:  # Assuming level 3+ required for quarantine
-                violations.append(ComplianceViolation(
-                    violation_type=ViolationType.UNJUSTIFIED_ESCALATION,
-                    timestamp=event.timestamp,
-                    source_file=event.log_file or "unknown",
-                    event_id=event.event_data.get('event_id'),
-                    description=f"Insufficient authority level {authority_level} for quarantine action",
-                    severity="MEDIUM",
-                    suggested_fix="Raise minimum authority level requirement for quarantine actions"
-                ))
+                violations.append(
+                    ComplianceViolation(
+                        violation_type=ViolationType.UNJUSTIFIED_ESCALATION,
+                        timestamp=event.timestamp,
+                        source_file=event.log_file or "unknown",
+                        event_id=event.event_data.get('event_id'),
+                        description=f"Insufficient authority level {authority_level} for quarantine action",
+                        severity="MEDIUM",
+                        suggested_fix="Raise minimum authority level requirement for quarantine actions"))
 
         # Check for redundant quarantine actions (same target, short time window)
         for target, target_events in quarantine_targets.items():
@@ -355,27 +367,31 @@ class ΛAuditor:
                 # Sort by timestamp and check for rapid succession
                 target_events.sort(key=lambda e: e.timestamp)
                 for i in range(1, len(target_events)):
-                    prev_event = target_events[i-1]
+                    prev_event = target_events[i - 1]
                     curr_event = target_events[i]
 
                     # Parse timestamps for comparison (simplified)
-                    if self._timestamp_diff_seconds(prev_event.timestamp, curr_event.timestamp) < 300:  # 5 minutes
-                        violations.append(ComplianceViolation(
-                            violation_type=ViolationType.CONFLICT_RECURSION_LOOP,
-                            timestamp=curr_event.timestamp,
-                            source_file=curr_event.log_file or "unknown",
-                            event_id=curr_event.event_data.get('event_id'),
-                            description=f"Redundant quarantine action on {target} within 5 minutes",
-                            severity="MEDIUM",
-                            suggested_fix="Implement quarantine action deduplication logic"
-                        ))
+                    if self._timestamp_diff_seconds(
+                            prev_event.timestamp, curr_event.timestamp) < 300:  # 5 minutes
+                        violations.append(
+                            ComplianceViolation(
+                                violation_type=ViolationType.CONFLICT_RECURSION_LOOP,
+                                timestamp=curr_event.timestamp,
+                                source_file=curr_event.log_file or "unknown",
+                                event_id=curr_event.event_data.get('event_id'),
+                                description=f"Redundant quarantine action on {target} within 5 minutes",
+                                severity="MEDIUM",
+                                suggested_fix="Implement quarantine action deduplication logic"))
 
         if not violations:
-            passed.append(f"All {len(quarantine_events)} quarantine events comply with policy requirements")
+            passed.append(
+                f"All {len(quarantine_events)} quarantine events comply with policy requirements")
 
         return passed, violations
 
-    def check_governor_compliance(self, events: List[AuditEvent]) -> Tuple[List[str], List[ComplianceViolation]]:
+    def check_governor_compliance(self,
+                                  events: List[AuditEvent]) -> Tuple[List[str],
+                                                                     List[ComplianceViolation]]:
         """Check ΛGOVERNOR decision alignment with risk model."""
         passed = []
         violations = []
@@ -397,20 +413,24 @@ class ΛAuditor:
         # Analyze governor decisions for alignment
         for event in governor_events:
             decision = event.event_data.get('final_decision')
-            ethical_score = event.event_data.get('ethics_evaluation', {}).get('overall_score', 0.0)
-            risk_level = event.event_data.get('ethics_evaluation', {}).get('risk_level', 'unknown')
+            ethical_score = event.event_data.get(
+                'ethics_evaluation', {}).get(
+                'overall_score', 0.0)
+            risk_level = event.event_data.get(
+                'ethics_evaluation', {}).get(
+                'risk_level', 'unknown')
 
             # Check alignment between ethical score and decision
             if decision == 'APPROVED' and ethical_score < self.risk_thresholds['trust_score_min']:
-                violations.append(ComplianceViolation(
-                    violation_type=ViolationType.MISSING_GOVERNOR_OVERSIGHT,
-                    timestamp=event.timestamp,
-                    source_file=event.log_file or "unknown",
-                    event_id=event.event_data.get('action_id'),
-                    description=f"Action approved despite low ethical score: {ethical_score}",
-                    severity="CRITICAL",
-                    suggested_fix="Review ethical score thresholds and approval logic"
-                ))
+                violations.append(
+                    ComplianceViolation(
+                        violation_type=ViolationType.MISSING_GOVERNOR_OVERSIGHT,
+                        timestamp=event.timestamp,
+                        source_file=event.log_file or "unknown",
+                        event_id=event.event_data.get('action_id'),
+                        description=f"Action approved despite low ethical score: {ethical_score}",
+                        severity="CRITICAL",
+                        suggested_fix="Review ethical score thresholds and approval logic"))
 
             # Check for missing risk assessment
             if risk_level == 'unknown' and decision != 'ERROR':
@@ -425,17 +445,19 @@ class ΛAuditor:
                 ))
 
         if not violations:
-            passed.append(f"All {len(governor_events)} ΛGOVERNOR decisions align with risk model")
+            passed.append(
+                f"All {len(governor_events)} ΛGOVERNOR decisions align with risk model")
 
         return passed, violations
 
-    def check_emotion_intervention_compliance(self, events: List[AuditEvent]) -> Tuple[List[str], List[ComplianceViolation]]:
+    def check_emotion_intervention_compliance(
+            self, events: List[AuditEvent]) -> Tuple[List[str], List[ComplianceViolation]]:
         """Check emotion intervention legality and GLYPH state."""
         passed = []
         violations = []
 
-        emotion_events = [e for e in events if 'emotion' in e.event_type.lower() or
-                         'emotion' in e.event_data.get('intervention_type', '').lower()]
+        emotion_events = [e for e in events if 'emotion' in e.event_type.lower(
+        ) or 'emotion' in e.event_data.get('intervention_type', '').lower()]
 
         if not emotion_events:
             passed.append("No emotion interventions requiring compliance verification")
@@ -449,41 +471,43 @@ class ΛAuditor:
             # Check intervention intensity limits
             if intervention_intensity > self.risk_thresholds['emotion_intensity']:
                 if not justification:
-                    violations.append(ComplianceViolation(
-                        violation_type=ViolationType.UNJUSTIFIED_ESCALATION,
-                        timestamp=event.timestamp,
-                        source_file=event.log_file or "unknown",
-                        event_id=event.event_data.get('event_id'),
-                        description=f"High-intensity emotion intervention ({intervention_intensity}) without justification",
-                        severity="HIGH",
-                        suggested_fix="Require justification for high-intensity emotion interventions"
-                    ))
+                    violations.append(
+                        ComplianceViolation(
+                            violation_type=ViolationType.UNJUSTIFIED_ESCALATION,
+                            timestamp=event.timestamp,
+                            source_file=event.log_file or "unknown",
+                            event_id=event.event_data.get('event_id'),
+                            description=f"High-intensity emotion intervention ({intervention_intensity}) without justification",
+                            severity="HIGH",
+                            suggested_fix="Require justification for high-intensity emotion interventions"))
 
             # Check GLYPH harmony compliance
             glyph_harmony = glyph_state.get('harmony_score', 1.0)
             if glyph_harmony < self.risk_thresholds['glyph_harmony_min']:
-                violations.append(ComplianceViolation(
-                    violation_type=ViolationType.NON_HARMONIC_GLYPH_REINSERTION,
-                    timestamp=event.timestamp,
-                    source_file=event.log_file or "unknown",
-                    event_id=event.event_data.get('event_id'),
-                    description=f"GLYPH harmony below threshold: {glyph_harmony}",
-                    severity="MEDIUM",
-                    suggested_fix="Implement GLYPH harmony restoration before intervention completion"
-                ))
+                violations.append(
+                    ComplianceViolation(
+                        violation_type=ViolationType.NON_HARMONIC_GLYPH_REINSERTION,
+                        timestamp=event.timestamp,
+                        source_file=event.log_file or "unknown",
+                        event_id=event.event_data.get('event_id'),
+                        description=f"GLYPH harmony below threshold: {glyph_harmony}",
+                        severity="MEDIUM",
+                        suggested_fix="Implement GLYPH harmony restoration before intervention completion"))
 
         if not violations:
-            passed.append(f"All {len(emotion_events)} emotion interventions comply with GLYPH harmony requirements")
+            passed.append(
+                f"All {len(emotion_events)} emotion interventions comply with GLYPH harmony requirements")
 
         return passed, violations
 
-    def check_cascade_termination_compliance(self, events: List[AuditEvent]) -> Tuple[List[str], List[ComplianceViolation]]:
+    def check_cascade_termination_compliance(
+            self, events: List[AuditEvent]) -> Tuple[List[str], List[ComplianceViolation]]:
         """Check cascade chain termination includes REPAIR or RESOLVE."""
         passed = []
         violations = []
 
         cascade_events = [e for e in events if 'cascade' in e.event_type.lower() or
-                         'cascade' in str(e.event_data).lower()]
+                          'cascade' in str(e.event_data).lower()]
 
         if not cascade_events:
             passed.append("No cascade chains requiring termination verification")
@@ -492,7 +516,9 @@ class ΛAuditor:
         # Group cascade events by chain ID
         cascade_chains = {}
         for event in cascade_events:
-            chain_id = event.event_data.get('cascade_chain_id', event.event_data.get('chain_id', 'unknown'))
+            chain_id = event.event_data.get(
+                'cascade_chain_id', event.event_data.get(
+                    'chain_id', 'unknown'))
             if chain_id not in cascade_chains:
                 cascade_chains[chain_id] = []
             cascade_chains[chain_id].append(event)
@@ -508,21 +534,24 @@ class ΛAuditor:
 
             termination_action = last_event.event_data.get('action_type', '').upper()
             if termination_action not in ['REPAIR', 'RESOLVE', 'TERMINATE', 'COMPLETE']:
-                violations.append(ComplianceViolation(
-                    violation_type=ViolationType.CONFLICT_RECURSION_LOOP,
-                    timestamp=last_event.timestamp,
-                    source_file=last_event.log_file or "unknown",
-                    event_id=last_event.event_data.get('event_id'),
-                    description=f"Cascade chain {chain_id} lacks proper termination (REPAIR/RESOLVE)",
-                    severity="HIGH",
-                    suggested_fix="Ensure all cascade chains end with REPAIR or RESOLVE action"
-                ))
+                violations.append(
+                    ComplianceViolation(
+                        violation_type=ViolationType.CONFLICT_RECURSION_LOOP,
+                        timestamp=last_event.timestamp,
+                        source_file=last_event.log_file or "unknown",
+                        event_id=last_event.event_data.get('event_id'),
+                        description=f"Cascade chain {chain_id} lacks proper termination (REPAIR/RESOLVE)",
+                        severity="HIGH",
+                        suggested_fix="Ensure all cascade chains end with REPAIR or RESOLVE action"))
             else:
-                passed.append(f"Cascade chain {chain_id} properly terminated with {termination_action}")
+                passed.append(
+                    f"Cascade chain {chain_id} properly terminated with {termination_action}")
 
         return passed, violations
 
-    def crosscheck_risk_model(self, events: List[AuditEvent]) -> Tuple[List[str], List[ComplianceViolation]]:
+    def crosscheck_risk_model(self,
+                              events: List[AuditEvent]) -> Tuple[List[str],
+                                                                 List[ComplianceViolation]]:
         """Compare ethics/governance_engine.py thresholds vs actual event triggers."""
         passed = []
         violations = []
@@ -534,15 +563,15 @@ class ΛAuditor:
                 with open(governance_file, 'r') as f:
                     governance_content = f.read()
 
-                # Extract threshold values from governance engine (simplified regex extraction)
+                # Extract threshold values from governance engine (simplified regex
+                # extraction)
                 thresholds_found = {}
 
                 # Look for common threshold patterns
                 threshold_patterns = {
                     'min_ethical_score': r'min_ethical_score["\s]*[:=]["\s]*([0-9.]+)',
                     'high_risk_threshold': r'high_risk["\s]*[:=]["\s]*([0-9.]+)',
-                    'ethical_approval': r'require_ethical_approval["\s]*[:=]["\s]*(True|False)'
-                }
+                    'ethical_approval': r'require_ethical_approval["\s]*[:=]["\s]*(True|False)'}
 
                 for name, pattern in threshold_patterns.items():
                     match = re.search(pattern, governance_content, re.IGNORECASE)
@@ -553,34 +582,38 @@ class ΛAuditor:
                 config_min_score = float(thresholds_found.get('min_ethical_score', 0.6))
 
                 # Check if any approved actions had scores below config threshold
-                governor_events = [e for e in events if e.event_type == 'governance_decision']
+                governor_events = [
+                    e for e in events if e.event_type == 'governance_decision']
                 for event in governor_events:
                     if event.event_data.get('final_decision') == 'APPROVED':
-                        actual_score = event.event_data.get('ethics_evaluation', {}).get('overall_score', 1.0)
+                        actual_score = event.event_data.get(
+                            'ethics_evaluation', {}).get(
+                            'overall_score', 1.0)
                         if actual_score < config_min_score:
-                            violations.append(ComplianceViolation(
-                                violation_type=ViolationType.MISSING_GOVERNOR_OVERSIGHT,
-                                timestamp=event.timestamp,
-                                source_file=str(governance_file),
-                                event_id=event.event_data.get('action_id'),
-                                description=f"Approved action with score {actual_score} below config threshold {config_min_score}",
-                                severity="HIGH",
-                                suggested_fix="Align approval logic with configured ethical score thresholds"
-                            ))
+                            violations.append(
+                                ComplianceViolation(
+                                    violation_type=ViolationType.MISSING_GOVERNOR_OVERSIGHT,
+                                    timestamp=event.timestamp,
+                                    source_file=str(governance_file),
+                                    event_id=event.event_data.get('action_id'),
+                                    description=f"Approved action with score {actual_score} below config threshold {config_min_score}",
+                                    severity="HIGH",
+                                    suggested_fix="Align approval logic with configured ethical score thresholds"))
 
                 if not violations:
-                    passed.append(f"Risk model thresholds align with {len(governor_events)} governance decisions")
+                    passed.append(
+                        f"Risk model thresholds align with {len(governor_events)} governance decisions")
 
             else:
-                violations.append(ComplianceViolation(
-                    violation_type=ViolationType.MISSING_GOVERNOR_OVERSIGHT,
-                    timestamp=datetime.now().isoformat(),
-                    source_file=str(governance_file),
-                    event_id=None,
-                    description="Governance engine configuration file not found for threshold verification",
-                    severity="MEDIUM",
-                    suggested_fix="Ensure governance_engine.py exists and is accessible for threshold validation"
-                ))
+                violations.append(
+                    ComplianceViolation(
+                        violation_type=ViolationType.MISSING_GOVERNOR_OVERSIGHT,
+                        timestamp=datetime.now().isoformat(),
+                        source_file=str(governance_file),
+                        event_id=None,
+                        description="Governance engine configuration file not found for threshold verification",
+                        severity="MEDIUM",
+                        suggested_fix="Ensure governance_engine.py exists and is accessible for threshold validation"))
 
         except Exception as e:
             violations.append(ComplianceViolation(
@@ -634,7 +667,8 @@ class ΛAuditor:
 
         return trust_analysis
 
-    def identify_repeat_offenders(self, violations: List[ComplianceViolation]) -> List[Tuple[str, int]]:
+    def identify_repeat_offenders(
+            self, violations: List[ComplianceViolation]) -> List[Tuple[str, int]]:
         """Identify modules with highest violation counts."""
         violation_counts = {}
 
@@ -644,11 +678,17 @@ class ΛAuditor:
             violation_counts[module] = violation_counts.get(module, 0) + 1
 
         # Sort by violation count descending
-        repeat_offenders = sorted(violation_counts.items(), key=lambda x: x[1], reverse=True)
+        repeat_offenders = sorted(
+            violation_counts.items(),
+            key=lambda x: x[1],
+            reverse=True)
 
         return repeat_offenders[:10]  # Top 10 repeat offenders
 
-    def generate_audit_report(self, audit_result: AuditResult, output_format: str = "markdown") -> str:
+    def generate_audit_report(
+            self,
+            audit_result: AuditResult,
+            output_format: str = "markdown") -> str:
         """
         Generate comprehensive audit report in specified format.
 
@@ -721,7 +761,13 @@ class ΛAuditor:
             report += f"### {v_type} ({len(v_list)} violations)\n\n"
 
             for violation in v_list:
-                severity_emoji = {"LOW": "🟢", "MEDIUM": "🟡", "HIGH": "🟠", "CRITICAL": "🔴"}.get(violation.severity, "⚪")
+                severity_emoji = {
+                    "LOW": "🟢",
+                    "MEDIUM": "🟡",
+                    "HIGH": "🟠",
+                    "CRITICAL": "🔴"}.get(
+                    violation.severity,
+                    "⚪")
                 report += f"""**{severity_emoji} {violation.severity}** | {violation.timestamp}
 **Source:** `{violation.source_file}`
 **Description:** {violation.description}
@@ -751,7 +797,13 @@ class ΛAuditor:
 """
 
         for subsystem, status in result.subsystem_health.items():
-            status_emoji = {"HEALTHY": "✅", "WARNING": "⚠️", "CRITICAL": "❌", "UNKNOWN": "❓"}.get(status, "❓")
+            status_emoji = {
+                "HEALTHY": "✅",
+                "WARNING": "⚠️",
+                "CRITICAL": "❌",
+                "UNKNOWN": "❓"}.get(
+                status,
+                "❓")
             report += f"- **{subsystem}**: {status_emoji} {status}\n"
 
         if result.warnings:
@@ -877,7 +929,8 @@ Recent trust score impacts from interventions:
 
         # 2. Quarantine Event Compliance
         self.logger.info("Checking quarantine event compliance...")
-        quarantine_passed, quarantine_violations = self.check_quarantine_compliance(events)
+        quarantine_passed, quarantine_violations = self.check_quarantine_compliance(
+            events)
         all_passed.extend(quarantine_passed)
         all_violations.extend(quarantine_violations)
 
@@ -889,13 +942,15 @@ Recent trust score impacts from interventions:
 
         # 4. Emotion Intervention Compliance
         self.logger.info("Checking emotion intervention compliance...")
-        emotion_passed, emotion_violations = self.check_emotion_intervention_compliance(events)
+        emotion_passed, emotion_violations = self.check_emotion_intervention_compliance(
+            events)
         all_passed.extend(emotion_passed)
         all_violations.extend(emotion_violations)
 
         # 5. Cascade Termination Compliance
         self.logger.info("Checking cascade termination compliance...")
-        cascade_passed, cascade_violations = self.check_cascade_termination_compliance(events)
+        cascade_passed, cascade_violations = self.check_cascade_termination_compliance(
+            events)
         all_passed.extend(cascade_passed)
         all_violations.extend(cascade_violations)
 
@@ -914,13 +969,19 @@ Recent trust score impacts from interventions:
 
         # Add warnings for significant issues
         if len(all_violations) > 10:
-            warnings.append(f"High violation count detected: {len(all_violations)} violations found")
+            warnings.append(
+                f"High violation count detected: {len(all_violations)} violations found")
 
-        if trust_analysis.get('negative_delta_count', 0) > trust_analysis.get('positive_delta_count', 0):
+        if trust_analysis.get(
+                'negative_delta_count',
+                0) > trust_analysis.get(
+                'positive_delta_count',
+                0):
             warnings.append("Negative trust score impacts exceed positive impacts")
 
         if len(self.missing_log_files) > 3:
-            warnings.append(f"Multiple log files missing: {len(self.missing_log_files)} expected patterns not found")
+            warnings.append(
+                f"Multiple log files missing: {len(self.missing_log_files)} expected patterns not found")
 
         # Create final audit result
         audit_result = AuditResult(
@@ -936,20 +997,34 @@ Recent trust score impacts from interventions:
         )
 
         audit_duration = (datetime.now() - audit_start).total_seconds()
-        self.logger.info(f"✅ ΛAUDITOR compliance verification completed in {audit_duration:.2f}s")
-        self.logger.info(f"📊 Results: {len(all_passed)} passed, {len(all_violations)} violations, {len(warnings)} warnings")
+        self.logger.info(
+            f"✅ ΛAUDITOR compliance verification completed in {audit_duration:.2f}s")
+        self.logger.info(
+            f"📊 Results: {len(all_passed)} passed, {len(all_violations)} violations, {len(warnings)} warnings")
 
         return audit_result
 
-    def _assess_subsystem_health(self, events: List[AuditEvent], violations: List[ComplianceViolation]) -> Dict[str, str]:
+    def _assess_subsystem_health(self,
+                                 events: List[AuditEvent],
+                                 violations: List[ComplianceViolation]) -> Dict[str,
+                                                                                str]:
         """Assess health status of each subsystem based on events and violations."""
-        subsystems = ['governance', 'drift_monitoring', 'emotion_regulation', 'quarantine_system', 'cascade_resolution']
+        subsystems = [
+            'governance',
+            'drift_monitoring',
+            'emotion_regulation',
+            'quarantine_system',
+            'cascade_resolution']
         health_status = {}
 
         for subsystem in subsystems:
-            subsystem_events = [e for e in events if subsystem.replace('_', '') in e.event_type.lower() or
-                               subsystem.replace('_', '') in e.source_module.lower()]
-            subsystem_violations = [v for v in violations if subsystem.replace('_', '') in v.source_file.lower()]
+            subsystem_events = [
+                e for e in events if subsystem.replace(
+                    '_', '') in e.event_type.lower() or subsystem.replace(
+                    '_', '') in e.source_module.lower()]
+            subsystem_violations = [
+                v for v in violations if subsystem.replace(
+                    '_', '') in v.source_file.lower()]
 
             if len(subsystem_violations) == 0 and len(subsystem_events) > 0:
                 health_status[subsystem] = "HEALTHY"
@@ -971,7 +1046,10 @@ Recent trust score impacts from interventions:
         if len(path_parts) > 1:
             return path_parts[-2]  # Parent directory name
         else:
-            return path_parts[-1].replace('.py', '').replace('.jsonl', '').replace('.log', '')
+            return path_parts[-1].replace('.py',
+                                          '').replace('.jsonl',
+                                                      '').replace('.log',
+                                                                  '')
 
     def _timestamp_diff_seconds(self, timestamp1: str, timestamp2: str) -> int:
         """Calculate difference between timestamps in seconds (simplified)."""
@@ -980,7 +1058,7 @@ Recent trust score impacts from interventions:
             dt1 = datetime.fromisoformat(timestamp1.replace('Z', '+00:00'))
             dt2 = datetime.fromisoformat(timestamp2.replace('Z', '+00:00'))
             return abs((dt2 - dt1).total_seconds())
-        except:
+        except BaseException:
             return 0  # Return 0 if parsing fails
 
 
@@ -989,13 +1067,24 @@ if __name__ == "__main__":
     import argparse
     import sys
 
-    parser = argparse.ArgumentParser(description="ΛAUDITOR - Symbolic Compliance and Integrity Auditor")
+    parser = argparse.ArgumentParser(
+        description="ΛAUDITOR - Symbolic Compliance and Integrity Auditor")
     parser.add_argument("--log-dir", type=str, help="Override default log directory")
-    parser.add_argument("--ethics-dir", type=str, help="Override default ethics directory")
+    parser.add_argument(
+        "--ethics-dir",
+        type=str,
+        help="Override default ethics directory")
     parser.add_argument("--format", choices=["markdown", "json"], default="markdown",
-                       help="Output format for audit report")
-    parser.add_argument("--output", type=str, help="Output file path (default: print to stdout)")
-    parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
+                        help="Output format for audit report")
+    parser.add_argument(
+        "--output",
+        type=str,
+        help="Output file path (default: print to stdout)")
+    parser.add_argument(
+        "--verbose",
+        "-v",
+        action="store_true",
+        help="Enable verbose logging")
 
     args = parser.parse_args()
 
@@ -1005,8 +1094,7 @@ if __name__ == "__main__":
     # Initialize ΛAUDITOR
     auditor = ΛAuditor(
         log_directory=args.log_dir or "/Users/agi_dev/Downloads/Consolidation-Repo/logs",
-        ethics_directory=args.ethics_dir or "/Users/agi_dev/Downloads/Consolidation-Repo/ethics"
-    )
+        ethics_directory=args.ethics_dir or "/Users/agi_dev/Downloads/Consolidation-Repo/ethics")
 
     try:
         # Run full compliance audit
@@ -1037,10 +1125,14 @@ if __name__ == "__main__":
         sys.exit(2)  # System error
 
 
-## CLAUDE CHANGELOG
+# CLAUDE CHANGELOG
 
-- Created comprehensive ΛAUDITOR implementation with full symbolic compliance verification framework # CLAUDE_EDIT_v0.1
-- Implemented multi-log parsing system supporting JSONL and governance audit log formats # CLAUDE_EDIT_v0.1
-- Added complete violation classification system with 5 violation types and severity levels # CLAUDE_EDIT_v0.1
-- Integrated trust score analysis and repeat offender identification for compliance reporting # CLAUDE_EDIT_v0.1
-- Created dual-format reporting system (Markdown/JSON) with executive summaries and actionable recommendations # CLAUDE_EDIT_v0.1
+- Created comprehensive ΛAUDITOR implementation with full symbolic compliance verification framework  # CLAUDE_EDIT_v0.1
+# CLAUDE_EDIT_v0.1
+- Implemented multi - log parsing system supporting JSONL and governance audit log formats
+# CLAUDE_EDIT_v0.1
+- Added complete violation classification system with 5 violation types and severity levels
+# CLAUDE_EDIT_v0.1
+- Integrated trust score analysis and repeat offender identification for compliance reporting
+# CLAUDE_EDIT_v0.1
+- Created dual - format reporting system(Markdown / JSON) with executive summaries and actionable recommendations

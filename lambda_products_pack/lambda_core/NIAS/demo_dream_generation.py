@@ -3,6 +3,16 @@
 Demo: Generate a complete dream with narrative and image using OpenAI
 """
 
+from lambda_products_pack.lambda_core.NIAS.vendor_portal import (
+    DreamSeed,
+    DreamSeedType,
+)
+from lambda_products_pack.lambda_core.NIAS.dream_generator import (
+    BioRhythm,
+    DreamContext,
+    DreamGenerator,
+    DreamMood,
+)
 import asyncio
 import sys
 from datetime import datetime
@@ -16,17 +26,6 @@ load_dotenv(env_path)
 
 # Add to path
 sys.path.append(str(Path(__file__).parent.parent.parent.parent))
-
-from lambda_products_pack.lambda_core.NIAS.dream_generator import (
-    BioRhythm,
-    DreamContext,
-    DreamGenerator,
-    DreamMood,
-)
-from lambda_products_pack.lambda_core.NIAS.vendor_portal import (
-    DreamSeed,
-    DreamSeedType,
-)
 
 
 async def generate_demo_dream():

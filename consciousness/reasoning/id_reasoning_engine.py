@@ -35,13 +35,15 @@ except ImportError:
 
 logger = get_logger(__name__)
 
+
 class LukhasIdEnhancedReasoningEngine(Enum):
     """Lukhas_ID Access Tiers - Each tier builds upon previous capabilities"""
     TIER_1_BASIC = 1        # Emoji + Seed Phrase Grid
     TIER_2_ENHANCED = 2     # + Biometrics (Face/Voice ID)
-    TIER_3_PROFESSIONAL = 3 # + SID Puzzle Fill-In
+    TIER_3_PROFESSIONAL = 3  # + SID Puzzle Fill-In
     TIER_4_RESEARCH = 4     # + Emergency Gesture/Fallback
     TIER_5_ADMIN = 5        # Full System Access
+
 
 class LukhasIdEnhancedReasoningEngine(Enum):
     """Regulatory compliance regions"""
@@ -50,6 +52,7 @@ class LukhasIdEnhancedReasoningEngine(Enum):
     US = "us"           # CCPA, NIST AI Framework
     CHINA = "china"     # Local AI regulations
     AFRICA = "africa"   # AI ethics guidelines
+
 
 @dataclass
 class LukhasIdEnhancedReasoningEngine:
@@ -71,6 +74,7 @@ class LukhasIdEnhancedReasoningEngine:
             'context': self.context
         }
 
+
 @dataclass
 class LukhasIdEnhancedReasoningEngine:
     """Quantum-resistant digital signature for audit trails"""
@@ -82,6 +86,7 @@ class LukhasIdEnhancedReasoningEngine:
     def __post_init__(self):
         if self.timestamp is None:
             self.timestamp = datetime.now()
+
 
 @dataclass
 class LukhasIdEnhancedReasoningEngine:
@@ -111,10 +116,9 @@ class LukhasIdEnhancedReasoningEngine:
                 'signature': self.quantum_signature.signature_data,
                 'algorithm': self.quantum_signature.algorithm,
                 'timestamp': self.quantum_signature.timestamp.isoformat(),
-                'signer': self.quantum_signature.signer_id
-            },
-            'privacy_impact': self.privacy_impact
-        }
+                'signer': self.quantum_signature.signer_id},
+            'privacy_impact': self.privacy_impact}
+
 
 class LukhasIdEnhancedReasoningEngine:
     """
@@ -128,7 +132,7 @@ class LukhasIdEnhancedReasoningEngine:
         self.locked_memories = {}
 
     def lock_memory(self, memory_data: Any, emotional_vector: EmotionalMemoryVector,
-                   user_id: str) -> str:
+                    user_id: str) -> str:
         """
         Lock memory using emotional state as key component.
         High emotional intensity creates stronger encryption.
@@ -159,8 +163,11 @@ class LukhasIdEnhancedReasoningEngine:
         logger.info(f"Memory locked with intensity {intensity:.2f} for user {user_id}")
         return memory_id
 
-    def unlock_memory(self, memory_id: str, current_emotional_state: EmotionalMemoryVector,
-                     user_id: str) -> Optional[Any]:
+    def unlock_memory(
+            self,
+            memory_id: str,
+            current_emotional_state: EmotionalMemoryVector,
+            user_id: str) -> Optional[Any]:
         """
         Unlock memory by matching emotional state pattern.
         Stronger emotional locks require closer emotional state matching.
@@ -181,11 +188,14 @@ class LukhasIdEnhancedReasoningEngine:
             if k != 'timestamp'
         })
 
-        similarity = self._calculate_emotional_similarity(stored_vector, current_emotional_state)
-        required_similarity = memory_record['lock_strength'] * 0.8  # Stricter for stronger locks
+        similarity = self._calculate_emotional_similarity(
+            stored_vector, current_emotional_state)
+        # Stricter for stronger locks
+        required_similarity = memory_record['lock_strength'] * 0.8
 
         if similarity < required_similarity:
-            logger.info(f"Emotional state mismatch for memory unlock: {similarity:.2f} < {required_similarity:.2f}")
+            logger.info(
+                f"Emotional state mismatch for memory unlock: {similarity:.2f} < {required_similarity:.2f}")
             return None
 
         # Reconstruct decryption key
@@ -196,14 +206,18 @@ class LukhasIdEnhancedReasoningEngine:
 
         # Decrypt and return memory
         try:
-            decrypted_data = self._decrypt_data(memory_record['encrypted_data'], decryption_key)
+            decrypted_data = self._decrypt_data(
+                memory_record['encrypted_data'], decryption_key)
             logger.info(f"Memory {memory_id} unlocked successfully")
             return decrypted_data
         except Exception as e:
             logger.error(f"Failed to decrypt memory {memory_id}: {e}")
             return None
 
-    def _generate_emotional_key(self, emotional_vector: EmotionalMemoryVector, user_id: str) -> bytes:
+    def _generate_emotional_key(
+            self,
+            emotional_vector: EmotionalMemoryVector,
+            user_id: str) -> bytes:
         """Generate encryption key based on emotional state"""
         # Combine emotional dimensions with user ID
         key_components = [
@@ -280,7 +294,7 @@ class LukhasIdEnhancedReasoningEngine:
         return json.loads(data_string)
 
     def _calculate_emotional_similarity(self, vector1: EmotionalMemoryVector,
-                                      vector2: EmotionalMemoryVector) -> float:
+                                        vector2: EmotionalMemoryVector) -> float:
         """Calculate similarity between two emotional vectors"""
         # Euclidean distance in 4D emotional space
         distance = (
@@ -294,6 +308,7 @@ class LukhasIdEnhancedReasoningEngine:
         max_distance = (4 ** 0.5)  # Maximum possible distance
         similarity = 1 - (distance / max_distance)
         return max(0, similarity)
+
 
 class LukhasIdEnhancedReasoningEngine:
     """
@@ -346,24 +361,34 @@ class LukhasIdEnhancedReasoningEngine:
         violations = []
 
         # Check data minimization
-        if self.compliance_rules.get('data_minimization') and context.get('data_excessive'):
+        if self.compliance_rules.get(
+                'data_minimization') and context.get('data_excessive'):
             violations.append("Data minimization violation: Collecting excessive data")
 
         # Check purpose limitation
-        if self.compliance_rules.get('purpose_limitation') and context.get('purpose_drift'):
-            violations.append("Purpose limitation violation: Using data beyond stated purpose")
+        if self.compliance_rules.get(
+                'purpose_limitation') and context.get('purpose_drift'):
+            violations.append(
+                "Purpose limitation violation: Using data beyond stated purpose")
 
         # Check user consent
-        if self.compliance_rules.get('user_consent_required') and not context.get('user_consent'):
-            violations.append("User consent violation: No explicit consent for data processing")
+        if self.compliance_rules.get(
+                'user_consent_required') and not context.get('user_consent'):
+            violations.append(
+                "User consent violation: No explicit consent for data processing")
 
         # EU AI Act specific checks
         if self.region == ComplianceRegion.EU:
-            if action in ['facial_recognition', 'emotion_recognition', 'social_scoring']:
-                violations.append(f"EU AI Act Article 5 violation: Prohibited practice {action}")
+            if action in [
+                'facial_recognition',
+                'emotion_recognition',
+                    'social_scoring']:
+                violations.append(
+                    f"EU AI Act Article 5 violation: Prohibited practice {action}")
 
             if context.get('high_risk_ai') and not context.get('human_oversight'):
-                violations.append("EU AI Act Article 9 violation: High-risk AI without human oversight")
+                violations.append(
+                    "EU AI Act Article 9 violation: High-risk AI without human oversight")
 
         # Log compliance check
         self.audit_log.append({
@@ -379,6 +404,7 @@ class LukhasIdEnhancedReasoningEngine:
             logger.warning(f"Compliance violations detected: {violations}")
 
         return len(violations) == 0, violations
+
 
 class LukhasIdEnhancedReasoningEngine:
     """
@@ -396,9 +422,13 @@ class LukhasIdEnhancedReasoningEngine:
         # Initialize quantum security (mock for development)
         self.quantum_signer_id = "lukhas_core_system"
 
-        logger.info(f"Lukhas_ID Manager initialized with {compliance_region.value} compliance")
+        logger.info(
+            f"Lukhas_ID Manager initialized with {compliance_region.value} compliance")
 
-    async def register_user(self, user_data: Dict, initial_tier: AccessTier = AccessTier.TIER_1_BASIC) -> str:
+    async def register_user(
+            self,
+            user_data: Dict,
+            initial_tier: AccessTier = AccessTier.TIER_1_BASIC) -> str:
         """
         Register a new user with Lukhas_ID system
         """
@@ -446,11 +476,15 @@ class LukhasIdEnhancedReasoningEngine:
             privacy_impact="User data encrypted and stored with consent"
         )
 
-        logger.info(f"User {user_id} registered successfully with tier {initial_tier.value}")
+        logger.info(
+            f"User {user_id} registered successfully with tier {initial_tier.value}")
         return user_id
 
-    async def authenticate_user(self, user_id: str, credentials: Dict,
-                              emotional_state: Optional[EmotionalMemoryVector] = None) -> Optional[Dict]:
+    async def authenticate_user(
+            self,
+            user_id: str,
+            credentials: Dict,
+            emotional_state: Optional[EmotionalMemoryVector] = None) -> Optional[Dict]:
         """
         Authenticate user based on their access tier requirements
         """
@@ -463,7 +497,8 @@ class LukhasIdEnhancedReasoningEngine:
 
         # Tier-based authentication
         if not await self._verify_tier_credentials(user_record, credentials, access_tier):
-            logger.warning(f"Authentication failed for user {user_id} at tier {access_tier.value}")
+            logger.warning(
+                f"Authentication failed for user {user_id} at tier {access_tier.value}")
             return None
 
         # Create session token
@@ -497,35 +532,36 @@ class LukhasIdEnhancedReasoningEngine:
             privacy_impact="Session created with appropriate tier permissions"
         )
 
-        logger.info(f"User {user_id} authenticated successfully at tier {access_tier.value}")
+        logger.info(
+            f"User {user_id} authenticated successfully at tier {access_tier.value}")
         return session_data
 
     async def _verify_tier_credentials(self, user_record: Dict, credentials: Dict,
-                                     tier: AccessTier) -> bool:
+                                       tier: AccessTier) -> bool:
         """Verify credentials based on access tier requirements"""
 
         # Tier 1: Emoji + Seed Phrase Grid
         if tier.value >= 1:
             if not self._verify_emoji_seed(user_record.get('emoji_seed'),
-                                         credentials.get('emoji_seed')):
+                                           credentials.get('emoji_seed')):
                 return False
 
         # Tier 2: + Biometrics (Face/Voice ID)
         if tier.value >= 2:
             if not self._verify_biometrics(user_record.get('biometric_hash'),
-                                         credentials.get('biometric_data')):
+                                           credentials.get('biometric_data')):
                 return False
 
         # Tier 3: + SID Puzzle Fill-In
         if tier.value >= 3:
             if not self._verify_sid_puzzle(user_record.get('sid_puzzle'),
-                                         credentials.get('sid_solution')):
+                                           credentials.get('sid_solution')):
                 return False
 
         # Tier 4: + Emergency Gesture/Fallback
         if tier.value >= 4:
             if not self._verify_emergency_gesture(user_record.get('emergency_gesture'),
-                                                credentials.get('emergency_gesture')):
+                                                  credentials.get('emergency_gesture')):
                 return False
 
         # Tier 5: Admin verification (additional security)
@@ -556,7 +592,10 @@ class LukhasIdEnhancedReasoningEngine:
         # In real implementation, this would validate puzzle solution
         return stored_puzzle == provided_solution
 
-    def _verify_emergency_gesture(self, stored_gesture: str, provided_gesture: str) -> bool:
+    def _verify_emergency_gesture(
+            self,
+            stored_gesture: str,
+            provided_gesture: str) -> bool:
         """Verify emergency gesture/fallback"""
         if not stored_gesture or not provided_gesture:
             return False
@@ -592,10 +631,15 @@ class LukhasIdEnhancedReasoningEngine:
         }
         return permissions.get(tier, [])
 
-    async def _create_audit_log(self, user_id: str, tier: AccessTier, component: str,
-                               action: str, decision_logic: str,
-                               emotional_state: Optional[EmotionalMemoryVector] = None,
-                               privacy_impact: str = "Standard privacy protection") -> None:
+    async def _create_audit_log(
+            self,
+            user_id: str,
+            tier: AccessTier,
+            component: str,
+            action: str,
+            decision_logic: str,
+            emotional_state: Optional[EmotionalMemoryVector] = None,
+            privacy_impact: str = "Standard privacy protection") -> None:
         """Create comprehensive audit log entry with quantum signature"""
 
         # Generate quantum signature (mock for development)
@@ -628,7 +672,8 @@ class LukhasIdEnhancedReasoningEngine:
 
     def _generate_quantum_signature(self, data: str) -> str:
         """Generate quantum-resistant signature (mock implementation)"""
-        # In real implementation, this would use Dilithium or similar post-quantum signature
+        # In real implementation, this would use Dilithium or similar post-quantum
+        # signature
         signature_input = f"{data}|{self.quantum_signer_id}|{secrets.token_hex(16)}"
         return hashlib.sha256(signature_input.encode()).hexdigest()
 
@@ -647,9 +692,10 @@ class LukhasIdEnhancedReasoningEngine:
         return session['permissions']
 
     async def store_emotional_memory(self, user_id: str, memory_data: Any,
-                                   emotional_state: EmotionalMemoryVector) -> str:
+                                     emotional_state: EmotionalMemoryVector) -> str:
         """Store memory with emotional protection"""
-        memory_id = self.trauma_memory.lock_memory(memory_data, emotional_state, user_id)
+        memory_id = self.trauma_memory.lock_memory(
+            memory_data, emotional_state, user_id)
 
         await self._create_audit_log(
             user_id=user_id,
@@ -663,10 +709,14 @@ class LukhasIdEnhancedReasoningEngine:
 
         return memory_id
 
-    async def retrieve_emotional_memory(self, user_id: str, memory_id: str,
-                                      current_emotional_state: EmotionalMemoryVector) -> Optional[Any]:
+    async def retrieve_emotional_memory(
+            self,
+            user_id: str,
+            memory_id: str,
+            current_emotional_state: EmotionalMemoryVector) -> Optional[Any]:
         """Retrieve emotionally protected memory"""
-        memory_data = self.trauma_memory.unlock_memory(memory_id, current_emotional_state, user_id)
+        memory_data = self.trauma_memory.unlock_memory(
+            memory_id, current_emotional_state, user_id)
 
         await self._create_audit_log(
             user_id=user_id,
@@ -695,6 +745,7 @@ class LukhasIdEnhancedReasoningEngine:
             ]
         }
 
+
 # Example usage and testing
 if __name__ == "__main__":
     async def demo_lukhas_id():
@@ -706,18 +757,16 @@ if __name__ == "__main__":
         # Register a new user
         user_data = {
             'emoji_seed': '🔥🌟💎🚀',
-            'biometric_hash': hashlib.sha256('mock_biometric_data'.encode()).hexdigest(),
+            'biometric_hash': hashlib.sha256(
+                'mock_biometric_data'.encode()).hexdigest(),
             'consent_given': True,
             'consent_records': {
                 'data_processing': True,
                 'personalization': True,
-                'analytics': False
-            },
+                'analytics': False},
             'privacy_preferences': {
                 'data_retention_days': 365,
-                'share_anonymous_stats': False
-            }
-        }
+                'share_anonymous_stats': False}}
 
         user_id = await Lukhas_ID.register_user(user_data, AccessTier.TIER_2_ENHANCED)
         print(f"User registered: {user_id}")
@@ -739,7 +788,8 @@ if __name__ == "__main__":
 
         session = await Lukhas_ID.authenticate_user(user_id, credentials, emotional_state)
         if session:
-            print(f"Authentication successful. Session: {session['session_token'][:8]}...")
+            print(
+                f"Authentication successful. Session: {session['session_token'][:8]}...")
             print(f"Permissions: {session['permissions']}")
 
             # Store an emotional memory

@@ -9,25 +9,23 @@ Determines the current operating mode of NIAS:
 Author: You
 """
 
+
 def detect_mode():
     has_dast = False
     has_abas = False
     has_mesh = False
 
     try:
-        from dast import get_current_tags
         has_dast = True
     except ImportError:
         pass
 
     try:
-        from abas import is_allowed_now
         has_abas = True
     except ImportError:
         pass
 
     try:
-        from mesh_visualizer import get_emotional_state
         has_mesh = True
     except ImportError:
         pass
@@ -39,11 +37,12 @@ def detect_mode():
     else:
         return "STANDALONE"
 
+
 def print_mode_banner():
     mode = detect_mode()
     banners = {
         "STANDALONE": "🧍 NIAS running in Standalone Mode — symbolic SDK active",
         "DAST_ENHANCED": "🧿 NIAS running in DAST-Enhanced Mode — task stream linked",
-        "LUCAS_FULL": "🧠 NIAS fully integrated with LUCΛS — dream-aware symbolic alignment enabled"
+        "LUCAS_FULL": "🧠 NIAS fully integrated with LUCΛS — dream-aware symbolic alignment enabled",
     }
     print(banners.get(mode, "🔘 Unknown NIAS mode"))

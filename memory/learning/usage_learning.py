@@ -5,12 +5,11 @@ Adapts and evolves based on how users interact with documentation.
 
 from collections import defaultdict
 from datetime import datetime
-from typing import Dict, List
 
 
 class UserInteraction:
     def __init__(
-        self, user_id: str, doc_id: str, interaction_type: str, metadata: Dict
+        self, user_id: str, doc_id: str, interaction_type: str, metadata: dict
     ):
         self.user_id = user_id
         self.doc_id = doc_id
@@ -21,7 +20,7 @@ class UserInteraction:
 
 class InteractionPattern:
     def __init__(self):
-        self.sequence: List[str] = []
+        self.sequence: list[str] = []
         self.frequency = 0
         self.last_observed = datetime.now()
         self.success_rate = 1.0
@@ -38,10 +37,10 @@ class InteractionPattern:
 
 class UsageBasedLearning:
     def __init__(self):
-        self.interactions: List[UserInteraction] = []
-        self.patterns: Dict[str, InteractionPattern] = {}
-        self.user_preferences: Dict[str, Dict] = defaultdict(dict)
-        self.doc_statistics: Dict[str, Dict] = defaultdict(
+        self.interactions: list[UserInteraction] = []
+        self.patterns: dict[str, InteractionPattern] = {}
+        self.user_preferences: dict[str, dict] = defaultdict(dict)
+        self.doc_statistics: dict[str, dict] = defaultdict(
             lambda: {
                 "views": 0,
                 "avg_time_spent": 0,
@@ -51,7 +50,7 @@ class UsageBasedLearning:
         )
 
     def record_interaction(
-        self, user_id: str, doc_id: str, interaction_type: str, metadata: Dict
+        self, user_id: str, doc_id: str, interaction_type: str, metadata: dict
     ):
         """Record a user interaction with documentation."""
         interaction = UserInteraction(user_id, doc_id, interaction_type, metadata)
@@ -86,7 +85,7 @@ class UsageBasedLearning:
             self.patterns[pattern_key].sequence = sequence
             self.patterns[pattern_key].update(True)  # Assuming success for now
 
-    def update_user_preferences(self, user_id: str, preferences: Dict):
+    def update_user_preferences(self, user_id: str, preferences: dict):
         """Update stored preferences for a user."""
         self.user_preferences[user_id].update(preferences)
 
@@ -100,7 +99,7 @@ class UsageBasedLearning:
             stats["successful_uses"] + stats["failed_uses"]
         )
 
-    def get_popular_sequences(self, min_frequency: int = 2) -> List[Dict]:
+    def get_popular_sequences(self, min_frequency: int = 2) -> list[dict]:
         """Get commonly observed interaction sequences."""
         return [
             {
@@ -112,10 +111,10 @@ class UsageBasedLearning:
             if pattern.frequency >= min_frequency
         ]
 
-    def recommend_next_docs(self, current_doc: str, user_id: str) -> List[str]:
+    def recommend_next_docs(self, current_doc: str, user_id: str) -> list[str]:
         """Recommend next documents based on patterns and user preferences."""
         recommendations = []
-        user_prefs = self.user_preferences.get(user_id, {})
+        self.user_preferences.get(user_id, {})
 
         # Look for patterns that start with current document
         for pattern in self.patterns.values():

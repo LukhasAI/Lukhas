@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class GlyphTrail:
     """Visual representation of a glyph's journey"""
+
     glyph_type: str  # "trust", "biometric", "consent"
     trail: List[str]
     timestamps: List[datetime]
@@ -43,7 +44,7 @@ class GlyphTrail:
             "current": self.trail[-1] if self.trail else None,
             "total_changes": len(self.trail) - 1,
             "reversals": len(self.reversals),
-            "visual": self.to_visual_string()
+            "visual": self.to_visual_string(),
         }
 
 
@@ -59,7 +60,7 @@ class GlyphTrailRenderer:
         "biometric": ["🧬", "🌱", "🦠"],
         "consent": ["🪷", "🌸", "🥀", "🌫️"],
         "drift": ["🌿", "🌀", "🌪️"],
-        "special": ["✨", "🚨", "💫", "🌟"]
+        "special": ["✨", "🚨", "💫", "🌟"],
     }
 
     # Reversal patterns
@@ -67,7 +68,7 @@ class GlyphTrailRenderer:
         "trust_lock": ["🔓", "🔐", "🔒"],
         "consent_revoke": ["🌸", "🪷", "🥀", "🌫️"],
         "biometric_decay": ["🌱", "🧬", "🦠"],
-        "drift_storm": ["🌿", "🌀", "🌪️"]
+        "drift_storm": ["🌿", "🌀", "🌪️"],
     }
 
     def __init__(self):
@@ -75,11 +76,19 @@ class GlyphTrailRenderer:
         self.global_patterns: List[Dict] = []
         logger.info("🎨 Glyph Trail Renderer initialized")
 
-    def track_mutation(self, user_id: str, from_glyph: str, to_glyph: str,
-                      timestamp: datetime, reason: str = ""):
+    def track_mutation(
+        self,
+        user_id: str,
+        from_glyph: str,
+        to_glyph: str,
+        timestamp: datetime,
+        reason: str = "",
+    ):
         """Track a single glyph mutation"""
         # Determine glyph category
-        category = self._get_glyph_category(from_glyph) or self._get_glyph_category(to_glyph)
+        category = self._get_glyph_category(from_glyph) or self._get_glyph_category(
+            to_glyph
+        )
 
         if not category:
             logger.warning(f"Unknown glyph category for {from_glyph} → {to_glyph}")
@@ -95,7 +104,7 @@ class GlyphTrailRenderer:
                 trail=[from_glyph],
                 timestamps=[timestamp],
                 mutations=[],
-                reversals=[]
+                reversals=[],
             )
 
         trail = self.user_trails[user_id][category]
@@ -108,12 +117,14 @@ class GlyphTrailRenderer:
         # Add to trail
         trail.trail.append(to_glyph)
         trail.timestamps.append(timestamp)
-        trail.mutations.append({
-            "from": from_glyph,
-            "to": to_glyph,
-            "reason": reason,
-            "timestamp": timestamp.isoformat()
-        })
+        trail.mutations.append(
+            {
+                "from": from_glyph,
+                "to": to_glyph,
+                "reason": reason,
+                "timestamp": timestamp.isoformat(),
+            }
+        )
 
         # Track global patterns
         self._track_global_pattern(user_id, category, from_glyph, to_glyph, is_reversal)
@@ -140,22 +151,30 @@ class GlyphTrailRenderer:
         for pattern in self.REVERSAL_PATTERNS.values():
             # Check if current sequence matches a reversal pattern
             for i in range(len(pattern) - 1):
-                if (len(trail) >= 1 and
-                    trail[-1] == pattern[i] and
-                    new_glyph == pattern[i + 1]):
+                if (
+                    len(trail) >= 1
+                    and trail[-1] == pattern[i]
+                    and new_glyph == pattern[i + 1]
+                ):
                     return True
 
         return False
 
-    def _track_global_pattern(self, user_id: str, category: str,
-                            from_glyph: str, to_glyph: str, is_reversal: bool):
+    def _track_global_pattern(
+        self,
+        user_id: str,
+        category: str,
+        from_glyph: str,
+        to_glyph: str,
+        is_reversal: bool,
+    ):
         """Track patterns across all users"""
         pattern = {
             "user_id": user_id,
             "category": category,
             "mutation": f"{from_glyph}→{to_glyph}",
             "is_reversal": is_reversal,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
         self.global_patterns.append(pattern)
 
@@ -190,26 +209,36 @@ class GlyphTrailRenderer:
             for category, trail in self.user_trails[user_id].items():
                 for idx in trail.reversals:
                     if idx < len(trail.trail):
-                        reversal_details.append({
-                            "category": category,
-                            "at_position": idx,
-                            "glyph": trail.trail[idx],
-                            "timestamp": trail.timestamps[idx].isoformat() if idx < len(trail.timestamps) else None
-                        })
+                        reversal_details.append(
+                            {
+                                "category": category,
+                                "at_position": idx,
+                                "glyph": trail.trail[idx],
+                                "timestamp": (
+                                    trail.timestamps[idx].isoformat()
+                                    if idx < len(trail.timestamps)
+                                    else None
+                                ),
+                            }
+                        )
                 total_reversals += len(trail.reversals)
 
             return {
                 "user": user_id,
                 "reversals": total_reversals,
-                "details": reversal_details
+                "details": reversal_details,
             }
         else:
             # Global reversal report
             reversal_count = sum(1 for p in self.global_patterns if p["is_reversal"])
             return {
                 "total_reversals": reversal_count,
-                "reversal_rate": reversal_count / len(self.global_patterns) if self.global_patterns else 0,
-                "common_reversals": self._get_common_reversals()
+                "reversal_rate": (
+                    reversal_count / len(self.global_patterns)
+                    if self.global_patterns
+                    else 0
+                ),
+                "common_reversals": self._get_common_reversals(),
             }
 
     def _get_common_reversals(self) -> List[Dict]:
@@ -222,7 +251,9 @@ class GlyphTrailRenderer:
                 reversal_counts[key] = reversal_counts.get(key, 0) + 1
 
         # Sort by frequency
-        sorted_reversals = sorted(reversal_counts.items(), key=lambda x: x[1], reverse=True)
+        sorted_reversals = sorted(
+            reversal_counts.items(), key=lambda x: x[1], reverse=True
+        )
 
         return [
             {"pattern": pattern, "count": count}
@@ -235,7 +266,7 @@ class GlyphTrailRenderer:
             "generated_at": datetime.utcnow().isoformat(),
             "total_users": len(self.user_trails),
             "total_mutations": len(self.global_patterns),
-            "user_journeys": {}
+            "user_journeys": {},
         }
 
         # Add each user's journey
@@ -249,7 +280,7 @@ class GlyphTrailRenderer:
         manifest["statistics"] = {
             "reversal_report": self.get_reversal_report(),
             "category_distribution": self._get_category_distribution(),
-            "mutation_frequency": self._get_mutation_frequency()
+            "mutation_frequency": self._get_mutation_frequency(),
         }
 
         return manifest
@@ -271,7 +302,9 @@ class GlyphTrailRenderer:
             mutation_counts[key] = mutation_counts.get(key, 0) + 1
 
         # Sort by frequency
-        sorted_mutations = sorted(mutation_counts.items(), key=lambda x: x[1], reverse=True)
+        sorted_mutations = sorted(
+            mutation_counts.items(), key=lambda x: x[1], reverse=True
+        )
 
         return [
             {"mutation": mutation, "frequency": count}
@@ -297,7 +330,7 @@ class GlyphTrailRenderer:
 
 # Example usage and testing
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format='%(message)s')
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
 
     renderer = GlyphTrailRenderer()
 
@@ -332,15 +365,19 @@ if __name__ == "__main__":
     reversal_report = renderer.get_reversal_report(user_id)
     print("\n⟲ Reversal Report:")
     print(f"   Total reversals: {reversal_report['reversals']}")
-    for detail in reversal_report['details']:
-        print(f"   - {detail['category']}: position {detail['at_position']} ({detail['glyph']})")
+    for detail in reversal_report["details"]:
+        print(
+            f"   - {detail['category']}: position {detail['at_position']} ({detail['glyph']})"
+        )
 
     # Export manifest
     manifest = renderer.export_visual_manifest()
     print("\n📋 Visual Manifest Summary:")
     print(f"   Total users: {manifest['total_users']}")
     print(f"   Total mutations: {manifest['total_mutations']}")
-    print(f"   Category distribution: {manifest['statistics']['category_distribution']}")
+    print(
+        f"   Category distribution: {manifest['statistics']['category_distribution']}"
+    )
 
     # Show symbolic reversal
     reversal_seq = ["🌸", "🪷", "🥀", "🌫️"]

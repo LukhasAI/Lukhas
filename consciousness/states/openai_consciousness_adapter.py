@@ -17,10 +17,11 @@
 ║ Authors: LUKHAS AI Consciousness Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 import asyncio
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from bridge.openai_core_service import (
     ModelType,
@@ -44,8 +45,8 @@ class ConsciousnessOpenAIAdapter:
         logger.info("Consciousness OpenAI Adapter initialized")
 
     async def analyze_awareness_state(
-        self, current_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, current_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Use GPT-4 to analyze current consciousness state.
 
@@ -87,14 +88,14 @@ Format as JSON with detailed insights."""
                 import json
 
                 return json.loads(response.data["content"])
-            except:
+            except BaseException:
                 return {"analysis": response.data["content"], "format": "text"}
         else:
             logger.error(f"Awareness analysis failed: {response.error}")
             return {"error": "Analysis failed"}
 
     async def generate_introspection_narrative(
-        self, reflection_data: Dict[str, Any]
+        self, reflection_data: dict[str, Any]
     ) -> str:
         """
         Generate introspective narrative about current state.
@@ -136,7 +137,7 @@ Keep it under 300 words."""
             return "I observe my thoughts flowing like a stream..."
 
     async def narrate_consciousness_state(
-        self, state_data: Dict[str, Any], voice: str = "nova"
+        self, state_data: dict[str, Any], voice: str = "nova"
     ) -> Optional[str]:
         """
         Create audio narration of consciousness state.
@@ -172,8 +173,8 @@ Keep it under 300 words."""
             return None
 
     async def analyze_attention_patterns(
-        self, attention_history: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, attention_history: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Analyze patterns in attention focus over time.
 
@@ -226,8 +227,8 @@ Provide recommendations for improved attention management."""
             return {"error": "Pattern analysis failed"}
 
     async def generate_awareness_exercises(
-        self, current_state: Dict[str, Any], goal: str = "enhance_awareness"
-    ) -> List[Dict[str, Any]]:
+        self, current_state: dict[str, Any], goal: str = "enhance_awareness"
+    ) -> list[dict[str, Any]]:
         """
         Generate personalized awareness exercises.
 
@@ -270,7 +271,7 @@ Format as JSON array with: name, description, duration, instructions, expected_o
                 import json
 
                 return json.loads(response.data["content"])
-            except:
+            except BaseException:
                 return [
                     {
                         "name": "Basic Awareness Exercise",
@@ -282,7 +283,7 @@ Format as JSON array with: name, description, duration, instructions, expected_o
             return []
 
     async def map_consciousness_landscape(
-        self, multi_state_data: List[Dict[str, Any]]
+        self, multi_state_data: list[dict[str, Any]]
     ) -> str:
         """
         Create a descriptive map of consciousness landscape.
@@ -333,8 +334,8 @@ Write in a vivid, metaphorical style. Make it beautiful and insightful."""
             return "The landscape of consciousness stretches before me..."
 
     async def facilitate_meta_reflection(
-        self, thought_stream: List[str], depth_level: int = 1
-    ) -> Dict[str, Any]:
+        self, thought_stream: list[str], depth_level: int = 1
+    ) -> dict[str, Any]:
         """
         Facilitate deep meta-reflection on thought processes.
 

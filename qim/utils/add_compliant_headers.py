@@ -10,7 +10,6 @@ established compliance report standards.
 
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Tuple
 
 # Technical descriptions for quantum modules
 QUANTUM_DESCRIPTIONS = {
@@ -155,11 +154,11 @@ def __validate_module__():
         "ethics_compliance": True,
         "tier_{tier}_access": True
     }}
-    
+
     failed = [k for k, v in validations.items() if not v]
     if failed:
         logger.warning(f"Module validation warnings: {{failed}}")
-    
+
     return len(failed) == 0
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -185,7 +184,7 @@ def has_existing_lukhas_header(content: str) -> bool:
     return "LUKHAS AI -" in content and "██╗" in content
 
 
-def extract_existing_imports(content: str) -> Tuple[str, str]:
+def extract_existing_imports(content: str) -> tuple[str, str]:
     """Extract imports and main content from existing file."""
     lines = content.split("\n")
 
@@ -230,7 +229,7 @@ def extract_existing_imports(content: str) -> Tuple[str, str]:
     return "\n".join(import_section), "\n".join(main_content)
 
 
-def get_module_info(filepath: Path) -> Dict[str, str]:
+def get_module_info(filepath: Path) -> dict[str, str]:
     """Get module information for the header."""
     info = QUANTUM_DESCRIPTIONS.get(filepath.name, {})
 
@@ -250,7 +249,7 @@ def get_module_info(filepath: Path) -> Dict[str, str]:
 def add_compliant_header(filepath: Path) -> bool:
     """Add LUKHAS-compliant header and footer to a Python file."""
 
-    if not filepath.suffix == ".py":
+    if filepath.suffix != ".py":
         return False
 
     if (

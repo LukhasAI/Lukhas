@@ -8,8 +8,6 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
-from typing import Dict, List
-
 
 class MetaLearningSystem:
     """Meta-learning system placeholder"""
@@ -121,7 +119,7 @@ class AI:
             "cognitive_states": self.meta_learner.strategy_performance,
         }
 
-    def unified_processing(self, input_data: Dict) -> Dict:
+    def unified_processing(self, input_data: dict) -> dict:
         """Process input through integrated system"""
         # Stage 1: Meta-Learning Context Analysis
         context = self.meta_learner.analyze_context(input_data)
@@ -133,21 +131,21 @@ class AI:
         processed_data = self._multimodal_fusion(input_data, selected_models)
 
         # Stage 4: Reflective Evaluation
-        reflection_data = self.reflective_system.log_interaction(
+        self.reflective_system.log_interaction(
             {"input": input_data, "context": context, "models_used": selected_models}
         )
 
         # Stage 5: Adaptive Output Generation
         return self._generate_output(processed_data, context)
 
-    def _select_models(self, context: Dict) -> List[str]:
+    def _select_models(self, context: dict) -> list[str]:
         """Meta-learn model selection"""
         model_weights = self.meta_learner.optimize_learning_approach(
             context=context, available_data=self.knowledge_graph
         )
         return sorted(model_weights.items(), key=lambda x: x[1], reverse=True)[:3]
 
-    def _multimodal_fusion(self, data: Dict, models: List) -> Dict:
+    def _multimodal_fusion(self, data: dict, models: list) -> dict:
         """Hybrid fusion approach"""
         # Early fusion for raw data
         raw_fused = []
@@ -180,7 +178,7 @@ class AI:
             w * hash(str(out)) for w, out in zip(attention_weights, model_outputs)
         )
 
-    def _generate_output(self, processed: Dict, context: Dict) -> Dict:
+    def _generate_output(self, processed: dict, context: dict) -> dict:
         """Generate output using integrated capabilities"""
         output = {}
 
@@ -206,7 +204,7 @@ class AI:
 
         return output
 
-    def _update_federated_models(self, output: Dict, context: Dict):
+    def _update_federated_models(self, output: dict, context: dict):
         """Unified federated update mechanism"""
         for model_id, gradients in output.get("gradients", {}).items():
             self.federated_manager.contribute_gradients(

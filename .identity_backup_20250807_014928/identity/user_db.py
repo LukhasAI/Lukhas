@@ -18,6 +18,7 @@ from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
+
 class UserDatabase:
     """
     File-based user database with symbolic tracking.
@@ -51,8 +52,8 @@ class UserDatabase:
                         "trinity_score": 1.0,
                         "drift_score": 0.0,
                         "cultural_profile": "universal",
-                        "personality_type": "analytical"
-                    }
+                        "personality_type": "analytical",
+                    },
                 }
             }
             self._save_users(initial_data)
@@ -75,7 +76,7 @@ class UserDatabase:
             users = self.users
 
         try:
-            with open(self.users_file, 'w') as f:
+            with open(self.users_file, "w") as f:
                 json.dump(users, f, indent=2)
         except Exception as e:
             logger.error(f"Error saving users: {e}")
@@ -104,28 +105,33 @@ class UserDatabase:
             "action": action,
             "glyphs": glyphs,
             "trinity_framework": ["⚛️", "🧠", "🛡️"],
-            "consent_given": True
+            "consent_given": True,
         }
 
         try:
-            with open(self.consent_log, 'a') as f:
-                f.write(json.dumps(consent_record) + '\n')
+            with open(self.consent_log, "a") as f:
+                f.write(json.dumps(consent_record) + "\n")
         except Exception as e:
             logger.error(f"Error logging consent: {e}")
 
-    def create_user(self, email: str, password: str, tier: str = "T1",
-                   cultural_profile: str = "universal",
-                   personality_type: str = "balanced") -> Dict[str, Any]:
+    def create_user(
+        self,
+        email: str,
+        password: str,
+        tier: str = "T1",
+        cultural_profile: str = "universal",
+        personality_type: str = "balanced",
+    ) -> Dict[str, Any]:
         """
         Create a new user with symbolic initialization.
-        
+
         Args:
             email: User's email address
             password: User's password (will be hashed)
             tier: Authentication tier (T1-T5)
             cultural_profile: User's cultural background
             personality_type: User's personality profile
-        
+
         Returns:
             User data dictionary
         """
@@ -133,7 +139,7 @@ class UserDatabase:
             raise ValueError(f"User {email} already exists")
 
         # Generate user data
-        user_id = email.split('@')[0].replace('.', '_').lower()
+        user_id = email.split("@")[0].replace(".", "_").lower()
         lambda_id = self._generate_lambda_id(email)
         token = self._generate_token(tier)
 
@@ -143,7 +149,7 @@ class UserDatabase:
             "T2": ["⚛️", "🔐"],  # With security
             "T3": ["⚛️", "🔐", "🧠"],  # With consciousness
             "T4": ["⚛️", "🔐", "🧠", "🌍"],  # With cultural
-            "T5": ["🛡️", "⚛️", "🧠"]  # Full Trinity
+            "T5": ["🛡️", "⚛️", "🧠"],  # Full Trinity
         }
 
         user_data = {
@@ -162,8 +168,8 @@ class UserDatabase:
                 "cultural_profile": cultural_profile,
                 "personality_type": personality_type,
                 "last_login": None,
-                "login_count": 0
-            }
+                "login_count": 0,
+            },
         }
 
         # Store user
@@ -178,15 +184,15 @@ class UserDatabase:
     def authenticate_user(self, email: str, password: str) -> Optional[Dict[str, Any]]:
         """
         Authenticate user and return user data with new session token.
-        
+
         Args:
             email: User's email
             password: User's password
-        
+
         Returns:
             User data with new session token or None if auth fails
         """
-        user_id = email.split('@')[0].replace('.', '_').lower()
+        user_id = email.split("@")[0].replace(".", "_").lower()
 
         if user_id not in self.users:
             # Check by email
@@ -225,10 +231,10 @@ class UserDatabase:
     def verify_token(self, token: str) -> Optional[Dict[str, Any]]:
         """
         Verify token and return associated user data.
-        
+
         Args:
             token: Session token to verify
-        
+
         Returns:
             User data if token is valid, None otherwise
         """
@@ -239,7 +245,7 @@ class UserDatabase:
 
     def get_user_by_email(self, email: str) -> Optional[Dict[str, Any]]:
         """Get user data by email address."""
-        user_id = email.split('@')[0].replace('.', '_').lower()
+        user_id = email.split("@")[0].replace(".", "_").lower()
 
         if user_id in self.users:
             return self.users[user_id]
@@ -254,11 +260,11 @@ class UserDatabase:
     def update_user_tier(self, email: str, new_tier: str) -> bool:
         """
         Update user's tier and associated glyphs.
-        
+
         Args:
             email: User's email
             new_tier: New tier assignment (T1-T5)
-        
+
         Returns:
             True if successful, False otherwise
         """
@@ -272,12 +278,14 @@ class UserDatabase:
             "T2": ["⚛️", "🔐"],
             "T3": ["⚛️", "🔐", "🧠"],
             "T4": ["⚛️", "🔐", "🧠", "🌍"],
-            "T5": ["🛡️", "⚛️", "🧠"]
+            "T5": ["🛡️", "⚛️", "🧠"],
         }
 
         user["tier"] = new_tier
         user["glyphs"] = tier_glyphs.get(new_tier, ["⚛️"])
-        user["metadata"]["trinity_score"] = 0.3 if new_tier < "T3" else 0.7 if new_tier < "T5" else 1.0
+        user["metadata"]["trinity_score"] = (
+            0.3 if new_tier < "T3" else 0.7 if new_tier < "T5" else 1.0
+        )
 
         # Find user ID and save
         for uid, u in self.users.items():

@@ -41,6 +41,8 @@
 
 import logging
 
+from lukhas_pwm.branding.terminology import normalize_output
+
 # Module imports
 from .env_loader import get_azure_openai_config
 
@@ -92,20 +94,36 @@ class AzureOpenaiWrapper:
 
     def generate_response(self, prompt: str, model: str = "gpt-4", **kwargs) -> str:
         """Generate response using Azure OpenAI API"""
+        # Lightweight brand guidance for consistent terminology
+        guidance = (
+            "When describing methods, prefer 'quantum-inspired' and 'bio-inspired'. "
+            "Refer to the project as 'Lukhas AI'."
+        )
+
         if not self.client:
             # Fallback response for testing when API is not configured
-            return f"ΛBot AI Router Response: I received your message '{prompt[:50]}...' but Azure OpenAI is not configured. This confirms the AI bridge is working correctly! To enable full AI responses, please configure your Azure OpenAI API keys."
+            fb = (
+                f"ΛBot AI Router Response: I received your message '{prompt[:50]}...' but Azure OpenAI is not configured. "
+                "This confirms the AI bridge is working correctly! To enable full AI responses, please configure your Azure OpenAI API keys."
+            )
+            return normalize_output(fb) or fb
 
         try:
+            # Include a system preamble to reinforce brand terminology
             response = self.client.chat.completions.create(
                 model=model,
-                messages=[{"role": "user", "content": prompt}],
+                messages=[
+                    {"role": "system", "content": guidance},
+                    {"role": "user", "content": prompt},
+                ],
                 max_tokens=kwargs.get("max_tokens", 2000),
                 temperature=kwargs.get("temperature", 0.7),
             )
-            return response.choices[0].message.content
+            content = getattr(response.choices[0].message, "content", None)
+            return normalize_output(content) or content or ""
         except Exception as e:
-            return f"Azure OpenAI API Error: {str(e)}"
+            err = f"Azure OpenAI API Error: {str(e)}"
+            return normalize_output(err) or err
 
     def is_available(self) -> bool:
         """Check if Azure OpenAI is available"""

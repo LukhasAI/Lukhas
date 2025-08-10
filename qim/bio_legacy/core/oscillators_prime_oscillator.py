@@ -7,7 +7,7 @@ for harmonic synchronization, inspired by biological rhythms and quantum phenome
 
 import logging
 import math
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -127,7 +127,7 @@ class PrimeHarmonicOscillator(BaseOscillator):
         self._index += 1
         return value
 
-    def get_state(self) -> Dict[str, Any]:
+    def get_state(self) -> dict[str, Any]:
         """Get current oscillator state"""
         return {
             "frequency": self._freq,

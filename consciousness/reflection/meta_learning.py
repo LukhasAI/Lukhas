@@ -2,7 +2,7 @@ import datetime
 import json
 import os
 from collections import defaultdict
-from typing import Dict, List, Optional
+from typing import Optional
 
 import numpy as np
 
@@ -23,7 +23,7 @@ class FederatedModel:
     preserving privacy by keeping user data local.
     """
 
-    def __init__(self, model_id: str, model_type: str, initial_parameters: Dict = None):
+    def __init__(self, model_id: str, model_type: str, initial_parameters: dict = None):
         self.model_id = model_id
         self.model_type = model_type
         self.parameters = initial_parameters or {}
@@ -34,7 +34,7 @@ class FederatedModel:
         self.performance_metrics = {}
 
     def update_with_gradients(
-        self, gradients: Dict, client_id: str, weight: float = 1.0
+        self, gradients: dict, client_id: str, weight: float = 1.0
     ):
         """
         Update model parameters with gradients from a client
@@ -61,7 +61,7 @@ class FederatedModel:
 
         return True
 
-    def get_parameters(self, client_id: str = None) -> Dict:
+    def get_parameters(self, client_id: str = None) -> dict:
         """
         Get model parameters, optionally customized for a specific client
 
@@ -80,7 +80,7 @@ class FederatedModel:
             "version": self.version,
         }
 
-    def serialize(self) -> Dict:
+    def serialize(self) -> dict:
         """Serialize model for storage"""
         return {
             "model_id": self.model_id,
@@ -94,7 +94,7 @@ class FederatedModel:
         }
 
     @classmethod
-    def deserialize(cls, data: Dict) -> "FederatedModel":
+    def deserialize(cls, data: dict) -> "FederatedModel":
         """Create model from serialized data"""
         model = cls(
             model_id=data["model_id"],
@@ -127,7 +127,7 @@ class FederatedLearningManager:
         self.load_models()
 
     def register_model(
-        self, model_id: str, model_type: str, initial_parameters: Dict = None
+        self, model_id: str, model_type: str, initial_parameters: dict = None
     ) -> FederatedModel:
         """
         Register a new model for federated learning
@@ -148,7 +148,7 @@ class FederatedLearningManager:
         self.save_model(model)
         return model
 
-    def get_model(self, model_id: str, client_id: str = None) -> Optional[Dict]:
+    def get_model(self, model_id: str, client_id: str = None) -> Optional[dict]:
         """
         Get model parameters for a client
 
@@ -169,7 +169,7 @@ class FederatedLearningManager:
         return self.models[model_id].get_parameters(client_id)
 
     def contribute_gradients(
-        self, model_id: str, client_id: str, gradients: Dict, metrics: Dict = None
+        self, model_id: str, client_id: str, gradients: dict, metrics: dict = None
     ) -> bool:
         """
         Contribute gradients from a client to update a model
@@ -230,7 +230,7 @@ class FederatedLearningManager:
         return True
 
     def _update_metrics(
-        self, model: FederatedModel, client_id: str, metrics: Dict
+        self, model: FederatedModel, client_id: str, metrics: dict
     ) -> None:
         """
         Update model metrics with client feedback
@@ -280,7 +280,7 @@ class FederatedLearningManager:
         except Exception as e:
             logger.error(f"Error loading federated models: {str(e)}")
 
-    def get_client_status(self, client_id: str) -> Dict:
+    def get_client_status(self, client_id: str) -> dict:
         """Get status of a client's model contributions"""
         if client_id not in self.client_models:
             return {"client_id": client_id, "models": [], "contribution_count": 0}
@@ -333,7 +333,7 @@ class ReflectiveIntrospectionSystem:
             "adaptation_rate": [],
         }
 
-    def log_interaction(self, interaction_data: Dict) -> None:
+    def log_interaction(self, interaction_data: dict) -> None:
         """
         Log an interaction for future reflection
 
@@ -357,7 +357,7 @@ class ReflectiveIntrospectionSystem:
         if len(self.interaction_buffer) >= self.reflection_interval:
             self.reflect()
 
-    def reflect(self) -> Dict:
+    def reflect(self) -> dict:
         """
         Perform reflective introspection on recent interactions
 
@@ -399,7 +399,7 @@ class ReflectiveIntrospectionSystem:
 
         return result
 
-    def _analyze_interactions(self) -> List[Dict]:
+    def _analyze_interactions(self) -> list[dict]:
         """
         Analyze recent interactions to derive insights
 
@@ -454,7 +454,7 @@ class ReflectiveIntrospectionSystem:
 
         return insights
 
-    def _detect_user_patterns(self) -> List[Dict]:
+    def _detect_user_patterns(self) -> list[dict]:
         """
         Detect patterns in user interactions
 
@@ -481,7 +481,7 @@ class ReflectiveIntrospectionSystem:
 
         return patterns
 
-    def _detect_error_patterns(self) -> List[Dict]:
+    def _detect_error_patterns(self) -> list[dict]:
         """
         Detect patterns in system errors
 
@@ -510,7 +510,7 @@ class ReflectiveIntrospectionSystem:
 
         return error_patterns
 
-    def _calculate_trend(self, values: List[float]) -> float:
+    def _calculate_trend(self, values: list[float]) -> float:
         """
         Calculate trend in a series of values
 
@@ -545,7 +545,7 @@ class ReflectiveIntrospectionSystem:
         normalized_slope = slope / max_abs_slope
         return max(-1.0, min(1.0, normalized_slope))
 
-    def _generate_improvement_plans(self, insights: List[Dict]) -> List[Dict]:
+    def _generate_improvement_plans(self, insights: list[dict]) -> list[dict]:
         """
         Generate improvement plans based on insights
 
@@ -606,7 +606,7 @@ class ReflectiveIntrospectionSystem:
 
         return improvements
 
-    def _implement_improvements(self, improvements: List[Dict]) -> None:
+    def _implement_improvements(self, improvements: list[dict]) -> None:
         """
         Implement improvement plans
 
@@ -625,7 +625,7 @@ class ReflectiveIntrospectionSystem:
             # Actual implementation would vary based on improvement type
             # Placeholder for future implementation logic
 
-    def get_status_report(self) -> Dict:
+    def get_status_report(self) -> dict:
         """
         Generate a status report on the reflection system
 
@@ -719,7 +719,7 @@ class MetaLearningSystem:
             {"reasoning_weights": {"analytical": 0.5, "intuitive": 0.5}},
         )
 
-    def optimize_learning_approach(self, context: Dict, available_data: Dict) -> Dict:
+    def optimize_learning_approach(self, context: dict, available_data: dict) -> dict:
         """
         Choose the optimal learning approach for the current context and data
         """
@@ -767,7 +767,7 @@ class MetaLearningSystem:
             "meta_insights": self._generate_meta_insights(),
         }
 
-    def incorporate_feedback(self, feedback: Dict) -> None:
+    def incorporate_feedback(self, feedback: dict) -> None:
         """
         Incorporate explicit or implicit feedback to improve learning strategies
         """
@@ -812,7 +812,7 @@ class MetaLearningSystem:
                         model_id, client_id, gradients, metrics
                     )
 
-    def generate_learning_report(self) -> Dict:
+    def generate_learning_report(self) -> dict:
         """
         Generate a report on learning system performance and adaptations
         """
@@ -838,7 +838,7 @@ class MetaLearningSystem:
             "generated_at": datetime.datetime.now().isoformat(),
         }
 
-    def get_federated_model(self, model_id: str, client_id: str) -> Optional[Dict]:
+    def get_federated_model(self, model_id: str, client_id: str) -> Optional[dict]:
         """
         Get a federated model for a client
 
@@ -851,7 +851,7 @@ class MetaLearningSystem:
         """
         return self.federated_learning.get_model(model_id, client_id)
 
-    def trigger_reflection(self) -> Dict:
+    def trigger_reflection(self) -> dict:
         """
         Trigger a reflection cycle and get insights
 
@@ -860,7 +860,7 @@ class MetaLearningSystem:
         """
         return self.reflective_system.reflect()
 
-    def _initialize_strategies(self) -> Dict:
+    def _initialize_strategies(self) -> dict:
         """Initialize available learning strategies"""
         return {
             "gradient_descent": {
@@ -896,7 +896,7 @@ class MetaLearningSystem:
             },
         }
 
-    def _extract_learning_features(self, context: Dict, available_data: Dict) -> Dict:
+    def _extract_learning_features(self, context: dict, available_data: dict) -> dict:
         """Extract features that characterize the learning problem"""
         # Placeholder - this would analyze data characteristics
         features = {
@@ -918,7 +918,7 @@ class MetaLearningSystem:
 
         return features
 
-    def _select_strategy(self, features: Dict) -> str:
+    def _select_strategy(self, features: dict) -> str:
         """Select the most appropriate learning strategy for given features"""
         # Decide whether to explore or exploit
         if np.random.random() < self.exploration_rate:
@@ -946,12 +946,12 @@ class MetaLearningSystem:
         # Return strategy with highest score
         return max(strategy_scores.items(), key=lambda x: x[1])[0]
 
-    def _apply_strategy(self, strategy: Dict, data: Dict, context: Dict) -> Dict:
+    def _apply_strategy(self, strategy: dict, data: dict, context: dict) -> dict:
         """Apply selected learning strategy to the data"""
         # This would implement or call the actual learning algorithms
         # Placeholder implementation
         algorithm = strategy["algorithm"]
-        parameters = strategy["parameters"]
+        strategy["parameters"]
 
         if algorithm == "gradient_descent":
             result = {"model": "trained_model", "accuracy": 0.85}
@@ -975,8 +975,8 @@ class MetaLearningSystem:
         return result
 
     def _evaluate_performance(
-        self, strategy_name: str, learning_result: Dict, duration: float
-    ) -> Dict:
+        self, strategy_name: str, learning_result: dict, duration: float
+    ) -> dict:
         """Evaluate the performance of the applied learning strategy"""
         # Placeholder - this would implement evaluation metrics
         metrics = {
@@ -1004,7 +1004,7 @@ class MetaLearningSystem:
         return metrics
 
     def _update_strategy_performance(
-        self, strategy_name: str, new_metrics: Dict
+        self, strategy_name: str, new_metrics: dict
     ) -> None:
         """Update the performance record for a strategy"""
         if strategy_name not in self.strategy_performance:
@@ -1061,7 +1061,7 @@ class MetaLearningSystem:
         )
 
     def _adjust_strategy_parameters(
-        self, strategy_name: str, adjustments: Dict
+        self, strategy_name: str, adjustments: dict
     ) -> None:
         """Adjust parameters of a specific strategy"""
         if strategy_name not in self.learning_strategies:
@@ -1100,29 +1100,28 @@ class MetaLearningSystem:
 
         return 0.5  # Default middle value
 
-    def _calculate_sparsity(self, data: Dict) -> float:
+    def _calculate_sparsity(self, data: dict) -> float:
         """Calculate data sparsity (ratio of missing to total values)"""
         # Placeholder implementation
         return 0.1  # Low sparsity
 
-    def _estimate_complexity(self, data: Dict, context: Dict) -> float:
+    def _estimate_complexity(self, data: dict, context: dict) -> float:
         """Estimate problem complexity from data characteristics"""
         # Placeholder implementation
         return 0.6  # Moderate complexity
 
-    def _calculate_strategy_match(self, strategy: Dict, features: Dict) -> float:
+    def _calculate_strategy_match(self, strategy: dict, features: dict) -> float:
         """Calculate how well a strategy matches the features"""
         # Placeholder implementation - would compare strategy suitability
         match_score = 0.5  # Default moderate match
 
         # Check for specific matches
-        if "task_type" in features:
-            if features[
-                "task_type"
-            ] == "classification" and "classification" in strategy.get(
-                "suitable_for", []
-            ):
-                match_score += 0.2
+        if (
+            "task_type" in features
+            and features["task_type"] == "classification"
+            and "classification" in strategy.get("suitable_for", [])
+        ):
+            match_score += 0.2
 
         # Check for data volume match
         if "data_volume" in features:
@@ -1140,7 +1139,7 @@ class MetaLearningSystem:
 
         return min(1.0, match_score)
 
-    def _generate_meta_insights(self) -> List[str]:
+    def _generate_meta_insights(self) -> list[str]:
         """Generate insights about the learning process itself"""
         insights = []
 

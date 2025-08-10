@@ -25,7 +25,10 @@ def log_bio_state():
     bio_active = "🫀"  # This is the symbol for bio_active
     print(f"{bio_active} Biometric monitoring initialized")
 
+
 # Example 2: Dream phase transitions
+
+
 def log_dream_phase(phase: str):
     """Log dream phase with appropriate symbol."""
     phase_description = DREAM_PHASE_SYMBOLS.get(phase, "Unknown Phase")
@@ -33,9 +36,13 @@ def log_dream_phase(phase: str):
 
     # Example usage
     # log_dream_phase("initiation")  # Output: Entering dream phase: 🌅 Gentle Awakening
-    # log_dream_phase("deep_symbolic")  # Output: Entering dream phase: 🌌 Deep Symbolic Realm
+    # log_dream_phase("deep_symbolic")  # Output: Entering dream phase: 🌌 Deep
+    # Symbolic Realm
+
 
 # Example 3: Identity operations with guardian weights
+
+
 def perform_identity_operation(operation: str):
     """Perform identity operation with guardian check."""
     op_info = IDENTITY_SYMBOLIC_VOCABULARY.get(operation, {})
@@ -51,24 +58,32 @@ def perform_identity_operation(operation: str):
     print(f"{emoji} Performing: {meaning}")
 
     if guardian_weight > 0.7:
-        print(f"⚠️  High guardian weight ({guardian_weight}) - additional validation required")
+        print(
+            f"⚠️  High guardian weight ({guardian_weight}) - additional validation required"
+        )
 
     # Example usage
     # perform_identity_operation("identity_creation")
 
+
 # Example 4: Using the helper function
+
+
 def log_any_symbol():
     """Demonstrate the get_symbol helper."""
     # Get symbols from different vocabularies
-    bio_symbol = get_symbol('bio', '🫀')
-    dream_symbol = get_symbol('dream_phase', 'creative')
-    identity_symbol = get_symbol('identity', 'identity_verification')
+    bio_symbol = get_symbol("bio", "🫀")
+    dream_symbol = get_symbol("dream_phase", "creative")
+    identity_symbol = get_symbol("identity", "identity_verification")
 
     print(f"Bio: {bio_symbol}")
     print(f"Dream: {dream_symbol}")
     print(f"Identity: {identity_symbol}")
 
+
 # Example 5: Creating symbolic status displays
+
+
 def get_system_status():
     """Create a symbolic system status display."""
     status = {
@@ -76,12 +91,15 @@ def get_system_status():
         "Dream": f"{DREAM_PHASE_SYMBOLS.get('deep_symbolic', '🌌 Processing')}",
         "Identity": f"{get_symbol('identity', 'identity_verification')} Verified",
         "Emotion": f"{get_symbol('emotion', '😌', '😌')} Calm",
-        "Memory": f"{get_symbol('memory', 'consolidation', '🗂️')} Storing"
+        "Memory": f"{get_symbol('memory', 'consolidation', '🗂️')} Storing",
     }
 
     return "\n".join([f"{k}: {v}" for k, v in status.items()])
 
+
 # Example 6: Integration with LUKHAS logging
+
+
 class SymbolicLogger:
     """Example logger that uses symbolic vocabularies."""
 
@@ -102,6 +120,7 @@ class SymbolicLogger:
             # Find emoji by value
             symbol = next((k for k, v in BIO_SYMBOLS.items() if v == bio_key), "❓")
         print(f"{symbol} [{self.module}] {message}")
+
 
 # Example usage
 if __name__ == "__main__":
@@ -125,5 +144,5 @@ if __name__ == "__main__":
 
     print("\n6. Symbolic Logger:")
     logger = SymbolicLogger("TestModule")
-    logger.log_state('dream_phase', 'creative', "Entering creative processing")
-    logger.log_bio('bio_active', "System heartbeat detected")
+    logger.log_state("dream_phase", "creative", "Entering creative processing")
+    logger.log_bio("bio_active", "System heartbeat detected")

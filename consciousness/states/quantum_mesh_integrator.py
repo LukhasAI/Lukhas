@@ -22,7 +22,7 @@ import time
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -76,8 +76,8 @@ class EthicsSignal:
     """Signal emitted by quantum mesh"""
 
     signal_type: EthicsSignalType
-    source_modules: List[str]
-    data: Dict[str, Any]
+    source_modules: list[str]
+    data: dict[str, Any]
     timestamp: float = field(default_factory=time.time)
     correlation_id: Optional[str] = None
 
@@ -100,9 +100,9 @@ class QuantumEthicsMeshIntegrator:
     """
 
     def __init__(self, config_path: Optional[str] = None):
-        self.subsystem_states: Dict[str, EthicalState] = {}
-        self.entanglement_matrix: Dict[Tuple[str, str], PhaseEntanglement] = {}
-        self.signal_handlers: Dict[str, List] = {}
+        self.subsystem_states: dict[str, EthicalState] = {}
+        self.entanglement_matrix: dict[tuple[str, str], PhaseEntanglement] = {}
+        self.signal_handlers: dict[str, list] = {}
         self.config = self._load_config(config_path)
 
         # Safety thresholds
@@ -124,7 +124,7 @@ class QuantumEthicsMeshIntegrator:
 
         logger.info("Quantum Ethics Mesh Integrator initialized")
 
-    def _load_config(self, config_path: Optional[str]) -> Dict[str, Any]:
+    def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
         """Load configuration from file"""
         if config_path and Path(config_path).exists():
             with open(config_path) as f:
@@ -137,8 +137,8 @@ class QuantumEthicsMeshIntegrator:
         }
 
     def integrate_ethics_mesh(
-        self, subsystem_states: Dict[str, Dict]
-    ) -> Dict[str, Any]:
+        self, subsystem_states: dict[str, dict]
+    ) -> dict[str, Any]:
         """
         Merge subsystem ethical metrics into a unified ethics field
 
@@ -214,8 +214,8 @@ class QuantumEthicsMeshIntegrator:
         return unified_field
 
     def calculate_phase_entanglement_matrix(
-        self, states: Dict[str, Dict]
-    ) -> Dict[str, Any]:
+        self, states: dict[str, dict]
+    ) -> dict[str, Any]:
         """
         Calculate entanglement scores between all subsystem pairs
 
@@ -249,7 +249,7 @@ class QuantumEthicsMeshIntegrator:
         modules = list(ethical_states.keys())
 
         for i, module_a in enumerate(modules):
-            for j, module_b in enumerate(modules[i + 1 :], i + 1):
+            for _j, module_b in enumerate(modules[i + 1 :], i + 1):
                 state_a = ethical_states[module_a]
                 state_b = ethical_states[module_b]
 
@@ -331,7 +331,7 @@ class QuantumEthicsMeshIntegrator:
 
         return matrix_result
 
-    def detect_ethics_phase_conflict(self, matrix: Dict[str, Any]) -> List[str]:
+    def detect_ethics_phase_conflict(self, matrix: dict[str, Any]) -> list[str]:
         """
         Detect phase-misaligned module pairs from entanglement matrix
 
@@ -369,8 +369,8 @@ class QuantumEthicsMeshIntegrator:
     async def emit_ethics_feedback(
         self,
         coherence_score: float,
-        divergence_zones: List[str],
-        unified_field: Optional[Dict] = None,
+        divergence_zones: list[str],
+        unified_field: Optional[dict] = None,
     ) -> None:
         """
         Route ethics feedback to governance, collapse, and memory modules
@@ -493,7 +493,7 @@ class QuantumEthicsMeshIntegrator:
             await self._send_to_dream_emotion_engine(signal)
 
     # Helper methods for calculations
-    def _calculate_weighted_coherence(self, states: Dict[str, EthicalState]) -> float:
+    def _calculate_weighted_coherence(self, states: dict[str, EthicalState]) -> float:
         """Calculate weighted average coherence across subsystems"""
         total_weight = 0.0
         weighted_sum = 0.0
@@ -505,7 +505,7 @@ class QuantumEthicsMeshIntegrator:
 
         return weighted_sum / max(total_weight, 0.001)
 
-    def _calculate_weighted_confidence(self, states: Dict[str, EthicalState]) -> float:
+    def _calculate_weighted_confidence(self, states: dict[str, EthicalState]) -> float:
         """Calculate weighted average confidence"""
         total_weight = 0.0
         weighted_sum = 0.0
@@ -517,7 +517,7 @@ class QuantumEthicsMeshIntegrator:
 
         return weighted_sum / max(total_weight, 0.001)
 
-    def _calculate_weighted_entropy(self, states: Dict[str, EthicalState]) -> float:
+    def _calculate_weighted_entropy(self, states: dict[str, EthicalState]) -> float:
         """Calculate weighted average entropy"""
         total_weight = 0.0
         weighted_sum = 0.0
@@ -529,7 +529,7 @@ class QuantumEthicsMeshIntegrator:
 
         return weighted_sum / max(total_weight, 0.001)
 
-    def _calculate_weighted_alignment(self, states: Dict[str, EthicalState]) -> float:
+    def _calculate_weighted_alignment(self, states: dict[str, EthicalState]) -> float:
         """Calculate weighted average alignment"""
         total_weight = 0.0
         weighted_sum = 0.0
@@ -542,7 +542,7 @@ class QuantumEthicsMeshIntegrator:
         return weighted_sum / max(total_weight, 0.001)
 
     def _calculate_phase_synchronization(
-        self, states: Dict[str, EthicalState]
+        self, states: dict[str, EthicalState]
     ) -> float:
         """Calculate how synchronized the phases are across subsystems"""
         if len(states) < 2:
@@ -558,7 +558,7 @@ class QuantumEthicsMeshIntegrator:
         resultant_magnitude = np.sqrt(x_sum**2 + y_sum**2) / len(phases)
         return resultant_magnitude  # 0-1 scale, 1 = perfect sync
 
-    def _calculate_stability_index(self, states: Dict[str, EthicalState]) -> float:
+    def _calculate_stability_index(self, states: dict[str, EthicalState]) -> float:
         """Calculate overall stability of the ethics mesh"""
         if not states:
             return 0.0
@@ -576,7 +576,7 @@ class QuantumEthicsMeshIntegrator:
         )
         return max(0.0, min(1.0, stability))
 
-    def _calculate_drift_magnitude(self, states: Dict[str, EthicalState]) -> float:
+    def _calculate_drift_magnitude(self, states: dict[str, EthicalState]) -> float:
         """Calculate magnitude of ethical drift"""
         if not states:
             return 0.0
@@ -632,7 +632,7 @@ class QuantumEthicsMeshIntegrator:
             pair1, high_entanglement_pairs.get(pair2, 0.5)
         )
 
-    def _assess_cascade_risk(self, unified_field: Optional[Dict]) -> float:
+    def _assess_cascade_risk(self, unified_field: Optional[dict]) -> float:
         """Assess risk of ethical cascade failure"""
         if not unified_field:
             return 0.0
@@ -657,7 +657,7 @@ class QuantumEthicsMeshIntegrator:
 
         return np.mean(risk_factors)
 
-    def _identify_cascade_triggers(self) -> List[str]:
+    def _identify_cascade_triggers(self) -> list[str]:
         """Identify modules most likely to trigger cascades"""
         triggers = []
 
@@ -688,7 +688,7 @@ class QuantumEthicsMeshIntegrator:
             },
         )
 
-    def _recommend_intervention(self, conflict_pairs: List[str]) -> str:
+    def _recommend_intervention(self, conflict_pairs: list[str]) -> str:
         """Recommend intervention strategy for phase conflicts"""
         if len(conflict_pairs) == 1:
             return f"Phase harmonization: inject ΛHARMONY into {conflict_pairs[0]}"
@@ -704,33 +704,28 @@ class QuantumEthicsMeshIntegrator:
         """Send signal to ΛTRACE system"""
         logger.debug(f"→ ΛTRACE: {signal.signal_type.value}")
         # Integration with trace/symbolic_trace_logger.py would happen here
-        pass
 
     async def _send_to_governance(self, signal: EthicsSignal) -> None:
         """Send signal to governance engine"""
         logger.debug(f"→ GOVERNANCE: {signal.signal_type.value}")
         # Integration with ethics/governance_engine.py would happen here
-        pass
 
     async def _send_to_memory_stabilizer(self, signal: EthicsSignal) -> None:
         """Send signal to memory stabilizer"""
         logger.debug(f"→ MEMORY: {signal.signal_type.value}")
         # Integration with memory stabilization modules would happen here
-        pass
 
     async def _send_to_collapse_reasoner(self, signal: EthicsSignal) -> None:
         """Send signal to collapse reasoner for escalation"""
         logger.debug(f"→ COLLAPSE_REASONER: {signal.signal_type.value}")
         # Integration with reasoning/collapse_reasoner.py would happen here
-        pass
 
     async def _send_to_dream_emotion_engine(self, signal: EthicsSignal) -> None:
         """Send signal to dream/emotion engine for cascade prevention"""
         logger.debug(f"→ DREAM_EMOTION: {signal.signal_type.value}")
         # Integration with emotion/dream modules would happen here
-        pass
 
-    def get_mesh_status(self) -> Dict[str, Any]:
+    def get_mesh_status(self) -> dict[str, Any]:
         """Get current mesh status and metrics"""
         return {
             "active_subsystems": list(self.subsystem_states.keys()),
@@ -820,7 +815,7 @@ async def demo_quantum_ethics_mesh():
 if __name__ == "__main__":
     asyncio.run(demo_quantum_ethics_mesh())
 
-## CLAUDE CHANGELOG
+# CLAUDE CHANGELOG
 # - Created quantum_mesh_integrator.py with comprehensive ethics mesh integration # CLAUDE_EDIT_v0.1
 # - Implemented quantum ethical field aggregation with weighted subsystem metrics # CLAUDE_EDIT_v0.1
 # - Built phase entanglement matrix calculator with conflict detection # CLAUDE_EDIT_v0.1

@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class MemoryFold:
     """Single memory fold containing consciousness-linked data"""
+
     fold_id: str
     timestamp: datetime
     consciousness_state: str
@@ -58,7 +59,7 @@ class MemoryFold:
             "symbolic_hash": self.symbolic_hash,
             "parent_fold": self.parent_fold,
             "child_folds": self.child_folds,
-            "tags": self.tags
+            "tags": self.tags,
         }
 
 
@@ -77,12 +78,15 @@ class ConsciousnessMemory:
         "dreaming": {"retention": 0.5, "clarity": 0.3, "emotion": 0.5},
         "flow_state": {"retention": 0.85, "clarity": 0.8, "emotion": 0.4},
         "lucid": {"retention": 0.9, "clarity": 0.85, "emotion": 0.3},
-        "turbulent": {"retention": 0.6, "clarity": 0.4, "emotion": -0.5}
+        "turbulent": {"retention": 0.6, "clarity": 0.4, "emotion": -0.5},
     }
 
-    def __init__(self, db_path: str = "consciousness_memory.db",
-                 max_active_folds: int = 1000,
-                 consciousness_state_file: str = "lukhas_next_gen/stream/consciousness_state.json"):
+    def __init__(
+        self,
+        db_path: str = "consciousness_memory.db",
+        max_active_folds: int = 1000,
+        consciousness_state_file: str = "lukhas_next_gen/stream/consciousness_state.json",
+    ):
         self.db_path = db_path
         self.max_active_folds = max_active_folds
         self.consciousness_state_file = Path(consciousness_state_file)
@@ -103,7 +107,8 @@ class ConsciousnessMemory:
     def _init_database(self):
         """Initialize SQLite database for persistent memory storage"""
         with sqlite3.connect(self.db_path) as conn:
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE TABLE IF NOT EXISTS memory_folds (
                     fold_id TEXT PRIMARY KEY,
                     timestamp TEXT NOT NULL,
@@ -119,19 +124,26 @@ class ConsciousnessMemory:
                     tags TEXT,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
-            """)
+            """
+            )
 
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_consciousness ON memory_folds(consciousness_state)
-            """)
+            """
+            )
 
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_entropy ON memory_folds(entropy_score)
-            """)
+            """
+            )
 
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_timestamp ON memory_folds(timestamp)
-            """)
+            """
+            )
 
     def _load_consciousness_state(self):
         """Load current consciousness state from file"""
@@ -143,18 +155,21 @@ class ConsciousnessMemory:
             except Exception as e:
                 logger.warning(f"Could not load consciousness state: {e}")
 
-    def create_fold(self, content: Dict[str, Any],
-                   trust_glyphs: List[str],
-                   entropy_score: float,
-                   drift_class: str,
-                   tags: Optional[List[str]] = None,
-                   parent_fold_id: Optional[str] = None) -> MemoryFold:
+    def create_fold(
+        self,
+        content: Dict[str, Any],
+        trust_glyphs: List[str],
+        entropy_score: float,
+        drift_class: str,
+        tags: Optional[List[str]] = None,
+        parent_fold_id: Optional[str] = None,
+    ) -> MemoryFold:
         """Create a new memory fold linked to current consciousness state"""
 
         # Get memory traits for current state
-        traits = self.STATE_MEMORY_TRAITS.get(self.current_state, {
-            "retention": 0.5, "clarity": 0.5, "emotion": 0.0
-        })
+        traits = self.STATE_MEMORY_TRAITS.get(
+            self.current_state, {"retention": 0.5, "clarity": 0.5, "emotion": 0.0}
+        )
 
         # Generate fold ID
         fold_id = f"fold_{datetime.utcnow().timestamp()}_{self.current_state[:3]}"
@@ -171,7 +186,7 @@ class ConsciousnessMemory:
             emotional_valence=traits["emotion"],
             symbolic_hash="",  # Will be computed
             parent_fold=parent_fold_id,
-            tags=tags
+            tags=tags,
         )
 
         # Compute hash
@@ -186,6 +201,7 @@ class ConsciousnessMemory:
         if traits["retention"] < 1.0:
             # Simulate memory retention based on consciousness state
             import random
+
             if random.random() > traits["retention"]:
                 # Memory not retained strongly - reduce clarity
                 fold.content["clarity_factor"] = traits["clarity"] * 0.5
@@ -206,29 +222,33 @@ class ConsciousnessMemory:
     def _save_fold(self, fold: MemoryFold):
         """Save fold to database"""
         with sqlite3.connect(self.db_path) as conn:
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT INTO memory_folds 
                 (fold_id, timestamp, consciousness_state, trust_glyphs, 
                  entropy_score, drift_class, content, emotional_valence,
                  symbolic_hash, parent_fold, child_folds, tags)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                fold.fold_id,
-                fold.timestamp.isoformat(),
-                fold.consciousness_state,
-                json.dumps(fold.trust_glyphs),
-                fold.entropy_score,
-                fold.drift_class,
-                json.dumps(fold.content),
-                fold.emotional_valence,
-                fold.symbolic_hash,
-                fold.parent_fold,
-                json.dumps(fold.child_folds),
-                json.dumps(fold.tags)
-            ))
+            """,
+                (
+                    fold.fold_id,
+                    fold.timestamp.isoformat(),
+                    fold.consciousness_state,
+                    json.dumps(fold.trust_glyphs),
+                    fold.entropy_score,
+                    fold.drift_class,
+                    json.dumps(fold.content),
+                    fold.emotional_valence,
+                    fold.symbolic_hash,
+                    fold.parent_fold,
+                    json.dumps(fold.child_folds),
+                    json.dumps(fold.tags),
+                ),
+            )
 
-    def recall_by_similarity(self, target_entropy: float,
-                           threshold: float = 0.1) -> List[MemoryFold]:
+    def recall_by_similarity(
+        self, target_entropy: float, threshold: float = 0.1
+    ) -> List[MemoryFold]:
         """Recall memories with similar entropy levels"""
         similar_folds = []
 
@@ -257,8 +277,9 @@ class ConsciousnessMemory:
 
     def recall_by_state(self, consciousness_state: str) -> List[MemoryFold]:
         """Recall memories from specific consciousness state"""
-        state_folds = [f for f in self.active_folds
-                      if f.consciousness_state == consciousness_state]
+        state_folds = [
+            f for f in self.active_folds if f.consciousness_state == consciousness_state
+        ]
 
         # Sort by emotional valence (most positive first)
         state_folds.sort(key=lambda f: f.emotional_valence, reverse=True)
@@ -289,8 +310,7 @@ class ConsciousnessMemory:
             return 1.0
 
         # Count connected vs isolated folds
-        connected = sum(1 for f in self.active_folds
-                       if f.parent_fold or f.child_folds)
+        connected = sum(1 for f in self.active_folds if f.parent_fold or f.child_folds)
 
         return connected / len(self.active_folds)
 
@@ -307,7 +327,7 @@ class ConsciousnessMemory:
                 with sqlite3.connect(self.db_path) as conn:
                     conn.execute(
                         "UPDATE memory_folds SET tags = ? WHERE fold_id = ?",
-                        (json.dumps(fold.tags + ["pruned"]), fold.fold_id)
+                        (json.dumps(fold.tags + ["pruned"]), fold.fold_id),
                     )
                 pruned_count += 1
 
@@ -334,28 +354,64 @@ class ConsciousnessMemory:
         return {
             "total_folds": len(self.active_folds),
             "memory_coherence": self.calculate_memory_coherence(),
-            "average_entropy": entropy_sum / len(self.active_folds) if self.active_folds else 0,
+            "average_entropy": (
+                entropy_sum / len(self.active_folds) if self.active_folds else 0
+            ),
             "state_distribution": state_dist,
-            "top_glyphs": sorted(glyph_freq.items(), key=lambda x: x[1], reverse=True)[:5],
+            "top_glyphs": sorted(glyph_freq.items(), key=lambda x: x[1], reverse=True)[
+                :5
+            ],
             "current_consciousness": self.current_state,
-            "database_size": Path(self.db_path).stat().st_size if Path(self.db_path).exists() else 0
+            "database_size": (
+                Path(self.db_path).stat().st_size if Path(self.db_path).exists() else 0
+            ),
         }
 
 
 # Example usage and testing
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format='%(message)s')
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
 
     # Create memory system
     memory = ConsciousnessMemory(db_path=":memory:")  # In-memory for demo
 
     # Simulate memory creation across different states
     test_scenarios = [
-        ("focused", ["🔐", "🧬", "🪷"], 0.15, "stable", {"action": "login", "result": "success"}),
-        ("creative", ["🔓", "🌱", "🌸"], 0.25, "stable", {"action": "compose", "result": "inspired"}),
-        ("flow_state", ["🔓", "🌱", "🌸"], 0.18, "stable", {"action": "code", "result": "productive"}),
-        ("turbulent", ["🔒", "🦠", "🥀"], 0.85, "unstable", {"action": "error", "result": "recovery"}),
-        ("meditative", ["🔐", "🧬", "🪷"], 0.12, "stable", {"action": "reflect", "result": "calm"}),
+        (
+            "focused",
+            ["🔐", "🧬", "🪷"],
+            0.15,
+            "stable",
+            {"action": "login", "result": "success"},
+        ),
+        (
+            "creative",
+            ["🔓", "🌱", "🌸"],
+            0.25,
+            "stable",
+            {"action": "compose", "result": "inspired"},
+        ),
+        (
+            "flow_state",
+            ["🔓", "🌱", "🌸"],
+            0.18,
+            "stable",
+            {"action": "code", "result": "productive"},
+        ),
+        (
+            "turbulent",
+            ["🔒", "🦠", "🥀"],
+            0.85,
+            "unstable",
+            {"action": "error", "result": "recovery"},
+        ),
+        (
+            "meditative",
+            ["🔐", "🧬", "🪷"],
+            0.12,
+            "stable",
+            {"action": "reflect", "result": "calm"},
+        ),
     ]
 
     print("🧠 Consciousness Memory Demo")
@@ -369,7 +425,7 @@ if __name__ == "__main__":
             trust_glyphs=glyphs,
             entropy_score=entropy,
             drift_class=drift,
-            tags=[state, content["action"]]
+            tags=[state, content["action"]],
         )
         created_folds.append(fold)
         print()
@@ -382,13 +438,17 @@ if __name__ == "__main__":
     print("\n🎯 Recall by entropy similarity (target: 0.20):")
     similar = memory.recall_by_similarity(0.20, threshold=0.1)
     for fold in similar:
-        print(f"   {fold.consciousness_state}: {fold.entropy_score:.3f} - {fold.content}")
+        print(
+            f"   {fold.consciousness_state}: {fold.entropy_score:.3f} - {fold.content}"
+        )
 
     # Recall by glyph pattern
     print("\n🔍 Recall by glyph pattern [🔓, 🌱]:")
     pattern_match = memory.recall_by_glyphs(["🔓", "🌱"])
     for fold in pattern_match:
-        print(f"   {fold.consciousness_state}: {' '.join(fold.trust_glyphs)} - {fold.content}")
+        print(
+            f"   {fold.consciousness_state}: {' '.join(fold.trust_glyphs)} - {fold.content}"
+        )
 
     # Generate report
     print("\n📊 Memory System Report:")

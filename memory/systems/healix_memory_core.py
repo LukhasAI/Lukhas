@@ -14,7 +14,7 @@ import json
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from hashlib import sha3_256  # For memory_id and collapse_hash
-from typing import Any, Dict, List, Optional  # Tuple unused
+from typing import Any, Optional  # Tuple unused
 
 # Third-Party Imports
 import numpy as np
@@ -59,19 +59,22 @@ class MemorySegment:
     drift_score: float
     methylation_flag: bool  # True if segment is "methylated" (suppressed/decayed)
     timestamp_utc: datetime
-    collapse_hash: str  # Hash of the original data state, for integrity or versioning. #ΛNOTE: "Collapse" here might mean data condensation.
-    emotional_context: Dict[str, Any] = field(default_factory=dict)
+    # Hash of the original data state, for integrity or versioning. #ΛNOTE:
+    # "Collapse" here might mean data condensation.
+    collapse_hash: str
+    emotional_context: dict[str, Any] = field(default_factory=dict)
     access_count: int = 0
     last_accessed_utc: datetime = field(
         default_factory=lambda: datetime.now(timezone.utc)
     )
 
 
-# ΛDRIFT_POINT: The entire drift score calculation is a critical point influencing memory evolution.
+# ΛDRIFT_POINT: The entire drift score calculation is a critical point
+# influencing memory evolution.
 def calculate_drift_score(
     current_state: np.ndarray,
     baseline_state: np.ndarray,
-    emotional_context: Dict[str, Any],
+    emotional_context: dict[str, Any],
 ) -> float:
     """Calculates DriftScore based on deviation from baseline, weighted by emotional context. Capped at 1.0."""
     # ΛTRACE: Calculating drift score.
@@ -137,13 +140,14 @@ class HealixMemoryCore:
     #           that are abstract models of biological processes.
     """
 
-    # ΛSEED_CHAIN: `decay_threshold` and `baseline_vector_size` seed the system's behavior.
+    # ΛSEED_CHAIN: `decay_threshold` and `baseline_vector_size` seed the
+    # system's behavior.
     def __init__(self, decay_threshold: float = 0.3, baseline_vector_size: int = 100):
-        self.memory_segments: Dict[str, MemorySegment] = {}
+        self.memory_segments: dict[str, MemorySegment] = {}
         self.decay_threshold: float = np.clip(decay_threshold, 0.0, 1.0)  # ΛDRIFT_POINT
         self.baseline_vector_size: int = baseline_vector_size
         self.baseline_state: Optional[np.ndarray] = None  # Initialized on first use
-        self.compliance_log: List[Dict[str, Any]] = (
+        self.compliance_log: list[dict[str, Any]] = (
             []
         )  # For tracking significant events like anonymization
         # ΛTRACE: HealixMemoryCore initialized.
@@ -241,7 +245,8 @@ class HealixMemoryCore:
         """Generates a SHA3-256 hash for the DNA data, representing its 'collapsed' state."""
         return sha3_256(dna_data.encode("utf-8")).hexdigest()
 
-    # ΛDRIFT_POINT: The baseline state is fundamental for drift calculation. If it changes, all drift scores change.
+    # ΛDRIFT_POINT: The baseline state is fundamental for drift calculation.
+    # If it changes, all drift scores change.
     def get_baseline_state(self) -> np.ndarray:
         """Retrieves or initializes the baseline state vector."""
         if self.baseline_state is None:
@@ -262,7 +267,7 @@ class HealixMemoryCore:
     # ΛSEED_CHAIN: `data` and `emotional_context` seed the memory segment.
     @lukhas_tier_required(3)
     async def store_memory(
-        self, data: Any, emotional_context: Optional[Dict[str, Any]] = None
+        self, data: Any, emotional_context: Optional[dict[str, Any]] = None
     ) -> str:
         """Encodes data, calculates drift, and stores it as a MemorySegment."""
         emo_ctx = emotional_context or {}
@@ -355,9 +360,10 @@ class HealixMemoryCore:
         return dna_seq
 
     # ΛDRIFT_POINT: Epigenetic decay alters memory content (methylation, anonymization) based on drift and randomness.
-    # Conceptual #ΛCOLLAPSE_POINT: Anonymization is a form of information state collapse.
+    # Conceptual #ΛCOLLAPSE_POINT: Anonymization is a form of information
+    # state collapse.
     @lukhas_tier_required(3)
-    async def apply_epigenetic_decay(self) -> Dict[str, Any]:
+    async def apply_epigenetic_decay(self) -> dict[str, Any]:
         """Applies epigenetic decay logic to memory segments."""
         # ΛTRACE: Applying epigenetic decay cycle.
         log.info(
@@ -404,7 +410,8 @@ class HealixMemoryCore:
                                 "original_data_preview": original_data_preview,
                             }
                         )
-                        # ΛTRACE: Memory segment anonymized due to high drift/decay probability.
+                        # ΛTRACE: Memory segment anonymized due to high drift/decay
+                        # probability.
                         log.info(
                             "Memory segment anonymized.",
                             id=mem_id,
@@ -425,7 +432,8 @@ class HealixMemoryCore:
                                 "timestamp": ts_iso,
                             }
                         )
-                        # ΛTRACE: Memory segment methylated due to drift/decay probability.
+                        # ΛTRACE: Memory segment methylated due to drift/decay
+                        # probability.
                         log.info(
                             "Memory segment methylated.",
                             id=mem_id,
@@ -441,9 +449,9 @@ class HealixMemoryCore:
     async def retrieve_memory(
         self,
         memory_id: str,
-        emotional_context: Optional[Dict[str, Any]] = None,
-        override_approvers: Optional[List[str]] = None,
-    ) -> Optional[Dict[str, Any]]:
+        emotional_context: Optional[dict[str, Any]] = None,
+        override_approvers: Optional[list[str]] = None,
+    ) -> Optional[dict[str, Any]]:
         """Retrieves and decodes a memory segment.
 
         If the segment is methylated a quorum override is required.
@@ -496,7 +504,7 @@ class HealixMemoryCore:
 
     # ΛEXPOSE: Provides statistics about the memory core.
     @lukhas_tier_required(0)
-    def get_memory_stats(self) -> Dict[str, Any]:
+    def get_memory_stats(self) -> dict[str, Any]:
         """Returns statistics about the current state of Healix memory."""
         # ΛTRACE: Getting Healix memory statistics.
         if not self.memory_segments:
@@ -538,7 +546,7 @@ class HealixMemoryCore:
 
     # ΛEXPOSE: Generates a compliance report.
     @lukhas_tier_required(1)
-    def generate_compliance_report(self) -> Dict[str, Any]:
+    def generate_compliance_report(self) -> dict[str, Any]:
         """Generates a compliance report for the Healix memory system."""
         # ΛTRACE: Generating Healix compliance report.
         stats = self.get_memory_stats()
@@ -599,7 +607,7 @@ class HealixVisualizer:
         )
 
     # ΛGLYPH: Generates data for a "memory landscape" plot.
-    def create_memory_landscape_plot_data(self) -> Dict[str, Any]:
+    def create_memory_landscape_plot_data(self) -> dict[str, Any]:
         """Generates data suitable for plotting a memory landscape."""
         # ΛTRACE: Creating memory landscape plot data.
         if not self.core.memory_segments:
@@ -632,11 +640,11 @@ class HealixVisualizer:
     # ΛGLYPH: Generates data for simulating and visualizing decay over steps.
     async def generate_decay_simulation_data_async(
         self, steps: int = 10
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generates data from simulating epigenetic decay over multiple steps."""
         # ΛTRACE: Generating epigenetic decay simulation data.
         log.info("Generating epigenetic decay simulation data.", simulation_steps=steps)
-        simulation_data_frames: List[Dict[str, Any]] = []
+        simulation_data_frames: list[dict[str, Any]] = []
 
         # Initial state
         simulation_data_frames.append(
@@ -693,7 +701,7 @@ async def demo_healix_system_main():
         ({"evt": "Alert", "type": "CPU_HIGH"}, {"stress_level": 0.9}),
         ({"fact": "LUKHAS start 2023"}, {"stress_level": 0.0}),
     ]
-    mids: List[str] = []
+    mids: list[str] = []
     # ΛSEED_CHAIN: Storing initial test memories.
     for data, emo in test_mems:
         mid = await core.store_memory(data, emo)

@@ -7,6 +7,7 @@ from typing import Dict, List, Optional
 from datetime import datetime
 import numpy as np
 
+
 class BioOscillatorAdapter:
     def __init__(self):
         self.oscillation_patterns = {}
@@ -56,11 +57,11 @@ class BioOscillatorAdapter:
                 resonant_ids.append(knowledge_id)
 
         return sorted(resonant_ids,
-                     key=lambda k: self._calculate_resonance(
-                         self.oscillation_patterns[k],
-                         self.current_state
-                     ),
-                     reverse=True)
+                      key=lambda k: self._calculate_resonance(
+                          self.oscillation_patterns[k],
+                          self.current_state
+                      ),
+                      reverse=True)
 
     def _content_to_pattern(self, content: Dict) -> np.ndarray:
         """Convert content to oscillation pattern."""

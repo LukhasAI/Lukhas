@@ -48,6 +48,7 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛTODO: Add colony discovery mechanisms for distributed deployments
 AIDEA: Implement colony consciousness evolution tracking
 """
+import logging
 
 import asyncio
 import time
@@ -56,7 +57,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import colony infrastructure
 try:
@@ -75,14 +76,14 @@ except ImportError as e:
 
     # Create fallback base class
     class BaseColony(ABC):
-        def __init__(self, colony_id: str, config: Optional[Dict] = None):
+        def __init__(self, colony_id: str, config: Optional[dict] = None):
             self.colony_id = colony_id
             self.config = config or {}
 
         @abstractmethod
         async def execute_task(
-            self, task_id: str, task_data: Dict[str, Any]
-        ) -> Dict[str, Any]:
+            self, task_id: str, task_data: dict[str, Any]
+        ) -> dict[str, Any]:
             pass
 
 
@@ -161,8 +162,8 @@ class ColonyConfig:
     auto_scaling: bool = True
     bio_symbolic_integration: bool = True
     quantum_identity_enabled: bool = True
-    specialized_config: Dict[str, Any] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    specialized_config: dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -171,14 +172,14 @@ class ColonyTask:
 
     task_id: str
     colony_type: ColonyType
-    target_colonies: List[str]
-    payload: Dict[str, Any]
+    target_colonies: list[str]
+    payload: dict[str, Any]
     priority: ColonyPriority = ColonyPriority.NORMAL
     user_context: Optional[QuantumUserContext] = None
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     deadline: Optional[datetime] = None
-    dependencies: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    dependencies: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -217,7 +218,7 @@ class ColonyOrchestrator:
     8. Health monitoring and recovery operations
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the colony orchestrator
 
@@ -228,20 +229,20 @@ class ColonyOrchestrator:
         self.logger = logging.getLogger("colony_orchestrator")
 
         # Colony registry and management
-        self.active_colonies: Dict[str, BaseColony] = {}
-        self.colony_configs: Dict[str, ColonyConfig] = {}
-        self.colony_states: Dict[str, ColonyState] = {}
-        self.colony_proxies: Dict[str, TierAwareColonyProxy] = {}
+        self.active_colonies: dict[str, BaseColony] = {}
+        self.colony_configs: dict[str, ColonyConfig] = {}
+        self.colony_states: dict[str, ColonyState] = {}
+        self.colony_proxies: dict[str, TierAwareColonyProxy] = {}
 
         # Task management
         self.task_queue: deque = deque()
-        self.running_tasks: Dict[str, asyncio.Task] = {}
-        self.completed_tasks: List[Dict[str, Any]] = []
-        self.failed_tasks: List[Dict[str, Any]] = []
+        self.running_tasks: dict[str, asyncio.Task] = {}
+        self.completed_tasks: list[dict[str, Any]] = []
+        self.failed_tasks: list[dict[str, Any]] = []
 
         # Bio-symbolic integration
         self.bio_symbolic_orchestrator = None
-        self.coherence_processors: Dict[str, Any] = {}
+        self.coherence_processors: dict[str, Any] = {}
 
         # Performance metrics
         self.metrics = ColonyMetrics()
@@ -265,7 +266,7 @@ class ColonyOrchestrator:
 
         self.logger.info("Colony orchestrator initialized")
 
-    def _default_config(self) -> Dict[str, Any]:
+    def _default_config(self) -> dict[str, Any]:
         """Default configuration for the colony orchestrator"""
         return {
             "max_concurrent_colonies": 20,
@@ -406,7 +407,7 @@ class ColonyOrchestrator:
                     f"Failed to create default colony {colony_config.colony_id}: {e}"
                 )
 
-    async def spawn_colony(self, colony_config: ColonyConfig) -> Dict[str, Any]:
+    async def spawn_colony(self, colony_config: ColonyConfig) -> dict[str, Any]:
         """
         Spawn a new colony with specified configuration
 
@@ -581,7 +582,7 @@ class ColonyOrchestrator:
                 f"Failed to initialize coherence for colony {colony_id}: {e}"
             )
 
-    async def execute_colony_task(self, task: ColonyTask) -> Dict[str, Any]:
+    async def execute_colony_task(self, task: ColonyTask) -> dict[str, Any]:
         """
         Execute a task using appropriate colonies
 
@@ -649,8 +650,8 @@ class ColonyOrchestrator:
             return {"success": False, "error": str(e), "task_id": task.task_id}
 
     async def _execute_bio_symbolic_task(
-        self, task: ColonyTask, colony_ids: List[str]
-    ) -> Dict[str, Any]:
+        self, task: ColonyTask, colony_ids: list[str]
+    ) -> dict[str, Any]:
         """Execute task with bio-symbolic coherence processing"""
 
         start_time = time.time()
@@ -743,8 +744,8 @@ class ColonyOrchestrator:
             }
 
     async def _execute_standard_task(
-        self, task: ColonyTask, colony_ids: List[str]
-    ) -> Dict[str, Any]:
+        self, task: ColonyTask, colony_ids: list[str]
+    ) -> dict[str, Any]:
         """Execute task using standard colony processing"""
 
         start_time = time.time()
@@ -786,7 +787,7 @@ class ColonyOrchestrator:
                 "processing_time": processing_time,
             }
 
-    async def _select_optimal_colonies(self, task: ColonyTask) -> List[str]:
+    async def _select_optimal_colonies(self, task: ColonyTask) -> list[str]:
         """Select optimal colonies for task execution based on task type and requirements"""
 
         optimal_colonies = []
@@ -816,7 +817,7 @@ class ColonyOrchestrator:
             active_optimal if active_optimal else list(self.active_colonies.keys())[:1]
         )
 
-    async def scale_colony(self, colony_id: str, target_agents: int) -> Dict[str, Any]:
+    async def scale_colony(self, colony_id: str, target_agents: int) -> dict[str, Any]:
         """
         Scale a colony to the target number of agents
 
@@ -893,7 +894,7 @@ class ColonyOrchestrator:
         colony_id: str,
         current_agents: int,
         target_agents: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Perform the actual colony scaling operation"""
 
         try:
@@ -992,7 +993,7 @@ class ColonyOrchestrator:
                 self.logger.error(f"Auto-scaling error: {e}")
                 await asyncio.sleep(120)
 
-    def get_colony_status(self) -> Dict[str, Any]:
+    def get_colony_status(self) -> dict[str, Any]:
         """Get comprehensive status of all colony orchestration components"""
         return {
             "orchestrator_status": "running" if self.is_running else "stopped",
@@ -1010,7 +1011,7 @@ class ColonyOrchestrator:
                         colony_id
                     ].quantum_identity_enabled,
                 }
-                for colony_id in self.active_colonies.keys()
+                for colony_id in self.active_colonies
             },
             "task_queue_length": len(self.task_queue),
             "running_tasks": len(self.running_tasks),

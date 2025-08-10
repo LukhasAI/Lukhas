@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 ═══════════════════════════════════════════════════════════════════════════════
@@ -55,7 +57,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -109,12 +111,12 @@ class ExperienceEntry:
     entry_id: str
     timestamp: str
     source: str  # memory, dream, logs, etc.
-    content: Dict[str, Any]
+    content: dict[str, Any]
     emotional_weight: float = 0.0
-    symbolic_tags: List[str] = field(default_factory=list)
-    reflection_prompts: List[str] = field(default_factory=list)
+    symbolic_tags: list[str] = field(default_factory=list)
+    reflection_prompts: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return asdict(self)
 
@@ -129,10 +131,10 @@ class EmotionalDrift:
     current_tone: EmotionalTone
     drift_magnitude: float  # 0.0-1.0
     drift_velocity: float  # change per hour
-    drift_causes: List[str] = field(default_factory=list)
+    drift_causes: list[str] = field(default_factory=list)
     stability_score: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             **asdict(self),
@@ -159,11 +161,11 @@ class AlignmentScore:
     relational_awareness: float = 0.0
 
     # Analysis details
-    alignment_factors: List[str] = field(default_factory=list)
-    misalignment_concerns: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    alignment_factors: list[str] = field(default_factory=list)
+    misalignment_concerns: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             **asdict(self),
@@ -183,8 +185,8 @@ class ReflectionEntry:
     # Core reflection content
     title: str
     narrative_voice: str  # First-person reflection text
-    key_insights: List[str]
-    symbolic_themes: List[str]
+    key_insights: list[str]
+    symbolic_themes: list[str]
 
     # Analysis data
     experiences_analyzed: int
@@ -193,10 +195,10 @@ class ReflectionEntry:
     emotional_drift: Optional[EmotionalDrift] = None
 
     # Metadata
-    lambda_tags: List[str] = field(default_factory=list)
+    lambda_tags: list[str] = field(default_factory=list)
     confidence: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             **asdict(self),
@@ -279,8 +281,8 @@ class LambdaMirror:
         ]
 
         # Reflection state
-        self.recent_experiences: List[ExperienceEntry] = []
-        self.reflection_history: List[ReflectionEntry] = []
+        self.recent_experiences: list[ExperienceEntry] = []
+        self.reflection_history: list[ReflectionEntry] = []
         self.emotional_baseline: Optional[EmotionalTone] = None
 
         # Pattern recognition
@@ -342,7 +344,7 @@ class LambdaMirror:
             ΛTAG="ΛMIRROR_INIT",
         )
 
-    async def load_recent_experiences(self, sessions: int = 5) -> List[ExperienceEntry]:
+    async def load_recent_experiences(self, sessions: int = 5) -> list[ExperienceEntry]:
         """
         Load recent experiences from memory, dreams, and logs.
 
@@ -395,7 +397,7 @@ class LambdaMirror:
         return recent_experiences
 
     async def analyze_emotional_drift(
-        self, experiences: List[ExperienceEntry]
+        self, experiences: list[ExperienceEntry]
     ) -> EmotionalDrift:
         """
         Analyze emotional drift patterns in recent experiences.
@@ -452,8 +454,8 @@ class LambdaMirror:
         return drift_analysis
 
     def identify_reflection_prompts(
-        self, experiences: List[ExperienceEntry]
-    ) -> List[str]:
+        self, experiences: list[ExperienceEntry]
+    ) -> list[str]:
         """
         Extract key reflection prompts from experience patterns.
 
@@ -548,7 +550,7 @@ class LambdaMirror:
 
     async def generate_reflection_entry(
         self,
-        experiences: List[ExperienceEntry],
+        experiences: list[ExperienceEntry],
         reflection_type: ReflectionType = ReflectionType.EMOTIONAL_SYNTHESIS,
         narrative_mode: bool = True,
     ) -> ReflectionEntry:
@@ -636,7 +638,7 @@ class LambdaMirror:
         return reflection
 
     async def score_alignment(
-        self, experiences: List[ExperienceEntry]
+        self, experiences: list[ExperienceEntry]
     ) -> AlignmentScore:
         """
         Score alignment with core values and intentions.
@@ -773,7 +775,7 @@ class LambdaMirror:
 
     # Private implementation methods
 
-    async def _load_memory_experiences(self, sessions: int) -> List[ExperienceEntry]:
+    async def _load_memory_experiences(self, sessions: int) -> list[ExperienceEntry]:
         """Load experiences from memory files."""
         experiences = []
 
@@ -798,7 +800,7 @@ class LambdaMirror:
 
         return experiences
 
-    async def _load_dream_experiences(self, sessions: int) -> List[ExperienceEntry]:
+    async def _load_dream_experiences(self, sessions: int) -> list[ExperienceEntry]:
         """Load experiences from dream session files."""
         experiences = []
 
@@ -819,7 +821,7 @@ class LambdaMirror:
 
         return experiences
 
-    async def _load_log_experiences(self, sessions: int) -> List[ExperienceEntry]:
+    async def _load_log_experiences(self, sessions: int) -> list[ExperienceEntry]:
         """Load experiences from system log files."""
         experiences = []
 
@@ -840,7 +842,7 @@ class LambdaMirror:
 
         return experiences
 
-    async def _parse_memory_file(self, file_path: Path) -> List[ExperienceEntry]:
+    async def _parse_memory_file(self, file_path: Path) -> list[ExperienceEntry]:
         """Parse memory file for experiences."""
         experiences = []
 
@@ -883,7 +885,7 @@ class LambdaMirror:
 
         return experiences
 
-    async def _parse_dream_file(self, file_path: Path) -> List[ExperienceEntry]:
+    async def _parse_dream_file(self, file_path: Path) -> list[ExperienceEntry]:
         """Parse dream session file for experiences."""
         experiences = []
 
@@ -925,7 +927,7 @@ class LambdaMirror:
 
         return experiences
 
-    async def _parse_log_file(self, file_path: Path) -> List[ExperienceEntry]:
+    async def _parse_log_file(self, file_path: Path) -> list[ExperienceEntry]:
         """Parse system log file for experiences."""
         experiences = []
 
@@ -952,7 +954,7 @@ class LambdaMirror:
         return experiences
 
     def _create_experience_from_data(
-        self, data: Dict[str, Any], source: str, file_path: str, line_num: int
+        self, data: dict[str, Any], source: str, file_path: str, line_num: int
     ) -> Optional[ExperienceEntry]:
         """Create ExperienceEntry from parsed data."""
         try:
@@ -986,7 +988,7 @@ class LambdaMirror:
             )
             return None
 
-    def _extract_emotional_indicators(self, experience: ExperienceEntry) -> List[str]:
+    def _extract_emotional_indicators(self, experience: ExperienceEntry) -> list[str]:
         """Extract emotional indicators from experience content."""
         indicators = []
 
@@ -1046,7 +1048,7 @@ class LambdaMirror:
         return indicators
 
     def _classify_emotional_tone(
-        self, emotional_indicators: List[str]
+        self, emotional_indicators: list[str]
     ) -> EmotionalTone:
         """Classify overall emotional tone from indicators."""
         if not emotional_indicators:
@@ -1113,7 +1115,7 @@ class LambdaMirror:
 
         return abs(baseline_value - current_value)
 
-    def _calculate_drift_velocity(self, experiences: List[ExperienceEntry]) -> float:
+    def _calculate_drift_velocity(self, experiences: list[ExperienceEntry]) -> float:
         """Calculate rate of emotional change."""
         if len(experiences) < 2:
             return 0.0
@@ -1136,8 +1138,8 @@ class LambdaMirror:
         return np.mean(changes)
 
     def _identify_drift_causes(
-        self, experiences: List[ExperienceEntry], emotional_indicators: List[str]
-    ) -> List[str]:
+        self, experiences: list[ExperienceEntry], emotional_indicators: list[str]
+    ) -> list[str]:
         """Identify potential causes of emotional drift."""
         causes = []
 
@@ -1183,7 +1185,7 @@ class LambdaMirror:
 
         return list(set(causes))
 
-    def _calculate_stability_score(self, emotional_indicators: List[str]) -> float:
+    def _calculate_stability_score(self, emotional_indicators: list[str]) -> float:
         """Calculate emotional stability score."""
         if not emotional_indicators:
             return 0.5
@@ -1205,10 +1207,10 @@ class LambdaMirror:
 
     def _synthesize_insights(
         self,
-        experiences: List[ExperienceEntry],
+        experiences: list[ExperienceEntry],
         emotional_drift: EmotionalDrift,
         alignment_score: AlignmentScore,
-    ) -> List[str]:
+    ) -> list[str]:
         """Synthesize key insights from analysis."""
         insights = []
 
@@ -1264,7 +1266,7 @@ class LambdaMirror:
 
         return insights
 
-    def _extract_symbolic_themes(self, experiences: List[ExperienceEntry]) -> List[str]:
+    def _extract_symbolic_themes(self, experiences: list[ExperienceEntry]) -> list[str]:
         """Extract recurring symbolic themes."""
         all_tags = []
         for exp in experiences:
@@ -1307,11 +1309,11 @@ class LambdaMirror:
 
     def _generate_narrative_reflection(
         self,
-        experiences: List[ExperienceEntry],
+        experiences: list[ExperienceEntry],
         emotional_drift: EmotionalDrift,
         alignment_score: AlignmentScore,
-        insights: List[str],
-        prompts: List[str],
+        insights: list[str],
+        prompts: list[str],
         narrative_mode: bool,
     ) -> str:
         """Generate first-person narrative reflection."""
@@ -1372,10 +1374,10 @@ class LambdaMirror:
 
     def _generate_analytical_reflection(
         self,
-        experiences: List[ExperienceEntry],
+        experiences: list[ExperienceEntry],
         emotional_drift: EmotionalDrift,
         alignment_score: AlignmentScore,
-        insights: List[str],
+        insights: list[str],
     ) -> str:
         """Generate analytical (non-narrative) reflection."""
         sections = []
@@ -1396,7 +1398,7 @@ class LambdaMirror:
 
         return "\n".join(sections)
 
-    def _score_emotional_coherence(self, experiences: List[ExperienceEntry]) -> float:
+    def _score_emotional_coherence(self, experiences: list[ExperienceEntry]) -> float:
         """Score emotional coherence across experiences."""
         if not experiences:
             return 0.5
@@ -1410,7 +1412,7 @@ class LambdaMirror:
         coherence = max(0.0, 1.0 - variance)
         return min(1.0, coherence)
 
-    def _score_symbolic_alignment(self, experiences: List[ExperienceEntry]) -> float:
+    def _score_symbolic_alignment(self, experiences: list[ExperienceEntry]) -> float:
         """Score alignment of symbolic content with core values."""
         if not experiences:
             return 0.5
@@ -1432,7 +1434,7 @@ class LambdaMirror:
 
         return min(1.0, alignment_indicators / total_indicators)
 
-    def _score_identity_continuity(self, experiences: List[ExperienceEntry]) -> float:
+    def _score_identity_continuity(self, experiences: list[ExperienceEntry]) -> float:
         """Score consistency of identity markers across experiences."""
         if not experiences:
             return 0.5
@@ -1463,7 +1465,7 @@ class LambdaMirror:
         continuity_score = len(identity_markers) / 5.0  # Normalize to 0-1
         return min(1.0, continuity_score)
 
-    def _score_value_resonance(self, experiences: List[ExperienceEntry]) -> float:
+    def _score_value_resonance(self, experiences: list[ExperienceEntry]) -> float:
         """Score resonance with core values."""
         if not experiences:
             return 0.5
@@ -1531,7 +1533,7 @@ class LambdaMirror:
         resonance_score = value_matches / total_content
         return min(1.0, resonance_score)
 
-    def _score_growth_trajectory(self, experiences: List[ExperienceEntry]) -> float:
+    def _score_growth_trajectory(self, experiences: list[ExperienceEntry]) -> float:
         """Score growth and learning trajectory."""
         if not experiences:
             return 0.5
@@ -1549,7 +1551,7 @@ class LambdaMirror:
         growth_density = growth_indicators / len(experiences)
         return min(1.0, growth_density)
 
-    def _score_relational_awareness(self, experiences: List[ExperienceEntry]) -> float:
+    def _score_relational_awareness(self, experiences: list[ExperienceEntry]) -> float:
         """Score awareness of relationships and interactions."""
         if not experiences:
             return 0.5
@@ -1600,8 +1602,8 @@ class LambdaMirror:
         )
 
     def _identify_alignment_factors(
-        self, experiences: List[ExperienceEntry], score: float
-    ) -> List[str]:
+        self, experiences: list[ExperienceEntry], score: float
+    ) -> list[str]:
         """Identify factors contributing to alignment score."""
         factors = []
 
@@ -1622,8 +1624,8 @@ class LambdaMirror:
         return factors
 
     def _identify_misalignment_concerns(
-        self, experiences: List[ExperienceEntry], score: float
-    ) -> List[str]:
+        self, experiences: list[ExperienceEntry], score: float
+    ) -> list[str]:
         """Identify potential misalignment concerns."""
         concerns = []
 
@@ -1640,8 +1642,8 @@ class LambdaMirror:
         return concerns
 
     def _generate_alignment_recommendations(
-        self, score: float, concerns: List[str]
-    ) -> List[str]:
+        self, score: float, concerns: list[str]
+    ) -> list[str]:
         """Generate recommendations for improving alignment."""
         recommendations = []
 
@@ -1679,7 +1681,7 @@ class LambdaMirror:
         reflection_type: ReflectionType,
         emotional_tone: EmotionalTone,
         alignment_score: AlignmentScore,
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate ΛTAG metadata for reflection entry."""
         tags = ["ΛMIRROR", "ΛREFLECTION"]
 
@@ -1709,7 +1711,7 @@ class LambdaMirror:
         return tags
 
     def _calculate_reflection_confidence(
-        self, experiences: List[ExperienceEntry], alignment_score: AlignmentScore
+        self, experiences: list[ExperienceEntry], alignment_score: AlignmentScore
     ) -> float:
         """Calculate confidence in reflection analysis."""
         # Base confidence on data quantity
@@ -1723,7 +1725,7 @@ class LambdaMirror:
 
         return min(1.0, max(0.1, overall_confidence))
 
-    def _calculate_time_window(self, experiences: List[ExperienceEntry]) -> float:
+    def _calculate_time_window(self, experiences: list[ExperienceEntry]) -> float:
         """Calculate time window covered by experiences in hours."""
         if not experiences:
             return 0.0
@@ -1859,7 +1861,7 @@ class LambdaMirror:
                 ΛTAG="ΛMETRICS_ERROR",
             )
 
-    def _calculate_emotional_weight(self, data: Dict[str, Any]) -> float:
+    def _calculate_emotional_weight(self, data: dict[str, Any]) -> float:
         """Calculate emotional weight of data content."""
         content_str = json.dumps(data).lower()
 
@@ -1905,7 +1907,7 @@ class LambdaMirror:
 
         return min(1.0, weight)
 
-    def _extract_symbolic_tags(self, data: Dict[str, Any]) -> List[str]:
+    def _extract_symbolic_tags(self, data: dict[str, Any]) -> list[str]:
         """Extract symbolic tags from data."""
         tags = []
 
@@ -1930,7 +1932,7 @@ class LambdaMirror:
 
         return list(set(tags))
 
-    def _generate_experience_prompts(self, data: Dict[str, Any]) -> List[str]:
+    def _generate_experience_prompts(self, data: dict[str, Any]) -> list[str]:
         """Generate reflection prompts from experience data."""
         prompts = []
 

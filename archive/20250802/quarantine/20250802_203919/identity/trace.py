@@ -1,29 +1,31 @@
 # 🏛️ LUKHAS_POLICY_DAO
 
+from pathlib import Path
+import json
 Welcome to the symbolic governance layer of the LUClukhasS Lukhas_ID SYSTEMS architecture.
 
-This module enables distributed, verifiable, and ethically governed decision-making over:
+This module enables distributed, verifiable, and ethically governed decision - making over:
 
-- Symbolic compound applications (FII)
+- Symbolic compound applications(FII)
 - Dream injection proposals
-- Identity-linked ethical decisions (Tier 5+)
+- Identity - linked ethical decisions (Tier 5 + )
 - Protocol upgrades and trace mutations
 
 ---
 
-## 🧩 DAO COMPONENTS
+# 🧩 DAO COMPONENTS
 
-| File/Folder                          | Description |
-|-------------------------------------|-------------|
-| `dao_core.py`                       | Evaluates symbolic proposals and checks quorum |
-| `proposals/`                        | Repository of pending symbolic policy decisions |
-| `voters_registry.json`              | Whitelisted symbolic agents or users eligible to vote |
-| `approved_proposals.json`           | Log of all ratified symbolic proposals |
-| `zk_approval_log.jsonl`             | Cryptographic consent log (Tier 5 or biometric users) |
+| File / Folder | Description |
+|------------------------------------- | -------------|
+| `dao_core.py` | Evaluates symbolic proposals and checks quorum |
+| `proposals /` | Repository of pending symbolic policy decisions |
+| `voters_registry.json` | Whitelisted symbolic agents or users eligible to vote |
+| `approved_proposals.json` | Log of all ratified symbolic proposals |
+| `zk_approval_log.jsonl` | Cryptographic consent log(Tier 5 or biometric users) |
 
 ---
 
-## 🗳️ EXAMPLE PROPOSALS
+# 🗳️ EXAMPLE PROPOSALS
 
 Two examples are included:
 - `upgrade_fii_nad_recursive3` (compound prescription)
@@ -37,20 +39,20 @@ python dao_core.py
 
 ---
 
-## 🔐 WORLD-ID COMPATIBILITY
+# 🔐 WORLD-ID COMPATIBILITY
 
 This DAO layer is designed for future integration with:
-- QRGlymps (symbolic ID visual hash)
+- QRGlymps(symbolic ID visual hash)
 - Tier 5 retina scans
-- zk-consent approvals from verified World ID-compatible users
+- zk - consent approvals from verified World ID - compatible users
 
 ---
 
-## 🌐 FUTURE FEATURES
+# 🌐 FUTURE FEATURES
 
 - Public proposal dashboard
-- Token-weighted voting for consortiums
-- LUKHASNet-wide ethics relay board
+- Token - weighted voting for consortiums
+- LUKHASNet - wide ethics relay board
 
 This DAO protects symbolic healing from misuse, misalignment, or trauma recursion.
 
@@ -67,17 +69,18 @@ This DAO protects symbolic healing from misuse, misalignment, or trauma recursio
 🖋️ AUTHOR       : LUKHAS AID SYSTEMS
 """
 
-import json
-from pathlib import Path
 
 TRACE_LOG_DIR = Path("trace_logs")
+
 
 def list_trace_files():
     return list(TRACE_LOG_DIR.glob("trace_*.json"))
 
+
 def load_trace(file_path):
     with open(file_path, "r") as f:
         return json.load(f)
+
 
 if __name__ == "__main__":
     traces = list_trace_files()

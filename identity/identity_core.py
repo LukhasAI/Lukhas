@@ -218,7 +218,6 @@ class IdentityCore:
                         f"Elevating tier based on trinity score: {trinity_score}"
                     )
                     # TODO: Requires Guardian approval for production
-                    pass
 
             # Check for tier restrictions based on drift
             if "drift_score" in user_metadata:

@@ -7,7 +7,7 @@ import hashlib
 import logging
 import uuid
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 try:
     from .neuro_symbolic_engine import (
@@ -44,7 +44,7 @@ class NeuroSymbolicIntegration:
     Provides a simplified interface for the quantum hub.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the neuro symbolic integration"""
         self.config = config or {
             "attention_gates": {
@@ -207,8 +207,8 @@ class NeuroSymbolicIntegration:
         text: str,
         user_id: Optional[str] = None,
         session_token: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Process text input through the quantum neuro symbolic engine
 
@@ -293,12 +293,12 @@ class NeuroSymbolicIntegration:
 
         return session_token
 
-    def _generate_cache_key(self, text: str, context: Optional[Dict[str, Any]]) -> str:
+    def _generate_cache_key(self, text: str, context: Optional[dict[str, Any]]) -> str:
         """Generate a cache key for text and context"""
         content = text + str(context or {})
         return hashlib.sha256(content.encode()).hexdigest()[:16]
 
-    def _is_cache_valid(self, cached_entry: Dict[str, Any]) -> bool:
+    def _is_cache_valid(self, cached_entry: dict[str, Any]) -> bool:
         """Check if cached entry is still valid"""
         if not cached_entry:
             return False
@@ -325,8 +325,8 @@ class NeuroSymbolicIntegration:
         logger.info(f"Cache cleaned up, kept {len(self.processing_cache)} entries")
 
     async def _fallback_text_processing(
-        self, text: str, user_id: str, context: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, text: str, user_id: str, context: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Fallback text processing when main engine is not available"""
         logger.info("Using fallback text processing")
 
@@ -375,10 +375,10 @@ class NeuroSymbolicIntegration:
 
     async def apply_quantum_attention(
         self,
-        input_data: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None,
+        input_data: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
         user_id: Optional[str] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Apply quantum attention mechanisms to input data
 
@@ -416,8 +416,8 @@ class NeuroSymbolicIntegration:
             }
 
     def _fallback_attention_processing(
-        self, input_data: Dict[str, Any], context: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, input_data: dict[str, Any], context: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Fallback attention processing"""
         attention_weights = {
             "semantic": 0.4,
@@ -439,8 +439,8 @@ class NeuroSymbolicIntegration:
         }
 
     async def perform_causal_reasoning(
-        self, attended_data: Dict[str, Any], user_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+        self, attended_data: dict[str, Any], user_id: Optional[str] = None
+    ) -> dict[str, Any]:
         """
         Perform causal reasoning on attended data
 
@@ -477,8 +477,8 @@ class NeuroSymbolicIntegration:
             }
 
     def _fallback_causal_reasoning(
-        self, attended_data: Dict[str, Any], user_id: str
-    ) -> Dict[str, Any]:
+        self, attended_data: dict[str, Any], user_id: str
+    ) -> dict[str, Any]:
         """Fallback causal reasoning"""
         return {
             "causal_chains": {
@@ -511,7 +511,7 @@ class NeuroSymbolicIntegration:
             "fallback_mode": True,
         }
 
-    def get_processing_statistics(self) -> Dict[str, Any]:
+    def get_processing_statistics(self) -> dict[str, Any]:
         """Get processing statistics for the integration"""
         total_processes = len(self.processing_cache)
         active_sessions = len(self.session_registry)
@@ -553,7 +553,7 @@ class NeuroSymbolicIntegration:
 
 # Factory function for creating the integration
 def create_neuro_symbolic_integration(
-    config: Optional[Dict[str, Any]] = None,
+    config: Optional[dict[str, Any]] = None,
 ) -> NeuroSymbolicIntegration:
     """Create and return a neuro symbolic integration instance"""
     return NeuroSymbolicIntegration(config)

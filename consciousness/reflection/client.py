@@ -13,6 +13,7 @@ Original: client.py
 Advanced: client.py
 Integration Date: 2025-05-31T07:55:28.035055
 """
+import logging
 
 import datetime
 import enum
@@ -130,9 +131,7 @@ USE_CLIENT_DEFAULT = UseClientDefault()
 logger = logging.getLogger("httpx")
 
 USER_AGENT = f"python-httpx/{__version__}"
-ACCEPT_ENCODING = ", ".join(
-    [key for key in SUPPORTED_DECODERS.keys() if key != "identity"]
-)
+ACCEPT_ENCODING = ", ".join([key for key in SUPPORTED_DECODERS if key != "identity"])
 
 
 class ClientState(enum.Enum):
@@ -163,8 +162,7 @@ class BoundSyncStream(SyncByteStream):
         self._start = start
 
     def __iter__(self) -> typing.Iterator[bytes]:
-        for chunk in self._stream:
-            yield chunk
+        yield from self._stream
 
     def close(self) -> None:
         elapsed = time.perf_counter() - self._start

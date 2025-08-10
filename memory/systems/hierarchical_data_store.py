@@ -49,7 +49,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 from uuid import uuid4
 
 # Initialize structured logger
@@ -82,10 +82,10 @@ class MemoryNode:
     node_id: str = field(default_factory=lambda: str(uuid4()))
     tier: MemoryTier = MemoryTier.SENSORY
     content: Any = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     parent_id: Optional[str] = None
-    children_ids: List[str] = field(default_factory=list)
-    cross_refs: Set[str] = field(default_factory=set)
+    children_ids: list[str] = field(default_factory=list)
+    cross_refs: set[str] = field(default_factory=set)
     compression_level: CompressionLevel = CompressionLevel.NONE
     importance_score: float = 1.0
     access_count: int = 0
@@ -96,13 +96,13 @@ class MemoryNode:
     checksum: Optional[str] = None
     # Collapse state tracking fields (Task 6 - Claude Code)
     collapse_trace_id: Optional[str] = None  # Links to collapse events
-    collapse_score_history: List[Tuple[datetime, float]] = field(
+    collapse_score_history: list[tuple[datetime, float]] = field(
         default_factory=list
     )  # History of collapse scores
     collapse_alert_level: Optional[str] = (
         None  # Current alert level (GREEN/YELLOW/ORANGE/RED)
     )
-    collapse_metadata: Dict[str, Any] = field(
+    collapse_metadata: dict[str, Any] = field(
         default_factory=dict
     )  # Additional collapse-related data
 
@@ -114,7 +114,7 @@ class RetrievalContext:
     query: str
     tier_filter: Optional[MemoryTier] = None
     max_depth: int = 3
-    time_range: Optional[Tuple[datetime, datetime]] = None
+    time_range: Optional[tuple[datetime, datetime]] = None
     importance_threshold: float = 0.5
     include_cross_refs: bool = True
     max_results: int = 10
@@ -144,14 +144,14 @@ class HierarchicalDataStore:
         self.prune_interval = prune_interval_seconds
 
         # Core storage structures
-        self.nodes: Dict[str, MemoryNode] = {}
-        self.tier_indices: Dict[MemoryTier, Set[str]] = defaultdict(set)
-        self.parent_child_map: Dict[str, Set[str]] = defaultdict(set)
+        self.nodes: dict[str, MemoryNode] = {}
+        self.tier_indices: dict[MemoryTier, set[str]] = defaultdict(set)
+        self.parent_child_map: dict[str, set[str]] = defaultdict(set)
         self.importance_queue = deque(maxlen=10000)
 
         # Caching layers
-        self.access_cache: Dict[str, Any] = {}
-        self.compression_cache: Dict[str, bytes] = {}
+        self.access_cache: dict[str, Any] = {}
+        self.compression_cache: dict[str, bytes] = {}
 
         # Metrics and monitoring
         self.metrics = {
@@ -197,7 +197,7 @@ class HierarchicalDataStore:
         content: Any,
         tier: MemoryTier,
         parent_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
         importance: float = 1.0,
     ) -> str:
         """
@@ -245,7 +245,7 @@ class HierarchicalDataStore:
 
         return node.node_id
 
-    async def retrieve(self, context: RetrievalContext) -> List[MemoryNode]:
+    async def retrieve(self, context: RetrievalContext) -> list[MemoryNode]:
         """
         Retrieve memories based on context
 
@@ -312,12 +312,12 @@ class HierarchicalDataStore:
             self.nodes[node_id2].cross_refs.add(node_id1)
             logger.debug("ΛHDS: Cross-reference added", node1=node_id1, node2=node_id2)
 
-    async def get_hierarchy(self, root_id: str, max_depth: int = 3) -> Dict[str, Any]:
+    async def get_hierarchy(self, root_id: str, max_depth: int = 3) -> dict[str, Any]:
         """Get hierarchical structure starting from a root node"""
         if root_id not in self.nodes:
             return {}
 
-        def build_tree(node_id: str, depth: int) -> Dict[str, Any]:
+        def build_tree(node_id: str, depth: int) -> dict[str, Any]:
             if depth > max_depth or node_id not in self.nodes:
                 return {}
 
@@ -503,8 +503,8 @@ class HierarchicalDataStore:
         self,
         node: MemoryNode,
         context: RetrievalContext,
-        results: List[MemoryNode],
-        visited: Set[str],
+        results: list[MemoryNode],
+        visited: set[str],
         depth: int,
     ):
         """Depth-first search collection with context filtering"""
@@ -629,7 +629,7 @@ class HierarchicalDataStore:
         """Compress eligible memories based on access patterns"""
         compressed = 0
 
-        for node_id, node in self.nodes.items():
+        for _node_id, node in self.nodes.items():
             if node.is_compressed:
                 continue
 
@@ -747,7 +747,7 @@ class HierarchicalDataStore:
         collapse_trace_id: str,
         collapse_score: float,
         alert_level: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ):
         """
         Update collapse state for a memory node
@@ -788,7 +788,7 @@ class HierarchicalDataStore:
 
     async def get_collapse_affected_nodes(
         self, collapse_trace_id: str
-    ) -> List[MemoryNode]:
+    ) -> list[MemoryNode]:
         """
         Get all nodes affected by a specific collapse event
 
@@ -808,7 +808,7 @@ class HierarchicalDataStore:
 
     async def get_high_risk_nodes(
         self, alert_threshold: str = "ORANGE"
-    ) -> List[MemoryNode]:
+    ) -> list[MemoryNode]:
         """
         Get nodes with high collapse risk
 
@@ -834,7 +834,7 @@ class HierarchicalDataStore:
 
         return high_risk_nodes
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get comprehensive HDS status"""
         memory_usage_mb = (
             sum(

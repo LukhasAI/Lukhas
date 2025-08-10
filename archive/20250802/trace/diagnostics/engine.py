@@ -1,5 +1,5 @@
 import logging
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -10,7 +10,7 @@ class DiagnosticEngine:
     Altman-inspired focus on safety and responsible AI.
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.red_flag_symptoms = {
             "chest pain",
@@ -22,8 +22,8 @@ class DiagnosticEngine:
         logger.info("DiagnosticEngine initialized")
 
     def process_user_response(
-        self, user_input: str, current_symptoms: List[str]
-    ) -> Tuple[bool, List[str], bool, bool, float]:
+        self, user_input: str, current_symptoms: list[str]
+    ) -> tuple[bool, list[str], bool, bool, float]:
         """
         Processes user's symptom description.
         Returns: (is_critical, new_symptoms, needs_media, needs_questions, confidence)
@@ -54,7 +54,7 @@ class DiagnosticEngine:
 
         return is_critical, new_symptoms, needs_media, needs_questions, confidence
 
-    def get_next_question(self, symptoms: List[str], user_profile: Dict) -> str:
+    def get_next_question(self, symptoms: list[str], user_profile: dict) -> str:
         """Determines the next question to ask based on reported symptoms"""
         if not symptoms:
             return "What symptoms are you experiencing?"
@@ -67,7 +67,7 @@ class DiagnosticEngine:
 
         return "Could you tell me about any other symptoms you're experiencing?"
 
-    def get_critical_alert_message(self, symptoms: List[str]) -> str:
+    def get_critical_alert_message(self, symptoms: list[str]) -> str:
         """Generates an alert message for critical symptoms"""
         return (
             "Based on your symptoms, you should seek immediate medical attention. "

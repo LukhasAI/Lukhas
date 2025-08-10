@@ -27,7 +27,7 @@
 
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .base_manager import BaseMemoryManager
 
@@ -45,7 +45,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
     """
 
     def __init__(
-        self, config: Optional[Dict[str, Any]] = None, base_path: Optional[Path] = None
+        self, config: Optional[dict[str, Any]] = None, base_path: Optional[Path] = None
     ):
         """Initialize emotional memory manager."""
         super().__init__(config, base_path)
@@ -61,8 +61,8 @@ class EmotionalMemoryManager(BaseMemoryManager):
         }
 
         # Emotional state tracking
-        self.emotional_states: Dict[str, Dict[str, Any]] = {}
-        self.emotion_history: List[Dict[str, Any]] = []
+        self.emotional_states: dict[str, dict[str, Any]] = {}
+        self.emotion_history: list[dict[str, Any]] = []
 
         # Primary emotions mapping
         self.primary_emotions = {
@@ -82,10 +82,10 @@ class EmotionalMemoryManager(BaseMemoryManager):
 
     async def store(
         self,
-        memory_data: Dict[str, Any],
+        memory_data: dict[str, Any],
         memory_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Store memory with emotional tagging.
 
@@ -153,8 +153,8 @@ class EmotionalMemoryManager(BaseMemoryManager):
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def retrieve(
-        self, memory_id: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, memory_id: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Retrieve memory with emotional context.
 
@@ -207,8 +207,8 @@ class EmotionalMemoryManager(BaseMemoryManager):
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def update(
-        self, memory_id: str, updates: Dict[str, Any], merge: bool = True
-    ) -> Dict[str, Any]:
+        self, memory_id: str, updates: dict[str, Any], merge: bool = True
+    ) -> dict[str, Any]:
         """Update memory with emotional re-evaluation."""
         try:
             # Retrieve current state
@@ -217,10 +217,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
                 return current
 
             # Update data
-            if merge:
-                updated_data = {**current["data"], **updates}
-            else:
-                updated_data = updates
+            updated_data = {**current["data"], **updates} if merge else updates
 
             # Re-evaluate emotional state
             new_emotional_state = self._extract_emotional_state(
@@ -258,7 +255,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
             )
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def delete(self, memory_id: str, soft_delete: bool = True) -> Dict[str, Any]:
+    async def delete(self, memory_id: str, soft_delete: bool = True) -> dict[str, Any]:
         """Delete memory with emotional cleanup."""
         try:
             # Clean up emotional states
@@ -297,8 +294,8 @@ class EmotionalMemoryManager(BaseMemoryManager):
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def search(
-        self, criteria: Dict[str, Any], limit: Optional[int] = None
-    ) -> List[Dict[str, Any]]:
+        self, criteria: dict[str, Any], limit: Optional[int] = None
+    ) -> list[dict[str, Any]]:
         """
         Search memories with emotional filtering.
 
@@ -374,7 +371,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
 
     # === Emotional-specific methods ===
 
-    async def get_emotional_context(self, memory_id: str) -> Dict[str, Any]:
+    async def get_emotional_context(self, memory_id: str) -> dict[str, Any]:
         """Get detailed emotional context for a memory."""
         try:
             memory = await self.retrieve(memory_id)
@@ -404,8 +401,8 @@ class EmotionalMemoryManager(BaseMemoryManager):
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def update_emotional_state(
-        self, memory_id: str, new_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, memory_id: str, new_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """Update the emotional state of a memory."""
         try:
             # Verify memory exists
@@ -446,8 +443,8 @@ class EmotionalMemoryManager(BaseMemoryManager):
     # === Private helper methods ===
 
     def _extract_emotional_state(
-        self, memory_data: Dict[str, Any], metadata: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, memory_data: dict[str, Any], metadata: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Extract or infer emotional state from memory data."""
         # Check if emotional state is explicitly provided
         if metadata and "emotional_state" in metadata:
@@ -500,7 +497,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
         }
 
     def _calculate_emotional_significance(
-        self, emotional_state: Dict[str, Any]
+        self, emotional_state: dict[str, Any]
     ) -> float:
         """Calculate emotional significance score."""
         intensity = emotional_state.get("intensity", 0.5)
@@ -512,7 +509,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
 
         return min(1.0, significance)
 
-    def _generate_emotional_tags(self, emotional_state: Dict[str, Any]) -> List[str]:
+    def _generate_emotional_tags(self, emotional_state: dict[str, Any]) -> list[str]:
         """Generate descriptive emotional tags."""
         tags = []
 
@@ -548,10 +545,10 @@ class EmotionalMemoryManager(BaseMemoryManager):
 
     def _modulate_memory_by_emotion(
         self,
-        memory_data: Dict[str, Any],
-        memory_emotion: Dict[str, Any],
-        current_emotion: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        memory_data: dict[str, Any],
+        memory_emotion: dict[str, Any],
+        current_emotion: dict[str, Any],
+    ) -> dict[str, Any]:
         """Modulate memory retrieval based on current emotional state."""
         # Simple modulation - enhance if emotions match
         memory_valence = memory_emotion.get("valence", 0.5)
@@ -571,7 +568,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
 
         return modulated_data
 
-    def _apply_emotion_decay(self, emotional_state: Dict[str, Any]) -> Dict[str, Any]:
+    def _apply_emotion_decay(self, emotional_state: dict[str, Any]) -> dict[str, Any]:
         """Apply decay to emotional intensity over time."""
         decayed_state = emotional_state.copy()
 
@@ -589,8 +586,8 @@ class EmotionalMemoryManager(BaseMemoryManager):
         return decayed_state
 
     def _blend_emotional_states(
-        self, state1: Dict[str, Any], state2: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, state1: dict[str, Any], state2: dict[str, Any]
+    ) -> dict[str, Any]:
         """Blend two emotional states."""
         # Weight by intensity
         intensity1 = state1.get("intensity", 0.5)
@@ -626,7 +623,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
         }
 
     def _calculate_emotion_change(
-        self, old_state: Dict[str, Any], new_state: Dict[str, Any]
+        self, old_state: dict[str, Any], new_state: dict[str, Any]
     ) -> float:
         """Calculate magnitude of emotional change."""
         if not old_state or not new_state:
@@ -645,7 +642,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
         return (valence_change + arousal_change + intensity_change) / 3
 
     def _update_emotion_history(
-        self, memory_id: str, emotional_state: Dict[str, Any]
+        self, memory_id: str, emotional_state: dict[str, Any]
     ) -> None:
         """Update emotion history tracking."""
         self.emotion_history.append(
@@ -660,7 +657,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
         if len(self.emotion_history) > 100:
             self.emotion_history = self.emotion_history[-100:]
 
-    def _matches_criteria(self, data: Dict[str, Any], criteria: Dict[str, Any]) -> bool:
+    def _matches_criteria(self, data: dict[str, Any], criteria: dict[str, Any]) -> bool:
         """Check if data matches search criteria."""
         for key, value in criteria.items():
             if key not in data:
@@ -669,7 +666,7 @@ class EmotionalMemoryManager(BaseMemoryManager):
                 return False
         return True
 
-    async def get_statistics(self) -> Dict[str, Any]:
+    async def get_statistics(self) -> dict[str, Any]:
         """Get emotional memory statistics."""
         base_stats = await super().get_statistics()
 

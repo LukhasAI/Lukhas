@@ -18,7 +18,7 @@ import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import GLYPHSymbol, GLYPHToken, get_logger
 from core.common.exceptions import LukhasError
@@ -60,10 +60,10 @@ class ConversationContext:
 
     session_id: str
     user_id: Optional[str]
-    turns: List[Dict[str, Any]] = field(default_factory=list)
-    emotional_state: Dict[str, float] = field(default_factory=dict)
-    topics: List[str] = field(default_factory=list)
-    memory_refs: List[str] = field(default_factory=list)
+    turns: list[dict[str, Any]] = field(default_factory=list)
+    emotional_state: dict[str, float] = field(default_factory=dict)
+    topics: list[str] = field(default_factory=list)
+    memory_refs: list[str] = field(default_factory=list)
     active_intent: Optional[ConversationIntent] = None
 
     def add_turn(
@@ -88,9 +88,9 @@ class NLUResult:
     """Natural Language Understanding result"""
 
     intent: ConversationIntent
-    entities: Dict[str, Any]
+    entities: dict[str, Any]
     confidence: float
-    emotional_context: Dict[str, float]
+    emotional_context: dict[str, float]
     suggested_tone: EmotionalTone
 
 
@@ -102,7 +102,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
     awareness assessment, decision making, reflection, and memory exploration.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize natural language interface"""
         self.config = config or {}
         self.operational = False
@@ -115,7 +115,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         self.reality_simulator = None
 
         # Conversation management
-        self.active_sessions: Dict[str, ConversationContext] = {}
+        self.active_sessions: dict[str, ConversationContext] = {}
         self.intent_patterns = self._initialize_intent_patterns()
 
         # Response templates
@@ -126,7 +126,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         self.enable_emotions = self.config.get("enable_emotions", True)
         self.formality_level = self.config.get("formality_level", "balanced")
 
-    def _initialize_intent_patterns(self) -> Dict[ConversationIntent, List[re.Pattern]]:
+    def _initialize_intent_patterns(self) -> dict[ConversationIntent, list[re.Pattern]]:
         """Initialize regex patterns for intent recognition"""
         return {
             ConversationIntent.QUERY_AWARENESS: [
@@ -187,7 +187,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             ],
         }
 
-    def _initialize_response_templates(self) -> Dict[ConversationIntent, List[str]]:
+    def _initialize_response_templates(self) -> dict[ConversationIntent, list[str]]:
         """Initialize response templates for different intents"""
         return {
             ConversationIntent.QUERY_AWARENESS: [
@@ -345,7 +345,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
     def _extract_entities(
         self, user_input: str, intent: ConversationIntent
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Extract relevant entities from user input"""
         entities = {}
 
@@ -379,13 +379,13 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         return entities
 
-    async def _analyze_emotion(self, user_input: str) -> Dict[str, float]:
+    async def _analyze_emotion(self, user_input: str) -> dict[str, float]:
         """Analyze emotional content of user input"""
         if self.emotion_service:
             try:
                 result = await self.emotion_service.analyze_text(user_input)
                 return result.get("emotions", {})
-            except:
+            except BaseException:
                 pass
 
         # Fallback: Simple keyword-based emotion detection
@@ -436,7 +436,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
     def _determine_tone(
         self,
         intent: ConversationIntent,
-        emotional_context: Dict[str, float],
+        emotional_context: dict[str, float],
         context: ConversationContext,
     ) -> EmotionalTone:
         """Determine appropriate response tone"""
@@ -487,7 +487,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
     async def _process_intent(
         self, nlu_result: NLUResult, context: ConversationContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Process the detected intent and gather response data"""
         intent = nlu_result.intent
         entities = nlu_result.entities
@@ -521,7 +521,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                 "response": "I'm not sure how to help with that. Could you rephrase?"
             }
 
-    async def _process_awareness_query(self) -> Dict[str, Any]:
+    async def _process_awareness_query(self) -> dict[str, Any]:
         """Process awareness level query"""
         if not self.consciousness_service:
             return {"error": "Consciousness service not available"}
@@ -566,8 +566,8 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             return {"error": "Unable to assess awareness"}
 
     async def _process_decision_request(
-        self, entities: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, entities: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process decision-making request"""
         if not self.consciousness_service:
             return {"error": "Consciousness service not available"}
@@ -607,7 +607,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
     async def _process_reflection_request(
         self, context: ConversationContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Process reflection request"""
         # Use recent conversation as reflection topic if no specific topic
         recent_topics = context.topics[-3:] if context.topics else ["our conversation"]
@@ -632,8 +632,8 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         }
 
     async def _process_memory_exploration(
-        self, entities: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, entities: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process memory exploration request"""
         if not self.memory_service:
             return {
@@ -672,7 +672,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             logger.error(f"Error exploring memory: {e}")
             return {"memory_count": 0, "memory_summary": "Memory exploration failed"}
 
-    async def _process_emotional_check(self) -> Dict[str, Any]:
+    async def _process_emotional_check(self) -> dict[str, Any]:
         """Process emotional state check"""
         if self.emotion_service:
             try:
@@ -693,7 +693,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                     "emotion_summary": summary,
                     "emotion_details": f"{dominant} with {abs(valence):.0%} intensity",
                 }
-            except:
+            except BaseException:
                 pass
 
         # Fallback response
@@ -704,7 +704,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             "emotion_details": "maintaining equilibrium",
         }
 
-    async def _process_dream_request(self, entities: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_dream_request(self, entities: dict[str, Any]) -> dict[str, Any]:
         """Process dream/creative request"""
         topic = entities.get("dream_topic", "possibilities")
 
@@ -724,7 +724,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                     "dream_vision": f"a world where {topic} takes on new meaning",
                     "dream_result": narrative[:200] + "...",  # Truncate for response
                 }
-            except:
+            except BaseException:
                 pass
 
         # Fallback creative response
@@ -735,8 +735,8 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         }
 
     async def _process_reality_exploration(
-        self, entities: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, entities: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process alternative reality exploration"""
         if self.reality_simulator:
             try:
@@ -757,7 +757,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                     "alternatives": "; ".join(branch_desc),
                     "reality_analysis": f"Most probable outcome has {branches[0].probability:.0%} likelihood",
                 }
-            except:
+            except BaseException:
                 pass
 
         # Fallback response
@@ -769,12 +769,9 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
     async def _process_thought_explanation(
         self, context: ConversationContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Process request to explain thinking"""
         # Use last intent as basis for explanation
-        last_intent = (
-            context.active_intent if context.turns else ConversationIntent.UNKNOWN
-        )
 
         steps = [
             "First, I analyzed your input to understand the intent",
@@ -795,7 +792,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
     async def _generate_response(
         self,
         nlu_result: NLUResult,
-        response_data: Dict[str, Any],
+        response_data: dict[str, Any],
         context: ConversationContext,
     ) -> str:
         """Generate natural language response from data"""
@@ -867,7 +864,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
     # Required interface methods
 
-    async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process data through natural language interface"""
         user_input = data.get("input", "")
         session_id = data.get("session_id")
@@ -897,7 +894,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             payload=response_payload,
         )
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get interface status"""
         return {
             "operational": self.operational,
@@ -938,7 +935,7 @@ class ConversationManager:
         """Continue existing conversation"""
         return await self.interface.process_input(user_input, session_id)
 
-    async def get_conversation_history(self, session_id: str) -> List[Dict[str, Any]]:
+    async def get_conversation_history(self, session_id: str) -> list[dict[str, Any]]:
         """Get conversation history for session"""
         if session_id in self.interface.active_sessions:
             return self.interface.active_sessions[session_id].turns

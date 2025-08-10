@@ -11,7 +11,7 @@ import logging
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -25,9 +25,9 @@ class MemorySession:
     session_id: str
     timestamp: str
     response: str
-    assessment: Dict[str, Any]
-    diagnosis: Dict[str, Any]
-    glyphs: List[str]
+    assessment: dict[str, Any]
+    diagnosis: dict[str, Any]
+    glyphs: list[str]
     entropy: float
     drift_score: float
     trinity_coherence: float
@@ -93,9 +93,9 @@ class SymbolicMemoryManager:
     def log_session(
         self,
         response: str,
-        assessment: Dict[str, Any],
-        diagnosis: Dict[str, Any],
-        healing_result: Optional[Dict] = None,
+        assessment: dict[str, Any],
+        diagnosis: dict[str, Any],
+        healing_result: Optional[dict] = None,
     ) -> str:
         """
         Log a symbolic session to memory.
@@ -157,7 +157,7 @@ class SymbolicMemoryManager:
 
         return session_id
 
-    def get_recent(self, n: int = 10) -> List[Dict[str, Any]]:
+    def get_recent(self, n: int = 10) -> list[dict[str, Any]]:
         """
         Get the most recent n sessions.
 
@@ -169,7 +169,7 @@ class SymbolicMemoryManager:
         """
         return self.memory_cache[-n:] if self.memory_cache else []
 
-    def search_by_glyph(self, glyph: str) -> List[Dict[str, Any]]:
+    def search_by_glyph(self, glyph: str) -> list[dict[str, Any]]:
         """
         Search for sessions containing a specific glyph.
 
@@ -187,7 +187,7 @@ class SymbolicMemoryManager:
 
         return matching_sessions
 
-    def get_drift_trajectory(self, window_size: int = 20) -> Dict[str, Any]:
+    def get_drift_trajectory(self, window_size: int = 20) -> dict[str, Any]:
         """
         Analyze drift trajectory over recent sessions.
 
@@ -277,7 +277,7 @@ class SymbolicMemoryManager:
 
     def _generate_recommendations(
         self, avg_drift: float, avg_entropy: float, drift_direction: str
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate recommendations based on trajectory analysis"""
         recommendations = []
 
@@ -297,7 +297,7 @@ class SymbolicMemoryManager:
 
         return recommendations
 
-    def get_persona_history(self, limit: int = 50) -> Dict[str, Any]:
+    def get_persona_history(self, limit: int = 50) -> dict[str, Any]:
         """
         Get persona evolution history.
 
@@ -357,7 +357,7 @@ class SymbolicMemoryManager:
             "current_persona": current_persona,
         }
 
-    def get_healing_effectiveness(self) -> Dict[str, Any]:
+    def get_healing_effectiveness(self) -> dict[str, Any]:
         """Analyze healing effectiveness across sessions"""
         healed_sessions = [
             s for s in self.memory_cache if s.get("healing_delta") is not None

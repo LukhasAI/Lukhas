@@ -14,9 +14,22 @@
 ║ Complete cognitive adapter implementation.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 # Module imports
-from typing import Any, Dict, Optional
+import numpy as np
+from typing import Union
+from pathlib import Path
+from enum import Enum, auto
+from datetime import datetime
+from dataclasses import dataclass, field
+from collections import deque
+from abc import ABC, abstractmethod
+import time
+import threading
+import json
+import asyncio
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -42,19 +55,6 @@ Brain-inspired cognitive adapter implementing state management, memory integrati
 and emotional modulation for advanced cognitive processing within LUKHAS AI.
 """
 
-import asyncio
-import json
-import threading
-import time
-from abc import ABC, abstractmethod
-from collections import deque
-from dataclasses import dataclass, field
-from datetime import datetime
-from enum import Enum, auto
-from pathlib import Path
-from typing import List, Set, Union
-
-import numpy as np
 
 # Initialize logger
 logger = logging.getLogger("ΛTRACE.consciousness.cognitive.cognitive_adapter")
@@ -75,7 +75,7 @@ class CognitiveAdapterConfig:
         )
         self.config = self._load_config()
 
-    def _load_config(self) -> Dict[str, Any]:
+    def _load_config(self) -> dict[str, Any]:
         """Load configuration from file or use defaults."""
         if Path(self.config_path).exists():
             try:
@@ -119,7 +119,7 @@ class CognitiveAdapterConfig:
         self._save_config(default_config)
         return default_config
 
-    def _save_config(self, config: Dict[str, Any]):
+    def _save_config(self, config: dict[str, Any]):
         """Save configuration to file."""
         Path(self.config_path).parent.mkdir(parents=True, exist_ok=True)
         with open(self.config_path, "w") as f:
@@ -200,7 +200,7 @@ class CoreComponent(ABC):
     """Abstract base class for core components."""
 
     @abstractmethod
-    def __init__(self, component_id: str, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, component_id: str, config: Optional[dict[str, Any]] = None):
         self.component_id = component_id
         self.config = config or {}
         self.logger = logger.getChild(component_id)
@@ -210,7 +210,7 @@ class SecurityContext:
     """Security context for user authentication and authorization."""
 
     def __init__(
-        self, user_id: str, user_tier: int = 1, permissions: Optional[Set[str]] = None
+        self, user_id: str, user_tier: int = 1, permissions: Optional[set[str]] = None
     ):
         self.user_id = user_id
         self.user_tier = user_tier
@@ -222,7 +222,7 @@ class SecurityContext:
         """Check if user has specific permission."""
         return permission in self.permissions
 
-    def get_user_context(self) -> Dict[str, Any]:
+    def get_user_context(self) -> dict[str, Any]:
         """Get user context for memory and processing."""
         return {
             "user_id": self.user_id,
@@ -252,7 +252,7 @@ class MetaLearningSystem:
         self.performance_history = deque(maxlen=1000)
         self.logger = logger.getChild("MetaLearningSystem")
 
-    async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process data through meta-learning system."""
         self.logger.debug("Processing data through meta-learning")
 
@@ -272,7 +272,7 @@ class MetaLearningSystem:
             "confidence": self._calculate_confidence(features),
         }
 
-    def _extract_features(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_features(self, data: dict[str, Any]) -> dict[str, Any]:
         """Extract relevant features from data."""
         return {
             "data_type": type(data.get("content", "")).__name__,
@@ -281,7 +281,7 @@ class MetaLearningSystem:
             "context_keys": list(data.get("context", {}).keys()),
         }
 
-    def _apply_patterns(self, features: Dict[str, Any]) -> Dict[str, Any]:
+    def _apply_patterns(self, features: dict[str, Any]) -> dict[str, Any]:
         """Apply learned patterns to make predictions."""
         predictions = {}
 
@@ -293,7 +293,7 @@ class MetaLearningSystem:
         return predictions
 
     def _matches_pattern(
-        self, features: Dict[str, Any], pattern_features: Dict[str, Any]
+        self, features: dict[str, Any], pattern_features: dict[str, Any]
     ) -> bool:
         """Check if features match a pattern."""
         for key, value in pattern_features.items():
@@ -301,7 +301,7 @@ class MetaLearningSystem:
                 return False
         return True
 
-    def _update_knowledge(self, features: Dict[str, Any], feedback: Dict[str, Any]):
+    def _update_knowledge(self, features: dict[str, Any], feedback: dict[str, Any]):
         """Update knowledge base with new learning."""
         if feedback.get("success", False):
             pattern_key = f"pattern_{len(self.knowledge_base)}"
@@ -316,7 +316,7 @@ class MetaLearningSystem:
                 {"timestamp": datetime.utcnow(), "success": True, "features": features}
             )
 
-    def _calculate_confidence(self, features: Dict[str, Any]) -> float:
+    def _calculate_confidence(self, features: dict[str, Any]) -> float:
         """Calculate confidence in processing."""
         if not self.performance_history:
             return 0.5
@@ -360,8 +360,8 @@ class HelixMapper:
             self.logger.error(f"Failed to save memories: {e}")
 
     async def search_memories(
-        self, query: Dict[str, Any], context: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, query: dict[str, Any], context: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Search for relevant memories based on query and context."""
         self.logger.debug(f"Searching memories with query: {query}")
 
@@ -387,7 +387,7 @@ class HelixMapper:
         return results[: query.get("limit", 10)]
 
     def _calculate_relevance(
-        self, query: Dict[str, Any], memory: Dict[str, Any]
+        self, query: dict[str, Any], memory: dict[str, Any]
     ) -> float:
         """Calculate relevance score between query and memory."""
         score = 0.0
@@ -417,7 +417,7 @@ class HelixMapper:
 
     async def map_memory(
         self,
-        data: Dict[str, Any],
+        data: dict[str, Any],
         strand_type: str,
         owner: str = "default",
         encoding_strength: float = 0.8,
@@ -500,7 +500,7 @@ class CognitiveAdapter(CoreComponent):
     def __init__(
         self,
         user_id_context: Optional[str] = None,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
         config_path: Optional[str] = None,
     ):
         """Initialize the CognitiveAdapter."""
@@ -627,9 +627,9 @@ class CognitiveAdapter(CoreComponent):
     @lukhas_tier_required(level=3)
     async def process(
         self,
-        data: Dict[str, Any],
-        context: Optional[Union[SecurityContext, Dict[str, Any]]] = None,
-    ) -> Dict[str, Any]:
+        data: dict[str, Any],
+        context: Optional[Union[SecurityContext, dict[str, Any]]] = None,
+    ) -> dict[str, Any]:
         """Main processing method for cognitive adaptation."""
         self.logger.info("Processing data through cognitive adapter")
 
@@ -675,7 +675,7 @@ class CognitiveAdapter(CoreComponent):
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-    def _update_state_from_input(self, data: Dict[str, Any]):
+    def _update_state_from_input(self, data: dict[str, Any]):
         """Update cognitive state based on input data."""
         # Analyze input complexity
         content = str(data.get("content", ""))
@@ -715,7 +715,7 @@ class CognitiveAdapter(CoreComponent):
         if has_structure:
             self.state.coherence = min(self.state.coherence + 0.05, 1.0)
 
-    def _apply_emotional_modulation(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _apply_emotional_modulation(self, data: dict[str, Any]) -> dict[str, Any]:
         """Apply emotional modulation to processing."""
         modulated = data.copy()
 
@@ -736,8 +736,8 @@ class CognitiveAdapter(CoreComponent):
         return modulated
 
     async def _integrate_memory(
-        self, data: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Integrate with memory system."""
         # Search for relevant memories
         search_query = {
@@ -785,7 +785,7 @@ class CognitiveAdapter(CoreComponent):
             "relevant_memories": [m["strand_id"] for m in relevant_memories[:5]],
         }
 
-    def _determine_memory_type(self, data: Dict[str, Any]) -> MemoryType:
+    def _determine_memory_type(self, data: dict[str, Any]) -> MemoryType:
         """Determine appropriate memory type for data."""
         content = str(data.get("content", "")).lower()
 
@@ -807,7 +807,7 @@ class CognitiveAdapter(CoreComponent):
             return MemoryType.WORKING
 
     @lukhas_tier_required(level=4)
-    async def adapt_parameters(self, feedback: Dict[str, Any]) -> Dict[str, Any]:
+    async def adapt_parameters(self, feedback: dict[str, Any]) -> dict[str, Any]:
         """Adapt cognitive parameters based on feedback."""
         self.logger.info("Adapting parameters based on feedback")
 
@@ -850,7 +850,7 @@ class CognitiveAdapter(CoreComponent):
         }
 
     @lukhas_tier_required(level=3)
-    def extract_patterns(self, window_size: Optional[int] = None) -> Dict[str, Any]:
+    def extract_patterns(self, window_size: Optional[int] = None) -> dict[str, Any]:
         """Extract cognitive patterns from state history."""
         if window_size is None:
             window_size = self.adapter_config.get("pattern_window_size", 100)
@@ -872,8 +872,8 @@ class CognitiveAdapter(CoreComponent):
         return patterns
 
     def _extract_attention_pattern(
-        self, states: List[CognitiveState]
-    ) -> Dict[str, Any]:
+        self, states: list[CognitiveState]
+    ) -> dict[str, Any]:
         """Extract attention patterns."""
         attention_values = [s.attention for s in states]
 
@@ -894,8 +894,8 @@ class CognitiveAdapter(CoreComponent):
         }
 
     def _extract_emotional_pattern(
-        self, states: List[CognitiveState]
-    ) -> Dict[str, Any]:
+        self, states: list[CognitiveState]
+    ) -> dict[str, Any]:
         """Extract emotional patterns."""
         valence_values = [s.valence for s in states]
         arousal_values = [s.arousal for s in states]
@@ -914,8 +914,8 @@ class CognitiveAdapter(CoreComponent):
         }
 
     def _extract_coherence_pattern(
-        self, states: List[CognitiveState]
-    ) -> Dict[str, Any]:
+        self, states: list[CognitiveState]
+    ) -> dict[str, Any]:
         """Extract coherence patterns."""
         coherence_values = [s.coherence for s in states]
 
@@ -925,7 +925,7 @@ class CognitiveAdapter(CoreComponent):
             "stability": "stable" if np.std(coherence_values) < 0.1 else "variable",
         }
 
-    def _detect_cycles(self, states: List[CognitiveState]) -> List[Dict[str, Any]]:
+    def _detect_cycles(self, states: list[CognitiveState]) -> list[dict[str, Any]]:
         """Detect cyclic patterns in cognitive states."""
         cycles = []
 
@@ -957,8 +957,8 @@ class CognitiveAdapter(CoreComponent):
         return cycles
 
     def _calculate_stability_metrics(
-        self, states: List[CognitiveState]
-    ) -> Dict[str, float]:
+        self, states: list[CognitiveState]
+    ) -> dict[str, float]:
         """Calculate overall stability metrics."""
         # Calculate state-to-state changes
         changes = []
@@ -987,7 +987,7 @@ class CognitiveAdapter(CoreComponent):
         self.logger.info("Cognitive state reset to baseline")
 
     @lukhas_tier_required(level=2)
-    def get_state_summary(self) -> Dict[str, Any]:
+    def get_state_summary(self) -> dict[str, Any]:
         """Get summary of current cognitive state and patterns."""
         activity_threshold = self.adapter_config.get("activity_threshold_seconds", 300)
 

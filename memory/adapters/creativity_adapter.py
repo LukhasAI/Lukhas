@@ -40,7 +40,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from ..systems.emotional_memory_manager import EmotionalModulator
 
@@ -59,16 +59,14 @@ class CreativityMemoryAdapter:
         return self.emotional_modulator
 
     def store_creative_memory(
-        self, content: Dict[str, Any], metadata: Optional[Dict] = None
+        self, content: dict[str, Any], metadata: Optional[dict] = None
     ) -> str:
         """Store a creative memory (dream, inspiration, etc)."""
         # Implementation would connect to main memory system
-        pass
 
-    def retrieve_creative_context(self, query: str) -> Dict[str, Any]:
+    def retrieve_creative_context(self, query: str) -> dict[str, Any]:
         """Retrieve creative context for inspiration."""
         # Implementation would query memory system
-        pass
 
 
 # Backward compatibility

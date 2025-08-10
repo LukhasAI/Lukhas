@@ -50,6 +50,8 @@
 ║ Symbolic Tags: {ΛCOGNITIVE}, {ΛORCHESTRATOR}, {ΛMEMORY}, {ΛATTENTION}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from collections import Counter
+import logging
 
 # Module imports
 import asyncio
@@ -66,7 +68,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum, auto
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -185,7 +187,7 @@ class CognitiveConfig:
         """Get float configuration value."""
         return self.config.getfloat(section, key, fallback=default)
 
-    def get_dict(self, section: str, key: str, default: Optional[Dict] = None) -> Dict:
+    def get_dict(self, section: str, key: str, default: Optional[dict] = None) -> dict:
         """Get dictionary configuration value from JSON string."""
         try:
             return json.loads(self.config.get(section, key))
@@ -354,7 +356,7 @@ class MemoryItem:
     access_count: int = 0
     importance: float = 0.5
     decay_rate: float = 0.1
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -368,12 +370,12 @@ class CognitiveProcess:
     created_at: datetime = field(default_factory=datetime.utcnow)
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     result: Optional[Any] = None
     error: Optional[str] = None
-    dependencies: List[str] = field(default_factory=list)
-    resource_requirements: Dict[ResourceType, float] = field(default_factory=dict)
-    allocated_resources: Dict[ResourceType, float] = field(default_factory=dict)
+    dependencies: list[str] = field(default_factory=list)
+    resource_requirements: dict[ResourceType, float] = field(default_factory=dict)
+    allocated_resources: dict[ResourceType, float] = field(default_factory=dict)
     callback: Optional[Callable] = None
 
 
@@ -384,22 +386,18 @@ class MemorySystem(ABC):
     @abstractmethod
     def store(self, key: str, content: Any, **kwargs) -> bool:
         """Store an item in memory."""
-        pass
 
     @abstractmethod
     def retrieve(self, key: str) -> Optional[Any]:
         """Retrieve an item from memory."""
-        pass
 
     @abstractmethod
     def forget(self, key: str) -> bool:
         """Remove an item from memory."""
-        pass
 
     @abstractmethod
     def consolidate(self):
         """Consolidate memory, removing decayed items."""
-        pass
 
 
 class WorkingMemory(MemorySystem):
@@ -409,7 +407,7 @@ class WorkingMemory(MemorySystem):
         self.config = config
         self.capacity = config.get_int("memory", "working_memory_capacity", 7)
         self.decay_rate = config.get_float("memory", "working_memory_decay_rate", 0.1)
-        self.items: Dict[str, MemoryItem] = {}
+        self.items: dict[str, MemoryItem] = {}
         self.access_order: deque = deque(maxlen=self.capacity)
         self.lock = threading.RLock()
         logger.info(f"WorkingMemory initialized with capacity {self.capacity}")
@@ -507,8 +505,8 @@ class EpisodicMemory(MemorySystem):
     def __init__(self, config: CognitiveConfig):
         self.config = config
         self.capacity = config.get_int("memory", "episodic_memory_capacity", 10000)
-        self.items: Dict[str, MemoryItem] = {}
-        self.temporal_index: List[Tuple[datetime, str]] = []
+        self.items: dict[str, MemoryItem] = {}
+        self.temporal_index: list[tuple[datetime, str]] = []
         self.lock = threading.RLock()
         logger.info(f"EpisodicMemory initialized with capacity {self.capacity}")
 
@@ -551,21 +549,20 @@ class EpisodicMemory(MemorySystem):
 
     def retrieve_by_time_range(
         self, start: datetime, end: datetime
-    ) -> List[MemoryItem]:
+    ) -> list[MemoryItem]:
         """Retrieve memories within a time range."""
         with self.lock:
             memories = []
             for timestamp, key in self.temporal_index:
-                if start <= timestamp <= end:
-                    if key in self.items:
-                        memories.append(self.items[key])
+                if start <= timestamp <= end and key in self.items:
+                    memories.append(self.items[key])
             return memories
 
     def forget(self, key: str) -> bool:
         """Remove an episodic memory."""
         with self.lock:
             if key in self.items:
-                item = self.items[key]
+                self.items[key]
                 del self.items[key]
                 self.temporal_index = [
                     (t, k) for t, k in self.temporal_index if k != key
@@ -609,8 +606,8 @@ class SemanticMemory(MemorySystem):
     def __init__(self, config: CognitiveConfig):
         self.config = config
         self.capacity = config.get_int("memory", "semantic_memory_capacity", 50000)
-        self.items: Dict[str, MemoryItem] = {}
-        self.concept_graph: Dict[str, Set[str]] = defaultdict(set)
+        self.items: dict[str, MemoryItem] = {}
+        self.concept_graph: dict[str, set[str]] = defaultdict(set)
         self.lock = threading.RLock()
         self._load_foundational_knowledge()
         logger.info(f"SemanticMemory initialized with capacity {self.capacity}")
@@ -635,7 +632,7 @@ class SemanticMemory(MemorySystem):
                 logger.error(f"Failed to load foundational knowledge: {e}")
 
     def store(
-        self, key: str, content: Any, related_concepts: List[str] = None, **kwargs
+        self, key: str, content: Any, related_concepts: list[str] = None, **kwargs
     ) -> bool:
         """Store semantic knowledge with concept relationships."""
         with self.lock:
@@ -680,7 +677,7 @@ class SemanticMemory(MemorySystem):
                 return item.content
             return None
 
-    def find_related_concepts(self, concept: str, depth: int = 1) -> Set[str]:
+    def find_related_concepts(self, concept: str, depth: int = 1) -> set[str]:
         """Find concepts related to the given concept."""
         with self.lock:
             if depth <= 0 or concept not in self.concept_graph:
@@ -736,8 +733,8 @@ class ProceduralMemory(MemorySystem):
     def __init__(self, config: CognitiveConfig):
         self.config = config
         self.capacity = config.get_int("memory", "procedural_memory_capacity", 1000)
-        self.procedures: Dict[str, Dict[str, Any]] = {}
-        self.skill_levels: Dict[str, float] = defaultdict(float)
+        self.procedures: dict[str, dict[str, Any]] = {}
+        self.skill_levels: dict[str, float] = defaultdict(float)
         self.lock = threading.RLock()
         logger.info(f"ProceduralMemory initialized with capacity {self.capacity}")
 
@@ -881,7 +878,7 @@ class CognitiveResourceManager:
         thread = threading.Thread(target=recharge_loop, daemon=True)
         thread.start()
 
-    def allocate(self, requirements: Dict[ResourceType, float]) -> bool:
+    def allocate(self, requirements: dict[ResourceType, float]) -> bool:
         """Try to allocate required resources."""
         with self.lock:
             # Check if all resources are available
@@ -901,7 +898,7 @@ class CognitiveResourceManager:
 
             return True
 
-    def release(self, allocations: Dict[ResourceType, float]):
+    def release(self, allocations: dict[ResourceType, float]):
         """Release allocated resources."""
         with self.lock:
             for resource_type, amount in allocations.items():
@@ -912,7 +909,7 @@ class CognitiveResourceManager:
                         / self.resources[resource_type].total_capacity
                     )
 
-    def get_availability(self) -> Dict[ResourceType, float]:
+    def get_availability(self) -> dict[ResourceType, float]:
         """Get current resource availability."""
         with self.lock:
             return {rt: r.available for rt, r in self.resources.items()}
@@ -926,8 +923,8 @@ class CognitiveProcessScheduler:
     ):
         self.config = config
         self.resource_manager = resource_manager
-        self.process_queue: List[CognitiveProcess] = []
-        self.running_processes: Dict[str, CognitiveProcess] = {}
+        self.process_queue: list[CognitiveProcess] = []
+        self.running_processes: dict[str, CognitiveProcess] = {}
         self.completed_processes: deque = deque(maxlen=1000)
         self.lock = threading.RLock()
 
@@ -940,7 +937,7 @@ class CognitiveProcessScheduler:
         )
 
         # Process handlers
-        self.process_handlers: Dict[CognitiveProcessType, Callable] = (
+        self.process_handlers: dict[CognitiveProcessType, Callable] = (
             self._initialize_handlers()
         )
 
@@ -951,7 +948,7 @@ class CognitiveProcessScheduler:
         )
         self._scheduler_thread.start()
 
-    def _initialize_handlers(self) -> Dict[CognitiveProcessType, Callable]:
+    def _initialize_handlers(self) -> dict[CognitiveProcessType, Callable]:
         """Initialize process type handlers."""
         return {
             CognitiveProcessType.REASONING: self._handle_reasoning,
@@ -1039,7 +1036,7 @@ class CognitiveProcessScheduler:
                     process.state = ProcessState.SCHEDULED
 
                     # Execute process
-                    future = self.thread_pool.submit(self._execute_process, process)
+                    self.thread_pool.submit(self._execute_process, process)
                     self.running_processes[process.process_id] = process
 
                     logger.info(f"Scheduled process {process.process_id}")
@@ -1224,7 +1221,7 @@ class CognitiveProcessScheduler:
                 "type": "supervised",
                 "samples": len(data),
                 "features_learned": list(
-                    set(f for feat_list in features for f in feat_list)
+                    {f for feat_list in features for f in feat_list}
                 ),
                 "labels_learned": list(set(labels)),
                 "accuracy": np.random.uniform(0.7, 0.95),  # Simulated
@@ -1286,8 +1283,8 @@ class CognitiveProcessScheduler:
     def _handle_planning(self, process: CognitiveProcess) -> Any:
         """Handle planning processes."""
         goal = process.context.get("goal", {})
-        current_state = process.context.get("current_state", {})
-        constraints = process.context.get("constraints", [])
+        process.context.get("current_state", {})
+        process.context.get("constraints", [])
 
         # Simple goal decomposition
         subgoals = []
@@ -1554,7 +1551,7 @@ class CognitiveMonitor:
         config: CognitiveConfig,
         scheduler: CognitiveProcessScheduler,
         resource_manager: CognitiveResourceManager,
-        memory_systems: Dict[MemoryType, MemorySystem],
+        memory_systems: dict[MemoryType, MemorySystem],
     ):
         self.config = config
         self.scheduler = scheduler
@@ -1766,8 +1763,8 @@ class CognitiveArchitectureController:
 
     @lukhas_tier_required(2)
     def learn(
-        self, learning_data: List[Dict[str, Any]], learning_type: str = "supervised"
-    ) -> Dict[str, Any]:
+        self, learning_data: list[dict[str, Any]], learning_type: str = "supervised"
+    ) -> dict[str, Any]:
         """Learn from provided data."""
         process = CognitiveProcess(
             process_type=CognitiveProcessType.LEARNING,
@@ -1795,8 +1792,8 @@ class CognitiveArchitectureController:
 
     @lukhas_tier_required(3)
     def plan(
-        self, goal: Dict[str, Any], constraints: List[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, goal: dict[str, Any], constraints: list[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Create a plan to achieve a goal."""
         process = CognitiveProcess(
             process_type=CognitiveProcessType.PLANNING,
@@ -1828,8 +1825,8 @@ class CognitiveArchitectureController:
 
     @lukhas_tier_required(2)
     def decide(
-        self, options: List[Dict[str, Any]], criteria: Dict[str, float]
-    ) -> Dict[str, Any]:
+        self, options: list[dict[str, Any]], criteria: dict[str, float]
+    ) -> dict[str, Any]:
         """Make a decision between options based on criteria."""
         process = CognitiveProcess(
             process_type=CognitiveProcessType.DECISION,
@@ -1857,8 +1854,8 @@ class CognitiveArchitectureController:
 
     @lukhas_tier_required(4)
     def create(
-        self, inputs: List[Any], creative_type: str = "synthesis"
-    ) -> Dict[str, Any]:
+        self, inputs: list[Any], creative_type: str = "synthesis"
+    ) -> dict[str, Any]:
         """Generate creative output."""
         process = CognitiveProcess(
             process_type=CognitiveProcessType.CREATIVITY,
@@ -1887,7 +1884,7 @@ class CognitiveArchitectureController:
     @lukhas_tier_required(3)
     def reflect(
         self, target: str = "performance", time_window: int = 3600
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Perform self-reflection."""
         process = CognitiveProcess(
             process_type=CognitiveProcessType.REFLECTION,
@@ -1913,7 +1910,7 @@ class CognitiveArchitectureController:
 
         return {"error": "Reflection timeout"}
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current system status."""
         with self.scheduler.lock:
             queue_size = len(self.scheduler.process_queue)

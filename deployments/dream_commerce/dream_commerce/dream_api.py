@@ -12,22 +12,26 @@ from typing import Any, Dict, List
 @dataclass
 class DreamRequest:
     """Commercial dream generation request"""
+
     prompt: str
     style: str = "standard"  # standard, creative, lucid
-    length: str = "medium"   # short, medium, long
+    length: str = "medium"  # short, medium, long
     use_personality: bool = False
     include_symbolism: bool = True
     include_narration: bool = False
 
+
 @dataclass
 class DreamResponse:
     """Commercial dream generation response"""
+
     dream_id: str
     content: str
     symbols: List[str]
     themes: List[str]
     emotional_tone: str
     metadata: Dict[str, Any]
+
 
 class DreamCommerceAPI:
     """
@@ -44,29 +48,30 @@ class DreamCommerceAPI:
         """Initialize the dream commerce API"""
         # Import core dream engine
         from dream.engine.dream_engine import DreamEngine
+
         self._engine = DreamEngine()
 
     async def generate_dream(self, request: DreamRequest) -> DreamResponse:
         """
         Generate a dream based on commercial request
-        
+
         Args:
             request: DreamRequest with generation parameters
-            
+
         Returns:
             DreamResponse with generated dream content
         """
         # Basic dream generation without personality
         dream_data = {
-            'prompt': request.prompt,
-            'style': request.style,
-            'length': request.length
+            "prompt": request.prompt,
+            "style": request.style,
+            "length": request.length,
         }
 
         if request.use_personality:
             # Only load personality if explicitly requested
             await self._load_personality()
-            dream_data['personality'] = True
+            dream_data["personality"] = True
 
         # Generate dream
         result = await self._generate_core_dream(dream_data)
@@ -74,29 +79,29 @@ class DreamCommerceAPI:
         # Extract commercial-safe components
         response = DreamResponse(
             dream_id=self._generate_dream_id(),
-            content=result.get('content', ''),
-            symbols=result.get('symbols', []),
-            themes=result.get('themes', []),
-            emotional_tone=result.get('emotional_tone', 'neutral'),
+            content=result.get("content", ""),
+            symbols=result.get("symbols", []),
+            themes=result.get("themes", []),
+            emotional_tone=result.get("emotional_tone", "neutral"),
             metadata={
-                'style': request.style,
-                'length': request.length,
-                'timestamp': self._get_timestamp()
-            }
+                "style": request.style,
+                "length": request.length,
+                "timestamp": self._get_timestamp(),
+            },
         )
 
         if request.include_narration and request.use_personality:
-            response.metadata['narration'] = await self._add_narration(result)
+            response.metadata["narration"] = await self._add_narration(result)
 
         return response
 
     async def analyze_dream(self, dream_content: str) -> Dict[str, Any]:
         """
         Analyze dream content for symbols and themes
-        
+
         Args:
             dream_content: Text content of dream
-            
+
         Returns:
             Analysis results
         """
@@ -106,10 +111,10 @@ class DreamCommerceAPI:
         analysis = analyze_dream_symbols(dream_content)
 
         return {
-            'symbols': analysis.get('symbols', []),
-            'themes': analysis.get('themes', []),
-            'emotional_tone': analysis.get('emotional_tone', 'neutral'),
-            'coherence_score': analysis.get('coherence_score', 0.0)
+            "symbols": analysis.get("symbols", []),
+            "themes": analysis.get("themes", []),
+            "emotional_tone": analysis.get("emotional_tone", "neutral"),
+            "coherence_score": analysis.get("coherence_score", 0.0),
         }
 
     async def _load_personality(self):
@@ -119,7 +124,6 @@ class DreamCommerceAPI:
 
         try:
             # Only load if explicitly requested
-            from personality.creative_core import CreativeCore
             from personality.narrative_engine_dream_narrator_queue import (
                 DreamNarratorQueue,
             )
@@ -134,10 +138,10 @@ class DreamCommerceAPI:
         """Generate dream using core engine"""
         # Simplified example - real implementation would use the engine
         return {
-            'content': f"A dream about {dream_data['prompt']}...",
-            'symbols': ['water', 'flight', 'mirror'],
-            'themes': ['transformation', 'discovery'],
-            'emotional_tone': 'contemplative'
+            "content": f"A dream about {dream_data['prompt']}...",
+            "symbols": ["water", "flight", "mirror"],
+            "themes": ["transformation", "discovery"],
+            "emotional_tone": "contemplative",
         }
 
     async def _add_narration(self, dream_result: Dict[str, Any]) -> str:
@@ -151,11 +155,13 @@ class DreamCommerceAPI:
     def _generate_dream_id(self) -> str:
         """Generate unique dream ID"""
         import uuid
+
         return f"dream_{uuid.uuid4().hex[:8]}"
 
     def _get_timestamp(self) -> str:
         """Get current timestamp"""
         from datetime import datetime
+
         return datetime.utcnow().isoformat()
 
 
@@ -167,9 +173,7 @@ async def example_commercial_usage():
 
     # Standard commercial request (no personality)
     standard_request = DreamRequest(
-        prompt="flying over mountains",
-        style="standard",
-        use_personality=False
+        prompt="flying over mountains", style="standard", use_personality=False
     )
 
     standard_response = await api.generate_dream(standard_request)
@@ -180,7 +184,7 @@ async def example_commercial_usage():
         prompt="exploring ancient ruins",
         style="creative",
         use_personality=True,
-        include_narration=True
+        include_narration=True,
     )
 
     premium_response = await api.generate_dream(premium_request)

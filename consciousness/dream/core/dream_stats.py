@@ -5,7 +5,7 @@ Temporary implementation - see MOCK_TRANSPARENCY_LOG.md
 
 import random
 from datetime import datetime, timedelta
-from typing import Any, Dict, List
+from typing import Any
 
 
 class DreamStatistics:
@@ -19,11 +19,11 @@ class DreamStatistics:
             "emotional_distribution": {},
         }
 
-    def update_stats(self, dream_data: Dict) -> None:
+    def update_stats(self, dream_data: dict) -> None:
         """Mock update_stats method"""
         self.stats["total_dreams"] += 1
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Mock get_summary method"""
         return {
             "total_dreams": self.stats["total_dreams"],
@@ -32,7 +32,7 @@ class DreamStatistics:
             "rem_percentage": random.uniform(20, 25),
         }
 
-    def get_trends(self, days: int = 7) -> List[Dict]:
+    def get_trends(self, days: int = 7) -> list[dict]:
         """Mock get_trends method"""
         trends = []
         for i in range(days):

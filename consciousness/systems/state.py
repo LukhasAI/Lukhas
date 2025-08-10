@@ -8,7 +8,7 @@ This component handles consciousness functionality in the AI consciousness compu
 
 import asyncio
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -23,7 +23,7 @@ class ConsciousnessState:
 
     def __init__(
         self,
-        config: Optional[Dict] = None,
+        config: Optional[dict] = None,
         level: float = 0.0,
         awareness_type: str = "basic",
         emotional_tone: str = "neutral",
@@ -60,7 +60,7 @@ class ConsciousnessState:
         # Placeholder for consciousness-specific setup
         await asyncio.sleep(0.1)  # Simulate async operation
 
-    async def process(self, data: Any) -> Dict:
+    async def process(self, data: Any) -> dict:
         """Process consciousness data"""
         if not self.is_initialized:
             await self.initialize()
@@ -109,27 +109,27 @@ class ConsciousnessState:
         else:
             return await self._process_generic(data)
 
-    async def _process_consciousness(self, data: Any) -> Dict:
+    async def _process_consciousness(self, data: Any) -> dict:
         """Process consciousness-related data"""
         return {"consciousness_level": "active", "awareness": "enhanced"}
 
-    async def _process_governance(self, data: Any) -> Dict:
+    async def _process_governance(self, data: Any) -> dict:
         """Process governance-related data"""
         return {"policy_compliant": True, "ethics_check": "passed"}
 
-    async def _process_voice(self, data: Any) -> Dict:
+    async def _process_voice(self, data: Any) -> dict:
         """Process voice-related data"""
         return {"voice_processed": True, "audio_quality": "high"}
 
-    async def _process_identity(self, data: Any) -> Dict:
+    async def _process_identity(self, data: Any) -> dict:
         """Process identity-related data"""
         return {"identity_verified": True, "persona": "active"}
 
-    async def _process_quantum(self, data: Any) -> Dict:
+    async def _process_quantum(self, data: Any) -> dict:
         """Process quantum-related data"""
         return {"quantum_like_state": "entangled", "coherence": "stable"}
 
-    async def _process_generic(self, data: Any) -> Dict:
+    async def _process_generic(self, data: Any) -> dict:
         """Process generic data"""
         return {"processed": True, "data": data}
 
@@ -153,7 +153,7 @@ class ConsciousnessState:
         # Implement validation logic specific to consciousness
         return True
 
-    def get_status(self) -> Dict:
+    def get_status(self) -> dict:
         """Get component status"""
         return {
             "component": self.__class__.__name__,
@@ -175,14 +175,14 @@ lukhasConsciousnessState = ConsciousnessState
 
 
 # Factory function for easy instantiation
-def create_consciousness_component(config: Optional[Dict] = None) -> ConsciousnessState:
+def create_consciousness_component(config: Optional[dict] = None) -> ConsciousnessState:
     """Create and return a consciousness component instance"""
     return ConsciousnessState(config)
 
 
 # Async factory function
 async def create_and_initialize_consciousness_component(
-    config: Optional[Dict] = None,
+    config: Optional[dict] = None,
 ) -> ConsciousnessState:
     """Create, initialize and return a consciousness component instance"""
     component = ConsciousnessState(config)

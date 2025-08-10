@@ -33,17 +33,17 @@ The integrator maintains consciousness continuity and ensures
 seamless communication between all cognitive modules.
 """
 
+from typing import Any, Optional
+from pathlib import Path
+from enum import Enum
+from datetime import datetime
+from dataclasses import asdict, dataclass
+import uuid
+import time
+import threading
+import logging
 import asyncio
 import json
-import logging
-import threading
-import time
-import uuid
-from dataclasses import asdict, dataclass
-from datetime import datetime
-from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional
 
 # Try to import from core.common if available
 try:
@@ -140,10 +140,10 @@ class ConsciousnessEvent:
     timestamp: datetime
     event_type: str
     source_module: str
-    data: Dict[str, Any]
+    data: dict[str, Any]
     priority: IntegrationPriority
-    emotional_context: Optional[Dict[str, float]] = None
-    memory_tags: Optional[List[str]] = None
+    emotional_context: Optional[dict[str, float]] = None
+    memory_tags: Optional[list[str]] = None
 
 
 @dataclass
@@ -153,10 +153,10 @@ class IntegrationContext:
     user_id: str
     session_id: str
     current_state: ConsciousnessState
-    active_modules: List[str]
-    emotional_state: Dict[str, float]
-    memory_context: Dict[str, Any]
-    voice_preferences: Dict[str, Any]
+    active_modules: list[str]
+    emotional_state: dict[str, float]
+    memory_context: dict[str, Any]
+    voice_preferences: dict[str, Any]
 
 
 class ConsciousnessIntegrator:
@@ -181,8 +181,8 @@ class ConsciousnessIntegrator:
         self.emotion_engine: Optional[EmotionEngine] = None
 
         # Integration state
-        self.active_integrations: Dict[str, bool] = {}
-        self.integration_history: List[ConsciousnessEvent] = []
+        self.active_integrations: dict[str, bool] = {}
+        self.integration_history: list[ConsciousnessEvent] = []
         self.current_context: Optional[IntegrationContext] = None
 
         # Event processing
@@ -195,7 +195,7 @@ class ConsciousnessIntegrator:
 
         logger.info(f"Consciousness Integrator initialized: {self.integrator_id}")
 
-    def _load_config(self, config_path: Optional[str]) -> Dict[str, Any]:
+    def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
         """Load integration configuration"""
         default_config = {
             "integration_priorities": {
@@ -344,7 +344,8 @@ class ConsciousnessIntegrator:
 
     async def _evaluate_consciousness_state(self) -> ConsciousnessState:
         """Evaluate and determine appropriate consciousness state"""
-        # This is a simplified evaluation - in practice, this would be more sophisticated
+        # This is a simplified evaluation - in practice, this would be more
+        # sophisticated
         if self.current_context and self.current_context.emotional_state:
             # Check for high emotional intensity
             emotional_intensity = sum(
@@ -470,7 +471,7 @@ class ConsciousnessIntegrator:
                 await asyncio.sleep(0.1)
 
     async def _process_event_batch(
-        self, events: Optional[List[ConsciousnessEvent]] = None
+        self, events: Optional[list[ConsciousnessEvent]] = None
     ):
         """Process a batch of consciousness events"""
         if not events:
@@ -603,7 +604,7 @@ class ConsciousnessIntegrator:
             logger.error(f"Failed to submit event: {e}")
             return False
 
-    def process_consciousness_event(self, event_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_consciousness_event(self, event_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process a consciousness event synchronously for compatibility.
 
@@ -642,7 +643,8 @@ class ConsciousnessIntegrator:
 
             # Add to integration history if available
             if hasattr(self, "integration_history"):
-                # Note: This is simplified - actual implementation would create ConsciousnessEvent object
+                # Note: This is simplified - actual implementation would create
+                # ConsciousnessEvent object
                 pass
 
             return {
@@ -661,7 +663,7 @@ class ConsciousnessIntegrator:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def get_consciousness_status(self) -> Dict[str, Any]:
+    async def get_consciousness_status(self) -> dict[str, Any]:
         """Get current consciousness status and statistics"""
         return {
             "integrator_id": self.integrator_id,
@@ -708,9 +710,7 @@ if __name__ == "__main__":
         await integrator.start_consciousness_loop()
 
         # Create a test context
-        context = await integrator.create_integration_context(
-            "test_user", "test_session"
-        )
+        await integrator.create_integration_context("test_user", "test_session")
 
         # Submit a test event
         test_event = ConsciousnessEvent(

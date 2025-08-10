@@ -10,7 +10,8 @@ explaining what each module does in technical but accessible terms.
 import re
 from pathlib import Path
 
-# Pattern to find where to insert the description (after @lukhas/HEADER_FOOTER_TEMPLATE.py)
+# Pattern to find where to insert the description (after
+# @lukhas/HEADER_FOOTER_TEMPLATE.py)
 TEMPLATE_PATTERN = re.compile(r"(@lukhas/HEADER_FOOTER_TEMPLATE\.py\n)\n", re.MULTILINE)
 
 # Module descriptions for quantum files
@@ -205,7 +206,7 @@ begins quantum-classical hybrid processing for AGI operations.
 def add_module_description(filepath: Path) -> bool:
     """Add module description after template reference."""
 
-    if not filepath.suffix == ".py":
+    if filepath.suffix != ".py":
         return False
 
     try:

@@ -12,13 +12,13 @@ Healix Memory System
 DNA-inspired memory architecture for encrypted emotional and cultural memory mapping.
 """
 
+from typing import Any, Optional
+from enum import Enum
+from datetime import datetime, timedelta
+import random
+import logging
 import hashlib
 import json
-import logging
-import random
-from datetime import datetime, timedelta
-from enum import Enum
-from typing import Any, Optional
 
 logger = logging.getLogger("healix")
 

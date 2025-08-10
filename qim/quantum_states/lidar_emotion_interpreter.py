@@ -20,10 +20,10 @@ Transforms raw point cloud + kinetic movement into symbolic fields,
 classifies emotional states based on field disruption, and logs collapses.
 """
 
+import numpy as np
 import datetime
 import uuid
 
-import numpy as np
 
 # === CONFIGURABLE THRESHOLDS === #
 MOVEMENT_VARIANCE_THRESHOLD = 0.8  # Above this = chaotic movement

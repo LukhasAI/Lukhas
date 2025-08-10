@@ -31,6 +31,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class EntropySource:
     """A source of entropy for password generation"""
+
     name: str
     bits_per_element: float
     max_elements: int
@@ -44,6 +45,7 @@ class EntropySource:
 @dataclass
 class QuantumResistantPassword:
     """Password designed to resist quantum computing attacks"""
+
     password_id: str
 
     # Multi-modal components
@@ -87,10 +89,10 @@ class QuantumResistantPassword:
         kdf = Scrypt(
             salt=self.salt,
             length=64,  # 512-bit key
-            n=2**20,    # CPU/memory cost (very high)
+            n=2**20,  # CPU/memory cost (very high)
             r=8,
             p=1,
-            backend=default_backend()
+            backend=default_backend(),
         )
 
         return kdf.derive(combined.encode())
@@ -182,11 +184,11 @@ class MaximumEntropyPasswordGenerator:
         min_entropy_bits: int = 256,
         max_components: int = 8,
         memorability_threshold: float = 0.6,
-        use_colony_validation: bool = True
+        use_colony_validation: bool = True,
     ) -> QuantumResistantPassword:
         """
         Generate a password with maximum possible entropy.
-        
+
         Args:
             min_entropy_bits: Minimum entropy required (256 = uncrackable)
             max_components: Maximum number of different modalities to use
@@ -194,13 +196,13 @@ class MaximumEntropyPasswordGenerator:
             use_colony_validation: Whether to use colony consensus for validation
         """
 
-        logger.info(f"Generating maximum entropy password (target: {min_entropy_bits} bits)")
+        logger.info(
+            f"Generating maximum entropy password (target: {min_entropy_bits} bits)"
+        )
 
         # Select optimal combination of modalities
         selected_modalities = self._select_optimal_modalities(
-            min_entropy_bits,
-            max_components,
-            memorability_threshold
+            min_entropy_bits, max_components, memorability_threshold
         )
 
         # Generate components
@@ -209,13 +211,9 @@ class MaximumEntropyPasswordGenerator:
 
         # Text component (pronounceable but complex)
         if "text" in selected_modalities:
-            text = self._generate_quantum_resistant_text(
-                selected_modalities["text"]
-            )
+            text = self._generate_quantum_resistant_text(selected_modalities["text"])
             components["text"] = text
-            total_entropy += self.entropy_sources["text"].calculate_entropy(
-                len(text)
-            )
+            total_entropy += self.entropy_sources["text"].calculate_entropy(len(text))
 
         # Emoji component (semantic clusters)
         if "emoji" in selected_modalities:
@@ -229,17 +227,13 @@ class MaximumEntropyPasswordGenerator:
 
         # Visual component (generated image hash)
         if "image" in selected_modalities:
-            visual = self._generate_visual_memory_palace(
-                selected_modalities["image"]
-            )
+            visual = self._generate_visual_memory_palace(selected_modalities["image"])
             components["visual"] = visual
             total_entropy += self.entropy_sources["image"].calculate_entropy(1)
 
         # Audio component (melodic pattern)
         if "audio" in selected_modalities:
-            audio = self._generate_audio_signature(
-                selected_modalities["audio"]
-            )
+            audio = self._generate_audio_signature(selected_modalities["audio"])
             components["audio"] = audio
             total_entropy += self.entropy_sources["audio"].calculate_entropy(1)
 
@@ -255,9 +249,7 @@ class MaximumEntropyPasswordGenerator:
 
         # Color component (visual pattern)
         if "color" in selected_modalities:
-            colors = self._generate_color_symphony(
-                selected_modalities["color"]
-            )
+            colors = self._generate_color_symphony(selected_modalities["color"])
             components["colors"] = colors
             total_entropy += self.entropy_sources["color"].calculate_entropy(
                 len(colors)
@@ -265,9 +257,7 @@ class MaximumEntropyPasswordGenerator:
 
         # Pattern component (2D grid)
         if "pattern" in selected_modalities:
-            pattern = self._generate_pattern_matrix(
-                selected_modalities["pattern"]
-            )
+            pattern = self._generate_pattern_matrix(selected_modalities["pattern"])
             components["pattern"] = pattern
             total_entropy += self.entropy_sources["pattern"].calculate_entropy(
                 len(pattern)
@@ -275,9 +265,7 @@ class MaximumEntropyPasswordGenerator:
 
         # Rhythm component (temporal pattern)
         if "rhythm" in selected_modalities:
-            rhythm = self._generate_rhythm_sequence(
-                selected_modalities["rhythm"]
-            )
+            rhythm = self._generate_rhythm_sequence(selected_modalities["rhythm"])
             components["rhythm"] = rhythm
             total_entropy += self.entropy_sources["rhythm"].calculate_entropy(
                 len(rhythm)
@@ -318,19 +306,18 @@ class MaximumEntropyPasswordGenerator:
             memorability_score=memorability,
             creation_time=time.time(),
             last_used=time.time(),
-            colony_consensus=colony_confidence
+            colony_consensus=colony_confidence,
         )
 
-        logger.info(f"Generated password with {total_entropy:.2f} bits of entropy "
-                   f"({quantum_entropy:.2f} quantum-resistant bits)")
+        logger.info(
+            f"Generated password with {total_entropy:.2f} bits of entropy "
+            f"({quantum_entropy:.2f} quantum-resistant bits)"
+        )
 
         return password
 
     def _select_optimal_modalities(
-        self,
-        target_entropy: int,
-        max_components: int,
-        memorability_threshold: float
+        self, target_entropy: int, max_components: int, memorability_threshold: float
     ) -> Dict[str, int]:
         """Select optimal combination of modalities for target entropy"""
 
@@ -413,7 +400,9 @@ class MaximumEntropyPasswordGenerator:
         ]
 
         # Select story elements
-        selected_stories = random.sample(story_elements, min(count, len(story_elements)))
+        selected_stories = random.sample(
+            story_elements, min(count, len(story_elements))
+        )
         emojis = []
 
         for story in selected_stories:
@@ -476,8 +465,7 @@ class MaximumEntropyPasswordGenerator:
 
         # Select gestures that form a narrative
         selected = random.sample(
-            gesture_vocabulary,
-            min(count, len(gesture_vocabulary))
+            gesture_vocabulary, min(count, len(gesture_vocabulary))
         )
 
         # Add pressure variation for extra entropy
@@ -497,8 +485,8 @@ class MaximumEntropyPasswordGenerator:
 
         # Use color harmony rules
         harmonies = [
-            0,      # Base
-            0.5,    # Complementary
+            0,  # Base
+            0.5,  # Complementary
             0.333,  # Triadic
             0.667,  # Triadic
             0.167,  # Analogous
@@ -614,9 +602,7 @@ class MaximumEntropyPasswordGenerator:
         diversity_score = len(components) / 8.0
 
         # Check entropy distribution
-        entropy_balance = 1.0 - (
-            abs(0.5 - diversity_score) * 2
-        )
+        entropy_balance = 1.0 - (abs(0.5 - diversity_score) * 2)
 
         # Simulate colony confidence
         confidence = (diversity_score + entropy_balance) / 2
@@ -639,9 +625,9 @@ async def demo_maximum_entropy_password():
     # Generate maximum entropy password
     password = await generator.generate_maximum_entropy_password(
         min_entropy_bits=256,  # Quantum-computer resistant
-        max_components=6,      # Balance of security and usability
+        max_components=6,  # Balance of security and usability
         memorability_threshold=0.6,
-        use_colony_validation=True
+        use_colony_validation=True,
     )
 
     print("✨ QUANTUM-RESISTANT PASSWORD GENERATED")
@@ -660,8 +646,11 @@ async def demo_maximum_entropy_password():
     print("-" * 30)
 
     if password.text_component:
-        print(f"Text: {password.text_component[:20]}..." if len(password.text_component) > 20
-              else f"Text: {password.text_component}")
+        print(
+            f"Text: {password.text_component[:20]}..."
+            if len(password.text_component) > 20
+            else f"Text: {password.text_component}"
+        )
 
     if password.emoji_component:
         print(f"Emojis: {''.join(password.emoji_component)}")
@@ -675,7 +664,9 @@ async def demo_maximum_entropy_password():
         print(f"Colors: {len(password.color_component)} color harmony")
 
     if password.pattern_component:
-        print(f"Pattern: {len(password.pattern_component)}x{len(password.pattern_component)} matrix")
+        print(
+            f"Pattern: {len(password.pattern_component)}x{len(password.pattern_component)} matrix"
+        )
 
     if password.rhythm_component:
         print(f"Rhythm: {len(password.rhythm_component)} beats")
@@ -686,10 +677,10 @@ async def demo_maximum_entropy_password():
 
     # Calculate cracking times
     guesses_per_second_classical = 1e12  # 1 trillion/second (current supercomputer)
-    guesses_per_second_quantum = 1e15    # 1000x faster (theoretical quantum)
+    guesses_per_second_quantum = 1e15  # 1000x faster (theoretical quantum)
 
-    total_possibilities = 2 ** password.total_entropy_bits
-    quantum_possibilities = 2 ** password.quantum_resistance_bits
+    total_possibilities = 2**password.total_entropy_bits
+    quantum_possibilities = 2**password.quantum_resistance_bits
 
     classical_seconds = total_possibilities / (2 * guesses_per_second_classical)
     quantum_seconds = quantum_possibilities / (2 * guesses_per_second_quantum)
@@ -725,4 +716,5 @@ async def demo_maximum_entropy_password():
 
 if __name__ == "__main__":
     import asyncio
+
     asyncio.run(demo_maximum_entropy_password())

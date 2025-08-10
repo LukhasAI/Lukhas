@@ -17,13 +17,13 @@ from .qubit_collapse import (
 )
 
 __all__ = [
-    'QuantumSubstrate',
-    'QuantumState',
-    'QuantumEnvironment',
-    'QuantumStateType',
-    'QuantumNoiseType',
-    'QubitCollapseEngine',
-    'CollapseField',
-    'ProbabilisticConvergence',
-    'CollapseType'
+    "QuantumSubstrate",
+    "QuantumState",
+    "QuantumEnvironment",
+    "QuantumStateType",
+    "QuantumNoiseType",
+    "QubitCollapseEngine",
+    "CollapseField",
+    "ProbabilisticConvergence",
+    "CollapseType",
 ]

@@ -45,7 +45,7 @@ import uuid
 from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     import structlog
@@ -77,9 +77,9 @@ class MemoryNode:
     content_hash: str = ""
     content: Any = None  # Actual memory content
     emotional_weight: float = 0.0
-    semantic_tags: List[str] = field(default_factory=list)
-    parent_nodes: List[str] = field(default_factory=list)
-    child_nodes: List[str] = field(default_factory=list)
+    semantic_tags: list[str] = field(default_factory=list)
+    parent_nodes: list[str] = field(default_factory=list)
+    child_nodes: list[str] = field(default_factory=list)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     collapse_count: int = 0  # Times this node has been collapsed
     entropy_score: float = 0.0  # Individual node entropy
@@ -96,7 +96,7 @@ class MemoryNode:
         )
         return hashlib.sha256(hash_input.encode()).hexdigest()[:16]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             "node_id": self.node_id,
@@ -117,11 +117,11 @@ class CollapseResult:
     """Result of a collapse operation."""
 
     collapsed_node: MemoryNode
-    source_nodes: List[str]
+    source_nodes: list[str]
     collapse_type: str  # consolidation, compression, fusion
     entropy_reduction: float
     semantic_loss: float
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class CollapseEngine:
@@ -153,10 +153,10 @@ class CollapseEngine:
         self.semantic_similarity_threshold = semantic_similarity_threshold
 
         # Node registry
-        self.nodes: Dict[str, MemoryNode] = {}
+        self.nodes: dict[str, MemoryNode] = {}
 
         # Collapse history
-        self.collapse_history: List[CollapseResult] = []
+        self.collapse_history: list[CollapseResult] = []
 
         # Get global trackers if available
         self.collapse_tracker = get_global_tracker() if get_global_tracker else None
@@ -170,7 +170,7 @@ class CollapseEngine:
 
     # {ΛCOLLAPSE}
     def collapse_nodes(
-        self, nodes: List[MemoryNode], strategy: str = "auto"
+        self, nodes: list[MemoryNode], strategy: str = "auto"
     ) -> Optional[CollapseResult]:
         """
         Collapse a list of memory nodes into a single node.
@@ -234,7 +234,7 @@ class CollapseEngine:
 
         return result
 
-    def _calculate_node_entropy(self, nodes: List[MemoryNode]) -> float:
+    def _calculate_node_entropy(self, nodes: list[MemoryNode]) -> float:
         """
         Calculate Shannon entropy for a set of nodes.
 
@@ -273,7 +273,7 @@ class CollapseEngine:
         return min(1.0, max(0.0, normalized_entropy))
 
     def _determine_collapse_strategy(
-        self, nodes: List[MemoryNode], entropy: float
+        self, nodes: list[MemoryNode], entropy: float
     ) -> str:
         """
         Determine optimal collapse strategy based on node characteristics.
@@ -297,7 +297,7 @@ class CollapseEngine:
         # Default to fusion for creating abstractions
         return "fusion"
 
-    def _calculate_average_similarity(self, nodes: List[MemoryNode]) -> float:
+    def _calculate_average_similarity(self, nodes: list[MemoryNode]) -> float:
         """Calculate average semantic similarity between nodes."""
         if len(nodes) < 2:
             return 1.0
@@ -325,7 +325,7 @@ class CollapseEngine:
         return len(intersection) / len(union) if union else 0.0
 
     # {ΛCONSOLIDATION}
-    def _consolidate_nodes(self, nodes: List[MemoryNode]) -> CollapseResult:
+    def _consolidate_nodes(self, nodes: list[MemoryNode]) -> CollapseResult:
         """
         Consolidate similar nodes by merging their content.
 
@@ -342,7 +342,7 @@ class CollapseEngine:
         all_tags = set()
         for node in nodes:
             all_tags.update(node.semantic_tags)
-        consolidated.semantic_tags = sorted(list(all_tags))
+        consolidated.semantic_tags = sorted(all_tags)
 
         # Average emotional weights
         consolidated.emotional_weight = sum(n.emotional_weight for n in nodes) / len(
@@ -358,11 +358,11 @@ class CollapseEngine:
 
         # Remove self-references
         node_ids = {n.node_id for n in nodes}
-        consolidated.parent_nodes = sorted(list(all_parents - node_ids))
-        consolidated.child_nodes = sorted(list(all_children - node_ids))
+        consolidated.parent_nodes = sorted(all_parents - node_ids)
+        consolidated.child_nodes = sorted(all_children - node_ids)
 
         # Aggregate content (simplified - in reality would be more sophisticated)
-        contents = [n.content for n in nodes if n.content]
+        [n.content for n in nodes if n.content]
         consolidated.content = f"[Consolidated from {len(nodes)} nodes]"
 
         # Update metadata
@@ -383,7 +383,7 @@ class CollapseEngine:
         )
 
     # {ΛCOMPRESSION}
-    def _compress_nodes(self, nodes: List[MemoryNode]) -> CollapseResult:
+    def _compress_nodes(self, nodes: list[MemoryNode]) -> CollapseResult:
         """
         Compress nodes by removing redundancy.
 
@@ -457,7 +457,7 @@ class CollapseEngine:
         )
 
     # {ΛFUSION}
-    def _fuse_nodes(self, nodes: List[MemoryNode]) -> CollapseResult:
+    def _fuse_nodes(self, nodes: list[MemoryNode]) -> CollapseResult:
         """
         Fuse nodes into higher-order abstraction.
 
@@ -472,7 +472,7 @@ class CollapseEngine:
 
         # Create abstraction tags
         tag_categories = self._categorize_tags(nodes)
-        fusion.semantic_tags = [f"abstract_{cat}" for cat in tag_categories.keys()]
+        fusion.semantic_tags = [f"abstract_{cat}" for cat in tag_categories]
         fusion.semantic_tags.append(f"fusion_of_{len(nodes)}_nodes")
 
         # Fusion uses maximum emotional weight (peak experience)
@@ -511,7 +511,7 @@ class CollapseEngine:
             },
         )
 
-    def _categorize_tags(self, nodes: List[MemoryNode]) -> Dict[str, List[str]]:
+    def _categorize_tags(self, nodes: list[MemoryNode]) -> dict[str, list[str]]:
         """Categorize semantic tags into higher-level concepts."""
         categories = {
             "emotion": [],
@@ -577,7 +577,7 @@ class CollapseEngine:
             },
         )
 
-    def get_collapse_metrics(self) -> Dict[str, Any]:
+    def get_collapse_metrics(self) -> dict[str, Any]:
         """Get metrics about collapse operations."""
         if not self.collapse_history:
             return {
@@ -607,7 +607,7 @@ class CollapseEngine:
             "current_node_count": len(self.nodes),
         }
 
-    def visualize_collapse_graph(self) -> Dict[str, Any]:
+    def visualize_collapse_graph(self) -> dict[str, Any]:
         """Generate visualization data for collapse operations."""
         graph_data = {"nodes": [], "edges": [], "collapse_events": []}
 

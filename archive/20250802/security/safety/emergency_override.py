@@ -20,7 +20,7 @@ import asyncio
 import json
 from datetime import datetime, timezone  # Added timezone
 from pathlib import Path
-from typing import Any, Dict, Optional  # Added List
+from typing import Any, Optional  # Added List
 
 import structlog  # Changed from logging
 
@@ -51,7 +51,7 @@ except ImportError as e:
         entanglement_factor: float = 0.0
 
     class EnhancedSystemAwareness:  # type: ignore
-        async def monitor_system(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        async def monitor_system(self, data: dict[str, Any]) -> dict[str, Any]:
             logger.error("Fallback EnhancedSystemAwareness monitor_system used.")
             return {"health": {"status": "unknown_due_to_fallback"}}
 
@@ -85,20 +85,22 @@ class EnhancedEmergencyOverride:
                 error=str(e_init),
                 exc_info=True,
             )
-            # ΛCAUTION: Core component initialization failed. System safety may be compromised.
+            # ΛCAUTION: Core component initialization failed. System safety may be
+            # compromised.
             self.quantum_oscillator = None  # type: ignore
             self.awareness = None  # type: ignore
 
         # ΛSEED: Safety thresholds with quantum enhancement considerations.
-        self.safety_thresholds: Dict[str, float] = {
+        self.safety_thresholds: dict[str, float] = {
             "quantum_coherence": 0.85,  # Min coherence for system to be considered quantum-safe
-            "system_stability": 0.9,  # Overall system stability metric (e.g., from awareness)
+            # Overall system stability metric (e.g., from awareness)
+            "system_stability": 0.9,
             "ethical_confidence": 0.95,  # Confidence from an ethics module before override
             "risk_tolerance": 0.7,  # System's tolerance for risk before triggering override
         }
 
         # ΛSEED: Compliance flags indicating adherence to various standards.
-        self.compliance_flags: Dict[str, bool] = {
+        self.compliance_flags: dict[str, bool] = {
             "gdpr": True,
             "institutional_policy_xyz": True,  # Example specific policy
             "ethical_framework_v2_1": True,
@@ -126,8 +128,8 @@ class EnhancedEmergencyOverride:
         )
 
     async def check_safety_flags(
-        self, user_context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, user_context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Check safety flags with quantum-enhanced verification.
         #ΛNOTE: This simulates a complex safety check; actual implementation would be more detailed.
@@ -179,7 +181,8 @@ class EnhancedEmergencyOverride:
                     "authorized"
                 ]  # Assuming check implies action by authorized entity
                 and system_is_stable
-                # Add more conditions based on ethical_confidence, risk_tolerance from system_state_assessment
+                # Add more conditions based on ethical_confidence, risk_tolerance from
+                # system_state_assessment
             )
 
             safety_status_response = {
@@ -203,7 +206,8 @@ class EnhancedEmergencyOverride:
             self.logger.error(
                 "Error checking safety flags.", error=str(e), exc_info=True
             )
-            # ΛCAUTION: Error during safety check; defaulting to a "fail-safe" (engage safe_mode) response.
+            # ΛCAUTION: Error during safety check; defaulting to a "fail-safe" (engage
+            # safe_mode) response.
             return {
                 "status": "error",
                 "error_message": str(e),
@@ -215,7 +219,7 @@ class EnhancedEmergencyOverride:
         self,
         reason: str = "Unspecified emergency condition",
         user_context: Optional[
-            Dict[str, Any]
+            dict[str, Any]
         ] = None,  # AIDENTITY: User context for shutdown audit.
     ) -> None:
         """
@@ -254,12 +258,13 @@ class EnhancedEmergencyOverride:
                 primary_error=str(e),
                 exc_info=True,
             )
-            # ΛCAUTION: Primary shutdown failed. Attempting hard shutdown as fallback. This is a severe state.
+            # ΛCAUTION: Primary shutdown failed. Attempting hard shutdown as fallback.
+            # This is a severe state.
             self._hard_shutdown()  # Logs internally
             # ΛPHASE_NODE: Emergency Shutdown Hard Fallback
 
     async def log_incident(
-        self, reason: str, user_context: Optional[Dict[str, Any]] = None  # AIDENTITY
+        self, reason: str, user_context: Optional[dict[str, Any]] = None  # AIDENTITY
     ) -> None:
         """
         Log emergency incident with enhanced compliance tracking.
@@ -307,9 +312,10 @@ class EnhancedEmergencyOverride:
             )
             # ΛCAUTION: Failure to log a critical incident is a serious issue.
 
-    def _verify_quantum_safety(self) -> Dict[str, Any]:
+    def _verify_quantum_safety(self) -> dict[str, Any]:
         """Verify quantum safety status (placeholder)."""
-        # ΛNOTE: Placeholder for quantum safety verification. Assumes QuantumOscillator provides relevant metrics.
+        # ΛNOTE: Placeholder for quantum safety verification. Assumes
+        # QuantumOscillator provides relevant metrics.
         self.logger.debug("Verifying quantum safety (placeholder).")
         if not self.quantum_oscillator:
             self.logger.warning(
@@ -331,10 +337,11 @@ class EnhancedEmergencyOverride:
         return {"coherence": coherence, "state": state}
 
     def _verify_authorization(
-        self, user_context: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:  # AIDENTITY
+        self, user_context: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:  # AIDENTITY
         """Verify user authorization for emergency actions (placeholder)."""
-        # ΛNOTE: Placeholder for authorization logic. Should integrate with a robust Identity & Access Management system.
+        # ΛNOTE: Placeholder for authorization logic. Should integrate with a
+        # robust Identity & Access Management system.
         self.logger.debug(
             "Verifying authorization.", user_context_present=bool(user_context)
         )
@@ -343,7 +350,8 @@ class EnhancedEmergencyOverride:
             return {"authorized": False, "reason": "No user context"}
 
         tier = user_context.get("tier", 0)  # Default to lowest tier if not specified
-        # ΛNOTE: Tier requirement (e.g., >=2) for emergency actions is hardcoded. Should be configurable.
+        # ΛNOTE: Tier requirement (e.g., >=2) for emergency actions is hardcoded.
+        # Should be configurable.
         is_authorized = tier >= 2  # Example: Tier 2 or higher required
         reason = f"User tier {tier} {'is sufficient' if is_authorized else 'is insufficient'} (required >= 2)."
         self.logger.info(
@@ -358,7 +366,8 @@ class EnhancedEmergencyOverride:
     async def _quantum_safe_shutdown(self) -> None:
         """Execute quantum-safe shutdown sequence (placeholder)."""
         # ΛNOTE: Placeholder for quantum-safe shutdown sequence. This would involve complex interactions.
-        # ΛCAUTION: This is a critical safety procedure; placeholder logic is insufficient for production.
+        # ΛCAUTION: This is a critical safety procedure; placeholder logic is
+        # insufficient for production.
         self.logger.critical("Executing QUANTUM-SAFE SHUTDOWN sequence (simulated).")
         # Example steps:
         # 1. Secure quantum-like states to a safe, non-entangled configuration.
@@ -380,7 +389,7 @@ class EnhancedEmergencyOverride:
         )  # Direct print for critical fallback
         pass  # In a real system, this would be a forceful stop.
 
-    async def _get_system_state(self) -> Dict[str, Any]:
+    async def _get_system_state(self) -> dict[str, Any]:
         """Get current system state (placeholder)."""
         # ΛNOTE: Placeholder for fetching comprehensive system state.
         self.logger.debug("Fetching current system state (placeholder).")
@@ -389,12 +398,17 @@ class EnhancedEmergencyOverride:
             "current_quantum_like_state_summary": self._get_quantum_like_state(),
             "current_safety_thresholds": self.safety_thresholds,
             "current_compliance_flags": self.compliance_flags,
-            "awareness_status": await self.awareness.monitor_system({"request": "minimal_status"}) if self.awareness else "awareness_offline",  # type: ignore
+            # type: ignore
+            "awareness_status": (
+                await self.awareness.monitor_system({"request": "minimal_status"})
+                if self.awareness
+                else "awareness_offline"
+            ),
         }
 
     def _get_quantum_like_state(
         self,
-    ) -> Dict[
+    ) -> dict[
         str, Any
     ]:  # Made sync as it uses only local attributes (potentially from oscillator)
         """Get current quantum-like state summary (placeholder)."""

@@ -5,6 +5,10 @@ Advanced: rem_visualizer.py
 Integration Date: 2025-5-31T07:55:28.209102
 """
 
+from datetime import datetime
+import os
+import json
+import streamlit as st
 PP"""
 rem_visualizer.py
 -----------------
@@ -12,18 +16,16 @@ Visualizes symbolic REM cycles and dream collapses logged by Lucʌs.
 Each phase is displayed with emoji, color, and optional collapse metadata.
 """
 
-import streamlit as st
-import json
-import os
-from datetime import datetime
 
 LOG_PATH = "data/dream_log.jsonl"
+
 
 def load_dream_log():
     if not os.path.exists(LOG_PATH):
         return []
     with open(LOG_PATH, "r", encoding="utf-8") as f:
         return [json.loads(line) for line in f if line.strip()]
+
 
 st.set_page_config(page_title="Lucʌs REM Visualizer", layout="centered")
 

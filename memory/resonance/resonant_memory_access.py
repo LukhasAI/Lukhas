@@ -44,7 +44,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 from uuid import uuid4
 
 import numpy as np
@@ -66,7 +66,7 @@ class ResonanceSignature:
 
     memory_id: str
     fundamental_freq: float  # Base oscillation frequency
-    harmonics: List[float]  # Harmonic overtones
+    harmonics: list[float]  # Harmonic overtones
     phase_shift: float = 0.0  # Phase offset
     amplitude: float = 1.0  # Resonance strength
     decay_rate: float = 0.1  # Amplitude decay
@@ -114,7 +114,7 @@ class ResonantCluster:
 
     cluster_id: str = field(default_factory=lambda: str(uuid4()))
     center_frequency: float = 40.0  # Gamma band default
-    member_signatures: List[ResonanceSignature] = field(default_factory=list)
+    member_signatures: list[ResonanceSignature] = field(default_factory=list)
 
     # Cluster dynamics
     coherence_level: float = 0.0
@@ -122,7 +122,7 @@ class ResonantCluster:
     emergence_time: float = field(default_factory=time.time)
 
     # Network properties
-    connection_strength: Dict[str, float] = field(default_factory=dict)
+    connection_strength: dict[str, float] = field(default_factory=dict)
     resonance_matrix: Optional[np.ndarray] = None
 
     def update_coherence(self):
@@ -168,8 +168,8 @@ class ResonantMemoryAccess:
         self.cluster_coherence_threshold = cluster_coherence_threshold
 
         # Memory resonance tracking
-        self.memory_signatures: Dict[str, ResonanceSignature] = {}
-        self.resonant_clusters: Dict[str, ResonantCluster] = {}
+        self.memory_signatures: dict[str, ResonanceSignature] = {}
+        self.resonant_clusters: dict[str, ResonantCluster] = {}
 
         # Oscillation state
         self.current_phase = 0.0
@@ -177,7 +177,7 @@ class ResonantMemoryAccess:
         self.resonance_cascade_depth = 0
 
         # Network analysis
-        self.resonance_network: Dict[str, Set[str]] = defaultdict(set)
+        self.resonance_network: dict[str, set[str]] = defaultdict(set)
         self.cluster_emergence_history: deque = deque(maxlen=100)
 
         # Performance metrics
@@ -222,7 +222,7 @@ class ResonantMemoryAccess:
         memory_id: str,
         content: Any,
         frequency_hint: Optional[float] = None,
-        harmonics: Optional[List[float]] = None,
+        harmonics: Optional[list[float]] = None,
     ) -> str:
         """Register a memory with its resonance signature"""
 
@@ -281,7 +281,7 @@ class ResonantMemoryAccess:
             content_hash = hash(content_str) % 1000
             return 40.0 + (content_hash / 1000.0) * 20  # 40-60 Hz
 
-    def _generate_harmonics(self, fundamental_freq: float) -> List[float]:
+    def _generate_harmonics(self, fundamental_freq: float) -> list[float]:
         """Generate harmonic overtones for fundamental frequency"""
         harmonics = []
 
@@ -299,7 +299,7 @@ class ResonantMemoryAccess:
         mode: ResonanceMode = ResonanceMode.HARMONIC,
         max_cascade_depth: int = 3,
         return_limit: int = 10,
-    ) -> List[Tuple[str, float, Dict[str, Any]]]:
+    ) -> list[tuple[str, float, dict[str, Any]]]:
         """
         Retrieve memories using resonant patterns.
 
@@ -374,7 +374,7 @@ class ResonantMemoryAccess:
         return filtered_resonances[:return_limit]
 
     def _count_harmonic_matches(
-        self, harmonics1: List[float], harmonics2: List[float]
+        self, harmonics1: list[float], harmonics2: list[float]
     ) -> int:
         """Count close harmonic frequency matches"""
         matches = 0
@@ -386,11 +386,11 @@ class ResonantMemoryAccess:
 
     async def _cascade_resonance(
         self,
-        initial_resonances: List[Tuple[str, float, Dict[str, Any]]],
+        initial_resonances: list[tuple[str, float, dict[str, Any]]],
         query_signature: ResonanceSignature,
         depth: int,
-        visited: Optional[Set[str]] = None,
-    ) -> List[Tuple[str, float, Dict[str, Any]]]:
+        visited: Optional[set[str]] = None,
+    ) -> list[tuple[str, float, dict[str, Any]]]:
         """Recursively find cascaded resonances"""
 
         if depth <= 0 or not initial_resonances:
@@ -401,7 +401,7 @@ class ResonantMemoryAccess:
 
         cascaded = []
 
-        for memory_id, score, metadata in initial_resonances:
+        for memory_id, _score, _metadata in initial_resonances:
             if memory_id in visited:
                 continue
 
@@ -449,8 +449,8 @@ class ResonantMemoryAccess:
         return cascaded
 
     def _apply_mode_filter(
-        self, resonances: List[Tuple[str, float, Dict[str, Any]]], mode: ResonanceMode
-    ) -> List[Tuple[str, float, Dict[str, Any]]]:
+        self, resonances: list[tuple[str, float, dict[str, Any]]], mode: ResonanceMode
+    ) -> list[tuple[str, float, dict[str, Any]]]:
         """Apply resonance mode specific filtering"""
 
         if mode == ResonanceMode.HARMONIC:
@@ -582,7 +582,7 @@ class ResonantMemoryAccess:
 
             await asyncio.sleep(10)  # Every 10 seconds
 
-    def get_resonance_stats(self) -> Dict[str, Any]:
+    def get_resonance_stats(self) -> dict[str, Any]:
         """Get comprehensive resonance statistics"""
 
         avg_cluster_coherence = (

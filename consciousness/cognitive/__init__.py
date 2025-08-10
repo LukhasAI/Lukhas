@@ -14,9 +14,9 @@
 ║ Initialization for cognitive subpackage.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 # Module imports
-from typing import Any, Dict, Optional
 
 from core.common import get_logger
 

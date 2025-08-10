@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any
 
 try:
     # Prefer Oneiric Core dream generator if available
@@ -12,8 +12,8 @@ except Exception:  # pragma: no cover - fallback for broken import
     from datetime import datetime
 
     def generate_dream(
-        seed: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        seed: str, context: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
         """Fallback dream generator used when Oneiric Core is unavailable."""
         return {
             "dream_id": f"DREAM_{seed[:4].upper()}_{int(time.time())}",
@@ -35,7 +35,7 @@ class QuantumWaveform:
 
     def collapse(
         self, probability: float = 0.5, recursion_limit: int = 1
-    ) -> Optional[Dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """Collapse waveform and optionally trigger recursive dream generation."""
         if random.random() >= probability:
             return None
@@ -43,7 +43,7 @@ class QuantumWaveform:
         dream = self._request_recursive_dream(self.base_seed, recursion_limit)
         return dream
 
-    def _request_recursive_dream(self, seed: str, limit: int) -> Dict[str, Any]:
+    def _request_recursive_dream(self, seed: str, limit: int) -> dict[str, Any]:
         dream = generate_dream(seed, context={"recursive": True})
         if limit > 1:
             dream["recursive_child"] = self._request_recursive_dream(

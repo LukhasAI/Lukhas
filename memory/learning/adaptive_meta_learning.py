@@ -52,7 +52,7 @@
 """
 
 import datetime
-from typing import Dict, List, Optional
+from typing import Optional
 
 import numpy as np
 
@@ -62,7 +62,8 @@ import numpy as np
 
 
 # # AdaptiveMetaLearningSystem class
-# ΛEXPOSE: This class is the core of the adaptive meta-learning system and likely a key interface.
+# ΛEXPOSE: This class is the core of the adaptive meta-learning system and
+# likely a key interface.
 class AdaptiveMetaLearningSystem:
     """
     A revolutionary system that learns how to learn, optimizing its learning algorithms based
@@ -77,12 +78,15 @@ class AdaptiveMetaLearningSystem:
     """
 
     # # Initialization
-    def __init__(self, config: Optional[Dict] = None):
-        # ΛSEED: Initial configuration `config` can be considered a seed for the system's behavior.
+    def __init__(self, config: Optional[dict] = None):
+        # ΛSEED: Initial configuration `config` can be considered a seed for the
+        # system's behavior.
         self.config = config or {}
-        # ΛSEED: Strategies are initialized here, acting as foundational learning patterns (seeds).
+        # ΛSEED: Strategies are initialized here, acting as foundational learning
+        # patterns (seeds).
         self.learning_strategies = self._initialize_strategies()
-        # ΛDRIFT_POINT: Strategy performance metrics will drift as the system learns and adapts.
+        # ΛDRIFT_POINT: Strategy performance metrics will drift as the system
+        # learns and adapts.
         self.strategy_performance = {}
         self.exploration_rate = 0.2  # Balance between exploration and exploitation
         self.learning_cycle = 0
@@ -101,13 +105,15 @@ class AdaptiveMetaLearningSystem:
         )
 
     # # Core method for optimizing learning approach
-    # ΛEXPOSE: This is a primary method for external interaction, triggering a learning cycle.
-    def optimize_learning_approach(self, context: Dict, available_data: Dict) -> Dict:
+    # ΛEXPOSE: This is a primary method for external interaction, triggering a
+    # learning cycle.
+    def optimize_learning_approach(self, context: dict, available_data: dict) -> dict:
         """
         Choose the optimal learning approach for the current context and data.
         This is the core method that demonstrates adaptive learning in action.
         """
-        # ΛDREAM_LOOP: Each call to optimize_learning_approach is a cycle in the meta-learning feedback loop.
+        # ΛDREAM_LOOP: Each call to optimize_learning_approach is a cycle in the
+        # meta-learning feedback loop.
         self.learning_cycle += 1
         # ΛTRACE: Starting learning cycle
         logger.info(
@@ -124,7 +130,8 @@ class AdaptiveMetaLearningSystem:
         logger.info("strategy_selected", strategy_name=strategy_name, features=features)
 
         start_time = datetime.datetime.now()
-        # ΛDREAM_LOOP: Applying the strategy is a core part of the learning adaptation cycle.
+        # ΛDREAM_LOOP: Applying the strategy is a core part of the learning
+        # adaptation cycle.
         learning_result = self._apply_strategy(strategy, available_data, context)
         duration = (datetime.datetime.now() - start_time).total_seconds()
         # ΛTRACE: Strategy applied
@@ -147,7 +154,8 @@ class AdaptiveMetaLearningSystem:
         )
 
         if self.learning_cycle % 10 == 0:
-            # ΛDREAM_LOOP: Periodic update of meta-parameters based on accumulated experience.
+            # ΛDREAM_LOOP: Periodic update of meta-parameters based on accumulated
+            # experience.
             self._update_meta_parameters()
             # ΛTRACE: Meta-parameters updated
             logger.info("meta_parameters_updated", meta_parameters=self.meta_parameters)
@@ -169,13 +177,15 @@ class AdaptiveMetaLearningSystem:
         return result
 
     # # Method to incorporate feedback
-    # ΛEXPOSE: Allows external systems or users to provide feedback, influencing the learning process.
-    def incorporate_feedback(self, feedback: Dict) -> None:
+    # ΛEXPOSE: Allows external systems or users to provide feedback,
+    # influencing the learning process.
+    def incorporate_feedback(self, feedback: dict) -> None:
         """
         Incorporate explicit or implicit feedback to improve learning strategies.
         This enables continuous improvement of the meta-learning system.
         """
-        # ΛDREAM_LOOP: Incorporating feedback directly influences strategy performance and parameters, closing a feedback loop.
+        # ΛDREAM_LOOP: Incorporating feedback directly influences strategy
+        # performance and parameters, closing a feedback loop.
         strategy_name = feedback.get("strategy_name")
         if not strategy_name or strategy_name not in self.learning_strategies:
             # ΛTRACE: Invalid feedback received
@@ -207,7 +217,7 @@ class AdaptiveMetaLearningSystem:
 
     # # Method to generate learning report
     # ΛEXPOSE: Provides a summary of the system's learning progress and state.
-    def generate_learning_report(self) -> Dict:
+    def generate_learning_report(self) -> dict:
         """
         Generate a comprehensive report on learning system performance and adaptations.
         Provides insights into the meta-learning process itself.
@@ -240,10 +250,11 @@ class AdaptiveMetaLearningSystem:
         return report
 
     # # Initialize learning strategies
-    def _initialize_strategies(self) -> Dict:
+    def _initialize_strategies(self) -> dict:
         """Initialize available learning strategies with their parameters and characteristics"""
         # ΛNOTE: Defines the initial set of learning strategies available to the system.
-        # ΛSEED: Each strategy definition (algorithm, parameters, suitability) acts as a seed for how the system can learn.
+        # ΛSEED: Each strategy definition (algorithm, parameters, suitability)
+        # acts as a seed for how the system can learn.
         strategies = {
             "gradient_descent": {
                 "algorithm": "gradient_descent",
@@ -291,7 +302,7 @@ class AdaptiveMetaLearningSystem:
         return strategies
 
     # # Extract features characterizing the learning problem
-    def _extract_learning_features(self, context: Dict, available_data: Dict) -> Dict:
+    def _extract_learning_features(self, context: dict, available_data: dict) -> dict:
         """Extract features that characterize the learning problem"""
         # ΛNOTE: This function analyzes the input context and data to guide strategy selection.
         # ΛTRACE: Extracting learning features
@@ -319,7 +330,7 @@ class AdaptiveMetaLearningSystem:
         return features
 
     # # Select the most appropriate learning strategy
-    def _select_strategy(self, features: Dict) -> str:
+    def _select_strategy(self, features: dict) -> str:
         """Select the most appropriate learning strategy for given features"""
         # ΛNOTE: Core decision-making logic for choosing a learning strategy, balancing exploration and exploitation.
         # ΛDREAM_LOOP: The selection process itself can be seen as part of a meta-level learning loop, adapting how strategies are chosen.
@@ -362,7 +373,7 @@ class AdaptiveMetaLearningSystem:
         return best_strategy
 
     # # Apply selected learning strategy
-    def _apply_strategy(self, strategy: Dict, data: Dict, context: Dict) -> Dict:
+    def _apply_strategy(self, strategy: dict, data: dict, context: dict) -> dict:
         """Apply selected learning strategy to the data"""
         # ΛNOTE: This simulates the execution of different ML algorithms.
         algorithm = strategy["algorithm"]
@@ -371,7 +382,8 @@ class AdaptiveMetaLearningSystem:
         logger.info("applying_strategy", algorithm=algorithm, parameters=parameters)
 
         # Simulate learning algorithm execution
-        # ΛCAUTION: This section uses np.random for results, not actual ML. This is a placeholder.
+        # ΛCAUTION: This section uses np.random for results, not actual ML. This
+        # is a placeholder.
         if algorithm == "gradient_descent":
             result = {
                 "model": "neural_network_model",
@@ -433,8 +445,8 @@ class AdaptiveMetaLearningSystem:
 
     # # Evaluate performance of the applied strategy
     def _evaluate_performance(
-        self, strategy_name: str, learning_result: Dict, duration: float
-    ) -> Dict:
+        self, strategy_name: str, learning_result: dict, duration: float
+    ) -> dict:
         """Evaluate the performance of the applied learning strategy"""
         # ΛNOTE: Calculates performance metrics based on the learning outcome.
         # ΛTRACE: Evaluating performance
@@ -482,7 +494,7 @@ class AdaptiveMetaLearningSystem:
 
     # # Update performance record for a strategy
     def _update_strategy_performance(
-        self, strategy_name: str, new_metrics: Dict
+        self, strategy_name: str, new_metrics: dict
     ) -> None:
         """Update the performance record for a strategy"""
         # ΛNOTE: Maintains and updates historical performance data for each strategy.
@@ -535,9 +547,9 @@ class AdaptiveMetaLearningSystem:
             "updating_meta_parameters_start",
             current_meta_parameters=self.meta_parameters,
         )
-        if (
-            len(self.performance_history) >= 10
-        ):  # ΛNOTE: Needs self.performance_history to be populated; currently it's not explicitly added to.
+        # ΛNOTE: Needs self.performance_history to be populated; currently it's
+        # not explicitly added to.
+        if len(self.performance_history) >= 10:
             recent_scores = [
                 p.get("overall_score", 0) for p in self.performance_history[-10:]
             ]
@@ -561,7 +573,7 @@ class AdaptiveMetaLearningSystem:
 
     # # Adjust parameters of a specific strategy
     def _adjust_strategy_parameters(
-        self, strategy_name: str, adjustments: Dict
+        self, strategy_name: str, adjustments: dict
     ) -> None:
         """Adjust parameters of a specific strategy based on feedback"""
         # ΛNOTE: Allows fine-tuning of individual strategy parameters.
@@ -619,7 +631,7 @@ class AdaptiveMetaLearningSystem:
         return 0.5
 
     # # Analyze performance trends across strategies
-    def _analyze_performance_trends(self) -> Dict:
+    def _analyze_performance_trends(self) -> dict:
         """Analyze performance trends across strategies"""
         # ΛNOTE: Identifies if strategies are improving, declining, or stable.
         # ΛTRACE: Analyzing performance trends
@@ -645,14 +657,14 @@ class AdaptiveMetaLearningSystem:
         return trends
 
     # # Calculate data sparsity (simplified)
-    def _calculate_sparsity(self, data: Dict) -> float:
+    def _calculate_sparsity(self, data: dict) -> float:
         # ΛCAUTION: Simplified random implementation, not actual sparsity calculation.
         # ΛTRACE: Calculating sparsity (mock)
         logger.debug("calculating_sparsity_mock")
         return np.random.uniform(0.05, 0.3)
 
     # # Estimate problem complexity (simplified)
-    def _estimate_complexity(self, data: Dict, context: Dict) -> float:
+    def _estimate_complexity(self, data: dict, context: dict) -> float:
         # ΛCAUTION: Simplified complexity estimation.
         # ΛTRACE: Estimating complexity (mock)
         logger.debug("estimating_complexity_mock")
@@ -662,14 +674,14 @@ class AdaptiveMetaLearningSystem:
         return min(1.0, max(0.1, complexity))
 
     # # Estimate noise level (simplified)
-    def _estimate_noise_level(self, data: Dict) -> float:
+    def _estimate_noise_level(self, data: dict) -> float:
         # ΛCAUTION: Simplified random noise estimation.
         # ΛTRACE: Estimating noise level (mock)
         logger.debug("estimating_noise_level_mock")
         return np.random.uniform(0.1, 0.5)
 
     # # Check label availability
-    def _check_label_availability(self, data: Dict) -> str:
+    def _check_label_availability(self, data: dict) -> str:
         # ΛTRACE: Checking label availability
         logger.debug("checking_label_availability")
         if "labels" in data:
@@ -680,7 +692,7 @@ class AdaptiveMetaLearningSystem:
             return "unsupervised"
 
     # # Calculate strategy match score
-    def _calculate_strategy_match(self, strategy: Dict, features: Dict) -> float:
+    def _calculate_strategy_match(self, strategy: dict, features: dict) -> float:
         """Calculate how well a strategy matches the problem features"""
         # ΛNOTE: Heuristic to match strategies to problem characteristics.
         # ΛTRACE: Calculating strategy match
@@ -719,7 +731,7 @@ class AdaptiveMetaLearningSystem:
         return min(1.0, match_score)
 
     # # Calculate confidence in learning result
-    def _calculate_confidence(self, learning_result: Dict) -> float:
+    def _calculate_confidence(self, learning_result: dict) -> float:
         """Calculate confidence in learning result based on result characteristics"""
         # ΛNOTE: Heuristic for confidence based on output metrics.
         # ΛTRACE: Calculating confidence
@@ -738,7 +750,7 @@ class AdaptiveMetaLearningSystem:
         return min(1.0, confidence)
 
     # # Generate meta-insights about the learning process
-    def _generate_meta_insights(self) -> List[str]:
+    def _generate_meta_insights(self) -> list[str]:
         """Generate insights about the learning process itself"""
         # ΛNOTE: Provides high-level textual summaries about the system's behavior.
         # ΛTRACE: Generating meta-insights
@@ -763,9 +775,11 @@ class AdaptiveMetaLearningSystem:
                 f"System shows {adaptation:.1%} improvement in learning effectiveness"
             )
         elif adaptation < -0.1:
+            # ΛNOTE: This check uses `adaptation` which is a progress metric, not
+            # direct performance.
             insights.append(
                 "Learning performance declining - may need strategy diversification"
-            )  # ΛNOTE: This check uses `adaptation` which is a progress metric, not direct performance.
+            )
         if self.exploration_rate > 0.3:
             insights.append(
                 "High exploration rate indicates volatile performance - system still learning optimal strategies"
@@ -889,7 +903,8 @@ if __name__ == "__main__":
 #                    `performance_history` needs to be populated for some calculations to be effective.
 # MAINTENANCE: Implement actual ML algorithms in `_apply_strategy`.
 #              Ensure `performance_history` is correctly populated for accurate meta-parameter updates.
-#              Review and refine heuristic calculations (sparsity, complexity, noise, confidence, match score).
+# Review and refine heuristic calculations (sparsity, complexity, noise,
+# confidence, match score).
 """
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📋 FOOTER - LUKHAS AI

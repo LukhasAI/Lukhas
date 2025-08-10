@@ -42,7 +42,7 @@ __tier__ = 2
 import asyncio
 import sys
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 sys.path.append(str(Path(__file__).parent))
 
@@ -66,7 +66,7 @@ except ImportError:
 class QuantumCreativeBridge:
     """Bridge between quantum creativity and core LUKHAS system"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.quantum_mode = QUANTUM_MODE
 
@@ -82,8 +82,8 @@ class QuantumCreativeBridge:
         self,
         theme: str = "consciousness",
         emotion: str = "wonder",
-        cultural_context: Optional[Dict[str, float]] = None,
-    ) -> Dict[str, Any]:
+        cultural_context: Optional[dict[str, float]] = None,
+    ) -> dict[str, Any]:
         """Generate quantum-enhanced haiku"""
 
         request = {
@@ -118,8 +118,8 @@ class QuantumCreativeBridge:
         self,
         emotion: str = "uplifting",
         key: str = "C",
-        cultural_context: Optional[Dict[str, float]] = None,
-    ) -> Dict[str, Any]:
+        cultural_context: Optional[dict[str, float]] = None,
+    ) -> dict[str, Any]:
         """Generate quantum-enhanced music"""
 
         request = {
@@ -148,7 +148,7 @@ class QuantumCreativeBridge:
                 "mode": "mock_quantum",
             }
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get quantum creative system status"""
         return {
             "quantum_mode": self.quantum_mode,
@@ -183,7 +183,7 @@ async def quantum_music(emotion: str, key: str = "C") -> str:
     return result["content"]
 
 
-def get_quantum_status() -> Dict[str, Any]:
+def get_quantum_status() -> dict[str, Any]:
     """Get quantum creative system status"""
     return LUKHAS_QUANTUM_CREATIVE.get_system_status()
 

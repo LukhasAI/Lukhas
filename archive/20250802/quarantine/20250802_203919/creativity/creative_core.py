@@ -9,10 +9,10 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
 
-
 ```python
-class AI:
 
+
+class AI:
 
     def __init__(self):
         # Core Systems
@@ -46,7 +46,7 @@ class AI:
             'cognitive_states': self.meta_learner.strategy_performance
         }
 
-    def unified_processing(self, input_data: Dict) -&gt; Dict:
+    def unified_processing(self, input_data: Dict) - &gt; Dict:
         """Process input through integrated system"""
         # Stage 1: Meta-Learning Context Analysis
         context = self.meta_learner.analyze_context(input_data)
@@ -67,15 +67,15 @@ class AI:
         # Stage 5: Adaptive Output Generation
         return self._generate_output(processed_data, context)
 
-    def _select_models(self, context: Dict) -&gt; List[str]:
+    def _select_models(self, context: Dict) - &gt; List[str]:
         """Meta-learn model selection using AwesomeMeta+ principles (Search Result 4)"""
         model_weights = self.meta_learner.optimize_learning_approach(
             context=context,
             available_data=self.knowledge_graph
         )
-        return sorted(model_weights.items(), key=lambda x: x[^1], reverse=True)[:3]
+        return sorted(model_weights.items(), key=lambda x: x[ ^ 1], reverse=True)[:3]
 
-    def _multimodal_fusion(self, data: Dict, models: List) -&gt; Dict:
+    def _multimodal_fusion(self, data: Dict, models: List) - &gt; Dict:
         """Hybrid fusion approach (Search Result 3)"""
         # Early fusion for raw data
         raw_fused = np.concatenate([
@@ -93,14 +93,14 @@ class AI:
             'temporal_features': data.get('sequence_data', [])
         }
 
-    def _generate_output(self, processed: Dict, context: Dict) -&gt; Dict:
+    def _generate_output(self, processed: Dict, context: Dict) - &gt; Dict:
         """Generate output using integrated capabilitie"""
         output = {}
 
         # Creative Generation Pathway
         if context.get('task_type') == 'creative':
             output['haiku'] = self.haiku_generator.meta_haiku()
-            output['doodle'] = self.doodler.meta_draw(output['haiku'].split()[^0])
+            output['doodle'] = self.doodler.meta_draw(output['haiku'].split()[ ^ 0])
 
         # Ethical Decision Pathway
         elif context.get('task_type') == 'protest_planning':
@@ -129,13 +129,15 @@ class AI:
                 gradients=gradients,
                 metrics=output.get('metrics', {})
             )
+
+
 ```
 
-**Key Integration Points from Search Results:**
+**Key Integration Points from Search Results: **
 
-1. **Meta-Learning Optimization (Search Result 4)**
+1. ** Meta - Learning Optimization(Search Result 4)**
 ```python
-## AwesomeMeta+ Integration
+# AwesomeMeta+ Integration
 self.register_meta_module(
     name="creative_ethics",
     components=[self.haiku_generator, self.protest_module],
@@ -143,18 +145,24 @@ self.register_meta_module(
 )
 ```
 
-1. **Multimodal Fusion (Search Result 3)**
+1. ** Multimodal Fusion(Search Result 3)**
 ```python
+
+
 def _attention_fusion(self, model_outputs):
     """Transformer-based fusion (Late Fusion)"""
     attention_weights = self.meta_learner.get_model(
         "attention_weights", "fusion_controller"
     )
     return sum(w * out for w, out in zip(attention_weights, model_outputs))
+
+
 ```
 
-1. **Federated Learning Lifecycle (Your Code)**
+1. ** Federated Learning Lifecycle(Your Code)**
 ```python
+
+
 def federated_lifecycle(self):
     """Full lifecycle from Search Result 4"""
     while True:
@@ -165,10 +173,14 @@ def federated_lifecycle(self):
         # 5. Deployment
         # 6. Monitoring
         pass
+
+
 ```
 
-1. **Reflective Improvement (Your ReflectiveSystem)**
+1. ** Reflective Improvement(Your ReflectiveSystem)**
 ```python
+
+
 def adaptive_learning_loop(self):
     """Continuous improvement cycle"""
     while True:
@@ -190,7 +202,7 @@ for epoch in range(100):
         yield result
 ```
 
-**Unified Architecture Diagram:**
+**Unified Architecture Diagram: **
 
 ```
           [Input Layer]

@@ -1,3 +1,6 @@
+from collections import deque
+from dataclasses import asdict
+
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: remediator_agent.py
 # MODULE: learning.meta_learning.remediator_agent

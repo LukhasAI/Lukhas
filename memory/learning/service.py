@@ -25,8 +25,6 @@ from datetime import (
 )
 from typing import (  # Union and Tuple are not used, can be removed
     Any,
-    Dict,
-    List,
     Optional,
 )
 
@@ -44,7 +42,8 @@ try:
         IdentityClient,  # NOTE: Using proper module path.
     )
 except ImportError:
-    # CAUTION: Fallback IdentityClient provides no real security or consent checking. For development only.
+    # CAUTION: Fallback IdentityClient provides no real security or consent
+    # checking. For development only.
     logger.warn(
         "identity_interface_not_found_using_fallback_client", path_searched=sys.path
     )
@@ -70,7 +69,7 @@ except ImportError:
 
         # # Fallback: Log activity (mock)
         def log_activity(
-            self, activity_type: str, user_id: str, metadata: Dict[str, Any]
+            self, activity_type: str, user_id: str, metadata: dict[str, Any]
         ) -> None:
             # TRACE: Fallback activity logging.
             logger.info(
@@ -79,7 +78,8 @@ except ImportError:
                 user_id=user_id,
                 metadata=metadata,
             )
-            # print(f"LEARNING_LOG: {activity_type} by {user_id}: {metadata}") # Original print
+            # print(f"LEARNING_LOG: {activity_type} by {user_id}: {metadata}") #
+            # Original print
 
 
 # # Main Learning Service class
@@ -95,9 +95,11 @@ class LearningService:
     # # Initialization
     def __init__(self):
         """Initialize the learning service with identity integration."""
-        # NOTE: Initializes identity client and defines learning modes with their requirements.
+        # NOTE: Initializes identity client and defines learning modes with their
+        # requirements.
         self.identity_client = IdentityClient()
-        # SEED: `learning_modes` define the types of learning the system understands and their constraints.
+        # SEED: `learning_modes` define the types of learning the system
+        # understands and their constraints.
         self.learning_modes = {
             "supervised": {
                 "min_tier": "LAMBDA_TIER_1",
@@ -116,7 +118,7 @@ class LearningService:
             "continual": {"min_tier": "LAMBDA_TIER_4", "consent": "learning_continual"},
         }
         # SEED: `knowledge_base` is the initial state of the system's knowledge.
-        self.knowledge_base: Dict[str, Any] = {  # Type hint for clarity
+        self.knowledge_base: dict[str, Any] = {  # Type hint for clarity
             "learned_patterns": [],
             "adaptation_history": [],
             "knowledge_graph": {},
@@ -136,10 +138,10 @@ class LearningService:
     def learn_from_data(
         self,
         user_id: str,
-        data_source: Dict[str, Any],
+        data_source: dict[str, Any],
         learning_mode: str = "supervised",
-        learning_objectives: Optional[List[str]] = None,
-    ) -> Dict[str, Any]:
+        learning_objectives: Optional[list[str]] = None,
+    ) -> dict[str, Any]:
         """
         Process and learn from new data sources.
 
@@ -209,7 +211,8 @@ class LearningService:
             )
             self._update_knowledge_base(learning_results)
 
-            session_id = f"learn_{learning_mode}_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"  # Added microsecs
+            # Added microsecs
+            session_id = f"learn_{learning_mode}_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
 
             self.identity_client.log_activity(
                 "learning_session_completed",
@@ -264,10 +267,10 @@ class LearningService:
     def adapt_behavior(
         self,
         user_id: str,
-        adaptation_context: Dict[str, Any],
-        behavior_targets: List[str],
+        adaptation_context: dict[str, Any],
+        behavior_targets: list[str],
         adaptation_strategy: str = "gradual",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Modify behavior based on learning outcomes and environmental feedback.
 
@@ -381,9 +384,9 @@ class LearningService:
     def synthesize_knowledge(
         self,
         user_id: str,
-        knowledge_sources: List[Dict[str, Any]],
+        knowledge_sources: list[dict[str, Any]],
         synthesis_method: str = "integration",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Synthesize knowledge from multiple sources into coherent understanding.
 
@@ -494,8 +497,8 @@ class LearningService:
         user_id: str,
         source_domain: str,
         target_domain: str,
-        knowledge_to_transfer: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        knowledge_to_transfer: dict[str, Any],
+    ) -> dict[str, Any]:
         """
         Apply learning from one domain to another through transfer learning.
 
@@ -598,7 +601,7 @@ class LearningService:
     # EXPOSE: Public API to retrieve learning metrics.
     def get_learning_metrics(
         self, user_id: str, include_detailed: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get learning performance metrics and statistics.
 
@@ -705,10 +708,10 @@ class LearningService:
     # # Placeholder: Core learning data processing logic
     def _process_learning_data(
         self,
-        data_source: Dict[str, Any],
+        data_source: dict[str, Any],
         learning_mode: str,
-        learning_objectives: List[str],
-    ) -> Dict[str, Any]:
+        learning_objectives: list[str],
+    ) -> dict[str, Any]:
         """Core learning data processing logic."""
         # NOTE: Simplified placeholder for actual learning algorithms.
         # CAUTION: This method uses random values for results; it's a stub.
@@ -718,7 +721,10 @@ class LearningService:
             learning_mode=learning_mode,
             num_objectives=len(learning_objectives),
         )
-        # SYNTAX_ERROR_FIXED:         processing_intensity = self.learning_modes.get(learning_mode, {}).get("processing_intensity", 0.6) " + "if self.learning_modes.get(learning_mode) else 0.6 # Added processing_intensity to learning_modes or default
+        # SYNTAX_ERROR_FIXED:         processing_intensity =
+        # self.learning_modes.get(learning_mode, {}).get("processing_intensity",
+        # 0.6) " + "if self.learning_modes.get(learning_mode) else 0.6 # Added
+        # processing_intensity to learning_modes or default
 
         patterns_count = len(data_source.get("elements", [])) + random.randint(1, 5)
 
@@ -732,7 +738,7 @@ class LearningService:
         }
 
     # # Placeholder: Update internal knowledge base
-    def _update_knowledge_base(self, learning_results: Dict[str, Any]) -> None:
+    def _update_knowledge_base(self, learning_results: dict[str, Any]) -> None:
         """Update internal knowledge base with learning results."""
         # NOTE: Simplified KB update.
         # TRACE: Updating knowledge base (stub)
@@ -750,7 +756,7 @@ class LearningService:
         )
 
     # # Placeholder: Get recent knowledge base updates
-    def _get_knowledge_updates(self) -> Dict[str, Any]:
+    def _get_knowledge_updates(self) -> dict[str, Any]:
         """Get recent knowledge base updates."""
         # NOTE: Simplified representation of KB updates.
         # TRACE: Getting knowledge updates (stub)
@@ -764,8 +770,8 @@ class LearningService:
 
     # # Placeholder: Process behavior adaptation logic
     def _process_behavior_adaptation(
-        self, context: Dict[str, Any], targets: List[str], strategy: str
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], targets: list[str], strategy: str
+    ) -> dict[str, Any]:
         """Process behavior adaptation logic."""
         # NOTE: Simplified placeholder for behavior adaptation.
         # CAUTION: This method uses random values for results; it's a stub.
@@ -792,8 +798,8 @@ class LearningService:
 
     # # Placeholder: Synthesize knowledge from multiple sources
     def _synthesize_knowledge_sources(
-        self, sources: List[Dict[str, Any]], method: str
-    ) -> Dict[str, Any]:
+        self, sources: list[dict[str, Any]], method: str
+    ) -> dict[str, Any]:
         """Synthesize knowledge from multiple sources."""
         # NOTE: Simplified placeholder for knowledge synthesis.
         # CAUTION: This method uses random values for results; it's a stub.
@@ -817,7 +823,7 @@ class LearningService:
         }
 
     # # Placeholder: Update knowledge graph
-    def _update_knowledge_graph(self, synthesis_results: Dict[str, Any]) -> None:
+    def _update_knowledge_graph(self, synthesis_results: dict[str, Any]) -> None:
         """Update knowledge graph with synthesis results."""
         # NOTE: Simplified KG update.
         # TRACE: Updating knowledge graph (stub)
@@ -836,8 +842,8 @@ class LearningService:
 
     # # Placeholder: Process transfer learning
     def _process_transfer_learning(
-        self, source_domain: str, target_domain: str, knowledge: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, source_domain: str, target_domain: str, knowledge: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process transfer learning between domains."""
         # NOTE: Simplified placeholder for transfer learning.
         # CAUTION: This method uses random values for results; it's a stub.
@@ -858,7 +864,7 @@ class LearningService:
         }
 
     # # Placeholder: Get detailed learning pattern analysis
-    def _get_detailed_learning_patterns(self) -> Dict[str, Any]:
+    def _get_detailed_learning_patterns(self) -> dict[str, Any]:
         """Get detailed learning pattern analysis."""
         # NOTE: Simplified placeholder for detailed pattern analysis.
         # TRACE: Getting detailed learning patterns (stub)
@@ -870,7 +876,7 @@ class LearningService:
         }
 
     # # Placeholder: Analyze behavior adaptation trends
-    def _analyze_adaptation_trends(self) -> Dict[str, Any]:
+    def _analyze_adaptation_trends(self) -> dict[str, Any]:
         """Analyze behavior adaptation trends."""
         # NOTE: Simplified placeholder for adaptation trend analysis.
         # TRACE: Analyzing adaptation trends (stub)
@@ -886,7 +892,7 @@ class LearningService:
         }
 
     # # Placeholder: Track knowledge base evolution
-    def _track_knowledge_evolution(self) -> Dict[str, Any]:
+    def _track_knowledge_evolution(self) -> dict[str, Any]:
         """Track knowledge base evolution over time."""
         # NOTE: Simplified placeholder for KB evolution tracking.
         # TRACE: Tracking knowledge evolution (stub)
@@ -901,8 +907,8 @@ class LearningService:
 # # Module API functions for easy import
 # EXPOSE: Simplified top-level functions for accessing LearningService capabilities.
 def learn_from_data(
-    user_id: str, data_source: Dict[str, Any], learning_mode: str = "supervised"
-) -> Dict[str, Any]:
+    user_id: str, data_source: dict[str, Any], learning_mode: str = "supervised"
+) -> dict[str, Any]:
     """Simplified API for learning from data."""
     # NOTE: Convenience function. Creates a new service instance per call.
     # TRACE: learn_from_data (module function) called
@@ -918,8 +924,8 @@ def learn_from_data(
 # # Simplified API for behavior adaptation
 # EXPOSE: Convenience function.
 def adapt_behavior(
-    user_id: str, adaptation_context: Dict[str, Any], behavior_targets: List[str]
-) -> Dict[str, Any]:
+    user_id: str, adaptation_context: dict[str, Any], behavior_targets: list[str]
+) -> dict[str, Any]:
     """Simplified API for behavior adaptation."""
     # NOTE: Convenience function.
     # TRACE: adapt_behavior (module function) called
@@ -931,8 +937,8 @@ def adapt_behavior(
 # # Simplified API for knowledge synthesis
 # EXPOSE: Convenience function.
 def synthesize_knowledge(
-    user_id: str, knowledge_sources: List[Dict[str, Any]]
-) -> Dict[str, Any]:
+    user_id: str, knowledge_sources: list[dict[str, Any]]
+) -> dict[str, Any]:
     """Simplified API for knowledge synthesis."""
     # NOTE: Convenience function.
     # TRACE: synthesize_knowledge (module function) called

@@ -167,7 +167,7 @@ def generate_lambda_id_route():  # Renamed for clarity
         status_code = 201 if result.get("success") else 400  # 201 Created for success
         log_level = logger.info if status_code == 201 else logger.warning
         log_level(
-            f"ΛTRACE({req_id}): / generate response. Success: {result.get('success')},
+            f"ΛTRACE({req_id}): / generate response. Success: {result.get('success')},"
             LambdaID: {result.get('lambda_id', 'N/A')}, Error: {result.get('error')}, Status Code: {status_code}"
         )
         return jsonify(result), status_code

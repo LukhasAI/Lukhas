@@ -83,7 +83,8 @@ class ExponentialLearningSystem:
         # ΛSEED: `initial_knowledge_base` acts as a seed for the learning process.
         self.knowledge_base = initial_knowledge_base or {}
         self.learning_rate = 0.01
-        self.growth_factor = 1.05  # ΛNOTE: Factor determining how quickly learning effectiveness increases.
+        # ΛNOTE: Factor determining how quickly learning effectiveness increases.
+        self.growth_factor = 1.05
         self.adaptation_cycles = 0
         # ΛTRACE: ExponentialLearningSystem initialized
         logger.info(
@@ -127,7 +128,8 @@ class ExponentialLearningSystem:
 
         if self.adaptation_cycles % 100 == 0:
             # ΛNOTE: Periodic consolidation to maintain efficiency or coherence.
-            # ΛDREAM_LOOP: Consolidation can be seen as a meta-learning step, refining the learned knowledge.
+            # ΛDREAM_LOOP: Consolidation can be seen as a meta-learning step, refining
+            # the learned knowledge.
             self._consolidate_knowledge()
             # ΛTRACE: Knowledge consolidation triggered
             logger.info(

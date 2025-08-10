@@ -41,7 +41,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger("bio_oscillator")
 
@@ -53,7 +53,7 @@ class SecurityContext:
     lukhas_id: str
     access_level: int
     session_token: str
-    verification_data: Dict[str, Any]
+    verification_data: dict[str, Any]
 
 
 class OscillationType(Enum):
@@ -108,8 +108,8 @@ class BioOscillator:
         self.quantum_sync = True
 
         # Component tracking
-        self.synced_components: Dict[str, float] = {}
-        self.phase_relations: Dict[str, float] = {}
+        self.synced_components: dict[str, float] = {}
+        self.phase_relations: dict[str, float] = {}
 
         logger.info("Bio-oscillator initialized")
 
@@ -210,7 +210,7 @@ class BioOscillator:
         self.target_frequency = new_frequency
         await self._synchronize()
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current oscillator status"""
         if not self._check_verification():
             return {"error": "Verification required"}
@@ -273,7 +273,7 @@ class BioOscillator:
 
         try:
             # Hash token for comparison
-            token_hash = hashlib.sha256(token.encode()).hexdigest()
+            hashlib.sha256(token.encode()).hexdigest()
 
             # TODO: Validate against token store
             return True  # Placeholder
@@ -383,7 +383,7 @@ class MoodOscillator(BioOscillator):
         logger.info(f"New mood: {self.mood_state} with intensity {self.mood_intensity}")
         asyncio.create_task(self._synchronize())
 
-    def bio_affect_feedback(self, emotional_context: Dict[str, float]):
+    def bio_affect_feedback(self, emotional_context: dict[str, float]):
         """
         Provides feedback to the oscillator based on emotional context.
 
@@ -403,8 +403,8 @@ class MoodOscillator(BioOscillator):
     # LUKHAS_TAG: bio_drift_response
     # ΛTAG: hormone_tuning
     def bio_drift_response(
-        self, emotional_signals: Dict[str, float]
-    ) -> Dict[str, float]:
+        self, emotional_signals: dict[str, float]
+    ) -> dict[str, float]:
         """
         Receives emotional signals and returns drift-adjusted pulse data.
 

@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Basic consciousness example"""
 
-from consciousness import *
-
 
 def main():
     print("Using consciousness module")

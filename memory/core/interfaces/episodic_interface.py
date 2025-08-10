@@ -25,7 +25,7 @@
 
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -49,18 +49,18 @@ class EpisodicContext:
 
     # Spatial context
     location: Optional[np.ndarray] = None
-    spatial_tags: Set[str] = field(default_factory=set)
+    spatial_tags: set[str] = field(default_factory=set)
 
     # Emotional context
     emotional_valence: float = 0.0  # -1 to 1
     arousal_level: float = 0.5  # 0 to 1
 
     # Social context
-    participants: Set[str] = field(default_factory=set)
-    social_dynamics: Dict[str, Any] = field(default_factory=dict)
+    participants: set[str] = field(default_factory=set)
+    social_dynamics: dict[str, Any] = field(default_factory=dict)
 
     # Sensory context
-    sensory_details: Dict[str, Any] = field(default_factory=dict)
+    sensory_details: dict[str, Any] = field(default_factory=dict)
 
     # Cognitive context
     attention_level: float = 0.5
@@ -81,8 +81,8 @@ class EpisodicMemoryContent:
     context: EpisodicContext = field(default_factory=EpisodicContext)
 
     # Associations
-    causal_antecedents: List[str] = field(default_factory=list)
-    causal_consequences: List[str] = field(default_factory=list)
+    causal_antecedents: list[str] = field(default_factory=list)
+    causal_consequences: list[str] = field(default_factory=list)
 
     # Memory properties
     vividness: float = 1.0  # How clear/detailed
@@ -113,14 +113,14 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         self.consolidation_threshold = consolidation_threshold
 
         # Episodic-specific storage
-        self.episodic_memories: Dict[str, EpisodicMemoryContent] = {}
-        self.temporal_index: Dict[float, Set[str]] = {}  # timestamp -> memory_ids
-        self.spatial_index: Dict[str, Set[str]] = {}  # location -> memory_ids
-        self.event_type_index: Dict[str, Set[str]] = {}  # event_type -> memory_ids
+        self.episodic_memories: dict[str, EpisodicMemoryContent] = {}
+        self.temporal_index: dict[float, set[str]] = {}  # timestamp -> memory_ids
+        self.spatial_index: dict[str, set[str]] = {}  # location -> memory_ids
+        self.event_type_index: dict[str, set[str]] = {}  # event_type -> memory_ids
 
         # Replay and consolidation
-        self.replay_candidates: List[str] = []
-        self.consolidation_queue: List[str] = []
+        self.replay_candidates: list[str] = []
+        self.consolidation_queue: list[str] = []
 
         logger.info("EpisodicMemoryInterface initialized")
 
@@ -217,7 +217,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         memory_id: str,
         content: Any = None,
         metadata: Optional[MemoryMetadata] = None,
-        context_updates: Optional[Dict[str, Any]] = None,
+        context_updates: Optional[dict[str, Any]] = None,
         **kwargs,
     ) -> MemoryResponse:
         """Update episodic memory with new information"""
@@ -286,11 +286,11 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
 
     async def search_memories(
         self,
-        query: Union[str, Dict[str, Any]],
-        filters: Optional[Dict[str, Any]] = None,
+        query: Union[str, dict[str, Any]],
+        filters: Optional[dict[str, Any]] = None,
         limit: int = 50,
         **kwargs,
-    ) -> List[MemoryResponse]:
+    ) -> list[MemoryResponse]:
         """Search episodic memories by various criteria"""
 
         results = []
@@ -377,12 +377,12 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
 
     async def retrieve_by_context(
         self,
-        temporal_range: Optional[Tuple[float, float]] = None,
-        spatial_proximity: Optional[Tuple[np.ndarray, float]] = None,
-        emotional_range: Optional[Tuple[float, float]] = None,
-        event_types: Optional[List[str]] = None,
+        temporal_range: Optional[tuple[float, float]] = None,
+        spatial_proximity: Optional[tuple[np.ndarray, float]] = None,
+        emotional_range: Optional[tuple[float, float]] = None,
+        event_types: Optional[list[str]] = None,
         limit: int = 50,
-    ) -> List[MemoryResponse]:
+    ) -> list[MemoryResponse]:
         """Retrieve memories by contextual criteria"""
 
         candidates = set(self.episodic_memories.keys())
@@ -431,8 +431,8 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         return results
 
     async def trigger_episodic_replay(
-        self, memory_ids: Optional[List[str]] = None, replay_strength: float = 1.0
-    ) -> List[Dict[str, Any]]:
+        self, memory_ids: Optional[list[str]] = None, replay_strength: float = 1.0
+    ) -> list[dict[str, Any]]:
         """Trigger replay of episodic memories (sharp-wave ripples)"""
 
         if memory_ids is None:
@@ -472,7 +472,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
 
     def get_consolidation_candidates(
         self, min_importance: float = 0.5, limit: int = 20
-    ) -> List[str]:
+    ) -> list[str]:
         """Get memories ready for neocortical consolidation"""
 
         candidates = []
@@ -522,7 +522,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         for memory_ids in self.spatial_index.values():
             memory_ids.discard(memory_id)
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get episodic interface metrics"""
         base_metrics = super().get_metrics()
 

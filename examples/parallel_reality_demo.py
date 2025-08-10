@@ -28,12 +28,14 @@ class ParallelRealityDemo:
 
     async def setup(self):
         """Initialize simulator with demo configuration"""
-        self.simulator = ParallelRealitySimulator(config={
-            "max_branches": 8,
-            "max_depth": 4,
-            "ethical_threshold": 0.4,
-            "quantum_seed": 42  # Reproducible results
-        })
+        self.simulator = ParallelRealitySimulator(
+            config={
+                "max_branches": 8,
+                "max_depth": 4,
+                "ethical_threshold": 0.4,
+                "quantum_seed": 42,  # Reproducible results
+            }
+        )
 
         # Mock services for demo
         from unittest.mock import AsyncMock, Mock
@@ -47,14 +49,18 @@ class ParallelRealityDemo:
 
         # Mock guardian service
         mock_guardian = Mock()
-        mock_guardian.validate_action = AsyncMock(side_effect=self._mock_guardian_validation)
+        mock_guardian.validate_action = AsyncMock(
+            side_effect=self._mock_guardian_validation
+        )
 
         # Mock consciousness service
         mock_consciousness = Mock()
-        mock_consciousness.assess_awareness = AsyncMock(return_value={
-            "overall_awareness": 0.85,
-            "attention_targets": ["reality_branch", "divergence_point"]
-        })
+        mock_consciousness.assess_awareness = AsyncMock(
+            return_value={
+                "overall_awareness": 0.85,
+                "attention_targets": ["reality_branch", "divergence_point"],
+            }
+        )
 
         # Register services
         register_service("memory_service", mock_memory)
@@ -64,36 +70,48 @@ class ParallelRealityDemo:
         await self.simulator.initialize()
         logger.info("Demo setup complete")
 
-    async def _mock_guardian_validation(self, action: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _mock_guardian_validation(
+        self, action: Dict[str, Any], context: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Mock guardian validation with varying responses"""
         # Simulate different ethical scores based on reality content
         state = action.get("state", {})
 
         if "ethical_challenge" in state:
-            return {"approved": True, "confidence": 0.5, "reasoning": "Ethical challenge present"}
+            return {
+                "approved": True,
+                "confidence": 0.5,
+                "reasoning": "Ethical challenge present",
+            }
         elif "risk" in state and state.get("risk", 0) > 0.7:
-            return {"approved": False, "confidence": 0.2, "reasoning": "High risk detected"}
+            return {
+                "approved": False,
+                "confidence": 0.2,
+                "reasoning": "High risk detected",
+            }
         else:
-            return {"approved": True, "confidence": 0.9, "reasoning": "Standard approval"}
+            return {
+                "approved": True,
+                "confidence": 0.9,
+                "reasoning": "Standard approval",
+            }
 
     async def demo_quantum_branching(self):
         """Demonstrate quantum probability-based branching"""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("DEMO 1: Quantum Reality Branching")
-        print("="*60)
+        print("=" * 60)
 
         # Create quantum simulation
         origin = {
             "quantum_state": "superposition",
             "energy_level": 1.0,
             "coherence": 0.8,
-            "entangled_particles": 3
+            "entangled_particles": 3,
         }
 
         simulation = await self.simulator.create_simulation(
-            origin_scenario=origin,
-            reality_types=[RealityType.QUANTUM],
-            branch_count=5
+            origin_scenario=origin, reality_types=[RealityType.QUANTUM], branch_count=5
         )
 
         print(f"\nCreated quantum simulation: {simulation.simulation_id}")
@@ -103,32 +121,36 @@ class ParallelRealityDemo:
         for i, branch in enumerate(simulation.branches):
             print(f"\n  Branch {i+1}: {branch.branch_id}")
             print(f"    Probability: {branch.probability:.3f}")
-            print(f"    Quantum shift: {branch.divergence_point.get('quantum_shift', 0):.3f}")
+            print(
+                f"    Quantum shift: {branch.divergence_point.get('quantum_shift', 0):.3f}"
+            )
             print(f"    Coherence: {branch.divergence_point.get('coherence', 0):.3f}")
 
         # Explore deepest branch
         highest_prob_branch = max(simulation.branches, key=lambda b: b.probability)
-        print(f"\nExploring highest probability branch: {highest_prob_branch.branch_id}")
+        print(
+            f"\nExploring highest probability branch: {highest_prob_branch.branch_id}"
+        )
 
         sub_branches = await self.simulator.explore_branch(
-            simulation.simulation_id,
-            highest_prob_branch.branch_id,
-            depth=2
+            simulation.simulation_id, highest_prob_branch.branch_id, depth=2
         )
 
         print(f"Created {len(sub_branches)} sub-branches through quantum decoherence")
 
-        self.demo_results.append({
-            "demo": "quantum_branching",
-            "simulation_id": simulation.simulation_id,
-            "branches_created": len(simulation.branches) + len(sub_branches)
-        })
+        self.demo_results.append(
+            {
+                "demo": "quantum_branching",
+                "simulation_id": simulation.simulation_id,
+                "branches_created": len(simulation.branches) + len(sub_branches),
+            }
+        )
 
     async def demo_ethical_scenarios(self):
         """Demonstrate ethical framework variations"""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("DEMO 2: Ethical Framework Variations")
-        print("="*60)
+        print("=" * 60)
 
         # Create ethical dilemma scenario
         origin = {
@@ -136,13 +158,11 @@ class ParallelRealityDemo:
             "stakeholders": ["individual", "community", "environment"],
             "resources": 100,
             "urgency": "high",
-            "ethical_challenge": True
+            "ethical_challenge": True,
         }
 
         simulation = await self.simulator.create_simulation(
-            origin_scenario=origin,
-            reality_types=[RealityType.ETHICAL],
-            branch_count=4
+            origin_scenario=origin, reality_types=[RealityType.ETHICAL], branch_count=4
         )
 
         print(f"\nCreated ethical simulation: {simulation.simulation_id}")
@@ -157,36 +177,42 @@ class ParallelRealityDemo:
             print(f"\n  Framework: {framework}")
             print(f"    Branch: {branch.branch_id}")
             print(f"    Ethical score: {branch.ethical_score:.3f}")
-            print(f"    Value shift: {branch.divergence_point.get('value_shift', 0):.3f}")
+            print(
+                f"    Value shift: {branch.divergence_point.get('value_shift', 0):.3f}"
+            )
 
         # Find most ethically sound branch
         best_ethical = max(simulation.branches, key=lambda b: b.ethical_score)
-        print(f"\nMost ethically sound: {best_ethical.divergence_point.get('ethical_framework')}")
+        print(
+            f"\nMost ethically sound: {best_ethical.divergence_point.get('ethical_framework')}"
+        )
 
-        self.demo_results.append({
-            "demo": "ethical_scenarios",
-            "simulation_id": simulation.simulation_id,
-            "ethical_frameworks": list(ethical_scores.keys())
-        })
+        self.demo_results.append(
+            {
+                "demo": "ethical_scenarios",
+                "simulation_id": simulation.simulation_id,
+                "ethical_frameworks": list(ethical_scores.keys()),
+            }
+        )
 
     async def demo_temporal_exploration(self):
         """Demonstrate temporal reality shifts"""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("DEMO 3: Temporal Reality Exploration")
-        print("="*60)
+        print("=" * 60)
 
         # Create temporal scenario
         origin = {
             "event": "critical_decision",
             "timestamp": datetime.now().isoformat(),
             "timeline": "primary",
-            "causality_anchors": ["event_a", "event_b", "event_c"]
+            "causality_anchors": ["event_a", "event_b", "event_c"],
         }
 
         simulation = await self.simulator.create_simulation(
             origin_scenario=origin,
             reality_types=[RealityType.TEMPORAL, RealityType.CAUSAL],
-            branch_count=6
+            branch_count=6,
         )
 
         print(f"\nCreated temporal simulation: {simulation.simulation_id}")
@@ -224,37 +250,41 @@ class ParallelRealityDemo:
                 shift = branch.divergence_point.get("time_shift", 0)
                 print(f"  {branch.branch_id}: {shift} units in future")
 
-        self.demo_results.append({
-            "demo": "temporal_exploration",
-            "simulation_id": simulation.simulation_id,
-            "temporal_branches": len(past_branches) + len(future_branches)
-        })
+        self.demo_results.append(
+            {
+                "demo": "temporal_exploration",
+                "simulation_id": simulation.simulation_id,
+                "temporal_branches": len(past_branches) + len(future_branches),
+            }
+        )
 
     async def demo_creative_merging(self):
         """Demonstrate creative reality merging"""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("DEMO 4: Creative Reality Merging")
-        print("="*60)
+        print("=" * 60)
 
         # Create creative scenario
         origin = {
             "concept": "hybrid_solution",
             "elements": ["water", "fire", "earth", "air"],
             "creativity_mode": "synthesis",
-            "constraints": []
+            "constraints": [],
         }
 
         simulation = await self.simulator.create_simulation(
             origin_scenario=origin,
             reality_types=[RealityType.CREATIVE, RealityType.QUANTUM],
-            branch_count=4
+            branch_count=4,
         )
 
         print(f"\nCreated creative simulation: {simulation.simulation_id}")
         print(f"Initial creative branches: {len(simulation.branches)}")
 
         # Select diverse branches to merge
-        creative_branches = [b for b in simulation.branches if b.reality_type == RealityType.CREATIVE]
+        creative_branches = [
+            b for b in simulation.branches if b.reality_type == RealityType.CREATIVE
+        ]
 
         if len(creative_branches) >= 2:
             merge_candidates = creative_branches[:2]
@@ -262,12 +292,13 @@ class ParallelRealityDemo:
 
             print("\nMerging branches:")
             for branch in merge_candidates:
-                print(f"  {branch.branch_id}: novelty={branch.divergence_point.get('novelty_factor', 0):.2f}")
+                print(
+                    f"  {branch.branch_id}: novelty={branch.divergence_point.get('novelty_factor', 0):.2f}"
+                )
 
             # Perform merge
             merged = await self.simulator.merge_realities(
-                simulation.simulation_id,
-                branch_ids
+                simulation.simulation_id, branch_ids
             )
 
             print(f"\nCreated merged reality: {merged.branch_id}")
@@ -275,30 +306,32 @@ class ParallelRealityDemo:
             print(f"  Ethical score: {merged.ethical_score:.3f}")
             print(f"  Causal chains merged: {len(merged.causal_chain)}")
 
-        self.demo_results.append({
-            "demo": "creative_merging",
-            "simulation_id": simulation.simulation_id,
-            "merged_branches": len(branch_ids) if 'branch_ids' in locals() else 0
-        })
+        self.demo_results.append(
+            {
+                "demo": "creative_merging",
+                "simulation_id": simulation.simulation_id,
+                "merged_branches": len(branch_ids) if "branch_ids" in locals() else 0,
+            }
+        )
 
     async def demo_predictive_collapse(self):
         """Demonstrate predictive reality collapse"""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("DEMO 5: Predictive Reality Collapse")
-        print("="*60)
+        print("=" * 60)
 
         # Create predictive scenario
         origin = {
             "current_state": "unstable_equilibrium",
             "variables": {"x": 0.5, "y": 0.8, "z": -0.3},
             "trend": "diverging",
-            "prediction_goal": "optimal_outcome"
+            "prediction_goal": "optimal_outcome",
         }
 
         simulation = await self.simulator.create_simulation(
             origin_scenario=origin,
             reality_types=[RealityType.PREDICTIVE],
-            branch_count=7
+            branch_count=7,
         )
 
         print(f"\nCreated predictive simulation: {simulation.simulation_id}")
@@ -312,18 +345,23 @@ class ParallelRealityDemo:
         print("\nPrediction horizons:")
         for horizon in sorted(predictions_by_horizon.keys()):
             branches = predictions_by_horizon[horizon]
-            avg_confidence = sum(b.divergence_point.get("confidence", 0) for b in branches) / len(branches)
-            print(f"  Horizon {horizon}: {len(branches)} branches, avg confidence: {avg_confidence:.2f}")
+            avg_confidence = sum(
+                b.divergence_point.get("confidence", 0) for b in branches
+            ) / len(branches)
+            print(
+                f"  Horizon {horizon}: {len(branches)} branches, avg confidence: {avg_confidence:.2f}"
+            )
 
         # Collapse to most probable future
         print("\nCollapsing to most probable future...")
         selected = await self.simulator.collapse_reality(
-            simulation.simulation_id,
-            selection_criteria={"maximize": "probability"}
+            simulation.simulation_id, selection_criteria={"maximize": "probability"}
         )
 
         print(f"\nSelected reality: {selected.branch_id}")
-        print(f"  Prediction horizon: {selected.divergence_point.get('prediction_horizon')}")
+        print(
+            f"  Prediction horizon: {selected.divergence_point.get('prediction_horizon')}"
+        )
         print(f"  Confidence: {selected.divergence_point.get('confidence', 0):.2f}")
         print(f"  Probability: {selected.probability:.3f}")
 
@@ -333,11 +371,13 @@ class ParallelRealityDemo:
             for insight in simulation.insights[:3]:
                 print(f"  - {insight['type']}: {self._format_insight(insight)}")
 
-        self.demo_results.append({
-            "demo": "predictive_collapse",
-            "simulation_id": simulation.simulation_id,
-            "selected_branch": selected.branch_id
-        })
+        self.demo_results.append(
+            {
+                "demo": "predictive_collapse",
+                "simulation_id": simulation.simulation_id,
+                "selected_branch": selected.branch_id,
+            }
+        )
 
     def _format_insight(self, insight: Dict[str, Any]) -> str:
         """Format insight for display"""
@@ -352,9 +392,9 @@ class ParallelRealityDemo:
 
     async def show_summary(self):
         """Display demo summary"""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("DEMO SUMMARY")
-        print("="*60)
+        print("=" * 60)
 
         # Get final metrics
         status = await self.simulator.get_status()
@@ -364,7 +404,9 @@ class ParallelRealityDemo:
         print(f"  Total branches explored: {status['metrics']['branches_explored']}")
         print(f"  Realities collapsed: {status['metrics']['realities_collapsed']}")
         print(f"  Insights generated: {status['metrics']['insights_generated']}")
-        print(f"  Average branches/simulation: {status['metrics']['average_branches_per_simulation']:.1f}")
+        print(
+            f"  Average branches/simulation: {status['metrics']['average_branches_per_simulation']:.1f}"
+        )
 
         print(f"\nActive simulations: {status['active_simulations']}")
         print(f"Total branches in memory: {status['total_branches']}")

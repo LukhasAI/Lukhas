@@ -1,3 +1,5 @@
+import logging
+
 # CRITICAL FILE - DO NOT MODIFY WITHOUT APPROVAL
 # lukhas AI System - Core Consciousness Component
 # File: __init__.py
@@ -27,7 +29,6 @@ identity, and learning systems.
 #ΛEXPOSE: Exports key classes like `ConsciousnessIntegrator` and `ConsciousnessState`.
 """
 
-from core.common import get_logger
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness")
@@ -36,7 +37,7 @@ logger.info("ΛTRACE: Initializing 'consciousness.core_consciousness' package.")
 # Human-readable comment: Import key components from this package.
 # These are central to the core consciousness functionality.
 # ΛCRITICAL_IMPORT: The successful import of these components is essential for the AGI's core cognitive functions.
-#                  Failure here represents a systemic collapse of the consciousness module.
+# Failure here represents a systemic collapse of the consciousness module.
 (
     ConsciousnessIntegrator,
     ConsciousnessState,
@@ -49,15 +50,19 @@ try:
     from .integrator import (
         ConsciousnessEvent,  # ΛEVENT_DRIVEN: Data structure for cognitive events.
         ConsciousnessIntegrator,  # ΛARBITRATOR: Main class for symbolic arbitration.
-        ConsciousnessState,  # ΛSTATE_HOLDER: Represents the AGI's current conscious state.
-        IntegrationContext,  # ΛCONTEXT_OBJECT: Holds contextual data for integration tasks.
+        ConsciousnessState,
+        # ΛSTATE_HOLDER: Represents the AGI's current conscious state.
+        IntegrationContext,
+        # ΛCONTEXT_OBJECT: Holds contextual data for integration tasks.
         IntegrationPriority,  # ΛPRIORITY_QUEUE: Enum for prioritizing cognitive events.
-        get_consciousness_integrator,  # ΛACCESS_POINT: Singleton accessor for the integrator.
+        get_consciousness_integrator,
+        # ΛACCESS_POINT: Singleton accessor for the integrator.
     )
 
     logger.info("ΛTRACE: Successfully imported components from .integrator.")
 except ImportError as e:
-    # ΛCOLLAPSE_POINT: Failure to import the integrator means the core cognitive loop cannot function.
+    # ΛCOLLAPSE_POINT: Failure to import the integrator means the core
+    # cognitive loop cannot function.
     logger.error(
         f"ΛTRACE: Failed to import from .integrator: {e}. Core consciousness components will be unavailable.",
         exc_info=True,
@@ -94,7 +99,8 @@ __all__ = [
     "EmotionalTone",
     "AlignmentStatus",
 ]
-# Filter out None values from __all__ if imports failed, to prevent runtime errors on `import *`
+# Filter out None values from __all__ if imports failed, to prevent
+# runtime errors on `import *`
 __all__ = [name for name in __all__ if globals().get(name) is not None]
 
 logger.info(

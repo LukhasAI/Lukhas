@@ -128,7 +128,7 @@ async def get_emotional_landscape(
         return APIResponse(
             status="success",
             data=landscape,
-            message=f"Emotional landscape mapped: {len(clusters)} clusters,
+            message=f"Emotional landscape mapped: {len(clusters)} clusters,"
             {landscape['total_unique_emotions']} unique emotions",
         )
 

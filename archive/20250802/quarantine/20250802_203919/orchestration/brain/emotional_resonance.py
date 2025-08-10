@@ -26,16 +26,16 @@ Valence-Arousal Model:
 - Arousal: Low (0.0) to High (1.0)
 """
 
+import base64
+from io import BytesIO
+import matplotlib.pyplot as plt
+import numpy as np
+from typing import Dict, List, Tuple, Any, Optional
+from datetime import datetime
+import time
+import random
 import json
 import math
-import random
-import time
-from datetime import datetime
-from typing import Dict, List, Tuple, Any, Optional
-import numpy as np
-import matplotlib.pyplot as plt
-from io import BytesIO
-import base64
 
 # Try importing related modules that might exist in the codebase
 try:
@@ -138,7 +138,7 @@ VALENCE_AROUSAL_MAP = {
     # Format: (valence_center, arousal_center): "emotion_name"
     (0.9, 0.8): "joyful",
     (0.7, 0.4): "empathetic",
-    (0.6, 0.6): "curious", 
+    (0.6, 0.6): "curious",
     (0.5, 0.3): "thoughtful",
     (0.5, 0.5): "balanced",
     (0.5, 0.2): "calm",
@@ -146,19 +146,20 @@ VALENCE_AROUSAL_MAP = {
     (0.0, 1.0): "urgent"
 }
 
+
 class EmotionalResonance:
     """
     Main class for handling emotional mapping and resonance.
     """
-    
-    def __init__(self, 
-                 base_frequency: float = 5.0, 
+
+    def __init__(self,
+                 base_frequency: float = 5.0,
                  intensity_scale: float = 1.0,
                  symbolic_world: Optional[Any] = None,
                  emotional_state_symbol_name: str = "system_emotional_state"):
         """
         Initialize the emotional resonance system.
-        
+
         Args:
             base_frequency: The default frequency to center around (balanced state)
             intensity_scale: Scaling factor for emotional intensity
@@ -175,18 +176,18 @@ class EmotionalResonance:
         self.last_update = datetime.now()
         self.emotional_contagion_factor = 0.3  # How much external emotions influence
         self.emotional_inertia = 0.7  # Resistance to emotional change
-        
+
         # SymbolicWorld integration
         self.symbolic_world = symbolic_world if SYMBOLIC_WORLD_AVAILABLE else None
         self.emotional_state_symbol_name = emotional_state_symbol_name
-        
+
         # Voice modulation history for tracking changes over time
         self.voice_modulation_history = []
-    
+
     def map_emotion(self, input_context: Dict[str, Any]) -> Dict[str, Any]:
         """
         Maps input context to an emotional state with intensity.
-        
+
         Args:
             input_context: Dictionary containing contextual information
                 theta: Angular orientation (psychological valence)
@@ -197,7 +198,7 @@ class EmotionalResonance:
                 valence: Optional direct valence value (-1.0 to 1.0)
                 arousal: Optional direct arousal value (0.0 to 1.0)
                 external_emotion: Optional external emotion to be influenced by
-                
+
         Returns:
             Dictionary containing emotional state mapping
         """
@@ -208,18 +209,18 @@ class EmotionalResonance:
         sigma_y = input_context.get("sigma_y", 10)
         amplitude = input_context.get("amplitude", 0.7)
         context_tags = input_context.get("context_tags", [])
-        
+
         # Direct valence-arousal inputs if provided
         input_valence = input_context.get("valence")
         input_arousal = input_context.get("arousal")
-        
+
         # External emotion that can influence this system (emotional contagion)
         external_emotion = input_context.get("external_emotion")
-        
+
         # Previous values with inertia applied
         prev_valence = self.valence
         prev_arousal = self.arousal
-        
+
         # Calculate new valence and arousal
         if input_valence is not None and input_arousal is not None:
             # Direct input of valence-arousal values
@@ -229,58 +230,63 @@ class EmotionalResonance:
             # Calculate from theta and amplitude
             # Normalize theta to 0-360 degrees
             theta_norm = theta % 360
-            
+
             # Theta determines valence:
             # 0° = neutral, 90° = maximum positive, 270° = maximum negative
             calculated_valence = math.cos(math.radians(theta_norm))
-            
+
             # Amplitude and frequency affect arousal
             calculated_arousal = amplitude * (0.5 + 0.5 * freq)
-            
+
             new_valence = calculated_valence
             new_arousal = calculated_arousal
-        
+
         # Apply emotional contagion if external emotion is provided
         if external_emotion and isinstance(external_emotion, dict):
             ext_valence = external_emotion.get("valence", 0.5)
             ext_arousal = external_emotion.get("arousal", 0.5)
-            
+
             # Blend with external emotion based on contagion factor
-            new_valence = (1 - self.emotional_contagion_factor) * new_valence + self.emotional_contagion_factor * ext_valence
-            new_arousal = (1 - self.emotional_contagion_factor) * new_arousal + self.emotional_contagion_factor * ext_arousal
-        
+            new_valence = (1 - self.emotional_contagion_factor) * \
+                new_valence + self.emotional_contagion_factor * ext_valence
+            new_arousal = (1 - self.emotional_contagion_factor) * \
+                new_arousal + self.emotional_contagion_factor * ext_arousal
+
         # Apply emotional inertia (emotions change gradually)
-        self.valence = self.emotional_inertia * prev_valence + (1 - self.emotional_inertia) * new_valence
-        self.arousal = self.emotional_inertia * prev_arousal + (1 - self.emotional_inertia) * new_arousal
-        
+        self.valence = self.emotional_inertia * prev_valence + \
+            (1 - self.emotional_inertia) * new_valence
+        self.arousal = self.emotional_inertia * prev_arousal + \
+            (1 - self.emotional_inertia) * new_arousal
+
         # Normalize valence to -1.0 to 1.0
         self.valence = max(-1.0, min(1.0, self.valence))
         # Convert to 0.0-1.0 range for compatibility
         valence_normalized = (self.valence + 1) / 2
         # Normalize arousal to 0.0 to 1.0
         self.arousal = max(0.0, min(1.0, self.arousal))
-        
+
         # Map valence-arousal to an emotional state
-        emotion_state = self._map_valence_arousal_to_emotion(valence_normalized, self.arousal)
-        
+        emotion_state = self._map_valence_arousal_to_emotion(
+            valence_normalized, self.arousal)
+
         # Calculate emotional state parameters
         emotion_frequency = self._get_frequency_for_emotion(emotion_state)
-        
+
         # Calculate intensity based on arousal
         intensity = self.arousal
-        
+
         # Generate resonance pattern based on emotion state
         resonance_pattern = self._generate_resonance_pattern(
-            emotion_state, 
+            emotion_state,
             intensity,
             sigma_x,
             sigma_y
         )
-        
+
         # Update current state
         self.current_state = emotion_state
         self.current_intensity = intensity
-        
+
         # Record in emotional history
         timestamp = datetime.now()
         self.emotional_history.append({
@@ -293,7 +299,7 @@ class EmotionalResonance:
             "frequency": emotion_frequency
         })
         self.last_update = timestamp
-        
+
         # Create result
         result = {
             "emotional_state": emotion_state,
@@ -306,53 +312,53 @@ class EmotionalResonance:
             "valence": valence_normalized,
             "arousal": self.arousal
         }
-        
+
         # Try to integrate with memory systems if available
         self._integrate_with_memory(emotion_state, intensity, context_tags, timestamp)
-        
+
         return result
-    
+
     def _map_valence_arousal_to_emotion(self, valence: float, arousal: float) -> str:
         """
         Maps a valence-arousal pair to the closest named emotional state.
-        
+
         Args:
             valence: Normalized valence value (0.0 to 1.0)
             arousal: Arousal value (0.0 to 1.0)
-            
+
         Returns:
             The name of the closest emotional state
         """
         # Find closest emotion in valence-arousal space using Euclidean distance
         min_distance = float('inf')
         closest_emotion = "balanced"  # Default
-        
+
         for (v_center, a_center), emotion in VALENCE_AROUSAL_MAP.items():
             distance = math.sqrt((valence - v_center)**2 + (arousal - a_center)**2)
             if distance < min_distance:
                 min_distance = distance
                 closest_emotion = emotion
-        
+
         return closest_emotion
-    
+
     def _get_frequency_for_emotion(self, emotion_state: str) -> float:
         """
         Get the frequency for a given emotional state, using the middle of its range.
-        
+
         Args:
             emotion_state: The emotional state name
-            
+
         Returns:
             The frequency value
         """
         min_freq, max_freq = EMOTIONAL_STATES[emotion_state]["frequency_range"]
         return (min_freq + max_freq) / 2
-    
-    def _integrate_with_memory(self, emotion_state: str, intensity: float, 
-                              context_tags: List[str], timestamp: datetime) -> None:
+
+    def _integrate_with_memory(self, emotion_state: str, intensity: float,
+                               context_tags: List[str], timestamp: datetime) -> None:
         """
         Integrate emotional state with memory systems if available.
-        
+
         Args:
             emotion_state: Current emotional state
             intensity: Emotional intensity
@@ -373,7 +379,7 @@ class EmotionalResonance:
         except (NameError, Exception):
             # Function doesn't exist or failed, just continue
             pass
-            
+
         # Try to integrate with EmotionalState from memory_emotion_mapper if available
         if MEMORY_EMOTION_MAPPER_AVAILABLE:
             try:
@@ -387,7 +393,7 @@ class EmotionalResonance:
                 # Here you might want to pass this to some memory system
             except Exception:
                 pass
-        
+
         # Integrate with symbolic world if available
         if self.symbolic_world:
             # Create an emotion event in the symbolic world
@@ -402,10 +408,11 @@ class EmotionalResonance:
                 "timestamp": timestamp.isoformat(),
                 "source_module": self.__class__.__name__
             }
-            
+
             # Create the emotion event symbol
-            event_symbol = self.symbolic_world.create_symbol(event_symbol_name, event_properties)
-            
+            event_symbol = self.symbolic_world.create_symbol(
+                event_symbol_name, event_properties)
+
             # Link to the main emotional state symbol
             if self.emotional_state_symbol_name in self.symbolic_world.symbols:
                 main_emotion_symbol = self.symbolic_world.symbols[self.emotional_state_symbol_name]
@@ -427,11 +434,12 @@ class EmotionalResonance:
                     "source_module": self.__class__.__name__
                 }
                 main_emotion_symbol = self.symbolic_world.create_symbol(
-                    self.emotional_state_symbol_name, 
+                    self.emotional_state_symbol_name,
                     main_emotion_properties
                 )
-            
-            # Link the event to relevant context tags if they exist in the symbolic world
+
+            # Link the event to relevant context tags if they exist in the symbolic
+            # world
             for tag in context_tags:
                 tag_symbol_name = tag.lower().replace(" ", "_").replace("-", "_")
                 if tag_symbol_name in self.symbolic_world.symbols:
@@ -442,28 +450,28 @@ class EmotionalResonance:
                         relationship_type="emotionally_associated_with",
                         properties={"association_timestamp": timestamp.isoformat()}
                     )
-    
-    def _generate_resonance_pattern(self, 
-                                   emotion_state: str, 
-                                   intensity: float,
-                                   sigma_x: float,
-                                   sigma_y: float) -> List[float]:
+
+    def _generate_resonance_pattern(self,
+                                    emotion_state: str,
+                                    intensity: float,
+                                    sigma_x: float,
+                                    sigma_y: float) -> List[float]:
         """
         Generate a resonance pattern based on emotional state and intensity.
         This simulates the "Gabbor resonance engine" concept.
-        
+
         Returns:
             List of values representing the resonance pattern (20 points)
         """
         pattern = []
         pattern_type = EMOTIONAL_STATES[emotion_state]["resonance_pattern"]
-        
+
         # Number of points in the pattern
         num_points = 20
-        
+
         for i in range(num_points):
             x = i / (num_points - 1)  # Normalize to 0-1
-            
+
             if pattern_type == "stable_low":
                 # Low amplitude sine wave with minimal variation
                 value = 0.3 * intensity * math.sin(2 * math.pi * x) + 0.2
@@ -481,7 +489,8 @@ class EmotionalResonance:
                 value = 0.6 * intensity * math.sin(8 * math.pi * x) + 0.7
             elif pattern_type == "harmonic_rise":
                 # Rising harmonic pattern for joy
-                value = 0.5 * intensity * (math.sin(3 * math.pi * x) + math.sin(5 * math.pi * x)) / 2 + 0.6
+                value = 0.5 * intensity * \
+                    (math.sin(3 * math.pi * x) + math.sin(5 * math.pi * x)) / 2 + 0.6
             elif pattern_type == "questioning_pattern":
                 # Pattern that rises then falls, like a question
                 value = 0.4 * intensity * math.sin(3 * math.pi * x * (1 + x)) + 0.5
@@ -489,11 +498,13 @@ class EmotionalResonance:
                 # Very slow, thoughtful oscillation
         valence_values = [entry.get("valence", 0.5) for entry in relevant_history]
         arousal_values = [entry.get("arousal", 0.5) for entry in relevant_history]
-        
+
         # Calculate valence trend
         if len(valence_values) >= 2:
-            valence_start = sum(valence_values[:len(valence_values)//3]) / (len(valence_values)//3 or 1)
-            valence_end = sum(valence_values[-len(valence_values)//3:]) / (len(valence_values)//3 or 1)
+            valence_start = sum(valence_values[:len(
+                valence_values) // 3]) / (len(valence_values) // 3 or 1)
+            valence_end = sum(
+                valence_values[-len(valence_values) // 3:]) / (len(valence_values) // 3 or 1)
             if valence_end > valence_start + 0.1:
                 valence_trend = "improving"
             elif valence_end < valence_start - 0.1:
@@ -502,11 +513,13 @@ class EmotionalResonance:
                 valence_trend = "stable"
         else:
             valence_trend = "insufficient_data"
-            
+
         # Calculate arousal trend
         if len(arousal_values) >= 2:
-            arousal_start = sum(arousal_values[:len(arousal_values)//3]) / (len(arousal_values)//3 or 1)
-            arousal_end = sum(arousal_values[-len(arousal_values)//3:]) / (len(arousal_values)//3 or 1)
+            arousal_start = sum(arousal_values[:len(
+                arousal_values) // 3]) / (len(arousal_values) // 3 or 1)
+            arousal_end = sum(
+                arousal_values[-len(arousal_values) // 3:]) / (len(arousal_values) // 3 or 1)
             if arousal_end > arousal_start + 0.1:
                 arousal_trend = "increasing"
             elif arousal_end < arousal_start - 0.1:
@@ -515,17 +528,17 @@ class EmotionalResonance:
                 arousal_trend = "stable"
         else:
             arousal_trend = "insufficient_data"
-        
+
         # Determine overall trend direction
         if len(relevant_history) >= 2:
             # Calculate average frequency for first and last thirds
             third_size = max(1, len(relevant_history) // 3)
             first_third = relevant_history[:third_size]
             last_third = relevant_history[-third_size:]
-            
+
             first_avg_freq = sum(e["frequency"] for e in first_third) / len(first_third)
             last_avg_freq = sum(e["frequency"] for e in last_third) / len(last_third)
-            
+
             if last_avg_freq > first_avg_freq + 0.5:
                 trend = "intensifying"
             elif last_avg_freq < first_avg_freq - 0.5:
@@ -534,50 +547,54 @@ class EmotionalResonance:
                 trend = "steady"
         else:
             trend = "insufficient_data"
-        
+
         return {
             "trend": trend,
             "stability": stability,
             "dominant_state": dominant_state,
             "state_distribution": {
-                state: count/total for state, count in state_counts.items()
-            },
+                state: count /
+                total for state,
+                count in state_counts.items()},
             "valence_trend": valence_trend,
             "arousal_trend": arousal_trend,
-            "average_valence": sum(valence_values) / len(valence_values) if valence_values else 0.5,
-            "average_arousal": sum(arousal_values) / len(arousal_values) if arousal_values else 0.5
-        }
-    
+            "average_valence": sum(valence_values) /
+            len(valence_values) if valence_values else 0.5,
+            "average_arousal": sum(arousal_values) /
+            len(arousal_values) if arousal_values else 0.5}
+
     def visualize_emotional_state(self) -> str:
         """
         Create a simple text-based visualization of the current emotional state.
-        
+
         Returns:
             String containing visualization
         """
         state = self.current_state
         intensity = self.current_intensity
         visual_cue = EMOTIONAL_STATES[state]["visual_cue"]
-        
+
         # Create a bar to visualize intensity
         bar_length = 20
         filled = int(bar_length * intensity)
         bar = "█" * filled + "░" * (bar_length - filled)
-        
+
         # Create valence-arousal visualization
         valence_normalized = (self.valence + 1) / 2  # Convert from -1..1 to 0..1
         valence_bar_length = 10
         valence_midpoint = valence_bar_length // 2
         valence_position = int(valence_normalized * valence_bar_length)
-        
+
         valence_bar = "░" * valence_bar_length
-        valence_bar = valence_bar[:valence_position] + "●" + valence_bar[valence_position+1:]
-        
+        valence_bar = valence_bar[:valence_position] + \
+            "●" + valence_bar[valence_position + 1:]
+
         arousal_bar_length = 10
         arousal_position = int(self.arousal * arousal_bar_length)
         arousal_bar = "░" * arousal_bar_length
-        arousal_bar = arousal_bar[:arousal_position] + "●" + arousal_bar[arousal_position+1:]
-        
+        arousal_bar = arousal_bar[:arousal_position] + \
+            "●" + arousal_bar[arousal_position + 1:]
+
         visualization = f"""
 Emotional State: {state.upper()} {visual_cue}
 Intensity: [{bar}] {intensity:.2f}
@@ -587,20 +604,20 @@ Frequency: {self._get_frequency_for_emotion(state):.1f} Hz
 Description: {EMOTIONAL_STATES[state]["description"]}
 Last Updated: {self.last_update.strftime('%H:%M:%S')}
         """
-        
+
         return visualization
-    
+
     def generate_valence_arousal_plot(self) -> Optional[str]:
         """
         Generate a valence-arousal plot of the emotional state.
-        
+
         Returns:
             Base64 encoded PNG image or None if matplotlib is not available
         """
         try:
             # Create valence-arousal plot
             fig, ax = plt.subplots(figsize=(5, 5))
-            
+
             # Set up the plot
             ax.set_xlim(-1, 1)
             ax.set_ylim(0, 1)
@@ -609,31 +626,30 @@ Last Updated: {self.last_update.strftime('%H:%M:%S')}
             ax.set_xlabel('Valence')
             ax.set_ylabel('Arousal')
             ax.set_title('Emotional State in Valence-Arousal Space')
-            
+
             # Plot emotion regions
             for (v, a), emotion in VALENCE_AROUSAL_MAP.items():
                 v_adjusted = v * 2 - 1  # Convert from 0..1 to -1..1
                 ax.scatter(v_adjusted, a, alpha=0.3, s=300)
                 ax.annotate(emotion, (v_adjusted, a), fontsize=8)
-            
+
             # Plot current state
             ax.scatter([self.valence], [self.arousal], color='red', s=100)
-            ax.annotate(f'Current: {self.current_state}', 
-                        (self.valence, self.arousal),
-                        xytext=(10, 10),
-                        textcoords='offset points',
-                        fontsize=10,
-                        bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
-            
+            ax.annotate(
+                f'Current: {self.current_state}', (self.valence, self.arousal), xytext=(
+                    10, 10), textcoords='offset points', fontsize=10, bbox=dict(
+                    boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
+
             # Add emotional trajectory if history exists
             if len(self.emotional_history) > 1:
                 # Get last 10 states or all if less than 10
                 history = self.emotional_history[-10:]
-                
-                # Extract valence and arousal, converting valence from 0..1 to -1..1 if needed
+
+                # Extract valence and arousal, converting valence from 0..1 to -1..1 if
+                # needed
                 valences = []
                 arousals = []
-                
+
                 for entry in history:
                     val = entry.get("valence", 0.5)
                     # Check if valence is already in -1..1 range or needs conversion
@@ -641,54 +657,56 @@ Last Updated: {self.last_update.strftime('%H:%M:%S')}
                         val = val * 2 - 1  # Convert from 0..1 to -1..1
                     valences.append(val)
                     arousals.append(entry.get("arousal", 0.5))
-                
+
                 # Plot the trajectory with increasing opacity
-                for i in range(len(valences)-1):
-                    alpha = 0.3 + 0.7 * (i / (len(valences)-1))
-                    ax.plot(valences[i:i+2], arousals[i:i+2], 'b-', alpha=alpha, linewidth=1.5)
-            
+                for i in range(len(valences) - 1):
+                    alpha = 0.3 + 0.7 * (i / (len(valences) - 1))
+                    ax.plot(valences[i:i + 2], arousals[i:i + 2],
+                            'b-', alpha=alpha, linewidth=1.5)
+
             # Save plot to a bytes buffer
             buf = BytesIO()
             fig.savefig(buf, format='png', bbox_inches='tight')
             buf.seek(0)
             plt.close(fig)
-            
+
             # Convert to base64
             img_base64 = base64.b64encode(buf.read()).decode('utf-8')
             return img_base64
-        
+
         except Exception as e:
             print(f"Error generating emotion plot: {e}")
             return None
-    
-    def modulate_voice_parameters(self, custom_calibration: Dict[str, float] = None) -> Dict[str, float]:
+
+    def modulate_voice_parameters(
+            self, custom_calibration: Dict[str, float] = None) -> Dict[str, float]:
         """
         Generate voice modulation parameters based on current emotional state.
         Integrates with symbolic world if available to enrich voice modulation.
-        
+
         Args:
             custom_calibration: Optional custom calibration parameters
-        
+
         Returns:
             Dictionary containing voice modulation parameters
         """
         state = self.current_state
         intensity = self.current_intensity
-        
+
         # Default voice parameters
         params = {
             "pitch": 1.0,      # Multiplier for base pitch
             "speed": 1.0,      # Multiplier for speaking speed
             "volume": 1.0,     # Multiplier for volume
             "timbre": 0.5,     # 0-1 scale (soft to harsh)
-            "breathiness": 0.2, # 0-1 scale
-            "articulation": 0.5, # 0-1 scale (slurred to precise)
+            "breathiness": 0.2,  # 0-1 scale
+            "articulation": 0.5,  # 0-1 scale (slurred to precise)
             "resonance": 0.5,   # 0-1 scale (thin to resonant)
             "inflection": 0.5,  # 0-1 scale (monotone to expressive)
             "vibrato": 0.0,     # 0-1 scale (amount of vibrato effect)
-            "vocal_tension": 0.5 # 0-1 scale (relaxed to tense)
+            "vocal_tension": 0.5  # 0-1 scale (relaxed to tense)
         }
-        
+
         # Adjust parameters based on emotional state
         if state == "calm":
             params["pitch"] = 0.9
@@ -770,31 +788,36 @@ Last Updated: {self.last_update.strftime('%H:%M:%S')}
             params["inflection"] = 0.5
             params["vibrato"] = 0.1
             params["vocal_tension"] = 0.3
-        
+
         # Further adjust based on valence and arousal directly
         # Valence affects pitch and timbre
         valence_factor = (self.valence + 1) / 2  # Convert to 0-1 range
-        params["pitch"] *= 0.9 + 0.2 * valence_factor  # Higher pitch for positive valence
-        params["timbre"] = 0.7 - 0.4 * valence_factor  # Softer timbre for positive valence
-        params["inflection"] = 0.3 + 0.5 * valence_factor  # More varied inflection for positive valence
-        
+        # Higher pitch for positive valence
+        params["pitch"] *= 0.9 + 0.2 * valence_factor
+        # Softer timbre for positive valence
+        params["timbre"] = 0.7 - 0.4 * valence_factor
+        # More varied inflection for positive valence
+        params["inflection"] = 0.3 + 0.5 * valence_factor
+
         # Arousal affects speed, volume and articulation
         params["speed"] *= 0.8 + 0.4 * self.arousal  # Higher speed for higher arousal
         params["volume"] *= 0.8 + 0.4 * self.arousal  # Higher volume for higher arousal
-        params["articulation"] = 0.4 + 0.6 * self.arousal  # More precise articulation with higher arousal
-        params["vocal_tension"] = 0.3 + 0.7 * self.arousal  # Higher tension with higher arousal
-        
+        # More precise articulation with higher arousal
+        params["articulation"] = 0.4 + 0.6 * self.arousal
+        # Higher tension with higher arousal
+        params["vocal_tension"] = 0.3 + 0.7 * self.arousal
+
         # Apply intensity scaling
         intensity_factor = 0.5 + 0.5 * intensity
         for param in ["pitch", "speed", "volume"]:
             params[param] = 1.0 + (params[param] - 1.0) * intensity_factor
-            
+
         # Apply custom calibration if provided
         if custom_calibration:
             for param, value in custom_calibration.items():
                 if param in params:
                     params[param] = value
-        
+
         # Record voice modulation in history for trend analysis
         timestamp = datetime.now()
         self.voice_modulation_history.append({
@@ -804,20 +827,20 @@ Last Updated: {self.last_update.strftime('%H:%M:%S')}
             "valence": self.valence,
             "arousal": self.arousal
         })
-        
+
         # Trim history if it gets too long
         if len(self.voice_modulation_history) > 100:
             self.voice_modulation_history = self.voice_modulation_history[-100:]
-        
+
         # Integrate with symbolic world if available
         if self.symbolic_world and self.emotional_state_symbol_name in self.symbolic_world.symbols:
             voice_params = {f"voice_{k}": v for k, v in params.items()}
-            
+
             # Update the voice parameters on the emotional state symbol
             emotion_symbol = self.symbolic_world.symbols[self.emotional_state_symbol_name]
             for param_name, param_value in voice_params.items():
                 emotion_symbol.update_property(param_name, param_value)
-            
+
             # Create a voice modulation event in the symbolic world
             modulation_symbol_name = f"voice_modulation_{timestamp.strftime('%Y%m%d_%H%M%S_%f')}"
             modulation_properties = {
@@ -829,86 +852,120 @@ Last Updated: {self.last_update.strftime('%H:%M:%S')}
                 "source_module": self.__class__.__name__,
                 **voice_params
             }
-            
+
             # Create the symbol and link it to the emotional state
-            modulation_symbol = self.symbolic_world.create_symbol(modulation_symbol_name, modulation_properties)
+            modulation_symbol = self.symbolic_world.create_symbol(
+                modulation_symbol_name, modulation_properties)
             self.symbolic_world.link_symbols(
                 modulation_symbol,
                 emotion_symbol,
                 relationship_type="expresses_emotion_through_voice",
                 properties={"timestamp": timestamp.isoformat()}
             )
-        
+
         return params
-    
+
     def get_emotion_from_context(self, context_text: str) -> Dict[str, Any]:
         """
         Attempt to extract emotional content from text.
-        This is a simplified implementation. In a production system, 
+        This is a simplified implementation. In a production system,
         this would use NLP for sentiment analysis.
-        
+
         Args:
             context_text: The text to analyze
-            
+
         Returns:
             Dictionary with valence and arousal values
         """
         # This is a placeholder for a more sophisticated NLP approach
         # In a real implementation, you'd use a proper sentiment analysis model
-        
+
         # Very simplified lexicon approach
-        positive_words = ["good", "great", "happy", "excellent", "joy", "love", "wonderful",
-                         "amazing", "awesome", "positive", "excited"]
-        negative_words = ["bad", "terrible", "sad", "awful", "hate", "angry", "frustrated",
-                         "disappointed", "negative", "upset", "worried", "fear"]
-        high_arousal = ["excited", "angry", "urgent", "emergency", "critical", "immediately",
-                      "now", "danger", "alert", "warning", "rush", "fast"]
-        low_arousal = ["calm", "peaceful", "relaxed", "serene", "gentle", "quiet", 
-                      "slow", "steady", "stable", "tranquil"]
-        
+        positive_words = [
+            "good",
+            "great",
+            "happy",
+            "excellent",
+            "joy",
+            "love",
+            "wonderful",
+            "amazing",
+            "awesome",
+            "positive",
+            "excited"]
+        negative_words = [
+            "bad",
+            "terrible",
+            "sad",
+            "awful",
+            "hate",
+            "angry",
+            "frustrated",
+            "disappointed",
+            "negative",
+            "upset",
+            "worried",
+            "fear"]
+        high_arousal = [
+            "excited",
+            "angry",
+            "urgent",
+            "emergency",
+            "critical",
+            "immediately",
+            "now",
+            "danger",
+            "alert",
+            "warning",
+            "rush",
+            "fast"]
+        low_arousal = ["calm", "peaceful", "relaxed", "serene", "gentle", "quiet",
+                       "slow", "steady", "stable", "tranquil"]
+
         # Normalize and tokenize
         text = context_text.lower()
         words = text.split()
-        
+
         # Count occurrences
         pos_count = sum(1 for word in words if word in positive_words)
         neg_count = sum(1 for word in words if word in negative_words)
         high_count = sum(1 for word in words if word in high_arousal)
         low_count = sum(1 for word in words if word in low_arousal)
-        
+
         # Get total counts
         total_valence = pos_count + neg_count
         total_arousal = high_count + low_count
-        
+
         # Calculate valence and arousal
         valence = 0.0
         if total_valence > 0:
             valence = (pos_count - neg_count) / total_valence
-        
+
         arousal = 0.5  # Default moderate arousal
         if total_arousal > 0:
             arousal = (high_count) / total_arousal
-        
+
         return {
             "valence": valence,
             "arousal": arousal,
             "intensity": (abs(valence) + arousal) / 2
         }
-    
-    def emotional_feedback_loop(self, context_text: str, response_type: str = "text") -> Dict[str, Any]:
+
+    def emotional_feedback_loop(self, context_text: str,
+                                response_type: str = "text") -> Dict[str, Any]:
         """
         Process text input, extract emotions, and provide appropriate response.
-        
+
         Args:
             context_text: Input text to process
             response_type: Type of response (text, visual, voice)
-            
+
         Returns:
             Dictionary with emotional response data
         """
         # Extract emotional content from input
         extracted_emotion = self.get_emotion_from_context(context_text)
-        
+
         # Update emotional state with the extracted emotion
         input_context = {
             "valence": extracted_emotion["valence"],
@@ -916,9 +973,9 @@ Last Updated: {self.last_update.strftime('%H:%M:%S')}
             "amplitude": extracted_emotion["intensity"],
             "context_tags": ["textual_input"]
         }
-        
+
         emotional_state = self.map_emotion(input_context)
-        
+
         # Generate appropriate response based on response_type
         response_data = {
             "emotional_state": emotional_state["emotional_state"],
@@ -926,12 +983,12 @@ Last Updated: {self.last_update.strftime('%H:%M:%S')}
             "arousal": emotional_state["arousal"],
             "intensity": emotional_state["intensity"]
         }
-        
+
         if response_type == "text":
             response_data["response"] = self.visualize_emotional_state()
         elif response_type == "visual":
             response_data["response"] = self.generate_valence_arousal_plot()
         elif response_type == "voice":
             response_data["voice_params"] = self.modulate_voice_parameters()
-        
+
         return response_data

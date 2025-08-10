@@ -71,7 +71,7 @@ def print_debug_narration_summary():
     print(f"🔊 Narration-ready entries for Tier {tier_limit}: {len(filtered)}")
     for e in filtered:
         print(
-            f" • ID: {e.get('id')} | Emoji: {e.get('emoji')} | Tags: {',
+            f" • ID: {e.get('id')} | Emoji: {e.get('emoji')} | Tags: {','"
     '.join(e.get('tags', []))}"
         )
         print(f"   📝 Summary: {e.get('summary', '—')}")

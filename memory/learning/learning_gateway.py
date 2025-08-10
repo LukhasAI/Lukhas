@@ -7,7 +7,7 @@ import asyncio
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 @dataclass
@@ -16,8 +16,8 @@ class LearningRequest:
 
     agent_id: str
     operation: str
-    data: Dict[str, Any]
-    context: Optional[Dict[str, Any]] = None
+    data: dict[str, Any]
+    context: Optional[dict[str, Any]] = None
     timestamp: Optional[datetime] = None
 
     def __post_init__(self):
@@ -32,7 +32,7 @@ class LearningResponse:
     success: bool
     result: Optional[Any] = None
     error: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
 
 class LearningGatewayInterface(ABC):
@@ -46,26 +46,22 @@ class LearningGatewayInterface(ABC):
         self, request: LearningRequest
     ) -> LearningResponse:
         """Process a learning request through the appropriate learning system"""
-        pass
 
     @abstractmethod
-    async def get_learning_status(self, agent_id: str) -> Dict[str, Any]:
+    async def get_learning_status(self, agent_id: str) -> dict[str, Any]:
         """Get the current learning status for an agent"""
-        pass
 
     @abstractmethod
     async def update_learning_parameters(
-        self, agent_id: str, parameters: Dict[str, Any]
+        self, agent_id: str, parameters: dict[str, Any]
     ) -> bool:
         """Update learning parameters for a specific agent"""
-        pass
 
     @abstractmethod
     async def get_learning_metrics(
         self, agent_id: str, metric_type: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve learning metrics and performance data"""
-        pass
 
 
 class LearningGateway(LearningGatewayInterface):
@@ -134,13 +130,13 @@ class LearningGateway(LearningGatewayInterface):
                 metadata={"timestamp": datetime.now().isoformat()},
             )
 
-    async def get_learning_status(self, agent_id: str) -> Dict[str, Any]:
+    async def get_learning_status(self, agent_id: str) -> dict[str, Any]:
         """Get the current learning status for an agent"""
         await self._ensure_initialized()
         return await self._service.get_status(agent_id)
 
     async def update_learning_parameters(
-        self, agent_id: str, parameters: Dict[str, Any]
+        self, agent_id: str, parameters: dict[str, Any]
     ) -> bool:
         """Update learning parameters for a specific agent"""
         await self._ensure_initialized()
@@ -148,7 +144,7 @@ class LearningGateway(LearningGatewayInterface):
 
     async def get_learning_metrics(
         self, agent_id: str, metric_type: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve learning metrics and performance data"""
         await self._ensure_initialized()
         return await self._service.get_metrics(agent_id, metric_type)

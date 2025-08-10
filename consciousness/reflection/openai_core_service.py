@@ -38,7 +38,7 @@ import os
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 # Try to import from core.common if available
 try:
@@ -97,12 +97,12 @@ class OpenAIRequest:
 
     module: str
     capability: OpenAICapability
-    data: Dict[str, Any]
+    data: dict[str, Any]
     model_preference: Optional[ModelType] = None
     priority: int = 5  # 1-10, higher is more important
     user_id: Optional[str] = None
     session_id: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
 
 @dataclass
@@ -115,7 +115,7 @@ class OpenAIResponse:
     success: bool
     data: Optional[Any] = None
     error: Optional[str] = None
-    usage: Optional[Dict[str, Any]] = None
+    usage: Optional[dict[str, Any]] = None
     latency_ms: Optional[int] = None
     fallback_used: bool = False
 
@@ -638,7 +638,7 @@ class OpenAICoreService:
         elif stat_type == "failed":
             self.usage_stats["by_module"][module]["failed"] += 1
 
-    def get_usage_report(self) -> Dict[str, Any]:
+    def get_usage_report(self) -> dict[str, Any]:
         """Get comprehensive usage report."""
         return {
             "summary": self.usage_stats,
@@ -807,7 +807,7 @@ class OpenAIMockProvider:
             fallback_used=True,
         )
 
-    def _load_mock_responses(self) -> Dict[str, Any]:
+    def _load_mock_responses(self) -> dict[str, Any]:
         """Load predefined mock responses."""
         # Could load from JSON file for more complex mocks
         return {}
@@ -868,7 +868,7 @@ async def generate_text(
 
 async def generate_image(
     module: str, prompt: str, size: str = "1024x1024", **kwargs
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Convenience function for image generation."""
     service = OpenAICoreService()
     request = OpenAIRequest(

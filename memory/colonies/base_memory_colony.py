@@ -43,14 +43,12 @@ from abc import ABC, abstractmethod
 from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set
+from typing import Any, Callable, Optional
 
 # Import memory components
 try:
-    from ..core.colony_memory_validator import ConsensusResult, ValidationMode
+    from ..core.colony_memory_validator import ValidationMode
     from ..core.interfaces import (
-        BaseMemoryInterface,
-        MemoryMetadata,
         MemoryOperation,
         MemoryResponse,
         MemoryType,
@@ -97,8 +95,8 @@ class ColonyCapabilities:
     """Capabilities and limits of a colony"""
 
     max_concurrent_operations: int = 100
-    supported_memory_types: Set[MemoryType] = field(default_factory=set)
-    supported_operations: Set[str] = field(default_factory=set)
+    supported_memory_types: set[MemoryType] = field(default_factory=set)
+    supported_operations: set[str] = field(default_factory=set)
 
     # Performance characteristics
     average_response_time_ms: float = 100.0
@@ -169,7 +167,7 @@ class BaseMemoryColony(ABC):
         self,
         colony_id: str,
         colony_role: ColonyRole,
-        specialized_memory_types: List[MemoryType],
+        specialized_memory_types: list[MemoryType],
         capabilities: Optional[ColonyCapabilities] = None,
     ):
         self.colony_id = colony_id
@@ -184,16 +182,16 @@ class BaseMemoryColony(ABC):
         self.metrics = ColonyMetrics(colony_id=colony_id)
 
         # Operation management
-        self.active_operations: Dict[str, MemoryOperation] = {}
+        self.active_operations: dict[str, MemoryOperation] = {}
         self.operation_queue: deque = deque()
-        self.operation_history: List[Dict[str, Any]] = []
+        self.operation_history: list[dict[str, Any]] = []
 
         # Communication
-        self.peer_colonies: Dict[str, BaseMemoryColony] = {}
-        self.message_callbacks: List[Callable] = []
+        self.peer_colonies: dict[str, BaseMemoryColony] = {}
+        self.message_callbacks: list[Callable] = []
 
         # Memory storage (each subclass implements differently)
-        self.local_storage: Dict[str, Any] = {}
+        self.local_storage: dict[str, Any] = {}
 
         # Background tasks
         self._running = False
@@ -338,8 +336,8 @@ class BaseMemoryColony(ABC):
             self.metrics.active_operations = len(self.active_operations)
 
     async def participate_in_consensus(
-        self, consensus_request: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, consensus_request: dict[str, Any]
+    ) -> dict[str, Any]:
         """Participate in inter-colony consensus"""
 
         self.metrics.consensus_votes += 1
@@ -379,7 +377,7 @@ class BaseMemoryColony(ABC):
         self.message_callbacks.append(callback)
 
     async def send_message_to_colony(
-        self, target_colony_id: str, message: Dict[str, Any]
+        self, target_colony_id: str, message: dict[str, Any]
     ) -> bool:
         """Send message to another colony"""
         if target_colony_id not in self.peer_colonies:
@@ -396,7 +394,7 @@ class BaseMemoryColony(ABC):
             logger.error(f"Failed to send message to {target_colony_id}: {e}")
             return False
 
-    async def _receive_message(self, message: Dict[str, Any]):
+    async def _receive_message(self, message: dict[str, Any]):
         """Receive message from another colony"""
         for callback in self.message_callbacks:
             try:
@@ -404,7 +402,7 @@ class BaseMemoryColony(ABC):
             except Exception as e:
                 logger.error(f"Message callback failed: {e}")
 
-    def get_health_status(self) -> Dict[str, Any]:
+    def get_health_status(self) -> dict[str, Any]:
         """Get current health and status information"""
         return {
             "colony_id": self.colony_id,
@@ -437,26 +435,22 @@ class BaseMemoryColony(ABC):
     @abstractmethod
     async def _initialize_specialized_systems(self):
         """Initialize systems specific to colony type"""
-        pass
 
     @abstractmethod
     async def _cleanup_specialized_systems(self):
         """Cleanup systems specific to colony type"""
-        pass
 
     @abstractmethod
     async def _process_specialized_operation(
         self, operation: MemoryOperation
     ) -> MemoryResponse:
         """Process operation according to colony specialization"""
-        pass
 
     @abstractmethod
     async def _cast_consensus_vote(
-        self, consensus_request: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, consensus_request: dict[str, Any]
+    ) -> dict[str, Any]:
         """Cast vote in inter-colony consensus"""
-        pass
 
     # Helper methods
 
@@ -480,10 +474,7 @@ class BaseMemoryColony(ABC):
                 return False
 
         # Check current state
-        if self.state not in [ColonyState.ACTIVE, ColonyState.BUSY]:
-            return False
-
-        return True
+        return self.state in [ColonyState.ACTIVE, ColonyState.BUSY]
 
     def _update_response_time(self, response_time_ms: float):
         """Update running average of response time"""

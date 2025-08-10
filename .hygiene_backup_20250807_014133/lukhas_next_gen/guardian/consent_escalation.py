@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 class ConsentStatus(Enum):
     """Consent decision statuses"""
+
     GRANTED = "granted"
     DENIED = "denied"
     PENDING = "pending"
@@ -31,6 +32,7 @@ class ConsentStatus(Enum):
 
 class EscalationLevel(Enum):
     """Escalation severity levels"""
+
     LOW = 1
     MEDIUM = 2
     HIGH = 3
@@ -41,6 +43,7 @@ class EscalationLevel(Enum):
 @dataclass
 class ConsentRequest:
     """Represents a consent request in the system"""
+
     id: str
     requester: str
     target_resource: str
@@ -59,6 +62,7 @@ class ConsentRequest:
 @dataclass
 class TrustPath:
     """Represents a trust relationship path"""
+
     path_id: str
     nodes: List[str]  # Trust nodes in the path
     trust_scores: List[float]  # Trust score for each edge
@@ -72,6 +76,7 @@ class TrustPath:
 @dataclass
 class EscalationRule:
     """Defines escalation behavior for consent scenarios"""
+
     rule_id: str
     condition: str  # Python expression for condition matching
     escalation_level: EscalationLevel
@@ -95,7 +100,7 @@ class ConsentEscalationResolver:
             escalation_level=EscalationLevel.HIGH,
             actions=["require_multi_factor", "human_review", "audit_log"],
             symbolic_response=["🔐", "👤", "📋"],
-            priority=1
+            priority=1,
         ),
         EscalationRule(
             rule_id="low_trust_score",
@@ -103,7 +108,7 @@ class ConsentEscalationResolver:
             escalation_level=EscalationLevel.MEDIUM,
             actions=["trust_path_analysis", "additional_verification"],
             symbolic_response=["🔍", "🛡️", "✅"],
-            priority=2
+            priority=2,
         ),
         EscalationRule(
             rule_id="repeat_denial",
@@ -111,7 +116,7 @@ class ConsentEscalationResolver:
             escalation_level=EscalationLevel.HIGH,
             actions=["security_review", "temporary_restriction"],
             symbolic_response=["🚨", "⏸️", "🔒"],
-            priority=1
+            priority=1,
         ),
         EscalationRule(
             rule_id="expired_consent",
@@ -119,7 +124,7 @@ class ConsentEscalationResolver:
             escalation_level=EscalationLevel.LOW,
             actions=["auto_renewal_consideration", "notify_requester"],
             symbolic_response=["🔄", "📬", "⏰"],
-            priority=3
+            priority=3,
         ),
         EscalationRule(
             rule_id="emergency_access",
@@ -127,8 +132,8 @@ class ConsentEscalationResolver:
             escalation_level=EscalationLevel.EMERGENCY,
             actions=["emergency_bypass", "immediate_audit", "security_notification"],
             symbolic_response=["🚨", "⚡", "🔓"],
-            priority=0  # Highest priority
-        )
+            priority=0,  # Highest priority
+        ),
     ]
 
     # Symbolic patterns for trust path analysis
@@ -136,34 +141,36 @@ class ConsentEscalationResolver:
         "direct_trust": {
             "pattern": ["🔐", "🤝", "✅"],
             "strength_modifier": 1.0,
-            "description": "Direct trust relationship"
+            "description": "Direct trust relationship",
         },
         "transitive_trust": {
             "pattern": ["🔐", "🔗", "🤝", "✅"],
             "strength_modifier": 0.8,
-            "description": "Trust through intermediary"
+            "description": "Trust through intermediary",
         },
         "verified_identity": {
             "pattern": ["🆔", "✅", "🔐"],
             "strength_modifier": 1.2,
-            "description": "Verified identity trust"
+            "description": "Verified identity trust",
         },
         "degraded_trust": {
             "pattern": ["🔐", "⚠️", "🤝"],
             "strength_modifier": 0.6,
-            "description": "Trust with warnings"
+            "description": "Trust with warnings",
         },
         "emergency_trust": {
             "pattern": ["🚨", "⚡", "🔓"],
             "strength_modifier": 0.9,
-            "description": "Emergency access trust"
-        }
+            "description": "Emergency access trust",
+        },
     }
 
-    def __init__(self,
-                 rules_file: str = "lukhas_next_gen/guardian/escalation_rules.json",
-                 trust_db_file: str = "lukhas_next_gen/guardian/trust_paths.json",
-                 consent_log_file: str = "lukhas_next_gen/guardian/consent_log.json"):
+    def __init__(
+        self,
+        rules_file: str = "lukhas_next_gen/guardian/escalation_rules.json",
+        trust_db_file: str = "lukhas_next_gen/guardian/trust_paths.json",
+        consent_log_file: str = "lukhas_next_gen/guardian/consent_log.json",
+    ):
 
         self.rules_file = Path(rules_file)
         self.trust_db_file = Path(trust_db_file)
@@ -199,7 +206,7 @@ class ConsentEscalationResolver:
                         actions=rule_data["actions"],
                         symbolic_response=rule_data["symbolic_response"],
                         priority=rule_data["priority"],
-                        enabled=rule_data.get("enabled", True)
+                        enabled=rule_data.get("enabled", True),
                     )
                     self.escalation_rules.append(rule)
             else:
@@ -221,7 +228,7 @@ class ConsentEscalationResolver:
                 rule_dict["escalation_level"] = rule.escalation_level.value
                 rules_data.append(rule_dict)
 
-            with open(self.rules_file, 'w') as f:
+            with open(self.rules_file, "w") as f:
                 json.dump(rules_data, f, indent=2)
 
         except Exception as e:
@@ -244,7 +251,7 @@ class ConsentEscalationResolver:
                         path_strength=path_data["path_strength"],
                         created_at=path_data["created_at"],
                         last_validated=path_data["last_validated"],
-                        validation_count=path_data.get("validation_count", 0)
+                        validation_count=path_data.get("validation_count", 0),
                     )
                     self.trust_paths[path_id] = trust_path
             else:
@@ -265,7 +272,7 @@ class ConsentEscalationResolver:
                 symbolic_sequence=["🔐", "👤", "✅"],
                 path_strength=0.95,
                 created_at=time.time(),
-                last_validated=time.time()
+                last_validated=time.time(),
             ),
             TrustPath(
                 path_id="verified_user",
@@ -274,7 +281,7 @@ class ConsentEscalationResolver:
                 symbolic_sequence=["🆔", "✅"],
                 path_strength=0.8,
                 created_at=time.time(),
-                last_validated=time.time()
+                last_validated=time.time(),
             ),
             TrustPath(
                 path_id="emergency_access",
@@ -283,8 +290,8 @@ class ConsentEscalationResolver:
                 symbolic_sequence=["🚨", "🔓"],
                 path_strength=0.9,
                 created_at=time.time(),
-                last_validated=time.time()
-            )
+                last_validated=time.time(),
+            ),
         ]
 
         for path in default_paths:
@@ -300,7 +307,7 @@ class ConsentEscalationResolver:
             for path_id, path in self.trust_paths.items():
                 trust_data[path_id] = asdict(path)
 
-            with open(self.trust_db_file, 'w') as f:
+            with open(self.trust_db_file, "w") as f:
                 json.dump(trust_data, f, indent=2)
 
         except Exception as e:
@@ -337,7 +344,7 @@ class ConsentEscalationResolver:
                     "denied": 0,
                     "escalated": 0,
                     "last_request": 0,
-                    "trust_trend": []
+                    "trust_trend": [],
                 }
 
             stats = self.requester_stats[requester]
@@ -351,7 +358,9 @@ class ConsentEscalationResolver:
             elif status in ["escalated", "pending"]:
                 stats["escalated"] += 1
 
-            stats["last_request"] = max(stats["last_request"], entry.get("requested_at", 0))
+            stats["last_request"] = max(
+                stats["last_request"], entry.get("requested_at", 0)
+            )
             stats["trust_trend"].append(entry.get("trust_score", 0.5))
 
             # Keep only recent trust scores
@@ -381,7 +390,9 @@ class ConsentEscalationResolver:
             request.decision_reason = escalation_result["reason"]
 
             # Execute escalation actions
-            await self._execute_escalation_actions(request, escalation_result["actions"])
+            await self._execute_escalation_actions(
+                request, escalation_result["actions"]
+            )
 
             # Log escalation
             escalation_entry = {
@@ -389,7 +400,7 @@ class ConsentEscalationResolver:
                 "level": escalation_result["level"].name,
                 "reason": escalation_result["reason"],
                 "actions": escalation_result["actions"],
-                "symbolic_response": escalation_result["symbolic_response"]
+                "symbolic_response": escalation_result["symbolic_response"],
             }
             request.escalation_history.append(escalation_entry)
 
@@ -425,7 +436,7 @@ class ConsentEscalationResolver:
                 "denied": 0,
                 "escalated": 0,
                 "last_request": 0,
-                "trust_trend": []
+                "trust_trend": [],
             }
 
         stats = self.requester_stats[requester]
@@ -460,7 +471,9 @@ class ConsentEscalationResolver:
         for path in applicable_paths:
             # Validate path freshness
             path_age = time.time() - path.last_validated
-            freshness_penalty = min(0.2, path_age / 86400)  # Max 20% penalty after 1 day
+            freshness_penalty = min(
+                0.2, path_age / 86400
+            )  # Max 20% penalty after 1 day
 
             adjusted_score = path.path_strength - freshness_penalty
             path_scores.append(max(0.1, adjusted_score))  # Minimum score
@@ -483,15 +496,18 @@ class ConsentEscalationResolver:
             "applicable_paths": applicable_paths,
             "final_trust_score": final_score,
             "symbolic_sequence": symbolic_sequences,
-            "path_count": len(applicable_paths)
+            "path_count": len(applicable_paths),
         }
 
-    def _path_applies_to_request(self, path: TrustPath, request: ConsentRequest) -> bool:
+    def _path_applies_to_request(
+        self, path: TrustPath, request: ConsentRequest
+    ) -> bool:
         """Check if a trust path applies to the consent request"""
         # Simple heuristic: path applies if requester matches a node
         # In production, this would be more sophisticated
-        return (request.requester in path.nodes or
-                any(node in request.context.get("roles", []) for node in path.nodes))
+        return request.requester in path.nodes or any(
+            node in request.context.get("roles", []) for node in path.nodes
+        )
 
     async def _create_temporary_trust_path(self, request: ConsentRequest) -> TrustPath:
         """Create a temporary trust path for unknown requesters"""
@@ -523,7 +539,7 @@ class ConsentEscalationResolver:
             symbolic_sequence=symbolic_sequence,
             path_strength=base_trust,
             created_at=time.time(),
-            last_validated=time.time()
+            last_validated=time.time(),
         )
 
         # Store temporarily (don't persist to database)
@@ -534,8 +550,9 @@ class ConsentEscalationResolver:
     async def _apply_escalation_rules(self, request: ConsentRequest) -> Optional[Dict]:
         """Apply escalation rules to determine if escalation is needed"""
         # Sort rules by priority (lower number = higher priority)
-        sorted_rules = sorted([r for r in self.escalation_rules if r.enabled],
-                            key=lambda x: x.priority)
+        sorted_rules = sorted(
+            [r for r in self.escalation_rules if r.enabled], key=lambda x: x.priority
+        )
 
         # Prepare evaluation context
         eval_context = {
@@ -543,7 +560,7 @@ class ConsentEscalationResolver:
             "ConsentStatus": ConsentStatus,
             "time": time.time(),
             "requester_stats": self.requester_stats.get(request.requester, {}),
-            "requester_denial_count": self._get_recent_denials(request.requester)
+            "requester_denial_count": self._get_recent_denials(request.requester),
         }
 
         # Apply rules in priority order
@@ -551,14 +568,16 @@ class ConsentEscalationResolver:
             try:
                 # Evaluate rule condition
                 if eval(rule.condition, {"__builtins__": {}}, eval_context):
-                    logger.info(f"Escalation rule '{rule.rule_id}' triggered for request {request.id}")
+                    logger.info(
+                        f"Escalation rule '{rule.rule_id}' triggered for request {request.id}"
+                    )
 
                     return {
                         "rule_id": rule.rule_id,
                         "level": rule.escalation_level,
                         "reason": f"Rule '{rule.rule_id}' condition met",
                         "actions": rule.actions,
-                        "symbolic_response": rule.symbolic_response
+                        "symbolic_response": rule.symbolic_response,
                     }
 
             except Exception as e:
@@ -573,14 +592,18 @@ class ConsentEscalationResolver:
 
         denial_count = 0
         for entry in self.consent_history:
-            if (entry.get("requester") == requester and
-                entry.get("status") == "denied" and
-                entry.get("requested_at", 0) > cutoff_time):
+            if (
+                entry.get("requester") == requester
+                and entry.get("status") == "denied"
+                and entry.get("requested_at", 0) > cutoff_time
+            ):
                 denial_count += 1
 
         return denial_count
 
-    async def _execute_escalation_actions(self, request: ConsentRequest, actions: List[str]):
+    async def _execute_escalation_actions(
+        self, request: ConsentRequest, actions: List[str]
+    ):
         """Execute escalation actions"""
         for action in actions:
             try:
@@ -635,7 +658,9 @@ class ConsentEscalationResolver:
             "resource": request.target_resource,
             "permission": request.permission_type,
             "trust_score": request.trust_score,
-            "escalation_level": request.escalation_level.name if request.escalation_level else None
+            "escalation_level": (
+                request.escalation_level.name if request.escalation_level else None
+            ),
         }
 
         # In production, write to audit log system
@@ -695,8 +720,7 @@ class ConsentEscalationResolver:
         if request.escalation_level:
             # Use escalation rule's symbolic response
             for rule in self.escalation_rules:
-                if (rule.escalation_level == request.escalation_level and
-                    rule.enabled):
+                if rule.escalation_level == request.escalation_level and rule.enabled:
                     return rule.symbolic_response
 
         # Default symbolic responses based on status
@@ -722,9 +746,11 @@ class ConsentEscalationResolver:
             "status": request.status.value,
             "trust_score": request.trust_score,
             "decision_reason": request.decision_reason,
-            "escalation_level": request.escalation_level.name if request.escalation_level else None,
+            "escalation_level": (
+                request.escalation_level.name if request.escalation_level else None
+            ),
             "symbolic_path": request.symbolic_path,
-            "processed_at": time.time()
+            "processed_at": time.time(),
         }
 
         self.consent_history.append(log_entry)
@@ -732,12 +758,14 @@ class ConsentEscalationResolver:
         # Save to file
         try:
             self.consent_log_file.parent.mkdir(parents=True, exist_ok=True)
-            with open(self.consent_log_file, 'w') as f:
+            with open(self.consent_log_file, "w") as f:
                 json.dump(self.consent_history, f, indent=2)
         except Exception as e:
             logger.error(f"Failed to save consent history: {e}")
 
-    async def revoke_consent(self, request_id: str, reason: str = "User revoked") -> bool:
+    async def revoke_consent(
+        self, request_id: str, reason: str = "User revoked"
+    ) -> bool:
         """Revoke a previously granted consent"""
         if request_id in self.active_requests:
             request = self.active_requests[request_id]
@@ -779,7 +807,9 @@ class ConsentEscalationResolver:
             "escalation_rate": stats["escalated"] / max(1, stats["total_requests"]),
             "current_trust_score": trust_trend[-1] if trust_trend else 0.5,
             "trust_trend": trend_direction,
-            "last_request_age": time.time() - stats["last_request"] if stats["last_request"] else None
+            "last_request_age": (
+                time.time() - stats["last_request"] if stats["last_request"] else None
+            ),
         }
 
 
@@ -798,7 +828,7 @@ async def main():
             expires_at=time.time() + 3600,
             context={"verified_identity": True},
             symbolic_path=["🔐", "👤"],
-            trust_score=0.8
+            trust_score=0.8,
         ),
         ConsentRequest(
             id=str(uuid.uuid4()),
@@ -809,7 +839,7 @@ async def main():
             expires_at=time.time() + 1800,
             context={},
             symbolic_path=["❓"],
-            trust_score=0.2
+            trust_score=0.2,
         ),
         ConsentRequest(
             id=str(uuid.uuid4()),
@@ -820,8 +850,8 @@ async def main():
             expires_at=time.time() + 300,
             context={"emergency": True},
             symbolic_path=["🚨"],
-            trust_score=0.6
-        )
+            trust_score=0.6,
+        ),
     ]
 
     # Process requests

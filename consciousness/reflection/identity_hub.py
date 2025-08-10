@@ -12,11 +12,12 @@ Identity and authentication
 This hub coordinates all identity subsystem components and provides
 a unified interface for external systems to interact with identity.
 """
+import logging
 
 import asyncio
 import time
 from dataclasses import asdict
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.bridges.identity_core_bridge import IdentityCoreBridge
 from core.common import get_logger
@@ -263,8 +264,8 @@ class IdentityHub:
     """
 
     def __init__(self):
-        self.services: Dict[str, Any] = {}
-        self.event_handlers: Dict[str, List] = {}
+        self.services: dict[str, Any] = {}
+        self.event_handlers: dict[str, list] = {}
         self.is_initialized = False
 
         # Initialize components
@@ -380,7 +381,7 @@ class IdentityHub:
         password: str,
         method: str = "ldap",
         session_id: Optional[str] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Authenticate user using enterprise authentication module"""
         if "enterprise_auth" not in self.services:
             logger.error("Enterprise authentication not available")
@@ -416,7 +417,7 @@ class IdentityHub:
             logger.error(f"Authentication failed: {e}")
             return {"status": "failed", "error": str(e)}
 
-    async def validate_token(self, token: str) -> Dict[str, Any]:
+    async def validate_token(self, token: str) -> dict[str, Any]:
         """Validate authentication token"""
         if "enterprise_auth" not in self.services:
             return {"valid": False, "error": "Enterprise auth not available"}
@@ -428,7 +429,7 @@ class IdentityHub:
             logger.error(f"Token validation failed: {e}")
             return {"valid": False, "error": str(e)}
 
-    async def get_user_roles(self, user_id: str) -> List[str]:
+    async def get_user_roles(self, user_id: str) -> list[str]:
         """Get user roles from enterprise authentication"""
         if "enterprise_auth" not in self.services:
             return []
@@ -443,7 +444,7 @@ class IdentityHub:
             return []
 
     # Agent 1 Task 3: Additional enterprise authentication methods
-    def get_enterprise_auth_config_template(self) -> Dict[str, Any]:
+    def get_enterprise_auth_config_template(self) -> dict[str, Any]:
         """Get enterprise authentication configuration template"""
         try:
             from identity.enterprise.auth import (
@@ -456,8 +457,8 @@ class IdentityHub:
             return {}
 
     async def configure_enterprise_authentication(
-        self, config: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, config: dict[str, Any]
+    ) -> dict[str, Any]:
         """Configure enterprise authentication with new settings"""
         if "enterprise_auth" not in self.services:
             return {"status": "failed", "error": "Enterprise auth not available"}
@@ -479,7 +480,7 @@ class IdentityHub:
             logger.error(f"Configuration failed: {e}")
             return {"status": "failed", "error": str(e)}
 
-    async def get_authentication_methods(self) -> List[str]:
+    async def get_authentication_methods(self) -> list[str]:
         """Get available authentication methods"""
         if "enterprise_auth" not in self.services:
             return []
@@ -492,7 +493,7 @@ class IdentityHub:
             logger.error(f"Failed to get auth methods: {e}")
             return []
 
-    async def get_enterprise_auth_status(self) -> Dict[str, Any]:
+    async def get_enterprise_auth_status(self) -> dict[str, Any]:
         """Get enterprise authentication system status"""
         if "enterprise_auth" not in self.services:
             return {"status": "unavailable", "providers": []}
@@ -528,13 +529,13 @@ class IdentityHub:
         """Get a registered service by name"""
         return self.services.get(name)
 
-    def list_services(self) -> List[str]:
+    def list_services(self) -> list[str]:
         """List all registered service names"""
         return list(self.services.keys())
 
     async def process_event(
-        self, event_type: str, event_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, event_type: str, event_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process events from other systems"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
@@ -560,9 +561,9 @@ class IdentityHub:
     # QRG Coverage Integration Methods
     async def run_comprehensive_qrg_tests(
         self,
-        test_categories: Optional[List[str]] = None,
-        custom_config: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        test_categories: Optional[list[str]] = None,
+        custom_config: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Run comprehensive QRG coverage tests"""
         if "qrg_coverage" not in self.services:
             logger.error("QRG coverage integration not available")
@@ -587,7 +588,7 @@ class IdentityHub:
             logger.error(f"QRG coverage tests failed: {e}")
             return {"status": "failed", "error": str(e)}
 
-    async def validate_qrg_system_readiness(self) -> Dict[str, Any]:
+    async def validate_qrg_system_readiness(self) -> dict[str, Any]:
         """Validate QRG system readiness for production"""
         if "qrg_coverage" not in self.services:
             return {
@@ -604,7 +605,7 @@ class IdentityHub:
             logger.error(f"QRG readiness validation failed: {e}")
             return {"ready_for_production": False, "error": str(e)}
 
-    async def get_qrg_coverage_statistics(self) -> Dict[str, Any]:
+    async def get_qrg_coverage_statistics(self) -> dict[str, Any]:
         """Get QRG coverage test statistics"""
         if "qrg_coverage" not in self.services:
             return {"available": False, "error": "QRG coverage not configured"}
@@ -617,8 +618,8 @@ class IdentityHub:
             return {"available": False, "error": str(e)}
 
     async def run_targeted_qrg_tests(
-        self, test_category: str, specific_tests: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        self, test_category: str, specific_tests: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """Run targeted QRG tests for specific category"""
         if "qrg_coverage" not in self.services:
             return {"status": "failed", "error": "QRG coverage not available"}
@@ -641,7 +642,7 @@ class IdentityHub:
         memory_type: Optional[str] = None,
         memory_owner: Optional[str] = None,
         access_policy: Optional[str] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Authorize a memory operation through brain identity integration"""
         if "brain_identity" not in self.services:
             logger.error("Brain identity integration not available")
@@ -666,7 +667,7 @@ class IdentityHub:
         memory_type: str,
         access_policy: str = "tier_based",
         min_tier: int = 1,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Register a memory with the identity system"""
         if "brain_identity" not in self.services:
             return {
@@ -685,7 +686,7 @@ class IdentityHub:
 
     async def get_brain_identity_access_logs(
         self, limit: int = 100
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Get brain identity access logs"""
         if "brain_identity" not in self.services:
             return []
@@ -697,7 +698,7 @@ class IdentityHub:
             logger.error(f"Failed to get brain identity access logs: {e}")
             return []
 
-    async def get_brain_identity_metrics(self) -> Dict[str, Any]:
+    async def get_brain_identity_metrics(self) -> dict[str, Any]:
         """Get brain identity access metrics"""
         if "brain_identity" not in self.services:
             return {
@@ -713,8 +714,8 @@ class IdentityHub:
             return {"available": False, "error": str(e)}
 
     async def encrypt_memory_content(
-        self, memory_key: str, content: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, memory_key: str, content: dict[str, Any]
+    ) -> dict[str, Any]:
         """Encrypt memory content through brain identity integration"""
         if "brain_identity" not in self.services:
             return content  # Return original content if service not available
@@ -729,8 +730,8 @@ class IdentityHub:
             return content  # Return original content on error
 
     async def decrypt_memory_content(
-        self, memory_key: str, content: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, memory_key: str, content: dict[str, Any]
+    ) -> dict[str, Any]:
         """Decrypt memory content through brain identity integration"""
         if "brain_identity" not in self.services:
             return content  # Return original content if service not available
@@ -795,7 +796,7 @@ class IdentityHub:
 
     # Agent 1 Task 8: Attention monitor interface methods
     async def start_attention_monitoring(
-        self, config: Optional[Dict[str, Any]] = None
+        self, config: Optional[dict[str, Any]] = None
     ) -> bool:
         """Start attention monitoring for user engagement tracking"""
         if not ATTENTION_MONITOR_AVAILABLE:
@@ -815,7 +816,7 @@ class IdentityHub:
             logging.error(f"Failed to start attention monitoring: {e}")
             return False
 
-    async def get_current_attention_state(self) -> Dict[str, Any]:
+    async def get_current_attention_state(self) -> dict[str, Any]:
         """Get current user attention state and metrics"""
         if not ATTENTION_MONITOR_AVAILABLE:
             logging.warning("Attention monitor not available")
@@ -836,7 +837,7 @@ class IdentityHub:
             logging.error(f"Failed to get attention state: {e}")
             return {"state": "error", "metrics": {}, "error": str(e)}
 
-    async def process_input_event(self, event_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_input_event(self, event_data: dict[str, Any]) -> dict[str, Any]:
         """Process input event for attention analysis"""
         if not ATTENTION_MONITOR_AVAILABLE:
             logging.warning("Attention monitor not available")
@@ -866,7 +867,7 @@ class IdentityHub:
             logging.error(f"Failed to process input event: {e}")
             return {"error": str(e)}
 
-    async def get_attention_status(self) -> Dict[str, Any]:
+    async def get_attention_status(self) -> dict[str, Any]:
         """Get comprehensive attention monitoring status"""
         if not ATTENTION_MONITOR_AVAILABLE:
             logging.warning("Attention monitor not available")
@@ -888,9 +889,9 @@ class IdentityHub:
         self,
         content_count: int,
         cognitive_load_level: str = "moderate",
-        screen_dimensions: Optional[Dict[str, Any]] = None,
-        accessibility_requirements: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        screen_dimensions: Optional[dict[str, Any]] = None,
+        accessibility_requirements: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Calculate optimal grid size for authentication interface"""
         if not GRID_SIZE_CALCULATOR_AVAILABLE:
             logging.warning("Grid size calculator not available")
@@ -953,7 +954,7 @@ class IdentityHub:
             logging.error(f"Failed to calculate optimal grid size: {e}")
             return {"success": False, "error": str(e)}
 
-    async def get_grid_calculator_status(self) -> Dict[str, Any]:
+    async def get_grid_calculator_status(self) -> dict[str, Any]:
         """Get grid size calculator status"""
         if not GRID_SIZE_CALCULATOR_AVAILABLE:
             return {"available": False, "error": "Grid size calculator not configured"}
@@ -1002,7 +1003,7 @@ class IdentityHub:
     # Agent 1 Task 12: Persona engine interface methods
     async def process_identity_data(
         self, data: Any, category: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Process identity data through the persona engine"""
         if not PERSONA_ENGINE_AVAILABLE:
             return {"status": "error", "error": "Persona engine not available"}
@@ -1023,8 +1024,8 @@ class IdentityHub:
             return {"status": "error", "error": str(e)}
 
     async def create_identity_component(
-        self, config: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        self, config: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Create a new identity component instance"""
         if not PERSONA_ENGINE_AVAILABLE:
             return {"status": "error", "error": "Persona engine not available"}
@@ -1042,8 +1043,8 @@ class IdentityHub:
             return {"status": "error", "error": str(e)}
 
     async def create_and_initialize_identity_component(
-        self, config: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        self, config: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Create and initialize a new identity component instance"""
         if not PERSONA_ENGINE_AVAILABLE:
             return {"status": "error", "error": "Persona engine not available"}
@@ -1063,7 +1064,7 @@ class IdentityHub:
             )
             return {"status": "error", "error": str(e)}
 
-    async def validate_persona_engine(self) -> Dict[str, Any]:
+    async def validate_persona_engine(self) -> dict[str, Any]:
         """Validate persona engine health and connectivity"""
         if not PERSONA_ENGINE_AVAILABLE:
             return {"available": False, "error": "Persona engine not configured"}
@@ -1085,7 +1086,7 @@ class IdentityHub:
             logging.error(f"Failed to validate persona engine: {e}")
             return {"available": False, "error": str(e)}
 
-    def get_persona_engine_status(self) -> Dict[str, Any]:
+    def get_persona_engine_status(self) -> dict[str, Any]:
         """Get persona engine status and configuration"""
         if not PERSONA_ENGINE_AVAILABLE:
             return {"available": False, "error": "Persona engine not configured"}

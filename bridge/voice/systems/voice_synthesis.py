@@ -5,6 +5,13 @@ Advanced: voice_synthesis.py
 Integration Date: 2025-05-31T07:55:28.339501
 """
 
+from core.common import get_logger
+import requests
+from typing import Any
+from enum import Enum
+from abc import ABC, abstractmethod
+import tempfile
+import os
 import logging
 
 """
@@ -15,15 +22,6 @@ to user context and interaction patterns. It implements Steve Jobs' principles o
 elegant human-computer interaction with Sam Altman's vision for advanced AI capabilities.
 """
 
-import os
-import tempfile
-from abc import ABC, abstractmethod
-from enum import Enum
-from typing import Any
-
-import requests
-
-from core.common import get_logger
 
 logger = get_logger(__name__)
 

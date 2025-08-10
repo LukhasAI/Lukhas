@@ -10,25 +10,22 @@ Security utilities for AGI Consolidation Repo
 Provides secure alternatives to dangerous functions like exec(), eval(), subprocess.call()
 """
 
+from core.common import LukhasError
 import ast
 import os
 import subprocess
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
 logger = get_logger(__name__)
 
-from core.common import LukhasError
-
 
 class SecurityError(LukhasError):
     """Raised when a security check fails"""
 
-    pass
 
-
-def safe_eval(expression: str, allowed_names: Optional[Dict[str, Any]] = None) -> Any:
+def safe_eval(expression: str, allowed_names: Optional[dict[str, Any]] = None) -> Any:
     """
     Safely evaluate a Python expression using ast.literal_eval
 
@@ -143,7 +140,7 @@ def _is_safe_ast(node: ast.AST) -> bool:
 
 
 def safe_subprocess_run(
-    command: List[str], check_command: bool = True, timeout: int = 30, **kwargs
+    command: list[str], check_command: bool = True, timeout: int = 30, **kwargs
 ) -> subprocess.CompletedProcess:
     """
     Safely run a subprocess command with security checks
@@ -191,7 +188,7 @@ def safe_subprocess_run(
         raise SecurityError(f"Unexpected error running command: {e}")
 
 
-def _validate_command(command: List[str]) -> None:
+def _validate_command(command: list[str]) -> None:
     """
     Validate that a command is safe to run
 

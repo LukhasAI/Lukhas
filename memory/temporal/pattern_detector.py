@@ -16,7 +16,7 @@ import subprocess
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .journal_engine import JournalEngine, JournalEntry
 
@@ -28,7 +28,7 @@ class Pattern:
         self,
         pattern_type: str,
         description: str,
-        occurrences: List[Dict[str, Any]],
+        occurrences: list[dict[str, Any]],
         frequency: str,  # daily, weekly, sporadic
         impact: str,  # positive, negative, neutral
         automation_potential: bool,
@@ -65,7 +65,7 @@ class PatternDetector:
         }
         self.detected_patterns = []
 
-    def detect_all_patterns(self, days: int = 30) -> List[Pattern]:
+    def detect_all_patterns(self, days: int = 30) -> list[Pattern]:
         """Detect all types of patterns in recent activity"""
         self.detected_patterns = []
 
@@ -77,7 +77,7 @@ class PatternDetector:
         git_history = self._get_git_history(days)
 
         # Run all pattern detectors
-        for pattern_type, detector_func in self.pattern_types.items():
+        for _pattern_type, detector_func in self.pattern_types.items():
             patterns = detector_func(entries, git_history)
             self.detected_patterns.extend(patterns)
 
@@ -93,7 +93,7 @@ class PatternDetector:
         """Convert impact to numeric score for sorting"""
         return {"negative": 3, "neutral": 2, "positive": 1}.get(impact, 0)
 
-    def _get_git_history(self, days: int) -> List[Dict[str, Any]]:
+    def _get_git_history(self, days: int) -> list[dict[str, Any]]:
         """Get git commit history for pattern analysis"""
         try:
             since_date = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
@@ -141,12 +141,12 @@ class PatternDetector:
                 commits.append(current_commit)
 
             return commits
-        except:
+        except BaseException:
             return []
 
     def _detect_code_patterns(
-        self, entries: List[JournalEntry], git_history: List[Dict[str, Any]]
-    ) -> List[Pattern]:
+        self, entries: list[JournalEntry], git_history: list[dict[str, Any]]
+    ) -> list[Pattern]:
         """Detect patterns in code changes"""
         patterns = []
 
@@ -158,7 +158,6 @@ class PatternDetector:
                     file_modifications[file_info["path"]] += 1
 
         # Find files modified frequently
-        hot_files = []
         for file_path, count in file_modifications.most_common(10):
             if count >= 5:  # Modified 5+ times
                 occurrences = [
@@ -214,8 +213,8 @@ class PatternDetector:
         return patterns
 
     def _detect_time_patterns(
-        self, entries: List[JournalEntry], git_history: List[Dict[str, Any]]
-    ) -> List[Pattern]:
+        self, entries: list[JournalEntry], git_history: list[dict[str, Any]]
+    ) -> list[Pattern]:
         """Detect patterns in when you work"""
         patterns = []
 
@@ -228,7 +227,7 @@ class PatternDetector:
         hour_activity = Counter()
         day_activity = Counter()
 
-        for timestamp, activity_type in all_timestamps:
+        for timestamp, _activity_type in all_timestamps:
             hour_activity[timestamp.hour] += 1
             day_activity[timestamp.strftime("%A")] += 1
 
@@ -285,8 +284,8 @@ class PatternDetector:
         return patterns
 
     def _detect_error_patterns(
-        self, entries: List[JournalEntry], git_history: List[Dict[str, Any]]
-    ) -> List[Pattern]:
+        self, entries: list[JournalEntry], git_history: list[dict[str, Any]]
+    ) -> list[Pattern]:
         """Detect patterns in errors and failures"""
         patterns = []
 
@@ -352,8 +351,8 @@ class PatternDetector:
         )
 
     def _detect_workflow_patterns(
-        self, entries: List[JournalEntry], git_history: List[Dict[str, Any]]
-    ) -> List[Pattern]:
+        self, entries: list[JournalEntry], git_history: list[dict[str, Any]]
+    ) -> list[Pattern]:
         """Detect patterns in development workflow"""
         patterns = []
 
@@ -448,8 +447,8 @@ class PatternDetector:
         return patterns
 
     def _detect_decision_patterns(
-        self, entries: List[JournalEntry], git_history: List[Dict[str, Any]]
-    ) -> List[Pattern]:
+        self, entries: list[JournalEntry], git_history: list[dict[str, Any]]
+    ) -> list[Pattern]:
         """Detect patterns in decision-making"""
         patterns = []
 
@@ -513,8 +512,8 @@ class PatternDetector:
         return patterns
 
     def _detect_emotional_patterns(
-        self, entries: List[JournalEntry], git_history: List[Dict[str, Any]]
-    ) -> List[Pattern]:
+        self, entries: list[JournalEntry], git_history: list[dict[str, Any]]
+    ) -> list[Pattern]:
         """Detect patterns in emotional states"""
         patterns = []
 
@@ -617,8 +616,8 @@ class PatternDetector:
         return patterns
 
     def _detect_file_patterns(
-        self, entries: List[JournalEntry], git_history: List[Dict[str, Any]]
-    ) -> List[Pattern]:
+        self, entries: list[JournalEntry], git_history: list[dict[str, Any]]
+    ) -> list[Pattern]:
         """Detect patterns in file operations"""
         patterns = []
 
@@ -710,8 +709,8 @@ class PatternDetector:
         return patterns
 
     def _detect_tool_usage_patterns(
-        self, entries: List[JournalEntry], git_history: List[Dict[str, Any]]
-    ) -> List[Pattern]:
+        self, entries: list[JournalEntry], git_history: list[dict[str, Any]]
+    ) -> list[Pattern]:
         """Detect patterns in tool and command usage"""
         patterns = []
 
@@ -777,7 +776,7 @@ class PatternDetector:
 
         return patterns
 
-    def suggest_automations(self) -> List[Dict[str, Any]]:
+    def suggest_automations(self) -> list[dict[str, Any]]:
         """Suggest specific automations based on detected patterns"""
         if not self.detected_patterns:
             self.detect_all_patterns()
@@ -901,7 +900,7 @@ Found {len(self.detected_patterns)} patterns in your development workflow.
         positive_patterns = [
             p for p in self.detected_patterns if p.impact == "positive"
         ]
-        neutral_patterns = [p for p in self.detected_patterns if p.impact == "neutral"]
+        [p for p in self.detected_patterns if p.impact == "neutral"]
 
         if negative_patterns:
             report += "\n### ⚠️ Patterns Needing Attention\n"

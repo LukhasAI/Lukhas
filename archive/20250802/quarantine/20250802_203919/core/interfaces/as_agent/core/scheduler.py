@@ -18,14 +18,14 @@ logger = structlog.get_logger(__name__)
 """
 
 """
-+===========================================================================+
-| MODULE        : lukhas_scheduler.py                                        |
-| DESCRIPTION   : Manages scheduled tasks, DST tracking intervals, and      |
-|                 dream cycles. Supports real-time agent check-ins and      |
-|                 time-aware suggestions.                                   |
-| TYPE          : Scheduler & Task Timing Engine  VERSION: v1.0.0           |
-| AUTHOR        : LUKHAS SYSTEMS                   CREATED: 2025-4-22       |
-+===========================================================================+
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
+| MODULE: lukhas_scheduler.py |
+| DESCRIPTION: Manages scheduled tasks, DST tracking intervals, and |
+|                 dream cycles. Supports real - time agent check - ins and |
+|                 time - aware suggestions. |
+| TYPE: Scheduler & Task Timing Engine  VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                   CREATED: 2025 - 4 - 22 |
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
 DEPENDENCIES:
 - lukhas_memory_folds.py
 - lukhas_widget_engine.py
@@ -42,9 +42,9 @@ def schedule_task(task_name, execute_at, metadata=None):
     Schedules a task.
 
     Parameters:
-    - task_name (str): e.g., 'DST Check', 'Dream Cycle'
-    - execute_at (datetime): when to trigger
-    - metadata (dict): optional task data
+    - task_name(str): e.g., 'DST Check', 'Dream Cycle'
+    - execute_at(datetime): when to trigger
+    - metadata(dict): optional task data
 
     Returns:
     - dict: task confirmation
@@ -62,18 +62,20 @@ def schedule_dream_cycle(days_ahead=7, dream_type="reflective"):
     Schedules a reflective dream cycle.
 
     Parameters:
-    - days_ahead (int): Days in advance to set dream cycle (default: 7)
-    - dream_type (str): Type of dream cycle
+    - days_ahead(int): Days in advance to set dream cycle(default: 7)
+    - dream_type(str): Type of dream cycle
 
     Returns:
     - dict: task confirmation
     """
     execute_time = datetime.utcnow() + timedelta(days=days_ahead)
-    return schedule_task("Dream Cycle", execute_time, metadata={"dream_type": dream_type})
+    return schedule_task(
+    "Dream Cycle", execute_time, metadata={
+        "dream_type": dream_type})
 
 def run_scheduler():
     """
-    Emotion-aware scheduler loop with DST tracking.
+    Emotion - aware scheduler loop with DST tracking.
     """
     while True:
         now = datetime.utcnow()
@@ -95,7 +97,8 @@ def run_scheduler():
                 if task["task"] == "DST Check":
                     task["metadata"]["last_checked"] = now.isoformat()
                 if task["task"] == "Dream Cycle":
-                    print(f"[Scheduler] Initiating dream logging for: {task['metadata'].get('dream_type', 'general')}")
+                    print(
+                        f"[Scheduler] Initiating dream logging for: {task['metadata'].get('dream_type', 'general')}")
                     # Import and call dream logger
                     from core.lukhas_memory_folds import log_dream
                     log_dream(task['metadata'].get('dream_type', 'general'))
@@ -139,7 +142,7 @@ def run_scheduler():
 
 """
 ΛTRACE: End of scheduler.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

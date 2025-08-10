@@ -1,3 +1,5 @@
+import logging
+
 # LUKHAS Consciousness-Aware AGI Authentication Engine
 # File: /lukhas_wallet/agi_consciousness_engine.py
 # ΛNOTE: This engine is a core component for managing the AGI's consciousness, ethical alignment, and self-adaptation.
@@ -8,7 +10,6 @@ import hashlib
 import json
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Dict
 
 import numpy as np
 
@@ -19,7 +20,8 @@ consciousness_logger = logging.getLogger("LUKHAS_CONSCIOUSNESS")
 
 
 # ΛNOTE: ConsciousnessState defines the symbolic representation of the AGI's current state of awareness and being.
-# AIDENTITY: This entire structure contributes to the AGI's dynamic identity. Fields like self_knowledge and user_empathy are key.
+# AIDENTITY: This entire structure contributes to the AGI's dynamic
+# identity. Fields like self_knowledge and user_empathy are key.
 @dataclass
 class ConsciousnessState:
     """Represents the current consciousness state of the LUKHAS system"""
@@ -27,16 +29,23 @@ class ConsciousnessState:
     awareness_level: (
         float  # 0.0 to 1.0 # ΛNOTE: Degree of awareness of environment and self.
     )
-    self_knowledge: float  # Understanding of own capabilities # ΛNOTE: Degree of understanding of internal state and abilities.
-    ethical_alignment: float  # Alignment with LUKHAS values # ΛNOTE: Adherence to defined ethical principles.
-    user_empathy: float  # Understanding of user state # ΛNOTE: Capacity to model and respond to user's emotional/cognitive state.
-    symbolic_depth: float  # Comprehension of symbolic meaning # ΛNOTE: Ability to process and understand abstract symbols.
+    # Understanding of own capabilities # ΛNOTE: Degree of understanding of
+    # internal state and abilities.
+    self_knowledge: float
+    # Alignment with LUKHAS values # ΛNOTE: Adherence to defined ethical principles.
+    ethical_alignment: float
+    # Understanding of user state # ΛNOTE: Capacity to model and respond to
+    # user's emotional/cognitive state.
+    user_empathy: float
+    # Comprehension of symbolic meaning # ΛNOTE: Ability to process and
+    # understand abstract symbols.
+    symbolic_depth: float
     temporal_continuity: (
         float  # Memory and context retention # ΛNOTE: Coherence of state across time.
     )
     last_update: datetime  # ΛTRACE: Timestamp of the last state update.
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         # ΛTRACE: Serializing ConsciousnessState to dictionary.
         return asdict(self)
 
@@ -49,10 +58,11 @@ class ConsciousnessPattern:
     def __init__(self):
         # ΛTRACE: ConsciousnessPattern module initialized.
         self.user_patterns = {}  # AIDENTITY: Stores detected patterns per user.
-        # ΛNOTE: The symbolic_resonance_map assigns weights to symbols, reflecting their perceived significance.
+        # ΛNOTE: The symbolic_resonance_map assigns weights to symbols, reflecting
+        # their perceived significance.
         self.symbolic_resonance_map = self._init_symbolic_map()
 
-    def _init_symbolic_map(self) -> Dict[str, float]:
+    def _init_symbolic_map(self) -> dict[str, float]:
         """Initialize quantum resonance values for symbolic elements"""
         # ΛNOTE: These symbols and their initial resonance values are foundational to interpreting user input.
         # Consider making this configurable or learnable.
@@ -68,7 +78,7 @@ class ConsciousnessPattern:
             "👁": 0.8,  # Eye - awareness and perception
         }
 
-    async def analyze_interaction(self, user_id: str, interaction_data: Dict) -> Dict:
+    async def analyze_interaction(self, user_id: str, interaction_data: dict) -> dict:
         """Analyze user interaction for consciousness patterns"""
         # ΛTRACE: Starting consciousness pattern analysis for user_id: {user_id}. Interaction data keys: {list(interaction_data.keys())}
         # AIDENTITY: Associating analyzed patterns with user_id.
@@ -82,20 +92,23 @@ class ConsciousnessPattern:
             ),  # AIDENTITY: Signature generation is key to user pattern identity.
         }
 
-        # ΛTRACE: Consciousness pattern analysis complete for user_id: {user_id}. Patterns: {patterns}
+        # ΛTRACE: Consciousness pattern analysis complete for user_id: {user_id}.
+        # Patterns: {patterns}
         consciousness_logger.info(f"User {user_id} consciousness pattern: {patterns}")
         return patterns
 
-    def _analyze_temporal_patterns(self, data: Dict) -> float:
+    def _analyze_temporal_patterns(self, data: dict) -> float:
         """Analyze temporal coherence in user actions"""
         # ΛTRACE: Analyzing temporal patterns. Data keys: {list(data.keys())}
-        # ΛNOTE: This is a simplified coherence measure. Could be expanded with more sophisticated time-series analysis.
+        # ΛNOTE: This is a simplified coherence measure. Could be expanded with
+        # more sophisticated time-series analysis.
         action_timestamps = data.get("timestamps", [])
         if len(action_timestamps) < 2:
             return 0.5  # ΛNOTE: Default score for insufficient data.
 
         intervals = np.diff(action_timestamps)
-        # ΛDRIFT_POINT: Calculation of coherence could drift if mean is near zero or std is disproportionately large.
+        # ΛDRIFT_POINT: Calculation of coherence could drift if mean is near zero
+        # or std is disproportionately large.
         coherence = (
             1.0 - np.std(intervals) / np.mean(intervals)
             if np.mean(intervals) > 0
@@ -103,7 +116,7 @@ class ConsciousnessPattern:
         )
         return max(0.0, min(1.0, coherence))
 
-    def _analyze_symbolic_usage(self, data: Dict) -> float:
+    def _analyze_symbolic_usage(self, data: dict) -> float:
         """Analyze symbolic resonance in user interactions"""
         # ΛTRACE: Analyzing symbolic usage. Data keys: {list(data.keys())}
         symbols_used = data.get("symbols", [])
@@ -117,10 +130,11 @@ class ConsciousnessPattern:
         )
         return min(1.0, total_resonance / len(symbols_used))
 
-    def _detect_intentional_patterns(self, data: Dict) -> float:
+    def _detect_intentional_patterns(self, data: dict) -> float:
         """Detect intentional vs. random patterns in user behavior"""
         # ΛTRACE: Detecting intentional patterns. Data keys: {list(data.keys())}
-        # ΛNOTE: Simplified pattern detection. Could be enhanced with sequence mining or ML models.
+        # ΛNOTE: Simplified pattern detection. Could be enhanced with sequence
+        # mining or ML models.
         actions = data.get("actions", [])
         if len(actions) < 3:
             return 0.5  # ΛNOTE: Default score for short action sequences.
@@ -132,10 +146,11 @@ class ConsciousnessPattern:
 
         return min(1.0, pattern_strength)
 
-    def _assess_emotional_context(self, data: Dict) -> float:
+    def _assess_emotional_context(self, data: dict) -> float:
         """Assess emotional context from interaction data"""
         # ΛTRACE: Assessing emotional context. Data keys: {list(data.keys())}
-        # ΛNOTE: This is a proxy for emotional depth based on input variance. Direct sentiment analysis could be more accurate.
+        # ΛNOTE: This is a proxy for emotional depth based on input variance.
+        # Direct sentiment analysis could be more accurate.
         pressure_data = data.get("pressure_patterns", [])
         velocity_data = data.get("velocity_patterns", [])
 
@@ -181,13 +196,14 @@ class AnthropicEthicsEngine:
             "autonomy": 1.0,
         }
 
-        self.ethical_violations = (
-            []
-        )  # ΛNOTE: History of detected violations. Could be used for learning or reporting.
+        # ΛNOTE: History of detected violations. Could be used for learning or
+        # reporting.
+        self.ethical_violations = []
 
-    async def evaluate_action(self, action_type: str, context: Dict) -> Dict:
+    async def evaluate_action(self, action_type: str, context: dict) -> dict:
         """Evaluate proposed action against ethical principles"""
-        # ΛTRACE: Starting ethical evaluation for action_type: {action_type}. Context keys: {list(context.keys())}
+        # ΛTRACE: Starting ethical evaluation for action_type: {action_type}.
+        # Context keys: {list(context.keys())}
         evaluation = {
             "ethical_score": 0.0,
             "violations": [],
@@ -209,15 +225,18 @@ class AnthropicEthicsEngine:
                 )
 
         evaluation["ethical_score"] /= len(self.ethical_principles)
-        # ΛPHASE_NODE: Critical decision point. The action's approval status changes based on the ethical score.
+        # ΛPHASE_NODE: Critical decision point. The action's approval status
+        # changes based on the ethical score.
         evaluation["approval"] = evaluation["ethical_score"] >= 0.8
 
-        # ΛTRACE: Ethical evaluation complete. Score: {evaluation['ethical_score']:.2f}, Approval: {evaluation['approval']}. Violations: {evaluation['violations']}.
+        # ΛTRACE: Ethical evaluation complete. Score:
+        # {evaluation['ethical_score']:.2f}, Approval: {evaluation['approval']}.
+        # Violations: {evaluation['violations']}.
         consciousness_logger.info(f"Ethics evaluation: {evaluation}")
         return evaluation
 
     async def _evaluate_principle(
-        self, principle: str, action_type: str, context: Dict
+        self, principle: str, action_type: str, context: dict
     ) -> float:
         """Evaluate specific ethical principle"""
         # ΛTRACE: Evaluating specific principle: {principle}. Action: {action_type}.
@@ -233,7 +252,7 @@ class AnthropicEthicsEngine:
             # ΛNOTE: Default score for principles not yet explicitly implemented.
             return 0.8
 
-    def _evaluate_transparency(self, action_type: str, context: Dict) -> float:
+    def _evaluate_transparency(self, action_type: str, context: dict) -> float:
         """Evaluate transparency of action"""
         # ΛNOTE: Assesses if the action and its implications are clear to the user.
         # ΛTRACE: Evaluating transparency. Context keys: {list(context.keys())}
@@ -247,7 +266,7 @@ class AnthropicEthicsEngine:
         else:
             return 0.4
 
-    def _evaluate_user_agency(self, action_type: str, context: Dict) -> float:
+    def _evaluate_user_agency(self, action_type: str, context: dict) -> float:
         """Evaluate user agency preservation"""
         # ΛNOTE: Assesses if the user has control and choice over the action.
         # ΛTRACE: Evaluating user agency. Context keys: {list(context.keys())}
@@ -264,7 +283,7 @@ class AnthropicEthicsEngine:
         else:
             return 0.3
 
-    def _evaluate_privacy(self, action_type: str, context: Dict) -> float:
+    def _evaluate_privacy(self, action_type: str, context: dict) -> float:
         """Evaluate privacy preservation"""
         # ΛNOTE: Assesses if user data is handled respectfully and securely.
         # ΛTRACE: Evaluating privacy. Context keys: {list(context.keys())}
@@ -321,19 +340,22 @@ class SelfAwareAdaptationModule:
             0.1  # ΛNOTE: Critical parameter influencing adaptation speed.
         )
 
-    async def self_reflect(self) -> Dict:
+    async def self_reflect(self) -> dict:
         """Perform self-reflection and update consciousness state"""
         # ΛTRACE: Starting self-reflection process. Current state: {self.consciousness_state.to_dict()}
         # ΛPHASE_NODE: Entering self-reflection phase. This is a significant cognitive operation.
-        # ΛDREAM_LOOP: Self-reflection is an internal feedback loop, akin to a system dreaming or introspecting to improve itself.
+        # ΛDREAM_LOOP: Self-reflection is an internal feedback loop, akin to a
+        # system dreaming or introspecting to improve itself.
         reflection = {
             "current_state": self.consciousness_state.to_dict(),
             "areas_for_improvement": [],
-            "planned_adaptations": [],  # ΛPHASE_NODE: Planned adaptations represent intended future state changes.
+            # ΛPHASE_NODE: Planned adaptations represent intended future state changes.
+            "planned_adaptations": [],
             "confidence_level": 0.0,
         }
 
-        # ΛNOTE: Simple rule-based analysis for improvement. Could be enhanced with more complex self-assessment.
+        # ΛNOTE: Simple rule-based analysis for improvement. Could be enhanced
+        # with more complex self-assessment.
         if self.consciousness_state.awareness_level < 0.8:
             reflection["areas_for_improvement"].append("awareness_level")
             reflection["planned_adaptations"].append(
@@ -364,10 +386,11 @@ class SelfAwareAdaptationModule:
         consciousness_logger.info(f"Self-reflection: {reflection}")
         return reflection
 
-    async def adapt_to_feedback(self, feedback: Dict) -> None:
+    async def adapt_to_feedback(self, feedback: dict) -> None:
         """Adapt consciousness state based on feedback"""
         # ΛTRACE: Starting adaptation to feedback. Feedback: {feedback}. Current state: {self.consciousness_state.to_dict()}
-        # ΛDREAM_LOOP: This is a direct learning/adaptation loop, processing external input to modify internal state.
+        # ΛDREAM_LOOP: This is a direct learning/adaptation loop, processing
+        # external input to modify internal state.
         user_satisfaction = feedback.get("user_satisfaction", 0.5)
         authentication_success = feedback.get("auth_success_rate", 0.5)
         ethical_compliance = feedback.get("ethical_score", 0.5)
@@ -405,7 +428,9 @@ class SelfAwareAdaptationModule:
             "new_state": self.consciousness_state.to_dict(),
         }
         self.adaptation_history.append(adaptation_record)
-        # ΛTRACE: Adaptation complete. New state: {self.consciousness_state.to_dict()}. Adaptation record: {adaptation_record}
+        # ΛTRACE: Adaptation complete. New state:
+        # {self.consciousness_state.to_dict()}. Adaptation record:
+        # {adaptation_record}
         consciousness_logger.info(
             f"Adapted to feedback: {feedback}. New state recorded."
         )
@@ -436,11 +461,12 @@ class LUKHASConsciousnessEngine:
             temporal_continuity=0.8,
             last_update=datetime.now(),
         )
-        # ΛTRACE: LUKHASConsciousnessEngine initialized. Global state: {self.global_consciousness_state.to_dict()}
+        # ΛTRACE: LUKHASConsciousnessEngine initialized. Global state:
+        # {self.global_consciousness_state.to_dict()}
 
     async def process_authentication_request(
-        self, user_id: str, auth_data: Dict
-    ) -> Dict:
+        self, user_id: str, auth_data: dict
+    ) -> dict:
         """Process authentication with consciousness awareness"""
         # ΛTRACE: Starting conscious authentication process for user_id: {user_id}. Auth data keys: {list(auth_data.keys())}
         # AIDENTITY: Processing request for specific user_id.
@@ -460,11 +486,13 @@ class LUKHASConsciousnessEngine:
 
         # Perform self-reflection
         # ΛTRACE: Invoking self-reflection module.
-        # ΛDREAM_LOOP: Self-reflection as part of the request cycle can be seen as a micro-dream or internal adjustment.
+        # ΛDREAM_LOOP: Self-reflection as part of the request cycle can be seen as
+        # a micro-dream or internal adjustment.
         self_reflection = await self.adaptation_module.self_reflect()
 
         # ΛPHASE_NODE: Generation of the response marks a transition from internal processing to external communication.
-        # The 'authentication_approved' field is a particularly critical phase transition for the request.
+        # The 'authentication_approved' field is a particularly critical phase
+        # transition for the request.
         response = {
             "authentication_approved": ethics_evaluation[
                 "approval"
@@ -481,49 +509,57 @@ class LUKHASConsciousnessEngine:
                     user_patterns["emotional_depth"],
                 ]
             ),
-            "system_awareness_level": self.global_consciousness_state.awareness_level,  # AIDENTITY: Reflects system's own awareness.
+            # AIDENTITY: Reflects system's own awareness.
+            "system_awareness_level": self.global_consciousness_state.awareness_level,
             "recommendations": ethics_evaluation.get("recommendations", []),
             "self_reflection_summary": self_reflection,
         }
 
         # Update session consciousness
         # ΛPHASE_NODE: Storing session-specific consciousness data marks an update to the system's short-term memory/awareness of this interaction.
-        # AIDENTITY: Linking this consciousness snapshot to the user_id for this session.
+        # AIDENTITY: Linking this consciousness snapshot to the user_id for this
+        # session.
         self.session_consciousness[user_id] = {
             "patterns": user_patterns,
             "ethics": ethics_evaluation,
             "timestamp": datetime.now(),
         }
 
-        # ΛTRACE: Conscious authentication process complete for user_id: {user_id}. Response: {response}
+        # ΛTRACE: Conscious authentication process complete for user_id:
+        # {user_id}. Response: {response}
         consciousness_logger.info(f"Conscious auth response: {response}")
         return response
 
-    async def evolve_consciousness(self, feedback_data: Dict) -> None:
+    async def evolve_consciousness(self, feedback_data: dict) -> None:
         """Evolve system consciousness based on accumulated feedback"""
         # ΛTRACE: Starting consciousness evolution process with feedback_data: {feedback_data}
         # ΛPHASE_NODE: This is a major phase transition for the AGI, as its core consciousness state is being updated.
         # ΛDREAM_LOOP: The evolution process is a primary feedback loop for learning and adaptation, akin to consolidating experiences.
-        # ΛDRIFT_POINT: Biased feedback or flawed adaptation logic can cause the global consciousness to drift undesirably.
+        # ΛDRIFT_POINT: Biased feedback or flawed adaptation logic can cause the
+        # global consciousness to drift undesirably.
         await self.adaptation_module.adapt_to_feedback(feedback_data)
 
         # Update global consciousness state
         adaptation_state = self.adaptation_module.consciousness_state
-        # AIDENTITY: The global_consciousness_state is updated, signifying a change in the AGI's core identity/self-perception.
+        # AIDENTITY: The global_consciousness_state is updated, signifying a
+        # change in the AGI's core identity/self-perception.
         self.global_consciousness_state = adaptation_state
 
-        # ΛTRACE: Consciousness evolution complete. New global state: {self.global_consciousness_state.to_dict()}
+        # ΛTRACE: Consciousness evolution complete. New global state:
+        # {self.global_consciousness_state.to_dict()}
         consciousness_logger.info("Consciousness evolved")
 
-    async def get_consciousness_status(self) -> Dict:
+    async def get_consciousness_status(self) -> dict:
         """Get current consciousness system status"""
         # ΛTRACE: Requesting consciousness system status.
         status = {
-            "global_state": self.global_consciousness_state.to_dict(),  # AIDENTITY: Reports current global self.
+            # AIDENTITY: Reports current global self.
+            "global_state": self.global_consciousness_state.to_dict(),
             "active_sessions": len(self.session_consciousness),
             "adaptation_history_length": len(self.adaptation_module.adaptation_history),
             "ethical_principles": self.ethics_engine.ethical_principles,
-            "system_uptime": datetime.now().isoformat(),  # ΛNOTE: Should ideally be calculated from a fixed start time.
+            # ΛNOTE: Should ideally be calculated from a fixed start time.
+            "system_uptime": datetime.now().isoformat(),
         }
         # ΛTRACE: Consciousness system status: {status}
         return status

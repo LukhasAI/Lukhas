@@ -31,6 +31,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class SimulationConfig:
     """Configuration for glyph collapse simulation"""
+
     name: str
     description: str
     num_simulations: int
@@ -46,6 +47,7 @@ class SimulationConfig:
 @dataclass
 class CollapseResult:
     """Result of a single wavefunction collapse"""
+
     simulation_id: str
     wavefunction_id: str
     initial_entropy: float
@@ -65,6 +67,7 @@ class CollapseResult:
 @dataclass
 class SimulationBatch:
     """Results from a batch of simulations"""
+
     config: SimulationConfig
     results: List[CollapseResult]
     start_time: float
@@ -89,10 +92,13 @@ class GlyphCollapseSimulator:
             entropy_range=(0.1, 0.4),
             evolution_steps=10,
             time_delta=0.5,
-            templates_to_test=["trinity_coherence", "alert_meditation", "reflective_dreaming"],
-            observers=["system", "user", "meditation_observer"]
+            templates_to_test=[
+                "trinity_coherence",
+                "alert_meditation",
+                "reflective_dreaming",
+            ],
+            observers=["system", "user", "meditation_observer"],
         ),
-
         "drift_analysis": SimulationConfig(
             name="Drift Analysis",
             description="Analyze collapse patterns during entropy drift phase",
@@ -100,10 +106,13 @@ class GlyphCollapseSimulator:
             entropy_range=(0.3, 0.7),
             evolution_steps=20,
             time_delta=0.3,
-            templates_to_test=["creative_flow", "reflective_dreaming", "analytical_focus"],
-            observers=["system", "creative_observer", "analytical_observer"]
+            templates_to_test=[
+                "creative_flow",
+                "reflective_dreaming",
+                "analytical_focus",
+            ],
+            observers=["system", "creative_observer", "analytical_observer"],
         ),
-
         "chaos_resilience": SimulationConfig(
             name="Chaos Resilience",
             description="Test system behavior under high-entropy chaotic conditions",
@@ -111,12 +120,15 @@ class GlyphCollapseSimulator:
             entropy_range=(0.7, 0.95),
             evolution_steps=15,
             time_delta=0.2,
-            templates_to_test=["trinity_coherence", "entropy_chaos", "transcendent_awareness"],
+            templates_to_test=[
+                "trinity_coherence",
+                "entropy_chaos",
+                "transcendent_awareness",
+            ],
             observers=["guardian_emergency", "chaos_observer", "system"],
             emergency_collapse_probability=0.15,
-            guardian_intervention_threshold=0.80
+            guardian_intervention_threshold=0.80,
         ),
-
         "phase_transitions": SimulationConfig(
             name="Phase Transitions",
             description="Study transitions between consciousness phases",
@@ -125,9 +137,8 @@ class GlyphCollapseSimulator:
             evolution_steps=30,
             time_delta=0.4,
             templates_to_test=list(WavefunctionManager.CONSCIOUSNESS_TEMPLATES.keys()),
-            observers=["system", "phase_observer", "transition_monitor"]
+            observers=["system", "phase_observer", "transition_monitor"],
         ),
-
         "guardian_stress_test": SimulationConfig(
             name="Guardian Stress Test",
             description="Stress test Guardian intervention capabilities",
@@ -138,8 +149,8 @@ class GlyphCollapseSimulator:
             templates_to_test=["trinity_coherence", "entropy_chaos"],
             observers=["guardian_emergency"],
             emergency_collapse_probability=0.8,
-            guardian_intervention_threshold=0.75
-        )
+            guardian_intervention_threshold=0.75,
+        ),
     }
 
     def __init__(self, output_dir: str = "quantum_core/simulation_results"):
@@ -190,18 +201,22 @@ class GlyphCollapseSimulator:
             total_duration=end_time - start_time,
             summary_statistics=self._calculate_summary_statistics(results),
             symbolic_patterns=self._analyze_symbolic_patterns(results),
-            guardian_effectiveness=self._analyze_guardian_effectiveness(results)
+            guardian_effectiveness=self._analyze_guardian_effectiveness(results),
         )
 
         self.current_batch = batch
         self.all_results.append(batch)
 
-        logger.info(f"✅ Simulation batch completed: {len(results)} successful simulations")
+        logger.info(
+            f"✅ Simulation batch completed: {len(results)} successful simulations"
+        )
         logger.info(f"   Duration: {batch.total_duration:.2f}s")
 
         return batch
 
-    async def _run_single_simulation(self, config: SimulationConfig, sim_idx: int) -> Optional[CollapseResult]:
+    async def _run_single_simulation(
+        self, config: SimulationConfig, sim_idx: int
+    ) -> Optional[CollapseResult]:
         """Run a single wavefunction collapse simulation"""
         sim_id = f"{config.name.lower().replace(' ', '_')}_{sim_idx:04d}"
 
@@ -218,9 +233,7 @@ class GlyphCollapseSimulator:
 
         try:
             wavefunction = manager.create_wavefunction(
-                wf_id=wf_id,
-                template_name=template,
-                initial_entropy=initial_entropy
+                wf_id=wf_id, template_name=template, initial_entropy=initial_entropy
             )
 
             original_glyphs = wavefunction.glyph_superposition.copy()
@@ -232,8 +245,10 @@ class GlyphCollapseSimulator:
                 manager.evolve_system(config.time_delta)
 
                 # Check for emergency collapse
-                if (random.random() < config.emergency_collapse_probability and
-                    manager.global_entropy > config.guardian_intervention_threshold):
+                if (
+                    random.random() < config.emergency_collapse_probability
+                    and manager.global_entropy > config.guardian_intervention_threshold
+                ):
                     guardian_intervention = True
                     observer = "guardian_emergency"
                     break
@@ -270,7 +285,7 @@ class GlyphCollapseSimulator:
                 consciousness_phase=pre_collapse_phase.value,
                 trinity_coherence=trinity_coherence,
                 superposition_strength_before=initial_superposition,
-                guardian_intervention=guardian_intervention
+                guardian_intervention=guardian_intervention,
             )
 
             return result
@@ -317,43 +332,63 @@ class GlyphCollapseSimulator:
                 "initial": {
                     "mean": statistics.mean(initial_entropies),
                     "median": statistics.median(initial_entropies),
-                    "stdev": statistics.stdev(initial_entropies) if len(initial_entropies) > 1 else 0,
+                    "stdev": (
+                        statistics.stdev(initial_entropies)
+                        if len(initial_entropies) > 1
+                        else 0
+                    ),
                     "min": min(initial_entropies),
-                    "max": max(initial_entropies)
+                    "max": max(initial_entropies),
                 },
                 "collapse": {
                     "mean": statistics.mean(collapse_entropies),
                     "median": statistics.median(collapse_entropies),
-                    "stdev": statistics.stdev(collapse_entropies) if len(collapse_entropies) > 1 else 0,
+                    "stdev": (
+                        statistics.stdev(collapse_entropies)
+                        if len(collapse_entropies) > 1
+                        else 0
+                    ),
                     "min": min(collapse_entropies),
-                    "max": max(collapse_entropies)
+                    "max": max(collapse_entropies),
                 },
                 "final": {
                     "mean": statistics.mean(final_entropies),
                     "median": statistics.median(final_entropies),
-                    "stdev": statistics.stdev(final_entropies) if len(final_entropies) > 1 else 0,
+                    "stdev": (
+                        statistics.stdev(final_entropies)
+                        if len(final_entropies) > 1
+                        else 0
+                    ),
                     "min": min(final_entropies),
-                    "max": max(final_entropies)
-                }
+                    "max": max(final_entropies),
+                },
             },
             "trinity_coherence": {
                 "mean": statistics.mean(trinity_coherences),
                 "median": statistics.median(trinity_coherences),
-                "stdev": statistics.stdev(trinity_coherences) if len(trinity_coherences) > 1 else 0,
+                "stdev": (
+                    statistics.stdev(trinity_coherences)
+                    if len(trinity_coherences) > 1
+                    else 0
+                ),
                 "min": min(trinity_coherences),
-                "max": max(trinity_coherences)
+                "max": max(trinity_coherences),
             },
             "superposition_strength": {
                 "mean": statistics.mean(superposition_strengths),
                 "median": statistics.median(superposition_strengths),
-                "stdev": statistics.stdev(superposition_strengths) if len(superposition_strengths) > 1 else 0,
+                "stdev": (
+                    statistics.stdev(superposition_strengths)
+                    if len(superposition_strengths) > 1
+                    else 0
+                ),
                 "min": min(superposition_strengths),
-                "max": max(superposition_strengths)
+                "max": max(superposition_strengths),
             },
             "phase_distribution": phase_counts,
             "observer_distribution": observer_counts,
             "guardian_intervention_rate": guardian_intervention_rate,
-            "guardian_interventions": guardian_interventions
+            "guardian_interventions": guardian_interventions,
         }
 
     def _analyze_symbolic_patterns(self, results: List[CollapseResult]) -> Dict:
@@ -369,8 +404,9 @@ class GlyphCollapseSimulator:
                 template_collapse_patterns[template_key] = {}
 
             collapsed = result.collapsed_glyph
-            template_collapse_patterns[template_key][collapsed] = \
+            template_collapse_patterns[template_key][collapsed] = (
                 template_collapse_patterns[template_key].get(collapsed, 0) + 1
+            )
 
         # Most common collapse outcomes
         all_collapses = [r.collapsed_glyph for r in results]
@@ -379,16 +415,21 @@ class GlyphCollapseSimulator:
             collapse_frequency[glyph] = collapse_frequency.get(glyph, 0) + 1
 
         # Sort by frequency
-        most_common_collapses = sorted(collapse_frequency.items(),
-                                     key=lambda x: x[1], reverse=True)
+        most_common_collapses = sorted(
+            collapse_frequency.items(), key=lambda x: x[1], reverse=True
+        )
 
         # Trinity Framework preservation rate
         trinity_symbols = {"⚛️", "🧠", "🛡️"}
-        trinity_collapses = sum(1 for r in results if r.collapsed_glyph in trinity_symbols)
+        trinity_collapses = sum(
+            1 for r in results if r.collapsed_glyph in trinity_symbols
+        )
         trinity_preservation_rate = trinity_collapses / len(results)
 
         # Entropy-collapse correlation
-        entropy_collapse_correlation = self._calculate_entropy_collapse_correlation(results)
+        entropy_collapse_correlation = self._calculate_entropy_collapse_correlation(
+            results
+        )
 
         return {
             "template_collapse_patterns": template_collapse_patterns,
@@ -398,21 +439,22 @@ class GlyphCollapseSimulator:
             "trinity_collapses": trinity_collapses,
             "entropy_collapse_correlation": entropy_collapse_correlation,
             "unique_collapse_glyphs": len(set(all_collapses)),
-            "total_possible_glyphs": len(set(glyph for r in results for glyph in r.original_glyphs))
+            "total_possible_glyphs": len(
+                set(glyph for r in results for glyph in r.original_glyphs)
+            ),
         }
 
-    def _calculate_entropy_collapse_correlation(self, results: List[CollapseResult]) -> Dict:
+    def _calculate_entropy_collapse_correlation(
+        self, results: List[CollapseResult]
+    ) -> Dict:
         """Calculate correlation between entropy levels and collapse outcomes"""
-        entropy_ranges = {
-            "low": (0.0, 0.3),
-            "medium": (0.3, 0.7),
-            "high": (0.7, 1.0)
-        }
+        entropy_ranges = {"low": (0.0, 0.3), "medium": (0.3, 0.7), "high": (0.7, 1.0)}
 
         correlation_data = {}
         for range_name, (min_entropy, max_entropy) in entropy_ranges.items():
-            range_results = [r for r in results
-                           if min_entropy <= r.collapse_entropy < max_entropy]
+            range_results = [
+                r for r in results if min_entropy <= r.collapse_entropy < max_entropy
+            ]
 
             if range_results:
                 range_collapses = [r.collapsed_glyph for r in range_results]
@@ -423,7 +465,11 @@ class GlyphCollapseSimulator:
                 correlation_data[range_name] = {
                     "count": len(range_results),
                     "collapse_frequency": range_frequency,
-                    "most_common": max(range_frequency.items(), key=lambda x: x[1]) if range_frequency else None
+                    "most_common": (
+                        max(range_frequency.items(), key=lambda x: x[1])
+                        if range_frequency
+                        else None
+                    ),
                 }
 
         return correlation_data
@@ -436,7 +482,7 @@ class GlyphCollapseSimulator:
             return {
                 "interventions_triggered": 0,
                 "intervention_rate": 0.0,
-                "effectiveness_score": 0.0
+                "effectiveness_score": 0.0,
             }
 
         # Calculate intervention effectiveness
@@ -466,7 +512,11 @@ class GlyphCollapseSimulator:
             "successful_interventions": successful_interventions,
             "effectiveness_score": effectiveness_score,
             "average_intervention_entropy": avg_intervention_entropy,
-            "intervention_entropy_range": [min(intervention_entropies), max(intervention_entropies)] if intervention_entropies else [0, 0]
+            "intervention_entropy_range": (
+                [min(intervention_entropies), max(intervention_entropies)]
+                if intervention_entropies
+                else [0, 0]
+            ),
         }
 
     def save_simulation_results(self, batch: SimulationBatch) -> Path:
@@ -489,12 +539,12 @@ class GlyphCollapseSimulator:
                 "lukhλs_version": "6.0.0",
                 "trinity_framework": "⚛️🧠🛡️",
                 "simulation_engine": "glyph_collapse_simulator",
-                "generated_at": datetime.utcnow().isoformat() + "Z"
-            }
+                "generated_at": datetime.utcnow().isoformat() + "Z",
+            },
         }
 
         try:
-            with open(filepath, 'w') as f:
+            with open(filepath, "w") as f:
                 json.dump(batch_data, f, indent=2, ensure_ascii=False)
 
             logger.info(f"📁 Simulation results saved to: {filepath}")
@@ -529,50 +579,54 @@ class GlyphCollapseSimulator:
             f"StdDev: {stats['entropy_statistics']['final']['stdev']:.3f}",
             "",
             "🎭 CONSCIOUSNESS PHASE DISTRIBUTION",
-            "-" * 30
+            "-" * 30,
         ]
 
-        for phase, count in stats['phase_distribution'].items():
-            percentage = (count / stats['total_simulations']) * 100
+        for phase, count in stats["phase_distribution"].items():
+            percentage = (count / stats["total_simulations"]) * 100
             report_lines.append(f"{phase.capitalize()}: {count} ({percentage:.1f}%)")
 
-        report_lines.extend([
-            "",
-            "🔮 SYMBOLIC COLLAPSE PATTERNS",
-            "-" * 30,
-            f"Trinity Preservation Rate: {patterns['trinity_preservation_rate']:.1%}",
-            f"Unique Collapse Glyphs: {patterns['unique_collapse_glyphs']}",
-            "",
-            "Most Common Collapses:"
-        ])
+        report_lines.extend(
+            [
+                "",
+                "🔮 SYMBOLIC COLLAPSE PATTERNS",
+                "-" * 30,
+                f"Trinity Preservation Rate: {patterns['trinity_preservation_rate']:.1%}",
+                f"Unique Collapse Glyphs: {patterns['unique_collapse_glyphs']}",
+                "",
+                "Most Common Collapses:",
+            ]
+        )
 
-        for glyph, count in patterns['most_common_collapses'][:5]:
+        for glyph, count in patterns["most_common_collapses"][:5]:
             percentage = (count / len(batch.results)) * 100
             report_lines.append(f"  {glyph}: {count} ({percentage:.1f}%)")
 
-        report_lines.extend([
-            "",
-            "🛡️ GUARDIAN SYSTEM EFFECTIVENESS",
-            "-" * 30,
-            f"Interventions Triggered: {guardian['interventions_triggered']}",
-            f"Intervention Rate: {guardian['intervention_rate']:.1%}",
-            f"Effectiveness Score: {guardian['effectiveness_score']:.1%}",
-            f"Average Intervention Entropy: {guardian['average_intervention_entropy']:.3f}",
-            "",
-            "⚛️🧠🛡️ TRINITY FRAMEWORK COHERENCE",
-            "-" * 30,
-            f"Mean Coherence: {stats['trinity_coherence']['mean']:.3f}",
-            f"Coherence StdDev: {stats['trinity_coherence']['stdev']:.3f}",
-            f"Min Coherence: {stats['trinity_coherence']['min']:.3f}",
-            "",
-            "🌊 SUPERPOSITION ANALYSIS",
-            "-" * 30,
-            f"Mean Superposition Strength: {stats['superposition_strength']['mean']:.3f}",
-            f"Superposition StdDev: {stats['superposition_strength']['stdev']:.3f}",
-            "",
-            "✅ SIMULATION COMPLETE",
-            f"Generated: {datetime.utcnow().isoformat()}Z"
-        ])
+        report_lines.extend(
+            [
+                "",
+                "🛡️ GUARDIAN SYSTEM EFFECTIVENESS",
+                "-" * 30,
+                f"Interventions Triggered: {guardian['interventions_triggered']}",
+                f"Intervention Rate: {guardian['intervention_rate']:.1%}",
+                f"Effectiveness Score: {guardian['effectiveness_score']:.1%}",
+                f"Average Intervention Entropy: {guardian['average_intervention_entropy']:.3f}",
+                "",
+                "⚛️🧠🛡️ TRINITY FRAMEWORK COHERENCE",
+                "-" * 30,
+                f"Mean Coherence: {stats['trinity_coherence']['mean']:.3f}",
+                f"Coherence StdDev: {stats['trinity_coherence']['stdev']:.3f}",
+                f"Min Coherence: {stats['trinity_coherence']['min']:.3f}",
+                "",
+                "🌊 SUPERPOSITION ANALYSIS",
+                "-" * 30,
+                f"Mean Superposition Strength: {stats['superposition_strength']['mean']:.3f}",
+                f"Superposition StdDev: {stats['superposition_strength']['stdev']:.3f}",
+                "",
+                "✅ SIMULATION COMPLETE",
+                f"Generated: {datetime.utcnow().isoformat()}Z",
+            ]
+        )
 
         return "\n".join(report_lines)
 
@@ -601,7 +655,9 @@ class GlyphCollapseSimulator:
                 logger.error(f"Failed to run simulation {config_name}: {e}")
                 continue
 
-        logger.info(f"\n✅ All simulations completed: {len(all_batches)} successful batches")
+        logger.info(
+            f"\n✅ All simulations completed: {len(all_batches)} successful batches"
+        )
         return all_batches
 
 

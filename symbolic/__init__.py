@@ -26,9 +26,9 @@ except ImportError:
     ExchangeProtocol = None
 
 __all__ = [
-    'vocabularies',
-    'PersonalSymbolDictionary',
-    'GestureType',
-    'UniversalSymbolExchange',
-    'ExchangeProtocol',
+    "vocabularies",
+    "PersonalSymbolDictionary",
+    "GestureType",
+    "UniversalSymbolExchange",
+    "ExchangeProtocol",
 ]

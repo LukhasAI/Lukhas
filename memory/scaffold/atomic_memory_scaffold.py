@@ -49,15 +49,12 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 from uuid import uuid4
 
 # Import LUKHAS components
 try:
     from core.symbolism.tags import TagPermission, TagScope
-    from memory.core_system import MemoryFold
-    from memory.repair.helix_repair_module import HelixRepairModule
-    from memory.structural_conscience import StructuralConscience
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:
@@ -123,7 +120,7 @@ class MemoryCoil:
     """Flexible memory structure with self-repair capabilities"""
 
     coil_id: str = field(default_factory=lambda: str(uuid4()))
-    memory_folds: List[Any] = field(default_factory=list)  # MemoryFold objects
+    memory_folds: list[Any] = field(default_factory=list)  # MemoryFold objects
     state: CoilState = CoilState.RELAXED
     stress_level: float = 0.0  # 0.0 to 1.0
     repair_count: int = 0
@@ -147,10 +144,10 @@ class AtomicNucleus:
     """
 
     def __init__(self, quantum_state: Optional[Any] = None):
-        self.rules: Dict[str, AtomicRule] = {}
+        self.rules: dict[str, AtomicRule] = {}
         self.state = NucleusState.STABLE
         self.quantum_state = quantum_state
-        self.integrity_chain: List[str] = []  # Hash chain for integrity
+        self.integrity_chain: list[str] = []  # Hash chain for integrity
         self.seal_time: Optional[float] = None
         self.total_rules = 0
 
@@ -257,11 +254,11 @@ class FlexibleCoilSystem:
     """
 
     def __init__(self, repair_module: Optional[Any] = None):
-        self.coils: Dict[str, MemoryCoil] = {}
+        self.coils: dict[str, MemoryCoil] = {}
         self.repair_module = repair_module
         self.repair_speed_multiplier = 2.375
         self.base_repair_time = 0.3  # seconds (biological baseline)
-        self.active_repairs: Set[str] = set()
+        self.active_repairs: set[str] = set()
 
         logger.info(
             "FlexibleCoilSystem initialized",
@@ -312,7 +309,7 @@ class FlexibleCoilSystem:
 
         return True
 
-    async def repair_coil(self, coil_id: str) -> Dict[str, Any]:
+    async def repair_coil(self, coil_id: str) -> dict[str, Any]:
         """Repair a damaged coil with enhanced speed"""
         if coil_id not in self.coils:
             return {"success": False, "error": "Coil not found"}
@@ -370,7 +367,7 @@ class FlexibleCoilSystem:
 
     def assess_trauma_impact(
         self, coil_id: str, trauma_intensity: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Assess impact of trauma on a coil"""
         if coil_id not in self.coils:
             return {"error": "Coil not found"}
@@ -418,8 +415,8 @@ class AtomicMemoryScaffold:
         self.enable_colony_tags = enable_colony_tags
 
         # Colony integration
-        self.symbolic_carryover: Dict[
-            str, Tuple[str, TagScope, TagPermission, float, Optional[float]]
+        self.symbolic_carryover: dict[
+            str, tuple[str, TagScope, TagPermission, float, Optional[float]]
         ] = {}
 
         # Metrics
@@ -433,7 +430,7 @@ class AtomicMemoryScaffold:
             colony_tags_enabled=enable_colony_tags,
         )
 
-    async def initialize_seedra_ethics(self, ethics_rules: List[str]) -> str:
+    async def initialize_seedra_ethics(self, ethics_rules: list[str]) -> str:
         """Initialize the nucleus with SEEDRA ethical rules"""
         logger.info("Initializing SEEDRA ethics", rule_count=len(ethics_rules))
 
@@ -459,10 +456,10 @@ class AtomicMemoryScaffold:
     async def store_memory(
         self,
         content: Any,
-        tags: List[str],
+        tags: list[str],
         trauma_factor: float = 0.0,
         colony_source: Optional[str] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Store a memory in the scaffold with automatic coil assignment"""
 
         # Find or create suitable coil
@@ -521,7 +518,7 @@ class AtomicMemoryScaffold:
 
         return optimal_coil
 
-    def _update_colony_tags(self, tags: List[str], colony_source: str):
+    def _update_colony_tags(self, tags: list[str], colony_source: str):
         """Update symbolic carryover for colony integration"""
         for tag in tags:
             self.symbolic_carryover[f"{colony_source}:{tag}"] = (
@@ -532,7 +529,7 @@ class AtomicMemoryScaffold:
                 None,  # No expiration
             )
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get comprehensive metrics about the scaffold"""
         total_coils = len(self.coil_system.coils)
         avg_stress = sum(c.stress_level for c in self.coil_system.coils.values()) / max(

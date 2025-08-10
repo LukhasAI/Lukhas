@@ -19,7 +19,7 @@ __all__ = [
     "PatternSet",
     "PolicyUpdate",
     "LearningReport",
-    "FeedbackCardSystem"
+    "FeedbackCardSystem",
 ]
 
 __version__ = "1.0.0"

@@ -11,10 +11,10 @@ Node Set Registration for the Adaptive AGI Interface
 This module registers the common node types with the node registry.
 """
 
+from .node_registry import node_registry
 import logging
 import time
 
-from .node_registry import node_registry
 
 # Intent Node - based loosely on the structure seen in lukhas_agi files
 

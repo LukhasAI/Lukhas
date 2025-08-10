@@ -13,7 +13,7 @@ Provides RESTful API for LUKHAS memory operations.
 
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
@@ -29,8 +29,8 @@ from memory.core import HybridMemoryFold
 class MemoryFoldRequest(BaseModel):
     """Request model for memory folding."""
 
-    experience: Dict[str, Any] = Field(..., description="Experience data to store")
-    context: Dict[str, Any] = Field(..., description="Context for memory storage")
+    experience: dict[str, Any] = Field(..., description="Experience data to store")
+    context: dict[str, Any] = Field(..., description="Context for memory storage")
     agent_id: str = Field(..., description="ID of the agent storing memory")
 
     class Config:
@@ -73,8 +73,8 @@ class MemoryFoldResponse(BaseModel):
 class MemorySearchRequest(BaseModel):
     """Request model for memory search."""
 
-    query: Dict[str, Any] = Field(..., description="Query for similarity search")
-    context: Optional[Dict[str, Any]] = Field(None, description="Search context")
+    query: dict[str, Any] = Field(..., description="Query for similarity search")
+    context: Optional[dict[str, Any]] = Field(None, description="Search context")
     top_k: int = Field(5, ge=1, le=100, description="Number of results")
     threshold: Optional[float] = Field(
         None, ge=0.0, le=1.0, description="Similarity threshold"
@@ -87,8 +87,8 @@ class MemorySearchResult(BaseModel):
 
     memory_id: str
     similarity_score: float
-    experience: Dict[str, Any]
-    metadata: Dict[str, Any]
+    experience: dict[str, Any]
+    metadata: dict[str, Any]
     drift_score: Optional[float]
 
 
@@ -109,15 +109,15 @@ class LineageTrace(BaseModel):
 
     memory_id: str
     lineage_depth: int
-    ancestors: List[Dict[str, Any]]
-    collapse_events: List[Dict[str, Any]]
+    ancestors: list[dict[str, Any]]
+    collapse_events: list[dict[str, Any]]
     total_drift: float
 
 
 class CollapseRequest(BaseModel):
     """Request to force memory collapse."""
 
-    memory_ids: List[str] = Field(..., description="Memory IDs to collapse")
+    memory_ids: list[str] = Field(..., description="Memory IDs to collapse")
     reason: str = Field(..., description="Reason for forced collapse")
     agent_id: str = Field(..., description="Agent requesting collapse")
 
@@ -126,7 +126,7 @@ class CollapseRequest(BaseModel):
 router = APIRouter(prefix="/memory", tags=["memory"])
 
 # In-memory storage for demo (replace with actual implementation)
-memory_systems: Dict[str, HybridMemoryFold] = {}
+memory_systems: dict[str, HybridMemoryFold] = {}
 
 
 def get_memory_system(agent_id: str) -> HybridMemoryFold:
@@ -205,7 +205,7 @@ async def get_memory(memory_id: str, agent_id: str = Query(...)):
         )
 
 
-@router.post("/search", response_model=List[MemorySearchResult])
+@router.post("/search", response_model=list[MemorySearchResult])
 async def search_memories(request: MemorySearchRequest):
     """
     Search for similar memories using semantic similarity.

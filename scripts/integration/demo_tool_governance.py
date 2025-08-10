@@ -5,12 +5,18 @@
 Demonstration of the complete OpenAI tool integration with LUKHAS safety governance.
 
 Shows:
-- Tool allowlist enforcement  
+- Tool allowlist enforcement
 - Safety mode badges in audit viewer
 - Complete audit trail with tool information
 - API endpoints for tool registry
 """
 
+from orchestration.signals.homeostasis import ModulationParams
+from lukhas_pwm.openai.tooling import (
+    build_tools_from_allowlist,
+    get_all_tools,
+    get_tool_names,
+)
 import json
 import sys
 import uuid
@@ -20,13 +26,6 @@ from pathlib import Path
 # Add project root to path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
-
-from lukhas_pwm.openai.tooling import (
-    build_tools_from_allowlist,
-    get_all_tools,
-    get_tool_names,
-)
-from orchestration.signals.homeostasis import ModulationParams
 
 
 def demo_tool_registry():
@@ -65,18 +64,18 @@ def demo_safety_modes():
         "strict": {
             "temperature": 0.1,
             "tool_allowlist": ["retrieval"],
-            "description": "🔴 Maximum safety - minimal tools, low temperature"
+            "description": "🔴 Maximum safety - minimal tools, low temperature",
         },
         "balanced": {
             "temperature": 0.7,
             "tool_allowlist": ["retrieval", "browser"],
-            "description": "🟢 Balanced mode - moderate tools and settings"
+            "description": "🟢 Balanced mode - moderate tools and settings",
         },
         "creative": {
             "temperature": 0.9,
             "tool_allowlist": ["retrieval", "browser", "scheduler", "code_exec"],
-            "description": "🔵 Creative mode - all tools available, high temperature"
-        }
+            "description": "🔵 Creative mode - all tools available, high temperature",
+        },
     }
 
     for mode, config in safety_configs.items():
@@ -85,12 +84,14 @@ def demo_safety_modes():
         params = ModulationParams(
             temperature=config["temperature"],
             safety_mode=mode,
-            tool_allowlist=config["tool_allowlist"]
+            tool_allowlist=config["tool_allowlist"],
         )
 
         print(f"   Temperature: {params.temperature}")
         print(f"   Tools allowed: {params.tool_allowlist}")
-        print(f"   Guardian validation: {'Enhanced' if mode == 'strict' else 'Standard'}")
+        print(
+            f"   Guardian validation: {'Enhanced' if mode == 'strict' else 'Standard'}"
+        )
 
 
 def demo_audit_bundle():
@@ -111,17 +112,13 @@ def demo_audit_bundle():
             "max_output_tokens": 500,
             "safety_mode": "balanced",
             "tool_allowlist": ["retrieval", "browser"],
-            "retrieval_k": 3
+            "retrieval_k": 3,
         },
-        "signals": {
-            "stress": 0.2,
-            "novelty": 0.6,
-            "alignment_risk": 0.1
-        },
+        "signals": {"stress": 0.2, "novelty": 0.6, "alignment_risk": 0.1},
         "guardian": {
             "pre_validation": "APPROVED",
             "post_validation": "APPROVED",
-            "ethical_score": 0.95
+            "ethical_score": 0.95,
         },
         "explanation": "User requested research assistance with web browsing capability",
         "prompt": "Help me research the latest developments in quantum computing",
@@ -131,14 +128,14 @@ def demo_audit_bundle():
             {
                 "tool": "retrieval",
                 "query": "quantum computing latest developments 2025",
-                "results_count": 3
+                "results_count": 3,
             },
             {
                 "tool": "browser",
                 "url": "https://example.com/quantum-news",
-                "status": "success"
-            }
-        ]
+                "status": "success",
+            },
+        ],
     }
 
     print(f"📦 Sample Audit Bundle: {audit_id}")
@@ -165,32 +162,32 @@ def demo_api_endpoints():
             "method": "GET",
             "path": "/tools/registry",
             "description": "Complete tool registry with schemas",
-            "example": "curl http://127.0.0.1:8000/tools/registry"
+            "example": "curl http://127.0.0.1:8000/tools/registry",
         },
         {
             "method": "GET",
             "path": "/tools/available",
             "description": "List of available tool names",
-            "example": "curl http://127.0.0.1:8000/tools/available"
+            "example": "curl http://127.0.0.1:8000/tools/available",
         },
         {
             "method": "GET",
             "path": "/tools/{tool_name}",
             "description": "Schema for specific tool",
-            "example": "curl http://127.0.0.1:8000/tools/retrieval"
+            "example": "curl http://127.0.0.1:8000/tools/retrieval",
         },
         {
             "method": "POST",
             "path": "/audit/log",
             "description": "Log audit bundle with tool usage",
-            "example": "curl -X POST -H 'Content-Type: application/json' -d '{bundle}' http://127.0.0.1:8000/audit/log"
+            "example": "curl -X POST -H 'Content-Type: application/json' -d '{bundle}' http://127.0.0.1:8000/audit/log",
         },
         {
             "method": "GET",
             "path": "/audit/view/{audit_id}",
             "description": "View audit with safety badges",
-            "example": "Open in browser: http://127.0.0.1:8000/audit/view/demo_12345678"
-        }
+            "example": "Open in browser: http://127.0.0.1:8000/audit/view/demo_12345678",
+        },
     ]
 
     for endpoint in endpoints:

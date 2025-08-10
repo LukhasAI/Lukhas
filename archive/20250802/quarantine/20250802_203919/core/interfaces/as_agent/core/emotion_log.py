@@ -18,13 +18,13 @@ logger = structlog.get_logger(__name__)
 """
 
 """
-+===========================================================================+
-| MODULE        : lukhas_emotion_log.py                                      |
-| DESCRIPTION   : Tracks emotional states, tags sessions with mood data,    |
-|                 and influences voice tone and response logic.             |
-| TYPE          : Emotional Context Logger     VERSION: v1.0.0              |
-| AUTHOR        : LUKHAS SYSTEMS                   CREATED: 2025-4-22       |
-+===========================================================================+
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
+| MODULE: lukhas_emotion_log.py |
+| DESCRIPTION: Tracks emotional states, tags sessions with mood data, |
+| and influences voice tone and response logic. |
+| TYPE: Emotional Context Logger     VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                   CREATED: 2025 - 4 - 22 |
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
 DEPENDENCIES:
 - lukhas_voice_duet.py
 """
@@ -40,8 +40,8 @@ def log_emotion(state, source="manual"):
     Logs emotional state and updates current mood.
 
     Parameters:
-    - state (str): e.g., 'calm', 'excited', 'reflective'
-    - source (str): who/what triggered it ('manual', 'gpt', 'DST')
+    - state(str): e.g., 'calm', 'excited', 'reflective'
+    - source(str): who / what triggered it('manual', 'gpt', 'DST')
 
     Returns:
     - dict: updated emotion state
@@ -61,7 +61,7 @@ def decay_emotion(threshold_minutes=60):
     Decays the current emotion back to neutral if threshold exceeded.
 
     Parameters:
-    - threshold_minutes (int): Time since last emotion to trigger decay
+    - threshold_minutes(int): Time since last emotion to trigger decay
     """
     from datetime import datetime, timedelta
     if not emotion_db["log"]:
@@ -109,7 +109,7 @@ def load_emotion_log(filepath="emotion_log.json"):
 
 """
 ΛTRACE: End of emotion_log.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

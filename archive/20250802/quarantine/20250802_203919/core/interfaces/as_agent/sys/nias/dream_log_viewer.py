@@ -20,11 +20,12 @@ DESCRIPTION:
 
 """
 
+from core.utils.symbolic_utils import tier_label, summarize_emotion_vector
 import json
 from pathlib import Path
-from core.utils.symbolic_utils import tier_label, summarize_emotion_vector
 
 DREAM_LOG_PATH = Path("core/logs/dream_log.jsonl")
+
 
 def view_dream_log(limit=10, min_tier=None, sort_by=None):
     if not DREAM_LOG_PATH.exists():
@@ -49,7 +50,14 @@ def view_dream_log(limit=10, min_tier=None, sort_by=None):
 
     # Sort by emotion
     if sort_by in ["joy", "stress", "calm", "longing"]:
-        entries = sorted(entries, key=lambda e: e.get("emotion_vector", {}).get(sort_by, 0), reverse=True)
+        entries = sorted(
+    entries,
+    key=lambda e: e.get(
+        "emotion_vector",
+        {}).get(
+            sort_by,
+            0),
+             reverse=True)
 
     # Limit entries
     entries = entries[-limit:]
@@ -59,7 +67,8 @@ def view_dream_log(limit=10, min_tier=None, sort_by=None):
     for entry in entries:
         print(f"\n🌀 {entry.get('timestamp', '⏳')} | ID: {entry.get('message_id', '❓')}")
         tier_raw = entry.get('context_tier', '?')
-        print(f"   Tier: {tier_label(tier_raw)} | Widget: {entry.get('source_widget', '∅')}")
+        print(
+            f"   Tier: {tier_label(tier_raw)} | Widget: {entry.get('source_widget', '∅')}")
         print(f"   Tags: {', '.join(entry.get('tags', []))}")
         ev = entry.get("emotion_vector", {})
         print("   Emotion ->", summarize_emotion_vector(ev))
@@ -72,6 +81,7 @@ def view_dream_log(limit=10, min_tier=None, sort_by=None):
 
 # ────────────────────────────────────────────────────────────────────────────
 
+
 if __name__ == "__main__":
     print("\n🌙 DREAM LOG VIEWER - Symbolic Console")
     print("──────────────────────────────────────────────")
@@ -80,8 +90,10 @@ if __name__ == "__main__":
         tier_input = input("🔐 Min Tier to View (e.g. 2) or ENTER to skip: ").strip()
         min_tier = int(tier_input) if tier_input else None
 
-        sort_input = input("📊 Sort by Emotion? (joy / stress / calm / longing) or ENTER to skip: ").strip()
-        sort_by = sort_input.lower() if sort_input in ["joy", "stress", "calm", "longing"] else None
+        sort_input = input(
+            "📊 Sort by Emotion? (joy / stress / calm / longing) or ENTER to skip: ").strip()
+        sort_by = sort_input.lower() if sort_input in [
+    "joy", "stress", "calm", "longing"] else None
     except Exception as e:
         print("⚠️ Input error:", e)
         min_tier = None

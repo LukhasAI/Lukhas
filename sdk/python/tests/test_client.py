@@ -1,4 +1,4 @@
-from lukhas_pwm.client import LukhasPWM, LukhasError
+from lukhas_pwm.client import LukhasPWM
 
 
 class FakeResp:

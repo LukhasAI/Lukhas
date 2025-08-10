@@ -15,7 +15,7 @@ import logging
 from collections import defaultdict, deque
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -152,8 +152,8 @@ class AnomalyFilterColony(BaseColony):
         logger.info(f"🛡️ AnomalyFilterColony '{colony_id}' initialized")
 
     async def execute_task(
-        self, task_id: str, task_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, task_id: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Detect and handle anomalies in bio-symbolic data.
 
@@ -228,10 +228,10 @@ class AnomalyFilterColony(BaseColony):
 
     async def _run_all_detectors(
         self,
-        bio_data: Dict[str, Any],
-        processed_data: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> Dict[str, Dict[str, Any]]:
+        bio_data: dict[str, Any],
+        processed_data: dict[str, Any],
+        context: dict[str, Any],
+    ) -> dict[str, dict[str, Any]]:
         """Run all enabled anomaly detectors."""
         results = {}
 
@@ -269,10 +269,10 @@ class AnomalyFilterColony(BaseColony):
 
     async def _statistical_detector(
         self,
-        bio_data: Dict[str, Any],
-        processed_data: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        bio_data: dict[str, Any],
+        processed_data: dict[str, Any],
+        context: dict[str, Any],
+    ) -> dict[str, Any]:
         """Statistical anomaly detection using Z-score, IQR, and Grubbs test."""
         anomalies = {}
         config = self.detectors["statistical"]
@@ -336,10 +336,10 @@ class AnomalyFilterColony(BaseColony):
 
     async def _ml_detector(
         self,
-        bio_data: Dict[str, Any],
-        processed_data: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        bio_data: dict[str, Any],
+        processed_data: dict[str, Any],
+        context: dict[str, Any],
+    ) -> dict[str, Any]:
         """Machine learning-based anomaly detection."""
         anomalies = {}
         config = self.detectors["machine_learning"]
@@ -425,10 +425,10 @@ class AnomalyFilterColony(BaseColony):
 
     async def _quantum_detector(
         self,
-        bio_data: Dict[str, Any],
-        processed_data: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        bio_data: dict[str, Any],
+        processed_data: dict[str, Any],
+        context: dict[str, Any],
+    ) -> dict[str, Any]:
         """Quantum-based anomaly detection."""
         anomalies = {}
         config = self.detectors["quantum"]
@@ -490,10 +490,10 @@ class AnomalyFilterColony(BaseColony):
 
     async def _symbolic_detector(
         self,
-        bio_data: Dict[str, Any],
-        processed_data: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        bio_data: dict[str, Any],
+        processed_data: dict[str, Any],
+        context: dict[str, Any],
+    ) -> dict[str, Any]:
         """Symbolic consistency anomaly detection."""
         anomalies = {}
         config = self.detectors["symbolic"]
@@ -556,10 +556,10 @@ class AnomalyFilterColony(BaseColony):
 
     async def _colony_consensus_detector(
         self,
-        bio_data: Dict[str, Any],
-        processed_data: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        bio_data: dict[str, Any],
+        processed_data: dict[str, Any],
+        context: dict[str, Any],
+    ) -> dict[str, Any]:
         """Colony consensus-based anomaly detection."""
         anomalies = {}
         config = self.detectors["colony_consensus"]
@@ -601,10 +601,10 @@ class AnomalyFilterColony(BaseColony):
 
     async def _gather_colony_opinions(
         self,
-        bio_data: Dict[str, Any],
-        processed_data: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> Dict[str, Dict[str, Any]]:
+        bio_data: dict[str, Any],
+        processed_data: dict[str, Any],
+        context: dict[str, Any],
+    ) -> dict[str, dict[str, Any]]:
         """Gather opinions from other colonies (simulated)."""
         # Simulate different colony perspectives
         opinions = {}
@@ -639,10 +639,10 @@ class AnomalyFilterColony(BaseColony):
 
     def _classify_anomalies(
         self,
-        detection_results: Dict[str, Dict[str, Any]],
-        bio_data: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> List[Dict[str, Any]]:
+        detection_results: dict[str, dict[str, Any]],
+        bio_data: dict[str, Any],
+        context: dict[str, Any],
+    ) -> list[dict[str, Any]]:
         """Classify detected anomalies by type."""
         classified = []
 
@@ -670,9 +670,9 @@ class AnomalyFilterColony(BaseColony):
         self,
         detector_name: str,
         anomaly_id: str,
-        anomaly_data: Dict[str, Any],
-        bio_data: Dict[str, Any],
-        context: Dict[str, Any],
+        anomaly_data: dict[str, Any],
+        bio_data: dict[str, Any],
+        context: dict[str, Any],
     ) -> AnomalyType:
         """Determine the type of anomaly based on context."""
         # Rule-based classification
@@ -700,10 +700,10 @@ class AnomalyFilterColony(BaseColony):
 
     def _generate_explanations(
         self,
-        anomalies: List[Dict[str, Any]],
-        bio_data: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> List[Dict[str, str]]:
+        anomalies: list[dict[str, Any]],
+        bio_data: dict[str, Any],
+        context: dict[str, Any],
+    ) -> list[dict[str, str]]:
         """Generate human-readable explanations for anomalies."""
         explanations = []
 
@@ -726,7 +726,7 @@ class AnomalyFilterColony(BaseColony):
         return explanations
 
     def _generate_anomaly_details(
-        self, anomaly: Dict[str, Any], bio_data: Dict[str, Any], context: Dict[str, Any]
+        self, anomaly: dict[str, Any], bio_data: dict[str, Any], context: dict[str, Any]
     ) -> str:
         """Generate detailed description of anomaly."""
         anomaly_data = anomaly["data"]
@@ -750,8 +750,8 @@ class AnomalyFilterColony(BaseColony):
         return "Anomaly detected with insufficient detail information"
 
     def _determine_recovery_actions(
-        self, anomalies: List[Dict[str, Any]]
-    ) -> Dict[str, List[AnomalyAction]]:
+        self, anomalies: list[dict[str, Any]]
+    ) -> dict[str, list[AnomalyAction]]:
         """Determine recovery actions for each anomaly."""
         actions = {}
 
@@ -778,11 +778,11 @@ class AnomalyFilterColony(BaseColony):
 
     async def _execute_recovery(
         self,
-        bio_data: Dict[str, Any],
-        processed_data: Dict[str, Any],
-        anomalies: List[Dict[str, Any]],
-        recovery_actions: Dict[str, List[AnomalyAction]],
-    ) -> Dict[str, Any]:
+        bio_data: dict[str, Any],
+        processed_data: dict[str, Any],
+        anomalies: list[dict[str, Any]],
+        recovery_actions: dict[str, list[AnomalyAction]],
+    ) -> dict[str, Any]:
         """Execute recovery strategies for detected anomalies."""
         recovered_data = processed_data.copy()
 
@@ -810,8 +810,8 @@ class AnomalyFilterColony(BaseColony):
         return recovered_data
 
     def _apply_soft_filter(
-        self, data: Dict[str, Any], anomaly: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any], anomaly: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply soft filtering (weight reduction)."""
         if "signal" in anomaly["data"]:
             signal = anomaly["data"]["signal"]
@@ -823,8 +823,8 @@ class AnomalyFilterColony(BaseColony):
         return data
 
     def _apply_hard_filter(
-        self, data: Dict[str, Any], anomaly: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any], anomaly: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply hard filtering (removal)."""
         if "signal" in anomaly["data"]:
             signal = anomaly["data"]["signal"]
@@ -834,8 +834,8 @@ class AnomalyFilterColony(BaseColony):
         return data
 
     def _apply_interpolation(
-        self, data: Dict[str, Any], anomaly: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any], anomaly: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply interpolation for anomalous values."""
         if "signal" in anomaly["data"]:
             signal = anomaly["data"]["signal"]
@@ -849,8 +849,8 @@ class AnomalyFilterColony(BaseColony):
         return data
 
     async def _apply_colony_consensus(
-        self, data: Dict[str, Any], anomaly: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any], anomaly: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply colony consensus for recovery."""
         # Get consensus value from other colonies
         if "signal" in anomaly["data"]:
@@ -866,8 +866,8 @@ class AnomalyFilterColony(BaseColony):
         return data
 
     def _apply_quantum_healing(
-        self, data: Dict[str, Any], anomaly: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any], anomaly: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply quantum healing for anomalies."""
         # Simulate quantum state correction
         if "quantum" in data:
@@ -877,7 +877,7 @@ class AnomalyFilterColony(BaseColony):
         return data
 
     async def _learn_from_anomaly(
-        self, anomaly: Dict[str, Any], bio_data: Dict[str, Any]
+        self, anomaly: dict[str, Any], bio_data: dict[str, Any]
     ):
         """Learn from anomaly for future detection."""
         # Add to known patterns if it's a valid anomaly
@@ -897,7 +897,7 @@ class AnomalyFilterColony(BaseColony):
 
         self.known_patterns[anomaly["type"]].append(pattern)
 
-    def _create_data_signature(self, bio_data: Dict[str, Any]) -> str:
+    def _create_data_signature(self, bio_data: dict[str, Any]) -> str:
         """Create a signature for bio data pattern."""
         # Simple signature based on value ranges
         signature_parts = []
@@ -911,10 +911,10 @@ class AnomalyFilterColony(BaseColony):
 
     def _prepare_feature_vector(
         self,
-        bio_data: Dict[str, Any],
-        processed_data: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> List[float]:
+        bio_data: dict[str, Any],
+        processed_data: dict[str, Any],
+        context: dict[str, Any],
+    ) -> list[float]:
         """Prepare feature vector for ML detection."""
         features = []
 
@@ -933,7 +933,7 @@ class AnomalyFilterColony(BaseColony):
         return features
 
     def _calculate_detection_confidence(
-        self, detection_results: Dict[str, Dict[str, Any]]
+        self, detection_results: dict[str, dict[str, Any]]
     ) -> float:
         """Calculate confidence in anomaly detection."""
         if not detection_results:
@@ -953,7 +953,7 @@ class AnomalyFilterColony(BaseColony):
         else:
             return 0.6 + 0.3 * (detectors_with_anomalies / total_detectors)
 
-    def _calculate_explanation_confidence(self, anomaly: Dict[str, Any]) -> float:
+    def _calculate_explanation_confidence(self, anomaly: dict[str, Any]) -> float:
         """Calculate confidence in anomaly explanation."""
         # Base confidence on anomaly type and detector
         base_confidence = {
@@ -969,9 +969,9 @@ class AnomalyFilterColony(BaseColony):
 
     async def _update_learning(
         self,
-        detection_results: Dict[str, Dict[str, Any]],
-        anomalies: List[Dict[str, Any]],
-        context: Dict[str, Any],
+        detection_results: dict[str, dict[str, Any]],
+        anomalies: list[dict[str, Any]],
+        context: dict[str, Any],
     ):
         """Update learning parameters based on detection results."""
         # Simple learning update
@@ -986,7 +986,7 @@ class AnomalyFilterColony(BaseColony):
                 if "threshold" in detector_config:
                     detector_config["threshold"] *= 1.001  # Slightly less sensitive
 
-    def _tag_anomaly_status(self, anomalies: List[Dict[str, Any]], confidence: float):
+    def _tag_anomaly_status(self, anomalies: list[dict[str, Any]], confidence: float):
         """Tag anomaly detection status."""
         if anomalies:
             severity_levels = [a["severity"] for a in anomalies]
@@ -1013,7 +1013,7 @@ class AnomalyFilterColony(BaseColony):
             600.0,  # 10 minute persistence
         )
 
-    def _log_anomaly_event(self, result: Dict[str, Any]):
+    def _log_anomaly_event(self, result: dict[str, Any]):
         """Log anomaly detection event."""
         event_data = {
             "colony_id": self.colony_id,

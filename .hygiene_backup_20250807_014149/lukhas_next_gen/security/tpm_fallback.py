@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class TPMKey:
     """Simulated TPM key"""
+
     key_id: str
     key_type: str  # rsa, aes
     created_at: datetime
@@ -49,11 +50,14 @@ class TPMFallback:
         "algorithms": ["RSA-2048", "AES-256", "SHA-256", "HMAC-SHA256"],
         "key_storage": "software_protected",
         "entropy_source": "os_random",
-        "attestation": "simulated"
+        "attestation": "simulated",
     }
 
-    def __init__(self, keystore_path: str = "tpm_keystore.json",
-                 master_key_file: str = "tpm_master.key"):
+    def __init__(
+        self,
+        keystore_path: str = "tpm_keystore.json",
+        master_key_file: str = "tpm_master.key",
+    ):
         self.keystore_path = Path(keystore_path)
         self.master_key_file = Path(master_key_file)
         self.keys: Dict[str, TPMKey] = {}
@@ -66,17 +70,19 @@ class TPMFallback:
 
         logger.info("🔐 TPM Fallback initialized")
         logger.info(f"   Keystore: {self.keystore_path}")
-        logger.info(f"   Capabilities: {len(self.TPM_CAPABILITIES['algorithms'])} algorithms")
+        logger.info(
+            f"   Capabilities: {len(self.TPM_CAPABILITIES['algorithms'])} algorithms"
+        )
 
     def _initialize_tpm(self):
         """Initialize the simulated TPM"""
         # Load or create master key
         if self.master_key_file.exists():
-            with open(self.master_key_file, 'rb') as f:
+            with open(self.master_key_file, "rb") as f:
                 self.master_key = f.read()
         else:
             self.master_key = secrets.token_bytes(32)  # 256-bit master key
-            with open(self.master_key_file, 'wb') as f:
+            with open(self.master_key_file, "wb") as f:
                 f.write(self.master_key)
             os.chmod(self.master_key_file, 0o600)  # Secure permissions
 
@@ -100,8 +106,12 @@ class TPMFallback:
                         key_type=key_info["key_type"],
                         created_at=datetime.fromisoformat(key_info["created_at"]),
                         usage_count=key_info.get("usage_count", 0),
-                        last_used=datetime.fromisoformat(key_info["last_used"]) if key_info.get("last_used") else None,
-                        metadata=key_info.get("metadata", {})
+                        last_used=(
+                            datetime.fromisoformat(key_info["last_used"])
+                            if key_info.get("last_used")
+                            else None
+                        ),
+                        metadata=key_info.get("metadata", {}),
                     )
 
                 # Load encrypted key data
@@ -118,7 +128,7 @@ class TPMFallback:
             "tpm_simulation": True,
             "last_updated": datetime.utcnow().isoformat(),
             "keys": {},
-            "key_data": {}
+            "key_data": {},
         }
 
         # Save key metadata
@@ -129,14 +139,14 @@ class TPMFallback:
                 "created_at": key.created_at.isoformat(),
                 "usage_count": key.usage_count,
                 "last_used": key.last_used.isoformat() if key.last_used else None,
-                "metadata": key.metadata
+                "metadata": key.metadata,
             }
 
         # Save encrypted key data
         for key_id, key_bytes in self.key_data.items():
             data["key_data"][key_id] = base64.b64encode(key_bytes).decode()
 
-        with open(self.keystore_path, 'w') as f:
+        with open(self.keystore_path, "w") as f:
             json.dump(data, f, indent=2)
 
     def _initialize_platform_measurements(self):
@@ -147,7 +157,7 @@ class TPMFallback:
             "pcr_1": hashlib.sha256(b"boot_loader").hexdigest(),
             "pcr_2": hashlib.sha256(b"os_kernel").hexdigest(),
             "pcr_3": hashlib.sha256(b"application").hexdigest(),
-            "pcr_7": hashlib.sha256(b"secure_boot").hexdigest()
+            "pcr_7": hashlib.sha256(b"secure_boot").hexdigest(),
         }
 
     def _encrypt_key_data(self, key_data: bytes) -> bytes:
@@ -179,16 +189,13 @@ class TPMFallback:
             return False
 
         # Generate RSA key pair
-        private_key = rsa.generate_private_key(
-            public_exponent=65537,
-            key_size=key_size
-        )
+        private_key = rsa.generate_private_key(public_exponent=65537, key_size=key_size)
 
         # Serialize private key
         private_pem = private_key.private_bytes(
             encoding=serialization.Encoding.PEM,
             format=serialization.PrivateFormat.PKCS8,
-            encryption_algorithm=serialization.NoEncryption()
+            encryption_algorithm=serialization.NoEncryption(),
         )
 
         # Encrypt and store
@@ -200,7 +207,7 @@ class TPMFallback:
             key_id=key_id,
             key_type="rsa",
             created_at=datetime.utcnow(),
-            metadata={"key_size": key_size, "algorithm": "RSA"}
+            metadata={"key_size": key_size, "algorithm": "RSA"},
         )
 
         self._save_keystore()
@@ -225,7 +232,7 @@ class TPMFallback:
             key_id=key_id,
             key_type="aes",
             created_at=datetime.utcnow(),
-            metadata={"key_size": key_size, "algorithm": "AES"}
+            metadata={"key_size": key_size, "algorithm": "AES"},
         )
 
         self._save_keystore()
@@ -251,9 +258,9 @@ class TPMFallback:
                 data,
                 padding.PSS(
                     mgf=padding.MGF1(hashes.SHA256()),
-                    salt_length=padding.PSS.MAX_LENGTH
+                    salt_length=padding.PSS.MAX_LENGTH,
                 ),
-                hashes.SHA256()
+                hashes.SHA256(),
             )
 
             # Update usage statistics
@@ -286,9 +293,9 @@ class TPMFallback:
                 data,
                 padding.PSS(
                     mgf=padding.MGF1(hashes.SHA256()),
-                    salt_length=padding.PSS.MAX_LENGTH
+                    salt_length=padding.PSS.MAX_LENGTH,
                 ),
-                hashes.SHA256()
+                hashes.SHA256(),
             )
 
             return True
@@ -365,7 +372,7 @@ class TPMFallback:
             "nonce": base64.b64encode(nonce).decode(),
             "platform_measurements": self.platform_measurements,
             "tpm_capabilities": self.TPM_CAPABILITIES,
-            "simulation_mode": True
+            "simulation_mode": True,
         }
 
         # Sign attestation with a platform key (create if needed)
@@ -379,7 +386,7 @@ class TPMFallback:
         return {
             "attestation": attestation_data,
             "signature": base64.b64encode(signature).decode() if signature else None,
-            "signing_key": platform_key_id
+            "signing_key": platform_key_id,
         }
 
     def get_key_info(self, key_id: str) -> Optional[Dict]:
@@ -421,15 +428,17 @@ class TPMFallback:
             "total_keys": total_keys,
             "active_keys": active_keys,
             "master_key_status": "present" if self.master_key else "missing",
-            "keystore_size": self.keystore_path.stat().st_size if self.keystore_path.exists() else 0,
+            "keystore_size": (
+                self.keystore_path.stat().st_size if self.keystore_path.exists() else 0
+            ),
             "platform_measurements": len(self.platform_measurements),
-            "capabilities": self.TPM_CAPABILITIES
+            "capabilities": self.TPM_CAPABILITIES,
         }
 
 
 # Example usage and testing
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format='%(message)s')
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
 
     # Create TPM simulation
     tpm = TPMFallback(keystore_path="demo_tpm.json", master_key_file="demo_master.key")
@@ -462,13 +471,17 @@ if __name__ == "__main__":
         # Decrypt
         decrypted = tpm.decrypt_data("test_aes", encrypted)
         if decrypted:
-            print(f"   Decryption: {'✅ PASS' if decrypted == test_data else '❌ FAIL'}")
+            print(
+                f"   Decryption: {'✅ PASS' if decrypted == test_data else '❌ FAIL'}"
+            )
 
     # Platform attestation
     print("\n🛡️ Testing platform attestation...")
     nonce = tpm.get_random_bytes(32)
     attestation = tpm.attest_platform(nonce)
-    print(f"   Attestation includes {len(attestation['attestation']['platform_measurements'])} PCR values")
+    print(
+        f"   Attestation includes {len(attestation['attestation']['platform_measurements'])} PCR values"
+    )
     print(f"   Signed: {'✅ YES' if attestation['signature'] else '❌ NO'}")
 
     # Health check
@@ -479,6 +492,7 @@ if __name__ == "__main__":
 
     # Cleanup demo files
     import os
+
     try:
         os.unlink("demo_tpm.json")
         os.unlink("demo_master.key")

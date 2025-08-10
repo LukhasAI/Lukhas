@@ -14,7 +14,7 @@ cause-effect relationships in input data and context.
 
 import re
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Optional
 
 
 class CausalReasoningModule:
@@ -27,7 +27,7 @@ class CausalReasoningModule:
         self.causal_history = []
         self.confidence_threshold = 0.7
 
-    def reason(self, attended_data: Dict) -> Dict:
+    def reason(self, attended_data: dict) -> dict:
         """Apply causal reasoning to attended data"""
         causal_elements = self._identify_causal_elements(attended_data)
         causal_chains = self._build_causal_chains(causal_elements)
@@ -58,7 +58,7 @@ class CausalReasoningModule:
         self._update_history(reasoning_results)
         return reasoning_results
 
-    def _identify_causal_elements(self, attended_data: Dict) -> List[Dict]:
+    def _identify_causal_elements(self, attended_data: dict) -> list[dict]:
         """Identify elements that might have causal relationships"""
         causal_elements = []
         content = attended_data.get("text", "")
@@ -98,7 +98,7 @@ class CausalReasoningModule:
 
         return causal_elements
 
-    def _build_causal_chains(self, causal_elements: List[Dict]) -> Dict:
+    def _build_causal_chains(self, causal_elements: list[dict]) -> dict:
         """Build chains of causal relationships"""
         causal_chains = {}
 
@@ -111,27 +111,26 @@ class CausalReasoningModule:
 
             # Look for related elements
             for other_item in causal_elements:
-                if other_item != item:
-                    if (
-                        item["content"].lower() in other_item["content"].lower()
-                        or other_item["content"].lower() in item["content"].lower()
-                    ):
-                        causal_chains[chain_id]["elements"].append(other_item)
-                        causal_chains[chain_id]["base_confidence"] = (
-                            causal_chains[chain_id]["base_confidence"]
-                            + other_item["base_confidence"]
-                        ) / 2
+                if other_item != item and (
+                    item["content"].lower() in other_item["content"].lower()
+                    or other_item["content"].lower() in item["content"].lower()
+                ):
+                    causal_chains[chain_id]["elements"].append(other_item)
+                    causal_chains[chain_id]["base_confidence"] = (
+                        causal_chains[chain_id]["base_confidence"]
+                        + other_item["base_confidence"]
+                    ) / 2
 
         return causal_chains
 
-    def _calculate_causal_confidences(self, causal_chains: Dict) -> Dict:
+    def _calculate_causal_confidences(self, causal_chains: dict) -> dict:
         """Calculate confidence levels for causal chains"""
         weighted_causes = {}
 
         for chain_id, chain in causal_chains.items():
             base_confidence = chain["base_confidence"]
             length_adjustment = min(0.2, 0.05 * len(chain["elements"]))
-            element_types = set(elem["type"] for elem in chain["elements"])
+            element_types = {elem["type"] for elem in chain["elements"]}
             diversity_adjustment = min(0.15, 0.05 * len(element_types))
             final_confidence = min(
                 0.99, base_confidence + length_adjustment + diversity_adjustment
@@ -145,14 +144,14 @@ class CausalReasoningModule:
 
         return weighted_causes
 
-    def _summarize_chain(self, elements: List[Dict]) -> str:
+    def _summarize_chain(self, elements: list[dict]) -> str:
         """Create summary of causal chain"""
         if not elements:
             return ""
         contents = [elem["content"] for elem in elements]
         return " -> ".join(contents) if len(contents) > 1 else contents[0]
 
-    def _update_causal_graph(self, valid_causes: Dict):
+    def _update_causal_graph(self, valid_causes: dict):
         """Update persistent causal graph"""
         timestamp = datetime.now().isoformat()
         for chain_id, chain_data in valid_causes.items():
@@ -171,7 +170,7 @@ class CausalReasoningModule:
                     chain_id
                 ]["confidence_history"][-10:]
 
-    def _identify_primary_cause(self, valid_causes: Dict) -> Optional[Dict]:
+    def _identify_primary_cause(self, valid_causes: dict) -> Optional[dict]:
         """Identify most likely primary cause"""
         if not valid_causes:
             return None
@@ -184,11 +183,11 @@ class CausalReasoningModule:
             "confidence": valid_causes[primary_cause_id]["confidence"],
         }
 
-    def _extract_reasoning_path(self, valid_causes: Dict) -> List[Dict]:
+    def _extract_reasoning_path(self, valid_causes: dict) -> list[dict]:
         """Extract reasoning path from valid causes"""
         reasoning_steps = []
-        for chain_id, chain_data in valid_causes.items():
-            for i, element in enumerate(chain_data["elements"]):
+        for _chain_id, chain_data in valid_causes.items():
+            for _i, element in enumerate(chain_data["elements"]):
                 reasoning_steps.append(
                     {
                         "step": len(reasoning_steps) + 1,
@@ -200,7 +199,7 @@ class CausalReasoningModule:
         reasoning_steps.sort(key=lambda x: x["confidence"], reverse=True)
         return reasoning_steps[:5]
 
-    def _update_history(self, reasoning_results: Dict):
+    def _update_history(self, reasoning_results: dict):
         """Update reasoning history"""
         self.causal_history.append(
             {
@@ -211,7 +210,7 @@ class CausalReasoningModule:
         )
         self.causal_history = self.causal_history[-100:]
 
-    def get_causal_insights(self) -> Dict:
+    def get_causal_insights(self) -> dict:
         """Get insights about causal reasoning patterns"""
         if not self.causal_history:
             return {"insights": "No causal reasoning history available"}

@@ -32,7 +32,7 @@ import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from functools import wraps
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Optional
 
 from core.common import get_logger
 
@@ -59,7 +59,7 @@ class MEG:
 
     def __init__(self, config: Optional[MEGConfig] = None):
         self.config = config or MEGConfig()
-        self.call_history: Dict[str, list] = {}
+        self.call_history: dict[str, list] = {}
         self._ethics_violations = 0
         self._total_calls = 0
 
@@ -216,7 +216,7 @@ class MEG:
 
         return decorator
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get MEG statistics"""
         return {
             "total_calls": self._total_calls,

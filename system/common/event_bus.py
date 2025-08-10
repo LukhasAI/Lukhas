@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class Event:
     """Base event class"""
+
     event_type: str
     source_module: str
     target_module: Optional[str] = None
@@ -40,9 +41,9 @@ class EventBus:
         self._event_queue: asyncio.Queue = asyncio.Queue()
         self._running = False
         self._metrics = {
-            'events_published': 0,
-            'events_delivered': 0,
-            'events_failed': 0
+            "events_published": 0,
+            "events_delivered": 0,
+            "events_failed": 0,
         }
 
     def subscribe(self, event_type: str, handler: Callable, is_async: bool = False):
@@ -64,7 +65,7 @@ class EventBus:
     async def publish(self, event: Event):
         """Publish an event"""
         await self._event_queue.put(event)
-        self._metrics['events_published'] += 1
+        self._metrics["events_published"] += 1
 
         # Process immediately if not running event loop
         if not self._running:
@@ -72,16 +73,16 @@ class EventBus:
 
     def publish_sync(self, event: Event):
         """Synchronously publish an event"""
-        self._metrics['events_published'] += 1
+        self._metrics["events_published"] += 1
 
         # Call sync handlers
         for handler in self._subscribers.get(event.event_type, []):
             try:
                 handler(event)
-                self._metrics['events_delivered'] += 1
+                self._metrics["events_delivered"] += 1
             except Exception as e:
                 logger.error(f"Error in sync handler for {event.event_type}: {e}")
-                self._metrics['events_failed'] += 1
+                self._metrics["events_failed"] += 1
 
     async def _process_event(self, event: Event):
         """Process a single event"""
@@ -89,10 +90,10 @@ class EventBus:
         for handler in self._subscribers.get(event.event_type, []):
             try:
                 handler(event)
-                self._metrics['events_delivered'] += 1
+                self._metrics["events_delivered"] += 1
             except Exception as e:
                 logger.error(f"Error in sync handler for {event.event_type}: {e}")
-                self._metrics['events_failed'] += 1
+                self._metrics["events_failed"] += 1
 
         # Call async handlers
         tasks = []
@@ -104,9 +105,9 @@ class EventBus:
             for result in results:
                 if isinstance(result, Exception):
                     logger.error(f"Error in async handler: {result}")
-                    self._metrics['events_failed'] += 1
+                    self._metrics["events_failed"] += 1
                 else:
-                    self._metrics['events_delivered'] += 1
+                    self._metrics["events_delivered"] += 1
 
     async def _call_async_handler(self, handler: Callable, event: Event):
         """Call an async handler safely"""
@@ -186,19 +187,13 @@ class EventTypes:
 # Helper functions
 def emit_event(event_type: str, source: str, payload: Dict[str, Any] = None):
     """Helper to emit events synchronously"""
-    event = Event(
-        event_type=event_type,
-        source_module=source,
-        payload=payload
-    )
+    event = Event(event_type=event_type, source_module=source, payload=payload)
     event_bus.publish_sync(event)
 
 
-async def emit_event_async(event_type: str, source: str, payload: Dict[str, Any] = None):
+async def emit_event_async(
+    event_type: str, source: str, payload: Dict[str, Any] = None
+):
     """Helper to emit events asynchronously"""
-    event = Event(
-        event_type=event_type,
-        source_module=source,
-        payload=payload
-    )
+    event = Event(event_type=event_type, source_module=source, payload=payload)
     await kernel_bus.emit(event)

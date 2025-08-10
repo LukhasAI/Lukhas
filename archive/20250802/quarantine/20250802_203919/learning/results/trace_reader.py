@@ -49,6 +49,7 @@ AROUSAL_SCALING = {
     "euphoric": 6
 }
 
+
 def appraise_emotion(stimulus, tone="neutral", intensity=5):
     valence_score = 0
     for word in VALENCE_KEYWORDS["positive"]:
@@ -75,6 +76,7 @@ def appraise_emotion(stimulus, tone="neutral", intensity=5):
 
     return state, log_entry
 
+
 def classify_emotion(valence, arousal):
     if valence > 1 and arousal > 5:
         return "euphoric"
@@ -87,9 +89,11 @@ def classify_emotion(valence, arousal):
     else:
         return "neutral"
 
+
 # 🔁 TESTING
 if __name__ == "__main__":
-    mood, report = appraise_emotion("Breaking: Peace accord signed in region", tone="calm", intensity=4)
+    mood, report = appraise_emotion(
+    "Breaking: Peace accord signed in region", tone="calm", intensity=4)
     print("Predicted State:", mood)
     print("🧾", json.dumps(report, indent=2))
 # ===========================================================================

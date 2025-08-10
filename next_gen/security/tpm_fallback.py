@@ -496,5 +496,5 @@ if __name__ == "__main__":
     try:
         os.unlink("demo_tpm.json")
         os.unlink("demo_master.key")
-    except:
+    except BaseException:
         pass

@@ -13,6 +13,7 @@ This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable Syste
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
+import logging
 
 """
 Quantum-aware dream adapter for LUKHAS AI system.
@@ -22,13 +23,13 @@ This adapter integrates the dream engine with the quantum bio-oscillator system,
 enabling quantum-enhanced dream processing and memory consolidation.
 """
 
+from ..oscillator.quantum_inspired_layer import QuantumBioOscillator
+from ..oscillator.orchestrator import BioOrchestrator
+from typing import Any, Optional
+from datetime import datetime
 import asyncio
 from dataclasses import dataclass
-from datetime import datetime
-from typing import Any, Dict, List, Optional
 
-from ..oscillator.orchestrator import BioOrchestrator
-from ..oscillator.quantum_inspired_layer import QuantumBioOscillator
 
 logger = logging.getLogger("quantum_dream")
 
@@ -181,12 +182,12 @@ class QuantumDreamAdapter:
         except Exception as e:
             logger.error(f"Error processing quantum dreams: {e}")
 
-    async def _memories_to_qubits(self, quantum_like_state: Dict) -> Any:
+    async def _memories_to_qubits(self, quantum_like_state: dict) -> Any:
         """Convert memory content to quantum representation"""
         # Implementation depends on QuantumBioOscillator's qubit encoding scheme
         return await self.dream_oscillator.encode_memory(quantum_like_state)
 
-    async def _extract_insights(self, quantum_like_state: Any) -> List[Dict]:
+    async def _extract_insights(self, quantum_like_state: Any) -> list[dict]:
         """Extract insights from quantum-like state"""
         insights = []
         try:
@@ -215,15 +216,15 @@ class QuantumDreamAdapter:
 
         return insights
 
-    async def get_quantum_like_state(self) -> Dict:
+    async def get_quantum_like_state(self) -> dict:
         """Get the current quantum-like state"""
         if hasattr(self, "_last_processed_state"):
             return self._last_processed_state
         return {"coherence": 0.0, "insights": [], "timestamp": None}
 
     async def enhance_emotional_state(
-        self, emotional_context: Dict[str, float]
-    ) -> Dict[str, float]:
+        self, emotional_context: dict[str, float]
+    ) -> dict[str, float]:
         """Enhance emotional state using quantum-inspired processing
 
         Args:
@@ -262,7 +263,7 @@ class QuantumDreamAdapter:
             logger.error(f"Error enhancing emotional state: {e}")
             return emotional_context
 
-    async def process_memories(self, memories: List[Dict]) -> Dict:
+    async def process_memories(self, memories: list[dict]) -> dict:
         """Process memories through quantum layer
 
         Args:
@@ -307,8 +308,8 @@ class QuantumDreamAdapter:
             }
 
     async def simulate_multiverse_dreams(
-        self, dream_seed: Dict[str, Any], parallel_paths: int = 5, max_depth: int = 3
-    ) -> Dict[str, Any]:
+        self, dream_seed: dict[str, Any], parallel_paths: int = 5, max_depth: int = 3
+    ) -> dict[str, Any]:
         """
         Simulate multiverse dream scaling with parallel branching pathways
 
@@ -442,7 +443,7 @@ class QuantumDreamAdapter:
         ]
         return contextual_lenses[path_id % len(contextual_lenses)]
 
-    async def _simulate_dream_path(self, path_config: Dict[str, Any]) -> Dict[str, Any]:
+    async def _simulate_dream_path(self, path_config: dict[str, Any]) -> dict[str, Any]:
         """Simulate a single dream path with specified configuration"""
         try:
             path_id = path_config["path_id"]
@@ -504,7 +505,7 @@ class QuantumDreamAdapter:
             }
 
     async def _apply_lens_transformations(
-        self, quantum_state: Any, path_config: Dict[str, Any]
+        self, quantum_state: Any, path_config: dict[str, Any]
     ) -> Any:
         """Apply lens-specific transformations to quantum state"""
         # Implementation would apply different transformations based on ethical,
@@ -512,8 +513,8 @@ class QuantumDreamAdapter:
         return await self.dream_oscillator.apply_transformations(quantum_state)
 
     async def _extract_path_insights(
-        self, transformed_state: Any, path_config: Dict[str, Any]
-    ) -> List[Dict]:
+        self, transformed_state: Any, path_config: dict[str, Any]
+    ) -> list[dict]:
         """Extract insights specific to dream path configuration"""
         base_insights = await self._extract_insights(transformed_state)
 
@@ -532,8 +533,8 @@ class QuantumDreamAdapter:
         return enhanced_insights
 
     async def _simulate_dream_branches(
-        self, path_config: Dict[str, Any], current_state: Any
-    ) -> List[Dict]:
+        self, path_config: dict[str, Any], current_state: Any
+    ) -> list[dict]:
         """Simulate additional branches from current dream state"""
         # For demonstration, create 2 branches per path
         branches = []
@@ -560,8 +561,8 @@ class QuantumDreamAdapter:
         return branches
 
     def _evaluate_ethical_outcome(
-        self, insights: List[Dict], path_config: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, insights: list[dict], path_config: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evaluate ethical outcome of dream path"""
         return {
             "ethical_lens": path_config["ethical_lens"],
@@ -571,8 +572,8 @@ class QuantumDreamAdapter:
         }
 
     def _evaluate_emotional_resonance(
-        self, insights: List[Dict], path_config: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, insights: list[dict], path_config: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evaluate emotional resonance of dream path"""
         return {
             "emotional_lens": path_config["emotional_lens"],
@@ -582,8 +583,8 @@ class QuantumDreamAdapter:
         }
 
     async def _converge_multiverse_insights(
-        self, completed_dreams: List[Dict]
-    ) -> Dict[str, Any]:
+        self, completed_dreams: list[dict]
+    ) -> dict[str, Any]:
         """Converge insights from all parallel dream paths back to main core"""
         try:
             all_insights = []
@@ -632,7 +633,7 @@ class QuantumDreamAdapter:
             logger.error(f"Failed to converge multiverse insights: {e}")
             return {"error": str(e), "convergent_patterns": [], "meta_insights": []}
 
-    def _find_convergent_patterns(self, all_insights: List[Dict]) -> List[Dict]:
+    def _find_convergent_patterns(self, all_insights: list[dict]) -> list[dict]:
         """Find patterns that appear across multiple dream paths"""
         pattern_counts = {}
 
@@ -670,8 +671,8 @@ class QuantumDreamAdapter:
         )
 
     def _synthesize_ethical_outcomes(
-        self, ethical_outcomes: List[Dict]
-    ) -> Dict[str, Any]:
+        self, ethical_outcomes: list[dict]
+    ) -> dict[str, Any]:
         """Synthesize ethical outcomes across all paths"""
         if not ethical_outcomes:
             return {"synthesis": "no_ethical_data"}
@@ -700,8 +701,8 @@ class QuantumDreamAdapter:
         }
 
     def _synthesize_emotional_resonances(
-        self, emotional_resonances: List[Dict]
-    ) -> Dict[str, Any]:
+        self, emotional_resonances: list[dict]
+    ) -> dict[str, Any]:
         """Synthesize emotional resonances across all paths"""
         if not emotional_resonances:
             return {"synthesis": "no_emotional_data"}
@@ -733,10 +734,10 @@ class QuantumDreamAdapter:
 
     async def _generate_convergence_meta_insights(
         self,
-        convergent_patterns: List[Dict],
-        ethical_synthesis: Dict[str, Any],
-        emotional_synthesis: Dict[str, Any],
-    ) -> List[Dict]:
+        convergent_patterns: list[dict],
+        ethical_synthesis: dict[str, Any],
+        emotional_synthesis: dict[str, Any],
+    ) -> list[dict]:
         """Generate meta-insights from multiverse convergence"""
         meta_insights = []
 
@@ -780,7 +781,7 @@ class QuantumDreamAdapter:
 
         return meta_insights
 
-    def _calculate_convergence_strength(self, convergent_patterns: List[Dict]) -> float:
+    def _calculate_convergence_strength(self, convergent_patterns: list[dict]) -> float:
         """Calculate overall strength of convergence across multiverse paths"""
         if not convergent_patterns:
             return 0.0
@@ -800,7 +801,7 @@ class QuantumDreamAdapter:
         return total_strength / max(1, total_weight)
 
     async def _measure_multiverse_coherence(
-        self, completed_dreams: List[Dict]
+        self, completed_dreams: list[dict]
     ) -> float:
         """Measure overall coherence across all parallel dream paths"""
         successful_dreams = [

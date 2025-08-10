@@ -254,7 +254,7 @@ class AdaptiveAGIDemo:
         response = await self.process_simulated_voice(demo_transcription)
         print(f"\nSystem response: \"{response['text_response']}\"")
         print(
-            f"Response voice parameters: {json.dumps(response['voice_parameters'],
+            f"Response voice parameters: {json.dumps(response['voice_parameters'],"
                                                      indent=2)}"
         )
 

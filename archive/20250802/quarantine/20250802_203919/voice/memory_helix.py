@@ -18,6 +18,16 @@ DEPENDENCIES:
 - CORE.learn_to_learn
 """mory Helix System
 """
+import random
+from datetime import datetime
+from typing import Dict, Any, List, Optional, Set, Tuple
+import uuid
+import time
+import re
+import os
+import json
+import asyncio
+import logging
 ===============================
 
 Golden transfer from core.common Voice_Pack.
@@ -35,19 +45,10 @@ DEPENDENCIES:
 - CORE.learn_to_learn
 """
 
-import logging
-import asyncio
-import json
-import os
-import re
-import time
-import uuid
-from typing import Dict, Any, List, Optional, Set, Tuple
-from datetime import datetime
-import random
 
 # Configure logging
 logger = logging.getLogger(__name__)
+
 
 class VoiceMemoryHelix:
     """
@@ -91,8 +92,10 @@ class VoiceMemoryHelix:
         self.curiosity_threshold = self.config.get("curiosity_threshold", 0.65)
         self.learning_rate = self.config.get("learning_rate", 0.2)
         self.practice_interval = self.config.get("practice_interval", 5)  # sessions
-        self.retention_factor = self.config.get("retention_factor", 0.95)  # memory decay rate
-        self.cultural_sensitivity = self.config.get("cultural_sensitivity", 0.8)  # How sensitive to cultural context
+        self.retention_factor = self.config.get(
+            "retention_factor", 0.95)  # memory decay rate
+        self.cultural_sensitivity = self.config.get(
+            "cultural_sensitivity", 0.8)  # How sensitive to cultural context
 
         # Statistics
         self.stats = {
@@ -118,13 +121,15 @@ class VoiceMemoryHelix:
                     memory_data = json.load(file)
 
                     self.accent_memory = memory_data.get("accent_memory", {})
-                    self.pronunciation_memory = memory_data.get("pronunciation_memory", {})
+                    self.pronunciation_memory = memory_data.get(
+                        "pronunciation_memory", {})
                     self.curiosity_list = set(memory_data.get("curiosity_list", []))
                     self.location_memories = memory_data.get("location_memories", {})
                     self.stats = memory_data.get("stats", self.stats)
 
                     cultural_locations = len(self.location_memories)
-                    logger.info(f"Loaded voice memory with {len(self.pronunciation_memory)} words, {len(self.accent_memory)} accent patterns, and {cultural_locations} cultural locations")
+                    logger.info(
+                        f"Loaded voice memory with {len(self.pronunciation_memory)} words, {len(self.accent_memory)} accent patterns, and {cultural_locations} cultural locations")
             else:
                 logger.info("No saved voice memory found, starting fresh")
         except Exception as e:
@@ -176,13 +181,15 @@ class VoiceMemoryHelix:
             if len(word) > 4:  # Focus on longer words that might be more complex
                 if word not in self.pronunciation_memory:
                     # Check if it's an unusual word (simplified check)
-                    # In a real implementation, this would use more sophisticated methods
+                    # In a real implementation, this would use more sophisticated
+                    # methods
                     if await self._is_unusual_word(word):
                         new_words.append(word)
                         self.curiosity_list.add(word)
 
         if new_words:
-            logger.debug(f"Detected {len(new_words)} potentially new words: {new_words}")
+            logger.debug(
+                f"Detected {len(new_words)} potentially new words: {new_words}")
 
         return new_words
 
@@ -242,7 +249,9 @@ class VoiceMemoryHelix:
     async def learn_from_pronunciation(self,
                                        word: str,
                                        pronunciation: str,
-                                       accent_info: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                                       accent_info: Optional[Dict[str,
+                                                                  Any]] = None) -> Dict[str,
+                                                                                        Any]:
         """
         Learn from a pronunciation example.
 
@@ -268,7 +277,8 @@ class VoiceMemoryHelix:
         else:
             # Update existing pronunciation
             self.pronunciation_memory[word]["practice_count"] += 1
-            self.pronunciation_memory[word]["last_practiced"] = datetime.now().isoformat()
+            self.pronunciation_memory[word]["last_practiced"] = datetime.now(
+            ).isoformat()
 
         # If we have accent information, update accent memory
         if accent_info:
@@ -354,7 +364,8 @@ class VoiceMemoryHelix:
         # Update pronunciation memory
         if word in self.pronunciation_memory:
             self.pronunciation_memory[word]["practice_count"] += 1
-            self.pronunciation_memory[word]["last_practiced"] = datetime.now().isoformat()
+            self.pronunciation_memory[word]["last_practiced"] = datetime.now(
+            ).isoformat()
 
             if success:
                 # If successful, strengthen this pronunciation
@@ -365,8 +376,7 @@ class VoiceMemoryHelix:
                     # Blend the existing and new pronunciation
                     old_pron = self.pronunciation_memory[word]["variants"][accent]
                     self.pronunciation_memory[word]["variants"][accent] = self._blend_pronunciations(
-                        old_pron, correction, self.learning_rate
-                    )
+                        old_pron, correction, self.learning_rate)
                 else:
                     # Add new variant
                     self.pronunciation_memory[word]["variants"][accent] = correction
@@ -387,10 +397,17 @@ class VoiceMemoryHelix:
             "word": word,
             "success": success,
             "needs_more_practice": not success,
-            "practice_count": self.pronunciation_memory.get(word, {}).get("practice_count", 1)
-        }
+            "practice_count": self.pronunciation_memory.get(
+                word,
+                {}).get(
+                "practice_count",
+                1)}
 
-    def _blend_pronunciations(self, old_pron: str, new_pron: str, learning_rate: float) -> str:
+    def _blend_pronunciations(
+            self,
+            old_pron: str,
+            new_pron: str,
+            learning_rate: float) -> str:
         """
         Blend old and new pronunciations according to learning rate.
 
@@ -450,12 +467,14 @@ class VoiceMemoryHelix:
         for word, data in self.pronunciation_memory.items():
             try:
                 # Calculate days since last practice
-                last_practiced = datetime.fromisoformat(data.get("last_practiced", "2000-01-01T00:00:00"))
+                last_practiced = datetime.fromisoformat(
+                    data.get("last_practiced", "2000-01-01T00:00:00"))
                 days_since = (now - last_practiced).days
 
                 # Calculate priority score
                 priority = days_since * 10
-                priority -= data.get("practice_count", 0) * 2  # Lower priority if practiced a lot
+                # Lower priority if practiced a lot
+                priority -= data.get("practice_count", 0) * 2
 
                 if word in self.curiosity_list:
                     priority += 50  # Boost curiosity words
@@ -468,7 +487,10 @@ class VoiceMemoryHelix:
         word_priorities.sort(key=lambda x: x[1], reverse=True)
         return [word for word, _ in word_priorities[:limit]]
 
-    def get_pronunciation_for_word(self, word: str, accent: str = "neutral") -> Optional[str]:
+    def get_pronunciation_for_word(
+            self,
+            word: str,
+            accent: str = "neutral") -> Optional[str]:
         """
         Get the pronunciation for a word in a specific accent.
 

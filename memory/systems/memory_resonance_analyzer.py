@@ -28,7 +28,8 @@ class MemoryResonanceAnalyzer:
         Analyzes the resonance of a memory.
         """
         logger.info(f"Analyzing resonance for memory: {memory_id}")
-        # In a real implementation, this would involve a more complex analysis of the memory's content and context.
+        # In a real implementation, this would involve a more complex analysis of
+        # the memory's content and context.
         resonance_score = 0.8
         self.resonance_data[memory_id] = resonance_score
         return {"memory_id": memory_id, "resonance_score": resonance_score}

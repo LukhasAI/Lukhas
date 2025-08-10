@@ -48,7 +48,7 @@ import secrets
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from cryptography.fernet import Fernet
 
@@ -88,10 +88,10 @@ class AnonymousCryptoSession:
     """Anonymous crypto session after ΛiD authentication"""
 
     session_id: str  # Random session ID, not linked to user
-    temporary_keys: Dict[str, str]  # Temporary keys for transactions
+    temporary_keys: dict[str, str]  # Temporary keys for transactions
     seed_phrase_access: bool
     cold_wallet_access: bool
-    trading_platform_tokens: Dict[str, str]
+    trading_platform_tokens: dict[str, str]
     session_expiry: str
     # Note: No user_id stored here for true anonymity
 
@@ -101,10 +101,10 @@ class QuantumSeedPhrase:
     """Quantum-secured seed phrase management"""
 
     encrypted_phrase: str
-    quantum_shards: List[str]  # Distributed key shards
-    recovery_glyphs: List[VeriFoldQR]  # Visual recovery system
+    quantum_shards: list[str]  # Distributed key shards
+    recovery_glyphs: list[VeriFoldQR]  # Visual recovery system
     user_id_hash: str  # Only for initial auth
-    shard_locations: List[str]  # Distributed storage locations
+    shard_locations: list[str]  # Distributed storage locations
 
 
 class QuantumVaultManager:
@@ -121,7 +121,7 @@ class QuantumVaultManager:
         self.fernet = Fernet(self.master_key)
 
         # Anonymous session management
-        self.active_sessions: Dict[str, AnonymousCryptoSession] = {}
+        self.active_sessions: dict[str, AnonymousCryptoSession] = {}
 
         logger.info("🔐 Quantum Vault initialized with post-quantum cryptography")
 
@@ -154,7 +154,7 @@ class QuantumVaultManager:
         return quantum_hash[:32]  # Truncated for storage efficiency
 
     def generate_verifold_qr(
-        self, user_id: str, payload_data: Dict[str, Any]
+        self, user_id: str, payload_data: dict[str, Any]
     ) -> VeriFoldQR:
         """Generate VeriFold QR glyph with hidden authentication"""
         # Create artistic visual glyph (SVG or similar)
@@ -191,7 +191,7 @@ class QuantumVaultManager:
                 </radialGradient>
             </defs>
             <path d="M100,20 Q180,100 100,180 Q20,100 100,20 Z" fill="url(#grad)">
-                <animateTransform attributeName="transform" type="rotate" 
+                <animateTransform attributeName="transform" type="rotate"
                     values="0 100 100;360 100 100" dur="3s" repeatCount="indefinite"/>
             </path>
             <!-- Hidden QR data embedded in invisible elements -->
@@ -275,12 +275,11 @@ class QuantumVaultManager:
                 return None
 
             # Verify VeriFold QR if provided
-            if qr_verification:
-                if not self._verify_qr_authentication(
-                    qr_verification, encrypted_api_key.verification_qr
-                ):
-                    logger.error("❌ VeriFold QR verification failed")
-                    return None
+            if qr_verification and not self._verify_qr_authentication(
+                qr_verification, encrypted_api_key.verification_qr
+            ):
+                logger.error("❌ VeriFold QR verification failed")
+                return None
 
             # Decrypt API key
             decrypted_data = self.fernet.decrypt(
@@ -301,7 +300,7 @@ class QuantumVaultManager:
             return None
 
     def create_anonymous_crypto_session(
-        self, user_id: str, requested_access: List[str]
+        self, user_id: str, requested_access: list[str]
     ) -> AnonymousCryptoSession:
         """Create anonymous crypto session after ΛiD authentication"""
         logger.info("🔒 Creating anonymous crypto session")
@@ -376,9 +375,10 @@ class QuantumVaultManager:
         logger.info("✅ Quantum seed phrase stored with distributed sharding")
         return quantum_seed
 
-    def _create_quantum_shards(self, seed_phrase: str, shard_count: int) -> List[str]:
+    def _create_quantum_shards(self, seed_phrase: str, shard_count: int) -> list[str]:
         """Create quantum shards using Shamir's Secret Sharing"""
-        # Simplified quantum sharding (in production, use proper Shamir's Secret Sharing)
+        # Simplified quantum sharding (in production, use proper Shamir's Secret
+        # Sharing)
         shards = []
         for i in range(shard_count):
             shard_data = f"{seed_phrase}_{i}_{secrets.token_hex(16)}"
@@ -395,7 +395,7 @@ class QuantumVaultManager:
             decrypted_payload = self.fernet.decrypt(
                 base64.urlsafe_b64decode(verification_qr.hidden_qr_data)
             )
-            payload_data = json.loads(decrypted_payload.decode())
+            json.loads(decrypted_payload.decode())
 
             # Verify quantum signature
             expected_signature = self._generate_quantum_signature(
@@ -406,10 +406,7 @@ class QuantumVaultManager:
 
             # Check expiry
             expiry_time = datetime.fromisoformat(verification_qr.expiry_timestamp)
-            if datetime.now() > expiry_time:
-                return False
-
-            return True
+            return not datetime.now() > expiry_time
 
         except Exception as e:
             logger.error(f"QR verification error: {e}")
@@ -417,7 +414,7 @@ class QuantumVaultManager:
 
     def get_anonymous_trading_session(
         self, session_id: str, exchange: str
-    ) -> Optional[Dict[str, str]]:
+    ) -> Optional[dict[str, str]]:
         """Get anonymous trading session tokens (untraceable after auth)"""
         if session_id not in self.active_sessions:
             logger.error("❌ Invalid or expired session")
@@ -445,7 +442,7 @@ class QuantumVaultManager:
         logger.info(f"✅ Anonymous trading session created for {exchange}")
         return trading_tokens
 
-    def generate_vault_report(self) -> Dict[str, Any]:
+    def generate_vault_report(self) -> dict[str, Any]:
         """Generate security vault status report"""
         vault_files = list(self.vault_path.glob("*.json"))
 
@@ -489,10 +486,10 @@ def main():
 
     # 1. Store encrypted API keys
     print("\n1. Storing encrypted API keys...")
-    openai_key = vault.store_encrypted_api_key(
+    vault.store_encrypted_api_key(
         user_id, "OpenAI", "sk-fake-openai-key", access_tier=4
     )
-    anthropic_key = vault.store_encrypted_api_key(
+    vault.store_encrypted_api_key(
         user_id, "Anthropic", "sk-fake-anthropic-key", access_tier=5
     )
 
@@ -505,13 +502,11 @@ def main():
     # 3. Store quantum seed phrase
     print("\n3. Storing quantum seed phrase...")
     demo_seed = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
-    quantum_seed = vault.store_quantum_seed_phrase(user_id, demo_seed)
+    vault.store_quantum_seed_phrase(user_id, demo_seed)
 
     # 4. Get anonymous trading session
     print("\n4. Getting anonymous trading session...")
-    trading_tokens = vault.get_anonymous_trading_session(
-        crypto_session.session_id, "binance"
-    )
+    vault.get_anonymous_trading_session(crypto_session.session_id, "binance")
 
     # 5. Generate vault report
     print("\n5. Generating vault report...")

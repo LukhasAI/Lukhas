@@ -37,7 +37,7 @@ try:
     from .unified_api import api_response  # `app` is the Flask app instance
     from .unified_api import app
 
-    logger.info("ΛTRACE: Successfully imported EnhancedOnboardingManager, OnboardingStage,
+    logger.info("ΛTRACE: Successfully imported EnhancedOnboardingManager, OnboardingStage,"
                 OnboardingPersonality, and unified_api components(app, api_response)."
                 )
 except ImportError as e:

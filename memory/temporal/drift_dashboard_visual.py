@@ -48,6 +48,8 @@ IDEA: Implement AR/VR mode for 3D drift space visualization
 """
 
 # import streamlit as st  # TODO: Install or implement streamlit
+from core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
+from trace.drift_dashboard import DriftDashboard, DriftSeverity
 import sys
 import time
 from datetime import datetime, timezone
@@ -60,9 +62,6 @@ import plotly.graph_objects as go
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from trace.drift_dashboard import DriftDashboard, DriftSeverity
-
-from core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
 
 # Page configuration
 st.set_page_config(
@@ -172,7 +171,7 @@ def create_drift_gauge(value: float, title: str, severity: DriftSeverity) -> go.
 
     fig.update_layout(
         height=250,
-        margin=dict(l=20, r=20, t=40, b=20),
+        margin={"l": 20, "r": 20, "t": 40, "b": 20},
         paper_bgcolor="rgba(0,0,0,0)",
         font={"color": "white"},
     )
@@ -195,7 +194,7 @@ def create_component_traces(history_data: dict) -> go.Figure:
                     y=history_data["component_trends"][comp],
                     mode="lines",
                     name=comp.capitalize(),
-                    line=dict(color=color, width=2),
+                    line={"color": color, "width": 2},
                     hovertemplate=f"{comp.capitalize()}: %{{y:.3f}}<extra></extra>",
                 )
             )
@@ -211,7 +210,13 @@ def create_component_traces(history_data: dict) -> go.Figure:
         font={"color": "white"},
         xaxis={"showgrid": True, "gridcolor": "rgba(255,255,255,0.1)"},
         yaxis={"showgrid": True, "gridcolor": "rgba(255,255,255,0.1)"},
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        legend={
+            "orientation": "h",
+            "yanchor": "bottom",
+            "y": 1.02,
+            "xanchor": "right",
+            "x": 1,
+        },
     )
 
     return fig
@@ -228,7 +233,7 @@ def create_alert_timeline(alerts: list) -> go.Figure:
             x=0.5,
             y=0.5,
             showarrow=False,
-            font=dict(size=20, color="gray"),
+            font={"size": 20, "color": "gray"},
         )
     else:
         # Convert alerts to dataframe
@@ -255,12 +260,12 @@ def create_alert_timeline(alerts: list) -> go.Figure:
                         y=severity_df["component"],
                         mode="markers",
                         name=severity,
-                        marker=dict(
-                            size=12,
-                            color=color,
-                            symbol="circle",
-                            line=dict(color="white", width=1),
-                        ),
+                        marker={
+                            "size": 12,
+                            "color": color,
+                            "symbol": "circle",
+                            "line": {"color": "white", "width": 1},
+                        },
                         text=severity_df["message"],
                         hovertemplate="<b>%{y}</b><br>%{text}<br>%{x}<extra></extra>",
                     )

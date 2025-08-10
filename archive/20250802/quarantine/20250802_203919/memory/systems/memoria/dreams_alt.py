@@ -23,8 +23,10 @@ from traits.trait_manager import load_traits
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+
 def generate_dream(memory, traits):
-    memory_snippets = "\n".join([f"- {m['input']} -> {m['gpt_reply']}" for m in memory[-5:]])
+    memory_snippets = "\n".join(
+        [f"- {m['input']} -> {m['gpt_reply']}" for m in memory[-5:]])
     traits_text = ", ".join([f"{k}: {v}" for k, v in traits.items()])
 
     prompt = f"""
@@ -57,12 +59,29 @@ def generate_dream(memory, traits):
 
     return dream
 
+
 def extract_visual_prompts_from_dream(dream_text):
     # Basic symbolic extraction for visual scenes
     import re
-    visual_lines = [line.strip() for line in dream_text.split('.') if any(keyword in line.lower() for keyword in ['light', 'face', 'door', 'sky', 'machine', 'memory', 'path', 'ocean', 'mirror', 'forest', 'city', 'symbol', 'voice'])]
+    visual_lines = [
+        line.strip() for line in dream_text.split('.') if any(
+            keyword in line.lower() for keyword in [
+                'light',
+                'face',
+                'door',
+                'sky',
+                'machine',
+                'memory',
+                'path',
+                'ocean',
+                'mirror',
+                'forest',
+                'city',
+                'symbol',
+                'voice'])]
     prompts = [f"Symbolic art scene: {line}" for line in visual_lines if line]
     return prompts
+
 
 if __name__ == "__main__":
     mem = load_all_entries()

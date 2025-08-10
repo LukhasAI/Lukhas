@@ -1,5 +1,7 @@
 # 🧠 LUKHAS Modular AI Ecosystem
 
+[![Backup & DR Status](badges/backup_status.svg)](docs/DR_STATUS_BADGE.md)
+
 ## Docs
 - OpenAI Modulated Endpoints: see `docs/OPENAI_ENDPOINTS.md`
 
@@ -275,7 +277,7 @@ Based on comprehensive analysis after complete Phase 1-6 integration:
 - **Memory**: 72.1% functional (80 capabilities) 
 - **Identity**: 66.0% functional (66 capabilities)
 - **Bio**: 65.3% functional (10 capabilities)
-- **Quantum**: 82.8% functional (82 capabilities) ⭐
+- **Quantum-inspired**: 82.8% functional (82 capabilities) ⭐
 - **Emotion**: 64.7% functional (8 capabilities)
 - **Orchestration**: 60.5% functional (95 capabilities)
 - **API**: 33.3% functional (6 capabilities) ⚠️
@@ -352,7 +354,7 @@ LUKHAS now includes an advanced **Parallel Reality Simulator** that explores alt
 4. **EXPERIMENTAL**: Advanced features with enhanced monitoring
 
 ### 🔮 Reality Types Supported
-- **Quantum**: Probability-based branching with coherence tracking
+- **Quantum-inspired**: Probability-based branching with coherence tracking
 - **Temporal**: Past/future scenario exploration
 - **Causal**: Alternative cause-effect chains
 - **Ethical**: Different moral framework applications
@@ -459,7 +461,7 @@ This repository includes comprehensive analysis tools:
 - **Consciousness:** 100% success rate @ 4,945 ops/sec ✅
 - **Governance/Guardian:** 100% success rate @ 4,921 ops/sec ✅
 - **Identity System:** 100% success rate @ 4,824 ops/sec ✅
-- **Quantum Processing:** 90% success rate @ 4,608 ops/sec
+- **Quantum-inspired Processing:** 90% success rate @ 4,608 ops/sec
 - **Bio Adaptation:** 81.3% success rate @ 2,886 ops/sec
 - **Emotion Systems:** 100% success rate @ 5,110 ops/sec ✅
 - **Orchestration:** 100% success rate @ 4,790 ops/sec ✅
@@ -470,7 +472,7 @@ This repository includes comprehensive analysis tools:
 - **Total Tests Run:** 3,900+ across 39 components
 - **Overall Success Rate:** 99%+ ✅ (improved from 89.08%)
 - **Total Throughput:** Combined 4,000+ ops/sec average
-- **Top Performer:** Quantum Algorithms @ 5,125 ops/sec
+- **Top Performer:** Quantum-inspired Algorithms @ 5,125 ops/sec
 - **Most Reliable:** Core, Memory, Consciousness, Governance, Identity, Emotion, Orchestration, Bio, Vendor Portal, Dream Orchestrator (100%)
 - **Phase 1 Improvements:** 
   - Consent Manager: 0% → 100% ✅

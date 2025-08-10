@@ -13,7 +13,7 @@ import json  # For serializing data before encryption
 import os
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 # Third-Party Imports
 from cryptography.fernet import Fernet
@@ -43,21 +43,21 @@ class HelixMemory:
     """
 
     def __init__(self):
-        self.strands: Dict[str, List[Dict[str, Any]]] = {
+        self.strands: dict[str, list[dict[str, Any]]] = {
             "decisions": [],
             "emotions": [],
             "cognition": [],
             "dreams": [],
         }
         self.encryption_key: Optional[bytes] = self._initialize_encryption()
-        self.memory_structure: Dict[str, Any] = self._create_helix_structure()
+        self.memory_structure: dict[str, Any] = self._create_helix_structure()
         log.info(
             "HelixMemory initialized.",
             encryption=bool(self.encryption_key),
             strands_init=list(self.strands.keys()),
         )
 
-    def _create_helix_structure(self) -> Dict[str, Any]:
+    def _create_helix_structure(self) -> dict[str, Any]:
         log.debug("Creating initial helix structure.")
         return {
             "base_pairs_conceptual": {
@@ -89,7 +89,7 @@ class HelixMemory:
             log.error("Failed to generate Fernet key.", error=str(e), exc_info=True)
             return None
 
-    def _encrypt_data(self, data: Dict[str, Any]) -> Optional[str]:
+    def _encrypt_data(self, data: dict[str, Any]) -> Optional[str]:
         if not self.encryption_key:
             log.warning(
                 "No encryption key; returning data as JSON string (unencrypted).",
@@ -113,7 +113,7 @@ class HelixMemory:
             )
             return None
 
-    def _decrypt_data(self, encrypted_data_str: str) -> Optional[Dict[str, Any]]:
+    def _decrypt_data(self, encrypted_data_str: str) -> Optional[dict[str, Any]]:
         if not self.encryption_key:
             log.warning(
                 "No encryption key; attempting to parse as JSON string (unencrypted).",
@@ -142,10 +142,10 @@ class HelixMemory:
         return hashlib.sha256(data.encode("utf-8")).hexdigest()
 
     async def _create_memory_bonds(
-        self, decision_data: Dict[str, Any], context: Dict[str, Any]
-    ) -> Set[str]:
+        self, decision_data: dict[str, Any], context: dict[str, Any]
+    ) -> set[str]:
         log.warning("_create_memory_bonds is STUB.", status="needs_implementation")
-        bonds: Set[str] = set()
+        bonds: set[str] = set()
         if context.get("user_id"):
             bonds.add(f"user:{context['user_id']}")
         if decision_data.get("main_topic"):
@@ -156,7 +156,7 @@ class HelixMemory:
         self,
         memory_item_id: str,
         strand_name: str,
-        memory_strand_payload: Dict[str, Any],
+        memory_strand_payload: dict[str, Any],
     ) -> bool:
         log.warning("_integrate_memory is STUB.", status="needs_implementation")
         if strand_name not in self.strands:
@@ -171,8 +171,8 @@ class HelixMemory:
     @lukhas_tier_required(2)
     async def store_decision(
         self,
-        decision_data: Dict[str, Any],
-        context: Dict[str, Any],
+        decision_data: dict[str, Any],
+        context: dict[str, Any],
         decision_id: Optional[str] = None,
         unstructured_memory: Optional[str] = None,
     ) -> str:
@@ -217,7 +217,7 @@ class HelixMemory:
             return f"err_integrate_{item_id}"
 
     @lukhas_tier_required(2)
-    async def retrieve_decision(self, decision_id: str) -> Optional[Dict[str, Any]]:
+    async def retrieve_decision(self, decision_id: str) -> Optional[dict[str, Any]]:
         log.debug("Retrieving decision.", id=decision_id)
         for entry in self.strands.get("decisions", []):
             if entry.get("id") == decision_id:

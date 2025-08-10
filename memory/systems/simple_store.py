@@ -15,6 +15,7 @@ DEPENDENCIES:
 """
 
 import asyncio
+import contextlib
 import gzip
 import json
 import mmap
@@ -24,7 +25,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -54,7 +55,7 @@ class MemoryEntry:
 
     id: str
     user_id: str
-    content: Dict[str, Any]
+    content: dict[str, Any]
     memory_type: MemoryType
     priority: MemoryPriority
     timestamp: float
@@ -62,7 +63,7 @@ class MemoryEntry:
     access_count: int = 0
     compressed: bool = False
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization"""
         return {
             "id": self.id,
@@ -77,7 +78,7 @@ class MemoryEntry:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "MemoryEntry":
+    def from_dict(cls, data: dict[str, Any]) -> "MemoryEntry":
         """Create from dictionary"""
         return cls(
             id=data["id"],
@@ -142,19 +143,19 @@ class UnifiedMemoryManager:
         self.storage_path.mkdir(parents=True, exist_ok=True)
 
         # LRU cache for fast access (user_id -> OrderedDict of memories)
-        self.lru_cache: Dict[str, OrderedDict[str, MemoryEntry]] = {}
-        self.cache_access_times: Dict[str, float] = {}
+        self.lru_cache: dict[str, OrderedDict[str, MemoryEntry]] = {}
+        self.cache_access_times: dict[str, float] = {}
 
         # Memory indices for fast querying
-        self.type_index: Dict[MemoryType, Dict[str, List[str]]] = {
+        self.type_index: dict[MemoryType, dict[str, list[str]]] = {
             memory_type: {} for memory_type in MemoryType
         }
-        self.priority_index: Dict[MemoryPriority, Dict[str, List[str]]] = {
+        self.priority_index: dict[MemoryPriority, dict[str, list[str]]] = {
             priority: {} for priority in MemoryPriority
         }
 
         # Shared memory mapping for performance (if enabled)
-        self.mmap_files: Dict[str, mmap.mmap] = {}
+        self.mmap_files: dict[str, mmap.mmap] = {}
 
         # Background tasks
         self._gc_task: Optional[asyncio.Task] = None
@@ -192,10 +193,8 @@ class UnifiedMemoryManager:
             # Stop garbage collection
             if self._gc_task:
                 self._gc_task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await self._gc_task
-                except asyncio.CancelledError:
-                    pass
 
             # Save critical memories
             await self._save_critical_memories()
@@ -215,7 +214,7 @@ class UnifiedMemoryManager:
     async def store_memory(
         self,
         user_id: str,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         memory_type: MemoryType = MemoryType.EPISODIC,
         priority: MemoryPriority = MemoryPriority.MEDIUM,
         memory_id: Optional[str] = None,
@@ -282,7 +281,7 @@ class UnifiedMemoryManager:
         memory_type: Optional[MemoryType] = None,
         limit: int = 20,
         include_old: bool = False,
-    ) -> List[MemoryEntry]:
+    ) -> list[MemoryEntry]:
         """
         Retrieve memories for a user.
 
@@ -355,7 +354,7 @@ class UnifiedMemoryManager:
             return []
 
     async def delete_user_memories(
-        self, user_id: str, memory_ids: Optional[List[str]] = None
+        self, user_id: str, memory_ids: Optional[list[str]] = None
     ) -> bool:
         """
         Delete memories for GDPR compliance.
@@ -396,7 +395,7 @@ class UnifiedMemoryManager:
             logger.error(f"Failed to delete user memories: {e}")
             return False
 
-    async def get_memory_stats(self, user_id: Optional[str] = None) -> Dict[str, Any]:
+    async def get_memory_stats(self, user_id: Optional[str] = None) -> dict[str, Any]:
         """Get memory usage statistics"""
         try:
             if user_id:
@@ -502,7 +501,7 @@ class UnifiedMemoryManager:
             if memory_id in priority_dict[user_id]:
                 priority_dict[user_id].remove(memory_id)
 
-    async def _compress_content(self, content: Dict[str, Any]) -> bytes:
+    async def _compress_content(self, content: dict[str, Any]) -> bytes:
         """Compress memory content using gzip"""
         if not self.enable_compression:
             return content
@@ -510,7 +509,7 @@ class UnifiedMemoryManager:
         json_data = json.dumps(content).encode("utf-8")
         return gzip.compress(json_data)
 
-    async def _decompress_content(self, compressed_content: bytes) -> Dict[str, Any]:
+    async def _decompress_content(self, compressed_content: bytes) -> dict[str, Any]:
         """Decompress memory content using gzip"""
         if not self.enable_compression or not isinstance(compressed_content, bytes):
             return compressed_content
@@ -603,7 +602,6 @@ class UnifiedMemoryManager:
         try:
             for user_dir in self.storage_path.iterdir():
                 if user_dir.is_dir():
-                    user_id = user_dir.name
                     for memory_file in user_dir.glob("*.json"):
                         try:
                             with open(memory_file) as f:

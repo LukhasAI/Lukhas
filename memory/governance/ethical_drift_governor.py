@@ -20,7 +20,7 @@ import os
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 
 class EthicalSeverity(Enum):
@@ -52,8 +52,8 @@ class EthicalConcern:
     fold_key: str
     severity: EthicalSeverity
     description: str
-    detected_patterns: List[str]
-    risk_factors: Dict[str, float]
+    detected_patterns: list[str]
+    risk_factors: dict[str, float]
     timestamp_utc: str
     recommended_intervention: InterventionType
 
@@ -63,12 +63,12 @@ class GovernanceRule:
     """Defines a governance rule for memory drift monitoring."""
 
     rule_id: str
-    memory_types: Set[str]
+    memory_types: set[str]
     drift_threshold: float
     time_window_minutes: int
-    pattern_triggers: List[str]
-    severity_mapping: Dict[str, EthicalSeverity]
-    intervention_mapping: Dict[EthicalSeverity, InterventionType]
+    pattern_triggers: list[str]
+    severity_mapping: dict[str, EthicalSeverity]
+    intervention_mapping: dict[EthicalSeverity, InterventionType]
     enabled: bool
 
 
@@ -90,9 +90,9 @@ class EthicalDriftGovernor:
         self.governance_rules = self._initialize_governance_rules()
 
         # Active monitoring state
-        self.active_concerns: Dict[str, EthicalConcern] = {}
-        self.intervention_history: List[Dict[str, Any]] = []
-        self.memory_drift_history: Dict[str, List[Dict[str, Any]]] = {}
+        self.active_concerns: dict[str, EthicalConcern] = {}
+        self.intervention_history: list[dict[str, Any]] = []
+        self.memory_drift_history: dict[str, list[dict[str, Any]]] = {}
 
         # Ethical patterns that trigger concerns
         self.ethical_violation_patterns = {
@@ -133,7 +133,7 @@ class EthicalDriftGovernor:
             ],
         }
 
-    def _initialize_governance_rules(self) -> Dict[str, GovernanceRule]:
+    def _initialize_governance_rules(self) -> dict[str, GovernanceRule]:
         """Initialize memory-type-specific governance rules."""
         rules = {}
 
@@ -274,7 +274,7 @@ class EthicalDriftGovernor:
                 self._log_ethical_concern(concern)
 
                 # Execute intervention if needed
-                intervention_result = self._execute_intervention(concern)
+                self._execute_intervention(concern)
 
                 logger.warning(
                     "EthicalConcern_detected",
@@ -415,7 +415,7 @@ class EthicalDriftGovernor:
         return total_drift / time_window_minutes
 
     # LUKHAS_TAG: intervention_execution
-    def _execute_intervention(self, concern: EthicalConcern) -> Dict[str, Any]:
+    def _execute_intervention(self, concern: EthicalConcern) -> dict[str, Any]:
         """Execute the recommended intervention for an ethical concern."""
         intervention_id = hashlib.md5(
             f"{concern.concern_id}_{concern.recommended_intervention.value}_{datetime.now()}".encode()
@@ -519,7 +519,7 @@ class EthicalDriftGovernor:
             ]
 
     # LUKHAS_TAG: governance_reporting
-    def generate_governance_report(self, time_window_hours: int = 24) -> Dict[str, Any]:
+    def generate_governance_report(self, time_window_hours: int = 24) -> dict[str, Any]:
         """Generate a comprehensive governance report."""
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=time_window_hours)
 
@@ -602,8 +602,8 @@ class EthicalDriftGovernor:
         return report
 
     def _analyze_common_patterns(
-        self, concerns: List[EthicalConcern]
-    ) -> List[Dict[str, Any]]:
+        self, concerns: list[EthicalConcern]
+    ) -> list[dict[str, Any]]:
         """Analyze common patterns across ethical concerns."""
         pattern_counts = {}
         for concern in concerns:
@@ -618,7 +618,7 @@ class EthicalDriftGovernor:
         ]
 
     def _calculate_intervention_success_rate(
-        self, interventions: List[Dict[str, Any]]
+        self, interventions: list[dict[str, Any]]
     ) -> float:
         """Calculate the success rate of interventions."""
         if not interventions:
@@ -628,15 +628,15 @@ class EthicalDriftGovernor:
         return successful / len(interventions)
 
     def _calculate_avg_response_time(
-        self, interventions: List[Dict[str, Any]]
+        self, interventions: list[dict[str, Any]]
     ) -> float:
         """Calculate average response time for interventions (simplified)."""
         # In a real implementation, this would track time from concern to intervention
         return 2.5  # Minutes (placeholder)
 
     def _generate_recommendations(
-        self, concerns: List[EthicalConcern], interventions: List[Dict[str, Any]]
-    ) -> List[str]:
+        self, concerns: list[EthicalConcern], interventions: list[dict[str, Any]]
+    ) -> list[str]:
         """Generate recommendations based on governance analysis."""
         recommendations = []
 
@@ -681,7 +681,7 @@ class EthicalDriftGovernor:
         except Exception as e:
             logger.error("EthicalConcernLog_failed", error=str(e))
 
-    def _log_intervention(self, intervention_result: Dict[str, Any]):
+    def _log_intervention(self, intervention_result: dict[str, Any]):
         """Log an intervention to persistent storage."""
         try:
             os.makedirs(os.path.dirname(self.intervention_log_path), exist_ok=True)
@@ -690,7 +690,7 @@ class EthicalDriftGovernor:
         except Exception as e:
             logger.error("InterventionLog_failed", error=str(e))
 
-    def _store_governance_report(self, report: Dict[str, Any]):
+    def _store_governance_report(self, report: dict[str, Any]):
         """Store governance report to persistent storage."""
         try:
             os.makedirs(os.path.dirname(self.governance_log_path), exist_ok=True)

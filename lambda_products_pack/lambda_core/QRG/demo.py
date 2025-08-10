@@ -12,22 +12,22 @@ Example:
     python demo.py --layer poetic --security-tier 5 --interactive
 """
 
-import argparse
-import sys
-import time
-from pathlib import Path
-from typing import Any, Dict, Optional
-
-# Add current directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent))
-
-from qrg_core import ConsciousnessContext, QuantumResonanceGlyph
-from quantum_entropy import EntropyProfile, TrueQuantumRandomness
 from system_bridge import (
     LambdaIdIntegration,
     LukhasAccessTier,
     SymbolicIdentity,
 )
+from quantum_entropy import EntropyProfile, TrueQuantumRandomness
+from qrg_core import ConsciousnessContext, QuantumResonanceGlyph
+import argparse
+import sys
+import time
+from pathlib import Path
+from typing import Any, Optional
+
+# Add current directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent))
+
 
 # 3-Layer Tone System for demo output
 LAYER_STYLES = {
@@ -572,7 +572,7 @@ class QRGDemo:
         active_sources = sum(available_sources.values())
         print(f"   🌐 Active Sources: {active_sources}/{len(available_sources)}")
 
-    def _get_consciousness_context(self) -> Dict[str, Any]:
+    def _get_consciousness_context(self) -> dict[str, Any]:
         """Get consciousness context from user input"""
         print(
             f"\n{self.style['color']}🧠 Consciousness Profile Setup:{self.style['color']}\033[0m"

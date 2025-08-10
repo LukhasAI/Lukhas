@@ -48,7 +48,7 @@ import os
 import re
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # LUKHAS Imports
 try:
@@ -72,7 +72,7 @@ class MemoryDriftAuditor:
     - Entropy and phase coherence analysis
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the Memory Drift Auditor with configuration.
 
@@ -110,7 +110,7 @@ class MemoryDriftAuditor:
             tag="ΛAUDITOR_INIT",
         )
 
-    def _get_default_config(self) -> Dict[str, Any]:
+    def _get_default_config(self) -> dict[str, Any]:
         """Get default configuration for the auditor."""
         return {
             "entropy_threshold": 0.7,
@@ -125,7 +125,7 @@ class MemoryDriftAuditor:
             "audit_safeguards": True,
         }
 
-    def load_memory_snapshots(self, fold_directory: str) -> Dict[str, Any]:
+    def load_memory_snapshots(self, fold_directory: str) -> dict[str, Any]:
         """
         Load chronological symbolic memory folds from JSON format.
 
@@ -241,7 +241,7 @@ class MemoryDriftAuditor:
 
     def detect_memory_drift(
         self, analysis_window: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Track entropy and symbol divergence across sessions.
 
@@ -349,7 +349,7 @@ class MemoryDriftAuditor:
 
         return drift_analysis
 
-    def trace_collapse_events(self, deep_analysis: bool = True) -> Dict[str, Any]:
+    def trace_collapse_events(self, deep_analysis: bool = True) -> dict[str, Any]:
         """
         Identify sudden information loss, phase gaps, or integrity breaks.
 
@@ -449,7 +449,7 @@ class MemoryDriftAuditor:
 
     def generate_audit_report(
         self, output_path: str, format_type: str = "markdown"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate comprehensive audit report in Markdown and JSON formats.
 
@@ -644,7 +644,7 @@ class MemoryDriftAuditor:
 
     # Private helper methods
 
-    def _load_file_snapshots(self, file_path: str) -> List[Dict[str, Any]]:
+    def _load_file_snapshots(self, file_path: str) -> list[dict[str, Any]]:
         """Load memory snapshots from a single file."""
         snapshots = []
 
@@ -675,7 +675,7 @@ class MemoryDriftAuditor:
 
         return snapshots
 
-    def _validate_memory_snapshot(self, snapshot: Dict[str, Any]) -> bool:
+    def _validate_memory_snapshot(self, snapshot: dict[str, Any]) -> bool:
         """Validate that a snapshot contains required memory fold data."""
         required_fields = ["key"]
 
@@ -736,8 +736,8 @@ class MemoryDriftAuditor:
         return True
 
     def _filter_by_time_window(
-        self, snapshots: List[Dict[str, Any]], window: Optional[str]
-    ) -> List[Dict[str, Any]]:
+        self, snapshots: list[dict[str, Any]], window: Optional[str]
+    ) -> list[dict[str, Any]]:
         """Filter snapshots by time window."""
         if not window or window == "all":
             return snapshots
@@ -769,7 +769,7 @@ class MemoryDriftAuditor:
 
         return filtered
 
-    def _analyze_entropy_drift(self, snapshots: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _analyze_entropy_drift(self, snapshots: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze entropy changes across memory snapshots."""
         entropy_analysis = {
             "changes": [],
@@ -839,7 +839,7 @@ class MemoryDriftAuditor:
 
         return entropy_analysis
 
-    def _calculate_snapshot_entropy(self, snapshot: Dict[str, Any]) -> float:
+    def _calculate_snapshot_entropy(self, snapshot: dict[str, Any]) -> float:
         """Calculate entropy measure for a memory snapshot."""
         # Simplified entropy calculation based on content complexity
         content = snapshot.get("content", "")
@@ -878,8 +878,8 @@ class MemoryDriftAuditor:
         return min(1.0, normalized_entropy)
 
     def _analyze_symbol_divergence(
-        self, snapshots: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, snapshots: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Analyze symbolic divergence patterns across snapshots."""
         divergence_analysis = {
             "divergence_events": [],
@@ -922,7 +922,7 @@ class MemoryDriftAuditor:
 
         return divergence_analysis
 
-    def _extract_symbolic_patterns(self, snapshot: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_symbolic_patterns(self, snapshot: dict[str, Any]) -> dict[str, Any]:
         """Extract symbolic patterns from a memory snapshot."""
         patterns = {
             "word_patterns": [],
@@ -970,14 +970,14 @@ class MemoryDriftAuditor:
         return patterns
 
     def _calculate_pattern_divergence(
-        self, patterns1: Dict[str, Any], patterns2: Dict[str, Any]
+        self, patterns1: dict[str, Any], patterns2: dict[str, Any]
     ) -> float:
         """Calculate divergence score between two pattern sets."""
         divergence = 0.0
 
         # Word pattern divergence
-        words1 = set([word for word, _ in patterns1.get("word_patterns", [])])
-        words2 = set([word for word, _ in patterns2.get("word_patterns", [])])
+        words1 = {word for word, _ in patterns1.get("word_patterns", [])}
+        words2 = {word for word, _ in patterns2.get("word_patterns", [])}
 
         if words1 or words2:
             word_intersection = len(words1.intersection(words2))
@@ -1017,8 +1017,8 @@ class MemoryDriftAuditor:
         return min(1.0, divergence)
 
     def _analyze_identity_drift(
-        self, snapshots: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, snapshots: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Analyze identity-level drift patterns."""
         identity_analysis = {
             "changes": [],
@@ -1065,7 +1065,7 @@ class MemoryDriftAuditor:
         return identity_analysis
 
     def _calculate_identity_change(
-        self, snapshot1: Dict[str, Any], snapshot2: Dict[str, Any]
+        self, snapshot1: dict[str, Any], snapshot2: dict[str, Any]
     ) -> float:
         """Calculate identity change score between two snapshots."""
         content1 = str(snapshot1.get("content", "")).lower()
@@ -1111,8 +1111,8 @@ class MemoryDriftAuditor:
         return min(1.0, total_change)
 
     def _analyze_temporal_patterns(
-        self, snapshots: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, snapshots: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Analyze temporal patterns in memory snapshots."""
         temporal_analysis = {
             "time_gaps": [],
@@ -1155,8 +1155,8 @@ class MemoryDriftAuditor:
         return temporal_analysis
 
     def _generate_drift_events(
-        self, entropy_analysis: Dict, symbol_divergence: Dict, identity_drift: Dict
-    ) -> List[Dict[str, Any]]:
+        self, entropy_analysis: dict, symbol_divergence: dict, identity_drift: dict
+    ) -> list[dict[str, Any]]:
         """Generate consolidated drift events from analysis results."""
         drift_events = []
 
@@ -1210,8 +1210,8 @@ class MemoryDriftAuditor:
         return drift_events
 
     def _detect_drift_anomalies(
-        self, drift_events: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, drift_events: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Detect anomalous patterns in drift events."""
         anomalies = []
 
@@ -1255,8 +1255,8 @@ class MemoryDriftAuditor:
         return anomalies
 
     def _generate_drift_recommendations(
-        self, drift_analysis: Dict[str, Any]
-    ) -> List[str]:
+        self, drift_analysis: dict[str, Any]
+    ) -> list[str]:
         """Generate recommendations based on drift analysis."""
         recommendations = []
 
@@ -1298,7 +1298,7 @@ class MemoryDriftAuditor:
 
     # Collapse detection methods
 
-    def _detect_information_loss(self) -> List[Dict[str, Any]]:
+    def _detect_information_loss(self) -> list[dict[str, Any]]:
         """Detect sudden information loss events."""
         information_loss_events = []
 
@@ -1328,7 +1328,7 @@ class MemoryDriftAuditor:
 
         return information_loss_events
 
-    def _calculate_information_content(self, snapshot: Dict[str, Any]) -> float:
+    def _calculate_information_content(self, snapshot: dict[str, Any]) -> float:
         """Calculate information content measure for a snapshot."""
         content = snapshot.get("content", "")
         content_str = str(content) if content else ""
@@ -1345,7 +1345,7 @@ class MemoryDriftAuditor:
 
         return word_count + structure_info
 
-    def _detect_phase_gaps(self) -> List[Dict[str, Any]]:
+    def _detect_phase_gaps(self) -> list[dict[str, Any]]:
         """Detect phase gaps in memory sequence."""
         phase_gaps = []
 
@@ -1410,7 +1410,7 @@ class MemoryDriftAuditor:
 
         return phase_gaps
 
-    def _detect_integrity_breaks(self) -> List[Dict[str, Any]]:
+    def _detect_integrity_breaks(self) -> list[dict[str, Any]]:
         """Detect integrity breaks in memory fold sequence."""
         integrity_breaks = []
 
@@ -1440,7 +1440,7 @@ class MemoryDriftAuditor:
                 association_patterns[key].add(assoc_key)
 
         # Check for orphaned associations
-        all_keys = set(s.get("key", "") for s in self.memory_snapshots)
+        all_keys = {s.get("key", "") for s in self.memory_snapshots}
 
         for key, associations in association_patterns.items():
             orphaned_associations = associations - all_keys
@@ -1458,7 +1458,7 @@ class MemoryDriftAuditor:
 
         return integrity_breaks
 
-    def _analyze_cascade_patterns(self) -> List[Dict[str, Any]]:
+    def _analyze_cascade_patterns(self) -> list[dict[str, Any]]:
         """Analyze cascade failure patterns in memory."""
         cascade_patterns = []
 
@@ -1528,7 +1528,7 @@ class MemoryDriftAuditor:
 
         return cascade_patterns
 
-    def _determine_memory_family(self, key: str, associations: List[str]) -> str:
+    def _determine_memory_family(self, key: str, associations: list[str]) -> str:
         """Determine memory family identifier based on key patterns."""
         # Simple family determination based on key prefixes or association patterns
         key_prefix = key.split("_")[0] if "_" in key else key[:8]
@@ -1541,7 +1541,7 @@ class MemoryDriftAuditor:
 
         return f"family_{key_prefix}"
 
-    def _analyze_collapse_signatures(self) -> Dict[str, Any]:
+    def _analyze_collapse_signatures(self) -> dict[str, Any]:
         """Analyze signatures that precede memory collapses."""
         collapse_signatures = {
             "entropy_spikes": [],
@@ -1597,8 +1597,8 @@ class MemoryDriftAuditor:
         return collapse_signatures
 
     def _synthesize_collapse_events(
-        self, info_loss: List, phase_gaps: List, integrity_breaks: List
-    ) -> List[Dict[str, Any]]:
+        self, info_loss: list, phase_gaps: list, integrity_breaks: list
+    ) -> list[dict[str, Any]]:
         """Synthesize collapse events from analysis results."""
         collapse_events = []
 
@@ -1645,8 +1645,8 @@ class MemoryDriftAuditor:
         return collapse_events
 
     def _build_forensic_timeline(
-        self, collapse_events: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, collapse_events: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Build forensic timeline of collapse events."""
         timeline = []
 
@@ -1662,7 +1662,7 @@ class MemoryDriftAuditor:
 
         return timeline
 
-    def _extract_forensic_markers(self, event: Dict[str, Any]) -> List[str]:
+    def _extract_forensic_markers(self, event: dict[str, Any]) -> list[str]:
         """Extract forensic markers from collapse event."""
         markers = []
 
@@ -1697,8 +1697,8 @@ class MemoryDriftAuditor:
         return markers
 
     def _assess_collapse_severity(
-        self, collapse_events: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, collapse_events: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Assess overall severity of collapse events."""
         severity_counts = defaultdict(int)
 
@@ -1733,8 +1733,8 @@ class MemoryDriftAuditor:
         }
 
     def _identify_recovery_opportunities(
-        self, collapse_events: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, collapse_events: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Identify opportunities for memory recovery."""
         recovery_opportunities = []
 
@@ -1800,7 +1800,7 @@ class MemoryDriftAuditor:
 
     # Report generation methods
 
-    def _compile_audit_data(self) -> Dict[str, Any]:
+    def _compile_audit_data(self) -> dict[str, Any]:
         """Compile all audit data into a comprehensive structure."""
         return {
             "audit_metadata": {
@@ -1848,7 +1848,7 @@ class MemoryDriftAuditor:
             },
         }
 
-    def _get_temporal_span(self) -> Dict[str, Any]:
+    def _get_temporal_span(self) -> dict[str, Any]:
         """Get temporal span information."""
         if len(self.memory_snapshots) < 2:
             return {"span_days": 0, "earliest": None, "latest": None}
@@ -1859,7 +1859,7 @@ class MemoryDriftAuditor:
 
         return {"earliest": earliest, "latest": latest, "span_days": span_days}
 
-    def _get_memory_type_distribution(self) -> Dict[str, int]:
+    def _get_memory_type_distribution(self) -> dict[str, int]:
         """Get distribution of memory types."""
         type_counts = defaultdict(int)
         for snapshot in self.memory_snapshots:
@@ -1867,7 +1867,7 @@ class MemoryDriftAuditor:
             type_counts[mem_type] += 1
         return dict(type_counts)
 
-    def _analyze_temporal_coverage(self) -> Dict[str, Any]:
+    def _analyze_temporal_coverage(self) -> dict[str, Any]:
         """Analyze temporal coverage of memory snapshots."""
         if not self.memory_snapshots:
             return {"gaps": 0, "average_interval_hours": 0, "coverage_ratio": 0}
@@ -1915,8 +1915,8 @@ class MemoryDriftAuditor:
         }
 
     def _get_severity_distribution(
-        self, events: List[Dict[str, Any]]
-    ) -> Dict[str, int]:
+        self, events: list[dict[str, Any]]
+    ) -> dict[str, int]:
         """Get severity distribution of events."""
         severity_counts = defaultdict(int)
         for event in events:
@@ -1925,8 +1925,8 @@ class MemoryDriftAuditor:
         return dict(severity_counts)
 
     def _get_event_type_distribution(
-        self, events: List[Dict[str, Any]]
-    ) -> Dict[str, int]:
+        self, events: list[dict[str, Any]]
+    ) -> dict[str, int]:
         """Get event type distribution."""
         type_counts = defaultdict(int)
         for event in events:
@@ -1935,8 +1935,8 @@ class MemoryDriftAuditor:
         return dict(type_counts)
 
     def _get_temporal_distribution(
-        self, events: List[Dict[str, Any]]
-    ) -> Dict[str, int]:
+        self, events: list[dict[str, Any]]
+    ) -> dict[str, int]:
         """Get temporal distribution of events by hour."""
         hour_counts = defaultdict(int)
 
@@ -1981,7 +1981,7 @@ class MemoryDriftAuditor:
         else:
             return "STABLE"
 
-    def _generate_overall_recommendations(self) -> List[str]:
+    def _generate_overall_recommendations(self) -> list[str]:
         """Generate overall recommendations for the system."""
         recommendations = []
 
@@ -2026,8 +2026,8 @@ class MemoryDriftAuditor:
         return recommendations
 
     def _generate_summary_statistics(
-        self, audit_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, audit_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate summary statistics for the audit."""
         return {
             "total_snapshots_analyzed": audit_data["memory_snapshots"]["total_count"],
@@ -2047,7 +2047,7 @@ class MemoryDriftAuditor:
         }
 
     def _generate_markdown_report(
-        self, output_path: str, audit_data: Dict[str, Any], metadata: Dict[str, Any]
+        self, output_path: str, audit_data: dict[str, Any], metadata: dict[str, Any]
     ) -> Optional[str]:
         """Generate Markdown audit report."""
         try:
@@ -2075,7 +2075,7 @@ class MemoryDriftAuditor:
             return None
 
     def _build_markdown_content(
-        self, audit_data: Dict[str, Any], metadata: Dict[str, Any]
+        self, audit_data: dict[str, Any], metadata: dict[str, Any]
     ) -> str:
         """Build Markdown content for audit report."""
         md_lines = []
@@ -2254,7 +2254,7 @@ class MemoryDriftAuditor:
         return "\n".join(md_lines)
 
     def _generate_json_report(
-        self, output_path: str, audit_data: Dict[str, Any], metadata: Dict[str, Any]
+        self, output_path: str, audit_data: dict[str, Any], metadata: dict[str, Any]
     ) -> Optional[str]:
         """Generate JSON audit report."""
         try:

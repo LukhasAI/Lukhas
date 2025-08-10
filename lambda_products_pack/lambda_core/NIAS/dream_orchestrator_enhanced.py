@@ -10,7 +10,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Set up logger
 logger = logging.getLogger("Lambda.NIΛS.DreamOrchestrator.Enhanced")
@@ -89,7 +89,7 @@ class EnhancedDreamOrchestrator:
     - Improved initialization sequences
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or self._default_config()
 
         # Initialize dependency container
@@ -97,7 +97,7 @@ class EnhancedDreamOrchestrator:
         self.validator = APIValidator()
 
         # Service health tracking
-        self.service_health: Dict[str, ServiceHealth] = {}
+        self.service_health: dict[str, ServiceHealth] = {}
 
         # Metrics with enhanced tracking
         self.metrics = {
@@ -112,8 +112,8 @@ class EnhancedDreamOrchestrator:
         }
 
         # Session management
-        self.active_sessions: Dict[str, Any] = {}
-        self.delivery_queue: List[Any] = []
+        self.active_sessions: dict[str, Any] = {}
+        self.delivery_queue: list[Any] = []
 
         # Initialize services with dependency injection
         self._init_task = asyncio.create_task(self._initialize_services())
@@ -122,7 +122,7 @@ class EnhancedDreamOrchestrator:
             "Enhanced Dream Orchestrator initializing with dependency injection"
         )
 
-    def _default_config(self) -> Dict:
+    def _default_config(self) -> dict:
         """Default configuration with enhanced settings"""
         return {
             "max_dreams_per_session": 3,
@@ -237,7 +237,7 @@ class EnhancedDreamOrchestrator:
 
         async def check_dream_generator():
             try:
-                generator = await self.container.get_service("dream_generator")
+                await self.container.get_service("dream_generator")
                 # Check if generator can create context
                 context = DreamContext(
                     bio_rhythm=BioRhythm(energy=0.5, stress=0.3, attention=0.7),
@@ -306,7 +306,7 @@ class EnhancedDreamOrchestrator:
             except Exception as e:
                 logger.error(f"Error in health monitoring: {e}")
 
-    async def initiate_dream_commerce(self, user_id: str) -> Dict[str, Any]:
+    async def initiate_dream_commerce(self, user_id: str) -> dict[str, Any]:
         """
         Initiate dream commerce with enhanced error handling
 
@@ -318,7 +318,6 @@ class EnhancedDreamOrchestrator:
         """
         try:
             # Validate input
-            validation_data = {"user_id": user_id}
 
             # Check existing session
             if user_id in self.active_sessions:
@@ -423,7 +422,7 @@ class EnhancedDreamOrchestrator:
             # Attempt recovery
             return await self._recover_initiation(user_id, str(e))
 
-    async def _recover_initiation(self, user_id: str, error: str) -> Dict[str, Any]:
+    async def _recover_initiation(self, user_id: str, error: str) -> dict[str, Any]:
         """Recover from initiation failure"""
         try:
             # Simple recovery - create basic session
@@ -452,7 +451,7 @@ class EnhancedDreamOrchestrator:
 
     async def _check_emotional_readiness(
         self, user_id: str, user_profile: Any, emotional_filter: Any
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Check if user is emotionally ready for dream commerce"""
         try:
             # Get emotional state from profile
@@ -492,8 +491,8 @@ class EnhancedDreamOrchestrator:
             return {"ready": True, "caution": True}
 
     async def process_user_action(
-        self, user_id: str, action: str, data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, action: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Process user action with enhanced error handling
 
@@ -546,7 +545,7 @@ class EnhancedDreamOrchestrator:
 
     async def deliver_vendor_dream(
         self, vendor_id: str, user_id: str, dream_seed: Optional[Any] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Deliver vendor dream with enhanced reliability
 
@@ -566,7 +565,7 @@ class EnhancedDreamOrchestrator:
             )
 
             # Get services
-            vendor_portal = await self.container.get_healthy_service("vendor_portal")
+            await self.container.get_healthy_service("vendor_portal")
             dream_generator = await self.container.get_healthy_service(
                 "dream_generator"
             )
@@ -673,7 +672,7 @@ class EnhancedDreamOrchestrator:
 
         return DreamGeneratorFallback()
 
-    async def get_metrics(self) -> Dict[str, Any]:
+    async def get_metrics(self) -> dict[str, Any]:
         """Get enhanced metrics with service health"""
         health_summary = {}
         for service_name, health in self.service_health.items():
@@ -695,7 +694,7 @@ class EnhancedDreamOrchestrator:
         logger.info("Shutting down Enhanced Dream Orchestrator")
 
         # Close all sessions
-        for user_id, session in self.active_sessions.items():
+        for _user_id, session in self.active_sessions.items():
             session["active"] = False
 
         # Dispose container

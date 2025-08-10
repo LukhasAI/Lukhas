@@ -1,3 +1,6 @@
+from datetime import datetime
+import logging
+
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: lukhas_core_integrator.py
 # MODULE: core.advanced.brain.lukhas_core_integrator
@@ -15,7 +18,7 @@ import json
 import time
 from enum import Enum
 from pathlib import Path  # Added Path
-from typing import Any, Callable, Dict, List, Optional  # Added Union
+from typing import Any, Callable, Optional  # Added Union
 
 # Initialize logger for ΛTRACE
 
@@ -54,7 +57,8 @@ except Exception as e_brain_import:  # Catch other potential errors during this 
 
 # TODO: Reconcile this AccessTier with the global LUKHAS Tier System (0-5, Free-Transcendent).
 # This enum might be for internal resource access control within the integrator's context.
-# Human-readable comment: Defines internal access tier levels for the Lukhas Awareness Protocol.
+# Human-readable comment: Defines internal access tier levels for the
+# Lukhas Awareness Protocol.
 class AccessTier(Enum):
     """Access tier levels for Lukhas Awareness Protocol within this integrator."""
 
@@ -133,10 +137,10 @@ class LUKHASCoreIntegrator:
 
         self.config = self._load_config(config_path)  # Logs internally
 
-        self.components: Dict[str, Any] = {}
-        self.message_handlers: Dict[str, Callable] = {}
-        self.event_subscribers: Dict[str, List[Dict[str, Any]]] = {}
-        self.component_status: Dict[str, Dict[str, Any]] = {}
+        self.components: dict[str, Any] = {}
+        self.message_handlers: dict[str, Callable] = {}
+        self.event_subscribers: dict[str, list[dict[str, Any]]] = {}
+        self.component_status: dict[str, dict[str, Any]] = {}
 
         # AIDENTITY
         self.awareness: Optional[Any] = (
@@ -160,7 +164,7 @@ class LUKHASCoreIntegrator:
             f"ΛTRACE: Initial internal access tier set to {self.current_access_tier.name}."
         )
 
-        self.system_state: Dict[str, Any] = {
+        self.system_state: dict[str, Any] = {
             "started": time.time(),
             "last_activity": time.time(),
             "message_count": 0,
@@ -192,12 +196,13 @@ class LUKHASCoreIntegrator:
         )
 
     # Human-readable comment: Loads configuration from a file or uses defaults.
-    def _load_config(self, config_path: Optional[str]) -> Dict[str, Any]:
+    def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
         """Load configuration from file or use defaults."""
         self.instance_logger.debug(
             f"ΛTRACE: Loading configuration. Provided path: '{config_path}'."
         )
-        # TODO: Make default paths relative to a configurable project root or use package resources.
+        # TODO: Make default paths relative to a configurable project root or use
+        # package resources.
         default_config = {
             "component_paths": {
                 "voice": "VOICE/voice_processor.py",
@@ -282,7 +287,7 @@ class LUKHASCoreIntegrator:
         self,
         component_id: str,
         component_instance: Any,
-        message_handler: Optional[Callable[[Dict[str, Any]], Any]] = None,
+        message_handler: Optional[Callable[[dict[str, Any]], Any]] = None,
     ) -> bool:
         """
         Register a component with the core integrator.
@@ -335,7 +340,7 @@ class LUKHASCoreIntegrator:
     # ΛEXPOSE
     @lukhas_tier_required(level=3)
     def register_message_handler(
-        self, component_id: str, handler: Callable[[Dict[str, Any]], Any]
+        self, component_id: str, handler: Callable[[dict[str, Any]], Any]
     ) -> bool:
         """Register a message handler for a component."""
         self.instance_logger.debug(
@@ -365,7 +370,7 @@ class LUKHASCoreIntegrator:
     def subscribe_to_events(
         self,
         event_type: str,
-        callback: Callable[[Dict[str, Any]], None],
+        callback: Callable[[dict[str, Any]], None],
         component_id: Optional[str] = None,
     ) -> bool:
         """Subscribe to system events."""
@@ -398,10 +403,10 @@ class LUKHASCoreIntegrator:
     def send_message(
         self,
         target_component: str,
-        message: Dict[str, Any],
+        message: dict[str, Any],
         source_component: Optional[str] = None,
         message_type: CoreMessageType = CoreMessageType.COMMAND,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Send a message to a component."""
         self.instance_logger.debug(
             f"ΛTRACE: Attempting to send message from '{source_component if source_component else 'System'}' to '{target_component}'. Type: {message_type.value}."
@@ -468,7 +473,7 @@ class LUKHASCoreIntegrator:
         }
 
         try:
-            handler_to_call: Optional[Callable[[Dict[str, Any]], Any]] = None
+            handler_to_call: Optional[Callable[[dict[str, Any]], Any]] = None
             if target_component in self.message_handlers:
                 handler_to_call = self.message_handlers[target_component]
             else:
@@ -523,7 +528,7 @@ class LUKHASCoreIntegrator:
     def broadcast_event(
         self,
         event_type: str,
-        event_data: Dict[str, Any],
+        event_data: dict[str, Any],
         source_component: Optional[str] = None,
     ) -> int:
         """Broadcast an event to all subscribers."""
@@ -601,7 +606,8 @@ class LUKHASCoreIntegrator:
         self.instance_logger.info(
             "ΛTRACE: Attempting to initialize Lukhas Awareness Protocol."
         )
-        # TODO: Refactor dynamic import to be more robust or use explicit imports if LUKHASAwarenessProtocol path is standardized.
+        # TODO: Refactor dynamic import to be more robust or use explicit imports
+        # if LUKHASAwarenessProtocol path is standardized.
         try:
             if awareness_instance:
                 self.awareness = awareness_instance
@@ -617,8 +623,11 @@ class LUKHASCoreIntegrator:
                     f"ΛTRACE: Attempting to dynamically import LUKHASAwarenessProtocol from '{module_path_str}'."
                 )
 
-                # This dynamic import is fragile. Proper packaging or a plugin system is preferred.
-                module = __import__(module_path_str, fromlist=["LUKHASAwarenessProtocol"])  # type: ignore
+                # This dynamic import is fragile. Proper packaging or a plugin system is
+                # preferred.
+                module = __import__(
+                    module_path_str, fromlist=["LUKHASAwarenessProtocol"]
+                )  # type: ignore
                 awareness_class_ref = module.LUKHASAwarenessProtocol
                 self.awareness = awareness_class_ref()
                 self.instance_logger.info(
@@ -687,7 +696,7 @@ class LUKHASCoreIntegrator:
     # Human-readable comment: Processes alerts received from the awareness protocol.
     # ΛEXPOSE
     @lukhas_tier_required(level=1)
-    def process_awareness_alert(self, alert_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_awareness_alert(self, alert_data: dict[str, Any]) -> dict[str, Any]:
         """Process alerts from the awareness protocol."""
         alert_type = alert_data.get("alert_type", "unknown_alert")
         self.instance_logger.info(
@@ -738,9 +747,10 @@ class LUKHASCoreIntegrator:
         self.instance_logger.debug(f"ΛTRACE: Awareness alert '{alert_type}' processed.")
         return {"status": "processed", "timestamp": time.time()}
 
-    # Human-readable comment: Internal check if an action is permitted based on internal AccessTier.
+    # Human-readable comment: Internal check if an action is permitted based
+    # on internal AccessTier.
     def _check_action_permitted(
-        self, target_component: str, message: Dict[str, Any], access_tier: AccessTier
+        self, target_component: str, message: dict[str, Any], access_tier: AccessTier
     ) -> bool:
         """Check if an action is permitted at the current internal access tier."""
         self.instance_logger.debug(
@@ -792,7 +802,7 @@ class LUKHASCoreIntegrator:
         return is_min_basic_tier
 
     # Human-readable comment: Logs data to a specific symbolic trace file.
-    def _log_symbolic_trace(self, trace_data: Dict[str, Any]) -> None:
+    def _log_symbolic_trace(self, trace_data: dict[str, Any]) -> None:
         """Log symbolic trace data for auditing."""
         # Ensure logging config and trace_enabled are dictionaries or have defaults
         current_logging_config = self.config.get("logging", {})
@@ -824,7 +834,7 @@ class LUKHASCoreIntegrator:
     @lukhas_tier_required(level=0)
     def get_component_status(
         self, component_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get status of a specific component or all components."""
         self.instance_logger.debug(
             f"ΛTRACE: Requesting component status for '{component_id if component_id else 'ALL'}'."
@@ -846,7 +856,7 @@ class LUKHASCoreIntegrator:
     # Human-readable comment: Retrieves the overall system status.
     # ΛEXPOSE
     @lukhas_tier_required(level=0)
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get overall system status."""
         self.instance_logger.info("ΛTRACE: Requesting overall system status.")
         status = self.system_state.copy()

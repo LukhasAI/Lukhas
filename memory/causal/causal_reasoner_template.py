@@ -25,7 +25,7 @@ create symbolic nodes from this template.
 - **`#LUKHAS_PARAM: <name>:<type> = <default>`**: Defines a parameter of the node.
 """
 
-from typing import Any, Dict
+from typing import Any
 
 
 class CausalReasonerTemplate:
@@ -39,7 +39,7 @@ class CausalReasonerTemplate:
 
     # LUKHAS_INPUT: input_data:Dict[str, Any]
     # LUKHAS_OUTPUT: reasoning_result:Dict[str, Any]
-    def reason(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def reason(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Performs causal reasoning on the input data.
         """

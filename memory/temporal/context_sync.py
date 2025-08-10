@@ -12,6 +12,15 @@ Advanced: lukhas_context_sync.py
 Integration Date: 2025-05-31T07:55:28.067643
 """
 
+from memory_log_filter import (
+    filter_by_date_range,
+    filter_by_tag,
+    summarize_recent,
+)
+from datetime import datetime
+import os
+import json
+
 lukhas_context_sync.py
 # ════════════════════════════════════════════════════════════════════════
 # 📁 FILE: lukhas_context_sync.py
@@ -19,15 +28,6 @@ lukhas_context_sync.py
 # 🔄 CONNECTS TO: memory_log_filter, dream_engine, intent_router
 # ════════════════════════════════════════════════════════════════════════
 
-import json
-import os
-from datetime import datetime
-
-from memory_log_filter import (
-    filter_by_date_range,
-    filter_by_tag,
-    summarize_recent,
-)
 
 CONTEXT_PATH = "logs/daily_context_summary.json"
 
@@ -47,7 +47,7 @@ def generate_daily_context(user_id="Commander"):
 
     try:
         # Load symbolic memory from the past 24 hours
-        today = datetime.utcnow().date().isoformat()
+        datetime.utcnow().date().isoformat()
         context["summary"] = summarize_recent(5)
 
         # Add dream tags

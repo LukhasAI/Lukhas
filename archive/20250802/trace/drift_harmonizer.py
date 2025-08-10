@@ -4,8 +4,6 @@ Drift Harmonizer
 Suggests realignment actions when drift metrics diverge.
 """
 
-from typing import List
-
 # ΛTAG: codex, drift, harmonizer
 
 
@@ -14,7 +12,7 @@ class DriftHarmonizer:
 
     def __init__(self, threshold: float = 0.2):
         self.threshold = threshold
-        self.history: List[float] = []
+        self.history: list[float] = []
 
     def record_drift(self, score: float) -> None:
         self.history.append(score)

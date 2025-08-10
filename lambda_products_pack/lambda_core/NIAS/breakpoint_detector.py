@@ -7,7 +7,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 
 class WorkflowState(Enum):
@@ -47,7 +47,7 @@ class UserActivity:
     timestamp: datetime
     action_type: str
     duration: float
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     completed: bool = False
 
 
@@ -73,9 +73,9 @@ class NaturalBreakpointDetector:
 
     def __init__(self):
         self.current_workflow = WorkflowContext(state=WorkflowState.IDLE)
-        self.activity_history: List[UserActivity] = []
-        self.breakpoint_history: List[Dict] = []
-        self.user_permissions: Dict[str, bool] = {
+        self.activity_history: list[UserActivity] = []
+        self.breakpoint_history: list[dict] = []
+        self.user_permissions: dict[str, bool] = {
             "auto_display": False,
             "after_task": True,
             "during_idle": True,
@@ -90,7 +90,7 @@ class NaturalBreakpointDetector:
         self.last_ad_time: Optional[datetime] = None
 
         # Pattern detection
-        self.task_patterns: Dict[str, List[float]] = {}
+        self.task_patterns: dict[str, list[float]] = {}
         self.completion_indicators = [
             "submit",
             "save",
@@ -105,7 +105,7 @@ class NaturalBreakpointDetector:
         ]
 
     def track_activity(
-        self, action_type: str, context: Optional[Dict[str, Any]] = None
+        self, action_type: str, context: Optional[dict[str, Any]] = None
     ) -> None:
         """Track user activity for pattern detection"""
         activity = UserActivity(
@@ -132,7 +132,7 @@ class NaturalBreakpointDetector:
             activity.completed = True
             self._record_task_completion()
 
-    def check_breakpoint(self) -> Tuple[bool, Optional[BreakpointType], Dict[str, Any]]:
+    def check_breakpoint(self) -> tuple[bool, Optional[BreakpointType], dict[str, Any]]:
         """
         Check if current moment is a natural breakpoint for ad display
         Returns: (is_breakpoint, breakpoint_type, metadata)
@@ -214,7 +214,7 @@ class NaturalBreakpointDetector:
 
     def request_permission(
         self, context: str = "general", incentive: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Request user permission for ad display
         Implements the consent-based approach
@@ -272,7 +272,7 @@ class NaturalBreakpointDetector:
                 0, self.current_workflow.interruption_score - 0.1
             )
 
-    def get_timing_recommendations(self) -> Dict[str, Any]:
+    def get_timing_recommendations(self) -> dict[str, Any]:
         """Get recommendations for optimal ad timing"""
 
         # Analyze historical patterns
@@ -295,7 +295,7 @@ class NaturalBreakpointDetector:
             "optimization_suggestions": self._generate_timing_suggestions(),
         }
 
-    def _update_workflow_state(self, action_type: str, context: Dict):
+    def _update_workflow_state(self, action_type: str, context: dict):
         """Update current workflow state based on activity"""
         self.current_workflow.last_activity = datetime.now()
         self.current_workflow.activity_count += 1
@@ -320,7 +320,7 @@ class NaturalBreakpointDetector:
         if "task_type" in context:
             self.current_workflow.task_type = context["task_type"]
 
-    def _is_task_completion(self, action_type: str, context: Dict) -> bool:
+    def _is_task_completion(self, action_type: str, context: dict) -> bool:
         """Detect if an action indicates task completion"""
         # Check explicit completion indicators
         if action_type in self.completion_indicators:
@@ -330,7 +330,7 @@ class NaturalBreakpointDetector:
         if context:
             if context.get("status") == "success":
                 return True
-            if context.get("completed") == True:
+            if context.get("completed"):
                 return True
             if "result" in context and context["result"] in [
                 "success",
@@ -340,13 +340,10 @@ class NaturalBreakpointDetector:
                 return True
 
         # Check for form submission patterns
-        if (
+        return bool(
             action_type == "submit"
             and self.current_workflow.state == WorkflowState.TYPING
-        ):
-            return True
-
-        return False
+        )
 
     def _record_task_completion(self):
         """Record task completion for pattern learning"""
@@ -378,7 +375,7 @@ class NaturalBreakpointDetector:
                     return True
         return False
 
-    def _check_task_completion(self) -> Tuple[bool, Optional[Dict]]:
+    def _check_task_completion(self) -> tuple[bool, Optional[dict]]:
         """Check if a task was just completed"""
         if self.current_workflow.state != WorkflowState.COMPLETING_TASK:
             return False, None
@@ -398,7 +395,7 @@ class NaturalBreakpointDetector:
 
         return False, None
 
-    def _check_natural_pause(self) -> Tuple[bool, float]:
+    def _check_natural_pause(self) -> tuple[bool, float]:
         """Check if user is in a natural pause"""
         if self.current_workflow.state != WorkflowState.PAUSED:
             # Check for pause based on inactivity
@@ -411,7 +408,7 @@ class NaturalBreakpointDetector:
 
         return self.current_workflow.state == WorkflowState.PAUSED, 0.0
 
-    def _check_content_boundary(self) -> Tuple[bool, Optional[str]]:
+    def _check_content_boundary(self) -> tuple[bool, Optional[str]]:
         """Check if user is at a content boundary"""
         # Check recent activity for boundary indicators
         if len(self.activity_history) < 2:
@@ -435,7 +432,7 @@ class NaturalBreakpointDetector:
 
         return False, None
 
-    def _check_idle_state(self) -> Tuple[bool, float]:
+    def _check_idle_state(self) -> tuple[bool, float]:
         """Check if user is idle"""
         time_since_activity = (
             datetime.now() - self.current_workflow.last_activity
@@ -511,7 +508,7 @@ class NaturalBreakpointDetector:
 
         return base_wait
 
-    def _rank_breakpoint_types(self) -> List[str]:
+    def _rank_breakpoint_types(self) -> list[str]:
         """Rank breakpoint types by current suitability"""
         rankings = []
 
@@ -543,7 +540,7 @@ class NaturalBreakpointDetector:
 
         return sum(all_durations) / len(all_durations)
 
-    def _identify_pause_patterns(self) -> List[Dict]:
+    def _identify_pause_patterns(self) -> list[dict]:
         """Identify common pause patterns"""
         pause_patterns = []
 
@@ -563,7 +560,7 @@ class NaturalBreakpointDetector:
 
         return pause_patterns[-10:]  # Return last 10 patterns
 
-    def _analyze_best_times(self) -> List[str]:
+    def _analyze_best_times(self) -> list[str]:
         """Analyze best times for ads based on history"""
         successful_displays = [
             record
@@ -584,7 +581,7 @@ class NaturalBreakpointDetector:
         sorted_types = sorted(type_counts.items(), key=lambda x: x[1], reverse=True)
         return [t[0] for t in sorted_types[:3]]
 
-    def _analyze_worst_times(self) -> List[str]:
+    def _analyze_worst_times(self) -> list[str]:
         """Analyze worst times for ads based on history"""
         poor_displays = [
             record
@@ -605,7 +602,7 @@ class NaturalBreakpointDetector:
         sorted_states = sorted(state_counts.items(), key=lambda x: x[1], reverse=True)
         return [s[0] for s in sorted_states[:3]]
 
-    def _generate_timing_suggestions(self) -> List[str]:
+    def _generate_timing_suggestions(self) -> list[str]:
         """Generate suggestions for timing optimization"""
         suggestions = []
 

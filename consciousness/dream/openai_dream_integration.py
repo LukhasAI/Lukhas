@@ -26,6 +26,7 @@
 ║ • Comprehensive error handling and fallbacks
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 import asyncio
 import base64
@@ -33,7 +34,7 @@ import json
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # OpenAI imports
 from openai import AsyncOpenAI, OpenAI
@@ -88,10 +89,10 @@ class OpenAIDreamIntegration:
 
     async def enhance_dream_narrative(
         self,
-        base_dream: Dict[str, Any],
+        base_dream: dict[str, Any],
         style: str = "surreal and poetic",
         length: str = "medium",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Enhance a basic dream with rich narrative using GPT-4.
 
@@ -176,11 +177,11 @@ Make it vivid and specific for image generation."""
 
     async def generate_dream_image(
         self,
-        dream: Dict[str, Any],
+        dream: dict[str, Any],
         size: str = "1024x1024",
         quality: str = "hd",
         style: str = "vivid",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate an image from dream narrative using DALL-E 3.
 
@@ -252,8 +253,8 @@ Make it vivid and specific for image generation."""
     # ═══════════════════════════════════════════════════════════════════
 
     async def narrate_dream(
-        self, dream: Dict[str, Any], voice: Optional[str] = None, speed: float = 1.0
-    ) -> Dict[str, Any]:
+        self, dream: dict[str, Any], voice: Optional[str] = None, speed: float = 1.0
+    ) -> dict[str, Any]:
         """
         Generate voice narration for dream using OpenAI TTS.
 
@@ -315,7 +316,7 @@ Make it vivid and specific for image generation."""
 
     async def voice_to_dream_prompt(
         self, audio_file: str, language: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Convert voice input to dream prompt using Whisper.
 
@@ -385,7 +386,7 @@ Keep it concise but evocative."""
         generate_image: bool = True,
         generate_audio: bool = True,
         image_size: str = "1024x1024",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create a complete multi-modal dream experience.
 
@@ -457,7 +458,7 @@ Keep it concise but evocative."""
             dream["pipeline_error"] = str(e)
             return dream
 
-    async def _create_sora_prompt(self, dream: Dict[str, Any]) -> str:
+    async def _create_sora_prompt(self, dream: dict[str, Any]) -> str:
         """Create a video generation prompt for SORA."""
         narrative = dream.get("enhanced_narrative", {}).get("full_text", "")
 
@@ -480,7 +481,7 @@ Keep it under 150 words and focus on motion and cinematography."""
 
         return response["choices"][0]["message"]["content"]
 
-    def _save_dream_record(self, dream: Dict[str, Any]):
+    def _save_dream_record(self, dream: dict[str, Any]):
         """Save complete dream record to JSON."""
         dream_file = self.output_dir / f"{dream['dream_id']}.json"
         with open(dream_file, "w") as f:

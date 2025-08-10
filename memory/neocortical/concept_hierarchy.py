@@ -15,7 +15,7 @@
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 
 @dataclass
@@ -28,11 +28,11 @@ class ConceptNode:
 
     # Hierarchical relationships
     parent: Optional["ConceptNode"] = None
-    children: Set["ConceptNode"] = field(default_factory=set)
+    children: set["ConceptNode"] = field(default_factory=set)
 
     # Properties
-    attributes: Dict[str, Any] = field(default_factory=dict)
-    examples: List[str] = field(default_factory=list)
+    attributes: dict[str, Any] = field(default_factory=dict)
+    examples: list[str] = field(default_factory=list)
 
     # Activation and learning
     activation: float = 0.0
@@ -55,7 +55,7 @@ class ConceptNode:
             self.children.remove(child)
             child.parent = None
 
-    def get_ancestors(self) -> List["ConceptNode"]:
+    def get_ancestors(self) -> list["ConceptNode"]:
         """Get all ancestor nodes up to root"""
         ancestors = []
         current = self.parent
@@ -64,7 +64,7 @@ class ConceptNode:
             current = current.parent
         return ancestors
 
-    def get_descendants(self) -> List["ConceptNode"]:
+    def get_descendants(self) -> list["ConceptNode"]:
         """Get all descendant nodes"""
         descendants = []
         queue = deque(self.children)
@@ -76,7 +76,7 @@ class ConceptNode:
 
         return descendants
 
-    def get_siblings(self) -> Set["ConceptNode"]:
+    def get_siblings(self) -> set["ConceptNode"]:
         """Get sibling nodes (same parent)"""
         if not self.parent:
             return set()
@@ -128,8 +128,8 @@ class ConceptHierarchy:
         self.root = ConceptNode(concept_id="root", name="UNIVERSAL", level=0)
 
         # Concept storage
-        self.concepts: Dict[str, ConceptNode] = {"root": self.root}
-        self.name_index: Dict[str, str] = {"UNIVERSAL": "root"}  # name -> concept_id
+        self.concepts: dict[str, ConceptNode] = {"root": self.root}
+        self.name_index: dict[str, str] = {"UNIVERSAL": "root"}  # name -> concept_id
 
         # Learning statistics
         self.total_concepts = 1
@@ -146,8 +146,8 @@ class ConceptHierarchy:
         self,
         name: str,
         parent_name: Optional[str] = None,
-        attributes: Optional[Dict[str, Any]] = None,
-        examples: Optional[List[str]] = None,
+        attributes: Optional[dict[str, Any]] = None,
+        examples: Optional[list[str]] = None,
     ) -> str:
         """Add new concept to hierarchy"""
 
@@ -218,7 +218,7 @@ class ConceptHierarchy:
             return self.concepts[self.name_index[name]]
         return None
 
-    def get_path(self, concept_name: str) -> List[str]:
+    def get_path(self, concept_name: str) -> list[str]:
         """Get path from root to concept"""
         concept = self.find_concept(concept_name)
         if not concept:
@@ -235,7 +235,7 @@ class ConceptHierarchy:
 
     def activate_concept(
         self, concept_name: str, activation_strength: float = 1.0, spread: bool = True
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """
         Activate concept and optionally spread activation.
         Returns activation levels of affected concepts.
@@ -312,7 +312,7 @@ class ConceptHierarchy:
         similarity = concept1.calculate_similarity(concept2)
         return 1.0 - similarity
 
-    def extract_ontology(self, min_examples: int = 2) -> Dict[str, Any]:
+    def extract_ontology(self, min_examples: int = 2) -> dict[str, Any]:
         """
         Extract ontology from hierarchy.
         Returns structured representation of concepts and relationships.
@@ -325,7 +325,7 @@ class ConceptHierarchy:
         }
 
         # Extract concepts
-        for concept_id, concept in self.concepts.items():
+        for _concept_id, concept in self.concepts.items():
             if len(concept.examples) >= min_examples or concept.level <= 2:
                 ontology["concepts"][concept.name] = {
                     "level": concept.level,
@@ -532,7 +532,7 @@ class ConceptHierarchy:
             if concept.activation < 0.01:
                 concept.activation = 0.0
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get hierarchy metrics"""
 
         # Calculate depth distribution

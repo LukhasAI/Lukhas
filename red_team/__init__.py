@@ -6,7 +6,6 @@ Advanced adversarial testing and security validation for PWM workspace.
 Based on LUKHAS red team protocols with workspace-specific attack vectors.
 """
 
-import json
 from pathlib import Path
 
 

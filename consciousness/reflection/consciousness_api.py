@@ -14,7 +14,7 @@ import asyncio
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class ConsciousnessLevel(Enum):
@@ -41,18 +41,18 @@ class ConsciousnessState:
     """Current consciousness state"""
 
     level: ConsciousnessLevel
-    awareness_scores: Dict[AwarenessType, float]
+    awareness_scores: dict[AwarenessType, float]
     attention_focus: Optional[str]
     emotional_state: str
     timestamp: datetime
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class AwarenessQuery:
     """Query for awareness information"""
 
-    awareness_types: List[AwarenessType]
+    awareness_types: list[AwarenessType]
     time_window: Optional[int] = None  # seconds
     include_history: bool = False
     include_predictions: bool = False
@@ -163,7 +163,7 @@ class ConsciousnessPlatformAPI:
 
         return state
 
-    async def query_awareness(self, query: AwarenessQuery) -> Dict[str, Any]:
+    async def query_awareness(self, query: AwarenessQuery) -> dict[str, Any]:
         """
         Query specific awareness information
 
@@ -196,7 +196,7 @@ class ConsciousnessPlatformAPI:
 
         return result
 
-    async def reflect(self, request: ReflectionRequest) -> Dict[str, Any]:
+    async def reflect(self, request: ReflectionRequest) -> dict[str, Any]:
         """
         Perform self-reflection
 
@@ -262,7 +262,7 @@ class ConsciousnessPlatformAPI:
 
     async def process_input(
         self, input_data: Any, input_type: str = "text"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Process input through consciousness system
 
@@ -288,7 +288,7 @@ class ConsciousnessPlatformAPI:
             "insights": processed.get("insights", []),
         }
 
-    async def get_metrics(self) -> Dict[str, Any]:
+    async def get_metrics(self) -> dict[str, Any]:
         """
         Get platform metrics
 
@@ -337,7 +337,7 @@ class ConsciousnessPlatformAPI:
 
     async def _get_awareness_data(
         self, awareness_type: AwarenessType
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get detailed awareness data"""
         return {
             "score": await self._calculate_awareness_score(awareness_type),
@@ -346,19 +346,19 @@ class ConsciousnessPlatformAPI:
         }
 
     def _get_awareness_history(
-        self, types: List[AwarenessType], window: int
-    ) -> List[Dict]:
+        self, types: list[AwarenessType], window: int
+    ) -> list[dict]:
         """Get historical awareness data"""
         # Simplified - real implementation would query history
         return []
 
     async def _predict_awareness_changes(
-        self, types: List[AwarenessType]
-    ) -> Dict[str, Any]:
+        self, types: list[AwarenessType]
+    ) -> dict[str, Any]:
         """Predict future awareness changes"""
         return {"predictions": {}, "confidence": 0.7}
 
-    async def _perform_reflection(self, topic: str, depth: int) -> Dict[str, Any]:
+    async def _perform_reflection(self, topic: str, depth: int) -> dict[str, Any]:
         """Perform reflection at specified depth"""
         return {
             "insights": [
@@ -368,7 +368,7 @@ class ConsciousnessPlatformAPI:
             ]
         }
 
-    async def _get_emotional_reflection(self, topic: str) -> Dict[str, Any]:
+    async def _get_emotional_reflection(self, topic: str) -> dict[str, Any]:
         """Get emotional context for reflection"""
         return {
             "primary_emotion": "curious",
@@ -376,11 +376,11 @@ class ConsciousnessPlatformAPI:
             "emotional_arousal": 0.4,
         }
 
-    async def _get_memory_connections(self, topic: str) -> List[str]:
+    async def _get_memory_connections(self, topic: str) -> list[str]:
         """Get related memory connections"""
         return ["related_memory_1", "related_memory_2"]
 
-    async def _quantum_reflect(self, topic: str) -> Dict[str, Any]:
+    async def _quantum_reflect(self, topic: str) -> dict[str, Any]:
         """Perform quantum-enhanced reflection"""
         return {
             "quantum_coherence": 0.92,
@@ -390,7 +390,6 @@ class ConsciousnessPlatformAPI:
 
     async def _set_attention_focus(self, focus: str, intensity: float):
         """Set the attention focus"""
-        pass
 
     def _get_uptime(self) -> float:
         """Get platform uptime in seconds"""

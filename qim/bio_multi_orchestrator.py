@@ -43,10 +43,7 @@ from enum import Enum
 from pathlib import Path
 from typing import (  # Added Set, Callable
     Any,
-    Dict,
-    List,
     Optional,
-    Set,
 )
 
 import numpy as np
@@ -90,10 +87,10 @@ class AGIBotInstance:
     bot_id: str
     bot_type: AGIBotType
     file_path: str  # Path to the bot's implementation file
-    capabilities: List[str] = field(default_factory=list)
-    specialized_tasks: List[TaskType] = field(default_factory=list)
+    capabilities: list[str] = field(default_factory=list)
+    specialized_tasks: list[TaskType] = field(default_factory=list)
     current_load_factor: float = 0.0  # Normalized 0-1
-    performance_metrics_summary: Dict[str, float] = field(
+    performance_metrics_summary: dict[str, float] = field(
         default_factory=dict
     )  # Key metrics like avg_response_time, success_rate
     current_status: str = (
@@ -115,7 +112,7 @@ class MultiAGIOrchestratorMetrics:
         self.total_inter_bot_communications = 0
         self.current_collective_intelligence_score_estimate = 0.0  # Conceptual metric
         self.redundancy_activation_count = 0
-        self.performance_log: List[Dict[str, Any]] = (
+        self.performance_log: list[dict[str, Any]] = (
             []
         )  # Log of performance over time or per task type
 
@@ -128,14 +125,14 @@ class MultiAGITask:
     task_type: TaskType
     priority_level: int = 5  # Example: 1-10 (10 = highest)
     content_payload: Any  # Can be string, dict, or other data
-    context_data: Optional[Dict[str, Any]] = field(default_factory=dict)
+    context_data: Optional[dict[str, Any]] = field(default_factory=dict)
     requires_collaboration_flag: bool = False
-    assigned_bot_ids: List[str] = field(default_factory=list)
+    assigned_bot_ids: list[str] = field(default_factory=list)
     creation_timestamp_utc_iso: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
     deadline_utc_iso: Optional[str] = None
-    processing_metadata: Dict[str, Any] = field(
+    processing_metadata: dict[str, Any] = field(
         default_factory=dict
     )  # For orchestrator use
 
@@ -147,17 +144,17 @@ class MultiAGIResponse:
     task_id: str
     final_primary_response: Any  # The synthesized or chosen primary response
     overall_confidence_score: float
-    contributing_bot_ids: List[str]
-    reasoning_synthesis_details: List[
-        Dict[str, Any]
+    contributing_bot_ids: list[str]
+    reasoning_synthesis_details: list[
+        dict[str, Any]
     ]  # e.g., individual bot contributions
-    collective_intelligence_metrics_snapshot: Dict[
+    collective_intelligence_metrics_snapshot: dict[
         str, Any
     ]  # Metrics about the collaboration
     total_processing_time_ms: float
     collaboration_quality_score: float  # Metric for how well collaboration worked
-    redundancy_verification_details: Optional[Dict[str, Any]] = None
-    quantum_biological_insights_summary: Optional[Dict[str, Any]] = None
+    redundancy_verification_details: Optional[dict[str, Any]] = None
+    quantum_biological_insights_summary: Optional[dict[str, Any]] = None
     response_timestamp_utc_iso: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
@@ -203,31 +200,31 @@ class MultiAGIOrchestrator:
     """
 
     def __init__(
-        self, config: Optional[Dict[str, Any]] = None, console: Optional[Console] = None
+        self, config: Optional[dict[str, Any]] = None, console: Optional[Console] = None
     ):
         """Initializes the Multi-AI Orchestration System."""
         self.orchestrator_id = f"MAGIO_{uuid.uuid4().hex[:8]}"
         self.log = log.bind(orchestrator_id=self.orchestrator_id)
         self.log.info("🚀 Initializing Multi-AI Orchestration System...")
 
-        self.config: Dict[str, Any] = config or {}
+        self.config: dict[str, Any] = config or {}
         self.initialization_timestamp_utc: datetime = datetime.now(timezone.utc)
         self.console = console or Console()
 
-        self.registered_bots: Dict[str, AGIBotInstance] = {}
-        self.active_bot_ids: Set[str] = set()
-        self.bot_runtime_instances: Dict[str, Any] = {}
+        self.registered_bots: dict[str, AGIBotInstance] = {}
+        self.active_bot_ids: set[str] = set()
+        self.bot_runtime_instances: dict[str, Any] = {}
 
-        self.task_processing_queue: List[MultiAGITask] = []
-        self.active_task_map: Dict[str, MultiAGITask] = {}
-        self.completed_task_map: Dict[str, MultiAGIResponse] = {}
+        self.task_processing_queue: list[MultiAGITask] = []
+        self.active_task_map: dict[str, MultiAGITask] = {}
+        self.completed_task_map: dict[str, MultiAGIResponse] = {}
 
         self.system_metrics = MultiAGIOrchestratorMetrics()
 
-        self.inter_bot_communication_channels: Dict[str, Dict[str, Any]] = {}
-        self.collaboration_event_history: List[Dict[str, Any]] = []
+        self.inter_bot_communication_channels: dict[str, dict[str, Any]] = {}
+        self.collaboration_event_history: list[dict[str, Any]] = []
 
-        self.simulated_mitochondrial_network: Dict[str, Any] = (
+        self.simulated_mitochondrial_network: dict[str, Any] = (
             self._initialize_mitochondrial_network_sim()
         )
         self._discover_and_register_agi_bots()
@@ -236,7 +233,7 @@ class MultiAGIOrchestrator:
             discovered_bots=len(self.registered_bots),
         )
 
-    def _initialize_mitochondrial_network_sim(self) -> Dict[str, Any]:
+    def _initialize_mitochondrial_network_sim(self) -> dict[str, Any]:
         """Initializes a simulated quantum-biological coordination network."""
         self.log.debug("Initializing simulated mitochondrial network.")
         return {
@@ -258,7 +255,7 @@ class MultiAGIOrchestrator:
             "LUKHAS_BOTS_BASE_PATH", "/Users/A_G_I/CodexGPT_Lukhas"
         )
 
-        agi_bot_definitions_config: List[Dict[str, Any]] = [
+        agi_bot_definitions_config: list[dict[str, Any]] = [
             {
                 "bot_id": "primary_agi",
                 "bot_type": AGIBotType.PRIMARY,
@@ -318,7 +315,7 @@ class MultiAGIOrchestrator:
                     path_checked=str(bot_file_full_path),
                 )
 
-    def _initialize_bot_metrics(self) -> Dict[str, float]:
+    def _initialize_bot_metrics(self) -> dict[str, float]:
         """Initializes a standard set of performance metrics for a bot."""
         return {
             "avg_response_time_ms": 0.0,
@@ -404,14 +401,14 @@ class MultiAGIOrchestrator:
                 collaboration_quality_score=0.0,
             )
 
-    def _select_optimal_bots_for_task(self, task: MultiAGITask) -> List[str]:
+    def _select_optimal_bots_for_task(self, task: MultiAGITask) -> list[str]:
         """Selects the optimal AI bot(s) for a given task based on various factors."""
         self.log.debug(
             "Selecting optimal bot(s) for task.",
             task_id=task.task_id,
             task_type=task.task_type.value,
         )
-        bot_scores: Dict[str, float] = {}
+        bot_scores: dict[str, float] = {}
         for bot_id, bot_instance_info in self.registered_bots.items():
             if (
                 bot_id not in self.active_bot_ids
@@ -458,7 +455,7 @@ class MultiAGIOrchestrator:
         else:
             return [sorted_bots_by_score[0][0]]
 
-    async def _ensure_bots_loaded_and_ready(self, bot_ids: List[str]):
+    async def _ensure_bots_loaded_and_ready(self, bot_ids: list[str]):
         """Ensures specified AI bot instances are loaded and initialized."""
         self.log.debug("Ensuring bots are loaded and ready.", bot_ids_to_check=bot_ids)
         for bot_id in bot_ids:
@@ -605,7 +602,7 @@ class MultiAGIOrchestrator:
             bot_info.last_activity_utc_iso = datetime.now(timezone.utc).isoformat()
 
     async def _process_collaborative_task_execution(
-        self, task: MultiAGITask, bot_ids: List[str]
+        self, task: MultiAGITask, bot_ids: list[str]
     ) -> MultiAGIResponse:
         """Executes a task collaboratively with multiple AI bots."""
         self.log.info(
@@ -619,7 +616,7 @@ class MultiAGIOrchestrator:
             bot_info.current_status = "collaborating"
 
         try:
-            individual_bot_responses: List[Dict[str, Any]] = []
+            individual_bot_responses: list[dict[str, Any]] = []
             response_futures = []
             for bot_id in bot_ids:
                 bot_runtime = self.bot_runtime_instances[bot_id]
@@ -688,7 +685,7 @@ class MultiAGIOrchestrator:
                 bot_info.last_activity_utc_iso = datetime.now(timezone.utc).isoformat()
 
     def _synthesize_collaborative_response(
-        self, task: MultiAGITask, individual_bot_responses: List[Dict[str, Any]]
+        self, task: MultiAGITask, individual_bot_responses: list[dict[str, Any]]
     ) -> MultiAGIResponse:
         """Synthesizes multiple AI responses into a single collective intelligence response."""
         self.log.debug(
@@ -723,7 +720,7 @@ class MultiAGIOrchestrator:
             individual_bot_responses
         )
 
-        reasoning_synthesis_agg: List[Dict[str, Any]] = []
+        reasoning_synthesis_agg: list[dict[str, Any]] = []
         for resp_item in individual_bot_responses:
             reasoning_synthesis_agg.append(
                 {
@@ -773,7 +770,7 @@ class MultiAGIOrchestrator:
         )
 
     def _create_synthesized_content_from_responses(
-        self, individual_responses: List[Dict[str, Any]]
+        self, individual_responses: list[dict[str, Any]]
     ) -> str:
         """Creates synthesized content from multiple AI bot responses. (Placeholder logic)"""
         if not individual_responses:
@@ -794,7 +791,7 @@ class MultiAGIOrchestrator:
         synthesis_text = f"**Synthesized Multi-AI Response (Primary from {sorted_responses[0]['bot_id']})**:\n{primary_chosen_response}\n\n"
         if len(sorted_responses) > 1:
             synthesis_text += "**Supporting Insights:**\n"
-            for i, resp_item in enumerate(sorted_responses[1:3], 1):
+            for _i, resp_item in enumerate(sorted_responses[1:3], 1):
                 synthesis_text += f"- *From {resp_item['bot_id']} (Weight: {resp_item['response_weight']:.2f}, Confidence: {resp_item['response_data'].get('confidence',0):.2f})*:\n  {str(resp_item['response_data'].get('content', 'N/A'))[:250]}...\n"
         return synthesis_text
 
@@ -819,18 +816,29 @@ class MultiAGIOrchestrator:
         return max(0.05, min(1.0, weight))
 
     def _calculate_collaboration_quality_metric(
-        self, individual_responses: List[Dict[str, Any]]
+        self, individual_responses: list[dict[str, Any]]
     ) -> float:
         """Calculates a conceptual quality score for the collaboration."""
         if len(individual_responses) <= 1:
             return 1.0
         consensus = self._calculate_response_consensus_level(individual_responses)
         diversity = self._calculate_response_diversity_score(individual_responses)
-        avg_conf = np.mean([r["response_data"].get("confidence", 0.0) for r in individual_responses]).item() if individual_responses else 0.0  # type: ignore
-        return np.clip((consensus * 0.4 + diversity * 0.25 + avg_conf * 0.35), 0.0, 1.0).item()  # type: ignore
+        avg_conf = (
+            np.mean(
+                [
+                    r["response_data"].get("confidence", 0.0)
+                    for r in individual_responses
+                ]
+            ).item()
+            if individual_responses
+            else 0.0
+        )  # type: ignore
+        return np.clip(
+            (consensus * 0.4 + diversity * 0.25 + avg_conf * 0.35), 0.0, 1.0
+        ).item()  # type: ignore
 
     def _calculate_response_consensus_level(
-        self, individual_responses: List[Dict[str, Any]]
+        self, individual_responses: list[dict[str, Any]]
     ) -> float:
         """Estimates consensus level based on confidence variance or content similarity (conceptual)."""
         if len(individual_responses) <= 1:
@@ -838,10 +846,12 @@ class MultiAGIOrchestrator:
         confidences = [
             r["response_data"].get("confidence", 0.0) for r in individual_responses
         ]
-        return 1.0 / (1.0 + np.var(confidences).item() * 10.0) if confidences else 0.0  # type: ignore
+        return (
+            1.0 / (1.0 + np.var(confidences).item() * 10.0) if confidences else 0.0
+        )  # type: ignore
 
     def _calculate_response_diversity_score(
-        self, individual_responses: List[Dict[str, Any]]
+        self, individual_responses: list[dict[str, Any]]
     ) -> float:
         """Estimates diversity of responses, e.g., based on contributing bot types."""
         if len(individual_responses) <= 1:
@@ -873,7 +883,7 @@ class MultiAGIOrchestrator:
         self,
         task: MultiAGITask,
         response: MultiAGIResponse,
-        selected_bot_ids: List[str],
+        selected_bot_ids: list[str],
     ):
         """Updates overall orchestration metrics and metrics for participating bots."""
         self.log.debug("Updating orchestration and bot metrics.", task_id=task.task_id)
@@ -915,7 +925,7 @@ class MultiAGIOrchestrator:
         task_type: TaskType,
         priority: int = 5,
         requires_collaboration: bool = False,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> str:
         """Creates a new MultiAGITask and adds it to the processing queue."""
         new_task = MultiAGITask(
@@ -951,7 +961,7 @@ class MultiAGIOrchestrator:
             del self.active_task_map[task_id]
         return response
 
-    def get_orchestration_system_status(self) -> Dict[str, Any]:
+    def get_orchestration_system_status(self) -> dict[str, Any]:
         """Retrieves a comprehensive status report of the orchestration system."""
         self.log.debug("Orchestration system status requested.")
         bot_details_summary = {
@@ -1021,7 +1031,8 @@ class MultiAGIOrchestrator:
                 f"📝 Task Content (preview): {str(scenario_config['content'])[:70]}..."
             )  # Ensure content is string for slicing
 
-            task_id_created = await self.create_new_task(**scenario_config)  # type: ignore
+            # type: ignore
+            task_id_created = await self.create_new_task(**scenario_config)
             response_obj = await self.process_task_by_id_public(task_id_created)
 
             self.console.print(

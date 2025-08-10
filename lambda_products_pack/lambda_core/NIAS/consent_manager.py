@@ -8,7 +8,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .nias_core import ConsentLevel
 
@@ -67,13 +67,13 @@ class ConsentRecord:
     level: ConsentLevel
     granted_at: datetime
     expires_at: Optional[datetime] = None
-    context: Dict[str, Any] = None
+    context: dict[str, Any] = None
     revocable: bool = True
-    audit_trail: List[Dict[str, Any]] = None
-    data_sources: List[DataSource] = None  # Specific data sources allowed
-    vendor_ids: List[str] = None  # Specific vendors allowed
-    ai_generation_types: List[AIGenerationType] = None  # AI content types allowed
-    restrictions: Dict[str, Any] = None  # Additional restrictions
+    audit_trail: list[dict[str, Any]] = None
+    data_sources: list[DataSource] = None  # Specific data sources allowed
+    vendor_ids: list[str] = None  # Specific vendors allowed
+    ai_generation_types: list[AIGenerationType] = None  # AI content types allowed
+    restrictions: dict[str, Any] = None  # Additional restrictions
 
     def __post_init__(self):
         if self.context is None:
@@ -91,9 +91,7 @@ class ConsentRecord:
 
     def is_valid(self) -> bool:
         """Check if consent record is still valid"""
-        if self.expires_at and datetime.now() > self.expires_at:
-            return False
-        return True
+        return not (self.expires_at and datetime.now() > self.expires_at)
 
 
 class ConsentManager:
@@ -108,20 +106,20 @@ class ConsentManager:
     - Integration with privacy regulations
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or self._default_config()
-        self.consent_records: Dict[str, List[ConsentRecord]] = {}
-        self.consent_templates: Dict[str, Dict] = {}
-        self.privacy_settings: Dict[str, Dict] = {}
-        self.data_source_permissions: Dict[str, Dict[DataSource, bool]] = {}
-        self.vendor_permissions: Dict[str, Dict[str, Dict]] = {}
-        self.ai_generation_settings: Dict[str, Dict] = {}
+        self.consent_records: dict[str, list[ConsentRecord]] = {}
+        self.consent_templates: dict[str, dict] = {}
+        self.privacy_settings: dict[str, dict] = {}
+        self.data_source_permissions: dict[str, dict[DataSource, bool]] = {}
+        self.vendor_permissions: dict[str, dict[str, dict]] = {}
+        self.ai_generation_settings: dict[str, dict] = {}
 
         logger.info(
             "NIΛS Consent Manager initialized with enhanced data source permissions"
         )
 
-    def _default_config(self) -> Dict:
+    def _default_config(self) -> dict:
         """Default consent manager configuration"""
         return {
             "default_expiry_hours": 8760,  # 1 year
@@ -142,7 +140,7 @@ class ConsentManager:
         user_id: str,
         scope: ConsentScope,
         level: ConsentLevel,
-        context: Optional[Dict] = None,
+        context: Optional[dict] = None,
         duration_hours: Optional[int] = None,
     ) -> bool:
         """
@@ -257,8 +255,8 @@ class ConsentManager:
         user_id: str,
         required_level: ConsentLevel,
         scope: ConsentScope = ConsentScope.GLOBAL,
-        context: Optional[Dict] = None,
-    ) -> Dict[str, Any]:
+        context: Optional[dict] = None,
+    ) -> dict[str, Any]:
         """
         Validate if user has sufficient consent for an action
 
@@ -359,8 +357,8 @@ class ConsentManager:
             }
 
     async def _validate_contextual_consent(
-        self, record: ConsentRecord, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, record: ConsentRecord, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Validate contextual consent requirements"""
         # Check if consent context matches current context
         consent_context = record.context
@@ -402,7 +400,7 @@ class ConsentManager:
 
         return {"valid": True, "reason": "Contextual consent validated"}
 
-    async def get_consent_status(self, user_id: str) -> Dict[str, Any]:
+    async def get_consent_status(self, user_id: str) -> dict[str, Any]:
         """Get comprehensive consent status for a user"""
         user_records = self.consent_records.get(user_id, [])
 
@@ -446,14 +444,14 @@ class ConsentManager:
         }
 
     async def create_consent_template(
-        self, template_name: str, template_config: Dict[str, Any]
+        self, template_name: str, template_config: dict[str, Any]
     ):
         """Create a reusable consent template"""
         self.consent_templates[template_name] = template_config
         logger.info(f"Created consent template: {template_name}")
 
     async def apply_consent_template(
-        self, user_id: str, template_name: str, overrides: Optional[Dict] = None
+        self, user_id: str, template_name: str, overrides: Optional[dict] = None
     ) -> bool:
         """Apply a consent template to a user"""
         if template_name not in self.consent_templates:
@@ -471,7 +469,7 @@ class ConsentManager:
 
         return await self.grant_consent(user_id, scope, level, context, duration)
 
-    def export_consent_data(self, user_id: str) -> Dict[str, Any]:
+    def export_consent_data(self, user_id: str) -> dict[str, Any]:
         """Export all consent data for a user (GDPR compliance)"""
         user_records = self.consent_records.get(user_id, [])
 
@@ -516,7 +514,7 @@ class ConsentManager:
             logger.error(f"Error deleting user data: {e}")
             return False
 
-    def get_system_metrics(self) -> Dict[str, Any]:
+    def get_system_metrics(self) -> dict[str, Any]:
         """Get consent system metrics"""
         total_users = len(self.consent_records)
         total_consents = sum(len(records) for records in self.consent_records.values())
@@ -540,8 +538,8 @@ class ConsentManager:
     async def grant_data_source_consent(
         self,
         user_id: str,
-        data_sources: List[DataSource],
-        restrictions: Optional[Dict] = None,
+        data_sources: list[DataSource],
+        restrictions: Optional[dict] = None,
     ) -> bool:
         """
         Grant consent for specific data sources
@@ -597,7 +595,7 @@ class ConsentManager:
             return False
 
     async def revoke_data_source_consent(
-        self, user_id: str, data_sources: List[DataSource]
+        self, user_id: str, data_sources: list[DataSource]
     ) -> bool:
         """Revoke consent for specific data sources"""
         try:
@@ -641,8 +639,8 @@ class ConsentManager:
         self,
         user_id: str,
         vendor_id: str,
-        permissions: Dict[str, Any],
-        data_sources: Optional[List[DataSource]] = None,
+        permissions: dict[str, Any],
+        data_sources: Optional[list[DataSource]] = None,
     ) -> bool:
         """
         Grant consent for a specific vendor to access user data
@@ -725,7 +723,7 @@ class ConsentManager:
     async def grant_ai_generation_consent(
         self,
         user_id: str,
-        generation_types: List[AIGenerationType],
+        generation_types: list[AIGenerationType],
         ethical_checks: bool = True,
         openai_api: bool = True,
     ) -> bool:
@@ -790,7 +788,7 @@ class ConsentManager:
 
     async def check_ai_generation_permission(
         self, user_id: str, generation_type: AIGenerationType
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Check if user has granted permission for AI content generation"""
         if user_id not in self.ai_generation_settings:
             return {"allowed": False, "reason": "No AI generation consent found"}
@@ -809,7 +807,7 @@ class ConsentManager:
             "openai_api_enabled": settings.get("openai_api_enabled", False),
         }
 
-    async def get_comprehensive_consent_profile(self, user_id: str) -> Dict[str, Any]:
+    async def get_comprehensive_consent_profile(self, user_id: str) -> dict[str, Any]:
         """Get complete consent profile for a user including all data sources and vendors"""
         profile = {
             "user_id": user_id,

@@ -3,10 +3,11 @@
 Implements a 3D helical visualization of system memories,
 integrating with the memory management system, Lukhas_ID, and Seedra.
 """
+import logging
 
 import time
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 import plotly.graph_objects as go
@@ -70,7 +71,7 @@ class MemoryHelixVisualizer:
 
     def get_memory_coordinates(
         self, memory_id: str, index: int, total_memories: int
-    ) -> Tuple[float, float, float]:
+    ) -> tuple[float, float, float]:
         """
         Calculate the 3D coordinates for a memory along the helix.
 
@@ -101,7 +102,7 @@ class MemoryHelixVisualizer:
 
     def get_authorized_memories(
         self, user_id: str = None, access_tier: AccessTier = None
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Get the list of memories that the user is authorized to view.
 
@@ -160,7 +161,7 @@ class MemoryHelixVisualizer:
             fig = go.Figure()
             fig.update_layout(
                 title="Memory Helix (No accessible memories)",
-                scene=dict(xaxis_title="X", yaxis_title="Y", zaxis_title="Time"),
+                scene={"xaxis_title": "X", "yaxis_title": "Y", "zaxis_title": "Time"},
                 height=height,
                 width=width,
             )
@@ -225,9 +226,12 @@ class MemoryHelixVisualizer:
             y=ys,
             z=zs,
             mode="markers",
-            marker=dict(
-                size=sizes, color=colors, opacity=0.8, line=dict(width=1, color="black")
-            ),
+            marker={
+                "size": sizes,
+                "color": colors,
+                "opacity": 0.8,
+                "line": {"width": 1, "color": "black"},
+            },
             text=texts,
             hoverinfo="text",
             name="Memories",
@@ -244,7 +248,7 @@ class MemoryHelixVisualizer:
             y=helix_y,
             z=helix_z,
             mode="lines",
-            line=dict(color="lightgray", width=2),
+            line={"color": "lightgray", "width": 2},
             hoverinfo="none",
             name="Memory Helix",
         )
@@ -256,7 +260,7 @@ class MemoryHelixVisualizer:
                 y=edges_y,
                 z=edges_z,
                 mode="lines",
-                line=dict(color="rgba(120, 120, 120, 0.4)", width=1),
+                line={"color": "rgba(120, 120, 120, 0.4)", "width": 1},
                 hoverinfo="none",
                 name="Memory Connections",
             )
@@ -269,16 +273,19 @@ class MemoryHelixVisualizer:
         # Configure the layout
         fig.update_layout(
             title=f"Memory Helix ({total_memories} memories)",
-            scene=dict(
-                xaxis_title="X",
-                yaxis_title="Y",
-                zaxis_title="Time",
-                camera=dict(eye=dict(x=1.5, y=1.5, z=0.8), up=dict(x=0, y=0, z=1)),
-            ),
+            scene={
+                "xaxis_title": "X",
+                "yaxis_title": "Y",
+                "zaxis_title": "Time",
+                "camera": {
+                    "eye": {"x": 1.5, "y": 1.5, "z": 0.8},
+                    "up": {"x": 0, "y": 0, "z": 1},
+                },
+            },
             height=height,
             width=width,
-            legend=dict(x=0, y=0.9, bgcolor="rgba(255, 255, 255, 0.5)"),
-            margin=dict(l=0, r=0, b=10, t=50),
+            legend={"x": 0, "y": 0.9, "bgcolor": "rgba(255, 255, 255, 0.5)"},
+            margin={"l": 0, "r": 0, "b": 10, "t": 50},
         )
 
         # Add legend for memory types
@@ -289,7 +296,7 @@ class MemoryHelixVisualizer:
                     y=[None],
                     z=[None],  # No actual points
                     mode="markers",
-                    marker=dict(size=10, color=color),
+                    marker={"size": 10, "color": color},
                     name=f"{memory_type}",
                     showlegend=True,
                 )
@@ -329,7 +336,7 @@ class MemoryHelixVisualizer:
 
         return file_path
 
-    def update_memory_links(self, memory_id: str, related_memory_ids: List[str]):
+    def update_memory_links(self, memory_id: str, related_memory_ids: list[str]):
         """
         Update the links between memories in the visualization.
 

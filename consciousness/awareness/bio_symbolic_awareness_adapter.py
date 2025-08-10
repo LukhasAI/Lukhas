@@ -15,7 +15,7 @@ import asyncio
 import hashlib
 from collections import deque
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -52,10 +52,7 @@ except ImportError:
             std_x = (sum((val - mean_x) ** 2 for val in x) / len(x)) ** 0.5
             std_y = (sum((val - mean_y) ** 2 for val in y) / len(y)) ** 0.5
 
-            if std_x == 0 or std_y == 0:
-                corr = 0.0
-            else:
-                corr = cov / (std_x * std_y)
+            corr = 0.0 if std_x == 0 or std_y == 0 else cov / (std_x * std_y)
 
             return [[1.0, corr], [corr, 1.0]]
 
@@ -111,7 +108,7 @@ class BioSymbolicAwarenessAdapter:
     - Bio-inspired security protocols
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         # Core bio components
         self.proton_gradient = ProtonGradient()
         self.attention_gate = QuantumAttentionGate()
@@ -179,8 +176,8 @@ class BioSymbolicAwarenessAdapter:
         self.config = config or {}
 
     async def enhance_context_vector(
-        self, context_vector: Dict[str, float]
-    ) -> Dict[str, float]:
+        self, context_vector: dict[str, float]
+    ) -> dict[str, float]:
         """
         Enhance contextual awareness through quantum-biological processing.
         Follows Jobs' philosophy: "Simplicity is the ultimate sophistication"
@@ -199,8 +196,8 @@ class BioSymbolicAwarenessAdapter:
             return await self._activate_safe_fallback(context_vector)
 
     async def _process_through_pipeline(
-        self, data: Dict[str, float]
-    ) -> Dict[str, float]:
+        self, data: dict[str, float]
+    ) -> dict[str, float]:
         """Single unified processing pipeline following quantum-biological metaphor"""
         # Phase 1: Quantum Focus (Attention)
         focused = await self._apply_with_fallback(
@@ -227,7 +224,7 @@ class BioSymbolicAwarenessAdapter:
         return secured
 
     async def _adapt_and_learn(
-        self, input_data: Dict[str, float], output_data: Dict[str, float]
+        self, input_data: dict[str, float], output_data: dict[str, float]
     ) -> None:
         """Unified adaptation and learning process"""
         # Update core metrics
@@ -252,7 +249,7 @@ class BioSymbolicAwarenessAdapter:
         # Adapt system parameters
         await self._adapt_parameters()
 
-    async def compute_bio_confidence(self, vector: Dict[str, float]) -> float:
+    async def compute_bio_confidence(self, vector: dict[str, float]) -> float:
         """
         Calculate confidence using bio-inspired metrics
         """
@@ -274,7 +271,7 @@ class BioSymbolicAwarenessAdapter:
 
         return np.clip(confidence, 0.0, 1.0)
 
-    async def get_recovery_signature(self, user_id: str) -> Dict[str, Any]:
+    async def get_recovery_signature(self, user_id: str) -> dict[str, Any]:
         """
         Generate quantum-bio recovery signature
         """
@@ -297,7 +294,7 @@ class BioSymbolicAwarenessAdapter:
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-    async def get_system_status(self) -> Dict[str, Any]:
+    async def get_system_status(self) -> dict[str, Any]:
         """
         Get unified system status following Jobs-Altman philosophy:
         - Simple, clear metrics (Jobs)
@@ -357,7 +354,7 @@ class BioSymbolicAwarenessAdapter:
             * self.bio_metrics["identity_strength"],
         )
 
-    def _calculate_adaptation_trend(self) -> Dict[str, float]:
+    def _calculate_adaptation_trend(self) -> dict[str, float]:
         """Analyze adaptation trends (Altman-style monitoring)"""
         if not self.safety_state["adaptation_history"]:
             return {"trend": 0.0, "volatility": 0.0}
@@ -376,7 +373,7 @@ class BioSymbolicAwarenessAdapter:
             "volatility": float(np.std(recent_rates)),
         }
 
-    def _check_resource_warnings(self) -> List[str]:
+    def _check_resource_warnings(self) -> list[str]:
         """Check for resource issues (Altman-style precaution)"""
         warnings = []
 
@@ -388,7 +385,7 @@ class BioSymbolicAwarenessAdapter:
 
         return warnings
 
-    def _get_recommended_actions(self) -> List[str]:
+    def _get_recommended_actions(self) -> list[str]:
         """Get recommended safety actions (Jobs-style clarity)"""
         actions = []
 
@@ -404,7 +401,7 @@ class BioSymbolicAwarenessAdapter:
         return actions
 
     def _update_metrics(
-        self, input_vector: Dict[str, float], output_vector: Dict[str, float]
+        self, input_vector: dict[str, float], output_vector: dict[str, float]
     ) -> None:
         """Update bio-inspired metrics based on processing results"""
         # Update proton gradient (energy level)
@@ -453,7 +450,7 @@ class BioSymbolicAwarenessAdapter:
             self.bio_metrics["proton_gradient"] = 0.8
             self.bio_metrics["attention_focus"] = 0.7
 
-    def _apply_quantum_enhancement(self, pattern: Dict[str, Any]) -> Dict[str, Any]:
+    def _apply_quantum_enhancement(self, pattern: dict[str, Any]) -> dict[str, Any]:
         """Apply quantum features to recovery pattern"""
         # Add quantum signature
         pattern["quantum_signature"] = {
@@ -467,7 +464,7 @@ class BioSymbolicAwarenessAdapter:
         return pattern
 
     async def _apply_with_fallback(
-        self, func: Any, data: Any, state: Dict[str, Any]
+        self, func: Any, data: Any, state: dict[str, Any]
     ) -> Any:
         """Apply function with multi-tier fallback mechanism"""
         try:
@@ -499,7 +496,7 @@ class BioSymbolicAwarenessAdapter:
             return self._minimal_process(data)
 
     async def _allocate_resources(
-        self, func: Any, data: Any, state: Dict[str, Any]
+        self, func: Any, data: Any, state: dict[str, Any]
     ) -> Any:
         """Allocate resources adaptively based on demands"""
         # Calculate resource needs
@@ -523,7 +520,7 @@ class BioSymbolicAwarenessAdapter:
         return await self._try_async(func, data, {**state, "resource_scale": allocated})
 
     async def _filter_with_learning(
-        self, func: Any, data: Any, metrics: Dict[str, Any]
+        self, func: Any, data: Any, metrics: dict[str, Any]
     ) -> Any:
         """Filter with cross-domain pattern learning"""
         # Extract pattern signature
@@ -588,7 +585,7 @@ class BioSymbolicAwarenessAdapter:
                 min(1.0, self.resource_pools[pool] + regeneration)
             )
 
-    def _extract_pattern(self, data: Dict[str, float]) -> Optional[str]:
+    def _extract_pattern(self, data: dict[str, float]) -> Optional[str]:
         """Extract pattern signature from data"""
         if not data:
             return None
@@ -708,8 +705,8 @@ class BioSymbolicAwarenessAdapter:
         self._adjust_learning_rate()
 
     async def _activate_safe_fallback(
-        self, context_vector: Dict[str, float]
-    ) -> Dict[str, float]:
+        self, context_vector: dict[str, float]
+    ) -> dict[str, float]:
         """Activate safe fallback processing when main pipeline fails"""
         logger.warning("Activating safe fallback processing")
 
@@ -734,8 +731,8 @@ class BioSymbolicAwarenessAdapter:
                 logger.info("Pattern promoted to long-term memory")
 
     async def _apply_known_pattern(
-        self, data: Dict[str, float], pattern_sig: str
-    ) -> Dict[str, float]:
+        self, data: dict[str, float], pattern_sig: str
+    ) -> dict[str, float]:
         """Apply a known pattern from memory"""
         # Use pattern_sig for consistency (avoid unused parameter warning)
         pattern_boost = 0.1 if pattern_sig in self.pattern_memory["long_term"] else 0.0
@@ -751,8 +748,8 @@ class BioSymbolicAwarenessAdapter:
         }
 
     async def _apply_learned_pattern(
-        self, data: Dict[str, float], pattern_sig: str
-    ) -> Dict[str, float]:
+        self, data: dict[str, float], pattern_sig: str
+    ) -> dict[str, float]:
         """Apply a learned pattern with adaptation"""
         # Use pattern_sig for learning enhancement
         learning_boost = (
@@ -766,7 +763,7 @@ class BioSymbolicAwarenessAdapter:
         }
 
     def _update_pattern_memory(
-        self, pattern_sig: str, result: Dict[str, float]
+        self, pattern_sig: str, result: dict[str, float]
     ) -> None:
         """Update pattern memory with new result"""
         if pattern_sig:

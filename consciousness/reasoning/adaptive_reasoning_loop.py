@@ -5,7 +5,7 @@ Dynamic reasoning system that adapts strategies based on context and feedback
 
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict
+from typing import Any
 
 from core.common import get_logger
 
@@ -29,7 +29,7 @@ class ReasoningContext:
     """Context for reasoning operations"""
 
     def __init__(
-        self, query: str, domain: str = "general", constraints: Dict[str, Any] = None
+        self, query: str, domain: str = "general", constraints: dict[str, Any] = None
     ):
         self.query = query
         self.domain = domain
@@ -64,7 +64,7 @@ class AdaptiveReasoningLoop:
         self.adaptation_threshold = 0.7
         self.max_iterations = 10
 
-    async def start_reasoning(self, context: ReasoningContext) -> Dict[str, Any]:
+    async def start_reasoning(self, context: ReasoningContext) -> dict[str, Any]:
         """Start adaptive reasoning process"""
         self.active = True
         logger.info(f"Starting adaptive reasoning for: {context.query}")
@@ -135,7 +135,7 @@ class AdaptiveReasoningLoop:
 
     async def _apply_strategy(
         self, strategy: ReasoningStrategy, context: ReasoningContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Apply a specific reasoning strategy"""
         step_result = {
             "strategy": strategy.value,
@@ -166,8 +166,8 @@ class AdaptiveReasoningLoop:
         return step_result
 
     async def _deductive_reasoning(
-        self, context: ReasoningContext, result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply deductive reasoning: general principles to specific conclusions"""
         result["process"].append("Applying general rules to specific case")
 
@@ -182,8 +182,8 @@ class AdaptiveReasoningLoop:
         return result
 
     async def _inductive_reasoning(
-        self, context: ReasoningContext, result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply inductive reasoning: specific observations to general principles"""
         result["process"].append("Generalizing from specific examples")
 
@@ -198,8 +198,8 @@ class AdaptiveReasoningLoop:
         return result
 
     async def _abductive_reasoning(
-        self, context: ReasoningContext, result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply abductive reasoning: best explanation for observations"""
         result["process"].append("Finding best explanation for observations")
 
@@ -214,8 +214,8 @@ class AdaptiveReasoningLoop:
         return result
 
     async def _analogical_reasoning(
-        self, context: ReasoningContext, result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply analogical reasoning: reasoning by comparison"""
         result["process"].append("Finding similar cases for comparison")
 
@@ -230,8 +230,8 @@ class AdaptiveReasoningLoop:
         return result
 
     async def _causal_reasoning(
-        self, context: ReasoningContext, result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply causal reasoning: understanding cause and effect"""
         result["process"].append("Analyzing causal relationships")
 
@@ -246,8 +246,8 @@ class AdaptiveReasoningLoop:
         return result
 
     async def _probabilistic_reasoning(
-        self, context: ReasoningContext, result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply probabilistic reasoning: reasoning under uncertainty"""
         result["process"].append("Calculating probabilities and uncertainties")
 
@@ -262,8 +262,8 @@ class AdaptiveReasoningLoop:
         return result
 
     async def _symbolic_reasoning(
-        self, context: ReasoningContext, result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply symbolic reasoning: formal logic and symbol manipulation"""
         result["process"].append("Applying formal symbolic logic")
 
@@ -278,8 +278,8 @@ class AdaptiveReasoningLoop:
         return result
 
     async def _hybrid_reasoning(
-        self, context: ReasoningContext, result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, context: ReasoningContext, result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply hybrid reasoning: combining multiple strategies"""
         result["process"].append("Combining multiple reasoning strategies")
 
@@ -298,7 +298,7 @@ class AdaptiveReasoningLoop:
 
         return result
 
-    def _evaluate_performance(self, step_result: Dict[str, Any]) -> float:
+    def _evaluate_performance(self, step_result: dict[str, Any]) -> float:
         """Evaluate the performance of a reasoning step"""
         # Simple evaluation based on confidence and completeness
         confidence = step_result.get("confidence", 0.0)
@@ -359,7 +359,7 @@ class AdaptiveReasoningLoop:
         logger.info("Adaptive reasoning loop stopped")
         return {"status": "stopped", "iterations": len(self.performance_history)}
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current reasoning loop status"""
         return {
             "active": self.active,

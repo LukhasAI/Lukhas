@@ -19,7 +19,7 @@ import logging
 import math
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import cv2
 import numpy as np
@@ -66,10 +66,10 @@ class CircularConfig:
 class CircularData:
     """Data structure for circular encoding"""
 
-    rings: List[List[int]]  # Data by ring and sector
-    metadata: Dict[str, Any]  # Encoding metadata
-    error_correction: List[int]  # Error correction data
-    consciousness_map: Dict[str, Any]  # Emotional adaptation mapping
+    rings: list[list[int]]  # Data by ring and sector
+    metadata: dict[str, Any]  # Encoding metadata
+    error_correction: list[int]  # Error correction data
+    consciousness_map: dict[str, Any]  # Emotional adaptation mapping
 
 
 class CircularQREngine:
@@ -116,7 +116,7 @@ class CircularQREngine:
             f"📐 Initialized geometry: {len(self.ring_radii)} rings, {self.config.sector_count} sectors"
         )
 
-    def _calculate_golden_ratio_rings(self) -> List[float]:
+    def _calculate_golden_ratio_rings(self) -> list[float]:
         """Calculate ring positions using golden ratio proportions"""
         rings = []
 
@@ -131,7 +131,7 @@ class CircularQREngine:
 
         return rings
 
-    def _calculate_linear_rings(self) -> List[float]:
+    def _calculate_linear_rings(self) -> list[float]:
         """Calculate ring positions using linear spacing"""
         step = (
             self.config.outer_radius - self.config.center_radius
@@ -169,9 +169,9 @@ class CircularQREngine:
     def encode_circular_qr(
         self,
         data: str,
-        consciousness_context: Optional[Dict[str, Any]] = None,
+        consciousness_context: Optional[dict[str, Any]] = None,
         visual_size: int = 512,
-    ) -> Tuple[np.ndarray, CircularData]:
+    ) -> tuple[np.ndarray, CircularData]:
         """
         Create circular QR code from data
 
@@ -221,7 +221,7 @@ class CircularQREngine:
         logger.info("✨ Circular QR encoding completed")
         return enhanced_matrix, circular_data
 
-    def _preprocess_data(self, data: str) -> List[int]:
+    def _preprocess_data(self, data: str) -> list[int]:
         """Preprocess data for circular encoding"""
         # Convert to bytes and then to bit array
         data_bytes = data.encode("utf-8")
@@ -247,10 +247,9 @@ class CircularQREngine:
 
         return bit_array
 
-    def _distribute_data_circular(self, data: List[int]) -> CircularData:
+    def _distribute_data_circular(self, data: list[int]) -> CircularData:
         """Distribute data across circular ring structure"""
         rings = []
-        data_index = 0
 
         # Distribute based on pattern type
         if self.config.pattern_type == CircularPattern.SPIRAL_FIBONACCI:
@@ -276,7 +275,7 @@ class CircularQREngine:
             consciousness_map={},
         )
 
-    def _distribute_fibonacci_spiral(self, data: List[int]) -> List[List[int]]:
+    def _distribute_fibonacci_spiral(self, data: list[int]) -> list[list[int]]:
         """Distribute data following Fibonacci spiral pattern"""
         rings = [[] for _ in range(self.config.ring_count)]
         data_index = 0
@@ -290,7 +289,7 @@ class CircularQREngine:
             fib_factor = fib_sequence[ring_idx] / max(fib_sequence)
             sectors_in_ring = max(1, int(self.config.sector_count * fib_factor))
 
-            for sector_idx in range(sectors_in_ring):
+            for _sector_idx in range(sectors_in_ring):
                 if data_index < len(data):
                     ring_data.append(data[data_index])
                     data_index += 1
@@ -305,7 +304,7 @@ class CircularQREngine:
 
         return rings
 
-    def _distribute_lambda_spiral(self, data: List[int]) -> List[List[int]]:
+    def _distribute_lambda_spiral(self, data: list[int]) -> list[list[int]]:
         """Distribute data following Lambda (Λ) symbol spiral pattern"""
         rings = [[] for _ in range(self.config.ring_count)]
 
@@ -333,14 +332,14 @@ class CircularQREngine:
 
         return rings
 
-    def _distribute_concentric(self, data: List[int]) -> List[List[int]]:
+    def _distribute_concentric(self, data: list[int]) -> list[list[int]]:
         """Distribute data in concentric ring pattern"""
         rings = []
         data_index = 0
 
-        for ring_idx in range(self.config.ring_count):
+        for _ring_idx in range(self.config.ring_count):
             ring_data = []
-            for sector_idx in range(self.config.sector_count):
+            for _sector_idx in range(self.config.sector_count):
                 if data_index < len(data):
                     ring_data.append(data[data_index])
                     data_index += 1
@@ -350,7 +349,7 @@ class CircularQREngine:
 
         return rings
 
-    def _distribute_mandala(self, data: List[int]) -> List[List[int]]:
+    def _distribute_mandala(self, data: list[int]) -> list[list[int]]:
         """Distribute data in sacred mandala pattern"""
         rings = [[] for _ in range(self.config.ring_count)]
 
@@ -375,7 +374,7 @@ class CircularQREngine:
 
         return rings
 
-    def _distribute_default(self, data: List[int]) -> List[List[int]]:
+    def _distribute_default(self, data: list[int]) -> list[list[int]]:
         """Default linear distribution"""
         return self._distribute_concentric(data)
 
@@ -390,7 +389,7 @@ class CircularQREngine:
 
         # Simple error correction (in production, would use Reed-Solomon)
         error_correction = []
-        for i in range(error_correction_capacity):
+        for _i in range(error_correction_capacity):
             # XOR-based simple error correction
             correction_bit = total_data_bits % 2
             error_correction.append(correction_bit)
@@ -411,7 +410,7 @@ class CircularQREngine:
                             ec_index += 1
 
     def _apply_consciousness_adaptation(
-        self, circular_data: CircularData, consciousness_context: Dict[str, Any]
+        self, circular_data: CircularData, consciousness_context: dict[str, Any]
     ):
         """Apply consciousness-aware adaptations to circular pattern"""
         # 🎨 Poetic Layer: "Infusing soul's rhythm into geometric harmony"
@@ -447,11 +446,11 @@ class CircularQREngine:
 
     def _calculate_zone_adaptation(
         self,
-        zone_config: Dict[str, Any],
+        zone_config: dict[str, Any],
         valence: float,
         arousal: float,
         emotional_state: str,
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Calculate consciousness adaptation for a zone"""
         # Base adaptation strength
         base_strength = zone_config["adaptation_strength"]
@@ -483,7 +482,7 @@ class CircularQREngine:
         }
 
     def _apply_ring_adaptation(
-        self, ring_data: List[int], adaptation: Dict[str, float]
+        self, ring_data: list[int], adaptation: dict[str, float]
     ):
         """Apply consciousness adaptation to a ring"""
         density_factor = adaptation["pattern_density"]
@@ -594,7 +593,7 @@ class CircularQREngine:
 
     def _calculate_sector_color(
         self, value: int, ring_idx: int
-    ) -> Tuple[int, int, int]:
+    ) -> tuple[int, int, int]:
         """Calculate color for a sector based on value and position"""
         if value == 0:
             return (0, 0, 0)  # Black for empty
@@ -619,7 +618,7 @@ class CircularQREngine:
         self,
         matrix: np.ndarray,
         circular_data: CircularData,
-        consciousness_context: Optional[Dict[str, Any]] = None,
+        consciousness_context: Optional[dict[str, Any]] = None,
     ) -> np.ndarray:
         """Apply pattern-specific visual enhancements"""
         enhanced_matrix = matrix.copy()
@@ -640,7 +639,7 @@ class CircularQREngine:
         return enhanced_matrix
 
     def _enhance_lambda_spiral(
-        self, matrix: np.ndarray, consciousness_context: Optional[Dict[str, Any]]
+        self, matrix: np.ndarray, consciousness_context: Optional[dict[str, Any]]
     ) -> np.ndarray:
         """Enhance with Lambda spiral pattern effects"""
         # Add Lambda symbol overlay
@@ -692,7 +691,7 @@ class CircularQREngine:
         alpha = 0.7
         return cv2.addWeighted(matrix, alpha, blurred, 1 - alpha, 0)
 
-    def _generate_fibonacci_sequence(self, n: int) -> List[int]:
+    def _generate_fibonacci_sequence(self, n: int) -> list[int]:
         """Generate Fibonacci sequence up to n terms"""
         if n <= 0:
             return []
@@ -707,14 +706,14 @@ class CircularQREngine:
 
         return fib
 
-    def _calculate_lambda_pattern(self) -> Dict[int, float]:
+    def _calculate_lambda_pattern(self) -> dict[int, float]:
         """Calculate Lambda symbol pattern weights"""
         # Lambda shape: two lines converging upward
         pattern = {}
 
         for sector_idx in range(self.config.sector_count):
             angle = self.sector_angles[sector_idx]
-            normalized_angle = angle / (2 * self.PI)
+            angle / (2 * self.PI)
 
             # Lambda shape weight - stronger near 30° and 150° lines
             lambda_angle_1 = self.PI / 6  # 30°
@@ -727,7 +726,7 @@ class CircularQREngine:
 
         return pattern
 
-    def _calculate_mandala_sectors(self) -> Dict[int, float]:
+    def _calculate_mandala_sectors(self) -> dict[int, float]:
         """Calculate mandala sacred geometry sector weights"""
         mandala_weights = {}
 
@@ -749,7 +748,7 @@ class CircularQREngine:
 
     def _calculate_lambda_symbol_points(
         self, center: int, size: int
-    ) -> List[Tuple[float, float]]:
+    ) -> list[tuple[float, float]]:
         """Calculate points for Lambda symbol overlay"""
         # Lambda symbol as two lines forming Λ
         half_size = size // 2
@@ -764,7 +763,7 @@ class CircularQREngine:
 
     def decode_circular_qr(
         self, visual_matrix: np.ndarray
-    ) -> Tuple[str, Dict[str, Any]]:
+    ) -> tuple[str, dict[str, Any]]:
         """
         Decode circular QR code from visual matrix
 
@@ -857,7 +856,7 @@ class CircularQREngine:
         # Simplified error correction
         return circular_data
 
-    def _reconstruct_bit_sequence(self, circular_data: CircularData) -> List[int]:
+    def _reconstruct_bit_sequence(self, circular_data: CircularData) -> list[int]:
         """Reconstruct bit sequence from circular data"""
         bits = []
         for ring in circular_data.rings:
@@ -869,7 +868,7 @@ class CircularQREngine:
 
         return bits
 
-    def _bits_to_string(self, bits: List[int]) -> str:
+    def _bits_to_string(self, bits: list[int]) -> str:
         """Convert bit sequence to string"""
         # Group bits into bytes
         byte_strings = []
@@ -894,7 +893,7 @@ class CircularQREngine:
         density = non_zero_bits / total_bits
         return min(1.0, density * 2.0)  # Scale to reasonable confidence
 
-    def get_encoding_statistics(self) -> Dict[str, Any]:
+    def get_encoding_statistics(self) -> dict[str, Any]:
         """Get comprehensive encoding statistics"""
         return {
             "geometry": {

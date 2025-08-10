@@ -2,10 +2,11 @@
 Quantum Consciousness Integration Wrapper
 Integration wrapper for connecting quantum consciousness integration to the consciousness hub
 """
+import logging
 
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -14,8 +15,6 @@ try:
         MODULE_NAME,
         MODULE_VERSION,
         QuantumCreativeConsciousness,
-        generate_conscious_content,
-        get_consciousness_integration_status,
     )
 
     QUANTUM_CONSCIOUSNESS_AVAILABLE = True
@@ -40,7 +39,7 @@ class QuantumConsciousnessIntegration:
     Provides a simplified interface for the consciousness hub.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the quantum consciousness integration"""
         self.config = config or {
             "enable_quantum_consciousness": True,
@@ -169,7 +168,7 @@ class QuantumConsciousnessIntegration:
         style: str = "professional",
         consciousness_level: str = "elevated",
         session_id: Optional[str] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate consciousness-enhanced content
 
@@ -244,7 +243,7 @@ class QuantumConsciousnessIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def get_consciousness_status(self) -> Dict[str, Any]:
+    async def get_consciousness_status(self) -> dict[str, Any]:
         """
         Get quantum consciousness integration status
 
@@ -292,7 +291,7 @@ class QuantumConsciousnessIntegration:
 
     async def enhance_consciousness_level(
         self, target_level: float = 0.9
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Enhance consciousness level for improved content generation
 
@@ -346,7 +345,7 @@ class QuantumConsciousnessIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def get_content_generation_sessions(self) -> List[Dict[str, Any]]:
+    async def get_content_generation_sessions(self) -> list[dict[str, Any]]:
         """
         Get list of all content generation sessions
 
@@ -367,7 +366,7 @@ class QuantumConsciousnessIntegration:
             logger.error(f"Error getting content generation sessions: {e}")
             return []
 
-    async def get_consciousness_metrics(self) -> Dict[str, Any]:
+    async def get_consciousness_metrics(self) -> dict[str, Any]:
         """
         Get quantum consciousness integration metrics
 
@@ -419,7 +418,7 @@ class QuantumConsciousnessIntegration:
         )
         return content_type in supported_types
 
-    def _update_consciousness_metrics(self, result: Dict[str, Any]):
+    def _update_consciousness_metrics(self, result: dict[str, Any]):
         """Update consciousness metrics based on generation result"""
         try:
             metrics = result.get("consciousness_metrics", {})
@@ -464,7 +463,7 @@ class QuantumConsciousnessIntegration:
         theme: str,
         style: str,
         consciousness_level: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Fallback content generation when main system is not available"""
         content_templates = {
             "haiku": f"Quantum {theme} flows\nThrough consciousness streams bright\nMeaning crystallizes",
@@ -508,7 +507,7 @@ class QuantumConsciousnessIntegration:
             "generated_at": datetime.now().isoformat(),
         }
 
-    async def _fallback_get_status(self) -> Dict[str, Any]:
+    async def _fallback_get_status(self) -> dict[str, Any]:
         """Fallback status when main system is not available"""
         return {
             "success": True,
@@ -536,7 +535,7 @@ class QuantumConsciousnessIntegration:
 
 # Factory function for creating the integration
 def create_quantum_consciousness_integration(
-    config: Optional[Dict[str, Any]] = None,
+    config: Optional[dict[str, Any]] = None,
 ) -> QuantumConsciousnessIntegration:
     """Create and return a quantum consciousness integration instance"""
     return QuantumConsciousnessIntegration(config)

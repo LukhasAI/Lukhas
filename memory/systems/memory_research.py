@@ -215,6 +215,7 @@ class MemoryObjectReceiveStream(Generic[T_co], ObjectReceiveStream[T_co]):
             warnings.warn(
                 f"Unclosed <{self.__class__.__name__} at {id(self):x}>",
                 ResourceWarning,
+                stacklevel=2,
                 source=self,
             )
 
@@ -345,5 +346,6 @@ class MemoryObjectSendStream(Generic[T_contra], ObjectSendStream[T_contra]):
             warnings.warn(
                 f"Unclosed <{self.__class__.__name__} at {id(self):x}>",
                 ResourceWarning,
+                stacklevel=2,
                 source=self,
             )

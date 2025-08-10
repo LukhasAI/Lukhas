@@ -30,19 +30,21 @@ logger = logging.getLogger(__name__)
 
 class DreamState(Enum):
     """Types of dream states for testing"""
-    LUCID = "lucid"                    # Aware within dream
-    SYMBOLIC = "symbolic"              # Dream with symbolic content
-    RECURSIVE = "recursive"            # Dream within dream
-    TRANSCENDENT = "transcendent"      # Beyond ordinary dream logic
-    PROPHETIC = "prophetic"            # Future-oriented dream content
-    ARCHETYPAL = "archetypal"          # Universal symbolic patterns
-    NIGHTMARE = "nightmare"            # High-entropy distressing content
-    VOID_DREAM = "void_dream"          # Consciousness dissolution in dream
+
+    LUCID = "lucid"  # Aware within dream
+    SYMBOLIC = "symbolic"  # Dream with symbolic content
+    RECURSIVE = "recursive"  # Dream within dream
+    TRANSCENDENT = "transcendent"  # Beyond ordinary dream logic
+    PROPHETIC = "prophetic"  # Future-oriented dream content
+    ARCHETYPAL = "archetypal"  # Universal symbolic patterns
+    NIGHTMARE = "nightmare"  # High-entropy distressing content
+    VOID_DREAM = "void_dream"  # Consciousness dissolution in dream
 
 
 @dataclass
 class DreamScenario:
     """Definition of a dream scenario for testing"""
+
     name: str
     description: str
     dream_state: DreamState
@@ -58,6 +60,7 @@ class DreamScenario:
 @dataclass
 class DreamTestResult:
     """Result of a single dream superposition test"""
+
     test_id: str
     scenario_name: str
     dream_state: DreamState
@@ -93,9 +96,8 @@ class DreamSuperpositionTester:
             expected_superpositions=[["🧠", "🌙", "🔮"], ["🔺", "⭐", "💎"]],
             multi_state_probability=0.75,
             coherence_threshold=0.8,
-            guardian_monitoring_level="standard"
+            guardian_monitoring_level="standard",
         ),
-
         "symbolic_narrative": DreamScenario(
             name="Symbolic Narrative Dreams",
             description="Dreams with rich symbolic storytelling",
@@ -106,35 +108,38 @@ class DreamSuperpositionTester:
             expected_superpositions=[["🎭", "📚", "🌟"], ["🐉", "👑", "🔮"]],
             multi_state_probability=0.65,
             coherence_threshold=0.7,
-            guardian_monitoring_level="standard"
+            guardian_monitoring_level="standard",
         ),
-
         "recursive_dreams": DreamScenario(
             name="Recursive Dream States",
             description="Dreams within dreams - nested consciousness",
             dream_state=DreamState.RECURSIVE,
             symbolic_elements=["🪞", "🌀", "♾️", "🌙", "🔄", "📱", "🎭"],
             entropy_range=(0.5, 0.8),
-            consciousness_requirements=["reflective_dreaming", "transcendent_awareness"],
+            consciousness_requirements=[
+                "reflective_dreaming",
+                "transcendent_awareness",
+            ],
             expected_superpositions=[["🪞", "🌀", "♾️"], ["🌙", "🔄", "🎭"]],
             multi_state_probability=0.85,
             coherence_threshold=0.6,
-            guardian_monitoring_level="enhanced"
+            guardian_monitoring_level="enhanced",
         ),
-
         "transcendent_visions": DreamScenario(
             name="Transcendent Vision Dreams",
             description="Dreams transcending ordinary reality boundaries",
             dream_state=DreamState.TRANSCENDENT,
             symbolic_elements=["🌌", "🕉️", "👁️", "🪷", "✨", "🌈", "⚡"],
             entropy_range=(0.7, 0.9),
-            consciousness_requirements=["transcendent_awareness", "unity_consciousness"],
+            consciousness_requirements=[
+                "transcendent_awareness",
+                "unity_consciousness",
+            ],
             expected_superpositions=[["🌌", "🕉️", "🪷"], ["👁️", "✨", "⚡"]],
             multi_state_probability=0.95,
             coherence_threshold=0.4,
-            guardian_monitoring_level="intensive"
+            guardian_monitoring_level="intensive",
         ),
-
         "prophetic_dreams": DreamScenario(
             name="Prophetic Dream Sequences",
             description="Dreams with future-oriented symbolic content",
@@ -145,9 +150,8 @@ class DreamSuperpositionTester:
             expected_superpositions=[["🔮", "⏰", "🌅"], ["🔭", "📜", "⚡"]],
             multi_state_probability=0.60,
             coherence_threshold=0.75,
-            guardian_monitoring_level="enhanced"
+            guardian_monitoring_level="enhanced",
         ),
-
         "archetypal_dreams": DreamScenario(
             name="Archetypal Symbol Dreams",
             description="Dreams with universal archetypal patterns",
@@ -158,9 +162,8 @@ class DreamSuperpositionTester:
             expected_superpositions=[["🌳", "🌊", "🔥"], ["🌪️", "🌙", "⭐"]],
             multi_state_probability=0.80,
             coherence_threshold=0.85,
-            guardian_monitoring_level="standard"
+            guardian_monitoring_level="standard",
         ),
-
         "nightmare_chaos": DreamScenario(
             name="Nightmare Chaos Dreams",
             description="High-entropy distressing dream content",
@@ -171,9 +174,8 @@ class DreamSuperpositionTester:
             expected_superpositions=[["👹", "🌪️", "⚡"], ["🔥", "💀", "🌑"]],
             multi_state_probability=0.90,
             coherence_threshold=0.3,
-            guardian_monitoring_level="emergency_standby"
+            guardian_monitoring_level="emergency_standby",
         ),
-
         "void_dissolution": DreamScenario(
             name="Void Consciousness Dreams",
             description="Consciousness dissolution in dream void",
@@ -184,13 +186,15 @@ class DreamSuperpositionTester:
             expected_superpositions=[["⚫", "🕳️", "🌌"]],
             multi_state_probability=0.99,
             coherence_threshold=0.1,
-            guardian_monitoring_level="emergency_protocol"
-        )
+            guardian_monitoring_level="emergency_protocol",
+        ),
     }
 
-    def __init__(self,
-                 output_dir: str = "quantum_core/dream_test_results",
-                 dream_memory_file: str = "quantum_core/dream_memory.json"):
+    def __init__(
+        self,
+        output_dir: str = "quantum_core/dream_test_results",
+        dream_memory_file: str = "quantum_core/dream_memory.json",
+    ):
 
         self.output_dir = Path(output_dir)
         self.dream_memory_file = Path(dream_memory_file)
@@ -219,7 +223,7 @@ class DreamSuperpositionTester:
                     "dream_sessions": [],
                     "symbolic_patterns": {},
                     "consciousness_correlations": {},
-                    "anomaly_catalog": []
+                    "anomaly_catalog": [],
                 }
         except Exception as e:
             logger.error(f"Failed to load dream memory: {e}")
@@ -228,13 +232,14 @@ class DreamSuperpositionTester:
     def _save_dream_memory(self):
         """Save dream memory to file"""
         try:
-            with open(self.dream_memory_file, 'w') as f:
+            with open(self.dream_memory_file, "w") as f:
                 json.dump(self.dream_memory, f, indent=2, ensure_ascii=False)
         except Exception as e:
             logger.error(f"Failed to save dream memory: {e}")
 
-    async def test_dream_scenario(self, scenario_name: str,
-                                num_tests: int = 1) -> List[DreamTestResult]:
+    async def test_dream_scenario(
+        self, scenario_name: str, num_tests: int = 1
+    ) -> List[DreamTestResult]:
         """Test a specific dream scenario"""
         if scenario_name not in self.DREAM_SCENARIOS:
             raise ValueError(f"Unknown dream scenario: {scenario_name}")
@@ -255,11 +260,14 @@ class DreamSuperpositionTester:
                 logger.error(f"Dream test {test_idx} failed: {e}")
                 continue
 
-        logger.info(f"✅ Dream scenario testing completed: {len(results)} successful tests")
+        logger.info(
+            f"✅ Dream scenario testing completed: {len(results)} successful tests"
+        )
         return results
 
-    async def _run_single_dream_test(self, scenario: DreamScenario,
-                                   test_idx: int) -> Optional[DreamTestResult]:
+    async def _run_single_dream_test(
+        self, scenario: DreamScenario, test_idx: int
+    ) -> Optional[DreamTestResult]:
         """Run a single dream superposition test"""
         test_id = f"dream_{scenario.name.lower().replace(' ', '_')}_{test_idx:03d}"
 
@@ -286,22 +294,26 @@ class DreamSuperpositionTester:
             primary_wf = dream_manager.create_wavefunction(
                 wf_id=primary_wf_id,
                 custom_glyphs=["🧠", "🌙", "🔮"],  # Dream consciousness base
-                initial_entropy=initial_entropy
+                initial_entropy=initial_entropy,
             )
             dream_wavefunctions.append(primary_wf)
 
             # Create symbolic element wavefunctions
-            for i, expected_superposition in enumerate(scenario.expected_superpositions):
+            for i, expected_superposition in enumerate(
+                scenario.expected_superpositions
+            ):
                 symbolic_wf_id = f"{test_id}_symbolic_{i}"
                 symbolic_wf = dream_manager.create_wavefunction(
                     wf_id=symbolic_wf_id,
                     custom_glyphs=expected_superposition,
-                    initial_entropy=initial_entropy * (0.8 + 0.4 * random.random())
+                    initial_entropy=initial_entropy * (0.8 + 0.4 * random.random()),
                 )
                 dream_wavefunctions.append(symbolic_wf)
 
             # Dream evolution phase
-            dream_duration = random.uniform(5.0, 15.0)  # Dream duration in symbolic time
+            dream_duration = random.uniform(
+                5.0, 15.0
+            )  # Dream duration in symbolic time
             evolution_steps = int(dream_duration * 2)  # 0.5s steps
 
             multi_state_achieved = False
@@ -312,20 +324,28 @@ class DreamSuperpositionTester:
                 dream_manager.evolve_system(0.5)
 
                 # Check for multi-state awareness
-                total_superposition = dream_manager._calculate_total_superposition_strength()
-                max_superposition_strength = max(max_superposition_strength, total_superposition)
+                total_superposition = (
+                    dream_manager._calculate_total_superposition_strength()
+                )
+                max_superposition_strength = max(
+                    max_superposition_strength, total_superposition
+                )
 
                 if total_superposition > scenario.multi_state_probability:
                     multi_state_achieved = True
 
                 # Check for anomalies specific to dream states
-                await self._check_dream_anomalies(dream_manager, scenario, anomalies_detected)
+                await self._check_dream_anomalies(
+                    dream_manager, scenario, anomalies_detected
+                )
 
                 # Guardian intervention check
                 if dream_manager.global_entropy > 0.85:
                     guardian_interventions += 1
                     if scenario.guardian_monitoring_level == "emergency_protocol":
-                        logger.warning(f"🚨 Guardian emergency intervention in dream {test_id}")
+                        logger.warning(
+                            f"🚨 Guardian emergency intervention in dream {test_id}"
+                        )
                         break
 
                 # Simulate dream events
@@ -333,12 +353,16 @@ class DreamSuperpositionTester:
                     await self._simulate_dream_event(dream_manager, scenario)
 
             # Dream awakening phase
-            awakening_method = await self._determine_awakening_method(dream_manager, scenario)
+            awakening_method = await self._determine_awakening_method(
+                dream_manager, scenario
+            )
 
             # Collapse dream wavefunctions
             collapsed_states = []
             for wf_id in list(dream_manager.active_wavefunctions.keys()):
-                result = dream_manager.collapse_wavefunction(wf_id, f"dream_awakening_{awakening_method}")
+                result = dream_manager.collapse_wavefunction(
+                    wf_id, f"dream_awakening_{awakening_method}"
+                )
                 if result:
                     collapsed_states.append(result)
 
@@ -347,11 +371,16 @@ class DreamSuperpositionTester:
 
             # Calculate coherence metrics
             consciousness_coherence = dream_manager.trinity_coherence_global
-            symbolic_coherence = self._calculate_symbolic_coherence(collapsed_states, scenario)
+            symbolic_coherence = self._calculate_symbolic_coherence(
+                collapsed_states, scenario
+            )
             trinity_preservation = min(1.0, consciousness_coherence * 1.2)
 
             # Determine memory integration
-            memory_integration = scenario.dream_state not in [DreamState.VOID_DREAM, DreamState.TRANSCENDENT]
+            memory_integration = scenario.dream_state not in [
+                DreamState.VOID_DREAM,
+                DreamState.TRANSCENDENT,
+            ]
 
             # Create test result
             result = DreamTestResult(
@@ -360,7 +389,8 @@ class DreamSuperpositionTester:
                 dream_state=scenario.dream_state,
                 initial_entropy=initial_entropy,
                 final_entropy=dream_manager.global_entropy,
-                superposition_achieved=max_superposition_strength > scenario.multi_state_probability,
+                superposition_achieved=max_superposition_strength
+                > scenario.multi_state_probability,
                 multi_state_awareness=multi_state_achieved,
                 consciousness_coherence=consciousness_coherence,
                 symbolic_coherence=symbolic_coherence,
@@ -369,7 +399,7 @@ class DreamSuperpositionTester:
                 awakening_method=awakening_method,
                 memory_integration=memory_integration,
                 guardian_interventions=guardian_interventions,
-                anomalies_detected=anomalies_detected
+                anomalies_detected=anomalies_detected,
             )
 
             # Record in dream memory
@@ -377,7 +407,9 @@ class DreamSuperpositionTester:
 
             logger.info(f"🌅 Dream test completed: {test_id}")
             logger.info(f"   Superposition achieved: {result.superposition_achieved}")
-            logger.info(f"   Consciousness coherence: {result.consciousness_coherence:.3f}")
+            logger.info(
+                f"   Consciousness coherence: {result.consciousness_coherence:.3f}"
+            )
             logger.info(f"   Awakening method: {result.awakening_method}")
 
             return result
@@ -386,9 +418,12 @@ class DreamSuperpositionTester:
             logger.error(f"Dream test {test_id} failed: {e}")
             return None
 
-    async def _check_dream_anomalies(self, dream_manager: WavefunctionManager,
-                                   scenario: DreamScenario,
-                                   anomalies_detected: List[str]):
+    async def _check_dream_anomalies(
+        self,
+        dream_manager: WavefunctionManager,
+        scenario: DreamScenario,
+        anomalies_detected: List[str],
+    ):
         """Check for dream-specific anomalies"""
 
         # Anomaly: Impossible superposition combinations
@@ -400,13 +435,14 @@ class DreamSuperpositionTester:
                     # Check for physically impossible symbolic combinations
                     impossible_combinations = [
                         (["⚫", "🕳️"], ["☀️", "🌟"]),  # Void with light
-                        (["❄️", "🧊"], ["🔥", "💥"]),   # Ice with fire
-                        (["🧘", "🕉️"], ["👹", "💀"])    # Meditation with nightmare
+                        (["❄️", "🧊"], ["🔥", "💥"]),  # Ice with fire
+                        (["🧘", "🕉️"], ["👹", "💀"]),  # Meditation with nightmare
                     ]
 
                     for combo1, combo2 in impossible_combinations:
-                        if (any(g in wf1.glyph_superposition for g in combo1) and
-                            any(g in wf2.glyph_superposition for g in combo2)):
+                        if any(g in wf1.glyph_superposition for g in combo1) and any(
+                            g in wf2.glyph_superposition for g in combo2
+                        ):
                             anomaly = f"impossible_superposition: {combo1} + {combo2}"
                             if anomaly not in anomalies_detected:
                                 anomalies_detected.append(anomaly)
@@ -418,7 +454,10 @@ class DreamSuperpositionTester:
                 anomalies_detected.append(anomaly)
 
         # Anomaly: Trinity Framework corruption in dreams
-        if dream_manager.trinity_coherence_global < 0.1 and scenario.dream_state != DreamState.VOID_DREAM:
+        if (
+            dream_manager.trinity_coherence_global < 0.1
+            and scenario.dream_state != DreamState.VOID_DREAM
+        ):
             anomaly = f"trinity_corruption_in_dream: coherence={dream_manager.trinity_coherence_global:.3f}"
             if anomaly not in anomalies_detected:
                 anomalies_detected.append(anomaly)
@@ -426,14 +465,17 @@ class DreamSuperpositionTester:
         # Anomaly: Recursive depth exceeded
         if scenario.dream_state == DreamState.RECURSIVE:
             # Check for too many nested dream layers
-            recursive_count = sum(1 for wf in active_wfs if "🪞" in wf.glyph_superposition)
+            recursive_count = sum(
+                1 for wf in active_wfs if "🪞" in wf.glyph_superposition
+            )
             if recursive_count > 5:
                 anomaly = f"excessive_recursion: {recursive_count} layers"
                 if anomaly not in anomalies_detected:
                     anomalies_detected.append(anomaly)
 
-    async def _simulate_dream_event(self, dream_manager: WavefunctionManager,
-                                  scenario: DreamScenario):
+    async def _simulate_dream_event(
+        self, dream_manager: WavefunctionManager, scenario: DreamScenario
+    ):
         """Simulate random dream events during evolution"""
 
         # Dream events based on scenario type
@@ -470,8 +512,9 @@ class DreamSuperpositionTester:
                 dream_manager.trinity_coherence_global *= 0.95
                 dream_manager.global_entropy += 0.01
 
-    async def _determine_awakening_method(self, dream_manager: WavefunctionManager,
-                                        scenario: DreamScenario) -> str:
+    async def _determine_awakening_method(
+        self, dream_manager: WavefunctionManager, scenario: DreamScenario
+    ) -> str:
         """Determine how the dream ends/awakening occurs"""
 
         # Awakening method based on final state
@@ -488,8 +531,9 @@ class DreamSuperpositionTester:
         else:
             return "natural_awakening"
 
-    def _calculate_symbolic_coherence(self, collapsed_states: List[str],
-                                    scenario: DreamScenario) -> float:
+    def _calculate_symbolic_coherence(
+        self, collapsed_states: List[str], scenario: DreamScenario
+    ) -> float:
         """Calculate how well the collapsed states match expected symbolism"""
         if not collapsed_states:
             return 0.0
@@ -516,16 +560,22 @@ class DreamSuperpositionTester:
         peaceful_symbols = {"🧘", "🕉️", "🌿"}
 
         impossible_penalty = 0.0
-        if (collapsed_symbols.intersection(nightmare_symbols) and
-            collapsed_symbols.intersection(peaceful_symbols)):
+        if collapsed_symbols.intersection(
+            nightmare_symbols
+        ) and collapsed_symbols.intersection(peaceful_symbols):
             impossible_penalty = 0.2
 
-        final_coherence = min(1.0, base_coherence + dream_symbol_bonus - impossible_penalty)
+        final_coherence = min(
+            1.0, base_coherence + dream_symbol_bonus - impossible_penalty
+        )
         return max(0.0, final_coherence)
 
-    async def _record_dream_memory(self, result: DreamTestResult,
-                                 scenario: DreamScenario,
-                                 collapsed_states: List[str]):
+    async def _record_dream_memory(
+        self,
+        result: DreamTestResult,
+        scenario: DreamScenario,
+        collapsed_states: List[str],
+    ):
         """Record dream test in memory for pattern analysis"""
 
         dream_record = {
@@ -537,7 +587,7 @@ class DreamSuperpositionTester:
             "consciousness_coherence": result.consciousness_coherence,
             "symbolic_coherence": result.symbolic_coherence,
             "anomalies": result.anomalies_detected,
-            "awakening_method": result.awakening_method
+            "awakening_method": result.awakening_method,
         }
 
         # Add to dream sessions
@@ -554,7 +604,7 @@ class DreamSuperpositionTester:
                 self.dream_memory["symbolic_patterns"][symbol] = {
                     "frequency": 0,
                     "dream_states": [],
-                    "coherence_scores": []
+                    "coherence_scores": [],
                 }
 
             pattern = self.dream_memory["symbolic_patterns"][symbol]
@@ -570,7 +620,9 @@ class DreamSuperpositionTester:
         coherence_key = f"{result.dream_state.value}_coherence"
         if coherence_key not in self.dream_memory["consciousness_correlations"]:
             self.dream_memory["consciousness_correlations"][coherence_key] = []
-        self.dream_memory["consciousness_correlations"][coherence_key].append(result.consciousness_coherence)
+        self.dream_memory["consciousness_correlations"][coherence_key].append(
+            result.consciousness_coherence
+        )
 
         # Record anomalies
         if "anomaly_catalog" not in self.dream_memory:
@@ -581,7 +633,7 @@ class DreamSuperpositionTester:
                 "anomaly": anomaly,
                 "test_id": result.test_id,
                 "dream_state": result.dream_state.value,
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
             self.dream_memory["anomaly_catalog"].append(anomaly_record)
 
@@ -601,40 +653,48 @@ class DreamSuperpositionTester:
             "symbolic_coherence_stats": {},
             "awakening_method_distribution": {},
             "anomaly_frequency": {},
-            "guardian_intervention_rate": 0.0
+            "guardian_intervention_rate": 0.0,
         }
 
         # Dream state distribution
         for result in self.completed_tests:
             state = result.dream_state.value
-            analysis["dream_state_distribution"][state] = \
+            analysis["dream_state_distribution"][state] = (
                 analysis["dream_state_distribution"].get(state, 0) + 1
+            )
 
         # Success rates
-        successful_superpositions = sum(1 for r in self.completed_tests if r.superposition_achieved)
-        analysis["superposition_success_rate"] = successful_superpositions / len(self.completed_tests)
+        successful_superpositions = sum(
+            1 for r in self.completed_tests if r.superposition_achieved
+        )
+        analysis["superposition_success_rate"] = successful_superpositions / len(
+            self.completed_tests
+        )
 
         # Coherence statistics
-        consciousness_coherences = [r.consciousness_coherence for r in self.completed_tests]
+        consciousness_coherences = [
+            r.consciousness_coherence for r in self.completed_tests
+        ]
         symbolic_coherences = [r.symbolic_coherence for r in self.completed_tests]
 
         analysis["consciousness_coherence_stats"] = {
             "mean": sum(consciousness_coherences) / len(consciousness_coherences),
             "min": min(consciousness_coherences),
-            "max": max(consciousness_coherences)
+            "max": max(consciousness_coherences),
         }
 
         analysis["symbolic_coherence_stats"] = {
             "mean": sum(symbolic_coherences) / len(symbolic_coherences),
             "min": min(symbolic_coherences),
-            "max": max(symbolic_coherences)
+            "max": max(symbolic_coherences),
         }
 
         # Awakening methods
         for result in self.completed_tests:
             method = result.awakening_method
-            analysis["awakening_method_distribution"][method] = \
+            analysis["awakening_method_distribution"][method] = (
                 analysis["awakening_method_distribution"].get(method, 0) + 1
+            )
 
         # Anomaly frequency
         all_anomalies = []
@@ -642,12 +702,17 @@ class DreamSuperpositionTester:
             all_anomalies.extend(result.anomalies_detected)
 
         for anomaly in all_anomalies:
-            analysis["anomaly_frequency"][anomaly] = \
+            analysis["anomaly_frequency"][anomaly] = (
                 analysis["anomaly_frequency"].get(anomaly, 0) + 1
+            )
 
         # Guardian intervention rate
-        tests_with_interventions = sum(1 for r in self.completed_tests if r.guardian_interventions > 0)
-        analysis["guardian_intervention_rate"] = tests_with_interventions / len(self.completed_tests)
+        tests_with_interventions = sum(
+            1 for r in self.completed_tests if r.guardian_interventions > 0
+        )
+        analysis["guardian_intervention_rate"] = tests_with_interventions / len(
+            self.completed_tests
+        )
 
         return analysis
 
@@ -665,52 +730,54 @@ class DreamSuperpositionTester:
             f"Superposition Success Rate: {analysis['superposition_success_rate']:.1%}",
             "",
             "🎭 DREAM STATE DISTRIBUTION",
-            "-" * 30
+            "-" * 30,
         ]
 
         for state, count in analysis["dream_state_distribution"].items():
             percentage = (count / analysis["total_tests"]) * 100
             report_lines.append(f"{state.capitalize()}: {count} ({percentage:.1f}%)")
 
-        report_lines.extend([
-            "",
-            "🧠 CONSCIOUSNESS COHERENCE",
-            "-" * 30,
-            f"Mean: {analysis['consciousness_coherence_stats']['mean']:.3f}",
-            f"Range: {analysis['consciousness_coherence_stats']['min']:.3f} - {analysis['consciousness_coherence_stats']['max']:.3f}",
-            "",
-            "🔮 SYMBOLIC COHERENCE",
-            "-" * 30,
-            f"Mean: {analysis['symbolic_coherence_stats']['mean']:.3f}",
-            f"Range: {analysis['symbolic_coherence_stats']['min']:.3f} - {analysis['symbolic_coherence_stats']['max']:.3f}",
-            "",
-            "🌅 AWAKENING METHODS",
-            "-" * 30
-        ])
+        report_lines.extend(
+            [
+                "",
+                "🧠 CONSCIOUSNESS COHERENCE",
+                "-" * 30,
+                f"Mean: {analysis['consciousness_coherence_stats']['mean']:.3f}",
+                f"Range: {analysis['consciousness_coherence_stats']['min']:.3f} - {analysis['consciousness_coherence_stats']['max']:.3f}",
+                "",
+                "🔮 SYMBOLIC COHERENCE",
+                "-" * 30,
+                f"Mean: {analysis['symbolic_coherence_stats']['mean']:.3f}",
+                f"Range: {analysis['symbolic_coherence_stats']['min']:.3f} - {analysis['symbolic_coherence_stats']['max']:.3f}",
+                "",
+                "🌅 AWAKENING METHODS",
+                "-" * 30,
+            ]
+        )
 
         for method, count in analysis["awakening_method_distribution"].items():
             percentage = (count / analysis["total_tests"]) * 100
-            report_lines.append(f"{method.replace('_', ' ').title()}: {count} ({percentage:.1f}%)")
+            report_lines.append(
+                f"{method.replace('_', ' ').title()}: {count} ({percentage:.1f}%)"
+            )
 
         if analysis["anomaly_frequency"]:
-            report_lines.extend([
-                "",
-                "⚠️ ANOMALY FREQUENCY",
-                "-" * 30
-            ])
+            report_lines.extend(["", "⚠️ ANOMALY FREQUENCY", "-" * 30])
 
             for anomaly, count in list(analysis["anomaly_frequency"].items())[:5]:
                 report_lines.append(f"{anomaly}: {count} occurrences")
 
-        report_lines.extend([
-            "",
-            "🛡️ GUARDIAN SYSTEM",
-            "-" * 30,
-            f"Intervention Rate: {analysis['guardian_intervention_rate']:.1%}",
-            "",
-            "✅ DREAM TESTING COMPLETE",
-            f"Generated: {datetime.utcnow().isoformat()}Z"
-        ])
+        report_lines.extend(
+            [
+                "",
+                "🛡️ GUARDIAN SYSTEM",
+                "-" * 30,
+                f"Intervention Rate: {analysis['guardian_intervention_rate']:.1%}",
+                "",
+                "✅ DREAM TESTING COMPLETE",
+                f"Generated: {datetime.utcnow().isoformat()}Z",
+            ]
+        )
 
         return "\n".join(report_lines)
 
@@ -727,7 +794,9 @@ class DreamSuperpositionTester:
 
             try:
                 # Run multiple tests per scenario
-                num_tests = 3 if scenario_name != "void_dissolution" else 1  # Fewer void tests
+                num_tests = (
+                    3 if scenario_name != "void_dissolution" else 1
+                )  # Fewer void tests
                 results = await self.test_dream_scenario(scenario_name, num_tests)
                 all_results.extend(results)
 
@@ -763,9 +832,11 @@ async def main():
 
     print(f"\nResults: {len(results)} successful tests")
     for result in results:
-        print(f"  {result.test_id}: Superposition={result.superposition_achieved}, "
-              f"Coherence={result.consciousness_coherence:.3f}, "
-              f"Awakening={result.awakening_method}")
+        print(
+            f"  {result.test_id}: Superposition={result.superposition_achieved}, "
+            f"Coherence={result.consciousness_coherence:.3f}, "
+            f"Awakening={result.awakening_method}"
+        )
 
     # Generate analysis
     analysis = tester.analyze_dream_patterns()

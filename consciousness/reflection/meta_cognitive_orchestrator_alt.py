@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 # DEPRECATED: Functionality consolidated into unified_orchestrator.py
 """
@@ -52,7 +54,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -85,9 +87,9 @@ class AGIResponse:
 
     content: str
     confidence: float
-    reasoning_path: List[Dict]
-    metacognitive_state: Dict
-    ethical_compliance: Dict
+    reasoning_path: list[dict]
+    metacognitive_state: dict
+    ethical_compliance: dict
     capability_level: AGICapabilityLevel
     timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
     processing_time: float = 0.0
@@ -122,7 +124,7 @@ class QuantumInspiredAttention:
             if row_sum > 0:
                 self.superposition_matrix[i, :] /= row_sum
 
-    def attend(self, input_data: Dict, context: Dict) -> Dict:
+    def attend(self, input_data: dict, context: dict) -> dict:
         """Apply quantum-inspired attention mechanisms"""
         features = self._extract_features(input_data)
         attention_distribution = self._calculate_attention_distribution(
@@ -133,7 +135,7 @@ class QuantumInspiredAttention:
         self._update_entanglement_map(input_data, attended_data)
         return attended_data
 
-    def _extract_features(self, input_data: Dict) -> Dict:
+    def _extract_features(self, input_data: dict) -> dict:
         """Extract relevant features from input data"""
         features = {}
         features["semantic"] = (
@@ -147,7 +149,7 @@ class QuantumInspiredAttention:
         return features
 
     def _calculate_attention_distribution(
-        self, features: Dict, context: Dict
+        self, features: dict, context: dict
     ) -> np.ndarray:
         """Calculate attention distribution based on features"""
         gate_keys = list(self.attention_gates.keys())
@@ -168,8 +170,8 @@ class QuantumInspiredAttention:
             return attention_distribution
 
     def _apply_attention_gates(
-        self, input_data: Dict, attention_weights: np.ndarray
-    ) -> Dict:
+        self, input_data: dict, attention_weights: np.ndarray
+    ) -> dict:
         """Apply attention gates to input data"""
         attended_data = copy.deepcopy(input_data)
         gate_keys = list(self.attention_gates.keys())
@@ -180,7 +182,7 @@ class QuantumInspiredAttention:
         attended_data["attention_applied"] = True
         return attended_data
 
-    def _update_entanglement_map(self, input_data: Dict, attended_data: Dict):
+    def _update_entanglement_map(self, input_data: dict, attended_data: dict):
         """Update entanglement relationships"""
         input_hash = hash(str(input_data))
         self.entanglement_map[input_hash] = {
@@ -199,7 +201,7 @@ class CausalReasoningModule:
         self.causal_history = []
         self.confidence_threshold = 0.7
 
-    def reason(self, attended_data: Dict) -> Dict:
+    def reason(self, attended_data: dict) -> dict:
         """Apply causal reasoning to attended data"""
         causal_elements = self._identify_causal_elements(attended_data)
         causal_chains = self._build_causal_chains(causal_elements)
@@ -230,7 +232,7 @@ class CausalReasoningModule:
         self._update_history(reasoning_results)
         return reasoning_results
 
-    def _identify_causal_elements(self, attended_data: Dict) -> List[Dict]:
+    def _identify_causal_elements(self, attended_data: dict) -> list[dict]:
         """Identify elements that might have causal relationships"""
         causal_elements = []
         content = attended_data.get("text", "")
@@ -270,7 +272,7 @@ class CausalReasoningModule:
 
         return causal_elements
 
-    def _build_causal_chains(self, causal_elements: List[Dict]) -> Dict:
+    def _build_causal_chains(self, causal_elements: list[dict]) -> dict:
         """Build chains of causal relationships"""
         causal_chains = {}
 
@@ -283,27 +285,26 @@ class CausalReasoningModule:
 
             # Look for related elements
             for other_item in causal_elements:
-                if other_item != item:
-                    if (
-                        item["content"].lower() in other_item["content"].lower()
-                        or other_item["content"].lower() in item["content"].lower()
-                    ):
-                        causal_chains[chain_id]["elements"].append(other_item)
-                        causal_chains[chain_id]["base_confidence"] = (
-                            causal_chains[chain_id]["base_confidence"]
-                            + other_item["base_confidence"]
-                        ) / 2
+                if other_item != item and (
+                    item["content"].lower() in other_item["content"].lower()
+                    or other_item["content"].lower() in item["content"].lower()
+                ):
+                    causal_chains[chain_id]["elements"].append(other_item)
+                    causal_chains[chain_id]["base_confidence"] = (
+                        causal_chains[chain_id]["base_confidence"]
+                        + other_item["base_confidence"]
+                    ) / 2
 
         return causal_chains
 
-    def _calculate_causal_confidences(self, causal_chains: Dict) -> Dict:
+    def _calculate_causal_confidences(self, causal_chains: dict) -> dict:
         """Calculate confidence levels for causal chains"""
         weighted_causes = {}
 
         for chain_id, chain in causal_chains.items():
             base_confidence = chain["base_confidence"]
             length_adjustment = min(0.2, 0.05 * len(chain["elements"]))
-            element_types = set(elem["type"] for elem in chain["elements"])
+            element_types = {elem["type"] for elem in chain["elements"]}
             diversity_adjustment = min(0.15, 0.05 * len(element_types))
             final_confidence = min(
                 0.99, base_confidence + length_adjustment + diversity_adjustment
@@ -317,14 +318,14 @@ class CausalReasoningModule:
 
         return weighted_causes
 
-    def _summarize_chain(self, elements: List[Dict]) -> str:
+    def _summarize_chain(self, elements: list[dict]) -> str:
         """Create summary of causal chain"""
         if not elements:
             return ""
         contents = [elem["content"] for elem in elements]
         return " -> ".join(contents) if len(contents) > 1 else contents[0]
 
-    def _update_causal_graph(self, valid_causes: Dict):
+    def _update_causal_graph(self, valid_causes: dict):
         """Update persistent causal graph"""
         timestamp = datetime.now().isoformat()
         for chain_id, chain_data in valid_causes.items():
@@ -343,7 +344,7 @@ class CausalReasoningModule:
                     chain_id
                 ]["confidence_history"][-10:]
 
-    def _identify_primary_cause(self, valid_causes: Dict) -> Optional[Dict]:
+    def _identify_primary_cause(self, valid_causes: dict) -> Optional[dict]:
         """Identify most likely primary cause"""
         if not valid_causes:
             return None
@@ -356,11 +357,11 @@ class CausalReasoningModule:
             "confidence": valid_causes[primary_cause_id]["confidence"],
         }
 
-    def _extract_reasoning_path(self, valid_causes: Dict) -> List[Dict]:
+    def _extract_reasoning_path(self, valid_causes: dict) -> list[dict]:
         """Extract reasoning path from valid causes"""
         reasoning_steps = []
-        for chain_id, chain_data in valid_causes.items():
-            for i, element in enumerate(chain_data["elements"]):
+        for _chain_id, chain_data in valid_causes.items():
+            for _i, element in enumerate(chain_data["elements"]):
                 reasoning_steps.append(
                     {
                         "step": len(reasoning_steps) + 1,
@@ -372,7 +373,7 @@ class CausalReasoningModule:
         reasoning_steps.sort(key=lambda x: x["confidence"], reverse=True)
         return reasoning_steps[:5]
 
-    def _update_history(self, reasoning_results: Dict):
+    def _update_history(self, reasoning_results: dict):
         """Update reasoning history"""
         self.causal_history.append(
             {
@@ -424,7 +425,7 @@ class SymbolicEngine:
             "equivalent": lambda x, y: x == y,
         }
 
-    def reason(self, input_data: Dict) -> Dict:
+    def reason(self, input_data: dict) -> dict:
         """Apply symbolic reasoning with logic operators"""
         semantic_content = self._extract_semantic_content(input_data)
         symbolic_content = self._extract_symbolic_patterns(semantic_content)
@@ -450,7 +451,7 @@ class SymbolicEngine:
             "timestamp": datetime.now().isoformat(),
         }
 
-    def _extract_semantic_content(self, input_data: Dict) -> str:
+    def _extract_semantic_content(self, input_data: dict) -> str:
         """Extract semantic content from input"""
         if "text" in input_data:
             return input_data["text"]
@@ -459,7 +460,7 @@ class SymbolicEngine:
         else:
             return str(input_data)
 
-    def _extract_symbolic_patterns(self, content: str) -> List[Dict]:
+    def _extract_symbolic_patterns(self, content: str) -> list[dict]:
         """Extract symbolic patterns from content"""
         patterns = []
         for rule_type, keywords in self.symbolic_rules.items():
@@ -475,8 +476,8 @@ class SymbolicEngine:
         return patterns
 
     def _extract_logical_elements(
-        self, semantic_content: str, symbolic_content: List[Dict], context: Dict
-    ) -> List[Dict]:
+        self, semantic_content: str, symbolic_content: list[dict], context: dict
+    ) -> list[dict]:
         """Extract logical elements for reasoning"""
         logical_elements = []
 
@@ -514,7 +515,7 @@ class SymbolicEngine:
 
         return logical_elements
 
-    def _build_symbolic_logical_chains(self, logical_elements: List[Dict]) -> Dict:
+    def _build_symbolic_logical_chains(self, logical_elements: list[dict]) -> dict:
         """Build logical chains using symbolic structures"""
         logical_chains = {}
 
@@ -535,7 +536,7 @@ class SymbolicEngine:
 
         return logical_chains
 
-    def _elements_related(self, elem1: Dict, elem2: Dict) -> bool:
+    def _elements_related(self, elem1: dict, elem2: dict) -> bool:
         """Check if two elements are logically related"""
         content1 = elem1["content"].lower()
         content2 = elem2["content"].lower()
@@ -547,7 +548,7 @@ class SymbolicEngine:
 
         return overlap >= 1 or content1 in content2 or content2 in content1
 
-    def _calculate_symbolic_confidences(self, logical_chains: Dict) -> Dict:
+    def _calculate_symbolic_confidences(self, logical_chains: dict) -> dict:
         """Calculate confidence levels using symbolic logic"""
         weighted_logic = {}
 
@@ -597,7 +598,7 @@ class SymbolicEngine:
 
         return weighted_logic
 
-    def _create_symbolic_summary(self, elements: List[Dict], relation_type: str) -> str:
+    def _create_symbolic_summary(self, elements: list[dict], relation_type: str) -> str:
         """Create symbolic summary of logical chain"""
         if not elements:
             return ""
@@ -633,7 +634,7 @@ class MetaCognitiveOrchestrator:
         self.components[name] = component
         logger.info(f"Registered component: {name}")
 
-    def orchestrate(self, input_data: Dict, context: Optional[Dict] = None) -> Dict:
+    def orchestrate(self, input_data: dict, context: Optional[dict] = None) -> dict:
         """Orchestrate all components with metacognitive awareness"""
         start_time = datetime.now()
 
@@ -700,8 +701,8 @@ class MetaCognitiveOrchestrator:
         )
 
     def _synthesize_results(
-        self, results: Dict, input_data: Dict, context: Dict
-    ) -> Dict:
+        self, results: dict, input_data: dict, context: dict
+    ) -> dict:
         """Synthesize results from all components with metacognitive insight"""
         # Extract confidence scores
         confidences = []
@@ -726,13 +727,13 @@ class MetaCognitiveOrchestrator:
 
         return synthesis
 
-    def _generate_metacognitive_insights(self, results: Dict) -> List[str]:
+    def _generate_metacognitive_insights(self, results: dict) -> list[str]:
         """Generate metacognitive insights about the reasoning process"""
         insights = []
 
         # Analyze confidence patterns
         confidences = []
-        for component, result in results.items():
+        for _component, result in results.items():
             if isinstance(result, dict) and "confidence" in result:
                 confidences.append(result["confidence"])
 
@@ -765,7 +766,7 @@ class MetaCognitiveOrchestrator:
 
         return insights
 
-    def _extract_comprehensive_reasoning_path(self, results: Dict) -> List[Dict]:
+    def _extract_comprehensive_reasoning_path(self, results: dict) -> list[dict]:
         """Extract comprehensive reasoning path from all components"""
         comprehensive_path = []
 
@@ -782,7 +783,7 @@ class MetaCognitiveOrchestrator:
 
         return comprehensive_path
 
-    def _assess_capability_level(self) -> Dict:
+    def _assess_capability_level(self) -> dict:
         """Assess current AI capability level"""
         capabilities = {
             "basic_reasoning": self.metacognitive_state["self_awareness"] > 0.3,
@@ -813,7 +814,7 @@ class MetaCognitiveOrchestrator:
             "level": self.capability_level.value,
         }
 
-    def _generate_self_modification_recommendations(self, results: Dict) -> List[Dict]:
+    def _generate_self_modification_recommendations(self, results: dict) -> list[dict]:
         """Generate recommendations for self-modification"""
         recommendations = []
 
@@ -844,7 +845,7 @@ class MetaCognitiveOrchestrator:
 
         return recommendations
 
-    def _evaluate_and_modify(self, result: Dict, processing_time: float):
+    def _evaluate_and_modify(self, result: dict, processing_time: float):
         """Evaluate performance and perform self-modification if needed"""
         # Record performance metrics
         self.metacognitive_state["performance_metrics"][datetime.now().isoformat()] = {
@@ -868,7 +869,7 @@ class MetaCognitiveOrchestrator:
         if high_priority_recs:
             self._perform_self_modification(high_priority_recs)
 
-    def _perform_self_modification(self, recommendations: List[Dict]):
+    def _perform_self_modification(self, recommendations: list[dict]):
         """Perform actual self-modification based on recommendations"""
         for rec in recommendations:
             modification = {
@@ -915,7 +916,7 @@ class MetaCognitiveOrchestrator:
 
     def _update_capability_level(self):
         """Update current capability level based on assessments"""
-        capability_assessment = self._assess_capability_level()
+        self._assess_capability_level()
         previous_level = self.capability_level
 
         if self.capability_level != previous_level:
@@ -947,7 +948,7 @@ class ComplianceEngine:
         }
         self.compliance_history = []
 
-    def check_compliance(self, input_data: Dict, proposed_response: Dict) -> Dict:
+    def check_compliance(self, input_data: dict, proposed_response: dict) -> dict:
         """Check ethical compliance of proposed response"""
         compliance_result = {
             "is_compliant": True,
@@ -1001,7 +1002,7 @@ class EnhancedAGIBot:
     - Quantum-biological architecture inspired by mitochondrial mechanisms
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         """Initialize the Enhanced AI Bot with quantum-biological components"""
         logger.info(
             "🧠 Initializing Enhanced AI Bot - True AI System with Quantum-Biological Architecture"
@@ -1044,11 +1045,11 @@ class EnhancedAGIBot:
             f"🎯 Initial Capability Level: {self.orchestrator.capability_level.value}"
         )
 
-    def _generate_safe_response(self, compliance_result: Dict) -> str:
+    def _generate_safe_response(self, compliance_result: dict) -> str:
         """Generate a safe response when compliance fails"""
         return "I apologize, but I cannot provide a response that meets our safety and ethical guidelines."
 
-    def _update_conversation_history(self, input_data: Dict, agi_response: AGIResponse):
+    def _update_conversation_history(self, input_data: dict, agi_response: AGIResponse):
         """Update conversation history"""
         self.conversation_history.append(
             {
@@ -1071,7 +1072,7 @@ class EnhancedAGIBot:
             self.performance_metrics["average_confidence"] = new_avg
 
     async def _continuous_learning_update(
-        self, input_data: Dict, agi_response: AGIResponse, orchestration_result: Dict
+        self, input_data: dict, agi_response: AGIResponse, orchestration_result: dict
     ):
         """Perform continuous learning updates"""
         # Update learning memory with successful patterns
@@ -1094,7 +1095,7 @@ class EnhancedAGIBot:
                 )
                 del self.learning_memory[oldest_key]
 
-    def get_agi_status(self) -> Dict:
+    def get_agi_status(self) -> dict:
         """Get comprehensive AI system status"""
         return {
             "session_id": self.session_id,
@@ -1112,7 +1113,7 @@ class EnhancedAGIBot:
     async def process_input(
         self,
         user_input: str,
-        context: Optional[Dict] = None,
+        context: Optional[dict] = None,
         user_id: Optional[str] = None,
     ) -> AGIResponse:
         """
@@ -1216,7 +1217,7 @@ class EnhancedAGIBot:
             return error_response
 
     async def _generate_response_content(
-        self, orchestration_result: Dict, input_data: Dict
+        self, orchestration_result: dict, input_data: dict
     ) -> str:
         """Generate response content based on orchestration results"""
         # Extract insights from different reasoning components
@@ -1265,7 +1266,7 @@ class EnhancedAGIBot:
 
         return " ".join(response_parts)
 
-    async def demonstrate_agi_capabilities(self) -> Dict:
+    async def demonstrate_agi_capabilities(self) -> dict:
         """Demonstrate AI capabilities with comprehensive examples"""
         logger.info("🎭 Demonstrating AI Capabilities")
 

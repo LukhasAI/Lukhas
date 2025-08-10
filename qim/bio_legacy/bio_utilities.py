@@ -3,14 +3,13 @@ Consolidated module for better performance
 """
 
 import random
-from typing import Dict
 
 from .bio_affect_model import SADNESS_THRESHOLD
 
 
 def weight_modulator(
-    signal_type: str, affect_vector: Dict[str, float]
-) -> Dict[str, float]:
+    signal_type: str, affect_vector: dict[str, float]
+) -> dict[str, float]:
     """
     Modulates the weights of the symbolic hormones based on the signal type and affect vector.
 
@@ -28,8 +27,8 @@ def weight_modulator(
 
 
 def weight_modulator(
-    signal_type: str, affect_vector: Dict[str, float]
-) -> Dict[str, float]:
+    signal_type: str, affect_vector: dict[str, float]
+) -> dict[str, float]:
     """
     Modulates the weights of the symbolic hormones based on the signal type and affect vector.
 
@@ -47,8 +46,8 @@ def weight_modulator(
 
 
 def weight_modulator(
-    signal_type: str, affect_vector: Dict[str, float]
-) -> Dict[str, float]:
+    signal_type: str, affect_vector: dict[str, float]
+) -> dict[str, float]:
     """
     Modulates the weights of the symbolic hormones based on the signal type and affect vector.
 
@@ -71,7 +70,7 @@ def fatigue_level() -> float:
 
 
 def inject_narrative_repair(
-    narrative: str, emotions: Dict[str, float], *, threshold: float = SADNESS_THRESHOLD
+    narrative: str, emotions: dict[str, float], *, threshold: float = SADNESS_THRESHOLD
 ) -> str:
     """Inject narrative repair elements if sadness exceeds threshold."""
     sadness = emotions.get("sadness", 0.0)
@@ -82,8 +81,8 @@ def inject_narrative_repair(
 
 
 def weight_modulator(
-    signal_type: str, affect_vector: Dict[str, float]
-) -> Dict[str, float]:
+    signal_type: str, affect_vector: dict[str, float]
+) -> dict[str, float]:
     """
     Modulates the weights of the symbolic hormones based on the signal type and affect vector.
 
@@ -136,7 +135,7 @@ class ProteinSynthesizer:
     def __init__(self, base_rate: float = 1.0):
         self.base_rate = base_rate
 
-    async def synthesize(self, blueprint: Dict[str, float]) -> Dict[str, float]:
+    async def synthesize(self, blueprint: dict[str, float]) -> dict[str, float]:
         """Synthesize proteins from a blueprint."""
         proteins = {
             name: amount * self.base_rate for (name, amount) in blueprint.items()

@@ -7,11 +7,12 @@ Provides search, consensus, and vault-wide operations.
 """
 
 import asyncio
+import contextlib
 import json
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 import aiofiles
 
@@ -31,14 +32,14 @@ class HelixVault:
     """
 
     def __init__(self, vault_path: Optional[Path] = None):
-        self.memories: Dict[str, MemoryHelix] = {}
+        self.memories: dict[str, MemoryHelix] = {}
         self.vault_path = vault_path or Path("./helix_vault")
         self.vault_path.mkdir(exist_ok=True)
 
         # Indexing structures
-        self.tag_index: Dict[str, Set[str]] = defaultdict(set)  # tag -> memory_ids
-        self.time_index: Dict[str, datetime] = {}  # memory_id -> created_at
-        self.drift_monitor: Dict[str, float] = {}  # memory_id -> last_drift
+        self.tag_index: dict[str, set[str]] = defaultdict(set)  # tag -> memory_ids
+        self.time_index: dict[str, datetime] = {}  # memory_id -> created_at
+        self.drift_monitor: dict[str, float] = {}  # memory_id -> last_drift
 
         # Vault configuration
         self.auto_persist = True
@@ -72,17 +73,15 @@ class HelixVault:
         for task in [self._persist_task, self._monitor_task]:
             if task:
                 task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
         # Final persist
         await self.persist_vault()
         logger.info("🔐 Helix Vault stopped")
 
     def create_memory(
-        self, memory_id: str, initial_glyphs: List[str], tags: Optional[Set[str]] = None
+        self, memory_id: str, initial_glyphs: list[str], tags: Optional[set[str]] = None
     ) -> MemoryHelix:
         """Create new memory in vault"""
         if memory_id in self.memories:
@@ -108,8 +107,8 @@ class HelixVault:
         return self.memories.get(memory_id)
 
     def search_by_tags(
-        self, tags: Set[str], match_all: bool = False
-    ) -> List[MemoryHelix]:
+        self, tags: set[str], match_all: bool = False
+    ) -> list[MemoryHelix]:
         """Search memories by tags"""
         if match_all:
             # All tags must match
@@ -133,7 +132,7 @@ class HelixVault:
 
     def search_by_drift(
         self, min_drift: float = 0.0, max_drift: float = 1.0
-    ) -> List[MemoryHelix]:
+    ) -> list[MemoryHelix]:
         """Search memories by drift range"""
         results = []
         for memory in self.memories.values():
@@ -142,17 +141,16 @@ class HelixVault:
                 results.append(memory)
         return results
 
-    def search_by_time(self, start: datetime, end: datetime) -> List[MemoryHelix]:
+    def search_by_time(self, start: datetime, end: datetime) -> list[MemoryHelix]:
         """Search memories by creation time"""
         results = []
         for memory_id, created_at in self.time_index.items():
-            if start <= created_at <= end:
-                if memory_id in self.memories:
-                    results.append(self.memories[memory_id])
+            if start <= created_at <= end and memory_id in self.memories:
+                results.append(self.memories[memory_id])
         return results
 
     async def consensus_repair(
-        self, memory_id: str, quorum_tags: Optional[Set[str]] = None
+        self, memory_id: str, quorum_tags: Optional[set[str]] = None
     ) -> bool:
         """
         Repair memory using consensus from similar memories
@@ -189,7 +187,7 @@ class HelixVault:
 
         return True
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get vault statistics"""
         if not self.memories:
             return {
@@ -321,7 +319,7 @@ class DriftOracle:
     def __init__(self, vault: HelixVault):
         self.vault = vault
 
-    def analyze_drift_patterns(self) -> Dict[str, Any]:
+    def analyze_drift_patterns(self) -> dict[str, Any]:
         """Analyze drift patterns across vault"""
         if not self.vault.memories:
             return {"status": "no_memories"}
@@ -378,7 +376,7 @@ class DriftOracle:
             )[:5],
         }
 
-    def predict_repair_needs(self, hours_ahead: float = 24) -> List[Tuple[str, float]]:
+    def predict_repair_needs(self, hours_ahead: float = 24) -> list[tuple[str, float]]:
         """Predict which memories will need repair"""
         predictions = []
 
@@ -417,13 +415,13 @@ if __name__ == "__main__":
             tags={"episodic", "positive", "social"},
         )
 
-        memory2 = vault.create_memory(
+        vault.create_memory(
             "semantic_001",
             ["CONCEPT", "GRAVITY", "FORCE", "MASS", "ACCELERATION"],
             tags={"semantic", "physics", "knowledge"},
         )
 
-        memory3 = vault.create_memory(
+        vault.create_memory(
             "procedural_001",
             ["STEP", "MIX", "POUR", "HEAT", "STIR", "SERVE"],
             tags={"procedural", "cooking", "skill"},

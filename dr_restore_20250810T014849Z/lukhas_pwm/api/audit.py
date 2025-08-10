@@ -87,7 +87,7 @@ def view_audit(audit_id: str):
             status_emoji = "✅" if status == "executed" else "⚠️"
             tools_used_html += f"""
             <li>
-              <code>{tool_name}</code> 
+              <code>{tool_name}</code>
               {status_emoji} {status}
               <span style="color:#666; margin-left:10px;">({duration}ms)</span>
             </li>

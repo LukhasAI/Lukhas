@@ -5,7 +5,7 @@
 # DEPENDENCIES: functools, json, uuid, datetime, typing, pathlib
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ===========================================================================
-#ΛTRACE
+# ΛTRACE
 """
 import functools
 import json
@@ -17,14 +17,14 @@ from pathlib import Path
 
 def log_symbolic_trace(user_id, action_type, trigger, allowed):
     """
-    Logs symbolic trace information for user actions
-    
-    Args:
-        user_id (str): Identifier for the user
-        action_type (str): Type of action being performed
-        trigger (str): The trigger that initiated the action
-        allowed (bool): Whether the action was permitted
-        
+  Logs symbolic trace information for user actions
+
+   Args:
+        user_id(str): Identifier for the user
+        action_type(str): Type of action being performed
+        trigger(str): The trigger that initiated the action
+        allowed(bool): Whether the action was permitted
+
     Returns:
         None
     """
@@ -52,7 +52,7 @@ def lukhas_trace(category: str = "general", tags: Optional[List[str]] = None):
         def wrapper(*args, **kwargs):
             trace_id = str(uuid.uuid4())
             start_time = datetime.utcnow()
-            
+
             # Enhanced trace logging
             trace_metadata = {
                 "trace_id": trace_id,
@@ -63,42 +63,42 @@ def lukhas_trace(category: str = "general", tags: Optional[List[str]] = None):
                 "args_count": len(args),
                 "kwargs_keys": list(kwargs.keys()) if kwargs else []
             }
-            
+
             print(f"🔍 TRACE START [{category}] {func.__name__} - ID: {trace_id[:8]}")
             log_trace_event(category, f"function_start_{func.__name__}", trace_metadata)
-            
+
             try:
                 result = func(*args, **kwargs)
                 end_time = datetime.utcnow()
                 duration = (end_time - start_time).total_seconds()
-                
+
                 trace_metadata.update({
                     "end_time": end_time.isoformat(),
                     "duration_seconds": duration,
                     "status": "success"
                 })
-                
+
                 print(f"✅ TRACE END [{category}] {func.__name__} - Duration: {duration:.3f}s")
                 log_trace_event(category, f"function_end_{func.__name__}", trace_metadata)
-                
+
                 return result
-                
+
             except Exception as e:
                 end_time = datetime.utcnow()
                 duration = (end_time - start_time).total_seconds()
-                
+
                 trace_metadata.update({
                     "end_time": end_time.isoformat(),
                     "duration_seconds": duration,
                     "status": "error",
                     "error": str(e)
                 })
-                
+
                 print(f"❌ TRACE ERROR [{category}] {func.__name__} - Error: {e}")
                 log_trace_event(category, f"function_error_{func.__name__}", trace_metadata)
-                
+
                 raise
-                
+
         return wrapper
     return decorator
 
@@ -106,7 +106,7 @@ def lukhas_trace(category: str = "general", tags: Optional[List[str]] = None):
 def log_trace_event(category: str, event: str, metadata: Optional[Dict[str, Any]] = None):
     """Enhanced trace event logging with persistence."""
     timestamp = datetime.utcnow().isoformat()
-    
+
     trace_record = {
         "timestamp": timestamp,
         "category": category,
@@ -115,10 +115,10 @@ def log_trace_event(category: str, event: str, metadata: Optional[Dict[str, Any]
         "session_id": get_trace_context().get("session_id", "default"),
         "trace_context": get_trace_context()
     }
-    
+
     # Console output
     print(f"📋 TRACE EVENT [{category}] {event} - {timestamp}")
-    
+
     # Persist to trace log
     _persist_trace_event(trace_record)
 
@@ -140,14 +140,14 @@ def _persist_trace_event(trace_record: Dict[str, Any]):
         # Create logs directory
         logs_dir = Path("logs/trace_events")
         logs_dir.mkdir(parents=True, exist_ok=True)
-        
+
         # Write to daily trace log
         date_str = datetime.utcnow().strftime("%Y%m%d")
         trace_file = logs_dir / f"lukhas_trace_{date_str}.jsonl"
-        
+
         with open(trace_file, 'a') as f:
             f.write(json.dumps(trace_record) + '\n')
-            
+
     except Exception as e:
         print(f"⚠️  Failed to persist trace event: {e}")
 

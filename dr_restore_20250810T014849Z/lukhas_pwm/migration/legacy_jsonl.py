@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Iterator, Dict, Any, Optional
+from typing import Dict, Any, Optional
 
 from lukhas_pwm.migration.legacy_store import LegacyStore
 

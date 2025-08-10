@@ -9,12 +9,13 @@
 🌊 Abstract Reasoning Brain Bio-Oscillator
 Specialized oscillator for coordinating abstract reasoning across brain systems
 """
+import logging
 
 import asyncio
 import math
 import time
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger("AbstractReasoningOscillator")
 
@@ -56,7 +57,7 @@ class AbstractReasoningBrainOscillator:
             f"🌊 Abstract Reasoning Oscillator initialized at {self.base_frequency} Hz"
         )
 
-    def generate_rhythm(self) -> Dict[str, Any]:
+    def generate_rhythm(self) -> dict[str, Any]:
         """Generate biological rhythm for abstract reasoning coordination"""
         current_time = time.time()
 
@@ -105,8 +106,8 @@ class AbstractReasoningBrainOscillator:
         logger.debug(f"🎼 Coordinated with master frequency: {master_frequency} Hz")
 
     async def orchestrate_reasoning_phase(
-        self, phase_name: str, target_brains: List[str]
-    ) -> Dict[str, Any]:
+        self, phase_name: str, target_brains: list[str]
+    ) -> dict[str, Any]:
         """
         Orchestrate a specific reasoning phase across target brains
 
@@ -160,8 +161,8 @@ class AbstractReasoningBrainOscillator:
         return orchestration_result
 
     async def _generate_phase_coordination(
-        self, phase_name: str, target_brains: List[str]
-    ) -> Dict[str, Any]:
+        self, phase_name: str, target_brains: list[str]
+    ) -> dict[str, Any]:
         """Generate coordination pattern for specific reasoning phase"""
 
         # Define phase-specific coordination patterns
@@ -218,8 +219,8 @@ class AbstractReasoningBrainOscillator:
         return pattern
 
     async def _synchronize_brain(
-        self, brain_name: str, coordination_pattern: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, brain_name: str, coordination_pattern: dict[str, Any]
+    ) -> dict[str, Any]:
         """Synchronize a specific brain with the coordination pattern"""
 
         brain_frequency = self.target_brain_frequencies.get(brain_name, 10.0)
@@ -274,7 +275,7 @@ class AbstractReasoningBrainOscillator:
         return optimal_offset % (2 * math.pi)
 
     def _calculate_coherence(
-        self, synchronization_results: Dict[str, Dict[str, Any]]
+        self, synchronization_results: dict[str, dict[str, Any]]
     ) -> float:
         """Calculate overall coherence across synchronized brains"""
 
@@ -282,7 +283,7 @@ class AbstractReasoningBrainOscillator:
             return 0.0
 
         coherence_values = []
-        for brain_name, sync_result in synchronization_results.items():
+        for _brain_name, sync_result in synchronization_results.items():
             achieved_coherence = sync_result.get("achieved_coherence", 0.0)
             coherence_values.append(achieved_coherence)
 
@@ -291,7 +292,7 @@ class AbstractReasoningBrainOscillator:
 
         return overall_coherence
 
-    def get_synchronization_status(self) -> Dict[str, Any]:
+    def get_synchronization_status(self) -> dict[str, Any]:
         """Get current synchronization status across all brains"""
 
         status = {
@@ -315,7 +316,7 @@ class AbstractReasoningBrainOscillator:
 
         logger.info("🔄 Synchronization state reset for new reasoning session")
 
-    async def maintain_coherence(self, target_coherence: float = 0.8) -> Dict[str, Any]:
+    async def maintain_coherence(self, target_coherence: float = 0.8) -> dict[str, Any]:
         """
         Actively maintain coherence across synchronized brains
 
@@ -372,7 +373,7 @@ class AbstractReasoningBrainOscillator:
 
         return maintenance_result
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """Get performance metrics for the oscillator"""
 
         if not self.synchronization_events:

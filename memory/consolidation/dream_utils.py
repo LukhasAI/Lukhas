@@ -11,10 +11,10 @@ Temporary implementation - see MOCK_TRANSPARENCY_LOG.md
 """
 
 import random
-from typing import Any, Dict, List
+from typing import Any
 
 
-def analyze_dream_symbols(dream_content: str) -> Dict[str, Any]:
+def analyze_dream_symbols(dream_content: str) -> dict[str, Any]:
     """Mock analyze_dream_symbols function"""
     return {
         "symbols": ["water", "flight", "mirror"],
@@ -24,7 +24,7 @@ def analyze_dream_symbols(dream_content: str) -> Dict[str, Any]:
     }
 
 
-def merge_dream_sequences(dreams: List[Dict]) -> Dict[str, Any]:
+def merge_dream_sequences(dreams: list[dict]) -> dict[str, Any]:
     """Mock merge_dream_sequences function"""
     return {
         "merged_content": "Combined dream narrative",
@@ -38,6 +38,6 @@ def calculate_rem_phase(timestamp: str) -> str:
     return random.choice(["REM", "NREM1", "NREM2", "NREM3"])
 
 
-def dream_to_text(dream_data: Dict) -> str:
+def dream_to_text(dream_data: dict) -> str:
     """Mock dream_to_text function"""
     return dream_data.get("content", "Empty dream")

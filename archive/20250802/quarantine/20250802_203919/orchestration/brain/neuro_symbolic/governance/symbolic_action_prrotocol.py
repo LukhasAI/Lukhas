@@ -5,33 +5,36 @@ Advanced: symbolic_action_prrotocol.py
 Integration Date: 2025-5-31T07:55:29.966740
 """
 
+from data_legacy.consent_manager import ConsentTierManager
+from utils.trace_logger import log_symbolic_trace
+from datetime import datetime
 lukhas_core/
-lukhas_core/__init__.py
-lukhas_core/neuro_symbolic/
-lukhas_core/neuro_symbolic/__init__.py
-lukhas_core/neuro_symbolic/governance/
-lukhas_core/neuro_symbolic/governance/__init__.py
-lukhas_core/neuro_symbolic/governance/symbolic_action_protocol.py
-lukhas_core/neuro_symbolic/dreaming/
-lukhas_core/neuro_symbolic/dreaming/__init__.py
-lukhas_core/neuro_symbolic/ethics/
-lukhas_core/neuro_symbolic/ethics/__init__.py
+lukhas_core / __init__.py
+lukhas_core / neuro_symbolic/
+lukhas_core / neuro_symbolic / __init__.py
+lukhas_core / neuro_symbolic / governance/
+lukhas_core / neuro_symbolic / governance / __init__.py
+lukhas_core / neuro_symbolic / governance / symbolic_action_protocol.py
+lukhas_core / neuro_symbolic / dreaming/
+lukhas_core / neuro_symbolic / dreaming / __init__.py
+lukhas_core / neuro_symbolic / ethics/
+lukhas_core / neuro_symbolic / ethics / __init__.py
 lukhas_id/
-lukhas_id/__init__.py
+lukhas_id / __init__.py
 lukhas_ui/
-lukhas_ui/__init__.py
+lukhas_ui / __init__.py
 lukhas_data/
-lukhas_data/__init__.py
-lukhas_data/consent_logs/
-lukhas_data/consent_logs/__init__.py
-lukhas_data/symbolic_logs/
-lukhas_data/symbolic_logs/__init__.py
-lukhas_data/glumps_data/
-lukhas_data/glumps_data/__init__.py
+lukhas_data / __init__.py
+lukhas_data / consent_logs/
+lukhas_data / consent_logs / __init__.py
+lukhas_data / symbolic_logs/
+lukhas_data / symbolic_logs / __init__.py
+lukhas_data / glumps_data/
+lukhas_data / glumps_data / __init__.py
 utils/
-utils/__init__.py
+utils / __init__.py
 tests/
-tests/__init__.py
+tests / __init__.py
 
 # Content of lukhas_core/neuro_symbolic/governance/symbolic_action_protocol.py:
 
@@ -49,10 +52,6 @@ tests/__init__.py
 |   - utils/symbolic_trace_logger.py                                        |
 +────────────────────────────────────────────────────────────────────────────+
 """
-
-from datetime import datetime
-from utils.trace_logger import log_symbolic_trace
-from data_legacy.consent_manager import ConsentTierManager
 
 
 class SymbolicActionProtocol:
@@ -110,10 +109,8 @@ class SymbolicActionProtocol:
         if permitted:
             return (
                 f"🟢 Lukhas recognized a symbolic cue ({trigger}) "
-                f"and determined the action '{action}' is allowed within Tier {tier} limits (€{cost})."
-            )
+                f"and determined the action '{action}' is allowed within Tier {tier} limits (€{cost}).")
         else:
             return (
                 f"🔒 Lukhas received a symbolic signal ({trigger}), but '{action}' exceeds Tier {tier} permissions "
-                f"or spending limits. The moment was felt - but held safely in silence."
-            )
+                f"or spending limits. The moment was felt - but held safely in silence.")

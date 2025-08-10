@@ -26,7 +26,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import Dict, Optional
+from typing import Optional
 
 import numpy as np
 
@@ -38,9 +38,9 @@ import numpy as np
 
 def analyze_multimodal_sentiment(
     text: Optional[str] = None,
-    speech_features: Optional[Dict] = None,
-    physiological: Optional[Dict] = None,
-) -> Dict:
+    speech_features: Optional[dict] = None,
+    physiological: Optional[dict] = None,
+) -> dict:
     """
     Combines sentiment from text, speech, and physiological signals.
     Returns: {'score': float, 'label': str, 'details': {...}}

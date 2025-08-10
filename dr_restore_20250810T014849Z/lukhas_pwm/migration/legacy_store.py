@@ -1,4 +1,4 @@
-from typing import Iterable, Dict, Any, Optional, Tuple, Iterator
+from typing import Dict, Any, Optional, Iterator
 
 
 class LegacyStore:

@@ -41,11 +41,13 @@
 ║ Symbolic Tags: {ΛQUANTUM}, {ΛCONSCIOUSNESS}, {ΛCREATIVE}, {ΛINTEGRATION}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from typing import Union
+import logging
 
 # Module imports
 import asyncio
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.consciousness.quantum_consciousness_integration")
@@ -76,7 +78,8 @@ def lukhas_tier_required(level: int):
             )
             return await func(*args, **kwargs)
 
-        # Removed sync wrapper as all public methods here are async or part of class state
+        # Removed sync wrapper as all public methods here are async or part of
+        # class state
         if asyncio.iscoroutinefunction(func):
             return wrapper_async
         # This decorator is primarily for async methods in this file.
@@ -159,7 +162,8 @@ except ImportError:
     )
 
 
-# Human-readable comment: Integrates quantum-enhanced creative consciousness with content automation.
+# Human-readable comment: Integrates quantum-enhanced creative
+# consciousness with content automation.
 class QuantumCreativeConsciousness:
     """
     Quantum-enhanced creative consciousness for content automation.
@@ -189,7 +193,7 @@ class QuantumCreativeConsciousness:
         self.consciousness_level_achieved: float = (
             0.87  # Current consciousness achievement (example value)
         )
-        self.creative_boosts: Dict[str, float] = {
+        self.creative_boosts: dict[str, float] = {
             "quantum_coherence_factor": 0.92,  # Renamed for clarity
             "bio_cognitive_multiplier": 1.25,  # Renamed
             "creative_flow_state_factor": 0.89,  # Renamed
@@ -247,7 +251,7 @@ class QuantumCreativeConsciousness:
         style: str = "professional",
         consciousness_level_setting: str = "elevated",  # Renamed for clarity
         user_id: Optional[str] = None,  # For tier check
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate content with consciousness-enhanced creativity.
         Args:
@@ -303,7 +307,7 @@ class QuantumCreativeConsciousness:
             )
 
         # Content generation logic using internal helper methods
-        generated_content: Union[str, Dict[str, Any]]  # More specific type
+        generated_content: Union[str, dict[str, Any]]  # More specific type
         if content_type == "haiku":
             generated_content = await self._generate_conscious_haiku(
                 theme, style, consciousness_boost_factor
@@ -353,10 +357,11 @@ class QuantumCreativeConsciousness:
         )
         return final_response
 
-    # Human-readable comment: Internal helper to process a conscious experience for content generation.
+    # Human-readable comment: Internal helper to process a conscious
+    # experience for content generation.
     async def _process_conscious_experience(
-        self, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Processes a conscious experience using the ElevatedConsciousnessModule to derive a boost factor."""
         self.instance_logger.debug(
             f"ΛTRACE: Internal: _process_conscious_experience. Context: {context}"
@@ -397,7 +402,8 @@ class QuantumCreativeConsciousness:
                 )
 
             # Call the consciousness module's method
-            # Ensure all parameters match the expected signature of process_conscious_experience
+            # Ensure all parameters match the expected signature of
+            # process_conscious_experience
             experience_obj = await self.consciousness_module.process_conscious_experience(  # type: ignore
                 sensory_inputs,
                 cognitive_state_params,
@@ -444,14 +450,17 @@ class QuantumCreativeConsciousness:
         # Creative engine integration would be more sophisticated
         if self.creative_engine and hasattr(self.creative_engine, "generate_haiku"):
             try:
-                return await self.creative_engine.generate_haiku(theme, style, boost_factor=boost)  # type: ignore
+                # type: ignore
+                return await self.creative_engine.generate_haiku(
+                    theme, style, boost_factor=boost
+                )
             except Exception as e_haiku_ce:
                 self.instance_logger.warning(
                     f"ΛTRACE: Creative engine haiku generation failed: {e_haiku_ce}. Using fallback."
                 )
 
         # Fallback haiku templates
-        haiku_templates: Dict[str, List[str]] = {
+        haiku_templates: dict[str, list[str]] = {
             "consciousness": [
                 "Awareness unfolds\nIn quantum fields of pure thought\nConsciousness blooms bright"
             ],
@@ -482,7 +491,8 @@ class QuantumCreativeConsciousness:
             return self._enhance_haiku_consciousness(base_haiku, theme)
         return base_haiku
 
-    # Human-readable comment: Enhances a base haiku with higher consciousness awareness terms.
+    # Human-readable comment: Enhances a base haiku with higher consciousness
+    # awareness terms.
     def _enhance_haiku_consciousness(self, base_haiku: str, theme: str) -> str:
         self.instance_logger.debug(
             f"ΛTRACE: Internal: Enhancing haiku '{base_haiku.splitlines()[0]}...' for theme '{theme}'."
@@ -495,7 +505,7 @@ class QuantumCreativeConsciousness:
             "mind": "awareness",
             "quantum": "transcendent",
         }
-        enhanced_lines = [
+        [
             line.replace(orig, enh)
             for line in lines
             for orig, enh in consciousness_words.items()
@@ -522,7 +532,10 @@ class QuantumCreativeConsciousness:
         )
         if self.creative_engine and hasattr(self.creative_engine, "generate_article"):
             try:
-                return await self.creative_engine.generate_article(theme, style, boost_factor=boost, length_words=500)  # type: ignore
+                # type: ignore
+                return await self.creative_engine.generate_article(
+                    theme, style, boost_factor=boost, length_words=500
+                )
             except Exception as e_art_ce:
                 self.instance_logger.warning(
                     f"ΛTRACE: Creative engine article generation failed: {e_art_ce}. Using fallback."
@@ -576,7 +589,7 @@ class QuantumCreativeConsciousness:
 
     # Human-readable comment: Retrieves the current status of consciousness integration.
     @lukhas_tier_required(level=1)  # Basic status check
-    def get_consciousness_status(self, user_id: Optional[str] = None) -> Dict[str, Any]:
+    def get_consciousness_status(self, user_id: Optional[str] = None) -> dict[str, Any]:
         """
         Get current consciousness integration status, including achieved level and boost factors.
         Args:
@@ -639,14 +652,15 @@ class QuantumCreativeConsciousness:
         )
 
 
-# Human-readable comment: Module-level convenience function for generating conscious content.
+# Human-readable comment: Module-level convenience function for generating
+# conscious content.
 @lukhas_tier_required(level=4)  # Same as class method
 async def generate_conscious_content(
     content_type: str,
     theme: str,
     style: str = "professional",
     user_id: Optional[str] = None,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Convenience function for generating conscious content using a default
     QuantumCreativeConsciousness instance.
@@ -669,11 +683,12 @@ async def generate_conscious_content(
     )
 
 
-# Human-readable comment: Module-level convenience function to get consciousness integration status.
+# Human-readable comment: Module-level convenience function to get
+# consciousness integration status.
 @lukhas_tier_required(level=1)
 def get_consciousness_integration_status(
     user_id: Optional[str] = None,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Convenience function to get the current status of consciousness integration.
     Args:

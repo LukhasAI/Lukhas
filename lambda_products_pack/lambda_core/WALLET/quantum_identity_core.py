@@ -14,7 +14,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum, auto
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -48,7 +48,7 @@ class QuantumStateVector:
     """Quantum state vector for WΛLLET identity verification"""
 
     amplitudes: np.ndarray
-    basis_states: List[str] = field(default_factory=list)
+    basis_states: list[str] = field(default_factory=list)
 
     def __post_init__(self):
         if not isinstance(self.amplitudes, np.ndarray):
@@ -89,8 +89,8 @@ class LambdaWalletIdentity:
     last_verified: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     biometric_hash: Optional[str] = None
     wallet_address: Optional[str] = None
-    consent_signatures: List[str] = field(default_factory=list)
-    access_patterns: Dict[str, Any] = field(default_factory=dict)
+    consent_signatures: list[str] = field(default_factory=list)
+    access_patterns: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
     def generate(
@@ -163,7 +163,7 @@ class PostQuantumCrypto:
     def __init__(self):
         self.key_size = 256  # bits
 
-    def generate_keypair(self) -> Tuple[bytes, bytes]:
+    def generate_keypair(self) -> tuple[bytes, bytes]:
         """Generate post-quantum secure keypair"""
         private_key = secrets.token_bytes(self.key_size // 8)
         public_key = hmac.new(
@@ -186,10 +186,10 @@ class QuantumWalletEngine:
 
     def __init__(self):
         self.crypto_system = PostQuantumCrypto()
-        self.identity_registry: Dict[str, LambdaWalletIdentity] = {}
-        self.wallet_balances: Dict[str, Dict[str, float]] = {}
-        self.transaction_history: List[Dict[str, Any]] = []
-        self.access_logs: List[Dict[str, Any]] = []
+        self.identity_registry: dict[str, LambdaWalletIdentity] = {}
+        self.wallet_balances: dict[str, dict[str, float]] = {}
+        self.transaction_history: list[dict[str, Any]] = []
+        self.access_logs: list[dict[str, Any]] = []
         self.performance_metrics = {
             "total_identities": 0,
             "total_transactions": 0,
@@ -251,7 +251,7 @@ class QuantumWalletEngine:
             self.performance_metrics["security_incidents"] += 1
             raise
 
-    async def get_wallet_balance(self, lambda_id: str) -> Dict[str, float]:
+    async def get_wallet_balance(self, lambda_id: str) -> dict[str, float]:
         """Get wallet balance for lambda identity"""
         if lambda_id not in self.identity_registry:
             return {}
@@ -316,7 +316,7 @@ class QuantumWalletEngine:
             self.performance_metrics["security_incidents"] += 1
             return False
 
-    async def get_transaction_history(self, lambda_id: str) -> List[Dict[str, Any]]:
+    async def get_transaction_history(self, lambda_id: str) -> list[dict[str, Any]]:
         """Get transaction history for lambda identity"""
         if lambda_id not in self.identity_registry:
             return []

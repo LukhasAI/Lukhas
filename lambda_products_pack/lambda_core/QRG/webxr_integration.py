@@ -24,7 +24,7 @@ import time
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -133,7 +133,7 @@ class InteractionZone:
     center: SpatialCoordinates
     radius: float  # Zone radius (meters)
     interaction_type: SpatialInteraction
-    trigger_condition: Dict[str, Any]
+    trigger_condition: dict[str, Any]
     response_action: str
 
 
@@ -151,10 +151,10 @@ class HolographicGlyph:
     platform: XRPlatform
     mode: HolographicMode
     spatial_origin: SpatialCoordinates
-    holographic_layers: List[HolographicLayer]
-    interaction_zones: List[InteractionZone]
-    consciousness_adaptations: Dict[str, Any]
-    temporal_dynamics: Dict[str, Any]
+    holographic_layers: list[HolographicLayer]
+    interaction_zones: list[InteractionZone]
+    consciousness_adaptations: dict[str, Any]
+    temporal_dynamics: dict[str, Any]
     created_timestamp: datetime
 
 
@@ -205,10 +205,10 @@ class WebXRIntegration:
         self._initialize_xr_platforms()
 
         # Holographic glyph cache
-        self.holographic_cache: Dict[str, HolographicGlyph] = {}
+        self.holographic_cache: dict[str, HolographicGlyph] = {}
 
         # Spatial interaction handlers
-        self.interaction_handlers: Dict[str, callable] = {}
+        self.interaction_handlers: dict[str, callable] = {}
 
         # Consciousness integration
         if enable_consciousness_adaptation:
@@ -252,7 +252,7 @@ class WebXRIntegration:
         quantum_entanglement: bool = True,
         platform: Optional[XRPlatform] = None,
         mode: HolographicMode = HolographicMode.FLOATING_GLYPH,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create holographic QRG for XR authentication
 
@@ -371,7 +371,7 @@ class WebXRIntegration:
         logger.info(f"✨ Holographic glyph created: {holographic_glyph.glyph_id}")
         return result
 
-    def _generate_base_glyph_data(self, identity: str) -> Dict[str, Any]:
+    def _generate_base_glyph_data(self, identity: str) -> dict[str, Any]:
         """Generate base QRG data for holographic conversion"""
         # In production, would integrate with actual QRG core
         return {
@@ -383,10 +383,10 @@ class WebXRIntegration:
 
     def _generate_holographic_layers(
         self,
-        base_glyph_data: Dict[str, Any],
+        base_glyph_data: dict[str, Any],
         mode: HolographicMode,
         spatial_dimensions: int,
-    ) -> List[HolographicLayer]:
+    ) -> list[HolographicLayer]:
         """
         Generate holographic rendering layers
 
@@ -419,7 +419,7 @@ class WebXRIntegration:
 
     def _get_layer_configurations(
         self, mode: HolographicMode, spatial_dimensions: int
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Get layer configurations for different holographic modes"""
 
         if mode == HolographicMode.FLOATING_GLYPH:
@@ -505,7 +505,7 @@ class WebXRIntegration:
             return [{"z_depth": 0.0, "opacity": 1.0, "layer_type": "primary"}]
 
     def _generate_layer_matrix(
-        self, base_matrix: np.ndarray, config: Dict[str, Any], layer_index: int
+        self, base_matrix: np.ndarray, config: dict[str, Any], layer_index: int
     ) -> np.ndarray:
         """Generate visual matrix for a specific holographic layer"""
         layer_type = config.get("layer_type", "generic")
@@ -639,7 +639,7 @@ class WebXRIntegration:
             # Default: slightly modified base matrix
             return base_matrix * config.get("opacity", 1.0)
 
-    def _generate_lambda_symbol_matrix(self, shape: Tuple[int, int, int]) -> np.ndarray:
+    def _generate_lambda_symbol_matrix(self, shape: tuple[int, int, int]) -> np.ndarray:
         """Generate Lambda symbol visual matrix"""
         matrix = np.zeros(shape, dtype=np.uint8)
         height, width = shape[:2]
@@ -664,7 +664,7 @@ class WebXRIntegration:
 
         return matrix
 
-    def _generate_temple_pillars(self, shape: Tuple[int, int, int]) -> np.ndarray:
+    def _generate_temple_pillars(self, shape: tuple[int, int, int]) -> np.ndarray:
         """Generate temple pillar patterns"""
         matrix = np.zeros(shape, dtype=np.uint8)
         height, width = shape[:2]
@@ -687,7 +687,7 @@ class WebXRIntegration:
 
         return matrix
 
-    def _generate_sacred_walls(self, shape: Tuple[int, int, int]) -> np.ndarray:
+    def _generate_sacred_walls(self, shape: tuple[int, int, int]) -> np.ndarray:
         """Generate sacred geometry wall patterns"""
         matrix = np.zeros(shape, dtype=np.uint8)
         height, width = shape[:2]
@@ -707,7 +707,7 @@ class WebXRIntegration:
         spatial_origin: SpatialCoordinates,
         mode: HolographicMode,
         platform: XRPlatform,
-    ) -> List[InteractionZone]:
+    ) -> list[InteractionZone]:
         """
         Create spatial interaction zones for holographic QRG
 
@@ -795,7 +795,7 @@ class WebXRIntegration:
 
     def _apply_consciousness_adaptations(
         self, consciousness_layer: str, mode: HolographicMode, platform: XRPlatform
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Apply consciousness-aware adaptations to holographic glyph"""
         adaptations = {
             "emotional_color_shift": True,
@@ -836,7 +836,7 @@ class WebXRIntegration:
 
     def _generate_temporal_dynamics(
         self, mode: HolographicMode, quantum_entanglement: bool
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate temporal dynamics for holographic animations"""
         dynamics = {
             "base_animation_speed": 1.0,
@@ -893,8 +893,8 @@ class WebXRIntegration:
         self,
         glyph_id: str,
         user_position: SpatialCoordinates,
-        consciousness_state: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        consciousness_state: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Render complete holographic scene for XR display
 
@@ -971,7 +971,7 @@ class WebXRIntegration:
 
     def _calculate_spatial_transforms(
         self, glyph: HolographicGlyph, user_position: SpatialCoordinates
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Calculate spatial transformations for user-relative rendering"""
         # Calculate relative position
         relative_x = glyph.spatial_origin.x - user_position.x
@@ -997,9 +997,9 @@ class WebXRIntegration:
     def _render_layers(
         self,
         glyph: HolographicGlyph,
-        spatial_transforms: Dict[str, Any],
-        consciousness_state: Optional[Dict[str, Any]],
-    ) -> List[Dict[str, Any]]:
+        spatial_transforms: dict[str, Any],
+        consciousness_state: Optional[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
         """Render individual holographic layers"""
         rendered_layers = []
 
@@ -1030,7 +1030,7 @@ class WebXRIntegration:
 
     def _process_interaction_zones(
         self, glyph: HolographicGlyph, user_position: SpatialCoordinates
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Process interaction zones for current user position"""
         active_zones = []
 
@@ -1074,8 +1074,8 @@ class WebXRIntegration:
         return active_zones
 
     def _generate_animation_frames(
-        self, glyph: HolographicGlyph, consciousness_state: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, glyph: HolographicGlyph, consciousness_state: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Generate animation frame data"""
         current_time = time.time()
         temporal_dynamics = glyph.temporal_dynamics
@@ -1119,8 +1119,8 @@ class WebXRIntegration:
         return animation_data
 
     def _apply_realtime_consciousness_effects(
-        self, glyph: HolographicGlyph, consciousness_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, glyph: HolographicGlyph, consciousness_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply real-time consciousness effects to holographic rendering"""
         effects = {}
 
@@ -1151,9 +1151,9 @@ class WebXRIntegration:
     def _generate_platform_rendering_commands(
         self,
         platform: XRPlatform,
-        rendered_layers: List[Dict[str, Any]],
-        animation_data: Dict[str, Any],
-    ) -> List[Dict[str, Any]]:
+        rendered_layers: list[dict[str, Any]],
+        animation_data: dict[str, Any],
+    ) -> list[dict[str, Any]]:
         """Generate platform-specific rendering commands"""
         commands = []
 
@@ -1242,18 +1242,18 @@ class WebXRIntegration:
             def __init__(self, platform_name: str):
                 self.platform_name = platform_name
 
-            def render_scene(self, scene_data: Dict[str, Any]) -> bool:
+            def render_scene(self, scene_data: dict[str, Any]) -> bool:
                 logger.info(f"🎭 Mock rendering for {self.platform_name}")
                 return True
 
             def handle_interaction(
-                self, interaction_data: Dict[str, Any]
-            ) -> Dict[str, Any]:
+                self, interaction_data: dict[str, Any]
+            ) -> dict[str, Any]:
                 return {"status": "handled", "platform": self.platform_name}
 
         return MockPlatformInterface(platform.value)
 
-    def get_platform_capabilities(self, platform: XRPlatform) -> Dict[str, Any]:
+    def get_platform_capabilities(self, platform: XRPlatform) -> dict[str, Any]:
         """
         Get capabilities for specific XR platform
 

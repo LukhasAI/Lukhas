@@ -14,17 +14,16 @@ Render theta delta (memory compression metric) over time.
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import List, Tuple
 
 
 # LUKHAS_TAG: fold_entropy_visualizer
 class FoldEntropyVisualizer:
     """Visualize theta_delta over time as Mermaid or ASCII chart."""
 
-    def render_mermaid_timeline(self, timeline: Iterable[Tuple[str, float]]) -> str:
+    def render_mermaid_timeline(self, timeline: Iterable[tuple[str, float]]) -> str:
         """Return a Mermaid.js graph representing the theta_delta timeline."""
-        nodes: List[str] = []
-        edges: List[str] = []
+        nodes: list[str] = []
+        edges: list[str] = []
         prev_id = None
         for idx, (timestamp, theta) in enumerate(timeline):
             node_id = f"T{idx}"
@@ -36,7 +35,7 @@ class FoldEntropyVisualizer:
         graph = ["graph LR"] + nodes + edges
         return "\n".join(graph)
 
-    def render_ascii_chart(self, timeline: Iterable[Tuple[str, float]]) -> str:
+    def render_ascii_chart(self, timeline: Iterable[tuple[str, float]]) -> str:
         """Return simple ASCII bar chart of theta_delta values."""
         points = list(timeline)
         if not points:

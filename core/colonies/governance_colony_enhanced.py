@@ -542,7 +542,7 @@ async def demo_governance_colony():
             },
         )
         print(
-            f"\nEthical concern task result: {json.dumps(ethical_concern_result,
+            f"\nEthical concern task result: {json.dumps(ethical_concern_result,"
                                                          indent=2)}"
         )
 

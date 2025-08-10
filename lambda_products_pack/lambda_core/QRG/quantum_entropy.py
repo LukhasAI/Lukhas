@@ -12,7 +12,7 @@ import secrets
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -98,7 +98,8 @@ class TrueQuantumRandomness:
         # Cryptographic secure random (always available)
         self.entropy_sources[QuantumEntropySource.CRYPTOGRAPHIC_SECURE] = True
 
-        # Quantum API sources (simulated - in production would connect to quantum services)
+        # Quantum API sources (simulated - in production would connect to quantum
+        # services)
         self.entropy_sources[QuantumEntropySource.QUANTUM_API] = True
 
         # Atmospheric noise (simulated)
@@ -369,7 +370,7 @@ class TrueQuantumRandomness:
 
         return bytes(extracted_bytes[:output_length])
 
-    def _validate_entropy_quality(self, entropy_bytes: bytes) -> Dict[str, float]:
+    def _validate_entropy_quality(self, entropy_bytes: bytes) -> dict[str, float]:
         """Validate entropy quality using statistical tests"""
         if not entropy_bytes:
             return {"error": "No entropy to validate"}
@@ -526,7 +527,7 @@ class TrueQuantumRandomness:
             if len(self.entropy_pool) > self.pool_size:
                 self.entropy_pool = self.entropy_pool[-self.pool_size :]
 
-    def get_entropy_quality_report(self) -> Dict[str, Any]:
+    def get_entropy_quality_report(self) -> dict[str, Any]:
         """Get detailed entropy quality report"""
         return {
             "entropy_source": self.entropy_source.value,
@@ -539,7 +540,7 @@ class TrueQuantumRandomness:
             "recommendations": self._generate_quality_recommendations(),
         }
 
-    def _generate_quality_recommendations(self) -> List[str]:
+    def _generate_quality_recommendations(self) -> list[str]:
         """Generate recommendations for improving entropy quality"""
         recommendations = []
 

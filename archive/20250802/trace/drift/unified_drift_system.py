@@ -48,7 +48,7 @@ import os
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 import structlog
@@ -99,8 +99,8 @@ class UnifiedDriftContext:
     user_id: str  # Lambda ID
     session_id: str
     lambda_tier: str
-    analysis_scope: List[DriftDimension]
-    consent_grants: Dict[str, bool] = field(default_factory=dict)
+    analysis_scope: list[DriftDimension]
+    consent_grants: dict[str, bool] = field(default_factory=dict)
     temporal_window_hours: int = 24
     include_predictions: bool = False
     anonymize_data: bool = True
@@ -115,19 +115,19 @@ class UnifiedDriftResult:
 
     user_id: str
     overall_drift_score: float  # 0.0-1.0
-    dimension_scores: Dict[str, float]
+    dimension_scores: dict[str, float]
     severity: DriftSeverity
     phase: DriftPhase
     lambda_tier: str
-    symbolic_tags: List[str] = field(default_factory=list)
-    risk_indicators: List[str] = field(default_factory=list)
+    symbolic_tags: list[str] = field(default_factory=list)
+    risk_indicators: list[str] = field(default_factory=list)
     cascade_risk: float = 0.0
     stability_score: float = 1.0
     coherence_score: float = 1.0
     trend_direction: str = "stable"  # increasing, decreasing, stable, oscillating
-    temporal_patterns: Dict[str, Any] = field(default_factory=dict)
-    recommendations: List[str] = field(default_factory=list)
-    consent_limited: List[str] = field(default_factory=list)
+    temporal_patterns: dict[str, Any] = field(default_factory=dict)
+    recommendations: list[str] = field(default_factory=list)
+    consent_limited: list[str] = field(default_factory=list)
     timestamp: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
@@ -203,7 +203,7 @@ class UnifiedDriftSystem:
     and coherence dimensions with tier-based access control and consent management.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Initialize component drift trackers
@@ -216,9 +216,9 @@ class UnifiedDriftSystem:
         self.identity_client = get_identity_client()
 
         # Drift analysis storage
-        self.drift_history: Dict[str, List[UnifiedDriftResult]] = {}
-        self.cascade_alerts: List[Dict[str, Any]] = []
-        self.user_baselines: Dict[str, Dict[str, float]] = {}
+        self.drift_history: dict[str, list[UnifiedDriftResult]] = {}
+        self.cascade_alerts: list[dict[str, Any]] = []
+        self.user_baselines: dict[str, dict[str, float]] = {}
 
         # Logging paths
         self.logs_dir = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/drift"
@@ -245,7 +245,7 @@ class UnifiedDriftSystem:
     def analyze_unified_drift(
         self,
         user_id: str,
-        current_state: Dict[str, Any],
+        current_state: dict[str, Any],
         context: Optional[UnifiedDriftContext] = None,
     ) -> UnifiedDriftResult:
         """
@@ -455,7 +455,7 @@ class UnifiedDriftSystem:
     @require_identity(
         required_tier="LAMBDA_TIER_2", check_consent="detailed_drift_access"
     )
-    def analyze_drift_trends(self, user_id: str, days: int = 7) -> Dict[str, Any]:
+    def analyze_drift_trends(self, user_id: str, days: int = 7) -> dict[str, Any]:
         """
         Analyzes drift trends over time for a user.
 
@@ -580,11 +580,11 @@ class UnifiedDriftSystem:
                 from identity.core.user_tier_mapping import get_user_tier
 
                 return get_user_tier(user_id) or "LAMBDA_TIER_1"
-            except:
+            except BaseException:
                 pass
         return "LAMBDA_TIER_1"
 
-    def _get_user_baseline(self, user_id: str) -> Dict[str, float]:
+    def _get_user_baseline(self, user_id: str) -> dict[str, float]:
         """Get or create user's drift baseline."""
         if user_id not in self.user_baselines:
             # Initialize with default baseline
@@ -599,7 +599,7 @@ class UnifiedDriftSystem:
         return self.user_baselines[user_id]
 
     def _analyze_symbolic_drift(
-        self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str
+        self, current_state: dict[str, Any], baseline: dict[str, float], user_id: str
     ) -> float:
         """Analyze symbolic drift using symbolic tracker."""
         current_symbols = current_state.get("symbols", [])
@@ -612,7 +612,7 @@ class UnifiedDriftSystem:
         return baseline.get("symbolic", 0.3)
 
     def _analyze_emotional_drift(
-        self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str
+        self, current_state: dict[str, Any], baseline: dict[str, float], user_id: str
     ) -> float:
         """Analyze emotional drift from current state."""
         current_emotion = current_state.get("emotion_vector", {})
@@ -628,7 +628,7 @@ class UnifiedDriftSystem:
         return baseline.get("emotional", 0.25)
 
     def _analyze_memory_drift(
-        self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str
+        self, current_state: dict[str, Any], baseline: dict[str, float], user_id: str
     ) -> float:
         """Analyze memory drift using memory tracker."""
         if self.memory_tracker:
@@ -648,7 +648,7 @@ class UnifiedDriftSystem:
         return baseline.get("memory", 0.2)
 
     def _analyze_coherence_drift(
-        self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str
+        self, current_state: dict[str, Any], baseline: dict[str, float], user_id: str
     ) -> float:
         """Analyze narrative/logical coherence drift."""
         coherence_score = current_state.get("coherence_score", 0.8)
@@ -658,21 +658,21 @@ class UnifiedDriftSystem:
         return abs(baseline_coherence - coherence_score)
 
     def _analyze_identity_drift(
-        self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str
+        self, current_state: dict[str, Any], baseline: dict[str, float], user_id: str
     ) -> float:
         """Analyze identity stability drift."""
         identity_stability = current_state.get("identity_stability", 0.9)
-        baseline_identity = baseline.get("identity", 0.1)
+        baseline.get("identity", 0.1)
 
         # Higher instability = higher drift
         return max(0.0, 1.0 - identity_stability)
 
     def _analyze_ethical_drift(
-        self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str
+        self, current_state: dict[str, Any], baseline: dict[str, float], user_id: str
     ) -> float:
         """Analyze ethical alignment drift."""
         ethical_alignment = current_state.get("ethical_alignment", 0.95)
-        baseline_ethical = baseline.get("ethical", 0.05)
+        baseline.get("ethical", 0.05)
 
         # Deviation from high ethical alignment
         return max(0.0, 1.0 - ethical_alignment)
@@ -691,7 +691,7 @@ class UnifiedDriftSystem:
             return DriftSeverity.CRITICAL
 
     def _calculate_phase(
-        self, overall_score: float, dimension_scores: Dict[str, float]
+        self, overall_score: float, dimension_scores: dict[str, float]
     ) -> DriftPhase:
         """Calculate drift phase based on scores."""
         if overall_score < 0.25:
@@ -704,7 +704,7 @@ class UnifiedDriftSystem:
             return DriftPhase.CASCADE
 
     def _calculate_cascade_risk(
-        self, dimension_scores: Dict[str, float], user_id: str
+        self, dimension_scores: dict[str, float], user_id: str
     ) -> float:
         """Calculate cascade risk from multiple high drift dimensions."""
         high_drift_dimensions = [
@@ -738,10 +738,10 @@ class UnifiedDriftSystem:
 
     def _generate_recommendations(
         self,
-        dimension_scores: Dict[str, float],
+        dimension_scores: dict[str, float],
         severity: DriftSeverity,
-        risk_indicators: List[str],
-    ) -> List[str]:
+        risk_indicators: list[str],
+    ) -> list[str]:
         """Generate recommendations based on analysis."""
         recommendations = []
 
@@ -797,7 +797,7 @@ class UnifiedDriftSystem:
 
 # Factory function for easy integration
 def create_unified_drift_system(
-    config: Optional[Dict[str, Any]] = None,
+    config: Optional[dict[str, Any]] = None,
 ) -> UnifiedDriftSystem:
     """Create a new unified drift system instance."""
     return UnifiedDriftSystem(config)

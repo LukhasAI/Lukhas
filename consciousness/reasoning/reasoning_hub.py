@@ -3,7 +3,7 @@ Reasoning Hub
 Central coordination for reasoning subsystem components
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .ethical_reasoning_integration import create_ethical_reasoning_integration
 from .LBot_reasoning_processed import ΛBotAdvancedReasoningOrchestrator
@@ -13,8 +13,8 @@ class ReasoningHub:
     """Central hub for reasoning system coordination"""
 
     def __init__(self) -> None:
-        self.services: Dict[str, Any] = {}
-        self.event_handlers: Dict[str, List[callable]] = {}
+        self.services: dict[str, Any] = {}
+        self.event_handlers: dict[str, list[callable]] = {}
         self.is_initialized = False
         self.advanced_orchestrator = ΛBotAdvancedReasoningOrchestrator()
         self.register_service("advanced_orchestrator", self.advanced_orchestrator)

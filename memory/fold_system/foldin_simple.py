@@ -8,13 +8,13 @@ import json
 import struct
 from collections.abc import AsyncIterator
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 # Magic bytes for LKF-Pack format
 MAGIC = b"LKF\x01"
 
 
-async def import_folds(path: str) -> AsyncIterator[Dict[str, Any]]:
+async def import_folds(path: str) -> AsyncIterator[dict[str, Any]]:
     """Import memory folds from file"""
     path_obj = Path(path)
 
@@ -48,5 +48,5 @@ def verify_lkf_pack(path: str) -> bool:
         with path_obj.open("rb") as f:
             magic = f.read(4)
             return magic == MAGIC
-    except:
+    except BaseException:
         return False

@@ -5,7 +5,7 @@
 # DEPENDENCIES: core.intent_node, core.memoria, core.ethics_engine, core.dream_refold, core.reflection, core.override_quorum
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ===========================================================================
-#ΛTRACE
+# ΛTRACE
 """
 from core.intent_node import IntentNode
 from core.memoria import Memoria
@@ -29,15 +29,15 @@ class SymbolicBrain:
 
     def process(self, user_input):
         """
-        Executes the symbolic reasoning loop based on user input.
-        Steps:
-        1. Analyze intent
-        2. Recall memory threads
-        3. Ethical validation
-        4. Dream or decision logic
-        5. Log reflection
-        6. Return symbolic response
-        """
+Executes the symbolic reasoning loop based on user input.
+Steps:
+    1. Analyze intent
+    2. Recall memory threads
+    3. Ethical validation
+    4. Dream or decision logic
+    5. Log reflection
+    6. Return symbolic response
+    """
         print(f"\n🧠 LUKHAS received: {user_input}")
 
         # Step 1: Parse intent

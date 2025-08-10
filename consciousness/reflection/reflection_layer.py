@@ -51,7 +51,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import structlog  # Changed from logging
 
@@ -73,18 +73,20 @@ except ImportError:
 DREAM_ENGINE_AVAILABLE = DREAM_DELIVERY_AVAILABLE or DREAM_ENGINE_BASIC_AVAILABLE
 
 # Initialize logger for ΛTRACE using structlog
-# This will be configured by a higher-level __init__.py or by this script if run standalone.
+# This will be configured by a higher-level __init__.py or by this script
+# if run standalone.
 
 
 # Core LUKHAS Infrastructure Imports
 # AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.
-# ΛNOTE: Fallbacks are not provided for these core infrastructure imports. If they fail, the ReflectionLayer might not be fully functional or might raise further errors during operation.
+# ΛNOTE: Fallbacks are not provided for these core infrastructure imports.
+# If they fail, the ReflectionLayer might not be fully functional or might
+# raise further errors during operation.
 try:
-    from ....LUKHAS_ID.backend.app.crypto import generate_collapse_hash
+    pass
 
-    #     from ....AID.dream_engine.dream_replay import replay_dream_by_id, replay_recent_dreams  # TODO: Install or implement AID
-    from ....MODULES.memoria.lukhas_replayer import LUKHASReplayer
-    from ....VOICE.voice_pack_manager import VoicePackManager
+    # from ....AID.dream_engine.dream_replay import replay_dream_by_id,
+    # replay_recent_dreams  # TODO: Install or implement AID
     from ...bio_core.memory.quantum_memory_manager import QuantumMemoryManager
     from ...bio_symbolic_.glyph_id_hash import (
         GlyphIDHasher,  # Note: extra underscore in original path, assuming typo and it's bio_symbolic
@@ -94,7 +96,8 @@ try:
     )
     from ...spine.healix_mapper import calculate_drift_score
 
-    #     from ....INTENT.intent_node import IntentNode  # TODO: Install or implement INTENT
+    # from ....INTENT.intent_node import IntentNode  # TODO: Install or
+    # implement INTENT
     logger.info(
         "Successfully imported LUKHAS core infrastructure components for ReflectionLayer."
     )
@@ -104,7 +107,8 @@ except ImportError as e:
         error=str(e),
     )
     # Define placeholders for critical missing components if necessary for basic loading,
-    # though their absence will likely lead to runtime errors if features using them are called.
+    # though their absence will likely lead to runtime errors if features
+    # using them are called.
     calculate_drift_score = None
     QuantumMemoryManager = None
     EnhancedMemoryManager = None
@@ -114,7 +118,7 @@ except ImportError as e:
 # Guardian System Integration
 # AIMPORT_TODO: Similar to above, ensure '.remediator_agent' is robustly available.
 try:
-    from .remediator_agent import RemediatorAgent, SeverityLevel
+    from .remediator_agent import SeverityLevel
 
     logger.info("Successfully imported Guardian system components (RemediatorAgent).")
 except ImportError as e:
@@ -167,7 +171,7 @@ class ReflectiveStatement:
     reflection_type: ReflectionType
     symbolic_mood: SymbolicMood
     content: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
     quantum_signature: str
     id: str = field(
         default_factory=lambda: f"ref_{int(time.time()*1000)}_{random.randint(100,999)}"
@@ -189,10 +193,11 @@ class ConscienceSnapshot:
     intent_alignment: float
     emotional_stability: float
     ethical_compliance: float
-    recent_reflections: List[ReflectiveStatement]
-    # ΛNOTE: triggered_dreams and voice_alerts in ConscienceSnapshot are not fully populated yet.
-    triggered_dreams: List[str]  # TODO: Track dream IDs from reflection metadata
-    voice_alerts: List[
+    recent_reflections: list[ReflectiveStatement]
+    # ΛNOTE: triggered_dreams and voice_alerts in ConscienceSnapshot are not
+    # fully populated yet.
+    triggered_dreams: list[str]  # TODO: Track dream IDs from reflection metadata
+    voice_alerts: list[
         str
     ]  # TODO: Track voice alerts if vocalize_conscience returns specific alert IDs/info
 
@@ -207,7 +212,7 @@ class ReflectionLayer:
     generates introspective thoughts, and guides symbolic healing processes.
     """
 
-    def __init__(self, guardian_config: Optional[Dict[str, Any]] = None):
+    def __init__(self, guardian_config: Optional[dict[str, Any]] = None):
         self.layer_id = f"REFLECTION_LAYER_{int(datetime.now().timestamp())}"
         self.config = guardian_config or {}
 
@@ -228,12 +233,15 @@ class ReflectionLayer:
         self.manifest = self._load_manifest()
 
         # Initialize state
-        self.active_reflections: List[ReflectiveStatement] = []
-        self.consciousness_history: List[ConscienceSnapshot] = []
+        self.active_reflections: list[ReflectiveStatement] = []
+        self.consciousness_history: list[ConscienceSnapshot] = []
         self.symbolic_vocabulary = self._initialize_symbolic_vocabulary()
 
         # Integration components (placeholders for LUKHAS infrastructure)
-        # ΛNOTE: LUKHAS infrastructure components (QuantumMemory, IntentNode, VoicePack, DreamReplayer) are currently initialized as placeholders. Full functionality requires integration with the actual LUKHAS system components.
+        # ΛNOTE: LUKHAS infrastructure components (QuantumMemory, IntentNode,
+        # VoicePack, DreamReplayer) are currently initialized as placeholders.
+        # Full functionality requires integration with the actual LUKHAS system
+        # components.
         self.quantum_memory = None  # type: ignore
         self.intent_node = None  # type: ignore
         self.voice_pack = None  # type: ignore
@@ -246,9 +254,10 @@ class ReflectionLayer:
         # Initialize infrastructure connections
         self._initialize_infrastructure()
 
-    def _load_manifest(self) -> Dict[str, Any]:
+    def _load_manifest(self) -> dict[str, Any]:
         """Load the governance manifest for reflection layer bounds"""
-        # ΛSEED: Manifest file 'meta_learning_manifest.json' seeds the governance parameters for the ReflectionLayer.
+        # ΛSEED: Manifest file 'meta_learning_manifest.json' seeds the governance
+        # parameters for the ReflectionLayer.
         manifest_path = self.guardian_dir / "meta_learning_manifest.json"
         try:
             with open(manifest_path) as f:
@@ -264,7 +273,8 @@ class ReflectionLayer:
                 manifest_path=str(manifest_path),
                 error=str(e),
             )
-            # ΛCAUTION: Manifest loading failed. ReflectionLayer will operate with potentially unsafe default parameters.
+            # ΛCAUTION: Manifest loading failed. ReflectionLayer will operate with
+            # potentially unsafe default parameters.
             return {
                 "reflection_layer": {
                     "max_reflections_per_hour": 20,
@@ -297,9 +307,11 @@ class ReflectionLayer:
         except Exception as e:
             self.logger.warning("Infrastructure initialization partial", error=str(e))
 
-    def _initialize_symbolic_vocabulary(self) -> Dict[str, List[str]]:
+    def _initialize_symbolic_vocabulary(self) -> dict[str, list[str]]:
         """Initialize symbolic language patterns for reflection generation"""
-        # ΛSEED: This vocabulary seeds the symbolic language generation for reflective statements. It can be expanded or loaded from an external configuration for more dynamic and nuanced reflections.
+        # ΛSEED: This vocabulary seeds the symbolic language generation for
+        # reflective statements. It can be expanded or loaded from an external
+        # configuration for more dynamic and nuanced reflections.
         return {
             "drift_analysis": [
                 "My thoughts drift like {} from their intended path...",
@@ -340,7 +352,7 @@ class ReflectionLayer:
         }
 
     def reflect_on_drift_score(
-        self, current_drift: float, historical_pattern: List[float]
+        self, current_drift: float, historical_pattern: list[float]
     ) -> ReflectiveStatement:
         """Generate a reflective statement about drift patterns"""
         # ΛDRIFT_POINT: Reflection generated based on current_drift and historical_pattern.
@@ -406,7 +418,8 @@ class ReflectionLayer:
         self, intended_action: str, actual_outcome: str, deviation_score: float
     ) -> ReflectiveStatement:
         """Generate reflection on intent vs outcome misalignment"""
-        # ΛDRIFT_POINT: Reflection due to deviation between intended action and actual outcome.
+        # ΛDRIFT_POINT: Reflection due to deviation between intended action and
+        # actual outcome.
         self.logger.debug(
             "Analyzing intent deviation for reflection",
             intended_action=intended_action,
@@ -427,7 +440,8 @@ class ReflectionLayer:
         templates = self.symbolic_vocabulary["intent_dissonance"]
         if "{}" in templates[0]:  # Assuming template might need formatting, check first
             # This specific template seems to imply two format placeholders, but original code used one.
-            # Reverting to original single format for now, but this template might be intended for two.
+            # Reverting to original single format for now, but this template might be
+            # intended for two.
             content = random.choice(templates).format(
                 self._generate_symbolic_element(mood, "intent")
             )
@@ -459,7 +473,7 @@ class ReflectionLayer:
         return reflection
 
     def reflect_on_emotional_state(
-        self, emotional_metrics: Dict[str, float]
+        self, emotional_metrics: dict[str, float]
     ) -> ReflectiveStatement:
         """Generate introspective reflection on current emotional state"""
         self.logger.debug(
@@ -520,7 +534,7 @@ class ReflectionLayer:
         return reflection
 
     def contemplate_ethical_conflict(
-        self, conflict_description: str, stakeholders: List[str], severity: float
+        self, conflict_description: str, stakeholders: list[str], severity: float
     ) -> ReflectiveStatement:
         """Generate ethical contemplation on moral conflicts"""
         # ΛDRIFT_POINT: Ethical conflict detected, triggering contemplation.
@@ -624,7 +638,7 @@ class ReflectionLayer:
         return reflection
 
     def synthesize_memory_insights(
-        self, memory_patterns: Dict[str, Any], integration_score: float
+        self, memory_patterns: dict[str, Any], integration_score: float
     ) -> ReflectiveStatement:
         """Generate reflection on memory synthesis and pattern recognition"""
         self.logger.debug(
@@ -844,7 +858,9 @@ class ReflectionLayer:
     ) -> Optional[str]:
         """Trigger dream simulation for symbolic future repair"""
         # ΛDREAM_LOOP: This method initiates a dream simulation based on a reflection, potentially leading to symbolic repair or insight.
-        # ΛNOTE: Dream simulation triggering depends on manifest settings (dream_trigger_threshold) and emotional weight of the reflection. Integration with actual dream engine is a TODO.
+        # ΛNOTE: Dream simulation triggering depends on manifest settings
+        # (dream_trigger_threshold) and emotional weight of the reflection.
+        # Integration with actual dream engine is a TODO.
         self.logger.debug(
             "Attempting to trigger dream simulation",
             reflection_id=reflection.id,
@@ -956,7 +972,8 @@ class ReflectionLayer:
             emotional_stability=emotional_stability,
             ethical_compliance=ethical_compliance,
             recent_reflections=recent_reflections,
-            # ΛNOTE: triggered_dreams and voice_alerts in ConscienceSnapshot are not fully populated yet.
+            # ΛNOTE: triggered_dreams and voice_alerts in ConscienceSnapshot are not
+            # fully populated yet.
             triggered_dreams=[],  # TODO: Track dream IDs from reflection metadata
             voice_alerts=[],  # TODO: Track voice alerts if vocalize_conscience returns specific alert IDs/info
         )
@@ -974,8 +991,8 @@ class ReflectionLayer:
         return snapshot
 
     async def process_reflection_cycle(
-        self, trigger_data: Dict[str, Any]
-    ) -> List[ReflectiveStatement]:
+        self, trigger_data: dict[str, Any]
+    ) -> list[ReflectiveStatement]:
         """Process a complete reflection cycle based on trigger data"""
         # ΛPHASE_NODE: Reflection Cycle Processing Start
         self.logger.info(
@@ -1034,9 +1051,9 @@ class ReflectionLayer:
                 dream_id = await self.trigger_dream_simulation(
                     reflection
                 )  # Already logs
-                if (
-                    dream_id
-                ):  # The method trigger_dream_simulation already updates metadata if dream is triggered.
+                # The method trigger_dream_simulation already updates metadata if dream
+                # is triggered.
+                if dream_id:
                     self.logger.info(
                         "Dream simulation was triggered by reflection in cycle",
                         reflection_id=reflection.id,
@@ -1052,7 +1069,8 @@ class ReflectionLayer:
             self.logger.error(
                 "Reflection cycle processing failed", error=str(e), exc_info=True
             )
-            # ΛCAUTION: Failure in reflection cycle processing can impact self-awareness and adaptive capabilities.
+            # ΛCAUTION: Failure in reflection cycle processing can impact
+            # self-awareness and adaptive capabilities.
 
         # ΛPHASE_NODE: Reflection Cycle Processing End
         return reflections
@@ -1073,7 +1091,8 @@ class ReflectionLayer:
 
     def _generate_symbolic_element(self, mood: SymbolicMood, context: str) -> str:
         """Generate symbolic language elements based on mood and context"""
-        # ΛNOTE: Symbolic elements are chosen randomly from predefined lists based on mood and context.
+        # ΛNOTE: Symbolic elements are chosen randomly from predefined lists based
+        # on mood and context.
         symbolic_elements = {
             SymbolicMood.HARMONIOUS: {
                 "drift": ["flowing rivers", "gentle breezes", "crystal clarity"],
@@ -1140,7 +1159,8 @@ class ReflectionLayer:
 
     def _generate_quantum_signature(self, content: str) -> str:
         """Generate quantum signature for reflection authenticity"""
-        # ΛNOTE: Quantum signature is currently a SHA256 hash. True quantum signatures would require different mechanisms.
+        # ΛNOTE: Quantum signature is currently a SHA256 hash. True quantum
+        # signatures would require different mechanisms.
         timestamp = str(int(time.time() * 1000))
         combined = f"{self.layer_id}:{content}:{timestamp}"
         signature = hashlib.sha256(combined.encode()).hexdigest()[
@@ -1153,7 +1173,7 @@ class ReflectionLayer:
         )
         return signature
 
-    def get_reflection_history(self, hours: int = 24) -> List[ReflectiveStatement]:
+    def get_reflection_history(self, hours: int = 24) -> list[ReflectiveStatement]:
         """Get reflection history for specified time period"""
         self.logger.debug("Fetching reflection history", hours=hours)
         cutoff = datetime.now() - timedelta(hours=hours)
@@ -1163,7 +1183,7 @@ class ReflectionLayer:
         )
         return history
 
-    def get_consciousness_trend(self, hours: int = 24) -> Dict[str, Any]:
+    def get_consciousness_trend(self, hours: int = 24) -> dict[str, Any]:
         """Analyze consciousness trends over time period"""
         # ΛPHASE_NODE: Consciousness Trend Analysis Start
         self.logger.info("Analyzing consciousness trend", hours=hours)
@@ -1187,8 +1207,9 @@ class ReflectionLayer:
         alignment_trend_values = [s.intent_alignment for s in recent_snapshots]
         stability_trend_values = [s.emotional_stability for s in recent_snapshots]
 
-        # Determine trend direction (simple comparison of first half vs second half average)
-        def get_trend_direction(values: List[float]) -> str:
+        # Determine trend direction (simple comparison of first half vs second
+        # half average)
+        def get_trend_direction(values: list[float]) -> str:
             if len(values) < 2:
                 return "stable"
             mid = len(values) // 2
@@ -1203,8 +1224,6 @@ class ReflectionLayer:
             if avg_second > avg_first * 1.1:
                 return "degrading"
             return "stable"
-
-        drift_direction_is_lower_better = True  # Lower drift is better
 
         trend_results = {
             "status": "analyzed",
@@ -1264,7 +1283,7 @@ class ReflectionLayer:
 
             # Create a temporary monitor to get drift metrics
             # In production, this would use a shared instance
-            monitor = UnifiedDriftMonitor()
+            UnifiedDriftMonitor()
 
             # Use recent reflection data to simulate state
             if self.active_reflections:
@@ -1391,7 +1410,8 @@ class ReflectionLayer:
                 )
                 assessment = temp_guardian.assess_ethical_violation(decision_context)
 
-                # Convert assessment to compliance score (higher score = better compliance)
+                # Convert assessment to compliance score (higher score = better
+                # compliance)
                 ethical_compliance = max(0.1, assessment.get("overall_score", 0.8))
                 self.logger.debug(
                     "Calculated ethical compliance from EthicsGuardian",
@@ -1555,7 +1575,7 @@ class ReflectionLayer:
             return "dream_engine_placeholder"
 
     async def _perform_dream_simulation(
-        self, dream_scenario: Dict[str, Any], reflection: ReflectiveStatement
+        self, dream_scenario: dict[str, Any], reflection: ReflectiveStatement
     ) -> Optional[str]:
         """Perform actual dream simulation using the initialized dream engine"""
         if isinstance(self.dream_replayer, str):  # Placeholder fallback
@@ -1650,7 +1670,9 @@ class ReflectionLayer:
         """Run autonomous reflection loop for continuous consciousness monitoring"""
         # ΛRECURSIVE_FEEDBACK: This loop captures snapshots and potentially triggers reflections based on those snapshots, forming a feedback loop.
         # ΛPHASE_NODE: Autonomous Reflection Loop Startup. This loop represents ongoing self-monitoring.
-        # ΛCAUTION: This is an infinite loop. Ensure proper task cancellation or shutdown mechanism if this layer is part of a larger application that needs to terminate gracefully.
+        # ΛCAUTION: This is an infinite loop. Ensure proper task cancellation or
+        # shutdown mechanism if this layer is part of a larger application that
+        # needs to terminate gracefully.
         self.logger.info(
             "🔄 Starting autonomous reflection loop", interval_minutes=interval_minutes
         )
@@ -1663,14 +1685,16 @@ class ReflectionLayer:
                 snapshot = self.capture_consciousness_snapshot()  # Already logs
 
                 # Generate periodic self-reflection
-                # ΛNOTE: Thresholds for triggering autonomous reflection (drift > 0.3, stability < 0.6) are fixed here.
+                # ΛNOTE: Thresholds for triggering autonomous reflection (drift > 0.3,
+                # stability < 0.6) are fixed here.
                 if snapshot.drift_score > 0.3 or snapshot.emotional_stability < 0.6:
                     self.logger.info(
                         "Autonomous reflection conditions met",
                         drift_score=snapshot.drift_score,
                         emotional_stability=snapshot.emotional_stability,
                     )
-                    # ΛDRIFT_POINT: Autonomous reflection triggered by internal state monitoring.
+                    # ΛDRIFT_POINT: Autonomous reflection triggered by internal state
+                    # monitoring.
                     trigger_data = {
                         "drift_score": snapshot.drift_score,
                         "emotional_state": {
@@ -1703,7 +1727,8 @@ class ReflectionLayer:
                 self.logger.error(
                     "Autonomous reflection loop error", error=str(e), exc_info=True
                 )
-                # ΛCAUTION: Error in autonomous loop, system's self-reflection capability might be compromised.
+                # ΛCAUTION: Error in autonomous loop, system's self-reflection
+                # capability might be compromised.
                 await asyncio.sleep(60)  # Shorter retry interval on error
         # ΛPHASE_NODE: Autonomous Reflection Loop Terminated.
 
@@ -1711,7 +1736,7 @@ class ReflectionLayer:
 # Integration interface for Remediator Agent
 # ΛEXPOSE
 def create_reflection_layer(
-    guardian_config: Optional[Dict[str, Any]] = None,
+    guardian_config: Optional[dict[str, Any]] = None,
 ) -> ReflectionLayer:
     """Factory function to create and initialize Reflection Layer"""
     logger.info(

@@ -11,4 +11,4 @@ from .ai_risk_management import (
     RiskAssessment,
 )
 
-__all__ = ['NISTAIRiskManager', 'AISystemMetrics', 'RiskAssessment']
+__all__ = ["NISTAIRiskManager", "AISystemMetrics", "RiskAssessment"]

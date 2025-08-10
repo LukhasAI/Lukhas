@@ -173,7 +173,7 @@ class EnergyManager:
                     battery = psutil.sensors_battery()
                     if battery:
                         metrics.battery_level = battery.percent / 100.0
-                except:
+                except BaseException:
                     pass
 
                 # Get temperature if available
@@ -184,7 +184,7 @@ class EnergyManager:
                         cpu_temps = temps.get("cpu-thermal", temps.get("coretemp", []))
                         if cpu_temps:
                             metrics.temperature = cpu_temps[0].current
-                except:
+                except BaseException:
                     pass
 
                 # Calculate energy score (0 = efficient, 1 = intensive)

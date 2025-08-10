@@ -317,7 +317,7 @@ class ConsciousnessBroadcaster:
     async def start(self):
         """Start the WebSocket server and broadcast loop"""
         # Start broadcast loop
-        broadcast_task = asyncio.create_task(self.broadcast_loop())
+        asyncio.create_task(self.broadcast_loop())
 
         # Start WebSocket server
         logger.info(f"🚀 Starting WebSocket server on ws://localhost:{self.port}")

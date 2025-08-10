@@ -24,6 +24,7 @@ def final_entropy_tune(trauma_data, tweak_factor=0.05):
         tuned_trauma.append(dampened_value)
     return tuned_trauma
 
+
 def recheck_entropy(trauma_data):
     """
     Recalculate entropy on the trauma data.

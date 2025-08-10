@@ -596,7 +596,7 @@ class CognitiveEngine:
                 self.performance_metrics["successful_responses"] += 1
 
             logger.info(
-                f"✅ Response generated - Confidence: {agi_response.confidence: .2f},
+                f"✅ Response generated - Confidence: {agi_response.confidence: .2f},"
                 Level: {agi_response.capability_level.value}"
             )
 

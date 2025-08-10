@@ -41,7 +41,7 @@
 # import streamlit as st  # TODO: Install or implement streamlit
 from dataclasses import dataclass
 from datetime import datetime  # timedelta not used
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Configure module logger
 
@@ -109,7 +109,8 @@ class EnhancedMemoryVisualizer:
 
         try:
             self.quantum_oscillator = QuantumOscillator()
-            # ΛNOTE: ProtonGradient might require specific initialization if not default.
+            # ΛNOTE: ProtonGradient might require specific initialization if not
+            # default.
             self.proton_gradient = ProtonGradient()
             self.logger.debug(
                 "QuantumOscillator and ProtonGradient initialized for Visualizer."
@@ -131,7 +132,8 @@ class EnhancedMemoryVisualizer:
         # ΛNOTE: `st.set_page_config` is typically called once per Streamlit app.
         #        Calling it here might cause issues if this class is instantiated multiple times
         #        or used within a larger Streamlit app that has already configured the page.
-        # ΛCAUTION: Module-level or class __init__ Streamlit calls can have side effects.
+        # ΛCAUTION: Module-level or class __init__ Streamlit calls can have side
+        # effects.
         try:
             st.set_page_config(
                 page_title="Enhanced Memory Visualization", layout="wide"
@@ -148,7 +150,8 @@ class EnhancedMemoryVisualizer:
             coherence = self.quantum_oscillator.quantum_modulate(
                 1.0
             )  # Example: modulate a neutral value
-            # ΛNOTE: Displaying coherence-inspired processing in sidebar. Assumes Streamlit context.
+            # ΛNOTE: Displaying coherence-inspired processing in sidebar. Assumes
+            # Streamlit context.
             st.sidebar.metric(
                 "Quantum Coherence (System)",  # Clarified title
                 f"{coherence:.2f}",
@@ -166,10 +169,10 @@ class EnhancedMemoryVisualizer:
     async def visualize_memory_fold(
         self,
         memory_id: str,  # Added memory_id for context
-        memory_data: Dict[str, Any],
-        retrieval_metadata: Optional[Dict[str, Any]] = None,  # Added for more context
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        memory_data: dict[str, Any],
+        retrieval_metadata: Optional[dict[str, Any]] = None,  # Added for more context
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Create quantum-enhanced visualization of memory fold.
         #ΛNOTE: This method uses Streamlit to render plots.
@@ -242,7 +245,7 @@ class EnhancedMemoryVisualizer:
             st.error(f"Visualization error for {memory_id}: {e}")
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    def _quantum_modulate_memory(self, memory_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _quantum_modulate_memory(self, memory_data: dict[str, Any]) -> dict[str, Any]:
         """Apply quantum modulation to memory data (placeholder)."""
         # ΛNOTE: Placeholder for actual quantum modulation logic.
         self.logger.debug(
@@ -252,7 +255,7 @@ class EnhancedMemoryVisualizer:
         if not self.config.quantum_enhancement or not self.quantum_oscillator:
             return memory_data
 
-        modulated: Dict[str, Any] = {}
+        modulated: dict[str, Any] = {}
         for key, value in memory_data.items():
             if isinstance(value, (int, float)):
                 modulated[key] = self.quantum_oscillator.quantum_modulate(
@@ -267,11 +270,12 @@ class EnhancedMemoryVisualizer:
     def _create_memory_plot(
         self,
         memory_id: str,
-        data: Dict[str, Any],
-        retrieval_metadata: Optional[Dict[str, Any]] = None,
+        data: dict[str, Any],
+        retrieval_metadata: Optional[dict[str, Any]] = None,
     ) -> Optional[Any]:
         """Create main memory visualization plot (placeholder)."""
-        # ΛNOTE: Placeholder for memory plot generation. Needs implementation with a plotting library.
+        # ΛNOTE: Placeholder for memory plot generation. Needs implementation with
+        # a plotting library.
         self.logger.debug(
             "Creating main memory plot (placeholder).", memory_id=memory_id
         )
@@ -282,8 +286,8 @@ class EnhancedMemoryVisualizer:
     def _create_emotion_plot(
         self,
         memory_id: str,
-        data: Dict[str, Any],
-        retrieval_metadata: Optional[Dict[str, Any]] = None,
+        data: dict[str, Any],
+        retrieval_metadata: Optional[dict[str, Any]] = None,
     ) -> Optional[Any]:
         """Create emotional mapping visualization (placeholder)."""
         # ΛNOTE: Placeholder for emotion plot generation.
@@ -293,8 +297,8 @@ class EnhancedMemoryVisualizer:
     def _create_collapse_plot(
         self,
         memory_id: str,
-        data: Dict[str, Any],
-        retrieval_metadata: Optional[Dict[str, Any]] = None,
+        data: dict[str, Any],
+        retrieval_metadata: Optional[dict[str, Any]] = None,
     ) -> Optional[Any]:
         """Create dream collapse visualization (placeholder)."""
         # ΛNOTE: Placeholder for dream collapse plot generation.
@@ -327,7 +331,7 @@ class Enhanced3DVisualizer:
         self.logger.info("Enhanced3DVisualizer initialized.")
 
     def launch_3d_viewer(
-        self, memory_id: str, memory_data: Dict[str, Any]
+        self, memory_id: str, memory_data: dict[str, Any]
     ) -> None:  # Added memory_id
         """Launch 3D memory visualization (placeholder)."""
         # ΛNOTE: Placeholder for launching 3D viewer. Requires a 3D graphics library.
@@ -335,9 +339,8 @@ class Enhanced3DVisualizer:
         # Example: Use a library like Plotly, PyVista, or a game engine interface.
         # prepared_3d_data = self._prepare_3d_data(memory_data)
         # actual_3d_render_call(prepared_3d_data)
-        pass
 
-    def _prepare_3d_data(self, memory_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _prepare_3d_data(self, memory_data: dict[str, Any]) -> dict[str, Any]:
         """Prepare data for 3D visualization (placeholder)."""
         # ΛNOTE: Placeholder for 3D data preparation logic.
         self.logger.debug(

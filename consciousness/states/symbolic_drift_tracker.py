@@ -35,7 +35,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # ΛNOTE: Enterprise symbolic drift tracking with multi-dimensional analysis
 
@@ -60,9 +60,9 @@ class DriftScore:
     ethical_drift: float  # Ethical alignment deviation
     temporal_decay: float  # Time-weighted decay factor
     phase: DriftPhase  # Classification of drift phase
-    recursive_indicators: List[str]  # Detected recursive patterns
+    recursive_indicators: list[str]  # Detected recursive patterns
     risk_level: str  # LOW/MEDIUM/HIGH/CRITICAL
-    metadata: Dict[str, Any]  # Additional context and measurements
+    metadata: dict[str, Any]  # Additional context and measurements
 
 
 @dataclass
@@ -71,11 +71,11 @@ class SymbolicState:
 
     session_id: str
     timestamp: datetime
-    symbols: List[str]  # GLYPHs, ΛTAGS, symbolic markers
-    emotional_vector: List[float]  # VAD or emotional state
+    symbols: list[str]  # GLYPHs, ΛTAGS, symbolic markers
+    emotional_vector: list[float]  # VAD or emotional state
     ethical_alignment: float  # Ethical consistency score
     entropy: float  # State entropy measurement
-    context_metadata: Dict[str, Any]  # Additional state context
+    context_metadata: dict[str, Any]  # Additional state context
     hash_signature: str  # State fingerprint for comparison
 
 
@@ -88,7 +88,7 @@ class SymbolicDriftTracker:
     analysis and safety threshold enforcement.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the symbolic drift tracker with configuration.
 
@@ -111,13 +111,13 @@ class SymbolicDriftTracker:
         self.recursive_detection_window = self.config.get("recursive_window", 10)
 
         # State storage
-        self.symbolic_states: Dict[str, List[SymbolicState]] = defaultdict(list)
-        self.drift_records: List[Dict[str, Any]] = []
-        self.recursive_patterns: Dict[str, List[str]] = defaultdict(list)
+        self.symbolic_states: dict[str, list[SymbolicState]] = defaultdict(list)
+        self.drift_records: list[dict[str, Any]] = []
+        self.recursive_patterns: dict[str, list[str]] = defaultdict(list)
         self.alert_history: deque = deque(maxlen=100)
 
         # Drift analysis cache
-        self.drift_cache: Dict[str, DriftScore] = {}
+        self.drift_cache: dict[str, DriftScore] = {}
         self.last_cache_cleanup = datetime.now()
 
         logger.info(
@@ -129,9 +129,9 @@ class SymbolicDriftTracker:
 
     def calculate_symbolic_drift(
         self,
-        current_symbols: List[str],
-        prior_symbols: List[str],
-        context: Dict[str, Any],
+        current_symbols: list[str],
+        prior_symbols: list[str],
+        context: dict[str, Any],
     ) -> float:
         """
         Compares current and historical GLYPH/tag states and outputs a DriftScore.
@@ -219,7 +219,7 @@ class SymbolicDriftTracker:
             return 0.0
 
     def register_symbolic_state(
-        self, session_id: str, symbols: List[str], metadata: Dict[str, Any]
+        self, session_id: str, symbols: list[str], metadata: dict[str, Any]
     ) -> None:
         """
         Stores symbolic state snapshot for future drift comparison.
@@ -288,7 +288,7 @@ class SymbolicDriftTracker:
         if len(self.symbolic_states[session_id]) > 1:
             self._analyze_drift_for_session(session_id)
 
-    def detect_recursive_drift_loops(self, symbol_sequences: List[List[str]]) -> bool:
+    def detect_recursive_drift_loops(self, symbol_sequences: list[list[str]]) -> bool:
         """
         Detects repeated symbolic recursion patterns indicating potential loops.
 
@@ -361,7 +361,7 @@ class SymbolicDriftTracker:
             )
             return False
 
-    def emit_drift_alert(self, score: float, context: Dict[str, Any]) -> None:
+    def emit_drift_alert(self, score: float, context: dict[str, Any]) -> None:
         """
         Logs drift spikes and triggers safety emitters for critical thresholds.
 
@@ -423,7 +423,7 @@ class SymbolicDriftTracker:
     # ΛDRIFT_POINT: Implementation of core drift calculation methods
 
     def _calculate_symbol_set_drift(
-        self, current: List[str], prior: List[str]
+        self, current: list[str], prior: list[str]
     ) -> float:
         """Calculate drift based on symbol set overlap and divergence."""
         if not current and not prior:
@@ -462,7 +462,7 @@ class SymbolicDriftTracker:
 
         return min(1.0, symbol_drift)
 
-    def _calculate_emotional_drift(self, context: Dict[str, Any]) -> float:
+    def _calculate_emotional_drift(self, context: dict[str, Any]) -> float:
         """Calculate emotional vector drift from context."""
         current_emotion = context.get("current_emotional_vector", [0.0, 0.0, 0.0])
         prior_emotion = context.get("prior_emotional_vector", [0.0, 0.0, 0.0])
@@ -483,7 +483,7 @@ class SymbolicDriftTracker:
 
         return emotional_drift
 
-    def _calculate_entropy_drift(self, current: List[str], prior: List[str]) -> float:
+    def _calculate_entropy_drift(self, current: list[str], prior: list[str]) -> float:
         """Calculate entropy change between symbol sets."""
         current_entropy = self._calculate_shannon_entropy(current)
         prior_entropy = self._calculate_shannon_entropy(prior)
@@ -498,7 +498,7 @@ class SymbolicDriftTracker:
 
         return entropy_drift
 
-    def _calculate_ethical_drift(self, context: Dict[str, Any]) -> float:
+    def _calculate_ethical_drift(self, context: dict[str, Any]) -> float:
         """Calculate ethical alignment drift from context."""
         current_ethics = context.get("current_ethical_alignment", 0.5)
         prior_ethics = context.get("prior_ethical_alignment", 0.5)
@@ -512,7 +512,7 @@ class SymbolicDriftTracker:
 
         return min(1.0, ethical_drift)
 
-    def _calculate_temporal_decay(self, context: Dict[str, Any]) -> float:
+    def _calculate_temporal_decay(self, context: dict[str, Any]) -> float:
         """Calculate temporal decay factor for drift weighting."""
         timestamp = context.get("timestamp")
         prior_timestamp = context.get("prior_timestamp")
@@ -547,7 +547,7 @@ class SymbolicDriftTracker:
         return scaled
 
     def _calculate_state_entropy(
-        self, symbols: List[str], metadata: Dict[str, Any]
+        self, symbols: list[str], metadata: dict[str, Any]
     ) -> float:
         """Calculate comprehensive state entropy including symbols and metadata."""
         # Symbol entropy
@@ -570,7 +570,7 @@ class SymbolicDriftTracker:
 
         return combined_entropy
 
-    def _calculate_shannon_entropy(self, symbols: List[str]) -> float:
+    def _calculate_shannon_entropy(self, symbols: list[str]) -> float:
         """Calculate Shannon entropy for a list of symbols."""
         if not symbols:
             return 0.0
@@ -590,8 +590,8 @@ class SymbolicDriftTracker:
 
     def _generate_state_hash(
         self,
-        symbols: List[str],
-        emotional_vector: List[float],
+        symbols: list[str],
+        emotional_vector: list[float],
         ethical_alignment: float,
     ) -> str:
         """Generate hash signature for state comparison."""
@@ -637,7 +637,7 @@ class SymbolicDriftTracker:
         if drift_score >= self.drift_thresholds["caution"]:
             self.emit_drift_alert(drift_score, context)
 
-    def _detect_exact_sequence_loops(self, sequences: List[List[str]]) -> bool:
+    def _detect_exact_sequence_loops(self, sequences: list[list[str]]) -> bool:
         """Detect exact repeating sequences in symbol patterns."""
         if len(sequences) < 4:
             return False
@@ -658,7 +658,7 @@ class SymbolicDriftTracker:
 
         return False
 
-    def _detect_similar_pattern_loops(self, sequences: List[List[str]]) -> bool:
+    def _detect_similar_pattern_loops(self, sequences: list[list[str]]) -> bool:
         """Detect similar (not exact) repeating patterns."""
         if len(sequences) < 6:
             return False
@@ -685,7 +685,7 @@ class SymbolicDriftTracker:
         high_similarity_count = sum(1 for sim in similarities if sim > 0.8)
         return high_similarity_count >= 3
 
-    def _detect_frequency_oscillations(self, sequences: List[List[str]]) -> bool:
+    def _detect_frequency_oscillations(self, sequences: list[list[str]]) -> bool:
         """Detect symbol frequency oscillations indicating loops."""
         if len(sequences) < 5:
             return False
@@ -708,7 +708,7 @@ class SymbolicDriftTracker:
         return False
 
     def _is_oscillating_pattern(
-        self, values: List[float], threshold: float = 0.3
+        self, values: list[float], threshold: float = 0.3
     ) -> bool:
         """Check if a list of values shows oscillating pattern."""
         if len(values) < 4:
@@ -725,7 +725,7 @@ class SymbolicDriftTracker:
 
         return oscillations >= 2
 
-    def _detect_cascade_patterns(self, sequences: List[List[str]]) -> bool:
+    def _detect_cascade_patterns(self, sequences: list[list[str]]) -> bool:
         """Detect cascade patterns indicating potential system instability."""
         if len(sequences) < 3:
             return False
@@ -759,7 +759,7 @@ class SymbolicDriftTracker:
         return False
 
     def _trigger_cascade_safety_measures(
-        self, score: float, context: Dict[str, Any]
+        self, score: float, context: dict[str, Any]
     ) -> None:
         """Trigger safety measures for CASCADE phase drift."""
         logger.critical(
@@ -795,7 +795,7 @@ class SymbolicDriftTracker:
             tag="ΛPHASE",
         )
 
-    def _alert_collapse_reasoner(self, score: float, context: Dict[str, Any]) -> None:
+    def _alert_collapse_reasoner(self, score: float, context: dict[str, Any]) -> None:
         """Alert collapse reasoner system of critical drift."""
         alert_payload = {
             "alert_type": "SYMBOLIC_DRIFT_CASCADE",
@@ -809,7 +809,7 @@ class SymbolicDriftTracker:
         # In production, this would emit to actual collapse reasoner
         logger.critical("COLLAPSE REASONER ALERT", payload=alert_payload, tag="ΛPHASE")
 
-    def _emit_to_external_systems(self, alert_data: Dict[str, Any]) -> None:
+    def _emit_to_external_systems(self, alert_data: dict[str, Any]) -> None:
         """Emit drift alerts to external diagnostic and monitoring systems."""
         emission_targets = ["diagnostics/", "dream/", "memory/fold_engine.py"]
 
@@ -1059,8 +1059,8 @@ class SymbolicDriftTracker:
         return quarantine_count
 
     def _generate_recommendations(
-        self, alert_counts: Dict[str, int], risk_level: str
-    ) -> List[str]:
+        self, alert_counts: dict[str, int], risk_level: str
+    ) -> list[str]:
         """Generate recommendations based on drift analysis."""
         recommendations = []
 

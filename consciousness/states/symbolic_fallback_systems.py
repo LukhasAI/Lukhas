@@ -17,12 +17,13 @@
 ║ Authors: LUKHAS Bio-Symbolic Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger("ΛTRACE.bio.fallback")
 
@@ -87,7 +88,7 @@ class BioSymbolicFallbackManager:
         }
 
         # Service registry for hub functionality
-        self.services: Dict[str, Any] = {}
+        self.services: dict[str, Any] = {}
 
         logger.info("🛡️ BioSymbolicFallbackManager initialized")
 
@@ -102,7 +103,7 @@ class BioSymbolicFallbackManager:
 
     def _initialize_fallback_strategies(
         self,
-    ) -> Dict[str, Dict[FallbackLevel, Callable]]:
+    ) -> dict[str, dict[FallbackLevel, Callable]]:
         """Initialize fallback strategies for each component."""
         return {
             "preprocessing": {
@@ -137,7 +138,7 @@ class BioSymbolicFallbackManager:
             },
         }
 
-    def _initialize_emergency_values(self) -> Dict[str, Any]:
+    def _initialize_emergency_values(self) -> dict[str, Any]:
         """Initialize emergency fallback values."""
         return {
             "coherence_metrics": {
@@ -176,9 +177,9 @@ class BioSymbolicFallbackManager:
         self,
         component: str,
         error: Exception,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         original_task: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Handle component failure with appropriate fallback strategy.
 
@@ -271,7 +272,7 @@ class BioSymbolicFallbackManager:
             )
 
     def _determine_fallback_level(
-        self, component: str, error: Exception, context: Dict[str, Any]
+        self, component: str, error: Exception, context: dict[str, Any]
     ) -> FallbackLevel:
         """Determine appropriate fallback level based on error and component health."""
         component_health = self.component_health[component]
@@ -360,8 +361,8 @@ class BioSymbolicFallbackManager:
 
     # Preprocessing Fallback Strategies
     async def _fallback_preprocessing_minimal(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Minimal preprocessing fallback - use simple validation."""
         bio_data = context.get("bio_data", {})
 
@@ -392,8 +393,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_preprocessing_moderate(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Moderate preprocessing fallback - use statistical methods."""
         bio_data = context.get("bio_data", {})
 
@@ -426,8 +427,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_preprocessing_severe(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Severe preprocessing fallback - use emergency defaults."""
         # Use all emergency default values
         validated_data = self.emergency_values["bio_data_defaults"].copy()
@@ -443,8 +444,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_preprocessing_critical(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Critical preprocessing fallback - absolute minimum."""
         return {
             "task_id": task_id,
@@ -458,8 +459,8 @@ class BioSymbolicFallbackManager:
 
     # Threshold Fallback Strategies
     async def _fallback_thresholds_minimal(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Minimal threshold fallback - use static thresholds."""
         return {
             "task_id": task_id,
@@ -476,8 +477,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_thresholds_moderate(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Moderate threshold fallback - conservative thresholds."""
         return {
             "task_id": task_id,
@@ -491,8 +492,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_thresholds_severe(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Severe threshold fallback - very conservative."""
         return {
             "task_id": task_id,
@@ -506,8 +507,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_thresholds_critical(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Critical threshold fallback - emergency mode."""
         return {
             "task_id": task_id,
@@ -520,8 +521,8 @@ class BioSymbolicFallbackManager:
 
     # Mapping Fallback Strategies
     async def _fallback_mapping_minimal(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Minimal mapping fallback - simple rule-based mapping."""
         bio_data = context.get("bio_data", {})
 
@@ -547,8 +548,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_mapping_moderate(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Moderate mapping fallback - default balanced state."""
         return {
             "task_id": task_id,
@@ -562,8 +563,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_mapping_severe(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Severe mapping fallback - minimal GLYPH."""
         return {
             "task_id": task_id,
@@ -577,8 +578,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_mapping_critical(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Critical mapping fallback - emergency GLYPH."""
         return {
             "task_id": task_id,
@@ -593,8 +594,8 @@ class BioSymbolicFallbackManager:
 
     # Filtering Fallback Strategies
     async def _fallback_filtering_minimal(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Minimal filtering fallback - assume no anomalies."""
         bio_data = context.get("bio_data", {})
 
@@ -610,8 +611,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_filtering_moderate(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Moderate filtering fallback - conservative anomaly detection."""
         bio_data = context.get("bio_data", {})
 
@@ -627,8 +628,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_filtering_severe(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Severe filtering fallback - assume anomalies present."""
         return {
             "task_id": task_id,
@@ -646,8 +647,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_filtering_critical(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Critical filtering fallback - system failure mode."""
         return {
             "task_id": task_id,
@@ -662,8 +663,8 @@ class BioSymbolicFallbackManager:
 
     # Orchestrator Fallback Strategies
     async def _fallback_orchestrator_minimal(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Minimal orchestrator fallback - use emergency coherence values."""
         coherence_metrics = self.emergency_values["coherence_metrics"].copy()
 
@@ -687,8 +688,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_orchestrator_moderate(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Moderate orchestrator fallback - reduced functionality."""
         coherence_values = self.emergency_values["coherence_metrics"].copy()
         for key in coherence_values:
@@ -713,8 +714,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_orchestrator_severe(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Severe orchestrator fallback - emergency mode."""
         coherence_values = dict.fromkeys(
             self.emergency_values["coherence_metrics"], 0.2
@@ -739,8 +740,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _fallback_orchestrator_critical(
-        self, context: Dict[str, Any], task_id: str, error: Exception
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], task_id: str, error: Exception
+    ) -> dict[str, Any]:
         """Critical orchestrator fallback - last resort."""
 
         class FallbackCoherenceMetrics:
@@ -769,8 +770,8 @@ class BioSymbolicFallbackManager:
         }
 
     async def _critical_system_fallback(
-        self, component: str, context: Dict[str, Any], task_id: str
-    ) -> Dict[str, Any]:
+        self, component: str, context: dict[str, Any], task_id: str
+    ) -> dict[str, Any]:
         """Last resort system fallback when all else fails."""
         logger.critical(f"🚨 CRITICAL SYSTEM FALLBACK activated for {component}")
 
@@ -788,7 +789,7 @@ class BioSymbolicFallbackManager:
             "contact_support": True,
         }
 
-    def get_system_health_report(self) -> Dict[str, Any]:
+    def get_system_health_report(self) -> dict[str, Any]:
         """Generate comprehensive system health report."""
         total_fallbacks = len(self.fallback_history)
         recent_fallbacks = [
@@ -822,7 +823,7 @@ class BioSymbolicFallbackManager:
             "recommendations": self._generate_health_recommendations(),
         }
 
-    def _generate_health_recommendations(self) -> List[str]:
+    def _generate_health_recommendations(self) -> list[str]:
         """Generate health recommendations based on system state."""
         recommendations = []
 

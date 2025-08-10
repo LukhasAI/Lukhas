@@ -12,7 +12,7 @@
 # ΛCOMMIT_WINDOW: post-ZIP
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
-from typing import Any, Dict
+from typing import Any
 
 import structlog
 
@@ -46,7 +46,7 @@ class CollapseBridge:
         )
 
     # ΛPROPAGATOR
-    async def report_collapse(self, collapse_details: Dict[str, Any]) -> None:
+    async def report_collapse(self, collapse_details: dict[str, Any]) -> None:
         """
         Reports a collapse to the collapse manager.
 

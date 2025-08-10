@@ -20,7 +20,7 @@ import random
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -69,10 +69,10 @@ class DreamSequence:
 
     sequence_id: str
     phase: DreamPhase
-    elements: List[DreamElement]
+    elements: list[DreamElement]
     narrative_coherence: float
     symbolic_density: float
-    emotional_flow: List[float]
+    emotional_flow: list[float]
     duration_seconds: float
     start_time: float = field(default_factory=time.time)
 
@@ -85,8 +85,8 @@ class DreamNarration:
     dream_sequence: DreamSequence
     narration_type: DreamNarrationType
     narrative_text: str
-    voice_parameters: Dict[str, float]
-    symbolic_elements: List[str]
+    voice_parameters: dict[str, float]
+    symbolic_elements: list[str]
     emotional_tone: str
     consciousness_level: float
     estimated_duration: float
@@ -97,12 +97,12 @@ class DreamNarrator:
 
     """Handles dream state narration for lukhas consciousness"""
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: dict[str, Any] = None):
         self.config = config or {}
         self.current_dream_sequence: Optional[DreamSequence] = None
-        self.dream_history: List[DreamSequence] = []
-        self.symbolic_vocabulary: Dict[str, Dict[str, Any]] = {}
-        self.narrative_templates: Dict[DreamNarrationType, List[str]] = {}
+        self.dream_history: list[DreamSequence] = []
+        self.symbolic_vocabulary: dict[str, dict[str, Any]] = {}
+        self.narrative_templates: dict[DreamNarrationType, list[str]] = {}
 
         # Dream narration parameters
         self.dream_active = False
@@ -402,7 +402,7 @@ class DreamNarrator:
         return max(0.0, min(1.0, total_coherence))
 
     async def generate_dream_narration(
-        self, narration_type: DreamNarrationType, context: Dict[str, Any] = None
+        self, narration_type: DreamNarrationType, context: dict[str, Any] = None
     ) -> DreamNarration:
         """Generate dream narration of specified type"""
         if not self.current_dream_sequence:
@@ -459,8 +459,8 @@ class DreamNarrator:
         return narration
 
     async def _build_narrative_context(
-        self, narration_type: DreamNarrationType, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, narration_type: DreamNarrationType, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Build context for narrative generation"""
         base_context = {
             "dream_phase": self.current_dream_sequence.phase.value,
@@ -494,7 +494,7 @@ class DreamNarrator:
 
         return base_context
 
-    async def _analyze_symbolic_patterns(self) -> Dict[str, Any]:
+    async def _analyze_symbolic_patterns(self) -> dict[str, Any]:
         """Analyze symbolic patterns in current dream"""
         if not self.current_dream_sequence.elements:
             return {}
@@ -562,10 +562,11 @@ class DreamNarrator:
 
         return coherence_score / valid_pairs if valid_pairs > 0 else 0.5
 
-    async def _apply_template(self, template: str, context: Dict[str, Any]) -> str:
+    async def _apply_template(self, template: str, context: dict[str, Any]) -> str:
         """Apply narrative template with context"""
         # Simple template substitution
-        # In a more sophisticated implementation, this would use a proper template engine
+        # In a more sophisticated implementation, this would use a proper template
+        # engine
         narrative = template
 
         for key, value in context.items():
@@ -591,8 +592,8 @@ class DreamNarrator:
         return narrative
 
     async def _calculate_dream_voice_parameters(
-        self, narration_type: DreamNarrationType, context: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, narration_type: DreamNarrationType, context: dict[str, Any]
+    ) -> dict[str, float]:
         """Calculate voice parameters for dream narration"""
         base_params = self.dream_voice_config.copy()
 
@@ -639,8 +640,8 @@ class DreamNarrator:
         return base_params
 
     async def _extract_symbolic_elements(
-        self, narrative_text: str, context: Dict[str, Any]
-    ) -> List[str]:
+        self, narrative_text: str, context: dict[str, Any]
+    ) -> list[str]:
         """Extract symbolic elements from narrative"""
         symbolic_elements = []
 
@@ -660,7 +661,7 @@ class DreamNarrator:
 
         return unique_elements[:5]  # Limit to top 5
 
-    async def _determine_emotional_tone(self, context: Dict[str, Any]) -> str:
+    async def _determine_emotional_tone(self, context: dict[str, Any]) -> str:
         """Determine emotional tone for narration"""
         if "recent_emotions" in context and context["recent_emotions"]:
             avg_emotion = sum(context["recent_emotions"]) / len(
@@ -680,7 +681,7 @@ class DreamNarrator:
 
         return "ethereal_neutrality"
 
-    async def _calculate_consciousness_level(self, context: Dict[str, Any]) -> float:
+    async def _calculate_consciousness_level(self, context: dict[str, Any]) -> float:
         """Calculate consciousness level for narration"""
         base_level = 0.8  # Dream state base consciousness
 
@@ -706,7 +707,7 @@ class DreamNarrator:
         return max(0.1, min(1.0, base_level))
 
     async def _estimate_narration_duration(
-        self, narrative_text: str, voice_parameters: Dict[str, float]
+        self, narrative_text: str, voice_parameters: dict[str, float]
     ) -> float:
         """Estimate narration duration in seconds"""
         # Base calculation: ~150 words per minute for normal speech
@@ -808,7 +809,8 @@ class DreamNarrator:
 
         if current_duration > expected_duration:
             # Suggest phase transition (would be handled by LUKHAS core in real implementation)
-            # Suggest phase transition (would be handled by lukhas core in real implementation)
+            # Suggest phase transition (would be handled by lukhas core in real
+            # implementation)
             next_phases = {
                 DreamPhase.PRE_DREAM: DreamPhase.LIGHT_SLEEP,
                 DreamPhase.LIGHT_SLEEP: DreamPhase.REM_ACTIVE,
@@ -825,7 +827,8 @@ class DreamNarrator:
 
     async def _emit_narration(self, narration: DreamNarration):
         """Emit narration to voice output system"""
-        # In a real implementation, this would send the narration to the voice synthesis system
+        # In a real implementation, this would send the narration to the voice
+        # synthesis system
         logger.info(
             "Dream narration: %s (type: %s, duration: %.1fs)",
             (
@@ -837,7 +840,7 @@ class DreamNarrator:
             narration.estimated_duration,
         )
 
-    async def get_dream_summary(self) -> Dict[str, Any]:
+    async def get_dream_summary(self) -> dict[str, Any]:
         """Get summary of current or last dream sequence"""
         sequence = self.current_dream_sequence or (
             self.dream_history[-1] if self.dream_history else None

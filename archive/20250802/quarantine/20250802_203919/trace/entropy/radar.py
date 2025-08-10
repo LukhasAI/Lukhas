@@ -237,16 +237,22 @@ class EntropyRadar:
         ax.set_thetagrids(np.degrees(angles[:-1]), labels)
         ax.set_ylim(0, max(values) * 1.1 if values else 1)
         ax.set_title("🎯 LUKHAS Entropy Radar\nModule Entropy Distribution",
-                    fontsize=16, fontweight='bold', pad=20)
+                     fontsize=16, fontweight='bold', pad=20)
         ax.grid(True, linestyle='--', alpha=0.7)
 
         # Add entropy threshold lines
         if max(values) > self.spike_threshold:
             circle = plt.Circle((0, 0), self.spike_threshold, transform=ax.transData._b,
-                              fill=False, color='red', linestyle='--', alpha=0.5)
+                                fill=False, color='red', linestyle='--', alpha=0.5)
             ax.add_artist(circle)
-            ax.text(0, self.spike_threshold, f'Spike Threshold ({self.spike_threshold})',
-                   ha='center', va='bottom', color='red', fontsize=8)
+            ax.text(
+                0,
+                self.spike_threshold,
+                f'Spike Threshold ({self.spike_threshold})',
+                ha='center',
+                va='bottom',
+                color='red',
+                fontsize=8)
 
         plt.tight_layout()
         plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='white')
@@ -336,7 +342,11 @@ class EntropyRadar:
 
         else:
             # Try to extract any numeric entropy-like values
-            for key in ['entropy', 'entropy_value', 'symbolic_entropy', 'system_entropy']:
+            for key in [
+                'entropy',
+                'entropy_value',
+                'symbolic_entropy',
+                    'system_entropy']:
                 if key in record:
                     entropy_data['entropy'] = float(record[key])
                     break
@@ -358,8 +368,8 @@ class EntropyRadar:
 
         # Extract subsystem/component
         subsystem = entropy_data.get('subsystem',
-                                   record.get('source_component',
-                                            record.get('module', 'unknown')))
+                                     record.get('source_component',
+                                                record.get('module', 'unknown')))
 
         if 'entropy' in entropy_data:
             return {
@@ -446,8 +456,8 @@ class EntropyRadar:
 
         # Detect entropy drops
         for i in range(1, len(df)):
-            if i-1 in df.index and i in df.index:
-                entropy_change = df.loc[i-1, 'entropy'] - df.loc[i, 'entropy']
+            if i - 1 in df.index and i in df.index:
+                entropy_change = df.loc[i - 1, 'entropy'] - df.loc[i, 'entropy']
                 if entropy_change > self.drop_threshold:
                     inflection_points['entropy_drops'].append({
                         'index': i,
@@ -462,7 +472,7 @@ class EntropyRadar:
         window_size = min(20, len(df) // 3)
         if window_size >= 5:
             for i in range(window_size, len(df)):
-                window = df.loc[i-window_size:i, 'entropy']
+                window = df.loc[i - window_size:i, 'entropy']
                 if window.std() < 0.5:
                     inflection_points['stable_phases'].append({
                         'index': i,
@@ -475,7 +485,7 @@ class EntropyRadar:
 
         # Detect volatility and drift anomalies
         for col, key in [('volatility', 'volatility_spikes'),
-                        ('drift_score', 'drift_anomalies')]:
+                         ('drift_score', 'drift_anomalies')]:
             if col in df.columns:
                 threshold = df[col].quantile(0.9) if not df[col].isna().all() else 0.5
                 anomaly_mask = df[col] > threshold
@@ -496,7 +506,7 @@ class EntropyRadar:
         return inflection_points
 
     def render_trend_graphs(self, df: pd.DataFrame, output_path: str,
-                          format_type: str = 'svg') -> str:
+                            format_type: str = 'svg') -> str:
         """
         Generate static or interactive time series visualizations.
 
@@ -530,7 +540,7 @@ class EntropyRadar:
         """Render static SVG graph using matplotlib."""
         fig, axes = plt.subplots(3, 1, figsize=(14, 10), sharex=True)
         fig.suptitle('🎯 LUKHAS Entropy Analysis\nSymbolic System Health Monitoring',
-                    fontsize=16, fontweight='bold')
+                     fontsize=16, fontweight='bold')
 
         # Color scheme
         colors = {
@@ -543,10 +553,14 @@ class EntropyRadar:
         ax1 = axes[0]
         if 'entropy' in df.columns:
             ax1.plot(df['timestamp'], df['entropy'],
-                    color=colors['entropy'], alpha=0.6, label='Entropy')
+                     color=colors['entropy'], alpha=0.6, label='Entropy')
             if 'entropy_rolling' in df.columns:
-                ax1.plot(df['timestamp'], df['entropy_rolling'],
-                        color=colors['entropy'], linewidth=2, label='Entropy (Rolling)')
+                ax1.plot(
+                    df['timestamp'],
+                    df['entropy_rolling'],
+                    color=colors['entropy'],
+                    linewidth=2,
+                    label='Entropy (Rolling)')
 
         # Highlight inflection points
         for point in self.inflection_points.get('entropy_spikes', []):
@@ -556,7 +570,7 @@ class EntropyRadar:
             ax1.axvline(x=point['timestamp'], color='orange', alpha=0.7, linestyle='--')
 
         ax1.axhline(y=self.spike_threshold, color='red', linestyle=':',
-                   alpha=0.5, label=f'Spike Threshold')
+                    alpha=0.5, label=f'Spike Threshold')
         ax1.set_ylabel('Entropy')
         ax1.legend(loc='upper right')
         ax1.grid(True, alpha=0.3)
@@ -565,10 +579,14 @@ class EntropyRadar:
         ax2 = axes[1]
         if 'volatility' in df.columns:
             ax2.plot(df['timestamp'], df['volatility'],
-                    color=colors['volatility'], alpha=0.6, label='Volatility')
+                     color=colors['volatility'], alpha=0.6, label='Volatility')
             if 'volatility_rolling' in df.columns:
-                ax2.plot(df['timestamp'], df['volatility_rolling'],
-                        color=colors['volatility'], linewidth=2, label='Volatility (Rolling)')
+                ax2.plot(
+                    df['timestamp'],
+                    df['volatility_rolling'],
+                    color=colors['volatility'],
+                    linewidth=2,
+                    label='Volatility (Rolling)')
 
         ax2.set_ylabel('Emotional Volatility')
         ax2.legend(loc='upper right')
@@ -578,10 +596,10 @@ class EntropyRadar:
         ax3 = axes[2]
         if 'drift_score' in df.columns:
             ax3.plot(df['timestamp'], df['drift_score'],
-                    color=colors['drift'], alpha=0.6, label='Drift Score')
+                     color=colors['drift'], alpha=0.6, label='Drift Score')
             if 'drift_rolling' in df.columns:
                 ax3.plot(df['timestamp'], df['drift_rolling'],
-                        color=colors['drift'], linewidth=2, label='Drift (Rolling)')
+                         color=colors['drift'], linewidth=2, label='Drift (Rolling)')
 
         ax3.set_ylabel('Drift Score')
         ax3.set_xlabel('Time')
@@ -604,11 +622,14 @@ class EntropyRadar:
             return
 
         fig = make_subplots(
-            rows=3, cols=1,
+            rows=3,
+            cols=1,
             shared_xaxes=True,
-            subplot_titles=['Entropy Evolution', 'Emotional Volatility', 'System Drift'],
-            vertical_spacing=0.8
-        )
+            subplot_titles=[
+                'Entropy Evolution',
+                'Emotional Volatility',
+                'System Drift'],
+            vertical_spacing=0.8)
 
         # Add traces for each metric
         metrics = [
@@ -661,13 +682,12 @@ class EntropyRadar:
             title=dict(
                 text='🎯 LUKHAS Entropy Analysis<br><sub>Interactive System Monitoring</sub>',
                 x=0.5,
-                font=dict(size=20)
-            ),
+                font=dict(
+                    size=20)),
             height=800,
             showlegend=True,
             template='plotly_white',
-            hovermode='x unified'
-        )
+            hovermode='x unified')
 
         fig.write_html(output_path)
         logger.info("interactive_graph_saved", path=str(output_path))
@@ -705,10 +725,11 @@ class EntropyRadar:
                 'time_range': {
                     'start': df['timestamp'].min().isoformat(),
                     'end': df['timestamp'].max().isoformat(),
-                    'duration_hours': (df['timestamp'].max() - df['timestamp'].min()).total_seconds() / 3600
-                },
-                'metrics': {}
-            }
+                    'duration_hours': (
+                        df['timestamp'].max() -
+                        df['timestamp'].min()).total_seconds() /
+                    3600},
+                'metrics': {}}
 
             # Calculate statistics for each metric
             for metric in ['entropy', 'volatility', 'drift_score']:
@@ -781,7 +802,7 @@ class EntropyRadar:
             if 'time_range' in stats:
                 tr = stats['time_range']
                 content.append(f"**Time Range:** {tr['start']} to {tr['end']} "
-                             f"({tr['duration_hours']:.2f} hours)")
+                               f"({tr['duration_hours']:.2f} hours)")
             content.append("")
 
             # Metrics statistics
@@ -791,7 +812,8 @@ class EntropyRadar:
                     content.append("")
                     content.append(f"- Mean: {values['mean']:.4f}")
                     content.append(f"- Std Dev: {values['std']:.4f}")
-                    content.append(f"- Range: [{values['min']:.4f}, {values['max']:.4f}]")
+                    content.append(
+                        f"- Range: [{values['min']:.4f}, {values['max']:.4f}]")
                     content.append("")
 
         # Inflection points
@@ -808,7 +830,7 @@ class EntropyRadar:
                     # Show first few examples
                     for point in points[:5]:
                         content.append(f"- {point.get('timestamp', 'N/A')} - "
-                                     f"{point.get('type', point_type)}")
+                                       f"{point.get('type', point_type)}")
                         if 'subsystem' in point:
                             content.append(f"  - Subsystem: {point['subsystem']}")
 
@@ -869,21 +891,30 @@ Examples:
     )
 
     parser.add_argument('--mode', choices=['radar', 'trends', 'both'], default='radar',
-                       help='Analysis mode: radar chart, time trends, or both')
-    parser.add_argument('--path', default=".", help='Search path for SID collection (radar mode)')
+                        help='Analysis mode: radar chart, time trends, or both')
+    parser.add_argument(
+        '--path',
+        default=".",
+        help='Search path for SID collection (radar mode)')
     parser.add_argument('--logs', help='Path to JSONL log file (trends mode)')
     parser.add_argument('--out', help='Output path for visualization')
     parser.add_argument('--export', help='Export summary report to file')
     parser.add_argument('--format', choices=['markdown', 'json'], default='markdown',
-                       help='Summary export format')
-    parser.add_argument('--graph-format', choices=['svg', 'html', 'both'], default='svg',
-                       help='Graph output format')
+                        help='Summary export format')
+    parser.add_argument(
+        '--graph-format',
+        choices=[
+            'svg',
+            'html',
+            'both'],
+        default='svg',
+        help='Graph output format')
     parser.add_argument('--spike-threshold', type=float, default=0.8,
-                       help='Entropy spike detection threshold')
+                        help='Entropy spike detection threshold')
     parser.add_argument('--drop-threshold', type=float, default=0.2,
-                       help='Entropy drop detection threshold')
+                        help='Entropy drop detection threshold')
     parser.add_argument('--max-modules', type=int, default=20,
-                       help='Maximum modules to show in radar chart')
+                        help='Maximum modules to show in radar chart')
     parser.add_argument('--verbose', '-v', action='store_true', help='Verbose logging')
 
     args = parser.parse_args()
@@ -940,7 +971,7 @@ Examples:
         if radar.entropy_map:
             print(f"📊 Modules analyzed: {len(radar.entropy_map)}")
             high_entropy = sum(1 for e in radar.entropy_map.values()
-                             if e > radar.spike_threshold)
+                               if e > radar.spike_threshold)
             if high_entropy:
                 print(f"⚠️  High entropy modules: {high_entropy}")
 
@@ -996,7 +1027,7 @@ if __name__ == '__main__':
 +===========================================================================
 """
 
-## CLAUDE CHANGELOG
+# CLAUDE CHANGELOG
 # - [CLAUDE_08] Task 8: Merged sid_entropy_radar.py and lambda_entropy_grapher.py # CLAUDE_EDIT_v0.1
 # - Created unified entropy analysis system in lukhas/core/entropy/entropy_radar.py # CLAUDE_EDIT_v0.1
 # - Combined radar visualization with time series trend analysis # CLAUDE_EDIT_v0.1

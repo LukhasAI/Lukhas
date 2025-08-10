@@ -1,4 +1,3 @@
 """
 Activity_Logger Module
 """
-

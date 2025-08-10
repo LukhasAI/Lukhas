@@ -4,8 +4,10 @@ Original: intent_node.py
 Advanced: intent_node.py
 Integration Date: 2025-05-31T07:55:28.128623
 """
+from typing import Union
+import logging
 
-from typing import Any, Dict
+from typing import Any
 
 
 class IntentNode:
@@ -18,7 +20,7 @@ class IntentNode:
         self.agi = agi_system
         self.logger = logging.getLogger("IntentNode")
 
-    def process(self, input_data: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
+    def process(self, input_data: Union[str, dict[str, Any]]) -> dict[str, Any]:
         """
         Process input to determine intent and create an action plan.
         """
@@ -27,7 +29,7 @@ class IntentNode:
         else:
             return self._process_structured(input_data)
 
-    def _process_text(self, text: str) -> Dict[str, Any]:
+    def _process_text(self, text: str) -> dict[str, Any]:
         """Process text input to determine intent."""
         text_lower = text.lower()
 
@@ -49,7 +51,7 @@ class IntentNode:
             "action_plan": self._create_action_plan(intent_type, text),
         }
 
-    def _process_structured(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _process_structured(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process structured input data."""
         intent_type = data.get("intent_type", "unknown")
 
@@ -61,15 +63,15 @@ class IntentNode:
             "action_plan": self._create_action_plan(intent_type, data),
         }
 
-    def _extract_entities(self, text: str) -> Dict[str, Any]:
+    def _extract_entities(self, text: str) -> dict[str, Any]:
         """Extract entities from text."""
         # Simplified entity extraction
         entities = {}
         return entities
 
     def _create_action_plan(
-        self, intent_type: str, input_data: Union[str, Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, intent_type: str, input_data: Union[str, dict[str, Any]]
+    ) -> dict[str, Any]:
         """Create an action plan based on the detected intent."""
         if intent_type == "query":
             return {

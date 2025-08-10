@@ -11,7 +11,7 @@ and self-reflection using quantum-biological metaphors.
 """
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -77,8 +77,8 @@ class SystemAwareness:
         logger.info("Initialized bio-inspired awareness system")
 
     async def monitor_system(
-        self, system_state: Dict[str, Any], context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, system_state: dict[str, Any], context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Monitor overall system state and health
 
         Args:
@@ -143,8 +143,8 @@ class SystemAwareness:
             raise
 
     async def process_error(
-        self, error_data: Dict[str, Any], context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, error_data: dict[str, Any], context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Process system errors through bio-inspired pathways
 
         Args:
@@ -186,7 +186,7 @@ class SystemAwareness:
             logger.error(f"Error in error processing: {e}")
             raise
 
-    def _update_awareness(self, processed_data: Dict[str, Any]) -> None:
+    def _update_awareness(self, processed_data: dict[str, Any]) -> None:
         """Update awareness state based on processed data"""
         # Update consciousness level
         if "consciousness_update" in processed_data:
@@ -224,7 +224,7 @@ class SystemAwareness:
                 processed_data["process_updates"].get("removed", set())
             )
 
-    async def _check_health(self) -> Dict[str, Any]:
+    async def _check_health(self) -> dict[str, Any]:
         """Check system health status"""
         health_status = {
             "consciousness": {
@@ -283,8 +283,8 @@ class SystemAwareness:
         return health_status
 
     def _reflect_on_state(
-        self, processed_data: Dict[str, Any], health_status: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, processed_data: dict[str, Any], health_status: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate reflection on current state"""
         return {
             "timestamp": datetime.now().isoformat(),
@@ -300,7 +300,7 @@ class SystemAwareness:
             ),
         }
 
-    def _reflect_on_error(self, error_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _reflect_on_error(self, error_data: dict[str, Any]) -> dict[str, Any]:
         """Generate reflection on error state"""
         return {
             "timestamp": datetime.now().isoformat(),
@@ -316,10 +316,10 @@ class SystemAwareness:
 
     def _generate_recommendations(
         self,
-        processed_data: Dict[str, Any],
-        health_status: Dict[str, Any],
-        reflection: Dict[str, Any],
-    ) -> List[Dict[str, Any]]:
+        processed_data: dict[str, Any],
+        health_status: dict[str, Any],
+        reflection: dict[str, Any],
+    ) -> list[dict[str, Any]]:
         """Generate system recommendations"""
         recommendations = []
 
@@ -365,8 +365,8 @@ class SystemAwareness:
         return recommendations
 
     def _generate_recovery_plan(
-        self, error_data: Dict[str, Any], reflection: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, error_data: dict[str, Any], reflection: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate error recovery plan"""
         return {
             "priority": error_data.get("severity", "low"),

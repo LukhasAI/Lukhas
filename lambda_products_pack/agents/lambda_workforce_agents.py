@@ -15,7 +15,7 @@ import json
 import logging
 import random
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 from .autonomous_agent_framework import (
     AgentGoal,
@@ -60,7 +60,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
 
         return await super().execute_single_task(task)
 
-    async def monitor_emotional_state(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def monitor_emotional_state(self, params: dict[str, Any]) -> dict[str, Any]:
         """Monitor emotional state across the organization"""
 
         # Simulate monitoring (in production, would integrate with real systems)
@@ -76,7 +76,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
         }
 
         # Identify employees needing intervention
-        for i in range(random.randint(1, 10)):
+        for _i in range(random.randint(1, 10)):
             emotional_data["intervention_needed"].append(
                 {
                     "employee_id": f"emp_{random.randint(1000, 9999)}",
@@ -99,7 +99,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
 
         return emotional_data
 
-    async def detect_burnout_risk(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def detect_burnout_risk(self, params: dict[str, Any]) -> dict[str, Any]:
         """Detect and prevent employee burnout"""
 
         threshold = params.get("risk_threshold", 0.7)
@@ -107,7 +107,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
         # Analyze patterns (simulated)
         at_risk_employees = []
 
-        for i in range(random.randint(5, 15)):
+        for _i in range(random.randint(5, 15)):
             risk_score = random.uniform(0.5, 1.0)
             if risk_score > threshold:
                 at_risk_employees.append(
@@ -157,8 +157,8 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
         }
 
     async def optimize_communication_timing(
-        self, params: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, params: dict[str, Any]
+    ) -> dict[str, Any]:
         """Optimize when messages are delivered based on emotional state"""
 
         messages_optimized = random.randint(100, 500)
@@ -177,8 +177,8 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
         return optimization_results
 
     async def create_wellness_intervention(
-        self, params: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, params: dict[str, Any]
+    ) -> dict[str, Any]:
         """Create personalized wellness interventions"""
 
         intervention_type = params.get("type", "general")
@@ -210,7 +210,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
 
         return intervention
 
-    async def manage_team_dynamics(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def manage_team_dynamics(self, params: dict[str, Any]) -> dict[str, Any]:
         """Manage and optimize team dynamics"""
 
         teams_analyzed = params.get("team_count", 10)
@@ -263,7 +263,7 @@ class ABASProductivityOptimizerAgent(AutonomousAgent):
 
         return await super().execute_single_task(task)
 
-    async def optimize_meeting_schedule(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def optimize_meeting_schedule(self, params: dict[str, Any]) -> dict[str, Any]:
         """Optimize meeting schedules for maximum productivity"""
 
         meetings_analyzed = params.get("meeting_count", 50)
@@ -289,10 +289,10 @@ class ABASProductivityOptimizerAgent(AutonomousAgent):
 
         return optimization
 
-    async def protect_flow_states(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def protect_flow_states(self, params: dict[str, Any]) -> dict[str, Any]:
         """Protect employee flow states from interruptions"""
 
-        employees_protected = params.get("employee_count", 100)
+        params.get("employee_count", 100)
 
         protection_results = {
             "flow_sessions_protected": random.randint(200, 500),
@@ -308,7 +308,7 @@ class ABASProductivityOptimizerAgent(AutonomousAgent):
 
         return protection_results
 
-    async def eliminate_distractions(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def eliminate_distractions(self, params: dict[str, Any]) -> dict[str, Any]:
         """Eliminate workplace distractions autonomously"""
 
         distraction_sources = [
@@ -334,7 +334,7 @@ class ABASProductivityOptimizerAgent(AutonomousAgent):
 
         return elimination_report
 
-    async def optimize_workspace(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def optimize_workspace(self, params: dict[str, Any]) -> dict[str, Any]:
         """Optimize digital and physical workspace for productivity"""
 
         workspace_optimization = {
@@ -352,7 +352,7 @@ class ABASProductivityOptimizerAgent(AutonomousAgent):
 
         return workspace_optimization
 
-    async def manage_cognitive_load(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def manage_cognitive_load(self, params: dict[str, Any]) -> dict[str, Any]:
         """Manage cognitive load across teams"""
 
         cognitive_management = {
@@ -402,7 +402,7 @@ class DASTContextOrchestratorAgent(AutonomousAgent):
 
         return await super().execute_single_task(task)
 
-    async def build_knowledge_graph(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def build_knowledge_graph(self, params: dict[str, Any]) -> dict[str, Any]:
         """Build comprehensive knowledge graph of organization"""
 
         graph_stats = {
@@ -422,7 +422,7 @@ class DASTContextOrchestratorAgent(AutonomousAgent):
 
         return graph_stats
 
-    async def predict_information_needs(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def predict_information_needs(self, params: dict[str, Any]) -> dict[str, Any]:
         """Predict what information employees will need"""
 
         predictions_made = random.randint(100, 500)
@@ -440,7 +440,7 @@ class DASTContextOrchestratorAgent(AutonomousAgent):
 
         return prediction_results
 
-    async def optimize_knowledge_flow(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def optimize_knowledge_flow(self, params: dict[str, Any]) -> dict[str, Any]:
         """Optimize how knowledge flows through the organization"""
 
         flow_optimization = {
@@ -458,7 +458,7 @@ class DASTContextOrchestratorAgent(AutonomousAgent):
 
         return flow_optimization
 
-    async def identify_knowledge_gaps(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def identify_knowledge_gaps(self, params: dict[str, Any]) -> dict[str, Any]:
         """Identify critical knowledge gaps in organization"""
 
         gap_analysis = {
@@ -478,8 +478,8 @@ class DASTContextOrchestratorAgent(AutonomousAgent):
         return gap_analysis
 
     async def create_context_intelligence(
-        self, params: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, params: dict[str, Any]
+    ) -> dict[str, Any]:
         """Create real-time context intelligence for decision making"""
 
         context_intelligence = {
@@ -595,7 +595,7 @@ class LambdaWorkforceOrchestrator:
             f"Deployed {len(self.agents)} Lambda agents for workforce automation"
         )
 
-    def calculate_roi(self) -> Dict[str, Any]:
+    def calculate_roi(self) -> dict[str, Any]:
         """Calculate ROI of Lambda AI Workforce"""
 
         total_value = sum(
@@ -640,7 +640,7 @@ class LambdaWorkforceOrchestrator:
 
         return roi
 
-    async def generate_executive_report(self) -> Dict[str, Any]:
+    async def generate_executive_report(self) -> dict[str, Any]:
         """Generate executive report on AI workforce performance"""
 
         report = {

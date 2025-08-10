@@ -17,7 +17,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger("Lambda.NIΛS")
 
@@ -59,7 +59,7 @@ class SymbolicMessage:
 
     id: str
     content: str
-    tags: List[str]
+    tags: list[str]
     tier: MessageTier
     emotional_tone: EmotionalState
     intensity: float  # 0.0 to 1.0
@@ -68,7 +68,7 @@ class SymbolicMessage:
     lambda_signature: Optional[str] = None
     consent_required: ConsentLevel = ConsentLevel.BASIC
     expires_at: Optional[datetime] = None
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
 
     def __post_init__(self):
         if self.metadata is None:
@@ -91,12 +91,12 @@ class UserContext:
     user_id: str
     tier: MessageTier
     consent_level: ConsentLevel
-    emotional_vector: Dict[str, float]
-    current_tags: List[str]
+    emotional_vector: dict[str, float]
+    current_tags: list[str]
     dream_residue: bool = False
     stress_level: float = 0.0
     attention_capacity: float = 1.0
-    symbolic_preferences: Dict[str, Any] = None
+    symbolic_preferences: dict[str, Any] = None
     session_message_count: int = 0
 
     def __post_init__(self):
@@ -134,18 +134,18 @@ class NIΛS:
     - Integration with ΛBAS and DΛST systems
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or self._default_config()
         self.lambda_brand = "Λ"
 
         # Storage systems
-        self.user_contexts: Dict[str, UserContext] = {}
-        self.message_history: Dict[str, List[SymbolicMessage]] = {}
-        self.delivery_log: List[DeliveryResult] = []
-        self.dream_schedule: Dict[str, List[SymbolicMessage]] = {}
+        self.user_contexts: dict[str, UserContext] = {}
+        self.message_history: dict[str, list[SymbolicMessage]] = {}
+        self.delivery_log: list[DeliveryResult] = []
+        self.dream_schedule: dict[str, list[SymbolicMessage]] = {}
 
         # Rate limiting
-        self.session_limits: Dict[str, List[datetime]] = {}
+        self.session_limits: dict[str, list[datetime]] = {}
 
         # Integration systems
         self.abas_available = False
@@ -157,7 +157,7 @@ class NIΛS:
 
         logger.info("NIΛS system initialized with Lambda consciousness")
 
-    def _default_config(self) -> Dict:
+    def _default_config(self) -> dict:
         """Default NIΛS configuration"""
         return {
             "brand": "LUKHAS",
@@ -227,7 +227,7 @@ class NIΛS:
         return context
 
     async def update_emotional_state(
-        self, user_id: str, emotional_vector: Dict[str, float]
+        self, user_id: str, emotional_vector: dict[str, float]
     ):
         """Update user's emotional state"""
         if user_id not in self.user_contexts:
@@ -343,14 +343,11 @@ class NIΛS:
 
         # Check limits
         message_count = len(self.session_limits[user_id])
-        if message_count >= self.config["max_messages_per_session"]:
-            return False
-
-        return True
+        return not message_count >= self.config["max_messages_per_session"]
 
     async def _validate_consent(
         self, message: SymbolicMessage, context: UserContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Validate user consent for message delivery"""
         # Check tier requirements
         if context.tier.value < message.tier.value:
@@ -387,7 +384,7 @@ class NIΛS:
 
     async def _filter_emotional_state(
         self, message: SymbolicMessage, context: UserContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Filter based on emotional state and stability"""
         emotional_vector = context.emotional_vector
         stress = emotional_vector.get("stress", 0.0)
@@ -426,7 +423,7 @@ class NIΛS:
 
     async def _match_symbolic_context(
         self, message: SymbolicMessage, context: UserContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Match message symbols with user's current context"""
         user_tags = set(context.current_tags)
         message_tags = set(message.tags)
@@ -458,7 +455,8 @@ class NIΛS:
 
         self.dream_schedule[user_id].append(message)
 
-        # Schedule for next wake cycle (simplified - would integrate with sleep tracking)
+        # Schedule for next wake cycle (simplified - would integrate with sleep
+        # tracking)
         scheduled_time = datetime.now() + timedelta(hours=8)
 
         return DeliveryResult(
@@ -550,7 +548,7 @@ class NIΛS:
         audit_hash = hashlib.sha256(json.dumps(audit_data).encode()).hexdigest()
         logger.info(f"Quantum audit entry created: Λ-AUDIT-{audit_hash[:8]}")
 
-    async def get_user_status(self, user_id: str) -> Dict[str, Any]:
+    async def get_user_status(self, user_id: str) -> dict[str, Any]:
         """Get comprehensive user status"""
         if user_id not in self.user_contexts:
             return {"error": "User not found"}
@@ -569,7 +567,7 @@ class NIΛS:
             "lambda_status": "active",
         }
 
-    async def process_dream_deliveries(self, user_id: str) -> List[DeliveryResult]:
+    async def process_dream_deliveries(self, user_id: str) -> list[DeliveryResult]:
         """Process queued dream deliveries for wake cycle"""
         if user_id not in self.dream_schedule:
             return []
@@ -594,7 +592,7 @@ class NIΛS:
         logger.info(f"Processed {len(results)} dream deliveries for user {user_id}")
         return results
 
-    def get_system_metrics(self) -> Dict[str, Any]:
+    def get_system_metrics(self) -> dict[str, Any]:
         """Get NIΛS system metrics"""
         total_users = len(self.user_contexts)
         total_deliveries = len(

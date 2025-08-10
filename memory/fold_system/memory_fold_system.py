@@ -48,11 +48,11 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 # Import fold import/export modules
 try:
-    from .foldout import create_fold_bundle, export_folds
+    from .foldout import export_folds
 except ImportError:
     from .foldout_simple import export_folds
 
@@ -64,7 +64,7 @@ except ImportError:
         import gzip
 
         with open(path, "rb") as f:
-            magic = f.read(4)
+            f.read(4)
             size = struct.unpack(">I", f.read(4))[0]
             compressed = f.read(size)
             data = json.loads(gzip.decompress(compressed))
@@ -140,20 +140,20 @@ class MemoryFoldSystem:
             max_tag_depth: Maximum depth for tag hierarchy traversal
         """
         # Core data structures
-        self.items: Dict[str, MemoryItem] = {}  # item_id -> MemoryItem
-        self.item_tags: Dict[str, Set[str]] = defaultdict(
+        self.items: dict[str, MemoryItem] = {}  # item_id -> MemoryItem
+        self.item_tags: dict[str, set[str]] = defaultdict(
             set
         )  # item_id -> set of tag_ids
-        self.tag_items: Dict[str, Set[str]] = defaultdict(
+        self.tag_items: dict[str, set[str]] = defaultdict(
             set
         )  # tag_id -> set of item_ids
-        self.tag_registry: Dict[str, TagInfo] = {}  # tag_id -> TagInfo
-        self.tag_name_index: Dict[str, str] = (
+        self.tag_registry: dict[str, TagInfo] = {}  # tag_id -> TagInfo
+        self.tag_name_index: dict[str, str] = (
             {}
         )  # tag_name -> tag_id (for deduplication)
 
         # Tag relationships (for semantic network)
-        self.tag_relationships: Dict[str, Dict[str, float]] = defaultdict(
+        self.tag_relationships: dict[str, dict[str, float]] = defaultdict(
             dict
         )  # tag_id -> {related_tag_id: weight}
 
@@ -202,10 +202,10 @@ class MemoryFoldSystem:
     async def fold_in(
         self,
         data: Any,
-        tags: List[str],
+        tags: list[str],
         emotional_weight: float = 0.0,
         colony_source: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> str:
         """
         Fold new memory into the system with deduplication.
@@ -304,7 +304,7 @@ class MemoryFoldSystem:
 
         return item_id
 
-    async def _add_tags_to_item(self, item_id: str, tag_names: List[str]):
+    async def _add_tags_to_item(self, item_id: str, tag_names: list[str]):
         """Add tags to an item, creating tags if needed."""
         for tag_name in tag_names:
             tag_name = tag_name.strip().lower()  # Normalize
@@ -333,7 +333,7 @@ class MemoryFoldSystem:
             # Update tag relationships based on co-occurrence
             await self._update_tag_relationships(tag_id, self.item_tags[item_id])
 
-    def _generate_auto_tags(self, data: Any, metadata: Optional[Dict]) -> List[str]:
+    def _generate_auto_tags(self, data: Any, metadata: Optional[dict]) -> list[str]:
         """Generate automatic tags based on content analysis."""
         auto_tags = []
 
@@ -377,7 +377,7 @@ class MemoryFoldSystem:
 
         return "general"
 
-    async def _update_tag_relationships(self, tag_id: str, co_occurring_tags: Set[str]):
+    async def _update_tag_relationships(self, tag_id: str, co_occurring_tags: set[str]):
         """Update relationships between co-occurring tags."""
         for other_tag_id in co_occurring_tags:
             if other_tag_id != tag_id:
@@ -396,7 +396,7 @@ class MemoryFoldSystem:
         max_items: Optional[int] = None,
         include_related: bool = True,
         min_relationship_weight: float = 0.5,
-    ) -> List[Tuple[MemoryItem, Set[str]]]:
+    ) -> list[tuple[MemoryItem, set[str]]]:
         """
         Retrieve memories by tag with optional related tag expansion.
 
@@ -476,8 +476,8 @@ class MemoryFoldSystem:
         return results
 
     async def fold_out_by_colony(
-        self, colony_name: str, time_range: Optional[Tuple[datetime, datetime]] = None
-    ) -> List[MemoryItem]:
+        self, colony_name: str, time_range: Optional[tuple[datetime, datetime]] = None
+    ) -> list[MemoryItem]:
         """Retrieve all memories from a specific colony."""
         results = []
 
@@ -492,8 +492,8 @@ class MemoryFoldSystem:
         return results
 
     async def export_archive(
-        self, path: Path, filter_tags: Optional[List[str]] = None, **kwargs
-    ) -> Dict[str, Any]:
+        self, path: Path, filter_tags: Optional[list[str]] = None, **kwargs
+    ) -> dict[str, Any]:
         """
         Export memory folds to LKF-Pack archive.
 
@@ -538,7 +538,7 @@ class MemoryFoldSystem:
 
     async def import_archive(
         self, path: Path, overwrite: bool = False, merge_tags: bool = True
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Import memory folds from LKF-Pack archive.
 
@@ -590,7 +590,7 @@ class MemoryFoldSystem:
 
         return import_stats
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get system statistics and metrics."""
         stats = self.stats.copy()
 

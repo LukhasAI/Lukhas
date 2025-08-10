@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 
@@ -45,7 +47,7 @@ from collections import defaultdict
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 # ΛBot Elite Integration
 try:
@@ -65,10 +67,10 @@ except ImportError:
         async def initialize(self) -> None:
             pass
 
-        async def execute(self, context: Dict[str, Any]) -> Any:
+        async def execute(self, context: dict[str, Any]) -> Any:
             pass
 
-        async def report(self) -> Dict[str, Any]:
+        async def report(self) -> dict[str, Any]:
             pass
 
         async def self_diagnose(self) -> bool:
@@ -81,7 +83,7 @@ except ImportError:
     class QuantumBotConfig:
         name: str = "ΛDependaBoT"
         type: str = "dependency_analysis"
-        capabilities: List[str] = None
+        capabilities: list[str] = None
         autonomy_level: float = 0.85
         quantum_enabled: bool = True
         bio_symbolic_processing: bool = True
@@ -94,7 +96,6 @@ except ImportError:
 QUANTUM_ANALYSIS_AVAILABLE = False
 try:
     import networkx as nx
-    import numpy as np
 
     QUANTUM_ANALYSIS_AVAILABLE = True
     print("🔬 Quantum network analysis capabilities active")
@@ -165,7 +166,7 @@ except ImportError:
 
             return modularity
 
-        def _detect_quantum_clusters(self) -> List[Set[str]]:
+        def _detect_quantum_clusters(self) -> list[set[str]]:
             """Detect clusters using ΛBot quantum-inspired algorithms."""
             # Simplified quantum clustering
             nodes = set(self.nodes_data.keys())
@@ -226,7 +227,7 @@ try:
     # Try multiple LLM options for code fixing
     try:
         # Option 1: Ollama (local LLM server)
-        import subprocess
+        pass
 
         import requests
 
@@ -261,11 +262,8 @@ try:
     # Option 2: Transformers (Hugging Face local models)
     if not SELF_HEALING_LLM:
         try:
-            import torch
             from transformers import (
-                AutoModelForCausalLM,
                 AutoTokenizer,
-                pipeline,
             )
 
             # Check for suitable code models
@@ -296,7 +294,7 @@ try:
     # Option 3: OpenAI API (if available)
     if not SELF_HEALING_LLM:
         try:
-            import openai
+            pass
 
             # Check if API key is available
             if os.getenv("OPENAI_API_KEY"):
@@ -318,9 +316,6 @@ except Exception as e:
 try:
     import ast
 
-    import autopep8
-    import black
-
     CODE_FORMATTERS = True
     print("🛠️ Code formatters available (autopep8, black)")
 except ImportError:
@@ -332,7 +327,6 @@ except ImportError:
 # Integration with existing systems
 try:
     sys.path.append(str(Path(__file__).parent.parent / "tools"))
-    from index_generator import IndexGenerator
 
     INDEX_INTEGRATION = True
     print("📚 Index generator integration active")
@@ -373,11 +367,11 @@ class ΛCodeFixSuggestion:
 class ΛSelfHealingReport:
     """Comprehensive self-healing capabilities report."""
 
-    healing_actions_taken: List[ΛSelfHealingAction]
-    fix_suggestions_generated: List[ΛCodeFixSuggestion]
-    error_patterns_learned: Dict[str, Any]
+    healing_actions_taken: list[ΛSelfHealingAction]
+    fix_suggestions_generated: list[ΛCodeFixSuggestion]
+    error_patterns_learned: dict[str, Any]
     healing_success_rate: float
-    llm_integration_status: Dict[str, Any]
+    llm_integration_status: dict[str, Any]
     autonomous_fixes_applied: int
     manual_intervention_required: int
 
@@ -389,10 +383,10 @@ class ΛDependencyProfile:
     module_id: str
     quantum_signature: str
     coherence_level: float
-    coupling_metrics: Dict[str, float]
+    coupling_metrics: dict[str, float]
     architectural_impact: float
     evolution_potential: float
-    optimization_recommendations: List[str]
+    optimization_recommendations: list[str]
     healing_status: str = "healthy"  # 'healthy', 'healing', 'intervention_required'
 
 
@@ -403,9 +397,9 @@ class ΛArchitecturalInsight:
     insight_type: str
     confidence_level: float
     impact_assessment: str
-    recommended_actions: List[str]
+    recommended_actions: list[str]
     quantum_rationale: str
-    stakeholder_implications: Dict[str, str]
+    stakeholder_implications: dict[str, str]
 
 
 @dataclass
@@ -414,10 +408,10 @@ class ΛModularityReport:
 
     timestamp: str
     quantum_modularity_score: float
-    architectural_insights: List[ΛArchitecturalInsight]
-    dependency_profiles: List[ΛDependencyProfile]
-    optimization_roadmap: Dict[str, Any]
-    performance_predictions: Dict[str, float]
+    architectural_insights: list[ΛArchitecturalInsight]
+    dependency_profiles: list[ΛDependencyProfile]
+    optimization_roadmap: dict[str, Any]
+    performance_predictions: dict[str, float]
 
 
 class ΛDependaBoT(BotProtocol):
@@ -551,7 +545,7 @@ class ΛDependaBoT(BotProtocol):
             self.logger.error(f"❌ ΛDependaBoT initialization failed: {e}")
             raise
 
-    async def execute(self, context: Dict[str, Any]) -> ΛModularityReport:
+    async def execute(self, context: dict[str, Any]) -> ΛModularityReport:
         """Execute quantum-enhanced dependency analysis."""
         self.logger.info("🔍 Executing ΛDependaBoT analysis...")
 
@@ -612,7 +606,7 @@ class ΛDependaBoT(BotProtocol):
             self.logger.error(f"❌ ΛDependaBoT execution failed: {e}")
             raise
 
-    async def report(self) -> Dict[str, Any]:
+    async def report(self) -> dict[str, Any]:
         """Generate comprehensive ΛBot performance report with error analysis."""
         self.logger.info("📊 Generating ΛDependaBoT performance report...")
 
@@ -1096,7 +1090,7 @@ class ΛDependaBoT(BotProtocol):
             return self.dependency_network.calculate_quantum_modularity()
         else:
             # Fallback quantum calculation
-            nodes = (
+            (
                 self.dependency_network.nodes()
                 if hasattr(self.dependency_network, "nodes")
                 else []
@@ -1138,7 +1132,7 @@ class ΛDependaBoT(BotProtocol):
 
             return modularity
 
-    async def _generate_architectural_insights(self) -> List[ΛArchitecturalInsight]:
+    async def _generate_architectural_insights(self) -> list[ΛArchitecturalInsight]:
         """Generate AI-powered architectural insights."""
         insights = []
 
@@ -1179,7 +1173,7 @@ class ΛDependaBoT(BotProtocol):
 
         return insights + self.architectural_insights
 
-    async def _create_optimization_roadmap(self) -> Dict[str, Any]:
+    async def _create_optimization_roadmap(self) -> dict[str, Any]:
         """Create autonomous optimization roadmap."""
         roadmap = {
             "immediate_actions": [],
@@ -1209,7 +1203,7 @@ class ΛDependaBoT(BotProtocol):
 
         return roadmap
 
-    async def _predict_performance_impacts(self) -> Dict[str, float]:
+    async def _predict_performance_impacts(self) -> dict[str, float]:
         """Predict performance impacts of optimizations."""
         return {
             "build_time_improvement": 0.15,
@@ -1284,24 +1278,24 @@ class ΛDependaBoT(BotProtocol):
 
         return complexity
 
-    async def _detect_neural_cluster_patterns(self) -> List[Dict]:
+    async def _detect_neural_cluster_patterns(self) -> list[dict]:
         """Detect neural-inspired clustering patterns."""
         # Simplified neural pattern detection
         return [{"pattern": "neural_cluster", "strength": 0.7}]
 
-    async def _detect_cellular_hierarchies(self) -> List[Dict]:
+    async def _detect_cellular_hierarchies(self) -> list[dict]:
         """Detect cellular hierarchy patterns."""
         return [{"pattern": "cellular_hierarchy", "depth": 3}]
 
-    async def _detect_ecosystem_patterns(self) -> List[Dict]:
+    async def _detect_ecosystem_patterns(self) -> list[dict]:
         """Detect ecosystem interaction patterns."""
         return [{"pattern": "ecosystem_interaction", "complexity": 0.6}]
 
-    async def _detect_evolutionary_patterns(self) -> List[Dict]:
+    async def _detect_evolutionary_patterns(self) -> list[dict]:
         """Detect evolutionary adaptation patterns."""
         return [{"pattern": "evolutionary_adaptation", "potential": 0.8}]
 
-    async def _detect_quantum_clusters(self) -> List[Set[str]]:
+    async def _detect_quantum_clusters(self) -> list[set[str]]:
         """Detect quantum-coherent module clusters."""
         nodes = (
             self.dependency_network.nodes()
@@ -1359,7 +1353,7 @@ class ΛDependaBoT(BotProtocol):
         """Calculate optimization success rate."""
         return 0.75  # Simplified calculation
 
-    async def _analyze_evolution_opportunities(self) -> Dict[str, float]:
+    async def _analyze_evolution_opportunities(self) -> dict[str, float]:
         """Analyze opportunities for self-evolution."""
         return {
             "optimization_potential": 0.6,
@@ -1718,7 +1712,7 @@ class ΛDependaBoT(BotProtocol):
         )
 
     # Error Analysis Methods
-    async def _generate_error_report(self) -> Dict[str, Any]:
+    async def _generate_error_report(self) -> dict[str, Any]:
         """Generate comprehensive error analysis report."""
         return {
             "total_analysis_failures": len(getattr(self, "analysis_failures", [])),

@@ -16,7 +16,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Initialize structured logger for this module
 logger.info("Initializing conflict_resolver module.", module_path=__file__)
@@ -62,7 +62,7 @@ class SymbolicFragment:
     """Represents a symbolic reasoning fragment for conflict analysis."""
 
     fragment_id: str
-    content: Dict[str, Any]
+    content: dict[str, Any]
     source_module: str
     timestamp: str
     confidence: float = 0.0
@@ -70,7 +70,7 @@ class SymbolicFragment:
     emotional_weight: float = 0.0
     ethical_score: float = 0.0
     glyph_signature: str = ""
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -78,18 +78,18 @@ class ContradictionReport:
     """Captures details of detected symbolic contradictions."""
 
     report_id: str
-    conflicting_fragments: List[SymbolicFragment]
+    conflicting_fragments: list[SymbolicFragment]
     conflict_type: ConflictType
     severity: ConflictSeverity
-    origins: List[str]
+    origins: list[str]
     entropy_delta: float
     confidence_impact: float
-    glyph_conflicts: List[str] = field(default_factory=list)
-    ethical_violations: List[str] = field(default_factory=list)
+    glyph_conflicts: list[str] = field(default_factory=list)
+    ethical_violations: list[str] = field(default_factory=list)
     timestamp: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -99,14 +99,14 @@ class ConflictResolutionResult:
     resolution_id: str
     original_report: ContradictionReport
     resolution_mode: ResolutionMode
-    resolved_fragments: List[SymbolicFragment]
-    eliminated_fragments: List[str]
+    resolved_fragments: list[SymbolicFragment]
+    eliminated_fragments: list[str]
     risk_score: float
-    mutation_context: Dict[str, Any]
+    mutation_context: dict[str, Any]
     confidence_adjustment: float
     entropy_adjustment: float
     resolution_success: bool
-    audit_trail: Dict[str, Any] = field(default_factory=dict)
+    audit_trail: dict[str, Any] = field(default_factory=dict)
     timestamp: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
@@ -126,7 +126,7 @@ class SymbolicConflictResolver:
         severity_threshold: float = 0.7,
         escalation_threshold: float = 0.8,
         resolution_confidence_threshold: float = 0.6,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         """
         Initialize the Symbolic Conflict Resolver.
@@ -146,7 +146,7 @@ class SymbolicConflictResolver:
         self.config = config or {}
 
         # Resolution history for learning and audit
-        self.resolution_history: List[ConflictResolutionResult] = []
+        self.resolution_history: list[ConflictResolutionResult] = []
 
         # Conflict detection patterns
         self.contradiction_patterns = self._initialize_patterns()
@@ -167,7 +167,7 @@ class SymbolicConflictResolver:
         )
 
     def detect_symbolic_conflict(
-        self, inputs: List[SymbolicFragment], context: Dict
+        self, inputs: list[SymbolicFragment], context: dict
     ) -> Optional[ContradictionReport]:
         """
         Analyzes symbolic statements, emotional states, and memory references
@@ -524,7 +524,7 @@ class SymbolicConflictResolver:
 
     # Private helper methods for conflict detection
 
-    def _initialize_patterns(self) -> Dict[str, List[str]]:
+    def _initialize_patterns(self) -> dict[str, list[str]]:
         """Initialize contradiction detection patterns."""
         return {
             "logical": [
@@ -549,13 +549,13 @@ class SymbolicConflictResolver:
         }
 
     def _detect_logical_contradictions(
-        self, fragments: List[SymbolicFragment]
-    ) -> List[Dict]:
+        self, fragments: list[SymbolicFragment]
+    ) -> list[dict]:
         """Detect logical contradictions between fragments."""
         conflicts = []
 
         for i, frag1 in enumerate(fragments):
-            for j, frag2 in enumerate(fragments[i + 1 :], i + 1):
+            for _j, frag2 in enumerate(fragments[i + 1 :], i + 1):
                 # Check for direct logical contradictions
                 content1 = str(frag1.content).lower()
                 content2 = str(frag2.content).lower()
@@ -596,13 +596,13 @@ class SymbolicConflictResolver:
         return conflicts
 
     def _detect_ethical_contradictions(
-        self, fragments: List[SymbolicFragment]
-    ) -> List[Dict]:
+        self, fragments: list[SymbolicFragment]
+    ) -> list[dict]:
         """Detect ethical contradictions between fragments."""
         conflicts = []
 
         for i, frag1 in enumerate(fragments):
-            for j, frag2 in enumerate(fragments[i + 1 :], i + 1):
+            for _j, frag2 in enumerate(fragments[i + 1 :], i + 1):
                 # Ethical score contradiction
                 if abs(frag1.ethical_score - frag2.ethical_score) > 0.6:
                     conflicts.append(
@@ -640,13 +640,13 @@ class SymbolicConflictResolver:
         return conflicts
 
     def _detect_emotional_contradictions(
-        self, fragments: List[SymbolicFragment]
-    ) -> List[Dict]:
+        self, fragments: list[SymbolicFragment]
+    ) -> list[dict]:
         """Detect emotional contradictions between fragments."""
         conflicts = []
 
         for i, frag1 in enumerate(fragments):
-            for j, frag2 in enumerate(fragments[i + 1 :], i + 1):
+            for _j, frag2 in enumerate(fragments[i + 1 :], i + 1):
                 # Emotional weight contradiction
                 weight_diff = abs(frag1.emotional_weight - frag2.emotional_weight)
                 if weight_diff > 0.7:
@@ -679,8 +679,8 @@ class SymbolicConflictResolver:
         return conflicts
 
     def _detect_memory_contradictions(
-        self, fragments: List[SymbolicFragment], context: Dict
-    ) -> List[Dict]:
+        self, fragments: list[SymbolicFragment], context: dict
+    ) -> list[dict]:
         """Detect memory/historical contradictions."""
         conflicts = []
 
@@ -690,7 +690,7 @@ class SymbolicConflictResolver:
         ]
 
         for i, frag1 in enumerate(memory_fragments):
-            for j, frag2 in enumerate(memory_fragments[i + 1 :], i + 1):
+            for _j, frag2 in enumerate(memory_fragments[i + 1 :], i + 1):
                 # Temporal contradiction check
                 timestamp1 = frag1.metadata.get("timestamp", frag1.timestamp)
                 timestamp2 = frag2.metadata.get("timestamp", frag2.timestamp)
@@ -714,8 +714,8 @@ class SymbolicConflictResolver:
         return conflicts
 
     def _detect_glyph_contradictions(
-        self, fragments: List[SymbolicFragment]
-    ) -> List[Dict]:
+        self, fragments: list[SymbolicFragment]
+    ) -> list[dict]:
         """Detect GLYPH field contradictions."""
         conflicts = []
 
@@ -723,7 +723,7 @@ class SymbolicConflictResolver:
         glyph_fragments = [f for f in fragments if f.glyph_signature]
 
         for i, frag1 in enumerate(glyph_fragments):
-            for j, frag2 in enumerate(glyph_fragments[i + 1 :], i + 1):
+            for _j, frag2 in enumerate(glyph_fragments[i + 1 :], i + 1):
                 # Simple GLYPH contradiction detection (could be more sophisticated)
                 if (
                     frag1.glyph_signature
@@ -748,7 +748,7 @@ class SymbolicConflictResolver:
 
         return conflicts
 
-    def _detect_recursive_loops(self, fragments: List[SymbolicFragment]) -> List[Dict]:
+    def _detect_recursive_loops(self, fragments: list[SymbolicFragment]) -> list[dict]:
         """Detect recursive loops in reasoning."""
         conflicts = []
 
@@ -786,22 +786,21 @@ class SymbolicConflictResolver:
         return conflicts
 
     def _detect_circular_references(
-        self, fragment: SymbolicFragment, all_fragments: List[SymbolicFragment]
+        self, fragment: SymbolicFragment, all_fragments: list[SymbolicFragment]
     ) -> bool:
         """Check if a fragment has circular references."""
         content = str(fragment.content)
 
         for other_fragment in all_fragments:
-            if other_fragment.fragment_id != fragment.fragment_id:
-                if (
-                    other_fragment.fragment_id in content
-                    and fragment.fragment_id in str(other_fragment.content)
-                ):
-                    return True
+            if other_fragment.fragment_id != fragment.fragment_id and (
+                other_fragment.fragment_id in content
+                and fragment.fragment_id in str(other_fragment.content)
+            ):
+                return True
         return False
 
     def _calculate_severity(
-        self, conflict: Dict, fragments: List[SymbolicFragment]
+        self, conflict: dict, fragments: list[SymbolicFragment]
     ) -> ConflictSeverity:
         """Calculate the severity of a conflict."""
         base_severity = conflict["severity_score"]
@@ -824,20 +823,20 @@ class SymbolicConflictResolver:
             return ConflictSeverity.MINOR
 
     def _calculate_entropy_delta(
-        self, fragments: List[SymbolicFragment], conflict: Dict
+        self, fragments: list[SymbolicFragment], conflict: dict
     ) -> float:
         """Calculate entropy delta from the conflict."""
-        total_entropy = sum(f.entropy for f in fragments)
+        sum(f.entropy for f in fragments)
         conflict_entropy = sum(f.entropy for f in conflict["fragments"])
 
         # Conflicts generally increase entropy
         return conflict_entropy * 0.5
 
     def _calculate_confidence_impact(
-        self, fragments: List[SymbolicFragment], conflict: Dict
+        self, fragments: list[SymbolicFragment], conflict: dict
     ) -> float:
         """Calculate the impact on confidence from the conflict."""
-        avg_confidence = sum(f.confidence for f in fragments) / len(fragments)
+        sum(f.confidence for f in fragments) / len(fragments)
         conflict_confidence = sum(f.confidence for f in conflict["fragments"]) / len(
             conflict["fragments"]
         )
@@ -1202,11 +1201,11 @@ class SymbolicConflictResolver:
             },
         )
 
-    def _write_resolution_audit_log(self, trace_record: Dict[str, Any]) -> None:
+    def _write_resolution_audit_log(self, trace_record: dict[str, Any]) -> None:
         """Write resolution trace to persistent audit log."""
         try:
             # Write to JSON log file
-            audit_filename = f"audit/conflict_resolution_log_{datetime.now().strftime('%Y%m%d')}.json"
+            f"audit/conflict_resolution_log_{datetime.now().strftime('%Y%m%d')}.json"
 
             # In a real implementation, this would write to actual files
             # For now, use structured logging
@@ -1232,7 +1231,7 @@ class SymbolicConflictResolver:
         # - ethics/ modules for ethical conflict resolutions
         # - collapse_reasoner.py for escalations
 
-    def get_resolution_statistics(self) -> Dict[str, Any]:
+    def get_resolution_statistics(self) -> dict[str, Any]:
         """Get statistics about conflict resolutions."""
         return {
             "total_conflicts": self.conflict_stats["total_conflicts"],

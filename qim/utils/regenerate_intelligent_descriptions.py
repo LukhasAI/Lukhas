@@ -10,7 +10,6 @@ with academic-poetic blend for quantum modules.
 import os
 import re
 from pathlib import Path
-from typing import Dict
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -31,7 +30,7 @@ DESCRIPTION_PATTERN = re.compile(
 TEMPLATE_PATTERN = re.compile(r"(@lukhas/HEADER_FOOTER_TEMPLATE\.py\n)", re.MULTILINE)
 
 
-def analyze_code_content(filepath: Path) -> Dict[str, str]:
+def analyze_code_content(filepath: Path) -> dict[str, str]:
     """Analyze the code to extract key functionality."""
 
     try:
@@ -107,7 +106,7 @@ def analyze_code_content(filepath: Path) -> Dict[str, str]:
         }
 
 
-def generate_intelligent_description(code_analysis: Dict[str, str]) -> str:
+def generate_intelligent_description(code_analysis: dict[str, str]) -> str:
     """Generate intelligent module description using modern OpenAI API."""
 
     # Build feature description
@@ -219,7 +218,7 @@ possibilities. Each quantum operation a synaptic firing in the AGI's dreaming mi
 def regenerate_description(filepath: Path) -> bool:
     """Remove old description and add new intelligent one."""
 
-    if not filepath.suffix == ".py":
+    if filepath.suffix != ".py":
         return False
 
     try:

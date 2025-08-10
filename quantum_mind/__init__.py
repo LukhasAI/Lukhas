@@ -7,11 +7,11 @@ for the memory system.
 
 import time
 from enum import Enum
-from typing import Optional
 
 
 class ConsciousnessPhase(Enum):
     """Phases of consciousness for the quantum mind system"""
+
     DORMANT = "dormant"
     AWAKENING = "awakening"
     AWARE = "aware"
@@ -60,7 +60,10 @@ class QuantumMindInterface:
 
     def is_operational(self) -> bool:
         """Check if quantum mind is operational"""
-        return self.phase not in [ConsciousnessPhase.DORMANT, ConsciousnessPhase.DREAMING]
+        return self.phase not in [
+            ConsciousnessPhase.DORMANT,
+            ConsciousnessPhase.DREAMING,
+        ]
 
 
 # Singleton instance
@@ -73,8 +76,8 @@ def get_quantum_mind() -> QuantumMindInterface:
 
 
 __all__ = [
-    'ConsciousnessPhase',
-    'get_current_phase',
-    'QuantumMindInterface',
-    'get_quantum_mind'
+    "ConsciousnessPhase",
+    "get_current_phase",
+    "QuantumMindInterface",
+    "get_quantum_mind",
 ]

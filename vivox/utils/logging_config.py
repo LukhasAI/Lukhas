@@ -8,22 +8,22 @@ import os
 from typing import Optional
 
 # Environment-based logging level
-VIVOX_LOG_LEVEL = os.getenv('VIVOX_LOG_LEVEL', 'INFO').upper()
+VIVOX_LOG_LEVEL = os.getenv("VIVOX_LOG_LEVEL", "INFO").upper()
 
 # Production mode detection
-VIVOX_PRODUCTION = os.getenv('VIVOX_PRODUCTION', 'false').lower() == 'true'
+VIVOX_PRODUCTION = os.getenv("VIVOX_PRODUCTION", "false").lower() == "true"
 
 # Performance mode - disables debug logging entirely
-VIVOX_PERFORMANCE_MODE = os.getenv('VIVOX_PERFORMANCE_MODE', 'false').lower() == 'true'
+VIVOX_PERFORMANCE_MODE = os.getenv("VIVOX_PERFORMANCE_MODE", "false").lower() == "true"
 
 
 def get_vivox_logger(name: str) -> logging.Logger:
     """
     Get a configured logger for VIVOX components
-    
+
     Args:
         name: Logger name (e.g., 'VIVOX.ME', 'VIVOX.MAE')
-        
+
     Returns:
         Configured logger instance
     """
@@ -51,13 +51,13 @@ def get_vivox_logger(name: str) -> logging.Logger:
     if VIVOX_PRODUCTION:
         # Minimal format for production
         formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S'
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
         )
     else:
         # Detailed format for development
         formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s'
+            "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s"
         )
 
     handler.setFormatter(formatter)
@@ -69,11 +69,12 @@ def get_vivox_logger(name: str) -> logging.Logger:
     return logger
 
 
-def log_performance(logger: logging.Logger, operation: str, elapsed: float,
-                   count: Optional[int] = None):
+def log_performance(
+    logger: logging.Logger, operation: str, elapsed: float, count: Optional[int] = None
+):
     """
     Log performance metrics at appropriate level
-    
+
     Args:
         logger: Logger instance
         operation: Operation name
@@ -94,7 +95,7 @@ def log_performance(logger: logging.Logger, operation: str, elapsed: float,
 def debug_trace(logger: logging.Logger, message: str, **kwargs):
     """
     Log debug trace only in development mode
-    
+
     Args:
         logger: Logger instance
         message: Debug message
@@ -111,16 +112,16 @@ def debug_trace(logger: logging.Logger, message: str, **kwargs):
 class VIVOXLoggers:
     """Centralized logger access for VIVOX components"""
 
-    ME = get_vivox_logger('VIVOX.ME')
-    MAE = get_vivox_logger('VIVOX.MAE')
-    CIL = get_vivox_logger('VIVOX.CIL')
-    SRM = get_vivox_logger('VIVOX.SRM')
-    INTEGRATION = get_vivox_logger('VIVOX.INTEGRATION')
+    ME = get_vivox_logger("VIVOX.ME")
+    MAE = get_vivox_logger("VIVOX.MAE")
+    CIL = get_vivox_logger("VIVOX.CIL")
+    SRM = get_vivox_logger("VIVOX.SRM")
+    INTEGRATION = get_vivox_logger("VIVOX.INTEGRATION")
 
     @classmethod
     def set_global_level(cls, level: str):
         """Set logging level for all VIVOX loggers"""
         log_level = getattr(logging, level.upper(), logging.INFO)
-        for logger_name in ['ME', 'MAE', 'CIL', 'SRM', 'INTEGRATION']:
+        for logger_name in ["ME", "MAE", "CIL", "SRM", "INTEGRATION"]:
             logger = getattr(cls, logger_name)
             logger.setLevel(log_level)

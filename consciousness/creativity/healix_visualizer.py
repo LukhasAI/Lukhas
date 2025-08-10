@@ -15,17 +15,16 @@ HealixMapper Visualization & UX Interface
 DNA-inspired memory visualization with stunning visual representations
 """
 
-import asyncio
-from collections import defaultdict
-from datetime import datetime
-from typing import Optional
-
-import matplotlib.pyplot as plt
-import numpy as np
-import plotly.graph_objects as go
-from golden_healix_mapper import HealixMapper, MemoryStrand, MutationStrategy
 from matplotlib.animation import FuncAnimation
 from plotly.subplots import make_subplots
+from golden_healix_mapper import HealixMapper, MemoryStrand, MutationStrategy
+import plotly.graph_objects as go
+import numpy as np
+import matplotlib.pyplot as plt
+from typing import Optional
+from datetime import datetime
+from collections import defaultdict
+import asyncio
 
 
 class HealixVisualizer:
@@ -74,8 +73,8 @@ class HealixVisualizer:
                 y=y1,
                 z=z,
                 mode="lines+markers",
-                line=dict(color="rgba(100, 149, 237, 0.8)", width=6),
-                marker=dict(size=2, color="rgba(100, 149, 237, 0.6)"),
+                line={"color": "rgba(100, 149, 237, 0.8)", "width": 6},
+                marker={"size": 2, "color": "rgba(100, 149, 237, 0.6)"},
                 name="DNA Strand 1",
                 hoverinfo="skip",
             )
@@ -87,8 +86,8 @@ class HealixVisualizer:
                 y=y2,
                 z=z,
                 mode="lines+markers",
-                line=dict(color="rgba(255, 105, 180, 0.8)", width=6),
-                marker=dict(size=2, color="rgba(255, 105, 180, 0.6)"),
+                line={"color": "rgba(255, 105, 180, 0.8)", "width": 6},
+                marker={"size": 2, "color": "rgba(255, 105, 180, 0.6)"},
                 name="DNA Strand 2",
                 hoverinfo="skip",
             )
@@ -129,12 +128,12 @@ class HealixVisualizer:
                     y=positions[:, 1],
                     z=positions[:, 2],
                     mode="markers",
-                    marker=dict(
-                        size=[mem["resonance"] * 15 + 5 for mem in memory_data],
-                        color=[self.colors[mem["strand"]] for mem in memory_data],
-                        opacity=0.8,
-                        line=dict(width=2, color="white"),
-                    ),
+                    marker={
+                        "size": [mem["resonance"] * 15 + 5 for mem in memory_data],
+                        "color": [self.colors[mem["strand"]] for mem in memory_data],
+                        "opacity": 0.8,
+                        "line": {"width": 2, "color": "white"},
+                    },
                     text=[
                         f"💭 {mem['content']}<br>🧬 {mem['strand']}<br>⚡ Resonance: {mem['resonance']:.3f}<br>🔬 Mutations: {mem['mutations']}<br>🆔 {mem['id']}"
                         for mem in memory_data
@@ -152,7 +151,7 @@ class HealixVisualizer:
                     y=[y1[i], y2[i]],
                     z=[z[i], z[i]],
                     mode="lines",
-                    line=dict(color="rgba(200, 200, 200, 0.3)", width=2),
+                    line={"color": "rgba(200, 200, 200, 0.3)", "width": 2},
                     showlegend=False,
                     hoverinfo="skip",
                 )
@@ -165,15 +164,19 @@ class HealixVisualizer:
                 "x": 0.5,
                 "font": {"size": 24, "color": "#2E4057", "family": "Arial Black"},
             },
-            scene=dict(
-                xaxis=dict(showgrid=False, showticklabels=False, title=""),
-                yaxis=dict(showgrid=False, showticklabels=False, title=""),
-                zaxis=dict(showgrid=False, showticklabels=False, title="Memory Depth"),
-                bgcolor="rgba(240, 248, 255, 0.1)",
-                camera=dict(eye=dict(x=1.5, y=1.5, z=1.5)),
-            ),
+            scene={
+                "xaxis": {"showgrid": False, "showticklabels": False, "title": ""},
+                "yaxis": {"showgrid": False, "showticklabels": False, "title": ""},
+                "zaxis": {
+                    "showgrid": False,
+                    "showticklabels": False,
+                    "title": "Memory Depth",
+                },
+                "bgcolor": "rgba(240, 248, 255, 0.1)",
+                "camera": {"eye": {"x": 1.5, "y": 1.5, "z": 1.5}},
+            },
             paper_bgcolor="white",
-            font=dict(color="#2E4057"),
+            font={"color": "#2E4057"},
             width=1000,
             height=800,
         )
@@ -241,18 +244,18 @@ class HealixVisualizer:
                 )
 
         if all_memories:
-            for strand in set(mem["strand"] for mem in all_memories):
+            for strand in {mem["strand"] for mem in all_memories}:
                 strand_mems = [mem for mem in all_memories if mem["strand"] == strand]
                 fig.add_trace(
                     go.Scatter(
                         x=[mem["age_hours"] for mem in strand_mems],
                         y=[mem["resonance"] for mem in strand_mems],
                         mode="markers",
-                        marker=dict(
-                            size=[mem["mutations"] * 3 + 8 for mem in strand_mems],
-                            color=self.colors[strand],
-                            opacity=0.7,
-                        ),
+                        marker={
+                            "size": [mem["mutations"] * 3 + 8 for mem in strand_mems],
+                            "color": self.colors[strand],
+                            "opacity": 0.7,
+                        },
                         name=strand,
                         showlegend=False,
                     ),
@@ -274,7 +277,7 @@ class HealixVisualizer:
                     y=list(mutation_counts.values()),
                     marker_color=[
                         self.mutation_colors.get(mut, "#95A5A6")
-                        for mut in mutation_counts.keys()
+                        for mut in mutation_counts
                     ],
                     showlegend=False,
                 ),
@@ -293,11 +296,11 @@ class HealixVisualizer:
                     ],
                     y=[mem["resonance"] for mem in all_memories],
                     mode="markers+lines",
-                    marker=dict(
-                        color=[self.colors[mem["strand"]] for mem in all_memories],
-                        size=8,
-                    ),
-                    line=dict(color="rgba(100, 100, 100, 0.3)"),
+                    marker={
+                        "color": [self.colors[mem["strand"]] for mem in all_memories],
+                        "size": 8,
+                    },
+                    line={"color": "rgba(100, 100, 100, 0.3)"},
                     showlegend=False,
                 ),
                 row=2,
@@ -326,7 +329,7 @@ class HealixVisualizer:
                 theta=list(strand_health.keys()),
                 fill="toself",
                 fillcolor="rgba(70, 130, 180, 0.3)",
-                line=dict(color="rgba(70, 130, 180, 0.8)", width=2),
+                line={"color": "rgba(70, 130, 180, 0.8)", "width": 2},
                 showlegend=False,
             ),
             row=2,
@@ -443,13 +446,13 @@ class HealixVisualizer:
                     x=[mem_info["x"]],
                     y=[mem_info["y"]],
                     mode="markers",
-                    marker=dict(
-                        size=memory["resonance"] * 30 + 15,
-                        color=self.colors[strand.value],
-                        opacity=0.8,
-                        line=dict(width=2, color="white"),
-                        symbol="circle",
-                    ),
+                    marker={
+                        "size": memory["resonance"] * 30 + 15,
+                        "color": self.colors[strand.value],
+                        "opacity": 0.8,
+                        "line": {"width": 2, "color": "white"},
+                        "symbol": "circle",
+                    },
                     text=hover_text,
                     hovertemplate="%{text}<extra></extra>",
                     name=strand.value,
@@ -466,8 +469,8 @@ class HealixVisualizer:
                 "x": 0.5,
                 "font": {"size": 20, "color": "#2E4057"},
             },
-            xaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
-            yaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
+            xaxis={"showgrid": False, "showticklabels": False, "zeroline": False},
+            yaxis={"showgrid": False, "showticklabels": False, "zeroline": False},
             plot_bgcolor="rgba(240, 248, 255, 0.1)",
             paper_bgcolor="white",
             width=900,
@@ -508,7 +511,7 @@ class HealixVisualizer:
 
             # Base memory representation
             center_x, center_y = 0, 0
-            base_size = memory["resonance"] * 1000
+            memory["resonance"] * 1000
 
             circle = plt.Circle(
                 (center_x, center_y),
@@ -593,7 +596,7 @@ class HealixVisualizer:
             values = []
 
             strand_names = [strand.value for strand in MemoryStrand]
-            mutation_names = list(set(mut["type"] for mut in all_mutations))
+            mutation_names = list({mut["type"] for mut in all_mutations})
             all_nodes = strand_names + mutation_names
 
             for flow, count in flows.items():
@@ -605,12 +608,12 @@ class HealixVisualizer:
 
             fig.add_trace(
                 go.Sankey(
-                    node=dict(
-                        pad=15,
-                        thickness=20,
-                        line=dict(color="black", width=0.5),
-                        label=all_nodes,
-                        color=[
+                    node={
+                        "pad": 15,
+                        "thickness": 20,
+                        "line": {"color": "black", "width": 0.5},
+                        "label": all_nodes,
+                        "color": [
                             (
                                 self.colors.get(node, "#95A5A6")
                                 if node in strand_names
@@ -618,13 +621,13 @@ class HealixVisualizer:
                             )
                             for node in all_nodes
                         ],
-                    ),
-                    link=dict(
-                        source=sources,
-                        target=targets,
-                        value=values,
-                        color="rgba(100, 150, 200, 0.4)",
-                    ),
+                    },
+                    link={
+                        "source": sources,
+                        "target": targets,
+                        "value": values,
+                        "color": "rgba(100, 150, 200, 0.4)",
+                    },
                 )
             )
 

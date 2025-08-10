@@ -13,9 +13,7 @@ from consciousness_platform import (
 
 async def main():
     # Initialize API
-    api = ConsciousnessPlatformAPI(
-        consciousness_level=ConsciousnessLevel.ENHANCED
-    )
+    api = ConsciousnessPlatformAPI(consciousness_level=ConsciousnessLevel.ENHANCED)
 
     # Get consciousness state
     state = await api.get_state()
@@ -23,13 +21,11 @@ async def main():
     print(f"Awareness Scores: {state.awareness_scores}")
 
     # Perform reflection
-    reflection = ReflectionRequest(
-        topic="The meaning of existence",
-        depth=3
-    )
+    reflection = ReflectionRequest(topic="The meaning of existence", depth=3)
 
     result = await api.reflect(reflection)
     print(f"Insights: {result['insights']}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

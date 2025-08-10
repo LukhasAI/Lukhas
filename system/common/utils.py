@@ -18,7 +18,7 @@ def get_logger(name: str) -> logging.Logger:
     if not logger.handlers:
         handler = logging.StreamHandler()
         formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
         handler.setFormatter(formatter)
         logger.addHandler(handler)
@@ -26,7 +26,9 @@ def get_logger(name: str) -> logging.Logger:
     return logger
 
 
-def load_config(config_path: Path, defaults: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+def load_config(
+    config_path: Path, defaults: Optional[Dict[str, Any]] = None
+) -> Dict[str, Any]:
     """Load JSON configuration with defaults"""
     config = defaults or {}
 
@@ -46,7 +48,7 @@ def save_config(config: Dict[str, Any], config_path: Path) -> bool:
     """Save configuration to JSON file"""
     try:
         config_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(config_path, 'w') as f:
+        with open(config_path, "w") as f:
             json.dump(config, f, indent=2)
         return True
     except Exception as e:
@@ -57,6 +59,7 @@ def save_config(config: Dict[str, Any], config_path: Path) -> bool:
 
 def async_error_handler(func):
     """Decorator for consistent async error handling"""
+
     @wraps(func)
     async def wrapper(*args, **kwargs):
         logger = get_logger(func.__module__)
@@ -67,11 +70,13 @@ def async_error_handler(func):
         except Exception as e:
             logger.error(f"Error in {func.__name__}: {e}", exc_info=True)
             raise
+
     return wrapper
 
 
 def sync_error_handler(func):
     """Decorator for consistent sync error handling"""
+
     @wraps(func)
     def wrapper(*args, **kwargs):
         logger = get_logger(func.__module__)
@@ -80,11 +85,13 @@ def sync_error_handler(func):
         except Exception as e:
             logger.error(f"Error in {func.__name__}: {e}", exc_info=True)
             raise
+
     return wrapper
 
 
 class SingletonMeta(type):
     """Metaclass for singleton pattern"""
+
     _instances = {}
 
     def __call__(cls, *args, **kwargs):

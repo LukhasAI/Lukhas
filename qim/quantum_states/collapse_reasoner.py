@@ -15,7 +15,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import structlog
 
@@ -57,14 +57,14 @@ class ReasoningChain:
     """Represents a single reasoning chain/branch in the collapse evaluation."""
 
     chain_id: str
-    elements: List[Dict[str, Any]] = field(default_factory=list)
+    elements: list[dict[str, Any]] = field(default_factory=list)
     confidence: float = 0.0
     entropy: float = 0.0
     drift_score: float = 0.0
     emotional_weight: float = 0.0
     ethical_score: float = 0.0
     glyph_stability: float = 0.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -74,12 +74,12 @@ class CollapseResult:
     resolved_chain: ReasoningChain
     collapse_type: CollapseType
     resolution_strategy: ResolutionStrategy
-    eliminated_chains: List[str]
+    eliminated_chains: list[str]
     confidence_score: float
     entropy_delta: float
     collapse_id: str
     timestamp: str
-    audit_trail: Dict[str, Any] = field(default_factory=dict)
+    audit_trail: dict[str, Any] = field(default_factory=dict)
 
 
 class QuantumCollapseEngine:
@@ -96,7 +96,7 @@ class QuantumCollapseEngine:
         entropy_threshold: float = 0.8,
         contradiction_threshold: float = 0.7,
         stability_threshold: float = 0.6,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         """
         Initialize the Quantum Collapse Engine.
@@ -116,10 +116,10 @@ class QuantumCollapseEngine:
         self.config = config or {}
 
         # Collapse event history for audit and learning
-        self.collapse_history: List[CollapseResult] = []
+        self.collapse_history: list[CollapseResult] = []
 
         # Threshold crossing events log
-        self.threshold_events: List[Dict[str, Any]] = []
+        self.threshold_events: list[dict[str, Any]] = []
 
         self.logger.info(
             "Quantum Collapse Engine initialized",
@@ -130,9 +130,9 @@ class QuantumCollapseEngine:
 
     def initiate_collapse(
         self,
-        contradictions: List[Dict],
-        reasoning_branches: List[ReasoningChain],
-        context: Dict,
+        contradictions: list[dict],
+        reasoning_branches: list[ReasoningChain],
+        context: dict,
     ) -> CollapseResult:
         """
         Resolves competing symbolic paths into a single dominant trajectory.
@@ -178,7 +178,8 @@ class QuantumCollapseEngine:
                     entropy=branch.entropy,
                 )
 
-            # Select resolution strategy based on collapse type and branch characteristics
+            # Select resolution strategy based on collapse type and branch
+            # characteristics
             resolution_strategy = self._select_resolution_strategy(
                 collapse_type, evaluated_branches, contradictions, context
             )
@@ -346,7 +347,7 @@ class QuantumCollapseEngine:
             )
             return 0.0
 
-    def emit_collapse_event(self, resolution: CollapseResult, metadata: Dict) -> None:
+    def emit_collapse_event(self, resolution: CollapseResult, metadata: dict) -> None:
         """
         Emits a trace-annotated collapse record and updates symbolic memory.
 
@@ -468,7 +469,7 @@ class QuantumCollapseEngine:
     # Private helper methods
 
     def _determine_collapse_type(
-        self, contradictions: List[Dict], branches: List[ReasoningChain], context: Dict
+        self, contradictions: list[dict], branches: list[ReasoningChain], context: dict
     ) -> CollapseType:
         """Determines the type of collapse based on input conditions."""
         if contradictions and len(contradictions) > self.contradiction_threshold * 10:
@@ -498,9 +499,9 @@ class QuantumCollapseEngine:
     def _select_resolution_strategy(
         self,
         collapse_type: CollapseType,
-        branches: List[ReasoningChain],
-        contradictions: List[Dict],
-        context: Dict,
+        branches: list[ReasoningChain],
+        contradictions: list[dict],
+        context: dict,
     ) -> ResolutionStrategy:
         """Selects the optimal resolution strategy based on collapse conditions."""
         if collapse_type == CollapseType.ETHICAL_CONFLICT:
@@ -517,9 +518,9 @@ class QuantumCollapseEngine:
     def _apply_resolution_strategy(
         self,
         strategy: ResolutionStrategy,
-        branches: List[ReasoningChain],
-        contradictions: List[Dict],
-        context: Dict,
+        branches: list[ReasoningChain],
+        contradictions: list[dict],
+        context: dict,
     ) -> ReasoningChain:
         """Applies the selected resolution strategy to choose the dominant branch."""
         if not branches:
@@ -540,7 +541,7 @@ class QuantumCollapseEngine:
             return max(branches, key=lambda b: b.confidence)
 
     def _calculate_entropy_delta(
-        self, original_branches: List[ReasoningChain], resolved: ReasoningChain
+        self, original_branches: list[ReasoningChain], resolved: ReasoningChain
     ) -> float:
         """Calculates the entropy change from collapse."""
         if not original_branches:
@@ -552,7 +553,7 @@ class QuantumCollapseEngine:
         return original_entropy - resolved.entropy
 
     def _calculate_final_confidence(
-        self, resolved_chain: ReasoningChain, context: Dict
+        self, resolved_chain: ReasoningChain, context: dict
     ) -> float:
         """Calculates final confidence score for the resolved chain."""
         base_confidence = resolved_chain.confidence
@@ -570,7 +571,7 @@ class QuantumCollapseEngine:
             1.0, base_confidence + context_boost + stability_boost + ethical_boost
         )
 
-    def _calculate_symbolic_coherence(self, elements: List[Dict[str, Any]]) -> float:
+    def _calculate_symbolic_coherence(self, elements: list[dict[str, Any]]) -> float:
         """Calculates symbolic coherence between elements."""
         if len(elements) < 2:
             return 0.0
@@ -591,13 +592,12 @@ class QuantumCollapseEngine:
         else:
             return "critical"
 
-    def _write_collapse_audit_log(self, event_record: Dict[str, Any]) -> None:
+    def _write_collapse_audit_log(self, event_record: dict[str, Any]) -> None:
         """Writes collapse event to persistent audit log."""
         try:
-            # Ensure audit directory exists (this would be handled by system initialization)
-            audit_filename = (
-                f"audit/collapse_events_{datetime.now().strftime('%Y%m%d')}.jsonl"
-            )
+            # Ensure audit directory exists (this would be handled by system
+            # initialization)
+            (f"audit/collapse_events_{datetime.now().strftime('%Y%m%d')}.jsonl")
 
             # In a real implementation, this would use proper file handling
             # For now, we'll use the logger as the persistent store
@@ -620,7 +620,7 @@ class QuantumCollapseEngine:
         )
 
     # COLLAPSE_READY - Methods ready for collapse scenarios
-    def get_collapse_statistics(self) -> Dict[str, Any]:
+    def get_collapse_statistics(self) -> dict[str, Any]:
         """Returns statistics about collapse events and system state."""
         return {
             "total_collapses": len(self.collapse_history),

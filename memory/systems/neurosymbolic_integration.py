@@ -61,7 +61,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -102,12 +102,12 @@ class SymbolicEntity:
     entity_id: str
     name: str
     entity_type: str  # person, object, concept, action, etc.
-    properties: Dict[str, Any]  # Symbolic properties
+    properties: dict[str, Any]  # Symbolic properties
     confidence: float  # Confidence in entity extraction
     neural_embedding: Optional[np.ndarray] = None  # Source neural representation
-    extraction_context: Dict[str, Any] = field(default_factory=dict)
+    extraction_context: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "entity_id": self.entity_id,
             "name": self.name,
@@ -123,7 +123,7 @@ class SymbolicEntity:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "SymbolicEntity":
+    def from_dict(cls, data: dict[str, Any]) -> "SymbolicEntity":
         entity = cls(
             entity_id=data["entity_id"],
             name=data["name"],
@@ -150,15 +150,15 @@ class SymbolicRelation:
     predicate: SymbolicRelationType
     object_id: str
     confidence: float
-    properties: Dict[str, Any] = field(default_factory=dict)
+    properties: dict[str, Any] = field(default_factory=dict)
     temporal_context: Optional[datetime] = None
-    source_memories: List[str] = field(default_factory=list)
+    source_memories: list[str] = field(default_factory=list)
 
-    def to_triple(self) -> Tuple[str, str, str]:
+    def to_triple(self) -> tuple[str, str, str]:
         """Convert to RDF-style triple"""
         return (self.subject_id, self.predicate.value, self.object_id)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "relation_id": self.relation_id,
             "subject_id": self.subject_id,
@@ -173,7 +173,7 @@ class SymbolicRelation:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "SymbolicRelation":
+    def from_dict(cls, data: dict[str, Any]) -> "SymbolicRelation":
         relation = cls(
             relation_id=data["relation_id"],
             subject_id=data["subject_id"],
@@ -197,14 +197,14 @@ class LogicalRule:
     rule_id: str
     name: str
     description: str
-    antecedent: Dict[str, Any]  # Conditions (premise)
-    consequent: Dict[str, Any]  # Conclusions
+    antecedent: dict[str, Any]  # Conditions (premise)
+    consequent: dict[str, Any]  # Conclusions
     confidence: float
     support_count: int  # Number of supporting instances
-    exceptions: List[Dict[str, Any]] = field(default_factory=list)
+    exceptions: list[dict[str, Any]] = field(default_factory=list)
 
     def applies_to(
-        self, entities: Dict[str, SymbolicEntity], relations: List[SymbolicRelation]
+        self, entities: dict[str, SymbolicEntity], relations: list[SymbolicRelation]
     ) -> bool:
         """Check if rule applies to given entities and relations"""
         # Simplified rule application logic
@@ -212,16 +212,16 @@ class LogicalRule:
 
     def _evaluate_conditions(
         self,
-        conditions: Dict[str, Any],
-        entities: Dict[str, SymbolicEntity],
-        relations: List[SymbolicRelation],
+        conditions: dict[str, Any],
+        entities: dict[str, SymbolicEntity],
+        relations: list[SymbolicRelation],
     ) -> bool:
         """Evaluate logical conditions"""
         # Placeholder for complex logical evaluation
         # In a full implementation, this would parse and evaluate logical expressions
         return True
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "rule_id": self.rule_id,
             "name": self.name,
@@ -234,7 +234,7 @@ class LogicalRule:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "LogicalRule":
+    def from_dict(cls, data: dict[str, Any]) -> "LogicalRule":
         return cls(
             rule_id=data["rule_id"],
             name=data["name"],
@@ -359,8 +359,8 @@ class NeuralSymbolicExtractor:
         self,
         memory_content: str,
         memory_embedding: Optional[np.ndarray] = None,
-        memory_metadata: Dict[str, Any] = None,
-    ) -> List[SymbolicEntity]:
+        memory_metadata: dict[str, Any] = None,
+    ) -> list[SymbolicEntity]:
         """
         Extract symbolic entities from memory content and neural representation.
 
@@ -375,7 +375,8 @@ class NeuralSymbolicExtractor:
 
         entities = []
 
-        # Simple NLP-based entity extraction (placeholder for more sophisticated methods)
+        # Simple NLP-based entity extraction (placeholder for more sophisticated
+        # methods)
         entity_candidates = await self._extract_entity_candidates(memory_content)
 
         for candidate in entity_candidates:
@@ -422,11 +423,11 @@ class NeuralSymbolicExtractor:
 
         return entities
 
-    async def _extract_entity_candidates(self, content: str) -> List[str]:
+    async def _extract_entity_candidates(self, content: str) -> list[str]:
         """Extract potential entities from text content"""
 
         candidates = set()
-        content_lower = content.lower()
+        content.lower()
 
         # Extract nouns and proper nouns (simplified)
         import re
@@ -594,8 +595,8 @@ class NeuralSymbolicExtractor:
         return "object"
 
     def _extract_entity_properties(
-        self, entity: str, content: str, metadata: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, entity: str, content: str, metadata: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Extract properties of an entity from context"""
 
         properties = {}
@@ -652,7 +653,7 @@ class NeuralSymbolicExtractor:
         return properties
 
     def _calculate_entity_confidence(
-        self, entity: str, content: str, entity_type: str, properties: Dict[str, Any]
+        self, entity: str, content: str, entity_type: str, properties: dict[str, Any]
     ) -> float:
         """Calculate confidence score for entity extraction"""
 
@@ -684,8 +685,8 @@ class NeuralSymbolicExtractor:
         return min(1.0, confidence)
 
     async def extract_relations_from_memories(
-        self, memories: List[Dict[str, Any]], entities: Dict[str, SymbolicEntity]
-    ) -> List[SymbolicRelation]:
+        self, memories: list[dict[str, Any]], entities: dict[str, SymbolicEntity]
+    ) -> list[SymbolicRelation]:
         """
         Extract symbolic relations between entities from memories.
 
@@ -726,8 +727,8 @@ class NeuralSymbolicExtractor:
         return consolidated_relations
 
     async def _extract_relations_from_content(
-        self, content: str, entity_names: Dict[str, str], source_memory_id: str
-    ) -> List[SymbolicRelation]:
+        self, content: str, entity_names: dict[str, str], source_memory_id: str
+    ) -> list[SymbolicRelation]:
         """Extract relations from text content using pattern matching"""
 
         relations = []
@@ -813,8 +814,8 @@ class NeuralSymbolicExtractor:
         return min(1.0, confidence)
 
     async def _consolidate_relations(
-        self, relations: List[SymbolicRelation]
-    ) -> List[SymbolicRelation]:
+        self, relations: list[SymbolicRelation]
+    ) -> list[SymbolicRelation]:
         """Consolidate duplicate relations and improve confidence"""
 
         # Group relations by triple (subject, predicate, object)
@@ -837,7 +838,7 @@ class NeuralSymbolicExtractor:
         return consolidated
 
     async def _merge_relations(
-        self, relations: List[SymbolicRelation]
+        self, relations: list[SymbolicRelation]
     ) -> SymbolicRelation:
         """Merge multiple instances of the same relation"""
 
@@ -894,7 +895,7 @@ class SymbolicReasoner:
             axioms=len(self.axioms),
         )
 
-    def _initialize_axioms(self) -> List[LogicalRule]:
+    def _initialize_axioms(self) -> list[LogicalRule]:
         """Initialize basic logical axioms"""
 
         axioms = []
@@ -1014,10 +1015,10 @@ class SymbolicReasoner:
 
     async def perform_inference(
         self,
-        entities: Dict[str, SymbolicEntity],
-        relations: List[SymbolicRelation],
-        query: Optional[Dict[str, Any]] = None,
-    ) -> List[SymbolicRelation]:
+        entities: dict[str, SymbolicEntity],
+        relations: list[SymbolicRelation],
+        query: Optional[dict[str, Any]] = None,
+    ) -> list[SymbolicRelation]:
         """
         Perform logical inference to derive new relations.
 
@@ -1082,9 +1083,9 @@ class SymbolicReasoner:
     async def _apply_rule(
         self,
         rule: LogicalRule,
-        entities: Dict[str, SymbolicEntity],
-        relations: List[SymbolicRelation],
-    ) -> List[SymbolicRelation]:
+        entities: dict[str, SymbolicEntity],
+        relations: list[SymbolicRelation],
+    ) -> list[SymbolicRelation]:
         """Apply a logical rule to derive new relations"""
 
         inferences = []
@@ -1105,10 +1106,10 @@ class SymbolicReasoner:
 
     async def _find_variable_bindings(
         self,
-        antecedent: Dict[str, Any],
-        entities: Dict[str, SymbolicEntity],
-        relations: List[SymbolicRelation],
-    ) -> List[Dict[str, str]]:
+        antecedent: dict[str, Any],
+        entities: dict[str, SymbolicEntity],
+        relations: list[SymbolicRelation],
+    ) -> list[dict[str, str]]:
         """Find variable bindings that satisfy antecedent conditions"""
 
         conditions = antecedent.get("conditions", [])
@@ -1136,10 +1137,10 @@ class SymbolicReasoner:
 
     async def _find_bindings_for_condition(
         self,
-        condition: Dict[str, Any],
-        entities: Dict[str, SymbolicEntity],
-        relations: List[SymbolicRelation],
-    ) -> List[Dict[str, str]]:
+        condition: dict[str, Any],
+        entities: dict[str, SymbolicEntity],
+        relations: list[SymbolicRelation],
+    ) -> list[dict[str, str]]:
         """Find variable bindings for a single condition"""
 
         bindings = []
@@ -1175,10 +1176,10 @@ class SymbolicReasoner:
 
     async def _binding_satisfies_condition(
         self,
-        condition: Dict[str, Any],
-        binding: Dict[str, str],
-        entities: Dict[str, SymbolicEntity],
-        relations: List[SymbolicRelation],
+        condition: dict[str, Any],
+        binding: dict[str, str],
+        entities: dict[str, SymbolicEntity],
+        relations: list[SymbolicRelation],
     ) -> bool:
         """Check if a variable binding satisfies a condition"""
 
@@ -1200,10 +1201,10 @@ class SymbolicReasoner:
 
     async def _apply_bindings_to_consequent(
         self,
-        consequent: Dict[str, Any],
-        binding: Dict[str, str],
+        consequent: dict[str, Any],
+        binding: dict[str, str],
         rule_confidence: float,
-    ) -> List[SymbolicRelation]:
+    ) -> list[SymbolicRelation]:
         """Apply variable bindings to consequent to generate new relations"""
 
         new_relations = []
@@ -1247,8 +1248,8 @@ class SymbolicReasoner:
         return new_relations
 
     async def _remove_duplicate_inferences(
-        self, inferences: List[SymbolicRelation]
-    ) -> List[SymbolicRelation]:
+        self, inferences: list[SymbolicRelation]
+    ) -> list[SymbolicRelation]:
         """Remove duplicate inferred relations"""
 
         seen_triples = set()
@@ -1264,10 +1265,10 @@ class SymbolicReasoner:
 
     async def answer_query(
         self,
-        query: Dict[str, Any],
-        entities: Dict[str, SymbolicEntity],
-        relations: List[SymbolicRelation],
-    ) -> List[Dict[str, Any]]:
+        query: dict[str, Any],
+        entities: dict[str, SymbolicEntity],
+        relations: list[SymbolicRelation],
+    ) -> list[dict[str, Any]]:
         """Answer a symbolic query using logical reasoning"""
 
         # Simple query answering (placeholder for more sophisticated query processing)
@@ -1284,10 +1285,10 @@ class SymbolicReasoner:
 
     async def _answer_relation_query(
         self,
-        query: Dict[str, Any],
-        entities: Dict[str, SymbolicEntity],
-        relations: List[SymbolicRelation],
-    ) -> List[Dict[str, Any]]:
+        query: dict[str, Any],
+        entities: dict[str, SymbolicEntity],
+        relations: list[SymbolicRelation],
+    ) -> list[dict[str, Any]]:
         """Answer queries about specific relations"""
 
         subject = query.get("subject")
@@ -1328,10 +1329,10 @@ class SymbolicReasoner:
 
     async def _answer_path_query(
         self,
-        query: Dict[str, Any],
-        entities: Dict[str, SymbolicEntity],
-        relations: List[SymbolicRelation],
-    ) -> List[Dict[str, Any]]:
+        query: dict[str, Any],
+        entities: dict[str, SymbolicEntity],
+        relations: list[SymbolicRelation],
+    ) -> list[dict[str, Any]]:
         """Answer queries about paths between entities"""
 
         start_entity = query.get("start")
@@ -1392,10 +1393,10 @@ class SymbolicReasoner:
 
     async def _answer_classification_query(
         self,
-        query: Dict[str, Any],
-        entities: Dict[str, SymbolicEntity],
-        relations: List[SymbolicRelation],
-    ) -> List[Dict[str, Any]]:
+        query: dict[str, Any],
+        entities: dict[str, SymbolicEntity],
+        relations: list[SymbolicRelation],
+    ) -> list[dict[str, Any]]:
         """Answer classification queries (what type is X?)"""
 
         target_entity = query.get("entity")
@@ -1460,10 +1461,10 @@ class NeurosymbolicIntegrationLayer:
         )
 
         # Knowledge storage
-        self.entities: Dict[str, SymbolicEntity] = {}
-        self.relations: List[SymbolicRelation] = []
-        self.inferred_relations: List[SymbolicRelation] = []
-        self.rules: List[LogicalRule] = []
+        self.entities: dict[str, SymbolicEntity] = {}
+        self.relations: list[SymbolicRelation] = []
+        self.inferred_relations: list[SymbolicRelation] = []
+        self.rules: list[LogicalRule] = []
 
         # Performance metrics
         self.extraction_stats = {
@@ -1562,8 +1563,8 @@ class NeurosymbolicIntegrationLayer:
             logger.error(f"Failed to save knowledge: {e}")
 
     async def process_memory_batch(
-        self, memories: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, memories: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Process a batch of memories through the neurosymbolic pipeline.
 
@@ -1666,7 +1667,7 @@ class NeurosymbolicIntegrationLayer:
             "new_inferences": [r.to_dict() for r in inferred_relations],
         }
 
-    async def query_knowledge(self, query: Dict[str, Any]) -> List[Dict[str, Any]]:
+    async def query_knowledge(self, query: dict[str, Any]) -> list[dict[str, Any]]:
         """
         Query the symbolic knowledge base.
 
@@ -1692,7 +1693,7 @@ class NeurosymbolicIntegrationLayer:
 
         return results
 
-    async def explain_inference(self, relation: SymbolicRelation) -> Dict[str, Any]:
+    async def explain_inference(self, relation: SymbolicRelation) -> dict[str, Any]:
         """
         Generate explanation for an inferred relation.
 
@@ -1757,7 +1758,7 @@ class NeurosymbolicIntegrationLayer:
 
         return explanation
 
-    def get_knowledge_statistics(self) -> Dict[str, Any]:
+    def get_knowledge_statistics(self) -> dict[str, Any]:
         """Get statistics about the symbolic knowledge base"""
 
         # Entity statistics
@@ -1818,7 +1819,7 @@ class NeurosymbolicIntegrationLayer:
             },
         }
 
-    async def integrate_with_memory_system(self, memory_system: Any) -> Dict[str, Any]:
+    async def integrate_with_memory_system(self, memory_system: Any) -> dict[str, Any]:
         """
         Integrate with existing memory systems to provide neurosymbolic enhancement.
 

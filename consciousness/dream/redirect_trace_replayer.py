@@ -1,5 +1,5 @@
 import json
-from typing import Any, Dict, List
+from typing import Any
 
 
 class RedirectTraceReplayer:
@@ -11,7 +11,7 @@ class RedirectTraceReplayer:
         self.log_file = log_file
         self.log_entries = self._load_log_entries()
 
-    def _load_log_entries(self) -> List[Dict[str, Any]]:
+    def _load_log_entries(self) -> list[dict[str, Any]]:
         """
         Loads log entries from the specified log file.
         """
@@ -21,7 +21,7 @@ class RedirectTraceReplayer:
         except FileNotFoundError:
             return []
 
-    def replay_episode(self, episode_id: str) -> Dict[str, Any]:
+    def replay_episode(self, episode_id: str) -> dict[str, Any]:
         """
         Reconstructs a redirect episode using log files and visual overlays.
         """

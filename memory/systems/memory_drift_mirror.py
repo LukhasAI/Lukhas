@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -42,7 +44,7 @@
 
 import json
 from collections import deque
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
 
@@ -94,8 +96,8 @@ class MemoryDriftMirror:
             pass
 
     def _classify_drift_sequence(
-        self, drift_sequence: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, drift_sequence: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Classifies a drift sequence into types: "stable", "divergent", "looping", "collapse risk".
         """
@@ -118,20 +120,20 @@ class MemoryDriftMirror:
         if is_divergent:
             return {"type": "divergent", "reason": "Entropy delta is increasing"}
 
-        is_looping = len(set(round(e, 2) for e in entropy_deltas)) < len(entropy_deltas)
+        is_looping = len({round(e, 2) for e in entropy_deltas}) < len(entropy_deltas)
         if is_looping:
             return {"type": "looping", "reason": "Entropy delta is repeating"}
 
         return {"type": "stable", "reason": "No significant drift pattern detected"}
 
-    def _store_classification(self, classification: Dict[str, Any]) -> None:
+    def _store_classification(self, classification: dict[str, Any]) -> None:
         """
         Stores the drift classification in a log file.
         """
         with open(self.classification_log_path, "a") as f:
             f.write(json.dumps(classification) + "\n")
 
-    def _emit_warnings(self, classification: Dict[str, Any]) -> None:
+    def _emit_warnings(self, classification: dict[str, Any]) -> None:
         """
         Emits warnings to the orchestrator layer if certain conditions are met.
         """

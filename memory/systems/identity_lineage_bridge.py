@@ -34,7 +34,7 @@ import os
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .causal_identity_tracker import CausalIdentityTracker
 from .fold_lineage_tracker import FoldLineageTracker
@@ -69,7 +69,7 @@ class IdentityThreat:
     threat_id: str
     threat_type: ThreatType
     severity_level: float  # 0.0 - 1.0
-    affected_anchors: List[str]
+    affected_anchors: list[str]
     source_memory_key: str
     detection_timestamp: str
     mitigation_required: bool
@@ -86,7 +86,7 @@ class ProtectionAction:
     source_threat_id: str
     action_timestamp: str
     success: bool
-    recovery_links: List[str]
+    recovery_links: list[str]
 
 
 class IdentityLineageBridge:
@@ -105,9 +105,9 @@ class IdentityLineageBridge:
         self.lineage_tracker = lineage_tracker or FoldLineageTracker()
 
         # Protection state
-        self.protected_anchors: Dict[str, ProtectionLevel] = {}
-        self.detected_threats: Dict[str, IdentityThreat] = {}
-        self.protection_actions: Dict[str, ProtectionAction] = {}
+        self.protected_anchors: dict[str, ProtectionLevel] = {}
+        self.detected_threats: dict[str, IdentityThreat] = {}
+        self.protection_actions: dict[str, ProtectionAction] = {}
 
         # Identity module interface (mock for now - will integrate with real module)
         self.identity_module_available = self._check_identity_module()
@@ -126,8 +126,8 @@ class IdentityLineageBridge:
         self,
         fold_key: str,
         operation_type: str,
-        operation_metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        operation_metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Validate a memory operation against identity protection policies.
 
@@ -249,7 +249,7 @@ class IdentityLineageBridge:
             logger.error("IdentityProtection_failed", anchor_id=anchor_id, error=str(e))
             return False
 
-    def detect_collapse_trauma_threats(self, fold_key: str) -> List[IdentityThreat]:
+    def detect_collapse_trauma_threats(self, fold_key: str) -> list[IdentityThreat]:
         """
         Detect collapse or trauma events that could threaten identity stability.
 
@@ -405,7 +405,7 @@ class IdentityLineageBridge:
 
         return recovery_protocol_id
 
-    def get_identity_protection_status(self) -> Dict[str, Any]:
+    def get_identity_protection_status(self) -> dict[str, Any]:
         """
         Get comprehensive status of identity protection systems.
 
@@ -481,9 +481,9 @@ class IdentityLineageBridge:
         self,
         fold_key: str,
         operation_type: str,
-        operation_metadata: Dict[str, Any],
-        stability_report: Dict[str, Any],
-    ) -> List[IdentityThreat]:
+        operation_metadata: dict[str, Any],
+        stability_report: dict[str, Any],
+    ) -> list[IdentityThreat]:
         """Analyze memory operation for potential identity threats."""
         threats = []
 
@@ -512,8 +512,8 @@ class IdentityLineageBridge:
         return threats
 
     def _evaluate_protection_response(
-        self, threats: List[IdentityThreat], stability_report: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, threats: list[IdentityThreat], stability_report: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evaluate what protection response is needed for detected threats."""
         max_severity = max([t.severity_level for t in threats] + [0.0])
         requires_override = any(t.protection_override for t in threats)
@@ -552,9 +552,9 @@ class IdentityLineageBridge:
     def _apply_protection_measures(
         self,
         fold_key: str,
-        threats: List[IdentityThreat],
-        protection_response: Dict[str, Any],
-    ) -> List[str]:
+        threats: list[IdentityThreat],
+        protection_response: dict[str, Any],
+    ) -> list[str]:
         """Apply protection measures based on threat analysis."""
         protection_actions = []
 
@@ -580,7 +580,7 @@ class IdentityLineageBridge:
 
         return protection_actions
 
-    def _get_affected_anchors(self, fold_key: str) -> List[str]:
+    def _get_affected_anchors(self, fold_key: str) -> list[str]:
         """Get list of identity anchors that could be affected by memory fold operations."""
         affected_anchors = []
 
@@ -601,7 +601,7 @@ class IdentityLineageBridge:
 
     def _generate_protection_recommendations(
         self, health_score: float, threat_ratio: float
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate recommendations based on system health metrics."""
         recommendations = []
 
@@ -627,7 +627,7 @@ class IdentityLineageBridge:
 
         return recommendations
 
-    def _log_validation_result(self, validation_result: Dict[str, Any]):
+    def _log_validation_result(self, validation_result: dict[str, Any]):
         """Log memory operation validation result."""
         try:
             os.makedirs(os.path.dirname(self.protection_log_path), exist_ok=True)

@@ -48,7 +48,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import openai
 
@@ -98,8 +98,8 @@ class ComplianceViolation:
     affected_component: str = ""
     auto_healing_attempted: bool = False
     healing_success: bool = False
-    healing_actions: List[str] = field(default_factory=list)
-    openai_analysis: Optional[Dict[str, Any]] = None
+    healing_actions: list[str] = field(default_factory=list)
+    openai_analysis: Optional[dict[str, Any]] = None
 
 
 class SelfHealingEUComplianceEngine:
@@ -112,7 +112,7 @@ class SelfHealingEUComplianceEngine:
         self,
         gdpr_enabled: bool = True,
         data_retention_days: int = 30,
-        ethical_constraints: Optional[List[str]] = None,
+        ethical_constraints: Optional[list[str]] = None,
         voice_data_compliance: bool = True,
         auto_healing_enabled: bool = True,
         openai_api_key: Optional[str] = None,
@@ -135,8 +135,8 @@ class SelfHealingEUComplianceEngine:
         # Self-healing capabilities
         self.auto_healing_enabled = auto_healing_enabled
         self.healing_status = HealingStatus.HEALTHY
-        self.healing_history: List[Dict[str, Any]] = []
-        self.violation_patterns: Dict[str, int] = {}
+        self.healing_history: list[dict[str, Any]] = []
+        self.violation_patterns: dict[str, int] = {}
 
         # OpenAI integration
         self.openai_client = None
@@ -145,8 +145,8 @@ class SelfHealingEUComplianceEngine:
         # Enhanced monitoring
         self.compliance_mode = os.environ.get("COMPLIANCE_MODE", "strict")
         self.current_region = self._detect_region()
-        self.active_violations: List[ComplianceViolation] = []
-        self.resolved_violations: List[ComplianceViolation] = []
+        self.active_violations: list[ComplianceViolation] = []
+        self.resolved_violations: list[ComplianceViolation] = []
 
         # Privacy and security
         self.differential_privacy_enabled = True
@@ -154,7 +154,7 @@ class SelfHealingEUComplianceEngine:
         self.encryption_enabled = True
 
         # Audit and monitoring
-        self.audit_trail: List[Dict[str, Any]] = []
+        self.audit_trail: list[dict[str, Any]] = []
         self.real_time_monitoring = True
         self.alert_thresholds = {
             ViolationSeverity.LOW: 10,
@@ -201,7 +201,7 @@ class SelfHealingEUComplianceEngine:
         return os.environ.get("REGULATORY_REGION", "EU")
 
     async def monitor_compliance_violation(
-        self, violation_data: Dict[str, Any], component_id: str = "unknown"
+        self, violation_data: dict[str, Any], component_id: str = "unknown"
     ) -> ComplianceViolation:
         """
         Monitor and process compliance violations with self-healing
@@ -238,7 +238,7 @@ class SelfHealingEUComplianceEngine:
 
     async def _get_openai_analysis(
         self, violation: ComplianceViolation
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get intelligent analysis from OpenAI for violation assessment"""
         try:
             if not self.openai_client:
@@ -303,7 +303,7 @@ Please provide:
 Focus on EU AI Act Articles 5 (Prohibited Practices), 6-51 (High-Risk AI), and GDPR Articles 6, 7, 22.
 """
 
-    def _extract_recommendations(self, analysis: str) -> List[str]:
+    def _extract_recommendations(self, analysis: str) -> list[str]:
         """Extract action recommendations from OpenAI analysis"""
         # Simple extraction - could be enhanced with NLP
         recommendations = []
@@ -343,7 +343,7 @@ Focus on EU AI Act Articles 5 (Prohibited Practices), 6-51 (High-Risk AI), and G
                 return " ".join(lines[i : i + 3]).strip()
         return "Analysis required"
 
-    def _extract_healing_suggestions(self, analysis: str) -> List[str]:
+    def _extract_healing_suggestions(self, analysis: str) -> list[str]:
         """Extract self-healing suggestions from OpenAI analysis"""
         suggestions = []
         lines = analysis.split("\n")
@@ -362,7 +362,7 @@ Focus on EU AI Act Articles 5 (Prohibited Practices), 6-51 (High-Risk AI), and G
         return suggestions
 
     def _create_violation_record(
-        self, violation_data: Dict[str, Any], component_id: str
+        self, violation_data: dict[str, Any], component_id: str
     ) -> ComplianceViolation:
         """Create standardized violation record"""
         return ComplianceViolation(
@@ -453,7 +453,7 @@ Focus on EU AI Act Articles 5 (Prohibited Practices), 6-51 (High-Risk AI), and G
 
     async def _heal_eu_ai_act_violation(
         self, violation: ComplianceViolation
-    ) -> List[str]:
+    ) -> list[str]:
         """Apply EU AI Act specific healing strategies"""
         actions = []
 
@@ -470,7 +470,7 @@ Focus on EU AI Act Articles 5 (Prohibited Practices), 6-51 (High-Risk AI), and G
 
         return actions
 
-    async def _heal_gdpr_violation(self, violation: ComplianceViolation) -> List[str]:
+    async def _heal_gdpr_violation(self, violation: ComplianceViolation) -> list[str]:
         """Apply GDPR specific healing strategies"""
         actions = []
 
@@ -607,7 +607,7 @@ Focus on EU AI Act Articles 5 (Prohibited Practices), 6-51 (High-Risk AI), and G
 
         self.lukhas_health_score = max(0.0, min(1.0, base_score))
 
-    def get_compliance_status(self) -> Dict[str, Any]:
+    def get_compliance_status(self) -> dict[str, Any]:
         """Get comprehensive compliance status"""
         return {
             "lukhas_connection_id": self.lukhas_connection_id,
@@ -632,7 +632,7 @@ Focus on EU AI Act Articles 5 (Prohibited Practices), 6-51 (High-Risk AI), and G
         successful = sum(1 for h in self.healing_history if h.get("success", False))
         return successful / len(self.healing_history)
 
-    def get_violation_report(self) -> Dict[str, Any]:
+    def get_violation_report(self) -> dict[str, Any]:
         """Generate comprehensive violation report"""
         return {
             "active_violations": [
@@ -658,7 +658,7 @@ Focus on EU AI Act Articles 5 (Prohibited Practices), 6-51 (High-Risk AI), and G
         self,
         event_type: str,
         description: str,
-        details: Optional[Dict[str, Any]] = None,
+        details: Optional[dict[str, Any]] = None,
     ):
         """Record audit event"""
         audit_entry = {
@@ -675,7 +675,7 @@ Focus on EU AI Act Articles 5 (Prohibited Practices), 6-51 (High-Risk AI), and G
         if len(self.audit_trail) > 1000:
             self.audit_trail = self.audit_trail[-1000:]
 
-    def get_lukhas_status(self) -> Dict[str, Any]:
+    def get_lukhas_status(self) -> dict[str, Any]:
         """Return lukhas system connectivity status"""
         return {
             "component_id": self.lukhas_connection_id,

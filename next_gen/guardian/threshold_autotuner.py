@@ -515,7 +515,7 @@ class SymbolicThresholdAutotuner:
 
         # Calculate entropy statistics
         entropy_values = [m.entropy_score for m in recent_metrics]
-        avg_entropy = statistics.mean(entropy_values)
+        statistics.mean(entropy_values)
         entropy_trend = (
             entropy_values[-1] - entropy_values[0] if len(entropy_values) >= 2 else 0
         )
@@ -851,7 +851,8 @@ class SymbolicThresholdAutotuner:
 
         while True:
             try:
-                # Simulate metric collection (in production, this would come from real system)
+                # Simulate metric collection (in production, this would come from real
+                # system)
                 current_metrics = await self._collect_system_metrics()
                 await self.add_performance_metrics(current_metrics)
 

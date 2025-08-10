@@ -42,7 +42,7 @@ import json
 # Module imports
 from datetime import datetime, timezone  # Added timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Configure module logger
 
@@ -127,7 +127,8 @@ class EnhancedMemoryManager:
                 error=str(e_init),
                 exc_info=True,
             )
-            # ΛCAUTION: QuantumOscillator failed to init; quantum features will be impaired.
+            # ΛCAUTION: QuantumOscillator failed to init; quantum features will be
+            # impaired.
             self.quantum_oscillator = None  # type: ignore
 
         # ΛNOTE: Base path for memory storage is configurable, defaults to ~/Lukhas/memory.
@@ -149,9 +150,10 @@ class EnhancedMemoryManager:
                 error=str(e_dir),
                 exc_info=True,
             )
-            # ΛCAUTION: Failure to create storage path will lead to errors in saving/loading memories.
+            # ΛCAUTION: Failure to create storage path will lead to errors in
+            # saving/loading memories.
 
-        self.active_folds: Dict[str, EnhancedMemoryFold] = {}
+        self.active_folds: dict[str, EnhancedMemoryFold] = {}
 
         try:
             self.visualizer = EnhancedMemoryVisualizer(self.visualization_config)
@@ -170,12 +172,12 @@ class EnhancedMemoryManager:
 
     async def store_memory(
         self,
-        memory_data: Dict[str, Any],
+        memory_data: dict[str, Any],
         memory_id: Optional[str] = None,
         context: Optional[
-            Dict[str, Any]
+            dict[str, Any]
         ] = None,  # Context not used in current store logic but good for API
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Store memory with quantum enhancement using an EnhancedMemoryFold.
         """
@@ -235,8 +237,8 @@ class EnhancedMemoryManager:
             }
 
     async def retrieve_memory(
-        self, memory_id: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, memory_id: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Retrieve memory with coherence-inspired processing.
         """
@@ -268,7 +270,8 @@ class EnhancedMemoryManager:
                 # I will add a note about this specific point.
                 # ΛCAUTION: Retrieving non-active folds currently does not re-hydrate their full state from disk,
                 # only the 'classical_state' if `_load_from_disk` populated it directly into the fold.
-                # The `EnhancedMemoryFold.retrieve` then operates on this potentially minimal state.
+                # The `EnhancedMemoryFold.retrieve` then operates on this potentially
+                # minimal state.
 
                 # Attempt to load the classical_state for the fold if it's not active
                 disk_data_package = await self._load_from_disk(
@@ -278,7 +281,8 @@ class EnhancedMemoryManager:
                 memory_fold = EnhancedMemoryFold(memory_id, self.memory_fold_config)
                 # Manually setting the state from what was loaded - this is a patch.
                 # The stored_package contains `data` (original memory_data) and `metadata`.
-                # The fold's internal `classical_state` should be `disk_data_package['data']`.
+                # The fold's internal `classical_state` should be
+                # `disk_data_package['data']`.
                 memory_fold.state["classical_state"] = disk_data_package.get("data")
                 memory_fold.state["quantum_like_state"] = disk_data_package.get(
                     "metadata", {}
@@ -331,8 +335,8 @@ class EnhancedMemoryManager:
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def visualize_memory(
-        self, memory_id: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, memory_id: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Create visualization of memory.
         """
@@ -401,7 +405,7 @@ class EnhancedMemoryManager:
 
     async def entangle_memories(
         self, memory_id1: str, memory_id2: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create entanglement-like correlation between memories.
         #ΛNOTE: Conceptual entanglement. Actual entanglement-like correlation is not implemented.
@@ -417,7 +421,8 @@ class EnhancedMemoryManager:
             fold2 = self.active_folds.get(memory_id2)
 
             if not fold1 or not fold2:
-                # ΛCAUTION: Attempting to entangle non-active or non-existent memory folds.
+                # ΛCAUTION: Attempting to entangle non-active or non-existent memory
+                # folds.
                 self.logger.error(
                     "Cannot entangle: One or both memories not in active folds.",
                     memory_id1_active=bool(fold1),
@@ -458,7 +463,7 @@ class EnhancedMemoryManager:
             return {"status": "error", "error": str(e)}
 
     async def _save_to_disk(
-        self, memory_id: str, memory_package: Dict[str, Any]
+        self, memory_id: str, memory_package: dict[str, Any]
     ) -> None:  # Changed memory_data to memory_package
         """Save memory package to disk as JSON."""
         # ΛNOTE: Memory folds are persisted as JSON files.
@@ -484,10 +489,11 @@ class EnhancedMemoryManager:
                 error=str(e),
                 exc_info=True,
             )
-            # ΛCAUTION: Failure to save to disk can lead to data loss on shutdown if not in active_folds.
+            # ΛCAUTION: Failure to save to disk can lead to data loss on shutdown if
+            # not in active_folds.
             raise  # Re-raise to signal failure to caller
 
-    async def _load_from_disk(self, memory_id: str) -> Dict[str, Any]:
+    async def _load_from_disk(self, memory_id: str) -> dict[str, Any]:
         """Load memory package from disk."""
         self.logger.debug(
             "Loading memory package from disk.",
@@ -522,7 +528,7 @@ class EnhancedMemoryManager:
             )
             raise  # Re-raise
 
-    def get_active_folds(self) -> List[str]:
+    def get_active_folds(self) -> list[str]:
         """Get list of active memory fold IDs."""
         self.logger.debug("Fetching list of active memory folds.")
         return list(self.active_folds.keys())

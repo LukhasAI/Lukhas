@@ -1,3 +1,5 @@
+import logging
+
 import asyncio
 import json
 import sys
@@ -21,7 +23,6 @@ logger = get_logger(__name__)
 try:
     # Frontend components
     # Backend components
-    from backend.cognitive.node import Node
     from backend.core.neuro_symbolic_engine import NeuroSymbolicEngine
     from backend.identity.identity_manager import IdentityManager
     from backend.learning.meta_learning import MetaLearningSystem
@@ -86,7 +87,6 @@ class AdaptiveAGISystem:
         """Set up event handling between components"""
         # Example handler setup
         # self.speech_processor.on_transcription = self.handle_transcription
-        pass
 
     async def start(self):
         """Start the system and run the main processing loop"""
@@ -126,7 +126,7 @@ class AdaptiveAGISystem:
             return {"status": "denied", "reason": privacy_check["reason"]}
 
         # Load or create user identity
-        user_identity = await self.identity_manager.get_user_identity(user_id)
+        await self.identity_manager.get_user_identity(user_id)
 
         # Initialize session state
         self.system_state["active_sessions"][session_id] = {
@@ -362,7 +362,7 @@ class AdaptiveAGISystem:
 
             usage = resource.getrusage(resource.RUSAGE_SELF)
             return usage.ru_maxrss / 1024 / 1024  # Convert to MB
-        except:
+        except BaseException:
             return 0
 
     def _save_system_state(self):

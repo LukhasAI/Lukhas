@@ -34,7 +34,7 @@ __tier__ = 2
 
 import os
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 import uvicorn
 from fastapi import FastAPI, HTTPException
@@ -55,7 +55,7 @@ class QuantumConsciousnessΛBot:
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-    async def process_consciousness_integration(self, data: Dict[str, Any]):
+    async def process_consciousness_integration(self, data: dict[str, Any]):
         return {
             "bot_type": self.bot_type,
             "processed": True,
@@ -71,7 +71,7 @@ lambda_bot = QuantumConsciousnessΛBot()
 
 
 class ProcessRequest(BaseModel):
-    data: Dict[str, Any]
+    data: dict[str, Any]
 
 
 @app.get("/health")

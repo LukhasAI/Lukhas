@@ -7,7 +7,7 @@ import json
 import logging
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -26,13 +26,13 @@ class TierManager:
         self.storage_path = Path(storage_path) if storage_path else Path("data/tiers")
         self.storage_path.mkdir(parents=True, exist_ok=True)
 
-        self.user_tiers: Dict[str, Dict[str, Any]] = {}
+        self.user_tiers: dict[str, dict[str, Any]] = {}
         self.tier_configs = self._initialize_tier_configs()
         self.subscription_analytics = {}
 
         logger.info("Tier Manager initialized")
 
-    def _initialize_tier_configs(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_tier_configs(self) -> dict[str, dict[str, Any]]:
         """Initialize tier configuration"""
         return {
             "T1": {
@@ -135,8 +135,8 @@ class TierManager:
         }
 
     async def register_user(
-        self, user_id: str, tier: str = "T3", subscription_data: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        self, user_id: str, tier: str = "T3", subscription_data: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Register a new user with specified tier"""
         try:
             if tier not in self.tier_configs:
@@ -186,7 +186,7 @@ class TierManager:
             logger.error(f"Failed to register user {user_id}: {e}")
             return {"success": False, "error": str(e)}
 
-    async def get_user_tier(self, user_id: str) -> Optional[Dict[str, Any]]:
+    async def get_user_tier(self, user_id: str) -> Optional[dict[str, Any]]:
         """Get user's current tier information"""
         if user_id not in self.user_tiers:
             # Try to load from storage
@@ -196,7 +196,7 @@ class TierManager:
 
     async def update_user_tier(
         self, user_id: str, new_tier: str, reason: str = "manual_update"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Update user's tier"""
         try:
             if new_tier not in self.tier_configs:
@@ -242,7 +242,7 @@ class TierManager:
             logger.error(f"Failed to update tier for {user_id}: {e}")
             return {"success": False, "error": str(e)}
 
-    async def get_processing_config(self, tier: str) -> Dict[str, Any]:
+    async def get_processing_config(self, tier: str) -> dict[str, Any]:
         """Get processing configuration for a specific tier"""
         if tier not in self.tier_configs:
             tier = "T3"  # Default fallback
@@ -260,8 +260,8 @@ class TierManager:
         return config
 
     async def apply_tier_filters(
-        self, message: Dict[str, Any], processing_config: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, message: dict[str, Any], processing_config: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply tier-specific filters to a message"""
         filtered_message = message.copy()
 
@@ -293,7 +293,7 @@ class TierManager:
 
         return filtered_message
 
-    async def check_tier_limits(self, user_id: str, action: str) -> Dict[str, Any]:
+    async def check_tier_limits(self, user_id: str, action: str) -> dict[str, Any]:
         """Check if user has exceeded tier limits"""
         user_data = await self.get_user_tier(user_id)
         if not user_data:
@@ -304,10 +304,8 @@ class TierManager:
         usage = user_data["usage_stats"]
 
         # Check daily/monthly limits
-        today = datetime.now().date()
-        current_month = datetime.now().replace(
-            day=1, hour=0, minute=0, second=0, microsecond=0
-        )
+        datetime.now().date()
+        datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 
         if action == "message_delivery":
             daily_limit = config["limits"].get("daily_messages")
@@ -345,7 +343,7 @@ class TierManager:
         return {"allowed": True}
 
     async def update_usage_stats(
-        self, user_id: str, action: str, metadata: Optional[Dict] = None
+        self, user_id: str, action: str, metadata: Optional[dict] = None
     ):
         """Update user's usage statistics"""
         user_data = await self.get_user_tier(user_id)
@@ -366,7 +364,7 @@ class TierManager:
 
         await self._save_user_tier_data(user_id)
 
-    async def suggest_tier_upgrade(self, user_id: str) -> Optional[Dict[str, Any]]:
+    async def suggest_tier_upgrade(self, user_id: str) -> Optional[dict[str, Any]]:
         """Suggest tier upgrade based on usage patterns"""
         user_data = await self.get_user_tier(user_id)
         if not user_data:
@@ -413,9 +411,9 @@ class TierManager:
 
         return suggestions[0] if suggestions else None
 
-    async def get_tier_analytics(self, days: int = 30) -> Dict[str, Any]:
+    async def get_tier_analytics(self, days: int = 30) -> dict[str, Any]:
         """Get analytics across all tiers"""
-        cutoff_date = datetime.now() - timedelta(days=days)
+        datetime.now() - timedelta(days=days)
 
         tier_stats = {"T1": 0, "T2": 0, "T3": 0}
         total_revenue = 0
@@ -466,11 +464,11 @@ class TierManager:
             "conversion_opportunities": await self._calculate_conversion_opportunities(),
         }
 
-    async def _calculate_conversion_opportunities(self) -> Dict[str, Any]:
+    async def _calculate_conversion_opportunities(self) -> dict[str, Any]:
         """Calculate potential tier upgrade opportunities"""
         upgrade_candidates = {"T3_to_T2": 0, "T2_to_T1": 0}
 
-        for user_id, user_data in self.user_tiers.items():
+        for user_id, _user_data in self.user_tiers.items():
             suggestion = await self.suggest_tier_upgrade(user_id)
             if suggestion:
                 if suggestion["suggested_tier"] == "T2":
@@ -524,7 +522,7 @@ class TierManager:
         except Exception as e:
             logger.error(f"Failed to load user tier data for {user_id}: {e}")
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for tier manager"""
         return {
             "status": "healthy",

@@ -23,12 +23,14 @@ import os.path
 from typing import Final, NamedTuple
 
 from core.common import get_logger
-# from streamlit.runtime.media_file_storage import (  # TODO: Install or implement streamlit
+# from streamlit.runtime.media_file_storage import (  # TODO: Install or
+# implement streamlit
     MediaFileKind,
     MediaFileStorage,
     MediaFileStorageError,
 )
-# from streamlit.runtime.stats import CacheStat, CacheStatsProvider, group_stats  # TODO: Install or implement streamlit
+# from streamlit.runtime.stats import CacheStat, CacheStatsProvider,
+# group_stats  # TODO: Install or implement streamlit
 
 
 # Mimetype -> filename extension map for the `get_extension_for_mimetype`
@@ -41,7 +43,7 @@ PREFERRED_MIMETYPE_EXTENSION_MAP: Final = {
 }
 
 
-def _calculate_file_id(data: bytes, mimetype: str, filename: str | None = None) -> str:
+def _calculate_file_id(data: bytes, mimetype: str, filename: str | None=None) -> str:
     """Hash data, mimetype, and an optional filename to generate a stable file ID.
 
     Parameters
@@ -82,7 +84,7 @@ class MemoryFile(NamedTuple):
     kind: MediaFileKind
     filename: str | None
 
-    @property
+    @ property
     def content_size(self) -> int:
         return len(self.content)
 

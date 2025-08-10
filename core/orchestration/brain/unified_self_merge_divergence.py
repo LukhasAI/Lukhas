@@ -19,12 +19,12 @@ Usage:
     $ python lukhas_unified_self_merge_divergence.py
 """
 
+import openai
+from pathlib import Path
+from datetime import datetime
 import json
 import os
-from datetime import datetime
-from pathlib import Path
 
-import openai
 
 TRAIT_SYNC_FOLDER = "sync/traits/"
 META_SYNC_FOLDER = "sync/meta_reflections/"

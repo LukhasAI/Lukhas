@@ -1,11 +1,11 @@
 import logging
-from typing import Any, Dict
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 
 # ΛTAG: colony_repair
-async def simulate_colony_self_repair(instructions: Dict[str, float]) -> Dict[str, Any]:
+async def simulate_colony_self_repair(instructions: dict[str, float]) -> dict[str, Any]:
     """Simulate colony-level self-repair using synthesized proteins."""
     synthesizer = ProteinSynthesizer()
     proteins = await synthesizer.synthesize(instructions)

@@ -9,7 +9,7 @@ import asyncio
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import core components
 from consciousness.reflection.openai_core_service import (
@@ -33,8 +33,8 @@ class ModulatedRequest:
     """Enhanced request with modulation context"""
 
     base_request: OpenAIRequest
-    signal_context: Dict[str, float]
-    modulation_params: Dict[str, Any]
+    signal_context: dict[str, float]
+    modulation_params: dict[str, Any]
     priority_boost: float = 0.0
     emotional_tone: Optional[str] = None
 
@@ -56,8 +56,8 @@ class OpenAIModulatedService:
         self.modulator = PromptModulator()
 
         # State tracking
-        self.active_signals: Dict[str, Signal] = {}
-        self.modulation_history: List[Dict[str, Any]] = []
+        self.active_signals: dict[str, Signal] = {}
+        self.modulation_history: list[dict[str, Any]] = []
 
         # Subscribe to relevant signals
         self._setup_signal_subscriptions()
@@ -102,8 +102,8 @@ class OpenAIModulatedService:
         self,
         module: str,
         capability: OpenAICapability,
-        data: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None,
+        data: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
     ) -> OpenAIResponse:
         """
         Process a request with signal-based modulation.
@@ -163,8 +163,8 @@ class OpenAIModulatedService:
             )
 
     def _create_signal_context(
-        self, homeostasis_state: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, homeostasis_state: dict[str, Any]
+    ) -> dict[str, float]:
         """Create signal context from current system state"""
         context = {
             "urgency": 0.0,
@@ -189,8 +189,8 @@ class OpenAIModulatedService:
         return context
 
     async def _modulate_text_request(
-        self, data: Dict[str, Any], signal_context: Dict[str, float]
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any], signal_context: dict[str, float]
+    ) -> dict[str, Any]:
         """Modulate text generation request based on signals"""
         # Get original prompt
         original_prompt = data.get("prompt", "")
@@ -233,7 +233,7 @@ class OpenAIModulatedService:
 
         return data
 
-    def _select_model_from_signals(self, signal_context: Dict[str, float]) -> ModelType:
+    def _select_model_from_signals(self, signal_context: dict[str, float]) -> ModelType:
         """Select appropriate model based on signal context"""
         urgency = signal_context.get("urgency", 0)
         complexity = signal_context.get("complexity", 0.5)
@@ -254,7 +254,7 @@ class OpenAIModulatedService:
         # Default to fast for efficiency
         return ModelType.FAST
 
-    def _calculate_priority(self, signal_context: Dict[str, float]) -> int:
+    def _calculate_priority(self, signal_context: dict[str, float]) -> int:
         """Calculate request priority from signals"""
         base_priority = 5
 
@@ -269,7 +269,7 @@ class OpenAIModulatedService:
         return min(10, max(1, priority))
 
     async def _post_process_response(
-        self, response: OpenAIResponse, signal_context: Dict[str, float]
+        self, response: OpenAIResponse, signal_context: dict[str, float]
     ) -> OpenAIResponse:
         """Post-process response based on signal context"""
         if not response.data or "content" not in response.data:
@@ -293,7 +293,7 @@ class OpenAIModulatedService:
         return response
 
     async def _update_homeostasis(
-        self, response: OpenAIResponse, signal_context: Dict[str, float]
+        self, response: OpenAIResponse, signal_context: dict[str, float]
     ):
         """Update homeostasis based on response"""
         # Create feedback signal
@@ -317,7 +317,7 @@ class OpenAIModulatedService:
     def _log_modulation(
         self,
         request: OpenAIRequest,
-        signal_context: Dict[str, float],
+        signal_context: dict[str, float],
         response: OpenAIResponse,
     ):
         """Log modulation for analysis"""
@@ -350,7 +350,7 @@ class OpenAIModulatedService:
         if signal.name == SignalType.URGENCY and signal.level > 0.8:
             self.homeostasis.process_signals([signal])
 
-    def get_modulation_stats(self) -> Dict[str, Any]:
+    def get_modulation_stats(self) -> dict[str, Any]:
         """Get statistics about modulation"""
         if not self.modulation_history:
             return {"message": "No modulation history available"}

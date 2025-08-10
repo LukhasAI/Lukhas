@@ -65,7 +65,7 @@ COMMANDS = {
     "Launch Public Dashboard": {
         "shortcut": "Ctrl+Shift+L",
         "script": "python3 dashboards/main.py",
-        "description": "Starts the LUKHAS public companion dashboard(voice, thoughts,
+        "description": "Starts the LUKHAS public companion dashboard(voice, thoughts,"
                                                                      visuals).",
     },
     "Trigger Audit Log (CLI)": {

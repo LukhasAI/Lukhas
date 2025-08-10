@@ -6,6 +6,9 @@ Activates the Signal Bus and Endocrine System for full AGI operation.
 Part of the 21-day AGI implementation roadmap.
 """
 
+from orchestration.signals.signal_bus import Signal, SignalType, get_signal_bus
+from feedback.card_system import FeedbackCardSystem
+from core.endocrine.hormone_system import get_endocrine_system
 import asyncio
 import logging
 import sys
@@ -14,14 +17,10 @@ from pathlib import Path
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from core.endocrine.hormone_system import get_endocrine_system
-from feedback.card_system import FeedbackCardSystem
-from orchestration.signals.signal_bus import Signal, SignalType, get_signal_bus
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -40,10 +39,7 @@ async def activate_signal_bus():
 
         # Test signal emission
         test_signal = Signal(
-            name=SignalType.NOVELTY,
-            level=0.5,
-            source="activation_script",
-            ttl_ms=5000
+            name=SignalType.NOVELTY, level=0.5, source="activation_script", ttl_ms=5000
         )
 
         success = bus.publish(test_signal)
@@ -89,6 +85,7 @@ async def activate_endocrine_system():
 
         # Get neuroplasticity
         from core.endocrine.hormone_system import get_neuroplasticity
+
         plasticity = get_neuroplasticity()
         logger.info(f"🧠 Current Neuroplasticity: {plasticity:.2f}")
 
@@ -113,7 +110,7 @@ async def connect_systems(bus, endocrine):
                     name=SignalType.STRESS,
                     level=effects["stress_level"],
                     source="endocrine_system",
-                    metadata={"hormones": effects}
+                    metadata={"hormones": effects},
                 )
                 bus.publish(stress_signal)
                 logger.info(f"📡 Emitted stress signal: {effects['stress_level']:.2f}")
@@ -124,7 +121,7 @@ async def connect_systems(bus, endocrine):
                     name=SignalType.NOVELTY,
                     level=effects["motivation"],
                     source="endocrine_system",
-                    metadata={"dopamine": effects.get("motivation")}
+                    metadata={"dopamine": effects.get("motivation")},
                 )
                 bus.publish(novelty_signal)
                 logger.info(f"📡 Emitted novelty signal: {effects['motivation']:.2f}")
@@ -142,9 +139,13 @@ async def connect_systems(bus, endocrine):
         active_signals = bus.get_active_signals()
         stress_signals = [s for s in active_signals if s.name == SignalType.STRESS]
         if stress_signals:
-            logger.info(f"✅ Connection verified: {len(stress_signals)} stress signals active")
+            logger.info(
+                f"✅ Connection verified: {len(stress_signals)} stress signals active"
+            )
         else:
-            logger.warning("⚠️ No stress signals detected - connection may need debugging")
+            logger.warning(
+                "⚠️ No stress signals detected - connection may need debugging"
+            )
 
     except Exception as e:
         logger.error(f"❌ Failed to connect systems: {e}")
@@ -168,9 +169,9 @@ async def activate_feedback_system():
             context={
                 "prompt": "Activate core systems",
                 "response": "Systems activated successfully",
-                "signal_state": {"stress": 0.3, "novelty": 0.7}
+                "signal_state": {"stress": 0.3, "novelty": 0.7},
             },
-            user_id="system_test"
+            user_id="system_test",
         )
 
         logger.info(f"✅ Test feedback card created: {test_card.card_id}")
@@ -219,9 +220,15 @@ async def main():
                 feedback_metrics = feedback.get_metrics()
 
                 logger.info("📊 Status Update:")
-                logger.info(f"  Signal Bus: {bus_metrics['active_signals']} active signals")
-                logger.info(f"  Endocrine: {endocrine._determine_dominant_state()} state")
-                logger.info(f"  Feedback: {feedback_metrics['total_cards']} cards captured")
+                logger.info(
+                    f"  Signal Bus: {bus_metrics['active_signals']} active signals"
+                )
+                logger.info(
+                    f"  Endocrine: {endocrine._determine_dominant_state()} state"
+                )
+                logger.info(
+                    f"  Feedback: {feedback_metrics['total_cards']} cards captured"
+                )
 
         except KeyboardInterrupt:
             logger.info("\n🛑 Shutting down systems...")
@@ -232,9 +239,9 @@ async def main():
 
     finally:
         # Cleanup
-        if 'bus' in locals():
+        if "bus" in locals():
             await bus.stop()
-        if 'endocrine' in locals():
+        if "endocrine" in locals():
             await endocrine.stop()
         logger.info("👋 Systems shut down gracefully")
 

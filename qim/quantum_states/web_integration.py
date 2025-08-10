@@ -57,7 +57,7 @@ import secrets
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 class QuantumSecurityLevel(Enum):
@@ -75,12 +75,12 @@ class QuantumWebSession:
     session_id: str
     lambda_id: str  # ΛiD# identifier
     security_level: QuantumSecurityLevel
-    quantum_keypair: Dict[str, bytes]
+    quantum_keypair: dict[str, bytes]
     session_start: datetime
     last_activity: datetime
     csrf_token: str
     quantum_nonce: str
-    encrypted_data: Dict[str, Any] = field(default_factory=dict)
+    encrypted_data: dict[str, Any] = field(default_factory=dict)
 
 
 class QuantumWebSecurity:
@@ -89,7 +89,7 @@ class QuantumWebSecurity:
     """
 
     def __init__(self):
-        self.active_sessions: Dict[str, QuantumWebSession] = {}
+        self.active_sessions: dict[str, QuantumWebSession] = {}
         self.quantum_random_pool = self._initialize_quantum_random()
 
     def _initialize_quantum_random(self) -> bytes:
@@ -140,7 +140,7 @@ class QuantumWebSecurity:
         self.active_sessions[session_id] = session
         return session
 
-    async def _generate_session_keypair(self) -> Dict[str, bytes]:
+    async def _generate_session_keypair(self) -> dict[str, bytes]:
         """Generate post-quantum keypair for session"""
         # Simplified lattice-based key generation (production would use proper PQC)
         private_key = secrets.token_bytes(64)
@@ -152,7 +152,7 @@ class QuantumWebSecurity:
     async def verify_quantum_request(
         self,
         session_id: str,
-        request_data: Dict[str, Any],
+        request_data: dict[str, Any],
         csrf_token: str,
         quantum_signature: Optional[str] = None,
     ) -> bool:
@@ -195,7 +195,7 @@ class QuantumWebSecurity:
         signature = hashlib.sha3_384(signature_data).digest()
         return base64.b64encode(nonce + signature).decode()
 
-    async def encrypt_session_data(self, session_id: str, data: Dict[str, Any]) -> str:
+    async def encrypt_session_data(self, session_id: str, data: dict[str, Any]) -> str:
         """Encrypt session data with post-quantum security"""
 
         if session_id not in self.active_sessions:
@@ -215,7 +215,7 @@ class QuantumWebSecurity:
 
     async def decrypt_session_data(
         self, session_id: str, encrypted_data: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Decrypt session data with post-quantum security"""
 
         if session_id not in self.active_sessions:
@@ -238,7 +238,7 @@ class QuantumWebSecurity:
         key_stream = (key * ((len(data) // len(key)) + 1))[: len(data)]
         return bytes(a ^ b for a, b in zip(data, key_stream))
 
-    async def get_quantum_web_config(self, domain: str) -> Dict[str, Any]:
+    async def get_quantum_web_config(self, domain: str) -> dict[str, Any]:
         """Get quantum security configuration for web domain"""
         return {
             "domain": domain,
@@ -273,14 +273,14 @@ class QuantumWebAuthenticator:
 
     def __init__(self):
         self.security = QuantumWebSecurity()
-        self.identity_cache: Dict[str, Dict[str, Any]] = {}
+        self.identity_cache: dict[str, dict[str, Any]] = {}
 
     async def authenticate_lambda_id(
         self,
         emoji_seed: str,
         quantum_challenge: Optional[bytes] = None,
         biometric_data: Optional[bytes] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Authenticate user with ΛiD quantum identity"""
 
         # Generate ΛiD# from emoji seed (simplified)
@@ -308,8 +308,8 @@ class QuantumWebAuthenticator:
         return auth_result
 
     async def create_web_session(
-        self, lambda_id: str, request_info: Dict[str, str]
-    ) -> Dict[str, Any]:
+        self, lambda_id: str, request_info: dict[str, str]
+    ) -> dict[str, Any]:
         """Create quantum-secure web session after authentication"""
 
         session = await self.security.create_quantum_session(

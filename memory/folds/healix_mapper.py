@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 
 """
@@ -47,7 +49,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -97,7 +99,7 @@ class MemoryNucleotide:
     timestamp: float
     emotional_charge: float
     quantum_like_state: Optional[str] = None
-    bonds: List[int] = field(default_factory=list)  # Hydrogen bonds to other positions
+    bonds: list[int] = field(default_factory=list)  # Hydrogen bonds to other positions
 
 
 @dataclass
@@ -108,8 +110,8 @@ class MemoryMutation:
     mutation_type: MutationType
     source_position: int
     target_position: Optional[int]
-    original_sequence: List[str]
-    mutated_sequence: List[str]
+    original_sequence: list[str]
+    mutated_sequence: list[str]
     timestamp: float
     trigger_emotion: str
     success_score: Optional[float] = None
@@ -121,12 +123,12 @@ class QuantumMemoryFold:
     """Enhanced memory fold with quantum properties"""
 
     fold_id: str
-    sequence: List[MemoryNucleotide]
+    sequence: list[MemoryNucleotide]
     emotional_vector: np.ndarray
     compression_level: CompressionLevel
     quantum_entangled: bool
-    helix_coordinates: Tuple[float, float, float]  # 3D position in memory space
-    mutations: List[MemoryMutation]
+    helix_coordinates: tuple[float, float, float]  # 3D position in memory space
+    mutations: list[MemoryMutation]
     stability_score: float
     gdpr_compliant: bool
     created_timestamp: float
@@ -150,12 +152,12 @@ class QuantumHealixMapper:
         self.quantum_enabled = quantum_enabled
 
         # Memory structure
-        self.memory_strands: Dict[MemoryStrand, List[QuantumMemoryFold]] = {
+        self.memory_strands: dict[MemoryStrand, list[QuantumMemoryFold]] = {
             strand: [] for strand in MemoryStrand
         }
 
         # Quantum properties
-        self.quantum_entanglement_map: Dict[str, List[str]] = {}
+        self.quantum_entanglement_map: dict[str, list[str]] = {}
         self.quantum_coherence_threshold = 0.75
 
         # DNA-inspired properties
@@ -262,9 +264,9 @@ class QuantumHealixMapper:
 
     async def encode_memory(
         self,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         strand: MemoryStrand,
-        emotional_context: Optional[Dict[str, Any]] = None,
+        emotional_context: Optional[dict[str, Any]] = None,
         compression: CompressionLevel = CompressionLevel.PSEUDONYMIZED,
         user_consent: bool = True,
     ) -> str:
@@ -298,12 +300,9 @@ class QuantumHealixMapper:
 
         # Apply quantum enhancement if enabled
         quantum_entangled = False
-        quantum_signature = None
 
         if self.quantum_enabled:
-            quantum_signature = await self._generate_quantum_signature(
-                sequence, emotional_vector
-            )
+            await self._generate_quantum_signature(sequence, emotional_vector)
             quantum_entangled = await self._check_quantum_entanglement(
                 sequence, emotional_vector
             )
@@ -343,10 +342,10 @@ class QuantumHealixMapper:
 
     async def _content_to_nucleotides(
         self,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         strand: MemoryStrand,
-        emotional_context: Optional[Dict[str, Any]],
-    ) -> List[MemoryNucleotide]:
+        emotional_context: Optional[dict[str, Any]],
+    ) -> list[MemoryNucleotide]:
         """Convert memory content to DNA-like nucleotide sequence"""
 
         sequence = []
@@ -393,8 +392,8 @@ class QuantumHealixMapper:
         return sequence
 
     async def _extract_memory_features(
-        self, content: Dict[str, Any], emotional_context: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, content: dict[str, Any], emotional_context: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Extract key features from memory content for nucleotide encoding"""
 
         features = {}
@@ -479,7 +478,7 @@ class QuantumHealixMapper:
         return selected_base
 
     async def _calculate_position_emotion(
-        self, feature_value: Any, emotional_context: Optional[Dict[str, Any]]
+        self, feature_value: Any, emotional_context: Optional[dict[str, Any]]
     ) -> float:
         """Calculate emotional charge for a specific nucleotide position"""
 
@@ -539,7 +538,7 @@ class QuantumHealixMapper:
 
         return f"|ψ⟩ = {alpha:.3f}|0⟩ + {beta:.3f}|1⟩"
 
-    async def _calculate_hydrogen_bonds(self, sequence: List[MemoryNucleotide]):
+    async def _calculate_hydrogen_bonds(self, sequence: list[MemoryNucleotide]):
         """Calculate hydrogen bonds between nucleotides (complementary base pairing)"""
 
         for i, nucleotide in enumerate(sequence):
@@ -560,7 +559,7 @@ class QuantumHealixMapper:
                                 nucleotide.bonds.append(j)
 
     async def _extract_emotional_vector(
-        self, emotional_context: Optional[Dict[str, Any]]
+        self, emotional_context: Optional[dict[str, Any]]
     ) -> np.ndarray:
         """Extract or generate emotional vector from context"""
 
@@ -575,8 +574,8 @@ class QuantumHealixMapper:
         return np.array([0.0, 0.0, 0.0, 0.0, 0.0])
 
     async def _calculate_helix_position(
-        self, emotional_vector: np.ndarray, sequence: List[MemoryNucleotide]
-    ) -> Tuple[float, float, float]:
+        self, emotional_vector: np.ndarray, sequence: list[MemoryNucleotide]
+    ) -> tuple[float, float, float]:
         """Calculate 3D position in the memory helix"""
 
         # Base helix parameters
@@ -597,7 +596,7 @@ class QuantumHealixMapper:
         return (float(x), float(y), float(z))
 
     async def _generate_quantum_signature(
-        self, sequence: List[MemoryNucleotide], emotional_vector: np.ndarray
+        self, sequence: list[MemoryNucleotide], emotional_vector: np.ndarray
     ) -> str:
         """Generate quantum cryptographic signature"""
 
@@ -616,7 +615,7 @@ class QuantumHealixMapper:
         return quantum_signature
 
     async def _check_quantum_entanglement(
-        self, sequence: List[MemoryNucleotide], emotional_vector: np.ndarray
+        self, sequence: list[MemoryNucleotide], emotional_vector: np.ndarray
     ) -> bool:
         """Check if this memory should be quantum entangled with existing memories"""
 
@@ -643,7 +642,7 @@ class QuantumHealixMapper:
         return False
 
     async def _calculate_stability_score(
-        self, sequence: List[MemoryNucleotide], emotional_vector: np.ndarray
+        self, sequence: list[MemoryNucleotide], emotional_vector: np.ndarray
     ) -> float:
         """Calculate memory stability score"""
 
@@ -671,7 +670,7 @@ class QuantumHealixMapper:
         return stability
 
     async def _ensure_gdpr_compliance(
-        self, content: Dict[str, Any], compression: CompressionLevel, user_consent: bool
+        self, content: dict[str, Any], compression: CompressionLevel, user_consent: bool
     ) -> bool:
         """Ensure memory encoding complies with GDPR"""
 
@@ -709,7 +708,7 @@ class QuantumHealixMapper:
         fold_id: str,
         mutation_type: MutationType,
         trigger_emotion: str,
-        mutation_data: Optional[Dict[str, Any]] = None,
+        mutation_data: Optional[dict[str, Any]] = None,
     ) -> bool:
         """
         Apply DNA-like mutation to memory fold
@@ -795,7 +794,7 @@ class QuantumHealixMapper:
         return success
 
     async def _apply_point_mutation(
-        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[Dict[str, Any]]
+        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[dict[str, Any]]
     ) -> bool:
         """Apply point mutation (single nucleotide change)"""
 
@@ -830,7 +829,7 @@ class QuantumHealixMapper:
         return True
 
     async def _apply_insertion_mutation(
-        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[Dict[str, Any]]
+        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[dict[str, Any]]
     ) -> bool:
         """Apply insertion mutation (add nucleotides)"""
 
@@ -867,7 +866,7 @@ class QuantumHealixMapper:
         return True
 
     async def _apply_deletion_mutation(
-        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[Dict[str, Any]]
+        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[dict[str, Any]]
     ) -> bool:
         """Apply deletion mutation (remove nucleotides)"""
 
@@ -890,7 +889,7 @@ class QuantumHealixMapper:
         return True
 
     async def _apply_crossover_mutation(
-        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[Dict[str, Any]]
+        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[dict[str, Any]]
     ) -> bool:
         """Apply crossover mutation (exchange with another memory)"""
 
@@ -933,7 +932,7 @@ class QuantumHealixMapper:
         return True
 
     async def _apply_quantum_collapse(
-        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[Dict[str, Any]]
+        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[dict[str, Any]]
     ) -> bool:
         """Apply quantum collapse mutation (collapse superposition states)"""
 
@@ -1022,7 +1021,7 @@ class QuantumHealixMapper:
 
         cursor.execute(
             """
-            UPDATE memory_folds 
+            UPDATE memory_folds
             SET sequence_data = ?, stability_score = ?, last_accessed = ?
             WHERE fold_id = ?
         """,
@@ -1098,7 +1097,7 @@ class QuantumHealixMapper:
         conn.close()
 
     async def _generate_fold_id(
-        self, content: Dict[str, Any], strand: MemoryStrand
+        self, content: dict[str, Any], strand: MemoryStrand
     ) -> str:
         """Generate unique fold ID"""
 
@@ -1115,7 +1114,7 @@ class QuantumHealixMapper:
         ).hexdigest()
         return fold_id
 
-    async def get_healix_analytics(self) -> Dict[str, Any]:
+    async def get_healix_analytics(self) -> dict[str, Any]:
         """Get comprehensive analytics about the Healix memory system"""
 
         total_folds = sum(

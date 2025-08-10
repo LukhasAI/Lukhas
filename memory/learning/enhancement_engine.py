@@ -12,7 +12,7 @@ Your lukhas system is already sophisticated - let's make it even better!
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
 class EnhancementEngine:
@@ -51,7 +51,7 @@ class EnhancementEngine:
         with open(sprint_file, "w") as f:
             json.dump(self.current_sprint, f, default=str, indent=2)
 
-    def enhance_bio_symbolic_core(self) -> Dict[str, Any]:
+    def enhance_bio_symbolic_core(self) -> dict[str, Any]:
         """Enhance your bio-symbolic quantum processing"""
         print("🧬 ENHANCING BIO-SYMBOLIC CORE...")
 
@@ -93,7 +93,7 @@ class EnhancementEngine:
 
         return {"category": "bio_symbolic", "enhancements": enhancements}
 
-    def enhance_adaptive_learning(self) -> Dict[str, Any]:
+    def enhance_adaptive_learning(self) -> dict[str, Any]:
         """Enhance your adaptive learning systems"""
         print("🧠 ENHANCING ADAPTIVE LEARNING...")
 
@@ -138,12 +138,12 @@ performance_monitoring:
 
         return {"category": "adaptive_learning", "enhancements": enhancements}
 
-    def enhance_voice_memory_integration(self) -> Dict[str, Any]:
+    def enhance_voice_memory_integration(self) -> dict[str, Any]:
         """Enhance voice-memory coupling"""
         print("🗣️ ENHANCING VOICE-MEMORY INTEGRATION...")
 
-        voice_dir = self.workspace_root / "modules" / "voice"
-        memory_dir = self.workspace_root / "modules" / "memoria"
+        self.workspace_root / "modules" / "voice"
+        self.workspace_root / "modules" / "memoria"
         enhancements = []
 
         # Ensure modules directory exists
@@ -161,11 +161,11 @@ Enhanced coupling between voice processing and memory systems
 
 class VoiceMemoryBridge:
     """Bridge between voice processing and memory systems"""
-    
+
     def __init__(self):
         self.emotional_coupling = True
         self.symbolic_integration = True
-        
+
     def process_voice_memory(self, voice_input, memory_context):
         """Process voice input with memory context"""
         # Your bio-symbolic processing magic happens here
@@ -174,12 +174,12 @@ class VoiceMemoryBridge:
             "emotional_resonance": self._calculate_resonance(voice_input, memory_context),
             "symbolic_mapping": self._create_symbolic_map(voice_input)
         }
-    
+
     def _calculate_resonance(self, voice_input, memory_context):
         """Calculate emotional resonance between voice and memory"""
         # Placeholder for your sophisticated algorithm
         return 0.85
-    
+
     def _create_symbolic_map(self, voice_input):
         """Create symbolic mapping of voice input"""
         # Your symbolic reasoning innovation
@@ -197,7 +197,7 @@ class VoiceMemoryBridge:
         print(f"✅ Voice-Memory Integration: {len(enhancements)} enhancements applied")
         return {"category": "voice_memory", "enhancements": enhancements}
 
-    def extract_prototype_gold(self) -> Dict[str, Any]:
+    def extract_prototype_gold(self) -> dict[str, Any]:
         """Extract golden patterns from your prototype evolution"""
         print("⭐ EXTRACTING PROTOTYPE GOLD...")
 
@@ -241,7 +241,7 @@ class VoiceMemoryBridge:
         print(f"✅ Prototype Gold: {len(golden_patterns)} patterns extracted")
         return {"category": "prototype_gold", "enhancements": enhancements}
 
-    def optimize_api_costs(self) -> Dict[str, Any]:
+    def optimize_api_costs(self) -> dict[str, Any]:
         """Optimize API costs (building on your __init__.py exclusion success)"""
         print("💰 OPTIMIZING API COSTS...")
 
@@ -275,7 +275,7 @@ class VoiceMemoryBridge:
         print(f"✅ API Cost Optimization: {len(enhancements)} optimizations checked")
         return {"category": "cost_optimization", "enhancements": enhancements}
 
-    def complete_sprint(self) -> Dict[str, Any]:
+    def complete_sprint(self) -> dict[str, Any]:
         """Complete the current enhancement sprint"""
         if not self.current_sprint:
             print("⚠️  No active sprint to complete")
@@ -311,7 +311,7 @@ class VoiceMemoryBridge:
 
     def run_enhancement_sprint(
         self, sprint_type: str = "comprehensive"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Run a complete 15-minute enhancement sprint"""
 
         self.start_sprint(f"lukhas Enhancement - {sprint_type.title()}", 15)

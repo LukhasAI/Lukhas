@@ -16,7 +16,7 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -219,7 +219,7 @@ class GPTOSSBrainSpecialist(SpecializedBrainCore):
         self.active = True
         return True
 
-    async def process_with_reasoning(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_with_reasoning(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process data through GPT-OSS reasoning engine"""
 
         if not self.active:
@@ -287,13 +287,13 @@ class GPTOSSBrainSpecialist(SpecializedBrainCore):
             logger.error(f"GPT-OSS processing error: {e}")
             return self._fallback_reasoning(data)
 
-    def _generate_cache_key(self, data: Dict[str, Any]) -> str:
+    def _generate_cache_key(self, data: dict[str, Any]) -> str:
         """Generate cache key for data"""
         # Create deterministic key from data
         data_str = json.dumps(data, sort_keys=True)
         return hashlib.sha256(data_str.encode()).hexdigest()[:16]
 
-    def _build_context(self, data: Dict[str, Any]) -> str:
+    def _build_context(self, data: dict[str, Any]) -> str:
         """Build context from recent interactions"""
         context_parts = []
 
@@ -307,7 +307,7 @@ class GPTOSSBrainSpecialist(SpecializedBrainCore):
 
         return "\n".join(context_parts)
 
-    def _create_lukhas_prompt(self, data: Dict[str, Any], context: str) -> str:
+    def _create_lukhas_prompt(self, data: dict[str, Any], context: str) -> str:
         """Create LUKHAS-aware prompt for GPT-OSS"""
 
         # Extract key information
@@ -354,8 +354,8 @@ Apply advanced reasoning with awareness of:
 Provide clear, structured, and insightful reasoning."""
 
     def _enhance_reasoning(
-        self, raw_reasoning: str, original_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, raw_reasoning: str, original_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Enhance raw reasoning with structured analysis"""
 
         # Parse reasoning into structured format
@@ -401,7 +401,7 @@ Provide clear, structured, and insightful reasoning."""
 
         return enhanced
 
-    def _update_context(self, data: Dict[str, Any], result: Dict[str, Any]):
+    def _update_context(self, data: dict[str, Any], result: dict[str, Any]):
         """Update context window with new interaction"""
 
         # Create context entry
@@ -419,7 +419,7 @@ Provide clear, structured, and insightful reasoning."""
         if len(self.context_window) > self.max_context_size:
             self.context_window.pop(0)
 
-    def _calculate_confidence(self, reasoning: Dict[str, Any]) -> float:
+    def _calculate_confidence(self, reasoning: dict[str, Any]) -> float:
         """Calculate confidence score for reasoning"""
 
         factors = reasoning.get("confidence_factors", {})
@@ -436,7 +436,7 @@ Provide clear, structured, and insightful reasoning."""
 
         return min(max(confidence, 0.0), 1.0)
 
-    def _check_lukhas_patterns(self, reasoning: Dict[str, Any]) -> Dict[str, bool]:
+    def _check_lukhas_patterns(self, reasoning: dict[str, Any]) -> dict[str, bool]:
         """Check for LUKHAS-specific patterns in reasoning"""
 
         raw_output = str(reasoning.get("raw_output", "")).lower()
@@ -469,7 +469,7 @@ Provide clear, structured, and insightful reasoning."""
         if len(self.metrics["reasoning_depth"]) > 100:
             self.metrics["reasoning_depth"] = self.metrics["reasoning_depth"][-50:]
 
-    def _fallback_reasoning(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _fallback_reasoning(self, data: dict[str, Any]) -> dict[str, Any]:
         """Fallback reasoning when GPT-OSS is unavailable"""
 
         return {
@@ -489,7 +489,7 @@ Provide clear, structured, and insightful reasoning."""
             "timestamp": datetime.now().isoformat(),
         }
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get performance metrics"""
 
         cache_hit_rate = 0
@@ -532,7 +532,7 @@ def create_gpt_oss_symphony_integration(symphony_orchestrator):
     # Extend conduct_symphony to include GPT-OSS
     original_conduct = symphony_orchestrator.conduct_symphony
 
-    async def enhanced_conduct_symphony(input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def enhanced_conduct_symphony(input_data: dict[str, Any]) -> dict[str, Any]:
         # Get original result
         result = await original_conduct(input_data)
 

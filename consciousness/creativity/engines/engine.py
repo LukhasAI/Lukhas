@@ -14,7 +14,7 @@ Based on the audit findings, this engine provides:
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 from core.common import get_logger
 
@@ -40,12 +40,12 @@ class CreateRequest:
 
     prompt: str
     type: CreationType = CreationType.TEXT_CONTENT
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     style: str = "professional"
     length: str = "medium"  # "short", "medium", "long", "custom"
     creativity_level: float = 0.7  # 0.0-1.0 scale
     target_audience: str = "general"
-    constraints: List[str] = field(default_factory=list)
+    constraints: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -55,9 +55,9 @@ class CreateResponse:
     content: str
     confidence: float
     creation_method: str
-    alternative_versions: List[str]
-    metadata: Dict[str, Any]
-    suggestions: List[str]
+    alternative_versions: list[str]
+    metadata: dict[str, Any]
+    suggestions: list[str]
 
 
 class LukhasCreateEngine:
@@ -84,7 +84,7 @@ class LukhasCreateEngine:
         logger.info("🎨 LUKHAS Create Engine initialized successfully")
 
     async def create(
-        self, request: str, context: Dict[str, Any] = None, **kwargs
+        self, request: str, context: dict[str, Any] = None, **kwargs
     ) -> CreateResponse:
         """
         🚀 Main creation interface - Generate content using AGI capabilities
@@ -119,7 +119,7 @@ class LukhasCreateEngine:
         return response
 
     def _parse_request(
-        self, request: str, context: Dict[str, Any], **kwargs
+        self, request: str, context: dict[str, Any], **kwargs
     ) -> CreateRequest:
         """Parse natural language request into structured format"""
         return CreateRequest(
@@ -194,7 +194,7 @@ class LukhasCreateEngine:
 
         return CreationType.TEXT_CONTENT
 
-    async def _enhance_context(self, request: CreateRequest) -> Dict[str, Any]:
+    async def _enhance_context(self, request: CreateRequest) -> dict[str, Any]:
         """Enhance context with creative intelligence and memory"""
         enhanced_context = request.context.copy()
 
@@ -210,7 +210,7 @@ class LukhasCreateEngine:
         return enhanced_context
 
     async def _generate_content(
-        self, request: CreateRequest, context: Dict[str, Any]
+        self, request: CreateRequest, context: dict[str, Any]
     ) -> CreateResponse:
         """Generate content using appropriate creator module"""
 
@@ -247,7 +247,7 @@ class LukhasCreateEngine:
 
     async def _generate_alternatives(
         self, request: CreateRequest, content: str
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate alternative versions of the content"""
         # Placeholder for alternative generation logic
         return [
@@ -257,7 +257,7 @@ class LukhasCreateEngine:
         ]
 
     def _calculate_confidence(
-        self, request: CreateRequest, content: str, context: Dict[str, Any]
+        self, request: CreateRequest, content: str, context: dict[str, Any]
     ) -> float:
         """Calculate confidence score for generated content"""
         base_confidence = 0.8
@@ -272,7 +272,7 @@ class LukhasCreateEngine:
 
         return min(base_confidence, 0.95)
 
-    def _generate_suggestions(self, request: CreateRequest, content: str) -> List[str]:
+    def _generate_suggestions(self, request: CreateRequest, content: str) -> list[str]:
         """Generate suggestions for content improvement"""
         return [
             "Consider adding more specific examples",
@@ -281,7 +281,7 @@ class LukhasCreateEngine:
             "Consider creative enhancements based on feedback",
         ]
 
-    def _analyze_creation_patterns(self) -> Dict[str, Any]:
+    def _analyze_creation_patterns(self) -> dict[str, Any]:
         """Analyze patterns from creation history"""
         if not self.creation_history:
             return {}
@@ -299,7 +299,7 @@ class LukhasCreateEngine:
 class TextContentCreator:
     """General text content creation"""
 
-    async def create(self, request: CreateRequest, context: Dict[str, Any]) -> str:
+    async def create(self, request: CreateRequest, context: dict[str, Any]) -> str:
         return f"""
 **Content for: {request.prompt}**
 
@@ -320,7 +320,7 @@ The content provides comprehensive coverage of the requested topic with appropri
 """
 
     def _generate_main_content(
-        self, request: CreateRequest, context: Dict[str, Any]
+        self, request: CreateRequest, context: dict[str, Any]
     ) -> str:
         """Generate the main content section"""
         return f"""
@@ -335,7 +335,7 @@ This content is designed to be {request.length} in length while maintaining {req
 class CodeGenerationCreator:
     """Code generation and programming assistance"""
 
-    async def create(self, request: CreateRequest, context: Dict[str, Any]) -> str:
+    async def create(self, request: CreateRequest, context: dict[str, Any]) -> str:
         return f"""
 **Code Generation for: {request.prompt}**
 
@@ -380,7 +380,7 @@ print(result)
 class DesignConceptCreator:
     """Design concepts and visual ideas"""
 
-    async def create(self, request: CreateRequest, context: Dict[str, Any]) -> str:
+    async def create(self, request: CreateRequest, context: dict[str, Any]) -> str:
         return f"""
 **Design Concept for: {request.prompt}**
 
@@ -419,7 +419,7 @@ class DesignConceptCreator:
 class CreativeWritingCreator:
     """Creative writing and storytelling"""
 
-    async def create(self, request: CreateRequest, context: Dict[str, Any]) -> str:
+    async def create(self, request: CreateRequest, context: dict[str, Any]) -> str:
         return f"""
 **Creative Writing: {request.prompt}**
 
@@ -439,7 +439,7 @@ class CreativeWritingCreator:
 """
 
     def _generate_creative_content(
-        self, request: CreateRequest, context: Dict[str, Any]
+        self, request: CreateRequest, context: dict[str, Any]
     ) -> str:
         """Generate creative narrative content"""
         return f"""
@@ -456,7 +456,7 @@ The narrative voice maintains consistency with the {request.style} approach whil
 class TechnicalDocCreator:
     """Technical documentation generation"""
 
-    async def create(self, request: CreateRequest, context: Dict[str, Any]) -> str:
+    async def create(self, request: CreateRequest, context: dict[str, Any]) -> str:
         return f"""
 # Technical Documentation: {request.prompt}
 
@@ -485,7 +485,7 @@ Additional resources and documentation links for extended learning.
 class StrategicPlanCreator:
     """Strategic planning and frameworks"""
 
-    async def create(self, request: CreateRequest, context: Dict[str, Any]) -> str:
+    async def create(self, request: CreateRequest, context: dict[str, Any]) -> str:
         return f"""
 # Strategic Plan: {request.prompt}
 
@@ -520,7 +520,7 @@ Clear timeline with checkpoints and deliverables.
 class InnovationCreator:
     """Innovation and breakthrough solutions"""
 
-    async def create(self, request: CreateRequest, context: Dict[str, Any]) -> str:
+    async def create(self, request: CreateRequest, context: dict[str, Any]) -> str:
         return f"""
 # Innovation Solution: {request.prompt}
 
@@ -550,7 +550,7 @@ Long-term impact and evolution of the innovative solution.
 class MultimediaCreator:
     """Multimedia and interactive content concepts"""
 
-    async def create(self, request: CreateRequest, context: Dict[str, Any]) -> str:
+    async def create(self, request: CreateRequest, context: dict[str, Any]) -> str:
         return f"""
 # Multimedia Concept: {request.prompt}
 

@@ -16,7 +16,8 @@
 """
 
 # Module imports
-from typing import Any, Dict
+from datetime import datetime
+from typing import Any
 
 from core.common import get_logger
 
@@ -26,9 +27,6 @@ logger = get_logger(__name__)
 # Module constants
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "quantum consciousness visualizer"
-
-from datetime import datetime
-from typing import List
 
 
 class QuantumConsciousnessVisualizer:
@@ -53,7 +51,7 @@ class QuantumConsciousnessVisualizer:
 
     def generate_neural_radiance_field(
         self, seed_phrase: str, consciousness_level: float = 0.5
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate NeRF-based visualization for seed phrase authentication.
 
@@ -71,7 +69,7 @@ class QuantumConsciousnessVisualizer:
             "timestamp": datetime.now().isoformat(),
         }
 
-    def render_symbolic_layer(self, symbols: List[str]) -> Dict[str, Any]:
+    def render_symbolic_layer(self, symbols: list[str]) -> dict[str, Any]:
         """
         Render symbolic authentication layer with consciousness awareness.
 

@@ -8,7 +8,7 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 # Standard Library Imports
-from typing import Any, Dict, List
+from typing import Any
 
 # Third-Party Imports
 
@@ -25,7 +25,7 @@ from typing import Any, Dict, List
 class WorkingMemoryBuffer:
     def __init__(self, capacity: int):
         self.capacity = capacity
-        self.current_items: List[Any] = []
+        self.current_items: list[Any] = []
 
     async def encode(self, interaction: Any) -> Any:
         log.debug(
@@ -47,7 +47,6 @@ class SemanticKnowledgeGraph:
             "SemanticKnowledgeGraph.integrate_patterns (stub)",
             patterns_preview=str(patterns)[:50],
         )
-        pass
 
 
 class ProceduralSkillNetwork:
@@ -56,14 +55,13 @@ class ProceduralSkillNetwork:
             "ProceduralSkillNetwork.update_skill_pathways (stub)",
             actions_preview=str(actions)[:50],
         )
-        pass
 
 
 class MemoryConsolidationEngine:
     def __init__(self):
-        self.config: Dict[str, Any] = {}  # Add dummy config
+        self.config: dict[str, Any] = {}  # Add dummy config
 
-    async def extract_patterns(self, trace: Any, related_memories: List[Any]) -> Any:
+    async def extract_patterns(self, trace: Any, related_memories: list[Any]) -> Any:
         log.debug(
             "MemoryConsolidationEngine.extract_patterns (stub)",
             trace_preview=str(trace)[:50],
@@ -71,8 +69,8 @@ class MemoryConsolidationEngine:
         return {"patterns": [trace]}
 
 
-UserInteraction = Dict[str, Any]  # ΛNOTE: Type alias for user interaction data.
-InteractionContext = Dict[str, Any]  # ΛNOTE: Type alias for interaction context.
+UserInteraction = dict[str, Any]  # ΛNOTE: Type alias for user interaction data.
+InteractionContext = dict[str, Any]  # ΛNOTE: Type alias for interaction context.
 # --- End Placeholder Imports ---
 
 
@@ -116,7 +114,8 @@ class BioSymbolicMemory:
     async def store_interaction(
         self,
         interaction: UserInteraction,  # ΛSEED_CHAIN
-        context: InteractionContext,  # ΛSEED_CHAIN (contains agent_id, is_critical_event etc.)
+        # ΛSEED_CHAIN (contains agent_id, is_critical_event etc.)
+        context: InteractionContext,
     ) -> None:
         """
         Stores an interaction using a biologically-inspired consolidation process.
@@ -178,7 +177,8 @@ class BioSymbolicMemory:
         )
 
         if importance_score > consolidation_threshold:
-            # ΛTRACE: High importance interaction, proceeding with semantic consolidation.
+            # ΛTRACE: High importance interaction, proceeding with semantic
+            # consolidation.
             log.info(
                 "High importance interaction, proceeding with semantic consolidation.",
                 current_score=importance_score,
@@ -192,7 +192,8 @@ class BioSymbolicMemory:
                 "Extracting semantic patterns from episodic trace.",
                 related_memories_count=len(related_memories),
             )
-            # ΛDRIFT_POINT: Pattern extraction logic defines semantic knowledge formation.
+            # ΛDRIFT_POINT: Pattern extraction logic defines semantic knowledge
+            # formation.
             semantic_patterns = await self.consolidation_engine.extract_patterns(
                 episodic_trace, related_memories=related_memories
             )
@@ -237,7 +238,7 @@ class BioSymbolicMemory:
         self,
         interaction: UserInteraction,
         context: InteractionContext,
-        working_memory_items: List[
+        working_memory_items: list[
             Any
         ],  # ΛNOTE: working_memory_items currently unused in stub.
     ) -> float:
@@ -274,7 +275,7 @@ class BioSymbolicMemory:
     @lukhas_tier_required(1)
     async def _find_related_memories(
         self, interaction: UserInteraction, context: InteractionContext
-    ) -> List[Any]:
+    ) -> list[Any]:
         """Finds memories related to the current interaction. (Stub)"""
         interaction_content_preview = str(interaction.get("content", ""))[:50]
         # ΛTRACE: Finding related memories (stub implementation).

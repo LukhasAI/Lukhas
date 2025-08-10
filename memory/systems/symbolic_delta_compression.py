@@ -56,7 +56,7 @@ from collections import defaultdict, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 # LUKHAS Core Imports with fallbacks
 try:
@@ -176,7 +176,7 @@ class CompressionRecord:
     compression_depth: int
     state: CompressionState
     metrics: Optional[CompressionMetrics]
-    loop_detection_flags: List[str]
+    loop_detection_flags: list[str]
     emotional_stability: float
 
 
@@ -187,7 +187,7 @@ class LoopDetectionResult:
     is_loop_detected: bool
     loop_type: Optional[str]
     confidence: float
-    risk_factors: List[str]
+    risk_factors: list[str]
     recommendation: str
 
 
@@ -220,9 +220,9 @@ class SymbolicDeltaCompressionManager:
         self.emotional_volatility_threshold = emotional_volatility_threshold
 
         # Initialize compression history and state tracking
-        self.compression_history: Dict[str, List[CompressionRecord]] = defaultdict(list)
-        self.active_compressions: Set[str] = set()
-        self.cooldown_tracker: Dict[str, datetime] = {}
+        self.compression_history: dict[str, list[CompressionRecord]] = defaultdict(list)
+        self.active_compressions: set[str] = set()
+        self.cooldown_tracker: dict[str, datetime] = {}
 
         # Initialize subsystem connections
         self.compressor = AdvancedSymbolicDeltaCompressor()
@@ -230,7 +230,7 @@ class SymbolicDeltaCompressionManager:
         self.emotional_memory = EmotionalMemory()
 
         # Compression metrics cache
-        self.metrics_cache: Dict[str, CompressionMetrics] = {}
+        self.metrics_cache: dict[str, CompressionMetrics] = {}
 
         # Loop detection state
         self.loop_detection_window = deque(maxlen=100)
@@ -247,11 +247,11 @@ class SymbolicDeltaCompressionManager:
     async def compress_fold(
         self,
         fold_key: str,
-        fold_content: Dict[str, Any],
+        fold_content: dict[str, Any],
         importance_score: float,
         drift_score: float,
         force: bool = False,
-    ) -> Tuple[Dict[str, Any], CompressionRecord]:
+    ) -> tuple[dict[str, Any], CompressionRecord]:
         """
         Compress a memory fold with comprehensive loop detection.
 
@@ -403,7 +403,7 @@ class SymbolicDeltaCompressionManager:
 
     # LUKHAS_TAG: loop_detection_core
     async def _detect_compression_loops(
-        self, fold_key: str, fold_content: Dict[str, Any]
+        self, fold_key: str, fold_content: dict[str, Any]
     ) -> LoopDetectionResult:
         """
         Comprehensive loop detection across multiple dimensions.
@@ -484,10 +484,10 @@ class SymbolicDeltaCompressionManager:
     def _perform_compression(
         self,
         fold_key: str,
-        fold_content: Dict[str, Any],
+        fold_content: dict[str, Any],
         importance_score: float,
         drift_score: float,
-    ) -> Tuple[Dict[str, Any], CompressionMetrics]:
+    ) -> tuple[dict[str, Any], CompressionMetrics]:
         """
         Perform actual compression using the symbolic delta compressor.
         """
@@ -576,7 +576,7 @@ class SymbolicDeltaCompressionManager:
 
     def _get_recent_compressions(
         self, fold_key: str, hours: int = 24
-    ) -> List[CompressionRecord]:
+    ) -> list[CompressionRecord]:
         """Get recent compression records for a fold."""
         cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
         history = self.compression_history.get(fold_key, [])
@@ -591,7 +591,7 @@ class SymbolicDeltaCompressionManager:
 
         return recent
 
-    def _calculate_entropy_ratio(self, fold_content: Dict[str, Any]) -> float:
+    def _calculate_entropy_ratio(self, fold_content: dict[str, Any]) -> float:
         """Calculate entropy ratio for content."""
         # Simplified entropy calculation
         content_str = json.dumps(fold_content)
@@ -608,7 +608,7 @@ class SymbolicDeltaCompressionManager:
         return entropy / theoretical_max
 
     def _detect_pattern_repetition(
-        self, fold_key: str, fold_content: Dict[str, Any]
+        self, fold_key: str, fold_content: dict[str, Any]
     ) -> float:
         """Detect repetitive patterns in content."""
         content_str = json.dumps(fold_content)
@@ -666,7 +666,7 @@ class SymbolicDeltaCompressionManager:
     # LUKHAS_TAG: compression_analytics
     async def get_compression_analytics(
         self, fold_key: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get comprehensive compression analytics.
 
@@ -743,7 +743,7 @@ class SymbolicDeltaCompressionManager:
         return analytics
 
     # LUKHAS_TAG: emergency_decompression
-    async def emergency_decompress(self, fold_key: str) -> Dict[str, Any]:
+    async def emergency_decompress(self, fold_key: str) -> dict[str, Any]:
         """
         Emergency decompression for critical scenarios.
 
@@ -789,7 +789,7 @@ class SymbolicDeltaCompressionManager:
 
 # LUKHAS_TAG: factory_functions
 def create_compression_manager(
-    config: Optional[Dict[str, Any]] = None,
+    config: Optional[dict[str, Any]] = None,
 ) -> SymbolicDeltaCompressionManager:
     """
     Create a compression manager with optional configuration.

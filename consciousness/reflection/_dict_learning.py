@@ -403,7 +403,8 @@ def _update_dict(
             dictionary[k] += (B[:, k] - A[k] @ dictionary) / A[k, k]
         else:
             # ΛNOTE: Atom is unused, resampling it from data. This helps prevent degenerate dictionaries.
-            # ΛSEED: Resampling an atom from data (Y) acts as injecting a new seed or refreshing an existing one.
+            # ΛSEED: Resampling an atom from data (Y) acts as injecting a new seed or
+            # refreshing an existing one.
             newd = Y[random_state.choice(n_samples)]
             noise_level = 0.01 * (newd.std() or 1)
             noise = random_state.normal(0, noise_level, size=len(newd))
@@ -558,7 +559,8 @@ def _dict_learning(
 
 
 # # Online dictionary learning
-# ΛEXPOSE: This function is likely used by other modules or an API for online dictionary learning.
+# ΛEXPOSE: This function is likely used by other modules or an API for
+# online dictionary learning.
 @validate_params(
     {
         "X": ["array-like"],
@@ -639,7 +641,8 @@ def dict_learning_online(
 
 
 # # Batch dictionary learning (main exposed function)
-# ΛEXPOSE: This function is likely used by other modules or an API for batch dictionary learning.
+# ΛEXPOSE: This function is likely used by other modules or an API for
+# batch dictionary learning.
 @validate_params(
     {
         "X": ["array-like"],
@@ -791,7 +794,7 @@ class _BaseSparseCoding(ClassNamePrefixFeaturesOutMixin, TransformerMixin):
         expected_n_components = dictionary.shape[0]
         if self.split_sign:
             expected_n_components += expected_n_components
-        if not code.shape[1] == expected_n_components:
+        if code.shape[1] != expected_n_components:
             # ΛTRACE: Logging component mismatch error during inverse transform.
             logger.error(
                 "inverse_transform_component_mismatch",
@@ -832,7 +835,8 @@ class _BaseSparseCoding(ClassNamePrefixFeaturesOutMixin, TransformerMixin):
 # # SparseCoder class
 # ΛEXPOSE: This class is a primary interface for sparse coding.
 class SparseCoder(_BaseSparseCoding, BaseEstimator):
-    # ΛNOTE: Finds a sparse representation of data against a fixed, precomputed dictionary.
+    # ΛNOTE: Finds a sparse representation of data against a fixed,
+    # precomputed dictionary.
     def __init__(
         self,
         dictionary,  # ΛSEED: The dictionary itself is a seed/basis for encoding.
@@ -1009,10 +1013,7 @@ class DictionaryLearning(_BaseSparseCoding, BaseEstimator):
         random_state = check_random_state(self.random_state)
         X = validate_data(self, X)
 
-        if self.n_components is None:
-            n_components = X.shape[1]
-        else:
-            n_components = self.n_components
+        n_components = X.shape[1] if self.n_components is None else self.n_components
         # ΛTRACE: DictionaryLearning fit_transform starting internal _dict_learning.
         logger.info(
             "DictionaryLearning_fit_transform_start_internal",
@@ -1060,9 +1061,11 @@ class DictionaryLearning(_BaseSparseCoding, BaseEstimator):
 
 
 # # MiniBatchDictionaryLearning class
-# ΛEXPOSE: This class provides a more scalable way to learn dictionaries using mini-batches.
+# ΛEXPOSE: This class provides a more scalable way to learn dictionaries
+# using mini-batches.
 class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
-    # ΛNOTE: Finds a dictionary using mini-batch optimization. Faster for large datasets.
+    # ΛNOTE: Finds a dictionary using mini-batch optimization. Faster for
+    # large datasets.
     _parameter_constraints: dict = {
         "n_components": [Interval(Integral, 1, None, closed="left"), None],
         "alpha": [Interval(Real, 0, None, closed="left")],
@@ -1196,7 +1199,8 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
     # # Update inner statistics for online learning
     def _update_inner_stats(self, X, code, batch_size, step):
         # ΛNOTE: Updates A and B matrices (sufficient statistics) for online updates.
-        # ΛDREAM_LOOP: This incremental update of statistics is part of the ongoing learning process.
+        # ΛDREAM_LOOP: This incremental update of statistics is part of the
+        # ongoing learning process.
         if step < batch_size - 1:
             theta = (step + 1) * batch_size
         else:
@@ -1238,7 +1242,9 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         self._update_inner_stats(X, code, batch_size, step)
         _update_dict(
             dictionary,
-            X,  # This should be X_batch, but original code uses X. Assuming X is X_batch here.
+            X,
+            # This should be X_batch, but original code uses X. Assuming X is X_batch
+            # here.
             code,
             self._A,
             self._B,
@@ -1254,7 +1260,8 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
     def _check_convergence(
         self, X, batch_cost, new_dict, old_dict, n_samples, step, n_steps
     ):
-        # ΛNOTE: Implements early stopping logic based on dictionary change and cost improvement.
+        # ΛNOTE: Implements early stopping logic based on dictionary change and
+        # cost improvement.
         batch_size = X.shape[0]
         step = step + 1  # User-friendly step count
 

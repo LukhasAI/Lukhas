@@ -1,5 +1,5 @@
 import asyncio
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
 import torch
@@ -17,9 +17,9 @@ class LearningAgent(SwarmAgent):
         super().__init__(agent_id, None)
         self.local_model = model_architecture
         self.optimizer = torch.optim.Adam(self.local_model.parameters())
-        self.local_data: List[Any] = []
+        self.local_data: list[Any] = []
 
-    async def learn_local(self, data_batch: List[Any]) -> Dict[str, Any]:
+    async def learn_local(self, data_batch: list[Any]) -> dict[str, Any]:
         losses = []
         for data in data_batch:
             output = self.local_model(data["input"])
@@ -44,7 +44,7 @@ class FederatedLearningColony(BaseColony):
         self.meta_learner = MetaLearner()
         self.learning_rounds = 0
 
-    async def federated_learning_round(self, data_distribution: Dict[str, List]):
+    async def federated_learning_round(self, data_distribution: dict[str, list]):
         learning_tasks = []
         for agent_id, agent in self.agents.items():
             if agent_id in data_distribution:
@@ -65,9 +65,9 @@ class FederatedLearningColony(BaseColony):
             "model_version": self.learning_rounds,
         }
 
-    def _federate_models(self, local_results: List[Dict]) -> Dict:
+    def _federate_models(self, local_results: list[dict]) -> dict:
         aggregated_state = {}
-        for key in self.global_model.state_dict().keys():
+        for key in self.global_model.state_dict():
             param_sum = None
             for result in local_results:
                 local_param = result["model_state"][key]

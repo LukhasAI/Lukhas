@@ -16,12 +16,13 @@ Version: 1.0
 """
 
 import asyncio
+import contextlib
 import hashlib
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -73,7 +74,7 @@ class RepairMetadata:
     timestamp: datetime
     drift_before: float
     drift_after: float
-    glyphs_repaired: List[int]
+    glyphs_repaired: list[int]
 
 
 class SymbolicStrand:
@@ -81,7 +82,7 @@ class SymbolicStrand:
     🧬 Immutable symbolic strand representing a sequence of meaning units
     """
 
-    def __init__(self, glyphs: List[str]):
+    def __init__(self, glyphs: list[str]):
         """Initialize with immutable glyph sequence"""
         self.sequence = tuple(glyphs)  # Immutable
         self._hash = None
@@ -126,7 +127,7 @@ class SymbolicStrand:
         return self._hash
 
     def to_vector(
-        self, glyph_embeddings: Optional[Dict[str, np.ndarray]] = None
+        self, glyph_embeddings: Optional[dict[str, np.ndarray]] = None
     ) -> np.ndarray:
         """Convert strand to vector representation"""
         if glyph_embeddings:
@@ -213,7 +214,7 @@ class DNAHealixCore:
     ):
         self.origin = origin
         self.current = current or SymbolicStrand(list(origin.sequence))
-        self.repair_history: List[RepairMetadata] = []
+        self.repair_history: list[RepairMetadata] = []
         self.drift_threshold = 0.3  # 30% drift triggers repair
         self.entropy_threshold = 0.4  # Minimum entropy for safety
 
@@ -340,7 +341,7 @@ class DNAHealixCore:
         return SymbolicStrand(glyphs)
 
     def _consensus_repair(
-        self, quorum_strands: List[SymbolicStrand], min_agreement: float = 0.6
+        self, quorum_strands: list[SymbolicStrand], min_agreement: float = 0.6
     ) -> SymbolicStrand:
         """Repair using consensus from multiple strands"""
         if not quorum_strands:
@@ -395,7 +396,7 @@ class DNAHealixCore:
 
         return SymbolicStrand(suggested_glyphs)
 
-    def _selective_repair(self, positions: List[int]) -> SymbolicStrand:
+    def _selective_repair(self, positions: list[int]) -> SymbolicStrand:
         """Repair only specific positions"""
         glyphs = list(self.current.sequence)
 
@@ -446,10 +447,8 @@ class SymbolicRepairLoop:
         self.running = False
         if self._task:
             self._task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._task
-            except asyncio.CancelledError:
-                pass
         logger.info("⏹ Symbolic repair loop stopped")
 
     async def _monitor_loop(self):
@@ -494,7 +493,7 @@ class MemoryHelix:
     🧬 Complete immutable memory system with DNA helix structure
     """
 
-    def __init__(self, memory_id: str, initial_glyphs: List[str]):
+    def __init__(self, memory_id: str, initial_glyphs: list[str]):
         self.memory_id = memory_id
         self.origin_strand = SymbolicStrand(initial_glyphs)
         self.helix_core = DNAHealixCore(self.origin_strand)
@@ -509,13 +508,13 @@ class MemoryHelix:
         self.created_at = datetime.now()
         self.access_count = 0
         self.last_accessed = None
-        self.tags: Set[str] = set()
+        self.tags: set[str] = set()
         self.locked = False  # For GDPR compliance
 
     def __repr__(self) -> str:
         return f"MemoryHelix({self.memory_id}, drift={self.helix_core.calculate_drift():.3f})"
 
-    def access(self) -> Dict[str, Any]:
+    def access(self) -> dict[str, Any]:
         """Access memory with tracking"""
         if self.locked:
             raise PermissionError(f"Memory {self.memory_id} is locked")
@@ -542,22 +541,22 @@ class MemoryHelix:
             },
         }
 
-    def mutate(self, new_glyphs: List[str]) -> None:
+    def mutate(self, new_glyphs: list[str]) -> None:
         """Update current strand (origin remains immutable)"""
         if self.locked:
             raise PermissionError(f"Memory {self.memory_id} is locked")
 
         self.helix_core.current = SymbolicStrand(new_glyphs)
 
-    def add_emotional_context(self, emotional_glyphs: List[str]) -> None:
+    def add_emotional_context(self, emotional_glyphs: list[str]) -> None:
         """Add emotional context strand"""
         self.emotional_strand = SymbolicStrand(emotional_glyphs)
 
-    def add_temporal_context(self, temporal_glyphs: List[str]) -> None:
+    def add_temporal_context(self, temporal_glyphs: list[str]) -> None:
         """Add temporal context strand"""
         self.temporal_strand = SymbolicStrand(temporal_glyphs)
 
-    def add_causal_context(self, causal_glyphs: List[str]) -> None:
+    def add_causal_context(self, causal_glyphs: list[str]) -> None:
         """Add causal context strand"""
         self.causal_strand = SymbolicStrand(causal_glyphs)
 
@@ -573,7 +572,7 @@ class MemoryHelix:
         self.tags = {t for t in self.tags if not t.startswith("locked:")}
         logger.info(f"🔓 Memory {self.memory_id} unlocked")
 
-    def export(self) -> Dict[str, Any]:
+    def export(self) -> dict[str, Any]:
         """Export memory for persistence"""
         return {
             "memory_id": self.memory_id,
@@ -604,7 +603,7 @@ class MemoryHelix:
         }
 
     @classmethod
-    def from_export(cls, data: Dict[str, Any]) -> "MemoryHelix":
+    def from_export(cls, data: dict[str, Any]) -> "MemoryHelix":
         """Restore memory from export"""
         memory = cls(data["memory_id"], data["origin"])
         memory.helix_core.current = SymbolicStrand(data["current"])

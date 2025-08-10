@@ -16,12 +16,14 @@ from dataclasses import dataclass
 logger = logging.getLogger(f"LUKHAS.{__name__}")
 logger = logging.getLogger(f"lukhas.{__name__}")
 
+
 @dataclass
 class CoreMemoriaConfig:
     """Configuration for CoreMemoriaComponent"""
     enabled: bool = True
     debug_mode: bool = False
     # Add specific config fields based on TODO requirements
+
 
 class CoreMemoriaComponent:
     """
@@ -63,9 +65,12 @@ class CoreMemoriaComponent:
         }
 
 # Factory function
+
+
 def create_core_memoria_component() -> CoreMemoriaComponent:
     """Create CoreMemoriaComponent with default configuration"""
     return CoreMemoriaComponent()
+
 
 # Export main functionality
 __all__ = ['CoreMemoriaComponent', 'create_core_memoria_component', 'CoreMemoriaConfig']

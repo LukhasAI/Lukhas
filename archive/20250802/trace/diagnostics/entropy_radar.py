@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
-from typing import Dict
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -13,9 +12,9 @@ import yaml
 # ΛTAG: diagnostics, entropy_radar
 
 
-def load_brief_metrics(base_dir: str = "lukhas") -> Dict[str, Dict[str, float]]:
+def load_brief_metrics(base_dir: str = "lukhas") -> dict[str, dict[str, float]]:
     """Load symbolic entropy and collapse deltas from .brief.yaml files."""
-    metrics: Dict[str, Dict[str, float]] = {}
+    metrics: dict[str, dict[str, float]] = {}
     for yaml_path in Path(base_dir).rglob("*.brief.yaml"):
         try:
             data = yaml.safe_load(yaml_path.read_text()) or {}
@@ -30,7 +29,7 @@ def load_brief_metrics(base_dir: str = "lukhas") -> Dict[str, Dict[str, float]]:
 
 
 def render_entropy_radar(
-    module: str, values: Dict[str, float], output_dir: Path
+    module: str, values: dict[str, float], output_dir: Path
 ) -> Path:
     """Render a radar chart for the provided module metrics."""
     labels = list(values.keys())

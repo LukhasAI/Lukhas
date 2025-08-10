@@ -241,13 +241,13 @@ def generate_html_visualization(connectivity):
             margin: 0;
             padding: 20px;
         }
-        
+
         h1 {
             text-align: center;
             color: #00ff00;
             text-shadow: 0 0 10px #00ff00;
         }
-        
+
         #visualization {
             width: 100%;
             height: 800px;
@@ -255,7 +255,7 @@ def generate_html_visualization(connectivity):
             position: relative;
             overflow: hidden;
         }
-        
+
         .module {
             position: absolute;
             padding: 20px;
@@ -265,34 +265,34 @@ def generate_html_visualization(connectivity):
             cursor: move;
             transition: all 0.3s;
         }
-        
+
         .module:hover {
             box-shadow: 0 0 20px #00ff00;
             transform: scale(1.05);
         }
-        
+
         .module h3 {
             margin: 0 0 10px 0;
             color: #00ff00;
         }
-        
+
         .module.stress {
             border-color: #ff0000;
             box-shadow: 0 0 20px #ff0000;
         }
-        
+
         .connection {
             stroke: #00ff00;
             stroke-width: 2;
             fill: none;
             opacity: 0.5;
         }
-        
+
         .connection.bidirectional {
             stroke-width: 4;
             opacity: 0.8;
         }
-        
+
         .hormone-tag {
             display: inline-block;
             padding: 2px 8px;
@@ -302,12 +302,12 @@ def generate_html_visualization(connectivity):
             border-radius: 10px;
             font-size: 12px;
         }
-        
+
         #controls {
             margin-top: 20px;
             text-align: center;
         }
-        
+
         button {
             background-color: #003300;
             color: #00ff00;
@@ -317,11 +317,11 @@ def generate_html_visualization(connectivity):
             cursor: pointer;
             font-size: 16px;
         }
-        
+
         button:hover {
             background-color: #005500;
         }
-        
+
         #info {
             position: fixed;
             top: 20px;
@@ -336,43 +336,43 @@ def generate_html_visualization(connectivity):
 </head>
 <body>
     <h1>LUKHAS AI - Neuroplastic Connectivity Map</h1>
-    
+
     <div id="visualization">
         <svg id="connections" style="position: absolute; width: 100%; height: 100%;"></svg>
     </div>
-    
+
     <div id="controls">
         <button onclick="setState('normal')">Normal State</button>
         <button onclick="setState('stress')">Stress Response</button>
         <button onclick="setState('trauma')">Trauma Response</button>
         <button onclick="setState('overload')">Memory Overload</button>
     </div>
-    
+
     <div id="info"></div>
-    
+
     <script>
         const connectivity = """
         + json.dumps(connectivity, indent=2)
         + """;
-        
+
         let currentState = 'normal';
         const modules = connectivity.modules;
         const states = connectivity.neuroplastic_states;
-        
+
         // Position modules in a circle
         const centerX = 400;
         const centerY = 400;
         const radius = 250;
         const moduleNames = Object.keys(modules);
-        
+
         moduleNames.forEach((name, index) => {
             const angle = (2 * Math.PI * index) / moduleNames.length;
             const x = centerX + radius * Math.cos(angle);
             const y = centerY + radius * Math.sin(angle);
-            
+
             createModule(name, x, y);
         });
-        
+
         function createModule(name, x, y) {
             const module = modules[name];
             const div = document.createElement('div');
@@ -380,39 +380,39 @@ def generate_html_visualization(connectivity):
             div.id = 'module-' + name;
             div.style.left = x + 'px';
             div.style.top = y + 'px';
-            
-            const hormones = module.hormone_production.map(h => 
+
+            const hormones = module.hormone_production.map(h =>
                 `<span class="hormone-tag">${h}</span>`
             ).join('');
-            
+
             div.innerHTML = `
                 <h3>${name}</h3>
                 <div>${module.role}</div>
                 <div style="margin-top: 10px;">${hormones}</div>
             `;
-            
+
             div.onclick = () => showInfo(name);
-            
+
             document.getElementById('visualization').appendChild(div);
         }
-        
+
         function drawConnections() {
             const svg = d3.select('#connections');
             svg.selectAll('*').remove();
-            
+
             moduleNames.forEach(name => {
                 const module = modules[name];
                 const sourceEl = document.getElementById('module-' + name);
                 const sourceX = parseInt(sourceEl.style.left) + sourceEl.offsetWidth / 2;
                 const sourceY = parseInt(sourceEl.style.top) + sourceEl.offsetHeight / 2;
-                
+
                 module.connections.bidirectional.forEach(target => {
                     if (moduleNames.includes(target)) {
                         const targetEl = document.getElementById('module-' + target);
                         if (targetEl) {
                             const targetX = parseInt(targetEl.style.left) + targetEl.offsetWidth / 2;
                             const targetY = parseInt(targetEl.style.top) + targetEl.offsetHeight / 2;
-                            
+
                             svg.append('path')
                                 .attr('class', 'connection bidirectional')
                                 .attr('d', `M ${sourceX} ${sourceY} L ${targetX} ${targetY}`);
@@ -421,17 +421,17 @@ def generate_html_visualization(connectivity):
                 });
             });
         }
-        
+
         function setState(state) {
             currentState = state;
             const stateConfig = states[state];
-            
+
             // Reset all modules
             document.querySelectorAll('.module').forEach(el => {
                 el.classList.remove('stress');
                 el.style.opacity = '0.3';
             });
-            
+
             // Highlight active modules
             stateConfig.hierarchy.forEach((moduleName, index) => {
                 const el = document.getElementById('module-' + moduleName.toUpperCase());
@@ -442,7 +442,7 @@ def generate_html_visualization(connectivity):
                     }
                 }
             });
-            
+
             // Update info
             const infoDiv = document.getElementById('info');
             infoDiv.style.display = 'block';
@@ -454,7 +454,7 @@ def generate_html_visualization(connectivity):
                 ${stateConfig.enhanced ? `<p><strong>Enhanced:</strong> ${stateConfig.enhanced.join(', ')}</p>` : ''}
             `;
         }
-        
+
         function showInfo(moduleName) {
             const module = modules[moduleName];
             const infoDiv = document.getElementById('info');
@@ -469,24 +469,24 @@ def generate_html_visualization(connectivity):
                 <ul>${module.hybrid_subdirs.map(d => `<li>${d}</li>`).join('')}</ul>
             `;
         }
-        
+
         // Initial setup
         setTimeout(() => {
             drawConnections();
             setState('normal');
         }, 100);
-        
+
         // Make modules draggable
         document.querySelectorAll('.module').forEach(el => {
             let isDragging = false;
             let startX, startY;
-            
+
             el.addEventListener('mousedown', (e) => {
                 isDragging = true;
                 startX = e.clientX - parseInt(el.style.left);
                 startY = e.clientY - parseInt(el.style.top);
             });
-            
+
             document.addEventListener('mousemove', (e) => {
                 if (isDragging) {
                     el.style.left = (e.clientX - startX) + 'px';
@@ -494,7 +494,7 @@ def generate_html_visualization(connectivity):
                     drawConnections();
                 }
             });
-            
+
             document.addEventListener('mouseup', () => {
                 isDragging = false;
             });

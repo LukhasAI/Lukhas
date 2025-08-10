@@ -45,7 +45,7 @@ import hashlib
 from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -56,8 +56,8 @@ class DriftMetrics:
 
     tag: str
     current_centroid: Optional[np.ndarray] = None
-    historical_centroids: List[np.ndarray] = field(default_factory=list)
-    drift_scores: List[float] = field(default_factory=list)
+    historical_centroids: list[np.ndarray] = field(default_factory=list)
+    drift_scores: list[float] = field(default_factory=list)
     last_calibration: datetime = field(
         default_factory=lambda: datetime.now(timezone.utc)
     )
@@ -86,7 +86,7 @@ class VerifoldEntry:
     last_verified: datetime
     verification_count: int = 0
     integrity_score: float = 1.0
-    suspicious_modifications: List[str] = field(default_factory=list)
+    suspicious_modifications: list[str] = field(default_factory=list)
 
 
 class MemorySafetySystem:
@@ -110,13 +110,13 @@ class MemorySafetySystem:
         self.consensus_threshold = consensus_threshold
 
         # Safety tracking
-        self.drift_metrics: Dict[str, DriftMetrics] = {}
-        self.verifold_registry: Dict[str, VerifoldEntry] = {}
-        self.quarantine: Dict[str, Dict[str, Any]] = {}
+        self.drift_metrics: dict[str, DriftMetrics] = {}
+        self.verifold_registry: dict[str, VerifoldEntry] = {}
+        self.quarantine: dict[str, dict[str, Any]] = {}
 
         # Hallucination prevention
-        self.reality_anchors: Dict[str, str] = {}  # Known true facts
-        self.contradiction_log: List[Dict[str, Any]] = []
+        self.reality_anchors: dict[str, str] = {}  # Known true facts
+        self.contradiction_log: list[dict[str, Any]] = []
 
         logger.info(
             "Memory safety system initialized",
@@ -124,7 +124,7 @@ class MemorySafetySystem:
             quarantine_threshold=quarantine_threshold,
         )
 
-    def compute_collapse_hash(self, memory_data: Dict[str, Any]) -> str:
+    def compute_collapse_hash(self, memory_data: dict[str, Any]) -> str:
         """
         Compute deterministic collapse hash for memory verification.
 
@@ -143,7 +143,7 @@ class MemorySafetySystem:
 
         return collapse_hash
 
-    def _normalize_memory_data(self, data: Dict[str, Any]) -> str:
+    def _normalize_memory_data(self, data: dict[str, Any]) -> str:
         """Normalize memory data for consistent hashing"""
         # Remove timestamps and volatile fields
         stable_data = {
@@ -158,8 +158,8 @@ class MemorySafetySystem:
         return json.dumps(stable_data, sort_keys=True)
 
     async def verify_memory_integrity(
-        self, memory_id: str, memory_data: Dict[str, Any], expected_hash: str
-    ) -> Tuple[bool, Optional[str]]:
+        self, memory_id: str, memory_data: dict[str, Any], expected_hash: str
+    ) -> tuple[bool, Optional[str]]:
         """
         Verify memory hasn't been corrupted or hallucinated.
 
@@ -195,7 +195,7 @@ class MemorySafetySystem:
         return True, None
 
     def track_drift(
-        self, tag: str, embedding: np.ndarray, usage_context: Dict[str, Any]
+        self, tag: str, embedding: np.ndarray, usage_context: dict[str, Any]
     ) -> float:
         """
         Track semantic drift of tags over time.
@@ -243,8 +243,8 @@ class MemorySafetySystem:
         return drift_score
 
     async def prevent_hallucination(
-        self, memory_data: Dict[str, Any], context: Dict[str, Any]
-    ) -> Tuple[bool, Optional[str]]:
+        self, memory_data: dict[str, Any], context: dict[str, Any]
+    ) -> tuple[bool, Optional[str]]:
         """
         Prevent hallucinated memories by checking against reality anchors
         and detecting contradictions.
@@ -298,7 +298,7 @@ class MemorySafetySystem:
 
         return True
 
-    def _is_logically_consistent(self, memory_data: Dict[str, Any]) -> bool:
+    def _is_logically_consistent(self, memory_data: dict[str, Any]) -> bool:
         """Check for internal logical consistency"""
         # Check emotion consistency
         emotion = memory_data.get("emotion")
@@ -316,17 +316,14 @@ class MemorySafetySystem:
 
         # Check severity consistency
         severity = memory_data.get("severity")
-        if severity == "critical" and "minor" in content:
-            return False
-
-        return True
+        return not (severity == "critical" and "minor" in content)
 
     async def consensus_validation(
         self,
         memory_id: str,
-        memory_data: Dict[str, Any],
-        similar_memories: List[Tuple[str, Dict[str, Any], float]],
-    ) -> Tuple[bool, float]:
+        memory_data: dict[str, Any],
+        similar_memories: list[tuple[str, dict[str, Any], float]],
+    ) -> tuple[bool, float]:
         """
         Validate memory through consensus with similar memories.
 
@@ -366,7 +363,7 @@ class MemorySafetySystem:
 
         return is_valid, consensus_score
 
-    def _memories_agree(self, mem1: Dict[str, Any], mem2: Dict[str, Any]) -> bool:
+    def _memories_agree(self, mem1: dict[str, Any], mem2: dict[str, Any]) -> bool:
         """Check if two memories agree on key facts"""
         # Compare emotions if present
         if "emotion" in mem1 and "emotion" in mem2:
@@ -387,7 +384,7 @@ class MemorySafetySystem:
     async def quarantine_memory(
         self,
         memory_id: str,
-        memory_data: Dict[str, Any],
+        memory_data: dict[str, Any],
         reason: str,
         severity: float = 0.5,
     ):
@@ -404,7 +401,7 @@ class MemorySafetySystem:
             "Memory quarantined", memory_id=memory_id, reason=reason, severity=severity
         )
 
-    async def review_quarantine(self) -> List[Tuple[str, bool, str]]:
+    async def review_quarantine(self) -> list[tuple[str, bool, str]]:
         """
         Review quarantined memories and determine their fate.
 
@@ -473,7 +470,7 @@ class MemorySafetySystem:
         self.reality_anchors[key] = truth
         logger.info(f"Reality anchor added: {key}")
 
-    def get_safety_report(self) -> Dict[str, Any]:
+    def get_safety_report(self) -> dict[str, Any]:
         """Generate comprehensive safety report"""
         total_drift_scores = []
         for metrics in self.drift_metrics.values():
@@ -544,7 +541,7 @@ class SafeMemoryFold:
         self.safety = safety_system
 
     async def safe_fold_in(
-        self, data: Dict[str, Any], tags: List[str], **kwargs
+        self, data: dict[str, Any], tags: list[str], **kwargs
     ) -> Optional[str]:
         """Safely store memory with verification"""
         # 1. Check for hallucinations
@@ -579,7 +576,7 @@ class SafeMemoryFold:
 
     async def safe_fold_out(
         self, query: str, verify: bool = True, check_consensus: bool = True
-    ) -> List[Tuple[Any, float]]:
+    ) -> list[tuple[Any, float]]:
         """Safely retrieve memories with verification"""
         # Get memories from base
         results = await self.base.fold_out_semantic(query)

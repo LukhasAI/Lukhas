@@ -176,34 +176,35 @@ class EnvironmentSetup:
     def create_env_file(self):
         """Create .env file with secure key reference"""
         env_content = f"""# LUKHAS AI Environment Configuration
-        env_content = f"""# LUKHAS AI Environment Configuration
+        env_content = f"""  # LUKHAS AI Environment Configuration
 # Generated: {self._get_timestamp()}
 # Security: Keys stored in macOS Keychain, not in this file
 
+
 # Development Settings
-AGI_ENV=development
-DEBUG=true
-LOG_LEVEL=INFO
+AGI_ENV = development
+DEBUG = true
+LOG_LEVEL = INFO
 
 # AI Provider Settings
-OPENAI_API_KEY="$(security find-generic-password -s lukhas-ai-openai -w)"
-OPENAI_ORG_ID="$(security find-generic-password -s lukhas-ai-openai-org -w)"
-ANTHROPIC_API_KEY="$(security find-generic-password -s lukhas-ai-anthropic -w)"
-GEMINI_API_KEY="$(security find-generic-password -s lukhas-ai-gemini -w)"
-PERPLEXITY_API_KEY="$(security find-generic-password -s lukhas-ai-perplexity -w)"
+OPENAI_API_KEY = "$(security find-generic-password -s lukhas-ai-openai -w)"
+OPENAI_ORG_ID = "$(security find-generic-password -s lukhas-ai-openai-org -w)"
+ANTHROPIC_API_KEY = "$(security find-generic-password -s lukhas-ai-anthropic -w)"
+GEMINI_API_KEY = "$(security find-generic-password -s lukhas-ai-gemini -w)"
+PERPLEXITY_API_KEY = "$(security find-generic-password -s lukhas-ai-perplexity -w)"
 
 # Rate Limiting
-ENABLE_RATE_LIMITING=true
-MAX_CONCURRENT_REQUESTS=5
+ENABLE_RATE_LIMITING = true
+MAX_CONCURRENT_REQUESTS = 5
 
 # Compliance
-GDPR_MODE=true
-AUDIT_LOGGING=true
-PII_DETECTION=true
+GDPR_MODE = true
+AUDIT_LOGGING = true
+PII_DETECTION = true
 
 # Performance
-CACHE_RESPONSES=true
-CACHE_TTL=3600
+CACHE_RESPONSES = true
+CACHE_TTL = 3600
 """
 
         with open("/Users/A_G_I/LUKHAS/.env.template", "w") as f:
@@ -230,35 +231,35 @@ def print_usage_guide():
 🎯 OPTIMAL AI USAGE STRATEGIES FOR LUKHAS AI
 🎯 OPTIMAL AI USAGE STRATEGIES FOR LUKHAS AI
 
-🤖 OPENAI (GPT-4/3.5) - USE FOR:
+🤖 OPENAI(GPT - 4 / 3.5) - USE FOR:
   ✅ Complex code generation and debugging
   ✅ Technical documentation and API design
-  ✅ Structured data processing (JSON/YAML)
+  ✅ Structured data processing(JSON / YAML)
   ✅ Mathematical computations and algorithms
-  ✅ Logic-heavy problem solving
-  
+  ✅ Logic - heavy problem solving
+
 🧠 ANTHROPIC CLAUDE - USE FOR:
   ✅ Long document analysis and research
   ✅ Ethical reasoning and safety considerations
-  ✅ Complex decision-making with multiple factors
+  ✅ Complex decision - making with multiple factors
   ✅ Constitutional AI alignment tasks
   ✅ Risk assessment and compliance review
-  
+
 🌟 GOOGLE GEMINI - USE FOR:
-  ✅ High-volume, cost-sensitive tasks
+  ✅ High - volume, cost - sensitive tasks
   ✅ Image and multimodal analysis
   ✅ Creative content generation
-  ✅ Real-time applications (fast response)
-  ✅ Mobile/edge deployment scenarios
-  
+  ✅ Real - time applications(fast response)
+  ✅ Mobile / edge deployment scenarios
+
 🔍 PERPLEXITY - USE FOR:
-  ✅ Current events and real-time information
+  ✅ Current events and real - time information
   ✅ Market research and competitive analysis
-  ✅ Fact-checking with citations
+  ✅ Fact - checking with citations
   ✅ Technology trends and news
   ✅ Academic research with sources
 
-💡 MULTI-AI STRATEGIES:
+💡 MULTI - AI STRATEGIES:
   🔄 Ensemble Approach: Use multiple AIs for complex problems
   🎯 Task Routing: Automatically route tasks to optimal provider
   💰 Cost Optimization: Use Gemini for bulk, OpenAI for complex
@@ -266,10 +267,10 @@ def print_usage_guide():
   📊 Consensus: Get multiple perspectives on important choices
 
 🚀 IMPLEMENTATION TIPS:
-  * Start with Gemini for prototyping (fast + cheap)
+  * Start with Gemini for prototyping(fast + cheap)
   * Escalate to OpenAI for technical implementation
   * Use Claude for final safety and ethical review
-  * Use Perplexity for real-world data validation
+  * Use Perplexity for real - world data validation
   * Implement fallback chains for reliability
   * Cache responses to minimize costs
   * Batch similar requests when possible

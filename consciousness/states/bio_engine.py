@@ -23,7 +23,7 @@ import asyncio
 import math
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 import numpy as np
 
@@ -84,9 +84,7 @@ class BioEngine:
         )
 
         # Hormonal system state
-        self.hormone_levels: Dict[HormoneType, float] = {
-            hormone: 0.5 for hormone in HormoneType  # Baseline 0.5
-        }
+        self.hormone_levels: dict[HormoneType, float] = dict.fromkeys(HormoneType, 0.5)
 
         # System vitals
         self.energy_level = 1.0  # ATP equivalent
@@ -108,7 +106,7 @@ class BioEngine:
 
         # System state
         self.current_state = SystemState.ACTIVE
-        self.state_history: List[Tuple[datetime, SystemState]] = []
+        self.state_history: list[tuple[datetime, SystemState]] = []
 
         # Circadian rhythm simulation
         self.circadian_phase = 0.0
@@ -120,8 +118,8 @@ class BioEngine:
         asyncio.create_task(self._circadian_loop())
 
     async def process_stimulus(
-        self, stimulus_type: str, intensity: float, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, stimulus_type: str, intensity: float, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Process external stimulus through bio-symbolic pathways.
 
@@ -170,7 +168,7 @@ class BioEngine:
 
     def _calculate_hormonal_response(
         self, stimulus_type: str, intensity: float
-    ) -> Dict[HormoneType, float]:
+    ) -> dict[HormoneType, float]:
         """Calculate hormonal response to stimulus"""
         response = {}
 
@@ -197,7 +195,7 @@ class BioEngine:
 
         return response
 
-    async def _update_hormones(self, changes: Dict[HormoneType, float]):
+    async def _update_hormones(self, changes: dict[HormoneType, float]):
         """Update hormone levels with homeostatic regulation"""
         for hormone, change in changes.items():
             # Current level
@@ -214,8 +212,8 @@ class BioEngine:
             self.hormone_levels[hormone] = new_level
 
     async def _process_through_mitochondria(
-        self, stimulus_type: str, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, stimulus_type: str, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process stimulus through mitochondrial pathways"""
         # Simulate ATP production based on current state
         atp_production = self.mitochondria.calculate_atp_production(
@@ -240,7 +238,7 @@ class BioEngine:
 
     def _calculate_adaptation(
         self, stimulus_type: str, intensity: float
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Calculate system adaptation to stimulus"""
         # Increase plasticity for novel stimuli
         novelty = np.random.random() * 0.3  # Simplified novelty detection
@@ -354,7 +352,7 @@ class BioEngine:
 
             await asyncio.sleep(60)  # Update every minute
 
-    def _get_vitals(self) -> Dict[str, Any]:
+    def _get_vitals(self) -> dict[str, Any]:
         """Get current system vitals"""
         return {
             "energy_level": self.energy_level,
@@ -370,7 +368,7 @@ class BioEngine:
 
     async def inject_hormone(
         self, hormone: HormoneType, amount: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Manually inject hormone for therapeutic intervention"""
         old_level = self.hormone_levels[hormone]
         self.hormone_levels[hormone] = max(0, min(1.0, old_level + amount))
@@ -382,7 +380,7 @@ class BioEngine:
             "injected_amount": amount,
         }
 
-    async def get_bio_report(self) -> Dict[str, Any]:
+    async def get_bio_report(self) -> dict[str, Any]:
         """Generate comprehensive bio-system report"""
         # Phase synchronization check
         current_time = datetime.now().timestamp()
@@ -403,7 +401,7 @@ class BioEngine:
             "state_distribution": self._calculate_state_distribution(),
         }
 
-    def _calculate_state_distribution(self) -> Dict[str, float]:
+    def _calculate_state_distribution(self) -> dict[str, float]:
         """Calculate time spent in each state"""
         if not self.state_history:
             return {state.value: 0.0 for state in SystemState}

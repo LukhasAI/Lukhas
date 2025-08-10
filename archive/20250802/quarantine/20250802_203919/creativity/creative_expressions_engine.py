@@ -273,4 +273,5 @@ def create_lukhas_creative_expressions_engine(symbolic_db=None, federated_model=
     """Factory function for lukhas system integration"""
     return lukhasCreativeExpressionsEngine(symbolic_db, federated_model)
 # Export for lukhas system
-__all__ = ["lukhasCreativeExpressionsEngine", "create_lukhas_creative_expressions_engine"]
+__all__ = ["lukhasCreativeExpressionsEngine",
+    "create_lukhas_creative_expressions_engine"]

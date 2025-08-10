@@ -10,14 +10,15 @@
 # ΛTASK_ID: 171-176
 # ΛCOMMIT_WINDOW: pre-audit
 # ΛAPPROVED_BY: Human Overseer (GRDM)
-# ΛUDIT: Standardized header/footer, added comments, normalized logger to structlog, applied ΛTAGs. Corrected class name conflicts.
+# ΛUDIT: Standardized header/footer, added comments, normalized logger to
+# structlog, applied ΛTAGs. Corrected class name conflicts.
 
 """
 Documentation Generation Engine
 Implements intelligent documentation generation with Lukhas AI capabilities.
 """
 
-import structlog # ΛTRACE: Using structlog for structured logging
+import structlog  # ΛTRACE: Using structlog for structured logging
 from typing import Dict, Any, List, Optional
 from pathlib import Path
 import ast
@@ -26,33 +27,41 @@ from pydantic import BaseModel
 
 # AIMPORT_TODO: Verify this relative import path is correct and standard.
 # Consider if symbolic_knowledge_core should be a top-level import if it's a separate package.
-# Assuming SystemKnowledgeGraph, NodeType, RelationshipType, SKGNode, SKGRelationship are correctly imported
+# Assuming SystemKnowledgeGraph, NodeType, RelationshipType, SKGNode,
+# SKGRelationship are correctly imported
 from ..symbolic_knowledge_core.knowledge_graph import (
     SystemKnowledgeGraph,
     NodeType,
     RelationshipType,
     SKGNode,
-    SKGRelationship # Added SKGRelationship as it's used
+    SKGRelationship  # Added SKGRelationship as it's used
 )
 
 # ΛTRACE: Initialize logger for learning phase
 logger = structlog.get_logger().bind(tag="learning_phase")
 
 # # Data model for a documentation section
-# ΛEXPOSE: This model defines the structure of documentation sections, likely used by other components.
-class DocSection(BaseModel): # Renamed from DocGeneratorLearningEngine to avoid conflict
+# ΛEXPOSE: This model defines the structure of documentation sections,
+# likely used by other components.
+
+
+class DocSection(
+    BaseModel):  # Renamed from DocGeneratorLearningEngine to avoid conflict
     """Represents a section of generated documentation."""
     title: str
     content: str
-    section_type: str # e.g., 'module', 'class', 'function'
+    section_type: str  # e.g., 'module', 'class', 'function'
     metadata: Dict[str, Any] = {}
-    subsections: List['DocSection'] = [] # type: ignore # Self-referential, Pydantic handles this
+    # type: ignore # Self-referential, Pydantic handles this
+    subsections: List['DocSection'] = []
     importance_score: float = 1.0
     complexity_level: int = 1
 
 # # Data model for documentation generation configuration
 # ΛEXPOSE: Configuration settings for the documentation engine.
-class DocumentationConfig(BaseModel): # Renamed from DocGeneratorLearningEngine
+
+
+class DocumentationConfig(BaseModel):  # Renamed from DocGeneratorLearningEngine
     """Configuration for documentation generation."""
     # ΛSEED: Default config values act as seeds for generation behavior.
     output_format: str = "markdown"
@@ -62,6 +71,7 @@ class DocumentationConfig(BaseModel): # Renamed from DocGeneratorLearningEngine
     voice_enabled: bool = False
     bio_oscillator_data: Optional[Dict[str, Any]] = None
     template_overrides: Optional[Dict[str, str]] = None
+
 
 class DocGeneratorLearningEngine:
     """
@@ -78,7 +88,8 @@ class DocGeneratorLearningEngine:
                  skg: SystemKnowledgeGraph,
                  template_dir: Optional[str] = None):
         # ΛNOTE: Initializes with a SystemKnowledgeGraph and template directory.
-        # ΛSEED: The initial SystemKnowledgeGraph (skg) can be considered a seed of knowledge.
+        # ΛSEED: The initial SystemKnowledgeGraph (skg) can be considered a seed
+        # of knowledge.
         self.skg = skg
 
         template_path = template_dir or Path(__file__).parent / "templates"
@@ -90,7 +101,13 @@ class DocGeneratorLearningEngine:
         self.template_env.filters['format_type'] = self._format_type_name
         self.template_env.filters['sanitize_markdown'] = self._sanitize_markdown
         # ΛTRACE: DocGeneratorLearningEngine initialized
-        logger.info("doc_generator_learning_engine_initialized", template_path=str(template_path), skg_node_count=len(self.skg.nodes) if self.skg and hasattr(self.skg, 'nodes') else 0)
+        logger.info(
+    "doc_generator_learning_engine_initialized",
+    template_path=str(template_path),
+    skg_node_count=len(
+        self.skg.nodes) if self.skg and hasattr(
+            self.skg,
+             'nodes') else 0)
 
     # # Main documentation generation method
     # ΛEXPOSE: Primary method to generate documentation.
@@ -103,19 +120,31 @@ class DocGeneratorLearningEngine:
         """
         # ΛDREAM_LOOP: The process of analysis, generation, and enhancement can be seen as a learning loop if it adapts over time.
         # ΛTRACE: Starting documentation generation
-        logger.info("documentation_generation_start", source_path=source_path, config=config.model_dump_json())
+        logger.info(
+    "documentation_generation_start",
+    source_path=source_path,
+     config=config.model_dump_json())
         try:
             self._analyze_source(source_path)
             sections = self._generate_sections(config)
-            # ΛDREAM_LOOP: Enhancement patterns could adapt based on feedback or observed utility.
-            sections = self._enhance_with_lukhas_patterns(sections, config) # Corrected: Lukhas
+            # ΛDREAM_LOOP: Enhancement patterns could adapt based on feedback or
+            # observed utility.
+            sections = self._enhance_with_lukhas_patterns(
+                sections, config) # Corrected: Lukhas
             doc_content = self._render_documentation(sections, config)
             # ΛTRACE: Documentation generation successful
-            logger.info("documentation_generation_success", source_path=source_path, output_length=len(doc_content))
+            logger.info(
+    "documentation_generation_success",
+    source_path=source_path,
+     output_length=len(doc_content))
             return doc_content
         except Exception as e:
             # ΛTRACE: Documentation generation failed
-            logger.error("documentation_generation_failed", source_path=source_path, error=str(e), exc_info=True)
+            logger.error(
+    "documentation_generation_failed",
+    source_path=source_path,
+    error=str(e),
+     exc_info=True)
             raise
 
     # # Analyze source code (Python specific for now)
@@ -151,7 +180,10 @@ class DocGeneratorLearningEngine:
             )
             self.skg.add_node(module_node)
             # ΛTRACE: Added module node to SKG
-            logger.debug("module_node_added_to_skg", node_id=module_node_id, name=module_node.name)
+            logger.debug(
+    "module_node_added_to_skg",
+    node_id=module_node_id,
+     name=module_node.name)
 
             for node in ast.walk(tree):
                 if isinstance(node, ast.ClassDef):
@@ -161,26 +193,40 @@ class DocGeneratorLearningEngine:
                     is_top_level_function = True
                     for parent in ast.walk(tree): # More robust parent check
                         if hasattr(parent, 'body'):
-                            if isinstance(parent.body, list) and node in parent.body and isinstance(parent, ast.ClassDef):
+                            if isinstance(
+    parent.body,
+    list) and node in parent.body and isinstance(
+        parent,
+         ast.ClassDef):
                                 is_top_level_function = False
                                 break
-                        if hasattr(parent, 'orelse') and isinstance(parent.orelse, list) and node in parent.orelse: # e.g. in if/else, for/else
+                        if hasattr(
+    parent,
+    'orelse') and isinstance(
+        parent.orelse,
+         list) and node in parent.orelse: # e.g. in if/else, for/else
                              if isinstance(parent, ast.ClassDef):
                                 is_top_level_function = False
                                 break
-                    if is_top_level_function and not any(isinstance(p, ast.ClassDef) for p in ast.iter_parents(node)): # Simpler check for direct parent
+                    if is_top_level_function and not any(isinstance(
+                        p, ast.ClassDef) for p in ast.iter_parents(node)): # Simpler check for direct parent
                          self._process_function(node, file_path, module_node_id)
 
 
         except Exception as e:
             # ΛTRACE: Python file analysis failed
-            logger.error("python_file_analysis_failed", file_path=file_path, error=str(e), exc_info=True)
+            logger.error(
+    "python_file_analysis_failed",
+    file_path=file_path,
+    error=str(e),
+     exc_info=True)
             raise
 
     # # Process a class definition
     def _process_class(self, node: ast.ClassDef, file_path: str, module_id: str):
         """Process a class definition and add it to the knowledge graph."""
-        # ΛNOTE: Extracts class information including docstrings, decorators, and base classes.
+        # ΛNOTE: Extracts class information including docstrings, decorators, and
+        # base classes.
         class_id = f"{module_id}::{node.name}"
         class_node = SKGNode(
             id=class_id, node_type=NodeType.CLASS, name=node.name,
@@ -195,16 +241,25 @@ class DocGeneratorLearningEngine:
         self.skg.add_node(class_node)
         # ΛTRACE: Added class node to SKG
         logger.debug("class_node_added_to_skg", node_id=class_id, name=node.name)
-        self.skg.add_relationship(SKGRelationship(source_id=module_id, target_id=class_id, type=RelationshipType.CONTAINS))
+        self.skg.add_relationship(
+    SKGRelationship(
+        source_id=module_id,
+        target_id=class_id,
+         type=RelationshipType.CONTAINS))
 
         for item in node.body:
             if isinstance(item, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 self._process_function(item, file_path, class_id)
 
     # # Process a function or method definition
-    def _process_function(self, node: ast.FunctionDef | ast.AsyncFunctionDef, file_path: str, parent_id: str):
+    def _process_function(
+    self,
+    node: ast.FunctionDef | ast.AsyncFunctionDef,
+    file_path: str,
+     parent_id: str):
         """Process a function definition and add it to the knowledge graph."""
-        # ΛNOTE: Extracts function/method details like signature, docstring, async status, decorators.
+        # ΛNOTE: Extracts function/method details like signature, docstring, async
+        # status, decorators.
         func_id = f"{parent_id}::{node.name}"
         returns_type = self._extract_type_hint(node.returns) if node.returns else "Any"
         args_info = self._process_arguments(node.args)
@@ -225,8 +280,17 @@ class DocGeneratorLearningEngine:
         )
         self.skg.add_node(func_node)
         # ΛTRACE: Added function/method node to SKG
-        logger.debug("function_node_added_to_skg", node_id=func_id, name=node.name, parent_id=parent_id, is_method=is_method_flag)
-        self.skg.add_relationship(SKGRelationship(source_id=parent_id, target_id=func_id, type=RelationshipType.CONTAINS))
+        logger.debug(
+    "function_node_added_to_skg",
+    node_id=func_id,
+    name=node.name,
+    parent_id=parent_id,
+     is_method=is_method_flag)
+        self.skg.add_relationship(
+    SKGRelationship(
+        source_id=parent_id,
+        target_id=func_id,
+         type=RelationshipType.CONTAINS))
 
     # # Extract type hint from AST node
     def _extract_type_hint(self, node: Optional[ast.AST]) -> str:
@@ -246,8 +310,10 @@ class DocGeneratorLearningEngine:
             return f"Tuple[{', '.join(elements)}]"
         # ΛCAUTION: This might not cover all complex type hint cases (e.g., Union, Callable).
         # ΛTRACE: Extracted type hint (or default)
-        # logger.debug("type_hint_extracted", raw_node_type=type(node).__name__, extracted_hint="complex")
-        return ast.unparse(node) if hasattr(ast, 'unparse') else "Any" # Fallback to unparse or Any
+        # logger.debug("type_hint_extracted", raw_node_type=type(node).__name__,
+        # extracted_hint="complex")
+        return ast.unparse(node) if hasattr(
+    ast, 'unparse') else "Any" # Fallback to unparse or Any
 
     # # Process function arguments
     def _process_arguments(self, args: ast.arguments) -> Dict[str, Any]:
@@ -257,10 +323,12 @@ class DocGeneratorLearningEngine:
         # Positional and keyword arguments
         all_args = args.posonlyargs + args.args
         for arg in all_args:
-            processed_args.append({"name": arg.arg, "type": self._extract_type_hint(arg.annotation)})
+            processed_args.append({"name": arg.arg,
+     "type": self._extract_type_hint(arg.annotation)})
         # Keyword-only arguments
         for arg in args.kwonlyargs:
-             processed_args.append({"name": arg.arg, "type": self._extract_type_hint(arg.annotation), "kwonly": True})
+             processed_args.append(
+                 {"name": arg.arg, "type": self._extract_type_hint(arg.annotation), "kwonly": True})
 
         # ΛTRACE: Processed function arguments
         # logger.debug("function_arguments_processed", num_args=len(processed_args))
@@ -281,24 +349,34 @@ class DocGeneratorLearningEngine:
             for module_node in self.skg.find_nodes_by_type(NodeType.MODULE):
                 sections.append(self._generate_module_section(module_node, config))
         # ΛTRACE: Documentation sections generated
-        logger.info("generating_sections_from_skg_end", num_top_level_sections=len(sections))
+        logger.info(
+    "generating_sections_from_skg_end",
+     num_top_level_sections=len(sections))
         return sections
 
     # # Generate section for a module
-    def _generate_module_section(self, module_node: SKGNode, config: DocumentationConfig) -> DocSection:
+    def _generate_module_section(
+    self,
+    module_node: SKGNode,
+     config: DocumentationConfig) -> DocSection:
         """Generate documentation section for a module."""
         # ΛNOTE: Creates a DocSection for a module, including its classes and top-level functions.
         # ΛTRACE: Generating module section
         logger.debug("generating_module_section_start", module_name=module_node.name)
         subsections = []
         if self.skg:
-            for connected_node_id in self.skg.get_connected_nodes(module_node.id, RelationshipType.CONTAINS):
+            for connected_node_id in self.skg.get_connected_nodes(
+                module_node.id, RelationshipType.CONTAINS):
                 connected_node = self.skg.get_node_by_id(connected_node_id)
                 if connected_node:
                     if connected_node.node_type == NodeType.CLASS:
-                        subsections.append(self._generate_class_section(connected_node, config))
+                        subsections.append(
+    self._generate_class_section(
+        connected_node, config))
                     elif connected_node.node_type == NodeType.FUNCTION:
-                        subsections.append(self._generate_function_section(connected_node, config))
+                        subsections.append(
+    self._generate_function_section(
+        connected_node, config))
 
         module_section = DocSection(
             title=f"Module: {module_node.name}", content=module_node.description or "",
@@ -306,21 +384,31 @@ class DocGeneratorLearningEngine:
             subsections=subsections
         )
         # ΛTRACE: Module section generated
-        logger.debug("generating_module_section_end", module_name=module_node.name, num_subsections=len(module_section.subsections))
+        logger.debug(
+    "generating_module_section_end",
+    module_name=module_node.name,
+    num_subsections=len(
+        module_section.subsections))
         return module_section
 
     # # Generate section for a class
-    def _generate_class_section(self, class_node: SKGNode, config: DocumentationConfig) -> DocSection:
-        """Generate documentation section for a class."""
+    def _generate_class_section(
+    self,
+    class_node: SKGNode,
+     config: DocumentationConfig) -> DocSection:
+        """Generate documentation section for a class ."""
         # ΛNOTE: Creates a DocSection for a class, including its methods.
         # ΛTRACE: Generating class section
         logger.debug("generating_class_section_start", class_name=class_node.name)
         subsections = []
         if self.skg:
-            for method_node_id in self.skg.get_connected_nodes(class_node.id, RelationshipType.CONTAINS):
+            for method_node_id in self.skg.get_connected_nodes(
+                class_node.id, RelationshipType.CONTAINS):
                 method_node = self.skg.get_node_by_id(method_node_id)
                 if method_node and method_node.node_type == NodeType.FUNCTION:
-                    subsections.append(self._generate_function_section(method_node, config))
+                    subsections.append(
+    self._generate_function_section(
+        method_node, config))
 
         class_section = DocSection(
             title=f"Class: {class_node.name}", content=class_node.description or "",
@@ -328,17 +416,25 @@ class DocGeneratorLearningEngine:
             subsections=subsections
         )
         # ΛTRACE: Class section generated
-        logger.debug("generating_class_section_end", class_name=class_node.name, num_methods=len(class_section.subsections))
+        logger.debug(
+    "generating_class_section_end",
+    class_name=class_node.name,
+    num_methods=len(
+        class_section.subsections))
         return class_section
 
     # # Generate section for a function/method
-    def _generate_function_section(self, func_node: SKGNode, config: DocumentationConfig) -> DocSection:
-        """Generate documentation section for a function/method."""
+    def _generate_function_section(
+    self,
+    func_node: SKGNode,
+     config: DocumentationConfig) -> DocSection:
+        """Generate documentation section for a function / method."""
         # ΛNOTE: Creates a DocSection for a function or method.
         # ΛTRACE: Generating function/method section
         logger.debug("generating_function_section_start", func_name=func_node.name)
         props = func_node.properties if func_node.properties else {}
-        signature = self._build_function_signature(func_node.name, props.get("arguments", {}))
+        signature = self._build_function_signature(
+            func_node.name, props.get("arguments", {}))
         title_prefix = "Method" if props.get("is_method") else "Function"
         if props.get("is_async"): title_prefix = f"async {title_prefix.lower()}"
 
@@ -377,36 +473,53 @@ class DocGeneratorLearningEngine:
         return f"{name}({', '.join(parts)})"
 
     # # Enhance documentation with LUKHAS patterns
-    def _enhance_with_lukhas_patterns(self, sections: List[DocSection], config: DocumentationConfig) -> List[DocSection]: # Corrected: Lukhas
+    # Corrected: Lukhas
+    def _enhance_with_lukhas_patterns(
+    self,
+    sections: List[DocSection],
+     config: DocumentationConfig) -> List[DocSection]:
         """
         Apply Lukhas AI patterns to enhance documentation quality.
         """
         # ΛNOTE: Placeholder for more advanced LUKHAS AI enhancements.
         # ΛDREAM_LOOP: This step could involve adaptive learning based on documentation effectiveness or user feedback.
         # ΛTRACE: Enhancing sections with LUKHAS patterns
-        logger.info("enhancing_sections_with_lukhas_patterns_start", num_sections=len(sections))
+        logger.info(
+    "enhancing_sections_with_lukhas_patterns_start",
+     num_sections=len(sections))
         enhanced_sections = []
         for section in sections:
-            current_section = section.model_copy(deep=True) # Use model_copy for Pydantic models
-            if config.bio_oscillator_data: # ΛNOTE: Using bio-oscillator data for adaptive complexity.
-                current_section.complexity_level = self._calculate_optimal_complexity(current_section, config.bio_oscillator_data)
+            current_section = section.model_copy(
+    deep=True) # Use model_copy for Pydantic models
+            # ΛNOTE: Using bio-oscillator data for adaptive complexity.
+            if config.bio_oscillator_data:
+                current_section.complexity_level = self._calculate_optimal_complexity(
+                    current_section, config.bio_oscillator_data)
             if config.cultural_context:
-                current_section = self._add_cultural_context(current_section, config.cultural_context)
+                current_section = self._add_cultural_context(
+                    current_section, config.cultural_context)
             if config.voice_enabled:
                 current_section = self._prepare_for_voice(current_section)
             if current_section.subsections: # Recursively enhance subsections
-                current_section.subsections = self._enhance_with_lukhas_patterns(current_section.subsections, config)
+                current_section.subsections = self._enhance_with_lukhas_patterns(
+                    current_section.subsections, config)
             enhanced_sections.append(current_section)
         # ΛTRACE: Sections enhanced
-        logger.info("enhancing_sections_with_lukhas_patterns_end", num_enhanced_sections=len(enhanced_sections))
+        logger.info("enhancing_sections_with_lukhas_patterns_end",
+                    num_enhanced_sections=len(enhanced_sections))
         return enhanced_sections
 
     # # Calculate optimal complexity (placeholder)
-    def _calculate_optimal_complexity(self, section: DocSection, bio_data: Dict[str, Any]) -> int:
-        """Calculate optimal complexity level based on bio-oscillator data."""
+    def _calculate_optimal_complexity(
+        self, section: DocSection, bio_data: Dict[str, Any]) -> int:
+        """Calculate optimal complexity level based on bio - oscillator data."""
         # ΛCAUTION: Simplified calculation. Real integration would be more complex.
         # ΛTRACE: Calculating optimal complexity
-        logger.debug("calculating_optimal_complexity", section_title=section.title, bio_data_keys=list(bio_data.keys()))
+        logger.debug(
+    "calculating_optimal_complexity",
+    section_title=section.title,
+    bio_data_keys=list(
+        bio_data.keys()))
         base_complexity = section.complexity_level
         attention_level = bio_data.get("attention_level", 1.0)
         cognitive_load = bio_data.get("cognitive_load", 0.5)
@@ -414,11 +527,17 @@ class DocGeneratorLearningEngine:
         return max(1, min(5, round(optimal)))
 
     # # Add cultural context (placeholder)
-    def _add_cultural_context(self, section: DocSection, cultural_context: str) -> DocSection:
+    def _add_cultural_context(
+    self,
+    section: DocSection,
+     cultural_context: str) -> DocSection:
         """Add cultural context to documentation content."""
         # ΛCAUTION: Basic placeholder for cultural adaptation.
         # ΛTRACE: Adding cultural context
-        logger.debug("adding_cultural_context", section_title=section.title, context=cultural_context)
+        logger.debug(
+    "adding_cultural_context",
+    section_title=section.title,
+     context=cultural_context)
         if section.content: # Ensure content is not None
             section.content += f"\n\nCultural Note ({cultural_context}): This information may be interpreted differently based on regional customs."
         return section
@@ -434,7 +553,10 @@ class DocGeneratorLearningEngine:
         return section
 
     # # Render final documentation using Jinja2 templates
-    def _render_documentation(self, sections: List[DocSection], config: DocumentationConfig) -> str:
+    def _render_documentation(
+    self,
+    sections: List[DocSection],
+     config: DocumentationConfig) -> str:
         """Render final documentation using templates."""
         # ΛNOTE: Uses Jinja2 for flexible templating.
         # ΛTRACE: Rendering documentation

@@ -242,4 +242,6 @@ Here's a curated list of **non-mitochondrial biological systems** with high pote
 # - **Emergent properties** arise from interactions between symbolic "organelles"
 # - **Adaptive scaling** based on computational "metabolic" demands
 
-# This framework provides a **biologically-grounded architecture** for advanced symbolic reasoning while maintaining the flexibility needed for AGI applications.
+# This framework provides a **biologically-grounded architecture** for
+# advanced symbolic reasoning while maintaining the flexibility needed for
+# AGI applications.

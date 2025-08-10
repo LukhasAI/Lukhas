@@ -20,17 +20,17 @@ logger = structlog.get_logger(__name__)
 
 """
 +────────────────────────────────────────────────────────────────────────────+
-| MODULE         : lukhas_nias_filter.py                                      |
-| DESCRIPTION    :                                                           |
-|   Applies symbolic ethics and user preferences to determine when and      |
-|   how ads or sponsored content are displayed in widgets. Ensures non-     |
-|   intrusive, context-aware experiences that prioritize user well-being.   |
-| TYPE           : Symbolic Ad Filter Engine     VERSION : v1.0.0           |
-| AUTHOR         : LUKHAS SYSTEMS                  CREATED : 2025-4-22       |
+| MODULE: lukhas_nias_filter.py |
+| DESCRIPTION: |
+|   Applies symbolic ethics and user preferences to determine when and |
+|   how ads or sponsored content are displayed in widgets. Ensures non - |
+|   intrusive, context - aware experiences that prioritize user well - being. |
+| TYPE: Symbolic Ad Filter Engine     VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                  CREATED: 2025 - 4 - 22 |
 +────────────────────────────────────────────────────────────────────────────+
-| DEPENDENCIES   :                                                           |
-|   - lukhas_nias_manifest.json                                               |
-|   - lukhas_emotion_log.py (optional)                                        |
+| DEPENDENCIES: |
+| - lukhas_nias_manifest.json |
+| - lukhas_emotion_log.py(optional) |
 +────────────────────────────────────────────────────────────────────────────+
 """
 
@@ -44,9 +44,9 @@ def evaluate_ad_permission(widget_type, vendor_name, user_tier):
     Evaluates if NIAS allows ad content for the given widget context.
 
     Parameters:
-    - widget_type (str): e.g., 'travel', 'dining', 'dream'
-    - vendor_name (str): e.g., 'Uber', 'Booking.com'
-    - user_tier (int): symbolic access tier (0-5)
+    - widget_type(str): e.g., 'travel', 'dining', 'dream'
+    - vendor_name(str): e.g., 'Uber', 'Booking.com'
+    - user_tier(int): symbolic access tier(0 - 5)
 
     Returns:
     - dict: result with 'allowed' (bool), 'reason', and 'recommended_action'
@@ -58,15 +58,27 @@ def evaluate_ad_permission(widget_type, vendor_name, user_tier):
             widget_rules = manifest.get("widget_types", {}).get(widget_type, {})
 
             if vendor_rules.get("banned", False):
-                return {"allowed": False, "reason": "Vendor ethically restricted", "recommended_action": "Suggest alternative"}
+                return {
+    "allowed": False,
+    "reason": "Vendor ethically restricted",
+     "recommended_action": "Suggest alternative"}
 
             if user_tier < widget_rules.get("min_tier_for_ads", 2):
-                return {"allowed": False, "reason": "User tier below ad threshold", "recommended_action": "Upgrade tier"}
+                return {
+    "allowed": False,
+    "reason": "User tier below ad threshold",
+     "recommended_action": "Upgrade tier"}
 
-            return {"allowed": True, "reason": "Context approved", "recommended_action": "Render ad content"}
+            return {
+    "allowed": True,
+    "reason": "Context approved",
+     "recommended_action": "Render ad content"}
 
     except Exception as e:
-        return {"allowed": False, "reason": f"Error loading NIAS manifest: {str(e)}", "recommended_action": "Fallback"}
+        return {
+    "allowed": False,
+    "reason": f"Error loading NIAS manifest: {str(e)}",
+     "recommended_action": "Fallback"}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for lukhas_nias_filter.py)
@@ -86,7 +98,7 @@ def evaluate_ad_permission(widget_type, vendor_name, user_tier):
 
 """
 ΛTRACE: End of lukhas_nias_filter.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #filename_issue #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #filename_issue #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

@@ -17,8 +17,6 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import (  # Union, Tuple unused
     Any,
-    Dict,
-    List,
     Optional,
 )
 
@@ -29,7 +27,8 @@ import structlog
 # ΛTRACE: Standard logger setup for memory.core_memory.core.
 
 # ΛCAUTION: Critical import for BaseModule and decorators. Using placeholders if import fails.
-# This is a #ΛDRIFT_POINT as behavior changes significantly with/without actual base module.
+# This is a #ΛDRIFT_POINT as behavior changes significantly with/without
+# actual base module.
 try:
     from ..common.base_module import (  # Placeholders if BaseModule is placeholder
         BaseConfig,
@@ -59,10 +58,10 @@ except ImportError:
             self._is_running = False
             await self.logger.info("BaseModule shutdown (placeholder)")  # type: ignore
 
-        async def process_request(self, request: Any) -> Dict[str, Any]:
+        async def process_request(self, request: Any) -> dict[str, Any]:
             return {"error": "BaseModule process_request not implemented"}
 
-        async def get_health_status(self) -> Dict[str, Any]:
+        async def get_health_status(self) -> dict[str, Any]:
             return {"status": "unknown"}
 
     @dataclass
@@ -123,7 +122,7 @@ class MemoryStrand(Enum):  # ΛNOTE: Represents conceptual strands in the "helix
 @dataclass
 class MemoryEntry:
     id: str
-    content: Dict[str, Any]
+    content: dict[str, Any]
     memory_type: MemoryType
     priority: MemoryPriority
     strand: MemoryStrand
@@ -134,8 +133,8 @@ class MemoryEntry:
     last_accessed_utc: Optional[str] = None
     lukhas_lambda_id: Optional[str] = None  # AIDENTITY
     encrypted: bool = False
-    tags: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    tags: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 # ΛSEED_CHAIN: MemoryConfig provides initial parameters (seeds) for the MemoryModule.
@@ -185,9 +184,9 @@ class MemoryHealth(BaseHealth):
     encrypted_memory_count: int = field(
         default=0, metadata={"alias": "encrypted_memories"}
     )
-    memory_types_distribution: Dict[str, int] = field(default_factory=dict)
-    priority_distribution: Dict[str, int] = field(default_factory=dict)
-    strand_distribution: Dict[str, int] = field(default_factory=dict)
+    memory_types_distribution: dict[str, int] = field(default_factory=dict)
+    priority_distribution: dict[str, int] = field(default_factory=dict)
+    strand_distribution: dict[str, int] = field(default_factory=dict)
     average_access_frequency_per_memory: float = field(
         default=0.0, metadata={"alias": "average_access_frequency"}
     )
@@ -216,29 +215,31 @@ class MemoryModule(BaseModule):
         super().__init__(module_name="LUKHAS_MemoryModule_Core")
         # ΛTRACE: Initializing MemoryModule instance.
         self.config: MemoryConfig = config or MemoryConfig()
-        self.memory_helix: List[MemoryEntry] = []
-        self.short_term_memory: List[MemoryEntry] = (
+        self.memory_helix: list[MemoryEntry] = []
+        self.short_term_memory: list[MemoryEntry] = (
             []
         )  # ΛNOTE: Conceptual memory stores.
-        self.long_term_memory: List[MemoryEntry] = []
-        self.memory_by_type: Dict[MemoryType, List[str]] = {mt: [] for mt in MemoryType}
-        self.memory_by_strand: Dict[MemoryStrand, List[str]] = {
+        self.long_term_memory: list[MemoryEntry] = []
+        self.memory_by_type: dict[MemoryType, list[str]] = {mt: [] for mt in MemoryType}
+        self.memory_by_strand: dict[MemoryStrand, list[str]] = {
             ms: [] for ms in MemoryStrand
         }
-        self.memory_by_priority: Dict[MemoryPriority, List[str]] = {
+        self.memory_by_priority: dict[MemoryPriority, list[str]] = {
             mp: [] for mp in MemoryPriority
         }
-        self.memory_index: Dict[str, MemoryEntry] = (
+        self.memory_index: dict[str, MemoryEntry] = (
             {}
         )  # ΛNOTE: Primary index for memory access.
-        self.memory_bonds: Dict[str, List[Dict[str, Any]]] = (
+        self.memory_bonds: dict[str, list[dict[str, Any]]] = (
             {}
         )  # ΛNOTE: Conceptual "bonds" between memories.
-        self.temporal_index: Dict[str, List[str]] = {}
+        self.temporal_index: dict[str, list[str]] = {}
         self.encryption_key: Optional[bytes] = None
         self._consolidation_task: Optional[asyncio.Task] = None
         self.health: MemoryHealth = MemoryHealth()
-        self.logger.info("MemoryModule instance created.", config_preview=str(self.config)[:200])  # type: ignore
+        self.logger.info(
+            "MemoryModule instance created.", config_preview=str(self.config)[:200]
+        )  # type: ignore
 
     # ΛNOTE: These decorators are placeholders if BaseModule not properly imported.
     @symbolic_vocabulary("memory_awakening", "🧠⚡")
@@ -258,7 +259,10 @@ class MemoryModule(BaseModule):
             await self._update_health_metrics()
             self._is_running = True
             # ΛTRACE: Memory Module initialized successfully.
-            await self.logger.info("LUKHAS Memory Module initialized successfully.", status="active")  # type: ignore
+            # type: ignore
+            await self.logger.info(
+                "LUKHAS Memory Module initialized successfully.", status="active"
+            )
             return True
         except Exception as e:
             # ΛTRACE: Memory Module startup failed.
@@ -280,14 +284,20 @@ class MemoryModule(BaseModule):
             await self._update_health_metrics()
             self._is_running = False
             # ΛTRACE: Memory Module shutdown complete.
-            await self.logger.info("LUKHAS Memory Module shutdown complete.", status="inactive")  # type: ignore
+            # type: ignore
+            await self.logger.info(
+                "LUKHAS Memory Module shutdown complete.", status="inactive"
+            )
             return True
         except asyncio.CancelledError:
             await self.logger.info(
                 "Consolidation task was cancelled during shutdown."
             )  # Expected # type: ignore
         except asyncio.TimeoutError:
-            await self.logger.warning("Timeout waiting for consolidation task to cancel during shutdown.")  # type: ignore
+            # type: ignore
+            await self.logger.warning(
+                "Timeout waiting for consolidation task to cancel during shutdown."
+            )
         except Exception as e:
             # ΛTRACE: Memory Module shutdown failed.
             await self.logger.error(
@@ -302,19 +312,27 @@ class MemoryModule(BaseModule):
     @lukhas_tier_required(1)
     async def store_memory(
         self,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         memory_type: MemoryType,
         priority: MemoryPriority,
         strand: MemoryStrand,
         lukhas_lambda_id: Optional[str] = None,
-        tags: Optional[List[str]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        tags: Optional[list[str]] = None,
+        metadata: Optional[dict[str, Any]] = None,
         encrypt_override: Optional[bool] = None,
     ) -> str:
         mem_id = f"mem_{uuid.uuid4().hex[:12]}"
         ts_utc = datetime.now(timezone.utc).isoformat()
         # ΛTRACE: Storing new memory.
-        await self.logger.debug("Storing new memory.", id=mem_id, type=memory_type.value, priority=priority.value, strand=strand.value, owner_id=lukhas_lambda_id)  # type: ignore
+        # type: ignore
+        await self.logger.debug(
+            "Storing new memory.",
+            id=mem_id,
+            type=memory_type.value,
+            priority=priority.value,
+            strand=strand.value,
+            owner_id=lukhas_lambda_id,
+        )
         try:
             enc = (
                 encrypt_override
@@ -371,7 +389,10 @@ class MemoryModule(BaseModule):
         self, memory_id: str, lukhas_lambda_id: Optional[str] = None
     ) -> Optional[MemoryEntry]:
         # ΛTRACE: Retrieving memory.
-        await self.logger.debug("Retrieving memory.", id=memory_id, requestor_id=lukhas_lambda_id)  # type: ignore
+        # type: ignore
+        await self.logger.debug(
+            "Retrieving memory.", id=memory_id, requestor_id=lukhas_lambda_id
+        )
         try:
             if memory_id not in self.memory_index:
                 # ΛTRACE: Memory ID not found in index.
@@ -399,14 +420,18 @@ class MemoryModule(BaseModule):
             # ΛCAUTION: Decryption logic is stubbed.
             if mem_entry.encrypted and self.encryption_key:
                 dec_entry = MemoryEntry(**asdict(mem_entry))
-                dec_entry.content = await self._decrypt_content(mem_entry.content)  # type: ignore
+                # type: ignore
+                dec_entry.content = await self._decrypt_content(mem_entry.content)
                 # ΛTRACE: Memory content decrypted (stub).
                 await self.logger.debug(
                     "Memory content decrypted (stub).", id=memory_id
                 )
                 return dec_entry  # type: ignore
             # ΛTRACE: Memory retrieved successfully.
-            await self.logger.debug("Memory retrieved.", id=memory_id, type=mem_entry.memory_type.value)  # type: ignore
+            # type: ignore
+            await self.logger.debug(
+                "Memory retrieved.", id=memory_id, type=mem_entry.memory_type.value
+            )
             return mem_entry
         except Exception as e:
             # ΛTRACE: Error retrieving memory.
@@ -415,18 +440,21 @@ class MemoryModule(BaseModule):
             )
             return None  # type: ignore
 
-    # ΛCAUTION: All methods below are STUBS and represent significant #ΛDRIFT_POINTs if implemented.
+    # ΛCAUTION: All methods below are STUBS and represent significant
+    # #ΛDRIFT_POINTs if implemented.
     async def _initialize_encryption(self):
         await self.logger.info(
             "Encryption STUB.", enabled=self.config.enable_encryption
         )
-        self.encryption_key = os.urandom(32) if self.config.enable_encryption else None  # type: ignore
+        self.encryption_key = (
+            os.urandom(32) if self.config.enable_encryption else None
+        )  # type: ignore
 
-    async def _encrypt_content(self, c: Dict[str, Any]) -> Dict[str, Any]:
+    async def _encrypt_content(self, c: dict[str, Any]) -> dict[str, Any]:
         await self.logger.debug("Encrypt STUB.")
         return {"enc_data": json.dumps(c)}  # type: ignore
 
-    async def _decrypt_content(self, ec: Dict[str, Any]) -> Dict[str, Any]:
+    async def _decrypt_content(self, ec: dict[str, Any]) -> dict[str, Any]:
         await self.logger.debug("Decrypt STUB.")
         return json.loads(ec.get("enc_data", "{}"))  # type: ignore
 
@@ -441,15 +469,18 @@ class MemoryModule(BaseModule):
 
     async def _store_in_helix(self, entry: MemoryEntry):
         self.memory_helix.append(entry)
-        await self.logger.debug("Stored in helix (conceptual).", id=entry.id)  # type: ignore
+        # type: ignore
+        await self.logger.debug("Stored in helix (conceptual).", id=entry.id)
 
     async def _store_in_short_term(self, entry: MemoryEntry):
         self.short_term_memory.append(entry)
-        await self.logger.debug("Stored in STM (conceptual).", id=entry.id)  # type: ignore
+        # type: ignore
+        await self.logger.debug("Stored in STM (conceptual).", id=entry.id)
 
     async def _store_in_long_term(self, entry: MemoryEntry):
         self.long_term_memory.append(entry)
-        await self.logger.debug("Stored in LTM (conceptual).", id=entry.id)  # type: ignore
+        # type: ignore
+        await self.logger.debug("Stored in LTM (conceptual).", id=entry.id)
 
     async def _update_indices(self, entry: MemoryEntry):
         # ΛTRACE: Updating memory indices.
@@ -459,12 +490,20 @@ class MemoryModule(BaseModule):
         self.memory_by_priority[entry.priority].append(entry.id)
         date_str = datetime.fromisoformat(entry.timestamp_utc).strftime("%Y-%m-%d")
         self.temporal_index.setdefault(date_str, []).append(entry.id)
-        await self.logger.debug("Indices updated.", id=entry.id, type=entry.memory_type.value, strand=entry.strand.value, priority=entry.priority.value)  # type: ignore
+        # type: ignore
+        await self.logger.debug(
+            "Indices updated.",
+            id=entry.id,
+            type=entry.memory_type.value,
+            strand=entry.strand.value,
+            priority=entry.priority.value,
+        )
 
     async def _create_memory_bonds(self, entry: MemoryEntry):
-        await self.logger.debug("Create memory bonds STUB.", id=entry.id)  # type: ignore # ΛNOTE: Conceptual "bonding".
+        # type: ignore # ΛNOTE: Conceptual "bonding".
+        await self.logger.debug("Create memory bonds STUB.", id=entry.id)
 
-    async def _get_recent_memories(self, hours: int) -> List[MemoryEntry]:
+    async def _get_recent_memories(self, hours: int) -> list[MemoryEntry]:
         cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
         return [
             m
@@ -473,16 +512,16 @@ class MemoryModule(BaseModule):
         ]  # ΛRECALL (internal)
 
     async def _identify_memory_patterns(
-        self, memories: List[MemoryEntry]
-    ) -> List[Dict]:
+        self, memories: list[MemoryEntry]
+    ) -> list[dict]:
         return []  # ΛNOTE: Stub for pattern identification.
 
-    async def _consolidate_memories(self, memories: List[MemoryEntry]) -> int:
+    async def _consolidate_memories(self, memories: list[MemoryEntry]) -> int:
         return 0  # ΛNOTE: Stub for consolidation.
 
     async def _generate_dream_insights(
-        self, patterns: List[Dict], consolidated_count: int
-    ) -> List[str]:
+        self, patterns: list[dict], consolidated_count: int
+    ) -> list[str]:
         return []  # ΛDREAM_LOOP (conceptual output)
 
     async def _update_health_metrics(self):
@@ -512,19 +551,32 @@ class MemoryModule(BaseModule):
             self.health.average_access_frequency_per_memory = 0.0
         self.health.is_healthy = self._is_running
         self.health.last_update = datetime.now(timezone.utc).isoformat()
-        await self.logger.debug("Health metrics updated.", total_indexed=self.health.total_memories_indexed, is_healthy=self.health.is_healthy)  # type: ignore
+        # type: ignore
+        await self.logger.debug(
+            "Health metrics updated.",
+            total_indexed=self.health.total_memories_indexed,
+            is_healthy=self.health.is_healthy,
+        )
 
     async def process_request(
         self, request: Any
-    ) -> Dict[str, Any]:  # BaseModule override
+    ) -> dict[str, Any]:  # BaseModule override
         # ΛTRACE: Processing generic request (stub).
-        await self.logger.debug("Processing request (stub).", request_type=type(request).__name__)  # type: ignore
+        # type: ignore
+        await self.logger.debug(
+            "Processing request (stub).", request_type=type(request).__name__
+        )
         return {"status": "processed_stub", "request_summary": str(request)[:100]}
 
     async def get_health_status(self) -> MemoryHealth:  # BaseModule override
         await self._update_health_metrics()
         # ΛTRACE: Health status requested.
-        await self.logger.info("Health status requested.", healthy=self.health.is_healthy, total_memories=self.health.total_memories_indexed)  # type: ignore
+        # type: ignore
+        await self.logger.info(
+            "Health status requested.",
+            healthy=self.health.is_healthy,
+            total_memories=self.health.total_memories_indexed,
+        )
         return self.health
 
 

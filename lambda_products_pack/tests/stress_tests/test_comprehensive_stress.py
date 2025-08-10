@@ -222,7 +222,7 @@ class TestStressLoad:
         for i in range(num_plugins):
             plugin = StressTestPlugin(i)
             reg_start = time.time()
-            success = await plugin_system.register_plugin(plugin)
+            await plugin_system.register_plugin(plugin)
             registration_times.append(time.time() - reg_start)
 
             if i % 100 == 0:
@@ -232,7 +232,7 @@ class TestStressLoad:
 
         # Test operations on all plugins
         start_time = time.time()
-        summary = plugin_system.get_plugin_status_summary()
+        plugin_system.get_plugin_status_summary()
         summary_time = time.time() - start_time
 
         TEST_RESULTS["stress_tests"]["plugin_system"] = {
@@ -348,7 +348,7 @@ class TestStressLoad:
             try:
                 await op()
                 return True
-            except:
+            except BaseException:
                 return False
 
         start_time = time.time()
@@ -359,8 +359,8 @@ class TestStressLoad:
 
         execution_time = time.time() - start_time
 
-        successful = sum(1 for r in results if r == True)
-        failed = sum(1 for r in results if r == False or isinstance(r, Exception))
+        successful = sum(1 for r in results if r)
+        failed = sum(1 for r in results if not r or isinstance(r, Exception))
 
         TEST_RESULTS["stress_tests"]["concurrent_operations"] = {
             "total_operations": num_operations,
@@ -434,7 +434,7 @@ class TestMemoryAndPerformance:
 
         # Get memory snapshot
         snapshot = tracemalloc.take_snapshot()
-        top_stats = snapshot.statistics("lineno")[:10]
+        snapshot.statistics("lineno")[:10]
 
         TEST_RESULTS["memory_tests"]["leak_detection"] = {
             "initial_memory_mb": initial_memory,
@@ -648,7 +648,7 @@ class TestEdgeCasesAndSecurity:
 
             plugin_system = PluginSystem()
             # Try to exhaust resources
-            for i in range(10000):
+            for _i in range(10000):
                 # This should be rate-limited or rejected
                 plugin_system.get_plugin_status_summary()
 
@@ -773,7 +773,7 @@ def generate_comprehensive_report():
     # Calculate summary
     for category in TEST_RESULTS.values():
         if isinstance(category, dict):
-            for test_name, result in category.items():
+            for _test_name, result in category.items():
                 report["summary"]["total_tests_run"] += 1
                 if (
                     isinstance(result, str)

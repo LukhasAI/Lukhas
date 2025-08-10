@@ -103,7 +103,7 @@ def calculate_drift_trends(
             )
             if timestamp > cutoff_time:
                 recent_snapshots.append(snap)
-        except:
+        except BaseException:
             continue
 
     if not recent_snapshots:

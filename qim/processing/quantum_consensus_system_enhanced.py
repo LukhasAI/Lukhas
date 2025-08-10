@@ -41,7 +41,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum, auto
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 import numpy as np
 
@@ -102,11 +102,11 @@ class QuantumLikeState:
 
     state_vector: np.ndarray
     state_type: QuantumLikeStateType
-    entanglement_map: Dict[str, float] = field(default_factory=dict)
+    entanglement_map: dict[str, float] = field(default_factory=dict)
     phase_coherence: float = 1.0
     fidelity: float = 1.0
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Validate and normalize the quantum-like state"""
@@ -115,7 +115,7 @@ class QuantumLikeState:
         if norm > 0:
             self.state_vector = self.state_vector / norm
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization"""
         return {
             "state_vector": self.state_vector.tolist(),
@@ -128,7 +128,7 @@ class QuantumLikeState:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "QuantumLikeState":
+    def from_dict(cls, data: dict[str, Any]) -> "QuantumLikeState":
         """Create from dictionary"""
         return cls(
             state_vector=np.array(data["state_vector"]),
@@ -172,8 +172,8 @@ class ConsensusProposal:
     proposer_id: str
     proposed_state: QuantumLikeState
     timestamp: datetime
-    signatures: Dict[str, str] = field(default_factory=dict)
-    votes: Dict[str, bool] = field(default_factory=dict)
+    signatures: dict[str, str] = field(default_factory=dict)
+    votes: dict[str, bool] = field(default_factory=dict)
     phase: ConsensusPhase = ConsensusPhase.PROPOSING
 
     def add_signature(self, component_id: str, signature: str):
@@ -193,7 +193,7 @@ class ComponentInfo:
     state: ComponentState = ComponentState.ACTIVE
     last_heartbeat: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     reliability_score: float = 1.0
-    quantum_capabilities: Set[str] = field(default_factory=set)
+    quantum_capabilities: set[str] = field(default_factory=set)
 
 
 class QuantumConsensusSystem:
@@ -210,7 +210,7 @@ class QuantumConsensusSystem:
 
     def __init__(
         self,
-        components: List[str],
+        components: list[str],
         initial_state: Optional[QuantumLikeState] = None,
         consensus_threshold: float = 0.67,
         algorithm: ConsensusAlgorithm = ConsensusAlgorithm.QUANTUM_RAFT,
@@ -226,7 +226,7 @@ class QuantumConsensusSystem:
             algorithm: Consensus algorithm to use
             bio_quantum_mode: Enable bio-quantum specific features
         """
-        self.components: Dict[str, ComponentInfo] = {
+        self.components: dict[str, ComponentInfo] = {
             comp_id: ComponentInfo(comp_id) for comp_id in components
         }
         self.consensus_threshold = consensus_threshold
@@ -238,7 +238,7 @@ class QuantumConsensusSystem:
             initial_state or self._get_default_initial_state()
         )
         self.state_history: deque = deque(maxlen=100)  # Keep last 100 states
-        self.pending_proposals: Dict[str, ConsensusProposal] = {}
+        self.pending_proposals: dict[str, ConsensusProposal] = {}
 
         # Consensus tracking
         self.current_term = 0
@@ -335,9 +335,8 @@ class QuantumConsensusSystem:
             raise ValueError(f"Invalid fidelity: {state.fidelity}")
 
         # Bio-quantum specific validation
-        if self.bio_quantum_mode:
-            if "brain_id" not in state.metadata:
-                raise ValueError("Bio-quantum mode requires brain_id in metadata")
+        if self.bio_quantum_mode and "brain_id" not in state.metadata:
+            raise ValueError("Bio-quantum mode requires brain_id in metadata")
 
     def _sign_proposal(self, component_id: str, state: QuantumLikeState) -> str:
         """Create cryptographic signature for proposal"""
@@ -495,7 +494,7 @@ class QuantumConsensusSystem:
         # For now, check that proposer signed
         return proposal.proposer_id in proposal.signatures
 
-    async def _process_votes(self, proposal: ConsensusProposal, votes: List[bool]):
+    async def _process_votes(self, proposal: ConsensusProposal, votes: list[bool]):
         """Process collected votes and determine consensus"""
         # Count valid votes
         yes_votes = sum(1 for vote in votes if vote is True)
@@ -549,7 +548,7 @@ class QuantumConsensusSystem:
         """Get the current consensus state"""
         return self.current_state
 
-    def get_consensus_status(self) -> Dict[str, Any]:
+    def get_consensus_status(self) -> dict[str, Any]:
         """Get comprehensive consensus system status"""
         active_components = sum(
             1 for c in self.components.values() if c.state == ComponentState.ACTIVE
@@ -630,7 +629,7 @@ class ConsensusMetrics:
         self.total_proposals = 0
         self.accepted_proposals = 0
         self.rejected_proposals = 0
-        self.consensus_times: List[float] = []
+        self.consensus_times: list[float] = []
         self.state_changes = 0
 
     def record_consensus(self, proposal: ConsensusProposal):
@@ -649,7 +648,7 @@ class ConsensusMetrics:
         else:
             self.rejected_proposals += 1
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Get metrics summary"""
         avg_consensus_time = (
             sum(self.consensus_times) / len(self.consensus_times)
@@ -717,7 +716,7 @@ async def demo_bio_quantum_consensus():
     )
 
     # Propose the coherent brain state
-    proposal_id = await consensus_system.propose_state_update(
+    await consensus_system.propose_state_update(
         "brain_alpha",
         brain_state,
         priority=10,  # High priority for consciousness updates

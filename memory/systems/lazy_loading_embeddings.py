@@ -48,7 +48,7 @@ from collections import OrderedDict
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 import psutil  # For memory monitoring
@@ -148,7 +148,7 @@ class LRUEmbeddingCache:
             # Evict if necessary
             self._evict_if_needed()
 
-    def put_batch(self, embeddings: Dict[str, np.ndarray]) -> None:
+    def put_batch(self, embeddings: dict[str, np.ndarray]) -> None:
         """Batch store multiple embeddings efficiently"""
         with self._lock:
             self.stats["batch_loads"] += 1
@@ -214,7 +214,7 @@ class LRUEmbeddingCache:
             self._cache.clear()
             self._current_memory_usage = 0
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get cache statistics"""
         with self._lock:
             hit_rate = (
@@ -342,7 +342,7 @@ class EmbeddingStorage:
                 )
                 return None
 
-    def load_embeddings_batch(self, memory_ids: List[str]) -> Dict[str, np.ndarray]:
+    def load_embeddings_batch(self, memory_ids: list[str]) -> dict[str, np.ndarray]:
         """Load multiple embeddings efficiently"""
 
         embeddings = {}
@@ -417,7 +417,7 @@ class EmbeddingStorage:
 
             return False
 
-    def get_storage_stats(self) -> Dict[str, Any]:
+    def get_storage_stats(self) -> dict[str, Any]:
         """Get storage statistics"""
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.execute(
@@ -463,7 +463,7 @@ class LazyEmbeddingLoader:
         self.prefetch_enabled = prefetch_enabled
 
         # Batch loading optimization
-        self._pending_loads: List[str] = []
+        self._pending_loads: list[str] = []
         self._batch_load_lock = threading.Lock()
         self._batch_load_timer: Optional[threading.Timer] = None
         self._batch_load_delay = 0.01  # 10ms delay for batching
@@ -494,8 +494,8 @@ class LazyEmbeddingLoader:
         return None
 
     async def get_embeddings_batch(
-        self, memory_ids: List[str]
-    ) -> Dict[str, np.ndarray]:
+        self, memory_ids: list[str]
+    ) -> dict[str, np.ndarray]:
         """Get multiple embeddings efficiently with batch loading"""
 
         embeddings = {}
@@ -529,7 +529,7 @@ class LazyEmbeddingLoader:
         # Cache for immediate access
         self.cache.put(memory_id, embedding)
 
-    async def prefetch_embeddings(self, memory_ids: List[str]) -> None:
+    async def prefetch_embeddings(self, memory_ids: list[str]) -> None:
         """Prefetch embeddings to warm the cache"""
 
         if not self.prefetch_enabled:
@@ -560,7 +560,7 @@ class LazyEmbeddingLoader:
         # Remove from storage
         return self.storage.delete_embedding(memory_id)
 
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Get comprehensive performance statistics"""
 
         cache_stats = self.cache.get_stats()
@@ -579,7 +579,7 @@ class LazyEmbeddingLoader:
             },
         }
 
-    def optimize_cache(self) -> Dict[str, Any]:
+    def optimize_cache(self) -> dict[str, Any]:
         """Optimize cache based on access patterns"""
 
         # Force memory pressure cleanup
@@ -624,11 +624,11 @@ class LazyMemoryItem:
         """Get content from underlying memory item"""
         return self.memory_item.get_content()
 
-    def get_tags(self) -> List[str]:
+    def get_tags(self) -> list[str]:
         """Get tags from underlying memory item"""
         return self.memory_item.get_tags()
 
-    def get_metadata(self) -> Dict[str, Any]:
+    def get_metadata(self) -> dict[str, Any]:
         """Get metadata from underlying memory item"""
         return self.memory_item.get_metadata()
 

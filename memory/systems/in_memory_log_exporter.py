@@ -14,7 +14,7 @@
 
 import threading
 import typing
-from dataclasses import dataclass # For placeholder
+from dataclasses import dataclass  # For placeholder
 
 # OpenTelemetry SDK Imports (Original)
 try:
@@ -23,19 +23,27 @@ try:
 except ImportError:
     import structlog
 from core.common import get_logger
-    _log_otel_fallback.warning("OpenTelemetry SDK Log components not found. InMemoryLogExporter placeholders in use.")
-    @dataclass # type: ignore
-    class LogData: attributes: typing.Dict[str,Any]; body: Optional[str] # Simplified placeholder # type: ignore
-    class LogExporter: # type: ignore
-        def export(self, batch: typing.Sequence[LogData]) -> 'LogExportResult': return LogExportResult(False) # type: ignore
+ _log_otel_fallback.warning(
+     "OpenTelemetry SDK Log components not found. InMemoryLogExporter placeholders in use.")
+  @dataclass  # type: ignore
+   class LogData:
+        attributes: typing.Dict[str, Any]
+        body: Optional[str]  # Simplified placeholder # type: ignore
+
+    class LogExporter:  # type: ignore
+        def export(
+            self,
+            batch: typing.Sequence[LogData]) -> 'LogExportResult': return LogExportResult(False)  # type: ignore
         def shutdown(self) -> None: pass
-    @dataclass # type: ignore
-    class LogExportResult: success: bool # type: ignore
-    LogExportResult.SUCCESS = LogExportResult(True) # type: ignore
-    LogExportResult.FAILURE = LogExportResult(False) # type: ignore
+
+    @dataclass  # type: ignore
+    class LogExportResult:
+        success: bool  # type: ignore
+    LogExportResult.SUCCESS = LogExportResult(True)  # type: ignore
+    LogExportResult.FAILURE = LogExportResult(False)  # type: ignore
 
 
-class InMemoryLogExporter(LogExporter): # type: ignore
+class InMemoryLogExporter(LogExporter):  # type: ignore
     """
     Implementation of OpenTelemetry LogExporter that stores logs in memory.
     Primarily for testing purposes. Exported logs can be retrieved via get_finished_logs().
@@ -56,13 +64,13 @@ class InMemoryLogExporter(LogExporter): # type: ignore
         with self._lock:
             return tuple(self._logs)
 
-    def export(self, batch: typing.Sequence[LogData]) -> LogExportResult: # type: ignore
+    def export(self, batch: typing.Sequence[LogData]) -> LogExportResult:  # type: ignore
         """Exports a batch of LogData records to an in-memory list."""
         if self._stopped:
-            return LogExportResult.FAILURE # type: ignore
-        with self._lock: # Corrected: Use self._lock consistently
+            return LogExportResult.FAILURE  # type: ignore
+        with self._lock:  # Corrected: Use self._lock consistently
             self._logs.extend(batch)
-        return LogExportResult.SUCCESS # type: ignore
+        return LogExportResult.SUCCESS  # type: ignore
 
     def shutdown(self) -> None:
         """Marks the exporter as stopped. Subsequent calls to export will fail."""

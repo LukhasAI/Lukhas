@@ -40,7 +40,7 @@ Date: 2025-01-27
 from dataclasses import dataclass, field
 from datetime import datetime  # timedelta not used
 from enum import Enum
-from typing import Any, Dict, List, Optional  # Union, Tuple not used
+from typing import Any, Optional  # Union, Tuple not used
 
 import numpy as np
 
@@ -145,22 +145,22 @@ class MetaLearningEnhancementAdapter:
         self.current_metrics = MetaLearningMetrics()
         self.learning_rate_bounds = LearningRateBounds()
 
-        self.performance_history: List[Dict[str, Any]] = []
-        self.adaptation_history: List[Dict[str, Any]] = (
+        self.performance_history: list[dict[str, Any]] = []
+        self.adaptation_history: list[dict[str, Any]] = (
             []
         )  # History of learning rate adaptations
-        self.federated_history: List[Dict[str, Any]] = (
+        self.federated_history: list[dict[str, Any]] = (
             []
         )  # History of federated learning cycles
 
-        self.active_learning_nodes: List[Dict[str, Any]] = (
+        self.active_learning_nodes: list[dict[str, Any]] = (
             []
         )  # Represents connected nodes in federated learning
-        self.symbolic_feedback_buffer: List[Dict[str, Any]] = (
+        self.symbolic_feedback_buffer: list[dict[str, Any]] = (
             []
         )  # Stores recent symbolic feedback
-        self.intent_node_cache: Dict[str, Any] = {}  # Cache for intent node states
-        self.memoria_state: Dict[str, Any] = {}  # Current state of memoria integration
+        self.intent_node_cache: dict[str, Any] = {}  # Cache for intent node states
+        self.memoria_state: dict[str, Any] = {}  # Current state of memoria integration
 
         self.total_adaptations = 0
         self.successful_adaptations = 0
@@ -206,7 +206,7 @@ class MetaLearningEnhancementAdapter:
 
     # # Get current meta-learning metrics
     # ΛEXPOSE: Public method to retrieve current system metrics.
-    async def get_current_metrics(self) -> Dict[str, Any]:
+    async def get_current_metrics(self) -> dict[str, Any]:
         """Get current meta-learning metrics"""
         # ΛTRACE: Getting current metrics
         logger.info("get_current_metrics_start")
@@ -234,17 +234,17 @@ class MetaLearningEnhancementAdapter:
     # ΛEXPOSE: Core method to drive a meta-learning enhancement cycle.
     async def enhance_learning(
         self,
-        current_performance_metrics: Dict[
+        current_performance_metrics: dict[
             str, Any
         ],  # Renamed from current_metrics to avoid conflict
-        system_feedback: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        system_feedback: dict[str, Any],
+    ) -> dict[str, Any]:
         """Enhance learning based on current metrics and system feedback"""
         # ΛDREAM_LOOP: This entire method represents a meta-learning cycle, adapting various aspects of the learning process.
         # ΛTRACE: Starting meta-learning enhancement cycle
         logger.info("meta_learning_enhancement_cycle_start")
         try:
-            enhancement_results: Dict[str, Any] = {}
+            enhancement_results: dict[str, Any] = {}
 
             rate_results = await self._enhance_learning_rate(
                 current_performance_metrics, system_feedback
@@ -298,8 +298,8 @@ class MetaLearningEnhancementAdapter:
     # # Process biological feedback from Crista Optimizer
     # ΛEXPOSE: Integrates biological signals into the learning process.
     async def process_biological_feedback(
-        self, topology_features: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, topology_features: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process biological feedback from Crista Optimizer"""
         # ΛDREAM_LOOP: Adapting learning based on bio-feedback is a unique learning loop.
         # ΛNOTE: This method links to a conceptual bio-inspired optimization component.
@@ -358,8 +358,8 @@ class MetaLearningEnhancementAdapter:
 
     # # Placeholder: Enhance learning rate based on current performance
     async def _enhance_learning_rate(
-        self, perf_metrics: Dict[str, Any], feedback: Dict[str, Any]
-    ) -> Dict[str, Any]:  # Renamed metrics
+        self, perf_metrics: dict[str, Any], feedback: dict[str, Any]
+    ) -> dict[str, Any]:  # Renamed metrics
         """Enhance learning rate based on current performance"""
         # ΛNOTE: Dynamically adjusts learning rate.
         # ΛDREAM_LOOP: Adjusting LR based on performance is a meta-learning adaptation.
@@ -369,11 +369,13 @@ class MetaLearningEnhancementAdapter:
             current_lr=self.current_metrics.current_learning_rate,
         )
         current_rate = self.current_metrics.current_learning_rate
-        # Use overall_performance from the input `perf_metrics` if available, else fallback
+        # Use overall_performance from the input `perf_metrics` if available, else
+        # fallback
         performance = perf_metrics.get(
             "overall_performance", self.current_metrics.overall_performance
         )
-        # Assuming stability might come from bio_orchestrator feedback or overall system stability
+        # Assuming stability might come from bio_orchestrator feedback or overall
+        # system stability
         stability = feedback.get(
             "system_stability_metric", self.current_metrics.stability_score
         )
@@ -428,8 +430,8 @@ class MetaLearningEnhancementAdapter:
 
     # # Placeholder: Enhance federated learning coordination
     async def _enhance_federated_learning(
-        self, perf_metrics: Dict[str, Any], feedback: Dict[str, Any]
-    ) -> Dict[str, Any]:  # Renamed metrics
+        self, perf_metrics: dict[str, Any], feedback: dict[str, Any]
+    ) -> dict[str, Any]:  # Renamed metrics
         """Enhance federated learning coordination"""
         # ΛNOTE: Simulates managing federated learning nodes and calculating convergence.
         # ΛDREAM_LOOP: Adapting federated learning parameters or node selection is a meta-level learning activity.
@@ -495,8 +497,8 @@ class MetaLearningEnhancementAdapter:
 
     # # Placeholder: Enhance symbolic feedback loops
     async def _enhance_symbolic_feedback(
-        self, perf_metrics: Dict[str, Any], feedback: Dict[str, Any]
-    ) -> Dict[str, Any]:  # Renamed metrics
+        self, perf_metrics: dict[str, Any], feedback: dict[str, Any]
+    ) -> dict[str, Any]:  # Renamed metrics
         """Enhance symbolic feedback loops"""
         # ΛNOTE: Simulates processing and integrating symbolic feedback from various LUKHAS components.
         # ΛDREAM_LOOP: Refining how symbolic feedback is used is a form of meta-learning.
@@ -545,8 +547,8 @@ class MetaLearningEnhancementAdapter:
 
     # # Placeholder: Update performance monitoring dashboard
     async def _update_performance_dashboard(
-        self, enhancement_results: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, enhancement_results: dict[str, Any]
+    ) -> dict[str, Any]:
         """Update performance monitoring dashboard"""
         # ΛNOTE: Calculates and updates overall performance metrics.
         # ΛTRACE: Updating performance dashboard
@@ -604,7 +606,7 @@ class MetaLearningEnhancementAdapter:
 
     # # Get comprehensive performance metrics
     # ΛEXPOSE: Public method to retrieve a summary of system performance.
-    async def get_performance_metrics(self) -> Dict[str, Any]:
+    async def get_performance_metrics(self) -> dict[str, Any]:
         """Get comprehensive performance metrics"""
         # ΛTRACE: Getting performance metrics
         logger.info("get_performance_metrics_start")
@@ -631,8 +633,8 @@ class MetaLearningEnhancementAdapter:
     # # Apply a specific optimization action
     # ΛEXPOSE: Allows targeted optimization actions to be triggered.
     async def apply_optimization(
-        self, action: str, parameters: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, action: str, parameters: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply a specific optimization action"""
         # ΛTRACE: Applying optimization
         logger.info("apply_optimization_start", action=action, parameters=parameters)
@@ -703,8 +705,8 @@ class MetaLearningEnhancementAdapter:
         return max(0.0, min(1.0, normalized))
 
     async def _adapt_to_biological_state(
-        self, bio_signals: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, bio_signals: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         logger.debug(
             "adapt_to_biological_state_stub", bio_signals_keys=list(bio_signals.keys())
         )
@@ -736,7 +738,7 @@ class MetaLearningEnhancementAdapter:
         return suggestions
 
     async def _integrate_biological_symbolic_feedback(
-        self, bio_signals: Dict[str, Any]
+        self, bio_signals: dict[str, Any]
     ) -> None:
         self.symbolic_feedback_buffer.append(
             {
@@ -764,7 +766,7 @@ class MetaLearningEnhancementAdapter:
             0.0, 1.0 - (std_dev / max(mean_val, 1e-9))
         )  # Coefficient of variation based stability
 
-    async def _connect_federated_nodes(self, num_nodes: int) -> List[Dict[str, Any]]:
+    async def _connect_federated_nodes(self, num_nodes: int) -> list[dict[str, Any]]:
         logger.debug("connect_federated_nodes_stub", num_to_connect=num_nodes)
         return (
             [
@@ -800,13 +802,13 @@ class MetaLearningEnhancementAdapter:
             else 0.0
         )
 
-    async def _process_intent_nodes(self, feedback: Dict[str, Any]) -> float:
+    async def _process_intent_nodes(self, feedback: dict[str, Any]) -> float:
         return random.uniform(0.5, 0.9) if __import__("random") else 0.7
 
-    async def _process_memoria_integration(self, feedback: Dict[str, Any]) -> float:
+    async def _process_memoria_integration(self, feedback: dict[str, Any]) -> float:
         return random.uniform(0.6, 0.85) if __import__("random") else 0.7
 
-    async def _process_dream_coherence(self, feedback: Dict[str, Any]) -> float:
+    async def _process_dream_coherence(self, feedback: dict[str, Any]) -> float:
         return random.uniform(0.4, 0.9) if __import__("random") else 0.65
 
     def _calculate_adaptation_speed(self) -> float:
@@ -844,7 +846,7 @@ class MetaLearningEnhancementAdapter:
     def _calculate_enhancement_factor(self, performance: float) -> float:
         return 1.0 + performance  # Simple additive factor
 
-    def _calculate_overall_enhancement(self, results: Dict[str, Any]) -> Dict[str, Any]:
+    def _calculate_overall_enhancement(self, results: dict[str, Any]) -> dict[str, Any]:
         lr_adapt = results.get("learning_rate_enhancement", {}).get(
             "rate_change_ratio", 0.0
         )
@@ -865,7 +867,7 @@ class MetaLearningEnhancementAdapter:
             "sym_contrib": sym_qual,
         }  # Renamed keys
 
-    async def _update_learning_phase(self, results: Dict[str, Any]) -> None:
+    async def _update_learning_phase(self, results: dict[str, Any]) -> None:
         overall_adapt_score = results.get("overall_enhancement_metrics", {}).get(
             "adaptation_score", 0.0
         )  # Use new key
@@ -890,7 +892,7 @@ class MetaLearningEnhancementAdapter:
             "learning_phase_updated", new_phase=self.current_metrics.current_phase.value
         )
 
-    async def _increase_learning_rate(self, multiplier: float) -> Dict[str, Any]:
+    async def _increase_learning_rate(self, multiplier: float) -> dict[str, Any]:
         old_rate = self.current_metrics.current_learning_rate
         new_rate = min(old_rate * multiplier, self.learning_rate_bounds.max_rate)
         self.current_metrics.current_learning_rate = new_rate
@@ -909,7 +911,7 @@ class MetaLearningEnhancementAdapter:
 
     async def _stabilize_federated_learning(
         self, stability_target: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         # This is a mock. Real stabilization is complex.
         improvement = (
             (stability_target - self.current_metrics.consensus_quality)
@@ -933,7 +935,7 @@ class MetaLearningEnhancementAdapter:
 
     async def _enhance_symbolic_feedback_quality(
         self, factor: float
-    ) -> Dict[str, Any]:  # Renamed enhancement_factor
+    ) -> dict[str, Any]:  # Renamed enhancement_factor
         old_quality = self.current_metrics.symbolic_feedback_quality
         new_quality = min(old_quality * factor, 1.0)
         self.current_metrics.symbolic_feedback_quality = new_quality

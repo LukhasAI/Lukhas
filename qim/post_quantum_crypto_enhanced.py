@@ -41,19 +41,13 @@ import secrets
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 try:
     from cryptography.hazmat.backends import default_backend
     from cryptography.hazmat.primitives import hashes, serialization
     from cryptography.hazmat.primitives.asymmetric import padding, rsa
-    from cryptography.hazmat.primitives.ciphers import (
-        Cipher,
-        algorithms,
-        modes,
-    )
     from cryptography.hazmat.primitives.kdf.hkdf import HKDF
-    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
     CRYPTO_AVAILABLE = True
 except ImportError:
@@ -114,7 +108,7 @@ class SecurityConfig:
     audit_logging: bool = True
     bio_quantum_integration: bool = False
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "security_level": self.security_level.value,
             "enable_hybrid_mode": self.enable_hybrid_mode,
@@ -137,7 +131,7 @@ class CryptoAuditLog:
     session_id: str
     success: bool
     error_message: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class QuantumResistantKeyManager:
@@ -145,13 +139,13 @@ class QuantumResistantKeyManager:
 
     def __init__(self, config: SecurityConfig):
         self.config = config
-        self.keys: Dict[str, Dict[str, Any]] = {}
+        self.keys: dict[str, dict[str, Any]] = {}
         self.last_rotation = datetime.now(timezone.utc)
-        self.audit_logs: List[CryptoAuditLog] = []
+        self.audit_logs: list[CryptoAuditLog] = []
 
     def generate_keypair(
         self, algorithm: str, security_level: SecurityLevel
-    ) -> Tuple[bytes, bytes]:
+    ) -> tuple[bytes, bytes]:
         """Generate a quantum-resistant keypair"""
         session_id = self._generate_session_id()
 
@@ -296,7 +290,7 @@ class PostQuantumCryptoEngine:
     def __init__(self, config: Optional[SecurityConfig] = None):
         self.config = config or SecurityConfig()
         self.key_manager = QuantumResistantKeyManager(self.config)
-        self.session_cache: Dict[str, Dict[str, Any]] = {}
+        self.session_cache: dict[str, dict[str, Any]] = {}
         self.active_sessions: Set[str] = set()
 
         # Initialize secure memory manager
@@ -308,7 +302,7 @@ class PostQuantumCryptoEngine:
         logger.info("PostQuantumCryptoEngine initialized with production configuration")
 
     async def create_secure_session(
-        self, peer_id: str, session_requirements: Dict[str, Any]
+        self, peer_id: str, session_requirements: dict[str, Any]
     ) -> str:
         """
         Create a quantum-secure communication session
@@ -358,7 +352,7 @@ class PostQuantumCryptoEngine:
 
     async def sign_data(
         self, data: bytes, session_id: str, include_timestamp: bool = True
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create quantum-resistant digital signature
 
@@ -566,7 +560,7 @@ class PostQuantumCryptoEngine:
             logger.error(f"Key rotation failed for session {session_id}: {e}")
             return False
 
-    def get_security_status(self) -> Dict[str, Any]:
+    def get_security_status(self) -> dict[str, Any]:
         """Get comprehensive security status"""
         return {
             "engine_version": "v2.0.0",
@@ -620,27 +614,27 @@ class SecureMemoryManager:
 
     def __init__(self, config: SecurityConfig):
         self.config = config
-        self.protected_data: Dict[str, Any] = {}
+        self.protected_data: dict[str, Any] = {}
 
-    def protect_session_data(self, session_id: str, data: Dict[str, Any]):
+    def protect_session_data(self, session_id: str, data: dict[str, Any]):
         """Protect session data in secure memory"""
         if self.config.enable_memory_protection:
             # In production, this would use platform-specific secure memory
             # For now, we implement logical protection
             self.protected_data[session_id] = data
 
-    def secure_cleanup(self, data: Union[Dict[str, Any], str]):
+    def secure_cleanup(self, data: Union[dict[str, Any], str]):
         """Securely cleanup sensitive data"""
         if isinstance(data, str) and data in self.protected_data:
             # Overwrite memory multiple times (DoD 5220.22-M standard)
             for _ in range(3):
                 self.protected_data[data] = {
-                    k: secrets.token_bytes(32) for k in self.protected_data[data].keys()
+                    k: secrets.token_bytes(32) for k in self.protected_data[data]
                 }
             del self.protected_data[data]
         elif isinstance(data, dict):
             # Overwrite dictionary values
-            for key in data.keys():
+            for key in data:
                 if isinstance(data[key], bytes):
                     data[key] = secrets.token_bytes(len(data[key]))
                 elif isinstance(data[key], str):
@@ -654,8 +648,8 @@ class QuantumKeyDerivation:
         self.config = config
 
     async def derive_session_keys(
-        self, shared_secret: bytes, context: Dict[str, Any], peer_id: str
-    ) -> Dict[str, bytes]:
+        self, shared_secret: bytes, context: dict[str, Any], peer_id: str
+    ) -> dict[str, bytes]:
         """Derive session keys using quantum-resistant methods"""
 
         # Create context string

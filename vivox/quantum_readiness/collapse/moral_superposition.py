@@ -6,7 +6,7 @@ Quantum superposition for exploring ethical ambiguities
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -17,6 +17,7 @@ logger = get_logger(__name__)
 
 class EthicalDimension(Enum):
     """Core ethical dimensions for quantum representation"""
+
     HARM_PREVENTION = "harm_prevention"
     AUTONOMY = "autonomy"
     JUSTICE = "justice"
@@ -32,16 +33,17 @@ class EthicalDimension(Enum):
 @dataclass
 class EthicalQuantumState:
     """Quantum state representing ethical scenario"""
+
     state_id: str
     superposition: np.ndarray  # Quantum amplitudes
-    ethical_weights: Dict[EthicalDimension, float]
+    ethical_weights: dict[EthicalDimension, float]
     uncertainty_level: float  # 0-1 moral uncertainty
-    context: Dict[str, Any]
+    context: dict[str, Any]
     timestamp: datetime = field(default_factory=datetime.now)
     state_type: str = "ethical_superposition"  # For compatibility
     fidelity: float = 1.0  # Default fidelity
 
-    def get_dominant_ethics(self, threshold: float = 0.3) -> List[EthicalDimension]:
+    def get_dominant_ethics(self, threshold: float = 0.3) -> list[EthicalDimension]:
         """Get dominant ethical dimensions above threshold"""
         dominant = []
         for dim, weight in self.ethical_weights.items():
@@ -65,17 +67,20 @@ class EthicalQuantumState:
 @dataclass
 class SuperpositionPath:
     """Evolution path of moral superposition"""
+
     initial_state: EthicalQuantumState
     final_state: EthicalQuantumState
-    intermediate_states: List[EthicalQuantumState]
+    intermediate_states: list[EthicalQuantumState]
     decision_confidence: float
     path_coherence: float  # How coherent the evolution was
 
-    def get_ethical_trajectory(self) -> List[Tuple[float, List[EthicalDimension]]]:
+    def get_ethical_trajectory(self) -> list[tuple[float, list[EthicalDimension]]]:
         """Get trajectory of dominant ethics over time"""
         trajectory = []
 
-        all_states = [self.initial_state] + self.intermediate_states + [self.final_state]
+        all_states = (
+            [self.initial_state] + self.intermediate_states + [self.final_state]
+        )
 
         for i, state in enumerate(all_states):
             progress = i / (len(all_states) - 1) if len(all_states) > 1 else 1.0
@@ -94,7 +99,7 @@ class MoralSuperposition:
     def __init__(self, dimension: int = 16):
         self.dimension = dimension  # Hilbert space dimension
         self.ethical_basis = self._create_ethical_basis()
-        self.superposition_history: List[EthicalQuantumState] = []
+        self.superposition_history: list[EthicalQuantumState] = []
 
         # Parameters for moral quantum mechanics
         self.coherence_threshold = 0.6
@@ -103,12 +108,12 @@ class MoralSuperposition:
 
         logger.info(f"MoralSuperposition initialized with dimension {dimension}")
 
-    def _create_ethical_basis(self) -> Dict[EthicalDimension, np.ndarray]:
+    def _create_ethical_basis(self) -> dict[EthicalDimension, np.ndarray]:
         """Create orthonormal basis for ethical dimensions"""
         basis = {}
 
         # Create orthonormal vectors for each dimension
-        num_dims = len(EthicalDimension)
+        len(EthicalDimension)
 
         for i, dimension in enumerate(EthicalDimension):
             vector = np.zeros(self.dimension, dtype=complex)
@@ -125,7 +130,9 @@ class MoralSuperposition:
 
         return basis
 
-    def _initialize_ethical_coupling(self) -> Dict[Tuple[EthicalDimension, EthicalDimension], float]:
+    def _initialize_ethical_coupling(
+        self,
+    ) -> dict[tuple[EthicalDimension, EthicalDimension], float]:
         """Initialize coupling strengths between ethical dimensions"""
         coupling = {}
 
@@ -135,13 +142,13 @@ class MoralSuperposition:
             (EthicalDimension.AUTONOMY, EthicalDimension.DIGNITY),
             (EthicalDimension.JUSTICE, EthicalDimension.INTEGRITY),
             (EthicalDimension.PRIVACY, EthicalDimension.DIGNITY),
-            (EthicalDimension.COMPASSION, EthicalDimension.BENEFICENCE)
+            (EthicalDimension.COMPASSION, EthicalDimension.BENEFICENCE),
         ]
 
         weak_couples = [
             (EthicalDimension.TRUTHFULNESS, EthicalDimension.PRIVACY),
             (EthicalDimension.AUTONOMY, EthicalDimension.HARM_PREVENTION),
-            (EthicalDimension.SUSTAINABILITY, EthicalDimension.JUSTICE)
+            (EthicalDimension.SUSTAINABILITY, EthicalDimension.JUSTICE),
         ]
 
         # Set coupling strengths
@@ -155,18 +162,20 @@ class MoralSuperposition:
 
         return coupling
 
-    def create_superposition(self,
-                           ethical_scenario: Dict[EthicalDimension, float],
-                           uncertainty: float = 0.5,
-                           context: Optional[Dict[str, Any]] = None) -> EthicalQuantumState:
+    def create_superposition(
+        self,
+        ethical_scenario: dict[EthicalDimension, float],
+        uncertainty: float = 0.5,
+        context: Optional[dict[str, Any]] = None,
+    ) -> EthicalQuantumState:
         """
         Create quantum superposition for ethical scenario
-        
+
         Args:
             ethical_scenario: Weights for each ethical dimension
             uncertainty: Level of moral uncertainty (0-1)
             context: Additional context information
-            
+
         Returns:
             EthicalQuantumState in superposition
         """
@@ -191,8 +200,9 @@ class MoralSuperposition:
 
         # Add quantum noise for uncertainty
         if uncertainty > 0:
-            noise = np.random.normal(0, uncertainty/4, self.dimension) + \
-                   1j * np.random.normal(0, uncertainty/4, self.dimension)
+            noise = np.random.normal(
+                0, uncertainty / 4, self.dimension
+            ) + 1j * np.random.normal(0, uncertainty / 4, self.dimension)
             superposition += noise
 
         # Normalize
@@ -201,7 +211,9 @@ class MoralSuperposition:
             superposition /= norm
         else:
             # Fallback to equal superposition
-            superposition = np.ones(self.dimension, dtype=complex) / np.sqrt(self.dimension)
+            superposition = np.ones(self.dimension, dtype=complex) / np.sqrt(
+                self.dimension
+            )
 
         # Create quantum state
         state = EthicalQuantumState(
@@ -209,24 +221,26 @@ class MoralSuperposition:
             superposition=superposition,
             ethical_weights=ethical_scenario.copy(),
             uncertainty_level=uncertainty,
-            context=context or {}
+            context=context or {},
         )
 
         self.superposition_history.append(state)
         return state
 
-    def evolve_superposition(self,
-                           state: EthicalQuantumState,
-                           ethical_pressure: Dict[EthicalDimension, float],
-                           time_steps: int = 10) -> SuperpositionPath:
+    def evolve_superposition(
+        self,
+        state: EthicalQuantumState,
+        ethical_pressure: dict[EthicalDimension, float],
+        time_steps: int = 10,
+    ) -> SuperpositionPath:
         """
         Evolve ethical superposition under moral pressures
-        
+
         Args:
             state: Initial ethical quantum state
             ethical_pressure: External ethical influences
             time_steps: Number of evolution steps
-            
+
         Returns:
             SuperpositionPath showing evolution
         """
@@ -236,20 +250,18 @@ class MoralSuperposition:
         for step in range(time_steps):
             # Apply ethical Hamiltonian
             evolved_superposition = self._apply_ethical_hamiltonian(
-                current_state.superposition,
-                ethical_pressure,
-                dt=0.1
+                current_state.superposition, ethical_pressure, dt=0.1
             )
 
             # Update weights based on evolution
             evolved_weights = self._update_ethical_weights(
-                current_state.ethical_weights,
-                ethical_pressure,
-                step / time_steps
+                current_state.ethical_weights, ethical_pressure, step / time_steps
             )
 
             # Reduce uncertainty over time
-            new_uncertainty = current_state.uncertainty_level * (1 - self.uncertainty_decay * step / time_steps)
+            new_uncertainty = current_state.uncertainty_level * (
+                1 - self.uncertainty_decay * step / time_steps
+            )
 
             # Create evolved state
             evolved_state = EthicalQuantumState(
@@ -257,7 +269,7 @@ class MoralSuperposition:
                 superposition=evolved_superposition,
                 ethical_weights=evolved_weights,
                 uncertainty_level=new_uncertainty,
-                context={**current_state.context, 'evolution_step': step}
+                context={**current_state.context, "evolution_step": step},
             )
 
             intermediate_states.append(evolved_state)
@@ -265,20 +277,24 @@ class MoralSuperposition:
 
         # Calculate path metrics
         decision_confidence = 1.0 - current_state.uncertainty_level
-        path_coherence = self._calculate_path_coherence(state, intermediate_states, current_state)
+        path_coherence = self._calculate_path_coherence(
+            state, intermediate_states, current_state
+        )
 
         return SuperpositionPath(
             initial_state=state,
             final_state=current_state,
             intermediate_states=intermediate_states,
             decision_confidence=decision_confidence,
-            path_coherence=path_coherence
+            path_coherence=path_coherence,
         )
 
-    def _apply_ethical_hamiltonian(self,
-                                  superposition: np.ndarray,
-                                  ethical_pressure: Dict[EthicalDimension, float],
-                                  dt: float = 0.1) -> np.ndarray:
+    def _apply_ethical_hamiltonian(
+        self,
+        superposition: np.ndarray,
+        ethical_pressure: dict[EthicalDimension, float],
+        dt: float = 0.1,
+    ) -> np.ndarray:
         """Apply ethical evolution operator"""
         # Build Hamiltonian from ethical pressures
         H = np.zeros((self.dimension, self.dimension), dtype=complex)
@@ -296,9 +312,14 @@ class MoralSuperposition:
                         coupling_strength = self.ethical_coupling[coupling_key]
                         other_basis = self.ethical_basis.get(other_dim)
                         if other_basis is not None:
-                            H += coupling_strength * pressure * \
-                                 (np.outer(basis_vector, np.conj(other_basis)) +
-                                  np.outer(other_basis, np.conj(basis_vector)))
+                            H += (
+                                coupling_strength
+                                * pressure
+                                * (
+                                    np.outer(basis_vector, np.conj(other_basis))
+                                    + np.outer(other_basis, np.conj(basis_vector))
+                                )
+                            )
 
         # Apply unitary evolution U = exp(-iHt)
         U = np.eye(self.dimension, dtype=complex) - 1j * H * dt
@@ -309,10 +330,12 @@ class MoralSuperposition:
         # Renormalize
         return evolved / np.linalg.norm(evolved)
 
-    def _update_ethical_weights(self,
-                              current_weights: Dict[EthicalDimension, float],
-                              pressure: Dict[EthicalDimension, float],
-                              progress: float) -> Dict[EthicalDimension, float]:
+    def _update_ethical_weights(
+        self,
+        current_weights: dict[EthicalDimension, float],
+        pressure: dict[EthicalDimension, float],
+        progress: float,
+    ) -> dict[EthicalDimension, float]:
         """Update ethical weights based on pressure and progress"""
         updated = current_weights.copy()
 
@@ -337,10 +360,12 @@ class MoralSuperposition:
 
         return updated
 
-    def _calculate_path_coherence(self,
-                                initial: EthicalQuantumState,
-                                intermediate: List[EthicalQuantumState],
-                                final: EthicalQuantumState) -> float:
+    def _calculate_path_coherence(
+        self,
+        initial: EthicalQuantumState,
+        intermediate: list[EthicalQuantumState],
+        final: EthicalQuantumState,
+    ) -> float:
         """Calculate coherence of evolution path"""
         all_states = [initial] + intermediate + [final]
 
@@ -365,16 +390,18 @@ class MoralSuperposition:
 
         return float(np.clip(coherence, 0, 1))
 
-    def measure_ethical_state(self,
-                            state: EthicalQuantumState,
-                            measurement_basis: Optional[EthicalDimension] = None) -> Tuple[EthicalDimension, float]:
+    def measure_ethical_state(
+        self,
+        state: EthicalQuantumState,
+        measurement_basis: Optional[EthicalDimension] = None,
+    ) -> tuple[EthicalDimension, float]:
         """
         Measure ethical quantum state
-        
+
         Args:
             state: Quantum state to measure
             measurement_basis: Specific dimension to measure (optional)
-            
+
         Returns:
             Tuple of (measured dimension, measurement strength)
         """
@@ -388,7 +415,7 @@ class MoralSuperposition:
                 return measurement_basis, 0.0
 
         # Measure in computational basis
-        probabilities = np.abs(state.superposition) ** 2
+        np.abs(state.superposition) ** 2
 
         # Map back to ethical dimensions
         dimension_probs = {}
@@ -426,22 +453,24 @@ class SuperpositionResolver:
 
     def __init__(self, moral_superposition: MoralSuperposition):
         self.superposition_engine = moral_superposition
-        self.resolution_history: List[Tuple[EthicalQuantumState, EthicalDimension]] = []
+        self.resolution_history: list[tuple[EthicalQuantumState, EthicalDimension]] = []
 
         # Resolution parameters
         self.confidence_threshold = 0.7
         self.coherence_requirement = 0.6
 
-    def resolve_to_decision(self,
-                          superposition_path: SuperpositionPath,
-                          constraints: Optional[Set[EthicalDimension]] = None) -> Dict[str, Any]:
+    def resolve_to_decision(
+        self,
+        superposition_path: SuperpositionPath,
+        constraints: Optional[set[EthicalDimension]] = None,
+    ) -> dict[str, Any]:
         """
         Resolve superposition path to ethical decision
-        
+
         Args:
             superposition_path: Evolution path to resolve
             constraints: Required ethical dimensions
-            
+
         Returns:
             Decision dictionary with outcome and metadata
         """
@@ -450,22 +479,24 @@ class SuperpositionResolver:
         # Check if resolution criteria met
         if superposition_path.decision_confidence < self.confidence_threshold:
             return {
-                'decision': 'UNDECIDED',
-                'reason': 'Insufficient confidence',
-                'confidence': superposition_path.decision_confidence,
-                'recommendation': 'Continue evolution with more constraints'
+                "decision": "UNDECIDED",
+                "reason": "Insufficient confidence",
+                "confidence": superposition_path.decision_confidence,
+                "recommendation": "Continue evolution with more constraints",
             }
 
         if superposition_path.path_coherence < self.coherence_requirement:
             return {
-                'decision': 'UNSTABLE',
-                'reason': 'Incoherent evolution path',
-                'coherence': superposition_path.path_coherence,
-                'recommendation': 'Restart with clearer initial conditions'
+                "decision": "UNSTABLE",
+                "reason": "Incoherent evolution path",
+                "coherence": superposition_path.path_coherence,
+                "recommendation": "Restart with clearer initial conditions",
             }
 
         # Perform measurement
-        measured_dimension, strength = self.superposition_engine.measure_ethical_state(final_state)
+        measured_dimension, strength = self.superposition_engine.measure_ethical_state(
+            final_state
+        )
 
         # Check constraints
         if constraints and measured_dimension not in constraints:
@@ -484,10 +515,10 @@ class SuperpositionResolver:
                 strength = best_score
             else:
                 return {
-                    'decision': 'CONSTRAINT_VIOLATION',
-                    'measured': measured_dimension.value,
-                    'required': [c.value for c in constraints],
-                    'recommendation': 'Adjust ethical weights to meet constraints'
+                    "decision": "CONSTRAINT_VIOLATION",
+                    "measured": measured_dimension.value,
+                    "required": [c.value for c in constraints],
+                    "recommendation": "Adjust ethical weights to meet constraints",
                 }
 
         # Store resolution
@@ -497,24 +528,26 @@ class SuperpositionResolver:
         dominant_ethics = final_state.get_dominant_ethics()
 
         return {
-            'decision': 'RESOLVED',
-            'primary_ethic': measured_dimension.value,
-            'decision_strength': strength,
-            'supporting_ethics': [d.value for d in dominant_ethics[:3]],
-            'confidence': superposition_path.decision_confidence,
-            'coherence': superposition_path.path_coherence,
-            'uncertainty_final': final_state.uncertainty_level,
-            'ethical_weights': {d.value: w for d, w in final_state.ethical_weights.items()},
-            'trajectory': [
-                {'progress': p, 'dominant': [d.value for d in doms]}
+            "decision": "RESOLVED",
+            "primary_ethic": measured_dimension.value,
+            "decision_strength": strength,
+            "supporting_ethics": [d.value for d in dominant_ethics[:3]],
+            "confidence": superposition_path.decision_confidence,
+            "coherence": superposition_path.path_coherence,
+            "uncertainty_final": final_state.uncertainty_level,
+            "ethical_weights": {
+                d.value: w for d, w in final_state.ethical_weights.items()
+            },
+            "trajectory": [
+                {"progress": p, "dominant": [d.value for d in doms]}
                 for p, doms in superposition_path.get_ethical_trajectory()
-            ]
+            ],
         }
 
-    def analyze_resolution_patterns(self) -> Dict[str, Any]:
+    def analyze_resolution_patterns(self) -> dict[str, Any]:
         """Analyze patterns in resolution history"""
         if not self.resolution_history:
-            return {'message': 'No resolution history available'}
+            return {"message": "No resolution history available"}
 
         # Count outcomes
         outcome_counts = {}
@@ -531,10 +564,10 @@ class SuperpositionResolver:
             weight_patterns.append([d.value for d in dominant])
 
         return {
-            'total_resolutions': len(self.resolution_history),
-            'outcome_distribution': outcome_counts,
-            'average_uncertainty': total_uncertainty / len(self.resolution_history),
-            'recent_patterns': weight_patterns,
-            'confidence_threshold': self.confidence_threshold,
-            'coherence_requirement': self.coherence_requirement
+            "total_resolutions": len(self.resolution_history),
+            "outcome_distribution": outcome_counts,
+            "average_uncertainty": total_uncertainty / len(self.resolution_history),
+            "recent_patterns": weight_patterns,
+            "confidence_threshold": self.confidence_threshold,
+            "coherence_requirement": self.coherence_requirement,
         }

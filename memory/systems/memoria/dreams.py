@@ -16,6 +16,18 @@
 """
 
 # Module imports
+from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+from from core.common import get_logger
+import numpy as np
+import structlog
+from dataclasses import dataclass, field  # For OpenAI placeholder
+import uuid
+import json
+from typing import List, Dict, Any, Optional
+from pathlib import Path
+from datetime import datetime, timezone
+import sys
+import os
 from typing import Optional, Dict, Any
 
 # Configure module logger
@@ -27,33 +39,22 @@ logger = get_logger(__name__)
 # ΛNOTE: This module is responsible for LUKHAS's symbolic dream generation.
 
 # Standard Library Imports
-import os
-import sys
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import List, Dict, Any, Optional
-import json
-import uuid
-from dataclasses import dataclass, field  # For OpenAI placeholder
 
 # Third-Party Imports
-import structlog
-import numpy as np
 
 try:
     from openai import OpenAI, APIError
 
     OPENAI_AVAILABLE_DREAMS = True
 except ImportError:
-from from core.common import get_logger
-    log_init_dreams_fallback.warning(
-        "OpenAI library not found. Using placeholder for Dreams.",
-        component="LukhasDreams",
-    )
-    OPENAI_AVAILABLE_DREAMS = False
+   log_init_dreams_fallback.warning(
+       "OpenAI library not found. Using placeholder for Dreams.",
+       component="LukhasDreams",
+   )
+   OPENAI_AVAILABLE_DREAMS = False
 
-    @dataclass
-    class _MockChoiceContentDreamsDP:
+   @dataclass
+   class _MockChoiceContentDreamsDP:
         content: str = "Placeholder LUKHAS dream: Symbols intertwine in a lucid dream."
 
     @dataclass
@@ -93,14 +94,13 @@ from from core.common import get_logger
                 },
             )()
 
-from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
-    class APIError(LukhasError):
-        pass
-
+   class APIError(LukhasError):
+       pass
 
 
 # --- Path Configuration & LUKHAS Component Imports ---
-# CRITICAL TODO: Remove hardcoded sys.path.append. Manage paths via packaging or PYTHONPATH.
+# CRITICAL TODO: Remove hardcoded sys.path.append. Manage paths via
+# packaging or PYTHONPATH.
 problematic_path = "/Users/grdm_admin/Downloads/oxn"
 if problematic_path in sys.path:
     log.warning("Hardcoded path found and used from sys.path.", path=problematic_path)
@@ -277,7 +277,11 @@ def generate_dream_narrative(
             model=model_name,
             prompt_approx_len=len(final_dream_user_prompt),
         )
-        response_obj = lukhas_global_dream_openai_client.chat.completions.create(model=model_name, messages=api_messages, temperature=temperature, max_tokens=max_tokens)  # type: ignore
+        response_obj = lukhas_global_dream_openai_client.chat.completions.create(
+            model=model_name,
+            messages=api_messages,
+            temperature=temperature,
+            max_tokens=max_tokens)  # type: ignore
         dream_narrative_content = response_obj.choices[0].message.content
         log.info(
             "LUKHAS dream narrative generated.",
@@ -306,7 +310,8 @@ def extract_visual_prompts_from_dream(dream_text_content: str) -> List[str]:
     """Extracts potential visual prompts from dream text using keywords."""
     if not dream_text_content:
         return []
-    # ΛNOTE: Keywords for visual prompts can be expanded based on LUKHAS's evolving symbolic vocabulary.
+    # ΛNOTE: Keywords for visual prompts can be expanded based on LUKHAS's
+    # evolving symbolic vocabulary.
     dream_keywords = [
         "mirror",
         "light",

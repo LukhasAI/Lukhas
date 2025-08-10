@@ -40,7 +40,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="LUKHAS Universal Language API",
     description="Multi-modal language processing and high-entropy password generation",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # Security
@@ -59,8 +59,10 @@ orchestrator.register_colony("main-colony", colony)
 
 # ==================== Request/Response Models ====================
 
+
 class MultiModalInput(BaseModel):
     """Multi-modal input for language understanding"""
+
     text: Optional[str] = None
     emoji: Optional[str] = None
     image_url: Optional[str] = None
@@ -70,6 +72,7 @@ class MultiModalInput(BaseModel):
 
 class SymbolUnderstandingRequest(BaseModel):
     """Request for symbol understanding"""
+
     input: MultiModalInput
     context: Optional[Dict[str, Any]] = {}
     user_id: str
@@ -77,6 +80,7 @@ class SymbolUnderstandingRequest(BaseModel):
 
 class SymbolUnderstandingResponse(BaseModel):
     """Response from symbol understanding"""
+
     meaning: str
     confidence: float
     universal_symbol: Optional[str] = None
@@ -86,6 +90,7 @@ class SymbolUnderstandingResponse(BaseModel):
 
 class PasswordGenerationRequest(BaseModel):
     """Request for password generation"""
+
     entropy_bits: int = Field(default=256, ge=128, le=512)
     modalities: List[str] = ["text", "emoji", "gesture"]
     memorability_score: float = Field(default=0.8, ge=0.0, le=1.0)
@@ -94,6 +99,7 @@ class PasswordGenerationRequest(BaseModel):
 
 class PasswordGenerationResponse(BaseModel):
     """Response from password generation"""
+
     password_elements: Dict[str, Any]
     entropy_bits: float
     memorability_score: float
@@ -103,6 +109,7 @@ class PasswordGenerationResponse(BaseModel):
 
 class ExchangeInitiationRequest(BaseModel):
     """Request to initiate symbol exchange"""
+
     participants: List[str]
     protocol: str = "differential"
     privacy_level: str = "high"
@@ -110,6 +117,7 @@ class ExchangeInitiationRequest(BaseModel):
 
 class LanguageBuildRequest(BaseModel):
     """Request to build universal language element"""
+
     words: List[str]
     symbols: List[str]
     images: Optional[List[str]] = []
@@ -120,6 +128,7 @@ class LanguageBuildRequest(BaseModel):
 
 class ColonyConsensusRequest(BaseModel):
     """Request for colony consensus"""
+
     proposal: str
     method: str = "weighted_vote"
     urgency: float = Field(default=0.5, ge=0.0, le=1.0)
@@ -127,6 +136,7 @@ class ColonyConsensusRequest(BaseModel):
 
 
 # ==================== Helper Functions ====================
+
 
 def calculate_entropy(elements: Dict[str, Any]) -> float:
     """Calculate entropy from multi-modal elements"""
@@ -162,7 +172,7 @@ def estimate_cracking_time(entropy_bits: float) -> str:
     """Estimate time to crack based on entropy"""
     # Assuming 1 trillion guesses per second
     guesses_per_second = 1e12
-    total_possibilities = 2 ** entropy_bits
+    total_possibilities = 2**entropy_bits
     seconds = total_possibilities / (2 * guesses_per_second)  # Average case
 
     if seconds < 60:
@@ -199,6 +209,7 @@ def get_strength_rating(entropy_bits: float) -> str:
 
 # ==================== API Endpoints ====================
 
+
 @app.get("/")
 async def root():
     """Root endpoint"""
@@ -211,15 +222,15 @@ async def root():
             "/api/v1/password/generate",
             "/api/v1/exchange/initiate",
             "/api/v1/language/build",
-            "/api/v1/colony/consensus"
-        ]
+            "/api/v1/colony/consensus",
+        ],
     }
 
 
 @app.post("/api/v1/symbols/understand", response_model=SymbolUnderstandingResponse)
 async def understand_symbols(
     request: SymbolUnderstandingRequest,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
     """Understand multi-modal symbolic input"""
     try:
@@ -228,18 +239,20 @@ async def understand_symbols(
             task_id=f"understand_{request.user_id}_{datetime.now().timestamp()}",
             content=f"Understand symbol: {request.input.dict()}",
             context=request.context,
-            mode=OrchestrationMode.COLLABORATIVE
+            mode=OrchestrationMode.COLLABORATIVE,
         )
 
         # Process through orchestrator
         result = await orchestrator.process_task(task)
 
         # Calculate entropy of input
-        entropy = calculate_entropy({
-            "text": request.input.text,
-            "emojis": request.input.emoji,
-            "gestures": request.input.gesture_sequence
-        })
+        entropy = calculate_entropy(
+            {
+                "text": request.input.text,
+                "emojis": request.input.emoji,
+                "gestures": request.input.gesture_sequence,
+            }
+        )
 
         return SymbolUnderstandingResponse(
             meaning=str(result.final_decision) if result.final_decision else "unknown",
@@ -248,8 +261,8 @@ async def understand_symbols(
             entropy_bits=entropy,
             metadata={
                 "processing_time": result.processing_time,
-                "mode_used": result.mode_used.value
-            }
+                "mode_used": result.mode_used.value,
+            },
         )
 
     except Exception as e:
@@ -260,7 +273,7 @@ async def understand_symbols(
 @app.post("/api/v1/password/generate", response_model=PasswordGenerationResponse)
 async def generate_password(
     request: PasswordGenerationRequest,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
     """Generate high-entropy password using multi-modal elements"""
     try:
@@ -271,8 +284,9 @@ async def generate_password(
             # Simple random text generation (would use better algorithm in production)
             import random
             import string
+
             text_length = max(3, request.entropy_bits // 20)
-            password_elements["text"] = ''.join(
+            password_elements["text"] = "".join(
                 random.choices(string.ascii_letters + string.digits, k=text_length)
             )
 
@@ -288,7 +302,7 @@ async def generate_password(
                 {"type": "swipe_up", "timing": 0.3, "pressure": 0.8},
                 {"type": "circle", "timing": 0.5, "pressure": 0.6},
                 {"type": "tap_tap_hold", "timing": 1.2, "pressure": 0.9},
-                {"type": "zigzag", "timing": 0.7, "pressure": 0.7}
+                {"type": "zigzag", "timing": 0.7, "pressure": 0.7},
             ]
             gesture_count = min(len(gestures), max(1, request.entropy_bits // 80))
             password_elements["gestures"] = random.sample(gestures, gesture_count)
@@ -297,8 +311,10 @@ async def generate_password(
         actual_entropy = calculate_entropy(password_elements)
 
         # Calculate memorability (simplified)
-        element_count = sum(len(v) if isinstance(v, (list, str)) else 1
-                          for v in password_elements.values())
+        element_count = sum(
+            len(v) if isinstance(v, (list, str)) else 1
+            for v in password_elements.values()
+        )
         memorability = max(0.3, min(1.0, 1.0 - (element_count / 20)))
 
         return PasswordGenerationResponse(
@@ -306,7 +322,7 @@ async def generate_password(
             entropy_bits=actual_entropy,
             memorability_score=memorability,
             strength_rating=get_strength_rating(actual_entropy),
-            cracking_time_estimate=estimate_cracking_time(actual_entropy)
+            cracking_time_estimate=estimate_cracking_time(actual_entropy),
         )
 
     except Exception as e:
@@ -317,7 +333,7 @@ async def generate_password(
 @app.post("/api/v1/exchange/initiate")
 async def initiate_exchange(
     request: ExchangeInitiationRequest,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
     """Initiate privacy-preserving symbol exchange"""
     try:
@@ -326,7 +342,7 @@ async def initiate_exchange(
             "differential": ExchangeProtocol.DIFFERENTIAL,
             "federated": ExchangeProtocol.FEDERATED,
             "colony": ExchangeProtocol.COLONY,
-            "hashed": ExchangeProtocol.HASHED
+            "hashed": ExchangeProtocol.HASHED,
         }
         protocol = protocol_map.get(request.protocol, ExchangeProtocol.DIFFERENTIAL)
 
@@ -334,7 +350,7 @@ async def initiate_exchange(
         session_id = await universal_exchange.initiate_exchange(
             initiator_id=request.participants[0],
             participant_ids=request.participants[1:],
-            protocol=protocol
+            protocol=protocol,
         )
 
         return {
@@ -342,7 +358,7 @@ async def initiate_exchange(
             "participants": request.participants,
             "protocol": request.protocol,
             "privacy_level": request.privacy_level,
-            "status": "initiated"
+            "status": "initiated",
         }
 
     except Exception as e:
@@ -353,7 +369,7 @@ async def initiate_exchange(
 @app.post("/api/v1/language/build")
 async def build_language(
     request: LanguageBuildRequest,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
     """Build universal language element from multi-modal inputs"""
     try:
@@ -364,7 +380,7 @@ async def build_language(
             "images": request.images or [],
             "sounds": request.sounds or [],
             "gestures": request.gestures or [],
-            "target": request.target_meaning
+            "target": request.target_meaning,
         }
 
         # Process through orchestrator
@@ -372,28 +388,39 @@ async def build_language(
             task_id=f"build_{request.target_meaning}_{datetime.now().timestamp()}",
             content=f"Build universal symbol for: {request.target_meaning}",
             context=combined_input,
-            mode=OrchestrationMode.FEDERATED
+            mode=OrchestrationMode.FEDERATED,
         )
 
         result = await orchestrator.process_task(task)
 
         # Calculate entropy contribution
-        entropy = calculate_entropy({
-            "text": " ".join(request.words),
-            "emojis": " ".join(request.symbols),
-            "gestures": request.gestures
-        })
+        entropy = calculate_entropy(
+            {
+                "text": " ".join(request.words),
+                "emojis": " ".join(request.symbols),
+                "gestures": request.gestures,
+            }
+        )
 
         return {
             "target_meaning": request.target_meaning,
             "universal_symbol": result.final_decision,
             "confidence": result.confidence,
             "entropy_contribution": entropy,
-            "input_modalities": len([x for x in [
-                request.words, request.symbols, request.images,
-                request.sounds, request.gestures
-            ] if x]),
-            "status": "created" if result.confidence > 0.7 else "pending_validation"
+            "input_modalities": len(
+                [
+                    x
+                    for x in [
+                        request.words,
+                        request.symbols,
+                        request.images,
+                        request.sounds,
+                        request.gestures,
+                    ]
+                    if x
+                ]
+            ),
+            "status": "created" if result.confidence > 0.7 else "pending_validation",
         }
 
     except Exception as e:
@@ -405,7 +432,7 @@ async def build_language(
 async def colony_consensus(
     request: ColonyConsensusRequest,
     background_tasks: BackgroundTasks,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
     """Request colony consensus on a proposal"""
     try:
@@ -415,23 +442,22 @@ async def colony_consensus(
             "weighted_vote": ConsensusMethod.WEIGHTED_VOTE,
             "hormone": ConsensusMethod.HORMONE,
             "byzantine": ConsensusMethod.BYZANTINE,
-            "emergent": ConsensusMethod.EMERGENT
+            "emergent": ConsensusMethod.EMERGENT,
         }
-        method = method_map.get(request.method, ConsensusMethod.WEIGHTED_VOTE)
+        method_map.get(request.method, ConsensusMethod.WEIGHTED_VOTE)
 
         # Update hormone levels based on urgency
         if request.urgency > 0.7:
-            colony.homeostasis.update_hormone_levels({
-                'urgency': request.urgency,
-                'stress': request.urgency * 0.5
-            })
+            colony.homeostasis.update_hormone_levels(
+                {"urgency": request.urgency, "stress": request.urgency * 0.5}
+            )
 
         # Create consensus task
         task = OrchestrationTask(
             task_id=f"consensus_{datetime.now().timestamp()}",
             content=request.proposal,
             context={"urgency": request.urgency},
-            mode=OrchestrationMode.PARALLEL
+            mode=OrchestrationMode.PARALLEL,
         )
 
         # Process through orchestrator
@@ -444,7 +470,7 @@ async def colony_consensus(
             "method_used": request.method,
             "urgency_level": request.urgency,
             "processing_time": result.processing_time,
-            "consensus_reached": result.confidence > 0.6
+            "consensus_reached": result.confidence > 0.6,
         }
 
     except Exception as e:
@@ -471,7 +497,7 @@ async def get_statistics(credentials: HTTPAuthorizationCredentials = Depends(sec
             "tasks_completed": orchestrator_stats.get("completed_tasks", 0),
             "active_signals": len(active_signals),
             "performance_metrics": orchestrator_stats.get("metrics", {}),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     except Exception as e:
@@ -480,6 +506,7 @@ async def get_statistics(credentials: HTTPAuthorizationCredentials = Depends(sec
 
 
 # ==================== Startup/Shutdown Events ====================
+
 
 @app.on_event("startup")
 async def startup_event():
@@ -496,7 +523,7 @@ async def startup_event():
         name=SignalType.NOVELTY,
         source="api_startup",
         level=1.0,
-        metadata={"event": "system_startup"}
+        metadata={"event": "system_startup"},
     )
     signal_bus.publish(signal)
 
@@ -513,7 +540,7 @@ async def shutdown_event():
         name=SignalType.STRESS,
         source="api_shutdown",
         level=0.1,
-        metadata={"event": "system_shutdown"}
+        metadata={"event": "system_shutdown"},
     )
     signal_bus.publish(signal)
 
@@ -524,9 +551,5 @@ async def shutdown_event():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(
-        app,
-        host="0.0.0.0",
-        port=8080,
-        log_level="info"
-    )
+
+    uvicorn.run(app, host="0.0.0.0", port=8080, log_level="info")

@@ -15,7 +15,7 @@ import os
 import threading
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Third-Party Imports
 import structlog
@@ -36,7 +36,8 @@ def lukhas_tier_required(level: int):
     return decorator
 
 
-# ΛNOTE: `fcntl` usage makes this module Unix-specific. Consider alternatives or conditional imports for wider compatibility.
+# ΛNOTE: `fcntl` usage makes this module Unix-specific. Consider
+# alternatives or conditional imports for wider compatibility.
 @lukhas_tier_required(1)  # Conceptual tier for core agent memory functionality
 class AgentMemory:
     """
@@ -135,7 +136,7 @@ class AgentMemory:
     # ΛSEED_CHAIN: Appended data (event_type, data payload) becomes a seed for this agent or others.
     # AIDENTITY: Memory is associated with self.agent_id.
     @lukhas_tier_required(1)
-    async def append_memory(self, event_type: str, data: Dict[str, Any]) -> bool:
+    async def append_memory(self, event_type: str, data: dict[str, Any]) -> bool:
         """
         Appends an event entry to this agent's shared memory.
         Async interface to a synchronous file operation. Consider `asyncio.to_thread`.
@@ -165,7 +166,7 @@ class AgentMemory:
             return False
 
     def _append_memory_internal(
-        self, agent_id: str, event_type: str, data: Dict[str, Any]
+        self, agent_id: str, event_type: str, data: dict[str, Any]
     ) -> bool:
         """Internal synchronous method to append an entry to the shared memory file."""
         # ΛTRACE: Internal sync append operation started.
@@ -183,7 +184,8 @@ class AgentMemory:
                     "data": data,  # ΛSEED_CHAIN: This data is the seed.
                 }
 
-                # ΛCAUTION: File operations are synchronous and use fcntl (Unix-specific).
+                # ΛCAUTION: File operations are synchronous and use fcntl
+                # (Unix-specific).
                 with open(self.memory_path, "a", encoding="utf-8") as f:
                     fcntl.flock(f.fileno(), fcntl.LOCK_EX)  # Process-level lock
                     try:
@@ -221,7 +223,7 @@ class AgentMemory:
         agent_filter: Optional[str] = None,
         event_type_filter: Optional[str] = None,
         limit: int = 100,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Reads entries from shared memory, defaulting to this agent's memories if agent_filter is None.
         Async interface to a synchronous file operation. Consider `asyncio.to_thread`.
@@ -266,7 +268,7 @@ class AgentMemory:
         agent_filter: Optional[str] = None,  # AIDENTITY
         event_type_filter: Optional[str] = None,
         limit: int = 100,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Internal synchronous method to read entries from the shared memory file."""
         # ΛTRACE: Internal sync read operation started.
         log.debug(
@@ -285,8 +287,9 @@ class AgentMemory:
                     )
                     return []
 
-                entries: List[Dict[str, Any]] = []
-                # ΛCAUTION: Reads all lines then reverses; could be memory intensive for large files.
+                entries: list[dict[str, Any]] = []
+                # ΛCAUTION: Reads all lines then reverses; could be memory intensive for
+                # large files.
                 with open(self.memory_path, encoding="utf-8") as f:
                     fcntl.flock(f.fileno(), fcntl.LOCK_SH)  # Process-level lock
                     try:
@@ -346,7 +349,7 @@ class AgentMemory:
     @lukhas_tier_required(1)
     async def get_agent_insights(
         self, agent_id: str, limit: int = 20
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Retrieves 'insight_discovered' entries for a given agent."""
         # ΛTRACE: Fetching agent insights.
         log.debug("Fetching agent insights.", for_agent_id=agent_id, result_limit=limit)
@@ -359,7 +362,7 @@ class AgentMemory:
     @lukhas_tier_required(1)
     async def get_recent_activities(
         self, minutes: int = 60, limit: int = 100
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Retrieves all activities for the current agent from the last N minutes."""
         # ΛTRACE: Fetching recent activities for current agent.
         log.debug(
@@ -369,11 +372,12 @@ class AgentMemory:
             result_limit=limit,
         )
 
-        # ΛCAUTION: Heuristic `limit * 5` might still not be enough for sparse activities over long periods.
+        # ΛCAUTION: Heuristic `limit * 5` might still not be enough for sparse
+        # activities over long periods.
         candidate_entries = await self.read_memory(limit=limit * 5)
 
         cutoff_timestamp = datetime.now(timezone.utc).timestamp() - (minutes * 60)
-        recent_filtered_entries: List[Dict[str, Any]] = []
+        recent_filtered_entries: list[dict[str, Any]] = []
 
         for entry in candidate_entries:
             try:
@@ -393,7 +397,8 @@ class AgentMemory:
                 KeyError,
                 TypeError,
             ) as e:  # Added TypeError for fromisoformat
-                # ΛTRACE: Warning: Skipping entry with invalid timestamp during recent activity filtering.
+                # ΛTRACE: Warning: Skipping entry with invalid timestamp during recent
+                # activity filtering.
                 log.warning(
                     "Skipping entry with invalid timestamp during recent activity filtering.",
                     agent_id=self.agent_id,
@@ -413,12 +418,14 @@ class AgentMemory:
 
 # --- Global Instance and Convenience Functions ---
 # ΛNOTE: Manages a global default AgentMemory instance. This could be a #ΛDRIFT_POINT if not handled carefully
-#        in complex multi-threaded/processed scenarios, despite the internal lock in AgentMemory.
+# in complex multi-threaded/processed scenarios, despite the internal lock
+# in AgentMemory.
 _shared_memory_instance: Optional[AgentMemory] = None
 _global_memory_lock = threading.Lock()  # Lock for managing the global instance itself
 
 
-# AIDENTITY: `get_shared_memory` is key for obtaining agent-specific or global memory access.
+# AIDENTITY: `get_shared_memory` is key for obtaining agent-specific or
+# global memory access.
 def get_shared_memory(
     agent_id: str = "global_default", base_path: Optional[str] = None
 ) -> AgentMemory:
@@ -459,7 +466,7 @@ def get_shared_memory(
 async def append_to_shared_memory(
     agent_id: str,
     event_type: str,
-    data: Dict[str, Any],
+    data: dict[str, Any],
     base_path: Optional[str] = None,
 ) -> bool:
     """Convenience async function to append to shared memory for a specific agent."""
@@ -478,7 +485,7 @@ async def read_from_shared_memory(
     event_type_filter: Optional[str] = None,
     limit: int = 100,
     base_path: Optional[str] = None,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Convenience async function to read from shared memory."""
     agent_to_query = agent_filter if agent_filter is not None else "global_default"
     # ΛTRACE: Convenience function read_from_shared_memory called.

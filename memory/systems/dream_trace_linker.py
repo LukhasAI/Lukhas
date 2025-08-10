@@ -58,7 +58,7 @@ from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -101,7 +101,7 @@ class GlyphSignature:
     glyph_id: str
     pattern_strength: float
     resonance_level: GlyphResonanceLevel
-    symbolic_context: Dict[str, Any]
+    symbolic_context: dict[str, Any]
     temporal_signature: str
     entropy_contribution: float
 
@@ -112,7 +112,7 @@ class IdentitySignature:
 
     identity_marker: str
     confidence_score: float
-    related_memories: List[str]
+    related_memories: list[str]
     drift_susceptibility: float
     protection_level: int  # 0-5, higher = more protected
 
@@ -126,7 +126,7 @@ class EmotionalEcho:
     target_emotion: str
     propagation_strength: float
     decay_factor: float
-    emotional_bridge: Dict[str, Any]
+    emotional_bridge: dict[str, Any]
 
 
 @dataclass
@@ -140,13 +140,13 @@ class DreamTraceLink:
     entropy_delta: float
     symbolic_origin_id: str
     tier_gate: str
-    glyphs: List[str]
+    glyphs: list[str]
     entanglement_level: int
     trace_type: DreamTraceType
-    glyph_signatures: List[GlyphSignature]
-    identity_signatures: List[IdentitySignature]
-    emotional_echoes: List[EmotionalEcho]
-    safeguard_flags: List[str]
+    glyph_signatures: list[GlyphSignature]
+    identity_signatures: list[IdentitySignature]
+    emotional_echoes: list[EmotionalEcho]
+    safeguard_flags: list[str]
     timestamp_utc: str
 
 
@@ -214,8 +214,8 @@ class DreamTraceLinker:
         self,
         dream_id: str,
         dream_content: str,
-        dream_metadata: Dict[str, Any],
-        related_fold_keys: Optional[List[str]] = None,
+        dream_metadata: dict[str, Any],
+        related_fold_keys: Optional[list[str]] = None,
     ) -> DreamTraceLink:
         """
         Creates comprehensive symbolic links between a dream and relevant memory elements.
@@ -310,8 +310,8 @@ class DreamTraceLinker:
         return dream_trace
 
     def _extract_glyph_signatures(
-        self, dream_content: str, dream_metadata: Dict[str, Any]
-    ) -> List[GlyphSignature]:
+        self, dream_content: str, dream_metadata: dict[str, Any]
+    ) -> list[GlyphSignature]:
         """Extract GLYPH signatures from dream content."""
         signatures = []
 
@@ -358,8 +358,8 @@ class DreamTraceLinker:
         return sorted(signatures, key=lambda x: x.pattern_strength, reverse=True)
 
     def _correlate_identity_signatures(
-        self, dream_content: str, related_fold_keys: Optional[List[str]]
-    ) -> List[IdentitySignature]:
+        self, dream_content: str, related_fold_keys: Optional[list[str]]
+    ) -> list[IdentitySignature]:
         """Correlate identity signatures between dreams and memory."""
         signatures = []
 
@@ -400,8 +400,8 @@ class DreamTraceLinker:
         return signatures
 
     def _propagate_emotional_echoes(
-        self, dream_content: str, dream_metadata: Dict[str, Any]
-    ) -> List[EmotionalEcho]:
+        self, dream_content: str, dream_metadata: dict[str, Any]
+    ) -> list[EmotionalEcho]:
         """Propagate emotional echoes from dreams to memory."""
         echoes = []
 
@@ -447,10 +447,10 @@ class DreamTraceLinker:
     def _calculate_dream_drift_metrics(
         self,
         dream_content: str,
-        glyph_signatures: List[GlyphSignature],
-        identity_signatures: List[IdentitySignature],
-        emotional_echoes: List[EmotionalEcho],
-    ) -> Dict[str, Any]:
+        glyph_signatures: list[GlyphSignature],
+        identity_signatures: list[IdentitySignature],
+        emotional_echoes: list[EmotionalEcho],
+    ) -> dict[str, Any]:
         """Calculate drift and entropy metrics for dream-memory linking."""
 
         # Base drift from content complexity
@@ -500,9 +500,9 @@ class DreamTraceLinker:
 
     def _determine_tier_gate(
         self,
-        drift_metrics: Dict[str, Any],
-        identity_signatures: List[IdentitySignature],
-        emotional_echoes: List[EmotionalEcho],
+        drift_metrics: dict[str, Any],
+        identity_signatures: list[IdentitySignature],
+        emotional_echoes: list[EmotionalEcho],
     ) -> str:
         """Determine appropriate tier gate for dream-memory access."""
 
@@ -526,9 +526,9 @@ class DreamTraceLinker:
 
     def _calculate_entanglement_level(
         self,
-        glyph_signatures: List[GlyphSignature],
-        identity_signatures: List[IdentitySignature],
-        emotional_echoes: List[EmotionalEcho],
+        glyph_signatures: list[GlyphSignature],
+        identity_signatures: list[IdentitySignature],
+        emotional_echoes: list[EmotionalEcho],
     ) -> int:
         """Calculate symbolic entanglement level."""
 
@@ -554,8 +554,8 @@ class DreamTraceLinker:
         self,
         dream_id: str,
         entanglement_level: int,
-        glyph_signatures: List[GlyphSignature],
-    ) -> List[str]:
+        glyph_signatures: list[GlyphSignature],
+    ) -> list[str]:
         """Check various safeguards for dream-memory linking with enhanced validations."""
         flags = []
 
@@ -640,9 +640,9 @@ class DreamTraceLinker:
 
     def _determine_trace_type(
         self,
-        glyph_signatures: List[GlyphSignature],
-        identity_signatures: List[IdentitySignature],
-        emotional_echoes: List[EmotionalEcho],
+        glyph_signatures: list[GlyphSignature],
+        identity_signatures: list[IdentitySignature],
+        emotional_echoes: list[EmotionalEcho],
     ) -> DreamTraceType:
         """Determine the primary type of dream trace."""
 
@@ -682,7 +682,7 @@ class DreamTraceLinker:
             return GlyphResonanceLevel.NONE
 
     def _calculate_glyph_entropy(
-        self, glyph_id: str, matches: List[str], content: str
+        self, glyph_id: str, matches: list[str], content: str
     ) -> float:
         """Calculate entropy contribution of GLYPH patterns."""
         if not matches:
@@ -699,7 +699,7 @@ class DreamTraceLinker:
             return min(entropy, 2.0)  # Cap entropy contribution
         return 0.0
 
-    def _extract_context_phrases(self, glyph_id: str, content: str) -> List[str]:
+    def _extract_context_phrases(self, glyph_id: str, content: str) -> list[str]:
         """Extract context phrases around GLYPH patterns."""
         # Simple implementation - extract sentences containing the glyph
         sentences = re.split(r"[.!?]+", content)
@@ -720,7 +720,7 @@ class DreamTraceLinker:
         return len(unique_words) / max(len(words), 1)
 
     def _calculate_identity_confidence(
-        self, identity_marker: str, matches: List[str], content: str
+        self, identity_marker: str, matches: list[str], content: str
     ) -> float:
         """Calculate confidence score for identity markers."""
         # Base confidence from match frequency
@@ -734,8 +734,8 @@ class DreamTraceLinker:
         return min(base_confidence + contextual_boost, 1.0)
 
     def _find_identity_related_memories(
-        self, identity_marker: str, related_fold_keys: Optional[List[str]]
-    ) -> List[str]:
+        self, identity_marker: str, related_fold_keys: Optional[list[str]]
+    ) -> list[str]:
         """Find memories related to identity markers."""
         # Placeholder implementation - would search actual memory store
         related_memories = []
@@ -775,7 +775,7 @@ class DreamTraceLinker:
 
         return protection_map.get(identity_marker, 3)
 
-    def _extract_dream_emotions(self, dream_content: str) -> List[str]:
+    def _extract_dream_emotions(self, dream_content: str) -> list[str]:
         """Extract emotional markers from dream content."""
         emotions = []
 
@@ -785,7 +785,7 @@ class DreamTraceLinker:
 
         return emotions
 
-    def _find_resonant_memory_emotions(self, source_emotion: str) -> List[str]:
+    def _find_resonant_memory_emotions(self, source_emotion: str) -> list[str]:
         """Find emotions in memory that resonate with dream emotion."""
         # Emotional resonance mapping
         resonance_map = {
@@ -832,8 +832,8 @@ class DreamTraceLinker:
             return 0.3  # Faster decay
 
     def _create_emotional_bridge(
-        self, source_emotion: str, target_emotion: str, dream_metadata: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, source_emotion: str, target_emotion: str, dream_metadata: dict[str, Any]
+    ) -> dict[str, Any]:
         """Create emotional bridge between dream and memory."""
         return {
             "bridge_type": "dream_to_memory",
@@ -847,9 +847,9 @@ class DreamTraceLinker:
 
     def _calculate_dream_entropy_delta(
         self,
-        glyph_signatures: List[GlyphSignature],
-        identity_signatures: List[IdentitySignature],
-        emotional_echoes: List[EmotionalEcho],
+        glyph_signatures: list[GlyphSignature],
+        identity_signatures: list[IdentitySignature],
+        emotional_echoes: list[EmotionalEcho],
     ) -> float:
         """Calculate entropy delta for dream-memory interaction."""
 
@@ -873,8 +873,8 @@ class DreamTraceLinker:
 
     def _determine_symbolic_origin(
         self,
-        glyph_signatures: List[GlyphSignature],
-        identity_signatures: List[IdentitySignature],
+        glyph_signatures: list[GlyphSignature],
+        identity_signatures: list[IdentitySignature],
     ) -> str:
         """Determine symbolic origin ID for traceability."""
 
@@ -908,8 +908,8 @@ class DreamTraceLinker:
         return len(self.recursive_amplification_tracker[dream_id]) > 5
 
     def _detect_recursive_amplification_enhanced(
-        self, dream_id: str, glyph_signatures: List[GlyphSignature]
-    ) -> Dict[str, Any]:
+        self, dream_id: str, glyph_signatures: list[GlyphSignature]
+    ) -> dict[str, Any]:
         """Enhanced recursive amplification detection with multi-factor analysis."""
         current_time = datetime.now(timezone.utc)
 
@@ -986,7 +986,7 @@ class DreamTraceLinker:
 
     def _detect_memory_amplification_risk(
         self, dream_id: str, entanglement_level: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Detect risk of memory amplification from recursive dream inputs."""
         risk_analysis = {
             "risk_level": "LOW",
@@ -1041,7 +1041,7 @@ class DreamTraceLinker:
         return risk_analysis
 
     def _detect_volatility_cascade_risk(
-        self, glyph_signatures: List[GlyphSignature]
+        self, glyph_signatures: list[GlyphSignature]
     ) -> float:
         """Detect risk of volatility cascades from GLYPH interactions."""
         if not glyph_signatures:
@@ -1095,8 +1095,8 @@ class DreamTraceLinker:
         return usage_risk * 0.6 + frequency_risk * 0.4
 
     def _assess_quantum_entanglement_risk(
-        self, entanglement_level: int, glyph_signatures: List[GlyphSignature]
-    ) -> Dict[str, Any]:
+        self, entanglement_level: int, glyph_signatures: list[GlyphSignature]
+    ) -> dict[str, Any]:
         """Assess risk of entanglement-like correlation overload."""
         risk_analysis = {
             "overload_detected": False,
@@ -1140,7 +1140,7 @@ class DreamTraceLinker:
     # Additional helper methods for enhanced analysis
 
     def _analyze_glyph_pattern_recursion(
-        self, dream_id: str, glyph_signatures: List[GlyphSignature]
+        self, dream_id: str, glyph_signatures: list[GlyphSignature]
     ) -> float:
         """Analyze GLYPH pattern recursion within the dream."""
         if not hasattr(self, "_glyph_history"):
@@ -1234,7 +1234,7 @@ class DreamTraceLinker:
         current_date = datetime.now().date()
         old_sessions = [
             session
-            for session in self.entanglement_nodes.keys()
+            for session in self.entanglement_nodes
             if session != f"session_{current_date}"
         ]
         for session in old_sessions:
@@ -1262,7 +1262,7 @@ class DreamTraceLinker:
             logger.error(f"Failed to log dream trace link: {str(e)}")
 
     # LUKHAS_TAG: session_analytics
-    def get_session_analytics(self) -> Dict[str, Any]:
+    def get_session_analytics(self) -> dict[str, Any]:
         """Get analytics for current session."""
         current_date = datetime.now().date()
         session_id = f"session_{current_date}"

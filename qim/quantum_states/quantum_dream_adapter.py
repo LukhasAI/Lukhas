@@ -13,7 +13,7 @@ Provides quantum-based dream processing and adaptation capabilities.
 import math
 import random
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 @dataclass
@@ -58,7 +58,7 @@ class QuantumDreamAdapter:
         self.coherence_history = []
         self.superposition_states = []
 
-    def _initialize_quantum_like_state(self) -> Dict[str, Any]:
+    def _initialize_quantum_like_state(self) -> dict[str, Any]:
         """Initialize the quantum-like state for dream processing."""
         return {
             "coherence": self.config.coherence_threshold,
@@ -70,8 +70,8 @@ class QuantumDreamAdapter:
         }
 
     def create_dream_superposition(
-        self, dream_states: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, dream_states: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Create a superposition of multiple dream states.
 
@@ -97,7 +97,7 @@ class QuantumDreamAdapter:
 
         # Calculate weights for each component state
         total_weight = 0
-        for i, state in enumerate(effective_states):
+        for i, _state in enumerate(effective_states):
             weight = math.exp(-i * 0.5)  # Exponential decay for later states
             superposition["superposition_weights"].append(weight)
             total_weight += weight
@@ -120,8 +120,8 @@ class QuantumDreamAdapter:
         return superposition
 
     def _combine_dream_content(
-        self, states: List[Dict[str, Any]], weights: List[float]
-    ) -> Dict[str, Any]:
+        self, states: list[dict[str, Any]], weights: list[float]
+    ) -> dict[str, Any]:
         """Combine dream content from multiple states using superposition-like state."""
         combined = {
             "dream_content": "",
@@ -154,9 +154,9 @@ class QuantumDreamAdapter:
         self,
         dream_id_1: str,
         dream_id_2: str,
-        dream_data_1: Dict[str, Any],
-        dream_data_2: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        dream_data_1: dict[str, Any],
+        dream_data_2: dict[str, Any],
+    ) -> dict[str, Any]:
         """
         Create entanglement-like correlation between two dreams.
 
@@ -202,8 +202,8 @@ class QuantumDreamAdapter:
         }
 
     def _calculate_correlation_factors(
-        self, data1: Dict[str, Any], data2: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, data1: dict[str, Any], data2: dict[str, Any]
+    ) -> dict[str, float]:
         """Calculate correlation factors between two dream data sets."""
         factors = {}
 
@@ -231,8 +231,8 @@ class QuantumDreamAdapter:
         return factors
 
     def _create_entangled_properties(
-        self, data1: Dict[str, Any], data2: Dict[str, Any], strength: float
-    ) -> Dict[str, Any]:
+        self, data1: dict[str, Any], data2: dict[str, Any], strength: float
+    ) -> dict[str, Any]:
         """Create entangled properties from two dream data sets."""
         entangled = {}
 
@@ -264,7 +264,7 @@ class QuantumDreamAdapter:
         return entangled
 
     def _calculate_quantum_correlation(
-        self, data1: Dict[str, Any], data2: Dict[str, Any]
+        self, data1: dict[str, Any], data2: dict[str, Any]
     ) -> float:
         """Calculate quantum correlation between two dream states."""
         # Simplified quantum correlation based on dream properties
@@ -280,7 +280,7 @@ class QuantumDreamAdapter:
 
     def measure_quantum_like_state(
         self, observable: str = "coherence"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Perform probabilistic observation on the dream state.
 
@@ -340,7 +340,7 @@ class QuantumDreamAdapter:
         if self.quantum_like_state["coherence"] < self.config.coherence_threshold * 0.5:
             self.quantum_like_state["superposition_active"] = False
 
-    def evolve_quantum_like_state(self, time_step: float = 0.1) -> Dict[str, Any]:
+    def evolve_quantum_like_state(self, time_step: float = 0.1) -> dict[str, Any]:
         """
         Evolve the quantum-like state over time.
 
@@ -386,7 +386,7 @@ class QuantumDreamAdapter:
             "time_step": time_step,
         }
 
-    def get_quantum_metrics(self) -> Dict[str, Any]:
+    def get_quantum_metrics(self) -> dict[str, Any]:
         """
         Get current quantum metrics and statistics.
 

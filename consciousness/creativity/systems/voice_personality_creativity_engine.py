@@ -15,7 +15,7 @@ DEPENDENCIES:
 
 import random
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 from core.common import get_logger
 
@@ -72,7 +72,7 @@ class VoicePersonalityCreativityEngine:
     4. Dream-inspired voice modulations during reflective states
     """
 
-    def __init__(self, core_interface=None, config: Dict[str, Any] = None):
+    def __init__(self, core_interface=None, config: dict[str, Any] = None):
         """
         Initialize the voice personality integration
 
@@ -146,7 +146,7 @@ class VoicePersonalityCreativityEngine:
                 logger.error(f"Failed to initialize EmotionalOscillator: {e}")
 
     async def enhance_voice_text(
-        self, text: str, emotion: str, context: Dict[str, Any]
+        self, text: str, emotion: str, context: dict[str, Any]
     ) -> str:
         """
         Enhance voice text with personality traits
@@ -204,8 +204,8 @@ class VoicePersonalityCreativityEngine:
         return enhanced_text
 
     def get_voice_modulation(
-        self, emotion: str, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, emotion: str, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Get voice modulation parameters based on personality and emotion
 
@@ -257,7 +257,7 @@ class VoicePersonalityCreativityEngine:
 
         return modulation
 
-    def adapt_to_interaction(self, interaction_data: Dict[str, Any]):
+    def adapt_to_interaction(self, interaction_data: dict[str, Any]):
         """
         Adapt personality traits based on interaction data
 
@@ -303,7 +303,7 @@ class VoicePersonalityCreativityEngine:
             self.personality_memory = self.personality_memory[-100:]
 
     def _should_enhance_text(
-        self, text: str, emotion: str, context: Dict[str, Any]
+        self, text: str, emotion: str, context: dict[str, Any]
     ) -> bool:
         """Determine if text should be enhanced with personality"""
         # Don't enhance short responses
@@ -324,13 +324,10 @@ class VoicePersonalityCreativityEngine:
             return False
 
         # Check user preferences if available
-        if (
+        return (
             context.get("user_preferences", {}).get("enhanced_personality", True)
-            is False
-        ):
-            return False
-
-        return True
+            is not False
+        )
 
     def _apply_personality_traits(self, text: str, emotion: str) -> str:
         """Apply personality traits to text"""
@@ -386,7 +383,7 @@ class VoicePersonalityCreativityEngine:
 
         return " ".join(sentences)
 
-    def _update_personality_traits(self, context: Dict[str, Any]):
+    def _update_personality_traits(self, context: dict[str, Any]):
         """Update personality traits based on context"""
         # Apply small random variations to keep personality dynamic
         for trait in self.personality_traits:

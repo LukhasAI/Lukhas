@@ -32,27 +32,30 @@ logger = get_logger(__name__)
 
 class FeedbackType(Enum):
     """Types of user feedback"""
-    RATING = "rating"          # 1-5 star rating
-    EMOJI = "emoji"           # Emoji reaction
-    TEXT = "text"             # Natural language
-    QUICK = "quick"           # Quick thumbs up/down
-    DETAILED = "detailed"     # Comprehensive feedback
+
+    RATING = "rating"  # 1-5 star rating
+    EMOJI = "emoji"  # Emoji reaction
+    TEXT = "text"  # Natural language
+    QUICK = "quick"  # Quick thumbs up/down
+    DETAILED = "detailed"  # Comprehensive feedback
     CORRECTION = "correction"  # User correction of AI behavior
 
 
 class ComplianceRegion(Enum):
     """Regulatory compliance regions"""
-    EU = "eu"                # GDPR
-    US = "us"                # Various state laws
-    CALIFORNIA = "us_ca"     # CCPA
-    UK = "uk"                # UK GDPR
-    CANADA = "canada"        # PIPEDA
+
+    EU = "eu"  # GDPR
+    US = "us"  # Various state laws
+    CALIFORNIA = "us_ca"  # CCPA
+    UK = "uk"  # UK GDPR
+    CANADA = "canada"  # PIPEDA
     AUSTRALIA = "australia"  # Privacy Act
-    GLOBAL = "global"        # Default minimal
+    GLOBAL = "global"  # Default minimal
 
 
 class EmotionEmoji(Enum):
     """Standard emotion emojis for feedback"""
+
     VERY_HAPPY = "😄"
     HAPPY = "😊"
     NEUTRAL = "😐"
@@ -68,6 +71,7 @@ class EmotionEmoji(Enum):
 @dataclass
 class FeedbackItem:
     """Individual feedback item"""
+
     feedback_id: str
     user_id: str
     session_id: str
@@ -91,10 +95,10 @@ class FeedbackItem:
             "content": self.content,
             "sentiment": self.processed_sentiment,
             "context_summary": self.context.get("action_type", "unknown"),
-            "compliance": self.compliance_region.value
+            "compliance": self.compliance_region.value,
         }
 
-    def anonymize(self) -> 'FeedbackItem':
+    def anonymize(self) -> "FeedbackItem":
         """Create anonymized version for analytics"""
         return FeedbackItem(
             feedback_id=hashlib.sha256(self.feedback_id.encode()).hexdigest()[:16],
@@ -109,13 +113,14 @@ class FeedbackItem:
             compliance_region=self.compliance_region,
             is_editable=False,
             is_deleted=self.is_deleted,
-            edit_history=[]
+            edit_history=[],
         )
 
 
 @dataclass
 class FeedbackSummary:
     """Aggregated feedback summary"""
+
     action_type: str
     total_feedback: int
     average_rating: Optional[float]
@@ -129,6 +134,7 @@ class FeedbackSummary:
 @dataclass
 class UserFeedbackProfile:
     """User's feedback preferences and history"""
+
     user_id: str
     preferred_feedback_types: Set[FeedbackType]
     feedback_frequency: str  # "always", "sometimes", "rarely"
@@ -159,7 +165,9 @@ class UserFeedbackSystem(CoreInterface):
         # Feedback storage
         self.feedback_items: Dict[str, FeedbackItem] = {}
         self.user_profiles: Dict[str, UserFeedbackProfile] = {}
-        self.action_feedback: Dict[str, List[str]] = defaultdict(list)  # action_id -> feedback_ids
+        self.action_feedback: Dict[str, List[str]] = defaultdict(
+            list
+        )  # action_id -> feedback_ids
 
         # Compliance configuration
         self.compliance_rules = self._load_compliance_rules()
@@ -169,7 +177,9 @@ class UserFeedbackSystem(CoreInterface):
         self.feedback_summaries: Dict[str, FeedbackSummary] = {}
 
         # Configuration
-        self.min_feedback_interval = self.config.get("min_feedback_interval", 30)  # seconds
+        self.min_feedback_interval = self.config.get(
+            "min_feedback_interval", 30
+        )  # seconds
         self.enable_emoji_feedback = self.config.get("enable_emoji", True)
         self.enable_voice_feedback = self.config.get("enable_voice", False)
 
@@ -178,7 +188,7 @@ class UserFeedbackSystem(CoreInterface):
             "total_feedback": 0,
             "feedback_by_type": defaultdict(int),
             "average_processing_time": 0.0,
-            "user_satisfaction_score": 0.0
+            "user_satisfaction_score": 0.0,
         }
 
     def _load_compliance_rules(self) -> Dict[ComplianceRegion, Dict[str, Any]]:
@@ -189,21 +199,21 @@ class UserFeedbackSystem(CoreInterface):
                 "data_retention_days": 90,
                 "right_to_deletion": True,
                 "right_to_portability": True,
-                "anonymization_required": True
+                "anonymization_required": True,
             },
             ComplianceRegion.CALIFORNIA: {
                 "requires_explicit_consent": True,
                 "data_retention_days": 365,
                 "right_to_deletion": True,
                 "right_to_know": True,
-                "opt_out_required": True
+                "opt_out_required": True,
             },
             ComplianceRegion.GLOBAL: {
                 "requires_explicit_consent": False,
                 "data_retention_days": 180,
                 "right_to_deletion": True,
-                "anonymization_required": False
-            }
+                "anonymization_required": False,
+            },
         }
 
     async def initialize(self) -> None:
@@ -227,17 +237,19 @@ class UserFeedbackSystem(CoreInterface):
             logger.error(f"Failed to initialize feedback system: {e}")
             raise LukhasError(f"Initialization failed: {e}")
 
-    async def collect_feedback(self,
-                             user_id: str,
-                             session_id: str,
-                             action_id: str,
-                             feedback_type: FeedbackType,
-                             content: Dict[str, Any],
-                             context: Dict[str, Any],
-                             region: ComplianceRegion = ComplianceRegion.GLOBAL) -> str:
+    async def collect_feedback(
+        self,
+        user_id: str,
+        session_id: str,
+        action_id: str,
+        feedback_type: FeedbackType,
+        content: Dict[str, Any],
+        context: Dict[str, Any],
+        region: ComplianceRegion = ComplianceRegion.GLOBAL,
+    ) -> str:
         """
         Collect user feedback with compliance checks.
-        
+
         Args:
             user_id: User identifier
             session_id: Session identifier
@@ -246,7 +258,7 @@ class UserFeedbackSystem(CoreInterface):
             content: Feedback content (rating, emoji, text, etc.)
             context: Context about what prompted feedback
             region: User's regulatory region
-            
+
         Returns:
             Feedback ID
         """
@@ -274,16 +286,22 @@ class UserFeedbackSystem(CoreInterface):
             feedback_type=feedback_type,
             content=content,
             context=context,
-            compliance_region=region
+            compliance_region=region,
         )
 
         # Process feedback based on type
         if feedback_type == FeedbackType.TEXT:
-            feedback_item.processed_sentiment = await self._process_text_feedback(content.get("text", ""))
+            feedback_item.processed_sentiment = await self._process_text_feedback(
+                content.get("text", "")
+            )
         elif feedback_type == FeedbackType.EMOJI:
-            feedback_item.processed_sentiment = self._process_emoji_feedback(content.get("emoji", ""))
+            feedback_item.processed_sentiment = self._process_emoji_feedback(
+                content.get("emoji", "")
+            )
         elif feedback_type == FeedbackType.RATING:
-            feedback_item.processed_sentiment = self._process_rating_feedback(content.get("rating", 3))
+            feedback_item.processed_sentiment = self._process_rating_feedback(
+                content.get("rating", 3)
+            )
 
         # Store feedback
         self.feedback_items[feedback_id] = feedback_item
@@ -294,20 +312,24 @@ class UserFeedbackSystem(CoreInterface):
 
         # Audit trail
         if self.audit_service:
-            await self.audit_service.log_event({
-                "event_type": "user_feedback_collected",
-                "feedback_id": feedback_id,
-                "user_id": user_id,
-                "action_id": action_id,
-                "feedback_type": feedback_type.value,
-                "timestamp": timestamp
-            })
+            await self.audit_service.log_event(
+                {
+                    "event_type": "user_feedback_collected",
+                    "feedback_id": feedback_id,
+                    "user_id": user_id,
+                    "action_id": action_id,
+                    "feedback_type": feedback_type.value,
+                    "timestamp": timestamp,
+                }
+            )
 
         # Update metrics
         self.metrics["total_feedback"] += 1
         self.metrics["feedback_by_type"][feedback_type.value] += 1
 
-        logger.info(f"Collected {feedback_type.value} feedback {feedback_id} from user {user_id}")
+        logger.info(
+            f"Collected {feedback_type.value} feedback {feedback_id} from user {user_id}"
+        )
 
         return feedback_id
 
@@ -315,7 +337,9 @@ class UserFeedbackSystem(CoreInterface):
         """Check if user has given consent for feedback collection"""
         if user_id not in self.user_profiles:
             # First time user - need consent for certain regions
-            rules = self.compliance_rules.get(region, self.compliance_rules[ComplianceRegion.GLOBAL])
+            rules = self.compliance_rules.get(
+                region, self.compliance_rules[ComplianceRegion.GLOBAL]
+            )
             return not rules.get("requires_explicit_consent", False)
 
         profile = self.user_profiles[user_id]
@@ -325,7 +349,9 @@ class UserFeedbackSystem(CoreInterface):
         """Check if user is within rate limits"""
         # Get recent feedback from user
         recent_feedback = []
-        cutoff_time = datetime.now(timezone.utc) - timedelta(seconds=self.min_feedback_interval)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(
+            seconds=self.min_feedback_interval
+        )
 
         for feedback in self.feedback_items.values():
             if feedback.user_id == user_id and feedback.timestamp > cutoff_time:
@@ -340,12 +366,28 @@ class UserFeedbackSystem(CoreInterface):
                 # Use NL interface to analyze sentiment
                 result = await self.nl_interface._analyze_emotion(text)
                 return result
-            except:
+            except BaseException:
                 pass
 
         # Fallback: Simple keyword analysis
-        positive_words = ["good", "great", "excellent", "love", "perfect", "amazing", "helpful"]
-        negative_words = ["bad", "poor", "terrible", "hate", "awful", "useless", "confusing"]
+        positive_words = [
+            "good",
+            "great",
+            "excellent",
+            "love",
+            "perfect",
+            "amazing",
+            "helpful",
+        ]
+        negative_words = [
+            "bad",
+            "poor",
+            "terrible",
+            "hate",
+            "awful",
+            "useless",
+            "confusing",
+        ]
 
         text_lower = text.lower()
         positive_score = sum(1 for word in positive_words if word in text_lower)
@@ -370,7 +412,7 @@ class UserFeedbackSystem(CoreInterface):
             EmotionEmoji.CONFUSED.value: {"positive": 0.3, "negative": 0.7},
             EmotionEmoji.THINKING.value: {"positive": 0.5, "negative": 0.5},
             EmotionEmoji.SURPRISED.value: {"positive": 0.6, "negative": 0.4},
-            EmotionEmoji.EXCITED.value: {"positive": 0.9, "negative": 0.1}
+            EmotionEmoji.EXCITED.value: {"positive": 0.9, "negative": 0.1},
         }
 
         return emoji_sentiments.get(emoji, {"positive": 0.5, "negative": 0.5})
@@ -378,7 +420,10 @@ class UserFeedbackSystem(CoreInterface):
     def _process_rating_feedback(self, rating: int) -> Dict[str, float]:
         """Process star rating into sentiment"""
         if rating >= 4:
-            return {"positive": 0.8 + (rating - 4) * 0.2, "negative": 0.2 - (rating - 4) * 0.2}
+            return {
+                "positive": 0.8 + (rating - 4) * 0.2,
+                "negative": 0.2 - (rating - 4) * 0.2,
+            }
         elif rating == 3:
             return {"positive": 0.5, "negative": 0.5}
         else:
@@ -393,7 +438,7 @@ class UserFeedbackSystem(CoreInterface):
                 feedback_frequency="sometimes",
                 total_feedback_given=1,
                 consent_given=True,  # Implied by giving feedback
-                consent_timestamp=datetime.now(timezone.utc)
+                consent_timestamp=datetime.now(timezone.utc),
             )
         else:
             profile = self.user_profiles[user_id]
@@ -406,18 +451,17 @@ class UserFeedbackSystem(CoreInterface):
             elif profile.total_feedback_given > 10:
                 profile.feedback_frequency = "sometimes"
 
-    async def edit_feedback(self,
-                          feedback_id: str,
-                          user_id: str,
-                          new_content: Dict[str, Any]) -> bool:
+    async def edit_feedback(
+        self, feedback_id: str, user_id: str, new_content: Dict[str, Any]
+    ) -> bool:
         """
         Allow user to edit their feedback.
-        
+
         Args:
             feedback_id: Feedback to edit
             user_id: User making the edit
             new_content: New feedback content
-            
+
         Returns:
             Success status
         """
@@ -434,27 +478,33 @@ class UserFeedbackSystem(CoreInterface):
             raise ValidationError("This feedback is no longer editable")
 
         # Store edit history
-        feedback.edit_history.append({
-            "timestamp": datetime.now(timezone.utc),
-            "previous_content": feedback.content,
-            "previous_sentiment": feedback.processed_sentiment
-        })
+        feedback.edit_history.append(
+            {
+                "timestamp": datetime.now(timezone.utc),
+                "previous_content": feedback.content,
+                "previous_sentiment": feedback.processed_sentiment,
+            }
+        )
 
         # Update content
         feedback.content = new_content
 
         # Reprocess sentiment
         if feedback.feedback_type == FeedbackType.TEXT:
-            feedback.processed_sentiment = await self._process_text_feedback(new_content.get("text", ""))
+            feedback.processed_sentiment = await self._process_text_feedback(
+                new_content.get("text", "")
+            )
 
         # Audit trail
         if self.audit_service:
-            await self.audit_service.log_event({
-                "event_type": "user_feedback_edited",
-                "feedback_id": feedback_id,
-                "user_id": user_id,
-                "timestamp": datetime.now(timezone.utc)
-            })
+            await self.audit_service.log_event(
+                {
+                    "event_type": "user_feedback_edited",
+                    "feedback_id": feedback_id,
+                    "user_id": user_id,
+                    "timestamp": datetime.now(timezone.utc),
+                }
+            )
 
         logger.info(f"User {user_id} edited feedback {feedback_id}")
         return True
@@ -462,11 +512,11 @@ class UserFeedbackSystem(CoreInterface):
     async def delete_feedback(self, feedback_id: str, user_id: str) -> bool:
         """
         Mark feedback as deleted (soft delete for audit trail).
-        
+
         Args:
             feedback_id: Feedback to delete
             user_id: User requesting deletion
-            
+
         Returns:
             Success status
         """
@@ -485,19 +535,21 @@ class UserFeedbackSystem(CoreInterface):
 
         # Audit trail
         if self.audit_service:
-            await self.audit_service.log_event({
-                "event_type": "user_feedback_deleted",
-                "feedback_id": feedback_id,
-                "user_id": user_id,
-                "timestamp": datetime.now(timezone.utc)
-            })
+            await self.audit_service.log_event(
+                {
+                    "event_type": "user_feedback_deleted",
+                    "feedback_id": feedback_id,
+                    "user_id": user_id,
+                    "timestamp": datetime.now(timezone.utc),
+                }
+            )
 
         logger.info(f"User {user_id} deleted feedback {feedback_id}")
         return True
 
-    async def get_user_feedback_history(self,
-                                      user_id: str,
-                                      limit: int = 50) -> List[FeedbackItem]:
+    async def get_user_feedback_history(
+        self, user_id: str, limit: int = 50
+    ) -> List[FeedbackItem]:
         """Get user's feedback history"""
         user_feedback = []
 
@@ -523,7 +575,7 @@ class UserFeedbackSystem(CoreInterface):
                 emoji_distribution={},
                 common_themes=[],
                 improvement_suggestions=[],
-                time_period=(datetime.now(timezone.utc), datetime.now(timezone.utc))
+                time_period=(datetime.now(timezone.utc), datetime.now(timezone.utc)),
             )
 
         # Aggregate feedback
@@ -569,7 +621,13 @@ class UserFeedbackSystem(CoreInterface):
         avg_rating = sum(ratings) / len(ratings) if ratings else None
 
         # Normalize sentiments
-        total_feedback = len([f for f in feedback_ids if f in self.feedback_items and not self.feedback_items[f].is_deleted])
+        total_feedback = len(
+            [
+                f
+                for f in feedback_ids
+                if f in self.feedback_items and not self.feedback_items[f].is_deleted
+            ]
+        )
         if total_feedback > 0:
             sentiments = {k: v / total_feedback for k, v in sentiments.items()}
 
@@ -585,7 +643,7 @@ class UserFeedbackSystem(CoreInterface):
             emoji_distribution=dict(emojis),
             common_themes=themes,
             improvement_suggestions=suggestions,
-            time_period=(min_time, max_time)
+            time_period=(min_time, max_time),
         )
 
     def _extract_common_themes(self, text_feedback: List[str]) -> List[str]:
@@ -595,7 +653,22 @@ class UserFeedbackSystem(CoreInterface):
 
         # Simple keyword extraction
         keywords = defaultdict(int)
-        ignore_words = {"the", "is", "at", "which", "on", "and", "a", "an", "as", "are", "was", "were", "been", "be"}
+        ignore_words = {
+            "the",
+            "is",
+            "at",
+            "which",
+            "on",
+            "and",
+            "a",
+            "an",
+            "as",
+            "are",
+            "was",
+            "were",
+            "been",
+            "be",
+        }
 
         for text in text_feedback:
             words = text.lower().split()
@@ -611,7 +684,16 @@ class UserFeedbackSystem(CoreInterface):
         """Extract improvement suggestions from feedback"""
         suggestions = []
 
-        suggestion_keywords = ["should", "could", "would be better", "improve", "suggest", "recommend", "needs", "wish"]
+        suggestion_keywords = [
+            "should",
+            "could",
+            "would be better",
+            "improve",
+            "suggest",
+            "recommend",
+            "needs",
+            "wish",
+        ]
 
         for text in text_feedback:
             text_lower = text.lower()
@@ -620,25 +702,21 @@ class UserFeedbackSystem(CoreInterface):
 
         return suggestions[:5]  # Top 5 suggestions
 
-    async def generate_feedback_report(self,
-                                     start_date: datetime,
-                                     end_date: datetime,
-                                     anonymize: bool = True) -> Dict[str, Any]:
+    async def generate_feedback_report(
+        self, start_date: datetime, end_date: datetime, anonymize: bool = True
+    ) -> Dict[str, Any]:
         """Generate comprehensive feedback report"""
         report = {
-            "period": {
-                "start": start_date.isoformat(),
-                "end": end_date.isoformat()
-            },
+            "period": {"start": start_date.isoformat(), "end": end_date.isoformat()},
             "summary": {
                 "total_feedback": 0,
                 "unique_users": set(),
                 "feedback_by_type": defaultdict(int),
-                "overall_sentiment": defaultdict(float)
+                "overall_sentiment": defaultdict(float),
             },
             "trends": [],
             "top_issues": [],
-            "improvements": []
+            "improvements": [],
         }
 
         # Analyze feedback in time period
@@ -682,22 +760,24 @@ class UserFeedbackSystem(CoreInterface):
             "user_id": user_id,
             "profile": self.user_profiles.get(user_id),
             "feedback_history": [],
-            "export_timestamp": datetime.now(timezone.utc).isoformat()
+            "export_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Get all user feedback
         for feedback in self.feedback_items.values():
             if feedback.user_id == user_id:
-                user_data["feedback_history"].append({
-                    "feedback_id": feedback.feedback_id,
-                    "timestamp": feedback.timestamp.isoformat(),
-                    "type": feedback.feedback_type.value,
-                    "content": feedback.content,
-                    "context": feedback.context,
-                    "sentiment": feedback.processed_sentiment,
-                    "is_deleted": feedback.is_deleted,
-                    "edit_history": feedback.edit_history
-                })
+                user_data["feedback_history"].append(
+                    {
+                        "feedback_id": feedback.feedback_id,
+                        "timestamp": feedback.timestamp.isoformat(),
+                        "type": feedback.feedback_type.value,
+                        "content": feedback.content,
+                        "context": feedback.context,
+                        "sentiment": feedback.processed_sentiment,
+                        "is_deleted": feedback.is_deleted,
+                        "edit_history": feedback.edit_history,
+                    }
+                )
 
         return user_data
 
@@ -712,9 +792,11 @@ class UserFeedbackSystem(CoreInterface):
             # Get retention period for user's region
             rules = self.compliance_rules.get(
                 feedback.compliance_region,
-                self.compliance_rules[ComplianceRegion.GLOBAL]
+                self.compliance_rules[ComplianceRegion.GLOBAL],
             )
-            retention_days = rules.get("data_retention_days", self.default_retention_days)
+            retention_days = rules.get(
+                "data_retention_days", self.default_retention_days
+            )
 
             # Check if feedback is too old
             if (current_time - feedback.timestamp).days > retention_days:
@@ -743,7 +825,7 @@ class UserFeedbackSystem(CoreInterface):
                 feedback_type=FeedbackType(data["feedback_type"]),
                 content=data["content"],
                 context=data["context"],
-                region=ComplianceRegion(data.get("region", "global"))
+                region=ComplianceRegion(data.get("region", "global")),
             )
             return {"feedback_id": feedback_id, "status": "collected"}
 
@@ -751,21 +833,19 @@ class UserFeedbackSystem(CoreInterface):
             success = await self.edit_feedback(
                 feedback_id=data["feedback_id"],
                 user_id=data["user_id"],
-                new_content=data["new_content"]
+                new_content=data["new_content"],
             )
             return {"success": success}
 
         elif action == "delete":
             success = await self.delete_feedback(
-                feedback_id=data["feedback_id"],
-                user_id=data["user_id"]
+                feedback_id=data["feedback_id"], user_id=data["user_id"]
             )
             return {"success": success}
 
         elif action == "history":
             history = await self.get_user_feedback_history(
-                user_id=data["user_id"],
-                limit=data.get("limit", 50)
+                user_id=data["user_id"], limit=data.get("limit", 50)
             )
             return {"history": [f.to_audit_entry() for f in history]}
 
@@ -778,10 +858,7 @@ class UserFeedbackSystem(CoreInterface):
 
     async def handle_glyph(self, token: Any) -> Any:
         """Handle GLYPH communication"""
-        return {
-            "operational": self.operational,
-            "metrics": self.metrics
-        }
+        return {"operational": self.operational, "metrics": self.metrics}
 
     async def get_status(self) -> Dict[str, Any]:
         """Get system status"""
@@ -794,8 +871,8 @@ class UserFeedbackSystem(CoreInterface):
             "features": {
                 "emoji_feedback": self.enable_emoji_feedback,
                 "voice_feedback": self.enable_voice_feedback,
-                "min_interval_seconds": self.min_feedback_interval
-            }
+                "min_interval_seconds": self.min_feedback_interval,
+            },
         }
 
 
@@ -825,7 +902,7 @@ class FeedbackWidget:
         for emoji in emojis:
             grid_html += f'<span class="emoji-option">{emoji}</span>'
 
-        grid_html += '</div>'
+        grid_html += "</div>"
         return grid_html
 
     def render_quick_feedback(self) -> str:
@@ -842,17 +919,18 @@ class FeedbackWidget:
 # Example usage
 async def demo_feedback_system():
     """Demonstrate the feedback system"""
-    system = UserFeedbackSystem(config={
-        "enable_emoji": True,
-        "min_feedback_interval": 5  # 5 seconds for demo
-    })
+    system = UserFeedbackSystem(
+        config={"enable_emoji": True, "min_feedback_interval": 5}  # 5 seconds for demo
+    )
 
     # Mock services
     from unittest.mock import AsyncMock, Mock
+
     mock_audit = Mock()
     mock_audit.log_event = AsyncMock()
 
     from core.interfaces.dependency_injection import register_service
+
     register_service("audit_service", mock_audit)
 
     await system.initialize()
@@ -872,7 +950,7 @@ async def demo_feedback_system():
         action_id=action_id,
         feedback_type=FeedbackType.RATING,
         content={"rating": 5},
-        context={"action_type": "decision", "decision": "Recommended option A"}
+        context={"action_type": "decision", "decision": "Recommended option A"},
     )
     print(f"Collected rating feedback: {feedback_id1}")
 
@@ -883,7 +961,7 @@ async def demo_feedback_system():
         action_id=action_id,
         feedback_type=FeedbackType.EMOJI,
         content={"emoji": "😊"},
-        context={"action_type": "decision", "decision": "Recommended option A"}
+        context={"action_type": "decision", "decision": "Recommended option A"},
     )
     print(f"Collected emoji feedback: {feedback_id2}")
 
@@ -893,8 +971,10 @@ async def demo_feedback_system():
         session_id=session_id,
         action_id=action_id,
         feedback_type=FeedbackType.TEXT,
-        content={"text": "Great recommendation! This really helped me make a decision."},
-        context={"action_type": "decision", "decision": "Recommended option A"}
+        content={
+            "text": "Great recommendation! This really helped me make a decision."
+        },
+        context={"action_type": "decision", "decision": "Recommended option A"},
     )
     print(f"Collected text feedback: {feedback_id3}")
 
@@ -914,14 +994,14 @@ async def demo_feedback_system():
     await system.edit_feedback(
         feedback_id=feedback_id3,
         user_id=user_id,
-        new_content={"text": "Excellent recommendation! This saved me time."}
+        new_content={"text": "Excellent recommendation! This saved me time."},
     )
     print(f"Edited feedback {feedback_id3}")
 
     # Generate report
     report = await system.generate_feedback_report(
         start_date=datetime.now(timezone.utc) - timedelta(days=1),
-        end_date=datetime.now(timezone.utc)
+        end_date=datetime.now(timezone.utc),
     )
     print("\nFeedback Report:")
     print(f"  Total feedback: {report['summary']['total_feedback']}")

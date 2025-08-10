@@ -10,7 +10,7 @@ import json
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -21,70 +21,79 @@ logger = get_logger(__name__)
 
 class EthicalSignificance(Enum):
     """Levels of ethical significance for anomalies"""
-    CRITICAL = "critical"      # Immediate ethical concern (e.g., distress signals)
-    HIGH = "high"              # Significant ethical relevance
-    MODERATE = "moderate"      # Notable but not urgent
-    LOW = "low"                # Minor ethical relevance
-    NEUTRAL = "neutral"        # No ethical significance
+
+    CRITICAL = "critical"  # Immediate ethical concern (e.g., distress signals)
+    HIGH = "high"  # Significant ethical relevance
+    MODERATE = "moderate"  # Notable but not urgent
+    LOW = "low"  # Minor ethical relevance
+    NEUTRAL = "neutral"  # No ethical significance
 
 
 @dataclass
 class PerceptualVector:
     """Non-decodable vector representation of perception"""
+
     vector_id: str
     encrypted_features: np.ndarray  # Encrypted feature vector
     modality: str  # visual, texture, motion, thermal, etc.
     timestamp: datetime
     vector_signature: str  # Hash of encrypted features
-    ethical_flags: List[str] = field(default_factory=list)
+    ethical_flags: list[str] = field(default_factory=list)
 
     def magnitude(self) -> float:
         """Calculate vector magnitude without decoding"""
         return float(np.linalg.norm(self.encrypted_features))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for storage/transmission"""
         return {
             "vector_id": self.vector_id,
-            "encrypted_features": base64.b64encode(self.encrypted_features.tobytes()).decode(),
+            "encrypted_features": base64.b64encode(
+                self.encrypted_features.tobytes()
+            ).decode(),
             "modality": self.modality,
             "timestamp": self.timestamp.isoformat(),
             "vector_signature": self.vector_signature,
             "ethical_flags": self.ethical_flags,
-            "magnitude": self.magnitude()
+            "magnitude": self.magnitude(),
         }
 
 
 @dataclass
 class AnomalySignature:
     """Detected anomaly with ethical significance"""
+
     anomaly_id: str
     anomaly_type: str  # sweat_profile, thermal_stress, texture_change, etc.
     confidence: float
     significance: EthicalSignificance
-    perceptual_vectors: List[PerceptualVector]
-    detection_context: Dict[str, Any]
+    perceptual_vectors: list[PerceptualVector]
+    detection_context: dict[str, Any]
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def requires_immediate_attention(self) -> bool:
         """Check if anomaly needs immediate ethical processing"""
-        return self.significance in [EthicalSignificance.CRITICAL, EthicalSignificance.HIGH]
+        return self.significance in [
+            EthicalSignificance.CRITICAL,
+            EthicalSignificance.HIGH,
+        ]
 
 
 @dataclass
 class EncryptedPerception:
     """Complete encrypted perception package"""
+
     perception_id: str
     encrypted_features: np.ndarray  # Main encrypted feature vector
     modality: str  # Primary modality
     timestamp: datetime
     ethical_compliance: bool = True
     privacy_level: str = "standard"
-    source_modalities: List[str] = field(default_factory=list)
-    encrypted_vectors: List[PerceptualVector] = field(default_factory=list)
-    detected_anomalies: List[AnomalySignature] = field(default_factory=list)
-    ethical_assessment: Dict[str, Any] = field(default_factory=dict)
-    routing_targets: List[str] = field(default_factory=list)  # ME, IEN, OL, etc.
+    source_modalities: list[str] = field(default_factory=list)
+    encrypted_vectors: list[PerceptualVector] = field(default_factory=list)
+    detected_anomalies: list[AnomalySignature] = field(default_factory=list)
+    ethical_assessment: dict[str, Any] = field(default_factory=dict)
+    routing_targets: list[str] = field(default_factory=list)  # ME, IEN, OL, etc.
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def to_vector(self) -> PerceptualVector:
@@ -94,19 +103,25 @@ class EncryptedPerception:
             encrypted_features=self.encrypted_features,
             modality=self.modality,
             timestamp=self.timestamp,
-            vector_signature=hashlib.sha256(self.encrypted_features.tobytes()).hexdigest(),
-            ethical_flags=[self.privacy_level]
+            vector_signature=hashlib.sha256(
+                self.encrypted_features.tobytes()
+            ).hexdigest(),
+            ethical_flags=[self.privacy_level],
         )
 
-    def get_vector_summary(self) -> Dict[str, Any]:
+    def get_vector_summary(self) -> dict[str, Any]:
         """Get summary without exposing content"""
         return {
             "perception_id": self.perception_id,
             "modality_count": len(self.source_modalities),
             "vector_count": len(self.encrypted_vectors),
             "anomaly_count": len(self.detected_anomalies),
-            "critical_anomalies": sum(1 for a in self.detected_anomalies if a.significance == EthicalSignificance.CRITICAL),
-            "routing_targets": self.routing_targets
+            "critical_anomalies": sum(
+                1
+                for a in self.detected_anomalies
+                if a.significance == EthicalSignificance.CRITICAL
+            ),
+            "routing_targets": self.routing_targets,
         }
 
 
@@ -116,17 +131,21 @@ class VIVOXEncryptedPerceptionNode:
     'Does not see in the traditional sense; it feels textures, anomalies, and encoded changes'
     """
 
-    def __init__(self,
-                 encryption_key: Optional[bytes] = None,
-                 ethical_constraints: Optional[Dict[str, Any]] = None,
-                 integration_interfaces: Optional[Dict[str, Any]] = None):
+    def __init__(
+        self,
+        encryption_key: Optional[bytes] = None,
+        ethical_constraints: Optional[dict[str, Any]] = None,
+        integration_interfaces: Optional[dict[str, Any]] = None,
+    ):
 
         # Encryption setup
         self.encryption_key = encryption_key or self._generate_encryption_key()
         self.vector_dimension = 512  # High-dimensional encrypted vectors
 
         # Ethical constraints
-        self.ethical_constraints = ethical_constraints or self._default_ethical_constraints()
+        self.ethical_constraints = (
+            ethical_constraints or self._default_ethical_constraints()
+        )
 
         # Integration interfaces (ME, IEN, OL, etc.)
         self.integration_interfaces = integration_interfaces or {}
@@ -149,16 +168,19 @@ class VIVOXEncryptedPerceptionNode:
         except ValueError:
             # Fallback to direct import if not available through DI
             from .anomaly_detection import AnomalyDetector
+
             self.anomaly_detector = AnomalyDetector()
 
-        self.ethical_filter = EthicalPerceptionFilter(ethical_config=self.ethical_constraints)
+        self.ethical_filter = EthicalPerceptionFilter(
+            ethical_config=self.ethical_constraints
+        )
 
         # Perception history for pattern learning
-        self.perception_history: List[EncryptedPerception] = []
-        self.anomaly_statistics: Dict[str, Dict[str, Any]] = {}
+        self.perception_history: list[EncryptedPerception] = []
+        self.anomaly_statistics: dict[str, dict[str, Any]] = {}
 
         # Processing state
-        self.active_perceptions: Dict[str, EncryptedPerception] = {}
+        self.active_perceptions: dict[str, EncryptedPerception] = {}
         self.processing_lock = asyncio.Lock()
 
         logger.info("VIVOX.EVRN initialized - Encrypted perception active")
@@ -167,7 +189,7 @@ class VIVOXEncryptedPerceptionNode:
         """Generate a secure encryption key"""
         return hashlib.sha256(b"VIVOX_EVRN_DEFAULT_KEY_2024").digest()
 
-    def _default_ethical_constraints(self) -> Dict[str, Any]:
+    def _default_ethical_constraints(self) -> dict[str, Any]:
         """Default ethical constraints for perception"""
         return {
             "never_decode_faces": True,
@@ -177,73 +199,95 @@ class VIVOXEncryptedPerceptionNode:
             "medical_data_protection": True,
             "consent_aware_processing": True,
             "anomaly_types_allowed": [
-                "thermal_stress", "texture_anomaly", "motion_pattern",
-                "environmental_hazard", "distress_signal", "safety_concern"
+                "thermal_stress",
+                "texture_anomaly",
+                "motion_pattern",
+                "environmental_hazard",
+                "distress_signal",
+                "safety_concern",
             ],
             "prohibited_analysis": [
-                "facial_recognition", "identity_extraction", "personal_data_mining"
-            ]
+                "facial_recognition",
+                "identity_extraction",
+                "personal_data_mining",
+            ],
         }
 
-    def _initialize_anomaly_patterns(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_anomaly_patterns(self) -> dict[str, dict[str, Any]]:
         """Initialize patterns for anomaly detection"""
         return {
             "sweat_profile": {
-                "indicators": ["wrinkled_fabric", "moisture_signature", "thermal_variance"],
+                "indicators": [
+                    "wrinkled_fabric",
+                    "moisture_signature",
+                    "thermal_variance",
+                ],
                 "significance": EthicalSignificance.MODERATE,
-                "health_relevance": True
+                "health_relevance": True,
             },
             "thermal_stress": {
-                "indicators": ["facial_redness", "heat_signature", "perspiration_pattern"],
+                "indicators": [
+                    "facial_redness",
+                    "heat_signature",
+                    "perspiration_pattern",
+                ],
                 "significance": EthicalSignificance.HIGH,
-                "health_relevance": True
+                "health_relevance": True,
             },
             "texture_anomaly": {
-                "indicators": ["scorched_texture", "mold_pattern", "degradation_signature"],
+                "indicators": [
+                    "scorched_texture",
+                    "mold_pattern",
+                    "degradation_signature",
+                ],
                 "significance": EthicalSignificance.MODERATE,
-                "environmental_relevance": True
+                "environmental_relevance": True,
             },
             "motion_distress": {
                 "indicators": ["erratic_movement", "tremor_pattern", "collapse_motion"],
                 "significance": EthicalSignificance.CRITICAL,
-                "immediate_response": True
+                "immediate_response": True,
             },
             "environmental_hazard": {
                 "indicators": ["smoke_texture", "fire_signature", "toxic_pattern"],
                 "significance": EthicalSignificance.CRITICAL,
-                "safety_relevance": True
-            }
+                "safety_relevance": True,
+            },
         }
 
-    def _initialize_ethical_thresholds(self) -> Dict[str, float]:
+    def _initialize_ethical_thresholds(self) -> dict[str, float]:
         """Initialize ethical significance thresholds"""
         return {
-            "critical_confidence": 0.8,   # High confidence for critical alerts
-            "high_confidence": 0.7,       # Moderate confidence for high significance
-            "moderate_confidence": 0.6,   # Lower threshold for moderate issues
-            "anomaly_clustering": 0.5,    # Threshold for anomaly pattern clustering
-            "privacy_override": 0.95      # Only override privacy at extreme confidence
+            "critical_confidence": 0.8,  # High confidence for critical alerts
+            "high_confidence": 0.7,  # Moderate confidence for high significance
+            "moderate_confidence": 0.6,  # Lower threshold for moderate issues
+            "anomaly_clustering": 0.5,  # Threshold for anomaly pattern clustering
+            "privacy_override": 0.95,  # Only override privacy at extreme confidence
         }
 
-    async def process_perception(self,
-                                raw_data: Union[np.ndarray, Dict[str, Any]],
-                                modality: str,
-                                context: Dict[str, Any]) -> EncryptedPerception:
+    async def process_perception(
+        self,
+        raw_data: Union[np.ndarray, dict[str, Any]],
+        modality: str,
+        context: dict[str, Any],
+    ) -> EncryptedPerception:
         """Alias for process_raw_perception for backward compatibility"""
         return await self.process_raw_perception(raw_data, modality, context)
 
-    async def process_raw_perception(self,
-                                    raw_input: Union[np.ndarray, Dict[str, Any]],
-                                    modality: str,
-                                    context: Dict[str, Any]) -> EncryptedPerception:
+    async def process_raw_perception(
+        self,
+        raw_input: Union[np.ndarray, dict[str, Any]],
+        modality: str,
+        context: dict[str, Any],
+    ) -> EncryptedPerception:
         """
         Process raw perceptual input into encrypted, non-decodable vectors
-        
+
         Args:
             raw_input: Raw sensor data (image, texture map, motion data, etc.)
             modality: Type of perception (visual, texture, motion, thermal, etc.)
             context: Processing context (environment, urgency, ethical flags)
-            
+
         Returns:
             EncryptedPerception object with vectors and anomaly analysis
         """
@@ -253,16 +297,24 @@ class VIVOXEncryptedPerceptionNode:
                 perception_id = self._generate_perception_id(modality, context)
 
                 # Convert to encrypted vectors WITHOUT decoding content
-                encrypted_vectors = await self._encrypt_perceptual_input(raw_input, modality)
+                encrypted_vectors = await self._encrypt_perceptual_input(
+                    raw_input, modality
+                )
 
                 # Detect anomalies in encrypted space
-                anomalies = await self._detect_encrypted_anomalies(encrypted_vectors, context)
+                anomalies = await self._detect_encrypted_anomalies(
+                    encrypted_vectors, context
+                )
 
                 # Assess ethical significance
-                ethical_assessment = await self._assess_ethical_significance(anomalies, context)
+                ethical_assessment = await self._assess_ethical_significance(
+                    anomalies, context
+                )
 
                 # Determine routing based on significance
-                routing_targets = self._determine_routing_targets(anomalies, ethical_assessment)
+                routing_targets = self._determine_routing_targets(
+                    anomalies, ethical_assessment
+                )
 
                 # Get privacy level from context
                 privacy_level = self._determine_privacy_level(context)
@@ -276,13 +328,15 @@ class VIVOXEncryptedPerceptionNode:
                     encrypted_features=main_features,
                     modality=modality,
                     timestamp=datetime.now(timezone.utc),
-                    ethical_compliance=self._check_ethical_compliance(ethical_assessment),
+                    ethical_compliance=self._check_ethical_compliance(
+                        ethical_assessment
+                    ),
                     privacy_level=privacy_level,
                     source_modalities=[modality],
                     encrypted_vectors=encrypted_vectors,
                     detected_anomalies=anomalies,
                     ethical_assessment=ethical_assessment,
-                    routing_targets=routing_targets
+                    routing_targets=routing_targets,
                 )
 
                 # Store in active perceptions
@@ -300,9 +354,9 @@ class VIVOXEncryptedPerceptionNode:
                 logger.error(f"Error processing perception: {e}")
                 raise
 
-    async def _encrypt_perceptual_input(self,
-                                      raw_input: Union[np.ndarray, Dict[str, Any]],
-                                      modality: str) -> List[PerceptualVector]:
+    async def _encrypt_perceptual_input(
+        self, raw_input: Union[np.ndarray, dict[str, Any]], modality: str
+    ) -> list[PerceptualVector]:
         """Convert raw input to encrypted vectors without decoding"""
         vectors = []
 
@@ -323,14 +377,14 @@ class VIVOXEncryptedPerceptionNode:
                 encrypted_features=features,
                 modality=modality,
                 timestamp=datetime.now(timezone.utc),
-                vector_signature=vector_signature
+                vector_signature=vector_signature,
             )
 
             vectors.append(vector)
 
         return vectors
 
-    async def _encrypt_array_features(self, array: np.ndarray) -> List[np.ndarray]:
+    async def _encrypt_array_features(self, array: np.ndarray) -> list[np.ndarray]:
         """Encrypt array features using non-reversible transformation"""
         encrypted_list = []
 
@@ -343,9 +397,9 @@ class VIVOXEncryptedPerceptionNode:
 
         for i in range(0, array.shape[0] - window_size, stride):
             if array.ndim == 1:
-                window = filtered_array[i:i+window_size]
+                window = filtered_array[i : i + window_size]
             else:
-                window = filtered_array[i:i+window_size, :]
+                window = filtered_array[i : i + window_size, :]
 
             # Apply non-reversible transformations
             features = self._extract_encrypted_features(window)
@@ -353,7 +407,9 @@ class VIVOXEncryptedPerceptionNode:
 
         return encrypted_list
 
-    async def _encrypt_structured_features(self, data: Dict[str, Any]) -> List[np.ndarray]:
+    async def _encrypt_structured_features(
+        self, data: dict[str, Any]
+    ) -> list[np.ndarray]:
         """Encrypt structured data features"""
         encrypted_list = []
 
@@ -366,7 +422,7 @@ class VIVOXEncryptedPerceptionNode:
             if isinstance(value, (int, float)):
                 features = np.array([value] * 16)  # Expand scalar
             elif isinstance(value, list):
-                features = np.array(value[:self.vector_dimension])
+                features = np.array(value[: self.vector_dimension])
             else:
                 # Hash non-numeric data
                 hash_val = int(hashlib.md5(str(value).encode()).hexdigest()[:8], 16)
@@ -389,13 +445,15 @@ class VIVOXEncryptedPerceptionNode:
             fft_features = np.abs(np.fft.fft(window))[:16]
 
         # 2. Statistical moments
-        moments = np.array([
-            np.mean(window),
-            np.std(window),
-            np.median(window),
-            np.percentile(window, 25),
-            np.percentile(window, 75)
-        ])
+        moments = np.array(
+            [
+                np.mean(window),
+                np.std(window),
+                np.median(window),
+                np.percentile(window, 25),
+                np.percentile(window, 75),
+            ]
+        )
 
         # 3. Texture features (if 2D)
         if window.ndim > 1:
@@ -413,7 +471,7 @@ class VIVOXEncryptedPerceptionNode:
         if len(encrypted) < self.vector_dimension:
             encrypted = np.pad(encrypted, (0, self.vector_dimension - len(encrypted)))
         else:
-            encrypted = encrypted[:self.vector_dimension]
+            encrypted = encrypted[: self.vector_dimension]
 
         return encrypted
 
@@ -429,19 +487,16 @@ class VIVOXEncryptedPerceptionNode:
         # Gradient magnitudes
         if window.ndim >= 2 and window.shape[0] > 1 and window.shape[1] > 1:
             gradients = np.gradient(window)
-            if isinstance(gradients, list) or isinstance(gradients, tuple):
+            if isinstance(gradients, (list, tuple)):
                 # For 2D arrays, gradient returns (dy, dx)
                 dy, dx = gradients[0], gradients[1]
             else:
                 # For 1D arrays
                 dy = dx = gradients
 
-            features.extend([
-                np.mean(np.abs(dx)),
-                np.mean(np.abs(dy)),
-                np.std(dx),
-                np.std(dy)
-            ])
+            features.extend(
+                [np.mean(np.abs(dx)), np.mean(np.abs(dy)), np.std(dx), np.std(dy)]
+            )
         else:
             features.extend([0, 0, 0, 0])
 
@@ -465,7 +520,7 @@ class VIVOXEncryptedPerceptionNode:
     def _apply_encryption_transform(self, features: np.ndarray) -> np.ndarray:
         """Apply non-reversible encryption transformation"""
         # Use encryption key to generate transformation matrix
-        np.random.seed(int.from_bytes(self.encryption_key[:4], 'big'))
+        np.random.seed(int.from_bytes(self.encryption_key[:4], "big"))
         transform_matrix = np.random.randn(len(features), len(features))
 
         # Apply transformation
@@ -489,6 +544,7 @@ class VIVOXEncryptedPerceptionNode:
             # This is a simplified version - real implementation would use
             # advanced techniques to detect and blur only identifying features
             from scipy.ndimage import gaussian_filter
+
             if array.ndim == 2:
                 filtered = gaussian_filter(filtered, sigma=2.0)
             elif array.ndim == 3:
@@ -497,15 +553,17 @@ class VIVOXEncryptedPerceptionNode:
 
         return filtered
 
-    async def _detect_encrypted_anomalies(self,
-                                        vectors: List[PerceptualVector],
-                                        context: Dict[str, Any]) -> List[AnomalySignature]:
+    async def _detect_encrypted_anomalies(
+        self, vectors: list[PerceptualVector], context: dict[str, Any]
+    ) -> list[AnomalySignature]:
         """Detect anomalies in encrypted vector space"""
         anomalies = []
 
         for pattern_name, pattern_config in self.anomaly_patterns.items():
             # Check if we should look for this anomaly type
-            if pattern_name not in self.ethical_constraints.get("anomaly_types_allowed", []):
+            if pattern_name not in self.ethical_constraints.get(
+                "anomaly_types_allowed", []
+            ):
                 continue
 
             # Detect pattern in encrypted vectors
@@ -521,11 +579,13 @@ class VIVOXEncryptedPerceptionNode:
 
         return anomalies
 
-    async def _detect_specific_anomaly(self,
-                                     vectors: List[PerceptualVector],
-                                     anomaly_type: str,
-                                     config: Dict[str, Any],
-                                     context: Dict[str, Any]) -> Optional[AnomalySignature]:
+    async def _detect_specific_anomaly(
+        self,
+        vectors: list[PerceptualVector],
+        anomaly_type: str,
+        config: dict[str, Any],
+        context: dict[str, Any],
+    ) -> Optional[AnomalySignature]:
         """Detect specific anomaly pattern in encrypted vectors"""
 
         # Compute anomaly scores for each vector
@@ -566,17 +626,16 @@ class VIVOXEncryptedPerceptionNode:
                 "score_distribution": {
                     "mean": float(np.mean(scores)),
                     "std": float(np.std(scores)),
-                    "max": float(np.max(scores))
-                }
-            }
+                    "max": float(np.max(scores)),
+                },
+            },
         )
 
         return anomaly
 
-    def _compute_anomaly_score(self,
-                             vector: PerceptualVector,
-                             anomaly_type: str,
-                             config: Dict[str, Any]) -> float:
+    def _compute_anomaly_score(
+        self, vector: PerceptualVector, anomaly_type: str, config: dict[str, Any]
+    ) -> float:
         """Compute anomaly score for encrypted vector"""
 
         # Get reference patterns for this anomaly type
@@ -592,7 +651,7 @@ class VIVOXEncryptedPerceptionNode:
                 "motion_distress": (0.7, 1.0),
                 "environmental_hazard": (0.8, 1.0),
                 "texture_anomaly": (0.4, 0.7),
-                "sweat_profile": (0.5, 0.8)
+                "sweat_profile": (0.5, 0.8),
             }
 
             if anomaly_type in expected_ranges:
@@ -605,7 +664,9 @@ class VIVOXEncryptedPerceptionNode:
         # Compare with reference patterns
         scores = []
         for ref_pattern in reference_patterns:
-            similarity = self._compute_vector_similarity(vector.encrypted_features, ref_pattern)
+            similarity = self._compute_vector_similarity(
+                vector.encrypted_features, ref_pattern
+            )
             scores.append(similarity)
 
         return max(scores) if scores else 0.0
@@ -624,16 +685,15 @@ class VIVOXEncryptedPerceptionNode:
         # Normalize to 0-1 range
         return (similarity + 1.0) / 2.0
 
-    def _get_reference_patterns(self, anomaly_type: str) -> List[np.ndarray]:
+    def _get_reference_patterns(self, anomaly_type: str) -> list[np.ndarray]:
         """Get reference patterns for anomaly detection"""
         # In a real implementation, these would be learned from training data
         # For now, return empty list to use magnitude-based detection
         return []
 
-    def _determine_significance(self,
-                              anomaly_type: str,
-                              confidence: float,
-                              config: Dict[str, Any]) -> EthicalSignificance:
+    def _determine_significance(
+        self, anomaly_type: str, confidence: float, config: dict[str, Any]
+    ) -> EthicalSignificance:
         """Determine ethical significance of anomaly"""
 
         # Check config for predefined significance
@@ -663,9 +723,9 @@ class VIVOXEncryptedPerceptionNode:
             else:
                 return EthicalSignificance.LOW
 
-    async def _assess_ethical_significance(self,
-                                         anomalies: List[AnomalySignature],
-                                         context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _assess_ethical_significance(
+        self, anomalies: list[AnomalySignature], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Assess overall ethical significance of perception"""
 
         assessment = {
@@ -676,7 +736,7 @@ class VIVOXEncryptedPerceptionNode:
             "immediate_action_required": False,
             "ethical_concerns": [],
             "privacy_preserved": True,
-            "consent_status": context.get("consent_level", "implicit")
+            "consent_status": context.get("consent_level", "implicit"),
         }
 
         for anomaly in anomalies:
@@ -699,16 +759,25 @@ class VIVOXEncryptedPerceptionNode:
                     "type": anomaly.anomaly_type,
                     "significance": anomaly.significance.value,
                     "confidence": anomaly.confidence,
-                    "recommendation": self._get_ethical_recommendation(anomaly)
+                    "recommendation": self._get_ethical_recommendation(anomaly),
                 }
                 assessment["ethical_concerns"].append(concern)
 
         # Check if privacy override is needed (only in extreme cases)
         if assessment["critical_count"] > 0:
-            max_confidence = max((a.confidence for a in anomalies if a.significance == EthicalSignificance.CRITICAL), default=0)
+            max_confidence = max(
+                (
+                    a.confidence
+                    for a in anomalies
+                    if a.significance == EthicalSignificance.CRITICAL
+                ),
+                default=0,
+            )
             if max_confidence > self.ethical_thresholds.get("privacy_override", 0.95):
                 assessment["privacy_override_considered"] = True
-                assessment["override_justification"] = "Critical safety concern with high confidence"
+                assessment["override_justification"] = (
+                    "Critical safety concern with high confidence"
+                )
 
         return assessment
 
@@ -719,14 +788,16 @@ class VIVOXEncryptedPerceptionNode:
             "environmental_hazard": "Safety intervention needed",
             "thermal_stress": "Monitor for heat-related illness",
             "sweat_profile": "Check hydration and comfort levels",
-            "texture_anomaly": "Investigate environmental conditions"
+            "texture_anomaly": "Investigate environmental conditions",
         }
 
-        return recommendations.get(anomaly.anomaly_type, "Further assessment recommended")
+        return recommendations.get(
+            anomaly.anomaly_type, "Further assessment recommended"
+        )
 
-    def _determine_routing_targets(self,
-                                 anomalies: List[AnomalySignature],
-                                 ethical_assessment: Dict[str, Any]) -> List[str]:
+    def _determine_routing_targets(
+        self, anomalies: list[AnomalySignature], ethical_assessment: dict[str, Any]
+    ) -> list[str]:
         """Determine which VIVOX modules should receive this perception"""
         targets = []
 
@@ -741,7 +812,10 @@ class VIVOXEncryptedPerceptionNode:
             targets.append("VIVOX.IEN")
 
         # High significance goes to Moral Alignment Engine (MAE)
-        if ethical_assessment.get("critical_count", 0) > 0 or ethical_assessment.get("high_count", 0) > 0:
+        if (
+            ethical_assessment.get("critical_count", 0) > 0
+            or ethical_assessment.get("high_count", 0) > 0
+        ):
             targets.append("VIVOX.MAE")
 
         # Emotional relevance goes to ERN
@@ -759,12 +833,16 @@ class VIVOXEncryptedPerceptionNode:
                 interface = self.integration_interfaces[target]
 
                 try:
-                    if hasattr(interface, 'receive_encrypted_perception'):
+                    if hasattr(interface, "receive_encrypted_perception"):
                         await interface.receive_encrypted_perception(perception)
-                    elif hasattr(interface, 'process_perception'):
-                        await interface.process_perception(perception.get_vector_summary())
+                    elif hasattr(interface, "process_perception"):
+                        await interface.process_perception(
+                            perception.get_vector_summary()
+                        )
                     else:
-                        logger.warning(f"Interface {target} does not support perception routing")
+                        logger.warning(
+                            f"Interface {target} does not support perception routing"
+                        )
 
                 except Exception as e:
                     logger.error(f"Error routing to {target}: {e}")
@@ -792,8 +870,8 @@ class VIVOXEncryptedPerceptionNode:
                         "high": 0,
                         "moderate": 0,
                         "low": 0,
-                        "neutral": 0
-                    }
+                        "neutral": 0,
+                    },
                 }
 
             stats = self.anomaly_statistics[anomaly_type]
@@ -801,15 +879,19 @@ class VIVOXEncryptedPerceptionNode:
             stats["total_confidence"] += anomaly.confidence
             stats["significance_distribution"][anomaly.significance.value] += 1
 
-    def _generate_perception_id(self, modality: str, context: Dict[str, Any]) -> str:
+    def _generate_perception_id(self, modality: str, context: dict[str, Any]) -> str:
         """Generate unique perception ID"""
         timestamp = int(datetime.now().timestamp())
-        context_hash = hashlib.md5(json.dumps(context, sort_keys=True).encode()).hexdigest()[:8]
+        context_hash = hashlib.md5(
+            json.dumps(context, sort_keys=True).encode()
+        ).hexdigest()[:8]
         return f"evrn_{modality}_{timestamp}_{context_hash}"
 
-    async def process_multimodal_perception(self,
-                                          inputs: Dict[str, Union[np.ndarray, Dict[str, Any]]],
-                                          context: Dict[str, Any]) -> EncryptedPerception:
+    async def process_multimodal_perception(
+        self,
+        inputs: dict[str, Union[np.ndarray, dict[str, Any]]],
+        context: dict[str, Any],
+    ) -> EncryptedPerception:
         """Process multiple modalities together"""
 
         all_vectors = []
@@ -825,14 +907,20 @@ class VIVOXEncryptedPerceptionNode:
             modalities.append(modality)
 
         # Cross-modal anomaly detection
-        cross_modal_anomalies = await self._detect_cross_modal_anomalies(all_vectors, context)
+        cross_modal_anomalies = await self._detect_cross_modal_anomalies(
+            all_vectors, context
+        )
         all_anomalies.extend(cross_modal_anomalies)
 
         # Combined ethical assessment
-        ethical_assessment = await self._assess_ethical_significance(all_anomalies, context)
+        ethical_assessment = await self._assess_ethical_significance(
+            all_anomalies, context
+        )
 
         # Determine routing
-        routing_targets = self._determine_routing_targets(all_anomalies, ethical_assessment)
+        routing_targets = self._determine_routing_targets(
+            all_anomalies, ethical_assessment
+        )
 
         # Get privacy level from context
         privacy_level = self._determine_privacy_level(context)
@@ -852,7 +940,7 @@ class VIVOXEncryptedPerceptionNode:
             encrypted_vectors=all_vectors,
             detected_anomalies=all_anomalies,
             ethical_assessment=ethical_assessment,
-            routing_targets=routing_targets
+            routing_targets=routing_targets,
         )
 
         await self._route_perception(perception)
@@ -860,9 +948,9 @@ class VIVOXEncryptedPerceptionNode:
 
         return perception
 
-    async def _detect_cross_modal_anomalies(self,
-                                          vectors: List[PerceptualVector],
-                                          context: Dict[str, Any]) -> List[AnomalySignature]:
+    async def _detect_cross_modal_anomalies(
+        self, vectors: list[PerceptualVector], context: dict[str, Any]
+    ) -> list[AnomalySignature]:
         """Detect anomalies that emerge from multiple modalities"""
 
         anomalies = []
@@ -878,9 +966,7 @@ class VIVOXEncryptedPerceptionNode:
         if "visual" in modality_groups and "thermal" in modality_groups:
             # Visual + thermal can indicate fever or heat stress
             heat_anomaly = await self._check_heat_stress_pattern(
-                modality_groups["visual"],
-                modality_groups["thermal"],
-                context
+                modality_groups["visual"], modality_groups["thermal"], context
             )
             if heat_anomaly:
                 anomalies.append(heat_anomaly)
@@ -888,19 +974,19 @@ class VIVOXEncryptedPerceptionNode:
         if "motion" in modality_groups and "texture" in modality_groups:
             # Motion + texture can indicate physical distress
             distress_anomaly = await self._check_physical_distress_pattern(
-                modality_groups["motion"],
-                modality_groups["texture"],
-                context
+                modality_groups["motion"], modality_groups["texture"], context
             )
             if distress_anomaly:
                 anomalies.append(distress_anomaly)
 
         return anomalies
 
-    async def _check_heat_stress_pattern(self,
-                                       visual_vectors: List[PerceptualVector],
-                                       thermal_vectors: List[PerceptualVector],
-                                       context: Dict[str, Any]) -> Optional[AnomalySignature]:
+    async def _check_heat_stress_pattern(
+        self,
+        visual_vectors: list[PerceptualVector],
+        thermal_vectors: list[PerceptualVector],
+        context: dict[str, Any],
+    ) -> Optional[AnomalySignature]:
         """Check for heat stress using visual and thermal data"""
 
         # Compute combined score
@@ -915,21 +1001,27 @@ class VIVOXEncryptedPerceptionNode:
                 anomaly_id=f"heat_stress_{int(datetime.now().timestamp())}",
                 anomaly_type="cross_modal_heat_stress",
                 confidence=float(confidence),
-                significance=EthicalSignificance.HIGH if confidence > 0.8 else EthicalSignificance.MODERATE,
+                significance=(
+                    EthicalSignificance.HIGH
+                    if confidence > 0.8
+                    else EthicalSignificance.MODERATE
+                ),
                 perceptual_vectors=visual_vectors + thermal_vectors,
                 detection_context={
                     "visual_score": float(visual_score),
                     "thermal_score": float(thermal_score),
-                    "modalities": ["visual", "thermal"]
-                }
+                    "modalities": ["visual", "thermal"],
+                },
             )
 
         return None
 
-    async def _check_physical_distress_pattern(self,
-                                             motion_vectors: List[PerceptualVector],
-                                             texture_vectors: List[PerceptualVector],
-                                             context: Dict[str, Any]) -> Optional[AnomalySignature]:
+    async def _check_physical_distress_pattern(
+        self,
+        motion_vectors: list[PerceptualVector],
+        texture_vectors: list[PerceptualVector],
+        context: dict[str, Any],
+    ) -> Optional[AnomalySignature]:
         """Check for physical distress using motion and texture data"""
 
         # Compute distress indicators
@@ -944,18 +1036,22 @@ class VIVOXEncryptedPerceptionNode:
                 anomaly_id=f"physical_distress_{int(datetime.now().timestamp())}",
                 anomaly_type="cross_modal_physical_distress",
                 confidence=float(confidence),
-                significance=EthicalSignificance.CRITICAL if confidence > 0.85 else EthicalSignificance.HIGH,
+                significance=(
+                    EthicalSignificance.CRITICAL
+                    if confidence > 0.85
+                    else EthicalSignificance.HIGH
+                ),
                 perceptual_vectors=motion_vectors + texture_vectors,
                 detection_context={
                     "motion_variance": float(motion_variance),
                     "texture_anomaly": float(texture_anomaly),
-                    "modalities": ["motion", "texture"]
-                }
+                    "modalities": ["motion", "texture"],
+                },
             )
 
         return None
 
-    def get_perception_statistics(self) -> Dict[str, Any]:
+    def get_perception_statistics(self) -> dict[str, Any]:
         """Get statistics about perception processing"""
 
         total_perceptions = len(self.perception_history)
@@ -969,17 +1065,25 @@ class VIVOXEncryptedPerceptionNode:
             "high": 0,
             "moderate": 0,
             "low": 0,
-            "neutral": 0
+            "neutral": 0,
         }
 
         for perception in self.perception_history:
             for anomaly in perception.detected_anomalies:
-                anomaly_counts[anomaly.anomaly_type] = anomaly_counts.get(anomaly.anomaly_type, 0) + 1
+                anomaly_counts[anomaly.anomaly_type] = (
+                    anomaly_counts.get(anomaly.anomaly_type, 0) + 1
+                )
                 significance_counts[anomaly.significance.value] += 1
 
         # Calculate averages
-        avg_anomalies_per_perception = sum(len(p.detected_anomalies) for p in self.perception_history) / total_perceptions
-        avg_vectors_per_perception = sum(len(p.encrypted_vectors) for p in self.perception_history) / total_perceptions
+        avg_anomalies_per_perception = (
+            sum(len(p.detected_anomalies) for p in self.perception_history)
+            / total_perceptions
+        )
+        avg_vectors_per_perception = (
+            sum(len(p.encrypted_vectors) for p in self.perception_history)
+            / total_perceptions
+        )
 
         # Modality distribution
         modality_counts = {}
@@ -998,13 +1102,17 @@ class VIVOXEncryptedPerceptionNode:
             "anomaly_statistics": {
                 anomaly_type: {
                     "count": stats["count"],
-                    "average_confidence": stats["total_confidence"] / stats["count"] if stats["count"] > 0 else 0,
-                    "significance_distribution": stats["significance_distribution"]
+                    "average_confidence": (
+                        stats["total_confidence"] / stats["count"]
+                        if stats["count"] > 0
+                        else 0
+                    ),
+                    "significance_distribution": stats["significance_distribution"],
                 }
                 for anomaly_type, stats in self.anomaly_statistics.items()
             },
             "ethical_constraints_active": len(self.ethical_constraints),
-            "privacy_preserved": True  # Always true by design
+            "privacy_preserved": True,  # Always true by design
         }
 
     async def clear_perception_history(self, older_than_hours: int = 24):
@@ -1013,8 +1121,7 @@ class VIVOXEncryptedPerceptionNode:
 
         # Filter history
         self.perception_history = [
-            p for p in self.perception_history
-            if p.created_at > cutoff_time
+            p for p in self.perception_history if p.created_at > cutoff_time
         ]
 
         # Clear old active perceptions
@@ -1028,7 +1135,7 @@ class VIVOXEncryptedPerceptionNode:
 
         logger.info(f"Cleared {len(active_to_remove)} old perceptions")
 
-    def get_integration_status(self) -> Dict[str, Any]:
+    def get_integration_status(self) -> dict[str, Any]:
         """Get status of integration with other VIVOX modules"""
         return {
             "connected_modules": list(self.integration_interfaces.keys()),
@@ -1036,29 +1143,28 @@ class VIVOXEncryptedPerceptionNode:
             "ethical_constraints_enforced": True,
             "anomaly_patterns_loaded": len(self.anomaly_patterns),
             "perception_history_size": len(self.perception_history),
-            "active_perceptions": len(self.active_perceptions)
+            "active_perceptions": len(self.active_perceptions),
         }
 
-
-    def _determine_privacy_level(self, context: Dict[str, Any]) -> str:
+    def _determine_privacy_level(self, context: dict[str, Any]) -> str:
         """Determine privacy level based on context"""
         # Check for emergency mode
-        if context.get('emergency_mode', False):
-            return 'emergency'
+        if context.get("emergency_mode", False):
+            return "emergency"
 
         # Check consent level
-        consent = context.get('consent_level', 'none')
-        if consent == 'none':
-            return 'maximum'
-        elif consent == 'implicit':
-            return 'high'
-        elif consent == 'explicit':
-            return 'standard'
+        consent = context.get("consent_level", "none")
+        if consent == "none":
+            return "maximum"
+        elif consent == "implicit":
+            return "high"
+        elif consent == "explicit":
+            return "standard"
 
         # Default to high privacy
-        return 'high'
+        return "high"
 
-    def _aggregate_vectors(self, vectors: List[PerceptualVector]) -> np.ndarray:
+    def _aggregate_vectors(self, vectors: list[PerceptualVector]) -> np.ndarray:
         """Aggregate multiple perceptual vectors into single feature vector"""
         if not vectors:
             return np.zeros(self.vector_dimension)
@@ -1087,32 +1193,32 @@ class VIVOXEncryptedPerceptionNode:
 
         return aggregated
 
-    def _check_ethical_compliance(self, ethical_assessment: Dict[str, Any]) -> bool:
+    def _check_ethical_compliance(self, ethical_assessment: dict[str, Any]) -> bool:
         """Check if perception meets ethical compliance standards"""
         # Check for prohibited analysis
-        if ethical_assessment.get('prohibited_analysis_detected', False):
+        if ethical_assessment.get("prohibited_analysis_detected", False):
             return False
 
         # Check privacy override threshold
-        if ethical_assessment.get('privacy_override_required', False):
-            confidence = ethical_assessment.get('override_confidence', 0)
-            if confidence < self.ethical_thresholds.get('privacy_override', 0.95):
+        if ethical_assessment.get("privacy_override_required", False):
+            confidence = ethical_assessment.get("override_confidence", 0)
+            if confidence < self.ethical_thresholds.get("privacy_override", 0.95):
                 return False
 
         # Check consent requirements
-        if ethical_assessment.get('consent_required', False):
-            if not ethical_assessment.get('consent_verified', False):
+        if ethical_assessment.get("consent_required", False):
+            if not ethical_assessment.get("consent_verified", False):
                 return False
 
         # All checks passed
         return True
 
-    async def detect_anomalies(self,
-                              vectors: List[PerceptualVector],
-                              context: Dict[str, Any]) -> List[AnomalySignature]:
+    async def detect_anomalies(
+        self, vectors: list[PerceptualVector], context: dict[str, Any]
+    ) -> list[AnomalySignature]:
         """Detect anomalies in perceptual vectors"""
         # Use anomaly detector if available
-        if hasattr(self, 'anomaly_detector'):
+        if hasattr(self, "anomaly_detector"):
             return await self.anomaly_detector.detect_anomalies(vectors, context)
 
         # Fallback to internal detection

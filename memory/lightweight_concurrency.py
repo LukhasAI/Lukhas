@@ -23,7 +23,7 @@ import sys
 import weakref
 from collections import deque
 from enum import IntEnum
-from typing import Any, Callable, Dict, Optional, Set, Tuple
+from typing import Any, Callable, Optional
 
 from core.common import get_logger
 
@@ -53,9 +53,9 @@ class LightweightActor:
         actor_id: str,
         behavior: Callable,
         mailbox: Optional[deque] = None,
-        state: Optional[Dict[str, Any]] = None,
+        state: Optional[dict[str, Any]] = None,
         priority: ActorPriority = ActorPriority.NORMAL,
-        _weak_refs: Optional[Set[weakref.ref]] = None,
+        _weak_refs: Optional[set[weakref.ref]] = None,
     ):
         self.actor_id = actor_id
         self.behavior = behavior
@@ -81,8 +81,8 @@ class MemoryEfficientScheduler:
 
     def __init__(self, max_actors: int = 10_000_000):
         self.max_actors = max_actors
-        self.actors: Dict[str, LightweightActor] = {}
-        self.priority_queues: Dict[ActorPriority, deque] = {
+        self.actors: dict[str, LightweightActor] = {}
+        self.priority_queues: dict[ActorPriority, deque] = {
             priority: deque() for priority in ActorPriority
         }
         self.active_count = 0
@@ -173,7 +173,7 @@ class MemoryEfficientScheduler:
 
                         try:
                             # Execute actor behavior
-                            result = await self._execute_actor(actor, message)
+                            await self._execute_actor(actor, message)
                             executed = True
 
                             # Re-schedule if more messages
@@ -228,7 +228,7 @@ class MemoryEfficientScheduler:
             f"total memory: {self.total_memory_bytes / 1_000_000:.2f}MB"
         )
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get scheduler statistics"""
         return {
             "active_actors": self.active_count,
@@ -310,7 +310,6 @@ class ActorPool:
         """Return actor to pool for reuse"""
         if len(self.available_actors) < self.pool_size:
             # Reset actor state
-            original_id = actor.actor_id
             actor.actor_id = f"pool_{len(self.available_actors)}"
             actor.behavior = lambda a, m: None
             actor.priority = ActorPriority.IDLE
@@ -327,7 +326,7 @@ class ActorPool:
 
 
 # Example behavior functions
-async def simple_counter_behavior(actor: LightweightActor, message: Dict[str, Any]):
+async def simple_counter_behavior(actor: LightweightActor, message: dict[str, Any]):
     """Example: Simple counter actor behavior"""
     if message.get("type") == "increment":
         actor.state["count"] = actor.state.get("count", 0) + 1
@@ -336,7 +335,7 @@ async def simple_counter_behavior(actor: LightweightActor, message: Dict[str, An
         return actor.state.get("count", 0)
 
 
-async def aggregator_behavior(actor: LightweightActor, message: Dict[str, Any]):
+async def aggregator_behavior(actor: LightweightActor, message: dict[str, Any]):
     """Example: Aggregator actor that collects values"""
     if message.get("type") == "add":
         values = actor.state.setdefault("values", [])
@@ -354,7 +353,7 @@ async def aggregator_behavior(actor: LightweightActor, message: Dict[str, Any]):
 # Convenience functions
 async def create_lightweight_actor_system(
     max_actors: int = 1_000_000,
-) -> Tuple[MemoryEfficientScheduler, ActorPool]:
+) -> tuple[MemoryEfficientScheduler, ActorPool]:
     """Create a complete lightweight actor system."""
     scheduler = MemoryEfficientScheduler(max_actors=max_actors)
     pool = ActorPool(pool_size=min(10000, max_actors // 100))
@@ -362,7 +361,7 @@ async def create_lightweight_actor_system(
     return scheduler, pool
 
 
-async def ai_agent_behavior(actor: LightweightActor, message: Dict[str, Any]):
+async def ai_agent_behavior(actor: LightweightActor, message: dict[str, Any]):
     """Example behavior for an AI agent actor."""
     if message["type"] == "learn":
         actor.state.setdefault("knowledge", set()).add(message["fact"])

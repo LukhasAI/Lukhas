@@ -215,7 +215,7 @@ class QuantumEthicalHandler:
 
         from qiskit.circuit import Parameter
 
-        theta = Parameter("θ")
+        Parameter("θ")
         qc = QuantumCircuit(self.n_qubits)
 
         # Ethical state preparation with compliance-aware weighting

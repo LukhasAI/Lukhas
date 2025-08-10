@@ -39,7 +39,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Set
+from typing import Any
 
 
 class SymbolicDimension(Enum):
@@ -61,15 +61,15 @@ class QuantumMetadata:
 
     content_id: str
     quantum_signature: str
-    symbolic_tags: List[str]
-    symbolic_dimensions: Dict[str, float]  # Dimension -> weight
-    semantic_vector: List[float]  # Simplified semantic representation
+    symbolic_tags: list[str]
+    symbolic_dimensions: dict[str, float]  # Dimension -> weight
+    semantic_vector: list[float]  # Simplified semantic representation
     content_hash: str
     creation_timestamp: str
     last_modified: str
     author_agent: str
     validation_status: str
-    quantum_entanglement_refs: List[str]  # References to related content
+    quantum_entanglement_refs: list[str]  # References to related content
 
 
 @dataclass
@@ -91,7 +91,7 @@ class QuantumMetadataManager:
     for content in ΛWebManager_LUKHAS Edition.
     """
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: dict[str, Any] = None):
         self.config = config or {}
         self.logger = logging.getLogger("ΛWebManager_LUKHAS.QuantumMetadata")
 
@@ -104,14 +104,14 @@ class QuantumMetadataManager:
         self.semantic_analysis = self.config.get("semantic_analysis", True)
 
         # Content database (in-memory for demo)
-        self.metadata_store: Dict[str, QuantumMetadata] = {}
-        self.tag_index: Dict[str, Set[str]] = {}  # tag -> content_ids
-        self.dimension_index: Dict[str, Set[str]] = {}  # dimension -> content_ids
+        self.metadata_store: dict[str, QuantumMetadata] = {}
+        self.tag_index: dict[str, set[str]] = {}  # tag -> content_ids
+        self.dimension_index: dict[str, set[str]] = {}  # dimension -> content_ids
 
         self.logger.info("🔮 Quantum Metadata Manager initialized")
 
     async def generate_quantum_metadata(
-        self, content: str, content_id: str = None, manual_tags: List[str] = None
+        self, content: str, content_id: str = None, manual_tags: list[str] = None
     ) -> QuantumMetadata:
         """
         Generate comprehensive quantum metadata for content.
@@ -187,7 +187,7 @@ class QuantumMetadataManager:
 
         return f"quantum:{signature}"
 
-    async def _extract_symbolic_tags(self, content: str) -> List[str]:
+    async def _extract_symbolic_tags(self, content: str) -> list[str]:
         """Extract symbolic tags from content using AI analysis."""
         if not self.auto_tagging:
             return []
@@ -246,7 +246,7 @@ class QuantumMetadataManager:
 
         return tags
 
-    async def _analyze_symbolic_dimensions(self, content: str) -> Dict[str, float]:
+    async def _analyze_symbolic_dimensions(self, content: str) -> dict[str, float]:
         """Analyze content across symbolic dimensions."""
         dimensions = {}
 
@@ -313,7 +313,7 @@ class QuantumMetadataManager:
 
         return dimensions
 
-    async def _generate_semantic_vector(self, content: str) -> List[float]:
+    async def _generate_semantic_vector(self, content: str) -> list[float]:
         """Generate simplified semantic vector representation."""
         # Simplified semantic vector (in real implementation, use proper embeddings)
         words = content.lower().split()
@@ -335,7 +335,7 @@ class QuantumMetadataManager:
 
     async def _find_quantum_entanglements(
         self, content: str, content_id: str
-    ) -> List[str]:
+    ) -> list[str]:
         """Find entanglement-like correlations (semantic similarities) with existing content."""
         entanglements = []
 
@@ -357,7 +357,7 @@ class QuantumMetadataManager:
         return entanglements
 
     async def _calculate_similarity(
-        self, vector1: List[float], vector2: List[float]
+        self, vector1: list[float], vector2: list[float]
     ) -> float:
         """Calculate cosine similarity between vectors."""
         if len(vector1) != len(vector2):
@@ -389,7 +389,7 @@ class QuantumMetadataManager:
                     self.dimension_index[dimension] = set()
                 self.dimension_index[dimension].add(metadata.content_id)
 
-    async def search_by_tags(self, tags: List[str]) -> List[QuantumMetadata]:
+    async def search_by_tags(self, tags: list[str]) -> list[QuantumMetadata]:
         """Search content by symbolic tags."""
         matching_ids = None
 
@@ -406,7 +406,7 @@ class QuantumMetadataManager:
 
     async def search_by_dimension(
         self, dimension: SymbolicDimension, min_weight: float = 0.5
-    ) -> List[QuantumMetadata]:
+    ) -> list[QuantumMetadata]:
         """Search content by symbolic dimension."""
         content_ids = self.dimension_index.get(dimension.value, set())
         results = []
@@ -418,7 +418,7 @@ class QuantumMetadataManager:
 
         return results
 
-    async def get_quantum_entanglements(self, content_id: str) -> List[QuantumMetadata]:
+    async def get_quantum_entanglements(self, content_id: str) -> list[QuantumMetadata]:
         """Get quantum-entangled (related) content."""
         if content_id not in self.metadata_store:
             return []
@@ -432,7 +432,7 @@ class QuantumMetadataManager:
 
         return entangled_content
 
-    def get_metadata_statistics(self) -> Dict[str, Any]:
+    def get_metadata_statistics(self) -> dict[str, Any]:
         """Get comprehensive metadata statistics."""
         total_content = len(self.metadata_store)
         total_tags = len(self.tag_index)

@@ -1,3 +1,5 @@
+import logging
+
 # \!/usr/bin/env python3
 
 """
@@ -96,7 +98,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
 from threading import Lock
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.core.advanced.brain.spine.memory_fold")
@@ -116,7 +118,7 @@ class MemoryFoldConfig:
     )
 
     @classmethod
-    def load_config(cls, config_path: Optional[Path] = None) -> Dict[str, Any]:
+    def load_config(cls, config_path: Optional[Path] = None) -> dict[str, Any]:
         """Load configuration from JSON file with fallback to defaults."""
         config_path = config_path or cls.DEFAULT_CONFIG_PATH
 
@@ -133,7 +135,7 @@ class MemoryFoldConfig:
         return cls.get_default_config()
 
     @classmethod
-    def get_default_config(cls) -> Dict[str, Any]:
+    def get_default_config(cls) -> dict[str, Any]:
         """Returns default configuration."""
         return {
             "emotion_vectors": cls.get_default_emotion_vectors(),
@@ -153,7 +155,7 @@ class MemoryFoldConfig:
         }
 
     @classmethod
-    def get_default_emotion_vectors(cls) -> Dict[str, Dict[str, List[float]]]:
+    def get_default_emotion_vectors(cls) -> dict[str, dict[str, list[float]]]:
         """Returns default emotion vectors."""
         return {
             "primary": {
@@ -262,7 +264,7 @@ class MemoryFoldDatabase:
 
             conn.commit()
 
-    def add_fold(self, fold: Dict[str, Any]) -> bool:
+    def add_fold(self, fold: dict[str, Any]) -> bool:
         """Add a memory fold to the database."""
         with self._lock:
             try:
@@ -313,7 +315,7 @@ class MemoryFoldDatabase:
         min_relevance: float = 0.0,
         limit: int = 100,
         offset: int = 0,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Retrieve memory folds with filtering and pagination."""
         query_parts = ["SELECT * FROM memory_folds WHERE 1=1"]
         params = []
@@ -368,7 +370,8 @@ class MemoryFoldDatabase:
 
                 # Update access count and last accessed time
                 if folds:
-                    # CLAUDE_EDIT_v0.13: Fixed SQL injection vulnerability - use individual updates in transaction
+                    # CLAUDE_EDIT_v0.13: Fixed SQL injection vulnerability - use
+                    # individual updates in transaction
                     fold_ids = [f["id"] for f in folds]
                     timestamp = datetime.utcnow().isoformat()
 
@@ -454,7 +457,7 @@ class MemoryFoldDatabase:
         except sqlite3.Error as e:
             logger.error(f"Cleanup failed: {e}")
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get comprehensive database statistics."""
         try:
             with sqlite3.connect(self.db_path) as conn:
@@ -556,7 +559,7 @@ class VisionPromptManager:
             logger.error(f"Error loading vision prompts: {e}")
             self.prompts_cache = self._get_default_prompts()
 
-    def _get_default_prompts(self) -> Dict[str, str]:
+    def _get_default_prompts(self) -> dict[str, str]:
         """Returns comprehensive default prompts."""
         return {
             # Basic emotion prompts
@@ -589,8 +592,8 @@ class VisionPromptManager:
         }
 
     def get_prompt_for_fold(
-        self, fold: Dict[str, Any], user_tier: int = 0
-    ) -> Dict[str, Any]:
+        self, fold: dict[str, Any], user_tier: int = 0
+    ) -> dict[str, Any]:
         """Generate appropriate vision prompt for a memory fold."""
         emotion = fold.get("emotion", "neutral")
         timestamp = fold.get("timestamp", datetime.utcnow().isoformat())
@@ -675,7 +678,7 @@ class VisionPromptManager:
 class TierManager:
     """Manages tier-based access control for memory operations."""
 
-    def __init__(self, tier_config: Optional[Dict[str, int]] = None):
+    def __init__(self, tier_config: Optional[dict[str, int]] = None):
         """Initialize with tier thresholds."""
         self.thresholds = tier_config or {
             "context_access": 2,
@@ -703,8 +706,8 @@ class TierManager:
         return has_access
 
     def filter_data_by_tier(
-        self, data: Dict[str, Any], user_tier: int
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any], user_tier: int
+    ) -> dict[str, Any]:
         """Filter data based on user's tier level."""
         filtered = data.copy()
 
@@ -787,7 +790,7 @@ class MemoryFoldSystem:
 
     def log_dream(
         self, dream_type: str = "reflective", user_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Log a dream insight as a memory fold.
 
@@ -823,8 +826,8 @@ class MemoryFoldSystem:
         emotion: str,
         context_snippet: str,
         user_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Create a memory fold with emotional context.
 
@@ -875,7 +878,7 @@ class MemoryFoldSystem:
         filter_emotion: Optional[str] = None,
         user_tier: int = 0,
         limit: int = 100,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Recall memory folds with filtering and tier-based access.
 
@@ -935,7 +938,7 @@ class MemoryFoldSystem:
         emotion_threshold: float = 0.6,
         context_query: Optional[str] = None,
         max_results: Optional[int] = None,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Enhanced recall with emotional similarity and context search.
 
@@ -1062,7 +1065,7 @@ class MemoryFoldSystem:
 
     def get_emotional_neighborhood(
         self, target_emotion: str, threshold: float = 0.5
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """
         Find emotions within threshold distance of target.
 
@@ -1089,7 +1092,7 @@ class MemoryFoldSystem:
         # Sort by distance
         return dict(sorted(neighborhood.items(), key=lambda x: x[1]))
 
-    def create_emotion_clusters(self, tier_level: int = 0) -> Dict[str, List[str]]:
+    def create_emotion_clusters(self, tier_level: int = 0) -> dict[str, list[str]]:
         """
         Create emotion clusters based on tier level.
 
@@ -1146,7 +1149,7 @@ class MemoryFoldSystem:
         hours_limit: int = 24,
         max_memories: int = 100,
         user_id: Optional[str] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Consolidate recent memories through dream-like processing.
 
@@ -1236,7 +1239,7 @@ class MemoryFoldSystem:
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-    def get_system_statistics(self) -> Dict[str, Any]:
+    def get_system_statistics(self) -> dict[str, Any]:
         """Get comprehensive system statistics."""
         stats = self.database.get_statistics()
 
@@ -1271,7 +1274,7 @@ class MemoryFoldSystem:
 
     # Private helper methods
 
-    def _get_emotion_state(self, user_id: Optional[str] = None) -> Dict[str, Any]:
+    def _get_emotion_state(self, user_id: Optional[str] = None) -> dict[str, Any]:
         """Get current emotion state with caching."""
         cache_key = user_id or "system"
 
@@ -1331,7 +1334,7 @@ class MemoryFoldSystem:
         self.emotion_vectors[emotion] = new_vector
         logger.info(f"Added dynamic emotion '{emotion}' with vector {new_vector}")
 
-    def _extract_common_themes(self, folds: List[Dict[str, Any]]) -> List[str]:
+    def _extract_common_themes(self, folds: list[dict[str, Any]]) -> list[str]:
         """Extract common themes from a group of folds."""
         # Simple word frequency analysis
         word_counts = defaultdict(int)
@@ -1348,7 +1351,7 @@ class MemoryFoldSystem:
         themes = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
         return [word for word, count in themes[:5] if count >= 2]
 
-    def _get_emotion_state(self, user_id: Optional[str] = None) -> Dict[str, Any]:
+    def _get_emotion_state(self, user_id: Optional[str] = None) -> dict[str, Any]:
         """Get current emotion state with caching."""
         cache_key = user_id or "system"
 
@@ -1411,7 +1414,7 @@ class MemoryFoldSystem:
         self.emotion_vectors[emotion] = new_vector
         logger.info(f"Added dynamic emotion '{emotion}' with vector {new_vector}")
 
-    def _extract_common_themes(self, folds: List[Dict[str, Any]]) -> List[str]:
+    def _extract_common_themes(self, folds: list[dict[str, Any]]) -> list[str]:
         """Extract common themes from a group of folds."""
         # Simple word frequency analysis
         word_counts = defaultdict(int)
@@ -1453,7 +1456,7 @@ def log_dream(dream_type: str = "reflective", user_id: Optional[str] = None) -> 
 
 def create_memory_fold(
     emotion: str, context_snippet: str, user_id: Optional[str] = None
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Legacy function for creating memory fold."""
     system = _get_global_system()
     return system.create_memory_fold(emotion, context_snippet, user_id)
@@ -1463,7 +1466,7 @@ def recall_memory_folds(
     user_id: Optional[str] = None,
     filter_emotion: Optional[str] = None,
     user_tier: int = 0,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Legacy function for recalling memory folds."""
     system = _get_global_system()
     return system.recall_memory_folds(user_id, filter_emotion, user_tier)
@@ -1476,7 +1479,7 @@ def enhanced_recall_memory_folds(
     emotion_threshold: float = 0.6,
     context_query: Optional[str] = None,
     max_results: Optional[int] = None,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Legacy function for enhanced recall."""
     system = _get_global_system()
     return system.enhanced_recall_memory_folds(
@@ -1497,13 +1500,13 @@ def calculate_emotion_distance(emotion1: str, emotion2: str) -> float:
 
 def get_emotional_neighborhood(
     target_emotion: str, threshold: float = 0.5
-) -> Dict[str, float]:
+) -> dict[str, float]:
     """Legacy function for emotional neighborhood."""
     system = _get_global_system()
     return system.get_emotional_neighborhood(target_emotion, threshold)
 
 
-def create_emotion_clusters(tier_level: int = 0) -> Dict[str, List[str]]:
+def create_emotion_clusters(tier_level: int = 0) -> dict[str, list[str]]:
     """Legacy function for emotion clustering."""
     system = _get_global_system()
     return system.create_emotion_clusters(tier_level)

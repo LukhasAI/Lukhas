@@ -76,10 +76,10 @@ def generate_report(log_df, base_report_dir="lucas_governance/reports/"):
     summary = f"""
 # 📑 LUKHAS_AGI_3 Compliance Drift Report
 
-**Reporting Period:** {log_df['Date'].min().date()} to {log_df['Date'].max().date()}  
-**Generated On:** {now}  
-**System:** LUKHAS_AGI_3  
-**Compliance Monitor Version:** v0.2.0  
+**Reporting Period:** {log_df['Date'].min().date()} to {log_df['Date'].max().date()}
+**Generated On:** {now}
+**System:** LUKHAS_AGI_3
+**Compliance Monitor Version:** v0.2.0
 
 ---
 

@@ -9,6 +9,7 @@ This adapter enables Lambda Products to leverage GPT-OSS for enhanced:
 - Data Analytics & Strategic Thinking (DΛST)
 """
 
+from gpt_oss_brain import GPTOSSBrainSpecialist
 import asyncio
 import hashlib
 import logging
@@ -20,12 +21,11 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum, auto
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 sys.path.append(
     str(Path(__file__).parent.parent.parent / "agi-integration/brain-modules")
 )
-from gpt_oss_brain import GPTOSSBrainSpecialist
 
 logger = logging.getLogger("LambdaProducts.GPTOSSAdapter")
 
@@ -56,11 +56,11 @@ class LambdaProductRequest:
     product_type: LambdaProductType
     content: str
     processing_mode: ProcessingMode
-    context: Optional[Dict[str, Any]] = None
+    context: Optional[dict[str, Any]] = None
     priority: str = "medium"
     user_id: Optional[str] = None
     session_id: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
 
 @dataclass
@@ -69,13 +69,13 @@ class LambdaProductResponse:
 
     product_type: LambdaProductType
     request_id: str
-    gpt_oss_result: Dict[str, Any]
-    lambda_enhanced_result: Dict[str, Any]
+    gpt_oss_result: dict[str, Any]
+    lambda_enhanced_result: dict[str, Any]
     confidence: float
     processing_time_ms: int
     symbolic_signature: str
-    recommendations: List[str]
-    insights: List[str]
+    recommendations: list[str]
+    insights: list[str]
     timestamp: datetime
 
 
@@ -147,8 +147,8 @@ class QRGAdapter:
         return response
 
     def _enhance_with_qrg_patterns(
-        self, gpt_result: Dict[str, Any], request: LambdaProductRequest
-    ) -> Dict[str, Any]:
+        self, gpt_result: dict[str, Any], request: LambdaProductRequest
+    ) -> dict[str, Any]:
         """Enhance GPT-OSS result with QRG-specific patterns"""
 
         reasoning = gpt_result.get("reasoning", {})
@@ -176,7 +176,7 @@ class QRGAdapter:
 
         return enhanced
 
-    def _calculate_quality_metrics(self, reasoning: Dict[str, Any]) -> Dict[str, float]:
+    def _calculate_quality_metrics(self, reasoning: dict[str, Any]) -> dict[str, float]:
         """Calculate reasoning quality metrics"""
         raw_output = reasoning.get("raw_output", "")
 
@@ -187,7 +187,7 @@ class QRGAdapter:
             "precision": 0.9,  # Would implement precision measurement
         }
 
-    def _extract_reasoning_chain(self, reasoning: Dict[str, Any]) -> List[str]:
+    def _extract_reasoning_chain(self, reasoning: dict[str, Any]) -> list[str]:
         """Extract logical reasoning chain"""
         raw_output = reasoning.get("raw_output", "")
 
@@ -206,7 +206,7 @@ class QRGAdapter:
 
         return chain[:5]  # Return top 5 reasoning steps
 
-    def _assess_logical_validity(self, reasoning: Dict[str, Any]) -> float:
+    def _assess_logical_validity(self, reasoning: dict[str, Any]) -> float:
         """Assess logical validity of reasoning"""
         raw_output = reasoning.get("raw_output", "").lower()
 
@@ -225,7 +225,7 @@ class QRGAdapter:
         validity = min(logical_score / 5.0, 1.0) - contradiction_penalty
         return max(validity, 0.0)
 
-    def _evaluate_evidence_strength(self, reasoning: Dict[str, Any]) -> float:
+    def _evaluate_evidence_strength(self, reasoning: dict[str, Any]) -> float:
         """Evaluate strength of evidence presented"""
         raw_output = reasoning.get("raw_output", "").lower()
 
@@ -244,7 +244,7 @@ class QRGAdapter:
         strength = (strong_count - weak_count * 0.5) / 5.0
         return max(min(strength, 1.0), 0.0)
 
-    def _measure_clarity(self, reasoning: Dict[str, Any]) -> float:
+    def _measure_clarity(self, reasoning: dict[str, Any]) -> float:
         """Measure clarity of reasoning"""
         raw_output = reasoning.get("raw_output", "")
 
@@ -258,7 +258,7 @@ class QRGAdapter:
 
         return max(clarity, 0.3)
 
-    def _assess_completeness(self, reasoning: Dict[str, Any]) -> float:
+    def _assess_completeness(self, reasoning: dict[str, Any]) -> float:
         """Assess completeness of reasoning"""
         structured = reasoning.get("structured_analysis", {})
         insights = reasoning.get("key_insights", [])
@@ -275,7 +275,7 @@ class QRGAdapter:
 
         return completeness
 
-    def _generate_qrg_recommendations(self, reasoning: Dict[str, Any]) -> List[str]:
+    def _generate_qrg_recommendations(self, reasoning: dict[str, Any]) -> list[str]:
         """Generate QRG-specific recommendations"""
         base_recommendations = reasoning.get("recommendations", [])
 
@@ -291,7 +291,7 @@ class QRGAdapter:
 
         return qrg_recommendations
 
-    def _calculate_qrg_confidence(self, reasoning: Dict[str, Any]) -> float:
+    def _calculate_qrg_confidence(self, reasoning: dict[str, Any]) -> float:
         """Calculate QRG-specific confidence score"""
         base_confidence = reasoning.get("confidence_factors", {}).get(
             "context_relevance", 0.5
@@ -371,8 +371,8 @@ class NIASAdapter:
         return response
 
     def _enhance_with_nias_analysis(
-        self, gpt_result: Dict[str, Any], request: LambdaProductRequest
-    ) -> Dict[str, Any]:
+        self, gpt_result: dict[str, Any], request: LambdaProductRequest
+    ) -> dict[str, Any]:
         """Enhance with NIAS-specific neural analysis"""
 
         reasoning = gpt_result.get("reasoning", {})
@@ -396,7 +396,7 @@ class NIASAdapter:
 
         return enhanced
 
-    def _identify_neural_patterns(self, reasoning: Dict[str, Any]) -> Dict[str, Any]:
+    def _identify_neural_patterns(self, reasoning: dict[str, Any]) -> dict[str, Any]:
         """Identify neural processing patterns"""
         raw_output = reasoning.get("raw_output", "").lower()
 
@@ -424,8 +424,8 @@ class NIASAdapter:
         return patterns
 
     def _calculate_intelligence_metrics(
-        self, reasoning: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, reasoning: dict[str, Any]
+    ) -> dict[str, float]:
         """Calculate intelligence assessment metrics"""
         raw_output = reasoning.get("raw_output", "")
         insights = reasoning.get("key_insights", [])
@@ -459,8 +459,8 @@ class NIASAdapter:
         return metrics
 
     def _model_cognitive_architecture(
-        self, reasoning: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, reasoning: dict[str, Any]
+    ) -> dict[str, Any]:
         """Model the cognitive architecture demonstrated"""
         raw_output = reasoning.get("raw_output", "").lower()
 
@@ -489,7 +489,7 @@ class NIASAdapter:
 
         return architecture
 
-    def _extract_behavioral_indicators(self, reasoning: Dict[str, Any]) -> List[str]:
+    def _extract_behavioral_indicators(self, reasoning: dict[str, Any]) -> list[str]:
         """Extract behavioral intelligence indicators"""
         raw_output = reasoning.get("raw_output", "").lower()
 
@@ -509,7 +509,7 @@ class NIASAdapter:
 
         return indicators
 
-    def _generate_neural_insights(self, reasoning: Dict[str, Any]) -> List[str]:
+    def _generate_neural_insights(self, reasoning: dict[str, Any]) -> list[str]:
         """Generate NIAS-specific neural insights"""
         base_insights = reasoning.get("key_insights", [])
 
@@ -524,7 +524,7 @@ class NIASAdapter:
 
         return neural_insights
 
-    def _generate_nias_recommendations(self, reasoning: Dict[str, Any]) -> List[str]:
+    def _generate_nias_recommendations(self, reasoning: dict[str, Any]) -> list[str]:
         """Generate NIAS-specific recommendations"""
         return [
             "Enhance neural pathway optimization through targeted training",
@@ -533,7 +533,7 @@ class NIASAdapter:
             "Integrate behavioral pattern analysis with cognitive modeling",
         ]
 
-    def _calculate_nias_confidence(self, reasoning: Dict[str, Any]) -> float:
+    def _calculate_nias_confidence(self, reasoning: dict[str, Any]) -> float:
         """Calculate NIAS confidence score"""
         base_confidence = reasoning.get("confidence_factors", {}).get(
             "context_relevance", 0.5
@@ -553,7 +553,7 @@ class NIASAdapter:
 
         return min(base_confidence + neural_bonus + intelligence_bonus, 1.0)
 
-    def _assess_logical_validity(self, reasoning: Dict[str, Any]) -> float:
+    def _assess_logical_validity(self, reasoning: dict[str, Any]) -> float:
         """Helper method for logical validity assessment"""
         # This would be the same implementation as in QRGAdapter
         # Simplified for brevity
@@ -626,8 +626,8 @@ class ABASAdapter:
         return response
 
     def _enhance_with_business_analysis(
-        self, gpt_result: Dict[str, Any], request: LambdaProductRequest
-    ) -> Dict[str, Any]:
+        self, gpt_result: dict[str, Any], request: LambdaProductRequest
+    ) -> dict[str, Any]:
         """Enhance with business analysis capabilities"""
 
         reasoning = gpt_result.get("reasoning", {})
@@ -652,7 +652,7 @@ class ABASAdapter:
 
         return enhanced
 
-    def _perform_market_analysis(self, reasoning: Dict[str, Any]) -> Dict[str, Any]:
+    def _perform_market_analysis(self, reasoning: dict[str, Any]) -> dict[str, Any]:
         """Perform market analysis"""
         raw_output = reasoning.get("raw_output", "").lower()
 
@@ -666,8 +666,8 @@ class ABASAdapter:
         return market_factors
 
     def _assess_financial_implications(
-        self, reasoning: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, reasoning: dict[str, Any]
+    ) -> dict[str, Any]:
         """Assess financial implications"""
         raw_output = reasoning.get("raw_output", "").lower()
 
@@ -683,8 +683,8 @@ class ABASAdapter:
         return financial
 
     def _evaluate_strategic_options(
-        self, reasoning: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, reasoning: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Evaluate strategic options"""
         recommendations = reasoning.get("recommendations", [])
 
@@ -702,8 +702,8 @@ class ABASAdapter:
         return strategic_options
 
     def _analyze_business_risks(
-        self, reasoning: Dict[str, Any]
-    ) -> List[Dict[str, str]]:
+        self, reasoning: dict[str, Any]
+    ) -> list[dict[str, str]]:
         """Analyze business risks"""
         raw_output = reasoning.get("raw_output", "").lower()
 
@@ -738,7 +738,7 @@ class ABASAdapter:
 
         return risks
 
-    def _generate_competitive_insights(self, reasoning: Dict[str, Any]) -> List[str]:
+    def _generate_competitive_insights(self, reasoning: dict[str, Any]) -> list[str]:
         """Generate competitive insights"""
         return [
             "Market positioning opportunities identified in analysis",
@@ -746,7 +746,7 @@ class ABASAdapter:
             "Differentiation strategies recommended for market leadership",
         ]
 
-    def _extract_business_insights(self, reasoning: Dict[str, Any]) -> List[str]:
+    def _extract_business_insights(self, reasoning: dict[str, Any]) -> list[str]:
         """Extract business-specific insights"""
         base_insights = reasoning.get("key_insights", [])
 
@@ -760,8 +760,8 @@ class ABASAdapter:
         return business_insights
 
     def _generate_strategic_recommendations(
-        self, reasoning: Dict[str, Any]
-    ) -> List[str]:
+        self, reasoning: dict[str, Any]
+    ) -> list[str]:
         """Generate strategic recommendations"""
         return [
             "Implement phased market entry strategy",
@@ -771,7 +771,7 @@ class ABASAdapter:
             "Create value proposition differentiation strategy",
         ]
 
-    def _calculate_business_confidence(self, reasoning: Dict[str, Any]) -> float:
+    def _calculate_business_confidence(self, reasoning: dict[str, Any]) -> float:
         """Calculate business analysis confidence"""
         base_confidence = reasoning.get("confidence_factors", {}).get(
             "context_relevance", 0.5
@@ -783,7 +783,7 @@ class ABASAdapter:
 
         return min(base_confidence + market_bonus + strategic_bonus, 1.0)
 
-    def _calculate_business_score(self, enhanced: Dict[str, Any]) -> float:
+    def _calculate_business_score(self, enhanced: dict[str, Any]) -> float:
         """Calculate overall business analysis score"""
         # Simplified scoring based on analysis completeness
         market_score = (
@@ -798,7 +798,7 @@ class ABASAdapter:
 
         return (market_score + financial_score + strategic_score) / 3.0 * 100
 
-    def _assess_strategic_value(self, enhanced: Dict[str, Any]) -> float:
+    def _assess_strategic_value(self, enhanced: dict[str, Any]) -> float:
         """Assess strategic value of the analysis"""
         # Strategic value based on insights and recommendations
         insights_value = len(enhanced["business_insights"]) / 10.0
@@ -806,7 +806,7 @@ class ABASAdapter:
 
         return min((insights_value + recommendations_value) / 2.0, 1.0) * 100
 
-    def _extract_trends(self, raw_output: str) -> List[str]:
+    def _extract_trends(self, raw_output: str) -> list[str]:
         """Extract market trends from output"""
         trends = []
         if "digital" in raw_output:
@@ -817,7 +817,7 @@ class ABASAdapter:
             trends.append("Sustainability focus")
         return trends
 
-    def _identify_financial_risks(self, raw_output: str) -> List[str]:
+    def _identify_financial_risks(self, raw_output: str) -> list[str]:
         """Identify financial risks"""
         risks = []
         if "cash flow" in raw_output:
@@ -892,8 +892,8 @@ class DASTAdapter:
         return response
 
     def _enhance_with_dast_analysis(
-        self, gpt_result: Dict[str, Any], request: LambdaProductRequest
-    ) -> Dict[str, Any]:
+        self, gpt_result: dict[str, Any], request: LambdaProductRequest
+    ) -> dict[str, Any]:
         """Enhance with data analytics and strategic thinking"""
 
         reasoning = gpt_result.get("reasoning", {})
@@ -915,7 +915,7 @@ class DASTAdapter:
 
         return enhanced
 
-    def _identify_data_patterns(self, reasoning: Dict[str, Any]) -> Dict[str, Any]:
+    def _identify_data_patterns(self, reasoning: dict[str, Any]) -> dict[str, Any]:
         """Identify data patterns from analysis"""
         raw_output = reasoning.get("raw_output", "").lower()
 
@@ -933,7 +933,7 @@ class DASTAdapter:
 
         return patterns
 
-    def _generate_statistical_insights(self, reasoning: Dict[str, Any]) -> List[str]:
+    def _generate_statistical_insights(self, reasoning: dict[str, Any]) -> list[str]:
         """Generate statistical insights"""
         return [
             "Data distribution analysis reveals significant patterns",
@@ -942,7 +942,7 @@ class DASTAdapter:
             "Regression modeling identifies predictive factors",
         ]
 
-    def _perform_predictive_analysis(self, reasoning: Dict[str, Any]) -> Dict[str, Any]:
+    def _perform_predictive_analysis(self, reasoning: dict[str, Any]) -> dict[str, Any]:
         """Perform predictive analysis"""
         raw_output = reasoning.get("raw_output", "").lower()
 
@@ -955,7 +955,7 @@ class DASTAdapter:
 
         return predictive
 
-    def _analyze_strategic_implications(self, reasoning: Dict[str, Any]) -> List[str]:
+    def _analyze_strategic_implications(self, reasoning: dict[str, Any]) -> list[str]:
         """Analyze strategic implications"""
         return [
             "Data insights support strategic decision-making framework",
@@ -964,7 +964,7 @@ class DASTAdapter:
             "Data-driven approach validates strategic assumptions",
         ]
 
-    def _extract_data_insights(self, reasoning: Dict[str, Any]) -> List[str]:
+    def _extract_data_insights(self, reasoning: dict[str, Any]) -> list[str]:
         """Extract data-specific insights"""
         base_insights = reasoning.get("key_insights", [])
 
@@ -977,7 +977,7 @@ class DASTAdapter:
         data_insights.extend(base_insights[:2])
         return data_insights
 
-    def _recommend_strategic_actions(self, reasoning: Dict[str, Any]) -> List[str]:
+    def _recommend_strategic_actions(self, reasoning: dict[str, Any]) -> list[str]:
         """Recommend strategic actions based on data analysis"""
         return [
             "Implement data-driven decision making framework",
@@ -987,7 +987,7 @@ class DASTAdapter:
             "Build analytics-informed strategic planning process",
         ]
 
-    def _calculate_dast_confidence(self, reasoning: Dict[str, Any]) -> float:
+    def _calculate_dast_confidence(self, reasoning: dict[str, Any]) -> float:
         """Calculate DAST confidence score"""
         base_confidence = reasoning.get("confidence_factors", {}).get(
             "context_relevance", 0.5
@@ -1002,7 +1002,7 @@ class DASTAdapter:
             base_confidence + data_bonus + analytics_bonus + strategic_bonus, 1.0
         )
 
-    def _calculate_analytics_score(self, enhanced: Dict[str, Any]) -> float:
+    def _calculate_analytics_score(self, enhanced: dict[str, Any]) -> float:
         """Calculate analytics capability score"""
         pattern_score = enhanced["data_patterns"]["strength"] * 0.4
         insight_score = len(enhanced["data_insights"]) / 10.0 * 0.3
@@ -1015,14 +1015,14 @@ class DASTAdapter:
 
         return (pattern_score + insight_score + predictive_score) * 100
 
-    def _assess_strategic_depth(self, enhanced: Dict[str, Any]) -> float:
+    def _assess_strategic_depth(self, enhanced: dict[str, Any]) -> float:
         """Assess strategic thinking depth"""
         implications_depth = len(enhanced["strategic_implications"]) / 5.0
         actions_depth = len(enhanced["strategic_actions"]) / 5.0
 
         return min((implications_depth + actions_depth) / 2.0, 1.0) * 100
 
-    def _extract_key_variables(self, raw_output: str) -> List[str]:
+    def _extract_key_variables(self, raw_output: str) -> list[str]:
         """Extract key variables from analysis"""
         variables = []
         if "time" in raw_output:
@@ -1033,7 +1033,7 @@ class DASTAdapter:
             variables.append("market_conditions")
         return variables
 
-    def _generate_predicted_outcomes(self, reasoning: Dict[str, Any]) -> List[str]:
+    def _generate_predicted_outcomes(self, reasoning: dict[str, Any]) -> list[str]:
         """Generate predicted outcomes"""
         return [
             "Positive trend continuation expected",
@@ -1114,7 +1114,7 @@ class LambdaProductsGPTOSSAdapter:
                 0.9 * self.metrics["average_processing_time"] + 0.1 * processing_time_ms
             )
 
-    def get_adapter_metrics(self) -> Dict[str, Any]:
+    def get_adapter_metrics(self) -> dict[str, Any]:
         """Get comprehensive adapter metrics"""
         success_rate = 0
         if self.metrics["total_requests"] > 0:

@@ -60,7 +60,8 @@ class GIDAOCore:
         self.logger = logging.getLogger("Λgi.dao.core")
 
         # DAO configuration
-        self.voting_period_hours = self.dao_config.get("voting_period_hours", 168)  # 1 week
+        self.voting_period_hours = self.dao_config.get(
+            "voting_period_hours", 168)  # 1 week
         self.quorum_threshold = self.dao_config.get("quorum_threshold", 0.1)  # 10%
         self.approval_threshold = self.dao_config.get("approval_threshold", 0.6)  # 60%
 
@@ -118,7 +119,8 @@ class GIDAOCore:
             proposal = self.proposals[proposal_id]
 
             if proposal["status"] != ProposalStatus.DRAFT.value:
-                raise ValueError(f"Proposal {proposal_id} cannot be activated (status: {proposal['status']})")
+                raise ValueError(
+                    f"Proposal {proposal_id} cannot be activated (status: {proposal['status']})")
 
             # Set voting period
             voting_start = datetime.now()
@@ -140,7 +142,7 @@ class GIDAOCore:
             return False
 
     def cast_vote(self, proposal_id: str, voter_id: str, vote_type: str,
-                  voting_power: float = 1.0, reasoning: str = "") -> bool:
+                  voting_power: float=1.0, reasoning: str="") -> bool:
         """Cast a vote on a proposal."""
         try:
             if proposal_id not in self.proposals:
@@ -170,7 +172,8 @@ class GIDAOCore:
             if vote_key in self.votes:
                 old_vote = self.votes[vote_key]
                 # Remove old vote from counts
-                proposal["vote_counts"][old_vote["vote_type"]] -= old_vote["voting_power"]
+                proposal["vote_counts"][old_vote["vote_type"]
+                    ] -= old_vote["voting_power"]
                 proposal["total_votes"] -= old_vote["voting_power"]
 
             vote_record = {
@@ -189,7 +192,8 @@ class GIDAOCore:
             proposal["vote_counts"][vote_type] += voting_power
             proposal["total_votes"] += voting_power
 
-            self.logger.info(f"Vote cast: {voter_id} voted {vote_type} on {proposal_id}")
+            self.logger.info(
+                f"Vote cast: {voter_id} voted {vote_type} on {proposal_id}")
             return True
 
         except Exception as e:
@@ -207,11 +211,13 @@ class GIDAOCore:
             # Check if voting period has ended
             voting_end = datetime.fromisoformat(proposal["voting_end"])
             if datetime.now() <= voting_end:
-                raise ValueError(f"Voting period not yet ended for proposal {proposal_id}")
+                raise ValueError(
+                    f"Voting period not yet ended for proposal {proposal_id}")
 
             # Calculate results
             total_members = len(self.members)
-            quorum_met = proposal["total_votes"] >= (total_members * self.quorum_threshold)
+            quorum_met = proposal["total_votes"] >= (
+                total_members * self.quorum_threshold)
 
             approval_rate = 0.0
             if proposal["total_votes"] > 0:
@@ -242,7 +248,8 @@ class GIDAOCore:
                 }
             })
 
-            self.logger.info(f"Proposal {proposal_id} finalized - {'APPROVED' if approved else 'REJECTED'}")
+            self.logger.info(
+                f"Proposal {proposal_id} finalized - {'APPROVED' if approved else 'REJECTED'}")
 
             return {
                 "proposal_id": proposal_id,
@@ -314,7 +321,8 @@ class GIDAOCore:
         try:
             status_counts = {}
             for status in ProposalStatus:
-                status_counts[status.value] = sum(1 for p in self.proposals.values() if p["status"] == status.value)
+                status_counts[status.value] = sum(
+                    1 for p in self.proposals.values() if p["status"] == status.value)
 
             total_votes_cast = len(self.votes)
             active_proposals = status_counts.get(ProposalStatus.ACTIVE.value, 0)
@@ -347,7 +355,7 @@ class GICommunityGovernance:
     Advanced community management and governance for AI ecosystem.
     """
 
-    def __init__(self, community_config: Dict[str, Any] = None):
+    def __init__(self, community_config: Dict[str, Any]=None):
         """Initialize AI community governance system."""
         self.community_config = community_config or {}
         self.logger = logging.getLogger("Λgi.community.governance")
@@ -407,7 +415,10 @@ class GICommunityGovernance:
             self.logger.error(f"Error registering member {member_id}: {e}")
             return False
 
-    def create_community_proposal(self, proposer_id: str, proposal_data: Dict[str, Any]) -> Optional[str]:
+    def create_community_proposal(self,
+    proposer_id: str,
+    proposal_data: Dict[str,
+     Any]) -> Optional[str]:
         """Create a community governance proposal."""
         try:
             # Validate proposer permissions
@@ -416,7 +427,8 @@ class GICommunityGovernance:
 
             member = self.dao_core.members[proposer_id]
             if not member["privileges"]["can_propose"]:
-                raise ValueError(f"Member {proposer_id} does not have proposal privileges")
+                raise ValueError(
+                    f"Member {proposer_id} does not have proposal privileges")
 
             # Enhanced proposal data for AI context
             enhanced_proposal_data = proposal_data.copy()
@@ -432,7 +444,8 @@ class GICommunityGovernance:
             })
 
             # Create proposal via DAO core
-            proposal_id = self.dao_core.create_proposal(proposer_id, enhanced_proposal_data)
+            proposal_id = self.dao_core.create_proposal(
+                proposer_id, enhanced_proposal_data)
 
             # Auto-activate if member has sufficient reputation
             if member["reputation_score"] >= 500:
@@ -513,8 +526,12 @@ class GICommunityGovernance:
             self.logger.error(f"Error getting community health metrics: {e}")
             return {"error": str(e)}
 
-    def _calculate_health_score(self, dao_stats: Dict[str, Any], active_members: int, recent_votes: int) -> float:
-        """Calculate overall community health score (0.0 to 1.0)."""
+    def _calculate_health_score(self,
+    dao_stats: Dict[str,
+    Any],
+    active_members: int,
+     recent_votes: int) -> float:
+        """Calculate overall community health score(0.0 to 1.0)."""
         try:
             # Base score
             score = 0.5
@@ -585,7 +602,8 @@ if __name__ == "__main__":
         "lukhasgi_integration": True
     }
 
-    proposal_id = governance.create_community_proposal("consciousness_expert_1", proposal_data)
+    proposal_id = governance.create_community_proposal(
+        "consciousness_expert_1", proposal_data)
     print(f"Created proposal: {proposal_id}")
 
     # Get community health metrics

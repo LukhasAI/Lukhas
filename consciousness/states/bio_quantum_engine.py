@@ -13,11 +13,12 @@ This module implements the groundbreaking theories from abstract_resoaning.md,
 creating a Bio-Quantum Symbolic Reasoning Engine that orchestrates the Multi-Brain
 Symphony Architecture for advanced abstract reasoning capabilities.
 """
+import logging
 
 import time
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -50,7 +51,7 @@ except ImportError:
             self.active = False
             return True
 
-        async def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+        async def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
             return {
                 "processed": True,
                 "brain_type": self.brain_type,
@@ -61,18 +62,26 @@ except ImportError:
             }
 
         async def process_independently(
-            self, input_data: Dict[str, Any]
-        ) -> Dict[str, Any]:
+            self, input_data: dict[str, Any]
+        ) -> dict[str, Any]:
             return await self.process(input_data)
 
-        def get_status(self) -> Dict[str, Any]:
+        def get_status(self) -> dict[str, Any]:
             return {"active": self.active, "brain_type": self.brain_type, "mock": True}
 
     # Create mock brain cores
-    DreamsBrainCore = lambda: MockBrainCore("dreams")
-    EmotionalBrainCore = lambda: MockBrainCore("emotional")
-    MemoryBrainCore = lambda: MockBrainCore("memory")
-    LearningBrainCore = lambda: MockBrainCore("learning")
+    def DreamsBrainCore():
+        return MockBrainCore("dreams")
+
+    def EmotionalBrainCore():
+        return MockBrainCore("emotional")
+
+    def MemoryBrainCore():
+        return MockBrainCore("memory")
+
+    def LearningBrainCore():
+        return MockBrainCore("learning")
+
     BRAIN_COMPONENTS_AVAILABLE = False
 
 # Import quantum bio components - with graceful fallback
@@ -130,7 +139,7 @@ class ReasoningPhase:
     brain_target: str
     frequency: float
     duration: float
-    quantum_inspired_gates: List[str]
+    quantum_inspired_gates: list[str]
     expected_output_type: str
 
 
@@ -169,8 +178,8 @@ class BrainSymphony:
         logger.info("🎼 Brain Symphony initialized with 4 specialized brains")
 
     async def explore_possibility_space(
-        self, problem_space: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, problem_space: dict[str, Any]
+    ) -> dict[str, Any]:
         """Phase 1: Divergent exploration using Dreams Brain at 0.1Hz"""
         logger.info("🌙 Phase 1: Dreams Brain exploring possibility space")
 
@@ -198,8 +207,8 @@ class BrainSymphony:
         }
 
     async def evaluate_solution_aesthetics(
-        self, dream_patterns: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, dream_patterns: dict[str, Any]
+    ) -> dict[str, Any]:
         """Phase 2: Emotional evaluation using Emotional Brain at 6.0Hz"""
         logger.info("💝 Phase 2: Emotional Brain evaluating solution aesthetics")
 
@@ -226,8 +235,8 @@ class BrainSymphony:
         }
 
     async def find_structural_analogies(
-        self, problem_space: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, problem_space: dict[str, Any]
+    ) -> dict[str, Any]:
         """Phase 3: Memory pattern matching using Memory Brain at 10Hz"""
         logger.info("🧠 Phase 3: Memory Brain finding structural analogies")
 
@@ -253,10 +262,10 @@ class BrainSymphony:
 
     async def synthesize_reasoning_path(
         self,
-        dream_patterns: Dict[str, Any],
-        emotional_signals: Dict[str, Any],
-        analogies: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        dream_patterns: dict[str, Any],
+        emotional_signals: dict[str, Any],
+        analogies: dict[str, Any],
+    ) -> dict[str, Any]:
         """Phase 4: Critical convergent reasoning using Learning Brain at 40Hz"""
         logger.info("📚 Phase 4: Learning Brain synthesizing reasoning path")
 
@@ -285,8 +294,8 @@ class BrainSymphony:
         }
 
     async def _apply_quantum_enhancement(
-        self, data: Dict[str, Any], mode: str
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any], mode: str
+    ) -> dict[str, Any]:
         """Apply superposition-like state and entanglement to brain outputs"""
         try:
             # Convert data to quantum-like state representation
@@ -314,8 +323,8 @@ class BrainSymphony:
             return data
 
     async def _apply_bio_oscillation(
-        self, data: Dict[str, Any], frequency: float
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any], frequency: float
+    ) -> dict[str, Any]:
         """Apply bio-oscillation patterns to enhance brain coherence"""
         try:
             # Generate bio-oscillation pattern
@@ -337,8 +346,8 @@ class BrainSymphony:
             return data
 
     async def _apply_holographic_enhancement(
-        self, data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply holographic memory principles for distributed pattern storage"""
         try:
             # Simulate holographic interference patterns
@@ -363,8 +372,8 @@ class BrainSymphony:
             return data
 
     async def _apply_meta_cognitive_enhancement(
-        self, data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply meta-cognitive reflection and self-awareness"""
         try:
             # Process through synaptic gate for meta-cognitive enhancement
@@ -486,8 +495,8 @@ class BioQuantumSymbolicReasoner:
         logger.info("🚀 Bio-Quantum Symbolic Reasoning Engine initialized")
 
     async def abstract_reason(
-        self, problem_space: Dict[str, Any], context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, problem_space: dict[str, Any], context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Execute the complete Bio-Quantum Abstract Reasoning process
 
@@ -580,8 +589,8 @@ class BioQuantumSymbolicReasoner:
             raise
 
     async def _create_quantum_superposition_of_paths(
-        self, phase_outputs: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, phase_outputs: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Create superposition-like state of all reasoning pathways"""
         try:
             logger.info("⚛️ Creating superposition-like state of reasoning pathways")
@@ -626,8 +635,8 @@ class BioQuantumSymbolicReasoner:
             return {"error": str(e), "fallback_mode": True}
 
     async def _achieve_cross_brain_coherence(
-        self, quantum_superposition: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, quantum_superposition: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Achieve coherence across all brain systems using entanglement-like correlation"""
         try:
             logger.info("🎼 Achieving cross-brain coherence integration")
@@ -687,11 +696,11 @@ class BioQuantumSymbolicReasoner:
             logger.error(f"Failed to achieve cross-brain coherence: {e}")
             return {"error": str(e), "coherence_achieved": False}
 
-    def _encode_to_quantum_like_state(self, data: Dict[str, Any]) -> np.ndarray:
+    def _encode_to_quantum_like_state(self, data: dict[str, Any]) -> np.ndarray:
         """Encode classical data to quantum-like state vector"""
         # Create quantum-like state representation using hash-based encoding
         state_components = []
-        for key, value in data.items():
+        for _key, value in data.items():
             if isinstance(value, (dict, list)):
                 component = hash(str(value)) % 1000
             else:
@@ -714,7 +723,7 @@ class BioQuantumSymbolicReasoner:
         return quantum_like_state / np.linalg.norm(quantum_like_state)
 
     async def _apply_quantum_inspired_gates(
-        self, state: np.ndarray, gates: List[str]
+        self, state: np.ndarray, gates: list[str]
     ) -> np.ndarray:
         """Apply sequence of quantum gates to enhance the state"""
         enhanced_state = state.copy()
@@ -746,10 +755,10 @@ class BioQuantumSymbolicReasoner:
             entropy = -np.sum(state_amplitudes * np.log2(state_amplitudes + 1e-10))
             max_entropy = np.log2(len(state))
             return entropy / max_entropy
-        except:
+        except BaseException:
             return 0.0
 
-    def _calculate_multi_brain_coherence(self, brain_states: List[np.ndarray]) -> float:
+    def _calculate_multi_brain_coherence(self, brain_states: list[np.ndarray]) -> float:
         """Calculate coherence across multiple brain states"""
         if len(brain_states) < 2:
             return 0.0
@@ -765,10 +774,10 @@ class BioQuantumSymbolicReasoner:
 
     def _synthesize_coherent_solution(
         self,
-        entangled_states: List[np.ndarray],
-        quantum_superposition: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        entangled_states: list[np.ndarray],
+        quantum_superposition: dict[str, Any],
+        context: dict[str, Any],
+    ) -> dict[str, Any]:
         """Synthesize final coherent solution from entangled brain states"""
 
         # Combine entangled states through probabilistic observation
@@ -820,8 +829,8 @@ class BioQuantumSymbolicReasoner:
         return f"{conclusion} (confidence: {confidence:.3f})"
 
     def _extract_supporting_evidence(
-        self, entangled_states: List[np.ndarray]
-    ) -> List[str]:
+        self, entangled_states: list[np.ndarray]
+    ) -> list[str]:
         """Extract supporting evidence from brain state analysis"""
         evidence = []
 
@@ -839,7 +848,7 @@ class BioQuantumSymbolicReasoner:
 
         return evidence
 
-    def _generate_alternative_hypotheses(self, combined_state: np.ndarray) -> List[str]:
+    def _generate_alternative_hypotheses(self, combined_state: np.ndarray) -> list[str]:
         """Generate alternative hypotheses from quantum-like state analysis"""
         hypotheses = []
 
@@ -859,8 +868,8 @@ class BioQuantumSymbolicReasoner:
         return hypotheses
 
     async def _symbolic_coherence_fallback(
-        self, quantum_superposition: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, quantum_superposition: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Fallback symbolic reasoning when quantum-inspired processing fails"""
         logger.info("🔄 Using symbolic coherence fallback")
 
@@ -872,7 +881,7 @@ class BioQuantumSymbolicReasoner:
             "superposition_data": str(quantum_superposition),
         }
 
-    async def _calculate_reasoning_confidence(self, solution: Dict[str, Any]) -> float:
+    async def _calculate_reasoning_confidence(self, solution: dict[str, Any]) -> float:
         """Calculate confidence in the reasoning solution"""
         try:
             if "quantum_coherence_score" in solution:
@@ -885,7 +894,7 @@ class BioQuantumSymbolicReasoner:
                     [k for k, v in solution.items() if v is not None]
                 ) / len(solution)
                 return completeness
-        except:
+        except BaseException:
             return 0.5  # Moderate confidence default
 
 
@@ -899,8 +908,8 @@ class OscillationSynchronizer:
         self.master_frequency = 1.0  # Hz
 
     async def achieve_coherence(
-        self, brain_symphony: BrainSymphony, integrated_results: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, brain_symphony: BrainSymphony, integrated_results: dict[str, Any]
+    ) -> dict[str, Any]:
         """Achieve coherence across all brain oscillations"""
 
         logger.info("🌊 Synchronizing brain oscillations for coherence")
@@ -926,7 +935,7 @@ class OscillationSynchronizer:
 
     async def _calculate_phase_relationships(
         self, brain_symphony: BrainSymphony
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Calculate phase relationships between brain oscillations"""
         brain_frequencies = {
             "dreams": brain_symphony.config.dreams_frequency,
@@ -945,8 +954,8 @@ class OscillationSynchronizer:
         return phase_relationships
 
     async def _apply_synchronization(
-        self, results: Dict[str, Any], phase_relationships: Dict[str, float]
-    ) -> Dict[str, Any]:
+        self, results: dict[str, Any], phase_relationships: dict[str, float]
+    ) -> dict[str, Any]:
         """Apply synchronization corrections to results"""
 
         synchronized_results = results.copy()

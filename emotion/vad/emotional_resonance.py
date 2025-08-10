@@ -36,7 +36,7 @@ import matplotlib.pyplot as plt
 
 # Try importing related modules that might exist in the codebase
 try:
-    from memory_folds import create_memory_fold, recall_by_emotion
+    from memory_folds import create_memory_fold
 except ImportError:
     print(
         "Warning: lukhas_memory_folds module not found, memory integration will be limited"
@@ -53,7 +53,7 @@ except ImportError:
     )
 
 try:
-    from symbolic_world import SymbolicWorld
+    pass
 
     SYMBOLIC_WORLD_AVAILABLE = True
 except ImportError:
@@ -460,7 +460,8 @@ class EmotionalResonance:
                     self.emotional_state_symbol_name, main_emotion_properties
                 )
 
-            # Link the event to relevant context tags if they exist in the symbolic world
+            # Link the event to relevant context tags if they exist in the symbolic
+            # world
             for tag in context_tags:
                 tag_symbol_name = tag.lower().replace(" ", "_").replace("-", "_")
                 if tag_symbol_name in self.symbolic_world.symbols:
@@ -542,7 +543,9 @@ class EmotionalResonance:
 
         # Filter history for the given time window
         relevant_history = [
-            entry for entry in self.emotional_history if entry["timestamp"] >= time_delta
+            entry
+            for entry in self.emotional_history
+            if entry["timestamp"] >= time_delta
         ]
 
         if not relevant_history:
@@ -554,13 +557,13 @@ class EmotionalResonance:
                 "valence_trend": "unknown",
                 "arousal_trend": "unknown",
                 "average_valence": 0.5,
-                "average_arousal": 0.5
+                "average_arousal": 0.5,
             }
 
         # Calculate stability
         state_changes = 0
         for i in range(1, len(relevant_history)):
-            if relevant_history[i]["state"] != relevant_history[i-1]["state"]:
+            if relevant_history[i]["state"] != relevant_history[i - 1]["state"]:
                 state_changes += 1
 
         stability = "stable"
@@ -575,7 +578,9 @@ class EmotionalResonance:
             state = entry["state"]
             state_counts[state] = state_counts.get(state, 0) + 1
 
-        dominant_state = max(state_counts, key=state_counts.get) if state_counts else "unknown"
+        dominant_state = (
+            max(state_counts, key=state_counts.get) if state_counts else "unknown"
+        )
         total = sum(state_counts.values())
 
         valence_values = [entry.get("valence", 0.5) for entry in relevant_history]
@@ -670,7 +675,7 @@ class EmotionalResonance:
         # Create valence-arousal visualization
         valence_normalized = (self.valence + 1) / 2  # Convert from -1..1 to 0..1
         valence_bar_length = 10
-        valence_midpoint = valence_bar_length // 2
+        valence_bar_length // 2
         valence_position = int(valence_normalized * valence_bar_length)
 
         valence_bar = "░" * valence_bar_length
@@ -739,7 +744,8 @@ Last Updated: {self.last_update.strftime('%H:%M:%S')}
                 # Get last 10 states or all if less than 10
                 history = self.emotional_history[-10:]
 
-                # Extract valence and arousal, converting valence from 0..1 to -1..1 if needed
+                # Extract valence and arousal, converting valence from 0..1 to -1..1 if
+                # needed
                 valences = []
                 arousals = []
 

@@ -14,7 +14,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class RewardType(Enum):
@@ -52,7 +52,7 @@ class Reward:
     value: float = 0.0
     description: str = ""
     expires_at: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.now)
     redeemed: bool = False
     redeemed_at: Optional[datetime] = None
@@ -67,10 +67,10 @@ class UserRewardProfile:
     lifetime_earnings: float = 0.0
     current_level: int = 1
     experience_points: int = 0
-    achievements: List[str] = field(default_factory=list)
-    reward_history: List[Reward] = field(default_factory=list)
-    pending_rewards: List[Reward] = field(default_factory=list)
-    preferences: Dict[str, Any] = field(default_factory=dict)
+    achievements: list[str] = field(default_factory=list)
+    reward_history: list[Reward] = field(default_factory=list)
+    pending_rewards: list[Reward] = field(default_factory=list)
+    preferences: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.now)
     last_activity: datetime = field(default_factory=datetime.now)
 
@@ -83,13 +83,13 @@ class RewardEngine:
     for engaging with dreams, turning advertising into value exchange.
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or self._default_config()
-        self.user_profiles: Dict[str, UserRewardProfile] = {}
+        self.user_profiles: dict[str, UserRewardProfile] = {}
         self.reward_catalog = self._initialize_reward_catalog()
         self.achievement_system = self._initialize_achievements()
 
-    def _default_config(self) -> Dict:
+    def _default_config(self) -> dict:
         """Default reward system configuration"""
         return {
             "base_rewards": {
@@ -126,7 +126,7 @@ class RewardEngine:
             ],
         }
 
-    def _initialize_reward_catalog(self) -> Dict[str, Dict]:
+    def _initialize_reward_catalog(self) -> dict[str, dict]:
         """Initialize the catalog of available rewards"""
         return {
             "monthly_ad_free": {
@@ -173,7 +173,7 @@ class RewardEngine:
             },
         }
 
-    def _initialize_achievements(self) -> Dict[str, Dict]:
+    def _initialize_achievements(self) -> dict[str, dict]:
         """Initialize achievement system"""
         return {
             "first_dream": {
@@ -225,7 +225,7 @@ class RewardEngine:
         user_id: str,
         dream_id: str,
         engagement_level: EngagementLevel,
-        engagement_data: Dict[str, Any],
+        engagement_data: dict[str, Any],
     ) -> Reward:
         """
         Process user engagement with a dream and award appropriate rewards
@@ -364,7 +364,6 @@ class RewardEngine:
                 break
 
         if new_level > profile.current_level:
-            old_level = profile.current_level
             profile.current_level = new_level
 
             # Award level up bonus
@@ -384,7 +383,7 @@ class RewardEngine:
         self,
         profile: UserRewardProfile,
         engagement_level: EngagementLevel,
-        engagement_data: Dict[str, Any],
+        engagement_data: dict[str, Any],
     ):
         """Check and award achievements"""
 
@@ -411,11 +410,11 @@ class RewardEngine:
                 self._award_achievement(profile, "deep_dreamer")
 
         # Dream collector achievement
-        unique_dreams = set(
+        unique_dreams = {
             r.metadata.get("dream_id")
             for r in profile.reward_history
             if r.metadata.get("dream_id")
-        )
+        }
         if len(unique_dreams) >= 100 and "dream_collector" not in profile.achievements:
             self._award_achievement(profile, "dream_collector")
 
@@ -436,7 +435,7 @@ class RewardEngine:
             profile.pending_rewards.append(reward)
             profile.total_credits += reward.value
 
-    def get_user_rewards_summary(self, user_id: str) -> Dict[str, Any]:
+    def get_user_rewards_summary(self, user_id: str) -> dict[str, Any]:
         """Get summary of user's rewards and status"""
         profile = self._get_or_create_profile(user_id)
 

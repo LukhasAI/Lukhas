@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -54,7 +56,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from hashlib import sha256
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 # Configure structured logging
 
@@ -105,7 +107,7 @@ class QuarantineEntry:
     """Entry in the ΛSANCTUM quarantine system."""
 
     entry_id: str
-    original_content: Dict[str, Any]
+    original_content: dict[str, Any]
     quarantine_timestamp: str
     quarantine_reason: str
     threat_level: ThreatLevel
@@ -114,14 +116,14 @@ class QuarantineEntry:
     isolation_vault_path: str
 
     # Metadata
-    symbol_ids: List[str] = field(default_factory=list)
-    memory_ids: List[str] = field(default_factory=list)
-    lambda_tags: List[str] = field(default_factory=list)
+    symbol_ids: list[str] = field(default_factory=list)
+    memory_ids: list[str] = field(default_factory=list)
+    lambda_tags: list[str] = field(default_factory=list)
     entropy_score: float = 0.0
-    contamination_vectors: List[str] = field(default_factory=list)
+    contamination_vectors: list[str] = field(default_factory=list)
 
     # Repair tracking
-    repair_attempts: List[Dict[str, Any]] = field(default_factory=list)
+    repair_attempts: list[dict[str, Any]] = field(default_factory=list)
     last_repair_timestamp: Optional[str] = None
     repair_success_rate: float = 0.0
 
@@ -131,9 +133,9 @@ class QuarantineEntry:
     viability_last_checked: Optional[str] = None
 
     # Audit trail
-    audit_log: List[Dict[str, Any]] = field(default_factory=list)
+    audit_log: list[dict[str, Any]] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             **asdict(self),
@@ -144,7 +146,7 @@ class QuarantineEntry:
             ),
         }
 
-    def add_audit_entry(self, action: str, details: Dict[str, Any] = None):
+    def add_audit_entry(self, action: str, details: dict[str, Any] = None):
         """Add entry to audit log."""
         self.audit_log.append(
             {
@@ -163,14 +165,14 @@ class RepairProtocol:
     protocol_type: RepairProtocolType
     target_entry_id: str
     execution_timestamp: str
-    parameters: Dict[str, Any]
+    parameters: dict[str, Any]
     success: bool = False
     confidence: float = 0.0
-    execution_log: List[str] = field(default_factory=list)
-    before_state: Optional[Dict[str, Any]] = None
-    after_state: Optional[Dict[str, Any]] = None
+    execution_log: list[str] = field(default_factory=list)
+    before_state: Optional[dict[str, Any]] = None
+    after_state: Optional[dict[str, Any]] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             **asdict(self),
@@ -191,17 +193,17 @@ class SanctumManifest:
     permanent_locks: int = 0
 
     # Statistics by source system
-    quarantines_by_source: Dict[str, int] = field(
+    quarantines_by_source: dict[str, int] = field(
         default_factory=lambda: defaultdict(int)
     )
-    threat_level_distribution: Dict[str, int] = field(
+    threat_level_distribution: dict[str, int] = field(
         default_factory=lambda: defaultdict(int)
     )
-    repair_protocol_stats: Dict[str, Dict[str, int]] = field(
+    repair_protocol_stats: dict[str, dict[str, int]] = field(
         default_factory=lambda: defaultdict(lambda: defaultdict(int))
     )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return asdict(self)
 
@@ -240,8 +242,8 @@ class SymbolicQuarantineSanctum:
         self.manifest_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Quarantine storage
-        self.quarantine_entries: Dict[str, QuarantineEntry] = {}
-        self.repair_protocols: Dict[str, RepairProtocol] = {}
+        self.quarantine_entries: dict[str, QuarantineEntry] = {}
+        self.repair_protocols: dict[str, RepairProtocol] = {}
 
         # Safety thresholds
         self.safety_thresholds = {
@@ -281,11 +283,11 @@ class SymbolicQuarantineSanctum:
     async def quarantine_entry(
         self,
         entry_id: str,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         reason: str,
         source_system: str = "MANUAL",
         threat_level: ThreatLevel = ThreatLevel.MEDIUM,
-        metadata: Dict[str, Any] = None,
+        metadata: dict[str, Any] = None,
     ) -> bool:
         """
         Quarantine a contaminated memory entry.
@@ -399,7 +401,7 @@ class SymbolicQuarantineSanctum:
         self,
         entry_id: str,
         protocol_type: RepairProtocolType = RepairProtocolType.ENTROPY_COOLING,
-        parameters: Dict[str, Any] = None,
+        parameters: dict[str, Any] = None,
     ) -> bool:
         """
         Apply repair protocol to quarantined entry.
@@ -738,7 +740,7 @@ class SymbolicQuarantineSanctum:
             await self._cleanup_isolation_vault(entry.isolation_vault_path)
 
             # Remove from active quarantine
-            released_entry = self.quarantine_entries.pop(entry_id)
+            self.quarantine_entries.pop(entry_id)
 
             # Update statistics
             self.stats["restorations_performed"] += 1
@@ -789,7 +791,7 @@ class SymbolicQuarantineSanctum:
         entry_id: str,
         action: str,
         justification: str,
-        metadata: Dict[str, Any] = None,
+        metadata: dict[str, Any] = None,
     ):
         """
         Log structured ΛTAG audit metadata to sanctum manifest.
@@ -834,7 +836,7 @@ class SymbolicQuarantineSanctum:
                 ΛTAG="ΛAUDIT_FAILURE",
             )
 
-    def get_quarantine_status(self, entry_id: str) -> Optional[Dict[str, Any]]:
+    def get_quarantine_status(self, entry_id: str) -> Optional[dict[str, Any]]:
         """Get status of quarantined entry."""
         if entry_id not in self.quarantine_entries:
             return None
@@ -853,7 +855,7 @@ class SymbolicQuarantineSanctum:
             "contamination_vectors": entry.contamination_vectors,
         }
 
-    def get_sanctum_report(self) -> Dict[str, Any]:
+    def get_sanctum_report(self) -> dict[str, Any]:
         """Generate comprehensive sanctum status report."""
         # Calculate statistics by status
         status_distribution = defaultdict(int)
@@ -909,9 +911,9 @@ class SymbolicQuarantineSanctum:
 
     async def scan_for_contamination(
         self,
-        memory_entries: List[Dict[str, Any]],
+        memory_entries: list[dict[str, Any]],
         auto_quarantine: bool = False,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Scan memory entries for contamination patterns.
 
@@ -1021,7 +1023,7 @@ class SymbolicQuarantineSanctum:
     # Private implementation methods
 
     async def _create_isolation_vault(
-        self, entry_id: str, content: Dict[str, Any]
+        self, entry_id: str, content: dict[str, Any]
     ) -> Path:
         """Create secure isolation vault for quarantined entry."""
         vault_path = self.sanctum_directory / f"{entry_id}.vault"
@@ -1059,8 +1061,8 @@ class SymbolicQuarantineSanctum:
         self,
         entry: QuarantineEntry,
         protocol_type: RepairProtocolType,
-        parameters: Dict[str, Any],
-    ) -> Tuple[bool, Dict[str, Any], float]:
+        parameters: dict[str, Any],
+    ) -> tuple[bool, dict[str, Any], float]:
         """Execute specific repair protocol."""
 
         if protocol_type == RepairProtocolType.SYMBOLIC_SUBSTITUTION:
@@ -1077,24 +1079,13 @@ class SymbolicQuarantineSanctum:
             return False, entry.original_content, 0.0
 
     async def _repair_symbolic_substitution(
-        self, entry: QuarantineEntry, parameters: Dict[str, Any]
-    ) -> Tuple[bool, Dict[str, Any], float]:
+        self, entry: QuarantineEntry, parameters: dict[str, Any]
+    ) -> tuple[bool, dict[str, Any], float]:
         """Replace dangerous symbols with semantically neutral variants."""
         content = entry.original_content.copy()
         confidence = 0.7
 
         # Identify dangerous symbols
-        dangerous_patterns = [
-            "violation",
-            "error",
-            "failure",
-            "corrupt",
-            "toxic",
-            "cascade",
-            "collapse",
-            "unstable",
-            "chaotic",
-        ]
 
         substitutions = {
             "violation": "deviation",
@@ -1127,8 +1118,8 @@ class SymbolicQuarantineSanctum:
         return substitution_count > 0, content, confidence
 
     async def _repair_entropy_cooling(
-        self, entry: QuarantineEntry, parameters: Dict[str, Any]
-    ) -> Tuple[bool, Dict[str, Any], float]:
+        self, entry: QuarantineEntry, parameters: dict[str, Any]
+    ) -> tuple[bool, dict[str, Any], float]:
         """Reduce chaotic symbolic states through controlled dampening."""
         content = entry.original_content.copy()
         cooling_factor = parameters.get("cooling_factor", 0.8)
@@ -1161,8 +1152,8 @@ class SymbolicQuarantineSanctum:
         return entropy_reduction > 0.1, cooled_content, confidence
 
     async def _repair_context_anchoring(
-        self, entry: QuarantineEntry, parameters: Dict[str, Any]
-    ) -> Tuple[bool, Dict[str, Any], float]:
+        self, entry: QuarantineEntry, parameters: dict[str, Any]
+    ) -> tuple[bool, dict[str, Any], float]:
         """Establish stable referential frameworks for unstable memories."""
         content = entry.original_content.copy()
 
@@ -1186,8 +1177,8 @@ class SymbolicQuarantineSanctum:
         return True, content, 0.8
 
     async def _repair_integrity_validation(
-        self, entry: QuarantineEntry, parameters: Dict[str, Any]
-    ) -> Tuple[bool, Dict[str, Any], float]:
+        self, entry: QuarantineEntry, parameters: dict[str, Any]
+    ) -> tuple[bool, dict[str, Any], float]:
         """Verify repairs maintain semantic coherence."""
         content = entry.original_content.copy()
 
@@ -1214,8 +1205,8 @@ class SymbolicQuarantineSanctum:
         return success, content, confidence
 
     async def _repair_gradual_restoration(
-        self, entry: QuarantineEntry, parameters: Dict[str, Any]
-    ) -> Tuple[bool, Dict[str, Any], float]:
+        self, entry: QuarantineEntry, parameters: dict[str, Any]
+    ) -> tuple[bool, dict[str, Any], float]:
         """Phase-controlled release with monitoring."""
         content = entry.original_content.copy()
 
@@ -1263,7 +1254,7 @@ class SymbolicQuarantineSanctum:
 
                 # Verify hash if available
                 if "content_hash" in vault_data:
-                    current_hash = sha256(
+                    sha256(
                         json.dumps(entry.original_content, sort_keys=True).encode()
                     ).hexdigest()
 
@@ -1339,7 +1330,7 @@ class SymbolicQuarantineSanctum:
                 ΛTAG="ΛVAULT_RECOVERY",
             )
 
-    def _extract_symbol_ids(self, content: Dict[str, Any]) -> List[str]:
+    def _extract_symbol_ids(self, content: dict[str, Any]) -> list[str]:
         """Extract symbol IDs from content."""
         symbol_ids = []
 
@@ -1354,7 +1345,7 @@ class SymbolicQuarantineSanctum:
 
         return list(set(symbol_ids))
 
-    def _extract_memory_ids(self, content: Dict[str, Any]) -> List[str]:
+    def _extract_memory_ids(self, content: dict[str, Any]) -> list[str]:
         """Extract memory IDs from content."""
         memory_ids = []
 
@@ -1369,7 +1360,7 @@ class SymbolicQuarantineSanctum:
 
         return list(set(memory_ids))
 
-    def _extract_lambda_tags(self, content: Dict[str, Any]) -> List[str]:
+    def _extract_lambda_tags(self, content: dict[str, Any]) -> list[str]:
         """Extract ΛTAG metadata from content."""
         tags = []
 
@@ -1387,7 +1378,7 @@ class SymbolicQuarantineSanctum:
 
         return list(set(tags))
 
-    def _calculate_entropy_score(self, content: Dict[str, Any]) -> float:
+    def _calculate_entropy_score(self, content: dict[str, Any]) -> float:
         """Calculate entropy score for content."""
         if "entropy" in content:
             try:
@@ -1426,8 +1417,8 @@ class SymbolicQuarantineSanctum:
         return min(entropy, 1.0)
 
     def _identify_contamination_vectors(
-        self, content: Dict[str, Any], metadata: Dict[str, Any]
-    ) -> List[str]:
+        self, content: dict[str, Any], metadata: dict[str, Any]
+    ) -> list[str]:
         """Identify contamination vectors in content."""
         vectors = []
 
@@ -1452,7 +1443,7 @@ class SymbolicQuarantineSanctum:
 
         return vectors
 
-    def _has_violation_history(self, entry: Dict[str, Any]) -> bool:
+    def _has_violation_history(self, entry: dict[str, Any]) -> bool:
         """Check if entry has ΛVIOLATION history."""
         content_str = json.dumps(entry).lower()
 
@@ -1466,7 +1457,7 @@ class SymbolicQuarantineSanctum:
 
         return any(indicator in content_str for indicator in violation_indicators)
 
-    def _calculate_contradiction_metrics(self, entry: Dict[str, Any]) -> float:
+    def _calculate_contradiction_metrics(self, entry: dict[str, Any]) -> float:
         """Calculate contradiction level in entry."""
         content_str = json.dumps(entry).lower()
 
@@ -1486,7 +1477,7 @@ class SymbolicQuarantineSanctum:
 
         return min(contradiction_count * 0.2, 1.0)
 
-    def _calculate_emotional_volatility(self, entry: Dict[str, Any]) -> float:
+    def _calculate_emotional_volatility(self, entry: dict[str, Any]) -> float:
         """Calculate emotional volatility level."""
         if "emotional_weight" in entry:
             try:
@@ -1515,7 +1506,7 @@ class SymbolicQuarantineSanctum:
 
         return min(volatility, 1.0)
 
-    def _calculate_drift_patterns(self, entry: Dict[str, Any]) -> float:
+    def _calculate_drift_patterns(self, entry: dict[str, Any]) -> float:
         """Calculate drift pattern risk."""
         if "drift_score" in entry:
             try:
@@ -1567,7 +1558,7 @@ class SymbolicQuarantineSanctum:
             else:
                 minutes = duration.seconds // 60
                 return f"{minutes} minutes"
-        except:
+        except BaseException:
             return "unknown"
 
 

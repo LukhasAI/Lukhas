@@ -4,6 +4,7 @@ Original: lukhasdream_cli.py
 Advanced: lukhasdream_cli.py
 Integration Date: 2025-05-31T07:55:30.783257
 """
+import logging
 
 # ╭──────────────────────────────────────────────────────────────────────────────╮
 # │                         LUCΛS :: SYMBOLIC DREAM CLI                          │

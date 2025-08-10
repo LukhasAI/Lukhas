@@ -10,7 +10,8 @@
 # ΛTASK_ID: 171-176
 # ΛCOMMIT_WINDOW: pre-audit
 # ΛAPPROVED_BY: Human Overseer (GRDM)
-# ΛUDIT: Standardized header/footer, added comments, normalized logger, applied ΛTAGs. Corrected class name.
+# ΛUDIT: Standardized header/footer, added comments, normalized logger,
+# applied ΛTAGs. Corrected class name.
 
 #!/usr/bin/env python3
 """
@@ -26,7 +27,7 @@ import os
 from collections import defaultdict
 from datetime import datetime  # Use datetime directly
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple  # Added Any, Optional
+from typing import Any, Optional  # Added Any, Optional
 
 # ΛTRACE: Initialize logger for learning phase (or recovery tool context)
 
@@ -46,12 +47,13 @@ class MetaLearningRecovery:
         self.workspace_root = Path(
             os.getcwd()
         )  # Changed to current working directory for portability within repo
-        self.recovery_log: List[Dict[str, Any]] = []  # Type hint
+        self.recovery_log: list[dict[str, Any]] = []  # Type hint
 
         # ΛNOTE: Source path for recovery.
         # ΛCAUTION: This path is absolute and system-specific.
         self.meta_learning_source = "/Users/A_G_I/Archive/old_git_repos/Library/Mobile Documents/com~apple~CloudDocs/LUKHAS_BACKUP_20250530/LUKHAS/CORE/Adaptative_AGI/Meta_Learning"
-        # ΛSEED: Target mapping defines where recovered components are placed, seeding the new structure.
+        # ΛSEED: Target mapping defines where recovered components are placed,
+        # seeding the new structure.
         self.target_mapping = {
             "meta_learning": "core/meta_learning",
             "adaptive_agi": "core/adaptive_agi",
@@ -69,14 +71,14 @@ class MetaLearningRecovery:
 
     # # Explore the Meta Learning backup directory structure
     # ΛEXPOSE: Method to scan and categorize files in the backup source.
-    def explore_meta_learning_directory(self) -> Dict[str, Any]:  # Type hint for return
+    def explore_meta_learning_directory(self) -> dict[str, Any]:  # Type hint for return
         """Explore the Meta Learning directory structure"""
         # ΛTRACE: Exploring meta-learning directory
         logger.info(
             "explore_meta_learning_directory_start",
             source_path=self.meta_learning_source,
         )
-        exploration_result: Dict[str, Any] = {  # Type hint
+        exploration_result: dict[str, Any] = {  # Type hint
             "source_path": self.meta_learning_source,
             "exists": False,
             "total_files": 0,
@@ -93,12 +95,14 @@ class MetaLearningRecovery:
             logger.error(
                 "meta_learning_source_not_found", path=self.meta_learning_source
             )
-            # print(f"❌ Meta Learning source not found: {self.meta_learning_source}") # Replaced with logger
+            # print(f"❌ Meta Learning source not found: {self.meta_learning_source}")
+            # # Replaced with logger
             return exploration_result
 
         exploration_result["exists"] = True
         logger.info("exploring_meta_learning_directory", path=self.meta_learning_source)
-        # print(f"🔍 Exploring Meta Learning directory: {self.meta_learning_source}") # Replaced
+        # print(f"🔍 Exploring Meta Learning directory:
+        # {self.meta_learning_source}") # Replaced
 
         try:
             for root, dirs, files in os.walk(self.meta_learning_source):
@@ -152,7 +156,7 @@ class MetaLearningRecovery:
     # # Convert filename and content to LUKHAS format
     def convert_to_lukhas_format(
         self, filename: str, content: Optional[str] = None
-    ) -> Tuple[str, Optional[str]]:  # Added Optional, type hint
+    ) -> tuple[str, Optional[str]]:  # Added Optional, type hint
         """Convert filename and content to lukhas format"""
         # ΛNOTE: Renames files and potentially class names within content to 'lukhas' prefix and PascalCase.
         # ΛCAUTION: String replacement for class names can be brittle. AST modification would be safer.
@@ -263,13 +267,13 @@ class MetaLearningRecovery:
     # # Recover all Meta Learning components based on exploration results
     # ΛEXPOSE: Main method to perform the recovery of components.
     def recover_meta_learning_components(
-        self, exploration_result: Dict[str, Any]
-    ) -> Dict[str, Any]:  # Type hints
+        self, exploration_result: dict[str, Any]
+    ) -> dict[str, Any]:  # Type hints
         """Recover all Meta Learning components"""
         # ΛDREAM_LOOP: If this recovery process learns or adapts over time (e.g., improving categorization), it's a learning loop.
         # ΛTRACE: Recovering meta-learning components
         logger.info("recover_meta_learning_components_start")
-        recovery_result: Dict[str, Any] = {  # Type hint
+        recovery_result: dict[str, Any] = {  # Type hint
             "timestamp": datetime.now().isoformat(),
             "source_directory": self.meta_learning_source,
             "components_processed": 0,
@@ -366,7 +370,7 @@ class MetaLearningRecovery:
 
     # # Execute complete Meta Learning recovery operation
     # ΛEXPOSE: Main entry point to run the entire recovery process.
-    def execute_recovery(self) -> Dict[str, Any]:  # Type hint
+    def execute_recovery(self) -> dict[str, Any]:  # Type hint
         """Execute complete Meta Learning recovery operation"""
         # ΛTRACE: Executing full recovery
         logger.info("execute_full_recovery_start")
@@ -390,7 +394,8 @@ class MetaLearningRecovery:
         timestamp_str = datetime.now().strftime(
             "%Y%m%d_%H%M%S"
         )  # Renamed timestamp to timestamp_str
-        report_filename = f"lukhasMetaLearning_Recovery_Report_{timestamp_str}.json"  # Renamed report_file
+        # Renamed report_file
+        report_filename = f"lukhasMetaLearning_Recovery_Report_{timestamp_str}.json"
         report_path = self.workspace_root / report_filename  # Use Path object
 
         complete_report = {
@@ -422,7 +427,7 @@ class MetaLearningRecovery:
         )
 
         if recovery_result.get("files_recovered"):  # Use .get
-            target_counts: Dict[str, int] = defaultdict(int)  # Use defaultdict
+            target_counts: dict[str, int] = defaultdict(int)  # Use defaultdict
             for file_info in recovery_result["files_recovered"]:
                 target_counts[file_info["target_category"]] += 1
             logger.info(

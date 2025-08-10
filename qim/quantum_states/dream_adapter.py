@@ -43,7 +43,7 @@ import asyncio
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from bio.symbolic import BioSymbolicOrchestrator as BioOrchestrator
 from quantum.layer import QuantumBioOscillator
@@ -201,12 +201,12 @@ class QuantumDreamAdapter:
         except Exception as e:
             logger.error(f"Error processing quantum dreams: {e}")
 
-    async def _memories_to_qubits(self, quantum_like_state: Dict) -> Any:
+    async def _memories_to_qubits(self, quantum_like_state: dict) -> Any:
         """Convert memory content to quantum representation"""
         # Implementation depends on QuantumBioOscillator's qubit encoding scheme
         return await self.dream_oscillator.encode_memory(quantum_like_state)
 
-    async def _extract_insights(self, quantum_like_state: Any) -> List[Dict]:
+    async def _extract_insights(self, quantum_like_state: Any) -> list[dict]:
         """Extract insights from quantum-like state"""
         insights = []
         try:
@@ -235,15 +235,15 @@ class QuantumDreamAdapter:
 
         return insights
 
-    async def get_quantum_like_state(self) -> Dict:
+    async def get_quantum_like_state(self) -> dict:
         """Get the current quantum-like state"""
         if hasattr(self, "_last_processed_state"):
             return self._last_processed_state
         return {"coherence": 0.0, "insights": [], "timestamp": None}
 
     async def enhance_emotional_state(
-        self, emotional_context: Dict[str, float]
-    ) -> Dict[str, float]:
+        self, emotional_context: dict[str, float]
+    ) -> dict[str, float]:
         """Enhance emotional state using quantum-inspired processing
 
         Args:
@@ -282,7 +282,7 @@ class QuantumDreamAdapter:
             logger.error(f"Error enhancing emotional state: {e}")
             return emotional_context
 
-    async def process_memories(self, memories: List[Dict]) -> Dict:
+    async def process_memories(self, memories: list[dict]) -> dict:
         """Process memories through quantum layer
 
         Args:

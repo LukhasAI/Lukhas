@@ -34,7 +34,7 @@ from collections import defaultdict
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .fold_lineage_tracker import (
     CausationType,
@@ -66,11 +66,11 @@ class CausalOriginData:
     identity_anchor_id: Optional[str]
     symbolic_lock_hash: Optional[str]
     temporal_link: str
-    emotional_context_delta: Dict[str, float]
+    emotional_context_delta: dict[str, float]
     intent_tag: str
     stability_score: float
-    trauma_markers: List[str]
-    recovery_links: List[str]
+    trauma_markers: list[str]
+    recovery_links: list[str]
 
 
 @dataclass
@@ -81,11 +81,11 @@ class IdentityAnchor:
     anchor_type: IdentityLinkType
     creation_timestamp: str
     stability_score: float
-    emotional_resonance: Dict[str, float]
+    emotional_resonance: dict[str, float]
     symbolic_signature: str
     protection_level: int  # 1-5, 5 being most protected
-    associated_memories: List[str]
-    validation_history: List[str]
+    associated_memories: list[str]
+    validation_history: list[str]
 
 
 @dataclass
@@ -96,8 +96,8 @@ class EventChainValidation:
     chain_hash: str
     validation_timestamp: str
     integrity_score: float
-    broken_links: List[str]
-    repair_suggestions: List[str]
+    broken_links: list[str]
+    repair_suggestions: list[str]
     validation_status: str
 
 
@@ -115,10 +115,10 @@ class CausalIdentityTracker:
     def __init__(self, lineage_tracker: Optional[FoldLineageTracker] = None):
         """Initialize the causal identity tracker."""
         self.lineage_tracker = lineage_tracker or FoldLineageTracker()
-        self.identity_anchors: Dict[str, IdentityAnchor] = {}
-        self.causal_origins: Dict[str, CausalOriginData] = {}
-        self.event_chains: Dict[str, List[str]] = defaultdict(list)
-        self.chain_validations: Dict[str, EventChainValidation] = {}
+        self.identity_anchors: dict[str, IdentityAnchor] = {}
+        self.causal_origins: dict[str, CausalOriginData] = {}
+        self.event_chains: dict[str, list[str]] = defaultdict(list)
+        self.chain_validations: dict[str, EventChainValidation] = {}
 
         # Storage paths
         self.identity_anchor_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/identity/identity_anchors.jsonl"
@@ -140,7 +140,7 @@ class CausalIdentityTracker:
         emotional_anchor_id: Optional[str] = None,
         identity_anchor_id: Optional[str] = None,
         intent_tag: str = "unknown",
-        emotional_context: Optional[Dict[str, float]] = None,
+        emotional_context: Optional[dict[str, float]] = None,
         symbolic_lock_hash: Optional[str] = None,
     ) -> str:
         """
@@ -229,10 +229,10 @@ class CausalIdentityTracker:
     def create_identity_anchor(
         self,
         anchor_type: IdentityLinkType,
-        emotional_resonance: Dict[str, float],
+        emotional_resonance: dict[str, float],
         symbolic_signature: str,
         protection_level: int = 3,
-        associated_memories: Optional[List[str]] = None,
+        associated_memories: Optional[list[str]] = None,
     ) -> str:
         """
         Create a new identity anchor for stabilization.
@@ -397,7 +397,7 @@ class CausalIdentityTracker:
 
         return validation
 
-    def detect_trauma_markers(self, fold_key: str) -> List[str]:
+    def detect_trauma_markers(self, fold_key: str) -> list[str]:
         """
         Detect trauma markers in memory folds that could destabilize identity.
 
@@ -466,7 +466,7 @@ class CausalIdentityTracker:
         source_fold_key: str,
         target_fold_key: str,
         recovery_strategy: str,
-        recovery_metadata: Optional[Dict[str, Any]] = None,
+        recovery_metadata: Optional[dict[str, Any]] = None,
     ) -> str:
         """
         Create a recovery link to help stabilize identity after trauma/collapse.
@@ -528,7 +528,7 @@ class CausalIdentityTracker:
 
         return recovery_link_id
 
-    def get_identity_stability_report(self, fold_key: str) -> Dict[str, Any]:
+    def get_identity_stability_report(self, fold_key: str) -> dict[str, Any]:
         """
         Generate a comprehensive identity stability report for a memory fold.
 
@@ -655,8 +655,8 @@ class CausalIdentityTracker:
         return datetime.now(timezone.utc).isoformat()
 
     def _calculate_emotional_delta(
-        self, emotional_context: Dict[str, float]
-    ) -> Dict[str, float]:
+        self, emotional_context: dict[str, float]
+    ) -> dict[str, float]:
         """Calculate emotional context delta from baseline."""
         baseline = {"valence": 0.0, "arousal": 0.0, "dominance": 0.0}
         return {
@@ -668,7 +668,7 @@ class CausalIdentityTracker:
         self,
         emotional_anchor_id: Optional[str],
         identity_anchor_id: Optional[str],
-        emotional_context: Dict[str, float],
+        emotional_context: dict[str, float],
     ) -> float:
         """Calculate stability score based on anchors and context."""
         score = 0.5  # Base stability
@@ -691,7 +691,7 @@ class CausalIdentityTracker:
         return max(0.0, min(1.0, score))
 
     def _calculate_anchor_stability(
-        self, emotional_resonance: Dict[str, float], protection_level: int
+        self, emotional_resonance: dict[str, float], protection_level: int
     ) -> float:
         """Calculate stability score for an identity anchor."""
         # Base stability from protection level

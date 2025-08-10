@@ -16,6 +16,7 @@
 ║ and aggregate pattern for AI agent state reconstruction.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from dataclasses import asdict
 
 import json
 import logging

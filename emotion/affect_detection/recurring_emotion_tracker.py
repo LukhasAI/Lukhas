@@ -18,20 +18,28 @@ from memory.emotional import EmotionalMemory
 
 log = logging.getLogger(__name__)
 
+
 class RecurringEmotionTracker:
     """
     Compares current affect vectors to historic mood states and
     triggers symbolic prompts on emotional echo or stagnation.
     """
 
-    def __init__(self, emotional_memory: EmotionalMemory, bio_oscillator: Optional[Any] = None, config: Optional[Dict[str, Any]] = None):
+    def __init__(
+        self,
+        emotional_memory: EmotionalMemory,
+        bio_oscillator: Optional[Any] = None,
+        config: Optional[Dict[str, Any]] = None,
+    ):
         self.emotional_memory = emotional_memory
         self.bio_oscillator = bio_oscillator
         self.config = config or {}
         self.history_window = self.config.get("history_window_days", 7)
         self.recurrence_threshold = self.config.get("recurrence_threshold", 3)
         self.similarity_threshold = self.config.get("similarity_threshold", 0.9)
-        self.stagnation_detector = AffectStagnationDetector(self.emotional_memory, config)
+        self.stagnation_detector = AffectStagnationDetector(
+            self.emotional_memory, config
+        )
         self.dream_snapshots = []
 
     def check_for_recurrence(self) -> Optional[Dict[str, Any]]:
@@ -50,18 +58,24 @@ class RecurringEmotionTracker:
             return stagnation_detected
 
         # If no stagnation, check for recurrence
-        emotional_history = self.emotional_memory.get_emotional_history(hours_ago=self.history_window * 24)
+        emotional_history = self.emotional_memory.get_emotional_history(
+            hours_ago=self.history_window * 24
+        )
         if not emotional_history:
             return None
 
-        current_emotion = self.emotional_memory.get_current_emotional_state()["current_emotion_vector"]
+        current_emotion = self.emotional_memory.get_current_emotional_state()[
+            "current_emotion_vector"
+        ]
         recurrence_detected = self._check_recurrence(current_emotion, emotional_history)
         if recurrence_detected:
             return recurrence_detected
 
         return None
 
-    def _check_recurrence(self, current_emotion: Dict[str, Any], emotional_history: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+    def _check_recurrence(
+        self, current_emotion: Dict[str, Any], emotional_history: List[Dict[str, Any]]
+    ) -> Optional[Dict[str, Any]]:
         """
         Checks for recurring emotional patterns.
         """
@@ -70,8 +84,13 @@ class RecurringEmotionTracker:
 
         for entry in emotional_history:
             history_vector = np.array(list(entry["emotion_vec"]["dimensions"].values()))
-            if np.linalg.norm(current_vector) > 0 and np.linalg.norm(history_vector) > 0:
-                similarity = np.dot(current_vector, history_vector) / (np.linalg.norm(current_vector) * np.linalg.norm(history_vector))
+            if (
+                np.linalg.norm(current_vector) > 0
+                and np.linalg.norm(history_vector) > 0
+            ):
+                similarity = np.dot(current_vector, history_vector) / (
+                    np.linalg.norm(current_vector) * np.linalg.norm(history_vector)
+                )
                 if similarity > self.similarity_threshold:
                     similar_emotions.append(entry)
 
@@ -86,7 +105,7 @@ class RecurringEmotionTracker:
                 "recurrence": True,
                 "symbol": "🔄",
                 "origin_dream": origin_dream,
-                "trigger": f"Recurring emotion detected: {primary_emotion} appeared {len(similar_emotions)} times recently."
+                "trigger": f"Recurring emotion detected: {primary_emotion} appeared {len(similar_emotions)} times recently.",
             }
         return None
 
@@ -100,7 +119,7 @@ class RecurringEmotionTracker:
         # as the emotion_entry and has a similar emotional context.
         return "Dream log search not yet implemented."
 
-    #LUKHAS_TAG: symbolic_affect_convergence
+    # LUKHAS_TAG: symbolic_affect_convergence
     def update_bio_oscillator(self):
         """
         Updates the BioOscillator with the current emotional state.
@@ -112,16 +131,17 @@ class RecurringEmotionTracker:
 
         # Map emotional state to oscillator parameters
         # This is a conceptual mapping and can be refined
-        frequency = 10 + (current_emotion_vector.arousal * 20) # Beta range for active processing
+        # Beta range for active processing
+        frequency = 10 + (current_emotion_vector.arousal * 20)
 
         if hasattr(self.bio_oscillator, "adjust_frequency"):
             self.bio_oscillator.adjust_frequency(frequency)
 
-    #LUKHAS_TAG: emotion_snapshot_link
+    # LUKHAS_TAG: emotion_snapshot_link
     def inject_dream_snapshot(self, dream_snapshot: Dict[str, Any]):
         """
         Injects a dream snapshot into the tracker.
         """
         self.dream_snapshots.append(dream_snapshot)
-        if len(self.dream_snapshots) > 50: # Keep a recent history of snapshots
+        if len(self.dream_snapshots) > 50:  # Keep a recent history of snapshots
             self.dream_snapshots.pop(0)

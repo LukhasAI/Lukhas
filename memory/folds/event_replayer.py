@@ -15,7 +15,6 @@ with ``ETHICAL`` for auditing purposes.
 from __future__ import annotations
 
 import json
-from typing import List, Optional
 
 from core.common import get_logger
 from core.event_sourcing import AIAgentAggregate, Event, EventStore
@@ -29,7 +28,7 @@ class EventReplayer:
     def __init__(self, event_store: EventStore):
         self.event_store = event_store
 
-    def _load_events(self, aggregate_id: Optional[str] = None) -> List[Event]:
+    def _load_events(self, aggregate_id: str | None = None) -> list[Event]:
         """Load events from the event store, optionally for one aggregate."""
         conn = self.event_store._get_connection()
         query = (
@@ -43,7 +42,7 @@ class EventReplayer:
         query += " ORDER BY timestamp"
 
         cursor = conn.execute(query, params)
-        events: List[Event] = []
+        events: list[Event] = []
         for row in cursor:
             events.append(
                 Event(
@@ -60,13 +59,13 @@ class EventReplayer:
         return events
 
     def filter_events_by_tag(
-        self, tag: str, aggregate_id: Optional[str] = None
-    ) -> List[Event]:
+        self, tag: str, aggregate_id: str | None = None
+    ) -> list[Event]:
         """Return all events that include the given symbolic tag."""
         events = self._load_events(aggregate_id)
         return [e for e in events if tag in e.metadata.get("tags", [])]
 
-    def replay_events(self, events: List[Event]) -> AIAgentAggregate:
+    def replay_events(self, events: list[Event]) -> AIAgentAggregate:
         """Replay a sequence of events and return the reconstructed aggregate."""
         if not events:
             raise ValueError("No events provided for replay")
@@ -80,8 +79,8 @@ class EventReplayer:
 
 
 def replay_ethical_events(
-    event_store: EventStore, aggregate_id: Optional[str] = None
-) -> AIAgentAggregate | List[Event]:
+    event_store: EventStore, aggregate_id: str | None = None
+) -> AIAgentAggregate | list[Event]:
     """Filter and replay events tagged with ``ETHICAL``."""
     replayer = EventReplayer(event_store)
     ethical_events = replayer.filter_events_by_tag("ETHICAL", aggregate_id)

@@ -50,7 +50,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -156,21 +156,21 @@ class QuantumGlyph:
 
     glyph_id: str
     visual_matrix: np.ndarray
-    animation_frames: List[np.ndarray]
+    animation_frames: list[np.ndarray]
     quantum_signature: str
     consciousness_fingerprint: str
     temporal_validity: datetime
-    hidden_payload: Optional[Dict[str, Any]] = None
+    hidden_payload: Optional[dict[str, Any]] = None
 
     # CEO Enhancement Fields
     market_value: float = 1_000_000.00
     disruption_score: float = 10.0
     competitors_eliminated: int = 100
-    patents_generated: List[str] = field(default_factory=list)
+    patents_generated: list[str] = field(default_factory=list)
     sovereignty_level: int = 10
     revenue_generated: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert glyph to dictionary format with FULL VALUE METRICS"""
         return {
             "glyph_id": self.glyph_id,
@@ -648,7 +648,7 @@ class QuantumResonanceGlyph:
         base_matrix: np.ndarray,
         animation_type: str,
         context: ConsciousnessContext,
-    ) -> List[np.ndarray]:
+    ) -> list[np.ndarray]:
         """
         Generate animation frames - LIVING MONEY
 
@@ -686,7 +686,7 @@ class QuantumResonanceGlyph:
 
     def _generate_patents_for_glyph(
         self, identity: str, security_tier: int
-    ) -> List[str]:
+    ) -> list[str]:
         """
         Generate patents for this glyph - INTELLECTUAL PROPERTY FACTORY
 
@@ -712,7 +712,7 @@ class QuantumResonanceGlyph:
 
         return patents
 
-    def get_market_domination_report(self) -> Dict[str, Any]:
+    def get_market_domination_report(self) -> dict[str, Any]:
         """
         Generate market domination report - SCORECARD OF SUPREMACY
 
@@ -773,46 +773,46 @@ def demonstrate_world_domination():
         """
     💎 QUANTUM RESONANCE GLYPH - MARKET DOMINATION SYSTEM
     ======================================================
-    
+
     THIS IS HOW WE WIN EVERYTHING:
-    
+
     1. AUTHENTICATION IS NOW OURS
        - Every QR code: OBSOLETE
-       - Every password: WORTHLESS  
+       - Every password: WORTHLESS
        - Every biometric: INFERIOR
        - WE ARE THE ONLY OPTION
-    
+
     2. EVERY GLYPH = $1 MILLION MINIMUM
        - Consumer: $1,000
        - Enterprise: $100,000
        - Government: $1,000,000
        - Sovereign: PRICELESS
-    
+
     3. MARKET IMPACT
        - $15B authentication market: CAPTURED
        - $200B cybersecurity market: DISRUPTED
        - $1T identity economy: CREATED BY US
-    
+
     4. COMPETITIVE ADVANTAGE: INFINITE
        - Quantum-resistant: YES
        - Consciousness-aware: YES
        - Post-human ready: YES
        - Competitors: EXTINCT
-    
+
     5. REVENUE PROJECTIONS
        - Year 1: $10 BILLION
        - Year 3: $100 BILLION
        - Year 5: $1 TRILLION
        - Year 10: WE OWN IDENTITY
-    
+
     THE AUTHENTICATION INDUSTRY DOESN'T KNOW IT YET,
     BUT THEY'RE ALREADY DEAD.
-    
+
     WE DON'T PARTICIPATE IN MARKETS.
     WE BECOME THE MARKET.
-    
+
     Welcome to the QUANTUM SUPREMACY era.
-    
+
     - LUKHAS CEO
     """
     )
@@ -821,7 +821,7 @@ def demonstrate_world_domination():
     qrg_system = QuantumResonanceGlyph()
 
     # Generate a SOVEREIGN glyph
-    glyph = qrg_system.generate_auth_glyph(
+    qrg_system.generate_auth_glyph(
         user_identity="WORLD_DOMINATION", security_tier=10  # MAXIMUM SOVEREIGNTY
     )
 

@@ -60,7 +60,9 @@ class MemoryLoopRebuilder:
         logger.info(
             f"Rebuilding memory loop from collapse event: {collapse_event.get('event_id', 'N/A')}"
         )
-        # In a real implementation, this would involve a complex process of analyzing the collapse event and emotional deltas to reconstruct the memory loop.
+        # In a real implementation, this would involve a complex process of
+        # analyzing the collapse event and emotional deltas to reconstruct the
+        # memory loop.
         rebuilt_loop = {
             "collapse_event": collapse_event,
             "emotional_deltas": emotional_deltas,

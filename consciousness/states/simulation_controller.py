@@ -56,12 +56,14 @@
 ║ - Stress Response Systems (Sapolsky, 2004)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 import asyncio
+import contextlib
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable
 
 from core.bio_systems.bio_oscillator import OscillationType
 
@@ -122,7 +124,7 @@ class BioSimulationController:
     """
 
     def __init__(self):
-        self.hormones: Dict[str, Hormone] = {}
+        self.hormones: dict[str, Hormone] = {}
         self.active = False
         self.simulation_task = None
         self.driftScore = 0.0
@@ -133,10 +135,10 @@ class BioSimulationController:
         self.current_phase = 0.0  # 0-24 hour cycle
 
         # Hormone interactions
-        self.interactions: List[HormoneInteraction] = []
+        self.interactions: list[HormoneInteraction] = []
 
         # System state callbacks
-        self.state_callbacks: Dict[str, List[Callable]] = {
+        self.state_callbacks: dict[str, list[Callable]] = {
             "stress_high": [],
             "stress_low": [],
             "focus_high": [],
@@ -183,10 +185,8 @@ class BioSimulationController:
         self.active = False
         if self.simulation_task:
             self.simulation_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self.simulation_task
-            except asyncio.CancelledError:
-                pass
         logger.info("Hormone simulation stopped")
 
     # ΛTAG: pulse_correction
@@ -472,11 +472,11 @@ class BioSimulationController:
 
     # Public API methods for AGI integration
 
-    def get_hormone_state(self) -> Dict[str, float]:
+    def get_hormone_state(self) -> dict[str, float]:
         """Get current hormone levels for external systems."""
         return {name: hormone.level for name, hormone in self.hormones.items()}
 
-    def get_cognitive_state(self) -> Dict[str, Any]:
+    def get_cognitive_state(self) -> dict[str, Any]:
         """Get interpreted cognitive state based on hormone levels."""
         hormones = self.get_hormone_state()
 
@@ -493,7 +493,7 @@ class BioSimulationController:
             "overall_state": self._calculate_overall_state(hormones),
         }
 
-    def _calculate_overall_state(self, hormones: Dict[str, float]) -> str:
+    def _calculate_overall_state(self, hormones: dict[str, float]) -> str:
         """Calculate overall system state from hormone levels."""
         cortisol = hormones.get("cortisol", 0)
         dopamine = hormones.get("dopamine", 0)
@@ -537,7 +537,7 @@ class BioSimulationController:
         if state in self.state_callbacks:
             self.state_callbacks[state].append(callback)
 
-    def suggest_action(self) -> Dict[str, Any]:
+    def suggest_action(self) -> dict[str, Any]:
         """Suggest actions based on current hormonal state."""
         state = self.get_cognitive_state()
         suggestions = []

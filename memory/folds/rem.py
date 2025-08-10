@@ -19,12 +19,12 @@ Simulates a symbolic REM (Rapid Eye Movement) sleep cycle for Lucʌs.
 Each REM cycle produces a symbolic dream sequence from evolving memory traces.
 """
 
-import time
 
-from dream.core.dream_log import dream_logger
-from modules.dream_seed import seed_dream
-from modules.fold_token import fold_trace
 from modules.memoria import log_trace
+from modules.fold_token import fold_trace
+from modules.dream_seed import seed_dream
+import time
+from dream.core.dream_log import dream_logger
 
 
 def run_rem_cycle():

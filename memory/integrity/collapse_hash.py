@@ -48,13 +48,12 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 from uuid import uuid4
 
 # Import LUKHAS components
 try:
-    from core.symbolism.tags import TagPermission, TagScope
-    from memory.structural_conscience import StructuralConscience
+    from core.symbolism.tags import TagScope
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:
@@ -98,7 +97,7 @@ class MerkleNode:
     right_child: Optional["MerkleNode"] = None
     parent: Optional["MerkleNode"] = None
     timestamp: float = field(default_factory=time.time)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @property
     def is_leaf(self) -> bool:
@@ -136,10 +135,10 @@ class Checkpoint:
     tree_snapshot: Optional[MerkleNode] = None
     timestamp: float = field(default_factory=time.time)
     memory_count: int = 0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     tag_scope: TagScope = TagScope.TEMPORAL
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert checkpoint to dictionary"""
         return {
             "checkpoint_id": self.checkpoint_id,
@@ -159,9 +158,9 @@ class MerkleTree:
 
     def __init__(self, algorithm: HashAlgorithm = HashAlgorithm.SHA256):
         self.root: Optional[MerkleNode] = None
-        self.leaves: List[MerkleNode] = []
+        self.leaves: list[MerkleNode] = []
         self.algorithm = algorithm
-        self.node_map: Dict[str, MerkleNode] = {}  # For quick access
+        self.node_map: dict[str, MerkleNode] = {}  # For quick access
 
         logger.info("MerkleTree initialized", algorithm=algorithm.value)
 
@@ -196,7 +195,7 @@ class MerkleTree:
 
     def verify_memory(
         self, memory_id: str, memory_data: Any
-    ) -> Tuple[IntegrityStatus, Optional[str]]:
+    ) -> tuple[IntegrityStatus, Optional[str]]:
         """Verify integrity of a specific memory"""
         if memory_id not in self.node_map:
             return IntegrityStatus.UNVERIFIED, "Memory not found in tree"
@@ -221,7 +220,7 @@ class MerkleTree:
                 f"Hash mismatch: expected {expected_hash[:16]}, got {actual_hash[:16]}",
             )
 
-    def generate_proof(self, memory_id: str) -> List[Tuple[str, str]]:
+    def generate_proof(self, memory_id: str) -> list[tuple[str, str]]:
         """Generate Merkle proof for a memory"""
         if memory_id not in self.node_map or not self.root:
             return []
@@ -249,7 +248,7 @@ class MerkleTree:
 
         return proof
 
-    def verify_proof(self, memory_hash: str, proof: List[Tuple[str, str]]) -> bool:
+    def verify_proof(self, memory_hash: str, proof: list[tuple[str, str]]) -> bool:
         """Verify a Merkle proof"""
         if not self.root:
             return False
@@ -332,8 +331,8 @@ class CollapseHash:
         checkpoint_interval: int = 100,  # memories
     ):
         self.merkle_tree = MerkleTree(algorithm)
-        self.checkpoints: Dict[str, Checkpoint] = {}
-        self.checkpoint_order: List[str] = []  # Ordered list of checkpoint IDs
+        self.checkpoints: dict[str, Checkpoint] = {}
+        self.checkpoint_order: list[str] = []  # Ordered list of checkpoint IDs
         self.structural_conscience = structural_conscience
         self.enable_auto_checkpoint = enable_auto_checkpoint
         self.checkpoint_interval = checkpoint_interval
@@ -345,7 +344,7 @@ class CollapseHash:
         self.successful_rollbacks = 0
 
         # Colony integration
-        self.integrity_tags: Dict[str, Tuple[str, TagScope, IntegrityStatus]] = {}
+        self.integrity_tags: dict[str, tuple[str, TagScope, IntegrityStatus]] = {}
 
         logger.info(
             "CollapseHash initialized",
@@ -358,9 +357,9 @@ class CollapseHash:
         self,
         memory_id: str,
         memory_data: Any,
-        tags: Optional[List[str]] = None,
+        tags: Optional[list[str]] = None,
         ethical_check: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Add a memory with integrity tracking"""
 
         # Ethical validation if enabled
@@ -409,7 +408,7 @@ class CollapseHash:
 
     async def verify_memory(
         self, memory_id: str, memory_data: Any, generate_proof: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Verify memory integrity"""
         self.total_verifications += 1
 
@@ -460,7 +459,7 @@ class CollapseHash:
     async def create_checkpoint(
         self,
         checkpoint_name: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> str:
         """Create a checkpoint for potential rollback"""
 
@@ -491,7 +490,7 @@ class CollapseHash:
 
     async def rollback_to_checkpoint(
         self, checkpoint_id: str, reason: str = "Unspecified"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Rollback memory state to a checkpoint"""
 
         if checkpoint_id not in self.checkpoints:
@@ -558,7 +557,7 @@ class CollapseHash:
             logger.error("Rollback failed", checkpoint_id=checkpoint_id, error=str(e))
             return {"success": False, "reason": f"Rollback failed: {str(e)}"}
 
-    async def audit_integrity(self) -> Dict[str, Any]:
+    async def audit_integrity(self) -> dict[str, Any]:
         """Perform comprehensive integrity audit"""
         audit_start = time.time()
 
@@ -591,7 +590,7 @@ class CollapseHash:
 
         return audit_result
 
-    def get_checkpoint_history(self) -> List[Dict[str, Any]]:
+    def get_checkpoint_history(self) -> list[dict[str, Any]]:
         """Get history of all checkpoints"""
         history = []
 
@@ -636,10 +635,7 @@ class CollapseHash:
             # Verify children
             if node.left_child and not verify_node(node.left_child):
                 return False
-            if node.right_child and not verify_node(node.right_child):
-                return False
-
-            return True
+            return not (node.right_child and not verify_node(node.right_child))
 
         return verify_node(self.merkle_tree.root)
 
@@ -682,7 +678,7 @@ async def demonstrate_collapse_hash():
 
     memory_ids = []
     for i, memory in enumerate(memories):
-        result = await collapse_hash.add_memory(
+        await collapse_hash.add_memory(
             memory_id=f"mem_{i}", memory_data=memory, tags=["learning", memory["type"]]
         )
         memory_ids.append(f"mem_{i}")

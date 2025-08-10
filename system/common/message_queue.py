@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class Message:
     """Message in the queue"""
+
     id: str
     source: str
     target: str
@@ -37,10 +38,10 @@ class MessageQueue:
         self._max_size = max_size
         self._running = False
         self._metrics = {
-            'messages_queued': 0,
-            'messages_processed': 0,
-            'messages_dropped': 0,
-            'average_latency_ms': 0
+            "messages_queued": 0,
+            "messages_processed": 0,
+            "messages_dropped": 0,
+            "average_latency_ms": 0,
         }
 
     def register_processor(self, module: str, processor: Callable):
@@ -56,16 +57,16 @@ class MessageQueue:
 
         if not target_queue:
             logger.warning(f"No queue for target module: {message.target}")
-            self._metrics['messages_dropped'] += 1
+            self._metrics["messages_dropped"] += 1
             return
 
         try:
             # Priority is negative because PriorityQueue is min-heap
             await target_queue.put((-message.priority, message))
-            self._metrics['messages_queued'] += 1
+            self._metrics["messages_queued"] += 1
         except asyncio.QueueFull:
             logger.error(f"Queue full for module: {message.target}")
-            self._metrics['messages_dropped'] += 1
+            self._metrics["messages_dropped"] += 1
 
     async def process_module_queue(self, module: str):
         """Process messages for a specific module"""
@@ -78,9 +79,7 @@ class MessageQueue:
         while self._running:
             try:
                 # Get message with timeout
-                priority, message = await asyncio.wait_for(
-                    queue.get(), timeout=1.0
-                )
+                priority, message = await asyncio.wait_for(queue.get(), timeout=1.0)
 
                 # Calculate latency
                 latency = (datetime.utcnow() - message.timestamp).total_seconds() * 1000
@@ -92,7 +91,7 @@ class MessageQueue:
                 else:
                     processor(message)
 
-                self._metrics['messages_processed'] += 1
+                self._metrics["messages_processed"] += 1
 
             except asyncio.TimeoutError:
                 continue
@@ -131,21 +130,20 @@ class MessageQueue:
 
     def _update_latency(self, latency: float):
         """Update average latency metric"""
-        if self._metrics['average_latency_ms'] == 0:
-            self._metrics['average_latency_ms'] = latency
+        if self._metrics["average_latency_ms"] == 0:
+            self._metrics["average_latency_ms"] = latency
         else:
             # Exponential moving average
             alpha = 0.1
-            self._metrics['average_latency_ms'] = (
-                alpha * latency + (1 - alpha) * self._metrics['average_latency_ms']
+            self._metrics["average_latency_ms"] = (
+                alpha * latency + (1 - alpha) * self._metrics["average_latency_ms"]
             )
 
     def get_metrics(self) -> Dict[str, Any]:
         """Get queue metrics"""
         metrics = self._metrics.copy()
-        metrics['queue_sizes'] = {
-            module: queue.qsize()
-            for module, queue in self._queues.items()
+        metrics["queue_sizes"] = {
+            module: queue.qsize() for module, queue in self._queues.items()
         }
         return metrics
 
@@ -196,15 +194,12 @@ class CacheLayer:
         hit_rate = self._hits / total if total > 0 else 0
 
         return {
-            'hits': self._hits,
-            'misses': self._misses,
-            'hit_rate': hit_rate,
-            'size': len(self._cache)
+            "hits": self._hits,
+            "misses": self._misses,
+            "hit_rate": hit_rate,
+            "size": len(self._cache),
         }
 
 
 # Create cache instances for bottleneck modules
-cache_layers = {
-    'core': CacheLayer(),
-    'orchestration': CacheLayer()
-}
+cache_layers = {"core": CacheLayer(), "orchestration": CacheLayer()}

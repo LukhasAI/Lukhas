@@ -15,6 +15,7 @@ and system-wide collapse.
 """
 
 import asyncio
+import contextlib
 import hashlib
 import json
 import threading
@@ -22,7 +23,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Deque, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -68,7 +69,7 @@ class FailureRecord:
     actor_id: str
     error_message: str
     correlation_id: Optional[str] = None
-    propagation_path: List[str] = field(default_factory=list)
+    propagation_path: list[str] = field(default_factory=list)
     severity: float = 1.0  # 0-1 scale
 
 
@@ -118,20 +119,20 @@ class AdvancedCircuitBreaker:
         self.last_failure_time = 0.0
 
         # Metrics
-        self.call_stats: Deque[Tuple[float, bool, float]] = deque(maxlen=100)
+        self.call_stats: deque[tuple[float, bool, float]] = deque(maxlen=100)
         self.failure_count = 0
         self.success_count = 0
         self.half_open_calls = 0
 
         # Health checks
-        self.health_checks: List[HealthCheck] = []
-        self.health_check_results: Dict[str, bool] = {}
+        self.health_checks: list[HealthCheck] = []
+        self.health_check_results: dict[str, bool] = {}
 
         # Thread safety
         self._lock = threading.Lock()
 
         # Listeners
-        self.state_change_listeners: List[Callable] = []
+        self.state_change_listeners: list[Callable] = []
 
     def call(self, func: Callable, *args, **kwargs) -> Any:
         """Execute a function through the circuit breaker"""
@@ -284,7 +285,7 @@ class AdvancedCircuitBreaker:
         """Add a health check"""
         self.health_checks.append(health_check)
 
-    async def run_health_checks(self) -> Dict[str, bool]:
+    async def run_health_checks(self) -> dict[str, bool]:
         """Run all health checks"""
         results = {}
 
@@ -302,7 +303,7 @@ class AdvancedCircuitBreaker:
         self.health_check_results = results
         return results
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get circuit breaker metrics"""
         with self._lock:
             total_calls = len(self.call_stats)
@@ -335,8 +336,6 @@ class AdvancedCircuitBreaker:
 class CircuitBreakerOpen(Exception):
     """Exception raised when circuit breaker is open"""
 
-    pass
-
 
 class AnomalyDetector:
     """
@@ -355,17 +354,17 @@ class AnomalyDetector:
         self.contamination = isolation_forest_contamination
 
         # Metrics storage
-        self.actor_metrics: Dict[str, Dict[str, deque]] = defaultdict(
+        self.actor_metrics: dict[str, dict[str, deque]] = defaultdict(
             lambda: defaultdict(lambda: deque(maxlen=window_size))
         )
 
         # Anomaly history
-        self.anomaly_history: Dict[str, List[Tuple[float, str, float]]] = defaultdict(
+        self.anomaly_history: dict[str, list[tuple[float, str, float]]] = defaultdict(
             list
         )
 
         # Baseline statistics
-        self.baselines: Dict[str, Dict[str, Tuple[float, float]]] = {}
+        self.baselines: dict[str, dict[str, tuple[float, float]]] = {}
 
         self._lock = threading.Lock()
 
@@ -374,7 +373,7 @@ class AnomalyDetector:
         with self._lock:
             self.actor_metrics[actor_id][metric_name].append((time.time(), value))
 
-    def detect_anomalies(self, actor_id: str) -> List[Tuple[str, float]]:
+    def detect_anomalies(self, actor_id: str) -> list[tuple[str, float]]:
         """Detect anomalies for a specific actor"""
         anomalies = []
 
@@ -407,7 +406,7 @@ class AnomalyDetector:
 
         return anomalies
 
-    def _calculate_z_score(self, values: List[float]) -> float:
+    def _calculate_z_score(self, values: list[float]) -> float:
         """Calculate z-score for the most recent value"""
         if len(values) < 2:
             return 0.0
@@ -453,13 +452,13 @@ class ErrorPropagationTracker:
         self.max_propagation_depth = max_propagation_depth
 
         # Track error propagation chains
-        self.propagation_chains: Dict[str, List[FailureRecord]] = {}
+        self.propagation_chains: dict[str, list[FailureRecord]] = {}
 
         # Actor infection status
-        self.infected_actors: Set[str] = set()
+        self.infected_actors: set[str] = set()
 
         # Quarantine list
-        self.quarantined_actors: Set[str] = set()
+        self.quarantined_actors: set[str] = set()
 
         self._lock = threading.Lock()
 
@@ -496,7 +495,7 @@ class ErrorPropagationTracker:
         with self._lock:
             return actor_id in self.quarantined_actors
 
-    def analyze_propagation_patterns(self) -> Dict[str, Any]:
+    def analyze_propagation_patterns(self) -> dict[str, Any]:
         """Analyze propagation patterns to identify problem areas"""
         with self._lock:
             patterns = {"hotspots": {}, "propagation_depths": [], "common_paths": []}
@@ -534,12 +533,12 @@ class ConsensusValidator:
         self.agreement_threshold = agreement_threshold
 
         # Consensus results cache
-        self.consensus_cache: Dict[str, Tuple[Any, float, float]] = {}
+        self.consensus_cache: dict[str, tuple[Any, float, float]] = {}
         self.cache_ttl = 60.0  # 1 minute
 
     async def validate_consensus(
-        self, actor_refs: List[ActorRef], query: str, timeout: float = 5.0
-    ) -> Tuple[bool, Any]:
+        self, actor_refs: list[ActorRef], query: str, timeout: float = 5.0
+    ) -> tuple[bool, Any]:
         """
         Validate consensus among multiple actors
         Returns (consensus_reached, consensus_value)
@@ -599,7 +598,7 @@ class ConsensusValidator:
         except asyncio.TimeoutError:
             raise TimeoutError(f"Actor {actor_ref.actor_id} timed out")
 
-    def _analyze_responses(self, responses: List[Tuple[str, Any]]) -> Tuple[bool, Any]:
+    def _analyze_responses(self, responses: list[tuple[str, Any]]) -> tuple[bool, Any]:
         """Analyze responses for consensus"""
         if not responses:
             return False, None
@@ -623,7 +622,7 @@ class ConsensusValidator:
 
         return False, None
 
-    def _create_cache_key(self, actor_refs: List[ActorRef], query: str) -> str:
+    def _create_cache_key(self, actor_refs: list[ActorRef], query: str) -> str:
         """Create cache key for consensus query"""
         actor_ids = sorted([ref.actor_id for ref in actor_refs])
         return hashlib.md5(f"{','.join(actor_ids)}:{query}".encode()).hexdigest()
@@ -644,7 +643,7 @@ class CascadePreventionSystem:
         self.observability = observability
 
         # Components
-        self.circuit_breakers: Dict[str, AdvancedCircuitBreaker] = {}
+        self.circuit_breakers: dict[str, AdvancedCircuitBreaker] = {}
         self.anomaly_detector = AnomalyDetector()
         self.error_tracker = ErrorPropagationTracker()
         self.consensus_validator = ConsensusValidator()
@@ -668,10 +667,8 @@ class CascadePreventionSystem:
         self._running = False
         if self._monitoring_task:
             self._monitoring_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._monitoring_task
-            except asyncio.CancelledError:
-                pass
         logger.info("Cascade prevention system stopped")
 
     def get_or_create_circuit_breaker(
@@ -689,7 +686,7 @@ class CascadePreventionSystem:
         self,
         actor_ref: ActorRef,
         message_type: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         timeout: float = 30.0,
     ) -> Any:
         """Make a protected call through circuit breaker and validation"""
@@ -734,8 +731,8 @@ class CascadePreventionSystem:
         return await cb.async_call(make_call)
 
     async def validate_with_consensus(
-        self, actor_refs: List[ActorRef], query: str
-    ) -> Tuple[bool, Any]:
+        self, actor_refs: list[ActorRef], query: str
+    ) -> tuple[bool, Any]:
         """Validate a query with consensus among multiple actors"""
 
         # Filter out quarantined actors
@@ -783,7 +780,7 @@ class CascadePreventionSystem:
         if not self.observability:
             return
 
-        for actor_id in self.actor_system.actors.keys():
+        for actor_id in self.actor_system.actors:
             try:
                 snapshot = await self._get_actor_snapshot(actor_id)
                 if snapshot:
@@ -854,7 +851,7 @@ class CascadePreventionSystem:
 
         # Anomaly scores
         anomaly_scores = []
-        for actor_id in self.actor_system.actors.keys():
+        for actor_id in self.actor_system.actors:
             score = self.anomaly_detector.get_anomaly_score(actor_id)
             anomaly_scores.append(1.0 - score)
 
@@ -903,7 +900,7 @@ class CascadePreventionSystem:
                 cb.force_open()
 
         # 2. Quarantine high-risk actors
-        for actor_id in self.actor_system.actors.keys():
+        for actor_id in self.actor_system.actors:
             if self.anomaly_detector.get_anomaly_score(actor_id) > 0.8:
                 self.error_tracker.quarantine_actor(actor_id)
 
@@ -934,7 +931,7 @@ class CascadePreventionSystem:
                 },
             )
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status"""
         return {
             "health_score": self.system_health_score,
@@ -953,13 +950,9 @@ class CascadePreventionSystem:
 class ActorQuarantined(Exception):
     """Raised when trying to communicate with a quarantined actor"""
 
-    pass
-
 
 class AnomalyDetected(Exception):
     """Raised when anomalous behavior is detected"""
-
-    pass
 
 
 # Example usage and demo

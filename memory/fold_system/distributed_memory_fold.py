@@ -47,7 +47,7 @@ import random
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 import aiohttp
 import numpy as np
@@ -93,9 +93,9 @@ class DistributedMemoryEntry:
     term: int  # RAFT term
     index: int  # Log index
     consensus_achieved: bool = False
-    validation_votes: Set[str] = field(default_factory=set)
+    validation_votes: set[str] = field(default_factory=set)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "memory_id": self.memory_id,
             "content_hash": self.content_hash,
@@ -110,7 +110,7 @@ class DistributedMemoryEntry:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "DistributedMemoryEntry":
+    def from_dict(cls, data: dict[str, Any]) -> "DistributedMemoryEntry":
         return cls(
             memory_id=data["memory_id"],
             content_hash=data["content_hash"],
@@ -175,12 +175,12 @@ class ConsensusProtocol:
         self.leader_id: Optional[str] = None
 
         # Memory log
-        self.memory_log: List[DistributedMemoryEntry] = []
+        self.memory_log: list[DistributedMemoryEntry] = []
         self.commit_index = 0
         self.last_applied = 0
 
         # Network state
-        self.nodes: Dict[str, NodeInfo] = {}
+        self.nodes: dict[str, NodeInfo] = {}
         self.nodes[node_id] = NodeInfo(
             node_id=node_id,
             address="localhost",
@@ -460,7 +460,7 @@ class ConsensusProtocol:
     async def _handle_append_entries(self, request):
         """Handle append entries request for log replication"""
 
-        data = await request.json()
+        await request.json()
 
         # Implementation would go here for full RAFT log replication
         # For now, acknowledge successful append
@@ -579,7 +579,7 @@ class DistributedMemoryFold:
         self,
         node_id: str,
         port: int,
-        bootstrap_nodes: List[Tuple[str, int]] = None,
+        bootstrap_nodes: list[tuple[str, int]] = None,
         consciousness_level: float = 0.8,
     ):
         self.node_id = node_id
@@ -598,8 +598,8 @@ class DistributedMemoryFold:
         )
 
         # Memory storage
-        self.local_memories: Dict[str, Any] = {}
-        self.distributed_memories: Dict[str, DistributedMemoryEntry] = {}
+        self.local_memories: dict[str, Any] = {}
+        self.distributed_memories: dict[str, DistributedMemoryEntry] = {}
 
         # Integration with existing optimized memory system
         try:
@@ -691,9 +691,9 @@ class DistributedMemoryFold:
     async def store_memory(
         self,
         content: str,
-        tags: List[str] = None,
+        tags: list[str] = None,
         embedding: np.ndarray = None,
-        metadata: Dict[str, Any] = None,
+        metadata: dict[str, Any] = None,
         require_consensus: bool = True,
     ) -> str:
         """
@@ -821,7 +821,7 @@ class DistributedMemoryFold:
 
     async def query_memory(
         self, query: str, top_k: int = 10, include_distributed: bool = True
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Query memories from distributed system.
 
@@ -863,7 +863,7 @@ class DistributedMemoryFold:
 
     async def _query_distributed_memories(
         self, query: str, top_k: int
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Query memories from other nodes in the network"""
 
         query_tasks = []
@@ -901,7 +901,7 @@ class DistributedMemoryFold:
 
     async def _send_memory_query(
         self, node_info: NodeInfo, query: str, query_id: str
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Send memory query to specific node"""
 
         try:
@@ -925,7 +925,7 @@ class DistributedMemoryFold:
             )
             return []
 
-    def get_network_status(self) -> Dict[str, Any]:
+    def get_network_status(self) -> dict[str, Any]:
         """Get status of the distributed network"""
 
         alive_nodes = [
@@ -959,7 +959,7 @@ class DistributedMemoryFold:
 async def create_distributed_memory_fold(
     node_id: str,
     port: int,
-    bootstrap_nodes: List[Tuple[str, int]] = None,
+    bootstrap_nodes: list[tuple[str, int]] = None,
     consciousness_level: float = 0.8,
 ) -> DistributedMemoryFold:
     """

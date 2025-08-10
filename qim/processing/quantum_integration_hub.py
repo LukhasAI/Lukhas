@@ -18,7 +18,7 @@ Agent 10 Advanced Systems Implementation
 """
 
 import asyncio
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import structlog
 
@@ -34,7 +34,7 @@ class QuantumIntegrationHub:
     """Central integration hub for quantum system components"""
 
     def __init__(self):
-        self.services: Dict[str, Any] = {}
+        self.services: dict[str, Any] = {}
         self.quantum_system: Optional[QuantumAGISystem] = None
         self.initialized = False
 
@@ -118,13 +118,13 @@ class QuantumIntegrationHub:
         """Get a registered quantum service"""
         return self.services.get(name)
 
-    def list_services(self) -> List[str]:
+    def list_services(self) -> list[str]:
         """List all registered quantum services"""
         return list(self.services.keys())
 
     async def process_quantum_request(
-        self, request_type: str, data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, request_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process quantum-enhanced requests"""
         try:
             results = {}
@@ -152,7 +152,7 @@ class QuantumIntegrationHub:
             logger.error("quantum_processing_failed", error=str(e))
             return {"error": str(e)}
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Perform health check on quantum services"""
         health_status = {
             "initialized": self.initialized,

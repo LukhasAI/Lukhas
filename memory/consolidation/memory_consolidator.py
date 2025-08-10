@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 CRITICAL: Memory System Consolidation Script
@@ -85,9 +87,9 @@ class MemorySystemConsolidator:
     def _merge_implementations(self, source: Path, target: Path):
         """Merge two implementations, keeping the best parts of each."""
         with open(source) as f:
-            source_content = f.read()
+            f.read()
         with open(target) as f:
-            target_content = f.read()
+            f.read()
 
         # TODO: Implement smart merging logic
         # For now, we'll keep this as a placeholder

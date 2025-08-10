@@ -24,7 +24,7 @@ import os
 import random
 import sys
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -60,7 +60,7 @@ class QuantumCreativeDemo:
 
     async def generate_quantum_haiku(
         self, theme: str = "consciousness"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate a quantum-enhanced haiku with consciousness metrics"""
         print(f"🎋 Generating quantum haiku on theme: '{theme}'")
         print("   ⚛️  Entering superposition-like state...")
@@ -224,7 +224,9 @@ class QuantumCreativeDemo:
 
         print("\n📝 COLLABORATIVE QUANTUM HAIKU:")
         print("   ┌─────────────────────────────────┐")
-        for i, (line, participant) in enumerate(zip(collaborative_lines, participants)):
+        for _i, (line, participant) in enumerate(
+            zip(collaborative_lines, participants)
+        ):
             print(f"   │ {line:31} │ - {participant['name']}")
         print("   └─────────────────────────────────┘")
 
@@ -239,7 +241,7 @@ class QuantumCreativeDemo:
             f"   • Collective Consciousness: {(harmony_index + innovation_level)/2:.3f}"
         )
 
-    async def demonstrate_ip_protection(self, creative_work: Dict[str, Any]):
+    async def demonstrate_ip_protection(self, creative_work: dict[str, Any]):
         """Demonstrate intellectual property protection for creative works"""
         print("\n🛡️  IP PROTECTION DEMONSTRATION")
         print("=" * 50)
@@ -391,7 +393,7 @@ async def interactive_demo():
     print("=" * 60)
 
     haiku = await demo.generate_quantum_haiku("consciousness")
-    protected_haiku = await demo.demonstrate_ip_protection(haiku)
+    await demo.demonstrate_ip_protection(haiku)
 
     # Demo 2: Multi-Modal Creativity
     print("\n" + "=" * 60)

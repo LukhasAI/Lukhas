@@ -16,7 +16,11 @@
 """
 
 # Module imports
-from typing import Any, Dict, Optional
+from enum import Enum
+from dataclasses import dataclass, field
+import time
+import asyncio
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -27,11 +31,6 @@ logger = get_logger(__name__)
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "consciousness mapper"
 
-import asyncio
-import time
-from dataclasses import dataclass, field
-from enum import Enum
-from typing import List
 
 logger = get_logger(__name__)
 
@@ -88,11 +87,11 @@ class VoiceConsciousnessMapping:
     """Mapping between consciousness state and voice characteristics"""
 
     consciousness_profile: ConsciousnessProfile
-    voice_parameters: Dict[str, float]
+    voice_parameters: dict[str, float]
     symbolic_signature: str
     emotional_tone: str
-    processing_effects: List[str]
-    resonance_frequencies: List[float]
+    processing_effects: list[str]
+    resonance_frequencies: list[float]
 
 
 class ConsciousnessMapper:
@@ -100,12 +99,12 @@ class ConsciousnessMapper:
 
     """Maps LUKHAS consciousness states to voice characteristics"""
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: dict[str, Any] = None):
         self.config = config or {}
         self.current_consciousness: Optional[ConsciousnessProfile] = None
-        self.consciousness_history: List[ConsciousnessProfile] = []
-        self.voice_mappings: Dict[ConsciousnessState, VoiceConsciousnessMapping] = {}
-        self.symbolic_patterns: Dict[str, Dict[str, Any]] = {}
+        self.consciousness_history: list[ConsciousnessProfile] = []
+        self.voice_mappings: dict[ConsciousnessState, VoiceConsciousnessMapping] = {}
+        self.symbolic_patterns: dict[str, dict[str, Any]] = {}
 
         # Consciousness tracking parameters
         self.tracking_enabled = self.config.get("tracking_enabled", True)
@@ -341,7 +340,8 @@ class ConsciousnessMapper:
             try:
                 # Simulate consciousness state detection
                 # In a real implementation, this would connect to LUKHAS core consciousness system
-                # In a real implementation, this would connect to lukhas core consciousness system
+                # In a real implementation, this would connect to lukhas core
+                # consciousness system
                 await self._detect_consciousness_changes()
 
                 # Sleep for update frequency
@@ -358,7 +358,6 @@ class ConsciousnessMapper:
         """Detect changes in LUKHAS consciousness state"""
         # Placeholder for consciousness detection logic
         # This would interface with lukhas core systems
-        pass
 
     async def update_consciousness_state(
         self, consciousness_profile: ConsciousnessProfile
@@ -427,7 +426,7 @@ class ConsciousnessMapper:
 
         return adjusted_mapping
 
-    async def analyze_symbolic_signature(self, signature: str) -> Dict[str, Any]:
+    async def analyze_symbolic_signature(self, signature: str) -> dict[str, Any]:
         """Analyze symbolic signature for voice effects"""
         analysis = {
             "symbols": [],
@@ -519,7 +518,7 @@ class ConsciousnessMapper:
 
         return "".join(signature_parts)
 
-    async def map_consciousness_to_voice_parameters(self) -> Dict[str, float]:
+    async def map_consciousness_to_voice_parameters(self) -> dict[str, float]:
         """Map current consciousness to voice parameters"""
         if not self.current_consciousness:
             return {}
@@ -550,7 +549,7 @@ class ConsciousnessMapper:
 
     async def get_consciousness_trends(
         self, timespan_seconds: float = 60.0
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Analyze consciousness trends over time"""
         current_time = time.time()
         cutoff_time = current_time - timespan_seconds

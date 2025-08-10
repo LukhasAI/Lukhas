@@ -13,6 +13,7 @@ DESCRIPTION:
     Intended for use with dream_replay.py, replay_queue.jsonl, or live dream loops.
 
 """
+import logging
 
 import json
 from pathlib import Path

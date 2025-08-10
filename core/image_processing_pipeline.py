@@ -16,6 +16,7 @@
 ║ independent processing stages connected via event bus for scalable AI workflows.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from dataclasses import asdict
 
 import asyncio
 import logging

@@ -24,12 +24,13 @@
 ║ ΛTAG: ΛORACLE, ΛOPENAI, ΛPREDICTION, ΛPROPHECY, ΛREASONING
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 import json
 import re
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 from bridge.openai_core_service import (
     ModelType,
@@ -61,14 +62,14 @@ class OracleOpenAIAdapter:
         self.openai_service = OpenAICoreService()
         self.logger = logger.bind(component="oracle_openai_adapter")
         self.prompt_templates = self._initialize_templates()
-        self.reasoning_cache: Dict[str, Any] = {}
+        self.reasoning_cache: dict[str, Any] = {}
 
     async def initialize(self):
         """Initialize the Oracle OpenAI adapter."""
         await self.openai_service.initialize()
         self.logger.info("Oracle OpenAI Adapter initialized")
 
-    def _initialize_templates(self) -> Dict[str, OraclePromptTemplate]:
+    def _initialize_templates(self) -> dict[str, OraclePromptTemplate]:
         """Initialize specialized prompt templates for Oracle operations."""
         return {
             "prediction": OraclePromptTemplate(
@@ -223,10 +224,10 @@ For each analysis:
 
     async def generate_prediction(
         self,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         time_horizon: str = "near",
-        focus_areas: List[str] = None,
-    ) -> Dict[str, Any]:
+        focus_areas: list[str] = None,
+    ) -> dict[str, Any]:
         """Generate enhanced prediction using OpenAI with specialized reasoning."""
         template = self.prompt_templates["prediction"]
 
@@ -270,10 +271,10 @@ For each analysis:
 
     async def generate_prophecy(
         self,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         time_horizon: str = "medium",
         focus_type: str = "guidance",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate prophecy combining analytical and symbolic reasoning."""
         template = self.prompt_templates["prophecy"]
 
@@ -313,10 +314,10 @@ For each analysis:
 
     async def generate_oracle_dream(
         self,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         emotional_state: str = "neutral",
         life_situation: str = "transition",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate symbolic dream with Oracle insights."""
         template = self.prompt_templates["dream_oracle"]
 
@@ -356,10 +357,10 @@ For each analysis:
 
     async def perform_deep_analysis(
         self,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         analysis_type: str = "comprehensive",
-        focus_areas: List[str] = None,
-    ) -> Dict[str, Any]:
+        focus_areas: list[str] = None,
+    ) -> dict[str, Any]:
         """Perform deep analytical reasoning with OpenAI enhancement."""
         template = self.prompt_templates["analysis"]
 
@@ -401,10 +402,10 @@ For each analysis:
 
     async def temporal_reasoning(
         self,
-        context: Dict[str, Any],
-        horizons: List[str] = None,
-        focus_areas: List[str] = None,
-    ) -> Dict[str, Any]:
+        context: dict[str, Any],
+        horizons: list[str] = None,
+        focus_areas: list[str] = None,
+    ) -> dict[str, Any]:
         """Perform reasoning across multiple time horizons."""
         template = self.prompt_templates["temporal_reasoning"]
 
@@ -447,7 +448,7 @@ For each analysis:
             raise
 
     # Response parsing methods
-    def _parse_prediction_response(self, content: str) -> Dict[str, Any]:
+    def _parse_prediction_response(self, content: str) -> dict[str, Any]:
         """Parse prediction response into structured data."""
         # Extract structured elements using regex patterns
         patterns = {
@@ -471,12 +472,12 @@ For each analysis:
         else:
             try:
                 parsed["confidence_level"] = int(parsed["confidence_level"])
-            except:
+            except BaseException:
                 parsed["confidence_level"] = 75
 
         return parsed
 
-    def _parse_prophecy_response(self, content: str) -> Dict[str, Any]:
+    def _parse_prophecy_response(self, content: str) -> dict[str, Any]:
         """Parse prophecy response into structured data."""
         # Extract symbolic elements and themes
         symbolic_words = [
@@ -510,7 +511,7 @@ For each analysis:
             "themes": self._extract_themes(content),
         }
 
-    def _parse_dream_response(self, content: str) -> Dict[str, Any]:
+    def _parse_dream_response(self, content: str) -> dict[str, Any]:
         """Parse dream response into structured data."""
         # Extract dream elements
         dream_elements = [
@@ -530,7 +531,7 @@ For each analysis:
             "symbolic_density": len(symbols) / max(len(content.split()), 1),
         }
 
-    def _parse_analysis_response(self, content: str) -> Dict[str, Any]:
+    def _parse_analysis_response(self, content: str) -> dict[str, Any]:
         """Parse analysis response into structured data."""
         return {
             "full_analysis": content,
@@ -539,7 +540,7 @@ For each analysis:
             "structure_score": self._assess_structure(content),
         }
 
-    def _parse_temporal_response(self, content: str) -> Dict[str, Any]:
+    def _parse_temporal_response(self, content: str) -> dict[str, Any]:
         """Parse temporal reasoning response into structured data."""
         # Try to extract horizon-specific insights
         horizons = ["immediate", "near", "medium", "far"]
@@ -558,7 +559,7 @@ For each analysis:
         }
 
     # Helper methods for parsing
-    def _extract_themes(self, content: str) -> List[str]:
+    def _extract_themes(self, content: str) -> list[str]:
         """Extract major themes from content."""
         theme_words = [
             "growth",
@@ -578,7 +579,7 @@ For each analysis:
                 themes.append(theme)
         return themes
 
-    def _extract_dream_symbols(self, content: str) -> List[str]:
+    def _extract_dream_symbols(self, content: str) -> list[str]:
         """Extract symbolic elements from dream content."""
         symbol_words = [
             "water",
@@ -602,7 +603,7 @@ For each analysis:
                 symbols.append(symbol)
         return symbols
 
-    def _extract_insights(self, content: str) -> List[str]:
+    def _extract_insights(self, content: str) -> list[str]:
         """Extract key insights from analysis content."""
         # Simple insight extraction based on sentence structure
         sentences = content.split(".")
@@ -646,7 +647,7 @@ For each analysis:
         )
         return min(markers_found / 10, 1.0)
 
-    def _extract_temporal_connections(self, content: str) -> List[str]:
+    def _extract_temporal_connections(self, content: str) -> list[str]:
         """Extract temporal connections and transitions."""
         temporal_words = [
             "leads to",

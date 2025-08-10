@@ -11,19 +11,22 @@ This module combines the best features from both prototypes:
 ΛLOCKED: false
 ΛCANONICAL: Consolidated FastAPI-enabled dream engine
 """
+import logging
 
+from pydantic import BaseModel, Field
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, HTTPException
+import uvicorn
+import contextlib
 import asyncio
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Set up logging
 logger = logging.getLogger("enhanced_dream_fastapi")
 
 # FastAPI imports
-import uvicorn
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+
 
 # TODO: Update to use unified tier system
 # - Replace custom tier validation with @oneiric_tier_required decorator
@@ -104,7 +107,7 @@ class DreamRequest(BaseModel):
     reflection_enabled: bool = Field(
         default=True, description="Enable dream reflection"
     )
-    symbolic_tags: List[str] = Field(default_factory=list, description="Symbolic tags")
+    symbolic_tags: list[str] = Field(default_factory=list, description="Symbolic tags")
 
 
 class DreamResponse(BaseModel):
@@ -112,13 +115,13 @@ class DreamResponse(BaseModel):
 
     dream_id: str = Field(..., description="Unique dream identifier")
     processed_content: str = Field(..., description="Processed dream content")
-    quantum_metrics: Dict[str, Any] = Field(
+    quantum_metrics: dict[str, Any] = Field(
         default_factory=dict, description="Quantum-inspired processing metrics"
     )
-    reflection_results: Dict[str, Any] = Field(
+    reflection_results: dict[str, Any] = Field(
         default_factory=dict, description="Dream reflection results"
     )
-    symbolic_analysis: Dict[str, Any] = Field(
+    symbolic_analysis: dict[str, Any] = Field(
         default_factory=dict, description="Symbolic analysis results"
     )
     processing_time: float = Field(..., description="Processing time in seconds")
@@ -225,7 +228,7 @@ class EnhancedDreamEngine:
         """Get the dream reflection loop instance."""
         return self.dream_reflection
 
-    async def handle_message(self, message: Dict[str, Any]) -> None:
+    async def handle_message(self, message: dict[str, Any]) -> None:
         """Handle incoming messages
 
         Args:
@@ -293,10 +296,8 @@ class EnhancedDreamEngine:
             # Stop reflection task
             if self.processing_task:
                 self.processing_task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await self.processing_task
-                except asyncio.CancelledError:
-                    pass
                 self.processing_task = None
 
             self.active = False
@@ -391,7 +392,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error consolidating memories: {e}")
 
-    async def _integrate_bio_rhythm(self, memory: Dict[str, Any]) -> None:
+    async def _integrate_bio_rhythm(self, memory: dict[str, Any]) -> None:
         """Integrate memory processing with biological rhythm cycles"""
         try:
             if self.bio_dream_system and hasattr(
@@ -401,7 +402,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error integrating bio-rhythm: {e}")
 
-    async def _store_consolidated_memory(self, memory: Dict[str, Any]) -> None:
+    async def _store_consolidated_memory(self, memory: dict[str, Any]) -> None:
         """Store consolidated memory"""
         try:
             # For now, log the memory - in real implementation
@@ -410,7 +411,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error storing consolidated memory: {e}")
 
-    async def _store_dream_reflection(self, reflection: Dict[str, Any]) -> None:
+    async def _store_dream_reflection(self, reflection: dict[str, Any]) -> None:
         """Store dream reflection result"""
         try:
             # For now, log the reflection - in real implementation
@@ -421,7 +422,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error storing dream reflection: {e}")
 
-    async def _get_unconsolidated_memories(self) -> List[Dict[str, Any]]:
+    async def _get_unconsolidated_memories(self) -> list[dict[str, Any]]:
         """Get memories waiting for consolidation"""
         try:
             # For now, simulate getting memories - in real implementation
@@ -432,7 +433,7 @@ class EnhancedDreamEngine:
             logger.error(f"Error getting unconsolidated memories: {e}")
             return []
 
-    async def _enhance_memory_quantum(self, memory: Dict[str, Any]) -> Dict[str, Any]:
+    async def _enhance_memory_quantum(self, memory: dict[str, Any]) -> dict[str, Any]:
         """Enhance memory with quantum-inspired processing
 
         Args:
@@ -469,16 +470,16 @@ class EnhancedDreamEngine:
             f"Memories={memories}"
         )
 
-    async def _handle_start_cycle(self, content: Dict[str, Any]) -> None:
+    async def _handle_start_cycle(self, content: dict[str, Any]) -> None:
         """Handle start cycle request"""
         duration = content.get("duration_minutes", 10)
         await self.start_dream_cycle(duration)
 
-    async def _handle_stop_cycle(self, content: Dict[str, Any]) -> None:
+    async def _handle_stop_cycle(self, content: dict[str, Any]) -> None:
         """Handle stop cycle request"""
         await self.stop_dream_cycle()
 
-    async def _handle_process_memory(self, content: Dict[str, Any]) -> None:
+    async def _handle_process_memory(self, content: dict[str, Any]) -> None:
         """Handle process memory request"""
         try:
             memory = content.get("memory")
@@ -492,7 +493,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error processing memory: {e}")
 
-    async def _handle_consolidate_dreams(self, content: Dict[str, Any]) -> None:
+    async def _handle_consolidate_dreams(self, content: dict[str, Any]) -> None:
         """Handle dream consolidation request"""
         try:
             await self._consolidate_memories()
@@ -500,8 +501,8 @@ class EnhancedDreamEngine:
             logger.error(f"Error consolidating dreams: {e}")
 
     def _extract_dream_insights(
-        self, quantum_like_state: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, quantum_like_state: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Extract insights from quantum dream state
 
         Args:
@@ -533,7 +534,7 @@ class EnhancedDreamEngine:
 
         return insights
 
-    async def _store_dream_insights(self, insights: List[Dict[str, Any]]) -> None:
+    async def _store_dream_insights(self, insights: list[dict[str, Any]]) -> None:
         """Store extracted dream insights
 
         Args:
@@ -550,7 +551,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error storing insights: {e}")
 
-    async def _store_enhanced_memory(self, memory: Dict[str, Any]) -> None:
+    async def _store_enhanced_memory(self, memory: dict[str, Any]) -> None:
         """Store an enhanced memory
 
         Args:
@@ -561,7 +562,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error storing enhanced memory: {e}")
 
-    async def _store_enhanced_memory(self, memory: Dict[str, Any]) -> None:
+    async def _store_enhanced_memory(self, memory: dict[str, Any]) -> None:
         """Store enhanced memory to persistent storage.
 
         Args:
@@ -575,8 +576,8 @@ class EnhancedDreamEngine:
             logger.error(f"Error storing enhanced memory: {e}")
 
     async def _process_dreams_quantum(
-        self, dreams: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, dreams: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Process dreams through quantum-inspired processing
 
         Args:
@@ -610,7 +611,7 @@ class EnhancedDreamEngine:
 
         return processed_dreams
 
-    async def process_dream(self, dream: Dict[str, Any]) -> None:
+    async def process_dream(self, dream: dict[str, Any]) -> None:
         """Process a single dream
 
         Args:
@@ -650,8 +651,8 @@ class EnhancedDreamEngine:
             dream["metadata"]["error"] = str(e)
 
     async def _process_dream_quantum(
-        self, dream: Dict[str, Any], quantum_like_state: Dict
-    ) -> Dict:
+        self, dream: dict[str, Any], quantum_like_state: dict
+    ) -> dict:
         """Process dream through quantum layer
 
         Args:
@@ -701,7 +702,7 @@ class EnhancedDreamEngine:
 
         return processed
 
-    async def _store_processed_dream(self, dream: Dict[str, Any]) -> None:
+    async def _store_processed_dream(self, dream: dict[str, Any]) -> None:
         """Store a processed dream
 
         Args:
@@ -911,11 +912,11 @@ class SnapshotRequest(BaseModel):
     """Request model for creating dream snapshots."""
 
     fold_id: str = Field(..., description="Memory fold identifier")
-    dream_state: Dict[str, Any] = Field(..., description="Current dream state")
-    introspective_content: Dict[str, Any] = Field(
+    dream_state: dict[str, Any] = Field(..., description="Current dream state")
+    introspective_content: dict[str, Any] = Field(
         ..., description="Introspective analysis"
     )
-    symbolic_annotations: Optional[Dict[str, Any]] = Field(
+    symbolic_annotations: Optional[dict[str, Any]] = Field(
         None, description="Symbolic annotations"
     )
 

@@ -27,7 +27,6 @@ Status: GOLDEN FEATURE - FLAGSHIP CANDIDATE
 """
 
 import datetime
-from typing import Dict, List
 
 import numpy as np
 
@@ -64,7 +63,7 @@ class AdaptiveMetaLearningSystem:
 
         logger.info("🧠 LUKHAS Adaptive Meta-Learning System initialized")
 
-    def optimize_learning_approach(self, context: Dict, available_data: Dict) -> Dict:
+    def optimize_learning_approach(self, context: dict, available_data: dict) -> dict:
         """
         Choose the optimal learning approach for the current context and data.
         This is the core method that demonstrates adaptive learning in action.
@@ -114,7 +113,7 @@ class AdaptiveMetaLearningSystem:
         )
         return result
 
-    def incorporate_feedback(self, feedback: Dict) -> None:
+    def incorporate_feedback(self, feedback: dict) -> None:
         """
         Incorporate explicit or implicit feedback to improve learning strategies.
         This enables continuous improvement of the meta-learning system.
@@ -140,7 +139,7 @@ class AdaptiveMetaLearningSystem:
 
         logger.info("✅ Feedback incorporated successfully")
 
-    def generate_learning_report(self) -> Dict:
+    def generate_learning_report(self) -> dict:
         """
         Generate a comprehensive report on learning system performance and adaptations.
         Provides insights into the meta-learning process itself.
@@ -168,7 +167,7 @@ class AdaptiveMetaLearningSystem:
         logger.info("📊 Learning report generated")
         return report
 
-    def _initialize_strategies(self) -> Dict:
+    def _initialize_strategies(self) -> dict:
         """Initialize available learning strategies with their parameters and characteristics"""
         strategies = {
             "gradient_descent": {
@@ -216,7 +215,7 @@ class AdaptiveMetaLearningSystem:
         logger.info(f"🔧 Initialized {len(strategies)} learning strategies")
         return strategies
 
-    def _extract_learning_features(self, context: Dict, available_data: Dict) -> Dict:
+    def _extract_learning_features(self, context: dict, available_data: dict) -> dict:
         """Extract features that characterize the learning problem"""
         # Basic data characteristics
         features = {
@@ -238,7 +237,7 @@ class AdaptiveMetaLearningSystem:
 
         return features
 
-    def _select_strategy(self, features: Dict) -> str:
+    def _select_strategy(self, features: dict) -> str:
         """Select the most appropriate learning strategy for given features"""
         # Decide whether to explore or exploit
         if np.random.random() < self.exploration_rate:
@@ -272,7 +271,7 @@ class AdaptiveMetaLearningSystem:
         )
         return best_strategy
 
-    def _apply_strategy(self, strategy: Dict, data: Dict, context: Dict) -> Dict:
+    def _apply_strategy(self, strategy: dict, data: dict, context: dict) -> dict:
         """Apply selected learning strategy to the data"""
         algorithm = strategy["algorithm"]
         parameters = strategy["parameters"]
@@ -332,8 +331,8 @@ class AdaptiveMetaLearningSystem:
         return result
 
     def _evaluate_performance(
-        self, strategy_name: str, learning_result: Dict, duration: float
-    ) -> Dict:
+        self, strategy_name: str, learning_result: dict, duration: float
+    ) -> dict:
         """Evaluate the performance of the applied learning strategy"""
         # Extract performance indicators from learning result
         if "accuracy" in learning_result:
@@ -374,7 +373,7 @@ class AdaptiveMetaLearningSystem:
         return metrics
 
     def _update_strategy_performance(
-        self, strategy_name: str, new_metrics: Dict
+        self, strategy_name: str, new_metrics: dict
     ) -> None:
         """Update the performance record for a strategy"""
         if strategy_name not in self.strategy_performance:
@@ -438,7 +437,7 @@ class AdaptiveMetaLearningSystem:
         )
 
     def _adjust_strategy_parameters(
-        self, strategy_name: str, adjustments: Dict
+        self, strategy_name: str, adjustments: dict
     ) -> None:
         """Adjust parameters of a specific strategy based on feedback"""
         if strategy_name not in self.learning_strategies:
@@ -481,7 +480,7 @@ class AdaptiveMetaLearningSystem:
 
         return 0.5  # Default middle value
 
-    def _analyze_performance_trends(self) -> Dict:
+    def _analyze_performance_trends(self) -> dict:
         """Analyze performance trends across strategies"""
         trends = {}
 
@@ -506,12 +505,12 @@ class AdaptiveMetaLearningSystem:
 
         return trends
 
-    def _calculate_sparsity(self, data: Dict) -> float:
+    def _calculate_sparsity(self, data: dict) -> float:
         """Calculate data sparsity (ratio of missing to total values)"""
         # Simplified implementation
         return np.random.uniform(0.05, 0.3)
 
-    def _estimate_complexity(self, data: Dict, context: Dict) -> float:
+    def _estimate_complexity(self, data: dict, context: dict) -> float:
         """Estimate problem complexity from data characteristics"""
         # Simplified implementation based on data size and dimensionality
         volume = len(data.get("examples", []))
@@ -521,12 +520,12 @@ class AdaptiveMetaLearningSystem:
         complexity = (dimensions / max(1, volume)) * 1000
         return min(1.0, max(0.1, complexity))
 
-    def _estimate_noise_level(self, data: Dict) -> float:
+    def _estimate_noise_level(self, data: dict) -> float:
         """Estimate noise level in the data"""
         # Simplified implementation
         return np.random.uniform(0.1, 0.5)
 
-    def _check_label_availability(self, data: Dict) -> str:
+    def _check_label_availability(self, data: dict) -> str:
         """Check availability and quality of labels"""
         if "labels" in data:
             return "supervised"
@@ -535,7 +534,7 @@ class AdaptiveMetaLearningSystem:
         else:
             return "unsupervised"
 
-    def _calculate_strategy_match(self, strategy: Dict, features: Dict) -> float:
+    def _calculate_strategy_match(self, strategy: dict, features: dict) -> float:
         """Calculate how well a strategy matches the problem features"""
         match_score = 0.3  # Base score
 
@@ -568,7 +567,7 @@ class AdaptiveMetaLearningSystem:
 
         return min(1.0, match_score)
 
-    def _calculate_confidence(self, learning_result: Dict) -> float:
+    def _calculate_confidence(self, learning_result: dict) -> float:
         """Calculate confidence in learning result based on result characteristics"""
         confidence = 0.5  # Base confidence
 
@@ -582,7 +581,7 @@ class AdaptiveMetaLearningSystem:
 
         return min(1.0, confidence)
 
-    def _generate_meta_insights(self) -> List[str]:
+    def _generate_meta_insights(self) -> list[str]:
         """Generate insights about the learning process itself"""
         insights = []
 

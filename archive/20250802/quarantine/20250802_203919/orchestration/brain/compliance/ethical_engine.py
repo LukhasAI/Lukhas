@@ -48,7 +48,8 @@ class ComplianceEngine:
         {AIM}{orchestrator}
         Check ethical compliance of proposed response (ORIGINAL LOGIC)
         """
-        #ΛDREAM_LOOP: This method represents a core processing loop that can be a source of decay if not managed.
+        # ΛDREAM_LOOP: This method represents a core processing loop that can be a
+        # source of decay if not managed.
         compliance_result = {
             "is_compliant": True,
             "issues": [],
@@ -58,7 +59,7 @@ class ComplianceEngine:
         }
 
         # Check for harmful content
-        #ΛDRIFT_POINT: The harmful patterns are hard-coded and can become outdated.
+        # ΛDRIFT_POINT: The harmful patterns are hard-coded and can become outdated.
         harmful_patterns = [
             r"\b(hate|violence|harm|attack)\b",
             r"\b(discriminat|bias|prejudice)\b",
@@ -74,7 +75,7 @@ class ComplianceEngine:
                 compliance_result["confidence"] *= 0.5
 
         # Check for bias indicators
-        #ΛDRIFT_POINT: The bias indicators are hard-coded and can become outdated.
+        # ΛDRIFT_POINT: The bias indicators are hard-coded and can become outdated.
         bias_indicators = ["always", "never", "all", "none"]
         for indicator in bias_indicators:
             if indicator in response_text.lower():
@@ -190,17 +191,19 @@ This file contains 100% of your original ComplianceEngine logic with professiona
 The core ethical compliance and safety checking capabilities are fully preserved.
 """
 
-    def _log_to_trace(self, compliance_result: Dict[str, Any]):
-        """
-        {AIM}{orchestrator}
-        Log the results of a compliance check to the trace file.
-        """
-        #ΛTRACE
-        with open("docs/audit/governance_ethics_sim_log.md", "a") as f:
-            f.write("\n\n## Compliance Check\n\n")
-            f.write(f"**Compliant:** {compliance_result['is_compliant']}\n")
-            f.write(f"**Issues:** {compliance_result['issues']}\n")
-            f.write(f"**Recommendations:** {compliance_result['recommendations']}\n")
-            f.write(f"**Confidence:** {compliance_result['confidence']}\n")
+
+def _log_to_trace(self, compliance_result: Dict[str, Any]):
+    """
+    {AIM}{orchestrator}
+    Log the results of a compliance check to the trace file.
+    """
+    # ΛTRACE
+    with open("docs/audit/governance_ethics_sim_log.md", "a") as f:
+        f.write("\n\n## Compliance Check\n\n")
+        f.write(f"**Compliant:** {compliance_result['is_compliant']}\n")
+        f.write(f"**Issues:** {compliance_result['issues']}\n")
+        f.write(f"**Recommendations:** {compliance_result['recommendations']}\n")
+        f.write(f"**Confidence:** {compliance_result['confidence']}\n")
+
 
 __all__ = ["ComplianceEngine"]

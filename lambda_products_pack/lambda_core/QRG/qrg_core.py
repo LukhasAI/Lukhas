@@ -10,7 +10,7 @@ import logging
 import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -63,13 +63,13 @@ class QuantumGlyph:
 
     glyph_id: str
     visual_matrix: np.ndarray
-    animation_frames: List[np.ndarray]
+    animation_frames: list[np.ndarray]
     quantum_signature: str
     consciousness_fingerprint: str
     temporal_validity: datetime
-    hidden_payload: Optional[Dict[str, Any]] = None
+    hidden_payload: Optional[dict[str, Any]] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert glyph to dictionary format"""
         return {
             "glyph_id": self.glyph_id,
@@ -276,7 +276,7 @@ class QuantumResonanceGlyph:
 
         return matrix
 
-    def _hsv_to_rgb(self, h: float, s: float, v: float) -> Tuple[int, int, int]:
+    def _hsv_to_rgb(self, h: float, s: float, v: float) -> tuple[int, int, int]:
         """Convert HSV to RGB color space"""
         h = h / 60.0
         c = v * s
@@ -327,7 +327,7 @@ class QuantumResonanceGlyph:
         base_matrix: np.ndarray,
         animation_type: str,
         context: ConsciousnessContext,
-    ) -> List[np.ndarray]:
+    ) -> list[np.ndarray]:
         """Generate animation frames for temporal authentication"""
         frames = []
         num_frames = int(self.config.animation_fps * self.config.animation_duration)
@@ -380,7 +380,7 @@ class QuantumResonanceGlyph:
     def embed_hidden_data(
         self,
         glyph: QuantumGlyph,
-        hidden_payload: Dict[str, Any],
+        hidden_payload: dict[str, Any],
         steganographic_key: Optional[str] = None,
     ) -> QuantumGlyph:
         """
@@ -413,7 +413,7 @@ class QuantumResonanceGlyph:
         return embedded_glyph
 
     def _embed_data_in_matrix(
-        self, matrix: np.ndarray, payload: Dict[str, Any]
+        self, matrix: np.ndarray, payload: dict[str, Any]
     ) -> np.ndarray:
         """Embed data in visual matrix using LSB steganography"""
         embedded_matrix = matrix.copy()
@@ -441,7 +441,7 @@ class QuantumResonanceGlyph:
 
     def verify_glyph_authenticity(
         self, glyph: QuantumGlyph, user_identity: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Verify glyph authenticity and extract information
 
@@ -493,7 +493,7 @@ class QuantumResonanceGlyph:
         spatial_dimensions: int = 3,
         consciousness_layer: str = "user_friendly",
         quantum_entanglement: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create holographic QRG for WebXR/AR applications
 
@@ -525,7 +525,7 @@ class QuantumResonanceGlyph:
         logger.info("🌌 Holographic QRG created for immersive authentication")
         return holographic_data
 
-    def _generate_3d_projection_data(self, glyph: QuantumGlyph) -> List[Dict[str, Any]]:
+    def _generate_3d_projection_data(self, glyph: QuantumGlyph) -> list[dict[str, Any]]:
         """Generate 3D projection matrices for holographic display"""
         # Placeholder for 3D projection calculations
         return [
@@ -534,7 +534,7 @@ class QuantumResonanceGlyph:
             {"layer": 2, "z_depth": 0.2, "opacity": 0.5},
         ]
 
-    def _define_interaction_zones(self) -> List[Dict[str, Any]]:
+    def _define_interaction_zones(self) -> list[dict[str, Any]]:
         """Define interactive zones for gesture-based authentication"""
         return [
             {

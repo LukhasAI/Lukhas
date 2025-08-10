@@ -20,13 +20,13 @@ logger = structlog.get_logger(__name__)
 
 
 """
-+===========================================================================+
-| MODULE        : lukhas_affiliate_log.py                                    |
-| DESCRIPTION   : Tracks vendor referrals, commissions, and audit logs for  |
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
+| MODULE: lukhas_affiliate_log.py |
+| DESCRIPTION: Tracks vendor referrals, commissions, and audit logs for |
 |                 ethical monetization flows. Integrates with DST and NIAS. |
-| TYPE          : Vendor Referral & Audit Layer     VERSION: v1.0.0         |
-| AUTHOR        : LUKHAS SYSTEMS                   CREATED: 2025-4-22       |
-+===========================================================================+
+| TYPE: Vendor Referral & Audit Layer     VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                   CREATED: 2025 - 4 - 22 |
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
 DEPENDENCIES:
 - lukhas_gatekeeper.py
 - lukhas_nias_filter.py
@@ -43,10 +43,10 @@ def log_affiliate_action(user_id, vendor_name, action, commission=None):
     Logs affiliate actions, vendor referrals, and audit trails.
 
     Parameters:
-    - user_id (str): Unique user identifier
-    - vendor_name (str): Name of the vendor (e.g., 'Uber', 'Expedia')
-    - action (str): Action taken (e.g., 'click', 'purchase', 'decline')
-    - commission (float, optional): Referral commission earned
+    - user_id(str): Unique user identifier
+    - vendor_name(str): Name of the vendor(e.g., 'Uber', 'Expedia')
+    - action(str): Action taken(e.g., 'click', 'purchase', 'decline')
+    - commission(float, optional): Referral commission earned
 
     Returns:
     - dict: Logged entry
@@ -87,7 +87,7 @@ def log_affiliate_action(user_id, vendor_name, action, commission=None):
 
 """
 ΛTRACE: End of affiliate_log.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

@@ -6,7 +6,7 @@ Core memory system implementation for LUKHAS AI.
 Handles symbolic traces, pattern recognition, and memory evolution.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -24,7 +24,7 @@ class MemoriaSystem:
     - Drift detection and correction
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         """Initialize memoria system with configuration"""
         self.config = config or {}
         self.traces = {}
@@ -34,7 +34,7 @@ class MemoriaSystem:
         logger.info("Memoria system initialized")
 
     def store_trace(
-        self, trace_id: str, data: Dict, user_id: Optional[str] = None
+        self, trace_id: str, data: dict, user_id: Optional[str] = None
     ) -> bool:
         """
         Store a symbolic trace in memory.
@@ -67,7 +67,7 @@ class MemoriaSystem:
             logger.error(f"Failed to store trace {trace_id}: {e}")
             return False
 
-    def retrieve_trace(self, trace_id: str) -> Optional[Dict]:
+    def retrieve_trace(self, trace_id: str) -> Optional[dict]:
         """Retrieve a trace by ID"""
         trace = self.traces.get(trace_id)
         if trace:
@@ -75,7 +75,7 @@ class MemoriaSystem:
             logger.debug(f"Retrieved trace: {trace_id}")
         return trace
 
-    def search_traces(self, pattern: str, user_id: Optional[str] = None) -> List[Dict]:
+    def search_traces(self, pattern: str, user_id: Optional[str] = None) -> list[dict]:
         """Search traces by symbolic pattern"""
         results = []
         for trace in self.traces.values():
@@ -103,7 +103,7 @@ class MemoriaSystem:
         logger.info(f"Marked {consolidated_count} traces for consolidation")
         return consolidated_count
 
-    def detect_drift(self) -> Dict[str, float]:
+    def detect_drift(self) -> dict[str, float]:
         """Detect memory drift in symbolic patterns"""
         drift_metrics = {}
 
@@ -118,7 +118,7 @@ class MemoriaSystem:
 
         return drift_metrics
 
-    def _extract_patterns(self, data: Dict) -> List[str]:
+    def _extract_patterns(self, data: dict) -> list[str]:
         """Extract symbolic patterns from trace data"""
         patterns = []
         # Basic pattern extraction - would be more sophisticated in production
@@ -130,7 +130,7 @@ class MemoriaSystem:
                     patterns.append(f"{key}:{value}")
         return patterns
 
-    def _update_patterns(self, new_patterns: List[str]) -> None:
+    def _update_patterns(self, new_patterns: list[str]) -> None:
         """Update global pattern recognition"""
         for pattern in new_patterns:
             if pattern in self.patterns:
@@ -145,7 +145,7 @@ class MemoriaSystem:
                     "first_seen": None,  # Would use datetime in production
                 }
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get memory system statistics"""
         return {
             "total_traces": len(self.traces),

@@ -41,6 +41,8 @@
 
 import logging
 
+from lukhas_pwm.branding.terminology import normalize_output
+
 # Module imports
 from .env_loader import get_api_key
 
@@ -75,16 +77,22 @@ class GeminiWrapper:
         self, prompt: str, model: str = "gemini-pro", **kwargs
     ) -> str:
         """Generate response using Gemini API"""
+        guidance = (
+            "When describing methods, prefer 'quantum-inspired' and 'bio-inspired'. "
+            "Refer to the project as 'Lukhas AI'."
+        )
+
         if not hasattr(self, "model"):
-            return (
-                "Gemini client not initialized. Please check API key and installation."
-            )
+            fb = "Gemini client not initialized. Please check API key and installation."
+            return normalize_output(fb) or fb
 
         try:
-            response = self.model.generate_content(prompt)
-            return response.text
+            response = self.model.generate_content(f"{guidance}\n\n{prompt}")
+            text = getattr(response, "text", None)
+            return normalize_output(text) or text or ""
         except Exception as e:
-            return f"Gemini API Error: {str(e)}"
+            err = f"Gemini API Error: {str(e)}"
+            return normalize_output(err) or err
 
     def is_available(self) -> bool:
         """Check if Gemini is available"""

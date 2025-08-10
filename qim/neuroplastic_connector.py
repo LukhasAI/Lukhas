@@ -4,7 +4,7 @@ Auto-generated connector that integrates isolated components
 """
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ class QimConnector:
         """Emit hormone signal for neuroplastic response"""
         self.hormone_tags[hormone] = intensity
 
-    def get_stress_response(self) -> Dict[str, float]:
+    def get_stress_response(self) -> dict[str, float]:
         """Get current stress hormones for neuroplastic reorganization"""
         return {
             "cortisol": self.hormone_tags.get("cortisol", 0.0),

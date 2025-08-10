@@ -47,20 +47,20 @@ def mock_config():
 async def mock_server(mock_config):
     """Create a mock AGI server for testing"""
     with patch('main.get_integration_hub') as mock_hub, \
-         patch('main.MemoryFoldSystem') as mock_memory, " + "patch('main.DreamProcessor') as mock_dream, " + "patch('main.ConsciousnessIntegrator') as mock_consciousness:
-        
+            patch('main.MemoryFoldSystem') as mock_memory, " + "patch('main.DreamProcessor') as mock_dream, " + "patch('main.ConsciousnessIntegrator') as mock_consciousness:
+
         # Import after patching
         from main import LUKHASAGIServer
-        
+
         server = LUKHASAGIServer()
         server.config = mock_config
-        
+
         # Mock core systems
         server.integration_hub = Mock()
         server.memory_system = Mock()
         server.dream_processor = Mock()
         server.consciousness = Mock()
-        
+
         yield server
 
 
@@ -70,10 +70,10 @@ async def test_server_initialization(mock_server):
     # Mock initialization
     mock_server.security = Mock()
     mock_server.security.initialize = asyncio.coroutine(lambda: None)
-    
+
     # Initialize server
     await mock_server.initialize()
-    
+
     # Verify core systems initialized
     assert mock_server.audit_trail is not None
     assert mock_server.telemetry is not None
@@ -95,14 +95,15 @@ async def test_consciousness_cycle(mock_server):
         lambda s, m, d: {"coherence": 0.8, "complexity": 0.7}
     )
     mock_server.consciousness.get_current_state = lambda: {"coherence": 0.6}
-    
+
     # Mock audit trail
     mock_server.audit_trail = Mock()
-    mock_server.audit_trail.log_consciousness_transition = asyncio.coroutine(lambda **k: None)
-    
+    mock_server.audit_trail.log_consciousness_transition = asyncio.coroutine(
+        lambda **k: None)
+
     # Process cycle
     state = await mock_server._process_consciousness_cycle()
-    
+
     assert state["coherence"] == 0.8
     assert state["complexity"] == 0.7
 
@@ -115,16 +116,17 @@ async def test_emergence_detection(mock_server):
     mock_server.audit_trail.log_event = asyncio.coroutine(lambda **k: "event_001")
     mock_server.telemetry = Mock()
     mock_server.self_improvement = Mock()
-    mock_server.self_improvement.record_breakthrough = asyncio.coroutine(lambda **k: None)
-    
+    mock_server.self_improvement.record_breakthrough = asyncio.coroutine(
+        lambda **k: None)
+
     # Trigger emergence
     high_coherence_state = {
         "coherence": 0.95,
         "complexity": 0.9
     }
-    
+
     await mock_server._handle_emergence(high_coherence_state)
-    
+
     # Verify emergence recorded
     assert mock_server.emergence_events == 1
     mock_server.telemetry.record_metric.assert_called()
@@ -142,10 +144,10 @@ async def test_health_check(mock_server):
     mock_server.security = Mock()
     mock_server.telemetry = Mock()
     mock_server.startup_time = asyncio.get_event_loop().time()
-    
+
     # Check health
     health = await mock_server.check_health()
-    
+
     assert health['score'] > 0
     assert 'checks' in health
     assert health['thoughts_processed'] == 0
@@ -163,10 +165,10 @@ async def test_shutdown_sequence(mock_server):
     mock_server.telemetry.export_metrics = asyncio.coroutine(lambda: None)
     mock_server.learning_pipeline = Mock()
     mock_server.learning_pipeline.save_progress = asyncio.coroutine(lambda: None)
-    
+
     # Shutdown
     await mock_server.shutdown()
-    
+
     assert not mock_server.running
     mock_server.consciousness_stream.stop.assert_called_once()
     mock_server.telemetry.export_metrics.assert_called_once()
@@ -183,11 +185,11 @@ async def test_self_improvement_integration(mock_server):
     mock_server.self_improvement.get_pending_improvements = asyncio.coroutine(
         lambda: [{"type": "parameter_optimization", "description": "Tune learning rate"}]
     )
-    
+
     # Run improvement loop iteration
     mock_server.running = True
     improvements = await mock_server.self_improvement.get_pending_improvements()
-    
+
     assert len(improvements) == 1
     assert improvements[0]["type"] == "parameter_optimization"
 
@@ -196,12 +198,12 @@ async def test_self_improvement_integration(mock_server):
 async def test_config_loading():
     """Test configuration loading"""
     from main import LUKHASAGIServer
-    
+
     # Test default config
     server = LUKHASAGIServer()
     assert server.config['server']['port'] == 8080
     assert server.config['agi']['self_improvement_enabled'] is True
-    
+
     # Test custom config path
     with patch('builtins.open', create=True) as mock_open:
         mock_open.return_value.__enter__.return_value.read.return_value = """

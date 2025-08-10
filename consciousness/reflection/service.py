@@ -52,7 +52,7 @@
 # Module imports
 import asyncio
 from datetime import datetime, timedelta
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Optional, Union
 
 import structlog
 
@@ -86,7 +86,8 @@ def lukhas_tier_required(level: int) -> Callable:
         Callable: The decorated function or method.
     """
 
-    # Human-readable comment: Defines the tier requirement for accessing a function/method.
+    # Human-readable comment: Defines the tier requirement for accessing a
+    # function/method.
     def decorator(func: Callable) -> Callable:
         user_id_extraction_error_logged = (
             False  # Flag to log extraction error only once per call
@@ -137,7 +138,8 @@ def lukhas_tier_required(level: int) -> Callable:
                     user_id_logged=user_id_for_check,
                 )
                 # Actual tier enforcement logic would go here.
-                # Example: if not user_has_tier(user_id_for_check, level): raise PermissionDeniedError()
+                # Example: if not user_has_tier(user_id_for_check, level): raise
+                # PermissionDeniedError()
                 return await func(*args, **kwargs)
 
             return wrapper_async
@@ -181,7 +183,8 @@ except ImportError as e_ic:
     )
 
     # Fallback IdentityClient for environments where lukhas_id is not available.
-    # This allows the service to run with mocked identity functions for development/testing.
+    # This allows the service to run with mocked identity functions for
+    # development/testing.
     class IdentityClient:  # type: ignore
         """Fallback IdentityClient if the actual module is not found."""
 
@@ -214,7 +217,7 @@ except ImportError as e_ic:
             return True
 
         def log_activity(
-            self, activity_type: str, user_id: str, details: Dict[str, Any]
+            self, activity_type: str, user_id: str, details: dict[str, Any]
         ) -> None:
             # Log activity to the main logger with a specific structure.
             self.instance_logger.info(
@@ -261,9 +264,10 @@ class ConsciousnessService:
         # Maps capability names to their minimum tier requirements (string and int for reconciliation)
         # and the consent key required for that capability.
         # TODO: Reconcile "LAMBDA_TIER_X" string constants with the global 0-5 integer tier system.
-        #       The integer values (0-5) should ideally be used with @lukhas_tier_required and internally.
-        self.consciousness_capabilities_config: Dict[
-            str, Dict[str, Union[str, int]]
+        # The integer values (0-5) should ideally be used with
+        # @lukhas_tier_required and internally.
+        self.consciousness_capabilities_config: dict[
+            str, dict[str, Union[str, int]]
         ] = {
             "basic_awareness_processing": {
                 "min_tier_str": "LAMBDA_TIER_1",
@@ -297,7 +301,7 @@ class ConsciousnessService:
         )
 
         # Internal state of the consciousness service.
-        self.current_internal_state: Dict[str, Any] = {
+        self.current_internal_state: dict[str, Any] = {
             "overall_awareness_score": 0.5,
             "active_focus_points": [],
             "active_processing_threads_info": [],
@@ -308,7 +312,7 @@ class ConsciousnessService:
             "ΛTRACE: ConsciousnessService instance initialized successfully."
         )
 
-    def initialize(self, config: Optional[Dict[str, Any]] = None) -> bool:
+    def initialize(self, config: Optional[dict[str, Any]] = None) -> bool:
         """
         Initialize the consciousness service with optional configuration.
 
@@ -362,9 +366,9 @@ class ConsciousnessService:
     def process_awareness_stream(
         self,
         user_id: str,
-        input_data_stream: Dict[str, Any],
+        input_data_stream: dict[str, Any],
         requested_awareness_level_key: str = "basic_awareness_processing",
-    ) -> Dict[str, Any]:  # Renamed args
+    ) -> dict[str, Any]:  # Renamed args
         """
         Processes a stream of input data to generate awareness insights.
         Access and processing depth are determined by user tier and consent.
@@ -502,7 +506,7 @@ class ConsciousnessService:
         introspection_focus_area: str,
         requested_depth_level: float = 0.5,  # Renamed args
         introspection_method_type: str = "self_reflection_standard",
-    ) -> Dict[str, Any]:  # Renamed arg
+    ) -> dict[str, Any]:  # Renamed arg
         """
         Performs introspective analysis on a specified focus area.
         The depth and type of introspection are configurable and subject to tier/consent.
@@ -618,7 +622,7 @@ class ConsciousnessService:
     @lukhas_tier_required(level=1)  # Tier 1: Seeker - Basic state access.
     def get_current_consciousness_state_report(
         self, user_id: str, request_detailed_metrics: bool = False
-    ) -> Dict[str, Any]:  # Renamed args
+    ) -> dict[str, Any]:  # Renamed args
         """
         Retrieves the current internal consciousness state of the system.
         Detailed metrics may require higher tier access and specific consent.
@@ -775,10 +779,10 @@ class ConsciousnessService:
     def direct_attention_focus(
         self,
         user_id: str,
-        new_focus_targets: List[str],
+        new_focus_targets: list[str],
         focus_intensity_level: float = 0.7,  # Renamed args
         requested_focus_duration_seconds: Optional[int] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Directs the system's attention mechanisms towards specified targets with a given intensity.
 
@@ -798,7 +802,8 @@ class ConsciousnessService:
             targets=new_focus_targets,
             intensity=focus_intensity_level,
         )
-        # Attention control is often linked to introspection capabilities for self-direction.
+        # Attention control is often linked to introspection capabilities for
+        # self-direction.
         capability_config = self.consciousness_capabilities_config[
             "introspection_access"
         ]
@@ -897,14 +902,15 @@ class ConsciousnessService:
             )
             return {"success": False, "error": error_message_str}
 
-    # Engages metacognitive processes for higher-order thinking about the system's own thinking.
+    # Engages metacognitive processes for higher-order thinking about the
+    # system's own thinking.
     @lukhas_tier_required(level=3)  # Tier 3: Guardian - Access to metacognitive tools.
     def engage_metacognitive_analysis(
         self,
         user_id: str,
         topic_for_metacognition: str,  # Renamed args
         requested_analysis_depth_key: str = "standard_depth",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Engages metacognitive processes to analyze the system's own thinking or processing
         regarding a specific topic or query.
@@ -1016,14 +1022,15 @@ class ConsciousnessService:
 
     # --- Internal Placeholder Methods for Core Logic Simulation ---
     # These simulate the complex underlying processes and would be replaced by
-    # calls to specialized modules (e.g., a Global Workspace module, a Qualia Synthesizer, etc.)
+    # calls to specialized modules (e.g., a Global Workspace module, a Qualia
+    # Synthesizer, etc.)
 
     # Internal logic for processing a consciousness stream.
     def _execute_consciousness_stream_processing(
         self,
-        input_data_stream: Dict[str, Any],  # Renamed args
+        input_data_stream: dict[str, Any],  # Renamed args
         processing_level_key: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Placeholder for the core logic of processing a consciousness input stream."""
         self.instance_logger.debug(
             "ΛTRACE: Internal: _execute_consciousness_stream_processing.",
@@ -1059,7 +1066,7 @@ class ConsciousnessService:
 
     # Internal logic for updating the service's overall consciousness state.
     def _update_internal_consciousness_state(
-        self, processed_awareness_results: Dict[str, Any]
+        self, processed_awareness_results: dict[str, Any]
     ) -> None:  # Renamed arg
         """Placeholder for updating the internal state of the consciousness service."""
         self.instance_logger.debug(
@@ -1087,7 +1094,7 @@ class ConsciousnessService:
     # Internal logic for performing introspective analysis.
     def _execute_introspection_process(
         self, focus_area: str, depth_level: float, method_type: str
-    ) -> Dict[str, Any]:  # Renamed args
+    ) -> dict[str, Any]:  # Renamed args
         """Placeholder for the core logic of performing introspective analysis."""
         self.instance_logger.debug(
             "ΛTRACE: Internal: _execute_introspection_process.",
@@ -1110,7 +1117,7 @@ class ConsciousnessService:
         }
 
     # Internal logic for retrieving advanced/detailed consciousness metrics.
-    def _get_advanced_consciousness_metrics_internal(self) -> Dict[str, Any]:
+    def _get_advanced_consciousness_metrics_internal(self) -> dict[str, Any]:
         """Placeholder for retrieving advanced internal consciousness metrics."""
         self.instance_logger.debug(
             "ΛTRACE: Internal: _get_advanced_consciousness_metrics_internal."
@@ -1123,13 +1130,15 @@ class ConsciousnessService:
             "meta_awareness_index_simulated": 0.65,
         }
 
-    # Internal logic for retrieving a summary of recent cognitive traces or processing history.
-    def _get_cognitive_trace_summary_internal(self) -> List[Dict[str, Any]]:
+    # Internal logic for retrieving a summary of recent cognitive traces or
+    # processing history.
+    def _get_cognitive_trace_summary_internal(self) -> list[dict[str, Any]]:
         """Placeholder for retrieving a summary of recent cognitive processing history."""
         self.instance_logger.debug(
             "ΛTRACE: Internal: _get_cognitive_trace_summary_internal."
         )
-        # This should ideally pull from an actual log or deque of recent significant operations.
+        # This should ideally pull from an actual log or deque of recent
+        # significant operations.
         return [
             {
                 "event_timestamp_utc": (
@@ -1150,7 +1159,7 @@ class ConsciousnessService:
         ]
 
     # Internal logic for analyzing current awareness patterns.
-    def _analyze_current_awareness_patterns_internal(self) -> Dict[str, Any]:
+    def _analyze_current_awareness_patterns_internal(self) -> dict[str, Any]:
         """Placeholder for analyzing current patterns in consciousness or awareness."""
         self.instance_logger.debug(
             "ΛTRACE: Internal: _analyze_current_awareness_patterns_internal."
@@ -1168,10 +1177,10 @@ class ConsciousnessService:
     # Internal logic for applying an attention directive.
     def _execute_attention_directive(
         self,
-        focus_targets: List[str],
+        focus_targets: list[str],
         intensity_level: float,  # Renamed args
         duration_seconds: Optional[int],
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Placeholder for the core logic of applying an attention focus directive."""
         self.instance_logger.debug(
             "ΛTRACE: Internal: _execute_attention_directive.",
@@ -1195,7 +1204,7 @@ class ConsciousnessService:
     # Internal logic for performing metacognitive processing.
     def _execute_metacognitive_processing(
         self, analysis_topic: str, depth_key: str
-    ) -> Dict[str, Any]:  # Renamed args
+    ) -> dict[str, Any]:  # Renamed args
         """Placeholder for the core logic of performing metacognitive analysis."""
         self.instance_logger.debug(
             "ΛTRACE: Internal: _execute_metacognitive_processing.",
@@ -1232,9 +1241,9 @@ class ConsciousnessService:
 @lukhas_tier_required(level=1)  # Tier 1: Seeker
 def process_awareness_api(
     user_id: str,
-    input_stream: Dict[str, Any],  # Renamed to avoid conflict
+    input_stream: dict[str, Any],  # Renamed to avoid conflict
     awareness_level_key: str = "basic_awareness_processing",
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Simplified API for consciousness processing. Requires user_id for tier check."""
     logger.info(
         "ΛTRACE: Module API call: process_awareness_api.",
@@ -1254,7 +1263,7 @@ def perform_introspection_api(
     focus_area: str,
     depth: float = 0.5,  # Renamed
     method_type: str = "self_reflection_standard",
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Simplified API for introspection. Requires user_id for tier check."""
     logger.info(
         "ΛTRACE: Module API call: perform_introspection_api.",
@@ -1267,11 +1276,12 @@ def perform_introspection_api(
     )
 
 
-# Human-readable comment: Simplified module-level API for retrieving consciousness state.
+# Human-readable comment: Simplified module-level API for retrieving
+# consciousness state.
 @lukhas_tier_required(level=1)  # Tier 1: Seeker
 def get_consciousness_state_api(
     user_id: str, include_detailed: bool = False
-) -> Dict[str, Any]:  # Renamed
+) -> dict[str, Any]:  # Renamed
     """Simplified API for consciousness state retrieval. Requires user_id for tier check."""
     logger.info(
         "ΛTRACE: Module API call: get_consciousness_state_api.",
@@ -1303,7 +1313,8 @@ if __name__ == "__main__":
         )
     # Ensure the root logger for "ΛTRACE" is set to a level that allows messages through.
     # This might be needed if no handlers were previously attached at a higher level.
-    # logging.getLogger("ΛTRACE").setLevel(logging.DEBUG) # Example: Set to DEBUG for verbose output
+    # logging.getLogger("ΛTRACE").setLevel(logging.DEBUG) # Example: Set to
+    # DEBUG for verbose output
 
     logger.info(
         "ΛTRACE: consciousness_service.py executed as __main__ for demonstration purposes."
@@ -1428,7 +1439,8 @@ if __name__ == "__main__":
 #   # OR using module function (less context for service instance logger)
 #   awareness_data_alt = process_awareness_api("user123", {"elements": [...]})
 # INTEGRATION NOTES: Requires IdentityClient to be available and correctly configured.
-#                    Tier level strings ("LAMBDA_TIER_X") and integer tiers (0-5) need robust mapping.
+# Tier level strings ("LAMBDA_TIER_X") and integer tiers (0-5) need robust
+# mapping.
 """
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📋 FOOTER - LUKHAS AI

@@ -1,3 +1,6 @@
+from datetime import datetime
+from datetime import timezone
+
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: engine.py
 # MODULE: core.lukhas_analyze.engine
@@ -29,7 +32,7 @@ import io
 import time
 from dataclasses import dataclass, field  # Added field
 from enum import Enum
-from typing import Any, Dict, List, Optional  # Union was already here
+from typing import Any, Optional  # Union was already here
 
 import numpy as np
 import pandas as pd
@@ -60,7 +63,7 @@ except ImportError as e:
         pass  # type: ignore
 
     class AnalyticsMemory:  # type: ignore
-        async def store_analysis_memory(self, entry: Dict[str, Any]):
+        async def store_analysis_memory(self, entry: dict[str, Any]):
             pass
 
     class AccessController:  # type: ignore
@@ -69,7 +72,7 @@ except ImportError as e:
 
     class LucasConfig:  # type: ignore
         @staticmethod
-        def get_default() -> Dict[str, Any]:
+        def get_default() -> dict[str, Any]:
             return {}
 
 
@@ -95,7 +98,8 @@ class DataType(Enum):
     CATEGORICAL = "categorical"
     TIME_SERIES = "time_series"
     TEXT = "text"
-    GEOSPATIAL = "geospatial"  # ΛNOTE: Geospatial analysis not fully implemented in placeholders.
+    # ΛNOTE: Geospatial analysis not fully implemented in placeholders.
+    GEOSPATIAL = "geospatial"
     MIXED = "mixed"
 
 
@@ -108,7 +112,7 @@ class AnalysisRequest:
     data: Any
     question: Optional[str] = None
     analysis_type: AnalysisType = AnalysisType.AUTO
-    context: Dict[str, Any] = field(default_factory=dict)  # Ensure default is new dict
+    context: dict[str, Any] = field(default_factory=dict)  # Ensure default is new dict
     user_id: Optional[str] = None  # AIDENTITY
     session_id: Optional[str] = None  # AIDENTITY (session context)
 
@@ -153,13 +157,14 @@ class LucasAnalyzeEngine:
                 error=str(e_init_sub),
                 exc_info=True,
             )
-            # ΛCAUTION: Sub-component initialization failure will impact analysis capabilities.
+            # ΛCAUTION: Sub-component initialization failure will impact analysis
+            # capabilities.
             self.symbolic_processor = None  # type: ignore
             self.memory = None  # type: ignore
             self.access_controller = None  # type: ignore
 
         # ΛSEED_STATE: Registry of models used for different analysis tasks.
-        self.model_registry: Dict[str, str] = {
+        self.model_registry: dict[str, str] = {
             "statistical": "lukhas-stats-v2",
             "pattern_detection": "lukhas-patterns-v1",
             "time_series": "lukhas-forecast-v2",
@@ -170,11 +175,12 @@ class LucasAnalyzeEngine:
         self.logger.debug("Model registry initialized.", registry=self.model_registry)
 
         # ΛNOTE: Caching mechanisms for performance optimization.
-        self.analysis_cache: Dict[str, Any] = {}
-        self.visualization_cache: Dict[str, Any] = {}
+        self.analysis_cache: dict[str, Any] = {}
+        self.visualization_cache: dict[str, Any] = {}
 
-        # ΛSEED_STATE: Metrics for learning system to track and improve analysis quality.
-        self.learning_metrics: Dict[str, float] = {
+        # ΛSEED_STATE: Metrics for learning system to track and improve analysis
+        # quality.
+        self.learning_metrics: dict[str, float] = {
             "analysis_accuracy": 0.0,
             "user_satisfaction": 0.0,
             "insight_relevance": 0.0,
@@ -192,7 +198,7 @@ class LucasAnalyzeEngine:
         data: Any,
         question: Optional[str] = None,  # Made Optional consistent with AnalysisRequest
         **kwargs: Any,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Main analysis interface - AGI-powered insights in seconds
 
@@ -221,7 +227,8 @@ class LucasAnalyzeEngine:
             analysis_type=request.analysis_type.value,
         )
 
-        # ΛCAUTION: Ensure all sub-components (symbolic_processor, memory, access_controller) were initialized.
+        # ΛCAUTION: Ensure all sub-components (symbolic_processor, memory,
+        # access_controller) were initialized.
         if not all([self.symbolic_processor, self.memory, self.access_controller]):
             self.logger.error(
                 "Cannot perform analysis: one or more core sub-components not initialized."
@@ -280,13 +287,16 @@ class LucasAnalyzeEngine:
             user_id=request.user_id,
             data_size=len(processed_data),
         )
-        if not self.access_controller.can_analyze(request.user_id, len(processed_data)):  # type: ignore
+        if not self.access_controller.can_analyze(
+            request.user_id, len(processed_data)
+        ):  # type: ignore
             self.logger.warning(
                 "Analysis permission denied.",
                 user_id=request.user_id,
                 data_size=len(processed_data),
             )
-            # ΛCAUTION: PermissionError should be handled gracefully by API layer if this is user-facing.
+            # ΛCAUTION: PermissionError should be handled gracefully by API layer if
+            # this is user-facing.
             raise PermissionError(
                 "Insufficient access level for data size or user."
             )  # Or return error response
@@ -363,12 +373,15 @@ class LucasAnalyzeEngine:
                 input_str_preview=data_input[:100],
             )
             # File path or URL
-            # ΛCAUTION: pd.read_csv/json/excel can be slow for large files/URLs and might block if not handled carefully in async context (though pandas itself is mostly sync).
+            # ΛCAUTION: pd.read_csv/json/excel can be slow for large files/URLs and
+            # might block if not handled carefully in async context (though pandas
+            # itself is mostly sync).
             if data_input.lower().startswith(
                 ("http://", "https://")
             ):  # Basic URL check
                 # For URLs, pandas might handle them directly depending on the function
-                # Consider using aiohttp for true async fetching if this becomes a bottleneck
+                # Consider using aiohttp for true async fetching if this becomes a
+                # bottleneck
                 self.logger.info("Attempting to read data from URL", url=data_input)
             elif not os.path.exists(
                 data_input
@@ -420,8 +433,9 @@ class LucasAnalyzeEngine:
             )
             raise ValueError(f"Unsupported data type: {type(data_input)}")
 
-    # AINFER: Generates a profile of the data including shape, types, missing values, etc.
-    async def _profile_data(self, df: pd.DataFrame) -> Dict[str, Any]:
+    # AINFER: Generates a profile of the data including shape, types, missing
+    # values, etc.
+    async def _profile_data(self, df: pd.DataFrame) -> dict[str, Any]:
         """
         Comprehensive data profiling for intelligent analysis.
         #ΛNOTE: Profiling includes type classification and basic pattern detection per column.
@@ -471,7 +485,8 @@ class LucasAnalyzeEngine:
         self.logger.debug("Classifying column type", series_name=series.name)
         # Simplified classification logic
         if pd.api.types.is_numeric_dtype(series):
-            # ΛNOTE: Heuristic for distinguishing categorical numeric from continuous numeric.
+            # ΛNOTE: Heuristic for distinguishing categorical numeric from continuous
+            # numeric.
             if (
                 series.nunique() < 10
                 and series.nunique() / len(series) < 0.05
@@ -485,13 +500,15 @@ class LucasAnalyzeEngine:
             series
         ) or pd.api.types.is_timedelta64_dtype(series):
             return DataType.TIME_SERIES.value  # Broadly time-related
-        # Check for boolean type explicitly before categorical, as boolean is often a distinct category
+        # Check for boolean type explicitly before categorical, as boolean is
+        # often a distinct category
         elif pd.api.types.is_bool_dtype(series) or (
             series.nunique() == 2
             and series.dropna().isin([0, 1, "0", "1", True, False]).all()
         ):
             return DataType.CATEGORICAL.value  # Treat boolean as categorical
-        # Heuristic for categorical: low cardinality relative to length, or object/string type with low cardinality
+        # Heuristic for categorical: low cardinality relative to length, or
+        # object/string type with low cardinality
         elif (
             (series.dtype == "object" or pd.api.types.is_string_dtype(series))
             and series.nunique() / len(series) < 0.5
@@ -529,10 +546,10 @@ class LucasAnalyzeEngine:
         )  # Fallback or if truly mixed and not fitting other categories well
 
     # AINFER: Detects basic patterns like trends, seasonality, outliers in columns.
-    async def _detect_column_patterns(self, series: pd.Series) -> Dict[str, Any]:
+    async def _detect_column_patterns(self, series: pd.Series) -> dict[str, Any]:
         """Pattern detection in data columns (placeholder for more advanced methods)."""
         self.logger.debug("Detecting column patterns", series_name=series.name)
-        patterns: Dict[str, Any] = {
+        patterns: dict[str, Any] = {
             "trend": None,
             "seasonality": None,
             "outliers_detected": 0,
@@ -587,13 +604,14 @@ class LucasAnalyzeEngine:
         )
         return patterns
 
-    # AINFER: Calculates a data quality score based on completeness, consistency, uniqueness.
+    # AINFER: Calculates a data quality score based on completeness,
+    # consistency, uniqueness.
     async def _calculate_data_quality(
-        self, df: pd.DataFrame, profile: Dict[str, Any]
+        self, df: pd.DataFrame, profile: dict[str, Any]
     ) -> float:
         """Calculate overall data quality score."""
         self.logger.debug("Calculating data quality score.")
-        scores: List[float] = []
+        scores: list[float] = []
 
         total_possible_values = df.shape[0] * df.shape[1]
         if total_possible_values == 0:
@@ -604,7 +622,8 @@ class LucasAnalyzeEngine:
         scores.append(completeness)
         self.logger.debug("Data quality - completeness", score=completeness)
 
-        # Consistency (e.g. how many columns are not 'mixed' or 'unknown' type - simplified)
+        # Consistency (e.g. how many columns are not 'mixed' or 'unknown' type -
+        # simplified)
         num_cols = len(profile["column_details"])
         if num_cols > 0:
             well_typed_cols = sum(
@@ -644,12 +663,13 @@ class LucasAnalyzeEngine:
         )
         return final_quality_score
 
-    # AINFER: Detects the appropriate analysis type based on data, question, and profile.
+    # AINFER: Detects the appropriate analysis type based on data, question,
+    # and profile.
     async def _detect_analysis_type(
         self,
         df: pd.DataFrame,  # Added df for context
         question: Optional[str],  # Made Optional
-        profile: Dict[str, Any],
+        profile: dict[str, Any],
     ) -> AnalysisType:
         """
         AGI-powered analysis type detection using symbolic reasoning.
@@ -755,10 +775,11 @@ class LucasAnalyzeEngine:
         self.logger.info("Defaulting analysis type to DESCRIPTIVE.")
         return AnalysisType.DESCRIPTIVE
 
-    # AINFER: Generates insights using statistical methods, pattern detection, and question-specific logic.
+    # AINFER: Generates insights using statistical methods, pattern detection,
+    # and question-specific logic.
     async def _generate_insights(
-        self, df: pd.DataFrame, request: AnalysisRequest, profile: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, df: pd.DataFrame, request: AnalysisRequest, profile: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """
         Generate insights using symbolic AI and statistical analysis.
         #ΛNOTE: Insight generation is currently rule-based and statistical.
@@ -767,7 +788,7 @@ class LucasAnalyzeEngine:
         self.logger.debug(
             "Generating insights.", analysis_type=request.analysis_type.value
         )
-        insights: List[Dict[str, Any]] = []
+        insights: list[dict[str, Any]] = []
 
         insights.extend(await self._generate_statistical_insights(df, profile))
         insights.extend(
@@ -790,11 +811,11 @@ class LucasAnalyzeEngine:
         return ranked_insights[:10]  # Return top 10
 
     async def _generate_statistical_insights(
-        self, df: pd.DataFrame, profile: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, df: pd.DataFrame, profile: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Generate basic statistical insights based on data profile."""
         self.logger.debug("Generating statistical insights.")
-        insights: List[Dict[str, Any]] = []
+        insights: list[dict[str, Any]] = []
 
         for col_name, col_detail in profile.get("column_details", {}).items():
             if col_detail["dtype_detected"] == DataType.NUMERICAL.value:
@@ -835,11 +856,11 @@ class LucasAnalyzeEngine:
         return insights
 
     async def _generate_pattern_insights(
-        self, df: pd.DataFrame, profile: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, df: pd.DataFrame, profile: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Generate pattern-based insights (e.g., correlations)."""
         self.logger.debug("Generating pattern insights.")
-        insights: List[Dict[str, Any]] = []
+        insights: list[dict[str, Any]] = []
         numeric_cols = [
             col
             for col, detail in profile.get("column_details", {}).items()
@@ -868,7 +889,7 @@ class LucasAnalyzeEngine:
 
     async def _generate_question_insights(
         self, df: pd.DataFrame, question: str
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generate insights specific to user question using symbolic AI (conceptual)."""
         self.logger.debug(
             "Generating question-specific insights.", question_preview=question[:100]
@@ -904,13 +925,13 @@ class LucasAnalyzeEngine:
             ]
 
     async def _generate_type_specific_insights(
-        self, df: pd.DataFrame, analysis_type: AnalysisType, profile: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, df: pd.DataFrame, analysis_type: AnalysisType, profile: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Generate insights specific to analysis type."""
         self.logger.debug(
             "Generating type-specific insights.", analysis_type=analysis_type.value
         )
-        insights: List[Dict[str, Any]] = []
+        insights: list[dict[str, Any]] = []
 
         if analysis_type == AnalysisType.PREDICTIVE:
             time_series_cols = [
@@ -962,25 +983,27 @@ class LucasAnalyzeEngine:
 
     # AINFER: Ranks generated insights based on importance or relevance.
     async def _rank_insights(
-        self, insights: List[Dict[str, Any]], request: AnalysisRequest
-    ) -> List[Dict[str, Any]]:
+        self, insights: list[dict[str, Any]], request: AnalysisRequest
+    ) -> list[dict[str, Any]]:
         """Rank insights by relevance and importance (placeholder)."""
         self.logger.debug("Ranking insights.", count=len(insights))
         # ΛNOTE: Current ranking is a simple sort by 'importance' score.
-        # More advanced ranking could consider question relevance, context, user profile.
+        # More advanced ranking could consider question relevance, context, user
+        # profile.
         ranked = sorted(insights, key=lambda x: x.get("importance", 0.0), reverse=True)
         self.logger.info(
             "Insights ranked.", original_count=len(insights), ranked_count=len(ranked)
         )
         return ranked
 
-    # ΛNOTE: Visualization creation is placeholder and would use libraries like Plotly/Altair.
+    # ΛNOTE: Visualization creation is placeholder and would use libraries
+    # like Plotly/Altair.
     async def _create_visualizations(
         self,
         df: pd.DataFrame,
-        insights: List[Dict[str, Any]],  # Insights can guide visualization choices
+        insights: list[dict[str, Any]],  # Insights can guide visualization choices
         request: AnalysisRequest,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Create intelligent visualizations based on data and insights.
         #ΛNOTE: This is a placeholder. Actual implementation would use plotting libraries.
@@ -989,7 +1012,7 @@ class LucasAnalyzeEngine:
             "Creating visualizations (placeholder).",
             num_insights_for_guidance=len(insights),
         )
-        visualizations: List[Dict[str, Any]] = []
+        visualizations: list[dict[str, Any]] = []
 
         visualizations.append(
             {
@@ -1012,7 +1035,7 @@ class LucasAnalyzeEngine:
 
     # AINFER: Generates a natural language summary of the key insights.
     async def _generate_summary(
-        self, insights: List[Dict[str, Any]], question: Optional[str] = None
+        self, insights: list[dict[str, Any]], question: Optional[str] = None
     ) -> str:
         """
         Generate natural language summary of analysis.
@@ -1022,7 +1045,7 @@ class LucasAnalyzeEngine:
         if not insights:
             return "No significant insights were found in the provided data."
 
-        summary_parts: List[str] = []
+        summary_parts: list[str] = []
         if question:
             summary_parts.append(f"Regarding your question: '{question}':")
         summary_parts.append(
@@ -1043,16 +1066,17 @@ class LucasAnalyzeEngine:
 
     # AINFER: Generates actionable recommendations based on the analysis.
     async def _generate_recommendations(
-        self, insights: List[Dict[str, Any]], request: AnalysisRequest
-    ) -> List[str]:
+        self, insights: list[dict[str, Any]], request: AnalysisRequest
+    ) -> list[str]:
         """Generate actionable recommendations based on insights (placeholder)."""
         self.logger.debug("Generating recommendations.", num_insights=len(insights))
-        recommendations: List[str] = [
+        recommendations: list[str] = [
             "Further exploratory data analysis is recommended."
         ]  # Default
         # ΛNOTE: Recommendation logic is placeholder.
         # Example: If high variability & outliers, suggest data cleaning or robust stats.
-        #          If strong correlation, suggest feature engineering or multicollinearity check.
+        # If strong correlation, suggest feature engineering or multicollinearity
+        # check.
         self.logger.info(
             "Recommendations generated (placeholders).", count=len(recommendations)
         )
@@ -1060,12 +1084,13 @@ class LucasAnalyzeEngine:
 
     # AINFER: Calculates confidence scores for the overall analysis.
     async def _calculate_confidence(
-        self, insights: List[Dict[str, Any]]
-    ) -> Dict[str, float]:
+        self, insights: list[dict[str, Any]]
+    ) -> dict[str, float]:
         """Calculate confidence scores for insights (placeholder)."""
         self.logger.debug("Calculating confidence scores.", num_insights=len(insights))
         # ΛNOTE: Confidence calculation is placeholder.
-        # Should be based on statistical significance, data quality, model certainty, etc.
+        # Should be based on statistical significance, data quality, model
+        # certainty, etc.
         overall_conf = (
             float(np.mean([insight.get("importance", 0.5) for insight in insights]))
             if insights
@@ -1088,7 +1113,8 @@ class LucasAnalyzeEngine:
         # ΛNOTE: Cache key generation uses pandas utility for DataFrame hash.
         #        This can be memory intensive for very large DataFrames if not careful.
         self.logger.debug("Generating cache key.")
-        # Use a sample of the dataframe for hashing if it's too large to prevent memory issues
+        # Use a sample of the dataframe for hashing if it's too large to prevent
+        # memory issues
         sample_df = df.head(100) if len(df) > 100 else df
         try:
             data_hash = pd.util.hash_pandas_object(sample_df, index=True).sum()
@@ -1112,18 +1138,19 @@ class LucasAnalyzeEngine:
 
     async def _check_analysis_cache(
         self, cache_key: str
-    ) -> Optional[Dict[str, Any]]:  # Return type is Dict or None
+    ) -> Optional[dict[str, Any]]:  # Return type is Dict or None
         """Check if analysis result is cached."""
         self.logger.debug("Checking analysis cache for key.", cache_key=cache_key)
         return self.analysis_cache.get(cache_key)
 
     async def _store_analysis_cache(
-        self, cache_key: str, result: Dict[str, Any]
+        self, cache_key: str, result: dict[str, Any]
     ):  # Param types
         """Store analysis result in cache."""
         self.logger.debug("Storing analysis result in cache.", cache_key=cache_key)
         self.analysis_cache[cache_key] = result
-        # ΛNOTE: Cache eviction is simple (oldest). More sophisticated (LRU, LFU) could be used.
+        # ΛNOTE: Cache eviction is simple (oldest). More sophisticated (LRU, LFU)
+        # could be used.
         if len(self.analysis_cache) > self.config.get(
             "cache_size", 100
         ):  # Use config for cache size
@@ -1141,7 +1168,7 @@ class LucasAnalyzeEngine:
                 pass
 
     async def _store_analysis_memory(
-        self, request: AnalysisRequest, result: Dict[str, Any]
+        self, request: AnalysisRequest, result: dict[str, Any]
     ):  # Param types
         """Store analysis in learning memory for continuous improvement."""
         self.logger.debug(
@@ -1181,11 +1208,11 @@ class LucasAnalyzeEngine:
 
     def _format_response(
         self,
-        result: Dict[str, Any],
+        result: dict[str, Any],
         response_time_secs: float,
         from_cache: bool = False,
         error_state: bool = False,
-    ) -> Dict[str, Any]:  # Added error_state
+    ) -> dict[str, Any]:  # Added error_state
         """Format final analysis response."""
         self.logger.debug(
             "Formatting final analysis response.",
@@ -1229,7 +1256,7 @@ class LucasAnalyzeEngine:
         return formatted_response
 
     # ΛEXPOSE
-    def get_capabilities(self) -> Dict[str, Any]:
+    def get_capabilities(self) -> dict[str, Any]:
         """Return current engine capabilities and status."""
         self.logger.info("Fetching engine capabilities.")
         return {

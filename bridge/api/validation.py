@@ -254,7 +254,7 @@ async def main() -> bool:
                 if op_stress.status == "completed":
                     stress_successful_ops += 1
                 logger.info(
-                    f"ΛTRACE: Stress op {i} status: {op_stress.status},
+                    f"ΛTRACE: Stress op {i} status: {op_stress.status},"
                     duration: {op_stress.duration_ms: .2f}ms"
                 )
                 logger.info(

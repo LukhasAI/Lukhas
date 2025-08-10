@@ -4,10 +4,11 @@ Enhanced voice integration layer incorporating quantum features.
 This module combines the voice integration capabilities from both prot1 and prot2,
 with quantum enhancement features for improved emotional processing and voice synthesis.
 """
+import logging
 
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from ..bio_core.oscillator.orchestrator import BioOrchestrator
 from ..bio_core.voice.quantum_voice_enhancer import (
@@ -83,8 +84,8 @@ class EnhancedVoiceIntegrator:
         logger.info("Enhanced voice integrator initialized")
 
     async def process_voice(
-        self, audio_data: bytes, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, audio_data: bytes, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Process voice input with quantum enhancement
 
         Args:
@@ -118,8 +119,8 @@ class EnhancedVoiceIntegrator:
         return result
 
     async def generate_speech(
-        self, text: str, voice_params: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, text: str, voice_params: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Generate speech output with quantum enhancement
 
         Args:
@@ -155,8 +156,8 @@ class EnhancedVoiceIntegrator:
         return result
 
     async def _basic_voice_processing(
-        self, audio_data: bytes, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, audio_data: bytes, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Perform basic voice processing without quantum enhancement"""
         try:
             # Voice recognition
@@ -189,7 +190,7 @@ class EnhancedVoiceIntegrator:
             return {"success": False, "error": str(e)}
 
     async def _enhance_emotion(
-        self, base_emotion: Optional[str], confidence: float, context: Dict[str, Any]
+        self, base_emotion: Optional[str], confidence: float, context: dict[str, Any]
     ) -> Optional[str]:
         """Enhance emotion detection with quantum-inspired processing"""
         if not base_emotion or confidence >= self.config.emotion_confidence_threshold:
@@ -212,8 +213,8 @@ class EnhancedVoiceIntegrator:
         return base_emotion
 
     async def _basic_speech_synthesis(
-        self, text: str, profile: Dict[str, Any], params: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, text: str, profile: dict[str, Any], params: dict[str, Any]
+    ) -> dict[str, Any]:
         """Perform basic speech synthesis without quantum enhancement"""
         try:
             # Apply emotional modulation
@@ -245,10 +246,10 @@ class EnhancedVoiceIntegrator:
 
     async def _enhance_synthesis(
         self,
-        base_result: Dict[str, Any],
-        profile: Dict[str, Any],
-        params: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        base_result: dict[str, Any],
+        profile: dict[str, Any],
+        params: dict[str, Any],
+    ) -> dict[str, Any]:
         """Enhance speech synthesis with quantum-inspired processing"""
         try:
             # Measure coherence-inspired processing
@@ -265,7 +266,7 @@ class EnhancedVoiceIntegrator:
             logger.error(f"Error in quantum synthesis enhancement: {e}")
             return base_result
 
-    def _get_voice_profile(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    def _get_voice_profile(self, params: dict[str, Any]) -> dict[str, Any]:
         """Get appropriate voice profile based on parameters"""
         profile_id = params.get("profile_id")
         if profile_id:
@@ -275,8 +276,8 @@ class EnhancedVoiceIntegrator:
         return self.profile_manager.select_profile_for_context(params)
 
     def _adapt_cultural_context(
-        self, result: Dict[str, Any], params: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, result: dict[str, Any], params: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply cultural adaptation to synthesis result"""
         if not result["success"]:
             return result
@@ -291,7 +292,7 @@ class EnhancedVoiceIntegrator:
             logger.error(f"Error in cultural adaptation: {e}")
             return result
 
-    def _record_session_usage(self, session_id: str, result: Dict[str, Any]) -> None:
+    def _record_session_usage(self, session_id: str, result: dict[str, Any]) -> None:
         """Record voice processing usage for session"""
         if session_id not in self.active_sessions:
             self.active_sessions[session_id] = []

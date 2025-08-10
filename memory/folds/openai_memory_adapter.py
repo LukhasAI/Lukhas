@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 
@@ -47,7 +49,7 @@ Thus, dear traveler of the digital realm, as you traverse the intricate pathways
 
 import asyncio
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from bridge.openai_core_service import (
     ModelType,
@@ -70,7 +72,7 @@ class MemoryOpenAIAdapter:
         self.module_name = "memory"
         logger.info("Memory OpenAI Adapter initialized")
 
-    async def compress_memory(self, memory_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def compress_memory(self, memory_data: dict[str, Any]) -> dict[str, Any]:
         """
         Use GPT-4 to semantically compress memory data.
 
@@ -119,7 +121,7 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
                     "compression_ratio": len(str(compressed)) / len(str(memory_data)),
                     "method": "openai_semantic",
                 }
-            except:
+            except BaseException:
                 # Fallback if JSON parsing fails
                 return {
                     "compressed": {"summary": response.data["content"]},
@@ -129,7 +131,7 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
             logger.error(f"Memory compression failed: {response.error}")
             return {"compressed": memory_data, "method": "none"}
 
-    async def generate_memory_embedding(self, memory_text: str) -> List[float]:
+    async def generate_memory_embedding(self, memory_text: str) -> list[float]:
         """
         Generate embedding for memory using OpenAI embeddings.
 
@@ -155,8 +157,8 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
             return [0.0] * 1536
 
     async def find_similar_memories(
-        self, query: str, memory_embeddings: Dict[str, List[float]], top_k: int = 5
-    ) -> List[Dict[str, Any]]:
+        self, query: str, memory_embeddings: dict[str, list[float]], top_k: int = 5
+    ) -> list[dict[str, Any]]:
         """
         Find similar memories using embedding similarity.
 
@@ -183,7 +185,7 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
         return similarities[:top_k]
 
     async def synthesize_memory_narrative(
-        self, memories: List[Dict[str, Any]], context: Optional[str] = None
+        self, memories: list[dict[str, Any]], context: Optional[str] = None
     ) -> str:
         """
         Create a narrative synthesis of multiple memories.
@@ -232,8 +234,8 @@ Write in first person, as if reflecting on these experiences."""
             return "Unable to synthesize memories at this time."
 
     async def analyze_memory_patterns(
-        self, memories: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, memories: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Analyze patterns across memories using GPT-4.
 
@@ -282,12 +284,12 @@ Format as JSON with detailed analysis."""
                 import json
 
                 return json.loads(response.data["content"])
-            except:
+            except BaseException:
                 return {"analysis": response.data["content"], "format": "text"}
         else:
             return {"error": "Pattern analysis failed"}
 
-    async def generate_memory_visualization_prompt(self, memory: Dict[str, Any]) -> str:
+    async def generate_memory_visualization_prompt(self, memory: dict[str, Any]) -> str:
         """
         Generate DALL-E prompt for memory visualization.
 
@@ -326,7 +328,7 @@ Write only the DALL-E prompt, nothing else."""
             return "Abstract memory landscape with flowing shapes and ethereal colors"
 
     async def create_memory_visualization(
-        self, memory: Dict[str, Any]
+        self, memory: dict[str, Any]
     ) -> Optional[str]:
         """
         Create visual representation of memory using DALL-E.
@@ -355,7 +357,7 @@ Write only the DALL-E prompt, nothing else."""
             logger.error(f"Memory visualization failed: {response.error}")
             return None
 
-    def _cosine_similarity(self, vec1: List[float], vec2: List[float]) -> float:
+    def _cosine_similarity(self, vec1: list[float], vec2: list[float]) -> float:
         """Calculate cosine similarity between two vectors."""
         import math
 

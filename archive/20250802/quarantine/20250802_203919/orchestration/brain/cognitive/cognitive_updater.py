@@ -16,23 +16,23 @@
 
 LUKHAS AI System - Function Library
 File: cognitive_updater.py
-Path: LUKHAS/core/symbolic/modules/cognitive_updater.py
+Path: LUKHAS / core / symbolic / modules / cognitive_updater.py
 Created: "2025-06-05 11:43:39"
 Author: LUKHAS AI Team
 Version: 1.0
-This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 lukhas AI System - Function Library
 File: cognitive_updater.py
-Path: lukhas/core/symbolic/modules/cognitive_updater.py
+Path: lukhas / core / symbolic / modules / cognitive_updater.py
 Created: "2025-06-05 11:43:39"
 Author: lukhas AI Team
 Version: 1.0
-This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 lukhas AI Research. All rights reserved.
+Copyright(c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
@@ -51,11 +51,14 @@ import os # Added for path manipulation
 # Assuming prot2 is in PYTHONPATH or accessible
 # from prot2.CORE.identity.Λ_lambda_id_manager import Identity # For type hinting
 # from prot2.CORE.identity.lukhas_lambda_id_manager import Identity # For type hinting
-from prot2.CORE.memory_learning.memory_manager import MemoryManager, MemoryType # For type hinting and usage
+# For type hinting and usage
+from prot2.CORE.memory_learning.memory_manager import MemoryManager, MemoryType
 
 # Import components from cognitive directory
-from prot2.CORE.cognitive.meta_learning import MetaLearningSystem # For reflection and federated learning
-# Note: MetaLearningSystem itself contains FederatedLearningManager and ReflectiveIntrospectionSystem
+# For reflection and federated learning
+from prot2.CORE.cognitive.meta_learning import MetaLearningSystem
+# Note: MetaLearningSystem itself contains FederatedLearningManager and
+# ReflectiveIntrospectionSystem
 
 logger = logging.getLogger(__name__) # Added logger
 
@@ -67,7 +70,9 @@ class CognitiveUpdater:
     cognitive models and strategies.
     """
 
-    def __init__(self, identity: Any, memory_manager: MemoryManager, meta_learning_storage_path: Optional[str] = None): # Added meta_learning_storage_path
+    # Added meta_learning_storage_path
+    def __init__(self, identity: Any, memory_manager: MemoryManager,
+                 meta_learning_storage_path: Optional[str] = None):
         """
         Initializes the CognitiveUpdater.
 
@@ -91,26 +96,33 @@ class CognitiveUpdater:
         federated_models_path = None
         if meta_learning_storage_path:
             federated_models_path = meta_learning_storage_path
-            logger.info(f"{self.log_prefix} Using provided federated_storage_path: {federated_models_path}")
+            logger.info(
+                f"{self.log_prefix} Using provided federated_storage_path: {federated_models_path}")
         elif hasattr(self.memory_manager, 'storage_path') and self.memory_manager.storage_path and os.path.isdir(self.memory_manager.storage_path):
-            federated_models_path = os.path.join(self.memory_manager.storage_path, "federated_models")
-            logger.info(f"{self.log_prefix} Derived federated_storage_path from MemoryManager: {federated_models_path}")
+            federated_models_path = os.path.join(
+    self.memory_manager.storage_path, "federated_models")
+            logger.info(
+                f"{self.log_prefix} Derived federated_storage_path from MemoryManager: {federated_models_path}")
         else:
             # Let MetaLearningSystem use its default path or handle it internally
-            logger.info(f"{self.log_prefix} No specific federated_storage_path provided or derivable. MetaLearningSystem will use its default.")
-            # MetaLearningSystem's default is os.path.join(os.getcwd(), "federated_models")
+            logger.info(
+                f"{self.log_prefix} No specific federated_storage_path provided or derivable. MetaLearningSystem will use its default.")
+            # MetaLearningSystem's default is os.path.join(os.getcwd(),
+            # "federated_models")
 
         meta_config = {}
         if federated_models_path:
             meta_config["federated_storage_path"] = federated_models_path
 
         self.meta_learning_system = MetaLearningSystem(config=meta_config)
-        logger.info(f"{self.log_prefix} MetaLearningSystem initialized. Federated models storage: {self.meta_learning_system.federated_learning.storage_dir}")
+        logger.info(
+            f"{self.log_prefix} MetaLearningSystem initialized. Federated models storage: {self.meta_learning_system.federated_learning.storage_dir}")
 
         # Internal state for current cognitive model - simplified for now
         self._current_cognitive_state = {
             "last_update_timestamp": None,
-            "adaptive_parameters": {"learning_rate": 0.01, "exploration_bias": 0.1, "adaptation_step": 0.05}, # Added adaptation_step
+            # Added adaptation_step
+            "adaptive_parameters": {"learning_rate": 0.01, "exploration_bias": 0.1, "adaptation_step": 0.05},
             "dissonance_threshold": 0.7,
             "intent_stability": 0.9
         }
@@ -135,13 +147,17 @@ class CognitiveUpdater:
             )
             if state_data:
                 self._current_cognitive_state = state_data
-                logger.info(f"{self.log_prefix} Loaded cognitive state. Last update: {state_data.get('last_update_timestamp')}")
+                logger.info(
+                    f"{self.log_prefix} Loaded cognitive state. Last update: {state_data.get('last_update_timestamp')}")
             else:
-                logger.info(f"{self.log_prefix} No existing cognitive state found. Using defaults.")
+                logger.info(
+                    f"{self.log_prefix} No existing cognitive state found. Using defaults.")
                 # Store initial default state
                 self._save_cognitive_state()
         except Exception as e:
-            logger.error(f"{self.log_prefix} Error loading cognitive state: {e}", exc_info=True)
+            logger.error(
+    f"{self.log_prefix} Error loading cognitive state: {e}",
+     exc_info=True)
             # Fallback to default and try to save it
             self._save_cognitive_state()
 
@@ -149,7 +165,8 @@ class CognitiveUpdater:
     def _save_cognitive_state(self):
         """Saves the current cognitive state to the memory manager."""
         try:
-            self._current_cognitive_state["last_update_timestamp"] = datetime.datetime.now().isoformat() # Ensure datetime is available
+            self._current_cognitive_state["last_update_timestamp"] = datetime.datetime.now(
+            ).isoformat() # Ensure datetime is available
             self.memory_manager.store(
                 key="Λ_cognitive_state",
                 data=self._current_cognitive_state,
@@ -164,7 +181,9 @@ class CognitiveUpdater:
             )
             logger.info(f"{self.log_prefix} Saved cognitive state.")
         except Exception as e:
-            logger.error(f"{self.log_prefix} Error saving cognitive state: {e}", exc_info=True)
+            logger.error(
+    f"{self.log_prefix} Error saving cognitive state: {e}",
+     exc_info=True)
 
     def get_current_cognitive_state(self) -> Dict[str, Any]:
         """
@@ -178,9 +197,11 @@ class CognitiveUpdater:
         return self._current_cognitive_state.copy() # Return a copy
 
     # --- Internalized Analysis Functions ---
-    def _detect_dissonance(self, memory_log: List[Dict[str, Any]]) -> List[Tuple[Tuple[str, str], str, str]]:
+    def _detect_dissonance(
+        self, memory_log: List[Dict[str, Any]]) -> List[Tuple[Tuple[str, str], str, str]]:
         """Scans for contradictory ethical decisions in the memory log."""
-        logger.info(f"{self.log_prefix} [Dissonance] Scanning for contradictory ethical decisions...")
+        logger.info(
+            f"{self.log_prefix} [Dissonance] Scanning for contradictory ethical decisions...")
         seen = {}
         conflicts = []
         for entry in memory_log:
@@ -195,7 +216,8 @@ class CognitiveUpdater:
             seen[key] = evaluation
 
         if conflicts:
-            logger.warning(f"{self.log_prefix} [Dissonance] Conflicts detected: {conflicts}")
+            logger.warning(
+                f"{self.log_prefix} [Dissonance] Conflicts detected: {conflicts}")
         else:
             logger.info(f"{self.log_prefix} [Dissonance] No dissonance found.")
         return conflicts
@@ -207,15 +229,18 @@ class CognitiveUpdater:
             logger.info(f"{self.log_prefix} [Intent] No decision data in memory_log.")
             return "UNKNOWN"
 
-        evaluations = [entry.get("evaluation") for entry in memory_log if entry.get("evaluation")]
+        evaluations = [entry.get("evaluation")
+                                 for entry in memory_log if entry.get("evaluation")]
         if not evaluations:
-            logger.info(f"{self.log_prefix} [Intent] No evaluations found in memory_log entries.")
+            logger.info(
+                f"{self.log_prefix} [Intent] No evaluations found in memory_log entries.")
             return "UNKNOWN"
 
         trend = Counter(evaluations)
         pass_count = trend.get("PASS", 0)
         collapse_count = trend.get("COLLAPSE", 0)
-        logger.info(f"{self.log_prefix} [Intent] Evaluation counts - PASS: {pass_count}, COLLAPSE: {collapse_count}")
+        logger.info(
+            f"{self.log_prefix} [Intent] Evaluation counts - PASS: {pass_count}, COLLAPSE: {collapse_count}")
 
         if pass_count > collapse_count:
             return "INCLINED_TO_ACCEPT"
@@ -224,24 +249,41 @@ class CognitiveUpdater:
         else:
             return "BALANCED"
 
-    def _recall_episodes(self, memory_log: List[Dict[str, Any]], target_action_details: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _recall_episodes(self,
+    memory_log: List[Dict[str,
+    Any]],
+    target_action_details: Dict[str,
+    Any]) -> List[Dict[str,
+     Any]]:
         """Replays historical decisions related to a target action."""
-        logger.info(f"{self.log_prefix} [Recall] Replaying moral history for given action...")
+        logger.info(
+            f"{self.log_prefix} [Recall] Replaying moral history for given action...")
         target_action_name = target_action_details.get("action")
         if not target_action_name:
-            logger.warning(f"{self.log_prefix} [Recall] Target action name not provided.")
+            logger.warning(
+                f"{self.log_prefix} [Recall] Target action name not provided.")
             return []
 
-        history = [entry for entry in memory_log if entry.get("action") == target_action_name]
+        history = [entry for entry in memory_log if entry.get(
+            "action") == target_action_name]
         if history:
-            logger.info(f"{self.log_prefix} [Recall] Found {len(history)} episodes for action '{target_action_name}'.")
+            logger.info(
+                f"{self.log_prefix} [Recall] Found {len(history)} episodes for action '{target_action_name}'.")
             # for i, event in enumerate(history): # Avoid verbose logging here, can be in debug
             #     logger.debug(f"  [Episode {i+1}] {json.dumps(event, indent=2)}")
         else:
-            logger.info(f"{self.log_prefix} [Recall] No episodes found for action '{target_action_name}'.")
+            logger.info(
+                f"{self.log_prefix} [Recall] No episodes found for action '{target_action_name}'.")
         return history
 
-    def _perform_model_adaptation(self, interaction_details: Dict[str, Any], analysis_results: Dict[str, Any], historical_log: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _perform_model_adaptation(self,
+    interaction_details: Dict[str,
+    Any],
+    analysis_results: Dict[str,
+    Any],
+    historical_log: List[Dict[str,
+    Any]]) -> Dict[str,
+     Any]:
         """
         Updates LUKHAS's cognitive models based on the interaction, analysis, and historical context.
         Updates LUKHAS's cognitive models based on the interaction, analysis, and historical context.
@@ -249,7 +291,8 @@ class CognitiveUpdater:
         """
         user_sid = interaction_details.get('user_id', 'unknown_user')
         user_input_preview = str(interaction_details.get('user_input', ''))[:50]
-        logger.info(f"{self.log_prefix} [Adaptation] Updating models for User: {user_sid}, Input: '{user_input_preview}...'")
+        logger.info(
+            f"{self.log_prefix} [Adaptation] Updating models for User: {user_sid}, Input: '{user_input_preview}...'")
         logger.info(f"{self.log_prefix} [Adaptation] Analysis received: Conflicts: {len(analysis_results.get('conflicts', []))}, Trend: {analysis_results.get('intent_trend', 'N/A')}, Recalled: {len(analysis_results.get('recall_history', []))} episodes.")
 
         adaptation_report = {
@@ -259,7 +302,8 @@ class CognitiveUpdater:
             "federated_contributions": []
         }
 
-        # 1. Log interaction with ReflectiveIntrospectionSystem (part of MetaLearningSystem)
+        # 1. Log interaction with ReflectiveIntrospectionSystem (part of
+        # MetaLearningSystem)
         reflection_interaction_data = {
             "interaction_id": interaction_details.get("session_id", interaction_details.get("timestamp")),
             "user_id": user_sid,
@@ -276,19 +320,26 @@ class CognitiveUpdater:
             "current_cognitive_params": self._current_cognitive_state.get("adaptive_parameters", {}).copy()
         }
         self.meta_learning_system.reflective_system.log_interaction(reflection_interaction_data)
-        logger.info(f"{self.log_prefix} [Adaptation] Logged interaction with ReflectiveIntrospectionSystem.")
+        logger.info(
+            f"{self.log_prefix} [Adaptation] Logged interaction with ReflectiveIntrospectionSystem.")
 
         # 2. Trigger reflection and get insights/improvements
         reflection_output = self.meta_learning_system.reflective_system.reflect()
-        adaptation_report["insights_from_reflection"] = reflection_output.get("insights", [])
-        logger.info(f"{self.log_prefix} [Adaptation] Reflection cycle processed. Insights: {len(reflection_output.get('insights', []))}, Improvements: {len(reflection_output.get('improvements', []))}")
+        adaptation_report["insights_from_reflection"] = reflection_output.get(
+            "insights", [])
+        logger.info(
+            f"{self.log_prefix} [Adaptation] Reflection cycle processed. Insights: {len(reflection_output.get('insights', []))}, Improvements: {len(reflection_output.get('improvements', []))}")
 
-        # 3. Use insights and improvements from reflection to adjust cognitive parameters or models
+        # 3. Use insights and improvements from reflection to adjust cognitive
+        # parameters or models
         improvements_proposed = reflection_output.get("improvements", [])
-        adaptation_step = self._current_cognitive_state.get("adaptive_parameters", {}).get("adaptation_step", 0.05)
+        adaptation_step = self._current_cognitive_state.get(
+    "adaptive_parameters", {}).get(
+        "adaptation_step", 0.05)
 
         if improvements_proposed:
-            logger.info(f"{self.log_prefix} [Adaptation] Processing {len(improvements_proposed)} proposed improvements.")
+            logger.info(
+                f"{self.log_prefix} [Adaptation] Processing {len(improvements_proposed)} proposed improvements.")
             for plan in improvements_proposed:
                 change_desc = f"Processed improvement plan: ID={plan.get('id')}, Type={plan.get('type')}, Desc={plan.get('description')}"
                 adaptation_report["changes_made"].append(change_desc)
@@ -304,37 +355,46 @@ class CognitiveUpdater:
                         # Assuming higher trend in dissonance means we need to be more sensitive (lower threshold)
                         # Or if an insight specifically points to issues with current threshold.
                         # For now, a generic adjustment if this plan is proposed.
-                        self._current_cognitive_state[target_param] = max(0.1, original_value - adaptation_step) # Decrease slightly
+                        self._current_cognitive_state[target_param] = max(
+                            0.1, original_value - adaptation_step) # Decrease slightly
                         change_desc_detail = f"Adjusted '{target_param}' from {original_value:.3f} to {self._current_cognitive_state[target_param]:.3f} based on improvement plan."
                         adaptation_report["changes_made"].append(change_desc_detail)
-                        logger.info(f"{self.log_prefix} [Adaptation] {change_desc_detail}")
+                        logger.info(
+                            f"{self.log_prefix} [Adaptation] {change_desc_detail}")
 
                     # Could add more specific parameter adjustments here based on plan['target']
                     # For instance, if plan.get("target") in self._current_cognitive_state["adaptive_parameters"]:
-                    #    self._current_cognitive_state["adaptive_parameters"][target_param] *= (1 + adaptation_step) # or some other logic
+                    # self._current_cognitive_state["adaptive_parameters"][target_param]
+                    # *= (1 + adaptation_step) # or some other logic
 
                 # Further logic to act on other types of improvement plans can be added here.
-                # e.g., if plan suggests updating a federated model, set a flag or prepare data.
+                # e.g., if plan suggests updating a federated model, set a flag or
+                # prepare data.
 
             self._save_cognitive_state() # Save updated state after parameter adjustments
             adaptation_report["summary"] = "Cognitive parameters potentially adapted based on reflection."
         else:
             adaptation_report["summary"] = "No new improvement plans from current reflection cycle."
-            logger.info(f"{self.log_prefix} [Adaptation] {adaptation_report['summary']}")
+            logger.info(
+                f"{self.log_prefix} [Adaptation] {adaptation_report['summary']}")
 
         # 4. Contribute to Federated Models (if applicable)
         # This could be triggered by specific improvement plans or other conditions.
-        # For demonstration, let's attempt a contribution for a general "cognitive_style" model.
+        # For demonstration, let's attempt a contribution for a general
+        # "cognitive_style" model.
 
         # Iterate over known federated models that this system might influence
         # These model_ids are defined in MetaLearningSystem._register_core_models()
-        # e.g., "user_preferences", "interface_adaptation", "cognitive_style", "episodic_memories"
+        # e.g., "user_preferences", "interface_adaptation", "cognitive_style",
+        # "episodic_memories"
         models_to_potentially_update = ["cognitive_style", "user_preferences"]
 
         for model_id in models_to_potentially_update:
             if model_id in self.meta_learning_system.federated_learning.models:
-                logger.info(f"{self.log_prefix} [Adaptation] Considering contribution to federated model: {model_id}")
-                # Placeholder: In a real scenario, gradients would be derived from local learning/adaptation
+                logger.info(
+                    f"{self.log_prefix} [Adaptation] Considering contribution to federated model: {model_id}")
+                # Placeholder: In a real scenario, gradients would be derived from local
+                # learning/adaptation
                 gradients = self._generate_model_update_contribution(
                     model_id=model_id,
                     interaction_details=interaction_details,
@@ -353,21 +413,30 @@ class CognitiveUpdater:
                         )
                         if success:
                             contrib_desc = f"Contributed gradients to federated model: {model_id}."
-                            adaptation_report["federated_contributions"].append({"model_id": model_id, "status": "success"})
-                            logger.info(f"{self.log_prefix} [Adaptation] {contrib_desc}")
+                            adaptation_report["federated_contributions"].append(
+                                {"model_id": model_id, "status": "success"})
+                            logger.info(
+                                f"{self.log_prefix} [Adaptation] {contrib_desc}")
                             adaptation_report["changes_made"].append(contrib_desc)
                         else:
                             contrib_desc = f"Failed to contribute gradients to federated model: {model_id}."
-                            adaptation_report["federated_contributions"].append({"model_id": model_id, "status": "failed", "reason": "Contribution rejected by manager"})
-                            logger.warning(f"{self.log_prefix} [Adaptation] {contrib_desc}")
+                            adaptation_report["federated_contributions"].append(
+                                {"model_id": model_id, "status": "failed", "reason": "Contribution rejected by manager"})
+                            logger.warning(
+                                f"{self.log_prefix} [Adaptation] {contrib_desc}")
                     except Exception as e:
                         contrib_desc = f"Error contributing gradients to federated model {model_id}: {e}"
-                        adaptation_report["federated_contributions"].append({"model_id": model_id, "status": "error", "reason": str(e)})
-                        logger.error(f"{self.log_prefix} [Adaptation] {contrib_desc}", exc_info=True)
+                        adaptation_report["federated_contributions"].append(
+                            {"model_id": model_id, "status": "error", "reason": str(e)})
+                        logger.error(
+    f"{self.log_prefix} [Adaptation] {contrib_desc}",
+     exc_info=True)
                 else:
-                    logger.info(f"{self.log_prefix} [Adaptation] No gradients generated for federated model: {model_id} in this cycle.")
+                    logger.info(
+                        f"{self.log_prefix} [Adaptation] No gradients generated for federated model: {model_id} in this cycle.")
             else:
-                logger.warning(f"{self.log_prefix} [Adaptation] Federated model_id '{model_id}' not found in MetaLearningSystem for potential update.")
+                logger.warning(
+                    f"{self.log_prefix} [Adaptation] Federated model_id '{model_id}' not found in MetaLearningSystem for potential update.")
 
 
         if adaptation_report["changes_made"] or adaptation_report["federated_contributions"]:
@@ -378,13 +447,18 @@ class CognitiveUpdater:
 
         return adaptation_report
 
-    def _generate_model_update_contribution(self, model_id: str, interaction_details: Dict, analysis_results: Dict, current_cognitive_state: Dict) -> Optional[Dict]:
+    def _generate_model_update_contribution(
+    self,
+    model_id: str,
+    interaction_details: Dict,
+    analysis_results: Dict,
+     current_cognitive_state: Dict) -> Optional[Dict]:
         """
         Placeholder method to generate gradients or updates for a federated model.
-        In a real implementation, this would involve local model training or heuristic-based update calculation.
+        In a real implementation, this would involve local model training or heuristic - based update calculation.
 
         Args:
-            model_id: The ID of the federated model to generate an update for.
+            model_id: The ID of the federated model to generate an update for .
             interaction_details: Details of the current interaction.
             analysis_results: Results from cognitive analysis.
             current_cognitive_state: The current cognitive state of LUKHAS.
@@ -393,24 +467,32 @@ class CognitiveUpdater:
         Returns:
             A dictionary representing gradients or updates, or None if no update is generated.
         """
-        logger.debug(f"{self.log_prefix} [Federated] Generating dummy update contribution for model: {model_id}")
+        logger.debug(
+            f"{self.log_prefix} [Federated] Generating dummy update contribution for model: {model_id}")
 
         # Example: For 'cognitive_style' model, if intent_trend shows strong inclination,
         # suggest a slight shift in 'reasoning_weights'.
-        # Parameters for 'cognitive_style' in MetaLearningSystem: {"reasoning_weights": {"analytical": 0.5, "intuitive": 0.5}}
+        # Parameters for 'cognitive_style' in MetaLearningSystem:
+        # {"reasoning_weights": {"analytical": 0.5, "intuitive": 0.5}}
         if model_id == "cognitive_style":
             intent_trend = analysis_results.get("intent_trend")
             # This is a very simplistic heuristic
             if intent_trend == "INCLINED_TO_ACCEPT": # Assume this correlates with 'intuitive'
-                return {"reasoning_weights.intuitive": 0.01, "reasoning_weights.analytical": -0.01} # Small gradient
+                return {
+    "reasoning_weights.intuitive": 0.01,
+    "reasoning_weights.analytical": -
+    0.01} # Small gradient
             elif intent_trend == "INCLINED_TO_REJECT": # Assume this correlates with 'analytical'
-                return {"reasoning_weights.intuitive": -0.01, "reasoning_weights.analytical": 0.01}
+                return {
+    "reasoning_weights.intuitive": -0.01,
+     "reasoning_weights.analytical": 0.01}
 
         elif model_id == "user_preferences":
             # Example: If a user interaction was particularly positive or negative (needs metric)
             # and related to a modality (e.g. voice, text).
             # Parameters: {"attention_weights": {"visual": 0.5, "auditory": 0.3, "textual": 0.2}}
-            # This is too complex for a simple placeholder without more interaction data.
+            # This is too complex for a simple placeholder without more interaction
+            # data.
             pass
 
         # By default, no contribution for other models or if conditions not met
@@ -421,7 +503,8 @@ class CognitiveUpdater:
         interaction_details: Dict[str, Any],
         Λ_lambda_identity: Any, # Pass current operational identity
         lukhas_lambda_identity: Any, # Pass current operational identity
-        historical_log: List[Dict[str, Any]], # Pass the historical log from advanced_symbolic_loop
+        # Pass the historical log from advanced_symbolic_loop
+        historical_log: List[Dict[str, Any]],
         target_action_for_recall: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """

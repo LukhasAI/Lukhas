@@ -1,5 +1,5 @@
 import threading
-from typing import Dict, List, Optional
+from typing import Optional
 
 import torch
 
@@ -7,12 +7,12 @@ import torch
 class PinMemoryCache:
     force_dtype: Optional[torch.dtype] = None
     min_cache_numel: int = 0
-    pre_alloc_numels: List[int] = []
+    pre_alloc_numels: list[int] = []
 
     def __init__(self):
-        self.cache: Dict[int, torch.Tensor] = {}
-        self.output_to_cache: Dict[int, int] = {}
-        self.cache_to_output: Dict[int, int] = {}
+        self.cache: dict[int, torch.Tensor] = {}
+        self.output_to_cache: dict[int, int] = {}
+        self.cache_to_output: dict[int, int] = {}
         self.lock = threading.Lock()
         self.total_cnt = 0
         self.hit_cnt = 0

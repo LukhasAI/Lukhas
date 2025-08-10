@@ -14,6 +14,13 @@
 # 🛠️ DEPENDENCY: settings_loader.py
 # ════════════════════════════════════════════════════════════════════════
 
+from .settings_loader import (
+    SETTINGS,
+    get_setting,
+    list_all_keys,
+    preview_defaults,
+    validate_settings,
+)
 import structlog
 
 # Initialize logger for ΛTRACE using structlog
@@ -37,14 +44,8 @@ if (
         "ΛTRACE.core.config.ReadSettingsScript"
     )  # Re-bind after config
 
-# AIMPORT_TODO: Ensure settings_loader.py is robustly available in the same directory or via PYTHONPATH.
-from .settings_loader import (
-    SETTINGS,
-    get_setting,
-    list_all_keys,
-    preview_defaults,
-    validate_settings,
-)
+# AIMPORT_TODO: Ensure settings_loader.py is robustly available in the
+# same directory or via PYTHONPATH.
 
 
 def display_settings():

@@ -4,10 +4,11 @@ Original: goal_node.py
 Advanced: goal_node.py
 Integration Date: 2025-05-31T07:55:28.129660
 """
+import logging
 
 # packages/core/src/nodes/goal_node.py
 import time
-from typing import Any, Dict
+from typing import Any
 
 
 class GoalManagementNode:
@@ -22,7 +23,7 @@ class GoalManagementNode:
         self.active_goals = []  # Currently active goals
         self.completed_goals = []  # History of completed goals
 
-    def process(self, intent_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, intent_data: dict[str, Any]) -> dict[str, Any]:
         """Process intent data to create or update goals."""
         intent_type = intent_data.get("type", "unknown")
 
@@ -42,7 +43,7 @@ class GoalManagementNode:
             "action_plan": action_plan,
         }
 
-    def _create_goal(self, intent_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_goal(self, intent_data: dict[str, Any]) -> dict[str, Any]:
         """Create a goal from intent data."""
         goal_id = f"goal_{int(time.time())}_{len(self.active_goals)}"
 
@@ -68,7 +69,7 @@ class GoalManagementNode:
             "progress": 0.0,
         }
 
-    def _create_action_plan(self, goal: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_action_plan(self, goal: dict[str, Any]) -> dict[str, Any]:
         """Create an action plan to achieve the goal."""
         intent_data = goal["intent_data"]
         intent_type = intent_data.get("type", "unknown")
@@ -81,8 +82,8 @@ class GoalManagementNode:
             return self._create_dialogue_plan(goal, intent_data)
 
     def _create_query_plan(
-        self, goal: Dict[str, Any], intent_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, goal: dict[str, Any], intent_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Create a plan for answering a query."""
         return {
             "type": "query",
@@ -98,8 +99,8 @@ class GoalManagementNode:
         }
 
     def _create_task_plan(
-        self, goal: Dict[str, Any], intent_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, goal: dict[str, Any], intent_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Create a plan for completing a task."""
         return {
             "type": "task",
@@ -116,8 +117,8 @@ class GoalManagementNode:
         }
 
     def _create_dialogue_plan(
-        self, goal: Dict[str, Any], intent_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, goal: dict[str, Any], intent_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Create a plan for engaging in dialogue."""
         return {
             "type": "dialogue",

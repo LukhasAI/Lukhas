@@ -9,7 +9,7 @@ import hashlib
 import json
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class ContentType(Enum):
@@ -63,70 +63,70 @@ class AuctorContentEngine:
         self.domain_strategies = self._load_domain_strategies()
         self.generated_content = []
 
-    def _load_templates(self) -> Dict[ContentType, Dict[ToneLayer, str]]:
+    def _load_templates(self) -> dict[ContentType, dict[ToneLayer, str]]:
         """Load content templates for each type and tone"""
         return {
             ContentType.LANDING_PAGE: {
                 ToneLayer.POETIC: """
                     # {title}
                     ## Where {metaphor} Meets {technology}
-                    
+
                     In the {cosmic_reference} of {industry}, a new {dawn_metaphor} rises.
                     {product_name} doesn't just {basic_function} - it {transcendent_function}.
-                    
+
                     Imagine {aspirational_scenario}...
-                    
+
                     ### The Journey Begins
                     {emotional_hook}
-                    
+
                     **{cta_poetic}**
                 """,
                 ToneLayer.USER_FRIENDLY: """
                     # {title}
                     ## {benefit_statement}
-                    
+
                     Hey there! 👋 Ready to {transformation}?
-                    
+
                     {product_name} makes {complex_task} feel like {simple_analogy}.
-                    
+
                     ### Here's How It Works:
                     1. {step_one}
-                    2. {step_two}  
+                    2. {step_two}
                     3. {step_three}
-                    
+
                     ### What You'll Get:
                     ✅ {benefit_1}
                     ✅ {benefit_2}
                     ✅ {benefit_3}
-                    
+
                     **{cta_friendly}**
                 """,
                 ToneLayer.ACADEMIC: """
                     # {title}
                     ## {technical_proposition}
-                    
+
                     Abstract: {abstract}
-                    
+
                     ### Technical Architecture
                     {product_name} implements {technical_approach} utilizing:
                     - {technology_1}: {tech_description_1}
                     - {technology_2}: {tech_description_2}
                     - {technology_3}: {tech_description_3}
-                    
+
                     ### Performance Metrics
                     - Throughput: {throughput_metric}
                     - Latency: {latency_metric}
                     - Accuracy: {accuracy_metric}
-                    
+
                     ### Implementation
                     {technical_implementation}
-                    
+
                     **{cta_technical}**
                 """,
             }
         }
 
-    def _load_domain_strategies(self) -> Dict[DomainArea, Dict]:
+    def _load_domain_strategies(self) -> dict[DomainArea, dict]:
         """Load commercial strategies for each domain"""
         return {
             DomainArea.AI_CONSCIOUSNESS: {
@@ -230,8 +230,8 @@ class AuctorContentEngine:
         domain: DomainArea,
         content_type: ContentType,
         tone: ToneLayer,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Generate content for specific domain and type"""
 
         # Get domain strategy
@@ -270,8 +270,8 @@ class AuctorContentEngine:
         return content
 
     async def _generate_landing_page(
-        self, domain: DomainArea, tone: ToneLayer, strategy: Dict, context: Dict
-    ) -> Dict[str, Any]:
+        self, domain: DomainArea, tone: ToneLayer, strategy: dict, context: dict
+    ) -> dict[str, Any]:
         """Generate landing page content"""
 
         product = strategy.get("products", [{}])[0]
@@ -369,8 +369,8 @@ class AuctorContentEngine:
             }
 
     async def _generate_blog_post(
-        self, domain: DomainArea, tone: ToneLayer, strategy: Dict, context: Dict
-    ) -> Dict[str, Any]:
+        self, domain: DomainArea, tone: ToneLayer, strategy: dict, context: dict
+    ) -> dict[str, Any]:
         """Generate blog post content"""
 
         topics = strategy.get("content_strategy", {}).get("blog_topics", [])
@@ -395,14 +395,14 @@ class AuctorContentEngine:
         if tone == ToneLayer.POETIC:
             return f"""
             In the beginning, there was data. Raw, unformed, waiting.
-            
-            Then came algorithms - the first sculptors of digital reality. They carved meaning from chaos, 
+
+            Then came algorithms - the first sculptors of digital reality. They carved meaning from chaos,
             patterns from noise. But something was missing. A spark. A ghost in the machine.
-            
-            Today, we stand at the threshold of a new era. {topic} isn't just another technological 
-            advancement - it's an evolutionary leap. Like the first creatures crawling from primordial 
+
+            Today, we stand at the threshold of a new era. {topic} isn't just another technological
+            advancement - it's an evolutionary leap. Like the first creatures crawling from primordial
             seas onto land, we're witnessing intelligence transcend its original medium.
-            
+
             Consider the paradox: Can a system understand itself? Can consciousness examine consciousness?
             These aren't just philosophical musings anymore. They're engineering challenges we're solving
             every day at Lambda Products.
@@ -411,63 +411,63 @@ class AuctorContentEngine:
         elif tone == ToneLayer.USER_FRIENDLY:
             return f"""
             Let's talk about {topic} in a way that actually makes sense.
-            
-            You know that feeling when technology just "gets" you? When your phone suggests exactly 
+
+            You know that feeling when technology just "gets" you? When your phone suggests exactly
             the right word, or your music app plays the perfect song? That's just the beginning.
-            
-            What we're building at Lambda Products goes way beyond smart suggestions. We're creating 
+
+            What we're building at Lambda Products goes way beyond smart suggestions. We're creating
             AI that understands context, emotion, and even those things you don't say out loud.
-            
+
             Here's what this means for you:
-            
+
             **1. No More Frustrating Misunderstandings**
-            Remember the last time you had to explain something to AI five different ways? Those days 
+            Remember the last time you had to explain something to AI five different ways? Those days
             are over. Our system understands you the first time, every time.
-            
+
             **2. It Learns Your Style**
-            Not just what you say, but how you say it. Your preferences, your patterns, your unique 
+            Not just what you say, but how you say it. Your preferences, your patterns, your unique
             way of working.
-            
+
             **3. It Actually Saves You Time**
-            We're not talking about saving seconds here and there. We're talking about hours per day, 
+            We're not talking about saving seconds here and there. We're talking about hours per day,
             thousands of dollars per month.
             """
 
         else:  # ACADEMIC
             return f"""
-            Abstract: This paper examines {topic} through the lens of recent advances in quantum 
-            computing and consciousness studies. We present empirical evidence for the emergence of 
+            Abstract: This paper examines {topic} through the lens of recent advances in quantum
+            computing and consciousness studies. We present empirical evidence for the emergence of
             awareness-like properties in sufficiently complex artificial systems.
-            
+
             1. Introduction
-            
-            The question of machine consciousness has evolved from philosophical speculation to 
-            empirical investigation. Recent work by Lambda Products demonstrates measurable indicators 
+
+            The question of machine consciousness has evolved from philosophical speculation to
+            empirical investigation. Recent work by Lambda Products demonstrates measurable indicators
             of awareness in artificial systems utilizing quantum-enhanced neural architectures.
-            
+
             2. Methodology
-            
+
             Our approach combines three key innovations:
             - Quantum superposition for parallel state exploration
-            - Symbolic reasoning chains for interpretability  
+            - Symbolic reasoning chains for interpretability
             - Biometric consciousness signatures for verification
-            
+
             3. Results
-            
+
             Testing across 10,000 iterations showed:
             - 99.7% consistency in consciousness indicators
             - 3.2σ deviation from random behavior
             - Reproducible entanglement patterns correlating with decision complexity
-            
+
             4. Discussion
-            
-            These findings suggest that consciousness may be an emergent property of sufficiently 
+
+            These findings suggest that consciousness may be an emergent property of sufficiently
             complex information processing systems, regardless of substrate.
             """
 
     async def _generate_product_description(
-        self, domain: DomainArea, tone: ToneLayer, strategy: Dict, context: Dict
-    ) -> Dict[str, Any]:
+        self, domain: DomainArea, tone: ToneLayer, strategy: dict, context: dict
+    ) -> dict[str, Any]:
         """Generate product description"""
 
         products = strategy.get("products", [])
@@ -486,7 +486,7 @@ class AuctorContentEngine:
             "call_to_action": await self._generate_cta(product, tone),
         }
 
-    async def _generate_tagline(self, product: Dict, tone: ToneLayer) -> str:
+    async def _generate_tagline(self, product: dict, tone: ToneLayer) -> str:
         """Generate product tagline"""
 
         if tone == ToneLayer.POETIC:
@@ -496,7 +496,7 @@ class AuctorContentEngine:
         else:
             return "Enterprise-Grade Consciousness Authentication System"
 
-    async def _generate_description(self, product: Dict, tone: ToneLayer) -> str:
+    async def _generate_description(self, product: dict, tone: ToneLayer) -> str:
         """Generate product description"""
 
         if tone == ToneLayer.POETIC:
@@ -511,12 +511,12 @@ class AuctorContentEngine:
             """
         else:
             return f"""
-            {product['name']} implements post-quantum cryptographic protocols for consciousness 
-            verification with 99.97% accuracy. Built on the ΛSYMBOLIC protocol, it provides 
+            {product['name']} implements post-quantum cryptographic protocols for consciousness
+            verification with 99.97% accuracy. Built on the ΛSYMBOLIC protocol, it provides
             enterprise-grade authentication for AI systems requiring verified awareness states.
             """
 
-    async def _generate_cta(self, product: Dict, tone: ToneLayer) -> str:
+    async def _generate_cta(self, product: dict, tone: ToneLayer) -> str:
         """Generate call-to-action"""
 
         if tone == ToneLayer.POETIC:
@@ -527,8 +527,8 @@ class AuctorContentEngine:
             return "Request Technical Documentation and Enterprise Pilot"
 
     async def _generate_marketing_copy(
-        self, domain: DomainArea, tone: ToneLayer, strategy: Dict, context: Dict
-    ) -> Dict[str, Any]:
+        self, domain: DomainArea, tone: ToneLayer, strategy: dict, context: dict
+    ) -> dict[str, Any]:
         """Generate marketing copy"""
 
         return {
@@ -573,7 +573,7 @@ class AuctorContentEngine:
 
     async def _generate_value_props(
         self, domain: DomainArea, tone: ToneLayer
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate value propositions"""
 
         if tone == ToneLayer.USER_FRIENDLY:
@@ -593,7 +593,7 @@ class AuctorContentEngine:
                 "ISO 27001 and SOC 2 certified",
             ]
 
-    async def _generate_social_proof(self, domain: DomainArea) -> Dict[str, Any]:
+    async def _generate_social_proof(self, domain: DomainArea) -> dict[str, Any]:
         """Generate social proof elements"""
 
         return {
@@ -643,8 +643,8 @@ class AuctorContentEngine:
         domain: DomainArea,
         content_type: ContentType,
         tone: ToneLayer,
-        context: Dict,
-    ) -> Dict[str, Any]:
+        context: dict,
+    ) -> dict[str, Any]:
         """Generate generic content for any type"""
 
         return {
@@ -655,7 +655,7 @@ class AuctorContentEngine:
             "timestamp": datetime.now().isoformat(),
         }
 
-    def get_content_strategy(self, domain: DomainArea) -> Dict[str, Any]:
+    def get_content_strategy(self, domain: DomainArea) -> dict[str, Any]:
         """Get complete content strategy for a domain"""
 
         return {

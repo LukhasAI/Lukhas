@@ -10,15 +10,14 @@ Bio-inspired oscillator adapter that manages rhythm-based processing and
 component synchronization using quantum-biological metaphors.
 """
 
-import asyncio
 import logging
+import asyncio
 from datetime import datetime
 from typing import Any, Optional
-
 import numpy as np
-
-from ..bio_symbolic import CristaFilter, ProtonGradient, QuantumAttentionGate
 from .unified_node import UnifiedNode
+from ..bio_symbolic import CristaFilter, ProtonGradient, QuantumAttentionGate
+
 
 logger = logging.getLogger(__name__)
 

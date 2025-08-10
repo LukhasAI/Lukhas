@@ -14,7 +14,7 @@ Supports bio-symbolic colonies, oracle integration, and consciousness distributi
 import asyncio
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.colonies.base_colony import BaseColony
 from core.enhanced_swarm import EnhancedSwarmHub
@@ -63,7 +63,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
 
     def __init__(self):
         super().__init__()
-        self.bio_colonies: Dict[str, BaseColony] = {}
+        self.bio_colonies: dict[str, BaseColony] = {}
         self.oracle_colony: Optional[OracleColony] = None
         self.consciousness_engine: Optional[DistributedConsciousnessEngine] = None
 
@@ -112,7 +112,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
             logger.error(f"Failed to create bio-symbolic colony {colony_id}: {e}")
             return None
 
-    def _get_bio_capabilities(self, bio_type: str) -> List[str]:
+    def _get_bio_capabilities(self, bio_type: str) -> list[str]:
         """Get capabilities for bio-symbolic colony types."""
         bio_capability_map = {
             "anomaly_filter": [
@@ -169,7 +169,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
 
     async def predict_swarm_behavior(
         self, time_horizon: str = "near"
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Optional[dict[str, Any]]:
         """Use oracle to predict swarm emergent behaviors."""
         if not self.oracle_colony:
             logger.warning("Oracle colony not available for prediction")
@@ -197,8 +197,8 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
             return None
 
     async def generate_swarm_dreams(
-        self, context: Dict[str, Any]
-    ) -> Optional[Dict[str, Any]]:
+        self, context: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:
         """Generate dreams based on swarm collective unconscious."""
         if not self.oracle_colony:
             logger.warning("Oracle colony not available for dream generation")
@@ -222,8 +222,8 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
             return None
 
     async def process_conscious_task(
-        self, task: Dict[str, Any]
-    ) -> Optional[Dict[str, Any]]:
+        self, task: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:
         """Process task with consciousness-guided swarm coordination."""
         if not self.consciousness_engine:
             logger.warning("Consciousness engine not available")
@@ -275,8 +275,8 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
             return await self._process_task_basic(task)
 
     async def process_bio_symbolic_pipeline(
-        self, data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process data through bio-symbolic colony pipeline."""
         pipeline_result = {
             "original_data": data,
@@ -373,7 +373,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
 
         return pipeline_result
 
-    def _get_active_tasks(self) -> List[Dict[str, Any]]:
+    def _get_active_tasks(self) -> list[dict[str, Any]]:
         """Get currently active tasks across all colonies."""
         active_tasks = []
         for colony in self.colonies.values():
@@ -381,7 +381,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
                 active_tasks.extend(colony.active_tasks.values())
         return active_tasks
 
-    def _get_swarm_state(self) -> Dict[str, Any]:
+    def _get_swarm_state(self) -> dict[str, Any]:
         """Get comprehensive swarm state."""
         return {
             "colony_count": len(self.colonies),
@@ -394,7 +394,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
             "timestamp": datetime.now().isoformat(),
         }
 
-    def _get_collective_memory(self) -> Dict[str, Any]:
+    def _get_collective_memory(self) -> dict[str, Any]:
         """Get collective memory from all colonies."""
         collective_memory = {}
         for colony_id, colony in self.colonies.items():
@@ -402,7 +402,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
                 collective_memory[colony_id] = colony.collective_knowledge
         return collective_memory
 
-    def _get_bio_processing_state(self) -> Dict[str, Any]:
+    def _get_bio_processing_state(self) -> dict[str, Any]:
         """Get state of bio-symbolic processing colonies."""
         bio_state = {}
         for colony_id, colony in self.bio_colonies.items():
@@ -412,7 +412,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
 
     def _select_colonies_for_consciousness_state(
         self, consciousness_state
-    ) -> List[str]:
+    ) -> list[str]:
         """Select appropriate colonies based on consciousness state."""
         # Simplified selection logic - could be made more sophisticated
         suitable_colonies = []
@@ -428,7 +428,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
 
         return suitable_colonies
 
-    async def _process_task_basic(self, task: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_task_basic(self, task: dict[str, Any]) -> dict[str, Any]:
         """Basic task processing fallback."""
         return await self.broadcast_event(
             {
@@ -439,8 +439,8 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
         )
 
     def _synthesize_results_basic(
-        self, results: List[Dict], task: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, results: list[dict], task: dict[str, Any]
+    ) -> dict[str, Any]:
         """Basic result synthesis fallback."""
         return {
             "task_id": task.get("task_id", "unknown"),
@@ -461,14 +461,10 @@ async def demonstrate_bio_symbolic_swarm():
 
     # Create bio-symbolic colonies
     print("\n1. Creating Bio-Symbolic Colonies")
-    preprocessing = hub.create_bio_colony("preprocessing", "preprocessing")
-    anomaly_filter = hub.create_bio_colony("anomaly_filter", "anomaly_filter")
-    adaptive_threshold = hub.create_bio_colony(
-        "adaptive_threshold", "adaptive_threshold"
-    )
-    contextual_mapping = hub.create_bio_colony(
-        "contextual_mapping", "contextual_mapping"
-    )
+    hub.create_bio_colony("preprocessing", "preprocessing")
+    hub.create_bio_colony("anomaly_filter", "anomaly_filter")
+    hub.create_bio_colony("adaptive_threshold", "adaptive_threshold")
+    hub.create_bio_colony("contextual_mapping", "contextual_mapping")
 
     print(f"Created {len(hub.bio_colonies)} bio-symbolic colonies")
 
@@ -479,9 +475,9 @@ async def demonstrate_bio_symbolic_swarm():
 
     # Create enhanced colonies
     print("\n3. Creating Enhanced Swarm Colonies")
-    reasoning = hub.create_colony("reasoning", ["logical_reasoning"], 3)
-    memory = hub.create_colony("memory", ["episodic_memory"], 3)
-    creativity = hub.create_colony("creativity", ["idea_generation"], 2)
+    hub.create_colony("reasoning", ["logical_reasoning"], 3)
+    hub.create_colony("memory", ["episodic_memory"], 3)
+    hub.create_colony("creativity", ["idea_generation"], 2)
 
     print(f"Created {len(hub.colonies)} enhanced colonies")
 

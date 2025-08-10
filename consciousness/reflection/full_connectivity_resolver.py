@@ -574,7 +574,7 @@ voice_modulator = VoiceModulator()
         print("📁 Creating missing __init__.py files...")
 
         # Find directories without __init__.py
-        for root, dirs, files in os.walk(self.lambda_root):
+        for root, _dirs, files in os.walk(self.lambda_root):
             root_path = Path(root)
 
             # Skip __pycache__ and .git directories

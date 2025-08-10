@@ -10,6 +10,7 @@ Enhanced Swarm System with Real Agent Behaviors
 Integrated with Colony Coherence Upgrade
 Fixes the current implementation gaps and aligns with BaseColony infrastructure
 """
+import logging
 
 import asyncio
 import random
@@ -17,7 +18,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Union
+from typing import Any, Callable, Optional, Union
 
 import numpy as np
 
@@ -28,8 +29,6 @@ from core.distributed_tracing import AIAgentTracer, get_global_tracer
 # Import BaseColony infrastructure for coherence
 try:
     from core.colonies.base_colony import BaseColony
-    from core.event_sourcing import AIAgentAggregate, get_global_event_store
-    from core.symbolism.tags import TagPermission, TagScope
 
     BASE_COLONY_AVAILABLE = True
 except ImportError:
@@ -78,8 +77,8 @@ class AgentMemory:
     """Local memory for an agent."""
 
     short_term: deque = field(default_factory=lambda: deque(maxlen=100))
-    long_term: Dict[str, Any] = field(default_factory=dict)
-    shared_knowledge: Dict[str, Any] = field(default_factory=dict)
+    long_term: dict[str, Any] = field(default_factory=dict)
+    shared_knowledge: dict[str, Any] = field(default_factory=dict)
 
     def remember(self, key: str, value: Any, term: str = "short"):
         """Store a memory."""
@@ -104,7 +103,7 @@ class EnhancedSwarmAgent(Actor):
     """
 
     def __init__(
-        self, agent_id: str, colony: "EnhancedColony", capabilities: List[str] = None
+        self, agent_id: str, colony: "EnhancedColony", capabilities: list[str] = None
     ):
         super().__init__(agent_id)
         self.agent_id = agent_id
@@ -114,13 +113,13 @@ class EnhancedSwarmAgent(Actor):
         self.memory = AgentMemory()
 
         # Initialize capabilities
-        self.capabilities: Dict[str, AgentCapability] = {}
+        self.capabilities: dict[str, AgentCapability] = {}
         for cap in capabilities or ["general"]:
             self.capabilities[cap] = AgentCapability(name=cap)
 
         # Communication
-        self.neighbors: Set[str] = set()  # Direct connections
-        self.trust_scores: Dict[str, float] = {}  # Trust in other agents
+        self.neighbors: set[str] = set()  # Direct connections
+        self.trust_scores: dict[str, float] = {}  # Trust in other agents
 
         # Learning
         self.learning_rate = 0.1
@@ -135,12 +134,12 @@ class EnhancedSwarmAgent(Actor):
             f"agent-{self.agent_id}", get_global_tracer().collector
         )
 
-    def receive(self, message: Dict[str, Any]):
+    def receive(self, message: dict[str, Any]):
         """Handle incoming messages."""
-        with self.tracer.trace_agent_operation(self.agent_id, "receive_message") as ctx:
+        with self.tracer.trace_agent_operation(self.agent_id, "receive_message"):
             asyncio.create_task(self._handle_message(message))
 
-    async def _handle_message(self, message: Dict[str, Any]):
+    async def _handle_message(self, message: dict[str, Any]):
         """Process different message types."""
         msg_type = message.get("type", MessageType.TASK.value)
         sender = message.get("sender", "unknown")
@@ -166,7 +165,7 @@ class EnhancedSwarmAgent(Actor):
             logger.error(f"Agent {self.agent_id} error handling message: {e}")
             self._update_trust(sender, success=False)
 
-    async def _handle_task(self, message: Dict[str, Any]):
+    async def _handle_task(self, message: dict[str, Any]):
         """Handle task assignment."""
         task = message.get("task", {})
         task_type = task.get("type", "unknown")
@@ -246,7 +245,7 @@ class EnhancedSwarmAgent(Actor):
         return False
 
     async def _execute_task(
-        self, task: Dict[str, Any], capability: AgentCapability
+        self, task: dict[str, Any], capability: AgentCapability
     ) -> bool:
         """Execute a task using the given capability."""
         # Simulate task execution with success probability based on capability
@@ -270,7 +269,7 @@ class EnhancedSwarmAgent(Actor):
 
         return success
 
-    async def _request_help(self, task: Dict[str, Any]):
+    async def _request_help(self, task: dict[str, Any]):
         """Request help from neighbors."""
         self.state = AgentState.COLLABORATING
 
@@ -288,7 +287,7 @@ class EnhancedSwarmAgent(Actor):
 
         self.collaborations += 1
 
-    async def _handle_help_request(self, message: Dict[str, Any]):
+    async def _handle_help_request(self, message: dict[str, Any]):
         """Handle help request from another agent."""
         sender = message.get("sender")
         task = message.get("task", {})
@@ -310,7 +309,7 @@ class EnhancedSwarmAgent(Actor):
 
             await self.colony.send_agent_message(sender, offer)
 
-    async def _learn_from_task(self, task: Dict[str, Any], success: bool):
+    async def _learn_from_task(self, task: dict[str, Any], success: bool):
         """Learn from task execution."""
         self.state = AgentState.LEARNING
 
@@ -357,7 +356,7 @@ class EnhancedSwarmAgent(Actor):
             if self.trust_scores.get(neighbor, 0) > 0.6:
                 await self.colony.send_agent_message(neighbor, message)
 
-    async def _handle_knowledge_share(self, message: Dict[str, Any]):
+    async def _handle_knowledge_share(self, message: dict[str, Any]):
         """Handle shared knowledge from another agent."""
         sender = message.get("sender")
         knowledge_type = message.get("knowledge_type")
@@ -367,7 +366,7 @@ class EnhancedSwarmAgent(Actor):
         if self.trust_scores.get(sender, 0) > 0.5:
             self.memory.shared_knowledge[knowledge_type] = knowledge
 
-    async def participate_in_consensus(self, topic: str, options: List[Any]) -> Any:
+    async def participate_in_consensus(self, topic: str, options: list[Any]) -> Any:
         """Participate in colony-wide consensus."""
         # Make decision based on knowledge and experience
         if topic in self.memory.shared_knowledge:
@@ -377,7 +376,7 @@ class EnhancedSwarmAgent(Actor):
             # Random or capability-based decision
             return random.choice(options)
 
-    def _make_informed_decision(self, topic: str, options: List[Any]) -> Any:
+    def _make_informed_decision(self, topic: str, options: list[Any]) -> Any:
         """Make decision based on available information."""
         knowledge = self.memory.shared_knowledge.get(topic, {})
 
@@ -388,7 +387,7 @@ class EnhancedSwarmAgent(Actor):
 
             # Adjust based on knowledge
             if isinstance(knowledge, dict):
-                for key, value in knowledge.items():
+                for _key, value in knowledge.items():
                     if str(option) in str(value):
                         score += 0.2
 
@@ -403,7 +402,7 @@ class EnhancedSwarmAgent(Actor):
         if self.state == AgentState.IDLE:
             self.energy = min(1.0, self.energy + 0.05)
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current agent status."""
         return {
             "agent_id": self.agent_id,
@@ -440,22 +439,22 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
 
         self.colony_id = colony_id
         self.colony_type = colony_type
-        self.agents: Dict[str, EnhancedSwarmAgent] = {}
-        self.agent_graph: Dict[str, Set[str]] = defaultdict(
+        self.agents: dict[str, EnhancedSwarmAgent] = {}
+        self.agent_graph: dict[str, set[str]] = defaultdict(
             set
         )  # Neighbor relationships
 
         # Colony-level metrics
-        self.collective_knowledge: Dict[str, Any] = {}
-        self.consensus_history: List[Dict[str, Any]] = []
-        self.emergence_patterns: List[Dict[str, Any]] = []
+        self.collective_knowledge: dict[str, Any] = {}
+        self.consensus_history: list[dict[str, Any]] = []
+        self.emergence_patterns: list[dict[str, Any]] = []
 
         self.logger = logging.getLogger(f"{__name__}.{colony_id}")
 
         # Initialize agents
         self._initialize_agents(agent_count)
 
-    def _get_capabilities_for_type(self, colony_type: str) -> List[str]:
+    def _get_capabilities_for_type(self, colony_type: str) -> list[str]:
         """Map colony type to capabilities for BaseColony compatibility."""
         capability_mapping = {
             "reasoning": [
@@ -500,7 +499,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
         }
         return capability_mapping.get(colony_type, ["general_processing"])
 
-    async def process_task(self, task: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_task(self, task: dict[str, Any]) -> dict[str, Any]:
         """Process a task using colony agents with consensus."""
         task_id = task.get("task_id", f"task_{int(time.time())}")
         task_type = task.get("type", "general")
@@ -605,7 +604,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
 
         return final_result
 
-    def _find_capable_agents(self, task_type: str) -> List[str]:
+    def _find_capable_agents(self, task_type: str) -> list[str]:
         """Find agents capable of handling the task type."""
         capable_agents = []
         for agent_id, agent in self.agents.items():
@@ -614,8 +613,8 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
         return capable_agents
 
     def _achieve_consensus(
-        self, agent_results: List[Dict], required_consensus: float
-    ) -> Dict[str, Any]:
+        self, agent_results: list[dict], required_consensus: float
+    ) -> dict[str, Any]:
         """Achieve consensus from agent results."""
         if not agent_results:
             return {"consensus_achieved": False, "result": None, "confidence": 0.0}
@@ -636,7 +635,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
             "confidence": avg_confidence,
         }
 
-    async def execute_task(self, task: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_task(self, task: dict[str, Any]) -> dict[str, Any]:
         """Execute task - BaseColony abstract method implementation."""
         return await self.process_task(task)
 
@@ -706,20 +705,20 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
             if agent_id in self.agents:
                 self.agents[agent_id].neighbors = neighbors.copy()
 
-    async def send_agent_message(self, recipient: str, message: Dict[str, Any]):
+    async def send_agent_message(self, recipient: str, message: dict[str, Any]):
         """Send message between agents."""
         if recipient in self.agents:
             self.agents[recipient].receive(message)
 
     async def broadcast_to_agents(
-        self, message: Dict[str, Any], criteria: Optional[Callable] = None
+        self, message: dict[str, Any], criteria: Optional[Callable] = None
     ):
         """Broadcast message to all agents or those matching criteria."""
-        for agent_id, agent in self.agents.items():
+        for _agent_id, agent in self.agents.items():
             if criteria is None or criteria(agent):
                 agent.receive(message)
 
-    async def execute_colony_task(self, task: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_colony_task(self, task: dict[str, Any]) -> dict[str, Any]:
         """Execute task using colony's collective intelligence."""
         task_id = task.get("id", f"task-{time.time()}")
         task_type = task.get("type", "unknown")
@@ -757,8 +756,8 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
         }
 
     async def _collaborative_task_execution(
-        self, task: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, task: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute task through agent collaboration."""
         self.logger.info(
             f"Initiating collaborative execution for task {task.get('id')}"
@@ -782,7 +781,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
             "colony": self.colony_id,
         }
 
-    async def achieve_consensus(self, topic: str, options: List[Any]) -> Any:
+    async def achieve_consensus(self, topic: str, options: list[Any]) -> Any:
         """Achieve consensus among agents."""
         self.logger.info(f"Colony {self.colony_id} seeking consensus on {topic}")
 
@@ -854,7 +853,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
                         "recovery_knowledge", neighbor.memory.shared_knowledge
                     )
 
-    def detect_emergent_patterns(self) -> List[Dict[str, Any]]:
+    def detect_emergent_patterns(self) -> list[dict[str, Any]]:
         """Detect emergent patterns in colony behavior."""
         patterns = []
 
@@ -914,7 +913,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
         self.emergence_patterns = patterns
         return patterns
 
-    def get_colony_status(self) -> Dict[str, Any]:
+    def get_colony_status(self) -> dict[str, Any]:
         """Get comprehensive colony status."""
         agent_states = defaultdict(int)
         total_energy = 0
@@ -951,14 +950,14 @@ class EnhancedSwarmHub:
     """
 
     def __init__(self):
-        self.colonies: Dict[str, EnhancedColony] = {}
-        self.inter_colony_links: Dict[str, Set[str]] = defaultdict(set)
-        self.global_knowledge: Dict[str, Any] = {}
-        self.swarm_patterns: List[Dict[str, Any]] = []
+        self.colonies: dict[str, EnhancedColony] = {}
+        self.inter_colony_links: dict[str, set[str]] = defaultdict(set)
+        self.global_knowledge: dict[str, Any] = {}
+        self.swarm_patterns: list[dict[str, Any]] = []
         self.logger = logging.getLogger(f"{__name__}.SwarmHub")
 
     def create_colony(
-        self, colony_id: str, colony_type: Union[str, List[str]], agent_count: int = 10
+        self, colony_id: str, colony_type: Union[str, list[str]], agent_count: int = 10
     ) -> "EnhancedColony":
         """Create a new colony."""
         if colony_id in self.colonies:
@@ -1005,7 +1004,7 @@ class EnhancedSwarmHub:
         return colony
 
     def _establish_colony_links(
-        self, new_colony_id: str, colony_type: Union[str, List[str]]
+        self, new_colony_id: str, colony_type: Union[str, list[str]]
     ):
         """Establish links between related colonies."""
         # Define colony relationships
@@ -1036,7 +1035,7 @@ class EnhancedSwarmHub:
                 self.inter_colony_links[new_colony_id].add(colony_id)
                 self.inter_colony_links[colony_id].add(new_colony_id)
 
-    async def execute_swarm_task(self, task: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_swarm_task(self, task: dict[str, Any]) -> dict[str, Any]:
         """Execute task using the entire swarm."""
         task_id = task.get("id", f"swarm-task-{time.time()}")
         required_capabilities = task.get("required_capabilities", [])
@@ -1073,7 +1072,7 @@ class EnhancedSwarmHub:
             "colony_results": colony_results,
         }
 
-    async def achieve_swarm_consensus(self, topic: str, options: List[Any]) -> Any:
+    async def achieve_swarm_consensus(self, topic: str, options: list[Any]) -> Any:
         """Achieve consensus across the entire swarm."""
         self.logger.info(f"Swarm seeking consensus on {topic}")
 
@@ -1136,7 +1135,7 @@ class EnhancedSwarmHub:
         patterns = []
 
         # Pattern 1: Inter-colony collaboration
-        collaboration_graph = defaultdict(int)
+        defaultdict(int)
         # This would track actual collaborations in a real system
 
         # Pattern 2: Knowledge convergence
@@ -1180,7 +1179,7 @@ class EnhancedSwarmHub:
 
         self.swarm_patterns = patterns
 
-    def get_swarm_status(self) -> Dict[str, Any]:
+    def get_swarm_status(self) -> dict[str, Any]:
         """Get comprehensive swarm status."""
         total_agents = 0
         total_energy = 0

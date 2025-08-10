@@ -1,7 +1,7 @@
-from typing import Any, Dict
+from typing import Any
 
 
-def dream_reflect_hook(cause_map: Dict[str, Any]) -> None:
+def dream_reflect_hook(cause_map: dict[str, Any]) -> None:
     """
     Emits symbolic coherence hooks from dream redirection cause maps.
     """

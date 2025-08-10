@@ -4,26 +4,25 @@
 Shows the immutable memory architecture in action
 """
 
-import asyncio
-import os
-import sys
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
+from memory.dna_helix.helix_vault import HelixVault
 from memory.dna_helix import (
     MemoryHelix,
     RepairMethod,
     SymbolicRepairLoop,
     SymbolicStrand,
 )
-from memory.dna_helix.helix_vault import HelixVault
+import asyncio
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 async def demonstrate_basic_memory():
     """Demonstrate basic DNA helix memory operations"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🧬 BASIC DNA HELIX MEMORY")
-    print("="*60)
+    print("=" * 60)
 
     # Create a memory with origin strand
     origin_glyphs = ["TRUST", "PROTECT", "LEARN", "GROW", "HELP", "CONNECT"]
@@ -53,8 +52,7 @@ async def demonstrate_basic_memory():
     if memory.helix_core.should_repair():
         print("\n🛠 Memory drift exceeds threshold - initiating repair...")
         memory.helix_core.repair(
-            method=RepairMethod.PARTIAL_HEAL,
-            cause="Demonstration drift correction"
+            method=RepairMethod.PARTIAL_HEAL, cause="Demonstration drift correction"
         )
 
         repaired = list(memory.helix_core.current.sequence)
@@ -72,14 +70,14 @@ async def demonstrate_basic_memory():
 
 async def demonstrate_multi_context_memory():
     """Demonstrate multi-dimensional memory with contexts"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🌈 MULTI-CONTEXT MEMORY")
-    print("="*60)
+    print("=" * 60)
 
     # Create episodic memory with multiple contexts
     memory = MemoryHelix(
         "first_day_school",
-        ["ARRIVE", "NERVOUS", "MEET", "TEACHER", "LEARN", "PLAY", "FRIENDS"]
+        ["ARRIVE", "NERVOUS", "MEET", "TEACHER", "LEARN", "PLAY", "FRIENDS"],
     )
 
     # Add emotional context
@@ -108,9 +106,9 @@ async def demonstrate_multi_context_memory():
 
 async def demonstrate_memory_vault():
     """Demonstrate the Helix Vault system"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🔐 HELIX VAULT SYSTEM")
-    print("="*60)
+    print("=" * 60)
 
     # Create vault
     vault = HelixVault()
@@ -120,21 +118,53 @@ async def demonstrate_memory_vault():
 
     # Create various types of memories
     memories = [
-        ("skill_riding_bike",
-         ["BALANCE", "PEDAL", "STEER", "BRAKE", "PRACTICE", "FALL", "RETRY", "SUCCESS"],
-         {"procedural", "motor_skill", "childhood"}),
-
-        ("fact_gravity",
-         ["NEWTON", "FORCE", "MASS", "ACCELERATION", "9.8", "METERS", "SECOND", "SQUARED"],
-         {"semantic", "physics", "scientific"}),
-
-        ("event_birthday_10",
-         ["CAKE", "CANDLES", "FRIENDS", "GIFTS", "SURPRISE", "JOY", "FAMILY", "PHOTOS"],
-         {"episodic", "celebration", "childhood"}),
-
-        ("trauma_accident",
-         ["CAR", "CRASH", "FEAR", "PAIN", "HOSPITAL", "RECOVERY", "SCAR", "CAUTION"],
-         {"episodic", "trauma", "formative"})
+        (
+            "skill_riding_bike",
+            [
+                "BALANCE",
+                "PEDAL",
+                "STEER",
+                "BRAKE",
+                "PRACTICE",
+                "FALL",
+                "RETRY",
+                "SUCCESS",
+            ],
+            {"procedural", "motor_skill", "childhood"},
+        ),
+        (
+            "fact_gravity",
+            [
+                "NEWTON",
+                "FORCE",
+                "MASS",
+                "ACCELERATION",
+                "9.8",
+                "METERS",
+                "SECOND",
+                "SQUARED",
+            ],
+            {"semantic", "physics", "scientific"},
+        ),
+        (
+            "event_birthday_10",
+            [
+                "CAKE",
+                "CANDLES",
+                "FRIENDS",
+                "GIFTS",
+                "SURPRISE",
+                "JOY",
+                "FAMILY",
+                "PHOTOS",
+            ],
+            {"episodic", "celebration", "childhood"},
+        ),
+        (
+            "trauma_accident",
+            ["CAR", "CRASH", "FEAR", "PAIN", "HOSPITAL", "RECOVERY", "SCAR", "CAUTION"],
+            {"episodic", "trauma", "formative"},
+        ),
     ]
 
     for mem_id, glyphs, tags in memories:
@@ -163,8 +193,18 @@ async def demonstrate_memory_vault():
     trauma_memory = vault.get_memory("trauma_accident")
     if trauma_memory:
         # Drift: Memory softens over time
-        trauma_memory.mutate(["CAR", "INCIDENT", "CONCERN", "DISCOMFORT",
-                             "CLINIC", "HEALING", "MARK", "CAREFUL"])
+        trauma_memory.mutate(
+            [
+                "CAR",
+                "INCIDENT",
+                "CONCERN",
+                "DISCOMFORT",
+                "CLINIC",
+                "HEALING",
+                "MARK",
+                "CAREFUL",
+            ]
+        )
 
         print("\n🌊 Trauma memory drift detected:")
         print(f"   Drift level: {trauma_memory.helix_core.calculate_drift():.3f}")
@@ -195,14 +235,14 @@ async def demonstrate_memory_vault():
 
 async def demonstrate_gdpr_compliance():
     """Demonstrate GDPR-compliant memory operations"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🇪🇺 GDPR COMPLIANCE FEATURES")
-    print("="*60)
+    print("=" * 60)
 
     # Create personal memory
     memory = MemoryHelix(
         "personal_data_001",
-        ["NAME", "JOHN_DOE", "EMAIL", "JOHN@EXAMPLE", "LOCATION", "PARIS"]
+        ["NAME", "JOHN_DOE", "EMAIL", "JOHN@EXAMPLE", "LOCATION", "PARIS"],
     )
     memory.tags.add("personal_data")
     memory.tags.add("user_12345")
@@ -240,14 +280,14 @@ async def demonstrate_gdpr_compliance():
 
 async def demonstrate_repair_loop():
     """Demonstrate automatic repair loop"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🔄 AUTOMATIC REPAIR LOOP")
-    print("="*60)
+    print("=" * 60)
 
     # Create memory prone to drift
     memory = MemoryHelix(
         "unstable_memory",
-        ["STABLE", "THOUGHT", "CLEAR", "FOCUSED", "RATIONAL", "LOGICAL"]
+        ["STABLE", "THOUGHT", "CLEAR", "FOCUSED", "RATIONAL", "LOGICAL"],
     )
 
     # Create repair loop
@@ -295,16 +335,18 @@ async def demonstrate_repair_loop():
     # Show repair history
     print(f"\n📜 Repair History ({len(helix.repair_history)} repairs):")
     for i, repair in enumerate(helix.repair_history):
-        print(f"   {i+1}. {repair.timestamp.strftime('%H:%M:%S')} - {repair.repair_method.value}")
+        print(
+            f"   {i+1}. {repair.timestamp.strftime('%H:%M:%S')} - {repair.repair_method.value}"
+        )
         print(f"      Drift: {repair.drift_before:.3f} → {repair.drift_after:.3f}")
 
 
 async def main():
     """Run all demonstrations"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🧬 LUKHAS DNA HELIX MEMORY SYSTEM")
     print("   Immutable Memory Architecture Demonstration")
-    print("="*60)
+    print("=" * 60)
 
     # Run demonstrations
     await demonstrate_basic_memory()
@@ -313,9 +355,9 @@ async def main():
     await demonstrate_gdpr_compliance()
     await demonstrate_repair_loop()
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("✨ DNA HELIX DEMONSTRATION COMPLETE")
-    print("="*60)
+    print("=" * 60)
     print("\nKey Features Demonstrated:")
     print("  ✓ Immutable origin strands")
     print("  ✓ Drift detection and repair")

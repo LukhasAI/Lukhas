@@ -7,12 +7,19 @@ sophisticated Lukhas PWM architecture, leveraging its existing
 plugin registry and module registry systems.
 """
 
+from plugins.plugin_base import (
+    HealthStatus,
+    LukhasPlugin,
+    PluginManifest,
+    PluginPriority,
+    PluginStatus,
+)
 import logging
 import sys
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Add Lukhas PWM to path
 lukhas_pwm_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
@@ -46,13 +53,6 @@ except ImportError as e:
 lambda_products_path = Path(__file__).parent.parent
 sys.path.insert(0, str(lambda_products_path))
 
-from plugins.plugin_base import (
-    HealthStatus,
-    LukhasPlugin,
-    PluginManifest,
-    PluginPriority,
-    PluginStatus,
-)
 
 logger = logging.getLogger(__name__)
 
@@ -78,7 +78,7 @@ class LambdaProductsPWMPlugin(Plugin):
         """Return Lambda Product version"""
         return self.lambda_plugin.manifest.version
 
-    async def initialize(self, config: Dict[str, Any]) -> bool:
+    async def initialize(self, config: dict[str, Any]) -> bool:
         """Initialize the Lambda Product"""
         if not self.initialized:
             success = await self.lambda_plugin.initialize(config)
@@ -93,7 +93,7 @@ class LambdaProductsPWMPlugin(Plugin):
             raise RuntimeError(f"{self.get_plugin_name()} not initialized")
         return await self.lambda_plugin.process(input_data)
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Check health status"""
         health = await self.lambda_plugin.health_check()
         return {
@@ -131,7 +131,7 @@ class LukhasPWMIntegrationAdapter:
         }
         return tier_map.get(product_id, TierLevel.VISITOR)
 
-    async def auto_register_all_products(self) -> List[str]:
+    async def auto_register_all_products(self) -> list[str]:
         """Auto-register all Lambda Products with PWM"""
         registered = []
 
@@ -156,16 +156,14 @@ class LukhasPWMIntegrationAdapter:
         """Connect to Lukhas consciousness layer"""
         try:
             # Check if consciousness module is available
-            from consciousness.unified.auto_consciousness import (
-                AutoConsciousness,
-            )
+            pass
 
             return True
         except ImportError:
             return False
 
     async def register_lambda_product(
-        self, lambda_plugin: LukhasPlugin, config: Optional[Dict[str, Any]] = None
+        self, lambda_plugin: LukhasPlugin, config: Optional[dict[str, Any]] = None
     ) -> bool:
         """Register a Lambda Product with Lukhas PWM"""
 
@@ -259,7 +257,7 @@ class LukhasPWMIntegrationAdapter:
         pwm_plugin = self.registered_products[product_id]["plugin"]
         return await pwm_plugin.process(input_data)
 
-    async def get_system_status(self) -> Dict[str, Any]:
+    async def get_system_status(self) -> dict[str, Any]:
         """Get overall system status"""
         status = {
             "pwm_available": LUKHAS_PWM_AVAILABLE,
@@ -277,7 +275,7 @@ class LukhasPWMIntegrationAdapter:
 
         return status
 
-    def get_module_registry_info(self) -> Dict[str, Any]:
+    def get_module_registry_info(self) -> dict[str, Any]:
         """Get module registry information"""
         if not LUKHAS_PWM_AVAILABLE or not self.module_registry:
             return {"available": False}
@@ -321,7 +319,7 @@ class NIASPWMPlugin(LukhasPlugin):
             TierLevel.TRUSTED: 20,
         }
 
-    async def initialize(self, config: Dict[str, Any]) -> bool:
+    async def initialize(self, config: dict[str, Any]) -> bool:
         self.config = config
         self.tier = config.get("user_tier", TierLevel.VISITOR)
         return True
@@ -344,7 +342,7 @@ class NIASPWMPlugin(LukhasPlugin):
             uptime_seconds=self.get_uptime(),
         )
 
-    async def process(self, input_data: Any) -> Dict[str, Any]:
+    async def process(self, input_data: Any) -> dict[str, Any]:
         """Process message with emotional gating and tier limits"""
 
         # Check tier-based queue limit
@@ -396,7 +394,7 @@ class ABASPWMPlugin(LukhasPlugin):
         self.flow_state = False
         self.boundary_active = False
 
-    async def initialize(self, config: Dict[str, Any]) -> bool:
+    async def initialize(self, config: dict[str, Any]) -> bool:
         self.config = config
         return True
 
@@ -420,7 +418,7 @@ class ABASPWMPlugin(LukhasPlugin):
             uptime_seconds=self.get_uptime(),
         )
 
-    async def process(self, input_data: Any) -> Dict[str, Any]:
+    async def process(self, input_data: Any) -> dict[str, Any]:
         """Process attention management requests"""
 
         action = input_data.get("action")
@@ -470,7 +468,7 @@ class DASTPWMPlugin(LukhasPlugin):
         self.context_buffer = []
         self.symbols = {}
 
-    async def initialize(self, config: Dict[str, Any]) -> bool:
+    async def initialize(self, config: dict[str, Any]) -> bool:
         self.config = config
         self.max_context = config.get("context_depth", 100)
         return True
@@ -493,7 +491,7 @@ class DASTPWMPlugin(LukhasPlugin):
             uptime_seconds=self.get_uptime(),
         )
 
-    async def process(self, input_data: Any) -> Dict[str, Any]:
+    async def process(self, input_data: Any) -> dict[str, Any]:
         """Track context and symbols"""
 
         if "event" in input_data:

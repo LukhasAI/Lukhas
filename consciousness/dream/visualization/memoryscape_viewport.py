@@ -8,7 +8,7 @@ tracked via :func:`compute_drift_score` and displayed in the figure title.
 from __future__ import annotations
 
 from trace.drift_metrics import compute_drift_score
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 import plotly.graph_objects as go
 
@@ -17,23 +17,23 @@ class DreamMemoryscapeViewport:
     """Create an interactive 3D viewport of dream states."""
 
     def __init__(self) -> None:
-        self._last_state: Dict[str, Any] | None = None
+        self._last_state: dict[str, Any] | None = None
         self.total_drift: float = 0.0
 
     def _coords_for_dream(
-        self, idx: int, dream: Dict[str, Any]
-    ) -> Tuple[float, float, float]:
+        self, idx: int, dream: dict[str, Any]
+    ) -> tuple[float, float, float]:
         affect = float(dream.get("affect_delta", 0.0))
         theta = float(dream.get("theta_delta", idx))
         return float(idx), affect, theta
 
-    def render_scene(self, dreams: List[Dict[str, Any]]) -> go.Figure:
+    def render_scene(self, dreams: list[dict[str, Any]]) -> go.Figure:
         """Return a Plotly figure visualizing the dream sequence."""
-        xs: List[float] = []
-        ys: List[float] = []
-        zs: List[float] = []
-        texts: List[str] = []
-        colors: List[float] = []
+        xs: list[float] = []
+        ys: list[float] = []
+        zs: list[float] = []
+        texts: list[str] = []
+        colors: list[float] = []
 
         prev = self._last_state
         for idx, dream in enumerate(dreams):
@@ -57,13 +57,17 @@ class DreamMemoryscapeViewport:
             y=ys,
             z=zs,
             mode="lines+markers",
-            marker=dict(size=5, color=colors, colorscale="Viridis"),
+            marker={"size": 5, "color": colors, "colorscale": "Viridis"},
             text=texts,
         )
 
         fig = go.Figure(data=[scatter])
         fig.update_layout(
             title=f"Dream Memoryscape - Identity Drift {self.total_drift:.2f}",
-            scene=dict(xaxis_title="time", yaxis_title="affect", zaxis_title="theta"),
+            scene={
+                "xaxis_title": "time",
+                "yaxis_title": "affect",
+                "zaxis_title": "theta",
+            },
         )
         return fig

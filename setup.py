@@ -57,7 +57,7 @@ setup(
             "scikit-learn>=1.3.0",
             "pandas>=2.0.0",
             "scipy>=1.11.0",
-        ]
+        ],
     },
     entry_points={
         "console_scripts": [

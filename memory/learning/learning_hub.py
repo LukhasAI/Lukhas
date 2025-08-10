@@ -5,7 +5,7 @@ Central coordination for learning subsystem components with meta-learning
 
 import asyncio
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -58,9 +58,9 @@ class LearningHub:
     """Central hub for learning system coordination"""
 
     def __init__(self):
-        self.services: Dict[str, Any] = {}
-        self.event_handlers: Dict[str, List] = {}
-        self.learning_metrics: Dict[str, Any] = {}
+        self.services: dict[str, Any] = {}
+        self.event_handlers: dict[str, list] = {}
+        self.learning_metrics: dict[str, Any] = {}
         self.is_initialized = False
 
         # Initialize meta-learning enhancement system if available
@@ -337,7 +337,7 @@ class LearningHub:
             logger.error(f"Failed to start enhancement operations: {e}")
             return False
 
-    async def get_enhancement_status(self) -> Dict[str, Any]:
+    async def get_enhancement_status(self) -> dict[str, Any]:
         """Get current enhancement system status"""
         if not self.enhancement_system:
             return {
@@ -362,7 +362,7 @@ class LearningHub:
             logger.error(f"Failed to get enhancement status: {e}")
             return {"status": "error", "error": str(e)}
 
-    async def run_enhancement_cycle(self) -> Dict[str, Any]:
+    async def run_enhancement_cycle(self) -> dict[str, Any]:
         """Run a single enhancement cycle"""
         if not self.enhancement_system:
             return {"success": False, "error": "Enhancement system not available"}
@@ -378,8 +378,8 @@ class LearningHub:
             return {"success": False, "error": str(e)}
 
     async def process_learning_event(
-        self, learning_data: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, learning_data: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process a learning event through the learning system"""
 
         # Route through meta-learning first
@@ -419,8 +419,8 @@ class LearningHub:
         }
 
     async def process_federated_update(
-        self, update_data: Dict[str, Any], source_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, update_data: dict[str, Any], source_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process federated learning updates"""
 
         federated_system = self.get_service("federated_learning_system")
@@ -445,7 +445,7 @@ class LearningHub:
         return {"error": "Federated learning system not available"}
 
     def register_learning_feedback(
-        self, feedback_type: str, feedback_data: Dict[str, Any]
+        self, feedback_type: str, feedback_data: dict[str, Any]
     ):
         """Register learning feedback for continuous improvement"""
         # This method will be used by other hubs to provide learning feedback
@@ -459,8 +459,8 @@ class LearningHub:
                 logger.error(f"Learning feedback registration error: {e}")
 
     async def process_event(
-        self, event_type: str, data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process an event through registered handlers"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
@@ -479,7 +479,7 @@ class LearningHub:
 
         return {"event_type": event_type, "results": results}
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for all registered learning services"""
         health = {
             "status": "healthy",
@@ -501,7 +501,7 @@ class LearningHub:
 
         return health
 
-    def get_learning_metrics(self) -> Dict[str, Any]:
+    def get_learning_metrics(self) -> dict[str, Any]:
         """Get current learning metrics"""
         return self.learning_metrics.copy()
 

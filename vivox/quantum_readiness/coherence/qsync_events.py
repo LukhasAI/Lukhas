@@ -8,7 +8,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -19,24 +19,26 @@ logger = get_logger(__name__)
 
 class SyncType(Enum):
     """Types of quantum synchronization"""
-    ENTANGLEMENT = "entanglement"      # Direct quantum entanglement
-    RESONANCE = "resonance"            # Resonance coupling
-    PHASE_LOCK = "phase_lock"          # Phase synchronization
-    CORRELATION = "correlation"        # Classical correlation
-    EMERGENT = "emergent"              # Spontaneous synchronization
-    CONSENSUS = "consensus"            # Multi-agent consensus sync
+
+    ENTANGLEMENT = "entanglement"  # Direct quantum entanglement
+    RESONANCE = "resonance"  # Resonance coupling
+    PHASE_LOCK = "phase_lock"  # Phase synchronization
+    CORRELATION = "correlation"  # Classical correlation
+    EMERGENT = "emergent"  # Spontaneous synchronization
+    CONSENSUS = "consensus"  # Multi-agent consensus sync
 
 
 @dataclass
 class QSyncEvent:
     """Quantum synchronization event between agents"""
+
     event_id: str
-    agent_ids: List[str]
+    agent_ids: list[str]
     sync_type: SyncType
     correlation_strength: float  # 0-1 synchronization strength
     timestamp: datetime
-    quantum_states: Dict[str, np.ndarray] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    quantum_states: dict[str, np.ndarray] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def is_strong_sync(self) -> bool:
         """Check if synchronization is strong enough for consensus"""
@@ -63,9 +65,9 @@ class EntanglementBridge:
     """
 
     def __init__(self):
-        self.entangled_pairs: Dict[Tuple[str, str], float] = {}
-        self.entanglement_network: Dict[str, Set[str]] = defaultdict(set)
-        self.bridge_states: Dict[str, np.ndarray] = {}
+        self.entangled_pairs: dict[tuple[str, str], float] = {}
+        self.entanglement_network: dict[str, set[str]] = defaultdict(set)
+        self.bridge_states: dict[str, np.ndarray] = {}
 
         # Entanglement parameters
         self.min_entanglement_strength = 0.5
@@ -74,18 +76,17 @@ class EntanglementBridge:
 
         logger.info("EntanglementBridge initialized")
 
-    def create_entanglement(self,
-                          agent1_id: str,
-                          agent2_id: str,
-                          strength: float = 1.0) -> Tuple[np.ndarray, np.ndarray]:
+    def create_entanglement(
+        self, agent1_id: str, agent2_id: str, strength: float = 1.0
+    ) -> tuple[np.ndarray, np.ndarray]:
         """
         Create quantum entanglement between two agents
-        
+
         Args:
             agent1_id: First agent identifier
             agent2_id: Second agent identifier
             strength: Entanglement strength (0-1)
-            
+
         Returns:
             Tuple of entangled states for each agent
         """
@@ -120,20 +121,22 @@ class EntanglementBridge:
 
         return agent1_state, agent2_state
 
-    def measure_correlation(self,
-                          agent1_state: np.ndarray,
-                          agent2_state: np.ndarray,
-                          agent1_id: str,
-                          agent2_id: str) -> float:
+    def measure_correlation(
+        self,
+        agent1_state: np.ndarray,
+        agent2_state: np.ndarray,
+        agent1_id: str,
+        agent2_id: str,
+    ) -> float:
         """
         Measure quantum correlation between agent states
-        
+
         Args:
             agent1_state: Quantum state of agent 1
             agent2_state: Quantum state of agent 2
             agent1_id: Agent 1 identifier
             agent2_id: Agent 2 identifier
-            
+
         Returns:
             Correlation strength (0-1)
         """
@@ -156,13 +159,13 @@ class EntanglementBridge:
 
         return float(np.clip(correlation, 0, 1))
 
-    def propagate_entanglement(self, source_agent: str) -> Dict[str, float]:
+    def propagate_entanglement(self, source_agent: str) -> dict[str, float]:
         """
         Propagate entanglement through network from source agent
-        
+
         Args:
             source_agent: Starting agent for propagation
-            
+
         Returns:
             Dictionary of reachable agents and correlation strengths
         """
@@ -184,16 +187,23 @@ class EntanglementBridge:
                 edge_strength = self.entangled_pairs.get(pair_key, 0)
 
                 # Calculate propagated strength
-                propagated_strength = current_strength * edge_strength * (1 - self.decoherence_rate * distance)
+                propagated_strength = (
+                    current_strength
+                    * edge_strength
+                    * (1 - self.decoherence_rate * distance)
+                )
 
                 if propagated_strength > self.min_entanglement_strength:
-                    if partner not in reachable or propagated_strength > reachable[partner]:
+                    if (
+                        partner not in reachable
+                        or propagated_strength > reachable[partner]
+                    ):
                         reachable[partner] = propagated_strength
                         queue.append((partner, propagated_strength, distance + 1))
 
         return reachable
 
-    def find_entanglement_clusters(self) -> List[Set[str]]:
+    def find_entanglement_clusters(self) -> list[set[str]]:
         """Find clusters of strongly entangled agents"""
         clusters = []
         visited = set()
@@ -252,36 +262,37 @@ class QuantumSynchronizer:
 
     def __init__(self, entanglement_bridge: Optional[EntanglementBridge] = None):
         self.bridge = entanglement_bridge or EntanglementBridge()
-        self.sync_events: List[QSyncEvent] = []
-        self.agent_states: Dict[str, np.ndarray] = {}
-        self.phase_locks: Dict[Tuple[str, str], float] = {}
+        self.sync_events: list[QSyncEvent] = []
+        self.agent_states: dict[str, np.ndarray] = {}
+        self.phase_locks: dict[tuple[str, str], float] = {}
 
         # Synchronization parameters
         self.sync_threshold = 0.5
         self.phase_tolerance = np.pi / 4
-        self.resonance_frequencies: Dict[str, float] = {}
+        self.resonance_frequencies: dict[str, float] = {}
 
         logger.info("QuantumSynchronizer initialized")
 
-    def register_agent(self,
-                      agent_id: str,
-                      initial_state: np.ndarray,
-                      resonance_frequency: float = 1.0):
+    def register_agent(
+        self, agent_id: str, initial_state: np.ndarray, resonance_frequency: float = 1.0
+    ):
         """Register an agent for quantum synchronization"""
         self.agent_states[agent_id] = initial_state
         self.resonance_frequencies[agent_id] = resonance_frequency
-        logger.debug(f"Agent {agent_id} registered with resonance frequency {resonance_frequency}")
+        logger.debug(
+            f"Agent {agent_id} registered with resonance frequency {resonance_frequency}"
+        )
 
-    def create_sync_event(self,
-                        agent_ids: List[str],
-                        sync_type: SyncType = SyncType.EMERGENT) -> Optional[QSyncEvent]:
+    def create_sync_event(
+        self, agent_ids: list[str], sync_type: SyncType = SyncType.EMERGENT
+    ) -> Optional[QSyncEvent]:
         """
         Create a quantum synchronization event
-        
+
         Args:
             agent_ids: List of participating agents
             sync_type: Type of synchronization
-            
+
         Returns:
             QSyncEvent if successful, None otherwise
         """
@@ -318,26 +329,28 @@ class QuantumSynchronizer:
             timestamp=datetime.now(),
             quantum_states=states.copy(),
             metadata={
-                'agent_count': len(agent_ids),
-                'sync_quality': self._get_sync_quality(correlation)
-            }
+                "agent_count": len(agent_ids),
+                "sync_quality": self._get_sync_quality(correlation),
+            },
         )
 
         self.sync_events.append(event)
         return event
 
-    def synchronize_agents(self,
-                         agent_ids: List[str],
-                         target_state: Optional[np.ndarray] = None,
-                         sync_strength: float = 0.5) -> Dict[str, np.ndarray]:
+    def synchronize_agents(
+        self,
+        agent_ids: list[str],
+        target_state: Optional[np.ndarray] = None,
+        sync_strength: float = 0.5,
+    ) -> dict[str, np.ndarray]:
         """
         Actively synchronize multiple agents
-        
+
         Args:
             agent_ids: Agents to synchronize
             target_state: Target state for synchronization (optional)
             sync_strength: Strength of synchronization (0-1)
-            
+
         Returns:
             Dictionary of synchronized states
         """
@@ -347,7 +360,9 @@ class QuantumSynchronizer:
         # Determine target state
         if target_state is None:
             # Use average state as target
-            states = [self.agent_states[aid] for aid in agent_ids if aid in self.agent_states]
+            states = [
+                self.agent_states[aid] for aid in agent_ids if aid in self.agent_states
+            ]
             if not states:
                 return {}
             target_state = np.mean(states, axis=0)
@@ -363,7 +378,9 @@ class QuantumSynchronizer:
             current_state = self.agent_states[agent_id]
 
             # Partial synchronization
-            synchronized = (1 - sync_strength) * current_state + sync_strength * target_state
+            synchronized = (
+                1 - sync_strength
+            ) * current_state + sync_strength * target_state
             synchronized /= np.linalg.norm(synchronized)
 
             # Update state
@@ -375,16 +392,16 @@ class QuantumSynchronizer:
 
         return synchronized_states
 
-    def detect_emergent_synchronization(self,
-                                      min_agents: int = 2,
-                                      correlation_threshold: float = 0.6) -> List[QSyncEvent]:
+    def detect_emergent_synchronization(
+        self, min_agents: int = 2, correlation_threshold: float = 0.6
+    ) -> list[QSyncEvent]:
         """
         Detect spontaneous synchronization between agents
-        
+
         Args:
             min_agents: Minimum agents for sync detection
             correlation_threshold: Minimum correlation for sync
-            
+
         Returns:
             List of detected synchronization events
         """
@@ -412,9 +429,9 @@ class QuantumSynchronizer:
                         timestamp=datetime.now(),
                         quantum_states=states,
                         metadata={
-                            'spontaneous': True,
-                            'detection_threshold': correlation_threshold
-                        }
+                            "spontaneous": True,
+                            "detection_threshold": correlation_threshold,
+                        },
                     )
                     detected_events.append(event)
 
@@ -423,9 +440,9 @@ class QuantumSynchronizer:
 
         return detected_events
 
-    def _calculate_entanglement_sync(self,
-                                   agent_ids: List[str],
-                                   states: Dict[str, np.ndarray]) -> float:
+    def _calculate_entanglement_sync(
+        self, agent_ids: list[str], states: dict[str, np.ndarray]
+    ) -> float:
         """Calculate synchronization through entanglement"""
         if len(agent_ids) < 2:
             return 0.0
@@ -440,16 +457,16 @@ class QuantumSynchronizer:
                     states[agent_ids[i]],
                     states[agent_ids[j]],
                     agent_ids[i],
-                    agent_ids[j]
+                    agent_ids[j],
                 )
                 total_correlation += correlation
                 pair_count += 1
 
         return total_correlation / pair_count if pair_count > 0 else 0.0
 
-    def _calculate_phase_sync(self,
-                            agent_ids: List[str],
-                            states: Dict[str, np.ndarray]) -> float:
+    def _calculate_phase_sync(
+        self, agent_ids: list[str], states: dict[str, np.ndarray]
+    ) -> float:
         """Calculate phase synchronization"""
         if len(agent_ids) < 2:
             return 0.0
@@ -464,16 +481,16 @@ class QuantumSynchronizer:
             phases.append(phase)
 
         # Calculate phase coherence
-        mean_phase = np.mean(phases)
+        np.mean(phases)
         phase_variance = np.var(phases)
 
         # Convert variance to synchronization strength
-        max_variance = np.pi ** 2  # Maximum possible variance
+        max_variance = np.pi**2  # Maximum possible variance
         sync_strength = 1.0 - (phase_variance / max_variance)
 
         return float(np.clip(sync_strength, 0, 1))
 
-    def _calculate_resonance_sync(self, agent_ids: List[str]) -> float:
+    def _calculate_resonance_sync(self, agent_ids: list[str]) -> float:
         """Calculate resonance-based synchronization"""
         if len(agent_ids) < 2:
             return 0.0
@@ -487,14 +504,14 @@ class QuantumSynchronizer:
 
         # Resonance occurs when frequencies are close
         if mean_freq > 0:
-            relative_variance = freq_variance / (mean_freq ** 2)
+            relative_variance = freq_variance / (mean_freq**2)
             sync_strength = np.exp(-relative_variance * 10)  # Exponential decay
         else:
             sync_strength = 0.0
 
         return float(np.clip(sync_strength, 0, 1))
 
-    def _calculate_emergent_sync(self, states: Dict[str, np.ndarray]) -> float:
+    def _calculate_emergent_sync(self, states: dict[str, np.ndarray]) -> float:
         """Calculate emergent synchronization from state overlap"""
         if len(states) < 2:
             return 0.0
@@ -530,10 +547,10 @@ class QuantumSynchronizer:
         else:
             return "weak"
 
-    def get_sync_statistics(self) -> Dict[str, Any]:
+    def get_sync_statistics(self) -> dict[str, Any]:
         """Get synchronization statistics"""
         if not self.sync_events:
-            return {'message': 'No synchronization events recorded'}
+            return {"message": "No synchronization events recorded"}
 
         # Analyze sync events
         sync_types = defaultdict(int)
@@ -551,19 +568,24 @@ class QuantumSynchronizer:
         for sync_type in SyncType:
             events_of_type = [e for e in self.sync_events if e.sync_type == sync_type]
             if events_of_type:
-                avg_correlation_by_type[sync_type.value] = np.mean([e.correlation_strength for e in events_of_type])
+                avg_correlation_by_type[sync_type.value] = np.mean(
+                    [e.correlation_strength for e in events_of_type]
+                )
 
         # Find entanglement clusters
         clusters = self.bridge.find_entanglement_clusters()
 
         return {
-            'total_sync_events': len(self.sync_events),
-            'sync_type_distribution': dict(sync_types),
-            'quality_distribution': dict(quality_distribution),
-            'average_correlation': np.mean([e.correlation_strength for e in self.sync_events]),
-            'avg_correlation_by_type': avg_correlation_by_type,
-            'agent_participation': dict(agent_participation),
-            'active_agents': len(self.agent_states),
-            'entanglement_clusters': [list(cluster) for cluster in clusters],
-            'strong_sync_rate': len([e for e in self.sync_events if e.is_strong_sync()]) / len(self.sync_events)
+            "total_sync_events": len(self.sync_events),
+            "sync_type_distribution": dict(sync_types),
+            "quality_distribution": dict(quality_distribution),
+            "average_correlation": np.mean(
+                [e.correlation_strength for e in self.sync_events]
+            ),
+            "avg_correlation_by_type": avg_correlation_by_type,
+            "agent_participation": dict(agent_participation),
+            "active_agents": len(self.agent_states),
+            "entanglement_clusters": [list(cluster) for cluster in clusters],
+            "strong_sync_rate": len([e for e in self.sync_events if e.is_strong_sync()])
+            / len(self.sync_events),
         }

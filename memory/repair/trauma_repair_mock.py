@@ -6,7 +6,7 @@ Lightweight mock implementation without dependencies
 import random
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -84,7 +84,7 @@ class TraumaRepairSystem:
         self,
         memory_id: str,
         memory_content: Any,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> Optional[TraumaSignature]:
         """Mock trauma detection"""
         # Simulate random trauma detection (20% chance)
@@ -173,8 +173,8 @@ class MemoryTraumaRepair:
         self,
         memory_id: str,
         memory_content: Any,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Mock memory scan"""
         self.repair_stats["total_scans"] += 1
 
@@ -214,7 +214,7 @@ class MemoryTraumaRepair:
 
         return result
 
-    async def get_active_traumas(self) -> List[Dict[str, Any]]:
+    async def get_active_traumas(self) -> list[dict[str, Any]]:
         """Get active traumas"""
         active_traumas = []
 
@@ -234,7 +234,7 @@ class MemoryTraumaRepair:
 
     async def force_repair(
         self, memory_id: str, repair_strategy: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Force repair of a memory"""
         trauma = TraumaSignature(
             trauma_id=f"forced_{memory_id}_{datetime.now().timestamp()}",
@@ -253,7 +253,7 @@ class MemoryTraumaRepair:
             "strategy_used": repair_strategy or "auto",
         }
 
-    def get_repair_statistics(self) -> Dict[str, Any]:
+    def get_repair_statistics(self) -> dict[str, Any]:
         """Get repair statistics"""
         stats = self.repair_stats.copy()
 
@@ -278,11 +278,11 @@ class MemoryTraumaRepair:
 
         return stats
 
-    async def get_healing_history(self, limit: int = 10) -> List[Dict[str, Any]]:
+    async def get_healing_history(self, limit: int = 10) -> list[dict[str, Any]]:
         """Get healing history"""
         return self.repair_system.healing_log[-limit:]
 
-    async def check_memory_health(self, memory_id: str) -> Dict[str, Any]:
+    async def check_memory_health(self, memory_id: str) -> dict[str, Any]:
         """Check memory health"""
         health_status = {
             "memory_id": memory_id,
@@ -293,7 +293,7 @@ class MemoryTraumaRepair:
         }
 
         # Check for active trauma
-        for trauma_id, trauma in self.repair_system.active_traumas.items():
+        for _trauma_id, trauma in self.repair_system.active_traumas.items():
             if trauma.memory_id == memory_id:
                 health_status["active_trauma"] = True
                 health_status["is_healthy"] = False

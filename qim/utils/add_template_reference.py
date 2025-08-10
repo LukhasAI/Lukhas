@@ -24,7 +24,7 @@ TEMPLATE_REFERENCE = """
 def add_template_reference(filepath: Path) -> bool:
     """Add template reference after ASCII art in a single file."""
 
-    if not filepath.suffix == ".py":
+    if filepath.suffix != ".py":
         return False
 
     try:

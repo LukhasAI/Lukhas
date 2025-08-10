@@ -229,7 +229,7 @@ class EmergentIdentity:
         logger.info("🔄 Identity evolution triggered")
 
         # Update entropy
-        old_entropy = self.entropy_level
+        self.entropy_level
         self.entropy_level = max(0.0, min(1.0, self.entropy_level + entropy_delta))
         self.identity_memory.total_drift += abs(entropy_delta)
 

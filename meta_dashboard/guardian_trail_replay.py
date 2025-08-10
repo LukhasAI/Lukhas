@@ -185,7 +185,7 @@ def format_timestamp(timestamp: str) -> str:
     try:
         dt = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
         return dt.strftime("%H:%M:%S")
-    except:
+    except BaseException:
         return timestamp
 
 

@@ -1,4 +1,5 @@
 # core/interfaces/logic/context/context_builder.py
+import structlog  # ΛMODIFICATION: Added structlog for standardized logging
 from typing import Any
 
 # ΛAGENT: Jules-[01]
@@ -50,8 +51,6 @@ DESCRIPTION:
 
 # ΛCONFIG_START
 
-
-import structlog  # ΛMODIFICATION: Added structlog for standardized logging
 
 log = structlog.get_logger()  # ΛMODIFICATION: Initialized structlog
 # ΛCONFIG_END

@@ -34,20 +34,22 @@ class DecisionAuditEngine:
         self.initialized = True
         return True
 
-    async def embed_decision(self,
-                           decision_type: str,
-                           context: Dict[str, Any],
-                           source: str,
-                           metadata: Optional[Dict[str, Any]] = None) -> str:
+    async def embed_decision(
+        self,
+        decision_type: str,
+        context: Dict[str, Any],
+        source: str,
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> str:
         """
         Embed a decision into the audit trail
-        
+
         Args:
             decision_type: Type of decision being made
             context: Context information about the decision
             source: Source module/component making the decision
             metadata: Additional metadata
-            
+
         Returns:
             Decision ID for tracking
         """
@@ -60,7 +62,7 @@ class DecisionAuditEngine:
             "source": source,
             "context": context,
             "metadata": metadata or {},
-            "session_id": self._get_session_id(source)
+            "session_id": self._get_session_id(source),
         }
 
         # Add to cache
@@ -74,18 +76,20 @@ class DecisionAuditEngine:
         logger.debug(f"Decision embedded: {decision_id} from {source}")
         return decision_id
 
-    async def track_outcome(self,
-                          decision_id: str,
-                          outcome: Any,
-                          success: bool = True,
-                          error: Optional[str] = None):
+    async def track_outcome(
+        self,
+        decision_id: str,
+        outcome: Any,
+        success: bool = True,
+        error: Optional[str] = None,
+    ):
         """Track the outcome of a decision"""
         outcome_entry = {
             "decision_id": decision_id,
             "timestamp": datetime.utcnow().isoformat(),
             "outcome": str(outcome),
             "success": success,
-            "error": error
+            "error": error,
         }
 
         # Find and update the original decision
@@ -94,10 +98,12 @@ class DecisionAuditEngine:
                 entry["outcome"] = outcome_entry
                 break
 
-    async def get_audit_trail(self,
-                            source: Optional[str] = None,
-                            decision_type: Optional[str] = None,
-                            limit: int = 100) -> List[Dict[str, Any]]:
+    async def get_audit_trail(
+        self,
+        source: Optional[str] = None,
+        decision_type: Optional[str] = None,
+        limit: int = 100,
+    ) -> List[Dict[str, Any]]:
         """Retrieve audit trail with optional filters"""
         # Ensure cache is persisted
         await self._persist_audit_cache()
@@ -133,7 +139,7 @@ class DecisionAuditEngine:
             "total_decisions": self.decision_count,
             "decision_types": {},
             "sources": {},
-            "success_rate": 0.0
+            "success_rate": 0.0,
         }
 
         # Analyze recent audits
@@ -184,7 +190,7 @@ class DecisionAuditEngine:
         timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
         audit_file = self.audit_dir / f"audit_{timestamp}.json"
 
-        with open(audit_file, 'w') as f:
+        with open(audit_file, "w") as f:
             json.dump(self.audit_cache, f, indent=2)
 
         logger.info(f"Persisted {len(self.audit_cache)} audit entries to {audit_file}")
@@ -203,21 +209,19 @@ class DecisionAuditDecorator:
         async def wrapper(*args, **kwargs):
             # Extract source from first arg if it's self
             source = "unknown"
-            if args and hasattr(args[0], '__class__'):
+            if args and hasattr(args[0], "__class__"):
                 source = args[0].__class__.__name__
 
             # Create context from function args
             context = {
                 "function": func.__name__,
                 "args": str(args[1:]),  # Skip self
-                "kwargs": str(kwargs)
+                "kwargs": str(kwargs),
             }
 
             # Embed decision
             decision_id = await self.audit_engine.embed_decision(
-                self.decision_type,
-                context,
-                source
+                self.decision_type, context, source
             )
 
             try:
@@ -225,21 +229,14 @@ class DecisionAuditDecorator:
                 result = await func(*args, **kwargs)
 
                 # Track outcome
-                await self.audit_engine.track_outcome(
-                    decision_id,
-                    result,
-                    success=True
-                )
+                await self.audit_engine.track_outcome(decision_id, result, success=True)
 
                 return result
 
             except Exception as e:
                 # Track failure
                 await self.audit_engine.track_outcome(
-                    decision_id,
-                    None,
-                    success=False,
-                    error=str(e)
+                    decision_id, None, success=False, error=str(e)
                 )
                 raise
 

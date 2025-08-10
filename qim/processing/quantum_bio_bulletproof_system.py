@@ -39,7 +39,7 @@ import time
 import traceback  # For logging critical errors
 import uuid
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional  # Added Callable
+from typing import Any, Callable, Optional  # Added Callable
 
 import numpy as np
 import structlog
@@ -67,7 +67,7 @@ class LukhasTestResult:  # Renamed from Test to be more specific
     name: str
     passed: bool
     duration_seconds: float  # Renamed for clarity
-    details: Dict[str, Any]
+    details: dict[str, Any]
     error_message: Optional[str] = None  # Renamed for clarity
     fallback_mechanism_used: bool = False  # Renamed for clarity
     lukhas_id_ref: Optional[str] = None  # For traceability
@@ -80,11 +80,11 @@ class LukhasReport:  # Renamed from Report
     session_id: str
     session_lukhas_id: str  # Added for consistency with logger
     report_timestamp_utc_iso: str  # Renamed and specified format
-    test_results: List[LukhasTestResult]  # Type updated
-    summary_metrics: Dict[str, Any]  # Renamed for clarity
+    test_results: list[LukhasTestResult]  # Type updated
+    summary_metrics: dict[str, Any]  # Renamed for clarity
     total_fallbacks_activated: int  # Renamed for clarity
     overall_success_rate_percent: float  # Renamed for clarity
-    log_export_summary: Dict[str, Any]  # To store info about exported logs
+    log_export_summary: dict[str, Any]  # To store info about exported logs
 
 
 # ΛTIER_CONFIG_START
@@ -129,7 +129,7 @@ class BulletproofAGISystem:
             system_module="BulletproofAGISystem",
         )
 
-        self.test_outcomes: List[LukhasTestResult] = []
+        self.test_outcomes: list[LukhasTestResult] = []
         self.fallbacks_activated_count = 0
 
         # AIMPORT_TODO: `sys.path.insert(0, '.')` can have side effects.
@@ -142,7 +142,7 @@ class BulletproofAGISystem:
         """Generates a unique LUKHAS ID reference for a log or test event."""
         return f"LUKHAS_EVENT_ID_{int(time.time_ns() / 1000)}_{uuid.uuid4().hex[:8]}"
 
-    def create_fallback_components(self) -> Dict[str, Any]:
+    def create_fallback_components(self) -> dict[str, Any]:
         """Creates fallback versions of critical components if primary ones fail to import."""
         self.log.warning(
             "Creating fallback components due to import issues or explicit call."
@@ -170,8 +170,8 @@ class BulletproofAGISystem:
                 self.log = log.bind(component="FallbackQAG")
 
             async def enhanced_attend(
-                self, input_data: Dict, focus: Dict, coherence: float
-            ) -> Dict:
+                self, input_data: dict, focus: dict, coherence: float
+            ) -> dict:
                 self.log.info("FallbackQuantumAttentionGate.enhanced_attend called.")
                 await asyncio.sleep(0.01)
                 return {
@@ -190,7 +190,7 @@ class BulletproofAGISystem:
                 self.consciousness_level = 0.5
                 self.log = log.bind(component="FallbackSAA")
 
-            def get_self_assessment_report(self) -> Dict:
+            def get_self_assessment_report(self) -> dict:
                 self.log.info(
                     "FallbackSelfAwareAgent.get_self_assessment_report called."
                 )
@@ -203,16 +203,17 @@ class BulletproofAGISystem:
 
         class FallbackMitochondrialQuantumBridge:
             def __init__(self):
-                self.quantum_cache: Dict[str, np.ndarray] = {}
+                self.quantum_cache: dict[str, np.ndarray] = {}
                 self.self_aware_agent = FallbackSelfAwareAgent()
                 self.config = FallbackSimpleConfig()
                 self.log = log.bind(component="FallbackMQB")
 
             # Assuming process_with_awareness could be async or sync based on actual component.
-            # Forcing async here for consistency with other test methods if they call it with await.
+            # Forcing async here for consistency with other test methods if they call
+            # it with await.
             async def process_with_awareness(
-                self, input_data: Dict, expected_output: Dict
-            ) -> Dict:
+                self, input_data: dict, expected_output: dict
+            ) -> dict:
                 self.log.info(
                     "FallbackMitochondrialQuantumBridge.process_with_awareness called."
                 )
@@ -221,7 +222,11 @@ class BulletproofAGISystem:
                 processed_signal = [x * 1.05 for x in sig_in]
                 return {
                     "quantum_signal": processed_signal,
-                    "consciousness_metadata": {"consciousness_level": 0.6 + np.random.normal(0, 0.02), "coherence_score": 0.7 + np.random.normal(0, 0.02)},  # type: ignore
+                    # type: ignore
+                    "consciousness_metadata": {
+                        "consciousness_level": 0.6 + np.random.normal(0, 0.02),
+                        "coherence_score": 0.7 + np.random.normal(0, 0.02),
+                    },
                 }
 
             def cached_quantum_modulate(self, signal: np.ndarray) -> np.ndarray:
@@ -231,12 +236,15 @@ class BulletproofAGISystem:
                 cache_key = hashlib.sha256(signal.tobytes()).hexdigest()
                 if cache_key in self.quantum_cache:
                     return self.quantum_cache[cache_key]
-                result = signal * 1.1 + np.random.normal(0, 0.05, signal.shape)  # type: ignore
+                result = signal * 1.1 + np.random.normal(
+                    0, 0.05, signal.shape
+                )  # type: ignore
                 self.quantum_cache[cache_key] = result
                 return result
 
         return {
-            "EnhancedQuantumAttentionGate": FallbackQuantumAttentionGate,  # Key should match expected import name
+            # Key should match expected import name
+            "EnhancedQuantumAttentionGate": FallbackQuantumAttentionGate,
             "EnhancedMitochondrialQuantumBridge": FallbackMitochondrialQuantumBridge,
         }
 
@@ -250,7 +258,7 @@ class BulletproofAGISystem:
         )
         passed_status = False
         error_details_str: Optional[str] = None
-        result_details: Dict[str, Any] = {}
+        result_details: dict[str, Any] = {}
         is_fallback_used = False
 
         try:
@@ -304,7 +312,7 @@ class BulletproofAGISystem:
 
     async def test_consciousness_enhancement(self) -> LukhasTestResult:
         is_fallback = False
-        details: Dict[str, Any] = {}
+        details: dict[str, Any] = {}
         try:
             from bio.advanced_quantum_bio import (
                 EnhancedMitochondrialQuantumBridge,  # type: ignore
@@ -353,7 +361,7 @@ class BulletproofAGISystem:
 
     async def test_performance_optimization(self) -> LukhasTestResult:
         is_fallback = False
-        details: Dict[str, Any] = {}
+        details: dict[str, Any] = {}
         try:
             from quantum.quantum_bio_components import (
                 EnhancedQuantumAttentionGate,  # type: ignore
@@ -394,7 +402,7 @@ class BulletproofAGISystem:
 
     def test_quantum_caching(self) -> LukhasTestResult:  # Synchronous
         is_fallback = False
-        details: Dict[str, Any] = {}
+        details: dict[str, Any] = {}
         try:
             from bio.advanced_quantum_bio import (
                 EnhancedMitochondrialQuantumBridge,  # type: ignore
@@ -424,7 +432,7 @@ class BulletproofAGISystem:
 
     async def test_full_integration(self) -> LukhasTestResult:
         is_fallback = False
-        details: Dict[str, Any] = {}
+        details: dict[str, Any] = {}
         try:
             from bio.advanced_quantum_bio import (
                 EnhancedMitochondrialQuantumBridge,  # type: ignore
@@ -441,9 +449,7 @@ class BulletproofAGISystem:
             is_fallback = True
             self.fallbacks_activated_count += 1
 
-        result = await enhanced_bridge.process_with_awareness(
-            {"input_signal": [1.0]}, {}
-        )
+        await enhanced_bridge.process_with_awareness({"input_signal": [1.0]}, {})
         report = enhanced_bridge.self_aware_agent.get_self_assessment_report()
         details = {
             "final_consciousness": report.get("consciousness_level", 0.0),
@@ -483,7 +489,8 @@ class BulletproofAGISystem:
                 test_outcome = await self._run_test_step(
                     name, func, is_async=is_async_flag
                 )
-                # self.test_outcomes.append(test_outcome) # Appending is now handled by _run_test_step
+                # self.test_outcomes.append(test_outcome) # Appending is now handled by
+                # _run_test_step
                 status_style = "green" if test_outcome.passed else "red"
                 fallback_str = (
                     " (FALLBACK)" if test_outcome.fallback_mechanism_used else ""

@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 LUKHAS AI System - Dream Integration Module
@@ -19,7 +21,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -57,8 +59,8 @@ class DreamFragment:
 
     fragment_id: str
     dream_id: str
-    content: Dict[str, Any]
-    memory_sources: List[str]
+    content: dict[str, Any]
+    memory_sources: list[str]
     emotional_intensity: float
     symbolic_weight: float
     timestamp: str
@@ -72,13 +74,13 @@ class DreamSession:
     dream_id: str
     dream_type: DreamType
     state: DreamState
-    fragments: List[DreamFragment]
-    memory_fold_ids: Set[str]
-    emotional_signature: Dict[str, float]
+    fragments: list[DreamFragment]
+    memory_fold_ids: set[str]
+    emotional_signature: dict[str, float]
     started_at: str
     completed_at: Optional[str]
     integration_score: float
-    insights_generated: List[Dict[str, Any]]
+    insights_generated: list[dict[str, Any]]
 
 
 class DreamMemoryLinker:
@@ -109,7 +111,7 @@ class DreamMemoryLinker:
             self.logger.error(f"Failed to create memory link: {e}")
             return False
 
-    def get_linked_memories(self, dream_id: str) -> List[Tuple[str, float]]:
+    def get_linked_memories(self, dream_id: str) -> list[tuple[str, float]]:
         """Get all memory folds linked to a dream with their strengths."""
         linked_memories = []
 
@@ -121,7 +123,7 @@ class DreamMemoryLinker:
 
         return sorted(linked_memories, key=lambda x: x[1], reverse=True)
 
-    def find_related_dreams(self, memory_fold_id: str) -> List[str]:
+    def find_related_dreams(self, memory_fold_id: str) -> list[str]:
         """Find all dreams that reference a specific memory fold."""
         related_dreams = []
 
@@ -140,7 +142,7 @@ class DreamIntegrator:
     with the memory system and insight generation.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize dream integration system."""
         self.config = config or {}
         self.logger = logging.getLogger(f"lukhas.{MODULE_NAME}")
@@ -166,9 +168,9 @@ class DreamIntegrator:
 
     def initiate_dream_formation(
         self,
-        memory_fold_ids: List[str],
+        memory_fold_ids: list[str],
         dream_type: DreamType = DreamType.MEMORY_CONSOLIDATION,
-        emotional_context: Dict[str, float] = None,
+        emotional_context: dict[str, float] = None,
     ) -> Optional[str]:
         """Initiate formation of a new dream from memory sources."""
         try:
@@ -222,8 +224,8 @@ class DreamIntegrator:
     def add_dream_fragment(
         self,
         dream_id: str,
-        content: Dict[str, Any],
-        memory_sources: List[str] = None,
+        content: dict[str, Any],
+        memory_sources: list[str] = None,
         emotional_intensity: float = 0.5,
     ) -> bool:
         """Add a new fragment to an existing dream."""
@@ -262,7 +264,7 @@ class DreamIntegrator:
             self.logger.error(f"Failed to add dream fragment: {e}")
             return False
 
-    def process_dream_integration(self, dream_id: str) -> Dict[str, Any]:
+    def process_dream_integration(self, dream_id: str) -> dict[str, Any]:
         """Process integration of a dream into the memory system."""
         try:
             if dream_id not in self.active_dreams:
@@ -314,7 +316,7 @@ class DreamIntegrator:
             self.logger.error(f"Dream integration failed: {e}")
             return {"success": False, "error": str(e)}
 
-    def get_dream_insights(self, dream_id: str) -> List[Dict[str, Any]]:
+    def get_dream_insights(self, dream_id: str) -> list[dict[str, Any]]:
         """Retrieve insights generated from a dream."""
         # Check active dreams first
         if dream_id in self.active_dreams:
@@ -326,7 +328,7 @@ class DreamIntegrator:
 
         return []
 
-    def find_dreams_by_memory(self, memory_fold_id: str) -> List[Dict[str, Any]]:
+    def find_dreams_by_memory(self, memory_fold_id: str) -> list[dict[str, Any]]:
         """Find all dreams associated with a specific memory fold."""
         related_dream_ids = self.memory_linker.find_related_dreams(memory_fold_id)
         dreams_info = []
@@ -338,7 +340,7 @@ class DreamIntegrator:
 
         return dreams_info
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive dream integration system status."""
         return {
             "system_status": "operational",
@@ -363,7 +365,7 @@ class DreamIntegrator:
     # Private methods
 
     def _calculate_link_strength(
-        self, memory_fold_id: str, emotional_context: Dict[str, float] = None
+        self, memory_fold_id: str, emotional_context: dict[str, float] = None
     ) -> float:
         """Calculate the strength of connection between dream and memory."""
         base_strength = 0.5
@@ -380,7 +382,7 @@ class DreamIntegrator:
 
         return max(0.1, min(1.0, base_strength + variation))
 
-    def _calculate_symbolic_weight(self, content: Dict[str, Any]) -> float:
+    def _calculate_symbolic_weight(self, content: dict[str, Any]) -> float:
         """Calculate symbolic significance of dream content."""
         weight = 0.5
 
@@ -402,7 +404,7 @@ class DreamIntegrator:
 
         return min(1.0, weight)
 
-    def _analyze_dream_content(self, dream_session: DreamSession) -> Dict[str, Any]:
+    def _analyze_dream_content(self, dream_session: DreamSession) -> dict[str, Any]:
         """Analyze dream content for patterns and insights."""
         analysis = {
             "fragment_count": len(dream_session.fragments),
@@ -430,7 +432,7 @@ class DreamIntegrator:
             content_themes = set()
             for fragment in dream_session.fragments:
                 if isinstance(fragment.content, dict):
-                    for key in fragment.content.keys():
+                    for key in fragment.content:
                         content_themes.add(key)
 
             analysis["content_themes"] = list(content_themes)
@@ -442,8 +444,8 @@ class DreamIntegrator:
         return analysis
 
     def _generate_dream_insights(
-        self, dream_session: DreamSession, analysis: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, dream_session: DreamSession, analysis: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Generate insights from dream analysis."""
         insights = []
 
@@ -494,7 +496,7 @@ class DreamIntegrator:
         return insights
 
     def _calculate_integration_score(
-        self, dream_session: DreamSession, analysis: Dict[str, Any]
+        self, dream_session: DreamSession, analysis: dict[str, Any]
     ) -> float:
         """Calculate overall integration success score."""
         score_components = [
@@ -506,7 +508,7 @@ class DreamIntegrator:
 
         return sum(score_components)
 
-    def _get_dream_summary(self, dream_id: str) -> Optional[Dict[str, Any]]:
+    def _get_dream_summary(self, dream_id: str) -> Optional[dict[str, Any]]:
         """Get summary information about a dream."""
         dream_session = None
 
@@ -542,9 +544,9 @@ def get_dream_integrator() -> DreamIntegrator:
 
 # Module interface functions
 def initiate_dream(
-    memory_fold_ids: List[str],
+    memory_fold_ids: list[str],
     dream_type: str = "memory_consolidation",
-    emotional_context: Dict[str, float] = None,
+    emotional_context: dict[str, float] = None,
 ) -> Optional[str]:
     """Module-level function to initiate dream formation."""
     try:
@@ -557,17 +559,17 @@ def initiate_dream(
         return None
 
 
-def add_fragment(dream_id: str, content: Dict[str, Any], **kwargs) -> bool:
+def add_fragment(dream_id: str, content: dict[str, Any], **kwargs) -> bool:
     """Module-level function to add dream fragment."""
     return default_dream_integrator.add_dream_fragment(dream_id, content, **kwargs)
 
 
-def integrate_dream(dream_id: str) -> Dict[str, Any]:
+def integrate_dream(dream_id: str) -> dict[str, Any]:
     """Module-level function to integrate dream."""
     return default_dream_integrator.process_dream_integration(dream_id)
 
 
-def get_dream_status() -> Dict[str, Any]:
+def get_dream_status() -> dict[str, Any]:
     """Module-level function to get system status."""
     return default_dream_integrator.get_system_status()
 

@@ -48,15 +48,13 @@ import random
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 from uuid import uuid4
 
 # Import LUKHAS components
 try:
-    from core.symbolism.tags import TagPermission, TagScope
+    from core.symbolism.tags import TagScope
     from memory.fold_in_out.memory_fold_system import SymbolicTag
-    from memory.persistence.orthogonal_persistence import OrthogonalPersistence
-    from memory.scaffold.atomic_memory_scaffold import AtomicMemoryScaffold
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:
@@ -139,26 +137,26 @@ class MemoryProtein:
     protein_id: str = field(default_factory=lambda: str(uuid4()))
     source_memory_id: str = ""
     protein_type: ProteinType = ProteinType.STRUCTURAL
-    primary_structure: List[MemoryCodon] = field(default_factory=list)
+    primary_structure: list[MemoryCodon] = field(default_factory=list)
 
     # Folding properties
     folding_state: FoldingState = FoldingState.UNFOLDED
     folding_energy: float = 100.0  # High energy = unstable
-    native_conformation: Optional[Dict[str, Any]] = None
+    native_conformation: Optional[dict[str, Any]] = None
 
     # Functional properties
     activity_level: float = 0.0
-    binding_sites: List[str] = field(default_factory=list)
+    binding_sites: list[str] = field(default_factory=list)
     catalytic_efficiency: float = 0.0
 
     # Modifications
-    modifications: Dict[PostTranslationalModification, List[Any]] = field(
+    modifications: dict[PostTranslationalModification, list[Any]] = field(
         default_factory=dict
     )
 
     # Interaction data
-    interaction_partners: Set[str] = field(default_factory=set)
-    complex_memberships: Set[str] = field(default_factory=set)
+    interaction_partners: set[str] = field(default_factory=set)
+    complex_memberships: set[str] = field(default_factory=set)
 
     # Lifecycle
     synthesis_time: float = field(default_factory=time.time)
@@ -168,7 +166,7 @@ class MemoryProtein:
     # Metrics
     fold_attempts: int = 0
     misfold_count: int = 0
-    activity_history: List[float] = field(default_factory=list)
+    activity_history: list[float] = field(default_factory=list)
 
     def calculate_stability(self) -> float:
         """Calculate protein stability score"""
@@ -200,13 +198,13 @@ class ProteinComplex:
     """Multi-protein assembly for complex memory functions"""
 
     complex_id: str = field(default_factory=lambda: str(uuid4()))
-    member_proteins: Set[str] = field(default_factory=set)
+    member_proteins: set[str] = field(default_factory=set)
     complex_type: str = ""
     formation_energy: float = 0.0
     activity_multiplier: float = 1.0
     collective_function: Optional[str] = None
 
-    def calculate_synergy(self, proteins: Dict[str, MemoryProtein]) -> float:
+    def calculate_synergy(self, proteins: dict[str, MemoryProtein]) -> float:
         """Calculate synergistic effect of protein complex"""
         if len(self.member_proteins) < 2:
             return 1.0
@@ -286,9 +284,9 @@ class SymbolicProteome:
         self.enable_chaperones = enable_chaperones
 
         # Protein storage
-        self.proteins: Dict[str, MemoryProtein] = {}
-        self.protein_complexes: Dict[str, ProteinComplex] = {}
-        self.memory_to_proteins: Dict[str, Set[str]] = {}
+        self.proteins: dict[str, MemoryProtein] = {}
+        self.protein_complexes: dict[str, ProteinComplex] = {}
+        self.memory_to_proteins: dict[str, set[str]] = {}
 
         # Chaperone system
         self.chaperones = (
@@ -302,11 +300,11 @@ class SymbolicProteome:
         )
 
         # Ribosome (translation machinery)
-        self.ribosome_queue: List[Tuple[str, Any]] = []
+        self.ribosome_queue: list[tuple[str, Any]] = []
         self.translation_rate = 10  # proteins per second
 
         # Proteasome (degradation machinery)
-        self.degradation_queue: Set[str] = set()
+        self.degradation_queue: set[str] = set()
 
         # Metrics
         self.total_synthesized = 0
@@ -447,7 +445,7 @@ class SymbolicProteome:
         return True
 
     async def form_complex(
-        self, protein_ids: List[str], complex_type: str, function: Optional[str] = None
+        self, protein_ids: list[str], complex_type: str, function: Optional[str] = None
     ) -> Optional[str]:
         """Form a multi-protein complex"""
 
@@ -505,7 +503,7 @@ class SymbolicProteome:
         protein_type: Optional[ProteinType] = None,
         min_activity: float = 0.5,
         has_modification: Optional[PostTranslationalModification] = None,
-    ) -> List[MemoryProtein]:
+    ) -> list[MemoryProtein]:
         """Query for functional proteins meeting criteria"""
 
         results = []
@@ -531,8 +529,8 @@ class SymbolicProteome:
         return results
 
     async def express_memory_function(
-        self, memory_id: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, memory_id: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Express the functional form of a memory through its proteins.
         This is like gene expression but for memories.
@@ -574,11 +572,9 @@ class SymbolicProteome:
             "active_proteins": len(active_proteins),
             "total_activity": total_activity * complex_boost,
             "stability": avg_stability,
-            "protein_types": list(set(p.protein_type.value for p in active_proteins)),
+            "protein_types": list({p.protein_type.value for p in active_proteins}),
             "modifications": list(
-                set(
-                    mod.value for p in active_proteins for mod in p.modifications.keys()
-                )
+                {mod.value for p in active_proteins for mod in p.modifications}
             ),
             "functional_output": self._generate_functional_output(
                 active_proteins, context
@@ -593,7 +589,7 @@ class SymbolicProteome:
 
         return expression_result
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get proteome metrics"""
 
         # Protein state distribution
@@ -764,7 +760,7 @@ class SymbolicProteome:
 
             return False
 
-    def _calculate_complex_compatibility(self, protein_ids: List[str]) -> float:
+    def _calculate_complex_compatibility(self, protein_ids: list[str]) -> float:
         """Calculate compatibility between proteins for complex formation"""
 
         if len(protein_ids) < 2:
@@ -807,7 +803,7 @@ class SymbolicProteome:
         return total_compatibility / max(pair_count, 1)
 
     def _generate_functional_output(
-        self, proteins: List[MemoryProtein], context: Optional[Dict[str, Any]]
+        self, proteins: list[MemoryProtein], context: Optional[dict[str, Any]]
     ) -> Any:
         """Generate functional output from active proteins"""
 

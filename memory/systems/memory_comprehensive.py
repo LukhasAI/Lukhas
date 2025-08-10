@@ -23,6 +23,7 @@
 ║ Advanced Cognitive Architecture for Artificial General Intelligence
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 import sys
 from pathlib import Path

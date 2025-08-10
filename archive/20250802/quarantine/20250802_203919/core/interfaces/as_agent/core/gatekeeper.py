@@ -20,14 +20,14 @@ logger = structlog.get_logger(__name__)
 
 
 """
-+===========================================================================+
-| MODULE        : lukhas_gatekeeper.py                                       |
-| DESCRIPTION   : Validates user tiers, consent levels, and feature access  |
-|                 across the Agent framework. Manages tier-based gating     |
-|                 and ethical filtering via NIAS.                           |
-| TYPE          : Access Control & Consent Layer     VERSION: v1.0.0        |
-| AUTHOR        : LUKHAS SYSTEMS                   CREATED: 2025-4-22       |
-+===========================================================================+
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
+| MODULE: lukhas_gatekeeper.py |
+| DESCRIPTION: Validates user tiers, consent levels, and feature access |
+|                 across the Agent framework. Manages tier - based gating |
+| and ethical filtering via NIAS. |
+| TYPE: Access Control & Consent Layer     VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                   CREATED: 2025 - 4 - 22 |
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
 DEPENDENCIES:
 - lukhas_access_tiers.py
 - lukhas_nias_filter.py
@@ -53,7 +53,7 @@ class Gatekeeper:
         Checks if the feature is allowed for the user's tier.
 
         Parameters:
-        - feature_name (str): The feature or module name (e.g., 'DST', 'Memoria')
+        - feature_name(str): The feature or module name(e.g., 'DST', 'Memoria')
 
         Returns:
         - bool: True if allowed, False otherwise
@@ -66,8 +66,8 @@ class Gatekeeper:
         Logs vendor overrides when ethical gates are bypassed.
 
         Parameters:
-        - vendor_name (str): Vendor in question.
-        - reason (str): Explanation for override.
+        - vendor_name(str): Vendor in question.
+        - reason(str): Explanation for override.
         """
         from datetime import datetime
         log_entry = {
@@ -101,7 +101,7 @@ class Gatekeeper:
         Checks if NIAS filtering allows access to a given vendor.
 
         Parameters:
-        - vendor_name (str): The name of the vendor (e.g., 'Uber', 'Expedia')
+        - vendor_name(str): The name of the vendor(e.g., 'Uber', 'Expedia')
 
         Returns:
         - dict: NIAS evaluation result
@@ -141,7 +141,7 @@ class Gatekeeper:
 
 """
 ΛTRACE: End of gatekeeper.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

@@ -221,7 +221,7 @@ class SymbolicNode:
             List[SymbolicNode]: A list containing the two newly created child nodes.
         """
         self.logger.info(
-            f"ΛTRACE: Splitting SymbolicNode '{self.node_id}' (Style: {style},
+            f"ΛTRACE: Splitting SymbolicNode '{self.node_id}' (Style: {style},"
                                                                Ratio: {split_ratio: .2f})."
         )
         if not (0.1 <= split_ratio <= 0.9):  # Ensure ratio is valid

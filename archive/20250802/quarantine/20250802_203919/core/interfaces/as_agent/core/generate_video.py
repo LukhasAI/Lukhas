@@ -20,15 +20,15 @@ logger = structlog.get_logger(__name__)
 # generate_video.py # Original line, commented out as it seems like a stray artifact
 """
 +────────────────────────────────────────────────────────────────────────────+
-| MODULE         : generate_video.py                                         |
-| DESCRIPTION    :                                                           |
-|   Placeholder for future Sora video generation. Supports GPT-assisted     |
-|   prompt formatting and fallback logic using symbolic vision templates.   |
-| TYPE           : Video Generation Stub (Sora-Ready) VERSION : v1.0.0      |
-| AUTHOR         : LUKHAS SYSTEMS                  CREATED : 2025-4-22       |
+| MODULE: generate_video.py |
+| DESCRIPTION: |
+|   Placeholder for future Sora video generation. Supports GPT - assisted |
+|   prompt formatting and fallback logic using symbolic vision templates. |
+| TYPE: Video Generation Stub(Sora - Ready) VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                  CREATED: 2025 - 4 - 22 |
 +────────────────────────────────────────────────────────────────────────────+
-| DEPENDENCIES   :                                                           |
-|   - lukhas_vision_prompts.json                                              |
+| DEPENDENCIES: |
+| - lukhas_vision_prompts.json |
 +────────────────────────────────────────────────────────────────────────────+
 """
 
@@ -42,7 +42,7 @@ def generate_video(prompt_key="default_dream"):
     Prepares video prompt and placeholder for Sora or fallback video generator.
 
     Parameters:
-    - prompt_key (str): Key to select vision template
+    - prompt_key(str): Key to select vision template
 
     Returns:
     - dict: video spec or placeholder message
@@ -50,7 +50,8 @@ def generate_video(prompt_key="default_dream"):
     try:
         with VISION_PROMPT_PATH.open() as f:
             templates = json.load(f)
-            prompt = templates.get(prompt_key, "Dreamscape scene with evolving symbolic visuals.")
+            prompt = templates.get(prompt_key,
+     "Dreamscape scene with evolving symbolic visuals.")
     except:
         prompt = "Dreamscape scene with evolving symbolic visuals."
 
@@ -75,7 +76,7 @@ def generate_video(prompt_key="default_dream"):
 
 """
 ΛTRACE: End of generate_video.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

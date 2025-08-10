@@ -13,7 +13,7 @@ Prevents system interference that causes VS Code logout issues
 
 import os
 import subprocess
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class SafeSubprocessExecutor:
@@ -26,7 +26,7 @@ class SafeSubprocessExecutor:
         self.timeout = 30
         self.isolated_env = self._create_isolated_env()
 
-    def _create_isolated_env(self) -> Dict[str, str]:
+    def _create_isolated_env(self) -> dict[str, str]:
         """Create isolated environment variables"""
         # Start with minimal environment
         safe_env = {
@@ -46,26 +46,16 @@ class SafeSubprocessExecutor:
                 safe_env[var] = os.environ[var]
 
         # Explicitly exclude potentially problematic variables
-        excluded_vars = [
-            "GITHUB_TOKEN",  # Will be passed explicitly when needed
-            "OPENAI_API_KEY",
-            "ANTHROPIC_API_KEY",
-            "SSH_AUTH_SOCK",
-            "SSH_AGENT_PID",
-            "KEYCHAIN_*",
-            "VSCODE_*",
-            "CODE_*",
-        ]
 
         return safe_env
 
     def safe_run(
         self,
-        cmd: List[str],
+        cmd: list[str],
         cwd: Optional[str] = None,
-        env_vars: Optional[Dict[str, str]] = None,
+        env_vars: Optional[dict[str, str]] = None,
         timeout: Optional[int] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Safely run subprocess with isolation
         """
@@ -113,8 +103,8 @@ class SafeSubprocessExecutor:
             return {"success": False, "error": str(e), "cmd": " ".join(cmd)}
 
     def safe_python_run(
-        self, script_path: str, args: List[str] = None, cwd: Optional[str] = None
-    ) -> Dict[str, Any]:
+        self, script_path: str, args: list[str] = None, cwd: Optional[str] = None
+    ) -> dict[str, Any]:
         """
         Safely run Python script with isolation
         """
@@ -131,8 +121,8 @@ class SafeSubprocessExecutor:
         return self.safe_run(cmd, cwd=cwd, env_vars=python_env)
 
     def safe_git_run(
-        self, git_args: List[str], cwd: Optional[str] = None
-    ) -> Dict[str, Any]:
+        self, git_args: list[str], cwd: Optional[str] = None
+    ) -> dict[str, Any]:
         """
         Safely run git commands with isolation
         """
@@ -151,14 +141,11 @@ class SafeSubprocessExecutor:
 safe_executor = SafeSubprocessExecutor()
 
 
-def safe_subprocess_run(*args, **kwargs) -> Dict[str, Any]:
+def safe_subprocess_run(*args, **kwargs) -> dict[str, Any]:
     """
     Drop-in replacement for subprocess.run that prevents VS Code logout
     """
-    if isinstance(args[0], list):
-        cmd = args[0]
-    else:
-        cmd = list(args)
+    cmd = args[0] if isinstance(args[0], list) else list(args)
 
     cwd = kwargs.get("cwd")
     timeout = kwargs.get("timeout", 30)
@@ -167,8 +154,8 @@ def safe_subprocess_run(*args, **kwargs) -> Dict[str, Any]:
 
 
 def safe_python_execution(
-    script_path: str, args: List[str] = None, cwd: Optional[str] = None
-) -> Dict[str, Any]:
+    script_path: str, args: list[str] = None, cwd: Optional[str] = None
+) -> dict[str, Any]:
     """
     Safely execute Python scripts without system interference
     """

@@ -9,7 +9,7 @@ import unittest
 from collections import defaultdict
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 from core.common import get_logger
 from reasoning.adaptive_reasoning_loop import (
@@ -42,7 +42,7 @@ class DiagnosticResult:
         check_name: str,
         level: DiagnosticLevel,
         message: str,
-        details: Dict[str, Any] = None,
+        details: dict[str, Any] = None,
     ):
         self.check_name = check_name
         self.level = level
@@ -50,7 +50,7 @@ class DiagnosticResult:
         self.details = details or {}
         self.timestamp = datetime.now()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "check_name": self.check_name,
             "level": self.level.value,
@@ -79,7 +79,7 @@ class ReasoningDiagnostics:
             "response_time": 5.0,  # seconds
         }
 
-    async def run_full_diagnostics(self) -> Dict[str, Any]:
+    async def run_full_diagnostics(self) -> dict[str, Any]:
         """
         Run comprehensive diagnostics on the reasoning system
         """
@@ -128,7 +128,7 @@ class ReasoningDiagnostics:
 
         return summary
 
-    async def _check_component_health(self) -> List[DiagnosticResult]:
+    async def _check_component_health(self) -> list[DiagnosticResult]:
         """Check health of individual reasoning components"""
         results = []
 
@@ -245,7 +245,7 @@ class ReasoningDiagnostics:
 
         return results
 
-    async def _check_performance_metrics(self) -> List[DiagnosticResult]:
+    async def _check_performance_metrics(self) -> list[DiagnosticResult]:
         """Check system performance metrics"""
         results = []
 
@@ -316,7 +316,7 @@ class ReasoningDiagnostics:
 
         return results
 
-    async def _check_logic_consistency(self) -> List[DiagnosticResult]:
+    async def _check_logic_consistency(self) -> list[DiagnosticResult]:
         """Check logical consistency of reasoning"""
         results = []
 
@@ -378,7 +378,7 @@ class ReasoningDiagnostics:
 
             # Check for consistency
             conclusions = [r.get("conclusion") for r in results_list]
-            unique_conclusions = len(set(str(c) for c in conclusions))
+            unique_conclusions = len({str(c) for c in conclusions})
 
             if unique_conclusions > 2:
                 results.append(
@@ -412,7 +412,7 @@ class ReasoningDiagnostics:
 
         return results
 
-    async def _check_memory_integration(self) -> List[DiagnosticResult]:
+    async def _check_memory_integration(self) -> list[DiagnosticResult]:
         """Check integration with memory system"""
         results = []
 
@@ -475,7 +475,7 @@ class ReasoningDiagnostics:
 
         return results
 
-    async def _check_system_stability(self) -> List[DiagnosticResult]:
+    async def _check_system_stability(self) -> list[DiagnosticResult]:
         """Check overall system stability"""
         results = []
 
@@ -520,7 +520,7 @@ class ReasoningDiagnostics:
 
         return results
 
-    def _update_health_status(self, results: List[DiagnosticResult]):
+    def _update_health_status(self, results: list[DiagnosticResult]):
         """Update overall health status based on diagnostic results"""
         critical_count = sum(1 for r in results if r.level == DiagnosticLevel.CRITICAL)
         error_count = sum(1 for r in results if r.level == DiagnosticLevel.ERROR)
@@ -535,14 +535,14 @@ class ReasoningDiagnostics:
         else:
             self.health_status = "healthy"
 
-    def _summarize_by_level(self, results: List[DiagnosticResult]) -> Dict[str, int]:
+    def _summarize_by_level(self, results: list[DiagnosticResult]) -> dict[str, int]:
         """Summarize results by diagnostic level"""
         summary = defaultdict(int)
         for result in results:
             summary[result.level.value] += 1
         return dict(summary)
 
-    def _generate_recommendations(self, results: List[DiagnosticResult]) -> List[str]:
+    def _generate_recommendations(self, results: list[DiagnosticResult]) -> list[str]:
         """Generate actionable recommendations based on diagnostic results"""
         recommendations = []
 
@@ -594,7 +594,7 @@ class ReasoningDiagnostics:
 
         return recommendations
 
-    async def quick_health_check(self) -> Dict[str, Any]:
+    async def quick_health_check(self) -> dict[str, Any]:
         """Perform a quick health check"""
         if (
             self.last_check_time

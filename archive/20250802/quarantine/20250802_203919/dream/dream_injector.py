@@ -16,23 +16,23 @@
 
 LUKHAS AI System - Function Library
 File: dream_injector.py
-Path: core/dreams/dream_injector.py
+Path: core / dreams / dream_injector.py
 Created: "2025-06-05 09:37:28"
 Author: LUKHAS AI Team
 Version: 1.0
-This file is part of the LUKHAS AI (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS AI(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 lukhas AI System - Function Library
 File: dream_injector.py
-Path: core/dreams/dream_injector.py
+Path: core / dreams / dream_injector.py
 Created: "2025-06-05 09:37:28"
 Author: LUKHAS AI Team
 Version: 1.0
-This file is part of the LUKHAS AI (LUKHAS Universal Knowledge & Holistic AI System)
+This file is part of the LUKHAS AI(LUKHAS Universal Knowledge & Holistic AI System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
@@ -41,7 +41,7 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 +──────────────────────────────────────────────────────────────────────────────+
 
 DESCRIPTION:
-    This utility scans a folder for symbolic payloads (.json), validates
+    This utility scans a folder for symbolic payloads(.json), validates
     them against the NIAS schema, and simulates delivery or dream fallback.
     It logs outcomes per message: DELIVERED | DREAM | REJECTED
 
@@ -94,13 +94,13 @@ if __name__ == "__main__":
 ──────────────────────────────────────────────────────────────────────────────────────
 EXECUTION:
     Run from repo root:
-        python core/modules/nias/dream_injector.py
+        python core / modules / nias / dream_injector.py
 
 REQUIRES:
     pip install jsonschema
 
 NOTES:
-    - Extend to auto-tag dream archive or generate feedback traces
+    - Extend to auto - tag dream archive or generate feedback traces
     - May later interface with dream_recorder or Λ_voice modules
     - May later interface with dream_recorder or lukhas_voice modules
 ──────────────────────────────────────────────────────────────────────────────────────

@@ -68,47 +68,40 @@ def demonstrate_ethical_collapse():
     # Create moral superposition
     print("\n1. Creating moral superposition...")
     ethical_scenario = {
-        'harm_prevention': 0.8,
-        'autonomy': 0.6,
-        'justice': 0.7,
-        'beneficence': 0.9
+        "harm_prevention": 0.8,
+        "autonomy": 0.6,
+        "justice": 0.7,
+        "beneficence": 0.9,
     }
 
     superposition = collapse_engine.create_moral_superposition(
-        ethical_scenario,
-        uncertainty_level=0.3
+        ethical_scenario, uncertainty_level=0.3
     )
     print(f"   Moral superposition created with fidelity {superposition.fidelity:.3f}")
 
     # Perform ethical collapse
     print("\n2. Performing ethical collapse...")
-    constraints = {
-        'beneficence': 1.0,
-        'convergence_strength': 0.7
-    }
+    constraints = {"beneficence": 1.0, "convergence_strength": 0.7}
 
-    convergence = collapse_engine.perform_ethical_collapse(
-        superposition,
-        constraints
-    )
+    convergence = collapse_engine.perform_ethical_collapse(superposition, constraints)
 
     print(f"   Collapse type: {convergence.collapse_type.value}")
     print(f"   Ethical score: {convergence.ethical_score:.3f}")
-    print(f"   Collapsed to: {convergence.final_state.metadata.get('measurement_outcome', 'unknown')}")
+    print(
+        f"   Collapsed to: {convergence.final_state.metadata.get('measurement_outcome', 'unknown')}"
+    )
 
     # Multi-agent collapse
     print("\n3. Multi-agent ethical collapse...")
     agent_states = []
     for i in range(3):
         state = collapse_engine.create_moral_superposition(
-            {'autonomy': 0.5 + i * 0.1, 'justice': 0.7 - i * 0.1},
-            uncertainty=0.3
+            {"autonomy": 0.5 + i * 0.1, "justice": 0.7 - i * 0.1}, uncertainty=0.3
         )
         agent_states.append(state)
 
     results = collapse_engine.multi_agent_collapse(
-        agent_states,
-        {'autonomy': 0.8, 'justice': 0.8}
+        agent_states, {"autonomy": 0.8, "justice": 0.8}
     )
 
     consensus_count = sum(1 for r in results if r.consensus_achieved)
@@ -139,13 +132,14 @@ def demonstrate_quantum_synchronization():
     # Detect emergent synchronization
     print("\n2. Detecting emergent synchronization...")
     events = synchronizer.detect_emergent_synchronization(
-        min_agents=2,
-        correlation_threshold=0.5
+        min_agents=2, correlation_threshold=0.5
     )
 
     print(f"   Found {len(events)} emergent synchronization events")
     for event in events:
-        print(f"   - Agents {event.agent_ids} with correlation {event.correlation_strength:.3f}")
+        print(
+            f"   - Agents {event.agent_ids} with correlation {event.correlation_strength:.3f}"
+        )
 
     # Active synchronization
     print("\n3. Performing active synchronization...")
@@ -176,19 +170,18 @@ def demonstrate_moral_superposition():
         EthicalDimension.HARM_PREVENTION: 0.8,
         EthicalDimension.AUTONOMY: 0.6,
         EthicalDimension.JUSTICE: 0.7,
-        EthicalDimension.COMPASSION: 0.9
+        EthicalDimension.COMPASSION: 0.9,
     }
 
     state = moral_sup.create_superposition(ethical_scenario, uncertainty=0.3)
     print(f"   Created state with uncertainty {state.uncertainty_level:.3f}")
-    print(f"   Dominant ethics: {[e.value for e in state.get_dominant_ethics(threshold=0.5)]}")
+    print(
+        f"   Dominant ethics: {[e.value for e in state.get_dominant_ethics(threshold=0.5)]}"
+    )
 
     # Evolve under pressure
     print("\n2. Evolving under ethical pressure...")
-    pressure = {
-        EthicalDimension.HARM_PREVENTION: 1.0,
-        EthicalDimension.INTEGRITY: 0.7
-    }
+    pressure = {EthicalDimension.HARM_PREVENTION: 1.0, EthicalDimension.INTEGRITY: 0.7}
 
     path = moral_sup.evolve_superposition(state, pressure, time_steps=5)
     print(f"   Evolution path with {len(path.intermediate_states)} steps")
@@ -199,7 +192,7 @@ def demonstrate_moral_superposition():
     print("\n3. Resolving to ethical decision...")
     decision = resolver.resolve_to_decision(path)
     print(f"   Decision: {decision['decision']}")
-    if decision['decision'] == 'RESOLVED':
+    if decision["decision"] == "RESOLVED":
         print(f"   Primary ethic: {decision['primary_ethic'].value}")
         print(f"   Confidence: {decision['confidence']:.3f}")
 
@@ -213,20 +206,16 @@ def demonstrate_vivox_integration():
     # CIL quantum collapse
     print("\n1. CIL Quantum Collapse...")
     consciousness_state = {
-        'awareness': 0.8,
-        'attention': 0.7,
-        'coherence': 0.6,
-        'uncertainty': 0.3
+        "awareness": 0.8,
+        "attention": 0.7,
+        "coherence": 0.6,
+        "uncertainty": 0.3,
     }
 
-    ethical_scenario = {
-        'harm_prevention': 0.8,
-        'autonomy': 0.6
-    }
+    ethical_scenario = {"harm_prevention": 0.8, "autonomy": 0.6}
 
     result = bridge.process_quantum_collapse_for_cil(
-        consciousness_state,
-        ethical_scenario
+        consciousness_state, ethical_scenario
     )
 
     print(f"   Quantum enhanced: {result['quantum_enhanced']}")
@@ -234,22 +223,15 @@ def demonstrate_vivox_integration():
 
     # Memory quantum encoding
     print("\n2. Quantum Memory Encoding...")
-    memory = {
-        'id': 'mem_demo',
-        'type': 'episodic',
-        'importance': 0.8,
-        'recency': 0.6
-    }
+    memory = {"id": "mem_demo", "type": "episodic", "importance": 0.8, "recency": 0.6}
 
-    emotion = {
-        'valence': 0.5,
-        'arousal': 0.3,
-        'dominance': 0.4
-    }
+    emotion = {"valence": 0.5, "arousal": 0.3, "dominance": 0.4}
 
     mem_result = bridge.quantum_memory_encoding(memory, emotion)
     print(f"   Quantum enhanced: {mem_result['quantum_enhanced']}")
-    print(f"   Entanglement strength: {mem_result['quantum_properties']['emotional_entanglement']:.3f}")
+    print(
+        f"   Entanglement strength: {mem_result['quantum_properties']['emotional_entanglement']:.3f}"
+    )
 
     # Quantum readiness assessment
     print("\n3. Quantum Readiness Assessment...")

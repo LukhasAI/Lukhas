@@ -388,7 +388,7 @@ class PublicLambdaIDPreviewer:
 
         # Enterprise format:
         # LUKHAS⬟{brand}-{division}-{tier}-{timestamp}-{symbolic}-{entropy}
-        enterprise_pattern = r"^ LUKHAS⬟([A - Z0 - 9]{2, 8}) - ([A - Z]{2, 3}) - (\d) - ([A - F0 - 9]{3,
+        enterprise_pattern = r"^ LUKHAS⬟([A - Z0 - 9]{2, 8}) - ([A - Z]{2, 3}) - (\d) - ([A - F0 - 9]{3,"
                                                                                                       4}) - (.) - ([A - F0 - 9]{3, 4})$"
 
         # Check formats

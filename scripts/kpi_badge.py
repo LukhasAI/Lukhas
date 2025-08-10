@@ -1,65 +1,100 @@
 #!/usr/bin/env python3
-import json
+"""
+Generate a simple SVG badge from backup KPI JSON.
+
+Usage:
+  python scripts/kpi_badge.py --in out/backup_kpi.json --out badges/backup_status.svg
+
+Status logic:
+  - green  = weekly.ok and monthly.ok
+  - amber  = at least one of weekly.ok or monthly.ok is true (but not both)
+  - red    = neither weekly nor monthly ok
+If quarterly present and ok is false, downgrade one level (green->amber, amber->red).
+"""
+
 import argparse
-import sys
+import json
+from pathlib import Path
 
-def color(ok):
-    """Return appropriate color for badge status"""
-    return "#2e7d32" if ok else "#c62828"
 
-def verdict(k):
-    """Determine overall KPI status from weekly/monthly/quarterly results"""
-    # ok if weekly & monthly ok, and quarterly ok or skipped (treated as ok)
-    w = k.get("weekly", {}).get("ok") is True
-    m = k.get("monthly", {}).get("ok") is True
-    q = k.get("quarterly", {})
-    q_ok = q.get("ok") is True
-    res = w and m and q_ok
-    label = "backup"
-    msg = "green" if res else "attention"
-    return res, label, msg
+def load_json(p: str) -> dict:
+    try:
+        with open(p, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
 
-def svg(label, msg, good):
-    """Generate SVG badge with label and status message"""
-    l, r = label, msg
-    # rough sizes
-    lw = 6 * len(l) + 20
-    rw = 6 * len(r) + 20
-    tw = lw + rw
-    lc = "#555"
-    rc = color(good)
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{tw}" height="20" role="img" aria-label="{l}: {r}">
-<linearGradient id="s" x2="0" y2="100%">
-  <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
-  <stop offset="1" stop-opacity=".1"/>
-</linearGradient>
-<mask id="m"><rect width="{tw}" height="20" rx="3" fill="#fff"/></mask>
-<g mask="url(#m)">
-  <rect width="{lw}" height="20" fill="{lc}"/>
-  <rect x="{lw}" width="{rw}" height="20" fill="{rc}"/>
-  <rect width="{tw}" height="20" fill="url(#s)"/>
-</g>
-<g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
-  <text x="{lw/2}" y="14">{l}</text>
-  <text x="{lw + rw/2}" y="14">{r}</text>
-</g>
-</svg>'''
 
-def main():
-    ap = argparse.ArgumentParser(description="Generate KPI badge from backup results")
-    ap.add_argument("--in", dest="inp", required=True, help="Input KPI JSON file")
-    ap.add_argument("--out", dest="outp", required=True, help="Output SVG badge file")
+def pick_status(kpi: dict) -> tuple[str, str]:
+    w_ok = bool(((kpi.get("weekly") or {}).get("ok")))
+    m_ok = bool(((kpi.get("monthly") or {}).get("ok")))
+    q = kpi.get("quarterly") or {}
+    q_present = bool(q.get("present"))
+    q_ok = bool(q.get("ok"))
+
+    # base from weekly/monthly
+    if w_ok and m_ok:
+        status = "green"
+        label = "DR OK"
+    elif w_ok or m_ok:
+        status = "amber"
+        label = "DR PARTIAL"
+    else:
+        status = "red"
+        label = "DR FAIL"
+
+    # downgrade for quarterly failure when present
+    if q_present and not q_ok:
+        if status == "green":
+            status, label = "amber", "DR ATTENTION"
+        elif status == "amber":
+            status, label = "red", "DR FAIL"
+
+    return status, label
+
+
+def color_for(status: str) -> tuple[str, str]:
+    if status == "green":
+        return ("#2e7d32", "#ffffff")
+    if status == "amber":
+        return ("#f9a825", "#000000")
+    if status == "red":
+        return ("#c62828", "#ffffff")
+    return ("#9e9e9e", "#ffffff")
+
+
+def render_svg(label: str, status: str) -> str:
+    bg, fg = color_for(status)
+    # simple width calc: base + 8px per char
+    w = max(120, 20 + len(label) * 8)
+    h = 24
+    return (
+        f"<svg xmlns='http://www.w3.org/2000/svg' width='{w}' height='{h}' role='img' aria-label='{label}'>"
+        f"<rect rx='4' width='{w}' height='{h}' fill='{bg}'/>"
+        f"<g fill='{fg}' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Inter,sans-serif' font-size='12'>"
+        f"<text x='{w/2:.0f}' y='16' text-anchor='middle'>{label}</text>"
+        f"</g></svg>"
+    )
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--in", dest="inp", required=True)
+    ap.add_argument("--out", dest="outp", required=True)
     args = ap.parse_args()
-    
-    with open(args.inp, "r", encoding="utf-8") as f:
-        kpi = json.load(f)
-    
-    ok, label, msg = verdict(kpi)
-    
-    with open(args.outp, "w", encoding="utf-8") as f:
-        f.write(svg(label, msg, ok))
-    
-    print(json.dumps({"ok": True, "badge_ok": ok, "out": args.outp}))
+
+    kpi = load_json(args.inp)
+    status, label = pick_status(kpi)
+    svg = render_svg(label, status)
+
+    out_path = Path(args.outp)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(svg, encoding="utf-8")
+    print(
+        json.dumps({"ok": True, "status": status, "label": label, "out": str(out_path)})
+    )
+    return 0
+
 
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())

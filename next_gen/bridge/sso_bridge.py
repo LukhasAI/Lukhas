@@ -653,5 +653,5 @@ if __name__ == "__main__":
     try:
         os.unlink("demo_sso_config.json")
         os.unlink("demo_sso_sessions.json")
-    except:
+    except BaseException:
         pass

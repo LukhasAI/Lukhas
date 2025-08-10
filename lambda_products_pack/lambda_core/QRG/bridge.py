@@ -12,7 +12,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import LUKHAS ecosystem components
 try:
@@ -56,20 +56,20 @@ class SymbolicIdentity:
     sid_hash: str  # Symbolic Identity Hash
     lambda_id: str  # Lambda ID (ΛiD#)
     access_tier: LukhasAccessTier
-    consciousness_profile: Dict[str, Any]
+    consciousness_profile: dict[str, Any]
     created_timestamp: datetime
     last_authentication: Optional[datetime] = None
-    consent_preferences: Optional[Dict[str, Any]] = None
+    consent_preferences: Optional[dict[str, Any]] = None
 
 
 @dataclass
 class ConsciousnessProfile:
     """Extended consciousness profile for LUKHAS integration"""
 
-    emotional_baseline: Dict[str, float]  # VAD baseline values
-    interaction_patterns: List[str]  # Common interaction patterns
-    privacy_preferences: Dict[str, Any]  # Privacy and consent preferences
-    creative_tendencies: Dict[str, float]  # Creative/analytical balance
+    emotional_baseline: dict[str, float]  # VAD baseline values
+    interaction_patterns: list[str]  # Common interaction patterns
+    privacy_preferences: dict[str, Any]  # Privacy and consent preferences
+    creative_tendencies: dict[str, float]  # Creative/analytical balance
     communication_style: str  # Preferred 3-layer tone system layer
 
 
@@ -90,7 +90,7 @@ class LambdaIdIntegration:
             enable_consciousness_sync: Enable consciousness profile synchronization
         """
         self.enable_consciousness_sync = enable_consciousness_sync
-        self.identity_cache: Dict[str, SymbolicIdentity] = {}
+        self.identity_cache: dict[str, SymbolicIdentity] = {}
 
         # Initialize LUKHAS ecosystem components
         self._initialize_lukhas_components()
@@ -116,7 +116,7 @@ class LambdaIdIntegration:
     def generate_symbolic_identity(
         self,
         symbolic_phrase: str,
-        consciousness_context: Optional[Dict[str, Any]] = None,
+        consciousness_context: Optional[dict[str, Any]] = None,
         access_tier: LukhasAccessTier = LukhasAccessTier.TIER_1,
     ) -> SymbolicIdentity:
         """
@@ -185,7 +185,7 @@ class LambdaIdIntegration:
         lambda_id = f"ΛiD#{tier_code}-{hash_prefix}-{checksum}"
         return lambda_id
 
-    def _create_consciousness_profile(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_consciousness_profile(self, context: dict[str, Any]) -> dict[str, Any]:
         """Create consciousness profile from context"""
         default_profile = {
             "emotional_baseline": {
@@ -213,10 +213,10 @@ class LambdaIdIntegration:
 
     def authenticate_with_qrg_glyph(
         self,
-        glyph_data: Dict[str, Any],
+        glyph_data: dict[str, Any],
         symbolic_phrase: str,
         require_consciousness_match: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Authenticate user using QRG glyph and LUKHAS identity
 
@@ -281,8 +281,8 @@ class LambdaIdIntegration:
         return auth_result
 
     def _verify_glyph_authenticity(
-        self, glyph_data: Dict[str, Any], identity: SymbolicIdentity
-    ) -> Dict[str, Any]:
+        self, glyph_data: dict[str, Any], identity: SymbolicIdentity
+    ) -> dict[str, Any]:
         """Verify QRG glyph authenticity against identity"""
         verification_result = {
             "valid": False,
@@ -337,7 +337,7 @@ class LambdaIdIntegration:
         return hashlib.sha3_256(signature_json.encode()).hexdigest()
 
     def _match_consciousness_profile(
-        self, glyph_fingerprint: str, stored_profile: Dict[str, Any]
+        self, glyph_fingerprint: str, stored_profile: dict[str, Any]
     ) -> bool:
         """Match consciousness profile from glyph with stored profile"""
         # In production, would use more sophisticated matching
@@ -351,7 +351,7 @@ class LambdaIdIntegration:
         # Consider match if similarity > 80%
         return similarity > 0.8
 
-    def _compute_consciousness_fingerprint(self, profile: Dict[str, Any]) -> str:
+    def _compute_consciousness_fingerprint(self, profile: dict[str, Any]) -> str:
         """Compute consciousness fingerprint from profile"""
         # Create stable fingerprint from profile
         fingerprint_data = {
@@ -373,7 +373,7 @@ class LambdaIdIntegration:
         return matches / len(fp1)
 
     def _verify_consciousness_coherence(
-        self, glyph_fingerprint: str, stored_profile: Dict[str, Any]
+        self, glyph_fingerprint: str, stored_profile: dict[str, Any]
     ) -> bool:
         """Verify consciousness coherence between glyph and stored profile"""
         # More sophisticated consciousness verification would go here
@@ -393,8 +393,8 @@ class LambdaIdIntegration:
         return hashlib.sha256(token_json.encode()).hexdigest()
 
     def integrate_with_nias_consent(
-        self, identity: SymbolicIdentity, consent_preferences: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, identity: SymbolicIdentity, consent_preferences: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Integrate with NIΛS consent management system
 
@@ -433,8 +433,8 @@ class LambdaIdIntegration:
         return nias_integration
 
     def integrate_with_wallet_vault(
-        self, identity: SymbolicIdentity, vault_permissions: List[str]
-    ) -> Dict[str, Any]:
+        self, identity: SymbolicIdentity, vault_permissions: list[str]
+    ) -> dict[str, Any]:
         """
         Integrate with WΛLLET quantum identity vault
 
@@ -475,7 +475,7 @@ class LambdaIdIntegration:
         key_data = f"{identity.sid_hash}:{identity.lambda_id}:VAULT_KEY"
         return hashlib.sha3_512(key_data.encode()).hexdigest()
 
-    def get_cross_product_authentication_status(self, lambda_id: str) -> Dict[str, Any]:
+    def get_cross_product_authentication_status(self, lambda_id: str) -> dict[str, Any]:
         """
         Get authentication status across all LUKHAS products
 
@@ -545,7 +545,7 @@ class LambdaIdIntegration:
         """Create mock quantum identity core"""
 
         class MockQuantumCore:
-            def create_vault_identity(self, credentials: Dict) -> Dict:
+            def create_vault_identity(self, credentials: dict) -> dict:
                 return {
                     "vault_id": f"MOCK-{credentials['lambda_id']}",
                     "status": "created",
@@ -557,7 +557,7 @@ class LambdaIdIntegration:
         """Create mock emotional filter"""
 
         class MockEmotionalFilter:
-            def register_user_consent(self, lambda_id: str, consent: Dict) -> bool:
+            def register_user_consent(self, lambda_id: str, consent: dict) -> bool:
                 return True
 
         return MockEmotionalFilter()

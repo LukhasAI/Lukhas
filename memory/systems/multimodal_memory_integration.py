@@ -3,9 +3,10 @@ Multimodal Memory Integration Module
 Provides integration wrapper for connecting the multimodal memory support to the memory hub
 """
 
+from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -29,7 +30,7 @@ class MultimodalMemoryIntegration:
     Provides a simplified interface for the memory hub.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the multimodal memory integration"""
         self.config = config or {
             "enable_cross_modal_alignment": True,
@@ -105,7 +106,7 @@ class MultimodalMemoryIntegration:
     def _check_image_support(self) -> bool:
         """Check if image processing is available"""
         try:
-            from PIL import Image
+            pass
 
             return True
         except ImportError:
@@ -115,8 +116,7 @@ class MultimodalMemoryIntegration:
     def _check_audio_support(self) -> bool:
         """Check if audio processing is available"""
         try:
-            import librosa
-            import soundfile
+            pass
 
             return True
         except ImportError:
@@ -126,7 +126,7 @@ class MultimodalMemoryIntegration:
     def _check_video_support(self) -> bool:
         """Check if video processing is available"""
         try:
-            import cv2
+            pass
 
             return True
         except ImportError:
@@ -153,9 +153,9 @@ class MultimodalMemoryIntegration:
         image: Optional[Union[bytes, str, Path]] = None,
         audio: Optional[Union[bytes, str, Path]] = None,
         video: Optional[Union[bytes, str, Path]] = None,
-        tags: Optional[List[str]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        tags: Optional[list[str]] = None,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Create a multimodal memory from various inputs
 
@@ -211,7 +211,7 @@ class MultimodalMemoryIntegration:
 
     def _get_present_modalities(
         self, text: Any, image: Any, audio: Any, video: Any
-    ) -> List[str]:
+    ) -> list[str]:
         """Get list of modalities present in the memory"""
         modalities = []
         if text:
@@ -226,7 +226,7 @@ class MultimodalMemoryIntegration:
 
     async def process_multimodal_data(
         self, data: MultiModalMemoryData
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Process multimodal memory data
 
@@ -241,7 +241,7 @@ class MultimodalMemoryIntegration:
 
         return await self.processor.process(data)
 
-    async def retrieve_memory(self, memory_id: str) -> Optional[Dict[str, Any]]:
+    async def retrieve_memory(self, memory_id: str) -> Optional[dict[str, Any]]:
         """
         Retrieve a memory by ID
 
@@ -260,7 +260,7 @@ class MultimodalMemoryIntegration:
         query: Union[str, bytes, np.ndarray],
         modality: Optional[ModalityType] = None,
         top_k: int = 10,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Search memories using multimodal queries
 
@@ -294,11 +294,11 @@ class MultimodalMemoryIntegration:
 
         return results[:top_k]
 
-    def get_supported_modalities(self) -> Dict[str, bool]:
+    def get_supported_modalities(self) -> dict[str, bool]:
         """Get supported modalities and their availability"""
         return self.supported_modalities
 
-    def get_memory_statistics(self) -> Dict[str, Any]:
+    def get_memory_statistics(self) -> dict[str, Any]:
         """Get statistics about stored memories"""
         stats = {
             "total_memories": len(self.memory_cache),
@@ -330,7 +330,7 @@ class MultimodalMemoryIntegration:
             f"Memory optimization complete. Removed {before_size - after_size} memories"
         )
 
-    async def update_awareness(self, awareness_state: Dict[str, Any]):
+    async def update_awareness(self, awareness_state: dict[str, Any]):
         """
         Update multimodal memory system with current awareness state
         Called by memory hub during awareness broadcasts
@@ -350,11 +350,10 @@ class MultimodalMemoryIntegration:
 
 # Factory function for creating the integration
 def create_multimodal_memory_integration(
-    config: Optional[Dict[str, Any]] = None,
+    config: Optional[dict[str, Any]] = None,
 ) -> MultimodalMemoryIntegration:
     """Create and return a multimodal memory integration instance"""
     return MultimodalMemoryIntegration(config)
 
 
 # Import defaultdict if not already imported
-from collections import defaultdict

@@ -1,9 +1,12 @@
 """Memoria core component for symbolic trace management."""
 
 try:
-    import structlog  # type: ignore
+from quantum_mind import ConsciousnessPhase, get_current_phase
+from typing import Any, Optional
+from dataclasses import dataclass
+import structlog  # type: ignore
 
-    from core.common import get_logger
+from core.common import get_logger
 except ImportError:  # pragma: no cover - fallback when structlog isn't installed
     import logging
 
@@ -12,10 +15,7 @@ except ImportError:  # pragma: no cover - fallback when structlog isn't installe
 
 
 logger = get_logger(__name__)
-from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
 
-from quantum_mind import ConsciousnessPhase, get_current_phase
 
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "memoria"
@@ -32,15 +32,15 @@ class CoreMemoriaConfig:
 class CoreMemoriaComponent:
     """Manage symbolic trace hashes with consciousness phase tracking."""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, config: Optional[dict[str, Any]] = None) -> None:
         self.config = CoreMemoriaConfig(**(config or {}))
         if hasattr(logger, "bind"):
             self.logger = logger.bind(class_name=self.__class__.__name__)
         else:  # pragma: no cover - fallback when using stdlib logger
             self.logger = logger
-        self.consciousness_log: List[str] = []
+        self.consciousness_log: list[str] = []
         self.current_consciousness_phase: Optional[str] = None
-        self.trace_store: Dict[str, Any] = {}
+        self.trace_store: dict[str, Any] = {}
 
     def record_consciousness_phase(self) -> str:
         phase = get_current_phase().value
@@ -52,8 +52,8 @@ class CoreMemoriaComponent:
         self,
         input_data: Any,
         tier_level: int,
-        trace_context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        trace_context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         if not self.config.enabled:
             return {"status": "disabled"}
 
@@ -70,7 +70,7 @@ class CoreMemoriaComponent:
     def get_last_consciousness_phase(self) -> Optional[str]:
         return self.current_consciousness_phase
 
-    def get_component_status(self) -> Dict[str, Any]:
+    def get_component_status(self) -> dict[str, Any]:
         return {
             "component_name": self.__class__.__name__,
             "operational_status": "ready_stub" if self.config.enabled else "disabled",
@@ -79,7 +79,7 @@ class CoreMemoriaComponent:
 
 
 def create_core_memoria_component(
-    initial_config: Optional[Dict[str, Any]] = None,
+    initial_config: Optional[dict[str, Any]] = None,
 ) -> CoreMemoriaComponent:
     return CoreMemoriaComponent(config=initial_config)
 

@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 ΛBot Advanced Reasoning Integration
@@ -12,6 +14,7 @@ Created: 2025-07-02
 Status: PRODUCTION READY
 """
 
+from ΛBot_auditor import ΛBotAuditor
 import asyncio
 import os
 import sys
@@ -19,7 +22,7 @@ import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Configure logging
 logging.basicConfig(
@@ -35,19 +38,11 @@ sys.path.append(brain_path)
 try:
     from orchestration.brain.abstract_reasoning.bio_quantum_engine import (
         BioQuantumSymbolicReasoner,
-        QuantumReasoningState,
-        ReasoningResult,
     )
     from orchestration.brain.abstract_reasoning.confidence_calibrator import (
         AdvancedConfidenceCalibrator,
-        ConfidenceMetrics,
-        UncertaintyType,
     )
     from orchestration.brain.MultiBrainSymphony import (
-        DreamsBrainSpecialist,
-        EmotionalBrainSpecialist,
-        LearningBrainSpecialist,
-        MemoryBrainSpecialist,
         MultiBrainSymphonyOrchestrator,
     )
 
@@ -72,7 +67,6 @@ except ImportError as e:
 
 
 # Import GitHub App components
-from ΛBot_auditor import ΛBotAuditor
 
 
 @dataclass
@@ -81,8 +75,8 @@ class AdvancedReasoningRequest:
 
     request_id: str
     request_type: str  # pr_analysis, vulnerability_assessment, workflow_repair
-    input_data: Dict[str, Any]
-    context: Dict[str, Any]
+    input_data: dict[str, Any]
+    context: dict[str, Any]
     priority: str  # low, medium, high, critical
     created_at: str
 
@@ -95,9 +89,9 @@ class AdvancedReasoningResult:
     reasoning_result: Any
     confidence_metrics: Optional[Any] = None
     processing_time: float = 0.0
-    brain_insights: Dict[str, Any] = None
-    recommendations: List[str] = None
-    meta_analysis: Dict[str, Any] = None
+    brain_insights: dict[str, Any] = None
+    recommendations: list[str] = None
+    meta_analysis: dict[str, Any] = None
 
 
 class ΛBotAdvancedReasoningOrchestrator:
@@ -118,7 +112,7 @@ class ΛBotAdvancedReasoningOrchestrator:
     combining quantum-inspired computing principles with biological neural inspiration.
     """
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         """Initialize the Elite Bio-Quantum Reasoning Orchestrator"""
         self.config = config
         self.auditor = ΛBotAuditor()
@@ -190,7 +184,7 @@ class ΛBotAdvancedReasoningOrchestrator:
         logger.info("✨ ΛBot Elite Advanced Reasoning Orchestrator initialized")
 
     async def analyze_pull_request_advanced(
-        self, repository: str, pr_number: int, pr_data: Dict[str, Any]
+        self, repository: str, pr_number: int, pr_data: dict[str, Any]
     ) -> AdvancedReasoningResult:
         """
         Perform advanced reasoning analysis on a pull request
@@ -361,7 +355,7 @@ class ΛBotAdvancedReasoningOrchestrator:
             recommendations=["Enable advanced reasoning systems for enhanced analysis"],
         )
 
-    async def _extract_dreams_insights(self, reasoning_result: Any) -> Dict[str, Any]:
+    async def _extract_dreams_insights(self, reasoning_result: Any) -> dict[str, Any]:
         """Extract insights from the Dreams Brain (creative analysis)"""
         if not self.dreams_brain:
             return {"status": "unavailable"}
@@ -379,7 +373,7 @@ class ΛBotAdvancedReasoningOrchestrator:
 
     async def _extract_emotional_insights(
         self, reasoning_result: Any
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Extract insights from the Emotional Brain (aesthetic evaluation)"""
         if not self.emotional_brain:
             return {"status": "unavailable"}
@@ -392,7 +386,7 @@ class ΛBotAdvancedReasoningOrchestrator:
             "elegance_assessment": reasoning_result.get("elegance", 0.8),
         }
 
-    async def _extract_memory_insights(self, reasoning_result: Any) -> Dict[str, Any]:
+    async def _extract_memory_insights(self, reasoning_result: Any) -> dict[str, Any]:
         """Extract insights from the Memory Brain (pattern matching)"""
         if not self.memory_brain:
             return {"status": "unavailable"}
@@ -408,7 +402,7 @@ class ΛBotAdvancedReasoningOrchestrator:
             "pattern_confidence": 0.85,
         }
 
-    async def _extract_learning_insights(self, reasoning_result: Any) -> Dict[str, Any]:
+    async def _extract_learning_insights(self, reasoning_result: Any) -> dict[str, Any]:
         """Extract insights from the Learning Brain (synthesis and validation)"""
         if not self.learning_brain:
             return {"status": "unavailable"}
@@ -425,8 +419,8 @@ class ΛBotAdvancedReasoningOrchestrator:
         }
 
     async def _generate_recommendations(
-        self, reasoning_result: Any, brain_insights: Dict[str, Any]
-    ) -> List[str]:
+        self, reasoning_result: Any, brain_insights: dict[str, Any]
+    ) -> list[str]:
         """Generate actionable recommendations based on reasoning and brain insights"""
         recommendations = []
 
@@ -453,7 +447,7 @@ class ΛBotAdvancedReasoningOrchestrator:
 
     async def _perform_meta_analysis(
         self, reasoning_result: Any, confidence_metrics: Any
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Perform meta-analysis of the reasoning process"""
         return {
             "reasoning_quality": "High",
@@ -477,23 +471,22 @@ class ΛBotAdvancedReasoningOrchestrator:
         }
 
     async def analyze_vulnerability_advanced(
-        self, vulnerability_data: Dict[str, Any]
+        self, vulnerability_data: dict[str, Any]
     ) -> AdvancedReasoningResult:
         """Perform advanced reasoning analysis on a security vulnerability"""
         # Similar to PR analysis but focused on vulnerability assessment
-        # Implementation would follow similar pattern but with vulnerability-specific reasoning
-        pass
+        # Implementation would follow similar pattern but with
+        # vulnerability-specific reasoning
 
     async def analyze_workflow_failure_advanced(
-        self, workflow_data: Dict[str, Any]
+        self, workflow_data: dict[str, Any]
     ) -> AdvancedReasoningResult:
         """Perform advanced reasoning analysis on workflow failures"""
         # Implementation for workflow failure analysis using bio-quantum reasoning
         # Would identify root causes and suggest intelligent fixes
-        pass
 
     async def reason_with_quantum_confidence(
-        self, problem: Dict[str, Any], context: Dict[str, Any]
+        self, problem: dict[str, Any], context: dict[str, Any]
     ) -> AdvancedReasoningResult:
         """
         Perform elite bio-quantum reasoning with advanced confidence calibration
@@ -618,8 +611,8 @@ class ΛBotAdvancedReasoningOrchestrator:
             raise
 
     async def form_scientific_theory(
-        self, observations: List[Dict[str, Any]], domain_knowledge: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, observations: list[dict[str, Any]], domain_knowledge: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Form scientific theories from observations using bio-quantum reasoning
 
@@ -645,10 +638,10 @@ class ΛBotAdvancedReasoningOrchestrator:
 
     async def analyze_ethical_dilemma(
         self,
-        situation: Dict[str, Any],
-        stakeholders: List[str],
-        possible_actions: List[Dict[str, Any]],
-    ) -> Dict[str, Any]:
+        situation: dict[str, Any],
+        stakeholders: list[str],
+        possible_actions: list[dict[str, Any]],
+    ) -> dict[str, Any]:
         """
         Analyze ethical dilemmas using multiple framework integration
 
@@ -673,8 +666,8 @@ class ΛBotAdvancedReasoningOrchestrator:
         }
 
     async def solve_mathematical_problem(
-        self, problem: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, problem: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Solve mathematical problems using quantum-enhanced reasoning
 
@@ -699,8 +692,8 @@ class ΛBotAdvancedReasoningOrchestrator:
         }
 
     async def orchestrate_cross_brain_reasoning(
-        self, problem: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, problem: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Orchestrate reasoning across all brain systems with neural oscillations
 
@@ -724,7 +717,7 @@ class ΛBotAdvancedReasoningOrchestrator:
             "brain_synchronization": await self._measure_brain_synchronization(),
         }
 
-    def get_reasoning_status(self) -> Dict[str, Any]:
+    def get_reasoning_status(self) -> dict[str, Any]:
         """Get the current status of the reasoning orchestrator"""
         return {
             "advanced_systems_available": ADVANCED_REASONING_AVAILABLE,

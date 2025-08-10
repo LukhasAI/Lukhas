@@ -11,16 +11,6 @@ This adapter provides unified access to:
 And all other Lambda Products
 """
 
-import logging
-import sys
-from datetime import datetime
-from pathlib import Path
-from typing import Any, Dict, List, Optional
-
-# Add lambda-products to path for imports
-lambda_products_path = Path(__file__).parent.parent
-sys.path.insert(0, str(lambda_products_path))
-
 from .plugin_base import (
     HealthStatus,
     LukhasPlugin,
@@ -28,6 +18,16 @@ from .plugin_base import (
     PluginPriority,
     PluginStatus,
 )
+import logging
+import sys
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Optional
+
+# Add lambda-products to path for imports
+lambda_products_path = Path(__file__).parent.parent
+sys.path.insert(0, str(lambda_products_path))
+
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +60,7 @@ class NIASPlugin(LukhasPlugin):
         super().__init__(manifest)
         self.nias_engine = None
 
-    async def initialize(self, config: Dict[str, Any]) -> bool:
+    async def initialize(self, config: dict[str, Any]) -> bool:
         """Initialize NIΛS engine"""
         try:
             from NIΛS.core.nias_engine import NIASEngine
@@ -173,7 +173,7 @@ class ABASPlugin(LukhasPlugin):
         super().__init__(manifest)
         self.abas_core = None
 
-    async def initialize(self, config: Dict[str, Any]) -> bool:
+    async def initialize(self, config: dict[str, Any]) -> bool:
         """Initialize ΛBAS core"""
         try:
             # Import would be from actual ΛBAS implementation
@@ -243,7 +243,7 @@ class DASTPlugin(LukhasPlugin):
         super().__init__(manifest)
         self.dast_engine = None
 
-    async def initialize(self, config: Dict[str, Any]) -> bool:
+    async def initialize(self, config: dict[str, Any]) -> bool:
         """Initialize DΛST engine"""
         try:
             # Would import actual DAST implementation
@@ -318,10 +318,10 @@ class LambdaProductsAdapter:
             # 'argus': ArgusPlugin,
             # 'marketplace': MarketplacePlugin,
         }
-        self.enabled_products: Dict[str, LukhasPlugin] = {}
+        self.enabled_products: dict[str, LukhasPlugin] = {}
 
     async def enable_product(
-        self, product_id: str, config: Optional[Dict[str, Any]] = None
+        self, product_id: str, config: Optional[dict[str, Any]] = None
     ) -> Optional[LukhasPlugin]:
         """
         Enable a specific Lambda Product
@@ -406,8 +406,8 @@ class LambdaProductsAdapter:
             return False
 
     async def enable_all_products(
-        self, configs: Optional[Dict[str, Dict[str, Any]]] = None
-    ) -> Dict[str, bool]:
+        self, configs: Optional[dict[str, dict[str, Any]]] = None
+    ) -> dict[str, bool]:
         """
         Enable all available Lambda Products
 
@@ -450,15 +450,15 @@ class LambdaProductsAdapter:
         logger.warning(f"Product {product_id} is not healthy")
         return None
 
-    def get_enabled_products(self) -> List[str]:
+    def get_enabled_products(self) -> list[str]:
         """Get list of currently enabled products"""
         return list(self.enabled_products.keys())
 
-    def get_available_products(self) -> List[str]:
+    def get_available_products(self) -> list[str]:
         """Get list of all available products"""
         return list(self.available_products.keys())
 
-    async def get_status_summary(self) -> Dict[str, Any]:
+    async def get_status_summary(self) -> dict[str, Any]:
         """Get status summary of all Lambda Products"""
         summary = {
             "available": self.get_available_products(),

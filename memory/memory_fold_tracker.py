@@ -8,7 +8,7 @@ Trinity Framework: ⚛️🧠🛡️
 import json
 import logging
 from collections import Counter
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -61,8 +61,8 @@ class MemoryFoldTracker:
         logger.info("🌀 Memory Fold Tracker initialized")
 
     def detect_symbolic_recursion(
-        self, sessions: Optional[List[Dict]] = None
-    ) -> Dict[str, Any]:
+        self, sessions: Optional[list[dict]] = None
+    ) -> dict[str, Any]:
         """
         Detect recurring symbolic patterns that may indicate loops or instabilities.
 
@@ -147,7 +147,7 @@ class MemoryFoldTracker:
             ),
         }
 
-    def _find_recursions(self, sequences: List) -> List[Dict]:
+    def _find_recursions(self, sequences: list) -> list[dict]:
         """Find recurring patterns in sequences"""
         if not sequences:
             return []
@@ -189,7 +189,7 @@ class MemoryFoldTracker:
         else:
             return "chaotic"
 
-    def _detect_problematic_patterns(self, sessions: List[Dict]) -> List[Dict]:
+    def _detect_problematic_patterns(self, sessions: list[dict]) -> list[dict]:
         """Detect known problematic glyph combinations"""
         problematic = []
 
@@ -208,7 +208,7 @@ class MemoryFoldTracker:
 
         return problematic
 
-    def _detect_collapses(self, sessions: List[Dict]) -> List[Dict]:
+    def _detect_collapses(self, sessions: list[dict]) -> list[dict]:
         """Detect symbolic collapses"""
         collapses = []
 
@@ -254,7 +254,7 @@ class MemoryFoldTracker:
 
         return collapses
 
-    def _detect_trinity_voids(self, sessions: List[Dict]) -> List[Dict]:
+    def _detect_trinity_voids(self, sessions: list[dict]) -> list[dict]:
         """Detect sessions lacking Trinity Framework"""
         voids = []
 
@@ -274,8 +274,8 @@ class MemoryFoldTracker:
         return voids
 
     def _assess_recursion_risk(
-        self, glyph_rec: List, persona_rec: List, collapses: List, voids: List
-    ) -> Dict[str, Any]:
+        self, glyph_rec: list, persona_rec: list, collapses: list, voids: list
+    ) -> dict[str, Any]:
         """Assess overall recursion risk"""
         risk_score = 0
         risk_factors = []
@@ -320,7 +320,7 @@ class MemoryFoldTracker:
             "risk_factors": risk_factors,
         }
 
-    def suggest_stabilization_glyphs(self, analysis: Dict[str, Any]) -> Dict[str, Any]:
+    def suggest_stabilization_glyphs(self, analysis: dict[str, Any]) -> dict[str, Any]:
         """
         Suggest stabilization glyphs based on detected patterns.
 
@@ -381,7 +381,7 @@ class MemoryFoldTracker:
             "application": self._suggest_application(risk_level),
         }
 
-    def _prioritize_glyphs(self, glyphs: List[str], analysis: Dict) -> List[str]:
+    def _prioritize_glyphs(self, glyphs: list[str], analysis: dict) -> list[str]:
         """Prioritize glyphs based on analysis"""
         # Trinity first if missing
         trinity_voids = analysis.get("trinity_voids", [])
@@ -405,8 +405,8 @@ class MemoryFoldTracker:
         return applications.get(risk_level, applications["unknown"])
 
     def analyze_glyph_evolution(
-        self, sessions: Optional[List[Dict]] = None
-    ) -> Dict[str, Any]:
+        self, sessions: Optional[list[dict]] = None
+    ) -> dict[str, Any]:
         """Analyze how glyph usage evolves over time"""
         if sessions is None:
             if not self.memory_manager:

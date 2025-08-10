@@ -75,7 +75,8 @@ class MemoryTraceHarmonizer:
         Harmonizes memory traces from different memory systems.
         """
         logger.info("Harmonizing memory traces...")
-        # In a real implementation, this would involve a complex process of merging and aligning the different traces.
+        # In a real implementation, this would involve a complex process of
+        # merging and aligning the different traces.
         harmonized_trace = {
             "emotional_memory_trace": emotional_memory_trace,
             "dream_memory_trace": dream_memory_trace,

@@ -20,14 +20,14 @@ logger = structlog.get_logger(__name__)
 
 
 """
-+===========================================================================+
-| MODULE        : lukhas_duet_conductor.py                                   |
-| DESCRIPTION   : Manages conversational handoff between Lukhas voice and    |
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
+| MODULE: lukhas_duet_conductor.py |
+| DESCRIPTION: Manages conversational handoff between Lukhas voice and |
 |                 GPT responses. Controls emotional tone transitions, agent |
-|                 prioritization, and override logic.                       |
-| TYPE          : Voice Handoff Orchestrator       VERSION: v1.0.0          |
-| AUTHOR        : LUKHAS SYSTEMS                    CREATED: 2025-4-22      |
-+===========================================================================+
+|                 prioritization, and override logic. |
+| TYPE: Voice Handoff Orchestrator       VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                    CREATED: 2025 - 4 - 22 |
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
 DEPENDENCIES:
 - lukhas_voice_duet.py
 - lukhas_gatekeeper.py
@@ -38,8 +38,8 @@ def manage_voice_handoff(user_query, context_state):
     Orchestrates voice handoff between Lukhas and GPT.
 
     Parameters:
-    - user_query (str): latest user input
-    - context_state (dict): emotional score, urgency, DST triggers, user tier
+    - user_query(str): latest user input
+    - context_state(dict): emotional score, urgency, DST triggers, user tier
 
     Returns:
     - dict: handoff decision including voice actor, tone, handoff status
@@ -78,7 +78,7 @@ def manage_voice_handoff(user_query, context_state):
 
 """
 ΛTRACE: End of duet_conductor.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

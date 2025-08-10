@@ -1,4 +1,3 @@
 """
 Auth_Middleware Module
 """
-

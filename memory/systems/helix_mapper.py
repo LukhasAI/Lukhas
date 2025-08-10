@@ -11,7 +11,7 @@ Version: 1.0
 import json
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 # Third-Party Imports
 from cryptography.fernet import Fernet
@@ -46,7 +46,7 @@ class HelixMapper:
                 "HelixMapper generated new encryption key. MANAGE THIS KEY SECURELY."
             )
 
-        self.memory_strands: Dict[str, Dict[str, List[Dict[str, Any]]]] = {
+        self.memory_strands: dict[str, dict[str, list[dict[str, Any]]]] = {
             "core_strand": {"decisions_sub_strand": [], "context_sub_strand": []},
             "cognitive_strand": {
                 "voice_interactions_sub_strand": [],
@@ -70,10 +70,10 @@ class HelixMapper:
 
     async def _create_memory_links(
         self,
-        data: Dict[str, Any],
+        data: dict[str, Any],
         ctx_strand: Optional[str] = None,
         ctx_sub_strand: Optional[str] = None,
-    ) -> List[str]:
+    ) -> list[str]:
         """Creates conceptual links to other memories. (STUB)"""
         log.warning("_create_memory_links is STUB.", status="needs_implementation")
         links = []
@@ -84,7 +84,7 @@ class HelixMapper:
 
     @lukhas_tier_required(2)
     async def map_memory(
-        self, data: Dict[str, Any], strand_identifier: Tuple[str, str]
+        self, data: dict[str, Any], strand_identifier: tuple[str, str]
     ) -> Optional[str]:
         """Maps data to DNA-like memory structure, encrypts it, and assigns an ID."""
         main_strand, sub_strand = strand_identifier
@@ -135,7 +135,7 @@ class HelixMapper:
         return mem_id
 
     @lukhas_tier_required(2)
-    async def retrieve_mapped_memory(self, memory_id: str) -> Optional[Dict[str, Any]]:
+    async def retrieve_mapped_memory(self, memory_id: str) -> Optional[dict[str, Any]]:
         """Retrieves and decrypts a memory item by ID."""
         log.debug("Retrieving mapped memory.", id=memory_id)
         for main_s_key, sub_s_dict in self.memory_strands.items():

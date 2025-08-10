@@ -16,12 +16,14 @@ def build_user_context(user_id):
 
     try:
         from dast import get_current_tags
+
         task_tags = get_current_tags(user_id)
     except ImportError:
         trace_logger.log_meta("DAST module not found — fallback active.")
 
     try:
         from abas import is_allowed_now
+
         if not is_allowed_now(user_id):
             trace_logger.log_block(None, reason="ABAS: attention block")
             return None
@@ -31,5 +33,5 @@ def build_user_context(user_id):
     return {
         "emotional_vector": emotional_vector,
         "task_tags": task_tags,
-        "user_tier": 3
+        "user_tier": 3,
     }

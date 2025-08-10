@@ -7,7 +7,7 @@ import hashlib
 import json
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -15,31 +15,41 @@ from core.common import get_logger
 try:
     from core.tags import get_tag_registry
     from core.tags.registry import TagCategory, TagDefinition, TagRegistry
+
     TAG_SYSTEM_AVAILABLE = True
 except ImportError:
     TAG_SYSTEM_AVAILABLE = False
+
     # Fallback classes
     class TagRegistry:
         pass
+
     class TagDefinition:
         pass
+
     class TagCategory:
         pass
+
 
 # Import neuroplastic connector
 try:
     from emotion.neuroplastic_connector import EmotionConnector, connector
+
     NEUROPLASTIC_AVAILABLE = True
 except ImportError:
     NEUROPLASTIC_AVAILABLE = False
+
     # Mock connector
     class EmotionConnector:
         def connect_component(self, name, component):
             pass
+
         def emit_hormone(self, hormone, intensity):
             pass
+
         def get_stress_response(self):
             return {}
+
     connector = EmotionConnector()
 
 from .vivox_ern_core import RegulationResponse, RegulationStrategy, VADVector
@@ -50,18 +60,21 @@ logger = get_logger(__name__)
 @dataclass
 class EmotionalPattern:
     """Represents a learned emotional pattern"""
+
     pattern_id: str
-    triggers: List[str]
-    emotional_signature: Dict[str, float]  # VAD + intensity
-    effective_strategies: List[str]
+    triggers: list[str]
+    emotional_signature: dict[str, float]  # VAD + intensity
+    effective_strategies: list[str]
     success_rate: float
     usage_count: int = 0
     last_used: Optional[datetime] = None
-    context_factors: Dict[str, Any] = field(default_factory=dict)
-    neuroplastic_tags: List[str] = field(default_factory=list)
+    context_factors: dict[str, Any] = field(default_factory=dict)
+    neuroplastic_tags: list[str] = field(default_factory=list)
     colony_propagatable: bool = False
 
-    def matches_context(self, context: Dict[str, Any], similarity_threshold: float = 0.7) -> float:
+    def matches_context(
+        self, context: dict[str, Any], similarity_threshold: float = 0.7
+    ) -> float:
         """Calculate how well this pattern matches current context"""
         if not self.context_factors:
             return 0.5  # Default similarity for patterns without context
@@ -75,7 +88,9 @@ class EmotionalPattern:
                 actual_value = context[factor]
 
                 # Calculate similarity based on value type
-                if isinstance(expected_value, (int, float)) and isinstance(actual_value, (int, float)):
+                if isinstance(expected_value, (int, float)) and isinstance(
+                    actual_value, (int, float)
+                ):
                     # Numeric similarity
                     max_val = max(abs(expected_value), abs(actual_value), 1.0)
                     similarity = 1.0 - abs(expected_value - actual_value) / max_val
@@ -104,14 +119,17 @@ class EmotionalPattern:
 @dataclass
 class ColonyLearningPattern:
     """Pattern suitable for colony propagation across sessions"""
+
     pattern_hash: str
-    emotional_context: Dict[str, float]
+    emotional_context: dict[str, float]
     regulation_strategy: str
-    effectiveness_scores: List[float]
-    usage_contexts: List[str]
+    effectiveness_scores: list[float]
+    usage_contexts: list[str]
     propagation_strength: float
     created_by: str  # Source of pattern
-    verified_by: List[str] = field(default_factory=list)  # Users who verified effectiveness
+    verified_by: list[str] = field(
+        default_factory=list
+    )  # Users who verified effectiveness
 
     def should_propagate(self) -> bool:
         """Determine if pattern should propagate to other users"""
@@ -123,14 +141,13 @@ class ColonyLearningPattern:
         if len(self.effectiveness_scores) < 3:
             return False
 
-        avg_effectiveness = sum(self.effectiveness_scores) / len(self.effectiveness_scores)
+        avg_effectiveness = sum(self.effectiveness_scores) / len(
+            self.effectiveness_scores
+        )
         if avg_effectiveness < 0.7:
             return False
 
-        if len(self.verified_by) < 2:
-            return False
-
-        return True
+        return not len(self.verified_by) < 2
 
 
 class VIVOXNeuroplasticLearner:
@@ -139,8 +156,8 @@ class VIVOXNeuroplasticLearner:
     """
 
     def __init__(self):
-        self.learned_patterns: Dict[str, EmotionalPattern] = {}
-        self.colony_patterns: Dict[str, ColonyLearningPattern] = {}
+        self.learned_patterns: dict[str, EmotionalPattern] = {}
+        self.colony_patterns: dict[str, ColonyLearningPattern] = {}
         self.tag_registry: Optional[TagRegistry] = None
         self.neuroplastic_connector: EmotionConnector = connector
 
@@ -193,7 +210,7 @@ class VIVOXNeuroplasticLearner:
                 "human_meaning": "The AI successfully helped regulate your emotions",
                 "triggers": ["high_effectiveness", "positive_outcome"],
                 "effects": ["increased_confidence", "pattern_reinforcement"],
-                "priority": 2
+                "priority": 2,
             },
             {
                 "name": "vivox_stress_pattern",
@@ -202,7 +219,7 @@ class VIVOXNeuroplasticLearner:
                 "human_meaning": "Recurring stress pattern identified for optimization",
                 "triggers": ["high_arousal", "negative_valence", "stress_context"],
                 "effects": ["stress_regulation", "breathing_suggestion"],
-                "priority": 1
+                "priority": 1,
             },
             {
                 "name": "vivox_colony_learning",
@@ -211,7 +228,7 @@ class VIVOXNeuroplasticLearner:
                 "human_meaning": "Emotional regulation technique learned from similar users",
                 "triggers": ["pattern_effectiveness", "multi_user_verification"],
                 "effects": ["pattern_adoption", "effectiveness_boost"],
-                "priority": 3
+                "priority": 3,
             },
             {
                 "name": "vivox_neuroplastic_adaptation",
@@ -220,7 +237,7 @@ class VIVOXNeuroplasticLearner:
                 "human_meaning": "The AI adapted its approach based on your preferences",
                 "triggers": ["pattern_change", "effectiveness_improvement"],
                 "effects": ["personalization", "improved_outcomes"],
-                "priority": 2
+                "priority": 2,
             },
             {
                 "name": "vivox_emotional_memory",
@@ -229,8 +246,8 @@ class VIVOXNeuroplasticLearner:
                 "human_meaning": "Your emotional experience was remembered for better future support",
                 "triggers": ["significant_emotion", "successful_regulation"],
                 "effects": ["memory_formation", "pattern_learning"],
-                "priority": 4
-            }
+                "priority": 4,
+            },
         ]
 
         for tag_def in vivox_tags:
@@ -240,28 +257,40 @@ class VIVOXNeuroplasticLearner:
             except Exception as e:
                 logger.error(f"Failed to register tag {tag_def['name']}: {e}")
 
-    async def learn_from_regulation(self,
-                                  regulation_response: RegulationResponse,
-                                  context: Dict[str, Any],
-                                  user_feedback: Optional[float] = None) -> List[str]:
+    async def learn_from_regulation(
+        self,
+        regulation_response: RegulationResponse,
+        context: dict[str, Any],
+        user_feedback: Optional[float] = None,
+    ) -> list[str]:
         """
         Learn from regulation experience and update patterns
-        
+
         Returns list of neuroplastic tags generated
         """
         try:
             # Extract pattern features
-            pattern_features = self._extract_pattern_features(regulation_response, context)
+            pattern_features = self._extract_pattern_features(
+                regulation_response, context
+            )
 
             # Find or create matching pattern
-            pattern = await self._find_or_create_pattern(pattern_features, regulation_response, context)
+            pattern = await self._find_or_create_pattern(
+                pattern_features, regulation_response, context
+            )
 
             # Update pattern with new experience
-            effectiveness = user_feedback if user_feedback is not None else regulation_response.effectiveness
+            effectiveness = (
+                user_feedback
+                if user_feedback is not None
+                else regulation_response.effectiveness
+            )
             pattern.update_effectiveness(effectiveness)
 
             # Generate neuroplastic tags
-            tags = await self._generate_neuroplastic_tags(pattern, regulation_response, effectiveness)
+            tags = await self._generate_neuroplastic_tags(
+                pattern, regulation_response, effectiveness
+            )
 
             # Update tag registry
             if self.tag_registry and tags:
@@ -269,7 +298,9 @@ class VIVOXNeuroplasticLearner:
 
             # Check for colony propagation
             if effectiveness > self.colony_propagation_threshold:
-                await self._consider_colony_propagation(pattern, regulation_response, context)
+                await self._consider_colony_propagation(
+                    pattern, regulation_response, context
+                )
 
             # Emit hormonal signals for neuroplastic changes
             await self._emit_neuroplastic_hormones(pattern, effectiveness)
@@ -284,28 +315,32 @@ class VIVOXNeuroplasticLearner:
             logger.error(f"Error in neuroplastic learning: {e}")
             return []
 
-    def _extract_pattern_features(self,
-                                 regulation_response: RegulationResponse,
-                                 context: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_pattern_features(
+        self, regulation_response: RegulationResponse, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Extract key features for pattern matching"""
         return {
             "emotional_state": {
                 "valence": regulation_response.original_state.valence,
                 "arousal": regulation_response.original_state.arousal,
                 "dominance": regulation_response.original_state.dominance,
-                "intensity": regulation_response.original_state.intensity
+                "intensity": regulation_response.original_state.intensity,
             },
             "strategy_used": regulation_response.strategy_used.value,
-            "context_hash": hashlib.md5(json.dumps(context, sort_keys=True).encode()).hexdigest()[:8],
+            "context_hash": hashlib.md5(
+                json.dumps(context, sort_keys=True).encode()
+            ).hexdigest()[:8],
             "time_of_day": context.get("time_of_day", "unknown"),
             "environment": context.get("environment", "unknown"),
-            "stress_level": context.get("stress_level", 0.5)
+            "stress_level": context.get("stress_level", 0.5),
         }
 
-    async def _find_or_create_pattern(self,
-                                    features: Dict[str, Any],
-                                    regulation_response: RegulationResponse,
-                                    context: Dict[str, Any]) -> EmotionalPattern:
+    async def _find_or_create_pattern(
+        self,
+        features: dict[str, Any],
+        regulation_response: RegulationResponse,
+        context: dict[str, Any],
+    ) -> EmotionalPattern:
         """Find existing pattern or create new one"""
 
         # Look for similar existing patterns
@@ -313,8 +348,13 @@ class VIVOXNeuroplasticLearner:
         best_similarity = 0.0
 
         for pattern in self.learned_patterns.values():
-            similarity = await self._calculate_pattern_similarity(pattern, features, context)
-            if similarity > best_similarity and similarity > self.min_pattern_confidence:
+            similarity = await self._calculate_pattern_similarity(
+                pattern, features, context
+            )
+            if (
+                similarity > best_similarity
+                and similarity > self.min_pattern_confidence
+            ):
                 best_similarity = similarity
                 best_match = pattern
 
@@ -322,7 +362,9 @@ class VIVOXNeuroplasticLearner:
             return best_match
 
         # Create new pattern
-        pattern_id = f"pattern_{len(self.learned_patterns)}_{int(datetime.now().timestamp())}"
+        pattern_id = (
+            f"pattern_{len(self.learned_patterns)}_{int(datetime.now().timestamp())}"
+        )
 
         triggers = self._extract_triggers(regulation_response, context)
 
@@ -335,18 +377,20 @@ class VIVOXNeuroplasticLearner:
             context_factors={
                 "environment": context.get("environment"),
                 "time_of_day": context.get("time_of_day"),
-                "stress_level": context.get("stress_level", 0.5)
+                "stress_level": context.get("stress_level", 0.5),
             },
-            neuroplastic_tags=regulation_response.neuroplastic_tags.copy()
+            neuroplastic_tags=regulation_response.neuroplastic_tags.copy(),
         )
 
         self.learned_patterns[pattern_id] = new_pattern
         return new_pattern
 
-    async def _calculate_pattern_similarity(self,
-                                          pattern: EmotionalPattern,
-                                          features: Dict[str, Any],
-                                          context: Dict[str, Any]) -> float:
+    async def _calculate_pattern_similarity(
+        self,
+        pattern: EmotionalPattern,
+        features: dict[str, Any],
+        context: dict[str, Any],
+    ) -> float:
         """Calculate similarity between pattern and current features"""
 
         # Emotional state similarity
@@ -358,7 +402,9 @@ class VIVOXNeuroplasticLearner:
         context_similarity = pattern.matches_context(context)
 
         # Strategy compatibility
-        strategy_compatibility = 1.0 if features["strategy_used"] in pattern.effective_strategies else 0.3
+        strategy_compatibility = (
+            1.0 if features["strategy_used"] in pattern.effective_strategies else 0.3
+        )
 
         # Temporal decay (recent patterns are more relevant)
         temporal_decay = 1.0
@@ -371,18 +417,18 @@ class VIVOXNeuroplasticLearner:
 
         # Weighted combination
         similarity = (
-            emotional_similarity * self.emotional_weight +
-            context_similarity * self.context_weight +
-            strategy_compatibility * 0.2 +
-            temporal_decay * self.temporal_weight +
-            usage_bonus * self.usage_weight
+            emotional_similarity * self.emotional_weight
+            + context_similarity * self.context_weight
+            + strategy_compatibility * 0.2
+            + temporal_decay * self.temporal_weight
+            + usage_bonus * self.usage_weight
         )
 
         return similarity
 
-    def _calculate_emotional_similarity(self,
-                                      signature1: Dict[str, float],
-                                      signature2: Dict[str, float]) -> float:
+    def _calculate_emotional_similarity(
+        self, signature1: dict[str, float], signature2: dict[str, float]
+    ) -> float:
         """Calculate similarity between emotional signatures"""
         total_difference = 0.0
         dimensions = ["valence", "arousal", "dominance", "intensity"]
@@ -393,14 +439,16 @@ class VIVOXNeuroplasticLearner:
             total_difference += abs(val1 - val2)
 
         # Convert difference to similarity (lower difference = higher similarity)
-        max_possible_difference = len(dimensions) * 2.0  # Each dimension can differ by at most 2
+        max_possible_difference = (
+            len(dimensions) * 2.0
+        )  # Each dimension can differ by at most 2
         similarity = 1.0 - (total_difference / max_possible_difference)
 
         return max(0.0, similarity)
 
-    def _extract_triggers(self,
-                         regulation_response: RegulationResponse,
-                         context: Dict[str, Any]) -> List[str]:
+    def _extract_triggers(
+        self, regulation_response: RegulationResponse, context: dict[str, Any]
+    ) -> list[str]:
         """Extract triggers from regulation context"""
         triggers = []
 
@@ -434,10 +482,12 @@ class VIVOXNeuroplasticLearner:
 
         return triggers
 
-    async def _generate_neuroplastic_tags(self,
-                                        pattern: EmotionalPattern,
-                                        regulation_response: RegulationResponse,
-                                        effectiveness: float) -> List[str]:
+    async def _generate_neuroplastic_tags(
+        self,
+        pattern: EmotionalPattern,
+        regulation_response: RegulationResponse,
+        effectiveness: float,
+    ) -> list[str]:
         """Generate neuroplastic tags for this learning event"""
         tags = []
 
@@ -476,10 +526,9 @@ class VIVOXNeuroplasticLearner:
 
         return tags
 
-    async def _update_tag_registry_with_learning(self,
-                                               tags: List[str],
-                                               pattern: EmotionalPattern,
-                                               context: Dict[str, Any]):
+    async def _update_tag_registry_with_learning(
+        self, tags: list[str], pattern: EmotionalPattern, context: dict[str, Any]
+    ):
         """Update tag registry with learning results"""
         if not self.tag_registry:
             return
@@ -487,33 +536,41 @@ class VIVOXNeuroplasticLearner:
         try:
             # Trigger relevant tags
             for tag_name in tags:
-                if hasattr(self.tag_registry, 'trigger_tag'):
+                if hasattr(self.tag_registry, "trigger_tag"):
                     await self.tag_registry.trigger_tag(
                         tag_name,
                         context={
                             "pattern_id": pattern.pattern_id,
                             "effectiveness": pattern.success_rate,
                             "usage_count": pattern.usage_count,
-                            **context
-                        }
+                            **context,
+                        },
                     )
         except Exception as e:
             logger.error(f"Error updating tag registry: {e}")
 
-    async def _consider_colony_propagation(self,
-                                         pattern: EmotionalPattern,
-                                         regulation_response: RegulationResponse,
-                                         context: Dict[str, Any]):
+    async def _consider_colony_propagation(
+        self,
+        pattern: EmotionalPattern,
+        regulation_response: RegulationResponse,
+        context: dict[str, Any],
+    ):
         """Consider if pattern should be propagated to colony"""
-        if not pattern.colony_propagatable and pattern.success_rate > self.colony_propagation_threshold:
+        if (
+            not pattern.colony_propagatable
+            and pattern.success_rate > self.colony_propagation_threshold
+        ):
 
             # Create colony learning pattern
             pattern_hash = hashlib.md5(
-                json.dumps({
-                    "triggers": pattern.triggers,
-                    "strategy": regulation_response.strategy_used.value,
-                    "emotional_context": pattern.emotional_signature
-                }, sort_keys=True).encode()
+                json.dumps(
+                    {
+                        "triggers": pattern.triggers,
+                        "strategy": regulation_response.strategy_used.value,
+                        "emotional_context": pattern.emotional_signature,
+                    },
+                    sort_keys=True,
+                ).encode()
             ).hexdigest()[:16]
 
             if pattern_hash not in self.colony_patterns:
@@ -524,7 +581,7 @@ class VIVOXNeuroplasticLearner:
                     effectiveness_scores=[pattern.success_rate],
                     usage_contexts=[context.get("environment", "unknown")],
                     propagation_strength=pattern.success_rate,
-                    created_by=context.get("user_id", "unknown")
+                    created_by=context.get("user_id", "unknown"),
                 )
 
                 self.colony_patterns[pattern_hash] = colony_pattern
@@ -532,9 +589,9 @@ class VIVOXNeuroplasticLearner:
 
                 logger.info(f"Created colony pattern: {pattern_hash}")
 
-    async def _emit_neuroplastic_hormones(self,
-                                        pattern: EmotionalPattern,
-                                        effectiveness: float):
+    async def _emit_neuroplastic_hormones(
+        self, pattern: EmotionalPattern, effectiveness: float
+    ):
         """Emit hormonal signals for neuroplastic changes"""
         if not NEUROPLASTIC_AVAILABLE:
             return
@@ -542,12 +599,18 @@ class VIVOXNeuroplasticLearner:
         try:
             # Success hormones
             if effectiveness > 0.7:
-                self.neuroplastic_connector.emit_hormone("dopamine", effectiveness * 0.5)
-                self.neuroplastic_connector.emit_hormone("serotonin", effectiveness * 0.3)
+                self.neuroplastic_connector.emit_hormone(
+                    "dopamine", effectiveness * 0.5
+                )
+                self.neuroplastic_connector.emit_hormone(
+                    "serotonin", effectiveness * 0.3
+                )
 
             # Learning hormones
             if pattern.usage_count <= 3:  # New learning
-                self.neuroplastic_connector.emit_hormone("acetylcholine", 0.4)  # Learning neurotransmitter
+                self.neuroplastic_connector.emit_hormone(
+                    "acetylcholine", 0.4
+                )  # Learning neurotransmitter
 
             # Stress reduction if pattern is stress-related
             if "stress" in str(pattern.triggers).lower():
@@ -574,14 +637,18 @@ class VIVOXNeuroplasticLearner:
                 days_old = (datetime.now(timezone.utc) - pattern.last_used).days
                 recency_score = max(0.1, 1.0 - (days_old * 0.05))
 
-            relevance_score = (success_score * 0.5 + usage_score * 0.3 + recency_score * 0.2)
+            relevance_score = (
+                success_score * 0.5 + usage_score * 0.3 + recency_score * 0.2
+            )
             patterns_with_scores.append((pattern, relevance_score))
 
         # Sort by relevance (lowest first for removal)
         patterns_with_scores.sort(key=lambda x: x[1])
 
         # Remove least relevant patterns
-        patterns_to_remove = len(self.learned_patterns) - self.max_patterns + 50  # Remove extra for buffer
+        patterns_to_remove = (
+            len(self.learned_patterns) - self.max_patterns + 50
+        )  # Remove extra for buffer
 
         for i in range(patterns_to_remove):
             if i < len(patterns_with_scores):
@@ -590,9 +657,9 @@ class VIVOXNeuroplasticLearner:
 
         logger.info(f"Pruned {patterns_to_remove} old patterns")
 
-    async def get_recommended_strategy(self,
-                                     current_state: VADVector,
-                                     context: Dict[str, Any]) -> Optional[Tuple[RegulationStrategy, float]]:
+    async def get_recommended_strategy(
+        self, current_state: VADVector, context: dict[str, Any]
+    ) -> Optional[tuple[RegulationStrategy, float]]:
         """Get recommended strategy based on learned patterns"""
 
         features = {
@@ -600,7 +667,7 @@ class VIVOXNeuroplasticLearner:
                 "valence": current_state.valence,
                 "arousal": current_state.arousal,
                 "dominance": current_state.dominance,
-                "intensity": current_state.intensity
+                "intensity": current_state.intensity,
             }
         }
 
@@ -609,14 +676,21 @@ class VIVOXNeuroplasticLearner:
         best_similarity = 0.0
 
         for pattern in self.learned_patterns.values():
-            similarity = await self._calculate_pattern_similarity(pattern, features, context)
-            if similarity > best_similarity and similarity > self.min_pattern_confidence:
+            similarity = await self._calculate_pattern_similarity(
+                pattern, features, context
+            )
+            if (
+                similarity > best_similarity
+                and similarity > self.min_pattern_confidence
+            ):
                 best_similarity = similarity
                 best_pattern = pattern
 
         if best_pattern and best_pattern.effective_strategies:
             # Return most effective strategy from pattern
-            strategy_name = best_pattern.effective_strategies[0]  # First is usually most effective
+            strategy_name = best_pattern.effective_strategies[
+                0
+            ]  # First is usually most effective
             try:
                 strategy = RegulationStrategy(strategy_name)
                 confidence = best_similarity * best_pattern.success_rate
@@ -626,19 +700,21 @@ class VIVOXNeuroplasticLearner:
 
         return None
 
-    def get_learning_statistics(self) -> Dict[str, Any]:
+    def get_learning_statistics(self) -> dict[str, Any]:
         """Get neuroplastic learning statistics"""
         if not self.learned_patterns:
             return {
                 "total_patterns": 0,
                 "average_effectiveness": 0.0,
                 "colony_patterns": 0,
-                "most_effective_strategies": []
+                "most_effective_strategies": [],
             }
 
         # Calculate statistics
         total_patterns = len(self.learned_patterns)
-        avg_effectiveness = sum(p.success_rate for p in self.learned_patterns.values()) / total_patterns
+        avg_effectiveness = (
+            sum(p.success_rate for p in self.learned_patterns.values()) / total_patterns
+        )
 
         # Strategy effectiveness
         strategy_stats = {}
@@ -660,20 +736,28 @@ class VIVOXNeuroplasticLearner:
         sorted_strategies = sorted(
             strategy_stats.items(),
             key=lambda x: x[1]["average_effectiveness"],
-            reverse=True
+            reverse=True,
         )
 
         return {
             "total_patterns": total_patterns,
             "average_effectiveness": avg_effectiveness,
             "colony_patterns": len(self.colony_patterns),
-            "propagatable_patterns": sum(1 for p in self.learned_patterns.values() if p.colony_propagatable),
+            "propagatable_patterns": sum(
+                1 for p in self.learned_patterns.values() if p.colony_propagatable
+            ),
             "most_effective_strategies": sorted_strategies[:5],
             "patterns_by_usage": {
-                "high_usage": sum(1 for p in self.learned_patterns.values() if p.usage_count >= 10),
-                "medium_usage": sum(1 for p in self.learned_patterns.values() if 3 <= p.usage_count < 10),
-                "low_usage": sum(1 for p in self.learned_patterns.values() if p.usage_count < 3)
-            }
+                "high_usage": sum(
+                    1 for p in self.learned_patterns.values() if p.usage_count >= 10
+                ),
+                "medium_usage": sum(
+                    1 for p in self.learned_patterns.values() if 3 <= p.usage_count < 10
+                ),
+                "low_usage": sum(
+                    1 for p in self.learned_patterns.values() if p.usage_count < 3
+                ),
+            },
         }
 
 
@@ -685,13 +769,15 @@ class VIVOXTagSystemIntegration:
     def __init__(self, neuroplastic_learner: VIVOXNeuroplasticLearner):
         self.neuroplastic_learner = neuroplastic_learner
         self.tag_registry = neuroplastic_learner.tag_registry
-        self.active_tags: Set[str] = set()
-        self.tag_history: List[Dict[str, Any]] = []
+        self.active_tags: set[str] = set()
+        self.tag_history: list[dict[str, Any]] = []
 
-    async def process_emotional_tags(self,
-                                   regulation_response: RegulationResponse,
-                                   context: Dict[str, Any],
-                                   user_id: str) -> List[str]:
+    async def process_emotional_tags(
+        self,
+        regulation_response: RegulationResponse,
+        context: dict[str, Any],
+        user_id: str,
+    ) -> list[str]:
         """Process and activate emotional tags"""
         generated_tags = []
 
@@ -711,14 +797,16 @@ class VIVOXTagSystemIntegration:
             generated_tags.extend(emergent_tags)
 
             # Update tag history
-            self._update_tag_history(generated_tags, regulation_response, context, user_id)
+            self._update_tag_history(
+                generated_tags, regulation_response, context, user_id
+            )
 
         except Exception as e:
             logger.error(f"Error processing emotional tags: {e}")
 
         return generated_tags
 
-    async def _activate_tag(self, tag_name: str, context: Dict[str, Any], user_id: str):
+    async def _activate_tag(self, tag_name: str, context: dict[str, Any], user_id: str):
         """Activate a tag in the registry"""
         if not self.tag_registry or not TAG_SYSTEM_AVAILABLE:
             return
@@ -731,43 +819,53 @@ class VIVOXTagSystemIntegration:
                 "user_id": user_id,
                 "source": "vivox_ern",
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "context": context
+                "context": context,
             }
 
             # Activate tag if registry supports it
-            if hasattr(self.tag_registry, 'activate_tag'):
+            if hasattr(self.tag_registry, "activate_tag"):
                 await self.tag_registry.activate_tag(tag_name, activation_context)
 
         except Exception as e:
             logger.error(f"Error activating tag {tag_name}: {e}")
 
-    async def _check_emergent_patterns(self,
-                                     current_tags: List[str],
-                                     context: Dict[str, Any]) -> List[str]:
+    async def _check_emergent_patterns(
+        self, current_tags: list[str], context: dict[str, Any]
+    ) -> list[str]:
         """Check for emergent patterns from tag combinations"""
         emergent_tags = []
 
         # Pattern: Stress + Success -> Resilience Building
-        if "vivox_stress_pattern" in current_tags and "vivox_regulation_success" in current_tags:
+        if (
+            "vivox_stress_pattern" in current_tags
+            and "vivox_regulation_success" in current_tags
+        ):
             emergent_tags.append("resilience_building")
             emergent_tags.append("stress_mastery_developing")
 
         # Pattern: Multiple learning tags -> Advanced User
-        learning_tags = [tag for tag in current_tags if "learning" in tag or "adaptation" in tag]
+        learning_tags = [
+            tag for tag in current_tags if "learning" in tag or "adaptation" in tag
+        ]
         if len(learning_tags) >= 2:
             emergent_tags.append("advanced_emotional_learner")
 
         # Pattern: Colony learning + Success -> Pattern Leader
-        if "vivox_colony_learning" in current_tags and "vivox_regulation_success" in current_tags:
+        if (
+            "vivox_colony_learning" in current_tags
+            and "vivox_regulation_success" in current_tags
+        ):
             emergent_tags.append("emotional_pattern_leader")
 
         return emergent_tags
 
-    def _update_tag_history(self,
-                          tags: List[str],
-                          regulation_response: RegulationResponse,
-                          context: Dict[str, Any],
-                          user_id: str):
+    def _update_tag_history(
+        self,
+        tags: list[str],
+        regulation_response: RegulationResponse,
+        context: dict[str, Any],
+        user_id: str,
+    ):
         """Update tag activation history"""
         history_entry = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -776,7 +874,7 @@ class VIVOXTagSystemIntegration:
             "regulation_strategy": regulation_response.strategy_used.value,
             "effectiveness": regulation_response.effectiveness,
             "emotional_state": regulation_response.regulated_state.to_dict(),
-            "context": context
+            "context": context,
         }
 
         self.tag_history.append(history_entry)
@@ -785,14 +883,15 @@ class VIVOXTagSystemIntegration:
         if len(self.tag_history) > 1000:
             self.tag_history = self.tag_history[-800:]
 
-    def get_tag_analytics(self, user_id: str, hours: int = 24) -> Dict[str, Any]:
+    def get_tag_analytics(self, user_id: str, hours: int = 24) -> dict[str, Any]:
         """Get tag analytics for user"""
         cutoff_time = datetime.now(timezone.utc).timestamp() - (hours * 3600)
 
         relevant_history = [
-            entry for entry in self.tag_history
-            if entry["user_id"] == user_id and
-               datetime.fromisoformat(entry["timestamp"]).timestamp() > cutoff_time
+            entry
+            for entry in self.tag_history
+            if entry["user_id"] == user_id
+            and datetime.fromisoformat(entry["timestamp"]).timestamp() > cutoff_time
         ]
 
         if not relevant_history:
@@ -814,27 +913,28 @@ class VIVOXTagSystemIntegration:
 
         # Calculate average effectiveness per tag
         tag_avg_effectiveness = {
-            tag: sum(scores) / len(scores)
-            for tag, scores in tag_effectiveness.items()
+            tag: sum(scores) / len(scores) for tag, scores in tag_effectiveness.items()
         }
 
         # Find most effective tags
         most_effective_tags = sorted(
-            tag_avg_effectiveness.items(),
-            key=lambda x: x[1],
-            reverse=True
+            tag_avg_effectiveness.items(), key=lambda x: x[1], reverse=True
         )[:5]
 
         return {
             "total_tag_activations": sum(tag_counts.values()),
             "unique_tags_activated": len(tag_counts),
-            "most_frequent_tags": sorted(tag_counts.items(), key=lambda x: x[1], reverse=True)[:5],
+            "most_frequent_tags": sorted(
+                tag_counts.items(), key=lambda x: x[1], reverse=True
+            )[:5],
             "most_effective_tags": most_effective_tags,
             "tag_activation_trend": len(relevant_history),
             "learning_indicators": {
-                "neuroplastic_adaptations": tag_counts.get("vivox_neuroplastic_adaptation", 0),
+                "neuroplastic_adaptations": tag_counts.get(
+                    "vivox_neuroplastic_adaptation", 0
+                ),
                 "successful_regulations": tag_counts.get("vivox_regulation_success", 0),
                 "stress_patterns_identified": tag_counts.get("vivox_stress_pattern", 0),
-                "colony_learning_events": tag_counts.get("vivox_colony_learning", 0)
-            }
+                "colony_learning_events": tag_counts.get("vivox_colony_learning", 0),
+            },
         }

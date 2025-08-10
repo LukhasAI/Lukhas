@@ -4,6 +4,7 @@ Test DAST Integration with NIAS Engine
 Verify that the NIAS Engine properly integrates with DAST symbolic context
 """
 
+from NIΛS.core.nias_engine import get_nias_engine
 import asyncio
 import logging
 import sys
@@ -14,7 +15,6 @@ lambda_products_path = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(lambda_products_path))
 
 # Import NIAS components
-from NIΛS.core.nias_engine import get_nias_engine
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s - %(message)s")

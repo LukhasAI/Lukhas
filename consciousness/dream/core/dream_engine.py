@@ -30,10 +30,12 @@
 ║ - #ΛCOLLAPSE_HOOK                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 """
+import logging
 
 import asyncio
+import contextlib
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from quantum.quantum_dream_adapter import (
@@ -127,7 +129,7 @@ class EnhancedDreamEngine:
 
         logger.info("Enhanced dream engine initialized")
 
-    async def handle_message(self, message: Dict[str, Any]) -> None:
+    async def handle_message(self, message: dict[str, Any]) -> None:
         """Handle incoming messages
 
         Args:
@@ -195,10 +197,8 @@ class EnhancedDreamEngine:
             # Stop reflection task
             if self.processing_task:
                 self.processing_task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await self.processing_task
-                except asyncio.CancelledError:
-                    pass
                 self.processing_task = None
 
             self.active = False
@@ -274,7 +274,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error consolidating memories: {e}")
 
-    async def _enhance_memory_quantum(self, memory: Dict[str, Any]) -> Dict[str, Any]:
+    async def _enhance_memory_quantum(self, memory: dict[str, Any]) -> dict[str, Any]:
         """Enhance memory with quantum-inspired processing
 
         Args:
@@ -311,16 +311,16 @@ class EnhancedDreamEngine:
             f"Memories={memories}"
         )
 
-    async def _handle_start_cycle(self, content: Dict[str, Any]) -> None:
+    async def _handle_start_cycle(self, content: dict[str, Any]) -> None:
         """Handle start cycle request"""
         duration = content.get("duration_minutes", 10)
         await self.start_dream_cycle(duration)
 
-    async def _handle_stop_cycle(self, content: Dict[str, Any]) -> None:
+    async def _handle_stop_cycle(self, content: dict[str, Any]) -> None:
         """Handle stop cycle request"""
         await self.stop_dream_cycle()
 
-    async def _handle_process_memory(self, content: Dict[str, Any]) -> None:
+    async def _handle_process_memory(self, content: dict[str, Any]) -> None:
         """Handle process memory request"""
         try:
             memory = content.get("memory")
@@ -334,7 +334,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error processing memory: {e}")
 
-    async def _handle_consolidate_dreams(self, content: Dict[str, Any]) -> None:
+    async def _handle_consolidate_dreams(self, content: dict[str, Any]) -> None:
         """Handle dream consolidation request"""
         try:
             await self._consolidate_memories()
@@ -342,8 +342,8 @@ class EnhancedDreamEngine:
             logger.error(f"Error consolidating dreams: {e}")
 
     def _extract_dream_insights(
-        self, quantum_like_state: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, quantum_like_state: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Extract insights from quantum dream state
 
         Args:
@@ -375,7 +375,7 @@ class EnhancedDreamEngine:
 
         return insights
 
-    async def _store_dream_insights(self, insights: List[Dict[str, Any]]) -> None:
+    async def _store_dream_insights(self, insights: list[dict[str, Any]]) -> None:
         """Store extracted dream insights
 
         Args:
@@ -392,7 +392,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error storing insights: {e}")
 
-    async def _store_enhanced_memory(self, memory: Dict[str, Any]) -> None:
+    async def _store_enhanced_memory(self, memory: dict[str, Any]) -> None:
         """Store an enhanced memory
 
         Args:
@@ -403,7 +403,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error storing enhanced memory: {e}")
 
-    async def _get_unconsolidated_memories(self) -> List[Dict[str, Any]]:
+    async def _get_unconsolidated_memories(self) -> list[dict[str, Any]]:
         """Get memories waiting for consolidation
 
         Returns:
@@ -418,7 +418,7 @@ class EnhancedDreamEngine:
             logger.error(f"Error getting unconsolidated memories: {e}")
             return []
 
-    async def process_dream(self, dream: Dict[str, Any]) -> None:
+    async def process_dream(self, dream: dict[str, Any]) -> None:
         """Process a single dream
 
         Args:
@@ -458,8 +458,8 @@ class EnhancedDreamEngine:
             dream["metadata"]["error"] = str(e)
 
     async def _process_dream_quantum(
-        self, dream: Dict[str, Any], quantum_like_state: Dict
-    ) -> Dict:
+        self, dream: dict[str, Any], quantum_like_state: dict
+    ) -> dict:
         """Process dream through quantum layer
 
         Args:
@@ -509,7 +509,7 @@ class EnhancedDreamEngine:
 
         return processed
 
-    async def _store_processed_dream(self, dream: Dict[str, Any]) -> None:
+    async def _store_processed_dream(self, dream: dict[str, Any]) -> None:
         """Store a processed dream
 
         Args:

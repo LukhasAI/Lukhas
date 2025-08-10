@@ -26,23 +26,25 @@ logger = logging.getLogger(__name__)
 
 class ConsciousnessPhase(Enum):
     """Symbolic consciousness phases based on entropy levels"""
-    CALM = "calm"           # Entropy < 0.3
-    DRIFT = "drift"         # Entropy 0.3-0.6
-    UNSTABLE = "unstable"   # Entropy 0.6-0.8
-    COLLAPSE = "collapse"   # Entropy > 0.8
+
+    CALM = "calm"  # Entropy < 0.3
+    DRIFT = "drift"  # Entropy 0.3-0.6
+    UNSTABLE = "unstable"  # Entropy 0.6-0.8
+    COLLAPSE = "collapse"  # Entropy > 0.8
 
 
 @dataclass
 class Wavefunction:
     """
     Symbolic wavefunction representing superposition of consciousness glyphs
-    
+
     This represents a quantum-inspired symbolic state that can exist in
     multiple configurations until observation/entropy forces collapse.
     """
+
     id: str
     glyph_superposition: List[str]  # Symbolic states in superposition
-    entropy_score: float           # Current entropy level (0.0-1.0)
+    entropy_score: float  # Current entropy level (0.0-1.0)
     collapsed: bool = False
     result: Optional[str] = None
     collapse_timestamp: Optional[float] = None
@@ -60,7 +62,9 @@ class Wavefunction:
         # Ensure Trinity Framework symbols are preserved if present
         trinity_symbols = {"⚛️", "🧠", "🛡️"}
         if any(symbol in self.glyph_superposition for symbol in trinity_symbols):
-            if not all(symbol in self.glyph_superposition for symbol in trinity_symbols):
+            if not all(
+                symbol in self.glyph_superposition for symbol in trinity_symbols
+            ):
                 logger.warning("Trinity Framework incomplete in superposition")
 
     def get_consciousness_phase(self) -> ConsciousnessPhase:
@@ -90,7 +94,9 @@ class Wavefunction:
             entropy_weight = math.exp(-glyph_index * 2)
         elif self.entropy_score > 0.8:
             # High entropy favors last (chaotic) states
-            entropy_weight = math.exp((glyph_index - len(self.glyph_superposition) + 1) * 2)
+            entropy_weight = math.exp(
+                (glyph_index - len(self.glyph_superposition) + 1) * 2
+            )
         else:
             # Medium entropy - gradual shift
             entropy_weight = 1.0 + (self.entropy_score - 0.5) * glyph_index
@@ -100,10 +106,10 @@ class Wavefunction:
     def collapse(self, observer: str = "system") -> str:
         """
         Collapse the wavefunction to a single symbolic state
-        
+
         Args:
             observer: Entity causing the collapse (system, user, guardian, etc.)
-            
+
         Returns:
             The collapsed symbolic state
         """
@@ -120,8 +126,10 @@ class Wavefunction:
             self.result = self.glyph_superposition[-1]
         else:
             # Probabilistic collapse based on entropy-weighted distribution
-            probabilities = [self.get_superposition_probability(glyph)
-                           for glyph in self.glyph_superposition]
+            probabilities = [
+                self.get_superposition_probability(glyph)
+                for glyph in self.glyph_superposition
+            ]
 
             # Normalize probabilities
             total_prob = sum(probabilities)
@@ -158,13 +166,15 @@ class Wavefunction:
         else:
             self.trinity_coherence *= 0.9
 
-        logger.info(f"Wavefunction {self.id} collapsed to {self.result} (observer: {observer})")
+        logger.info(
+            f"Wavefunction {self.id} collapsed to {self.result} (observer: {observer})"
+        )
         return self.result
 
     def evolve(self, time_delta: float, external_entropy: float = 0.0) -> None:
         """
         Evolve the wavefunction over time under entropy influence
-        
+
         Args:
             time_delta: Time evolution step
             external_entropy: Additional entropy from environment
@@ -190,7 +200,7 @@ class Wavefunction:
     def measure_superposition_strength(self) -> float:
         """
         Measure the strength of quantum superposition
-        
+
         Returns:
             Value between 0.0 (collapsed) and 1.0 (maximum superposition)
         """
@@ -215,7 +225,7 @@ class Wavefunction:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, data: Dict) -> 'Wavefunction':
+    def from_dict(cls, data: Dict) -> "Wavefunction":
         """Create wavefunction from dictionary"""
         return cls(**data)
 
@@ -230,37 +240,39 @@ class WavefunctionManager:
     CONSCIOUSNESS_TEMPLATES = {
         "reflective_dreaming": {
             "glyphs": ["🧠", "🌙", "🔮"],
-            "description": "Reflective consciousness in dream-like superposition"
+            "description": "Reflective consciousness in dream-like superposition",
         },
         "alert_meditation": {
             "glyphs": ["🧠", "🧘", "⚡"],
-            "description": "Alert meditative awareness state"
+            "description": "Alert meditative awareness state",
         },
         "creative_flow": {
             "glyphs": ["🎨", "🌊", "✨"],
-            "description": "Creative consciousness in flow state"
+            "description": "Creative consciousness in flow state",
         },
         "analytical_focus": {
             "glyphs": ["🔬", "🎯", "💎"],
-            "description": "Focused analytical consciousness"
+            "description": "Focused analytical consciousness",
         },
         "trinity_coherence": {
             "glyphs": ["⚛️", "🧠", "🛡️"],
-            "description": "Trinity Framework coherent state"
+            "description": "Trinity Framework coherent state",
         },
         "entropy_chaos": {
             "glyphs": ["🌪️", "🔥", "💥"],
-            "description": "High-entropy chaotic consciousness"
+            "description": "High-entropy chaotic consciousness",
         },
         "transcendent_awareness": {
             "glyphs": ["🌌", "🕉️", "🪷"],
-            "description": "Transcendent consciousness state"
-        }
+            "description": "Transcendent consciousness state",
+        },
     }
 
-    def __init__(self,
-                 entropy_log_file: str = "quantum_core/entropy_trace.json",
-                 wavefunction_history: str = "quantum_core/wavefunction_history.json"):
+    def __init__(
+        self,
+        entropy_log_file: str = "quantum_core/entropy_trace.json",
+        wavefunction_history: str = "quantum_core/wavefunction_history.json",
+    ):
 
         self.entropy_log_file = Path(entropy_log_file)
         self.wavefunction_history_file = Path(wavefunction_history)
@@ -287,20 +299,22 @@ class WavefunctionManager:
         logger.info("⚛️ Symbolic Wavefunction Manager initialized")
         logger.info(f"   Session ID: {self.session_id}")
 
-    def create_wavefunction(self,
-                          wf_id: str,
-                          template_name: Optional[str] = None,
-                          custom_glyphs: Optional[List[str]] = None,
-                          initial_entropy: Optional[float] = None) -> Wavefunction:
+    def create_wavefunction(
+        self,
+        wf_id: str,
+        template_name: Optional[str] = None,
+        custom_glyphs: Optional[List[str]] = None,
+        initial_entropy: Optional[float] = None,
+    ) -> Wavefunction:
         """
         Create a new symbolic wavefunction
-        
+
         Args:
             wf_id: Unique identifier for the wavefunction
             template_name: Name of predefined template to use
             custom_glyphs: Custom glyph superposition (overrides template)
             initial_entropy: Initial entropy score (uses global if None)
-            
+
         Returns:
             Created Wavefunction instance
         """
@@ -317,22 +331,28 @@ class WavefunctionManager:
             glyphs = ["⚛️", "🧠", "🛡️"]
 
         # Set initial entropy
-        entropy = initial_entropy if initial_entropy is not None else self.global_entropy
+        entropy = (
+            initial_entropy if initial_entropy is not None else self.global_entropy
+        )
 
         # Create wavefunction
         wavefunction = Wavefunction(
             id=wf_id,
             glyph_superposition=glyphs,
             entropy_score=entropy,
-            trinity_coherence=self.trinity_coherence_global
+            trinity_coherence=self.trinity_coherence_global,
         )
 
         self.active_wavefunctions[wf_id] = wavefunction
 
-        logger.info(f"Created wavefunction {wf_id}: {' + '.join(glyphs)} (entropy: {entropy:.3f})")
+        logger.info(
+            f"Created wavefunction {wf_id}: {' + '.join(glyphs)} (entropy: {entropy:.3f})"
+        )
         return wavefunction
 
-    def collapse_wavefunction(self, wf_id: str, observer: str = "system") -> Optional[str]:
+    def collapse_wavefunction(
+        self, wf_id: str, observer: str = "system"
+    ) -> Optional[str]:
         """Collapse a specific wavefunction"""
         if wf_id not in self.active_wavefunctions:
             logger.error(f"Wavefunction {wf_id} not found")
@@ -377,7 +397,9 @@ class WavefunctionManager:
             return
 
         # Calculate average entropy of active wavefunctions
-        avg_entropy = sum(wf.entropy_score for wf in self.active_wavefunctions.values()) / len(self.active_wavefunctions)
+        avg_entropy = sum(
+            wf.entropy_score for wf in self.active_wavefunctions.values()
+        ) / len(self.active_wavefunctions)
 
         # Global entropy tends toward average but with inertia
         entropy_diff = avg_entropy - self.global_entropy
@@ -391,7 +413,9 @@ class WavefunctionManager:
         if not self.active_wavefunctions and not self.collapsed_wavefunctions:
             return
 
-        all_wfs = list(self.active_wavefunctions.values()) + list(self.collapsed_wavefunctions.values())
+        all_wfs = list(self.active_wavefunctions.values()) + list(
+            self.collapsed_wavefunctions.values()
+        )
         avg_coherence = sum(wf.trinity_coherence for wf in all_wfs) / len(all_wfs)
 
         # Update global coherence with smoothing
@@ -399,7 +423,9 @@ class WavefunctionManager:
         self.trinity_coherence_global += coherence_diff * 0.05  # 5% adjustment rate
 
         # Ensure bounds
-        self.trinity_coherence_global = max(0.1, min(1.0, self.trinity_coherence_global))
+        self.trinity_coherence_global = max(
+            0.1, min(1.0, self.trinity_coherence_global)
+        )
 
     def _record_trace(self) -> None:
         """Record current system state in trace history"""
@@ -431,8 +457,12 @@ class WavefunctionManager:
         max_trace_length = 1000
         if len(self.entropy_trace) > max_trace_length:
             self.entropy_trace = self.entropy_trace[-max_trace_length:]
-            self.consciousness_phase_trace = self.consciousness_phase_trace[-max_trace_length:]
-            self.symbolic_overlay_trace = self.symbolic_overlay_trace[-max_trace_length:]
+            self.consciousness_phase_trace = self.consciousness_phase_trace[
+                -max_trace_length:
+            ]
+            self.symbolic_overlay_trace = self.symbolic_overlay_trace[
+                -max_trace_length:
+            ]
 
     def get_system_state(self) -> Dict:
         """Get current system state summary"""
@@ -444,8 +474,10 @@ class WavefunctionManager:
             "active_wavefunctions": len(self.active_wavefunctions),
             "collapsed_wavefunctions": len(self.collapsed_wavefunctions),
             "current_phase": self._get_current_phase().value,
-            "symbolic_overlay": self.symbolic_overlay_trace[-1] if self.symbolic_overlay_trace else "🌿",
-            "superposition_strength": self._calculate_total_superposition_strength()
+            "symbolic_overlay": (
+                self.symbolic_overlay_trace[-1] if self.symbolic_overlay_trace else "🌿"
+            ),
+            "superposition_strength": self._calculate_total_superposition_strength(),
         }
 
     def _get_current_phase(self) -> ConsciousnessPhase:
@@ -464,8 +496,10 @@ class WavefunctionManager:
         if not self.active_wavefunctions:
             return 0.0
 
-        total_strength = sum(wf.measure_superposition_strength()
-                           for wf in self.active_wavefunctions.values())
+        total_strength = sum(
+            wf.measure_superposition_strength()
+            for wf in self.active_wavefunctions.values()
+        )
         return total_strength / len(self.active_wavefunctions)
 
     def save_entropy_trace(self) -> None:
@@ -477,11 +511,11 @@ class WavefunctionManager:
             "consciousness_phase": self.consciousness_phase_trace,
             "symbolic_overlay": self.symbolic_overlay_trace,
             "trinity_coherence": self.trinity_coherence_global,
-            "system_state": self.get_system_state()
+            "system_state": self.get_system_state(),
         }
 
         try:
-            with open(self.entropy_log_file, 'w') as f:
+            with open(self.entropy_log_file, "w") as f:
                 json.dump(trace_data, f, indent=2)
             logger.info(f"Entropy trace saved to {self.entropy_log_file}")
         except Exception as e:
@@ -492,22 +526,27 @@ class WavefunctionManager:
         history_data = {
             "session_id": self.session_id,
             "timestamp": datetime.utcnow().isoformat() + "Z",
-            "active_wavefunctions": {wf_id: wf.to_dict()
-                                   for wf_id, wf in self.active_wavefunctions.items()},
-            "collapsed_wavefunctions": {wf_id: wf.to_dict()
-                                      for wf_id, wf in self.collapsed_wavefunctions.items()},
+            "active_wavefunctions": {
+                wf_id: wf.to_dict() for wf_id, wf in self.active_wavefunctions.items()
+            },
+            "collapsed_wavefunctions": {
+                wf_id: wf.to_dict()
+                for wf_id, wf in self.collapsed_wavefunctions.items()
+            },
             "templates_used": list(self.CONSCIOUSNESS_TEMPLATES.keys()),
             "global_metrics": {
                 "entropy": self.global_entropy,
                 "trinity_coherence": self.trinity_coherence_global,
-                "total_superposition": self._calculate_total_superposition_strength()
-            }
+                "total_superposition": self._calculate_total_superposition_strength(),
+            },
         }
 
         try:
-            with open(self.wavefunction_history_file, 'w') as f:
+            with open(self.wavefunction_history_file, "w") as f:
                 json.dump(history_data, f, indent=2)
-            logger.info(f"Wavefunction history saved to {self.wavefunction_history_file}")
+            logger.info(
+                f"Wavefunction history saved to {self.wavefunction_history_file}"
+            )
         except Exception as e:
             logger.error(f"Failed to save wavefunction history: {e}")
 
@@ -538,7 +577,12 @@ async def main():
     manager = WavefunctionManager()
 
     # Create several wavefunctions with different templates
-    templates_to_demo = ["reflective_dreaming", "alert_meditation", "creative_flow", "trinity_coherence"]
+    templates_to_demo = [
+        "reflective_dreaming",
+        "alert_meditation",
+        "creative_flow",
+        "trinity_coherence",
+    ]
 
     for i, template in enumerate(templates_to_demo):
         wf_id = f"wf_{i+1:02d}_{template}"
@@ -561,10 +605,12 @@ async def main():
         manager.evolve_system(0.5)  # 0.5 second evolution step
 
         state = manager.get_system_state()
-        print(f"Step {step+1:2d}: Entropy={state['global_entropy']:.3f}, "
-              f"Phase={state['current_phase']}, "
-              f"Overlay={state['symbolic_overlay']}, "
-              f"Superposition={state['superposition_strength']:.3f}")
+        print(
+            f"Step {step+1:2d}: Entropy={state['global_entropy']:.3f}, "
+            f"Phase={state['current_phase']}, "
+            f"Overlay={state['symbolic_overlay']}, "
+            f"Superposition={state['superposition_strength']:.3f}"
+        )
 
         # Randomly collapse some wavefunctions
         if step == 5 and manager.active_wavefunctions:

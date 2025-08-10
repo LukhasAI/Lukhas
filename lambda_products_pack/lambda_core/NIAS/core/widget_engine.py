@@ -7,7 +7,7 @@ import logging
 import uuid
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -51,15 +51,15 @@ class WidgetEngine:
     """
 
     def __init__(self):
-        self.active_widgets: Dict[str, Dict[str, Any]] = {}
-        self.interaction_history: List[Dict[str, Any]] = []
+        self.active_widgets: dict[str, dict[str, Any]] = {}
+        self.interaction_history: list[dict[str, Any]] = []
         self.widget_templates = self._initialize_widget_templates()
         self.seasonal_themes = self._initialize_seasonal_themes()
         self.brand_configurations = {}
 
         logger.info("Widget Engine initialized")
 
-    def _initialize_widget_templates(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_widget_templates(self) -> dict[str, dict[str, Any]]:
         """Initialize widget templates for different tiers and types"""
         return {
             "T3": {  # Basic tier templates
@@ -141,7 +141,7 @@ class WidgetEngine:
             },
         }
 
-    def _initialize_seasonal_themes(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_seasonal_themes(self) -> dict[str, dict[str, Any]]:
         """Initialize seasonal theming configurations"""
         return {
             "spring": {
@@ -172,11 +172,11 @@ class WidgetEngine:
 
     async def generate_widget(
         self,
-        message: Dict[str, Any],
-        user_context: Dict[str, Any],
+        message: dict[str, Any],
+        user_context: dict[str, Any],
         tier: str,
         widget_type: Optional[WidgetType] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate a tier-appropriate widget for message delivery.
 
@@ -245,7 +245,7 @@ class WidgetEngine:
             return await self._generate_fallback_widget(message, tier)
 
     async def _determine_widget_type(
-        self, tier: str, message: Dict[str, Any], user_context: Dict[str, Any]
+        self, tier: str, message: dict[str, Any], user_context: dict[str, Any]
     ) -> WidgetType:
         """Determine the most appropriate widget type"""
 
@@ -267,7 +267,7 @@ class WidgetEngine:
 
     def _get_widget_template(
         self, tier: str, widget_type: WidgetType
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get widget template for tier and type"""
         tier_templates = self.widget_templates.get(tier, self.widget_templates["T3"])
         return tier_templates.get(
@@ -275,8 +275,8 @@ class WidgetEngine:
         )
 
     async def _process_content(
-        self, message: Dict[str, Any], tier: str
-    ) -> Dict[str, Any]:
+        self, message: dict[str, Any], tier: str
+    ) -> dict[str, Any]:
         """Process and format content based on tier capabilities"""
         content = {
             "title": message.get("title", ""),
@@ -313,8 +313,8 @@ class WidgetEngine:
         return content
 
     async def _apply_styling(
-        self, template: Dict[str, Any], user_context: Dict[str, Any], tier: str
-    ) -> Dict[str, Any]:
+        self, template: dict[str, Any], user_context: dict[str, Any], tier: str
+    ) -> dict[str, Any]:
         """Apply styling based on template and user preferences"""
         styling = template.get("styling", {}).copy()
 
@@ -337,8 +337,8 @@ class WidgetEngine:
         return styling
 
     async def _configure_interactions(
-        self, template: Dict[str, Any], tier: str
-    ) -> Dict[str, List]:
+        self, template: dict[str, Any], tier: str
+    ) -> dict[str, list]:
         """Configure available interactions based on tier"""
         available_interactions = template.get("interactions", [])
 
@@ -382,8 +382,8 @@ class WidgetEngine:
         return interaction_config
 
     async def _apply_seasonal_theming(
-        self, widget_config: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, widget_config: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply seasonal theming to widget"""
         current_season = self._get_current_season()
         theme = self.seasonal_themes.get(current_season, self.seasonal_themes["spring"])
@@ -417,8 +417,8 @@ class WidgetEngine:
             return "winter"
 
     async def _apply_brand_customization(
-        self, widget_config: Dict[str, Any], brand_id: str, tier: str
-    ) -> Dict[str, Any]:
+        self, widget_config: dict[str, Any], brand_id: str, tier: str
+    ) -> dict[str, Any]:
         """Apply brand-specific customization"""
         brand_config = await self._get_brand_configuration(brand_id)
 
@@ -444,7 +444,7 @@ class WidgetEngine:
         widget_config["styling"] = styling
         return widget_config
 
-    async def _get_brand_configuration(self, brand_id: str) -> Optional[Dict[str, Any]]:
+    async def _get_brand_configuration(self, brand_id: str) -> Optional[dict[str, Any]]:
         """Get brand configuration (would typically come from brand management service)"""
         # Simulated brand configurations
         brand_configs = {
@@ -477,8 +477,8 @@ class WidgetEngine:
             return (datetime.now() + timedelta(days=7)).isoformat()
 
     async def _generate_fallback_widget(
-        self, message: Dict[str, Any], tier: str
-    ) -> Dict[str, Any]:
+        self, message: dict[str, Any], tier: str
+    ) -> dict[str, Any]:
         """Generate a simple fallback widget if main generation fails"""
         return {
             "widget_id": f"fallback_{uuid.uuid4().hex[:8]}",
@@ -508,8 +508,8 @@ class WidgetEngine:
         widget_id: str,
         interaction_type: str,
         user_id: str,
-        interaction_data: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        interaction_data: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Handle user interaction with a widget.
 
@@ -582,9 +582,9 @@ class WidgetEngine:
     async def _execute_action(
         self,
         action: str,
-        widget: Dict[str, Any],
-        interaction_data: Optional[Dict[str, Any]],
-    ) -> Dict[str, Any]:
+        widget: dict[str, Any],
+        interaction_data: Optional[dict[str, Any]],
+    ) -> dict[str, Any]:
         """Execute the mapped action for an interaction"""
 
         if action == "show_pitch":
@@ -649,7 +649,7 @@ class WidgetEngine:
                 "message": f"Action '{action}' not implemented",
             }
 
-    async def get_widget_analytics(self, days: int = 30) -> Dict[str, Any]:
+    async def get_widget_analytics(self, days: int = 30) -> dict[str, Any]:
         """Get analytics for widget performance"""
         cutoff_date = datetime.now() - timedelta(days=days)
 
@@ -708,7 +708,7 @@ class WidgetEngine:
 
         return len(expired_widgets)
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for widget engine"""
         return {
             "status": "healthy",

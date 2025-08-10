@@ -45,7 +45,7 @@ import math
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -54,9 +54,7 @@ from .memory_fold_system import MemoryFoldSystem, MemoryItem
 
 # Neural components (stubbed for now - would use PyTorch/TensorFlow in production)
 try:
-    import torch
     import torch.nn as nn
-    import torch.nn.functional as F
 
     TORCH_AVAILABLE = True
 except ImportError:
@@ -88,7 +86,7 @@ class HybridMemoryItem(MemoryItem):
 
     # Attention weights
     importance_score: float = 1.0
-    attention_weights: Dict[str, float] = field(default_factory=dict)
+    attention_weights: dict[str, float] = field(default_factory=dict)
 
     # Learning metadata
     usage_count: int = 0
@@ -96,9 +94,9 @@ class HybridMemoryItem(MemoryItem):
     td_error: Optional[float] = None  # For prioritized replay
 
     # Causal relationships
-    causes: List[str] = field(default_factory=list)
-    effects: List[str] = field(default_factory=list)
-    causal_strength: Dict[str, float] = field(default_factory=dict)
+    causes: list[str] = field(default_factory=list)
+    effects: list[str] = field(default_factory=list)
+    causal_strength: dict[str, float] = field(default_factory=dict)
 
 
 class VectorStorageLayer:
@@ -134,7 +132,7 @@ class VectorStorageLayer:
 
     def search_similar(
         self, query_vector: np.ndarray, top_k: int = 10, threshold: float = 0.0
-    ) -> List[Tuple[str, float]]:
+    ) -> list[tuple[str, float]]:
         """Find similar vectors using cosine similarity"""
         if self.vector_matrix is None or len(self.vectors) == 0:
             return []
@@ -192,9 +190,9 @@ class MemoryAttentionLayer:
     def compute_attention_scores(
         self,
         query_embedding: np.ndarray,
-        memory_embeddings: List[np.ndarray],
-        context: Dict[str, Any],
-    ) -> List[float]:
+        memory_embeddings: list[np.ndarray],
+        context: dict[str, Any],
+    ) -> list[float]:
         """Compute attention scores for memories given query"""
 
         if not memory_embeddings:
@@ -246,7 +244,7 @@ class ContinuousLearningEngine:
         self.max_weight = 10.0
 
     def update_tag_importance(
-        self, tag: str, feedback: float, context: Dict[str, Any]  # -1 to 1
+        self, tag: str, feedback: float, context: dict[str, Any]  # -1 to 1
     ):
         """Update tag weight based on feedback"""
         current_weight = self.tag_weights[tag]
@@ -336,7 +334,7 @@ class HybridMemoryFold(MemoryFoldSystem):
     async def fold_in_with_embedding(
         self,
         data: Any,
-        tags: List[str],
+        tags: list[str],
         embedding: Optional[np.ndarray] = None,
         text_content: Optional[str] = None,
         image_content: Optional[np.ndarray] = None,
@@ -393,8 +391,8 @@ class HybridMemoryFold(MemoryFoldSystem):
         top_k: int = 10,
         use_attention: bool = True,
         combine_with_tags: bool = True,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> List[Tuple[MemoryItem, float]]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> list[tuple[MemoryItem, float]]:
         """
         Semantic search using vector embeddings.
 
@@ -474,7 +472,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         cause_id: str,
         effect_id: str,
         strength: float = 1.0,
-        evidence: Optional[List[str]] = None,
+        evidence: Optional[list[str]] = None,
     ):
         """Add causal relationship between memories"""
         if cause_id not in self.items or effect_id not in self.items:
@@ -502,7 +500,7 @@ class HybridMemoryFold(MemoryFoldSystem):
 
     async def trace_causal_chain(
         self, memory_id: str, direction: str = "backward", max_depth: int = 5
-    ) -> List[List[Tuple[str, float]]]:
+    ) -> list[list[tuple[str, float]]]:
         """
         Trace causal chains from a memory.
 
@@ -556,7 +554,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         return paths
 
     async def update_memory_importance(
-        self, memory_id: str, feedback: float, context: Optional[Dict[str, Any]] = None
+        self, memory_id: str, feedback: float, context: Optional[dict[str, Any]] = None
     ):
         """Update memory importance based on usage feedback"""
         if memory_id not in self.items:
@@ -658,7 +656,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         # Placeholder - in production would use audio model
         return np.random.randn(self.embedding_dim).astype(np.float32)
 
-    def get_enhanced_statistics(self) -> Dict[str, Any]:
+    def get_enhanced_statistics(self) -> dict[str, Any]:
         """Get statistics including vector and learning metrics"""
         base_stats = super().get_statistics()
 

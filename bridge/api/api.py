@@ -209,7 +209,7 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
     cultural_context: Optional[str] = (
         Field(
             None,
-            description="Identifier for the user's primary cultural context(e.g.,
+            description="Identifier for the user's primary cultural context(e.g.,'"
                                                                             'east_asian', 'universal').",
         )
         if FASTAPI_AVAILABLE

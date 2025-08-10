@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Callable, List
+from typing import Callable
 
 log = logging.getLogger(__name__)
 
@@ -13,8 +13,8 @@ class SymbolicComplianceRules:
 
     def __init__(
         self,
-        banned_phrases: List[str] | None = None,
-        intensity_keywords: List[str] | None = None,
+        banned_phrases: list[str] | None = None,
+        intensity_keywords: list[str] | None = None,
     ):
         self.banned_phrases = [p.lower() for p in (banned_phrases or [])]
         self.intensity_keywords = [

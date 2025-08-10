@@ -161,7 +161,7 @@ class SymbolicReasoner:
         conclusions = []
         dot_lines = [
             "digraph ReasoningProcess {",
-            "  rankdir=LR; // Layout from Left to Right", '  node [shape = box, style = "rounded,filled", fontname = "Helvetica",
+            "  rankdir=LR; // Layout from Left to Right", '  node [shape = box, style = "rounded,filled", fontname = "Helvetica",'
                                                                    fontsize = 10]
             ',
             '  edge [fontname="Helvetica", fontsize=9];',

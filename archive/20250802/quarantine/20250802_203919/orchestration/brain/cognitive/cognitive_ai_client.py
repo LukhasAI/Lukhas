@@ -7,8 +7,8 @@ LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Cognitive Ai Client
 Copyright (c) 2025 LUKHAS AGI Development Team
 All rights reserved.
 
-This file is part of the LUKHAS AGI system, an enterprise artificial general 
-intelligence platform combining symbolic reasoning, emotional intelligence, 
+This file is part of the LUKHAS AGI system, an enterprise artificial general
+intelligence platform combining symbolic reasoning, emotional intelligence,
 quantum integration, and bio-inspired architecture.
 
 Specialized AI client for cognitive tasks: mathematics, reasoning, pattern recognition
@@ -56,7 +56,8 @@ class CognitiveAIClient:
         else:
             self.available = False
 
-    async def solve_math_problem(self, problem: str, context: Dict[str, Any] = None) -> CognitiveResponse:
+    async def solve_math_problem(
+        self, problem: str, context: Dict[str, Any] = None) -> CognitiveResponse:
         """Solve mathematical problems with step-by-step reasoning."""
         if not self.available:
             return self._fallback_math_response(problem)
@@ -116,7 +117,8 @@ Method: [Brief explanation]"""
         except Exception as e:
             return self._fallback_math_response(problem, error=str(e))
 
-    async def recognize_pattern(self, pattern_data: Dict[str, Any]) -> CognitiveResponse:
+    async def recognize_pattern(
+        self, pattern_data: Dict[str, Any]) -> CognitiveResponse:
         """Recognize and complete patterns (ARC-AI style)."""
         if not self.available:
             return self._fallback_pattern_response(pattern_data)
@@ -271,11 +273,13 @@ Answer: [Final result]"""
         lines = content.split('\n')
         reasoning_lines = []
         for line in lines:
-            if any(keyword in line.lower() for keyword in ['step', 'first', 'then', 'next', 'finally']):
+            if any(keyword in line.lower()
+                   for keyword in ['step', 'first', 'then', 'next', 'finally']):
                 reasoning_lines.append(line.strip())
         return '\n'.join(reasoning_lines) if reasoning_lines else content
 
-    def _extract_pattern_answer(self, content: str, pattern_data: Dict[str, Any]) -> Any:
+    def _extract_pattern_answer(
+        self, content: str, pattern_data: Dict[str, Any]) -> Any:
         """Extract pattern answer from response."""
         import re
 
@@ -293,7 +297,8 @@ Answer: [Final result]"""
 
         return pattern_data.get('expected_output', 'No answer extracted')
 
-    def _extract_learning_answer(self, content: str, learning_data: Dict[str, Any]) -> Any:
+    def _extract_learning_answer(
+        self, content: str, learning_data: Dict[str, Any]) -> Any:
         """Extract learning answer from response."""
         import re
 
@@ -317,39 +322,44 @@ Answer: [Final result]"""
 
         return learning_data.get('expected', 'No answer extracted')
 
-    def _fallback_math_response(self, problem: str, error: Optional[str] = None) -> CognitiveResponse:
+    def _fallback_math_response(
+    self,
+    problem: str,
+     error: Optional[str] = None) -> CognitiveResponse:
         """Provide fallback response for math problems."""
         return CognitiveResponse(
-            content=f"Mathematical problem: {problem}\nProcessing with basic algorithms.",
-            answer=None,
-            reasoning="Fallback processing - AI not available",
-            metadata={
+            content = f"Mathematical problem: {problem}\nProcessing with basic algorithms.",
+            answer = None,
+            reasoning = "Fallback processing - AI not available",
+            metadata = {
                 "task_type": "mathematical_reasoning",
                 "processing_type": "fallback",
                 "error": error
             }
         )
 
-    def _fallback_pattern_response(self, pattern_data: Dict[str, Any], error: Optional[str] = None) -> CognitiveResponse:
+    def _fallback_pattern_response(
+        self, pattern_data: Dict[str, Any], error: Optional[str]=None) -> CognitiveResponse:
         """Provide fallback response for pattern recognition."""
         return CognitiveResponse(
-            content="Pattern recognition using basic algorithms.",
-            answer=pattern_data.get('expected_output', 'Unknown'),
-            reasoning="Fallback processing - AI not available",
-            metadata={
+            content = "Pattern recognition using basic algorithms.",
+            answer = pattern_data.get('expected_output', 'Unknown'),
+            reasoning = "Fallback processing - AI not available",
+            metadata = {
                 "task_type": "pattern_recognition",
                 "processing_type": "fallback",
                 "error": error
             }
         )
 
-    def _fallback_learning_response(self, learning_data: Dict[str, Any], error: Optional[str] = None) -> CognitiveResponse:
+    def _fallback_learning_response(
+        self, learning_data: Dict[str, Any], error: Optional[str]=None) -> CognitiveResponse:
         """Provide fallback response for learning tasks."""
         return CognitiveResponse(
-            content="Learning task processed with basic algorithms.",
-            answer=learning_data.get('expected', 'Unknown'),
-            reasoning="Fallback processing - AI not available",
-            metadata={
+            content = "Learning task processed with basic algorithms.",
+            answer = learning_data.get('expected', 'Unknown'),
+            reasoning = "Fallback processing - AI not available",
+            metadata = {
                 "task_type": "learning_adaptation",
                 "processing_type": "fallback",
                 "error": error

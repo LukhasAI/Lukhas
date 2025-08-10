@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ThreatIndicator:
     """Represents a potential threat or anomaly"""
+
     indicator_type: str  # drift_spike, entropy_surge, pattern_anomaly
     severity: float  # 0.0 to 1.0
     source: str
@@ -36,7 +37,7 @@ class ThreatIndicator:
             "source": self.source,
             "timestamp": self.timestamp.isoformat(),
             "details": self.details,
-            "action": self.recommended_action
+            "action": self.recommended_action,
         }
 
 
@@ -47,12 +48,7 @@ class GuardianSentinel:
     """
 
     # Severity thresholds
-    SEVERITY_LEVELS = {
-        "low": 0.3,
-        "medium": 0.5,
-        "high": 0.7,
-        "critical": 0.9
-    }
+    SEVERITY_LEVELS = {"low": 0.3, "medium": 0.5, "high": 0.7, "critical": 0.9}
 
     # Monitoring thresholds
     THRESHOLDS = {
@@ -60,13 +56,15 @@ class GuardianSentinel:
         "entropy_spike": 0.3,  # Max entropy increase
         "pattern_disruption": 0.5,  # Pattern coherence threshold
         "memory_fragmentation": 0.7,  # Memory coherence threshold
-        "consciousness_instability": 0.4  # State change frequency
+        "consciousness_instability": 0.4,  # State change frequency
     }
 
-    def __init__(self,
-                 websocket_url: str = "ws://localhost:8765",
-                 alert_threshold: float = 0.5,
-                 monitoring_interval: int = 5):
+    def __init__(
+        self,
+        websocket_url: str = "ws://localhost:8765",
+        alert_threshold: float = 0.5,
+        monitoring_interval: int = 5,
+    ):
         self.websocket_url = websocket_url
         self.alert_threshold = alert_threshold
         self.monitoring_interval = monitoring_interval
@@ -106,7 +104,7 @@ class GuardianSentinel:
             self._monitor_drift(),
             self._monitor_entropy(),
             self._monitor_patterns(),
-            self._monitor_consciousness()
+            self._monitor_consciousness(),
         )
 
     async def _monitor_drift(self):
@@ -115,10 +113,9 @@ class GuardianSentinel:
             try:
                 # Simulate drift reading (in production, read from TrustHelix)
                 current_drift = self._read_current_drift()
-                self.drift_history.append({
-                    "value": current_drift,
-                    "timestamp": datetime.utcnow()
-                })
+                self.drift_history.append(
+                    {"value": current_drift, "timestamp": datetime.utcnow()}
+                )
 
                 # Check for spikes
                 if len(self.drift_history) >= 2:
@@ -135,9 +132,9 @@ class GuardianSentinel:
                                 details={
                                     "drift_rate": drift_rate,
                                     "current_drift": current_drift,
-                                    "recent_values": recent[-5:]
+                                    "recent_values": recent[-5:],
                                 },
-                                recommended_action="stabilize_drift"
+                                recommended_action="stabilize_drift",
                             )
                         )
 
@@ -153,10 +150,9 @@ class GuardianSentinel:
             try:
                 # Simulate entropy reading
                 current_entropy = self._read_current_entropy()
-                self.entropy_history.append({
-                    "value": current_entropy,
-                    "timestamp": datetime.utcnow()
-                })
+                self.entropy_history.append(
+                    {"value": current_entropy, "timestamp": datetime.utcnow()}
+                )
 
                 # Check for surges
                 if len(self.entropy_history) >= 2:
@@ -173,9 +169,9 @@ class GuardianSentinel:
                                 details={
                                     "entropy_spike": entropy_spike,
                                     "current_entropy": current_entropy,
-                                    "previous_entropy": prev_entropy
+                                    "previous_entropy": prev_entropy,
                                 },
-                                recommended_action="reduce_entropy"
+                                recommended_action="reduce_entropy",
                             )
                         )
 
@@ -191,10 +187,9 @@ class GuardianSentinel:
             try:
                 # Simulate pattern coherence reading
                 pattern_coherence = self._read_pattern_coherence()
-                self.pattern_history.append({
-                    "coherence": pattern_coherence,
-                    "timestamp": datetime.utcnow()
-                })
+                self.pattern_history.append(
+                    {"coherence": pattern_coherence, "timestamp": datetime.utcnow()}
+                )
 
                 # Check for disruption
                 if pattern_coherence < self.THRESHOLDS["pattern_disruption"]:
@@ -206,9 +201,9 @@ class GuardianSentinel:
                             timestamp=datetime.utcnow(),
                             details={
                                 "pattern_coherence": pattern_coherence,
-                                "threshold": self.THRESHOLDS["pattern_disruption"]
+                                "threshold": self.THRESHOLDS["pattern_disruption"],
                             },
-                            recommended_action="reinforce_patterns"
+                            recommended_action="reinforce_patterns",
                         )
                     )
 
@@ -224,14 +219,15 @@ class GuardianSentinel:
             try:
                 # Simulate consciousness state reading
                 current_state = self._read_consciousness_state()
-                self.consciousness_history.append({
-                    "state": current_state,
-                    "timestamp": datetime.utcnow()
-                })
+                self.consciousness_history.append(
+                    {"state": current_state, "timestamp": datetime.utcnow()}
+                )
 
                 # Check for instability (too many state changes)
                 if len(self.consciousness_history) >= 10:
-                    recent_states = [h["state"] for h in list(self.consciousness_history)[-10:]]
+                    recent_states = [
+                        h["state"] for h in list(self.consciousness_history)[-10:]
+                    ]
                     unique_states = len(set(recent_states))
                     instability = unique_states / 10.0
 
@@ -245,9 +241,9 @@ class GuardianSentinel:
                                 details={
                                     "unique_states": unique_states,
                                     "recent_states": recent_states[-5:],
-                                    "instability_score": instability
+                                    "instability_score": instability,
                                 },
-                                recommended_action="stabilize_consciousness"
+                                recommended_action="stabilize_consciousness",
                             )
                         )
 
@@ -290,7 +286,7 @@ class GuardianSentinel:
             "threat": threat.indicator_type,
             "severity": threat.severity,
             "action_taken": threat.recommended_action,
-            "details": {}
+            "details": {},
         }
 
         # Execute intervention based on type
@@ -311,22 +307,16 @@ class GuardianSentinel:
         """Intervene for drift spike"""
         return {
             "action": "drift_dampening",
-            "parameters": {
-                "dampening_factor": 0.5,
-                "duration_seconds": 60
-            },
-            "expected_result": "Drift rate reduction"
+            "parameters": {"dampening_factor": 0.5, "duration_seconds": 60},
+            "expected_result": "Drift rate reduction",
         }
 
     async def _intervene_entropy_surge(self) -> Dict:
         """Intervene for entropy surge"""
         return {
             "action": "entropy_cooling",
-            "parameters": {
-                "cooling_rate": 0.1,
-                "target_entropy": 0.3
-            },
-            "expected_result": "Entropy stabilization"
+            "parameters": {"cooling_rate": 0.1, "target_entropy": 0.3},
+            "expected_result": "Entropy stabilization",
         }
 
     async def _intervene_pattern_anomaly(self) -> Dict:
@@ -335,26 +325,24 @@ class GuardianSentinel:
             "action": "pattern_reinforcement",
             "parameters": {
                 "reinforcement_glyphs": ["🌿", "🔐", "💎"],
-                "repetitions": 5
+                "repetitions": 5,
             },
-            "expected_result": "Pattern coherence improvement"
+            "expected_result": "Pattern coherence improvement",
         }
 
     async def _intervene_consciousness_instability(self) -> Dict:
         """Intervene for consciousness instability"""
         return {
             "action": "consciousness_anchoring",
-            "parameters": {
-                "anchor_state": "meditative",
-                "anchor_duration": 120
-            },
-            "expected_result": "State stabilization"
+            "parameters": {"anchor_state": "meditative", "anchor_duration": 120},
+            "expected_result": "State stabilization",
         }
 
     # Simulation methods (replace with actual system reads in production)
     def _read_current_drift(self) -> float:
         """Simulate drift reading"""
         import random
+
         base = 0.3
         if random.random() > 0.9:  # 10% chance of spike
             return base + random.uniform(0.2, 0.5)
@@ -363,6 +351,7 @@ class GuardianSentinel:
     def _read_current_entropy(self) -> float:
         """Simulate entropy reading"""
         import random
+
         base = 0.4
         if random.random() > 0.95:  # 5% chance of surge
             return base + random.uniform(0.3, 0.6)
@@ -371,19 +360,34 @@ class GuardianSentinel:
     def _read_pattern_coherence(self) -> float:
         """Simulate pattern coherence reading"""
         import random
+
         return random.uniform(0.3, 0.9)
 
     def _read_consciousness_state(self) -> str:
         """Simulate consciousness state reading"""
         import random
-        states = ["focused", "creative", "analytical", "meditative",
-                 "dreaming", "flow_state", "lucid", "turbulent"]
+
+        states = [
+            "focused",
+            "creative",
+            "analytical",
+            "meditative",
+            "dreaming",
+            "flow_state",
+            "lucid",
+            "turbulent",
+        ]
         return random.choice(states)
 
     def get_threat_report(self) -> Dict:
         """Generate threat analysis report"""
-        active_count = len([t for t in self.active_threats
-                           if (datetime.utcnow() - t.timestamp).seconds < 300])
+        active_count = len(
+            [
+                t
+                for t in self.active_threats
+                if (datetime.utcnow() - t.timestamp).seconds < 300
+            ]
+        )
 
         severity_dist = {}
         for level, threshold in self.SEVERITY_LEVELS.items():
@@ -396,7 +400,7 @@ class GuardianSentinel:
             "severity_distribution": severity_dist,
             "intervention_count": len(self.intervention_history),
             "monitoring_status": "active" if self.monitoring_active else "inactive",
-            "recent_threats": [t.to_alert() for t in self.active_threats[-5:]]
+            "recent_threats": [t.to_alert() for t in self.active_threats[-5:]],
         }
 
     async def stop_monitoring(self):
@@ -431,7 +435,7 @@ async def demo_sentinel():
         print(f"   Interventions: {report['intervention_count']}")
 
         print("\n🔍 Recent Threats:")
-        for threat in report['recent_threats']:
+        for threat in report["recent_threats"]:
             print(f"   - {threat['indicator']} (severity: {threat['severity']:.2f})")
 
     finally:
@@ -440,5 +444,5 @@ async def demo_sentinel():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format='%(message)s')
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
     asyncio.run(demo_sentinel())

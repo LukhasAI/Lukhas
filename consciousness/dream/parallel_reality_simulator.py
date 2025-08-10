@@ -20,7 +20,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import GLYPHSymbol, GLYPHToken, get_logger
 from core.common.exceptions import LukhasError, ValidationError
@@ -54,13 +54,13 @@ class RealityBranch:
     branch_id: str
     parent_id: Optional[str]
     reality_type: RealityType
-    divergence_point: Dict[str, Any]
+    divergence_point: dict[str, Any]
     probability: float  # 0.0-1.0
-    state: Dict[str, Any]
+    state: dict[str, Any]
     timestamp: datetime
     ethical_score: float = 1.0
-    causal_chain: List[Dict[str, Any]] = field(default_factory=list)
-    memory_traces: List[str] = field(default_factory=list)
+    causal_chain: list[dict[str, Any]] = field(default_factory=list)
+    memory_traces: list[str] = field(default_factory=list)
 
     def is_viable(self) -> bool:
         """Check if reality branch is viable"""
@@ -72,12 +72,12 @@ class RealitySimulation:
     """Complete parallel reality simulation"""
 
     simulation_id: str
-    origin_reality: Dict[str, Any]
-    branches: List[RealityBranch]
+    origin_reality: dict[str, Any]
+    branches: list[RealityBranch]
     start_time: datetime
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
     selected_branch: Optional[str] = None
-    insights: List[Dict[str, Any]] = field(default_factory=list)
+    insights: list[dict[str, Any]] = field(default_factory=list)
 
 
 class ParallelRealitySimulator(CoreInterface):
@@ -88,7 +88,7 @@ class ParallelRealitySimulator(CoreInterface):
     different decision points, quantum probabilities, and creative variations.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize parallel reality simulator"""
         self.config = config or {}
         self.operational = False
@@ -101,8 +101,8 @@ class ParallelRealitySimulator(CoreInterface):
         self.safety_framework = None
 
         # Simulation state
-        self.active_simulations: Dict[str, RealitySimulation] = {}
-        self.reality_tree: Dict[str, List[str]] = defaultdict(
+        self.active_simulations: dict[str, RealitySimulation] = {}
+        self.reality_tree: dict[str, list[str]] = defaultdict(
             list
         )  # parent -> children
         self.quantum_seed = random.Random(self.config.get("quantum_seed", 42))
@@ -159,8 +159,8 @@ class ParallelRealitySimulator(CoreInterface):
 
     async def create_simulation(
         self,
-        origin_scenario: Dict[str, Any],
-        reality_types: Optional[List[RealityType]] = None,
+        origin_scenario: dict[str, Any],
+        reality_types: Optional[list[RealityType]] = None,
         branch_count: int = 5,
     ) -> RealitySimulation:
         """
@@ -221,7 +221,7 @@ class ParallelRealitySimulator(CoreInterface):
 
     async def _create_branch(
         self,
-        base_state: Dict[str, Any],
+        base_state: dict[str, Any],
         parent_id: Optional[str],
         reality_type: RealityType,
     ) -> RealityBranch:
@@ -283,8 +283,8 @@ class ParallelRealitySimulator(CoreInterface):
         return branch
 
     async def _generate_divergence(
-        self, base_state: Dict[str, Any], reality_type: RealityType
-    ) -> Dict[str, Any]:
+        self, base_state: dict[str, Any], reality_type: RealityType
+    ) -> dict[str, Any]:
         """Generate divergence point based on reality type"""
         divergence = {}
 
@@ -342,13 +342,13 @@ class ParallelRealitySimulator(CoreInterface):
 
         return divergence
 
-    def _select_quantum_parameters(self, state: Dict[str, Any]) -> List[str]:
+    def _select_quantum_parameters(self, state: dict[str, Any]) -> list[str]:
         """Select parameters for quantum variation"""
         all_params = list(state.keys())
         count = min(len(all_params), self.quantum_seed.randint(1, 3))
         return self.quantum_seed.sample(all_params, count)
 
-    def _generate_causal_change(self, state: Dict[str, Any]) -> Dict[str, Any]:
+    def _generate_causal_change(self, state: dict[str, Any]) -> dict[str, Any]:
         """Generate causal chain modification"""
         return {
             "modified_cause": self.quantum_seed.choice(list(state.keys())),
@@ -356,7 +356,7 @@ class ParallelRealitySimulator(CoreInterface):
             "strength": self.quantum_seed.uniform(0.3, 1.0),
         }
 
-    def _predict_future_events(self, state: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _predict_future_events(self, state: dict[str, Any]) -> list[dict[str, Any]]:
         """Predict future events based on current state"""
         event_count = self.quantum_seed.randint(1, 5)
         events = []
@@ -374,7 +374,7 @@ class ParallelRealitySimulator(CoreInterface):
         return events
 
     def _calculate_branch_probability(
-        self, divergence: Dict[str, Any], reality_type: RealityType
+        self, divergence: dict[str, Any], reality_type: RealityType
     ) -> float:
         """Calculate probability of reality branch"""
         base_probability = 0.5
@@ -408,8 +408,8 @@ class ParallelRealitySimulator(CoreInterface):
         return max(self.min_probability, min(1.0, base_probability))
 
     async def _apply_divergence(
-        self, base_state: Dict[str, Any], divergence: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, base_state: dict[str, Any], divergence: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply divergence to create new reality state"""
         new_state = base_state.copy()
 
@@ -435,7 +435,7 @@ class ParallelRealitySimulator(CoreInterface):
 
     async def explore_branch(
         self, simulation_id: str, branch_id: str, depth: int = 1
-    ) -> List[RealityBranch]:
+    ) -> list[RealityBranch]:
         """
         Explore a reality branch by creating sub-branches.
 
@@ -534,7 +534,7 @@ class ParallelRealitySimulator(CoreInterface):
         return new_branches
 
     async def collapse_reality(
-        self, simulation_id: str, selection_criteria: Optional[Dict[str, Any]] = None
+        self, simulation_id: str, selection_criteria: Optional[dict[str, Any]] = None
     ) -> RealityBranch:
         """
         Collapse parallel realities to select one branch.
@@ -617,7 +617,7 @@ class ParallelRealitySimulator(CoreInterface):
 
     async def _generate_collapse_insights(
         self, simulation: RealitySimulation, selected: RealityBranch
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generate insights from reality collapse"""
         insights = []
 
@@ -686,7 +686,7 @@ class ParallelRealitySimulator(CoreInterface):
 
         return insights
 
-    def _identify_ethical_compromises(self, branch: RealityBranch) -> List[str]:
+    def _identify_ethical_compromises(self, branch: RealityBranch) -> list[str]:
         """Identify ethical compromises in branch"""
         compromises = []
 
@@ -703,8 +703,8 @@ class ParallelRealitySimulator(CoreInterface):
         return compromises
 
     def _extract_key_divergences(
-        self, causal_chain: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, causal_chain: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Extract key divergence points from causal chain"""
         key_divergences = []
 
@@ -731,7 +731,7 @@ class ParallelRealitySimulator(CoreInterface):
         return key_divergences
 
     async def merge_realities(
-        self, simulation_id: str, branch_ids: List[str]
+        self, simulation_id: str, branch_ids: list[str]
     ) -> RealityBranch:
         """
         Merge multiple reality branches into hybrid reality.
@@ -793,7 +793,7 @@ class ParallelRealitySimulator(CoreInterface):
         logger.info(f"Merged {len(branch_ids)} branches into {merged_branch.branch_id}")
         return merged_branch
 
-    async def _merge_states(self, states: List[Dict[str, Any]]) -> Dict[str, Any]:
+    async def _merge_states(self, states: list[dict[str, Any]]) -> dict[str, Any]:
         """Merge multiple reality states"""
         merged = {}
 
@@ -883,7 +883,7 @@ class ParallelRealitySimulator(CoreInterface):
 
     # Required interface methods
 
-    async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process request through simulator"""
         if not self.operational:
             raise LukhasError("Simulator not operational")
@@ -970,7 +970,7 @@ class ParallelRealitySimulator(CoreInterface):
             payload=response_payload,
         )
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get simulator status"""
         return {
             "operational": self.operational,

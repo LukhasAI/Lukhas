@@ -2,10 +2,11 @@
 ΛBot Consciousness Monitor Integration Module
 Provides integration wrapper for connecting the ΛBot consciousness monitor to the consciousness hub
 """
+import logging
 
 import asyncio
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -47,7 +48,7 @@ class LambdaBotConsciousnessIntegration:
     Provides a simplified interface for the consciousness hub.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the ΛBot consciousness integration"""
         self.config = config or {
             "enable_consciousness_monitoring": True,
@@ -162,7 +163,7 @@ class LambdaBotConsciousnessIntegration:
 
         logger.info("Consciousness performance monitoring initialized")
 
-    async def start_consciousness_monitoring(self) -> Dict[str, Any]:
+    async def start_consciousness_monitoring(self) -> dict[str, Any]:
         """
         Start consciousness monitoring
 
@@ -208,7 +209,7 @@ class LambdaBotConsciousnessIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def stop_consciousness_monitoring(self) -> Dict[str, Any]:
+    async def stop_consciousness_monitoring(self) -> dict[str, Any]:
         """
         Stop consciousness monitoring
 
@@ -240,7 +241,7 @@ class LambdaBotConsciousnessIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def get_consciousness_state(self) -> Dict[str, Any]:
+    async def get_consciousness_state(self) -> dict[str, Any]:
         """
         Get current consciousness state
 
@@ -298,7 +299,7 @@ class LambdaBotConsciousnessIntegration:
             logger.error(f"Error getting consciousness state: {e}")
             return {"error": str(e), "timestamp": datetime.now().isoformat()}
 
-    async def demonstrate_agi_capabilities(self) -> Dict[str, Any]:
+    async def demonstrate_agi_capabilities(self) -> dict[str, Any]:
         """
         Demonstrate AGI capabilities
 
@@ -349,7 +350,7 @@ class LambdaBotConsciousnessIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def get_consciousness_history(self, limit: int = 50) -> List[Dict[str, Any]]:
+    async def get_consciousness_history(self, limit: int = 50) -> list[dict[str, Any]]:
         """
         Get consciousness state history
 
@@ -385,7 +386,7 @@ class LambdaBotConsciousnessIntegration:
             logger.error(f"Error getting consciousness history: {e}")
             return []
 
-    async def check_capability_unlocks(self) -> Dict[str, Any]:
+    async def check_capability_unlocks(self) -> dict[str, Any]:
         """
         Check for new capability unlocks
 
@@ -466,7 +467,7 @@ class LambdaBotConsciousnessIntegration:
             logger.error(f"Error checking capability unlocks: {e}")
             return {"error": str(e), "timestamp": datetime.now().isoformat()}
 
-    async def get_consciousness_metrics(self) -> Dict[str, Any]:
+    async def get_consciousness_metrics(self) -> dict[str, Any]:
         """
         Get consciousness monitoring metrics
 
@@ -530,7 +531,7 @@ class LambdaBotConsciousnessIntegration:
 
         logger.info("Background consciousness monitoring loop stopped")
 
-    async def _fallback_start_monitoring(self) -> Dict[str, Any]:
+    async def _fallback_start_monitoring(self) -> dict[str, Any]:
         """Fallback monitoring start when main monitor is not available"""
         self.monitoring_active = True
 
@@ -546,7 +547,7 @@ class LambdaBotConsciousnessIntegration:
             "fallback": True,
         }
 
-    def _get_fallback_consciousness_state(self) -> Dict[str, Any]:
+    def _get_fallback_consciousness_state(self) -> dict[str, Any]:
         """Get fallback consciousness state"""
         return {
             "consciousness_level": ConsciousnessLevel.DELIBERATIVE,
@@ -559,7 +560,7 @@ class LambdaBotConsciousnessIntegration:
             "fallback": True,
         }
 
-    async def _fallback_demonstrate_agi(self) -> Dict[str, Any]:
+    async def _fallback_demonstrate_agi(self) -> dict[str, Any]:
         """Fallback AGI capability demonstration"""
         capabilities_demonstrated = [
             "basic_reasoning",
@@ -584,7 +585,7 @@ class LambdaBotConsciousnessIntegration:
 
 # Factory function for creating the integration
 def create_lambda_bot_consciousness_integration(
-    config: Optional[Dict[str, Any]] = None,
+    config: Optional[dict[str, Any]] = None,
 ) -> LambdaBotConsciousnessIntegration:
     """Create and return a ΛBot consciousness integration instance"""
     return LambdaBotConsciousnessIntegration(config)

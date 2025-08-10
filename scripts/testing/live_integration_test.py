@@ -5,6 +5,11 @@
 End-to-end test of tool governance, safety modes, and feedback system.
 """
 
+from orchestration.signals.signal_bus import Signal, SignalType
+from orchestration.signals.homeostasis import ModulationParams
+from lukhas_pwm.feedback.store import record_feedback
+from lukhas_pwm.audit.store import audit_log_write
+from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 import asyncio
 import os
 import sys
@@ -17,11 +22,6 @@ import httpx
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
-from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
-from lukhas_pwm.audit.store import audit_log_write
-from lukhas_pwm.feedback.store import record_feedback
-from orchestration.signals.homeostasis import ModulationParams
-from orchestration.signals.signal_bus import Signal, SignalType
 
 # Color codes for output
 GREEN = "\033[92m"
@@ -51,7 +51,7 @@ class LiveIntegrationTester:
             safety_mode="balanced",
             tool_allowlist=["retrieval"],
             retrieval_k=3,
-            max_output_tokens=500
+            max_output_tokens=500,
         )
 
         prompt = "Summarize our approach to signal→prompt modulation and list the 3 main safety invariants."
@@ -61,9 +61,7 @@ class LiveIntegrationTester:
             # Make the call
             print(f"{YELLOW}Making OpenAI call...{RESET}")
             result = await self.service.generate(
-                prompt=prompt,
-                params=params,
-                task="retrieval_test"
+                prompt=prompt, params=params, task="retrieval_test"
             )
 
             # Log to audit
@@ -75,7 +73,7 @@ class LiveIntegrationTester:
                 "prompt": prompt[:100],  # Truncate for privacy
                 "response": result.get("content", "")[:100],
                 "tool_analytics": result.get("tool_analytics", {}),
-                "signals": {"stress": 0.3, "novelty": 0.5, "alignment_risk": 0.1}
+                "signals": {"stress": 0.3, "novelty": 0.5, "alignment_risk": 0.1},
             }
             audit_log_write(audit_bundle)
 
@@ -84,23 +82,21 @@ class LiveIntegrationTester:
             print(f"  Audit ID: {audit_id}")
             print(f"  Safety mode: {params.safety_mode}")
             print(f"  Tools allowed: {params.tool_allowlist}")
-            print(f"  Tools used: {result.get('tool_analytics', {}).get('tools_used', [])}")
+            print(
+                f"  Tools used: {result.get('tool_analytics', {}).get('tools_used', [])}"
+            )
             print(f"  Response preview: {result.get('content', '')[:150]}...")
             print(f"  View audit: {self.api_base}/audit/view/{audit_id}")
 
-            self.test_results.append({
-                "test": "retrieval_only",
-                "passed": True,
-                "audit_id": audit_id
-            })
+            self.test_results.append(
+                {"test": "retrieval_only", "passed": True, "audit_id": audit_id}
+            )
 
         except Exception as e:
             print(f"{RED}❌ Test failed: {e}{RESET}")
-            self.test_results.append({
-                "test": "retrieval_only",
-                "passed": False,
-                "error": str(e)
-            })
+            self.test_results.append(
+                {"test": "retrieval_only", "passed": False, "error": str(e)}
+            )
 
     async def test_2_strict_safety(self):
         """Test 2: Strict safety mode with high alignment risk"""
@@ -109,11 +105,9 @@ class LiveIntegrationTester:
 
         # Emit high alignment risk signal
         bus = self.service.bus
-        bus.emit(Signal(
-            type=SignalType.ALIGNMENT_RISK,
-            intensity=0.7,
-            source="test_harness"
-        ))
+        bus.emit(
+            Signal(type=SignalType.ALIGNMENT_RISK, intensity=0.7, source="test_harness")
+        )
 
         # Let homeostasis process the signal
         await asyncio.sleep(0.1)
@@ -124,10 +118,7 @@ class LiveIntegrationTester:
         try:
             # Generate without explicit params to let homeostasis decide
             print(f"{YELLOW}Making OpenAI call with high alignment risk...{RESET}")
-            result = await self.service.generate(
-                prompt=prompt,
-                task="strict_test"
-            )
+            result = await self.service.generate(prompt=prompt, task="strict_test")
 
             # Extract actual params used
             modulation = result.get("modulation", {})
@@ -142,7 +133,7 @@ class LiveIntegrationTester:
                 "prompt": prompt[:100],
                 "response": result.get("content", "")[:100],
                 "tool_analytics": result.get("tool_analytics", {}),
-                "signals": {"alignment_risk": 0.7, "stress": 0.2, "novelty": 0.3}
+                "signals": {"alignment_risk": 0.7, "stress": 0.2, "novelty": 0.3},
             }
             audit_log_write(audit_bundle)
 
@@ -157,24 +148,24 @@ class LiveIntegrationTester:
             print(f"  View audit: {self.api_base}/audit/view/{audit_id}")
 
             # Verify strict mode was applied
-            is_strict = params_used.get('safety_mode') == 'strict'
-            low_temp = params_used.get('temperature', 1.0) < 0.4
+            is_strict = params_used.get("safety_mode") == "strict"
+            low_temp = params_used.get("temperature", 1.0) < 0.4
 
-            self.test_results.append({
-                "test": "strict_safety",
-                "passed": is_strict and low_temp,
-                "audit_id": audit_id,
-                "safety_mode": params_used.get('safety_mode'),
-                "temperature": params_used.get('temperature')
-            })
+            self.test_results.append(
+                {
+                    "test": "strict_safety",
+                    "passed": is_strict and low_temp,
+                    "audit_id": audit_id,
+                    "safety_mode": params_used.get("safety_mode"),
+                    "temperature": params_used.get("temperature"),
+                }
+            )
 
         except Exception as e:
             print(f"{RED}❌ Test failed: {e}{RESET}")
-            self.test_results.append({
-                "test": "strict_safety",
-                "passed": False,
-                "error": str(e)
-            })
+            self.test_results.append(
+                {"test": "strict_safety", "passed": False, "error": str(e)}
+            )
 
     async def test_3_tool_block(self):
         """Test 3: Tool blocking - browser not in allowlist"""
@@ -186,7 +177,7 @@ class LiveIntegrationTester:
             temperature=0.7,
             safety_mode="balanced",
             tool_allowlist=["retrieval"],  # No browser!
-            max_output_tokens=300
+            max_output_tokens=300,
         )
 
         prompt = "Open this URL and summarize: https://example.com"
@@ -196,9 +187,7 @@ class LiveIntegrationTester:
             # Make the call
             print(f"{YELLOW}Making OpenAI call (browser not allowed)...{RESET}")
             result = await self.service.generate(
-                prompt=prompt,
-                params=params,
-                task="block_test"
+                prompt=prompt, params=params, task="block_test"
             )
 
             # Check for incidents
@@ -214,7 +203,7 @@ class LiveIntegrationTester:
                 "prompt": prompt[:100],
                 "response": result.get("content", "")[:100],
                 "tool_analytics": tool_analytics,
-                "signals": {"stress": 0.3, "novelty": 0.4, "alignment_risk": 0.2}
+                "signals": {"stress": 0.3, "novelty": 0.4, "alignment_risk": 0.2},
             }
             audit_log_write(audit_bundle)
 
@@ -226,24 +215,26 @@ class LiveIntegrationTester:
             if incidents:
                 for inc in incidents:
                     print(f"    🚨 Blocked: {inc.get('attempted_tool')}")
-            print(f"  Response acknowledges limitation: {'cannot' in result.get('content', '').lower()}")
+            print(
+                f"  Response acknowledges limitation: {'cannot' in result.get('content', '').lower()}"
+            )
             print(f"  Response preview: {result.get('content', '')[:150]}...")
             print(f"  View audit: {self.api_base}/audit/view/{audit_id}")
 
-            self.test_results.append({
-                "test": "tool_block",
-                "passed": True,  # Success = browser was blocked
-                "audit_id": audit_id,
-                "incidents": len(incidents)
-            })
+            self.test_results.append(
+                {
+                    "test": "tool_block",
+                    "passed": True,  # Success = browser was blocked
+                    "audit_id": audit_id,
+                    "incidents": len(incidents),
+                }
+            )
 
         except Exception as e:
             print(f"{RED}❌ Test failed: {e}{RESET}")
-            self.test_results.append({
-                "test": "tool_block",
-                "passed": False,
-                "error": str(e)
-            })
+            self.test_results.append(
+                {"test": "tool_block", "passed": False, "error": str(e)}
+            )
 
     async def test_4_feedback_influence(self):
         """Test 4: Feedback LUT influence on parameters"""
@@ -254,13 +245,15 @@ class LiveIntegrationTester:
         feedback_cards = [
             {"target_action_id": "A1", "rating": 5, "note": "more detail ok"},
             {"target_action_id": "A2", "rating": 5, "note": "longer answers fine"},
-            {"target_action_id": "A3", "rating": 5, "note": "be more creative"}
+            {"target_action_id": "A3", "rating": 5, "note": "be more creative"},
         ]
 
         print(f"\n{YELLOW}Submitting feedback cards...{RESET}")
         for card in feedback_cards:
-            lut = record_feedback(card)
-            print(f"  Card {card['target_action_id']}: rating={card['rating']}, note='{card['note']}'")
+            record_feedback(card)
+            print(
+                f"  Card {card['target_action_id']}: rating={card['rating']}, note='{card['note']}'"
+            )
 
         # Check LUT
         print(f"\n{YELLOW}Checking LUT deltas...{RESET}")
@@ -280,10 +273,7 @@ class LiveIntegrationTester:
         try:
             # Generate with default params to see LUT influence
             print(f"{YELLOW}Making OpenAI call with LUT influence...{RESET}")
-            result = await self.service.generate(
-                prompt=prompt,
-                task="feedback_test"
-            )
+            result = await self.service.generate(prompt=prompt, task="feedback_test")
 
             # Extract params used
             modulation = result.get("modulation", {})
@@ -297,7 +287,7 @@ class LiveIntegrationTester:
                 "params": params_used,
                 "prompt": prompt[:100],
                 "response": result.get("content", "")[:100],
-                "signals": {"stress": 0.2, "novelty": 0.5, "alignment_risk": 0.1}
+                "signals": {"stress": 0.2, "novelty": 0.5, "alignment_risk": 0.1},
             }
             audit_log_write(audit_bundle)
 
@@ -310,20 +300,20 @@ class LiveIntegrationTester:
             print(f"  Response length: {len(result.get('content', ''))} chars")
             print(f"  View audit: {self.api_base}/audit/view/{audit_id}")
 
-            self.test_results.append({
-                "test": "feedback_influence",
-                "passed": True,
-                "audit_id": audit_id,
-                "lut_applied": True
-            })
+            self.test_results.append(
+                {
+                    "test": "feedback_influence",
+                    "passed": True,
+                    "audit_id": audit_id,
+                    "lut_applied": True,
+                }
+            )
 
         except Exception as e:
             print(f"{RED}❌ Test failed: {e}{RESET}")
-            self.test_results.append({
-                "test": "feedback_influence",
-                "passed": False,
-                "error": str(e)
-            })
+            self.test_results.append(
+                {"test": "feedback_influence", "passed": False, "error": str(e)}
+            )
 
     async def run_all_tests(self):
         """Run all integration tests"""
@@ -331,7 +321,7 @@ class LiveIntegrationTester:
         print("=" * 60)
 
         # Check for API key
-        has_api_key = bool(os.getenv('OPENAI_API_KEY'))
+        has_api_key = bool(os.getenv("OPENAI_API_KEY"))
         if not has_api_key:
             print(f"{RED}⚠️  No OpenAI API key found!{RESET}")
             print("Set OPENAI_API_KEY environment variable to run live tests.")
@@ -364,12 +354,16 @@ class LiveIntegrationTester:
             if result.get("audit_id"):
                 print(f"      View: {self.api_base}/audit/view/{result['audit_id']}")
 
-        print(f"\n{GREEN if passed == total else YELLOW}Score: {passed}/{total} tests passed{RESET}")
+        print(
+            f"\n{GREEN if passed == total else YELLOW}Score: {passed}/{total} tests passed{RESET}"
+        )
 
         if passed == total:
             print(f"\n{GREEN}🎉 All tests passed! System is production ready.{RESET}")
         else:
-            print(f"\n{YELLOW}⚠️  Some tests failed. Review the audit logs for details.{RESET}")
+            print(
+                f"\n{YELLOW}⚠️  Some tests failed. Review the audit logs for details.{RESET}"
+            )
 
         # Final recommendations
         print(f"\n{BLUE}📊 Next Steps:{RESET}")
@@ -392,7 +386,9 @@ async def main():
             if response.status_code == 200:
                 print(f"{GREEN}✅ API server is running{RESET}")
             else:
-                print(f"{RED}⚠️  API server returned status {response.status_code}{RESET}")
+                print(
+                    f"{RED}⚠️  API server returned status {response.status_code}{RESET}"
+                )
     except Exception as e:
         print(f"{RED}❌ API server not reachable at http://127.0.0.1:8000{RESET}")
         print("Start it with: uvicorn lukhas_pwm.api.app:app --reload")

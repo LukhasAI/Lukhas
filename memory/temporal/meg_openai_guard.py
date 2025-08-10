@@ -29,7 +29,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -55,7 +55,7 @@ TIMEOUT_LONG = 180  # For very long operations
 
 
 @meg.guard(timeout=TIMEOUT_STANDARD)
-def meg_chat_completion(**kwargs) -> Dict[str, Any]:
+def meg_chat_completion(**kwargs) -> dict[str, Any]:
     """
     MEG-guarded replacement for openai.ChatCompletion.create()
 
@@ -76,7 +76,7 @@ def meg_chat_completion(**kwargs) -> Dict[str, Any]:
 
 
 @meg.guard(timeout=TIMEOUT_CRITICAL)
-def meg_chat_completion_critical(**kwargs) -> Dict[str, Any]:
+def meg_chat_completion_critical(**kwargs) -> dict[str, Any]:
     """
     MEG-guarded replacement with 30-second timeout for critical operations.
 
@@ -97,7 +97,7 @@ def meg_chat_completion_critical(**kwargs) -> Dict[str, Any]:
 
 
 @meg.guard(timeout=TIMEOUT_EXTENDED)
-def meg_chat_completion_extended(**kwargs) -> Dict[str, Any]:
+def meg_chat_completion_extended(**kwargs) -> dict[str, Any]:
     """
     MEG-guarded replacement with 120-second timeout for complex operations.
 
@@ -118,7 +118,7 @@ def meg_chat_completion_extended(**kwargs) -> Dict[str, Any]:
 
 
 @meg.guard(timeout=TIMEOUT_LONG)
-def meg_chat_completion_long(**kwargs) -> Dict[str, Any]:
+def meg_chat_completion_long(**kwargs) -> dict[str, Any]:
     """
     MEG-guarded replacement with 180-second timeout for very long operations.
 
@@ -139,7 +139,7 @@ def meg_chat_completion_long(**kwargs) -> Dict[str, Any]:
 
 
 @meg.guard(timeout=TIMEOUT_STANDARD)
-async def meg_chat_completion_async(**kwargs) -> Dict[str, Any]:
+async def meg_chat_completion_async(**kwargs) -> dict[str, Any]:
     """
     MEG-guarded replacement for openai.ChatCompletion.acreate()
 
@@ -160,7 +160,7 @@ async def meg_chat_completion_async(**kwargs) -> Dict[str, Any]:
 
 
 @meg.guard(timeout=TIMEOUT_LONG)
-async def meg_chat_completion_async_long(**kwargs) -> Dict[str, Any]:
+async def meg_chat_completion_async_long(**kwargs) -> dict[str, Any]:
     """
     MEG-guarded async replacement with 180-second timeout.
 

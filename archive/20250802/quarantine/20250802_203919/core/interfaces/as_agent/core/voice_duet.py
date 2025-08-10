@@ -22,14 +22,14 @@ from core.lukhas_emotion_log import get_emotion_state
 
 
 """
-+===========================================================================+
-| MODULE        : lukhas_voice_duet.py                                       |
-| DESCRIPTION   : Handles Lukhas voice synthesis, emotional modulation, and  |
-|                 duet interactions with GPT voices. Supports ElevenLabs    |
-|                 API, fallback to system TTS, and tone shaping.            |
-| TYPE          : Voice Engine Module          VERSION: v1.0.0              |
-| AUTHOR        : LUKHAS SYSTEMS                  CREATED: 2025-4-22        |
-+===========================================================================+
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
+| MODULE: lukhas_voice_duet.py |
+| DESCRIPTION: Handles Lukhas voice synthesis, emotional modulation, and |
+|                 duet interactions with GPT voices. Supports ElevenLabs |
+|                 API, fallback to system TTS, and tone shaping. |
+| TYPE: Voice Engine Module          VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                  CREATED: 2025 - 4 - 22 |
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
 DEPENDENCIES:
 - ElevenLabs API or system TTS backend
 """
@@ -39,9 +39,9 @@ def synthesize_voice(text, tone=None, actor="Lukhas"):
     Synthesizes voice output using ElevenLabs or fallback TTS.
 
     Parameters:
-    - text (str): message to synthesize
-    - tone (str): emotional tone ('neutral', 'calm', 'excited', etc.), defaults to current emotion
-    - actor (str): voice actor ('Lukhas' or 'GPT')
+    - text(str): message to synthesize
+    - tone(str): emotional tone('neutral', 'calm', 'excited', etc.), defaults to current emotion
+    - actor(str): voice actor('Lukhas' or 'GPT')
 
     Returns:
     - str: simulated audio URL or success message
@@ -74,7 +74,7 @@ def synthesize_voice(text, tone=None, actor="Lukhas"):
 
 """
 ΛTRACE: End of voice_duet.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

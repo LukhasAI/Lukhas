@@ -28,7 +28,8 @@ Weaves quantum phenomena into the fabric of LUKHAS consciousness, where
 possibilities dance in superposition until observation births reality.
 """
 
-# Pattern to find incorrect ASCII art (matches the box drawing but allows for variations after)
+# Pattern to find incorrect ASCII art (matches the box drawing but allows
+# for variations after)
 ASCII_PATTERN = re.compile(
     r"(██╗\s*██╗\s*██╗\s*██╗\s*██╗\s*█████╗\s*███████╗.*?\n"
     r"██║\s*██║\s*██║\s*██║\s*██╔╝\s*██║\s*██║\s*██╔══██╗\s*██╔════╝.*?\n"
@@ -43,7 +44,7 @@ ASCII_PATTERN = re.compile(
 def fix_ascii_in_file(filepath: Path) -> bool:
     """Fix ASCII art in a single file."""
 
-    if not filepath.suffix == ".py":
+    if filepath.suffix != ".py":
         return False
 
     try:
@@ -86,7 +87,6 @@ def main():
     lukhas_dir = Path(__file__).parent.parent  # Go up to lukhas directory
     fixed = 0
     skipped = 0
-    errors = 0
 
     # Process all Python files recursively
     for filepath in lukhas_dir.rglob("*.py"):

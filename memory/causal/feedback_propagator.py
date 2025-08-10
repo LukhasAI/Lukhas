@@ -53,11 +53,12 @@ LUKHAS_TAG: dream_causality_map, enterprise_compliance, ethical_verification
 TODO: Implement machine learning-based causality pattern recognition
 IDEA: Add predictive causality modeling for proactive feedback optimization
 """
+import logging
 
 import json
 import os
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 try:
     from dream.core.dream_snapshot import DreamSnapshotStore
@@ -115,7 +116,7 @@ class DreamFeedbackPropagator:
         # Initialize identity client for tier and consent checking
         self.identity_client = IdentityClient()
 
-    def propagate(self, dream_data: Dict[str, Any]):
+    def propagate(self, dream_data: dict[str, Any]):
         """Apply dream feedback to emotional memory and mood regulator with tier-based access control."""
         affect_trace = dream_data.get("affect_trace", {})
         drift_score = affect_trace.get("total_drift")
@@ -213,8 +214,8 @@ class DreamFeedbackPropagator:
     # LUKHAS_TAG: dream_causality_map
     def _track_dream_memory_causation(
         self,
-        dream_data: Dict[str, Any],
-        trajectory_adjustment: Optional[Dict[str, Any]],
+        dream_data: dict[str, Any],
+        trajectory_adjustment: Optional[dict[str, Any]],
     ) -> None:
         """Track causality between dream processing and memory modifications."""
         try:
@@ -279,7 +280,7 @@ class DreamFeedbackPropagator:
 
     # LUKHAS_TAG: dream_causality_map
     def _track_redirection_causality(
-        self, user_id: str, redirect_narrative: str, dream_data: Dict[str, Any]
+        self, user_id: str, redirect_narrative: str, dream_data: dict[str, Any]
     ) -> None:
         """Track causality of dream narrative redirection events."""
         try:
@@ -318,13 +319,13 @@ class DreamFeedbackPropagator:
 
     # LUKHAS_TAG: dream_causality_map
     def _cross_check_redirection_ethics(
-        self, redirection_event: Dict[str, Any]
+        self, redirection_event: dict[str, Any]
     ) -> None:
         """Cross-check redirection events with ethical constraints in fold lineage."""
         try:
             # Query fold lineage for ethical constraint violations
             ethical_links = []
-            for fold_key, links in self.fold_lineage_tracker.lineage_graph.items():
+            for _fold_key, links in self.fold_lineage_tracker.lineage_graph.items():
                 for link in links:
                     if link.causation_type == CausationType.ETHICAL_CONSTRAINT:
                         ethical_links.append(link)
@@ -362,8 +363,8 @@ class DreamFeedbackPropagator:
     # LUKHAS_TAG: dream_causality_map
     def _calculate_causation_strength(
         self,
-        dream_data: Dict[str, Any],
-        trajectory_adjustment: Optional[Dict[str, Any]],
+        dream_data: dict[str, Any],
+        trajectory_adjustment: Optional[dict[str, Any]],
     ) -> float:
         """Calculate the strength of dream→memory causation."""
         try:
@@ -395,7 +396,7 @@ class DreamFeedbackPropagator:
             return 0.5  # Default moderate strength
 
     # LUKHAS_TAG: dream_causality_map
-    def _finalize_causality_trace(self, dream_data: Dict[str, Any]) -> None:
+    def _finalize_causality_trace(self, dream_data: dict[str, Any]) -> None:
         """Finalize and store the complete causality trace for this dream cycle."""
         try:
             if not self.causal_events:

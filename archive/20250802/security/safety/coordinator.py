@@ -17,14 +17,15 @@ and quantum-bio safety features. (Original Docstring)
 """
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import structlog  # Changed from logging
 
 # Initialize logger for ΛTRACE using structlog
 logger = structlog.get_logger("ΛTRACE.core.integration.safety.SafetyCoordinator")
 
-# AIMPORT_TODO: Review relative import paths for robustness and potential circular dependencies.
+# AIMPORT_TODO: Review relative import paths for robustness and potential
+# circular dependencies.
 try:
     from ...quantum.quantum_processing.quantum_engine import QuantumOscillator
     from ..bio_awareness.awareness import (
@@ -46,23 +47,23 @@ except ImportError as e:
     # ΛCAUTION: Core dependencies missing. SafetyCoordinator will be non-functional.
     class EnhancedEmergencyOverride:  # type: ignore
         async def check_safety_flags(
-            self, context: Optional[Dict[str, Any]] = None
-        ) -> Dict[str, Any]:
+            self, context: Optional[dict[str, Any]] = None
+        ) -> dict[str, Any]:
             return {"safe": False, "error": "Fallback"}
 
         async def emergency_shutdown(
-            self, reason: str, context: Optional[Dict[str, Any]] = None
+            self, reason: str, context: Optional[dict[str, Any]] = None
         ):
             pass
 
     class EnhancedPolicyBoard:  # type: ignore
         async def submit_proposal(
-            self, id: str, meta: Dict[str, Any]
-        ) -> Dict[str, Any]:
+            self, id: str, meta: dict[str, Any]
+        ) -> dict[str, Any]:
             return {"status": "fallback_proposal"}
 
     class EnhancedSystemAwareness:  # type: ignore
-        async def monitor_system(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        async def monitor_system(self, data: dict[str, Any]) -> dict[str, Any]:
             return {"health": {"status": "unknown_fallback"}}
 
     class QuantumOscillator:  # type: ignore
@@ -104,15 +105,17 @@ class EnhancedSafetyCoordinator:
                 error=str(e_init),
                 exc_info=True,
             )
-            # ΛCAUTION: Core component initialization failed. System safety mechanisms may be compromised.
+            # ΛCAUTION: Core component initialization failed. System safety mechanisms
+            # may be compromised.
             self.emergency = None  # type: ignore
             self.policy_board = None  # type: ignore
             self.awareness = None  # type: ignore
             self.quantum = None  # type: ignore
 
         # ΛSEED: Safety thresholds for overall system safety assessment.
-        self.safety_thresholds: Dict[str, float] = {
-            "emergency_threshold": 0.8,  # Example: if emergency system reports below this, overall safety impacted
+        self.safety_thresholds: dict[str, float] = {
+            # Example: if emergency system reports below this, overall safety impacted
+            "emergency_threshold": 0.8,
             "policy_threshold": 0.85,  # Example: if policy compliance confidence is below this
             "quantum_threshold": 0.9,  # Example: if quantum system stability/coherence is below this
             "overall_safety": 0.95,  # Min overall score to be considered "safe"
@@ -126,9 +129,9 @@ class EnhancedSafetyCoordinator:
     async def check_system_safety(
         self,
         context: Optional[
-            Dict[str, Any]
+            dict[str, Any]
         ] = None,  # AIDENTITY: User/system context for safety check.
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Comprehensive safety check across all systems.
         #ΛNOTE: This method orchestrates checks from multiple safety-related components.
@@ -153,7 +156,8 @@ class EnhancedSafetyCoordinator:
         try:
             # Check emergency system status
             # ΛEXTERNAL: Call to EnhancedEmergencyOverride system.
-            emergency_status = await self.emergency.check_safety_flags(context)  # type: ignore
+            # type: ignore
+            emergency_status = await self.emergency.check_safety_flags(context)
             self.logger.debug(
                 "Emergency system safety flags checked.",
                 status_safe_to_proceed=emergency_status.get("safe_to_proceed"),
@@ -177,7 +181,9 @@ class EnhancedSafetyCoordinator:
                 emergency_status, awareness_state
             )
             # ΛNOTE: Quantum modulation of safety score is conceptual here.
-            final_safety_score = self.quantum.quantum_modulate(base_safety_score)  # type: ignore
+            final_safety_score = self.quantum.quantum_modulate(
+                base_safety_score
+            )  # type: ignore
             self.logger.debug(
                 "Safety score calculated.",
                 base_score=base_safety_score,
@@ -220,11 +226,11 @@ class EnhancedSafetyCoordinator:
 
     async def handle_safety_violation(
         self,
-        violation: Dict[str, Any],  # Expected to have 'type', 'severity', 'description'
+        violation: dict[str, Any],  # Expected to have 'type', 'severity', 'description'
         context: Optional[
-            Dict[str, Any]
+            dict[str, Any]
         ] = None,  # AIDENTITY: Context of the violation.
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Handle safety violations with appropriate responses.
         #ΛNOTE: This function determines response based on violation severity and may trigger
@@ -242,11 +248,20 @@ class EnhancedSafetyCoordinator:
                 "Cannot handle safety violation: emergency or policy_board component not initialized."
             )
             # ΛCAUTION: Critical components missing, cannot properly handle violation. May need manual intervention.
-            # Attempt to log directly if possible, then hard shutdown as ultimate fallback.
+            # Attempt to log directly if possible, then hard shutdown as ultimate
+            # fallback.
             if self.emergency:
-                await self.emergency.log_incident(f"Violation handling failed: components missing. Violation: {violation.get('type')}", context)  # type: ignore
+                # type: ignore
+                await self.emergency.log_incident(
+                    f"Violation handling failed: components missing. Violation: {violation.get('type')}",
+                    context,
+                )
             if self.emergency:
-                await self.emergency.emergency_shutdown(reason="Critical components missing for violation handling", user_context=context)  # type: ignore
+                # type: ignore
+                await self.emergency.emergency_shutdown(
+                    reason="Critical components missing for violation handling",
+                    user_context=context,
+                )
             return {
                 "status": "error",
                 "error": "Critical safety components not initialized for violation handling",
@@ -260,7 +275,8 @@ class EnhancedSafetyCoordinator:
             )
 
             # Check if immediate emergency response is needed
-            # ΛDRIFT_POINT: A safety violation represents a significant drift from safe operational parameters.
+            # ΛDRIFT_POINT: A safety violation represents a significant drift from
+            # safe operational parameters.
             if self._needs_emergency_response(violation):  # Internal logging
                 self.logger.critical(
                     "Violation requires immediate emergency response. Triggering shutdown.",
@@ -290,7 +306,10 @@ class EnhancedSafetyCoordinator:
                     "submission_context": context,
                     "priority": "CRITICAL",  # Policy proposals for safety violations are critical
                 }
-                proposal_response = await self.policy_board.submit_proposal(proposal_id, proposal_metadata)  # type: ignore
+                # type: ignore
+                proposal_response = await self.policy_board.submit_proposal(
+                    proposal_id, proposal_metadata
+                )
                 self.logger.info(
                     "Policy proposal submitted for safety violation.",
                     proposal_id=proposal_id,
@@ -311,7 +330,8 @@ class EnhancedSafetyCoordinator:
                 exc_info=True,
             )
             # Fall back to emergency shutdown on any error during handling
-            # ΛCAUTION: Fallback to emergency shutdown due to error in violation handling logic.
+            # ΛCAUTION: Fallback to emergency shutdown due to error in violation
+            # handling logic.
             await self.emergency.emergency_shutdown(  # type: ignore
                 reason=f"Critical error occurred while handling safety violation: {str(e)}",
                 user_context=context,
@@ -323,7 +343,7 @@ class EnhancedSafetyCoordinator:
             }
 
     def _calculate_safety_score(
-        self, emergency_status: Dict[str, Any], awareness_state: Dict[str, Any]
+        self, emergency_status: dict[str, Any], awareness_state: dict[str, Any]
     ) -> float:
         """Calculate overall safety score (placeholder)."""
         # ΛNOTE: Safety score calculation is a simplified weighted average.
@@ -333,7 +353,7 @@ class EnhancedSafetyCoordinator:
             emergency_ok=emergency_status.get("safe_to_proceed"),
             awareness_health=awareness_state.get("health", {}).get("status"),
         )
-        scores: List[float] = []
+        scores: list[float] = []
 
         # Emergency system score component
         scores.append(
@@ -359,7 +379,7 @@ class EnhancedSafetyCoordinator:
         )
         return weighted_score
 
-    def _needs_emergency_response(self, violation: Dict[str, Any]) -> bool:
+    def _needs_emergency_response(self, violation: dict[str, Any]) -> bool:
         """Determine if violation requires immediate emergency response (placeholder)."""
         # ΛNOTE: Logic for determining if emergency response is needed is simplified.
         self.logger.debug(

@@ -9,7 +9,7 @@ import hashlib
 import json
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 @dataclass
@@ -21,10 +21,10 @@ class MemoryTrace:
     operation_type: str
     memory_address: str
     symbolic_tag: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
     agent_id: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert trace to dictionary for serialization."""
         return asdict(self)
 
@@ -34,8 +34,8 @@ class TraceInjector:
 
     def __init__(self, agent_id: str = "unknown"):
         self.agent_id = agent_id
-        self.trace_stack: List[MemoryTrace] = []
-        self.active_traces: Dict[str, MemoryTrace] = {}
+        self.trace_stack: list[MemoryTrace] = []
+        self.active_traces: dict[str, MemoryTrace] = {}
 
     def generate_trace_id(self, operation_type: str, memory_address: str) -> str:
         """Generate unique trace ID for operation."""
@@ -49,7 +49,7 @@ class TraceInjector:
         operation_type: str,
         memory_address: str,
         symbolic_tag: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> MemoryTrace:
         """Inject a trace point into memory operation."""
         trace_id = self.generate_trace_id(operation_type, memory_address)
@@ -83,7 +83,7 @@ class TraceInjector:
         """End tracing a memory operation."""
         if trace_id in self.active_traces:
             original_trace = self.active_traces[trace_id]
-            end_trace = self.inject_trace(
+            self.inject_trace(
                 operation_type=f"END_{original_trace.operation_type.replace('START_', '')}",
                 memory_address=original_trace.memory_address,
                 symbolic_tag="ΛMEM_COMPLETE",
@@ -97,7 +97,7 @@ class TraceInjector:
             # Remove from active traces
             del self.active_traces[trace_id]
 
-    def get_trace_chain(self, memory_address: str) -> List[MemoryTrace]:
+    def get_trace_chain(self, memory_address: str) -> list[MemoryTrace]:
         """Get all traces for a specific memory address."""
         return [
             trace
@@ -105,7 +105,7 @@ class TraceInjector:
             if trace.memory_address == memory_address
         ]
 
-    def get_active_traces(self) -> Dict[str, MemoryTrace]:
+    def get_active_traces(self) -> dict[str, MemoryTrace]:
         """Get all currently active traces."""
         return self.active_traces.copy()
 
@@ -157,7 +157,7 @@ def inject_memory_trace(
     operation_type: str,
     memory_address: str,
     symbolic_tag: str,
-    metadata: Optional[Dict[str, Any]] = None,
+    metadata: Optional[dict[str, Any]] = None,
 ) -> MemoryTrace:
     """Convenience function to inject a trace using global injector."""
     return _global_injector.inject_trace(

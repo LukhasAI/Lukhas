@@ -95,7 +95,8 @@ class RecurringEmotionTracker:
             primary_emotion = current_emotion["primary_emotion"]
             log.warning(f"Recurring emotion detected: {primary_emotion}")
 
-            # Check if this is stagnation (same emotion for a long time) vs recurrence (repeating pattern)
+            # Check if this is stagnation (same emotion for a long time) vs recurrence
+            # (repeating pattern)
             is_stagnation = (
                 len(similar_emotions) >= 10
             )  # More occurrences indicate stagnation

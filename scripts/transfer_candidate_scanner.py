@@ -24,20 +24,38 @@ DEFAULT_BASE = THIS_REPO.parent
 # Heuristics/patterns to detect
 TRANSFER_KEYWORDS = [
     # core endocrine + feedback + env
-    "signal_bus.py", "homeostasis.py", "modulator.py",
-    "feedback", "feedback_card", "card_system.py",
-    "env_validator.py", "modulation_policy.yaml",
+    "signal_bus.py",
+    "homeostasis.py",
+    "modulator.py",
+    "feedback",
+    "feedback_card",
+    "card_system.py",
+    "env_validator.py",
+    "modulation_policy.yaml",
     # identity bridges / tiering
-    "TierValidator", "TieredAccessControl", "import_bridge.py", "governance/identity",
+    "TierValidator",
+    "TieredAccessControl",
+    "import_bridge.py",
+    "governance/identity",
     # openai integration layers
-    "openai_core_service.py", "openai_modulated_service.py",
+    "openai_core_service.py",
+    "openai_modulated_service.py",
     # persona/voice
-    "persona_manager.py", "voice/processor", "voice_processor.py",
+    "persona_manager.py",
+    "voice/processor",
+    "voice_processor.py",
 ]
 
 PRUNE_HINTS = [
-    ".pwm_cleanup_archive", "advanced_backups", "syntax_backups", "*.backup",
-    "/archive/", "/quarantine/", "_backup", "deprecated", "unused_files",
+    ".pwm_cleanup_archive",
+    "advanced_backups",
+    "syntax_backups",
+    "*.backup",
+    "/archive/",
+    "/quarantine/",
+    "_backup",
+    "deprecated",
+    "unused_files",
 ]
 
 DUPLICATE_CLASS_SIGNALS: List[Tuple[str, str]] = [
@@ -100,8 +118,16 @@ def file_score_for_prune(path: Path) -> List[str]:
     if path.suffix == ".py":
         try:
             text = path.read_text(errors="ignore")
-            code_lines = sum(1 for ln in text.splitlines() if ln.strip() and not ln.strip().startswith("#"))
-            if code_lines < 20 and len(text) > 0 and ("Feature:" in text or "TODO" in text or "Notes" in text):
+            code_lines = sum(
+                1
+                for ln in text.splitlines()
+                if ln.strip() and not ln.strip().startswith("#")
+            )
+            if (
+                code_lines < 20
+                and len(text) > 0
+                and ("Feature:" in text or "TODO" in text or "Notes" in text)
+            ):
                 tags.append("low_code_density")
         except Exception:
             pass
@@ -150,17 +176,21 @@ def scan_repo(repo_path: Path, current_index: set) -> Dict:
             tags_p = file_score_for_prune(p)
             if tags_t:
                 # If a similarly named artifact already exists in current repo, note it
-                exists = (p.name in current_index)
-                transfer.append({
-                    "path": str(p),
-                    "relname_exists_in_current": exists,
-                    "reason_tags": tags_t,
-                })
+                exists = p.name in current_index
+                transfer.append(
+                    {
+                        "path": str(p),
+                        "relname_exists_in_current": exists,
+                        "reason_tags": tags_t,
+                    }
+                )
             if tags_p:
-                prune.append({
-                    "path": str(p),
-                    "reason_tags": tags_p,
-                })
+                prune.append(
+                    {
+                        "path": str(p),
+                        "reason_tags": tags_p,
+                    }
+                )
     return {"candidates_transfer": transfer, "candidates_prune": prune}
 
 
@@ -178,19 +208,22 @@ def main() -> int:
         if not entry.is_dir():
             continue
         name = entry.name
-        if name.startswith('.'):
+        if name.startswith("."):
             continue
         if name == THIS_REPO.name:
             continue
         # Only scan directories that look like repos
-        # Require a git repo or common Python project manifest to avoid scanning container dirs
+        # Require a git repo or common Python project manifest to avoid scanning
+        # container dirs
         looks_like_repo = (
             (entry / ".git").exists()
             or (entry / "pyproject.toml").exists()
             or (entry / "setup.py").exists()
             or (entry / "requirements.txt").exists()
         )
-        _dprint(f"[scanner] Considering {entry} -> git={(entry / '.git').exists()} pyproject={(entry / 'pyproject.toml').exists()} setup={(entry / 'setup.py').exists()} req={(entry / 'requirements.txt').exists()} looks_like_repo={looks_like_repo}")
+        _dprint(
+            f"[scanner] Considering {entry} -> git={(entry / '.git').exists()} pyproject={(entry / 'pyproject.toml').exists()} setup={(entry / 'setup.py').exists()} req={(entry / 'requirements.txt').exists()} looks_like_repo={looks_like_repo}"
+        )
         if not looks_like_repo:
             continue
         report[name] = scan_repo(entry, current_index)

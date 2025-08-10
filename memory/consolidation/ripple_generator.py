@@ -47,7 +47,7 @@ import time
 from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Optional
 from uuid import uuid4
 
 import numpy as np
@@ -103,7 +103,7 @@ class Ripple:
     complexity_score: float = 0.5
 
     # Memory content
-    memory_sequence: List[str] = field(default_factory=list)  # Memory IDs
+    memory_sequence: list[str] = field(default_factory=list)  # Memory IDs
     replay_direction: ReplayDirection = ReplayDirection.FORWARD
     replay_speed: float = 10.0  # X times normal speed
 
@@ -113,7 +113,7 @@ class Ripple:
 
     # Consolidation outcome
     successful_transfer: bool = False
-    transferred_memories: Set[str] = field(default_factory=set)
+    transferred_memories: set[str] = field(default_factory=set)
 
     def calculate_power(self) -> float:
         """Calculate ripple power"""
@@ -126,14 +126,14 @@ class RippleSequence:
     """Sequence of related ripples"""
 
     sequence_id: str = field(default_factory=lambda: str(uuid4()))
-    ripples: List[Ripple] = field(default_factory=list)
+    ripples: list[Ripple] = field(default_factory=list)
 
     # Sequence properties
     inter_ripple_interval: float = 0.5  # seconds
     total_duration: float = 0.0
 
     # Memory coverage
-    unique_memories: Set[str] = field(default_factory=set)
+    unique_memories: set[str] = field(default_factory=set)
     replay_fidelity: float = 0.0  # How well sequence matches original
 
     def add_ripple(self, ripple: Ripple):
@@ -158,7 +158,7 @@ class RippleGenerator:
     def __init__(
         self,
         base_frequency: float = 180.0,  # Hz
-        frequency_range: Tuple[float, float] = (140.0, 200.0),
+        frequency_range: tuple[float, float] = (140.0, 200.0),
         ripple_rate: float = 2.0,  # Ripples per second during SWS
         enable_coupling: bool = True,
         enable_sequences: bool = True,
@@ -180,12 +180,12 @@ class RippleGenerator:
 
         # Ripple tracking
         self.ripple_buffer: deque = deque(maxlen=1000)
-        self.active_sequences: Dict[str, RippleSequence] = {}
+        self.active_sequences: dict[str, RippleSequence] = {}
         self.ripple_count = 0
 
         # Memory pools for replay
-        self.available_memories: List[Any] = []
-        self.priority_memories: Set[str] = set()
+        self.available_memories: list[Any] = []
+        self.priority_memories: set[str] = set()
 
         # Coupling parameters
         self.optimal_phase = np.pi  # UP state of slow oscillation
@@ -197,8 +197,8 @@ class RippleGenerator:
         self.sequence_count = 0
 
         # Callbacks
-        self.ripple_callbacks: List[Callable] = []
-        self.sequence_callbacks: List[Callable] = []
+        self.ripple_callbacks: list[Callable] = []
+        self.sequence_callbacks: list[Callable] = []
 
         # Background tasks
         self._running = False
@@ -240,7 +240,7 @@ class RippleGenerator:
 
     async def generate_ripple(
         self,
-        memory_sequence: List[str],
+        memory_sequence: list[str],
         ripple_type: Optional[RippleType] = None,
         force_generation: bool = False,
     ) -> Optional[Ripple]:
@@ -302,7 +302,7 @@ class RippleGenerator:
 
     async def generate_ripple_sequence(
         self,
-        memory_sequences: List[List[str]],
+        memory_sequences: list[list[str]],
         inter_ripple_interval: Optional[float] = None,
     ) -> RippleSequence:
         """
@@ -354,12 +354,12 @@ class RippleGenerator:
 
         return sequence
 
-    def set_memory_pool(self, memories: List[Any]):
+    def set_memory_pool(self, memories: list[Any]):
         """Set available memories for replay"""
         self.available_memories = memories
         logger.debug(f"Memory pool updated: {len(memories)} memories")
 
-    def set_priority_memories(self, memory_ids: Set[str]):
+    def set_priority_memories(self, memory_ids: set[str]):
         """Set high-priority memories for preferential replay"""
         self.priority_memories = memory_ids
 
@@ -408,7 +408,7 @@ class RippleGenerator:
         directions = list(ReplayDirection)
         return np.random.choice(directions, p=probs)
 
-    def _calculate_amplitude(self, memory_sequence: List[str]) -> float:
+    def _calculate_amplitude(self, memory_sequence: list[str]) -> float:
         """Calculate ripple amplitude based on memory importance"""
 
         base_amplitude = 1.0
@@ -550,11 +550,11 @@ class RippleGenerator:
         """Register callback for sequence events"""
         self.sequence_callbacks.append(callback)
 
-    def get_recent_ripples(self, count: int = 10) -> List[Ripple]:
+    def get_recent_ripples(self, count: int = 10) -> list[Ripple]:
         """Get most recent ripples"""
         return list(self.ripple_buffer)[-count:]
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get ripple generator metrics"""
 
         metrics = {

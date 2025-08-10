@@ -37,7 +37,7 @@ import hashlib
 import logging
 import uuid
 from datetime import datetime
-from typing import Dict, Optional
+from typing import Optional
 
 import numpy as np
 
@@ -85,8 +85,8 @@ class QuantumInspiredAttention:
                 self.superposition_matrix[i, :] /= row_sum
 
     async def attend(
-        self, input_data: Dict, context: Dict, user_id: str, session_token: str
-    ) -> Dict:
+        self, input_data: dict, context: dict, user_id: str, session_token: str
+    ) -> dict:
         """
         Apply quantum-inspired attention mechanisms to the input data
 
@@ -134,7 +134,7 @@ class QuantumInspiredAttention:
 
         return attended_data
 
-    def _extract_features(self, input_data: Dict) -> Dict:
+    def _extract_features(self, input_data: dict) -> dict:
         """Extract relevant features from input data"""
         features = {}
 
@@ -161,7 +161,7 @@ class QuantumInspiredAttention:
         return features
 
     def _calculate_attention_distribution(
-        self, features: Dict, context: Dict
+        self, features: dict, context: dict
     ) -> np.ndarray:
         """Calculate the initial attention distribution based on features and context"""
         attention_weights = np.zeros(len(self.attention_gates))
@@ -207,14 +207,14 @@ class QuantumInspiredAttention:
         return superposed
 
     def _apply_attention_gates(
-        self, input_data: Dict, attention_weights: np.ndarray
-    ) -> Dict:
+        self, input_data: dict, attention_weights: np.ndarray
+    ) -> dict:
         """Apply the calculated attention weights to the input data"""
         attended_data = {
             "original": input_data,
-            "attention_weights": {
-                k: v for k, v in zip(self.attention_gates.keys(), attention_weights)
-            },
+            "attention_weights": dict(
+                zip(self.attention_gates.keys(), attention_weights)
+            ),
             "attended_content": {},
             "timestamp": datetime.now().isoformat(),
             "processing_id": str(uuid.uuid4()),
@@ -254,7 +254,7 @@ class QuantumInspiredAttention:
         return attended_data
 
     def _update_entanglement_map(
-        self, input_data: Dict, attended_data: Dict, user_id: str
+        self, input_data: dict, attended_data: dict, user_id: str
     ) -> None:
         """Update the entanglement map to track relationships between inputs and attended outputs"""
         # Create a simple hash of the input
@@ -327,8 +327,8 @@ class CausalReasoningModule:
         self.causal_history = []
 
     async def reason(
-        self, attended_data: Dict, user_id: str, session_token: str
-    ) -> Dict:
+        self, attended_data: dict, user_id: str, session_token: str
+    ) -> dict:
         """
         Apply causal reasoning to attended data
 
@@ -501,11 +501,13 @@ class CausalReasoningModule:
             # Base confidence from the chain
             base_confidence = chain["base_confidence"]
 
-            # Adjust confidence based on chain length (more evidence = higher confidence)
+            # Adjust confidence based on chain length (more evidence = higher
+            # confidence)
             length_adjustment = min(0.2, 0.05 * len(chain["elements"]))
 
-            # Adjust confidence based on element types (diverse evidence = higher confidence)
-            element_types = set(elem["type"] for elem in chain["elements"])
+            # Adjust confidence based on element types (diverse evidence = higher
+            # confidence)
+            element_types = {elem["type"] for elem in chain["elements"]}
             diversity_adjustment = min(0.15, 0.05 * len(element_types))
 
             # Calculate final confidence
@@ -579,8 +581,8 @@ class CausalReasoningModule:
         """Extract the reasoning path that led to conclusions"""
         reasoning_steps = []
 
-        for chain_id, chain_data in valid_causes.items():
-            for i, element in enumerate(chain_data["elements"]):
+        for _chain_id, chain_data in valid_causes.items():
+            for _i, element in enumerate(chain_data["elements"]):
                 reasoning_steps.append(
                     {
                         "step": len(reasoning_steps) + 1,
@@ -664,8 +666,8 @@ class QuantumNeuroSymbolicEngine:
         text: str,
         user_id: str,
         session_token: str,
-        context: Optional[Dict] = None,
-    ) -> Dict:
+        context: Optional[dict] = None,
+    ) -> dict:
         """
         Process text input with neuro-symbolic reasoning
 
@@ -740,8 +742,8 @@ class QuantumNeuroSymbolicEngine:
         return response
 
     async def process(
-        self, input_data: Dict, session_token: str, context: Optional[Dict] = None
-    ) -> Dict:
+        self, input_data: dict, session_token: str, context: Optional[dict] = None
+    ) -> dict:
         """
         Process general input data with neuro-symbolic reasoning
 
@@ -788,8 +790,8 @@ class QuantumNeuroSymbolicEngine:
             }
 
     async def _generate_response(
-        self, reasoning_results: Dict, input_data: Dict, user_id: str
-    ) -> Dict:
+        self, reasoning_results: dict, input_data: dict, user_id: str
+    ) -> dict:
         """
         Generate a response based on reasoning results
 
@@ -1004,7 +1006,7 @@ class QuantumNeuroSymbolicEngine:
                 return True
         return False
 
-    def get_processing_stats(self, user_id: str) -> Dict:
+    def get_processing_stats(self, user_id: str) -> dict:
         """Get processing statistics for a user"""
         user_history = [h for h in self.processing_history if h["user_id"] == user_id]
 

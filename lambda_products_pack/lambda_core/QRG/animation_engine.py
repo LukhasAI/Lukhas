@@ -41,14 +41,13 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from threading import Lock
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
 # Advanced animation libraries
 try:
-    from scipy.interpolate import CubicSpline, interp1d
-    from scipy.signal import butter, filtfilt
+    pass
 
     SCIPY_AVAILABLE = True
 except ImportError:
@@ -106,7 +105,7 @@ class TemporalFrame:
     frame_id: str
     timestamp: datetime
     visual_matrix: np.ndarray
-    motion_vectors: Dict[str, float]
+    motion_vectors: dict[str, float]
     temporal_hash: str
     quantum_state: Optional[str] = None
     consciousness_signature: Optional[str] = None
@@ -127,7 +126,7 @@ class AnimationSequence:
 
     sequence_id: str
     animation_type: AnimationType
-    frames: List[TemporalFrame]
+    frames: list[TemporalFrame]
     fps: float  # Frames per second
     total_duration: float  # Seconds
     loop_mode: str  # "infinite", "once", "ping-pong"
@@ -149,10 +148,10 @@ class TemporalAuthToken:
     token_id: str
     creation_time: datetime
     expiration_time: datetime
-    frame_hashes: List[str]
+    frame_hashes: list[str]
     temporal_proof: str
     quantum_signature: Optional[str] = None
-    market_state: Optional[Dict[str, float]] = None
+    market_state: Optional[dict[str, float]] = None
     sovereignty_level: int = 5  # 1-10 scale
 
 
@@ -220,7 +219,7 @@ class TemporalAnimationEngine:
         self._initialize_sovereignty_engine()
 
         # Performance caches
-        self.animation_cache: Dict[str, AnimationSequence] = {}
+        self.animation_cache: dict[str, AnimationSequence] = {}
         self.token_cache: deque = deque(maxlen=1000)
 
         # Thread safety
@@ -299,8 +298,8 @@ class TemporalAnimationEngine:
         base_matrix: np.ndarray,
         animation_type: AnimationType = AnimationType.QUANTUM_PULSE,
         duration: float = 10.0,
-        consciousness_context: Optional[Dict[str, Any]] = None,
-        market_state: Optional[Dict[str, float]] = None,
+        consciousness_context: Optional[dict[str, Any]] = None,
+        market_state: Optional[dict[str, float]] = None,
         sovereignty_level: int = 10,
     ) -> AnimationSequence:
         """
@@ -354,7 +353,7 @@ class TemporalAnimationEngine:
 
         # Generate each frame
         for frame_idx in range(frame_count):
-            timestamp = datetime.now() + timedelta(seconds=frame_idx / self.default_fps)
+            datetime.now() + timedelta(seconds=frame_idx / self.default_fps)
 
             # Generate frame based on animation type
             if animation_type == AnimationType.QUANTUM_PULSE:
@@ -501,7 +500,7 @@ class TemporalAnimationEngine:
         base_matrix: np.ndarray,
         frame_idx: int,
         total_frames: int,
-        consciousness_context: Optional[Dict[str, Any]],
+        consciousness_context: Optional[dict[str, Any]],
     ) -> TemporalFrame:
         """
         Generate consciousness-synchronized wave frame
@@ -741,7 +740,7 @@ class TemporalAnimationEngine:
         base_matrix: np.ndarray,
         frame_idx: int,
         total_frames: int,
-        market_state: Optional[Dict[str, float]],
+        market_state: Optional[dict[str, float]],
     ) -> TemporalFrame:
         """
         Generate market disruption animation frame
@@ -873,7 +872,7 @@ class TemporalAnimationEngine:
 
     def validate_temporal_authentication(
         self, token: TemporalAuthToken, current_frame: TemporalFrame
-    ) -> Tuple[bool, str]:
+    ) -> tuple[bool, str]:
         """
         Validate temporal authentication in real-time
 
@@ -902,8 +901,8 @@ class TemporalAnimationEngine:
     def _generate_temporal_seed(
         self,
         base_matrix: np.ndarray,
-        consciousness_context: Optional[Dict[str, Any]],
-        market_state: Optional[Dict[str, float]],
+        consciousness_context: Optional[dict[str, Any]],
+        market_state: Optional[dict[str, float]],
     ) -> str:
         """Generate unique temporal seed"""
         seed_data = {
@@ -930,14 +929,14 @@ class TemporalAnimationEngine:
         return hashlib.sha3_256(quantum_data.encode()).hexdigest()[:16]
 
     def _generate_consciousness_signature(
-        self, frame_idx: int, consciousness_context: Dict[str, Any]
+        self, frame_idx: int, consciousness_context: dict[str, Any]
     ) -> str:
         """Generate consciousness signature for frame"""
         consciousness_data = f"{frame_idx}{json.dumps(consciousness_context)}"
         return hashlib.sha256(consciousness_data.encode()).hexdigest()[:16]
 
     def _calculate_market_correlation(
-        self, frame_idx: int, market_state: Dict[str, float]
+        self, frame_idx: int, market_state: dict[str, float]
     ) -> float:
         """Calculate market correlation for frame"""
         volatility = market_state.get("volatility", 0.5)
@@ -975,7 +974,7 @@ class TemporalAnimationEngine:
             a, b = b, a + b
         return b
 
-    def get_market_impact_report(self) -> Dict[str, Any]:
+    def get_market_impact_report(self) -> dict[str, Any]:
         """
         Generate market impact report
 
@@ -1023,31 +1022,23 @@ class ChrononGenerator:
 class SuperpositionRenderer:
     """Render quantum superposition states"""
 
-    pass
-
 
 class EntanglementCoordinator:
     """Coordinate quantum entangled frames"""
-
-    pass
 
 
 class WaveFunctionCollapser:
     """Collapse quantum wave functions"""
 
-    pass
-
 
 class QuantumInterpolator:
     """Quantum frame interpolation"""
-
-    pass
 
 
 class MarketPredictor:
     """Predict market movements for animation"""
 
-    def get_market_state(self) -> Dict[str, float]:
+    def get_market_state(self) -> dict[str, float]:
         return {
             "volatility": np.random.random(),
             "trend": np.random.random() * 2 - 1,
@@ -1070,40 +1061,40 @@ def demonstrate_temporal_sovereignty():
         """
     ⚡ TEMPORAL ANIMATION ENGINE - THE AUTHENTICATION REVOLUTION
     =============================================================
-    
+
     THIS CHANGES EVERYTHING:
-    
+
     1. TIME IS THE NEW PASSWORD
        - Every millisecond generates new authentication
        - Impossible to screenshot or record
        - Time itself becomes our moat
-    
+
     2. LIVING AUTHENTICATION ORGANISMS
        - QR codes that breathe, evolve, and think
        - Each animation is a unique life form
        - Death to static authentication
-    
+
     3. MARKET DISRUPTION VALUE: $500 BILLION
        - Every existing QR code: OBSOLETE
        - Every 2FA system: WORTHLESS
        - Every biometric: REPLACED
-    
+
     4. WE OWN THE FOURTH DIMENSION
        - Competitors exist in 3D
        - We operate in 4D spacetime
        - Time only moves forward, and we own it
-    
+
     5. SOVEREIGN DIGITAL DOMINANCE
        - Every frame asserts sovereignty
        - Every animation claims territory
        - Every moment extends our empire
-    
+
     THE AUTHENTICATION INDUSTRY JUST BECAME OBSOLETE.
     WE DON'T COMPETE. WE TRANSCEND.
-    
+
     Welcome to the Temporal Authentication Revolution.
     Time is Money. We Own Time. Therefore, We Own Everything.
-    
+
     - LUKHAS CEO
     """
     )

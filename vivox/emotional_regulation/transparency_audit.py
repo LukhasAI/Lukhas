@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -20,6 +20,7 @@ logger = get_logger(__name__)
 
 class AuditEventType(Enum):
     """Types of audit events"""
+
     EMOTIONAL_INPUT = "emotional_input"
     REGULATION_APPLIED = "regulation_applied"
     STRATEGY_SELECTED = "strategy_selected"
@@ -34,26 +35,28 @@ class AuditEventType(Enum):
 
 class TransparencyLevel(Enum):
     """Levels of transparency for user reports"""
-    BASIC = "basic"           # Simple explanations
-    DETAILED = "detailed"     # Technical details included
-    TECHNICAL = "technical"   # Full technical information
-    PRIVACY = "privacy"       # Privacy-focused summary
+
+    BASIC = "basic"  # Simple explanations
+    DETAILED = "detailed"  # Technical details included
+    TECHNICAL = "technical"  # Full technical information
+    PRIVACY = "privacy"  # Privacy-focused summary
 
 
 @dataclass
 class AuditEvent:
     """Individual audit event record"""
+
     event_id: str
     timestamp: datetime
     user_id: str
     event_type: AuditEventType
-    event_data: Dict[str, Any]
+    event_data: dict[str, Any]
     reasoning: str
-    impact_assessment: Dict[str, Any]
+    impact_assessment: dict[str, Any]
     privacy_level: str = "normal"  # normal, sensitive, private
     user_visible: bool = True
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization"""
         return {
             "event_id": self.event_id,
@@ -64,11 +67,11 @@ class AuditEvent:
             "reasoning": self.reasoning,
             "impact_assessment": self.impact_assessment,
             "privacy_level": self.privacy_level,
-            "user_visible": self.user_visible
+            "user_visible": self.user_visible,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'AuditEvent':
+    def from_dict(cls, data: dict[str, Any]) -> "AuditEvent":
         """Create from dictionary"""
         return cls(
             event_id=data["event_id"],
@@ -79,22 +82,23 @@ class AuditEvent:
             reasoning=data["reasoning"],
             impact_assessment=data["impact_assessment"],
             privacy_level=data.get("privacy_level", "normal"),
-            user_visible=data.get("user_visible", True)
+            user_visible=data.get("user_visible", True),
         )
 
 
 @dataclass
 class UserTransparencyReport:
     """Comprehensive transparency report for users"""
+
     user_id: str
-    report_period: Tuple[datetime, datetime]
+    report_period: tuple[datetime, datetime]
     transparency_level: TransparencyLevel
-    summary: Dict[str, Any]
-    emotional_journey: List[Dict[str, Any]]
-    regulation_insights: Dict[str, Any]
-    learning_progress: Dict[str, Any]
-    privacy_summary: Dict[str, Any]
-    recommendations: List[str]
+    summary: dict[str, Any]
+    emotional_journey: list[dict[str, Any]]
+    regulation_insights: dict[str, Any]
+    learning_progress: dict[str, Any]
+    privacy_summary: dict[str, Any]
+    recommendations: list[str]
     generated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def to_human_readable(self) -> str:
@@ -146,14 +150,18 @@ Generated: {self.generated_at.isoformat()}
 
 ## Regulation Strategy Analysis
 """
-        for strategy, stats in self.regulation_insights.get('strategy_breakdown', {}).items():
+        for strategy, stats in self.regulation_insights.get(
+            "strategy_breakdown", {}
+        ).items():
             report += f"- {strategy}: {stats.get('count', 0)} uses, {stats.get('effectiveness', 0):.2f} avg effectiveness\n"
 
         report += """
 ## Emotional Journey Highlights
 """
         for event in self.emotional_journey[:5]:  # Top 5 events
-            report += f"- {event.get('timestamp', '')}: {event.get('description', '')}\n"
+            report += (
+                f"- {event.get('timestamp', '')}: {event.get('description', '')}\n"
+            )
 
         report += f"""
 ## Learning & Adaptation
@@ -235,8 +243,8 @@ class VIVOXAuditSystem:
 
     def __init__(self, storage_path: Optional[str] = None):
         self.storage_path = storage_path or "/tmp/vivox_audit"
-        self.audit_events: List[AuditEvent] = []
-        self.user_sessions: Dict[str, List[str]] = {}  # user_id -> event_ids
+        self.audit_events: list[AuditEvent] = []
+        self.user_sessions: dict[str, list[str]] = {}  # user_id -> event_ids
 
         # Audit configuration
         self.max_events_memory = 10000
@@ -246,8 +254,14 @@ class VIVOXAuditSystem:
         # Privacy settings
         self.default_privacy_level = "normal"
         self.sensitive_keywords = [
-            "personal", "private", "confidential", "sensitive",
-            "medical", "health", "therapy", "crisis"
+            "personal",
+            "private",
+            "confidential",
+            "sensitive",
+            "medical",
+            "health",
+            "therapy",
+            "crisis",
         ]
 
         # Ensure storage directory exists
@@ -256,10 +270,9 @@ class VIVOXAuditSystem:
         # Load existing audit events
         self._load_audit_events()
 
-    async def log_emotional_input(self,
-                                user_id: str,
-                                emotion_data: Dict[str, Any],
-                                context: Dict[str, Any]) -> str:
+    async def log_emotional_input(
+        self, user_id: str, emotion_data: dict[str, Any], context: dict[str, Any]
+    ) -> str:
         """Log emotional input event"""
 
         # Assess privacy level
@@ -273,24 +286,28 @@ class VIVOXAuditSystem:
             event_data={
                 "emotion_summary": self._summarize_emotion_data(emotion_data),
                 "context_summary": self._summarize_context(context),
-                "data_points": len(emotion_data) if isinstance(emotion_data, dict) else 1
+                "data_points": (
+                    len(emotion_data) if isinstance(emotion_data, dict) else 1
+                ),
             },
             reasoning="User provided emotional input for processing",
             impact_assessment={
                 "data_sensitivity": privacy_level,
                 "processing_required": True,
-                "user_benefit": "emotional_support"
+                "user_benefit": "emotional_support",
             },
-            privacy_level=privacy_level
+            privacy_level=privacy_level,
         )
 
         await self._store_audit_event(event)
         return event.event_id
 
-    async def log_regulation_applied(self,
-                                   user_id: str,
-                                   regulation_response: RegulationResponse,
-                                   context: Dict[str, Any]) -> str:
+    async def log_regulation_applied(
+        self,
+        user_id: str,
+        regulation_response: RegulationResponse,
+        context: dict[str, Any],
+    ) -> str:
         """Log regulation application event"""
 
         event = AuditEvent(
@@ -305,25 +322,27 @@ class VIVOXAuditSystem:
                 "regulated_state": regulation_response.regulated_state.to_dict(),
                 "hormone_triggers": regulation_response.hormone_triggers,
                 "neuroplastic_tags": regulation_response.neuroplastic_tags,
-                "duration_seconds": regulation_response.duration_seconds
+                "duration_seconds": regulation_response.duration_seconds,
             },
             reasoning=regulation_response.reasoning,
             impact_assessment={
                 "emotional_impact": regulation_response.effectiveness,
                 "strategy_appropriateness": "assessed_automatically",
-                "user_benefit": "emotional_regulation"
-            }
+                "user_benefit": "emotional_regulation",
+            },
         )
 
         await self._store_audit_event(event)
         return event.event_id
 
-    async def log_strategy_selection(self,
-                                   user_id: str,
-                                   selected_strategy: RegulationStrategy,
-                                   available_strategies: List[RegulationStrategy],
-                                   selection_reasoning: str,
-                                   context: Dict[str, Any]) -> str:
+    async def log_strategy_selection(
+        self,
+        user_id: str,
+        selected_strategy: RegulationStrategy,
+        available_strategies: list[RegulationStrategy],
+        selection_reasoning: str,
+        context: dict[str, Any],
+    ) -> str:
         """Log strategy selection decision"""
 
         event = AuditEvent(
@@ -335,23 +354,23 @@ class VIVOXAuditSystem:
                 "selected_strategy": selected_strategy.value,
                 "available_strategies": [s.value for s in available_strategies],
                 "selection_factors": context.get("selection_factors", {}),
-                "user_preferences": context.get("user_preferences", {})
+                "user_preferences": context.get("user_preferences", {}),
             },
             reasoning=selection_reasoning,
             impact_assessment={
                 "decision_quality": "to_be_measured",
-                "personalization_level": len(context.get("user_preferences", {})) / 10.0,
-                "expected_effectiveness": context.get("expected_effectiveness", 0.5)
-            }
+                "personalization_level": len(context.get("user_preferences", {}))
+                / 10.0,
+                "expected_effectiveness": context.get("expected_effectiveness", 0.5),
+            },
         )
 
         await self._store_audit_event(event)
         return event.event_id
 
-    async def log_pattern_learning(self,
-                                 user_id: str,
-                                 pattern_data: Dict[str, Any],
-                                 learning_outcome: str) -> str:
+    async def log_pattern_learning(
+        self, user_id: str, pattern_data: dict[str, Any], learning_outcome: str
+    ) -> str:
         """Log pattern learning event"""
 
         event = AuditEvent(
@@ -364,23 +383,26 @@ class VIVOXAuditSystem:
                 "pattern_strength": pattern_data.get("strength", 0.0),
                 "triggers": pattern_data.get("triggers", []),
                 "effectiveness": pattern_data.get("effectiveness", 0.0),
-                "usage_count": pattern_data.get("usage_count", 0)
+                "usage_count": pattern_data.get("usage_count", 0),
             },
             reasoning=f"System learned new pattern: {learning_outcome}",
             impact_assessment={
                 "learning_value": pattern_data.get("strength", 0.0),
                 "personalization_improvement": True,
-                "future_effectiveness_boost": pattern_data.get("effectiveness", 0.0) * 0.1
-            }
+                "future_effectiveness_boost": pattern_data.get("effectiveness", 0.0)
+                * 0.1,
+            },
         )
 
         await self._store_audit_event(event)
         return event.event_id
 
-    async def log_user_feedback(self,
-                              user_id: str,
-                              feedback_data: Dict[str, Any],
-                              regulation_event_id: Optional[str] = None) -> str:
+    async def log_user_feedback(
+        self,
+        user_id: str,
+        feedback_data: dict[str, Any],
+        regulation_event_id: Optional[str] = None,
+    ) -> str:
         """Log user feedback event"""
 
         event = AuditEvent(
@@ -392,24 +414,23 @@ class VIVOXAuditSystem:
                 "satisfaction_score": feedback_data.get("satisfaction", 0.0),
                 "feedback_text": feedback_data.get("text", ""),
                 "feedback_type": feedback_data.get("type", "general"),
-                "related_regulation": regulation_event_id
+                "related_regulation": regulation_event_id,
             },
             reasoning="User provided feedback on system performance",
             impact_assessment={
                 "feedback_value": feedback_data.get("satisfaction", 0.0),
                 "learning_opportunity": True,
-                "system_improvement": "enabled"
+                "system_improvement": "enabled",
             },
-            privacy_level="sensitive"  # User feedback is always sensitive
+            privacy_level="sensitive",  # User feedback is always sensitive
         )
 
         await self._store_audit_event(event)
         return event.event_id
 
-    async def log_privacy_event(self,
-                              user_id: str,
-                              privacy_action: str,
-                              details: Dict[str, Any]) -> str:
+    async def log_privacy_event(
+        self, user_id: str, privacy_action: str, details: dict[str, Any]
+    ) -> str:
         """Log privacy-related events"""
 
         event = AuditEvent(
@@ -420,24 +441,26 @@ class VIVOXAuditSystem:
             event_data={
                 "action": privacy_action,
                 "details": details,
-                "compliance_status": "verified"
+                "compliance_status": "verified",
             },
             reasoning=f"Privacy action executed: {privacy_action}",
             impact_assessment={
                 "privacy_protection": "enhanced",
                 "user_control": "maintained",
-                "compliance": "gdpr_ccpa_compliant"
+                "compliance": "gdpr_ccpa_compliant",
             },
-            privacy_level="private"
+            privacy_level="private",
         )
 
         await self._store_audit_event(event)
         return event.event_id
 
-    async def generate_user_transparency_report(self,
-                                              user_id: str,
-                                              transparency_level: TransparencyLevel = TransparencyLevel.DETAILED,
-                                              days: int = 30) -> UserTransparencyReport:
+    async def generate_user_transparency_report(
+        self,
+        user_id: str,
+        transparency_level: TransparencyLevel = TransparencyLevel.DETAILED,
+        days: int = 30,
+    ) -> UserTransparencyReport:
         """Generate comprehensive transparency report for user"""
 
         # Get user's audit events for the period
@@ -463,7 +486,7 @@ class VIVOXAuditSystem:
             regulation_insights=regulation_insights,
             learning_progress=learning_progress,
             privacy_summary=privacy_summary,
-            recommendations=recommendations
+            recommendations=recommendations,
         )
 
         # Log report generation
@@ -473,24 +496,25 @@ class VIVOXAuditSystem:
             {
                 "report_level": transparency_level.value,
                 "report_period_days": days,
-                "events_included": len(user_events)
-            }
+                "events_included": len(user_events),
+            },
         )
 
         return report
 
-    async def _get_user_events(self,
-                             user_id: str,
-                             start_date: datetime,
-                             end_date: datetime) -> List[AuditEvent]:
+    async def _get_user_events(
+        self, user_id: str, start_date: datetime, end_date: datetime
+    ) -> list[AuditEvent]:
         """Get user's audit events for date range"""
 
         user_events = []
 
         for event in self.audit_events:
-            if (event.user_id == user_id and
-                start_date <= event.timestamp <= end_date and
-                event.user_visible):
+            if (
+                event.user_id == user_id
+                and start_date <= event.timestamp <= end_date
+                and event.user_visible
+            ):
                 user_events.append(event)
 
         # Sort by timestamp
@@ -498,16 +522,21 @@ class VIVOXAuditSystem:
 
         return user_events
 
-    async def _generate_summary_stats(self, events: List[AuditEvent]) -> Dict[str, Any]:
+    async def _generate_summary_stats(self, events: list[AuditEvent]) -> dict[str, Any]:
         """Generate summary statistics from events"""
 
-        regulation_events = [e for e in events if e.event_type == AuditEventType.REGULATION_APPLIED]
-        input_events = [e for e in events if e.event_type == AuditEventType.EMOTIONAL_INPUT]
-        learning_events = [e for e in events if e.event_type == AuditEventType.PATTERN_LEARNED]
+        regulation_events = [
+            e for e in events if e.event_type == AuditEventType.REGULATION_APPLIED
+        ]
+        input_events = [
+            e for e in events if e.event_type == AuditEventType.EMOTIONAL_INPUT
+        ]
+        learning_events = [
+            e for e in events if e.event_type == AuditEventType.PATTERN_LEARNED
+        ]
 
         effectiveness_scores = [
-            e.event_data.get("effectiveness", 0.0)
-            for e in regulation_events
+            e.event_data.get("effectiveness", 0.0) for e in regulation_events
         ]
 
         return {
@@ -515,34 +544,52 @@ class VIVOXAuditSystem:
             "total_regulations": len(regulation_events),
             "total_emotional_inputs": len(input_events),
             "total_learning_events": len(learning_events),
-            "average_effectiveness": sum(effectiveness_scores) / len(effectiveness_scores) if effectiveness_scores else 0.0,
-            "effectiveness_trend": "improving" if len(effectiveness_scores) > 5 and effectiveness_scores[-3:] > effectiveness_scores[:3] else "stable",
+            "average_effectiveness": (
+                sum(effectiveness_scores) / len(effectiveness_scores)
+                if effectiveness_scores
+                else 0.0
+            ),
+            "effectiveness_trend": (
+                "improving"
+                if len(effectiveness_scores) > 5
+                and effectiveness_scores[-3:] > effectiveness_scores[:3]
+                else "stable"
+            ),
             "engagement_level": min(1.0, len(events) / 100.0),  # Normalize engagement
-            "common_patterns": self._extract_common_patterns(events)
+            "common_patterns": self._extract_common_patterns(events),
         }
 
-    async def _generate_emotional_journey(self, events: List[AuditEvent]) -> List[Dict[str, Any]]:
+    async def _generate_emotional_journey(
+        self, events: list[AuditEvent]
+    ) -> list[dict[str, Any]]:
         """Generate emotional journey timeline"""
 
         journey = []
 
         for event in events:
-            if event.event_type in [AuditEventType.EMOTIONAL_INPUT, AuditEventType.REGULATION_APPLIED]:
+            if event.event_type in [
+                AuditEventType.EMOTIONAL_INPUT,
+                AuditEventType.REGULATION_APPLIED,
+            ]:
                 journey_entry = {
                     "timestamp": event.timestamp.isoformat(),
                     "type": event.event_type.value,
                     "description": self._generate_journey_description(event),
                     "impact": event.impact_assessment.get("emotional_impact", 0.0),
-                    "privacy_level": event.privacy_level
+                    "privacy_level": event.privacy_level,
                 }
                 journey.append(journey_entry)
 
         return journey[-20:]  # Last 20 events
 
-    async def _generate_regulation_insights(self, events: List[AuditEvent]) -> Dict[str, Any]:
+    async def _generate_regulation_insights(
+        self, events: list[AuditEvent]
+    ) -> dict[str, Any]:
         """Generate regulation strategy insights"""
 
-        regulation_events = [e for e in events if e.event_type == AuditEventType.REGULATION_APPLIED]
+        regulation_events = [
+            e for e in events if e.event_type == AuditEventType.REGULATION_APPLIED
+        ]
 
         if not regulation_events:
             return {"message": "No regulation data available"}
@@ -565,39 +612,70 @@ class VIVOXAuditSystem:
             strategy_stats[strategy]["average"] = sum(scores) / len(scores)
 
         # Find most effective strategy
-        most_effective = max(
-            strategy_stats.items(),
-            key=lambda x: x[1]["average"]
-        )[0] if strategy_stats else "unknown"
+        most_effective = (
+            max(strategy_stats.items(), key=lambda x: x[1]["average"])[0]
+            if strategy_stats
+            else "unknown"
+        )
 
         return {
             "strategy_breakdown": strategy_stats,
             "most_effective_strategy": most_effective,
-            "success_rate": sum(1 for e in regulation_events if e.event_data.get("effectiveness", 0) > 0.7) / len(regulation_events),
+            "success_rate": sum(
+                1
+                for e in regulation_events
+                if e.event_data.get("effectiveness", 0) > 0.7
+            )
+            / len(regulation_events),
             "total_regulations": len(regulation_events),
-            "average_duration": sum(e.event_data.get("duration_seconds", 0) for e in regulation_events) / len(regulation_events)
+            "average_duration": sum(
+                e.event_data.get("duration_seconds", 0) for e in regulation_events
+            )
+            / len(regulation_events),
         }
 
-    async def _generate_learning_progress(self, events: List[AuditEvent]) -> Dict[str, Any]:
+    async def _generate_learning_progress(
+        self, events: list[AuditEvent]
+    ) -> dict[str, Any]:
         """Generate learning and adaptation progress"""
 
-        learning_events = [e for e in events if e.event_type == AuditEventType.PATTERN_LEARNED]
+        learning_events = [
+            e for e in events if e.event_type == AuditEventType.PATTERN_LEARNED
+        ]
 
         progress_score = min(1.0, len(learning_events) / 10.0)  # Normalize to 0-1
 
         return {
             "patterns_learned": len(learning_events),
             "progress_score": progress_score,
-            "adaptations": sum(1 for e in learning_events if e.event_data.get("pattern_strength", 0) > 0.7),
+            "adaptations": sum(
+                1
+                for e in learning_events
+                if e.event_data.get("pattern_strength", 0) > 0.7
+            ),
             "personalization_level": progress_score,
-            "learning_rate": len(learning_events) / max(1, len([e for e in events if e.event_type == AuditEventType.REGULATION_APPLIED]))
+            "learning_rate": len(learning_events)
+            / max(
+                1,
+                len(
+                    [
+                        e
+                        for e in events
+                        if e.event_type == AuditEventType.REGULATION_APPLIED
+                    ]
+                ),
+            ),
         }
 
-    async def _generate_privacy_summary(self, events: List[AuditEvent]) -> Dict[str, Any]:
+    async def _generate_privacy_summary(
+        self, events: list[AuditEvent]
+    ) -> dict[str, Any]:
         """Generate privacy and data usage summary"""
 
         data_points = sum(e.event_data.get("data_points", 1) for e in events)
-        sensitive_events = sum(1 for e in events if e.privacy_level in ["sensitive", "private"])
+        sensitive_events = sum(
+            1 for e in events if e.privacy_level in ["sensitive", "private"]
+        )
 
         return {
             "data_points": data_points,
@@ -606,12 +684,12 @@ class VIVOXAuditSystem:
             "privacy_compliance": "gdpr_ccpa_compliant",
             "encryption_status": "encrypted",
             "data_sharing": "none",
-            "user_control": "full"
+            "user_control": "full",
         }
 
-    async def _generate_recommendations(self,
-                                      events: List[AuditEvent],
-                                      summary: Dict[str, Any]) -> List[str]:
+    async def _generate_recommendations(
+        self, events: list[AuditEvent], summary: dict[str, Any]
+    ) -> list[str]:
         """Generate personalized recommendations"""
 
         recommendations = []
@@ -619,27 +697,41 @@ class VIVOXAuditSystem:
         # Effectiveness-based recommendations
         avg_effectiveness = summary.get("average_effectiveness", 0.0)
         if avg_effectiveness < 0.6:
-            recommendations.append("Consider trying different regulation strategies to improve effectiveness")
+            recommendations.append(
+                "Consider trying different regulation strategies to improve effectiveness"
+            )
 
         # Engagement recommendations
         engagement = summary.get("engagement_level", 0.0)
         if engagement < 0.3:
-            recommendations.append("Regular practice with emotional regulation techniques could improve outcomes")
+            recommendations.append(
+                "Regular practice with emotional regulation techniques could improve outcomes"
+            )
 
         # Strategy-specific recommendations
-        regulation_events = [e for e in events if e.event_type == AuditEventType.REGULATION_APPLIED]
+        regulation_events = [
+            e for e in events if e.event_type == AuditEventType.REGULATION_APPLIED
+        ]
         if regulation_events:
-            strategies_used = set(e.event_data.get("strategy") for e in regulation_events)
+            strategies_used = {e.event_data.get("strategy") for e in regulation_events}
             if len(strategies_used) < 3:
-                recommendations.append("Exploring additional regulation strategies might provide better results")
+                recommendations.append(
+                    "Exploring additional regulation strategies might provide better results"
+                )
 
         # Learning recommendations
-        learning_events = [e for e in events if e.event_type == AuditEventType.PATTERN_LEARNED]
+        learning_events = [
+            e for e in events if e.event_type == AuditEventType.PATTERN_LEARNED
+        ]
         if len(learning_events) < 5:
-            recommendations.append("Continued use will help the system learn your preferences better")
+            recommendations.append(
+                "Continued use will help the system learn your preferences better"
+            )
 
         # Privacy recommendations
-        recommendations.append("Review your privacy settings regularly to ensure they meet your preferences")
+        recommendations.append(
+            "Review your privacy settings regularly to ensure they meet your preferences"
+        )
 
         return recommendations[:5]  # Top 5 recommendations
 
@@ -649,7 +741,9 @@ class VIVOXAuditSystem:
         random_part = os.urandom(4).hex()
         return f"vivox_audit_{int(timestamp)}_{random_part}"
 
-    def _assess_privacy_level(self, emotion_data: Dict[str, Any], context: Dict[str, Any]) -> str:
+    def _assess_privacy_level(
+        self, emotion_data: dict[str, Any], context: dict[str, Any]
+    ) -> str:
         """Assess privacy level of data"""
 
         # Check for sensitive keywords
@@ -666,7 +760,7 @@ class VIVOXAuditSystem:
 
         return self.default_privacy_level
 
-    def _summarize_emotion_data(self, emotion_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _summarize_emotion_data(self, emotion_data: dict[str, Any]) -> dict[str, Any]:
         """Create privacy-safe summary of emotion data"""
 
         if "vad" in emotion_data:
@@ -675,28 +769,31 @@ class VIVOXAuditSystem:
                 "type": "vad_vector",
                 "valence_range": self._categorize_value(vad.get("valence", 0)),
                 "arousal_range": self._categorize_value(vad.get("arousal", 0)),
-                "intensity": self._categorize_value(vad.get("intensity", 0))
+                "intensity": self._categorize_value(vad.get("intensity", 0)),
             }
         elif "emotions" in emotion_data:
             return {
                 "type": "emotion_scores",
-                "dominant_emotion": max(emotion_data["emotions"].items(), key=lambda x: x[1])[0] if emotion_data["emotions"] else "neutral",
-                "emotion_count": len(emotion_data["emotions"])
+                "dominant_emotion": (
+                    max(emotion_data["emotions"].items(), key=lambda x: x[1])[0]
+                    if emotion_data["emotions"]
+                    else "neutral"
+                ),
+                "emotion_count": len(emotion_data["emotions"]),
             }
         else:
-            return {
-                "type": "text_or_other",
-                "data_size": len(str(emotion_data))
-            }
+            return {"type": "text_or_other", "data_size": len(str(emotion_data))}
 
-    def _summarize_context(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _summarize_context(self, context: dict[str, Any]) -> dict[str, Any]:
         """Create privacy-safe summary of context"""
 
         return {
             "environment": context.get("environment", "unknown"),
             "time_context": context.get("time_of_day", "unknown"),
-            "stress_level_category": self._categorize_value(context.get("stress_level", 0.5)),
-            "context_factors": len(context)
+            "stress_level_category": self._categorize_value(
+                context.get("stress_level", 0.5)
+            ),
+            "context_factors": len(context),
         }
 
     def _categorize_value(self, value: float) -> str:
@@ -708,13 +805,15 @@ class VIVOXAuditSystem:
         else:
             return "medium"
 
-    def _extract_common_patterns(self, events: List[AuditEvent]) -> List[str]:
+    def _extract_common_patterns(self, events: list[AuditEvent]) -> list[str]:
         """Extract common patterns from events"""
 
         patterns = []
 
         # Common regulation strategies
-        regulation_events = [e for e in events if e.event_type == AuditEventType.REGULATION_APPLIED]
+        regulation_events = [
+            e for e in events if e.event_type == AuditEventType.REGULATION_APPLIED
+        ]
         if regulation_events:
             strategies = [e.event_data.get("strategy") for e in regulation_events]
             most_common_strategy = max(set(strategies), key=strategies.count)
@@ -744,7 +843,9 @@ class VIVOXAuditSystem:
         elif event.event_type == AuditEventType.REGULATION_APPLIED:
             strategy = event.event_data.get("strategy", "unknown")
             effectiveness = event.event_data.get("effectiveness", 0)
-            return f"Applied {strategy} regulation with {effectiveness:.0%} effectiveness"
+            return (
+                f"Applied {strategy} regulation with {effectiveness:.0%} effectiveness"
+            )
 
         else:
             return event.reasoning
@@ -766,7 +867,9 @@ class VIVOXAuditSystem:
                 await self._archive_old_events()
             else:
                 # Simple truncation
-                self.audit_events = self.audit_events[-int(self.max_events_memory * 0.8):]
+                self.audit_events = self.audit_events[
+                    -int(self.max_events_memory * 0.8) :
+                ]
 
     async def _archive_old_events(self):
         """Archive old events to persistent storage"""
@@ -778,20 +881,25 @@ class VIVOXAuditSystem:
 
         if events_to_archive:
             # Save to file
-            archive_file = Path(self.storage_path) / f"audit_archive_{datetime.now().strftime('%Y%m%d')}.json"
+            archive_file = (
+                Path(self.storage_path)
+                / f"audit_archive_{datetime.now().strftime('%Y%m%d')}.json"
+            )
 
             archive_data = {
                 "archived_at": datetime.now(timezone.utc).isoformat(),
                 "event_count": len(events_to_archive),
-                "events": [e.to_dict() for e in events_to_archive]
+                "events": [e.to_dict() for e in events_to_archive],
             }
 
-            with open(archive_file, 'w') as f:
+            with open(archive_file, "w") as f:
                 json.dump(archive_data, f, indent=2)
 
             self.audit_events = events_to_keep
 
-            logger.info(f"Archived {len(events_to_archive)} old audit events to {archive_file}")
+            logger.info(
+                f"Archived {len(events_to_archive)} old audit events to {archive_file}"
+            )
 
     def _load_audit_events(self):
         """Load existing audit events from storage"""
@@ -815,14 +923,16 @@ class VIVOXAuditSystem:
         except Exception as e:
             logger.error(f"Error loading audit events: {e}")
 
-    def get_audit_statistics(self) -> Dict[str, Any]:
+    def get_audit_statistics(self) -> dict[str, Any]:
         """Get overall audit system statistics"""
 
         return {
             "total_events": len(self.audit_events),
             "unique_users": len(self.user_sessions),
             "event_types": {
-                event_type.value: sum(1 for e in self.audit_events if e.event_type == event_type)
+                event_type.value: sum(
+                    1 for e in self.audit_events if e.event_type == event_type
+                )
                 for event_type in AuditEventType
             },
             "privacy_levels": {
@@ -831,5 +941,5 @@ class VIVOXAuditSystem:
             },
             "retention_days": self.retention_days,
             "storage_path": self.storage_path,
-            "auto_archive_enabled": self.auto_archive_enabled
+            "auto_archive_enabled": self.auto_archive_enabled,
         }

@@ -112,7 +112,7 @@ class DistributedQuantumSafeOrchestrator:
             protocol="quantum_secure_multiparty", threshold=len(participant_nodes) * 0.7
         )
 
-        for epoch in range(learning_task.num_epochs):
+        for _epoch in range(learning_task.num_epochs):
             # 3. Local quantum training on encrypted data
             local_updates = []
             for node in participant_nodes:

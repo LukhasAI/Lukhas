@@ -11,7 +11,7 @@ import time
 import uuid
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger("ΛGuardian.Core")
 
@@ -187,12 +187,12 @@ class LambdaGuardianStatus:
     system_id: str
     status: str  # operational, degraded, critical, offline
     uptime_seconds: float
-    active_modules: List[str]
+    active_modules: list[str]
     threat_level: str
     emergency_active: bool
     last_health_check: float
-    performance_metrics: Dict[str, float]
-    lambda_signature: List[str]
+    performance_metrics: dict[str, float]
+    lambda_signature: list[str]
 
 
 @dataclass
@@ -205,8 +205,8 @@ class LambdaSystemEvent:
     severity: str
     source_module: str
     description: str
-    context: Dict[str, Any]
-    lambda_signature: List[str]
+    context: dict[str, Any]
+    lambda_signature: list[str]
 
 
 class ConsentRequest:
@@ -307,15 +307,15 @@ class LambdaGuardianEngine:
         )
 
         # Event tracking
-        self.system_events: List[LambdaSystemEvent] = []
-        self.performance_history: List[Dict] = []
+        self.system_events: list[LambdaSystemEvent] = []
+        self.performance_history: list[dict] = []
 
         # Initialize subsystems
         self._initialize_subsystems(enable_all)
 
         logger.info(f"🛡️ ΛGuardian Engine initialized (ID: {self.system_id})")
 
-    def _load_config(self) -> Dict:
+    def _load_config(self) -> dict:
         """Load ΛGuardian configuration"""
         try:
             if self.config_path.exists():
@@ -594,7 +594,7 @@ class LambdaGuardianEngine:
         event_type: str,
         severity: str,
         description: str,
-        context: Dict[str, Any] = None,
+        context: dict[str, Any] = None,
         source_module: str = "λ_guardian_engine",
     ):
         """Log a ΛGuardian system event"""
@@ -621,7 +621,7 @@ class LambdaGuardianEngine:
 
     def _generate_lambda_event_symbols(
         self, event_type: str, severity: str
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate Lambda symbolic signature for events"""
         symbols = ["Λ", "📋"]  # Base Lambda event symbols
 
@@ -650,8 +650,8 @@ class LambdaGuardianEngine:
     # Public ΛGuardian API methods
 
     async def request_lambda_consent(
-        self, requester: str, resource: str, permission: str, context: Dict = None
-    ) -> Dict:
+        self, requester: str, resource: str, permission: str, context: dict = None
+    ) -> dict:
         """Request consent through ΛGuardian system"""
         if "λ_consent_manager" not in self.subsystems:
             return {"error": "ΛConsent manager not available"}
@@ -685,7 +685,7 @@ class LambdaGuardianEngine:
             "λ_signature": result.symbolic_path,
         }
 
-    async def read_medication_with_lambda(self, image_path: str) -> Dict:
+    async def read_medication_with_lambda(self, image_path: str) -> dict:
         """Read medication information with ΛGuardian enhancement"""
         if "λ_medical_ocr" not in self.subsystems:
             return {"error": "ΛMedical OCR not available"}
@@ -712,8 +712,8 @@ class LambdaGuardianEngine:
             return {"error": str(e)}
 
     async def emergency_lambda_alert(
-        self, emergency_type: str, severity: str = "high", context: Dict = None
-    ) -> Dict:
+        self, emergency_type: str, severity: str = "high", context: dict = None
+    ) -> dict:
         """Trigger emergency alert through ΛGuardian"""
         if "λ_emergency_aid" not in self.subsystems:
             return {"error": "ΛEmergency aid not available"}
@@ -747,7 +747,7 @@ class LambdaGuardianEngine:
             )
             return {"error": str(e)}
 
-    def get_lambda_system_status(self) -> Dict:
+    def get_lambda_system_status(self) -> dict:
         """Get current ΛGuardian system status"""
         return {
             "λ_system_id": self.system_id,
@@ -758,7 +758,7 @@ class LambdaGuardianEngine:
             "λ_signature": self.current_status.lambda_signature,
         }
 
-    def _get_lambda_performance_summary(self) -> Dict:
+    def _get_lambda_performance_summary(self) -> dict:
         """Get ΛGuardian performance summary"""
         if not self.performance_history:
             return {"λ_status": "No performance data available"}
@@ -818,7 +818,7 @@ async def create_lambda_guardian(config_path: str = None) -> LambdaGuardianEngin
 
 async def lambda_emergency_medical_assist(
     image_path: str, guardian: LambdaGuardianEngine = None
-) -> Dict:
+) -> dict:
     """Quick emergency medical assistance with ΛGuardian"""
     if guardian is None:
         guardian = await create_lambda_guardian()

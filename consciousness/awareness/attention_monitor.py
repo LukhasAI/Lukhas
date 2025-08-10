@@ -20,7 +20,7 @@ import statistics
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -79,7 +79,7 @@ class InputEvent:
 
     timestamp: float
     event_type: InputModality
-    coordinates: Tuple[float, float]
+    coordinates: tuple[float, float]
     processing_time: float
     response_time: float
 
@@ -97,7 +97,7 @@ class AttentionMonitor:
     - Adaptive threshold adjustment
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or self._get_default_config()
 
         # Attention tracking state
@@ -129,7 +129,7 @@ class AttentionMonitor:
             "distraction_threshold": 3,  # events per minute
         }
 
-    def _get_default_config(self) -> Dict[str, Any]:
+    def _get_default_config(self) -> dict[str, Any]:
         """Get default configuration for attention monitoring."""
         return {
             "eye_tracking_enabled": False,
@@ -213,7 +213,7 @@ class AttentionMonitor:
         self.baseline_lag = 50.0  # ms
         logger.info("Baseline calibration completed")
 
-    def process_eye_tracking_data(self, eye_data: EyeTrackingData) -> Dict[str, Any]:
+    def process_eye_tracking_data(self, eye_data: EyeTrackingData) -> dict[str, Any]:
         """
         Process eye tracking data to extract attention metrics.
 
@@ -245,7 +245,7 @@ class AttentionMonitor:
             "timestamp": eye_data.timestamp,
         }
 
-    def _analyze_eye_movement_patterns(self) -> Dict[str, Any]:
+    def _analyze_eye_movement_patterns(self) -> dict[str, Any]:
         """
         Analyze eye movement patterns to detect attention state.
 
@@ -258,7 +258,9 @@ class AttentionMonitor:
         recent_data = self.eye_data_buffer[-20:]  # Last 20 data points
 
         # Calculate fixation stability
-        # SYNTAX_ERROR_FIXED:         fixation_variance = statistics.variance([d.x for d in recent_data]) + " + "statistics.variance([d.y for d in recent_data])
+        # SYNTAX_ERROR_FIXED:         fixation_variance = statistics.variance([d.x
+        # for d in recent_data]) + " + "statistics.variance([d.y for d in
+        # recent_data])
 
         # Calculate average pupil diameter (attention indicator)
         avg_pupil_diameter = statistics.mean([d.pupil_diameter for d in recent_data])
@@ -285,7 +287,7 @@ class AttentionMonitor:
         }
 
     def _calculate_attention_from_eye_data(
-        self, eye_analysis: Dict[str, Any]
+        self, eye_analysis: dict[str, Any]
     ) -> AttentionMetrics:
         """
         Calculate attention metrics from eye movement analysis.
@@ -328,7 +330,7 @@ class AttentionMonitor:
             confidence=0.9 if self.eye_tracking_enabled else 0.5,
         )
 
-    def process_input_event(self, input_event: InputEvent) -> Dict[str, Any]:
+    def process_input_event(self, input_event: InputEvent) -> dict[str, Any]:
         """
         Process input event to measure lag and extract attention indicators.
 
@@ -362,7 +364,7 @@ class AttentionMonitor:
             "timestamp": input_event.timestamp,
         }
 
-    def _analyze_input_lag(self, input_event: InputEvent) -> Dict[str, Any]:
+    def _analyze_input_lag(self, input_event: InputEvent) -> dict[str, Any]:
         """
         Analyze input lag to detect performance issues and cognitive load.
 
@@ -405,7 +407,7 @@ class AttentionMonitor:
             },
         }
 
-    def _extract_attention_from_input_patterns(self) -> Dict[str, Any]:
+    def _extract_attention_from_input_patterns(self) -> dict[str, Any]:
         """
         Extract attention indicators from input timing and patterns.
 
@@ -454,7 +456,7 @@ class AttentionMonitor:
             },
         }
 
-    def get_current_attention_state(self) -> Tuple[AttentionState, AttentionMetrics]:
+    def get_current_attention_state(self) -> tuple[AttentionState, AttentionMetrics]:
         """
         Get current attention state and metrics.
 
@@ -508,7 +510,7 @@ class AttentionMonitor:
         Returns:
             Updated attention metrics
         """
-        current_time = time.time()
+        time.time()
 
         # Process available data
         eye_metrics = None
@@ -520,7 +522,7 @@ class AttentionMonitor:
         if input_event:
             input_result = self.process_input_event(input_event)
             # Extract attention metrics from input analysis
-            input_indicators = input_result.get("attention_indicators", {})
+            input_result.get("attention_indicators", {})
 
         # Combine metrics from all sources
         combined_metrics = self._combine_attention_metrics(eye_metrics, input_metrics)
@@ -533,7 +535,7 @@ class AttentionMonitor:
         return combined_metrics
 
     def _combine_attention_metrics(
-        self, eye_metrics: Optional[AttentionMetrics], input_metrics: Optional[Dict]
+        self, eye_metrics: Optional[AttentionMetrics], input_metrics: Optional[dict]
     ) -> AttentionMetrics:
         """
         Combine attention metrics from multiple sources.
@@ -587,7 +589,7 @@ class AttentionMonitor:
 
         return combined
 
-    def get_attention_status(self) -> Dict[str, Any]:
+    def get_attention_status(self) -> dict[str, Any]:
         """Get comprehensive attention monitoring status."""
         state, metrics = self.get_current_attention_state()
 

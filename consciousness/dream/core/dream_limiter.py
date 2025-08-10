@@ -9,7 +9,7 @@
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -29,19 +29,19 @@ class DreamLimiter:
 
     def __init__(self, config: Optional[DreamLimiterConfig] = None):
         self.config = config or DreamLimiterConfig()
-        self.emotion_window: List[str] = []
+        self.emotion_window: list[str] = []
         self.driftScore: float = 0.0  # ΛTAG: driftScore
         self.affect_delta: float = 0.0  # ΛTAG: affect_delta
 
-    def _dominant_emotion(self, dream: Dict[str, Any]) -> Optional[str]:
+    def _dominant_emotion(self, dream: dict[str, Any]) -> Optional[str]:
         emotion_vector = dream.get("emotion_vector", {})
         if not emotion_vector:
             return None
         return max(emotion_vector, key=emotion_vector.get)
 
-    def filter_dreams(self, dreams: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def filter_dreams(self, dreams: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Filter dreams to balance novelty vs. integration."""
-        filtered: List[Dict[str, Any]] = []
+        filtered: list[dict[str, Any]] = []
         for dream in dreams:
             emotion = self._dominant_emotion(dream)
             if emotion:

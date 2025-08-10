@@ -16,7 +16,7 @@
 
 import asyncio
 from datetime import datetime, timezone
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -36,7 +36,7 @@ class VerifoldRegistryAdapter:
 
     def __init__(self, safety_system: MemorySafetySystem):
         self.safety = safety_system
-        self._trust_callbacks: Dict[str, List[Callable]] = {}
+        self._trust_callbacks: dict[str, list[Callable]] = {}
 
     def register_trust_callback(self, module_name: str, callback: Callable):
         """Register a callback for trust score updates"""
@@ -45,8 +45,8 @@ class VerifoldRegistryAdapter:
         self._trust_callbacks[module_name].append(callback)
 
     async def verify_for_module(
-        self, module_name: str, memory_id: str, memory_data: Dict[str, Any]
-    ) -> Tuple[bool, float, Optional[str]]:
+        self, module_name: str, memory_id: str, memory_data: dict[str, Any]
+    ) -> tuple[bool, float, Optional[str]]:
         """
         Verify memory for a specific module.
 
@@ -110,7 +110,7 @@ class VerifoldRegistryAdapter:
                         "Trust callback failed", module=module_name, error=str(e)
                     )
 
-    def get_module_trust_report(self, module_name: str) -> Dict[str, Any]:
+    def get_module_trust_report(self, module_name: str) -> dict[str, Any]:
         """Get trust statistics for a specific module"""
         # In production, would track per-module verification stats
         return {
@@ -139,8 +139,8 @@ class DriftMetricsAdapter:
 
     def __init__(self, safety_system: MemorySafetySystem):
         self.safety = safety_system
-        self._drift_thresholds: Dict[str, float] = {}
-        self._calibration_callbacks: Dict[str, List[Callable]] = {}
+        self._drift_thresholds: dict[str, float] = {}
+        self._calibration_callbacks: dict[str, list[Callable]] = {}
 
     def set_module_drift_threshold(self, module_name: str, threshold: float):
         """Set custom drift threshold for a module"""
@@ -153,8 +153,8 @@ class DriftMetricsAdapter:
         self._calibration_callbacks[module_name].append(callback)
 
     async def track_module_usage(
-        self, module_name: str, tag: str, embedding: np.ndarray, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, module_name: str, tag: str, embedding: np.ndarray, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Track drift for module-specific usage.
 
@@ -218,7 +218,7 @@ class DriftMetricsAdapter:
                         error=str(e),
                     )
 
-    def get_module_drift_report(self, module_name: str) -> Dict[str, Any]:
+    def get_module_drift_report(self, module_name: str) -> dict[str, Any]:
         """Get drift analysis for a module"""
         module_tags = []
 
@@ -259,8 +259,8 @@ class RealityAnchorsAdapter:
 
     def __init__(self, safety_system: MemorySafetySystem):
         self.safety = safety_system
-        self._module_anchors: Dict[str, Dict[str, str]] = {}
-        self._validation_callbacks: Dict[str, List[Callable]] = {}
+        self._module_anchors: dict[str, dict[str, str]] = {}
+        self._validation_callbacks: dict[str, list[Callable]] = {}
 
     def add_module_anchor(self, module_name: str, key: str, truth: str):
         """Add module-specific reality anchor"""
@@ -277,8 +277,8 @@ class RealityAnchorsAdapter:
         self._validation_callbacks[module_name].append(callback)
 
     async def validate_output(
-        self, module_name: str, output_data: Dict[str, Any], context: Dict[str, Any]
-    ) -> Tuple[bool, List[str]]:
+        self, module_name: str, output_data: dict[str, Any], context: dict[str, Any]
+    ) -> tuple[bool, list[str]]:
         """
         Validate module output against reality anchors.
 
@@ -305,11 +305,11 @@ class RealityAnchorsAdapter:
 
         return len(violations) == 0, violations
 
-    def _check_consistency(self, data: Dict[str, Any], key: str, truth: str) -> bool:
+    def _check_consistency(self, data: dict[str, Any], key: str, truth: str) -> bool:
         """Check if data is consistent with anchor"""
         data_str = str(data).lower()
         key_lower = key.lower()
-        truth_lower = truth.lower()
+        truth.lower()
 
         # Basic consistency check
         if key_lower in data_str:
@@ -323,7 +323,7 @@ class RealityAnchorsAdapter:
         return True
 
     async def _notify_validation(
-        self, module_name: str, is_valid: bool, violations: List[str]
+        self, module_name: str, is_valid: bool, violations: list[str]
     ):
         """Notify registered callbacks"""
         if module_name in self._validation_callbacks:
@@ -335,7 +335,7 @@ class RealityAnchorsAdapter:
                         "Validation callback failed", module=module_name, error=str(e)
                     )
 
-    def get_module_anchors(self, module_name: str) -> Dict[str, str]:
+    def get_module_anchors(self, module_name: str) -> dict[str, str]:
         """Get reality anchors for a module"""
         return self._module_anchors.get(module_name, {}).copy()
 
@@ -352,7 +352,7 @@ class ConsensusValidationAdapter:
     ):
         self.safety = safety_system
         self.memory = memory_fold
-        self._colony_validators: Dict[str, Callable] = {}
+        self._colony_validators: dict[str, Callable] = {}
         self._swarm_consensus_threshold = 0.66  # 2/3 majority
 
     def register_colony_validator(self, colony_id: str, validator: Callable):
@@ -362,9 +362,9 @@ class ConsensusValidationAdapter:
     async def validate_with_colonies(
         self,
         memory_id: str,
-        memory_data: Dict[str, Any],
-        participating_colonies: List[str],
-    ) -> Tuple[bool, float, Dict[str, bool]]:
+        memory_data: dict[str, Any],
+        participating_colonies: list[str],
+    ) -> tuple[bool, float, dict[str, bool]]:
         """
         Validate memory across multiple colonies.
 
@@ -399,8 +399,8 @@ class ConsensusValidationAdapter:
         return consensus_reached, agreement_ratio, colony_votes
 
     async def distributed_memory_verification(
-        self, query: str, colonies: List[str], min_consensus_memories: int = 3
-    ) -> List[Tuple[Any, float]]:
+        self, query: str, colonies: list[str], min_consensus_memories: int = 3
+    ) -> list[tuple[Any, float]]:
         """
         Retrieve memories with distributed consensus validation.
 
@@ -457,7 +457,7 @@ class ConsensusValidationAdapter:
         """Set consensus threshold for swarm validation"""
         self._swarm_consensus_threshold = max(0.5, min(1.0, threshold))
 
-    def get_consensus_report(self) -> Dict[str, Any]:
+    def get_consensus_report(self) -> dict[str, Any]:
         """Get consensus validation statistics"""
         return {
             "registered_colonies": len(self._colony_validators),
@@ -490,7 +490,7 @@ class MemorySafetyIntegration:
         logger.info("Memory safety integration initialized")
 
     async def register_module(
-        self, module_name: str, config: Optional[Dict[str, Any]] = None
+        self, module_name: str, config: Optional[dict[str, Any]] = None
     ):
         """Register a module for safety integration"""
         config = config or {}
@@ -514,7 +514,7 @@ class MemorySafetyIntegration:
             config=config,
         )
 
-    def get_integration_status(self) -> Dict[str, Any]:
+    def get_integration_status(self) -> dict[str, Any]:
         """Get overall integration status"""
         return {
             "safety_report": self.safety.get_safety_report(),

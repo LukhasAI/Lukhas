@@ -14,7 +14,7 @@ from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -72,8 +72,8 @@ class HallucinationReport:
     detection_time: datetime
     hallucination_type: HallucinationType
     severity: float  # 0.0-1.0
-    affected_branches: List[str]
-    evidence: Dict[str, Any]
+    affected_branches: list[str]
+    evidence: dict[str, Any]
     recommended_action: str
     auto_corrected: bool = False
 
@@ -84,9 +84,9 @@ class SafetyCheckpoint:
 
     checkpoint_id: str
     timestamp: datetime
-    reality_snapshot: Dict[str, Any]
+    reality_snapshot: dict[str, Any]
     drift_metrics: DriftMetrics
-    validations_passed: Dict[str, bool]
+    validations_passed: dict[str, bool]
     risk_score: float
 
     def to_hash(self) -> str:
@@ -114,7 +114,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
     - Audit trail with cryptographic verification
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize safety framework"""
         self.config = config or {}
         self.operational = False
@@ -127,12 +127,12 @@ class ParallelRealitySafetyFramework(CoreInterface):
         self.max_reality_depth = self.config.get("max_reality_depth", 10)
 
         # Monitoring systems
-        self.drift_history: Dict[str, deque] = {}  # branch_id -> drift measurements
-        self.hallucination_log: List[HallucinationReport] = []
-        self.safety_checkpoints: Dict[str, List[SafetyCheckpoint]] = (
+        self.drift_history: dict[str, deque] = {}  # branch_id -> drift measurements
+        self.hallucination_log: list[HallucinationReport] = []
+        self.safety_checkpoints: dict[str, list[SafetyCheckpoint]] = (
             {}
         )  # sim_id -> checkpoints
-        self.baseline_realities: Dict[str, Dict[str, Any]] = {}  # sim_id -> baseline
+        self.baseline_realities: dict[str, dict[str, Any]] = {}  # sim_id -> baseline
 
         # Safety metrics
         self.metrics = {
@@ -185,8 +185,8 @@ class ParallelRealitySafetyFramework(CoreInterface):
             raise LukhasError(f"Safety initialization failed: {e}")
 
     async def validate_reality_branch(
-        self, branch: Any, simulation_baseline: Dict[str, Any]  # RealityBranch type
-    ) -> Tuple[bool, Optional[HallucinationReport]]:
+        self, branch: Any, simulation_baseline: dict[str, Any]  # RealityBranch type
+    ) -> tuple[bool, Optional[HallucinationReport]]:
         """
         Validate a reality branch for hallucinations and safety.
 
@@ -254,7 +254,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         return True, None
 
     async def _detect_hallucinations(
-        self, branch: Any, baseline: Dict[str, Any]
+        self, branch: Any, baseline: dict[str, Any]
     ) -> Optional[HallucinationReport]:
         """Detect various types of hallucinations"""
 
@@ -312,8 +312,8 @@ class ParallelRealitySafetyFramework(CoreInterface):
         return None
 
     def _check_logical_consistency(
-        self, state: Dict[str, Any]
-    ) -> Optional[Dict[str, Any]]:
+        self, state: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:
         """Check for logical contradictions in reality state"""
         issues = []
 
@@ -338,8 +338,8 @@ class ParallelRealitySafetyFramework(CoreInterface):
         return None
 
     def _check_causal_integrity(
-        self, causal_chain: List[Dict[str, Any]]
-    ) -> Optional[Dict[str, Any]]:
+        self, causal_chain: list[dict[str, Any]]
+    ) -> Optional[dict[str, Any]]:
         """Verify causal chain integrity"""
         issues = []
 
@@ -372,10 +372,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
             return True
 
         # Check for infinite state expansion
-        if self._estimate_state_complexity(branch.state) > 1000:
-            return True
-
-        return False
+        return self._estimate_state_complexity(branch.state) > 1000
 
     def _estimate_state_complexity(self, state: Any, depth: int = 0) -> int:
         """Estimate complexity of state structure"""
@@ -443,7 +440,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
             return state
 
     async def calculate_drift_metrics(
-        self, branch: Any, baseline: Dict[str, Any]
+        self, branch: Any, baseline: dict[str, Any]
     ) -> DriftMetrics:
         """Calculate comprehensive drift metrics"""
         # Initialize drift history if needed
@@ -514,7 +511,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         return metrics
 
     def _calculate_semantic_drift(
-        self, current: Dict[str, Any], baseline: Dict[str, Any]
+        self, current: dict[str, Any], baseline: dict[str, Any]
     ) -> float:
         """Calculate semantic drift between states"""
         # Count changed fields
@@ -524,7 +521,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         return min(1.0, changed / max(len(all_keys), 1))
 
     def _calculate_structural_drift(
-        self, current: Dict[str, Any], baseline: Dict[str, Any]
+        self, current: dict[str, Any], baseline: dict[str, Any]
     ) -> float:
         """Calculate structural drift (shape changes)"""
         current_structure = self._extract_structure(current)
@@ -569,8 +566,8 @@ class ParallelRealitySafetyFramework(CoreInterface):
             return 0.0
 
         # Measure causal chain complexity
-        chain_length = len(branch.causal_chain)
-        unique_causes = len(set(link.get("from") for link in branch.causal_chain))
+        len(branch.causal_chain)
+        unique_causes = len({link.get("from") for link in branch.causal_chain})
 
         # Normalize (10+ unique causes = high drift)
         return min(1.0, unique_causes / 10)
@@ -578,7 +575,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
     async def create_safety_checkpoint(
         self,
         simulation_id: str,
-        reality_snapshot: Dict[str, Any],
+        reality_snapshot: dict[str, Any],
         drift_metrics: DriftMetrics,
     ) -> SafetyCheckpoint:
         """Create safety checkpoint for rollback capability"""
@@ -622,8 +619,8 @@ class ParallelRealitySafetyFramework(CoreInterface):
         return checkpoint
 
     async def validate_consensus(
-        self, branches: List[Any], property_name: str
-    ) -> Tuple[bool, float]:
+        self, branches: list[Any], property_name: str
+    ) -> tuple[bool, float]:
         """
         Validate consensus across multiple reality branches.
 
@@ -685,7 +682,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
 
     # Required interface methods
 
-    async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process safety validation request"""
         action = data.get("action", "validate")
 
@@ -732,7 +729,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
             "metrics": self.metrics,
         }
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get safety framework status"""
         return {
             "operational": self.operational,
@@ -857,7 +854,7 @@ class ConsensusValidator:
         """Initialize consensus validator"""
         self.operational = True
 
-    async def calculate_consensus(self, values: List[Any]) -> float:
+    async def calculate_consensus(self, values: list[Any]) -> float:
         """Calculate consensus score for values"""
         if not values:
             return 0.0

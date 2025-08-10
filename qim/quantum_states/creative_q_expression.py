@@ -23,7 +23,7 @@ import hashlib
 from collections.abc import AsyncGenerator
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Optional, Protocol
 
 import numpy as np
 
@@ -80,9 +80,9 @@ class CreativeQuantumLikeState:
     """Represents a creative idea in superposition-like state"""
 
     amplitude_vector: np.ndarray
-    entanglement_map: Dict[str, float]
+    entanglement_map: dict[str, float]
     coherence_time: float
-    cultural_resonance: Dict[str, float]
+    cultural_resonance: dict[str, float]
     emotional_spectrum: np.ndarray
 
     def collapse_to_expression(self) -> "CreativeExpression":
@@ -110,8 +110,8 @@ class CreativeQuantumLikeState:
 class CreativeExpressionProtocol(Protocol):
     """Protocol for all creative expression types"""
 
-    async def generate(self, context: Dict[str, Any]) -> Any: ...
-    async def evolve(self, feedback: Dict[str, Any]) -> Any: ...
+    async def generate(self, context: dict[str, Any]) -> Any: ...
+    async def evolve(self, feedback: dict[str, Any]) -> Any: ...
     async def cross_pollinate(self, other: "CreativeExpressionProtocol") -> Any: ...
 
 
@@ -120,7 +120,7 @@ class QuantumCreativeEngine:
     Core quantum-enhanced creative engine with bio-symbolic processing
     """
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
 
         # Quantum components
@@ -155,8 +155,8 @@ class QuantumCreativeEngine:
     async def generate_creative_expression(
         self,
         modality: str,
-        context: Dict[str, Any],
-        constraints: Optional[Dict[str, Any]] = None,
+        context: dict[str, Any],
+        constraints: Optional[dict[str, Any]] = None,
         quantum_depth: int = 5,
     ) -> CreativeExpression:
         """
@@ -201,7 +201,7 @@ class QuantumCreativeEngine:
         return secured_expression
 
     async def _apply_constraint_gates(
-        self, state: CreativeQuantumLikeState, constraints: Dict[str, Any]
+        self, state: CreativeQuantumLikeState, constraints: dict[str, Any]
     ) -> CreativeQuantumLikeState:
         """Apply creative constraints as quantum gates"""
         # Mock implementation of constraint application
@@ -356,7 +356,7 @@ class QuantumHaikuGenerator(CreativeExpressionProtocol):
             },
         }
 
-    async def generate(self, context: Dict[str, Any]) -> QuantumHaiku:
+    async def generate(self, context: dict[str, Any]) -> QuantumHaiku:
         """
         Generate haiku using superposition-like state of linguistic elements
         """
@@ -404,14 +404,14 @@ class QuantumHaikuGenerator(CreativeExpressionProtocol):
         return haiku
 
     async def _optimize_haiku_quantum_like_state(
-        self, state: QuantumWordState, optimization_criteria: Dict[str, float]
+        self, state: QuantumWordState, optimization_criteria: dict[str, float]
     ) -> QuantumWordState:
         """Optimize haiku quantum-like state based on criteria"""
         # Mock optimization - in reality would use quantum annealing
         optimized_circuit = state.circuit.copy()
 
         # Apply optimization rotations based on criteria
-        for criterion, weight in optimization_criteria.items():
+        for _criterion, weight in optimization_criteria.items():
             angle = weight * np.pi / 4
             for qubit in range(min(optimized_circuit.num_qubits, 8)):
                 optimized_circuit.ry(angle, qubit)
@@ -499,7 +499,7 @@ class QuantumMusicComposer(CreativeExpressionProtocol):
         self.emotional_melody_weaver = EmotionalMelodyWeaver()
         self.cultural_scale_library = CulturalScaleQuantumLibrary()
 
-    async def generate(self, context: Dict[str, Any]) -> QuantumMusicalPiece:
+    async def generate(self, context: dict[str, Any]) -> QuantumMusicalPiece:
         """
         Compose music using quantum harmonic principles
         """
@@ -675,7 +675,7 @@ class CollaborativeCreativityOrchestrator:
 
     async def orchestrate_collaborative_session(
         self,
-        participants: List[CreativeParticipant],
+        participants: list[CreativeParticipant],
         creative_goal: CreativeGoal,
         session_config: SessionConfig,
     ) -> AsyncGenerator[CollaborativeCreation, None]:
@@ -683,7 +683,7 @@ class CollaborativeCreativityOrchestrator:
         Orchestrate real-time collaborative creativity
         """
         # 1. Initialize creativity mesh
-        mesh_state = await self.creativity_mesh.initialize(participants)
+        await self.creativity_mesh.initialize(participants)
 
         # 2. Create shared quantum creative space
         shared_space = await self._create_shared_creative_space(
@@ -729,7 +729,7 @@ class CollaborativeCreativityOrchestrator:
         yield await self._finalize_collaborative_work(shared_space, participants)
 
     async def _create_shared_creative_space(
-        self, participants: List[CreativeParticipant], creative_goal: CreativeGoal
+        self, participants: list[CreativeParticipant], creative_goal: CreativeGoal
     ):
         """Create shared creative space for collaboration"""
         return {
@@ -748,7 +748,7 @@ class CollaborativeCreativityOrchestrator:
         return len(shared_space.get("shared_ideas", [])) >= 5
 
     async def _gather_contributions(
-        self, participants: List[CreativeParticipant], shared_space
+        self, participants: list[CreativeParticipant], shared_space
     ):
         """Gather contributions from all participants"""
         contributions = []
@@ -763,20 +763,19 @@ class CollaborativeCreativityOrchestrator:
         shared_space["coherence"] *= 0.95  # Slight coherence decay
         return shared_space
 
-    async def _calculate_contributions(self, contributions) -> Dict[str, float]:
+    async def _calculate_contributions(self, contributions) -> dict[str, float]:
         """Calculate contribution weights for participants"""
         total = len(contributions)
         return {f"participant_{i}": 1.0 / total for i in range(total)}
 
     async def _broadcast_update(
-        self, participants: List[CreativeParticipant], shared_space
+        self, participants: list[CreativeParticipant], shared_space
     ):
         """Broadcast updates to all participants"""
         # Mock broadcast - in reality would send updates to participants
-        pass
 
     async def _finalize_collaborative_work(
-        self, shared_space, participants: List[CreativeParticipant]
+        self, shared_space, participants: list[CreativeParticipant]
     ) -> CollaborativeCreation:
         """Finalize the collaborative creative work"""
         final_content = CreativeExpression(
@@ -816,7 +815,7 @@ class AdaptiveCreativePersonalization:
         self,
         base_creation: CreativeExpression,
         user_profile: UserCreativeProfile,
-        interaction_history: List[CreativeInteraction],
+        interaction_history: list[CreativeInteraction],
     ) -> PersonalizedCreation:
         """
         Deeply personalize creative output
@@ -860,7 +859,7 @@ class AdaptiveCreativePersonalization:
         )
 
     def _compute_personalization_vector(
-        self, aesthetic_params: Dict[str, float], user_profile: UserCreativeProfile
+        self, aesthetic_params: dict[str, float], user_profile: UserCreativeProfile
     ) -> np.ndarray:
         """Compute personalization vector from user data"""
         return np.random.random(64)  # Mock personalization vector
@@ -879,7 +878,7 @@ class LukhasCreativeExpressionEngine:
     Main interface for lukhas AI creative expression system
     """
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         # Core engines
         self.quantum_engine = QuantumCreativeEngine(config)
         self.bio_cognitive_layer = BioCognitiveCreativityLayer()
@@ -955,7 +954,7 @@ class LukhasCreativeExpressionEngine:
             session_config=session_request.session_config,
         ):
             # Apply protection to each iteration
-            protected = await self.ip_protector.protect_creative_work(
+            await self.ip_protector.protect_creative_work(
                 creation.content, session_request.participants[0].identity
             )
             yield creation
@@ -1009,7 +1008,7 @@ class EnhancedNeuroHaikuGenerator:
             self._initialized = True
 
     async def generate_quantum_haiku(
-        self, context: Dict[str, Any]
+        self, context: dict[str, Any]
     ) -> ProtectedCreativeWork:
         """
         Generate quantum-enhanced haiku with full protection

@@ -52,7 +52,7 @@ __tier__ = 2
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +62,7 @@ class QuantumCoordinator:
     Quantum system coordination and synchronization
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.active = False
         self.stats = {}
@@ -78,7 +78,7 @@ class QuantumCoordinator:
             logger.error(f"Failed to initialize: {e}")
             return False
 
-    async def process(self, consciousness_data: Any) -> Dict[str, Any]:
+    async def process(self, consciousness_data: Any) -> dict[str, Any]:
         """Process consciousness data through quantum-enhanced pathways"""
         if not self.active:
             return {"status": "error", "message": "System not initialized"}
@@ -96,7 +96,7 @@ class QuantumCoordinator:
 
     async def _process_consciousness_quantum_enhanced(
         self, consciousness_data: Any
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Process consciousness data through integrated quantum systems"""
         processing_start = datetime.now()
 
@@ -257,7 +257,7 @@ class QuantumCoordinator:
 
         return SimpleBioCoordinator()
 
-    def _prepare_consciousness_signal(self, consciousness_data: Any) -> Dict[str, Any]:
+    def _prepare_consciousness_signal(self, consciousness_data: Any) -> dict[str, Any]:
         """Convert consciousness data to quantum signal format"""
         if isinstance(consciousness_data, dict):
             # Extract key consciousness metrics
@@ -290,8 +290,8 @@ class QuantumCoordinator:
             }
 
     def _combine_quantum_outputs(
-        self, quantum_result: Dict, bio_quantum_result: Dict
-    ) -> Dict[str, Any]:
+        self, quantum_result: dict, bio_quantum_result: dict
+    ) -> dict[str, Any]:
         """Combine outputs from quantum-inspired processing pathways"""
         return {
             "quantum_coherence": quantum_result.get("coherence", 0.5),
@@ -309,8 +309,8 @@ class QuantumCoordinator:
         }
 
     def _extract_consciousness_insights(
-        self, combined_output: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, combined_output: dict[str, Any]
+    ) -> dict[str, Any]:
         """Extract consciousness insights from quantum-inspired processing results"""
         quantum_coherence = combined_output.get("quantum_coherence", 0.5)
         bio_stability = combined_output.get("bio_stability", 0.5)
@@ -352,7 +352,7 @@ class QuantumCoordinator:
 
     def _process_consciousness_fallback(
         self, consciousness_data: Any
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Fallback consciousness processing when quantum systems unavailable"""
         logger.info("Using fallback consciousness processing")
 
@@ -390,7 +390,7 @@ class QuantumCoordinator:
             }
 
     def _update_processing_stats(
-        self, processing_time: float, insights: Dict[str, Any]
+        self, processing_time: float, insights: dict[str, Any]
     ):
         """Update quantum coordinator processing statistics"""
         if "processing_stats" not in self.stats:
@@ -420,7 +420,7 @@ class QuantumCoordinator:
             stats["total_processing_time"] / stats["total_processed"]
         )
 
-    async def get_stats(self) -> Dict[str, Any]:
+    async def get_stats(self) -> dict[str, Any]:
         """Get system statistics"""
         return self.stats
 

@@ -7,6 +7,7 @@ specifically for the Lambda Products NIAS implementation.
 """
 
 import asyncio
+import contextlib
 import logging
 import time
 import uuid
@@ -14,7 +15,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +61,7 @@ class NIASEventType(Enum):
 class Event:
     event_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     event_type: str = ""
-    payload: Dict[str, Any] = field(default_factory=dict)
+    payload: dict[str, Any] = field(default_factory=dict)
     source: Optional[str] = None
     timestamp: float = field(default_factory=time.time)
 
@@ -80,17 +81,17 @@ class NIASEventBus:
     """Enhanced event bus specifically designed for NIAS message processing"""
 
     def __init__(self):
-        self._subscribers: Dict[str, List[Callable]] = defaultdict(list)
+        self._subscribers: dict[str, list[Callable]] = defaultdict(list)
         self._queue = asyncio.Queue()
         self._priority_queue = asyncio.PriorityQueue()
         self._worker_task: Optional[asyncio.Task] = None
         self._priority_worker_task: Optional[asyncio.Task] = None
 
         # NIAS-specific tracking
-        self._user_event_history: Dict[str, List[Event]] = defaultdict(list)
-        self._correlation_tracking: Dict[str, List[Event]] = defaultdict(list)
-        self._message_delivery_stats: Dict[str, Dict] = defaultdict(dict)
-        self._event_filters: Dict[str, Callable] = {}
+        self._user_event_history: dict[str, list[Event]] = defaultdict(list)
+        self._correlation_tracking: dict[str, list[Event]] = defaultdict(list)
+        self._message_delivery_stats: dict[str, dict] = defaultdict(dict)
+        self._event_filters: dict[str, Callable] = {}
 
         # Performance metrics
         self._events_processed = 0
@@ -130,10 +131,8 @@ class NIASEventBus:
     def unsubscribe(self, event_type: str, callback: Callable):
         """Unsubscribe from an event type"""
         if event_type in self._subscribers:
-            try:
+            with contextlib.suppress(ValueError):
                 self._subscribers[event_type].remove(callback)
-            except ValueError:
-                pass
 
         # Remove associated filter
         filter_key = f"{event_type}:{id(callback)}"
@@ -143,7 +142,7 @@ class NIASEventBus:
     async def publish(
         self,
         event_type: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         source: Optional[str] = None,
         priority: int = 1,
         correlation_id: Optional[str] = None,
@@ -183,7 +182,7 @@ class NIASEventBus:
     async def publish_nias_event(
         self,
         nias_event_type: NIASEventType,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         user_id: Optional[str] = None,
         tier: Optional[str] = None,
         source: Optional[str] = None,
@@ -202,7 +201,7 @@ class NIASEventBus:
         )
 
     async def start_message_processing(
-        self, message_id: str, user_id: str, message_data: Dict[str, Any]
+        self, message_id: str, user_id: str, message_data: dict[str, Any]
     ) -> str:
         """Start coordinated message processing session"""
         correlation_id = f"msg_processing_{message_id}_{uuid.uuid4().hex[:8]}"
@@ -228,7 +227,7 @@ class NIASEventBus:
         self,
         message_id: str,
         correlation_id: str,
-        result: Dict[str, Any],
+        result: dict[str, Any],
         user_id: Optional[str] = None,
     ):
         """Complete coordinated message processing session"""
@@ -273,19 +272,19 @@ class NIASEventBus:
 
         logger.info(f"Message processing completed: {message_id}")
 
-    async def get_user_events(self, user_id: str, limit: int = 50) -> List[Event]:
+    async def get_user_events(self, user_id: str, limit: int = 50) -> list[Event]:
         """Get recent events for a specific user"""
         events = self._user_event_history.get(user_id, [])
         return events[-limit:] if limit else events
 
-    async def get_correlated_events(self, correlation_id: str) -> List[Event]:
+    async def get_correlated_events(self, correlation_id: str) -> list[Event]:
         """Get all events with a specific correlation ID"""
         return self._correlation_tracking.get(correlation_id, [])
 
     def subscribe_to_nias_events(
         self,
         callback: Callable,
-        nias_event_types: Optional[List[NIASEventType]] = None,
+        nias_event_types: Optional[list[NIASEventType]] = None,
         user_id_filter: Optional[str] = None,
         tier_filter: Optional[str] = None,
     ):
@@ -384,19 +383,15 @@ class NIASEventBus:
 
         if self._worker_task:
             self._worker_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._worker_task
-            except asyncio.CancelledError:
-                pass
 
         if self._priority_worker_task:
             self._priority_worker_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._priority_worker_task
-            except asyncio.CancelledError:
-                pass
 
-    def get_nias_stats(self) -> Dict[str, Any]:
+    def get_nias_stats(self) -> dict[str, Any]:
         """Get comprehensive NIAS event bus statistics"""
         uptime = time.time() - self._start_time
 

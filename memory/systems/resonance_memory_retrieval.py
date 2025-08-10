@@ -9,10 +9,10 @@ import json
 import math
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
-    import numpy as np
+    pass
 
     NUMPY_AVAILABLE = True
 except ImportError:
@@ -34,9 +34,9 @@ class EmotionalState:
 class FrequencyFingerprint:
     """Frequency fingerprint for emotional state"""
 
-    frequencies: List[float]
-    amplitudes: List[float]
-    phase_shifts: List[float]
+    frequencies: list[float]
+    amplitudes: list[float]
+    phase_shifts: list[float]
     dominant_frequency: float
     bandwidth: float
     energy: float
@@ -61,7 +61,7 @@ class FrequencyGenerator:
     """Generate frequency signatures from emotional states"""
 
     @staticmethod
-    def emotional_state_to_frequency(emotional_state: EmotionalState) -> List[float]:
+    def emotional_state_to_frequency(emotional_state: EmotionalState) -> list[float]:
         """Convert emotional state to frequency spectrum"""
         # Base frequency mapping
         base_freq = 440.0  # A4 as reference
@@ -98,7 +98,7 @@ class FrequencyGenerator:
         base_amplitude = 1.0
         amplitudes = []
 
-        for i, freq in enumerate(frequencies):
+        for i, _freq in enumerate(frequencies):
             # Amplitude varies with emotional dimensions
             if i == 0:  # Valence component
                 amp = base_amplitude * (0.5 + abs(emotional_state.valence) * 0.5)
@@ -115,7 +115,7 @@ class FrequencyGenerator:
 
         # Calculate phase shifts based on emotional coherence
         phase_shifts = []
-        for i, freq in enumerate(frequencies):
+        for i, _freq in enumerate(frequencies):
             # Phase relates to emotional synchronization
             coherence = 1.0 - emotional_state.stress_level * 0.5
             phase = (i * math.pi / 4) * coherence
@@ -146,7 +146,7 @@ class ResonanceCalculator:
     """Calculate resonance similarity between frequency fingerprints"""
 
     @staticmethod
-    def cosine_similarity(vec1: List[float], vec2: List[float]) -> float:
+    def cosine_similarity(vec1: list[float], vec2: list[float]) -> float:
         """Calculate cosine similarity between two vectors"""
         if not vec1 or not vec2:
             return 0.0
@@ -244,16 +244,16 @@ class ResonanceGate:
     """Main resonance-based memory retrieval system"""
 
     def __init__(self, resonance_threshold: float = 0.85, max_memories: int = 1000):
-        self.frequency_memory_map: Dict[str, ResonantMemory] = {}
+        self.frequency_memory_map: dict[str, ResonantMemory] = {}
         self.resonance_threshold = resonance_threshold
         self.max_memories = max_memories
-        self.access_log: List[Dict[str, Any]] = []
+        self.access_log: list[dict[str, Any]] = []
 
     def store_memory_with_frequency(
         self,
         memory_data: Any,
         emotional_state: EmotionalState,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> str:
         """Store memory linked to emotional frequency signature"""
 
@@ -343,7 +343,7 @@ class ResonanceGate:
         current_emotional_state: EmotionalState,
         limit: int = 10,
         include_scores: bool = False,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Retrieve memories that resonate with current emotional state"""
 
         current_time = datetime.now(timezone.utc)
@@ -459,7 +459,7 @@ class ResonanceGate:
 
         return True
 
-    def get_memory_by_id(self, memory_id: str) -> Optional[Dict[str, Any]]:
+    def get_memory_by_id(self, memory_id: str) -> Optional[dict[str, Any]]:
         """Retrieve specific memory by ID"""
         if memory_id not in self.frequency_memory_map:
             return None
@@ -487,7 +487,7 @@ class ResonanceGate:
             },
         }
 
-    def analyze_resonance_patterns(self) -> Dict[str, Any]:
+    def analyze_resonance_patterns(self) -> dict[str, Any]:
         """Analyze patterns in memory resonance and access"""
         if not self.frequency_memory_map:
             return {"error": "No memories available for analysis"}
@@ -570,7 +570,7 @@ class ResonanceGate:
 
         return analysis
 
-    def get_system_health(self) -> Dict[str, Any]:
+    def get_system_health(self) -> dict[str, Any]:
         """Get overall system health metrics"""
         current_time = datetime.now(timezone.utc)
 

@@ -80,11 +80,8 @@ from enum import Enum
 from typing import (
     Any,
     Callable,
-    Dict,
     Generic,
-    List,
     Optional,
-    Tuple,
     TypeVar,
     Union,
 )
@@ -93,7 +90,7 @@ from core.common import get_logger
 
 # Try to import optional dependencies
 try:
-    import numpy as np
+    pass
 
     HAS_NUMPY = True
 except ImportError:
@@ -205,7 +202,7 @@ class ObjectPool(Generic[T]):
         """Clear the pool"""
         self._pool.clear()
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get pool statistics"""
         return {
             "pool_size": len(self._pool),
@@ -238,7 +235,7 @@ class CompressedStorage:
 
     def compress(
         self, data: bytes, strategy: CompressionStrategy
-    ) -> Tuple[bytes, float]:
+    ) -> tuple[bytes, float]:
         """
         Compress data using specified strategy
         Returns: (compressed_data, compression_ratio)
@@ -438,7 +435,7 @@ class TieredMemoryCache:
             return tier_order[idx - 1]
         return None
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get cache statistics"""
         tier_stats = {}
         for tier in MemoryTier:
@@ -480,7 +477,7 @@ class MemoryOptimizer:
         self._monitoring_task: Optional[asyncio.Task] = None
 
         # Optimization strategies
-        self.optimization_callbacks: List[Callable] = []
+        self.optimization_callbacks: list[Callable] = []
         self.register_default_optimizations()
 
         # Statistics
@@ -638,7 +635,7 @@ class MemoryOptimizer:
         self.stats["memory_saved_bytes"] += total_freed
         logger.info(f"Memory optimization freed {total_freed / 1024:.1f}KB")
 
-    def get_memory_stats(self) -> Dict[str, Any]:
+    def get_memory_stats(self) -> dict[str, Any]:
         """Get comprehensive memory statistics"""
         current_usage = self._get_memory_usage()
 

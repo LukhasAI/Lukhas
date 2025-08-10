@@ -10,7 +10,7 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 # Add paths for imports
 sys.path.insert(0, str(Path(__file__).parent))
@@ -29,7 +29,7 @@ class IntegrationTestRunner:
             "summary": {},
         }
 
-    async def test_plugin_registration_performance(self) -> Dict[str, Any]:
+    async def test_plugin_registration_performance(self) -> dict[str, Any]:
         """Test plugin registration performance"""
         print("\n📊 Testing Plugin Registration Performance...")
 
@@ -85,7 +85,7 @@ class IntegrationTestRunner:
 
         return results
 
-    async def test_agent_orchestration(self) -> Dict[str, Any]:
+    async def test_agent_orchestration(self) -> dict[str, Any]:
         """Test agent orchestration capabilities"""
         print("\n🤖 Testing Agent Orchestration...")
 
@@ -135,7 +135,7 @@ class IntegrationTestRunner:
 
         return results
 
-    async def test_lukhas_pwm_integration(self) -> Dict[str, Any]:
+    async def test_lukhas_pwm_integration(self) -> dict[str, Any]:
         """Test integration with Lukhas PWM system"""
         print("\n🔗 Testing Lukhas PWM Integration...")
 
@@ -144,7 +144,7 @@ class IntegrationTestRunner:
         try:
             # Try to import PWM components
             try:
-                from core.plugin_registry import PluginRegistry
+                pass
 
                 results["details"]["pwm_available"] = True
             except ImportError:
@@ -182,7 +182,7 @@ class IntegrationTestRunner:
 
         return results
 
-    async def test_api_endpoints(self) -> Dict[str, Any]:
+    async def test_api_endpoints(self) -> dict[str, Any]:
         """Test API endpoints if available"""
         print("\n🌐 Testing API Endpoints...")
 
@@ -245,7 +245,7 @@ class IntegrationTestRunner:
 
         return results
 
-    async def test_deployment_readiness(self) -> Dict[str, Any]:
+    async def test_deployment_readiness(self) -> dict[str, Any]:
         """Test deployment readiness"""
         print("\n🚀 Testing Deployment Readiness...")
 
@@ -305,7 +305,7 @@ class IntegrationTestRunner:
 
         return results
 
-    async def run_performance_benchmarks(self) -> Dict[str, Any]:
+    async def run_performance_benchmarks(self) -> dict[str, Any]:
         """Run performance benchmarks"""
         print("\n⚡ Running Performance Benchmarks...")
 

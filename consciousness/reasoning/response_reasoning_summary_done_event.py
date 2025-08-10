@@ -59,14 +59,16 @@ __all__ = ["ResponseReasoningSummaryDoneEvent"]
 
 
 # ΛNOTE: This class defines the symbolic structure for an event signaling the completion
-# of a specific reasoning summary part. It provides the final text and necessary identifiers.
+# of a specific reasoning summary part. It provides the final text and
+# necessary identifiers.
 class ResponseReasoningSummaryDoneEvent(BaseModel):
     """
     Represents an event indicating that a specific reasoning summary part
     within a response item has been finalized.
     """
 
-    # AIDENTITY: `item_id` links this completed summary part back to its parent reasoning item.
+    # AIDENTITY: `item_id` links this completed summary part back to its
+    # parent reasoning item.
     item_id: str
     """The unique identifier of the main reasoning item for which this summary part is finalized."""
 
@@ -78,15 +80,18 @@ class ResponseReasoningSummaryDoneEvent(BaseModel):
     sequence_number: int
     """The final sequence number for this summary part, corresponding to the last delta event if streamed."""
 
-    # ΛNOTE: `summary_index` identifies which specific part of a multi-part summary is now complete.
+    # ΛNOTE: `summary_index` identifies which specific part of a multi-part
+    # summary is now complete.
     summary_index: int
     """The index of this specific summary part within the reasoning item's summary list."""
 
-    # ΛNOTE: `text` contains the complete and finalized symbolic content of the reasoning summary part.
+    # ΛNOTE: `text` contains the complete and finalized symbolic content of
+    # the reasoning summary part.
     text: str
     """The complete and finalized reasoning summary text for this part."""
 
-    # ΛNOTE: `type` is a fixed literal, symbolically identifying this event's specific purpose.
+    # ΛNOTE: `type` is a fixed literal, symbolically identifying this event's
+    # specific purpose.
     type: Literal["response.reasoning_summary.done"]
     """The type of the event. Always 'response.reasoning_summary.done' for this model."""
     # Human-readable comment: Fixed literal type for event discrimination.

@@ -6,7 +6,7 @@ NIAS Core - Fixed version with proper emotional state handling
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class EmotionalState(Enum):
@@ -42,12 +42,12 @@ class SymbolicMessage:
 
     id: str
     content: str
-    tags: List[str]
+    tags: list[str]
     tier: MessageTier
     emotional_tone: EmotionalState
     intensity: float = 0.5
     voice_tag: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
 
 @dataclass
@@ -115,7 +115,7 @@ class NIΛS:
         return True
 
     async def update_emotional_state(
-        self, user_id: str, emotional_state: Dict[str, float]
+        self, user_id: str, emotional_state: dict[str, float]
     ) -> bool:
         """Update user's emotional state"""
         if user_id in self.users:
@@ -214,7 +214,7 @@ class NIΛS:
             timestamp=datetime.now().timestamp(),
         )
 
-    def _select_delivery_method(self, emotional_state: Dict[str, float]) -> str:
+    def _select_delivery_method(self, emotional_state: dict[str, float]) -> str:
         """Select appropriate delivery method based on emotional state"""
         stress = emotional_state.get("stress", 0.5)
 
@@ -227,7 +227,7 @@ class NIΛS:
         else:
             return "deferred"
 
-    def get_system_metrics(self) -> Dict[str, Any]:
+    def get_system_metrics(self) -> dict[str, Any]:
         """Get system metrics"""
         return self.system_metrics.copy()
 

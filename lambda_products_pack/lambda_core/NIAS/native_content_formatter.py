@@ -6,7 +6,7 @@ Makes ads feel like natural content or useful suggestions
 import json
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 
 class ContentFormat(Enum):
@@ -51,10 +51,10 @@ class NativeContent:
     visual_url: Optional[str] = None
     cta_text: Optional[str] = None
     cta_url: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    styling: Dict[str, Any] = field(default_factory=dict)
-    engagement_hints: List[str] = field(default_factory=list)
-    reward_preview: Optional[Dict] = None
+    metadata: dict[str, Any] = field(default_factory=dict)
+    styling: dict[str, Any] = field(default_factory=dict)
+    engagement_hints: list[str] = field(default_factory=list)
+    reward_preview: Optional[dict] = None
 
 
 @dataclass
@@ -64,8 +64,8 @@ class ContentTemplate:
     template_id: str
     format_type: ContentFormat
     html_template: str
-    css_classes: List[str]
-    variables: List[str]
+    css_classes: list[str]
+    variables: list[str]
     preview_enabled: bool = True
 
 
@@ -79,13 +79,13 @@ class NativeContentFormatter:
         self.templates = self._load_default_templates()
         self.context_rules = self._define_context_rules()
         self.style_presets = self._load_style_presets()
-        self.content_cache: Dict[str, NativeContent] = {}
+        self.content_cache: dict[str, NativeContent] = {}
 
     def format_as_native(
         self,
-        ad_content: Dict[str, Any],
+        ad_content: dict[str, Any],
         target_context: ContentContext,
-        user_context: Optional[Dict[str, Any]] = None,
+        user_context: Optional[dict[str, Any]] = None,
     ) -> NativeContent:
         """
         Format ad content to match native environment
@@ -140,8 +140,8 @@ class NativeContentFormatter:
         return native_content
 
     def format_as_story(
-        self, ad_content: Dict[str, Any], feed_style: str = "social"
-    ) -> Dict[str, Any]:
+        self, ad_content: dict[str, Any], feed_style: str = "social"
+    ) -> dict[str, Any]:
         """
         Format ad as a story in news/social feed
         Appears just like another story
@@ -190,8 +190,8 @@ class NativeContentFormatter:
         return story
 
     def format_as_suggestion(
-        self, ad_content: Dict[str, Any], trigger_context: str
-    ) -> Dict[str, Any]:
+        self, ad_content: dict[str, Any], trigger_context: str
+    ) -> dict[str, Any]:
         """
         Format as helpful suggestion at the right moment
         Like tool upgrade when hitting limits
@@ -234,8 +234,8 @@ class NativeContentFormatter:
         return suggestion
 
     def format_as_related_item(
-        self, ad_content: Dict[str, Any], related_to: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, ad_content: dict[str, Any], related_to: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Format as related item/accessory
         Appears naturally alongside user's interest
@@ -275,7 +275,7 @@ class NativeContentFormatter:
 
     def adapt_to_platform(
         self, native_content: NativeContent, platform: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Adapt native content to specific platform conventions
         """
@@ -290,7 +290,7 @@ class NativeContentFormatter:
         adapter = adaptations.get(platform, self._adapt_for_web)
         return adapter(native_content)
 
-    def _load_default_templates(self) -> Dict[str, ContentTemplate]:
+    def _load_default_templates(self) -> dict[str, ContentTemplate]:
         """Load default content templates"""
         templates = {}
 
@@ -369,7 +369,7 @@ class NativeContentFormatter:
 
         return templates
 
-    def _define_context_rules(self) -> Dict[ContentContext, Dict]:
+    def _define_context_rules(self) -> dict[ContentContext, dict]:
         """Define rules for each context"""
         return {
             ContentContext.NEWS_FEED: {
@@ -389,7 +389,7 @@ class NativeContentFormatter:
             },
         }
 
-    def _load_style_presets(self) -> Dict[str, Dict]:
+    def _load_style_presets(self) -> dict[str, dict]:
         """Load styling presets for different formats"""
         return {
             "story": {
@@ -419,7 +419,7 @@ class NativeContentFormatter:
         }
 
     def _select_format_for_context(
-        self, context: ContentContext, user_context: Optional[Dict]
+        self, context: ContentContext, user_context: Optional[dict]
     ) -> ContentFormat:
         """Select best format for given context"""
         rules = self.context_rules.get(context, {})
@@ -434,7 +434,7 @@ class NativeContentFormatter:
         return preferred[0] if preferred else ContentFormat.CARD
 
     def _generate_native_headline(
-        self, ad_content: Dict, format_type: ContentFormat
+        self, ad_content: dict, format_type: ContentFormat
     ) -> str:
         """Generate headline that feels native"""
         base_headline = ad_content.get("title", "")
@@ -452,7 +452,7 @@ class NativeContentFormatter:
         return base_headline
 
     def _generate_native_description(
-        self, ad_content: Dict, format_type: ContentFormat
+        self, ad_content: dict, format_type: ContentFormat
     ) -> str:
         """Generate description that feels native"""
         base_desc = ad_content.get("description", "")
@@ -471,8 +471,8 @@ class NativeContentFormatter:
         headline: str,
         description: str,
         context: ContentContext,
-        user_context: Optional[Dict],
-    ) -> Dict[str, str]:
+        user_context: Optional[dict],
+    ) -> dict[str, str]:
         """Adapt content to specific context"""
         adapted = {"headline": headline, "description": description}
 
@@ -489,8 +489,8 @@ class NativeContentFormatter:
         return adapted
 
     def _generate_natural_cta(
-        self, ad_content: Dict, format_type: ContentFormat, context: ContentContext
-    ) -> Tuple[str, str]:
+        self, ad_content: dict, format_type: ContentFormat, context: ContentContext
+    ) -> tuple[str, str]:
         """Generate CTA that feels natural"""
         url = ad_content.get("url", "#")
 
@@ -512,7 +512,7 @@ class NativeContentFormatter:
 
     def _apply_native_styling(
         self, format_type: ContentFormat, context: ContentContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Apply native platform styling"""
         base_style = self.style_presets.get(format_type.value, {})
 
@@ -525,8 +525,8 @@ class NativeContentFormatter:
         return base_style
 
     def _generate_engagement_hints(
-        self, format_type: ContentFormat, user_context: Optional[Dict]
-    ) -> List[str]:
+        self, format_type: ContentFormat, user_context: Optional[dict]
+    ) -> list[str]:
         """Generate hints to encourage engagement"""
         hints = []
 
@@ -540,7 +540,7 @@ class NativeContentFormatter:
 
         return hints
 
-    def _generate_reward_preview(self, ad_content: Dict) -> Optional[Dict]:
+    def _generate_reward_preview(self, ad_content: dict) -> Optional[dict]:
         """Generate preview of rewards for engagement"""
         if not ad_content.get("rewards_enabled"):
             return None
@@ -562,7 +562,7 @@ class NativeContentFormatter:
             return f"{image_url}&optimize=true&format=webp"
         return f"{image_url}?optimize=true&format=webp"
 
-    def _extract_metadata(self, ad_content: Dict) -> Dict:
+    def _extract_metadata(self, ad_content: dict) -> dict:
         """Extract relevant metadata"""
         return {
             "advertiser": ad_content.get("advertiser"),
@@ -627,7 +627,7 @@ class NativeContentFormatter:
 
         return random.randint(10, 500)
 
-    def _select_news_category(self, ad_content: Dict) -> str:
+    def _select_news_category(self, ad_content: dict) -> str:
         """Select appropriate news category"""
         category = ad_content.get("category", "general")
         category_map = {
@@ -662,7 +662,7 @@ class NativeContentFormatter:
         }
         return icons.get(trigger, "💡")
 
-    def _generate_helpful_title(self, ad_content: Dict, trigger: str) -> str:
+    def _generate_helpful_title(self, ad_content: dict, trigger: str) -> str:
         """Generate helpful title based on trigger"""
         base_title = ad_content.get("title", "")
 
@@ -675,7 +675,7 @@ class NativeContentFormatter:
 
         return base_title
 
-    def _generate_helpful_message(self, ad_content: Dict, trigger: str) -> str:
+    def _generate_helpful_message(self, ad_content: dict, trigger: str) -> str:
         """Generate helpful message based on context"""
         base_msg = ad_content.get("description", "")
 
@@ -686,7 +686,7 @@ class NativeContentFormatter:
 
         return base_msg
 
-    def _list_relevant_benefits(self, ad_content: Dict, trigger: str) -> List[str]:
+    def _list_relevant_benefits(self, ad_content: dict, trigger: str) -> list[str]:
         """List benefits relevant to trigger context"""
         benefits = ad_content.get("benefits", [])
 
@@ -707,7 +707,7 @@ class NativeContentFormatter:
         }
         return cta_map.get(trigger, "Learn More")
 
-    def _determine_relationship(self, ad_content: Dict, related_to: Dict) -> str:
+    def _determine_relationship(self, ad_content: dict, related_to: dict) -> str:
         """Determine relationship between items"""
         # Check for direct relationships
         if ad_content.get("category") == related_to.get("category"):
@@ -721,7 +721,7 @@ class NativeContentFormatter:
 
         return "complementary"
 
-    def _generate_relationship_badge(self, ad_content: Dict, related_to: Dict) -> str:
+    def _generate_relationship_badge(self, ad_content: dict, related_to: dict) -> str:
         """Generate badge explaining relationship"""
         rel = self._determine_relationship(ad_content, related_to)
 
@@ -735,7 +735,7 @@ class NativeContentFormatter:
         return badges.get(rel, "Related")
 
     def _generate_relationship_subtitle(
-        self, ad_content: Dict, related_to: Dict
+        self, ad_content: dict, related_to: dict
     ) -> str:
         """Generate subtitle explaining relationship"""
         rel = self._determine_relationship(ad_content, related_to)
@@ -747,7 +747,7 @@ class NativeContentFormatter:
 
         return "Based on your interests"
 
-    def _explain_relevance(self, ad_content: Dict, related_to: Dict) -> str:
+    def _explain_relevance(self, ad_content: dict, related_to: dict) -> str:
         """Explain why this item is relevant"""
         reasons = []
 
@@ -762,7 +762,7 @@ class NativeContentFormatter:
 
         return f"Suggested because it's {' and '.join(reasons)}"
 
-    def _adapt_for_web(self, content: NativeContent) -> Dict:
+    def _adapt_for_web(self, content: NativeContent) -> dict:
         """Adapt content for web platform"""
         return {
             "html": self._render_html(content),
@@ -771,7 +771,7 @@ class NativeContentFormatter:
             "lazy_load": True,
         }
 
-    def _adapt_for_mobile(self, content: NativeContent) -> Dict:
+    def _adapt_for_mobile(self, content: NativeContent) -> dict:
         """Adapt content for mobile platform"""
         return {
             "layout": "vertical",
@@ -780,11 +780,11 @@ class NativeContentFormatter:
             "compact_mode": True,
         }
 
-    def _adapt_for_desktop_app(self, content: NativeContent) -> Dict:
+    def _adapt_for_desktop_app(self, content: NativeContent) -> dict:
         """Adapt content for desktop application"""
         return {"windowed": False, "native_controls": True, "keyboard_shortcuts": True}
 
-    def _adapt_for_tablet(self, content: NativeContent) -> Dict:
+    def _adapt_for_tablet(self, content: NativeContent) -> dict:
         """Adapt content for tablet"""
         return {
             "layout": "adaptive",
@@ -792,7 +792,7 @@ class NativeContentFormatter:
             "touch_and_pointer": True,
         }
 
-    def _adapt_for_watch(self, content: NativeContent) -> Dict:
+    def _adapt_for_watch(self, content: NativeContent) -> dict:
         """Adapt content for smartwatch"""
         return {"glanceable": True, "minimal_text": True, "haptic_feedback": True}
 

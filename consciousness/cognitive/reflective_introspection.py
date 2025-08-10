@@ -46,11 +46,12 @@
 ║ • Cybernetic Control Theory (Wiener, 1948)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 import asyncio  # For tier decorator placeholder
 from collections import defaultdict, deque  # Added defaultdict
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional  # Added Any, Optional
+from typing import Any, Optional  # Added Any, Optional
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.cognitive.reflective_introspection")
@@ -115,7 +116,7 @@ class ReflectiveIntrospectionSystem:
         self,
         max_history: int = 1000,
         user_id_context: Optional[str] = None,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):  # Added config
         """
         Initializes the ReflectiveIntrospectionSystem.
@@ -133,7 +134,7 @@ class ReflectiveIntrospectionSystem:
         )
 
         self.config = config or {}  # Store config
-        self.interaction_history: deque[Dict[str, Any]] = deque(maxlen=max_history)
+        self.interaction_history: deque[dict[str, Any]] = deque(maxlen=max_history)
         self.last_reflection_time: datetime = datetime.utcnow()  # Use UTC
 
         reflection_interval_minutes = self.config.get("reflection_interval_minutes", 30)
@@ -146,7 +147,7 @@ class ReflectiveIntrospectionSystem:
             "efficiency": 0.7,
             "adaptation_score": 0.6,
         }
-        self.performance_thresholds: Dict[str, float] = self.config.get(
+        self.performance_thresholds: dict[str, float] = self.config.get(
             "performance_thresholds", default_thresholds
         )
 
@@ -157,7 +158,7 @@ class ReflectiveIntrospectionSystem:
     # Human-readable comment: Logs an interaction for future analysis.
     @lukhas_tier_required(level=1)  # Logging interactions could be a Basic tier feature
     def log_interaction(
-        self, interaction_data: Dict[str, Any], user_id: Optional[str] = None
+        self, interaction_data: dict[str, Any], user_id: Optional[str] = None
     ) -> None:
         """
         Log an interaction dictionary for future reflective analysis.
@@ -183,13 +184,14 @@ class ReflectiveIntrospectionSystem:
             f"ΛTRACE: Interaction logged. History size: {len(self.interaction_history)}."
         )
 
-    # Human-readable comment: Analyzes recent interactions to identify patterns and potential improvements.
+    # Human-readable comment: Analyzes recent interactions to identify
+    # patterns and potential improvements.
     @lukhas_tier_required(
         level=4
     )  # Analysis and optimization is a Guardian tier feature
     def analyze_recent_interactions(
         self, user_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Analyze recent interactions to identify performance metrics, patterns,
         and generate insights for adaptation.
@@ -258,7 +260,7 @@ class ReflectiveIntrospectionSystem:
         return analysis_result
 
     # Human-readable comment: Calculates performance metrics from recent interactions.
-    def _calculate_performance_metrics(self) -> Dict[str, float]:
+    def _calculate_performance_metrics(self) -> dict[str, float]:
         """Calculate performance metrics (accuracy, efficiency, adaptation) from recent interactions."""
         self.instance_logger.debug("ΛTRACE: Internal: Calculating performance metrics.")
         recent_interactions = list(self.interaction_history)
@@ -297,7 +299,7 @@ class ReflectiveIntrospectionSystem:
         return metrics
 
     # Human-readable comment: Calculates how well the system is adapting to changes.
-    def _calculate_adaptation_rate(self, interactions: List[Dict[str, Any]]) -> float:
+    def _calculate_adaptation_rate(self, interactions: list[dict[str, Any]]) -> float:
         """Calculate how well the system is adapting, e.g., by tracking performance score improvements."""
         self.instance_logger.debug(
             f"ΛTRACE: Internal: Calculating adaptation rate from {len(interactions)} interactions."
@@ -324,9 +326,10 @@ class ReflectiveIntrospectionSystem:
         )
         return adaptation_rate_score
 
-    # Human-readable comment: Checks if current interaction shows improvement over previous one.
+    # Human-readable comment: Checks if current interaction shows improvement
+    # over previous one.
     def _is_improvement(
-        self, prev_interaction: Dict[str, Any], current_interaction: Dict[str, Any]
+        self, prev_interaction: dict[str, Any], current_interaction: dict[str, Any]
     ) -> bool:
         """Check if current interaction shows improvement over previous, based on a 'performance_score' key."""
         prev_score = prev_interaction.get("performance_score", 0.0)
@@ -334,7 +337,7 @@ class ReflectiveIntrospectionSystem:
         return curr_score > prev_score
 
     # Human-readable comment: Identifies patterns in interaction history.
-    def _identify_interaction_patterns(self) -> Dict[str, Any]:
+    def _identify_interaction_patterns(self) -> dict[str, Any]:
         """Identify patterns in interaction history, like strategy distribution or common contexts."""
         self.instance_logger.debug(
             "ΛTRACE: Internal: Identifying interaction patterns."
@@ -347,13 +350,13 @@ class ReflectiveIntrospectionSystem:
             )
             return {}
 
-        strategy_counts: Dict[str, int] = defaultdict(int)
+        strategy_counts: dict[str, int] = defaultdict(int)
         for interaction in recent_interactions:
             strategy = interaction.get("selected_strategy")
             if strategy and isinstance(strategy, str):
                 strategy_counts[strategy] += 1
 
-        context_features_counts: Dict[str, Dict[Any, int]] = defaultdict(
+        context_features_counts: dict[str, dict[Any, int]] = defaultdict(
             lambda: defaultdict(int)
         )
         for interaction in recent_interactions:
@@ -374,13 +377,14 @@ class ReflectiveIntrospectionSystem:
         )
         return patterns
 
-    # Human-readable comment: Generates insights from calculated metrics and identified patterns.
+    # Human-readable comment: Generates insights from calculated metrics and
+    # identified patterns.
     def _generate_analytical_insights(
-        self, metrics: Dict[str, float], patterns: Dict[str, Any]
-    ) -> Dict[str, List[str]]:
+        self, metrics: dict[str, float], patterns: dict[str, Any]
+    ) -> dict[str, list[str]]:
         """Generate actionable insights from performance metrics and interaction patterns."""
         self.instance_logger.debug("ΛTRACE: Internal: Generating analytical insights.")
-        insights: Dict[str, List[str]] = {
+        insights: dict[str, list[str]] = {
             "strengths": [],
             "weaknesses": [],
             "opportunities_for_improvement": [],
@@ -426,15 +430,16 @@ class ReflectiveIntrospectionSystem:
         )
         return insights
 
-    # Human-readable comment: Recommends parameter adjustments based on performance metrics.
+    # Human-readable comment: Recommends parameter adjustments based on
+    # performance metrics.
     def _recommend_parameter_adjustments(
-        self, metrics: Dict[str, float]
-    ) -> Dict[str, float]:
+        self, metrics: dict[str, float]
+    ) -> dict[str, float]:
         """Recommend parameter adjustments for system optimization based on performance metrics."""
         self.instance_logger.debug(
             "ΛTRACE: Internal: Recommending parameter adjustments."
         )
-        adjustments: Dict[str, float] = {}
+        adjustments: dict[str, float] = {}
 
         if metrics.get("accuracy", 1.0) < self.performance_thresholds.get(
             "accuracy", 0.8

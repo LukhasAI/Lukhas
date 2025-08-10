@@ -440,7 +440,7 @@ if __name__ == "__main__":
     print("🧠 LUKHAS AI AGI Bot")
     print("===================")
     print("Quantum-Biological Artificial General Intelligence System")
-    print("Features: Meta - cognition, Multi - modal Reasoning, Quantum Attention,
+    print("Features: Meta - cognition, Multi - modal Reasoning, Quantum Attention,"
           Ethical Compliance"
           )
     print("\nUsage: from brain.agi_bot import AGIBot")

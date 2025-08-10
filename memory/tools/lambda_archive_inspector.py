@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 ```plaintext
@@ -41,7 +43,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 import numpy as np
 
@@ -80,15 +82,15 @@ class MemoryEntry:
     timestamp: str
     entry_type: MemoryEntryType
     file_path: str
-    content: Dict[str, Any]
-    lambda_tags: List[str] = field(default_factory=list)
-    symbol_ids: List[str] = field(default_factory=list)
-    memory_ids: List[str] = field(default_factory=list)
+    content: dict[str, Any]
+    lambda_tags: list[str] = field(default_factory=list)
+    symbol_ids: list[str] = field(default_factory=list)
+    memory_ids: list[str] = field(default_factory=list)
     entropy_score: float = 0.0
     emotional_weight: float = 0.0
     recurrence_count: int = 0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             **asdict(self),
@@ -104,17 +106,17 @@ class SymbolicAnomaly:
     timestamp: str
     anomaly_type: AnomalyType
     severity: float  # 0.0-1.0
-    symbol_ids: List[str]
-    memory_ids: List[str]
-    source_entries: List[str]  # entry_ids
+    symbol_ids: list[str]
+    memory_ids: list[str]
+    source_entries: list[str]  # entry_ids
     description: str
     entropy_level: float = 0.0
     drift_score: float = 0.0
     forgotten_duration: Optional[str] = None
-    broken_links: List[str] = field(default_factory=list)
-    violation_details: Dict[str, Any] = field(default_factory=dict)
+    broken_links: list[str] = field(default_factory=list)
+    violation_details: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             **asdict(self),
@@ -133,15 +135,15 @@ class ArchiveReport:
     total_entries: int
     anomalies_detected: int
     archive_score: float
-    entropy_analysis: Dict[str, float]
-    drift_analysis: Dict[str, Any]
-    forgotten_symbols: List[str]
-    ethical_violations: List[str]
-    symbolic_linkage_map: Dict[str, List[str]]
-    anomalies: List[SymbolicAnomaly]
-    recommendations: List[str] = field(default_factory=list)
+    entropy_analysis: dict[str, float]
+    drift_analysis: dict[str, Any]
+    forgotten_symbols: list[str]
+    ethical_violations: list[str]
+    symbolic_linkage_map: dict[str, list[str]]
+    anomalies: list[SymbolicAnomaly]
+    recommendations: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             **asdict(self),
@@ -181,11 +183,11 @@ class LambdaArchiveInspector:
         }
 
         # State tracking
-        self.scanned_entries: List[MemoryEntry] = []
-        self.detected_anomalies: List[SymbolicAnomaly] = []
-        self.symbolic_linkage_map: Dict[str, Set[str]] = defaultdict(set)
-        self.symbol_recurrence: Dict[str, int] = defaultdict(int)
-        self.symbol_last_seen: Dict[str, datetime] = {}
+        self.scanned_entries: list[MemoryEntry] = []
+        self.detected_anomalies: list[SymbolicAnomaly] = []
+        self.symbolic_linkage_map: dict[str, set[str]] = defaultdict(set)
+        self.symbol_recurrence: dict[str, int] = defaultdict(int)
+        self.symbol_last_seen: dict[str, datetime] = {}
 
         # Pattern recognition
         self.lambda_tag_pattern = re.compile(r'ΛTAG["\s]*:\s*["\']*([^"\']*)')
@@ -200,7 +202,7 @@ class LambdaArchiveInspector:
             ΛTAG="ΛARCHIVE_INIT",
         )
 
-    def scan_memory_vault(self, directory: Optional[str] = None) -> List[MemoryEntry]:
+    def scan_memory_vault(self, directory: Optional[str] = None) -> list[MemoryEntry]:
         """
         Deep scan of long-term symbolic memory vault.
 
@@ -264,8 +266,8 @@ class LambdaArchiveInspector:
         return entries
 
     def detect_high_entropy_clusters(
-        self, memory_entries: List[MemoryEntry]
-    ) -> List[SymbolicAnomaly]:
+        self, memory_entries: list[MemoryEntry]
+    ) -> list[SymbolicAnomaly]:
         """
         Detect clusters of high entropy symbolic states.
 
@@ -331,8 +333,8 @@ class LambdaArchiveInspector:
         return anomalies
 
     def detect_forgotten_symbols(
-        self, memory_entries: List[MemoryEntry]
-    ) -> List[SymbolicAnomaly]:
+        self, memory_entries: list[MemoryEntry]
+    ) -> list[SymbolicAnomaly]:
         """
         Detect forgotten symbols with low recurrence but high emotional weight.
 
@@ -429,8 +431,8 @@ class LambdaArchiveInspector:
         return anomalies
 
     def reconstruct_symbolic_linkage(
-        self, memory_entries: List[MemoryEntry]
-    ) -> Dict[str, List[str]]:
+        self, memory_entries: list[MemoryEntry]
+    ) -> dict[str, list[str]]:
         """
         Reconstruct symbolic relationships from fragmented logs and tags.
 
@@ -498,7 +500,7 @@ class LambdaArchiveInspector:
         self.symbolic_linkage_map = linkage_map
         return result
 
-    def calculate_archive_score(self, anomalies: List[SymbolicAnomaly]) -> float:
+    def calculate_archive_score(self, anomalies: list[SymbolicAnomaly]) -> float:
         """
         Calculate composite ΛARCHIVE score from detected anomalies.
 
@@ -564,7 +566,7 @@ class LambdaArchiveInspector:
         return min(composite_score, 1.0)
 
     def generate_archive_report(
-        self, anomalies: List[SymbolicAnomaly], output_format: str = "markdown"
+        self, anomalies: list[SymbolicAnomaly], output_format: str = "markdown"
     ) -> str:
         """
         Generate comprehensive ΛARCHIVE forensic report.
@@ -611,7 +613,7 @@ class LambdaArchiveInspector:
         else:
             return self._generate_markdown_report(report)
 
-    def _parse_memory_file(self, file_path: Path) -> List[MemoryEntry]:
+    def _parse_memory_file(self, file_path: Path) -> list[MemoryEntry]:
         """Parse a single memory file for entries."""
         entries = []
 
@@ -638,7 +640,7 @@ class LambdaArchiveInspector:
 
         return entries
 
-    def _parse_jsonl_file(self, file_path: Path, content: str) -> List[MemoryEntry]:
+    def _parse_jsonl_file(self, file_path: Path, content: str) -> list[MemoryEntry]:
         """Parse JSONL memory file."""
         entries = []
 
@@ -658,7 +660,7 @@ class LambdaArchiveInspector:
 
         return entries
 
-    def _parse_json_file(self, file_path: Path, content: str) -> List[MemoryEntry]:
+    def _parse_json_file(self, file_path: Path, content: str) -> list[MemoryEntry]:
         """Parse JSON memory file."""
         entries = []
 
@@ -682,7 +684,7 @@ class LambdaArchiveInspector:
 
         return entries
 
-    def _parse_markdown_file(self, file_path: Path, content: str) -> List[MemoryEntry]:
+    def _parse_markdown_file(self, file_path: Path, content: str) -> list[MemoryEntry]:
         """Parse markdown memory file for ΛTAG metadata."""
         entries = []
 
@@ -709,7 +711,7 @@ class LambdaArchiveInspector:
 
         return entries
 
-    def _parse_text_file(self, file_path: Path, content: str) -> List[MemoryEntry]:
+    def _parse_text_file(self, file_path: Path, content: str) -> list[MemoryEntry]:
         """Parse generic text file for symbolic patterns."""
         entries = []
 
@@ -737,7 +739,7 @@ class LambdaArchiveInspector:
         return entries
 
     def _create_memory_entry(
-        self, file_path: Path, data: Dict[str, Any], line_num: int
+        self, file_path: Path, data: dict[str, Any], line_num: int
     ) -> Optional[MemoryEntry]:
         """Create a MemoryEntry from parsed data."""
         try:
@@ -791,7 +793,7 @@ class LambdaArchiveInspector:
             return None
 
     def _classify_entry_type(
-        self, data: Dict[str, Any], file_path: Path
+        self, data: dict[str, Any], file_path: Path
     ) -> MemoryEntryType:
         """Classify the type of memory entry."""
         # Check file path indicators
@@ -820,7 +822,7 @@ class LambdaArchiveInspector:
 
         return MemoryEntryType.UNKNOWN
 
-    def _extract_lambda_tags(self, data: Dict[str, Any]) -> List[str]:
+    def _extract_lambda_tags(self, data: dict[str, Any]) -> list[str]:
         """Extract ΛTAG metadata from entry."""
         tags = []
 
@@ -839,7 +841,7 @@ class LambdaArchiveInspector:
 
         return list(set(tags))  # Remove duplicates
 
-    def _extract_symbol_ids(self, data: Dict[str, Any]) -> List[str]:
+    def _extract_symbol_ids(self, data: dict[str, Any]) -> list[str]:
         """Extract symbol IDs from entry."""
         symbols = []
 
@@ -856,7 +858,7 @@ class LambdaArchiveInspector:
 
         return list(set(symbols))  # Remove duplicates
 
-    def _extract_memory_ids(self, data: Dict[str, Any]) -> List[str]:
+    def _extract_memory_ids(self, data: dict[str, Any]) -> list[str]:
         """Extract memory IDs from entry."""
         memory_ids = []
 
@@ -873,7 +875,7 @@ class LambdaArchiveInspector:
 
         return list(set(memory_ids))  # Remove duplicates
 
-    def _calculate_entry_entropy(self, data: Dict[str, Any]) -> float:
+    def _calculate_entry_entropy(self, data: dict[str, Any]) -> float:
         """Calculate entropy score for entry."""
         # Direct field access
         if "entropy" in data:
@@ -900,7 +902,7 @@ class LambdaArchiveInspector:
         # Heuristic calculation based on content complexity
         return self._calculate_heuristic_entropy(data)
 
-    def _calculate_emotional_weight(self, data: Dict[str, Any]) -> float:
+    def _calculate_emotional_weight(self, data: dict[str, Any]) -> float:
         """Calculate emotional weight for entry."""
         # Direct field access
         if "emotional_weight" in data:
@@ -931,7 +933,7 @@ class LambdaArchiveInspector:
 
         return min(weight, 1.0)
 
-    def _calculate_heuristic_entropy(self, data: Dict[str, Any]) -> float:
+    def _calculate_heuristic_entropy(self, data: dict[str, Any]) -> float:
         """Calculate heuristic entropy based on content complexity."""
         content_str = json.dumps(data)
 
@@ -962,7 +964,7 @@ class LambdaArchiveInspector:
 
         return min(entropy, 1.0)
 
-    def _normalize_tag_list(self, tags: Any) -> List[str]:
+    def _normalize_tag_list(self, tags: Any) -> list[str]:
         """Normalize tag data to list of strings."""
         if isinstance(tags, str):
             return [tags]
@@ -971,7 +973,7 @@ class LambdaArchiveInspector:
         else:
             return []
 
-    def _normalize_id_list(self, ids: Any) -> List[str]:
+    def _normalize_id_list(self, ids: Any) -> list[str]:
         """Normalize ID data to list of strings."""
         if isinstance(ids, str):
             return [ids]
@@ -1027,8 +1029,8 @@ class LambdaArchiveInspector:
             return True
 
     def _cluster_entries_by_proximity(
-        self, entries: List[MemoryEntry], time_window_hours: int = 6
-    ) -> Dict[str, List[MemoryEntry]]:
+        self, entries: list[MemoryEntry], time_window_hours: int = 6
+    ) -> dict[str, list[MemoryEntry]]:
         """Cluster entries by temporal and symbolic proximity."""
         clusters = defaultdict(list)
 
@@ -1077,7 +1079,7 @@ class LambdaArchiveInspector:
 
         return dict(clusters)
 
-    def _analyze_entropy_distribution(self) -> Dict[str, float]:
+    def _analyze_entropy_distribution(self) -> dict[str, float]:
         """Analyze entropy distribution across scanned entries."""
         if not self.scanned_entries:
             return {}
@@ -1101,8 +1103,8 @@ class LambdaArchiveInspector:
         }
 
     def _analyze_drift_patterns(
-        self, anomalies: List[SymbolicAnomaly]
-    ) -> Dict[str, Any]:
+        self, anomalies: list[SymbolicAnomaly]
+    ) -> dict[str, Any]:
         """Analyze drift patterns in anomalies."""
         drift_anomalies = [
             a
@@ -1124,7 +1126,7 @@ class LambdaArchiveInspector:
             ),
         }
 
-    def _generate_recommendations(self, anomalies: List[SymbolicAnomaly]) -> List[str]:
+    def _generate_recommendations(self, anomalies: list[SymbolicAnomaly]) -> list[str]:
         """Generate recommendations based on detected anomalies."""
         recommendations = []
 

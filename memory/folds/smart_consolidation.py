@@ -16,7 +16,6 @@ avoiding incompatible combinations like trauma repair + API services.
 import ast
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List
 
 
 class SmartConsolidator:
@@ -24,7 +23,7 @@ class SmartConsolidator:
         self.root_path = root_path
         self.archived_path = root_path / "archived" / "pre_consolidation"
 
-    def analyze_file_purpose(self, file_path: Path) -> Dict[str, any]:
+    def analyze_file_purpose(self, file_path: Path) -> dict[str, any]:
         """Analyze what a file actually does"""
         try:
             with open(file_path, encoding="utf-8") as f:
@@ -48,9 +47,8 @@ class SmartConsolidator:
                 elif isinstance(node, ast.Import):
                     for alias in node.names:
                         imports.append(alias.name)
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        imports.append(node.module)
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    imports.append(node.module)
 
             # Categorize by actual purpose
             purpose = self._categorize_purpose(
@@ -85,7 +83,7 @@ class SmartConsolidator:
             return {"type": "error", "error": str(e)}
 
     def _categorize_purpose(
-        self, filename: str, content: str, classes: List[str], functions: List[str]
+        self, filename: str, content: str, classes: list[str], functions: list[str]
     ) -> str:
         """Determine the actual purpose of a file"""
         filename_lower = filename.lower()
@@ -138,7 +136,7 @@ class SmartConsolidator:
 
         return "specific_component"
 
-    def find_safe_merges(self) -> Dict[str, List[Path]]:
+    def find_safe_merges(self) -> dict[str, list[Path]]:
         """Find files that can safely be merged together"""
         if not self.archived_path.exists():
             print("No archived files found - run consolidation first")

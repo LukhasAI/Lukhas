@@ -12,11 +12,10 @@ import os
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 # OpenAI integration
 try:
-    import openai
     from openai import AsyncOpenAI
 
     OPENAI_AVAILABLE = True
@@ -58,14 +57,14 @@ class DreamContext:
     """Context for dream generation"""
 
     user_id: str
-    user_profile: Dict[str, Any]
+    user_profile: dict[str, Any]
     vendor_seed: Optional[DreamSeed] = None
     mood: DreamMood = DreamMood.SERENE
     bio_rhythm: BioRhythm = BioRhythm.MIDDAY_FLOW
-    personal_data: Dict[str, Any] = field(default_factory=dict)
-    recent_events: List[Dict[str, Any]] = field(default_factory=list)
-    preferences: Dict[str, Any] = field(default_factory=dict)
-    ethical_constraints: Dict[str, Any] = field(default_factory=dict)
+    personal_data: dict[str, Any] = field(default_factory=dict)
+    recent_events: list[dict[str, Any]] = field(default_factory=list)
+    preferences: dict[str, Any] = field(default_factory=dict)
+    ethical_constraints: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -78,11 +77,11 @@ class GeneratedDream:
     image_url: Optional[str] = None
     video_url: Optional[str] = None
     audio_url: Optional[str] = None
-    emotional_profile: Dict[str, float] = field(default_factory=dict)
-    symbolism: List[str] = field(default_factory=list)
-    call_to_action: Dict[str, Any] = field(default_factory=dict)
+    emotional_profile: dict[str, float] = field(default_factory=dict)
+    symbolism: list[str] = field(default_factory=list)
+    call_to_action: dict[str, Any] = field(default_factory=dict)
     ethical_score: float = 1.0
-    generation_metadata: Dict[str, Any] = field(default_factory=dict)
+    generation_metadata: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.now)
 
 
@@ -99,7 +98,7 @@ class DreamGenerator:
     - Personal context integration
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or self._default_config()
 
         # Initialize OpenAI client if available
@@ -111,12 +110,12 @@ class DreamGenerator:
                 "OpenAI client not initialized. Set OPENAI_API_KEY environment variable."
             )
 
-        self.dream_cache: Dict[str, GeneratedDream] = {}
-        self.generation_queue: List[Tuple[DreamContext, asyncio.Future]] = []
+        self.dream_cache: dict[str, GeneratedDream] = {}
+        self.generation_queue: list[tuple[DreamContext, asyncio.Future]] = []
 
         logger.info("NIΛS Dream Generator initialized")
 
-    def _default_config(self) -> Dict:
+    def _default_config(self) -> dict:
         """Default dream generator configuration"""
         return {
             "gpt_model": "gpt-4-turbo-preview",
@@ -413,7 +412,7 @@ Guidelines:
         )
         return None
 
-    async def _extract_symbolism(self, narrative: str) -> List[str]:
+    async def _extract_symbolism(self, narrative: str) -> list[str]:
         """Extract symbolic elements from narrative"""
         if not self.openai_client:
             return ["journey", "discovery", "connection"]
@@ -439,7 +438,7 @@ Guidelines:
             logger.error(f"Error extracting symbolism: {e}")
             return ["transformation", "possibility", "harmony"]
 
-    async def _create_call_to_action(self, context: DreamContext) -> Dict[str, Any]:
+    async def _create_call_to_action(self, context: DreamContext) -> dict[str, Any]:
         """Create gentle call to action"""
         if not context.vendor_seed:
             return {
@@ -470,7 +469,7 @@ Guidelines:
 
     def _calculate_emotional_profile(
         self, narrative: str, context: DreamContext
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Calculate emotional profile of generated content"""
         # Base emotional profile from mood
         mood_profiles = {
@@ -665,14 +664,14 @@ Guidelines:
         )
 
     async def generate_batch_dreams(
-        self, contexts: List[DreamContext]
-    ) -> List[GeneratedDream]:
+        self, contexts: list[DreamContext]
+    ) -> list[GeneratedDream]:
         """Generate multiple dreams in batch for efficiency"""
         tasks = [self.generate_dream(context) for context in contexts]
         dreams = await asyncio.gather(*tasks)
         return dreams
 
-    def get_generation_metrics(self) -> Dict[str, Any]:
+    def get_generation_metrics(self) -> dict[str, Any]:
         """Get metrics about dream generation"""
         total_cached = len(self.dream_cache)
 

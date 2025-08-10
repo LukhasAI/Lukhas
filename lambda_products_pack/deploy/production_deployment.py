@@ -11,7 +11,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict
+from typing import Any
 
 import psutil
 
@@ -103,7 +103,7 @@ class EliteProductionDeployment:
             "elasticsearch": "http://localhost:9200",
         }
 
-    async def deploy(self) -> Dict[str, Any]:
+    async def deploy(self) -> dict[str, Any]:
         """
         Execute elite production deployment with all safety measures
         """
@@ -373,7 +373,7 @@ class EliteProductionDeployment:
 
         return round(health, 2)
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get current deployment metrics"""
         return {
             "deployment_id": self.deployment_id,
@@ -411,7 +411,6 @@ class EliteProductionDeployment:
 
     async def send_metrics(self):
         """Send metrics to monitoring systems"""
-        pass
 
     async def run_smoke_tests(self) -> bool:
         return True
@@ -425,17 +424,14 @@ class EliteProductionDeployment:
     async def validate_security(self) -> bool:
         return True
 
-    async def create_incident(self, incident: Dict):
+    async def create_incident(self, incident: dict):
         """Create incident in incident management system"""
-        pass
 
-    async def page_oncall(self, incident: Dict):
+    async def page_oncall(self, incident: dict):
         """Page on-call engineer"""
-        pass
 
-    async def auto_remediate(self, incident: Dict):
+    async def auto_remediate(self, incident: dict):
         """Attempt automatic remediation"""
-        pass
 
     def get_runbook(self, error: Exception) -> str:
         """Get runbook for specific error"""
@@ -464,11 +460,11 @@ class EliteMonitoringDashboard:
             "business": self.get_business_dashboard(),
         }
 
-        for name, config in dashboard_configs.items():
+        for name, _config in dashboard_configs.items():
             logger.info(f"📊 Creating {name} dashboard")
             # In production, would POST to Grafana API
 
-    def get_system_dashboard(self) -> Dict:
+    def get_system_dashboard(self) -> dict:
         """System metrics dashboard config"""
         return {
             "title": "Lambda Products - System Metrics",
@@ -482,7 +478,7 @@ class EliteMonitoringDashboard:
             ],
         }
 
-    def get_agent_dashboard(self) -> Dict:
+    def get_agent_dashboard(self) -> dict:
         """Agent metrics dashboard config"""
         return {
             "title": "Lambda Products - Agent Metrics",
@@ -496,7 +492,7 @@ class EliteMonitoringDashboard:
             ],
         }
 
-    def get_performance_dashboard(self) -> Dict:
+    def get_performance_dashboard(self) -> dict:
         """Performance metrics dashboard config"""
         return {
             "title": "Lambda Products - Performance",
@@ -510,7 +506,7 @@ class EliteMonitoringDashboard:
             ],
         }
 
-    def get_business_dashboard(self) -> Dict:
+    def get_business_dashboard(self) -> dict:
         """Business metrics dashboard config"""
         return {
             "title": "Lambda Products - Business Metrics",

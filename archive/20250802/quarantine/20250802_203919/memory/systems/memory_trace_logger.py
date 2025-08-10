@@ -27,15 +27,15 @@ TAGS: [CRITICAL, KeyFile, Memory]
 
 lukhas AI System - Function Library
 File: memory_trace_logger.py
-Path: core/memory/memory_trace_logger.py
+Path: core / memory / memory_trace_logger.py
 Created: "2025-06-05 09:37:28"
 Author: LUKHAS AI Team
 Version: 1.0
 
-This file is part of the LUKHAS AI (LUKHAS Universal Knowledge & Holistic AI System)
+This file is part of the LUKHAS AI(LUKHAS Universal Knowledge & Holistic AI System)
 Advanced Cognitive Architecture for Artificial General Intelligence
 
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
@@ -43,11 +43,11 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 LUKHAS SYSTEM MODULE
 --------------------------------------------------------
 Module: memory_trace_logger.py
-Location: lukhas/core/
+Location: lukhas / core/
 Description:
-    Logs memory traces, user-agent symbolic actions,
+    Logs memory traces, user - agent symbolic actions,
     and emotional metadata in a secure, structured way.
-    Includes timestamped records and SEEDRA tie-ins.
+    Includes timestamped records and SEEDRA tie - ins.
 --------------------------------------------------------
 Author: LUKHAS Core Team
 """
@@ -58,7 +58,11 @@ import os
 from datetime import datetime
 from typing import Dict, Any
 
-LOG_FILE_PATH = os.path.join(os.path.dirname(__file__), '..', 'logs', 'memory_traces.jsonl')
+LOG_FILE_PATH = os.path.join(
+    os.path.dirname(__file__),
+    '..',
+    'logs',
+     'memory_traces.jsonl')
 os.makedirs(os.path.dirname(LOG_FILE_PATH), exist_ok=True)
 
 def log_memory_trace(agent_id: str, trace: Dict[str, Any]) -> None:
@@ -66,8 +70,8 @@ def log_memory_trace(agent_id: str, trace: Dict[str, Any]) -> None:
     Logs a symbolic memory trace for a given agent.
 
     Parameters:
-        agent_id (str): Identifier for the agent (e.g., "LUKHAS", "JULIA").
-        trace (Dict[str, Any]): Structured trace data including emotion, action, context.
+        agent_id(str): Identifier for the agent(e.g., "LUKHAS", "JULIA").
+        trace(Dict[str, Any]): Structured trace data including emotion, action, context.
     """
     entry = {
         "timestamp": datetime.utcnow().isoformat(),

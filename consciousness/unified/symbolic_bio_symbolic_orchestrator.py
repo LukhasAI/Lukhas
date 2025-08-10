@@ -17,12 +17,13 @@
 ║ Authors: LUKHAS Bio-Symbolic Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 import asyncio
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -145,8 +146,8 @@ class BioSymbolicOrchestrator(BaseColony):
         logger.info(f"Coherence target: {self.coherence_target:.2%}")
 
     async def execute_task(
-        self, task_id: str, task_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, task_id: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Execute complete bio-symbolic processing pipeline.
 
@@ -256,8 +257,8 @@ class BioSymbolicOrchestrator(BaseColony):
             return result
 
     async def _execute_parallel_processing(
-        self, task_id: str, bio_data: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Dict[str, Any]]:
+        self, task_id: str, bio_data: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, dict[str, Any]]:
         """Execute all colonies in parallel for maximum performance."""
         if self.pipeline_config.parallel_processing:
             # Parallel execution
@@ -299,7 +300,7 @@ class BioSymbolicOrchestrator(BaseColony):
 
             # Combine results
             results = {"preprocessing": preprocessing_result}
-            for i, (colony_name, task) in enumerate(tasks.items()):
+            for i, (colony_name, _task) in enumerate(tasks.items()):
                 if isinstance(parallel_results[i], Exception):
                     logger.error(f"Colony {colony_name} failed: {parallel_results[i]}")
                     results[colony_name] = {"error": str(parallel_results[i])}
@@ -330,10 +331,10 @@ class BioSymbolicOrchestrator(BaseColony):
 
     async def _integrate_colony_consensus(
         self,
-        colony_results: Dict[str, Dict[str, Any]],
-        bio_data: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        colony_results: dict[str, dict[str, Any]],
+        bio_data: dict[str, Any],
+        context: dict[str, Any],
+    ) -> dict[str, Any]:
         """Integrate results from all colonies using weighted consensus."""
         integrated = {
             "bio_data": bio_data,
@@ -398,10 +399,10 @@ class BioSymbolicOrchestrator(BaseColony):
 
     async def _apply_quantum_enhancement(
         self,
-        integrated_results: Dict[str, Any],
-        bio_data: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        integrated_results: dict[str, Any],
+        bio_data: dict[str, Any],
+        context: dict[str, Any],
+    ) -> dict[str, Any]:
         """Apply quantum enhancement to improve coherence."""
         enhanced = integrated_results.copy()
 
@@ -468,8 +469,8 @@ class BioSymbolicOrchestrator(BaseColony):
 
     def _calculate_comprehensive_coherence(
         self,
-        colony_results: Dict[str, Dict[str, Any]],
-        integrated_results: Dict[str, Any],
+        colony_results: dict[str, dict[str, Any]],
+        integrated_results: dict[str, Any],
     ) -> CoherenceMetrics:
         """Calculate comprehensive coherence metrics."""
         metrics = CoherenceMetrics()
@@ -534,11 +535,11 @@ class BioSymbolicOrchestrator(BaseColony):
 
     async def _apply_self_healing(
         self,
-        enhanced_results: Dict[str, Any],
+        enhanced_results: dict[str, Any],
         coherence_metrics: CoherenceMetrics,
-        bio_data: Dict[str, Any],
-        context: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        bio_data: dict[str, Any],
+        context: dict[str, Any],
+    ) -> dict[str, Any]:
         """Apply self-healing protocols to improve coherence."""
         healed = enhanced_results.copy()
         healing_actions = []
@@ -613,7 +614,7 @@ class BioSymbolicOrchestrator(BaseColony):
     async def _update_adaptive_parameters(
         self,
         coherence_metrics: CoherenceMetrics,
-        colony_results: Dict[str, Dict[str, Any]],
+        colony_results: dict[str, dict[str, Any]],
     ):
         """Update adaptive parameters based on performance."""
         # Record performance
@@ -667,7 +668,7 @@ class BioSymbolicOrchestrator(BaseColony):
 
     async def _update_consensus_weights(self):
         """Update consensus weights based on colony performance."""
-        for colony_name in self.colonies.keys():
+        for colony_name in self.colonies:
             if colony_name in self.colony_performance:
                 performances = list(self.colony_performance[colony_name])[
                     -20:
@@ -696,7 +697,7 @@ class BioSymbolicOrchestrator(BaseColony):
                 self.consensus_weights[colony_name] /= total_weight
 
     def _calculate_colony_consensus(
-        self, colony_results: Dict[str, Dict[str, Any]]
+        self, colony_results: dict[str, dict[str, Any]]
     ) -> float:
         """Calculate strength of consensus among colonies."""
         valid_results = {
@@ -756,7 +757,7 @@ class BioSymbolicOrchestrator(BaseColony):
 
         return stability
 
-    def _find_related_glyphs(self, glyph_names: List[str]) -> List[Tuple[str, str]]:
+    def _find_related_glyphs(self, glyph_names: list[str]) -> list[tuple[str, str]]:
         """Find pairs of related GLYPHs for quantum entanglement."""
         related_pairs = []
 
@@ -790,7 +791,7 @@ class BioSymbolicOrchestrator(BaseColony):
 
     def _generate_recommendations(
         self, coherence_metrics: CoherenceMetrics
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate recommendations for improving coherence."""
         recommendations = []
 
@@ -842,7 +843,7 @@ class BioSymbolicOrchestrator(BaseColony):
             1800.0,  # 30 minute persistence
         )
 
-    async def _update_performance_tracking(self, result: Dict[str, Any]):
+    async def _update_performance_tracking(self, result: dict[str, Any]):
         """Update performance tracking metrics."""
         coherence = result["coherence_metrics"].overall_coherence
         processing_time = result["processing_time_ms"]
@@ -871,7 +872,7 @@ class BioSymbolicOrchestrator(BaseColony):
                 * self.optimization_state["performance_baselines"]["processing_time"]
             )
 
-    def _log_orchestration_event(self, result: Dict[str, Any]):
+    def _log_orchestration_event(self, result: dict[str, Any]):
         """Log orchestration completion event."""
         coherence = result["coherence_metrics"].overall_coherence
         quality = result["quality_assessment"]
@@ -907,7 +908,7 @@ class BioSymbolicOrchestrator(BaseColony):
         else:
             logger.warning("⚠️ Coherence below threshold - consider optimization")
 
-    async def get_system_status(self) -> Dict[str, Any]:
+    async def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status."""
         return {
             "orchestrator_id": self.colony_id,

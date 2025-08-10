@@ -93,7 +93,8 @@ class ResponseReasoningSummaryPartDoneEvent(BaseModel):
     This is used for streaming or progressively building reasoning summaries, signaling the end of a part.
     """
 
-    # AIDENTITY: `item_id` links this completed summary part to its parent reasoning item.
+    # AIDENTITY: `item_id` links this completed summary part to its parent
+    # reasoning item.
     item_id: str
     """The unique identifier of the main reasoning item to which this completed summary part belongs."""
 
@@ -101,19 +102,23 @@ class ResponseReasoningSummaryPartDoneEvent(BaseModel):
     """The index of the overall output item (e.g., a message) in the response's output array
        with which this summary part is associated."""
 
-    # ΛNOTE: `part` contains the actual symbolic content of the summary segment that has been completed.
+    # ΛNOTE: `part` contains the actual symbolic content of the summary
+    # segment that has been completed.
     part: Part
     """The actual summary part content that has been completed."""
 
-    # ΛNOTE: `sequence_number` is crucial for the correct ordered assembly and finalization of summary parts.
+    # ΛNOTE: `sequence_number` is crucial for the correct ordered assembly and
+    # finalization of summary parts.
     sequence_number: int
     """The sequence number of this event, ensuring ordered processing if multiple parts are involved."""
 
-    # ΛNOTE: `summary_index` identifies which specific part of a multi-part summary is now considered done.
+    # ΛNOTE: `summary_index` identifies which specific part of a multi-part
+    # summary is now considered done.
     summary_index: int
     """The index of this completed summary part within the reasoning item's list of summary parts."""
 
-    # ΛNOTE: `type` is a fixed literal, symbolically identifying this event's specific purpose.
+    # ΛNOTE: `type` is a fixed literal, symbolically identifying this event's
+    # specific purpose.
     type: Literal["response.reasoning_summary_part.done"]
     """The type of the event. Always `response.reasoning_summary_part.done` for this model."""
     # Human-readable comment: Fixed literal type for event discrimination.

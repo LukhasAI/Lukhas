@@ -16,11 +16,11 @@ from typing import Dict, List
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler('transmission_launch.log'),
-        logging.StreamHandler(sys.stdout)
-    ]
+        logging.FileHandler("transmission_launch.log"),
+        logging.StreamHandler(sys.stdout),
+    ],
 )
 
 logger = logging.getLogger(__name__)
@@ -42,47 +42,49 @@ class LUKHASTransmission:
         # Component configuration
         self.components = {
             "consciousness_broadcaster": {
-                "path": self.lukhas_next_gen / "stream" / "consciousness_broadcaster.py",
+                "path": self.lukhas_next_gen
+                / "stream"
+                / "consciousness_broadcaster.py",
                 "description": "WebSocket consciousness state streaming",
                 "port": 8765,
-                "dependencies": []
+                "dependencies": [],
             },
             "entropy_tracker": {
                 "path": self.lukhas_next_gen / "entropy_log" / "entropy_tracker.py",
                 "description": "Shannon entropy drift monitoring",
-                "dependencies": []
+                "dependencies": [],
             },
             "trusthelix_auditor": {
                 "path": self.lukhas_next_gen / "trusthelix" / "visual_auditor.py",
                 "description": "Ethical audit trail visualization",
-                "dependencies": []
+                "dependencies": [],
             },
             "guardian_sentinel": {
                 "path": self.lukhas_next_gen / "guardian" / "sentinel.py",
                 "description": "Guardian threat detection system",
                 "port": 8766,
-                "dependencies": ["entropy_tracker"]
+                "dependencies": ["entropy_tracker"],
             },
             "memory_spindle": {
                 "path": self.lukhas_next_gen / "spindle" / "memory_spindle.py",
                 "description": "Pattern emergence detection",
-                "dependencies": ["consciousness_broadcaster"]
+                "dependencies": ["consciousness_broadcaster"],
             },
             "energy_manager": {
                 "path": self.lukhas_next_gen / "stream" / "energy_mode.py",
                 "description": "Adaptive resource management",
-                "dependencies": []
+                "dependencies": [],
             },
             "quantum_glyph_system": {
                 "path": self.lukhas_next_gen / "quantum" / "glyph_pairs.py",
                 "description": "Quantum authentication pairs",
-                "dependencies": []
+                "dependencies": [],
             },
             "sso_bridge": {
                 "path": self.lukhas_next_gen / "bridge" / "sso_bridge.py",
                 "description": "Enterprise SSO integration",
-                "dependencies": []
-            }
+                "dependencies": [],
+            },
         }
 
         logger.info("🚀 LUKHAS Transmission initialized")
@@ -132,7 +134,9 @@ class LUKHASTransmission:
 
         # Check Python version
         python_version = sys.version_info
-        logger.info(f"   Python version: {python_version.major}.{python_version.minor}.{python_version.micro}")
+        logger.info(
+            f"   Python version: {python_version.major}.{python_version.minor}.{python_version.micro}"
+        )
 
         # Check required directories exist
         required_dirs = [
@@ -144,7 +148,7 @@ class LUKHASTransmission:
             "next_gen/quantum",
             "next_gen/bridge",
             "next_gen/memory",
-            "next_gen/security"
+            "next_gen/security",
         ]
 
         for dir_path in required_dirs:
@@ -173,17 +177,19 @@ class LUKHASTransmission:
         logger.info("-" * 40)
 
         # Initialize consciousness state file
-        consciousness_state_file = self.lukhas_next_gen / "stream" / "consciousness_state.json"
+        consciousness_state_file = (
+            self.lukhas_next_gen / "stream" / "consciousness_state.json"
+        )
         consciousness_state_file.parent.mkdir(parents=True, exist_ok=True)
 
         initial_state = {
             "current_state": "focused",
             "last_update": datetime.utcnow().isoformat(),
             "state_history": ["focused"],
-            "system_phase": "phase_5_guardian"
+            "system_phase": "phase_5_guardian",
         }
 
-        with open(consciousness_state_file, 'w') as f:
+        with open(consciousness_state_file, "w") as f:
             json.dump(initial_state, f, indent=2)
 
         logger.info("   ✅ Consciousness state initialized")
@@ -256,10 +262,14 @@ class LUKHASTransmission:
         logger.info("-" * 40)
 
         # Check component status
-        running_components = [name for name, status in self.component_status.items()
-                            if status == "running"]
-        failed_components = [name for name, status in self.component_status.items()
-                           if status == "failed"]
+        running_components = [
+            name
+            for name, status in self.component_status.items()
+            if status == "running"
+        ]
+        failed_components = [
+            name for name, status in self.component_status.items() if status == "failed"
+        ]
 
         logger.info(f"   Running components: {len(running_components)}")
         logger.info(f"   Failed components: {len(failed_components)}")
@@ -289,8 +299,9 @@ class LUKHASTransmission:
         # Guardian system components
         guardian_components = ["guardian_sentinel", "entropy_tracker"]
 
-        guardian_active = all(self.component_status.get(comp) == "running"
-                            for comp in guardian_components)
+        guardian_active = all(
+            self.component_status.get(comp) == "running" for comp in guardian_components
+        )
 
         if guardian_active:
             logger.info("   🛡️ Guardian Sentinel: ACTIVE")
@@ -313,7 +324,9 @@ class LUKHASTransmission:
 
         # Final system status
         total_components = len(self.components)
-        running_components = len([s for s in self.component_status.values() if s == "running"])
+        running_components = len(
+            [s for s in self.component_status.values() if s == "running"]
+        )
 
         # Calculate uptime
         uptime = datetime.utcnow() - self.launch_time
@@ -321,7 +334,9 @@ class LUKHASTransmission:
         logger.info("   📡 LUKHAS Next Generation System Status:")
         logger.info(f"      Launch time: {self.launch_time.isoformat()}")
         logger.info(f"      Uptime: {uptime.total_seconds():.1f} seconds")
-        logger.info(f"      Components: {running_components}/{total_components} running")
+        logger.info(
+            f"      Components: {running_components}/{total_components} running"
+        )
         logger.info("      System phase: Phase 5 - Guardian Integration")
         logger.info("")
         logger.info("   🎯 Core Capabilities Active:")
@@ -351,19 +366,26 @@ class LUKHASTransmission:
             "components": self.component_status,
             "health_metrics": {
                 "total_components": len(self.components),
-                "running_components": len([s for s in self.component_status.values() if s == "running"]),
-                "failed_components": len([s for s in self.component_status.values() if s == "failed"]),
-                "health_score": len([s for s in self.component_status.values() if s == "running"]) / len(self.components)
+                "running_components": len(
+                    [s for s in self.component_status.values() if s == "running"]
+                ),
+                "failed_components": len(
+                    [s for s in self.component_status.values() if s == "failed"]
+                ),
+                "health_score": len(
+                    [s for s in self.component_status.values() if s == "running"]
+                )
+                / len(self.components),
             },
             "trinity_framework": {
                 "identity": "quantum_safe_authentication",
                 "consciousness": "symbolic_streaming_active",
-                "guardian": "autonomous_protection_enabled"
-            }
+                "guardian": "autonomous_protection_enabled",
+            },
         }
 
         record_file = self.base_path / "transmission_bundle" / "launch_record.json"
-        with open(record_file, 'w') as f:
+        with open(record_file, "w") as f:
             json.dump(transmission_record, f, indent=2)
 
         logger.info(f"   📝 Transmission record saved: {record_file}")
@@ -407,7 +429,7 @@ class LUKHASTransmission:
             try:
                 process.terminate()
                 logger.info(f"   🛑 Process {process.pid} terminated")
-            except:
+            except BaseException:
                 pass
 
         logger.error("   🔴 Emergency shutdown complete")

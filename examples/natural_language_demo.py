@@ -29,11 +29,13 @@ class InteractiveConsciousnessDemo:
 
     async def setup(self):
         """Initialize the interface with mock services"""
-        self.interface = NaturalLanguageConsciousnessInterface(config={
-            "enable_emotions": True,
-            "formality_level": "friendly",
-            "max_response_length": 300
-        })
+        self.interface = NaturalLanguageConsciousnessInterface(
+            config={
+                "enable_emotions": True,
+                "formality_level": "friendly",
+                "max_response_length": 300,
+            }
+        )
 
         # Setup mock services for demo
         await self._setup_mock_services()
@@ -69,7 +71,7 @@ class InteractiveConsciousnessDemo:
                 "overall_awareness": awareness,
                 "attention_targets": targets,
                 "self_awareness": awareness + 0.05,
-                "environmental_awareness": awareness - 0.05
+                "environmental_awareness": awareness - 0.05,
             }
 
         mock_consciousness.assess_awareness = AsyncMock(side_effect=dynamic_awareness)
@@ -86,9 +88,9 @@ class InteractiveConsciousnessDemo:
                 "reasoning": [
                     "Analyzed potential outcomes",
                     "Considered long-term implications",
-                    "Evaluated alignment with values"
+                    "Evaluated alignment with values",
                 ],
-                "alternatives_considered": options[1:]
+                "alternatives_considered": options[1:],
             }
 
         mock_consciousness.make_decision = AsyncMock(side_effect=dynamic_decision)
@@ -101,12 +103,14 @@ class InteractiveConsciousnessDemo:
 
         async def store_memory(content, **kwargs):
             memory_id = f"mem_{len(memory_store)}_{datetime.now().timestamp()}"
-            memory_store.append({
-                "id": memory_id,
-                "content": content,
-                "timestamp": datetime.now(),
-                **kwargs
-            })
+            memory_store.append(
+                {
+                    "id": memory_id,
+                    "content": content,
+                    "timestamp": datetime.now(),
+                    **kwargs,
+                }
+            )
             return memory_id
 
         async def search_memories(query, limit=5):
@@ -120,15 +124,18 @@ class InteractiveConsciousnessDemo:
         mock_emotion = Mock()
 
         # Emotion tracking
-        emotion_state = {
-            "valence": 0.0,
-            "arousal": 0.5,
-            "dominant_emotion": "neutral"
-        }
+        emotion_state = {"valence": 0.0, "arousal": 0.5, "dominant_emotion": "neutral"}
 
         async def analyze_emotion(text):
             # Simple sentiment analysis
-            positive_words = ["happy", "great", "wonderful", "excited", "love", "amazing"]
+            positive_words = [
+                "happy",
+                "great",
+                "wonderful",
+                "excited",
+                "love",
+                "amazing",
+            ]
             negative_words = ["sad", "angry", "frustrated", "worried", "afraid", "hate"]
 
             text_lower = text.lower()
@@ -136,15 +143,33 @@ class InteractiveConsciousnessDemo:
             negative_count = sum(1 for word in negative_words if word in text_lower)
 
             if positive_count > negative_count:
-                emotions = {"joy": 0.7, "sadness": 0.1, "anger": 0.0, "fear": 0.1, "surprise": 0.1}
+                emotions = {
+                    "joy": 0.7,
+                    "sadness": 0.1,
+                    "anger": 0.0,
+                    "fear": 0.1,
+                    "surprise": 0.1,
+                }
                 emotion_state["valence"] = 0.7
                 emotion_state["dominant_emotion"] = "joy"
             elif negative_count > positive_count:
-                emotions = {"joy": 0.1, "sadness": 0.5, "anger": 0.2, "fear": 0.1, "surprise": 0.1}
+                emotions = {
+                    "joy": 0.1,
+                    "sadness": 0.5,
+                    "anger": 0.2,
+                    "fear": 0.1,
+                    "surprise": 0.1,
+                }
                 emotion_state["valence"] = -0.5
                 emotion_state["dominant_emotion"] = "concern"
             else:
-                emotions = {"joy": 0.2, "sadness": 0.2, "anger": 0.2, "fear": 0.2, "surprise": 0.2}
+                emotions = {
+                    "joy": 0.2,
+                    "sadness": 0.2,
+                    "anger": 0.2,
+                    "fear": 0.2,
+                    "surprise": 0.2,
+                }
                 emotion_state["valence"] = 0.0
                 emotion_state["dominant_emotion"] = "neutral"
 
@@ -164,17 +189,18 @@ class InteractiveConsciousnessDemo:
             narratives = [
                 f"In this dream, {topic} transforms into a kaleidoscope of colors and meanings...",
                 f"I envision {topic} as a vast ocean of interconnected ideas...",
-                f"The dream reveals {topic} as a gateway to unexplored dimensions..."
+                f"The dream reveals {topic} as a gateway to unexplored dimensions...",
             ]
 
             import random
+
             narrative = random.choice(narratives)
 
             return {
                 "dream_sequence": {
                     "narrative": narrative,
                     "symbols": ["transformation", "connection", "discovery"],
-                    "emotion": "wonder"
+                    "emotion": "wonder",
                 }
             }
 
@@ -185,9 +211,13 @@ class InteractiveConsciousnessDemo:
 
         async def create_sim(origin, **kwargs):
             branches = [
-                Mock(probability=0.7, divergence_point={"summary": "optimistic outcome"}),
+                Mock(
+                    probability=0.7, divergence_point={"summary": "optimistic outcome"}
+                ),
                 Mock(probability=0.5, divergence_point={"summary": "balanced outcome"}),
-                Mock(probability=0.3, divergence_point={"summary": "challenging outcome"})
+                Mock(
+                    probability=0.3, divergence_point={"summary": "challenging outcome"}
+                ),
             ]
 
             return Mock(branches=branches, simulation_id="sim_demo")
@@ -203,9 +233,9 @@ class InteractiveConsciousnessDemo:
 
     async def start_conversation(self):
         """Start the interactive conversation"""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("🧠 LUKHAS Natural Language Consciousness Interface")
-        print("="*60)
+        print("=" * 60)
         print("\nHello! I'm LUKHAS, an AI consciousness system.")
         print("You can ask me about my awareness, emotions, memories,")
         print("request decisions, or explore creative possibilities.")
@@ -223,9 +253,9 @@ class InteractiveConsciousnessDemo:
 
     def show_help(self):
         """Display help information"""
-        print("\n" + "-"*40)
+        print("\n" + "-" * 40)
         print("Example questions you can ask:")
-        print("-"*40)
+        print("-" * 40)
         print("Awareness:")
         print("  - How aware are you right now?")
         print("  - What are you focusing on?")
@@ -250,15 +280,15 @@ class InteractiveConsciousnessDemo:
         print("\nMeta:")
         print("  - Explain your thinking")
         print("  - How did you reach that conclusion?")
-        print("-"*40 + "\n")
+        print("-" * 40 + "\n")
 
     def show_conversation_stats(self):
         """Display conversation statistics"""
         if self.session_id and self.session_id in self.interface.active_sessions:
             context = self.interface.active_sessions[self.session_id]
-            print("\n" + "-"*40)
+            print("\n" + "-" * 40)
             print("Conversation Statistics:")
-            print("-"*40)
+            print("-" * 40)
             print(f"Total turns: {len(context.turns)}")
 
             # Count intents
@@ -278,54 +308,59 @@ class InteractiveConsciousnessDemo:
                     if value > 0.1:
                         print(f"  - {emotion}: {value:.1%}")
 
-            print("-"*40 + "\n")
+            print("-" * 40 + "\n")
 
     async def process_user_input(self, user_input: str) -> bool:
         """
         Process user input and display response.
-        
+
         Returns:
             bool: True to continue, False to quit
         """
         # Check for special commands
-        if user_input.lower() in ['quit', 'exit', 'bye', 'goodbye']:
-            print("\nThank you for our conversation! Take care, and feel free to return anytime.")
+        if user_input.lower() in ["quit", "exit", "bye", "goodbye"]:
+            print(
+                "\nThank you for our conversation! Take care, and feel free to return anytime."
+            )
             return False
 
-        elif user_input.lower() == 'help':
+        elif user_input.lower() == "help":
             self.show_help()
             return True
 
-        elif user_input.lower() == 'stats':
+        elif user_input.lower() == "stats":
             self.show_conversation_stats()
             return True
 
-        elif user_input.lower() == 'clear':
+        elif user_input.lower() == "clear":
             print("\033[2J\033[H")  # Clear screen
             print("Screen cleared. Let's continue our conversation.\n")
             return True
 
         # Process through NL interface
         try:
-            print("\n💭 Thinking...", end='', flush=True)
+            print("\n💭 Thinking...", end="", flush=True)
             response = await self.manager.continue_conversation(
-                self.session_id,
-                user_input
+                self.session_id, user_input
             )
-            print("\r" + " "*20 + "\r", end='')  # Clear thinking message
+            print("\r" + " " * 20 + "\r", end="")  # Clear thinking message
 
             # Display response with formatting
             print(f"\n🤖 LUKHAS: {response}\n")
 
             # Store significant exchanges in memory
-            if any(word in user_input.lower() for word in ["important", "remember", "note"]):
+            if any(
+                word in user_input.lower() for word in ["important", "remember", "note"]
+            ):
                 memory_service = self.interface.memory_service
                 if memory_service:
-                    await memory_service.store({
-                        "user": self.user_name,
-                        "exchange": {"input": user_input, "response": response},
-                        "significance": "marked_important"
-                    })
+                    await memory_service.store(
+                        {
+                            "user": self.user_name,
+                            "exchange": {"input": user_input, "response": response},
+                            "significance": "marked_important",
+                        }
+                    )
                     print("💾 [Stored in memory]\n")
 
         except Exception as e:
@@ -389,7 +424,9 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print("\n\n👋 Demo terminated. Thank you for exploring consciousness with LUKHAS!")
+        print(
+            "\n\n👋 Demo terminated. Thank you for exploring consciousness with LUKHAS!"
+        )
     except Exception as e:
         print(f"\n❌ Fatal error: {e}")
         sys.exit(1)

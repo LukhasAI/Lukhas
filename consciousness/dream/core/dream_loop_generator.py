@@ -2,7 +2,7 @@
 # Purpose: To provide a modular and configurable way to generate dream loops. This module would likely contain a class that can be configured with different memory selection strategies, dream seeding functions, and feedback mechanisms, allowing for the creation of a variety of different dream loops for different purposes.
 # ΛPLACEHOLDER #ΛMISSING_MODULE
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 class DreamLoopGenerator:
@@ -10,11 +10,11 @@ class DreamLoopGenerator:
     Generates and manages dream loops.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         logger.info("DreamLoopGenerator initialized.", config=self.config)
 
-    def generate_loop(self, loop_type: str, parameters: Dict[str, Any]) -> None:
+    def generate_loop(self, loop_type: str, parameters: dict[str, Any]) -> None:
         """
         Generates a dream loop of a specific type.
 

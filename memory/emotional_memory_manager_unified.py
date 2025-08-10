@@ -23,7 +23,7 @@
 
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.identity_integration import require_identity
 from core.tier_unification_adapter import (
@@ -45,7 +45,7 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
     """
 
     def __init__(
-        self, config: Optional[Dict[str, Any]] = None, base_path: Optional[Path] = None
+        self, config: Optional[dict[str, Any]] = None, base_path: Optional[Path] = None
     ):
         """Initialize unified emotional memory manager."""
         super().__init__(config, base_path)
@@ -68,10 +68,10 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
     async def store(
         self,
         user_id: str,
-        memory_data: Dict[str, Any],
+        memory_data: dict[str, Any],
         memory_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Store memory with emotional tagging and user identity.
 
@@ -111,8 +111,8 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
 
     @require_identity(required_tier="LAMBDA_TIER_1", check_consent="memory_access")
     async def retrieve(
-        self, user_id: str, memory_id: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, user_id: str, memory_id: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Retrieve memory with tier-based emotional modulation.
 
@@ -152,8 +152,8 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
 
     @require_identity(required_tier="LAMBDA_TIER_2", check_consent="emotional_analysis")
     async def analyze_emotional_patterns(
-        self, user_id: str, time_range: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, user_id: str, time_range: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Analyze user's emotional patterns over time.
 
@@ -195,8 +195,8 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
         required_tier="LAMBDA_TIER_3", check_consent="emotional_modification"
     )
     async def modulate_emotional_state(
-        self, user_id: str, memory_id: str, target_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, memory_id: str, target_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Modulate the emotional state of a memory.
 
@@ -235,7 +235,7 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
     @emotional_tier_required("T4")  # Using emotional tier decorator
     async def quantum_enhance_emotions(
         self, user_id: str, memory_id: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Apply quantum emotional enhancement to a memory.
 
@@ -267,9 +267,8 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
     def _track_user_memory(self, user_id: str, memory_id: str) -> None:
         """Track memory ownership."""
         # Would update user-memory mapping in production
-        pass
 
-    def _strip_symbolic_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _strip_symbolic_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """Remove symbolic data for users without access."""
         cleaned = data.copy()
         symbolic_keys = ["symbolic_tags", "glyph_associations", "quantum_symbols"]
@@ -278,8 +277,8 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
         return cleaned
 
     def _apply_tier_filtering(
-        self, data: Dict[str, Any], user_matrix: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any], user_matrix: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply tier-based filtering to retrieved data."""
         filtered = data.copy()
 
@@ -295,45 +294,45 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
 
     async def _get_user_memories(
         self, user_id: str, hours_limit: float
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Get user's memories within time limit."""
         # Would query actual user memories in production
         return []
 
     def _analyze_dominant_emotions(
-        self, memories: List[Dict[str, Any]]
-    ) -> Dict[str, int]:
+        self, memories: list[dict[str, Any]]
+    ) -> dict[str, int]:
         """Analyze dominant emotions in memory set."""
         # Placeholder for emotion analysis
         return {}
 
     def _analyze_transitions(
-        self, memories: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, memories: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Analyze emotional transitions."""
         # Placeholder for transition analysis
         return []
 
     def _analyze_valence_trends(
-        self, memories: List[Dict[str, Any]]
-    ) -> Dict[str, float]:
+        self, memories: list[dict[str, Any]]
+    ) -> dict[str, float]:
         """Analyze valence trends over time."""
         # Placeholder for trend analysis
         return {}
 
     def _analyze_symbolic_patterns(
-        self, memories: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, memories: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Analyze symbolic patterns in memories."""
         # Placeholder for symbolic analysis
         return {}
 
     def _apply_modulation_limits(
         self,
-        current_state: Dict[str, Any],
-        target_state: Dict[str, Any],
-        user_matrix: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        current_state: dict[str, Any],
+        target_state: dict[str, Any],
+        user_matrix: dict[str, Any],
+    ) -> dict[str, Any]:
         """Apply tier-based limits to emotional modulation."""
         # Limit the amount of change based on tier
         granularity = user_matrix.get("emotional_granularity", "basic")
@@ -364,8 +363,8 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
         self,
         user_id: str,
         memory_id: str,
-        old_state: Dict[str, Any],
-        new_state: Dict[str, Any],
+        old_state: dict[str, Any],
+        new_state: dict[str, Any],
     ) -> None:
         """Log emotional state modifications for audit."""
         self.logger.info(

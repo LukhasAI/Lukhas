@@ -59,7 +59,8 @@ __all__ = ["ResponseReasoningSummaryDeltaEvent"]
 
 
 # ΛNOTE: This class defines the symbolic structure for a delta event specifically for a reasoning summary.
-# It allows for incremental updates to a summary associated with a larger reasoning item.
+# It allows for incremental updates to a summary associated with a larger
+# reasoning item.
 class ResponseReasoningSummaryDeltaEvent(BaseModel):
     """
     Represents a partial update (delta) to a reasoning summary content part.
@@ -67,7 +68,9 @@ class ResponseReasoningSummaryDeltaEvent(BaseModel):
     """
 
     # ΛNOTE: The `delta` field carries the incremental update to the summary content.
-    delta: object  # Kept as 'object'; could be Union[str, Dict] if the summary content structure is known
+    # Kept as 'object'; could be Union[str, Dict] if the summary content
+    # structure is known
+    delta: object
     """The partial update to the reasoning summary content."""
 
     # AIDENTITY: `item_id` links this summary delta to the parent reasoning item.
@@ -83,11 +86,13 @@ class ResponseReasoningSummaryDeltaEvent(BaseModel):
     sequence_number: int
     """The sequence number of this delta event for the specific summary part, ensuring ordered application."""
 
-    # ΛNOTE: `summary_index` identifies which part of a potentially multi-part summary is being updated.
+    # ΛNOTE: `summary_index` identifies which part of a potentially multi-part
+    # summary is being updated.
     summary_index: int
     """The index of this specific summary part within the reasoning item's summary list."""
 
-    # ΛNOTE: `type` is a fixed literal, symbolically identifying this event's specific purpose.
+    # ΛNOTE: `type` is a fixed literal, symbolically identifying this event's
+    # specific purpose.
     type: Literal["response.reasoning_summary.delta"]
     """The type of the event. Always 'response.reasoning_summary.delta' for this model."""
     # Human-readable comment: Fixed literal type for event discrimination.

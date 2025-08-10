@@ -85,7 +85,7 @@ import os
 import random
 import re
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -113,7 +113,7 @@ class VoiceMemoryHelix:
     - Refinement (optimize based on feedback)
     """
 
-    def __init__(self, core_interface=None, config: Dict[str, Any] = None):
+    def __init__(self, core_interface=None, config: dict[str, Any] = None):
         """
         Initialize the voice memory helix.
 
@@ -205,7 +205,7 @@ class VoiceMemoryHelix:
         except Exception as e:
             logger.warning(f"Failed to save voice memory: {e}")
 
-    async def detect_new_words(self, text: str) -> List[str]:
+    async def detect_new_words(self, text: str) -> list[str]:
         """
         Detect new or unusual words in text that might need pronunciation learning.
 
@@ -228,7 +228,8 @@ class VoiceMemoryHelix:
             if len(word) > 4:  # Focus on longer words that might be more complex
                 if word not in self.pronunciation_memory:
                     # Check if it's an unusual word (simplified check)
-                    # In a real implementation, this would use more sophisticated methods
+                    # In a real implementation, this would use more sophisticated
+                    # methods
                     if await self._is_unusual_word(word):
                         new_words.append(word)
                         self.curiosity_list.add(word)
@@ -299,8 +300,8 @@ class VoiceMemoryHelix:
         self,
         word: str,
         pronunciation: str,
-        accent_info: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        accent_info: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Learn from a pronunciation example.
 
@@ -382,8 +383,8 @@ class VoiceMemoryHelix:
         return None
 
     async def practice_pronunciation(
-        self, word: str, feedback: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, word: str, feedback: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Practice pronunciation of a word and incorporate feedback.
 
@@ -480,7 +481,7 @@ class VoiceMemoryHelix:
         # but in reality it would be a weighted blend
         return new_pron
 
-    async def detect_accent(self, audio_sample) -> Dict[str, Any]:
+    async def detect_accent(self, audio_sample) -> dict[str, Any]:
         """
         Detect accent from an audio sample.
 
@@ -499,7 +500,7 @@ class VoiceMemoryHelix:
             "region": "North America",
         }
 
-    def get_due_practice_words(self, limit: int = 5) -> List[str]:
+    def get_due_practice_words(self, limit: int = 5) -> list[str]:
         """
         Get words that are due for practice.
 
@@ -566,7 +567,7 @@ class VoiceMemoryHelix:
         # Fall back to canonical pronunciation
         return self.pronunciation_memory[word]["canonical"]
 
-    def generate_accent_report(self) -> Dict[str, Any]:
+    def generate_accent_report(self) -> dict[str, Any]:
         """
         Generate a report on accent learning progress.
 

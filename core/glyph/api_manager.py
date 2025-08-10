@@ -260,7 +260,7 @@ class VeriFoldGlyphGenerator:
         symbols = ""
         for i, role in enumerate(roles):
             if role == "doctor":
-                symbols += f'< path d ="M180, {160 + i * 20} L220, {160 + i * 20} M200,
+                symbols += f'< path d ="M180, {160 + i * 20} L220, {160 + i * 20} M200,'
     # 4A90E2" stroke-width="3" fill="none"/>'
     {140 + i * 20} L200, {180 + i * 20}" stroke="
     elif role == "lawyer":

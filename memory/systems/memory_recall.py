@@ -16,7 +16,7 @@ import os
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Third-Party Imports
 
@@ -36,7 +36,7 @@ except ImportError:
     )
 
     def decrypt_user_file(
-        seed_phrase: List[str], filename_in_vault: str, output_filepath: str
+        seed_phrase: list[str], filename_in_vault: str, output_filepath: str
     ) -> bool:
         log.info(
             "Placeholder decrypt_user_file called.",
@@ -69,7 +69,7 @@ except ImportError:
         component="LucasMemoryRecall",
     )
 
-    def generate_sid(seed_phrase: List[str]) -> str:
+    def generate_sid(seed_phrase: list[str]) -> str:
         log.info("Placeholder generate_sid called.")
         # Generate a simple SID from first letters of seed words for placeholder
         return "placeholder_sid_" + "".join(
@@ -81,11 +81,11 @@ LUKHAS_FUNCTION_TIER = 3
 
 
 def recall_memories(
-    seed_phrase: List[str],
+    seed_phrase: list[str],
     filename_filter_prefix: str = "lukhas_memory_",
     vault_root_path: str = "./vault",
     temp_file_base_path: str = "./.tmp_lukhas_memory",
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """
     Decrypts and retrieves symbolic memory logs for a "Lukhas" entity from a SEEDRA vault.
     Returns: List of decrypted memories. Empty list on failure or if no memories found.
@@ -95,7 +95,7 @@ def recall_memories(
         vault_root=vault_root_path,
         filter_prefix=filename_filter_prefix,
     )
-    recalled_list: List[Dict[str, Any]] = []
+    recalled_list: list[dict[str, Any]] = []
 
     # Check SEEDRA component availability
     # If any SEEDRA component is real but the other is a placeholder, it might lead to issues.

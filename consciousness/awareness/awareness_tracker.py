@@ -7,7 +7,7 @@ This component handles consciousness functionality in the AI consciousness compu
 
 import asyncio
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -21,7 +21,7 @@ class AwarenessTracker:
     100% system connectivity and consciousness computing capabilities.
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.logger = get_logger(__name__)
         self.is_initialized = False
@@ -49,7 +49,7 @@ class AwarenessTracker:
         # Placeholder for consciousness-specific setup
         await asyncio.sleep(0.1)  # Simulate async operation
 
-    async def process(self, data: Any) -> Dict:
+    async def process(self, data: Any) -> dict:
         """Process consciousness data"""
         if not self.is_initialized:
             await self.initialize()
@@ -93,27 +93,27 @@ class AwarenessTracker:
         else:
             return await self._process_generic(data)
 
-    async def _process_consciousness(self, data: Any) -> Dict:
+    async def _process_consciousness(self, data: Any) -> dict:
         """Process consciousness-related data"""
         return {"consciousness_level": "active", "awareness": "enhanced"}
 
-    async def _process_governance(self, data: Any) -> Dict:
+    async def _process_governance(self, data: Any) -> dict:
         """Process governance-related data"""
         return {"policy_compliant": True, "ethics_check": "passed"}
 
-    async def _process_voice(self, data: Any) -> Dict:
+    async def _process_voice(self, data: Any) -> dict:
         """Process voice-related data"""
         return {"voice_processed": True, "audio_quality": "high"}
 
-    async def _process_identity(self, data: Any) -> Dict:
+    async def _process_identity(self, data: Any) -> dict:
         """Process identity-related data"""
         return {"identity_verified": True, "persona": "active"}
 
-    async def _process_quantum(self, data: Any) -> Dict:
+    async def _process_quantum(self, data: Any) -> dict:
         """Process quantum-related data"""
         return {"quantum_like_state": "entangled", "coherence": "stable"}
 
-    async def _process_generic(self, data: Any) -> Dict:
+    async def _process_generic(self, data: Any) -> dict:
         """Process generic data"""
         return {"processed": True, "data": data}
 
@@ -137,7 +137,7 @@ class AwarenessTracker:
         # Implement validation logic specific to consciousness
         return True
 
-    def get_status(self) -> Dict:
+    def get_status(self) -> dict:
         """Get component status"""
         return {
             "component": self.__class__.__name__,
@@ -155,21 +155,21 @@ class AwarenessTracker:
 
 
 # Factory function for easy instantiation
-def create_consciousness_component(config: Optional[Dict] = None) -> ΛAwarenessTracker:
+def create_consciousness_component(config: Optional[dict] = None) -> ΛAwarenessTracker:
     """Create and return a consciousness component instance"""
     return ΛAwarenessTracker(config)
 
 
 # Async factory function
 async def create_and_initialize_consciousness_component(
-    config: Optional[Dict] = None,
+    config: Optional[dict] = None,
 ) -> ΛAwarenessTracker:
     """Create, initialize and return a consciousness component instance"""
-    component = ΛAwarenessTracker(config)
+    ΛAwarenessTracker(config)
 
 
 def create_consciousness_component(
-    config: Optional[Dict] = None,
+    config: Optional[dict] = None,
 ) -> lukhasAwarenessTracker:
     """Create and return a consciousness component instance"""
     return lukhasAwarenessTracker(config)
@@ -177,7 +177,7 @@ def create_consciousness_component(
 
 # Async factory function
 async def create_and_initialize_consciousness_component(
-    config: Optional[Dict] = None,
+    config: Optional[dict] = None,
 ) -> lukhasAwarenessTracker:
     """Create, initialize and return a consciousness component instance"""
     component = lukhasAwarenessTracker(config)

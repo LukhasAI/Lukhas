@@ -42,7 +42,6 @@ It provides type definitions for parameters used when creating or updating
 
 
 from collections.abc import Iterable
-from typing import Optional
 
 from typing_extensions import Literal, Required, TypedDict
 
@@ -91,20 +90,23 @@ class ResponseReasoningItemParam(TypedDict, total=False):
     (e.g., some might be be optional for updates).
     """
 
-    # AIDENTITY: `id` is the unique symbolic identifier for the reasoning content being parameterized.
+    # AIDENTITY: `id` is the unique symbolic identifier for the reasoning
+    # content being parameterized.
     id: Required[str]
     """The unique identifier of the reasoning content. (Required)"""
 
-    # ΛNOTE: `summary` links to the structured summary parameters, embedding symbolic summary information.
+    # ΛNOTE: `summary` links to the structured summary parameters, embedding
+    # symbolic summary information.
     summary: Required[Iterable[Summary]]
     """Reasoning text contents, provided as an iterable of Summary parameters. (Required)"""
 
-    # ΛNOTE: `type` acts as a symbolic discriminator for this parameter structure, identifying it as pertaining to "reasoning".
+    # ΛNOTE: `type` acts as a symbolic discriminator for this parameter
+    # structure, identifying it as pertaining to "reasoning".
     type: Required[Literal["reasoning"]]
     """The type of the object. Always `reasoning`. (Required)"""
     # Human-readable comment: Fixed literal type ensures type safety for this parameter.
 
-    encrypted_content: Optional[str]
+    encrypted_content: str | None
     """
     The encrypted content of the reasoning item. This might be provided when creating
     an item that should store its detailed content securely. (Optional)

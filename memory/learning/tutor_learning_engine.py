@@ -2,7 +2,7 @@
 Tests for the TutorEngine component.
 """
 
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 from docututor.symbolic_knowledge_core.knowledge_graph import (
@@ -17,12 +17,12 @@ from docututor.tutoring_engine.tutor import (
 
 # Mock Lukhas interfaces
 class TestTutorLearningEngine:
-    async def synthesize_speech(self, text: str, style: Dict[str, Any]):
+    async def synthesize_speech(self, text: str, style: dict[str, Any]):
         return True
 
 
 class TestTutorLearningEngine:
-    async def get_user_metrics(self, user_id: str) -> Dict[str, float]:
+    async def get_user_metrics(self, user_id: str) -> dict[str, float]:
         return {"stress": 0.4, "attention": 0.8, "cognitive_load": 0.5}
 
 
@@ -62,7 +62,7 @@ async def test_create_session(tutor_engine, sample_config):
 
     assert session.topic == "Python Basics"
     assert session.user_id == "test_user_1"
-    assert session.voice_enabled == True
+    assert session.voice_enabled
     assert len(session.messages) > 0  # Should have welcome message
     assert session.messages[0].message_type == TutorMessageType.ENCOURAGEMENT
 
@@ -158,13 +158,13 @@ async def test_voice_integration(tutor_engine, sample_config):
     """Test voice synthesis integration."""
     voice_calls = []
 
-    async def mock_synthesize(text: str, style: Dict[str, Any]):
+    async def mock_synthesize(text: str, style: dict[str, Any]):
         voice_calls.append((text, style))
         return True
 
     tutor_engine.voice.synthesize_speech = mock_synthesize
 
-    session = await tutor_engine.create_session(
+    await tutor_engine.create_session(
         topic="Python Basics",
         user_id="test_user_1",
         difficulty=DifficultyLevel.BEGINNER,

@@ -57,13 +57,16 @@
 ║    • Cultural knowledge base
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 import asyncio
+import builtins
+import contextlib
 import json
 import random
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger("ΛTRACE.dream.data_sources")
 
@@ -83,7 +86,7 @@ class DreamDataCollector:
     # MEMORY DATA SOURCES
     # ═══════════════════════════════════════════════════════════════════
 
-    async def collect_memory_data(self) -> Dict[str, Any]:
+    async def collect_memory_data(self) -> dict[str, Any]:
         """
         Collect data from memory systems.
 
@@ -133,7 +136,7 @@ class DreamDataCollector:
             logger.warning("Memory system not available, using simulated data")
             return self._simulate_memory_data()
 
-    def _extract_memory_themes(self, memories: List[Dict]) -> List[str]:
+    def _extract_memory_themes(self, memories: list[dict]) -> list[str]:
         """Extract themes from memory data."""
         themes = [
             "childhood wonder",
@@ -146,7 +149,7 @@ class DreamDataCollector:
         # In real implementation, would analyze memory content
         return random.sample(themes, min(3, len(themes)))
 
-    def _extract_emotional_traces(self, memories: List[Dict]) -> List[Dict]:
+    def _extract_emotional_traces(self, memories: list[dict]) -> list[dict]:
         """Extract emotional traces from memories."""
         emotions = ["joy", "melancholy", "curiosity", "peace", "excitement"]
         return [
@@ -158,7 +161,7 @@ class DreamDataCollector:
             for i in range(min(3, len(memories)))
         ]
 
-    def _simulate_memory_data(self) -> Dict[str, Any]:
+    def _simulate_memory_data(self) -> dict[str, Any]:
         """Simulate memory data when system unavailable."""
         return {
             "source": "memory_simulated",
@@ -178,7 +181,7 @@ class DreamDataCollector:
     # CONSCIOUSNESS DATA SOURCES
     # ═══════════════════════════════════════════════════════════════════
 
-    async def collect_consciousness_data(self) -> Dict[str, Any]:
+    async def collect_consciousness_data(self) -> dict[str, Any]:
         """
         Collect data from consciousness systems.
 
@@ -194,7 +197,6 @@ class DreamDataCollector:
             from consciousness.awareness.system_awareness import (
                 SystemAwareness,
             )
-            from consciousness.systems.state import ConsciousnessState
 
             awareness = SystemAwareness()
             current_state = await awareness.get_current_state()
@@ -213,7 +215,7 @@ class DreamDataCollector:
             logger.warning("Consciousness system not available, using simulated data")
             return self._simulate_consciousness_data()
 
-    def _get_active_thoughts(self, state: Dict) -> List[str]:
+    def _get_active_thoughts(self, state: dict) -> list[str]:
         """Extract active thought patterns."""
         thought_patterns = [
             "pattern recognition",
@@ -225,7 +227,7 @@ class DreamDataCollector:
         ]
         return random.sample(thought_patterns, 3)
 
-    def _simulate_consciousness_data(self) -> Dict[str, Any]:
+    def _simulate_consciousness_data(self) -> dict[str, Any]:
         """Simulate consciousness data."""
         return {
             "source": "consciousness_simulated",
@@ -244,7 +246,7 @@ class DreamDataCollector:
     # EMOTIONAL DATA SOURCES
     # ═══════════════════════════════════════════════════════════════════
 
-    async def collect_emotional_data(self) -> Dict[str, Any]:
+    async def collect_emotional_data(self) -> dict[str, Any]:
         """
         Collect data from emotion systems.
 
@@ -282,7 +284,7 @@ class DreamDataCollector:
             logger.warning("Emotion system not available, using simulated data")
             return self._simulate_emotional_data()
 
-    def _get_dominant_emotions(self, emotion_state: Dict) -> List[Tuple[str, float]]:
+    def _get_dominant_emotions(self, emotion_state: dict) -> list[tuple[str, float]]:
         """Extract dominant emotions."""
         emotions = [
             ("wonder", 0.8),
@@ -294,11 +296,11 @@ class DreamDataCollector:
         ]
         return sorted(emotions, key=lambda x: x[1], reverse=True)[:3]
 
-    def _calculate_emotional_complexity(self, emotion_state: Dict) -> float:
+    def _calculate_emotional_complexity(self, emotion_state: dict) -> float:
         """Calculate emotional complexity score."""
         return round(random.uniform(0.4, 0.9), 2)
 
-    def _get_resonance_patterns(self) -> List[str]:
+    def _get_resonance_patterns(self) -> list[str]:
         """Get emotional resonance patterns."""
         patterns = [
             "harmonic_convergence",
@@ -309,7 +311,7 @@ class DreamDataCollector:
         ]
         return random.sample(patterns, 2)
 
-    def _simulate_emotional_data(self) -> Dict[str, Any]:
+    def _simulate_emotional_data(self) -> dict[str, Any]:
         """Simulate emotional data."""
         return {
             "source": "emotion_simulated",
@@ -327,7 +329,7 @@ class DreamDataCollector:
     # QUANTUM/SYMBOLIC DATA SOURCES
     # ═══════════════════════════════════════════════════════════════════
 
-    async def collect_quantum_symbolic_data(self) -> Dict[str, Any]:
+    async def collect_quantum_symbolic_data(self) -> dict[str, Any]:
         """
         Collect data from quantum and symbolic systems.
 
@@ -365,11 +367,11 @@ class DreamDataCollector:
             )
             return self._simulate_quantum_symbolic_data()
 
-    def _calculate_symbolic_resonance(self, glyphs: List[str]) -> float:
+    def _calculate_symbolic_resonance(self, glyphs: list[str]) -> float:
         """Calculate symbolic resonance score."""
         return round(random.uniform(0.5, 0.95), 3)
 
-    def _get_quantum_possibilities(self) -> List[str]:
+    def _get_quantum_possibilities(self) -> list[str]:
         """Get quantum possibility states."""
         possibilities = [
             "superposition_creative",
@@ -380,7 +382,7 @@ class DreamDataCollector:
         ]
         return random.sample(possibilities, 3)
 
-    def _simulate_quantum_symbolic_data(self) -> Dict[str, Any]:
+    def _simulate_quantum_symbolic_data(self) -> dict[str, Any]:
         """Simulate quantum/symbolic data."""
         glyphs = ["ΛQUANTUM", "ΛMEMORY", "ΛCREATE", "ΛBRIDGE", "ΛEMOTION"]
         return {
@@ -401,8 +403,8 @@ class DreamDataCollector:
     # ═══════════════════════════════════════════════════════════════════
 
     async def collect_external_data(
-        self, user_context: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        self, user_context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """
         Collect external context data.
 
@@ -460,7 +462,7 @@ class DreamDataCollector:
         else:
             return "night"
 
-    def _get_recent_inputs(self) -> List[str]:
+    def _get_recent_inputs(self) -> list[str]:
         """Get recent user inputs/interactions."""
         input_types = [
             "conversation",
@@ -476,7 +478,7 @@ class DreamDataCollector:
     # CREATIVE REPOSITORIES
     # ═══════════════════════════════════════════════════════════════════
 
-    async def collect_creative_data(self) -> Dict[str, Any]:
+    async def collect_creative_data(self) -> dict[str, Any]:
         """
         Collect data from creative repositories.
 
@@ -503,7 +505,7 @@ class DreamDataCollector:
 
         return creative_data
 
-    def _load_dream_archive(self) -> List[Dict]:
+    def _load_dream_archive(self) -> list[dict]:
         """Load previous dreams from archive."""
         dream_log_path = Path("dream_outputs/dream_log.jsonl")
         dreams = []
@@ -511,14 +513,12 @@ class DreamDataCollector:
         if dream_log_path.exists():
             with open(dream_log_path) as f:
                 for line in f:
-                    try:
+                    with contextlib.suppress(builtins.BaseException):
                         dreams.append(json.loads(line.strip()))
-                    except:
-                        pass
 
         return dreams[-10:]  # Last 10 dreams
 
-    def _extract_dream_patterns(self, dreams: List[Dict]) -> List[str]:
+    def _extract_dream_patterns(self, dreams: list[dict]) -> list[str]:
         """Extract patterns from previous dreams."""
         if not dreams:
             return ["exploration", "transformation", "connection"]
@@ -531,7 +531,7 @@ class DreamDataCollector:
 
         return list(set(themes))[:5]
 
-    def _get_narrative_seeds(self) -> List[str]:
+    def _get_narrative_seeds(self) -> list[str]:
         """Get narrative seed concepts."""
         seeds = [
             "journey through time",
@@ -545,7 +545,7 @@ class DreamDataCollector:
         ]
         return random.sample(seeds, 3)
 
-    def _get_artistic_themes(self) -> List[str]:
+    def _get_artistic_themes(self) -> list[str]:
         """Get artistic themes."""
         themes = [
             "surrealism",
@@ -558,7 +558,7 @@ class DreamDataCollector:
         ]
         return random.sample(themes, 2)
 
-    def _get_cultural_elements(self) -> List[str]:
+    def _get_cultural_elements(self) -> list[str]:
         """Get cultural elements."""
         elements = [
             "mythology",
@@ -571,7 +571,7 @@ class DreamDataCollector:
         ]
         return random.sample(elements, 2)
 
-    def _get_inspiration_sources(self) -> List[str]:
+    def _get_inspiration_sources(self) -> list[str]:
         """Get inspiration sources."""
         sources = [
             "nature",
@@ -589,8 +589,8 @@ class DreamDataCollector:
     # ═══════════════════════════════════════════════════════════════════
 
     async def collect_all_dream_data(
-        self, user_context: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        self, user_context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """
         Collect and aggregate data from all sources for dream generation.
 
@@ -640,7 +640,7 @@ class DreamDataCollector:
 
         return dream_data
 
-    def _synthesize_dream_seeds(self, data: Dict) -> List[Dict]:
+    def _synthesize_dream_seeds(self, data: dict) -> list[dict]:
         """Synthesize dream seeds from collected data."""
         seeds = []
 
@@ -694,7 +694,7 @@ class DreamDataCollector:
 
         return seeds
 
-    def _calculate_dream_parameters(self, data: Dict) -> Dict[str, float]:
+    def _calculate_dream_parameters(self, data: dict) -> dict[str, float]:
         """Calculate dream generation parameters from data."""
         params = {
             "surrealism_level": 0.5,
@@ -729,7 +729,7 @@ class DreamDataCollector:
 
         return params
 
-    def _get_dominant_influences(self, data: Dict) -> List[str]:
+    def _get_dominant_influences(self, data: dict) -> list[str]:
         """Identify dominant influences for dream."""
         influences = []
 
@@ -748,7 +748,7 @@ class DreamDataCollector:
 
         return influences
 
-    def _suggest_themes(self, data: Dict) -> List[str]:
+    def _suggest_themes(self, data: dict) -> list[str]:
         """Suggest dream themes based on data."""
         themes = []
 
@@ -774,7 +774,7 @@ class DreamDataCollector:
 
         return list(set(themes))[:4]
 
-    def _create_emotional_palette(self, data: Dict) -> Dict[str, Any]:
+    def _create_emotional_palette(self, data: dict) -> dict[str, Any]:
         """Create emotional palette for dream."""
         emotions = data.get("emotion", {}).get("dominant_emotions", [])
 

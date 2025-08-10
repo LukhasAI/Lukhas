@@ -27,6 +27,8 @@ OBSERVABILITY FEATURES:
 - Log aggregation and intelligent log analysis
 - SLA monitoring with automatic incident management
 """
+from collections import Counter
+import logging
 
 import asyncio
 import json
@@ -37,7 +39,7 @@ from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum, auto
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import aiohttp
 import aioredis
@@ -210,17 +212,17 @@ class ModelDriftDetector:
 
     def __init__(self, reference_window_size: int = 1000):
         self.reference_window_size = reference_window_size
-        self.reference_data: Dict[str, deque] = defaultdict(
+        self.reference_data: dict[str, deque] = defaultdict(
             lambda: deque(maxlen=reference_window_size)
         )
-        self.drift_scores: Dict[str, float] = {}
+        self.drift_scores: dict[str, float] = {}
 
         # Anomaly detection models
-        self.isolation_forests: Dict[str, IsolationForest] = {}
-        self.scalers: Dict[str, StandardScaler] = {}
+        self.isolation_forests: dict[str, IsolationForest] = {}
+        self.scalers: dict[str, StandardScaler] = {}
 
     async def initialize_reference_baseline(
-        self, model_id: str, baseline_data: List[Dict[str, float]]
+        self, model_id: str, baseline_data: list[dict[str, float]]
     ) -> None:
         """Initialize reference baseline for drift detection."""
         logger.info(
@@ -238,7 +240,7 @@ class ModelDriftDetector:
         await self._train_anomaly_detectors(model_id, baseline_data)
 
     async def _train_anomaly_detectors(
-        self, model_id: str, training_data: List[Dict[str, float]]
+        self, model_id: str, training_data: list[dict[str, float]]
     ) -> None:
         """Train isolation forest models for anomaly detection."""
         if len(training_data) < 100:
@@ -267,8 +269,8 @@ class ModelDriftDetector:
         logger.info("Anomaly detection models trained", model_id=model_id)
 
     async def detect_drift(
-        self, model_id: str, current_metrics: Dict[str, float]
-    ) -> Dict[DriftType, float]:
+        self, model_id: str, current_metrics: dict[str, float]
+    ) -> dict[DriftType, float]:
         """
         Detect various types of drift for a model.
 
@@ -303,7 +305,7 @@ class ModelDriftDetector:
         return drift_scores
 
     async def _detect_data_drift(
-        self, model_id: str, current_metrics: Dict[str, float]
+        self, model_id: str, current_metrics: dict[str, float]
     ) -> float:
         """Detect data drift using Kolmogorov-Smirnov test."""
         drift_scores = []
@@ -332,7 +334,7 @@ class ModelDriftDetector:
         return np.mean(drift_scores) if drift_scores else 0.0
 
     async def _detect_performance_drift(
-        self, model_id: str, current_metrics: Dict[str, float]
+        self, model_id: str, current_metrics: dict[str, float]
     ) -> float:
         """Detect performance drift by comparing key performance metrics."""
         performance_metrics = [
@@ -366,7 +368,7 @@ class ModelDriftDetector:
         return np.mean(drift_scores) if drift_scores else 0.0
 
     async def _detect_prediction_drift(
-        self, model_id: str, current_metrics: Dict[str, float]
+        self, model_id: str, current_metrics: dict[str, float]
     ) -> float:
         """Detect prediction drift using trained anomaly detection models."""
         if model_id not in self.isolation_forests:
@@ -404,9 +406,9 @@ class AlertManager:
 
     def __init__(self, config: MonitoringConfig):
         self.config = config
-        self.active_alerts: Dict[str, Alert] = {}
+        self.active_alerts: dict[str, Alert] = {}
         self.alert_history: deque = deque(maxlen=10000)
-        self.suppression_rules: List[Dict] = []
+        self.suppression_rules: list[dict] = []
 
         # External integrations
         self.webhook_url = config.alert_webhook_url
@@ -416,14 +418,14 @@ class AlertManager:
             self.datadog_client = statsd
 
         # Alert rate limiting
-        self.alert_counts: Dict[str, deque] = defaultdict(lambda: deque(maxlen=100))
+        self.alert_counts: dict[str, deque] = defaultdict(lambda: deque(maxlen=100))
 
     async def evaluate_thresholds(
         self,
-        metrics: Dict[str, float],
-        thresholds: List[MetricThreshold],
+        metrics: dict[str, float],
+        thresholds: list[MetricThreshold],
         model_id: Optional[str] = None,
-    ) -> List[Alert]:
+    ) -> list[Alert]:
         """Evaluate metrics against thresholds and generate alerts."""
         generated_alerts = []
 
@@ -537,14 +539,12 @@ class AlertManager:
 
         return True
 
-    def _matches_suppression_rule(self, alert: Alert, rule: Dict) -> bool:
+    def _matches_suppression_rule(self, alert: Alert, rule: dict) -> bool:
         """Check if alert matches suppression rule."""
         # Simple rule matching - could be much more sophisticated
         if rule.get("metric_name") == alert.metric_name:
             return True
-        if rule.get("severity") == alert.severity.value:
-            return True
-        return False
+        return rule.get("severity") == alert.severity.value
 
     async def _send_alert(self, alert: Alert) -> None:
         """Send alert via configured channels."""
@@ -647,9 +647,9 @@ class PerformanceProfiler:
     """
 
     def __init__(self):
-        self.execution_times: Dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
-        self.memory_usage: Dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
-        self.gpu_usage: Dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
+        self.execution_times: dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
+        self.memory_usage: dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
+        self.gpu_usage: dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
 
     @asynccontextmanager
     async def profile_execution(self, operation_name: str):
@@ -698,7 +698,7 @@ class PerformanceProfiler:
         except Exception:
             return 0.0
 
-    def get_performance_summary(self) -> Dict[str, Any]:
+    def get_performance_summary(self) -> dict[str, Any]:
         """Get performance summary statistics."""
         summary = {}
 
@@ -794,8 +794,8 @@ class ObservabilitySystem:
     async def monitor_model_inference(
         self,
         model_id: str,
-        request_data: Dict[str, Any],
-        response_data: Dict[str, Any],
+        request_data: dict[str, Any],
+        response_data: dict[str, Any],
         execution_time_ms: float,
     ) -> None:
         """Monitor a single model inference request."""
@@ -854,8 +854,8 @@ class ObservabilitySystem:
     async def _log_inference_event(
         self,
         model_id: str,
-        request_data: Dict[str, Any],
-        response_data: Dict[str, Any],
+        request_data: dict[str, Any],
+        response_data: dict[str, Any],
         execution_time_ms: float,
     ) -> None:
         """Log inference event to Elasticsearch."""
@@ -885,7 +885,7 @@ class ObservabilitySystem:
             logger.error("Failed to log to Elasticsearch", error=str(e))
 
     async def register_model_baseline(
-        self, model_id: str, baseline_metrics: List[Dict[str, float]]
+        self, model_id: str, baseline_metrics: list[dict[str, float]]
     ) -> None:
         """Register baseline metrics for a model."""
         await self.drift_detector.initialize_reference_baseline(
@@ -897,7 +897,7 @@ class ObservabilitySystem:
             samples=len(baseline_metrics),
         )
 
-    async def get_system_health(self) -> Dict[str, Any]:
+    async def get_system_health(self) -> dict[str, Any]:
         """Get comprehensive system health status."""
         health = {
             "timestamp": datetime.now().isoformat(),

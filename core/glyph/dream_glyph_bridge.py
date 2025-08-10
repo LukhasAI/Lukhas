@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 #!/usr/bin/env python3
 
 """

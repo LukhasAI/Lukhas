@@ -6,7 +6,7 @@ Provides integration wrapper for connecting the quantum security system to the q
 import json
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .ΛBot_quantum_security import (
     QuantumThreat,
@@ -23,7 +23,7 @@ class QuantumSecurityIntegration:
     Provides a simplified interface for the quantum hub.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the quantum security integration"""
         self.config = config or {
             "quantum_enhanced": True,
@@ -74,7 +74,7 @@ class QuantumSecurityIntegration:
 
         for algorithm in ["kyber", "dilithium"]:
             try:
-                keys = await self.security_orchestrator.pq_crypto_engine.generate_quantum_resistant_keys(
+                await self.security_orchestrator.pq_crypto_engine.generate_quantum_resistant_keys(
                     algorithm
                 )
                 logger.info(f"Generated {algorithm} keys successfully")
@@ -140,7 +140,7 @@ class QuantumSecurityIntegration:
 
     async def generate_quantum_resistant_keys(
         self, algorithm: str = "kyber"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate quantum-resistant cryptographic keys
 
@@ -159,7 +159,7 @@ class QuantumSecurityIntegration:
 
     async def encrypt_quantum_safe(
         self, data: bytes, public_key: str, algorithm: str = "kyber"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Encrypt data using quantum-resistant algorithms
 
@@ -179,8 +179,8 @@ class QuantumSecurityIntegration:
         )
 
     async def detect_quantum_threats(
-        self, system_state: Dict[str, Any]
-    ) -> List[QuantumThreat]:
+        self, system_state: dict[str, Any]
+    ) -> list[QuantumThreat]:
         """
         Detect quantum-era security threats in the system
 
@@ -219,7 +219,7 @@ class QuantumSecurityIntegration:
 
     async def orchestrate_security_response(
         self, assessment: SecurityAssessment
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Orchestrate an adaptive security response based on assessment
 
@@ -236,20 +236,20 @@ class QuantumSecurityIntegration:
             assessment
         )
 
-    def get_security_metrics(self) -> Dict[str, Any]:
+    def get_security_metrics(self) -> dict[str, Any]:
         """Get current security metrics and statistics"""
         return self.security_orchestrator.security_metrics
 
-    def get_supported_algorithms(self) -> List[str]:
+    def get_supported_algorithms(self) -> list[str]:
         """Get list of supported post-quantum algorithms"""
         return list(self.security_orchestrator.pq_crypto_engine.pq_standards.keys())
 
-    async def update_security_policies(self, policies: Dict[str, Any]):
+    async def update_security_policies(self, policies: dict[str, Any]):
         """Update security policies"""
         self.security_policies.update(policies)
         logger.info(f"Security policies updated: {list(policies.keys())}")
 
-    async def get_security_status(self) -> Dict[str, Any]:
+    async def get_security_status(self) -> dict[str, Any]:
         """Get current security system status"""
         return {
             "initialized": self.is_initialized,
@@ -264,7 +264,7 @@ class QuantumSecurityIntegration:
 
 # Factory function for creating the integration
 def create_quantum_security_integration(
-    config: Optional[Dict[str, Any]] = None,
+    config: Optional[dict[str, Any]] = None,
 ) -> QuantumSecurityIntegration:
     """Create and return a quantum security integration instance"""
     return QuantumSecurityIntegration(config)
@@ -275,7 +275,7 @@ def __validate_module__():
     """Validate that the quantum security module is properly configured"""
     try:
         # Test basic functionality
-        integration = create_quantum_security_integration()
+        create_quantum_security_integration()
         logger.info("Quantum security integration module validated successfully")
         return True
     except Exception as e:

@@ -22,6 +22,7 @@ Author: Lukhas AI Research Team
 Version: 2.0.0 - Elevated Edition
 Date: June 2025
 """
+import logging
 
 import asyncio
 import json
@@ -30,7 +31,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol, Tuple
+from typing import Any, Optional, Protocol
 
 from pydantic import BaseModel, Field
 
@@ -66,7 +67,7 @@ class AlignmentMetric(BaseModel):
     score: float = Field(..., ge=0.0, le=100.0, description="Alignment score 0-100")
     status: ComplianceStatus
     confidence: float = Field(default=0.95, ge=0.0, le=1.0)
-    risk_factors: List[str] = Field(default_factory=list)
+    risk_factors: list[str] = Field(default_factory=list)
 
 
 @dataclass
@@ -112,15 +113,15 @@ class AwarenessInput(BaseModel):
     timestamp: str = Field(default_factory=now_iso)
     user_id: Optional[str] = None
     session_id: Optional[str] = None
-    context_data: Dict[str, Any] = Field(default_factory=dict)
+    context_data: dict[str, Any] = Field(default_factory=dict)
 
 
 class AwarenessOutput(BaseModel):
     """Base model for awareness output with alignment and compliance."""
 
     alignment: AlignmentMetric
-    data: Dict[str, Any]
-    recommendations: List[str] = Field(default_factory=list)
+    data: dict[str, Any]
+    recommendations: list[str] = Field(default_factory=list)
     sustainability_score: Optional[float] = None
     processing_time_ms: float = 0.0
     quantum_signature: Optional[str] = None
@@ -129,7 +130,7 @@ class AwarenessOutput(BaseModel):
 class Reasoner(Protocol):
     """Protocol for pluggable reasoners (neural, symbolic, quantum)."""
 
-    def process(self, inputs: AwarenessInput) -> Dict[str, Any]:
+    def process(self, inputs: AwarenessInput) -> dict[str, Any]:
         """Process awareness inputs and return structured data."""
         ...
 
@@ -220,7 +221,7 @@ class AwarenessModule(ABC):
 
     @abstractmethod
     def evaluate_alignment(
-        self, result: Dict[str, Any], inputs: AwarenessInput
+        self, result: dict[str, Any], inputs: AwarenessInput
     ) -> float:
         """Must return [0–100] alignment/compliance score for institutional use."""
         ...
@@ -231,12 +232,12 @@ class AwarenessModule(ABC):
         ...
 
     def generate_recommendations(
-        self, result: Dict[str, Any], inputs: AwarenessInput
-    ) -> List[str]:
+        self, result: dict[str, Any], inputs: AwarenessInput
+    ) -> list[str]:
         """Generate actionable recommendations based on awareness data."""
         return []
 
-    def calculate_sustainability_impact(self, result: Dict[str, Any]) -> float:
+    def calculate_sustainability_impact(self, result: dict[str, Any]) -> float:
         """Calculate sustainability impact score (0-100)."""
         return 50.0  # Default neutral score
 
@@ -251,7 +252,7 @@ class AwarenessModule(ABC):
         else:
             return ComplianceStatus.CRITICAL
 
-    def _identify_risk_factors(self, result: Dict[str, Any]) -> List[str]:
+    def _identify_risk_factors(self, result: dict[str, Any]) -> list[str]:
         """Identify potential risk factors from processing results."""
         risk_factors = []
 
@@ -273,7 +274,7 @@ class AwarenessModule(ABC):
 
         return risk_factors
 
-    def _generate_quantum_signature(self, result: Dict[str, Any]) -> str:
+    def _generate_quantum_signature(self, result: dict[str, Any]) -> str:
         """Generate quantum signature for advanced verification (placeholder)."""
         # Placeholder for quantum signature generation
         import hashlib
@@ -284,7 +285,6 @@ class AwarenessModule(ABC):
     def _persist_to_store(self, inputs: AwarenessInput, output: AwarenessOutput):
         """Persist to time-series store - integrate with your database."""
         # Placeholder for database integration
-        pass
 
 
 # ——— Enhanced Environmental Awareness Module ——————————————————— #
@@ -297,7 +297,7 @@ class EnvironmentalAwarenessInput(AwarenessInput):
     humidity: float = Field(..., ge=0, le=100, description="Humidity percentage")
     ambient_noise: float = Field(..., ge=0, description="Noise level in dB")
     light_level: float = Field(..., ge=0, description="Light level in lux")
-    location: Tuple[float, float] = Field(..., description="Latitude, Longitude")
+    location: tuple[float, float] = Field(..., description="Latitude, Longitude")
     air_quality_index: Optional[float] = Field(None, ge=0, le=500)
     energy_consumption: Optional[float] = Field(None, description="kWh consumption")
     carbon_footprint: Optional[float] = Field(None, description="CO2 kg equivalent")
@@ -306,7 +306,7 @@ class EnvironmentalAwarenessInput(AwarenessInput):
 class EnhancedEnvReasoner:
     """Enhanced environmental reasoner with symbolic rules & quantum anomaly detection."""
 
-    def process(self, inputs: EnvironmentalAwarenessInput) -> Dict[str, Any]:
+    def process(self, inputs: EnvironmentalAwarenessInput) -> dict[str, Any]:
         """Process environmental data with classical, symbolic, and quantum approaches."""
 
         # Classical normalization with optimal ranges
@@ -418,7 +418,7 @@ class EnhancedEnvReasoner:
 
     def _calculate_sustainability_metrics(
         self, inputs: EnvironmentalAwarenessInput
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Calculate comprehensive sustainability metrics."""
         metrics = {
             "carbon_efficiency": 1.0,
@@ -442,7 +442,7 @@ class EnhancedEnvReasoner:
 
     def _identify_optimization_opportunities(
         self, inputs: EnvironmentalAwarenessInput
-    ) -> List[str]:
+    ) -> list[str]:
         """Identify specific optimization opportunities."""
         opportunities = []
 
@@ -470,7 +470,7 @@ class EnhancedEnvReasoner:
         return opportunities
 
 
-def is_sustainable_location(location: Tuple[float, float]) -> bool:
+def is_sustainable_location(location: tuple[float, float]) -> bool:
     """Symbolic reasoning: Check if location is in a sustainable/green area."""
     # Placeholder for GIS lookup with sustainability databases
     # Could integrate with green building databases, renewable energy zones, etc.
@@ -488,7 +488,7 @@ def is_sustainable_location(location: Tuple[float, float]) -> bool:
     return False
 
 
-def is_indoor_location(location: Tuple[float, float]) -> bool:
+def is_indoor_location(location: tuple[float, float]) -> bool:
     """Symbolic reasoning: Determine if location is likely indoor."""
     # Placeholder for sophisticated indoor/outdoor detection
     # Could use GPS accuracy, nearby WiFi networks, building databases, etc.
@@ -520,7 +520,7 @@ class EnvironmentalAwarenessModule(AwarenessModule):
         return AwarenessType.ENVIRONMENTAL
 
     def evaluate_alignment(
-        self, result: Dict[str, Any], inputs: AwarenessInput
+        self, result: dict[str, Any], inputs: AwarenessInput
     ) -> float:
         """Evaluate environmental alignment with institutional sustainability goals."""
         base_score = result["environmental_score"] * 100
@@ -548,8 +548,8 @@ class EnvironmentalAwarenessModule(AwarenessModule):
         return max(0.0, min(base_score, 100.0))
 
     def generate_recommendations(
-        self, result: Dict[str, Any], inputs: AwarenessInput
-    ) -> List[str]:
+        self, result: dict[str, Any], inputs: AwarenessInput
+    ) -> list[str]:
         """Generate environmental optimization recommendations."""
         recommendations = []
 
@@ -586,7 +586,7 @@ class EnvironmentalAwarenessModule(AwarenessModule):
 
         return recommendations
 
-    def calculate_sustainability_impact(self, result: Dict[str, Any]) -> float:
+    def calculate_sustainability_impact(self, result: dict[str, Any]) -> float:
         """Calculate comprehensive sustainability impact score."""
         sustainability_metrics = result.get("sustainability_metrics", {})
         carbon_efficiency = sustainability_metrics.get("carbon_efficiency", 0.5)
@@ -619,7 +619,7 @@ class CognitiveAwarenessInput(AwarenessInput):
         ..., ge=1, le=10, description="Decision complexity 1-10"
     )
     information_overload: bool = Field(default=False)
-    stress_indicators: List[str] = Field(default_factory=list)
+    stress_indicators: list[str] = Field(default_factory=list)
     task_urgency: int = Field(..., ge=1, le=5, description="Task urgency 1-5")
     working_memory_capacity: float = Field(
         default=0.7, ge=0, le=1, description="Working memory capacity 0-1"
@@ -632,7 +632,7 @@ class CognitiveAwarenessInput(AwarenessInput):
 class EnhancedCognitiveReasoner:
     """Enhanced cognitive processing reasoner for decision optimization with meta-learning."""
 
-    def process(self, inputs: CognitiveAwarenessInput) -> Dict[str, Any]:
+    def process(self, inputs: CognitiveAwarenessInput) -> dict[str, Any]:
         """Process cognitive state for optimal decision-making with advanced analysis."""
 
         # Calculate cognitive efficiency with working memory factor
@@ -750,7 +750,7 @@ class EnhancedCognitiveReasoner:
 
     def _recommend_cognitive_strategies(
         self, inputs: CognitiveAwarenessInput, efficiency: float
-    ) -> List[str]:
+    ) -> list[str]:
         """Recommend cognitive strategies based on current state."""
         strategies = []
 
@@ -782,7 +782,7 @@ class EnhancedCognitiveReasoner:
 
     def _forecast_productivity(
         self, inputs: CognitiveAwarenessInput, efficiency: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Forecast productivity based on cognitive state."""
         base_productivity = efficiency * 100
 
@@ -835,7 +835,7 @@ class CognitiveAwarenessModule(AwarenessModule):
         return AwarenessType.COGNITIVE
 
     def evaluate_alignment(
-        self, result: Dict[str, Any], inputs: AwarenessInput
+        self, result: dict[str, Any], inputs: AwarenessInput
     ) -> float:
         """Evaluate cognitive alignment with institutional decision-making goals."""
         base_score = result["decision_quality_prediction"] * 100
@@ -875,8 +875,8 @@ class CognitiveAwarenessModule(AwarenessModule):
         return max(0.0, min(base_score, 100.0))
 
     def generate_recommendations(
-        self, result: Dict[str, Any], inputs: AwarenessInput
-    ) -> List[str]:
+        self, result: dict[str, Any], inputs: AwarenessInput
+    ) -> list[str]:
         """Generate cognitive optimization recommendations."""
         recommendations = []
 
@@ -927,7 +927,7 @@ class CognitiveAwarenessModule(AwarenessModule):
 
         return recommendations
 
-    def calculate_sustainability_impact(self, result: Dict[str, Any]) -> float:
+    def calculate_sustainability_impact(self, result: dict[str, Any]) -> float:
         """Calculate sustainability impact of cognitive state."""
         efficiency = result.get("cognitive_efficiency", 0.5)
         productivity = result.get("productivity_forecast", {}).get(
@@ -954,11 +954,11 @@ class CognitiveAwarenessModule(AwarenessModule):
 class EmotionalAwarenessInput(AwarenessInput):
     """Emotional awareness inputs with comprehensive personality integration."""
 
-    emotional_state: Dict[str, float] = Field(
+    emotional_state: dict[str, float] = Field(
         default_factory=dict,
         description="Emotional vector (joy, sadness, anger, fear, etc.)",
     )
-    personality_traits: Dict[str, float] = Field(
+    personality_traits: dict[str, float] = Field(
         default_factory=dict, description="Big5 personality traits"
     )
     mood_stability: float = Field(
@@ -979,7 +979,7 @@ class EmotionalAwarenessInput(AwarenessInput):
     widget_animation_preference: str = Field(
         default="smooth", description="Animation style preference"
     )
-    emotional_triggers: List[str] = Field(
+    emotional_triggers: list[str] = Field(
         default_factory=list, description="Known emotional triggers"
     )
 
@@ -987,7 +987,7 @@ class EmotionalAwarenessInput(AwarenessInput):
 class EnhancedEmotionalReasoner:
     """Enhanced emotional processing reasoner with personality-driven features."""
 
-    def process(self, inputs: EmotionalAwarenessInput) -> Dict[str, Any]:
+    def process(self, inputs: EmotionalAwarenessInput) -> dict[str, Any]:
         """Process emotional state with comprehensive personality integration."""
 
         # Calculate emotional balance with multiple factors
@@ -1049,10 +1049,7 @@ class EnhancedEmotionalReasoner:
         """Calculate comprehensive emotional balance."""
         # Base balance from positive/negative ratio
         total_intensity = positive + negative
-        if total_intensity == 0:
-            base_balance = 0.5
-        else:
-            base_balance = positive / total_intensity
+        base_balance = 0.5 if total_intensity == 0 else positive / total_intensity
 
         # Adjust for stability and emotional intelligence
         stability_factor = inputs.mood_stability * 0.3
@@ -1073,7 +1070,7 @@ class EnhancedEmotionalReasoner:
 
     def _assess_emotional_regulation(
         self, inputs: EmotionalAwarenessInput
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Assess emotional regulation capabilities."""
         return {
             "self_awareness": inputs.emotional_intelligence * 0.7
@@ -1087,8 +1084,8 @@ class EnhancedEmotionalReasoner:
         }
 
     def _generate_comprehensive_personality_insights(
-        self, traits: Dict[str, float]
-    ) -> List[str]:
+        self, traits: dict[str, float]
+    ) -> list[str]:
         """Generate detailed personality insights based on Big5 traits."""
         insights = []
 
@@ -1152,7 +1149,7 @@ class EnhancedEmotionalReasoner:
 
     def _create_advanced_widget_customization(
         self, inputs: EmotionalAwarenessInput
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create comprehensive widget customization based on emotional and personality state."""
         base_preference = inputs.widget_animation_preference
         traits = inputs.personality_traits
@@ -1197,7 +1194,7 @@ class EnhancedEmotionalReasoner:
             ),
         }
 
-    def _select_color_scheme(self, inputs: EmotionalAwarenessInput) -> Dict[str, str]:
+    def _select_color_scheme(self, inputs: EmotionalAwarenessInput) -> dict[str, str]:
         """Select optimal color scheme based on emotional state."""
         if inputs.stress_level > 0.6:
             return {
@@ -1243,7 +1240,7 @@ class EnhancedEmotionalReasoner:
 
     def _recommend_adaptive_features(
         self, inputs: EmotionalAwarenessInput
-    ) -> List[str]:
+    ) -> list[str]:
         """Recommend adaptive features based on user state."""
         features = []
 
@@ -1269,7 +1266,7 @@ class EnhancedEmotionalReasoner:
 
     def _suggest_accessibility_adjustments(
         self, inputs: EmotionalAwarenessInput
-    ) -> List[str]:
+    ) -> list[str]:
         """Suggest accessibility adjustments."""
         adjustments = []
 
@@ -1309,7 +1306,7 @@ class EnhancedEmotionalReasoner:
 
     def _assess_social_readiness(
         self, inputs: EmotionalAwarenessInput
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Assess readiness for social interactions."""
         return {
             "social_energy": inputs.social_energy,
@@ -1322,7 +1319,7 @@ class EnhancedEmotionalReasoner:
 
     def _generate_social_interaction_recommendations(
         self, inputs: EmotionalAwarenessInput
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate social interaction recommendations."""
         recommendations = []
 
@@ -1350,7 +1347,7 @@ class EnhancedEmotionalReasoner:
 
     def _identify_emotional_growth_opportunities(
         self, inputs: EmotionalAwarenessInput
-    ) -> List[str]:
+    ) -> list[str]:
         """Identify opportunities for emotional growth."""
         opportunities = []
 
@@ -1378,7 +1375,7 @@ class EnhancedEmotionalReasoner:
 
     def _analyze_emotional_triggers(
         self, inputs: EmotionalAwarenessInput
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Analyze emotional triggers and their impact."""
         trigger_analysis = {
             "trigger_count": len(inputs.emotional_triggers),
@@ -1403,7 +1400,7 @@ class EnhancedEmotionalReasoner:
 
     def _forecast_mood_trajectory(
         self, inputs: EmotionalAwarenessInput
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Forecast mood trajectory based on current state."""
         current_balance = self._calculate_emotional_balance(
             sum(
@@ -1441,7 +1438,7 @@ class EnhancedEmotionalReasoner:
 
     def _recommend_mood_interventions(
         self, trajectory: str, inputs: EmotionalAwarenessInput
-    ) -> List[str]:
+    ) -> list[str]:
         """Recommend mood interventions based on trajectory."""
         if trajectory == "declining_requires_attention":
             return [
@@ -1476,7 +1473,7 @@ class EmotionalAwarenessModule(AwarenessModule):
         return AwarenessType.EMOTIONAL
 
     def evaluate_alignment(
-        self, result: Dict[str, Any], inputs: AwarenessInput
+        self, result: dict[str, Any], inputs: AwarenessInput
     ) -> float:
         """Evaluate emotional alignment with institutional wellbeing and productivity goals."""
         base_score = result["emotional_balance"] * 100
@@ -1527,8 +1524,8 @@ class EmotionalAwarenessModule(AwarenessModule):
         return max(0.0, min(total_score, 100.0))
 
     def generate_recommendations(
-        self, result: Dict[str, Any], inputs: AwarenessInput
-    ) -> List[str]:
+        self, result: dict[str, Any], inputs: AwarenessInput
+    ) -> list[str]:
         """Generate comprehensive emotional wellness recommendations."""
         recommendations = []
 
@@ -1564,7 +1561,7 @@ class EmotionalAwarenessModule(AwarenessModule):
 
         return recommendations
 
-    def calculate_sustainability_impact(self, result: Dict[str, Any]) -> float:
+    def calculate_sustainability_impact(self, result: dict[str, Any]) -> float:
         """Calculate emotional sustainability impact."""
         emotional_balance = result.get("emotional_balance", 0.5)
         resilience = result.get("emotional_resilience", 0.5)
@@ -1598,7 +1595,7 @@ class SocialAwarenessInput(AwarenessInput):
     interaction_quality: float = Field(
         default=0.5, ge=0.0, le=1.0, description="Interaction quality 0-1"
     )
-    group_dynamics: Dict[str, Any] = Field(
+    group_dynamics: dict[str, Any] = Field(
         default_factory=dict, description="Group dynamics data"
     )
     communication_style: str = Field(
@@ -1612,7 +1609,7 @@ class SocialAwarenessInput(AwarenessInput):
 class SocialReasoner:
     """Social processing reasoner for interpersonal awareness."""
 
-    def process(self, inputs: SocialAwarenessInput) -> Dict[str, Any]:
+    def process(self, inputs: SocialAwarenessInput) -> dict[str, Any]:
         """Process social dynamics and interpersonal awareness."""
         # Placeholder for social processing logic
         social_harmony = inputs.interaction_quality * inputs.social_energy
@@ -1630,17 +1627,17 @@ class SocialReasoner:
 
     def _generate_social_recommendations(
         self, inputs: SocialAwarenessInput
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate social interaction recommendations."""
         # Placeholder for social recommendations
         return ["Engage actively in conversations", "Practice active listening"]
 
-    def _analyze_group_dynamics(self, group_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_group_dynamics(self, group_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze group dynamics for better social awareness."""
         # Placeholder for group analysis
         return {"cohesion": 0.7, "conflict_potential": 0.2, "collaboration_score": 0.8}
 
-    def _optimize_communication_style(self, style: str) -> Dict[str, str]:
+    def _optimize_communication_style(self, style: str) -> dict[str, str]:
         """Optimize communication style for current context."""
         # Placeholder for communication optimization
         return {"recommended_tone": "collaborative", "suggested_approach": "empathetic"}
@@ -1656,7 +1653,7 @@ class SocialAwarenessModule(AwarenessModule):
         return AwarenessType.SOCIAL
 
     def evaluate_alignment(
-        self, result: Dict[str, Any], inputs: AwarenessInput
+        self, result: dict[str, Any], inputs: AwarenessInput
     ) -> float:
         """Evaluate social alignment for optimal interpersonal interactions."""
         base_score = result["social_harmony"] * 100
@@ -1674,7 +1671,7 @@ class LukhasAwarenessEngine:
 
     def __init__(self, config: LukhasConfig = None):
         self.config = config or LukhasConfig()
-        self.modules: Dict[AwarenessType, AwarenessModule] = {}
+        self.modules: dict[AwarenessType, AwarenessModule] = {}
         self._setup_logging()
         self._initialize_modules()
 
@@ -1725,8 +1722,8 @@ class LukhasAwarenessEngine:
         return self.modules[awareness_type](inputs)
 
     async def process_multi_awareness(
-        self, awareness_data: Dict[AwarenessType, AwarenessInput]
-    ) -> Dict[AwarenessType, AwarenessOutput]:
+        self, awareness_data: dict[AwarenessType, AwarenessInput]
+    ) -> dict[AwarenessType, AwarenessOutput]:
         """Process multiple awareness types concurrently for comprehensive analysis."""
         tasks = []
         for awareness_type, inputs in awareness_data.items():
@@ -1742,11 +1739,11 @@ class LukhasAwarenessEngine:
 
         return results
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive Lukhas awareness system status."""
         return {
             "engine_status": "active",
-            "modules_loaded": [t.value for t in self.modules.keys()],
+            "modules_loaded": [t.value for t in self.modules],
             "config": {
                 "institutional_mode": self.config.institutional_mode,
                 "quantum_processing": self.config.enable_quantum_processing,

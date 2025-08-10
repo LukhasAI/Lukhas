@@ -11,7 +11,7 @@ import math
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from openai import AsyncOpenAI
 
@@ -37,11 +37,11 @@ class AttentionToken:
     owner_id: str
     token_type: AttentionTokenType
     value: float  # Base value in attention units
-    quantum_state: Dict[str, float] = field(
+    quantum_state: dict[str, float] = field(
         default_factory=dict
     )  # Superposition weights
-    entangled_with: List[str] = field(default_factory=list)  # Entangled token IDs
-    consent_constraints: Dict[str, Any] = field(default_factory=dict)
+    entangled_with: list[str] = field(default_factory=list)  # Entangled token IDs
+    consent_constraints: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.now)
     expires_at: Optional[datetime] = None
 
@@ -76,7 +76,7 @@ class AttentionBid:
     content_preview: str
     ethical_score: float = 1.0  # 0-1, how ethical/beneficial the content is
     urgency: float = 0.5  # 0-1, time sensitivity
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.now)
 
 
@@ -96,12 +96,12 @@ class QuantumAttentionEconomics:
         self.openai = AsyncOpenAI(api_key=openai_api_key) if openai_api_key else None
 
         # Token storage
-        self.tokens: Dict[str, AttentionToken] = {}
-        self.user_balances: Dict[str, float] = {}
+        self.tokens: dict[str, AttentionToken] = {}
+        self.user_balances: dict[str, float] = {}
 
         # Market state
-        self.bid_queue: List[AttentionBid] = []
-        self.market_price: Dict[AttentionTokenType, float] = dict.fromkeys(
+        self.bid_queue: list[AttentionBid] = []
+        self.market_price: dict[AttentionTokenType, float] = dict.fromkeys(
             AttentionTokenType, 1.0
         )
 
@@ -115,8 +115,8 @@ class QuantumAttentionEconomics:
         logger.info("Quantum Attention Economics initialized")
 
     async def mint_attention_tokens(
-        self, user_id: str, attention_state: Dict[str, Any]
-    ) -> List[AttentionToken]:
+        self, user_id: str, attention_state: dict[str, Any]
+    ) -> list[AttentionToken]:
         """Mint new attention tokens based on user's current state"""
         tokens_minted = []
 
@@ -214,7 +214,7 @@ class QuantumAttentionEconomics:
 
         return tokens_minted
 
-    def _get_allowed_uses(self, consent_level: str) -> List[str]:
+    def _get_allowed_uses(self, consent_level: str) -> list[str]:
         """Get allowed uses based on consent level"""
         if consent_level == "full":
             return [
@@ -230,8 +230,8 @@ class QuantumAttentionEconomics:
             return ["essential"]
 
     async def _basic_token_minting(
-        self, user_id: str, attention_state: Dict[str, Any]
-    ) -> List[AttentionToken]:
+        self, user_id: str, attention_state: dict[str, Any]
+    ) -> list[AttentionToken]:
         """Basic token minting without AI"""
         base_capacity = attention_state.get("base_capacity", 100)
         stress_level = attention_state.get("stress", 0.5)
@@ -258,8 +258,8 @@ class QuantumAttentionEconomics:
     async def create_quantum_attention_state(
         self,
         user_id: str,
-        attention_types: List[AttentionTokenType],
-        weights: Optional[List[float]] = None,
+        attention_types: list[AttentionTokenType],
+        weights: Optional[list[float]] = None,
     ) -> AttentionToken:
         """Create a quantum superposition of attention states"""
         if weights is None:
@@ -313,7 +313,7 @@ class QuantumAttentionEconomics:
         return quantum_token
 
     async def entangle_attention_tokens(
-        self, token_ids: List[str], entanglement_type: str = "bell_state"
+        self, token_ids: list[str], entanglement_type: str = "bell_state"
     ) -> bool:
         """Create quantum entanglement between attention tokens"""
         tokens = [self.tokens.get(tid) for tid in token_ids if tid in self.tokens]
@@ -322,7 +322,7 @@ class QuantumAttentionEconomics:
             return False
 
         # Check all tokens belong to consenting users
-        user_ids = set(t.owner_id for t in tokens)
+        user_ids = {t.owner_id for t in tokens}
 
         # Create entanglement
         for token in tokens:
@@ -335,13 +335,13 @@ class QuantumAttentionEconomics:
         )
 
         # Notify users of entanglement
-        for user_id in user_ids:
+        for _user_id in user_ids:
             # TODO: Send notification through consciousness hub
             pass
 
         return True
 
-    async def submit_attention_bid(self, bid: AttentionBid) -> Dict[str, Any]:
+    async def submit_attention_bid(self, bid: AttentionBid) -> dict[str, Any]:
         """Submit a bid for user attention"""
         # Validate ethical score
         if bid.ethical_score < self.min_ethical_score:
@@ -414,7 +414,7 @@ class QuantumAttentionEconomics:
 
     async def process_attention_transaction(
         self, bid_id: str, user_consent: bool
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Process an attention transaction with user consent"""
         # Find bid
         bid = next((b for b in self.bid_queue if b.bid_id == bid_id), None)
@@ -456,8 +456,8 @@ class QuantumAttentionEconomics:
             return {"success": False, "reason": "Insufficient balance"}
 
     async def calculate_attention_value(
-        self, user_id: str, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Calculate fair market value for user's attention"""
         base_value = 100.0  # Base attention value
 
@@ -474,7 +474,7 @@ class QuantumAttentionEconomics:
 
         # Calculate total value
         total_multiplier = 1.0
-        for factor, mult in factors.items():
+        for _factor, mult in factors.items():
             total_multiplier *= mult
 
         final_value = base_value * total_multiplier
@@ -526,7 +526,7 @@ class QuantumAttentionEconomics:
         else:
             return 1.0
 
-    def _emotional_value_multiplier(self, emotional_state: Dict[str, float]) -> float:
+    def _emotional_value_multiplier(self, emotional_state: dict[str, float]) -> float:
         """Calculate value based on emotional state"""
         # Positive emotions increase value
         positive = emotional_state.get("joy", 0) + emotional_state.get("curiosity", 0)
@@ -557,7 +557,7 @@ class QuantumAttentionEconomics:
         else:
             return 1.0  # Common
 
-    async def get_market_report(self) -> Dict[str, Any]:
+    async def get_market_report(self) -> dict[str, Any]:
         """Generate comprehensive market report"""
         total_tokens = len(self.tokens)
         active_tokens = len(
@@ -616,7 +616,7 @@ class QuantumAttentionEconomics:
 
         return report
 
-    def get_user_attention_balance(self, user_id: str) -> Dict[str, Any]:
+    def get_user_attention_balance(self, user_id: str) -> dict[str, Any]:
         """Get user's attention token balance and details"""
         balance = self.user_balances.get(user_id, 0)
         user_tokens = [t for t in self.tokens.values() if t.owner_id == user_id]

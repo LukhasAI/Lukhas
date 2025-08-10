@@ -18,12 +18,13 @@ This module implements advanced learning mechanisms including:
 
 Based on requirements from elite AI expert evaluation.
 """
+import logging
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -59,24 +60,24 @@ class LearningEpisode:
 
     episode_id: str
     task_type: str
-    support_set: List[Dict[str, Any]]
-    query_set: List[Dict[str, Any]]
+    support_set: list[dict[str, Any]]
+    query_set: list[dict[str, Any]]
     learning_objective: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)
-    performance_metrics: Dict[str, float] = field(default_factory=dict)
+    performance_metrics: dict[str, float] = field(default_factory=dict)
 
 
 @dataclass
 class MetaLearningResult:
     """Result of meta-learning process"""
 
-    learned_strategy: Dict[str, Any]
+    learned_strategy: dict[str, Any]
     adaptation_speed: float
     generalization_score: float
     memory_efficiency: float
     confidence: float
-    applicable_domains: List[str] = field(default_factory=list)
+    applicable_domains: list[str] = field(default_factory=list)
 
 
 class BaseMetaLearner(ABC):
@@ -84,15 +85,13 @@ class BaseMetaLearner(ABC):
 
     @abstractmethod
     async def adapt(
-        self, support_examples: List[Dict[str, Any]], task_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, support_examples: list[dict[str, Any]], task_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Adapt to new task given support examples"""
-        pass
 
     @abstractmethod
-    async def meta_train(self, episodes: List[LearningEpisode]) -> MetaLearningResult:
+    async def meta_train(self, episodes: list[LearningEpisode]) -> MetaLearningResult:
         """Meta-train on collection of learning episodes"""
-        pass
 
 
 class ModelAgnosticMetaLearner(BaseMetaLearner):
@@ -116,8 +115,8 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
         self.adaptation_history = []
 
     async def adapt(
-        self, support_examples: List[Dict[str, Any]], task_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, support_examples: list[dict[str, Any]], task_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Adapt model to new task using support examples"""
         try:
             logger.info(
@@ -169,7 +168,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
             logger.error(f"Task adaptation failed: {e}")
             return {"status": "failed", "error": str(e)}
 
-    async def meta_train(self, episodes: List[LearningEpisode]) -> MetaLearningResult:
+    async def meta_train(self, episodes: list[LearningEpisode]) -> MetaLearningResult:
         """Meta-train on collection of learning episodes"""
         try:
             logger.info(f"🧠 Starting meta-training on {len(episodes)} episodes")
@@ -266,7 +265,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
 
     async def _initialize_meta_parameters(
         self, sample_episode: LearningEpisode
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Initialize meta-parameters based on sample episode"""
         # Simple initialization based on sample data structure
         params = {
@@ -278,15 +277,16 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
         return params
 
     async def _compute_gradients(
-        self, examples: List[Dict[str, Any]], parameters: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, examples: list[dict[str, Any]], parameters: dict[str, Any]
+    ) -> dict[str, Any]:
         """Compute gradients for parameter update"""
         # Simplified gradient computation
         gradients = {}
 
         for param_name, param_value in parameters.items():
             if isinstance(param_value, list):
-                # Compute mock gradients (in real implementation, this would be actual gradients)
+                # Compute mock gradients (in real implementation, this would be actual
+                # gradients)
                 param_array = np.array(param_value)
                 gradient = np.random.normal(0, 0.01, param_array.shape)
                 gradients[param_name] = gradient.tolist()
@@ -294,7 +294,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
         return gradients
 
     async def _compute_loss(
-        self, examples: List[Dict[str, Any]], parameters: Dict[str, Any]
+        self, examples: list[dict[str, Any]], parameters: dict[str, Any]
     ) -> float:
         """Compute loss on examples given parameters"""
         # Simplified loss computation
@@ -310,7 +310,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
         return loss
 
     async def _evaluate_adaptation(
-        self, examples: List[Dict[str, Any]], parameters: Dict[str, Any]
+        self, examples: list[dict[str, Any]], parameters: dict[str, Any]
     ) -> float:
         """Evaluate quality of adaptation"""
         # Quality based on loss and consistency
@@ -320,10 +320,10 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
 
     async def _compute_meta_gradients(
         self,
-        support_set: List[Dict[str, Any]],
-        query_set: List[Dict[str, Any]],
-        meta_params: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        support_set: list[dict[str, Any]],
+        query_set: list[dict[str, Any]],
+        meta_params: dict[str, Any],
+    ) -> dict[str, Any]:
         """Compute meta-gradients for meta-parameter update"""
         # Simplified meta-gradient computation
         meta_gradients = {}
@@ -336,13 +336,13 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
 
         return meta_gradients
 
-    def _calculate_generalization_score(self, episodes: List[LearningEpisode]) -> float:
+    def _calculate_generalization_score(self, episodes: list[LearningEpisode]) -> float:
         """Calculate generalization score across episodes"""
         if not episodes:
             return 0.0
 
         # Score based on diversity of tasks and performance
-        unique_tasks = len(set(ep.task_type for ep in episodes))
+        unique_tasks = len({ep.task_type for ep in episodes})
         task_diversity = min(1.0, unique_tasks / 5.0)  # Normalize to 5 max unique tasks
 
         return task_diversity * 0.8  # Good generalization baseline
@@ -354,7 +354,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
         efficiency = max(0.3, 1.0 - (param_count / 10000))  # Normalize
         return efficiency
 
-    def _extract_applicable_domains(self, episodes: List[LearningEpisode]) -> List[str]:
+    def _extract_applicable_domains(self, episodes: list[LearningEpisode]) -> list[str]:
         """Extract domains where meta-learning is applicable"""
         domains = set()
         for episode in episodes:
@@ -385,10 +385,10 @@ class FewShotLearner:
     async def learn_from_examples(
         self,
         task_id: str,
-        examples: List[Dict[str, Any]],
-        labels: List[str],
+        examples: list[dict[str, Any]],
+        labels: list[str],
         k_shot: int = 5,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Learn from few examples (k-shot learning)"""
         try:
             logger.info(f"📚 Starting {k_shot}-shot learning for task: {task_id}")
@@ -437,10 +437,10 @@ class FewShotLearner:
     async def _memory_augmented_learning(
         self,
         task_id: str,
-        examples: List[Dict[str, Any]],
-        labels: List[str],
+        examples: list[dict[str, Any]],
+        labels: list[str],
         k_shot: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Memory-augmented few-shot learning"""
         # Create prototypes for each class
         class_prototypes = {}
@@ -477,10 +477,10 @@ class FewShotLearner:
     async def _neural_plasticity_learning(
         self,
         task_id: str,
-        examples: List[Dict[str, Any]],
-        labels: List[str],
+        examples: list[dict[str, Any]],
+        labels: list[str],
         k_shot: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Neural plasticity-based few-shot learning"""
         # Simulate neural plasticity adaptation
         plasticity_params = {
@@ -491,7 +491,7 @@ class FewShotLearner:
 
         # Rapid synaptic changes for quick learning
         synaptic_changes = []
-        for i, (example, label) in enumerate(zip(examples[:k_shot], labels[:k_shot])):
+        for i, (_example, label) in enumerate(zip(examples[:k_shot], labels[:k_shot])):
             change = {
                 "example_id": i,
                 "label": label,
@@ -510,10 +510,10 @@ class FewShotLearner:
     async def _prototypical_learning(
         self,
         task_id: str,
-        examples: List[Dict[str, Any]],
-        labels: List[str],
+        examples: list[dict[str, Any]],
+        labels: list[str],
         k_shot: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Prototypical networks approach"""
         # Group examples by class
         class_groups = {}
@@ -537,8 +537,8 @@ class FewShotLearner:
         }
 
     async def _compute_prototype(
-        self, examples: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, examples: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Compute prototype representation from examples"""
         if not examples:
             return {}
@@ -570,7 +570,7 @@ class FewShotLearner:
         return prototype
 
     async def _evaluate_few_shot_learning(
-        self, task_id: str, examples: List[Dict[str, Any]], labels: List[str]
+        self, task_id: str, examples: list[dict[str, Any]], labels: list[str]
     ) -> float:
         """Evaluate quality of few-shot learning"""
         if task_id not in self.support_examples:
@@ -601,8 +601,8 @@ class ContinualLearner:
         self.consolidation_threshold = 0.7
 
     async def learn_task_continually(
-        self, task_id: str, task_data: Dict[str, Any], prevent_forgetting: bool = True
-    ) -> Dict[str, Any]:
+        self, task_id: str, task_data: dict[str, Any], prevent_forgetting: bool = True
+    ) -> dict[str, Any]:
         """Learn new task while preserving previous knowledge"""
         try:
             logger.info(f"🔄 Starting continual learning for task: {task_id}")
@@ -652,7 +652,7 @@ class ContinualLearner:
 
     async def _apply_elastic_weight_consolidation(
         self, new_task_id: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Apply elastic weight consolidation to prevent forgetting"""
         try:
             # Calculate importance weights for previous tasks
@@ -685,7 +685,7 @@ class ContinualLearner:
             logger.error(f"Elastic weight consolidation failed: {e}")
             return {"consolidation_applied": False, "error": str(e)}
 
-    async def _calculate_parameter_importance(self, task_id: str) -> Dict[str, float]:
+    async def _calculate_parameter_importance(self, task_id: str) -> dict[str, float]:
         """Calculate parameter importance for task (Fisher information)"""
         # Mock Fisher information calculation
         task_data = self.learned_tasks[task_id]["task_data"]
@@ -705,7 +705,7 @@ class ContinualLearner:
 
         return importance_weights
 
-    async def _consolidate_memories(self, new_task_id: str) -> Dict[str, Any]:
+    async def _consolidate_memories(self, new_task_id: str) -> dict[str, Any]:
         """Consolidate memories to strengthen important knowledge"""
         try:
             # Identify high-importance memories
@@ -718,7 +718,7 @@ class ContinualLearner:
             consolidation_cycles = 3
             consolidated_memories = 0
 
-            for cycle in range(consolidation_cycles):
+            for _cycle in range(consolidation_cycles):
                 for task_id in high_importance_tasks:
                     # Strengthen memory traces
                     if task_id in self.learned_tasks:
@@ -738,7 +738,7 @@ class ContinualLearner:
             logger.error(f"Memory consolidation failed: {e}")
             return {"consolidation_failed": True, "error": str(e)}
 
-    async def _evaluate_continual_performance(self) -> Dict[str, float]:
+    async def _evaluate_continual_performance(self) -> dict[str, float]:
         """Evaluate continual learning performance"""
         if not self.learned_tasks:
             return {"stability": 0.0, "plasticity": 0.0, "overall": 0.0}
@@ -826,9 +826,9 @@ class AdvancedLearningSystem:
 
     async def learn_from_episodes(
         self,
-        episodes: List[LearningEpisode],
+        episodes: list[LearningEpisode],
         learning_type: LearningType = LearningType.META_LEARNING,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Learn from a collection of learning episodes"""
         try:
             logger.info(
@@ -918,10 +918,10 @@ class AdvancedLearningSystem:
 
     async def adapt_to_new_task(
         self,
-        task_definition: Dict[str, Any],
-        support_examples: List[Dict[str, Any]],
+        task_definition: dict[str, Any],
+        support_examples: list[dict[str, Any]],
         adaptation_strategy: Optional[LearningStrategy] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Adapt to a new task using available learning mechanisms"""
         try:
             task_id = task_definition.get(
@@ -981,7 +981,7 @@ class AdvancedLearningSystem:
             logger.error(f"Task adaptation failed: {e}")
             return {"status": "failed", "error": str(e)}
 
-    async def get_learning_analytics(self) -> Dict[str, Any]:
+    async def get_learning_analytics(self) -> dict[str, Any]:
         """Get comprehensive learning analytics"""
         try:
             # Performance metrics
@@ -1009,7 +1009,7 @@ class AdvancedLearningSystem:
             logger.error(f"Learning analytics failed: {e}")
             return {"status": "error", "error": str(e)}
 
-    def _analyze_learning_history(self) -> Dict[str, Any]:
+    def _analyze_learning_history(self) -> dict[str, Any]:
         """Analyze learning history for insights"""
         if not self.learning_history:
             return {"status": "no_history"}
@@ -1033,7 +1033,7 @@ class AdvancedLearningSystem:
             "most_recent_session": max(timestamps).isoformat(),
         }
 
-    async def _get_meta_learning_analytics(self) -> Dict[str, Any]:
+    async def _get_meta_learning_analytics(self) -> dict[str, Any]:
         """Get meta-learning specific analytics"""
         return {
             "adaptation_history_size": len(self.meta_learner.adaptation_history),
@@ -1043,7 +1043,7 @@ class AdvancedLearningSystem:
             "adaptation_steps": self.meta_learner.num_adaptation_steps,
         }
 
-    async def _get_few_shot_analytics(self) -> Dict[str, Any]:
+    async def _get_few_shot_analytics(self) -> dict[str, Any]:
         """Get few-shot learning specific analytics"""
         return {
             "learned_prototypes": len(self.few_shot_learner.prototypes),
@@ -1052,7 +1052,7 @@ class AdvancedLearningSystem:
             "learning_strategy": self.few_shot_learner.strategy.value,
         }
 
-    async def _get_continual_analytics(self) -> Dict[str, Any]:
+    async def _get_continual_analytics(self) -> dict[str, Any]:
         """Get continual learning specific analytics"""
         performance = await self.continual_learner._evaluate_continual_performance()
 

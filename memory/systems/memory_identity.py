@@ -2,11 +2,12 @@
 Memory-Identity Integration Module
 Provides integration between memory system and Lukhas_ID for identity-based access control
 """
+import logging
 
 import json
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from cryptography.fernet import Fernet
 
@@ -237,7 +238,7 @@ class MemoryIdentityIntegration:
         logger.debug(f"Access to memory {memory_key} revoked from {target_user_id}")
         return True
 
-    def get_shared_memories(self, user_id: str) -> List[str]:
+    def get_shared_memories(self, user_id: str) -> list[str]:
         """
         Get keys of memories shared with a user.
 
@@ -250,8 +251,8 @@ class MemoryIdentityIntegration:
         return list(self.shared_memories.get(user_id, set()))
 
     def encrypt_memory_content(
-        self, memory_key: str, memory_content: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, memory_key: str, memory_content: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Encrypt sensitive memory content.
 
@@ -295,8 +296,8 @@ class MemoryIdentityIntegration:
             return memory_content
 
     def decrypt_memory_content(
-        self, memory_key: str, encrypted_memory: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, memory_key: str, encrypted_memory: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Decrypt encrypted memory content.
 
@@ -412,7 +413,7 @@ class MemoryIdentityIntegration:
         logger.info(f"Archived {archived} old permissions")
         return archived
 
-    def notify_memory_removal(self, memory_keys: List[str]) -> None:
+    def notify_memory_removal(self, memory_keys: list[str]) -> None:
         """
         Archive memory permissions when notified about memory removals.
         For EU compliance and security, we maintain an immutable record.
@@ -448,7 +449,7 @@ class MemoryIdentityIntegration:
                 f"Archived {archived} memory permissions based on removal notification"
             )
 
-    def get_permission_status(self, memory_key: str) -> Dict[str, Any]:
+    def get_permission_status(self, memory_key: str) -> dict[str, Any]:
         """
         Get detailed status information about a memory's permissions.
 

@@ -3,23 +3,22 @@
 Standalone test to demonstrate dream generation with and without OpenAI
 """
 
-import asyncio
-import sys
-from pathlib import Path
-
-# Add parent directory to path
-sys.path.append(str(Path(__file__).parent.parent.parent.parent))
-
+from lambda_products_pack.lambda_core.NIAS.vendor_portal import (
+    DreamSeed,
+    DreamSeedType,
+)
 from lambda_products_pack.lambda_core.NIAS.dream_generator import (
     BioRhythm,
     DreamContext,
     DreamGenerator,
     DreamMood,
 )
-from lambda_products_pack.lambda_core.NIAS.vendor_portal import (
-    DreamSeed,
-    DreamSeedType,
-)
+import asyncio
+import sys
+from pathlib import Path
+
+# Add parent directory to path
+sys.path.append(str(Path(__file__).parent.parent.parent.parent))
 
 
 async def test_dream_generation():

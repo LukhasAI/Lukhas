@@ -1,4 +1,5 @@
 # core/interfaces/logic/delegate_logic.py
+import structlog  # ΛMODIFICATION: Added structlog for standardized logging
 from typing import Any
 
 # ΛAGENT: Jules-[01]
@@ -57,8 +58,6 @@ intent, user trust tier, emotional state, and memory alignment.
 
 # ΛCONFIG_START
 
-
-import structlog  # ΛMODIFICATION: Added structlog for standardized logging
 
 log = structlog.get_logger()  # ΛMODIFICATION: Initialized structlog
 DELEGATION_MIN_TIER = 2  # ΛCONFIG_PARAM_HARDCODED

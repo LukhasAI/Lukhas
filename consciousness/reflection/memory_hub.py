@@ -14,10 +14,11 @@ This hub coordinates all memory subsystem components and provides
 a unified interface for external systems to interact with memory.
 
 """
+import logging
 
 import asyncio
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from core.bridges.memory_consciousness_bridge import (
     get_memory_consciousness_bridge,
@@ -62,8 +63,6 @@ from memory.voice_memory_manager import MemoryManager
 try:
     from memory.systems.memory_helix_golden import (
         HealixMapper,
-        MemoryStrand,
-        MutationStrategy,
     )
 
     GOLDEN_HELIX_AVAILABLE = True
@@ -74,10 +73,6 @@ except ImportError as e:
 # Agent 1 Task 7: Symbolic Delta Compression integration
 try:
     from memory.systems.symbolic_delta_compression import (
-        CompressionRecord,
-        CompressionState,
-        LoopDetectionResult,
-        SymbolicDeltaCompressionManager,
         create_compression_manager,
     )
 
@@ -100,7 +95,6 @@ except ImportError as e:
 # High-priority integrations
 try:
     from memory.systems.memory_planning_wrapper import (
-        MemoryPlanner,
         get_memory_planner,
     )
 
@@ -111,7 +105,6 @@ except ImportError as e:
     # Try mock implementation
     try:
         from memory.systems.memory_planning_mock import (
-            MemoryPlanner,
             get_memory_planner,
         )
 
@@ -122,7 +115,6 @@ except ImportError as e:
 
 try:
     from memory.systems.memory_profiler_wrapper import (
-        MemoryProfiler,
         get_memory_profiler,
     )
 
@@ -133,7 +125,6 @@ except ImportError as e:
     # Try mock implementation
     try:
         from memory.systems.memory_profiler_mock import (
-            MemoryProfiler,
             get_memory_profiler,
         )
 
@@ -145,7 +136,6 @@ except ImportError as e:
 # Advanced trauma repair system
 try:
     from memory.repair.trauma_repair_wrapper import (
-        MemoryTraumaRepair,
         get_memory_trauma_repair,
     )
 
@@ -206,10 +196,10 @@ class MemoryHub:
 
     def __init__(self):
         self.name = "memory_hub"
-        self.services: Dict[str, Any] = {}
-        self.event_handlers: Dict[str, List[callable]] = {}
+        self.services: dict[str, Any] = {}
+        self.event_handlers: dict[str, list[callable]] = {}
         self.is_initialized = False
-        self.connected_hubs: List[Dict[str, Any]] = []
+        self.connected_hubs: list[dict[str, Any]] = []
 
         # Initialize components
         self.dreammanager = DreamMemoryManager()
@@ -619,13 +609,13 @@ class MemoryHub:
         """Get a registered service by name"""
         return self.services.get(name)
 
-    def list_services(self) -> List[str]:
+    def list_services(self) -> list[str]:
         """List all registered service names"""
         return list(self.services.keys())
 
     async def process_event(
-        self, event_type: str, event_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, event_type: str, event_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process events from other systems"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
@@ -697,7 +687,8 @@ class MemoryHub:
 
                 self.state_manager = DistributedStateManager(node_id="memory_hub")
 
-            # Register memory nodes (in production, these would be actual distributed nodes)
+            # Register memory nodes (in production, these would be actual distributed
+            # nodes)
             self.memory_nodes = {
                 "core.memory_node": {"type": "core", "status": "active"},
                 "identity.memory_cache": {"type": "cache", "status": "active"},
@@ -710,7 +701,7 @@ class MemoryHub:
 
         logger.info("Memory module connections established")
 
-    async def register_client(self, client_id: str, config: Dict[str, Any]) -> bool:
+    async def register_client(self, client_id: str, config: dict[str, Any]) -> bool:
         """Register a client for memory storage"""
         try:
             # Store client configuration
@@ -734,7 +725,7 @@ class MemoryHub:
             logger.error(f"Failed to register client {client_id}: {e}")
             return False
 
-    def broadcast_to_all_hubs(self, message: Dict[str, Any]) -> Dict[str, List[Any]]:
+    def broadcast_to_all_hubs(self, message: dict[str, Any]) -> dict[str, list[Any]]:
         responses = {}
         for hub_info in self.connected_hubs:
             hub_name = hub_info["name"]
@@ -748,7 +739,7 @@ class MemoryHub:
                 responses[hub_name] = {"error": str(e)}
         return responses
 
-    def receive_message(self, message: Dict[str, Any]) -> Dict[str, Any]:
+    def receive_message(self, message: dict[str, Any]) -> dict[str, Any]:
         return {
             "hub": self.name,
             "received": True,
@@ -783,9 +774,9 @@ class MemoryHub:
     # Agent 1 Task 6: Golden Helix Memory Mapper interface methods
     async def encode_memory_helix(
         self,
-        memory: Dict[str, Any],
+        memory: dict[str, Any],
         strand_type: str,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> str:
         """Encode memory using Golden Helix structure"""
         if not GOLDEN_HELIX_AVAILABLE:
@@ -808,7 +799,7 @@ class MemoryHub:
             return ""
 
     async def mutate_helix_memory(
-        self, memory_id: str, mutation: Dict[str, Any], strategy: str
+        self, memory_id: str, mutation: dict[str, Any], strategy: str
     ) -> bool:
         """Apply mutation to helix memory"""
         if not GOLDEN_HELIX_AVAILABLE:
@@ -831,8 +822,8 @@ class MemoryHub:
             return False
 
     async def search_helix_memories(
-        self, query: Dict[str, Any], strand_type: Optional[str] = None
-    ) -> List[Dict[str, Any]]:
+        self, query: dict[str, Any], strand_type: Optional[str] = None
+    ) -> list[dict[str, Any]]:
         """Search memories in the Golden Helix structure"""
         if not GOLDEN_HELIX_AVAILABLE:
             logger.warning("Golden Helix Memory Mapper not available")
@@ -855,7 +846,7 @@ class MemoryHub:
             logger.error(f"Failed to search helix memories: {e}")
             return []
 
-    async def retrieve_helix_memory(self, memory_id: str) -> Optional[Dict[str, Any]]:
+    async def retrieve_helix_memory(self, memory_id: str) -> Optional[dict[str, Any]]:
         """Retrieve specific memory from Golden Helix"""
         if not GOLDEN_HELIX_AVAILABLE:
             logger.warning("Golden Helix Memory Mapper not available")
@@ -876,11 +867,11 @@ class MemoryHub:
     async def compress_memory_fold(
         self,
         fold_key: str,
-        fold_content: Dict[str, Any],
+        fold_content: dict[str, Any],
         importance_score: float,
         drift_score: float,
         force: bool = False,
-    ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    ) -> tuple[dict[str, Any], dict[str, Any]]:
         """Compress memory fold with loop detection"""
         if not SYMBOLIC_DELTA_COMPRESSION_AVAILABLE:
             logger.warning("Symbolic Delta Compression not available")
@@ -904,7 +895,7 @@ class MemoryHub:
 
     async def get_compression_analytics(
         self, fold_key: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get compression analytics"""
         if not SYMBOLIC_DELTA_COMPRESSION_AVAILABLE:
             logger.warning("Symbolic Delta Compression not available")
@@ -921,7 +912,7 @@ class MemoryHub:
             logger.error(f"Failed to get compression analytics: {e}")
             return {}
 
-    async def emergency_decompress_fold(self, fold_key: str) -> Dict[str, Any]:
+    async def emergency_decompress_fold(self, fold_key: str) -> dict[str, Any]:
         """Emergency decompression for critical scenarios"""
         if not SYMBOLIC_DELTA_COMPRESSION_AVAILABLE:
             logger.warning("Symbolic Delta Compression not available")
@@ -941,10 +932,10 @@ class MemoryHub:
     # Episodic Memory Colony interface methods
     async def create_episodic_memory(
         self,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         event_type: str = "general",
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Create new episodic memory through colony integration"""
         if not EPISODIC_MEMORY_COLONY_AVAILABLE:
             logger.warning("Episodic memory colony not available")
@@ -966,7 +957,7 @@ class MemoryHub:
 
     async def retrieve_episodic_memory(
         self, memory_id: str, include_related: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Retrieve episodic memory by ID through colony integration"""
         if not EPISODIC_MEMORY_COLONY_AVAILABLE:
             logger.warning("Episodic memory colony not available")
@@ -987,8 +978,8 @@ class MemoryHub:
             return {"success": False, "error": str(e)}
 
     async def search_episodic_memories(
-        self, query: Dict[str, Any], limit: int = 50
-    ) -> List[Dict[str, Any]]:
+        self, query: dict[str, Any], limit: int = 50
+    ) -> list[dict[str, Any]]:
         """Search episodic memories through colony integration"""
         if not EPISODIC_MEMORY_COLONY_AVAILABLE:
             logger.warning("Episodic memory colony not available")
@@ -1006,8 +997,8 @@ class MemoryHub:
             return []
 
     async def trigger_episodic_replay(
-        self, memory_ids: Optional[List[str]] = None, replay_strength: float = 1.0
-    ) -> Dict[str, Any]:
+        self, memory_ids: Optional[list[str]] = None, replay_strength: float = 1.0
+    ) -> dict[str, Any]:
         """Trigger episodic memory replay for consolidation"""
         if not EPISODIC_MEMORY_COLONY_AVAILABLE:
             logger.warning("Episodic memory colony not available")
@@ -1027,7 +1018,7 @@ class MemoryHub:
             logger.error(f"Failed to trigger episodic replay: {e}")
             return {"success": False, "error": str(e)}
 
-    async def get_episodic_consolidation_candidates(self) -> List[Dict[str, Any]]:
+    async def get_episodic_consolidation_candidates(self) -> list[dict[str, Any]]:
         """Get episodes ready for consolidation from colony"""
         if not EPISODIC_MEMORY_COLONY_AVAILABLE:
             logger.warning("Episodic memory colony not available")
@@ -1044,7 +1035,7 @@ class MemoryHub:
             logger.error(f"Failed to get consolidation candidates: {e}")
             return []
 
-    async def get_episodic_memory_metrics(self) -> Dict[str, Any]:
+    async def get_episodic_memory_metrics(self) -> dict[str, Any]:
         """Get episodic memory colony metrics"""
         if not EPISODIC_MEMORY_COLONY_AVAILABLE:
             return {
@@ -1070,7 +1061,7 @@ class MemoryHub:
     # Memory Tracker interface methods
     async def start_memory_tracking(
         self, root_module=None, session_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Start memory tracking through integration"""
         if not MEMORY_TRACKER_AVAILABLE:
             logger.warning("Memory tracker not available")
@@ -1087,7 +1078,7 @@ class MemoryHub:
             logger.error(f"Failed to start memory tracking: {e}")
             return {"success": False, "error": str(e)}
 
-    async def stop_memory_tracking(self, session_id: str) -> Dict[str, Any]:
+    async def stop_memory_tracking(self, session_id: str) -> dict[str, Any]:
         """Stop memory tracking through integration"""
         if not MEMORY_TRACKER_AVAILABLE:
             logger.warning("Memory tracker not available")
@@ -1106,7 +1097,7 @@ class MemoryHub:
 
     async def get_memory_tracking_summary(
         self, session_id: Optional[str] = None, top_ops: int = 20
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get memory tracking summary through integration"""
         if not MEMORY_TRACKER_AVAILABLE:
             logger.warning("Memory tracker not available")
@@ -1125,7 +1116,7 @@ class MemoryHub:
 
     async def visualize_memory_traces(
         self, session_id: Optional[str] = None, save_path: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate memory trace visualizations through integration"""
         if not MEMORY_TRACKER_AVAILABLE:
             logger.warning("Memory tracker not available")
@@ -1142,7 +1133,7 @@ class MemoryHub:
             logger.error(f"Failed to visualize memory traces: {e}")
             return {"success": False, "error": str(e)}
 
-    async def get_memory_tracking_sessions(self) -> List[Dict[str, Any]]:
+    async def get_memory_tracking_sessions(self) -> list[dict[str, Any]]:
         """Get memory tracking sessions through integration"""
         if not MEMORY_TRACKER_AVAILABLE:
             logger.warning("Memory tracker not available")
@@ -1159,7 +1150,7 @@ class MemoryHub:
             logger.error(f"Failed to get memory tracking sessions: {e}")
             return []
 
-    async def get_memory_tracker_metrics(self) -> Dict[str, Any]:
+    async def get_memory_tracker_metrics(self) -> dict[str, Any]:
         """Get memory tracker metrics through integration"""
         if not MEMORY_TRACKER_AVAILABLE:
             return {"available": False, "error": "Memory tracker not configured"}
@@ -1180,10 +1171,10 @@ class MemoryHub:
     async def store_emotional_memory(
         self,
         user_id: str,
-        memory_data: Dict[str, Any],
+        memory_data: dict[str, Any],
         memory_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Store memory with emotional tagging and user identity"""
         if not UNIFIED_EMOTIONAL_MEMORY_AVAILABLE:
             logger.warning("Unified emotional memory manager not available")
@@ -1204,8 +1195,8 @@ class MemoryHub:
             return {"status": "error", "error": str(e)}
 
     async def retrieve_emotional_memory(
-        self, user_id: str, memory_id: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, user_id: str, memory_id: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Retrieve memory with tier-based emotional modulation"""
         if not UNIFIED_EMOTIONAL_MEMORY_AVAILABLE:
             logger.warning("Unified emotional memory manager not available")
@@ -1226,8 +1217,8 @@ class MemoryHub:
             return {"status": "error", "error": str(e)}
 
     async def analyze_emotional_patterns(
-        self, user_id: str, time_range: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, user_id: str, time_range: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Analyze user's emotional patterns over time"""
         if not UNIFIED_EMOTIONAL_MEMORY_AVAILABLE:
             logger.warning("Unified emotional memory manager not available")
@@ -1248,8 +1239,8 @@ class MemoryHub:
             return {"status": "error", "error": str(e)}
 
     async def modulate_emotional_state(
-        self, user_id: str, memory_id: str, target_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, memory_id: str, target_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """Modulate the emotional state of a memory"""
         if not UNIFIED_EMOTIONAL_MEMORY_AVAILABLE:
             logger.warning("Unified emotional memory manager not available")
@@ -1271,7 +1262,7 @@ class MemoryHub:
             logger.error(f"Failed to modulate emotional state: {e}")
             return {"status": "error", "error": str(e)}
 
-    async def get_unified_emotional_manager_status(self) -> Dict[str, Any]:
+    async def get_unified_emotional_manager_status(self) -> dict[str, Any]:
         """Get unified emotional memory manager status"""
         if not UNIFIED_EMOTIONAL_MEMORY_AVAILABLE:
             return {

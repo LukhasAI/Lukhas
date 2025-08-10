@@ -40,11 +40,8 @@ from collections.abc import AsyncIterable
 from typing import (
     TYPE_CHECKING,
     Any,
-    Dict,
-    List,
     Literal,
     Optional,
-    Set,
     Union,
     overload,
 )
@@ -193,8 +190,8 @@ class AsyncInferenceClient:
         provider: Optional[PROVIDER_T] = None,
         token: Optional[str] = None,
         timeout: Optional[float] = None,
-        headers: Optional[Dict[str, str]] = None,
-        cookies: Optional[Dict[str, str]] = None,
+        headers: Optional[dict[str, str]] = None,
+        cookies: Optional[dict[str, str]] = None,
         trust_env: bool = False,
         proxies: Optional[Any] = None,
         bill_to: Optional[str] = None,
@@ -228,6 +225,7 @@ class AsyncInferenceClient:
                 "Using `token=True` to automatically use the locally saved token is deprecated and will be removed in a future release. "
                 "Please use `token=None` instead (default).",
                 DeprecationWarning,
+                stacklevel=2,
             )
             token = get_token()
 
@@ -243,6 +241,7 @@ class AsyncInferenceClient:
                 warnings.warn(
                     f"Overriding existing '{self.headers[constants.HUGGINGFACE_HEADER_X_BILL_TO]}' value in headers with '{bill_to}'.",
                     UserWarning,
+                    stacklevel=2,
                 )
             self.headers[constants.HUGGINGFACE_HEADER_X_BILL_TO] = bill_to
 
@@ -251,6 +250,7 @@ class AsyncInferenceClient:
                     "You've provided an external provider's API key, so requests will be billed directly by the provider. "
                     "The `bill_to` parameter is only applicable for Hugging Face billing and will be ignored.",
                     UserWarning,
+                    stacklevel=2,
                 )
 
         # Configure provider
@@ -262,7 +262,7 @@ class AsyncInferenceClient:
         self.proxies = proxies
 
         # Keep track of the sessions to close them properly
-        self._sessions: Dict[ClientSession, Set[ClientResponse]] = dict()
+        self._sessions: dict[ClientSession, set[ClientResponse]] = {}
 
     def __repr__(self):
         return f"<InferenceClient(model='{self.model if self.model else ''}', timeout={self.timeout})>"
@@ -271,7 +271,7 @@ class AsyncInferenceClient:
     async def post(  # type: ignore[misc]
         self,
         *,
-        json: Optional[Union[str, Dict, List]] = None,
+        json: Optional[Union[str, dict, list]] = None,
         data: Optional[ContentT] = None,
         model: Optional[str] = None,
         task: Optional[str] = None,
@@ -282,7 +282,7 @@ class AsyncInferenceClient:
     async def post(  # type: ignore[misc]
         self,
         *,
-        json: Optional[Union[str, Dict, List]] = None,
+        json: Optional[Union[str, dict, list]] = None,
         data: Optional[ContentT] = None,
         model: Optional[str] = None,
         task: Optional[str] = None,
@@ -293,7 +293,7 @@ class AsyncInferenceClient:
     async def post(
         self,
         *,
-        json: Optional[Union[str, Dict, List]] = None,
+        json: Optional[Union[str, dict, list]] = None,
         data: Optional[ContentT] = None,
         model: Optional[str] = None,
         task: Optional[str] = None,
@@ -311,7 +311,7 @@ class AsyncInferenceClient:
     async def post(
         self,
         *,
-        json: Optional[Union[str, Dict, List]] = None,
+        json: Optional[Union[str, dict, list]] = None,
         data: Optional[ContentT] = None,
         model: Optional[str] = None,
         task: Optional[str] = None,
@@ -330,8 +330,12 @@ class AsyncInferenceClient:
             )
         provider_helper = HFInferenceTask(task or "unknown")
         mapped_model = provider_helper._prepare_mapped_model(model or self.model)
-        url = provider_helper._prepare_url(self.token, mapped_model)  # type: ignore[arg-type]
-        headers = provider_helper._prepare_headers(self.headers, self.token)  # type: ignore[arg-type]
+        url = provider_helper._prepare_url(
+            self.token, mapped_model
+        )  # type: ignore[arg-type]
+        headers = provider_helper._prepare_headers(
+            self.headers, self.token
+        )  # type: ignore[arg-type]
         return await self._inner_post(
             request_parameters=RequestParameters(
                 url=url,
@@ -403,7 +407,9 @@ class AsyncInferenceClient:
             except asyncio.TimeoutError as error:
                 await session.close()
                 # Convert any `TimeoutError` to a `InferenceTimeoutError`
-                raise InferenceTimeoutError(f"Inference call timed out: {request_parameters.url}") from error  # type: ignore
+                raise InferenceTimeoutError(
+                    f"Inference call timed out: {request_parameters.url}"
+                ) from error  # type: ignore
             except aiohttp.ClientResponseError as error:
                 error.response_error_payload = response_error_payload
                 await session.close()
@@ -424,7 +430,8 @@ class AsyncInferenceClient:
                 "Deleting 'AsyncInferenceClient' client but some sessions are still open. "
                 "This can happen if you've stopped streaming data from the server before the stream was complete. "
                 "To close the client properly, you must call `await client.close()` "
-                "or use an async context (e.g. `async with AsyncInferenceClient(): ...`."
+                "or use an async context (e.g. `async with AsyncInferenceClient(): ...`.",
+                stacklevel=2,
             )
 
     async def close(self):
@@ -436,7 +443,7 @@ class AsyncInferenceClient:
 
         Another possibility is to use an async context (e.g. `async with AsyncInferenceClient(): ...`).
         """
-        await asyncio.gather(*[session.close() for session in self._sessions.keys()])
+        await asyncio.gather(*[session.close() for session in self._sessions])
 
     async def audio_classification(
         self,
@@ -445,7 +452,7 @@ class AsyncInferenceClient:
         model: Optional[str] = None,
         top_k: Optional[int] = None,
         function_to_apply: Optional["AudioClassificationOutputTransform"] = None,
-    ) -> List[AudioClassificationOutputElement]:
+    ) -> list[AudioClassificationOutputElement]:
         """
         Perform audio classification on the provided audio content.
 
@@ -502,7 +509,7 @@ class AsyncInferenceClient:
         audio: ContentT,
         *,
         model: Optional[str] = None,
-    ) -> List[AudioToAudioOutputElement]:
+    ) -> list[AudioToAudioOutputElement]:
         """
         Performs multiple tasks related to audio-to-audio depending on the model (eg: speech enhancement, source separation).
 
@@ -554,7 +561,7 @@ class AsyncInferenceClient:
         audio: ContentT,
         *,
         model: Optional[str] = None,
-        extra_body: Optional[Dict] = None,
+        extra_body: Optional[dict] = None,
     ) -> AutomaticSpeechRecognitionOutput:
         """
         Perform automatic speech recognition (ASR or audio-to-text) on the given audio content.
@@ -602,19 +609,19 @@ class AsyncInferenceClient:
     @overload
     async def chat_completion(  # type: ignore
         self,
-        messages: List[Dict],
+        messages: list[dict],
         *,
         model: Optional[str] = None,
         stream: Literal[False] = False,
         frequency_penalty: Optional[float] = None,
-        logit_bias: Optional[List[float]] = None,
+        logit_bias: Optional[list[float]] = None,
         logprobs: Optional[bool] = None,
         max_tokens: Optional[int] = None,
         n: Optional[int] = None,
         presence_penalty: Optional[float] = None,
         response_format: Optional[ChatCompletionInputGrammarType] = None,
         seed: Optional[int] = None,
-        stop: Optional[List[str]] = None,
+        stop: Optional[list[str]] = None,
         stream_options: Optional[ChatCompletionInputStreamOptions] = None,
         temperature: Optional[float] = None,
         tool_choice: Optional[
@@ -623,28 +630,28 @@ class AsyncInferenceClient:
             ]
         ] = None,
         tool_prompt: Optional[str] = None,
-        tools: Optional[List[ChatCompletionInputTool]] = None,
+        tools: Optional[list[ChatCompletionInputTool]] = None,
         top_logprobs: Optional[int] = None,
         top_p: Optional[float] = None,
-        extra_body: Optional[Dict] = None,
+        extra_body: Optional[dict] = None,
     ) -> ChatCompletionOutput: ...
 
     @overload
     async def chat_completion(  # type: ignore
         self,
-        messages: List[Dict],
+        messages: list[dict],
         *,
         model: Optional[str] = None,
         stream: Literal[True] = True,
         frequency_penalty: Optional[float] = None,
-        logit_bias: Optional[List[float]] = None,
+        logit_bias: Optional[list[float]] = None,
         logprobs: Optional[bool] = None,
         max_tokens: Optional[int] = None,
         n: Optional[int] = None,
         presence_penalty: Optional[float] = None,
         response_format: Optional[ChatCompletionInputGrammarType] = None,
         seed: Optional[int] = None,
-        stop: Optional[List[str]] = None,
+        stop: Optional[list[str]] = None,
         stream_options: Optional[ChatCompletionInputStreamOptions] = None,
         temperature: Optional[float] = None,
         tool_choice: Optional[
@@ -653,28 +660,28 @@ class AsyncInferenceClient:
             ]
         ] = None,
         tool_prompt: Optional[str] = None,
-        tools: Optional[List[ChatCompletionInputTool]] = None,
+        tools: Optional[list[ChatCompletionInputTool]] = None,
         top_logprobs: Optional[int] = None,
         top_p: Optional[float] = None,
-        extra_body: Optional[Dict] = None,
+        extra_body: Optional[dict] = None,
     ) -> AsyncIterable[ChatCompletionStreamOutput]: ...
 
     @overload
     async def chat_completion(
         self,
-        messages: List[Dict],
+        messages: list[dict],
         *,
         model: Optional[str] = None,
         stream: bool = False,
         frequency_penalty: Optional[float] = None,
-        logit_bias: Optional[List[float]] = None,
+        logit_bias: Optional[list[float]] = None,
         logprobs: Optional[bool] = None,
         max_tokens: Optional[int] = None,
         n: Optional[int] = None,
         presence_penalty: Optional[float] = None,
         response_format: Optional[ChatCompletionInputGrammarType] = None,
         seed: Optional[int] = None,
-        stop: Optional[List[str]] = None,
+        stop: Optional[list[str]] = None,
         stream_options: Optional[ChatCompletionInputStreamOptions] = None,
         temperature: Optional[float] = None,
         tool_choice: Optional[
@@ -683,28 +690,28 @@ class AsyncInferenceClient:
             ]
         ] = None,
         tool_prompt: Optional[str] = None,
-        tools: Optional[List[ChatCompletionInputTool]] = None,
+        tools: Optional[list[ChatCompletionInputTool]] = None,
         top_logprobs: Optional[int] = None,
         top_p: Optional[float] = None,
-        extra_body: Optional[Dict] = None,
+        extra_body: Optional[dict] = None,
     ) -> Union[ChatCompletionOutput, AsyncIterable[ChatCompletionStreamOutput]]: ...
 
     async def chat_completion(
         self,
-        messages: List[Dict],
+        messages: list[dict],
         *,
         model: Optional[str] = None,
         stream: bool = False,
         # Parameters from ChatCompletionInput (handled manually)
         frequency_penalty: Optional[float] = None,
-        logit_bias: Optional[List[float]] = None,
+        logit_bias: Optional[list[float]] = None,
         logprobs: Optional[bool] = None,
         max_tokens: Optional[int] = None,
         n: Optional[int] = None,
         presence_penalty: Optional[float] = None,
         response_format: Optional[ChatCompletionInputGrammarType] = None,
         seed: Optional[int] = None,
-        stop: Optional[List[str]] = None,
+        stop: Optional[list[str]] = None,
         stream_options: Optional[ChatCompletionInputStreamOptions] = None,
         temperature: Optional[float] = None,
         tool_choice: Optional[
@@ -713,10 +720,10 @@ class AsyncInferenceClient:
             ]
         ] = None,
         tool_prompt: Optional[str] = None,
-        tools: Optional[List[ChatCompletionInputTool]] = None,
+        tools: Optional[list[ChatCompletionInputTool]] = None,
         top_logprobs: Optional[int] = None,
         top_p: Optional[float] = None,
-        extra_body: Optional[Dict] = None,
+        extra_body: Optional[dict] = None,
     ) -> Union[ChatCompletionOutput, AsyncIterable[ChatCompletionStreamOutput]]:
         """
         A method for completing conversations using a specified language model.
@@ -1095,9 +1102,13 @@ class AsyncInferenceClient:
         data = await self._inner_post(request_parameters, stream=stream)
 
         if stream:
-            return _async_stream_chat_completion_response(data)  # type: ignore[arg-type]
+            return _async_stream_chat_completion_response(
+                data
+            )  # type: ignore[arg-type]
 
-        return ChatCompletionOutput.parse_obj_as_instance(data)  # type: ignore[arg-type]
+        return ChatCompletionOutput.parse_obj_as_instance(
+            data
+        )  # type: ignore[arg-type]
 
     async def document_question_answering(
         self,
@@ -1112,8 +1123,8 @@ class AsyncInferenceClient:
         max_question_len: Optional[int] = None,
         max_seq_len: Optional[int] = None,
         top_k: Optional[int] = None,
-        word_boxes: Optional[List[Union[List[float], str]]] = None,
-    ) -> List[DocumentQuestionAnsweringOutputElement]:
+        word_boxes: Optional[list[Union[list[float], str]]] = None,
+    ) -> list[DocumentQuestionAnsweringOutputElement]:
         """
         Answer questions on document images.
 
@@ -1165,7 +1176,7 @@ class AsyncInferenceClient:
         [DocumentQuestionAnsweringOutputElement(answer='us-001', end=16, score=0.9999666213989258, start=16)]
         ```
         """
-        inputs: Dict[str, Any] = {"question": question, "image": _b64_encode(image)}
+        inputs: dict[str, Any] = {"question": question, "image": _b64_encode(image)}
         provider_helper = get_provider_helper(
             self.provider, task="document-question-answering"
         )
@@ -1266,9 +1277,9 @@ class AsyncInferenceClient:
         text: str,
         *,
         model: Optional[str] = None,
-        targets: Optional[List[str]] = None,
+        targets: Optional[list[str]] = None,
         top_k: Optional[int] = None,
-    ) -> List[FillMaskOutputElement]:
+    ) -> list[FillMaskOutputElement]:
         """
         Fill in a hole with a missing word (token to be precise).
 
@@ -1324,7 +1335,7 @@ class AsyncInferenceClient:
         model: Optional[str] = None,
         function_to_apply: Optional["ImageClassificationOutputTransform"] = None,
         top_k: Optional[int] = None,
-    ) -> List[ImageClassificationOutputElement]:
+    ) -> list[ImageClassificationOutputElement]:
         """
         Perform image classification on the given image using the specified model.
 
@@ -1378,7 +1389,7 @@ class AsyncInferenceClient:
         overlap_mask_area_threshold: Optional[float] = None,
         subtask: Optional["ImageSegmentationSubtask"] = None,
         threshold: Optional[float] = None,
-    ) -> List[ImageSegmentationOutputElement]:
+    ) -> list[ImageSegmentationOutputElement]:
         """
         Perform image segmentation on the given image using the specified model.
 
@@ -1569,7 +1580,7 @@ class AsyncInferenceClient:
         *,
         model: Optional[str] = None,
         threshold: Optional[float] = None,
-    ) -> List[ObjectDetectionOutputElement]:
+    ) -> list[ObjectDetectionOutputElement]:
         """
         Perform object detection on the given image using the specified model.
 
@@ -1631,7 +1642,7 @@ class AsyncInferenceClient:
         max_question_len: Optional[int] = None,
         max_seq_len: Optional[int] = None,
         top_k: Optional[int] = None,
-    ) -> Union[QuestionAnsweringOutputElement, List[QuestionAnsweringOutputElement]]:
+    ) -> Union[QuestionAnsweringOutputElement, list[QuestionAnsweringOutputElement]]:
         """
         Retrieve the answer to a question from a given text.
 
@@ -1699,13 +1710,15 @@ class AsyncInferenceClient:
             api_key=self.token,
         )
         response = await self._inner_post(request_parameters)
-        # Parse the response as a single `QuestionAnsweringOutputElement` when top_k is 1 or not provided, or a list of `QuestionAnsweringOutputElement` to ensure backward compatibility.
+        # Parse the response as a single `QuestionAnsweringOutputElement` when
+        # top_k is 1 or not provided, or a list of
+        # `QuestionAnsweringOutputElement` to ensure backward compatibility.
         output = QuestionAnsweringOutputElement.parse_obj(response)
         return output
 
     async def sentence_similarity(
-        self, sentence: str, other_sentences: List[str], *, model: Optional[str] = None
-    ) -> List[float]:
+        self, sentence: str, other_sentences: list[str], *, model: Optional[str] = None
+    ) -> list[float]:
         """
         Compute the semantic similarity between a sentence and a list of other sentences by comparing their embeddings.
 
@@ -1762,7 +1775,7 @@ class AsyncInferenceClient:
         *,
         model: Optional[str] = None,
         clean_up_tokenization_spaces: Optional[bool] = None,
-        generate_parameters: Optional[Dict[str, Any]] = None,
+        generate_parameters: Optional[dict[str, Any]] = None,
         truncation: Optional["SummarizationTruncationStrategy"] = None,
     ) -> SummarizationOutput:
         """
@@ -1816,7 +1829,7 @@ class AsyncInferenceClient:
 
     async def table_question_answering(
         self,
-        table: Dict[str, Any],
+        table: dict[str, Any],
         query: str,
         *,
         model: Optional[str] = None,
@@ -1885,8 +1898,8 @@ class AsyncInferenceClient:
         return TableQuestionAnsweringOutputElement.parse_obj_as_instance(response)
 
     async def tabular_classification(
-        self, table: Dict[str, Any], *, model: Optional[str] = None
-    ) -> List[str]:
+        self, table: dict[str, Any], *, model: Optional[str] = None
+    ) -> list[str]:
         """
         Classifying a target category (a group) based on a set of attributes.
 
@@ -1944,8 +1957,8 @@ class AsyncInferenceClient:
         return _bytes_to_list(response)
 
     async def tabular_regression(
-        self, table: Dict[str, Any], *, model: Optional[str] = None
-    ) -> List[float]:
+        self, table: dict[str, Any], *, model: Optional[str] = None
+    ) -> list[float]:
         """
         Predicting a numerical target value given a set of attributes/features in a table.
 
@@ -2002,7 +2015,7 @@ class AsyncInferenceClient:
         model: Optional[str] = None,
         top_k: Optional[int] = None,
         function_to_apply: Optional["TextClassificationOutputTransform"] = None,
-    ) -> List[TextClassificationOutputElement]:
+    ) -> list[TextClassificationOutputElement]:
         """
         Perform text classification (e.g. sentiment-analysis) on the given text.
 
@@ -2051,7 +2064,9 @@ class AsyncInferenceClient:
             api_key=self.token,
         )
         response = await self._inner_post(request_parameters)
-        return TextClassificationOutputElement.parse_obj_as_list(response)[0]  # type: ignore [return-value]
+        return TextClassificationOutputElement.parse_obj_as_list(response)[
+            0
+        ]  # type: ignore [return-value]
 
     @overload
     async def text_generation(  # type: ignore
@@ -2072,8 +2087,8 @@ class AsyncInferenceClient:
         repetition_penalty: Optional[float] = None,
         return_full_text: Optional[bool] = False,  # Manual default value
         seed: Optional[int] = None,
-        stop: Optional[List[str]] = None,
-        stop_sequences: Optional[List[str]] = None,  # Deprecated, use `stop` instead
+        stop: Optional[list[str]] = None,
+        stop_sequences: Optional[list[str]] = None,  # Deprecated, use `stop` instead
         temperature: Optional[float] = None,
         top_k: Optional[int] = None,
         top_n_tokens: Optional[int] = None,
@@ -2102,8 +2117,8 @@ class AsyncInferenceClient:
         repetition_penalty: Optional[float] = None,
         return_full_text: Optional[bool] = False,  # Manual default value
         seed: Optional[int] = None,
-        stop: Optional[List[str]] = None,
-        stop_sequences: Optional[List[str]] = None,  # Deprecated, use `stop` instead
+        stop: Optional[list[str]] = None,
+        stop_sequences: Optional[list[str]] = None,  # Deprecated, use `stop` instead
         temperature: Optional[float] = None,
         top_k: Optional[int] = None,
         top_n_tokens: Optional[int] = None,
@@ -2132,8 +2147,8 @@ class AsyncInferenceClient:
         repetition_penalty: Optional[float] = None,
         return_full_text: Optional[bool] = False,  # Manual default value
         seed: Optional[int] = None,
-        stop: Optional[List[str]] = None,
-        stop_sequences: Optional[List[str]] = None,  # Deprecated, use `stop` instead
+        stop: Optional[list[str]] = None,
+        stop_sequences: Optional[list[str]] = None,  # Deprecated, use `stop` instead
         temperature: Optional[float] = None,
         top_k: Optional[int] = None,
         top_n_tokens: Optional[int] = None,
@@ -2162,8 +2177,8 @@ class AsyncInferenceClient:
         repetition_penalty: Optional[float] = None,
         return_full_text: Optional[bool] = False,  # Manual default value
         seed: Optional[int] = None,
-        stop: Optional[List[str]] = None,
-        stop_sequences: Optional[List[str]] = None,  # Deprecated, use `stop` instead
+        stop: Optional[list[str]] = None,
+        stop_sequences: Optional[list[str]] = None,  # Deprecated, use `stop` instead
         temperature: Optional[float] = None,
         top_k: Optional[int] = None,
         top_n_tokens: Optional[int] = None,
@@ -2192,8 +2207,8 @@ class AsyncInferenceClient:
         repetition_penalty: Optional[float] = None,
         return_full_text: Optional[bool] = False,  # Manual default value
         seed: Optional[int] = None,
-        stop: Optional[List[str]] = None,
-        stop_sequences: Optional[List[str]] = None,  # Deprecated, use `stop` instead
+        stop: Optional[list[str]] = None,
+        stop_sequences: Optional[list[str]] = None,  # Deprecated, use `stop` instead
         temperature: Optional[float] = None,
         top_k: Optional[int] = None,
         top_n_tokens: Optional[int] = None,
@@ -2221,8 +2236,8 @@ class AsyncInferenceClient:
         repetition_penalty: Optional[float] = None,
         return_full_text: Optional[bool] = False,  # Manual default value
         seed: Optional[int] = None,
-        stop: Optional[List[str]] = None,
-        stop_sequences: Optional[List[str]] = None,  # Deprecated, use `stop` instead
+        stop: Optional[list[str]] = None,
+        stop_sequences: Optional[list[str]] = None,  # Deprecated, use `stop` instead
         temperature: Optional[float] = None,
         top_k: Optional[int] = None,
         top_n_tokens: Optional[int] = None,
@@ -2427,7 +2442,8 @@ class AsyncInferenceClient:
         if decoder_input_details and not details:
             warnings.warn(
                 "`decoder_input_details=True` has been passed to the server but `details=False` is set meaning that"
-                " the output from the server will be truncated."
+                " the output from the server will be truncated.",
+                stacklevel=2,
             )
             decoder_input_details = False
 
@@ -2436,6 +2452,7 @@ class AsyncInferenceClient:
                 "`stop_sequences` is a deprecated argument for `text_generation` task"
                 " and will be removed in version '0.28.0'. Use `stop` instead.",
                 FutureWarning,
+                stacklevel=2,
             )
         if stop is None:
             stop = stop_sequences  # use deprecated arg if provided
@@ -2480,12 +2497,14 @@ class AsyncInferenceClient:
                     "API endpoint/model for text-generation is not served via TGI. Ignoring following parameters:"
                     f" {', '.join(ignored_parameters)}.",
                     UserWarning,
+                    stacklevel=2,
                 )
             if details:
                 warnings.warn(
                     "API endpoint/model for text-generation is not served via TGI. Parameter `details=True` will"
                     " be ignored meaning only the generated text will be returned.",
                     UserWarning,
+                    stacklevel=2,
                 )
                 details = False
             if stream:
@@ -2544,11 +2563,14 @@ class AsyncInferenceClient:
 
         # Parse output
         if stream:
-            return _async_stream_text_generation_response(bytes_output, details)  # type: ignore
+            return _async_stream_text_generation_response(
+                bytes_output, details
+            )  # type: ignore
 
         data = _bytes_to_dict(bytes_output)  # type: ignore[arg-type]
 
-        # Data can be a single element (dict) or an iterable of dicts where we select the first element of.
+        # Data can be a single element (dict) or an iterable of dicts where we
+        # select the first element of.
         if isinstance(data, list):
             data = data[0]
         response = provider_helper.get_response(data, request_parameters)
@@ -2570,7 +2592,7 @@ class AsyncInferenceClient:
         model: Optional[str] = None,
         scheduler: Optional[str] = None,
         seed: Optional[int] = None,
-        extra_body: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[dict[str, Any]] = None,
     ) -> "Image":
         """
         Generate an image based on a given text using a specified model.
@@ -2707,11 +2729,11 @@ class AsyncInferenceClient:
         *,
         model: Optional[str] = None,
         guidance_scale: Optional[float] = None,
-        negative_prompt: Optional[List[str]] = None,
+        negative_prompt: Optional[list[str]] = None,
         num_frames: Optional[float] = None,
         num_inference_steps: Optional[int] = None,
         seed: Optional[int] = None,
-        extra_body: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[dict[str, Any]] = None,
     ) -> bytes:
         """
         Generate a video based on a given text.
@@ -2818,7 +2840,7 @@ class AsyncInferenceClient:
         top_p: Optional[float] = None,
         typical_p: Optional[float] = None,
         use_cache: Optional[bool] = None,
-        extra_body: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[dict[str, Any]] = None,
     ) -> bytes:
         """
         Synthesize an audio of a voice pronouncing a given text.
@@ -3012,9 +3034,9 @@ class AsyncInferenceClient:
         *,
         model: Optional[str] = None,
         aggregation_strategy: Optional["TokenClassificationAggregationStrategy"] = None,
-        ignore_labels: Optional[List[str]] = None,
+        ignore_labels: Optional[list[str]] = None,
         stride: Optional[int] = None,
-    ) -> List[TokenClassificationOutputElement]:
+    ) -> list[TokenClassificationOutputElement]:
         """
         Perform token classification on the given text.
         Usually used for sentence parsing, either grammatical, or Named Entity Recognition (NER) to understand keywords contained within text.
@@ -3092,7 +3114,7 @@ class AsyncInferenceClient:
         tgt_lang: Optional[str] = None,
         clean_up_tokenization_spaces: Optional[bool] = None,
         truncation: Optional["TranslationTruncationStrategy"] = None,
-        generate_parameters: Optional[Dict[str, Any]] = None,
+        generate_parameters: Optional[dict[str, Any]] = None,
     ) -> TranslationOutput:
         """
         Convert text from one language to another.
@@ -3183,7 +3205,7 @@ class AsyncInferenceClient:
         *,
         model: Optional[str] = None,
         top_k: Optional[int] = None,
-    ) -> List[VisualQuestionAnsweringOutputElement]:
+    ) -> list[VisualQuestionAnsweringOutputElement]:
         """
         Answering open-ended questions based on an image.
 
@@ -3240,12 +3262,12 @@ class AsyncInferenceClient:
     async def zero_shot_classification(
         self,
         text: str,
-        candidate_labels: List[str],
+        candidate_labels: list[str],
         *,
         multi_label: Optional[bool] = False,
         hypothesis_template: Optional[str] = None,
         model: Optional[str] = None,
-    ) -> List[ZeroShotClassificationOutputElement]:
+    ) -> list[ZeroShotClassificationOutputElement]:
         """
         Provide as input a text and a set of candidate labels to classify the input text.
 
@@ -3351,13 +3373,13 @@ class AsyncInferenceClient:
     async def zero_shot_image_classification(
         self,
         image: ContentT,
-        candidate_labels: List[str],
+        candidate_labels: list[str],
         *,
         model: Optional[str] = None,
         hypothesis_template: Optional[str] = None,
         # deprecated argument
-        labels: List[str] = None,  # type: ignore
-    ) -> List[ZeroShotImageClassificationOutputElement]:
+        labels: list[str] = None,  # type: ignore
+    ) -> list[ZeroShotImageClassificationOutputElement]:
         """
         Provide input image and text labels to predict text labels for the image.
 
@@ -3425,8 +3447,8 @@ class AsyncInferenceClient:
         ),
     )
     async def list_deployed_models(
-        self, frameworks: Union[None, str, Literal["all"], List[str]] = None
-    ) -> Dict[str, List[str]]:
+        self, frameworks: Union[None, str, Literal["all"], list[str]] = None
+    ) -> dict[str, list[str]]:
         """
         List models deployed on the HF Serverless Inference API service.
 
@@ -3491,9 +3513,9 @@ class AsyncInferenceClient:
         frameworks = list(set(frameworks))
 
         # Fetch them iteratively
-        models_by_task: Dict[str, List[str]] = {}
+        models_by_task: dict[str, list[str]] = {}
 
-        def _unpack_response(framework: str, items: List[Dict]) -> None:
+        def _unpack_response(framework: str, items: list[dict]) -> None:
             for model in items:
                 if framework == "sentence-transformers":
                     # Model running with the `sentence-transformers` framework can work with both tasks even if not
@@ -3522,7 +3544,7 @@ class AsyncInferenceClient:
             models_by_task[task] = sorted(set(models), key=lambda x: x.lower())
         return models_by_task
 
-    def _get_client_session(self, headers: Optional[Dict] = None) -> "ClientSession":
+    def _get_client_session(self, headers: Optional[dict] = None) -> "ClientSession":
         aiohttp = _import_aiohttp()
         client_headers = self.headers.copy()
         if headers is not None:
@@ -3563,7 +3585,7 @@ class AsyncInferenceClient:
         session.close = close_session
         return session
 
-    async def get_endpoint_info(self, *, model: Optional[str] = None) -> Dict[str, Any]:
+    async def get_endpoint_info(self, *, model: Optional[str] = None) -> dict[str, Any]:
         """
         Get information about the deployed endpoint.
 

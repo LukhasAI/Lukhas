@@ -18,9 +18,11 @@ from typing import Dict, Any, Optional
 
 # from prot2.CORE.identity.Λ_lambda_id_manager import Identity # Placeholder
 # from prot2.CORE.identity.lukhas_lambda_id_manager import Identity # Placeholder
-# from prot2.CORE.memory_learning.memory_manager import MemoryManager, MemoryType # Placeholder
+# from prot2.CORE.memory_learning.memory_manager import MemoryManager,
+# MemoryType # Placeholder
 
 logger = logging.getLogger(__name__)
+
 
 class GovernanceMonitor:
     """
@@ -30,7 +32,7 @@ class GovernanceMonitor:
     behavior and alignment with long-term safety goals.
     """
 
-    def __init__(self, identity: Any, memory_manager: Any): # Replace Any with actual types
+    def __init__(self, identity: Any, memory_manager: Any):  # Replace Any with actual types
         """
         Initializes the GovernanceMonitor.
 
@@ -41,7 +43,8 @@ class GovernanceMonitor:
         self.Λ_lambda_identity = identity
         self.memory_manager = memory_manager
         self.governance_rules = self._load_governance_rules()
-        Λ_lambda_id_str = self.Λ_lambda_identity.id if hasattr(self.Λ_lambda_identity, 'id') else 'Unknown ID'
+        Λ_lambda_id_str = self.Λ_lambda_identity.id if hasattr(
+            self.Λ_lambda_identity, 'id') else 'Unknown ID'
         logger.info(f"🛡️ GovernanceMonitor initialized for {Λ_lambda_id_str}")
             identity: The operational identity of LUKHAS.
             memory_manager: The memory management system for logging and retrieving data.
@@ -49,7 +52,8 @@ class GovernanceMonitor:
         self.lukhas_lambda_identity = identity
         self.memory_manager = memory_manager
         self.governance_rules = self._load_governance_rules()
-        lukhas_lambda_id_str = self.lukhas_lambda_identity.id if hasattr(self.lukhas_lambda_identity, 'id') else 'Unknown ID'
+        lukhas_lambda_id_str = self.lukhas_lambda_identity.id if hasattr(
+            self.lukhas_lambda_identity, 'id') else 'Unknown ID'
         logger.info(f"🛡️ GovernanceMonitor initialized for {lukhas_lambda_id_str}")
 
     def _load_governance_rules(self) -> Dict[str, Any]:
@@ -63,7 +67,7 @@ class GovernanceMonitor:
                 "logging_policy": "anonymized_unless_consented"
             },
             "behavioral_constraints": {
-                "max_risk_appetite": 0.3, 
+                "max_risk_appetite": 0.3,
                 "prohibited_topics": ["hate_speech", "illegal_activities_promotion"]
             },
             "compliance_standards": ["GDPR_basic", "AI_Safety_Level_1"],
@@ -75,7 +79,12 @@ class GovernanceMonitor:
         logger.info("Governance rules loaded (placeholder).")
         return rules
 
-    def monitor_and_report(self, interaction_details: Dict[str, Any], current_cognition: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def monitor_and_report(self,
+    interaction_details: Dict[str,
+    Any],
+    current_cognition: Optional[Dict[str,
+    Any]] = None) -> Dict[str,
+     Any]:
         """
         Monitors the current interaction and cognitive state against governance rules.
         Args:
@@ -98,58 +107,76 @@ class GovernanceMonitor:
 
         # 1. PII Check
         if self.governance_rules.get("data_handling", {}).get("pii_detection"):
-            if "credit card" in interaction_details.get("user_input", "").lower(): # Basic check
+            if "credit card" in interaction_details.get(
+                "user_input", "").lower(): # Basic check
                 report["compliant"] = False
-                risk = {"type": "PII_Exposure", "severity": "High", "details": "Potential PII (credit card) in user input."}
+                risk = {"type": "PII_Exposure", "severity": "High",
+                    "details": "Potential PII (credit card) in user input."}
                 report["identified_risks"].append(risk)
-                report["checks_performed"].append({"check": "PII_Detection", "status": "Failed", "details": risk["details"]})
+                report["checks_performed"].append(
+                    {"check": "PII_Detection", "status": "Failed", "details": risk["details"]})
             else:
-                report["checks_performed"].append({"check": "PII_Detection", "status": "Passed"})
-        
+                report["checks_performed"].append(
+                    {"check": "PII_Detection", "status": "Passed"})
+
         # 2. Prohibited Topics Check
-        prohibited_topics = self.governance_rules.get("behavioral_constraints", {}).get("prohibited_topics", [])
+        prohibited_topics = self.governance_rules.get(
+    "behavioral_constraints", {}).get(
+        "prohibited_topics", [])
         user_input_lower = interaction_details.get("user_input", "").lower()
         prohibited_topic_found = False
         for topic in prohibited_topics:
             if topic.replace("_", " ") in user_input_lower:
                 report["compliant"] = False
-                risk = {"type": "ProhibitedContent", "severity": "Critical", "details": f"Input contains prohibited topic: {topic}"}
+                risk = {"type": "ProhibitedContent", "severity": "Critical",
+                    "details": f"Input contains prohibited topic: {topic}"}
                 report["identified_risks"].append(risk)
-                report["checks_performed"].append({"check": "ProhibitedContent", "status": "Failed", "details": risk["details"]})
+                report["checks_performed"].append(
+                    {"check": "ProhibitedContent", "status": "Failed", "details": risk["details"]})
                 prohibited_topic_found = True
                 break
         if not prohibited_topic_found:
-             report["checks_performed"].append({"check": "ProhibitedContent", "status": "Passed"})
+             report["checks_performed"].append(
+                 {"check": "ProhibitedContent", "status": "Passed"})
 
         # 3. Compliance Drift Check
-        drift_check_result = self._check_compliance_drift(interaction_details, current_cognition)
+        drift_check_result = self._check_compliance_drift(
+            interaction_details, current_cognition)
         report["checks_performed"].append(drift_check_result)
         if not drift_check_result.get("compliant", True):
             report["compliant"] = False
             report["identified_risks"].append({
-                "type": "ComplianceDrift", 
-                "severity": drift_check_result.get("severity", "Medium"), 
+                "type": "ComplianceDrift",
+                "severity": drift_check_result.get("severity", "Medium"),
                 "details": drift_check_result.get("details", "Potential drift detected.")
             })
 
         # 4. Future Risk Scanning
-        future_risk_assessment = self._scan_for_future_risks(interaction_details, current_cognition)
+        future_risk_assessment = self._scan_for_future_risks(
+            interaction_details, current_cognition)
         report["checks_performed"].append(future_risk_assessment)
         if future_risk_assessment.get("potential_risks"):
             report["identified_risks"].extend(future_risk_assessment["potential_risks"])
-            report["recommendations"].append("Review potential future risks identified.")
+            report["recommendations"].append(
+                "Review potential future risks identified.")
 
         if not report["compliant"]:
             report["summary"] = "Governance checks failed. See identified risks."
-        elif report["identified_risks"]: 
+        elif report["identified_risks"]:
             report["summary"] = "Checks passed, but potential risks or advisories identified."
-        
+
         self._log_governance_activity(report)
-        
-        logger.info(f"🛡️ Governance Report for {report.get('interaction_id', 'N/A')}: Compliance={report['compliant']}, Summary='{report['summary']}'")
+
+        logger.info(
+            f"🛡️ Governance Report for {report.get('interaction_id', 'N/A')}: Compliance={report['compliant']}, Summary='{report['summary']}'")
         return report
 
-    def _check_compliance_drift(self, interaction_details: Dict[str, Any], current_cognition: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _check_compliance_drift(self,
+    interaction_details: Dict[str,
+    Any],
+    current_cognition: Optional[Dict[str,
+    Any]]) -> Dict[str,
+     Any]:
         """
         Monitors for behavioral drift from baselines.
         """
@@ -161,15 +188,25 @@ class GovernanceMonitor:
             drift_details = f"Cognitive state error flags: {current_cognition.get('error_flags')}"
             severity = "Medium"
         logger.debug(f"[Governance] Compliance drift: {drift_details}")
-        return {"check": "ComplianceDrift", "status": "Passed" if compliant else "Failed", "compliant": compliant, "details": drift_details, "severity": severity}
+        return {
+    "check": "ComplianceDrift",
+    "status": "Passed" if compliant else "Failed",
+    "compliant": compliant,
+    "details": drift_details,
+     "severity": severity}
 
-    def _scan_for_future_risks(self, interaction_details: Dict[str, Any], current_cognition: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _scan_for_future_risks(self,
+    interaction_details: Dict[str,
+    Any],
+    current_cognition: Optional[Dict[str,
+    Any]]) -> Dict[str,
+     Any]:
         """
         Analyzes for emerging risk patterns.
         """
         potential_risks = []
         details = "No specific future risks identified (placeholder)."
-        if len(interaction_details.get("user_input", "")) > 1000: 
+        if len(interaction_details.get("user_input", "")) > 1000:
             potential_risks.append({
                 "type": "FutureRisk_NovelInteractionPattern",
                 "severity": "Low",
@@ -178,7 +215,11 @@ class GovernanceMonitor:
             })
             details = "Potential novel interaction: long input."
         logger.debug(f"[Governance] Future risk scan: {details}")
-        return {"check": "FutureRiskScanning", "status": "Completed", "potential_risks": potential_risks, "details": details}
+        return {
+    "check": "FutureRiskScanning",
+    "status": "Completed",
+    "potential_risks": potential_risks,
+     "details": details}
 
     def _log_governance_activity(self, report: Dict[str, Any]) -> None:
         """
@@ -197,17 +238,18 @@ class GovernanceMonitor:
         # Actual memory storage call commented out until MemoryType.GOVERNANCE_LOG is confirmed.
         # self.memory_manager.store(
         #     key=log_data["governance_report_id"],
-        #     data=report, 
-        #     memory_type="GOVERNANCE_LOG", 
+        #     data=report,
+        #     memory_type="GOVERNANCE_LOG",
         #     owner_id=self.Λ_lambda_identity.id,
         #     owner_id=self.lukhas_lambda_identity.id,
         #     related_to=[report.get("interaction_id")] if report.get("interaction_id") else []
         # )
-        logger.info(f"📜 Governance activity logged for {report.get('interaction_id', 'N/A')}. Compliance: {report.get('compliant')}")
+        logger.info(
+            f"📜 Governance activity logged for {report.get('interaction_id', 'N/A')}. Compliance: {report.get('compliant')}")
 
     def update_rules(self, new_rules: Dict[str, Any]):
         """
-        Dynamically updates governance rules (requires strict controls).
+        Dynamically updates governance rules(requires strict controls).
         """
         self.governance_rules = new_rules
         logger.info("Governance rules updated.")

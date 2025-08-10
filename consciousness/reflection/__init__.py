@@ -16,16 +16,6 @@
 """
 
 # Module imports
-from typing import Any, Dict, Optional
-
-from core.common import get_logger
-
-# Configure module logger
-logger = get_logger(__name__)
-
-# Module constants
-MODULE_VERSION = "1.0.0"
-MODULE_NAME = "consciousness reflection"
 
 from .lambda_mirror import (
     AlignmentScore,
@@ -36,6 +26,15 @@ from .lambda_mirror import (
     ReflectionEntry,
     ReflectionType,
 )
+from core.common import get_logger
+
+# Configure module logger
+logger = get_logger(__name__)
+
+# Module constants
+MODULE_VERSION = "1.0.0"
+MODULE_NAME = "consciousness reflection"
+
 
 __all__ = [
     "LambdaMirror",

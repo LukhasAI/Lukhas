@@ -13,6 +13,7 @@ from typing import Any, Dict, List, Optional
 @dataclass
 class MemoryItem:
     """Commercial memory item"""
+
     id: str
     content: Any
     type: str  # text, image, embedding, structured
@@ -21,24 +22,29 @@ class MemoryItem:
     timestamp: datetime
     importance: float = 0.5
 
+
 @dataclass
 class MemoryQuery:
     """Memory retrieval query"""
+
     query: str
     filters: Optional[Dict[str, Any]] = None
     limit: int = 10
     include_metadata: bool = True
     similarity_threshold: float = 0.7
 
+
 @dataclass
 class MemoryStore:
     """Memory storage request"""
+
     content: Any
     type: str
     tags: Optional[List[str]] = None
     metadata: Optional[Dict[str, Any]] = None
     importance: float = 0.5
     use_quantum_encoding: bool = False
+
 
 class MemoryServicesAPI:
     """
@@ -49,7 +55,7 @@ class MemoryServicesAPI:
     def __init__(self, storage_backend: str = "standard"):
         """
         Initialize Memory Services
-        
+
         Args:
             storage_backend: "standard", "enhanced", or "quantum"
         """
@@ -67,14 +73,17 @@ class MemoryServicesAPI:
         if self.storage_backend == "quantum":
             try:
                 from memory.core.quantum_memory_manager import MemoryManager
+
                 self._memory_manager = MemoryManager()
                 self._quantum_features = True
             except ImportError:
                 # Fallback to standard if quantum not available
                 from memory.core.base_manager import BaseMemoryManager
+
                 self._memory_manager = BaseMemoryManager()
         else:
             from memory.core.base_manager import BaseMemoryManager
+
             self._memory_manager = BaseMemoryManager()
 
         self._initialized = True
@@ -82,10 +91,10 @@ class MemoryServicesAPI:
     async def store(self, request: MemoryStore) -> str:
         """
         Store a memory item
-        
+
         Args:
             request: MemoryStore request with content and metadata
-            
+
         Returns:
             Memory ID for retrieval
         """
@@ -101,7 +110,7 @@ class MemoryServicesAPI:
             tags=request.tags or [],
             metadata=request.metadata or {},
             timestamp=datetime.utcnow(),
-            importance=request.importance
+            importance=request.importance,
         )
 
         # Store with appropriate encoding
@@ -115,10 +124,10 @@ class MemoryServicesAPI:
     async def retrieve(self, query: MemoryQuery) -> List[MemoryItem]:
         """
         Retrieve memories based on query
-        
+
         Args:
             query: MemoryQuery with search parameters
-            
+
         Returns:
             List of matching memory items
         """
@@ -129,7 +138,7 @@ class MemoryServicesAPI:
             query.query,
             filters=query.filters,
             limit=query.limit,
-            threshold=query.similarity_threshold
+            threshold=query.similarity_threshold,
         )
 
         # Filter metadata if not requested
@@ -142,11 +151,11 @@ class MemoryServicesAPI:
     async def update(self, memory_id: str, updates: Dict[str, Any]) -> bool:
         """
         Update an existing memory
-        
+
         Args:
             memory_id: ID of memory to update
             updates: Dictionary of updates
-            
+
         Returns:
             Success status
         """
@@ -159,12 +168,12 @@ class MemoryServicesAPI:
                 return False
 
             # Apply updates
-            if 'tags' in updates:
-                existing.tags = updates['tags']
-            if 'metadata' in updates:
-                existing.metadata.update(updates['metadata'])
-            if 'importance' in updates:
-                existing.importance = updates['importance']
+            if "tags" in updates:
+                existing.tags = updates["tags"]
+            if "metadata" in updates:
+                existing.metadata.update(updates["metadata"])
+            if "importance" in updates:
+                existing.importance = updates["importance"]
 
             # Save updated memory
             await self._update_memory(existing)
@@ -176,10 +185,10 @@ class MemoryServicesAPI:
     async def delete(self, memory_id: str) -> bool:
         """
         Delete a memory
-        
+
         Args:
             memory_id: ID of memory to delete
-            
+
         Returns:
             Success status
         """
@@ -193,30 +202,28 @@ class MemoryServicesAPI:
     async def get_stats(self) -> Dict[str, Any]:
         """
         Get memory service statistics
-        
+
         Returns:
             Statistics about memory usage
         """
         await self.initialize()
 
         return {
-            'total_memories': await self._count_memories(),
-            'storage_backend': self.storage_backend,
-            'quantum_features': self._quantum_features,
-            'memory_types': await self._get_type_distribution(),
-            'avg_importance': await self._get_avg_importance()
+            "total_memories": await self._count_memories(),
+            "storage_backend": self.storage_backend,
+            "quantum_features": self._quantum_features,
+            "memory_types": await self._get_type_distribution(),
+            "avg_importance": await self._get_avg_importance(),
         }
 
     # Internal methods
     async def _store_standard(self, item: MemoryItem):
         """Store using standard backend"""
         # Simplified - real implementation would use memory manager
-        pass
 
     async def _store_quantum(self, item: MemoryItem):
         """Store using quantum encoding"""
         # Simplified - real implementation would use quantum features
-        pass
 
     async def _search_memories(self, query: str, **kwargs) -> List[MemoryItem]:
         """Search memories"""
@@ -230,7 +237,6 @@ class MemoryServicesAPI:
 
     async def _update_memory(self, item: MemoryItem):
         """Update memory in storage"""
-        pass
 
     async def _delete_memory(self, memory_id: str) -> bool:
         """Delete memory from storage"""
@@ -266,7 +272,7 @@ async def example_memory_usage():
         type="text",
         tags=["meeting", "architecture", "team"],
         metadata={"participants": ["Alice", "Bob"], "duration": 60},
-        importance=0.8
+        importance=0.8,
     )
 
     memory_id = await memory_api.store(text_memory)
@@ -277,7 +283,7 @@ async def example_memory_usage():
         content=[0.1, 0.2, 0.3, 0.4],  # Simplified embedding
         type="embedding",
         tags=["vector", "semantic"],
-        use_quantum_encoding=True  # Premium feature
+        use_quantum_encoding=True,  # Premium feature
     )
 
     embedding_id = await memory_api.store(embedding_memory)
@@ -285,9 +291,7 @@ async def example_memory_usage():
 
     # Search memories
     search_query = MemoryQuery(
-        query="architecture meeting",
-        filters={"tags": "meeting"},
-        limit=5
+        query="architecture meeting", filters={"tags": "meeting"}, limit=5
     )
 
     results = await memory_api.retrieve(search_query)
@@ -295,8 +299,7 @@ async def example_memory_usage():
 
     # Update memory
     success = await memory_api.update(
-        memory_id,
-        {"metadata": {"summary": "Discussed modular design"}}
+        memory_id, {"metadata": {"summary": "Discussed modular design"}}
     )
     print(f"Update success: {success}")
 

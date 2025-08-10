@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -40,12 +42,13 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from core.common import LukhasError
 import json
 import os
 import re  # Add re for regex operations in extract_insights
 import uuid
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 # Import memory components
 # TODO: Resolve import paths if these files are moved or structure changes.
@@ -58,17 +61,15 @@ from .trauma_lock import (
 # from AID.core.lambda_id import ID, AccessTier  # TODO: Install or implement AID
 # from AID.core.memory_identity import MemoryIdentityIntegration, MemoryAccessPolicy  # TODO: Install or implement AID
 # Assuming dream_reflection_loop is in CORE/dream_engine
-# from consciousness.core_consciousness.dream_engine.dream_reflection_loop import DreamReflectionLoop # Removed DREAM_CLUSTERING_AVAILABLE as it's not used directly here  # Removed to break circular dependency
+# from consciousness.core_consciousness.dream_engine.dream_reflection_loop
+# import DreamReflectionLoop # Removed DREAM_CLUSTERING_AVAILABLE as it's
+# not used directly here  # Removed to break circular dependency
 
 logger = logging.getLogger("v1_AGI.memory")
-
-from core.common import LukhasError
 
 
 class MemoryAccessError(LukhasError):
     """Exception raised for memory access permission errors."""
-
-    pass
 
 
 class MemoryManager:
@@ -147,7 +148,7 @@ class MemoryManager:
             MemoryPriority.HIGH: AccessTier.TIER_2,
         }
 
-    def process_dream_cycle(self) -> Dict[str, Any]:
+    def process_dream_cycle(self) -> dict[str, Any]:
         """
         Process memories through dream reflection cycle to identify patterns
         and generate new insights. Integrated from OXN dream engine.
@@ -166,7 +167,7 @@ class MemoryManager:
 
         try:
             # Get recent memories for processing
-            recent_memories = self._get_recent_memories()
+            self._get_recent_memories()
 
             # Process through dream reflection
             patterns = self.dream_reflection.recognize_patterns()
@@ -201,7 +202,7 @@ class MemoryManager:
             logger.error(f"Error in dream cycle: {str(e)}")
             return {"status": "error", "error": str(e)}
 
-    def _get_recent_memories(self, days: int = 7) -> List[Dict[str, Any]]:
+    def _get_recent_memories(self, days: int = 7) -> list[dict[str, Any]]:
         """Get memories from the last N days for dream processing"""
         cutoff = datetime.now() - timedelta(days=days)
         recent_memories = []
@@ -224,11 +225,11 @@ class MemoryManager:
         self,
         key: str,
         data: Any,
-        metadata: Dict[str, Any] = None,
+        metadata: dict[str, Any] = None,
         memory_type: Union[MemoryType, str] = MemoryType.SEMANTIC,
         priority: Union[MemoryPriority, int] = MemoryPriority.MEDIUM,
         owner_id: Optional[str] = None,
-        tags: List[str] = None,
+        tags: list[str] = None,
         access_policy: Optional[MemoryAccessPolicy] = None,
     ) -> bool:
         """
@@ -354,7 +355,7 @@ class MemoryManager:
 
     def retrieve(
         self, key: str, user_identity: Optional[ID] = None
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Optional[dict[str, Any]]:
         """
         Retrieve data from memory with identity verification.
 
@@ -503,8 +504,8 @@ class MemoryManager:
         return True
 
     def batch_forget(
-        self, keys: List[str], user_identity: Optional[ID] = None
-    ) -> Dict[str, bool]:
+        self, keys: list[str], user_identity: Optional[ID] = None
+    ) -> dict[str, bool]:
         """
         Remove multiple memories at once.
 
@@ -524,7 +525,7 @@ class MemoryManager:
 
     def extract_user_insights(
         self, user_id: str, user_identity: Optional[ID] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Extract insights and patterns from a specific user's memories.
         Adapted from prot1/memory_manager.py and enhanced for prot2.
@@ -704,7 +705,7 @@ class MemoryManager:
 
     def get_interaction_history(
         self, memory_type_filter: str = "CONTEXT", owner_id_filter: Optional[str] = None
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Retrieve a history of interactions or specific memory types, optionally filtered by owner.
         Args:
@@ -725,7 +726,8 @@ class MemoryManager:
                 # If interaction logs are encrypted and require specific identity to decrypt,
                 # this method might need to use self.retrieve(key, system_identity) for each,
                 # or ensure logs are stored in a way that system can access directly.
-                # For now, assuming logs are accessible or decryption is not an issue here.
+                # For now, assuming logs are accessible or decryption is not an issue
+                # here.
                 memory_content = self._load_memory(key)
                 if memory_content:
                     # Check if memory is marked as forgotten
@@ -756,7 +758,7 @@ class MemoryManager:
 
         return history
 
-    def _persist_memory(self, key: str, memory: Dict[str, Any]):
+    def _persist_memory(self, key: str, memory: dict[str, Any]):
         """
         Persist memory data to disk (storage implementation).
 
@@ -778,7 +780,7 @@ class MemoryManager:
         except Exception as e:
             logger.error(f"Failed to persist memory to disk: {str(e)}")
 
-    def _load_memory(self, key: str) -> Optional[Dict[str, Any]]:
+    def _load_memory(self, key: str) -> Optional[dict[str, Any]]:
         """
         Load memory data from disk (storage implementation).
 

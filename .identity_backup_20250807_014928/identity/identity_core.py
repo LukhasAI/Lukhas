@@ -25,6 +25,7 @@ class AccessTier(Enum):
     Hierarchical access tiers for LUKHΛS system.
     Each tier inherits permissions from lower tiers.
     """
+
     T1 = "T1"  # Basic - Public viewing only
     T2 = "T2"  # Creator - Content creation + API access
     T3 = "T3"  # Advanced - Consciousness, emotion, dream modules
@@ -40,11 +41,11 @@ class IdentityCore:
 
     # Symbolic glyph mappings for each tier
     TIER_GLYPHS = {
-        AccessTier.T1: ["⚛️"],                      # Identity only
-        AccessTier.T2: ["⚛️", "✨"],                # Identity + Creation
-        AccessTier.T3: ["⚛️", "🧠", "💭"],         # Identity + Consciousness + Dream
-        AccessTier.T4: ["⚛️", "🧠", "💭", "🔮"],   # + Quantum
-        AccessTier.T5: ["⚛️", "🧠", "💭", "🔮", "🛡️"]  # + Guardian
+        AccessTier.T1: ["⚛️"],  # Identity only
+        AccessTier.T2: ["⚛️", "✨"],  # Identity + Creation
+        AccessTier.T3: ["⚛️", "🧠", "💭"],  # Identity + Consciousness + Dream
+        AccessTier.T4: ["⚛️", "🧠", "💭", "🔮"],  # + Quantum
+        AccessTier.T5: ["⚛️", "🧠", "💭", "🔮", "🛡️"],  # + Guardian
     }
 
     # Permission matrix for each tier
@@ -58,7 +59,7 @@ class IdentityCore:
             "can_use_dream": False,
             "can_use_quantum": False,
             "can_access_guardian": False,
-            "can_admin": False
+            "can_admin": False,
         },
         AccessTier.T2: {
             "can_view_public": True,
@@ -69,7 +70,7 @@ class IdentityCore:
             "can_use_dream": False,
             "can_use_quantum": False,
             "can_access_guardian": False,
-            "can_admin": False
+            "can_admin": False,
         },
         AccessTier.T3: {
             "can_view_public": True,
@@ -80,7 +81,7 @@ class IdentityCore:
             "can_use_dream": True,
             "can_use_quantum": False,
             "can_access_guardian": False,
-            "can_admin": False
+            "can_admin": False,
         },
         AccessTier.T4: {
             "can_view_public": True,
@@ -91,7 +92,7 @@ class IdentityCore:
             "can_use_dream": True,
             "can_use_quantum": True,
             "can_access_guardian": False,
-            "can_admin": False
+            "can_admin": False,
         },
         AccessTier.T5: {
             "can_view_public": True,
@@ -102,14 +103,14 @@ class IdentityCore:
             "can_use_dream": True,
             "can_use_quantum": True,
             "can_access_guardian": True,
-            "can_admin": True
-        }
+            "can_admin": True,
+        },
     }
 
     def __init__(self, data_dir: str = "data"):
         """
         Initialize the identity core system.
-        
+
         Args:
             data_dir: Directory for storing identity data
         """
@@ -124,20 +125,24 @@ class IdentityCore:
         # TODO: Connect to consciousness module for awareness tracking
         # TODO: Implement distributed token storage for production
 
-    def validate_symbolic_token(self, token: str) -> Tuple[bool, Optional[Dict[str, Any]]]:
+    def validate_symbolic_token(
+        self, token: str
+    ) -> Tuple[bool, Optional[Dict[str, Any]]]:
         """
         Validate a symbolic authentication token.
-        
+
         Args:
             token: The token to validate (format: LUKHAS-TIER-RANDOM)
-            
+
         Returns:
             Tuple of (is_valid, user_metadata)
         """
         try:
             # Basic token format validation
             if not token or not token.startswith("LUKHAS-"):
-                logger.warning(f"Invalid token format: {token[:20] if token else 'None'}")
+                logger.warning(
+                    f"Invalid token format: {token[:20] if token else 'None'}"
+                )
                 return False, None
 
             # Parse token structure
@@ -181,13 +186,15 @@ class IdentityCore:
             # TODO: Log to security audit trail
             return False, None
 
-    def resolve_access_tier(self, user_metadata: Dict[str, Any]) -> Tuple[AccessTier, Dict[str, bool]]:
+    def resolve_access_tier(
+        self, user_metadata: Dict[str, Any]
+    ) -> Tuple[AccessTier, Dict[str, bool]]:
         """
         Resolve user's access tier and permissions from metadata.
-        
+
         Args:
             user_metadata: User metadata containing tier and attributes
-            
+
         Returns:
             Tuple of (AccessTier, permissions_dict)
         """
@@ -207,7 +214,9 @@ class IdentityCore:
             if "trinity_score" in user_metadata:
                 trinity_score = user_metadata["trinity_score"]
                 if trinity_score >= 0.9 and tier.value < "T4":
-                    logger.info(f"Elevating tier based on trinity score: {trinity_score}")
+                    logger.info(
+                        f"Elevating tier based on trinity score: {trinity_score}"
+                    )
                     # TODO: Requires Guardian approval for production
                     pass
 
@@ -220,17 +229,21 @@ class IdentityCore:
                     # TODO: Alert Guardian system
 
             # Get base permissions for tier
-            permissions = self.TIER_PERMISSIONS.get(tier, self.TIER_PERMISSIONS[AccessTier.T1]).copy()
+            permissions = self.TIER_PERMISSIONS.get(
+                tier, self.TIER_PERMISSIONS[AccessTier.T1]
+            ).copy()
 
             # Apply conditional permissions
             if "consent" in user_metadata and not user_metadata["consent"]:
                 # Restrict permissions without consent
-                permissions.update({
-                    "can_create_content": False,
-                    "can_use_consciousness": False,
-                    "can_use_emotion": False,
-                    "can_use_dream": False
-                })
+                permissions.update(
+                    {
+                        "can_create_content": False,
+                        "can_use_consciousness": False,
+                        "can_use_emotion": False,
+                        "can_use_dream": False,
+                    }
+                )
                 logger.info("Permissions restricted due to lack of consent")
 
             # Apply cultural adjustments
@@ -247,14 +260,16 @@ class IdentityCore:
             # Default to minimum access on error
             return AccessTier.T1, self.TIER_PERMISSIONS[AccessTier.T1]
 
-    def generate_identity_glyph(self, seed: str, entropy: Optional[bytes] = None) -> List[str]:
+    def generate_identity_glyph(
+        self, seed: str, entropy: Optional[bytes] = None
+    ) -> List[str]:
         """
         Generate symbolic identity glyphs based on seed and entropy.
-        
+
         Args:
             seed: Base seed for glyph generation (e.g., email, user_id)
             entropy: Optional entropy bytes for additional randomness
-            
+
         Returns:
             List of symbolic glyphs representing identity
         """
@@ -273,17 +288,35 @@ class IdentityCore:
             # Extended glyph palette for identity generation
             glyph_palette = [
                 # Core Trinity
-                "⚛️", "🧠", "🛡️",
+                "⚛️",
+                "🧠",
+                "🛡️",
                 # Consciousness states
-                "💭", "🔮", "✨", "🌟", "💫",
+                "💭",
+                "🔮",
+                "✨",
+                "🌟",
+                "💫",
                 # Quantum states
-                "🌀", "♾️", "🔄", "⚡",
+                "🌀",
+                "♾️",
+                "🔄",
+                "⚡",
                 # Emotion markers
-                "💜", "🔥", "❄️", "🌊",
+                "💜",
+                "🔥",
+                "❄️",
+                "🌊",
                 # Guardian symbols
-                "🔒", "🔓", "🗝️", "⚖️",
+                "🔒",
+                "🔓",
+                "🗝️",
+                "⚖️",
                 # Dream symbols
-                "🌙", "☁️", "🎭", "🦋"
+                "🌙",
+                "☁️",
+                "🎭",
+                "🦋",
             ]
 
             # Generate glyph indices from hash
@@ -315,15 +348,17 @@ class IdentityCore:
             # Return basic identity glyph on error
             return ["⚛️"]
 
-    def create_token(self, user_id: str, tier: AccessTier, metadata: Dict[str, Any]) -> str:
+    def create_token(
+        self, user_id: str, tier: AccessTier, metadata: Dict[str, Any]
+    ) -> str:
         """
         Create a new authentication token for a user.
-        
+
         Args:
             user_id: Unique user identifier
             tier: Access tier for the user
             metadata: Additional user metadata
-            
+
         Returns:
             Generated token string
         """
@@ -337,8 +372,10 @@ class IdentityCore:
                 "user_id": user_id,
                 "tier": tier.value,
                 "created_at": datetime.now(timezone.utc).isoformat(),
-                "expires_at": (datetime.now(timezone.utc) + timedelta(hours=24)).isoformat(),
-                **metadata
+                "expires_at": (
+                    datetime.now(timezone.utc) + timedelta(hours=24)
+                ).isoformat(),
+                **metadata,
             }
 
             # Generate and attach glyphs
@@ -362,10 +399,10 @@ class IdentityCore:
     def revoke_token(self, token: str) -> bool:
         """
         Revoke an authentication token.
-        
+
         Args:
             token: Token to revoke
-            
+
         Returns:
             True if revoked successfully
         """
@@ -386,10 +423,10 @@ class IdentityCore:
     def _validate_symbolic_integrity(self, metadata: Dict[str, Any]) -> bool:
         """
         Validate symbolic integrity of user metadata.
-        
+
         Args:
             metadata: User metadata to validate
-            
+
         Returns:
             True if integrity is valid
         """
@@ -438,10 +475,12 @@ class IdentityCore:
                 "email": "reviewer@openai.com",
                 "glyphs": ["⚛️", "🧠", "💭", "🔮", "🛡️"],
                 "created_at": datetime.now(timezone.utc).isoformat(),
-                "expires_at": (datetime.now(timezone.utc) + timedelta(days=30)).isoformat(),
+                "expires_at": (
+                    datetime.now(timezone.utc) + timedelta(days=30)
+                ).isoformat(),
                 "trinity_score": 1.0,
                 "drift_score": 0.0,
-                "consent": True
+                "consent": True,
             }
             self._save_token_store()
 
@@ -449,7 +488,7 @@ class IdentityCore:
         """Save token store to disk."""
         token_file = self.data_dir / "tokens.json"
         try:
-            with open(token_file, 'w') as f:
+            with open(token_file, "w") as f:
                 json.dump(self._token_store, f, indent=2)
             # TODO: Encrypt token store in production
         except Exception as e:
@@ -459,14 +498,19 @@ class IdentityCore:
 # Global instance for easy access
 identity_core = IdentityCore()
 
+
 # Convenience functions for backward compatibility
 def validate_symbolic_token(token: str) -> Tuple[bool, Optional[Dict[str, Any]]]:
     """Validate a symbolic authentication token."""
     return identity_core.validate_symbolic_token(token)
 
-def resolve_access_tier(user_metadata: Dict[str, Any]) -> Tuple[AccessTier, Dict[str, bool]]:
+
+def resolve_access_tier(
+    user_metadata: Dict[str, Any],
+) -> Tuple[AccessTier, Dict[str, bool]]:
     """Resolve user's access tier and permissions."""
     return identity_core.resolve_access_tier(user_metadata)
+
 
 def generate_identity_glyph(seed: str, entropy: Optional[bytes] = None) -> List[str]:
     """Generate symbolic identity glyphs."""

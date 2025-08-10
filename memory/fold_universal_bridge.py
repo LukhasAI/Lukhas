@@ -30,10 +30,11 @@
 ║ Symbolic Tags: {ΛBRIDGE}, {ΛMEMORY}, {ΛINTEGRATION}, {ΛUNIVERSAL}
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 # Core memory systems
 from memory.core import MemoryFoldSystem
@@ -134,7 +135,7 @@ class BridgeConfiguration:
     narrative_synthesis_interval: timedelta = timedelta(hours=6)
 
     # MATADA node mapping
-    matada_node_types: Dict[str, str] = field(
+    matada_node_types: dict[str, str] = field(
         default_factory=lambda: {
             "joy": "EMOTION_JOY",
             "sadness": "EMOTION_SAD",
@@ -169,8 +170,8 @@ class MemoryFoldUniversalBridge:
         self._init_subsystems()
 
         # Bridge state
-        self.active_bridges: Set[str] = set()
-        self.bridge_metrics: Dict[str, Dict[str, Any]] = {}
+        self.active_bridges: set[str] = set()
+        self.bridge_metrics: dict[str, dict[str, Any]] = {}
         self.last_narrative_synthesis = datetime.utcnow()
 
         logger.info("Memory Fold Universal Bridge initialized")
@@ -225,8 +226,8 @@ class MemoryFoldUniversalBridge:
         emotion: str,
         context: str,
         user_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Create a memory fold with full system integration.
 
@@ -311,7 +312,7 @@ class MemoryFoldUniversalBridge:
 
     async def bridge_dream_to_memory(
         self, dream_snapshot: DreamSnapshot
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Bridge a dream snapshot into the main memory system.
 
@@ -360,7 +361,7 @@ class MemoryFoldUniversalBridge:
 
     async def _integrate_consciousness(
         self, emotion: str, context: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Integrate with consciousness systems for reflection."""
         try:
             # Generate ΛMIRROR reflection
@@ -386,7 +387,7 @@ class MemoryFoldUniversalBridge:
             logger.error(f"Consciousness integration failed: {e}")
             return {"error": str(e)}
 
-    async def _integrate_bio_simulation(self, emotion: str) -> Dict[str, Any]:
+    async def _integrate_bio_simulation(self, emotion: str) -> dict[str, Any]:
         """Integrate with bio-simulation for hormonal context."""
         try:
             # Get current hormonal state
@@ -417,8 +418,8 @@ class MemoryFoldUniversalBridge:
             return {"error": str(e)}
 
     async def _integrate_quantum(
-        self, memory_fold: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, memory_fold: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Create entanglement-like correlations with similar memories."""
         try:
             # Find emotionally similar memories
@@ -448,7 +449,7 @@ class MemoryFoldUniversalBridge:
 
     async def _integrate_ethics_pre_creation(
         self, emotion: str, context: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Run ethical review before memory creation."""
         try:
             # Check for potentially harmful content
@@ -468,7 +469,7 @@ class MemoryFoldUniversalBridge:
             logger.error(f"Ethics integration failed: {e}")
             return {"approved": True, "error": str(e)}  # Fail open for now
 
-    async def _integrate_identity(self, user_id: Optional[str]) -> Dict[str, Any]:
+    async def _integrate_identity(self, user_id: Optional[str]) -> dict[str, Any]:
         """Integrate with identity system for tier validation."""
         try:
             if not user_id:
@@ -486,8 +487,8 @@ class MemoryFoldUniversalBridge:
             return {"tier": 0, "error": str(e)}
 
     async def _integrate_echo_detection(
-        self, memory_fold: Dict[str, Any], user_id: Optional[str]
-    ) -> Dict[str, Any]:
+        self, memory_fold: dict[str, Any], user_id: Optional[str]
+    ) -> dict[str, Any]:
         """Check for emotional echo loops."""
         try:
             # Get recent memories
@@ -517,8 +518,8 @@ class MemoryFoldUniversalBridge:
             return {"error": str(e)}
 
     async def _integrate_orchestration(
-        self, memory_fold: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, memory_fold: dict[str, Any]
+    ) -> dict[str, Any]:
         """Notify orchestration system of new memory."""
         try:
             # Create orchestration event
@@ -541,7 +542,7 @@ class MemoryFoldUniversalBridge:
             logger.error(f"Orchestration integration failed: {e}")
             return {"error": str(e)}
 
-    async def synthesize_memory_narrative(self) -> Dict[str, Any]:
+    async def synthesize_memory_narrative(self) -> dict[str, Any]:
         """
         Use the symbolic weaver to create narrative from recent memories.
 
@@ -589,7 +590,7 @@ class MemoryFoldUniversalBridge:
             logger.error(f"Narrative synthesis failed: {e}")
             return {"error": str(e)}
 
-    async def create_matada_node(self, memory_fold: Dict[str, Any]) -> Dict[str, Any]:
+    async def create_matada_node(self, memory_fold: dict[str, Any]) -> dict[str, Any]:
         """
         Map a memory fold to a MATADA cognitive DNA node.
 
@@ -691,11 +692,11 @@ class MemoryFoldUniversalBridge:
                 if start <= hour < end:
                     return phase
             return "deep_sleep"
-        except:
+        except BaseException:
             return "unknown"
 
     async def _create_dream_quantum_bridge(
-        self, memory_fold: Dict[str, Any], dream_snapshot: DreamSnapshot
+        self, memory_fold: dict[str, Any], dream_snapshot: DreamSnapshot
     ):
         """Create special quantum bridge between dream and memory."""
         try:
@@ -711,7 +712,7 @@ class MemoryFoldUniversalBridge:
         except Exception as e:
             logger.error(f"Dream quantum bridge failed: {e}")
 
-    def _calculate_memory_priority(self, memory_fold: Dict[str, Any]) -> float:
+    def _calculate_memory_priority(self, memory_fold: dict[str, Any]) -> float:
         """Calculate priority for orchestration system."""
         base_priority = memory_fold.get("relevance_score", 0.5)
 
@@ -722,8 +723,8 @@ class MemoryFoldUniversalBridge:
         return min(1.0, base_priority * emotion_boost)
 
     def _group_memories_by_emotion(
-        self, memories: List[Dict[str, Any]]
-    ) -> Dict[str, List[Dict[str, Any]]]:
+        self, memories: list[dict[str, Any]]
+    ) -> dict[str, list[dict[str, Any]]]:
         """Group memories by emotional themes for narrative."""
         groups = {}
 
@@ -735,7 +736,7 @@ class MemoryFoldUniversalBridge:
 
         return groups
 
-    def _update_metrics(self, operation: str, results: Dict[str, Any]):
+    def _update_metrics(self, operation: str, results: dict[str, Any]):
         """Update bridge metrics for monitoring."""
         if operation not in self.bridge_metrics:
             self.bridge_metrics[operation] = {
@@ -760,7 +761,7 @@ class MemoryFoldUniversalBridge:
                 metrics["successes"] += 1
                 metrics["integrations"][bridge]["success"] += 1
 
-    async def get_bridge_status(self) -> Dict[str, Any]:
+    async def get_bridge_status(self) -> dict[str, Any]:
         """Get comprehensive status of all bridge connections."""
         status = {
             "active_bridges": list(self.active_bridges),
@@ -797,7 +798,7 @@ class MemoryFoldUniversalBridge:
 
 async def create_universal_memory(
     emotion: str, context: str, user_id: Optional[str] = None
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Convenience function to create a memory with full universal integration.
 
@@ -810,7 +811,7 @@ async def create_universal_memory(
     return await bridge.create_integrated_memory(emotion, context, user_id)
 
 
-async def bridge_dream_snapshot(dream_snapshot: DreamSnapshot) -> Dict[str, Any]:
+async def bridge_dream_snapshot(dream_snapshot: DreamSnapshot) -> dict[str, Any]:
     """Convenience function to bridge a dream into memory system."""
     bridge = await get_universal_bridge()
     return await bridge.bridge_dream_to_memory(dream_snapshot)
@@ -835,7 +836,7 @@ async def get_universal_bridge() -> MemoryFoldUniversalBridge:
             from memory.systems.dream_memory_fold import DreamMemoryFold
 
             dream_system = DreamMemoryFold()
-        except:
+        except BaseException:
             dream_system = None
 
         _universal_bridge = MemoryFoldUniversalBridge(

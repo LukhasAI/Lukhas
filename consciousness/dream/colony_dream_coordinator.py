@@ -45,13 +45,14 @@ allowing for:
 ΛTODO: Add colony load balancing for optimal dream distribution
 AIDEA: Implement colony evolution tracking for dream processing capabilities
 """
+import logging
 
 import asyncio
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import colony and orchestration systems
 try:
@@ -60,10 +61,6 @@ try:
         ColonyPriority,
         ColonyTask,
         ColonyType,
-    )
-
-    from .pwm_cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.quantum_identity_manager import (
-        QuantumUserContext,
     )
 
     COLONY_SYSTEM_AVAILABLE = True
@@ -93,7 +90,7 @@ except ImportError as e:
 
 # Import swarm systems
 try:
-    from core.swarm import AgentColony, SwarmHub
+    from core.swarm import SwarmHub
 
     SWARM_SYSTEM_AVAILABLE = True
 except ImportError as e:
@@ -115,7 +112,6 @@ except ImportError as e:
 try:
     from orchestration.symbolic_kernel_bus import (
         get_global_event_bus,
-        kernel_bus,
     )
 
     EVENT_BUS_AVAILABLE = True
@@ -155,8 +151,8 @@ class ColonyDreamTask:
     task_id: str
     dream_id: str
     task_type: DreamTaskType
-    dream_data: Dict[str, Any]
-    target_colonies: List[str] = field(default_factory=list)
+    dream_data: dict[str, Any]
+    target_colonies: list[str] = field(default_factory=list)
     distribution_strategy: DreamDistributionStrategy = (
         DreamDistributionStrategy.SPECIALIZED
     )
@@ -164,7 +160,7 @@ class ColonyDreamTask:
     user_context: Optional[Any] = None
     consensus_threshold: float = 0.67
     timeout_seconds: int = 300
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
@@ -174,10 +170,10 @@ class ColonyDreamResult:
 
     task_id: str
     dream_id: str
-    colony_results: List[Dict[str, Any]] = field(default_factory=list)
+    colony_results: list[dict[str, Any]] = field(default_factory=list)
     consensus_achieved: bool = False
     consensus_confidence: float = 0.0
-    synthesis_result: Dict[str, Any] = field(default_factory=dict)
+    synthesis_result: dict[str, Any] = field(default_factory=dict)
     processing_time_seconds: float = 0.0
     success: bool = True
     error: Optional[str] = None
@@ -226,9 +222,9 @@ class ColonyDreamCoordinator:
         self.event_bus = None
 
         # Task tracking
-        self.active_tasks: Dict[str, ColonyDreamTask] = {}
-        self.completed_tasks: List[ColonyDreamResult] = []
-        self.failed_tasks: List[ColonyDreamResult] = []
+        self.active_tasks: dict[str, ColonyDreamTask] = {}
+        self.completed_tasks: list[ColonyDreamResult] = []
+        self.failed_tasks: list[ColonyDreamResult] = []
 
         # Colony specialization mapping
         self.colony_specializations = {
@@ -313,8 +309,8 @@ class ColonyDreamCoordinator:
     async def process_dream_with_colonies(
         self,
         dream_id: str,
-        dream_data: Dict[str, Any],
-        task_types: List[DreamTaskType],
+        dream_data: dict[str, Any],
+        task_types: list[DreamTaskType],
         distribution_strategy: DreamDistributionStrategy = DreamDistributionStrategy.SPECIALIZED,
         user_context: Optional[Any] = None,
     ) -> ColonyDreamResult:
@@ -400,7 +396,7 @@ class ColonyDreamCoordinator:
             return error_result
 
     async def _execute_specialized_dream_tasks(
-        self, tasks: List[ColonyDreamTask]
+        self, tasks: list[ColonyDreamTask]
     ) -> ColonyDreamResult:
         """Execute dream tasks using specialized colony routing"""
         start_time = asyncio.get_event_loop().time()
@@ -446,7 +442,7 @@ class ColonyDreamCoordinator:
             )
 
     async def _execute_parallel_dream_tasks(
-        self, tasks: List[ColonyDreamTask]
+        self, tasks: list[ColonyDreamTask]
     ) -> ColonyDreamResult:
         """Execute all dream tasks in parallel across colonies"""
         start_time = asyncio.get_event_loop().time()
@@ -506,7 +502,7 @@ class ColonyDreamCoordinator:
             )
 
     async def _execute_swarm_consensus_dream_tasks(
-        self, tasks: List[ColonyDreamTask]
+        self, tasks: list[ColonyDreamTask]
     ) -> ColonyDreamResult:
         """Execute dream tasks using swarm consensus mechanisms"""
         start_time = asyncio.get_event_loop().time()
@@ -557,7 +553,7 @@ class ColonyDreamCoordinator:
             )
 
     async def _execute_sequential_dream_tasks(
-        self, tasks: List[ColonyDreamTask]
+        self, tasks: list[ColonyDreamTask]
     ) -> ColonyDreamResult:
         """Execute dream tasks sequentially through colonies"""
         start_time = asyncio.get_event_loop().time()
@@ -622,7 +618,7 @@ class ColonyDreamCoordinator:
 
     async def _execute_single_colony_task(
         self, task: ColonyDreamTask, colony_type: ColonyType
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute a single dream task on a specific colony type"""
         try:
             if not COLONY_SYSTEM_AVAILABLE or not self.colony_orchestrator:
@@ -672,8 +668,8 @@ class ColonyDreamCoordinator:
             }
 
     async def _synthesize_colony_results(
-        self, colony_results: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, colony_results: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Synthesize results from multiple colony executions"""
         try:
             successful_results = [r for r in colony_results if r.get("success", False)]
@@ -732,7 +728,7 @@ class ColonyDreamCoordinator:
                 "total_results": len(colony_results),
             }
 
-    def _synthesize_insights(self, all_insights: List[Dict]) -> Dict[str, Any]:
+    def _synthesize_insights(self, all_insights: list[dict]) -> dict[str, Any]:
         """Synthesize insights from multiple colonies"""
         if not all_insights:
             return {"message": "no_insights_to_synthesize"}
@@ -770,8 +766,8 @@ class ColonyDreamCoordinator:
         }
 
     def _calculate_synthesis_consensus(
-        self, successful_results: List[Dict]
-    ) -> Dict[str, Any]:
+        self, successful_results: list[dict]
+    ) -> dict[str, Any]:
         """Calculate consensus metrics across colony results"""
         if not successful_results:
             return {"overall_confidence": 0.0}
@@ -803,8 +799,8 @@ class ColonyDreamCoordinator:
         }
 
     async def _apply_swarm_consensus(
-        self, colony_results: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, colony_results: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Apply swarm consensus algorithm to colony results"""
         try:
             # Extract decisions/insights from each colony
@@ -888,8 +884,8 @@ class ColonyDreamCoordinator:
             }
 
     async def integrate_with_multiverse_dreams(
-        self, dream_seed: Dict[str, Any], parallel_paths: int = 5
-    ) -> Dict[str, Any]:
+        self, dream_seed: dict[str, Any], parallel_paths: int = 5
+    ) -> dict[str, Any]:
         """
         Integrate colony processing with multiverse dream scaling
 
@@ -977,8 +973,8 @@ class ColonyDreamCoordinator:
             }
 
     async def _synthesize_multiverse_colony_results(
-        self, multiverse_result: Dict[str, Any], colony_results: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, multiverse_result: dict[str, Any], colony_results: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Synthesize results from both multiverse and colony processing"""
         try:
             # Extract convergent insights from multiverse
@@ -1027,9 +1023,9 @@ class ColonyDreamCoordinator:
 
     def _cross_validate_insights(
         self,
-        multiverse_insights: Dict[str, Any],
-        colony_syntheses: List[Dict[str, Any]],
-    ) -> List[Dict[str, Any]]:
+        multiverse_insights: dict[str, Any],
+        colony_syntheses: list[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
         """Cross-validate insights between multiverse and colony processing"""
         cross_validated = []
 
@@ -1113,7 +1109,7 @@ class ColonyDreamCoordinator:
         """Handle swarm consensus events"""
         self.logger.info(f"Swarm consensus event: {event.payload}")
 
-    def get_coordinator_status(self) -> Dict[str, Any]:
+    def get_coordinator_status(self) -> dict[str, Any]:
         """Get comprehensive status of the colony dream coordinator"""
         return {
             "coordinator_status": "operational",

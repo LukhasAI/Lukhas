@@ -32,7 +32,7 @@ import struct
 from collections.abc import Iterable
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import msgpack
 import zstandard as zstd
@@ -47,12 +47,12 @@ STREAMING_COMPRESSION_LEVEL = 1  # Fast compression for streaming
 
 
 def export_folds(
-    folds: Iterable[Dict[str, Any]],
+    folds: Iterable[dict[str, Any]],
     path: Path,
     codec: str = DEFAULT_CODEC,
     compression_level: Optional[int] = None,
-    metadata: Optional[Dict[str, Any]] = None,
-) -> Dict[str, Any]:
+    metadata: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
     """
     Export memory folds to LKF-Pack v1 format.
 
@@ -136,9 +136,8 @@ def export_folds(
             compressed.extend(data)
 
     # Flush compression stream
-    if compressor:
-        if codec == "zstd" or codec == "lzma":
-            compressed.extend(compressor.flush())
+    if compressor and (codec == "zstd" or codec == "lzma"):
+        compressed.extend(compressor.flush())
 
     # Calculate CRC32
     header["crc32"] = binascii.crc32(compressed) & 0xFFFFFFFF
@@ -191,12 +190,12 @@ def export_folds(
 
 
 def export_folds_streaming(
-    folds: Iterable[Dict[str, Any]],
+    folds: Iterable[dict[str, Any]],
     output_stream,
     codec: str = DEFAULT_CODEC,
     compression_level: int = STREAMING_COMPRESSION_LEVEL,
     chunk_size: int = 1024 * 1024,  # 1MB chunks
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Export memory folds to a stream (for Kafka, SQS, etc).
 
@@ -222,7 +221,7 @@ def export_folds_streaming(
 
 
 def create_fold_bundle(
-    folds: Iterable[Dict[str, Any]],
+    folds: Iterable[dict[str, Any]],
     bundle_name: str,
     output_dir: Path,
     include_metadata: bool = True,
@@ -253,7 +252,7 @@ def create_fold_bundle(
             "purpose": "memory_backup",
         }
 
-    stats = export_folds(folds, output_path, metadata=metadata)
+    export_folds(folds, output_path, metadata=metadata)
 
     return output_path
 

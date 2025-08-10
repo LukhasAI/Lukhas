@@ -5,7 +5,7 @@
 
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -17,18 +17,18 @@ class CollapseTrace:
     A class to trace and log memory collapse events.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.collapse_log: List[Dict[str, Any]] = []
+        self.collapse_log: list[dict[str, Any]] = []
         logger.info("CollapseTrace initialized. config=%s", self.config)
 
     # ΛCOLLAPSE_HOOK
     def log_collapse(
         self,
-        source_keys: List[str],
+        source_keys: list[str],
         resulting_key: str,
         collapse_type: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> None:
         """
         Logs a memory collapse event.
@@ -51,7 +51,7 @@ class CollapseTrace:
         self.collapse_log.append(event)
         logger.info("Memory collapse logged.", **event)
 
-    def get_collapse_history(self, key: str) -> List[Dict[str, Any]]:
+    def get_collapse_history(self, key: str) -> list[dict[str, Any]]:
         """
         Retrieves the collapse history for a given memory key.
 

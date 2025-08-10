@@ -14,7 +14,7 @@
 
 LUKHAS AI System - Function Library
 File: human_oversight_hooks.py
-Path: core/governance/oversight_hooks/human_oversight_hooks.py
+Path: core / governance / oversight_hooks / human_oversight_hooks.py
 Created: "2025-06-05 09:37:28"
 Author: LUKHlukhasS lukhasI Team
 Version: 1.0
@@ -34,8 +34,8 @@ def flag_for_human_review(subsystem, reason):
     Request manual human review of a subsystem decision.
 
     Args:
-        subsystem (str): Name of the subsystem triggering review.
-        reason (str): Description of why review is needed.
+        subsystem(str): Name of the subsystem triggering review.
+        reason(str): Description of why review is needed.
     """
     print(f"🛡️  Human review requested: Subsystem = {subsystem} | Reason = {reason}")
     # Here you would eventually hook to a dashboard / email / alert system
@@ -46,7 +46,7 @@ def manual_approval_required(decision_context):
     Determines if a decision must be manually approved by a human supervisor.
 
     Args:
-        decision_context (dict): Metadata about the decision.
+        decision_context(dict): Metadata about the decision.
 
     Returns:
         bool: True if manual approval is required, False otherwise.

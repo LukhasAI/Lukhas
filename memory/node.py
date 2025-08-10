@@ -4,8 +4,13 @@ Original: intent_node.py
 Advanced: intent_node.py
 Integration Date: 2025-05-31T07:55:28.128623
 """
+from collections import deque
+from typing import List
+import logging
 
-from typing import Any, Dict, Optional
+from typing import Any
+import time
+from typing import Any, Optional
 
 import numpy as np
 
@@ -44,7 +49,7 @@ class MemoryNode:
 
         return memory_id
 
-    def retrieve(self, memory_id: str) -> Optional[Dict[str, Any]]:
+    def retrieve(self, memory_id: str) -> Optional[dict[str, Any]]:
         """Retrieve a specific memory by ID."""
         # Check short-term memory
         for memory in self.short_term_memory:
@@ -58,11 +63,11 @@ class MemoryNode:
 
         return None
 
-    def retrieve_recent(self, limit: int = 10) -> List[Dict[str, Any]]:
+    def retrieve_recent(self, limit: int = 10) -> List[dict[str, Any]]:
         """Retrieve the most recent memories."""
         return list(self.short_term_memory)[-limit:]
 
-    def semantic_search(self, query: str, limit: int = 5) -> List[Dict[str, Any]]:
+    def semantic_search(self, query: str, limit: int = 5) -> List[dict[str, Any]]:
         """Search for memories semantically related to the query."""
         # In a real implementation, we would:
         # 1. Compute query embedding
@@ -81,7 +86,7 @@ class MemoryNode:
 
         return [self.long_term_memory[i] for i in indices]
 
-    def _calculate_importance(self, memory_data: Dict[str, Any]) -> float:
+    def _calculate_importance(self, memory_data: dict[str, Any]) -> float:
         """Calculate the importance of a memory for long-term storage."""
         importance = 0.5  # Default importance
 
@@ -102,5 +107,3 @@ class MemoryNode:
 EOF
 
 cat > lukhas_agi / packages / core / src / nodes / ethics_node.py << "EOF"
-import time
-from typing import Any, Dict

@@ -10,10 +10,8 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import structlog
 
 # Initialize logger for ΛTRACE using structlog
-from core.common import get_logger
 
 logger.info("ΛTRACE: Initializing core.integration.meta_cognitive package.")
 

@@ -12,6 +12,7 @@ Features:
 - GDPR-compliant audit logging
 """
 
+import math
 import base64
 import hashlib
 import json
@@ -20,18 +21,19 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 try:
     import blake3
+
     BLAKE3_AVAILABLE = True
 except ImportError:
     BLAKE3_AVAILABLE = False
 
 try:
-    from cryptography.hazmat.primitives import hashes, serialization
+    from cryptography.hazmat.primitives import hashes
     from cryptography.hazmat.primitives.asymmetric import padding, rsa
-    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
     CRYPTOGRAPHY_AVAILABLE = True
 except ImportError:
     CRYPTOGRAPHY_AVAILABLE = False
@@ -39,6 +41,7 @@ except ImportError:
 
 class HashAlgorithm(Enum):
     """Supported hash algorithms"""
+
     SHA3_256 = "sha3_256"
     SHA3_512 = "sha3_512"
     BLAKE3 = "blake3"
@@ -48,6 +51,7 @@ class HashAlgorithm(Enum):
 
 class TimestampSource(Enum):
     """Timestamp source types"""
+
     SYSTEM_TIME = "system_time"
     NTP_SERVER = "ntp_server"
     BLOCKCHAIN = "blockchain"
@@ -57,21 +61,23 @@ class TimestampSource(Enum):
 @dataclass
 class CryptoTimestamp:
     """Cryptographic timestamp with verification"""
+
     timestamp_utc: float
     timestamp_iso: str
     source: TimestampSource
     precision_ms: float
     nonce: str
     signature: Optional[str] = None
-    verification_data: Optional[Dict[str, Any]] = None
+    verification_data: Optional[dict[str, Any]] = None
 
 
 @dataclass
 class HashRecord:
     """Hash record with multiple algorithms"""
+
     primary_hash: str
     algorithm: HashAlgorithm
-    secondary_hashes: Dict[HashAlgorithm, str]
+    secondary_hashes: dict[HashAlgorithm, str]
     salt: str
     iterations: int
     input_length: int
@@ -80,10 +86,11 @@ class HashRecord:
 @dataclass
 class AuditTrail:
     """Complete audit trail for collapse event"""
+
     event_id: str
     timestamp: CryptoTimestamp
     hash_record: HashRecord
-    mathematical_trace: Dict[str, Any]
+    mathematical_trace: dict[str, Any]
     previous_hash: Optional[str]
     merkle_root: Optional[str]
     chain_position: int
@@ -93,7 +100,7 @@ class AuditTrail:
 class VIVOXCryptoSystem:
     """
     VIVOX Cryptographic System for Z(t) Collapse Verification
-    
+
     Provides:
     - Multi-algorithm hashing with salt and iterations
     - Cryptographic timestamping with multiple sources
@@ -102,15 +109,17 @@ class VIVOXCryptoSystem:
     - Quantum-resistant signature schemes (future)
     """
 
-    def __init__(self,
-                 primary_algorithm: HashAlgorithm = HashAlgorithm.SHA3_256,
-                 enable_secondary_hashes: bool = True,
-                 timestamp_source: TimestampSource = TimestampSource.SYSTEM_TIME,
-                 salt_length: int = 32,
-                 hash_iterations: int = 100000):
+    def __init__(
+        self,
+        primary_algorithm: HashAlgorithm = HashAlgorithm.SHA3_256,
+        enable_secondary_hashes: bool = True,
+        timestamp_source: TimestampSource = TimestampSource.SYSTEM_TIME,
+        salt_length: int = 32,
+        hash_iterations: int = 100000,
+    ):
         """
         Initialize the cryptographic system
-        
+
         Args:
             primary_algorithm: Primary hash algorithm
             enable_secondary_hashes: Enable additional hash algorithms
@@ -125,8 +134,8 @@ class VIVOXCryptoSystem:
         self.hash_iterations = hash_iterations
 
         # Audit chain
-        self.audit_chain: List[AuditTrail] = []
-        self.merkle_trees: Dict[str, List[str]] = {}
+        self.audit_chain: list[AuditTrail] = []
+        self.merkle_trees: dict[str, list[str]] = {}
 
         # Initialize cryptographic keys if available
         self.private_key = None
@@ -138,21 +147,21 @@ class VIVOXCryptoSystem:
         """Initialize RSA key pair for signatures"""
         try:
             self.private_key = rsa.generate_private_key(
-                public_exponent=65537,
-                key_size=2048
+                public_exponent=65537, key_size=2048
             )
             self.public_key = self.private_key.public_key()
         except Exception as e:
             print(f"Warning: Could not initialize cryptographic keys: {e}")
 
-    def generate_crypto_timestamp(self,
-                                 precision_required: bool = True) -> CryptoTimestamp:
+    def generate_crypto_timestamp(
+        self, precision_required: bool = True
+    ) -> CryptoTimestamp:
         """
         Generate cryptographically secure timestamp
-        
+
         Args:
             precision_required: Whether high precision is required
-            
+
         Returns:
             CryptoTimestamp with verification data
         """
@@ -164,7 +173,9 @@ class VIVOXCryptoSystem:
         nonce = secrets.token_hex(16)
 
         # Calculate precision (simulated - in real implementation would use NTP)
-        precision_ms = 1.0 if self.timestamp_source == TimestampSource.SYSTEM_TIME else 0.1
+        precision_ms = (
+            1.0 if self.timestamp_source == TimestampSource.SYSTEM_TIME else 0.1
+        )
 
         # Create verification data
         verification_data = {
@@ -172,8 +183,8 @@ class VIVOXCryptoSystem:
             "source_info": {
                 "type": self.timestamp_source.value,
                 "precision_ms": precision_ms,
-                "system_info": "VIVOX_CRYPTO_v1.0"
-            }
+                "system_info": "VIVOX_CRYPTO_v1.0",
+            },
         }
 
         # Generate signature if keys available
@@ -188,7 +199,7 @@ class VIVOXCryptoSystem:
             precision_ms=precision_ms,
             nonce=nonce,
             signature=signature,
-            verification_data=verification_data
+            verification_data=verification_data,
         )
 
     def _sign_timestamp(self, timestamp: float, nonce: str) -> str:
@@ -199,11 +210,11 @@ class VIVOXCryptoSystem:
                 message,
                 padding.PSS(
                     mgf=padding.MGF1(hashes.SHA256()),
-                    salt_length=padding.PSS.MAX_LENGTH
+                    salt_length=padding.PSS.MAX_LENGTH,
                 ),
-                hashes.SHA256()
+                hashes.SHA256(),
             )
-            return base64.b64encode(signature).decode('utf-8')
+            return base64.b64encode(signature).decode("utf-8")
         except Exception as e:
             print(f"Warning: Could not sign timestamp: {e}")
             return ""
@@ -222,26 +233,28 @@ class VIVOXCryptoSystem:
                 message,
                 padding.PSS(
                     mgf=padding.MGF1(hashes.SHA256()),
-                    salt_length=padding.PSS.MAX_LENGTH
+                    salt_length=padding.PSS.MAX_LENGTH,
                 ),
-                hashes.SHA256()
+                hashes.SHA256(),
             )
             return True
         except Exception:
             return False
 
-    def generate_multi_hash(self,
-                           data: str,
-                           timestamp: CryptoTimestamp,
-                           additional_context: Optional[Dict[str, Any]] = None) -> HashRecord:
+    def generate_multi_hash(
+        self,
+        data: str,
+        timestamp: CryptoTimestamp,
+        additional_context: Optional[dict[str, Any]] = None,
+    ) -> HashRecord:
         """
         Generate multiple hashes with salt and iterations
-        
+
         Args:
             data: Input data to hash
             timestamp: Cryptographic timestamp
             additional_context: Additional context for hash
-            
+
         Returns:
             HashRecord with multiple hash algorithms
         """
@@ -273,33 +286,32 @@ class VIVOXCryptoSystem:
             secondary_hashes=secondary_hashes,
             salt=salt_hex,
             iterations=self.hash_iterations,
-            input_length=len(hash_input)
+            input_length=len(hash_input),
         )
 
-    def _prepare_hash_input(self,
-                           data: str,
-                           timestamp: CryptoTimestamp,
-                           context: Optional[Dict[str, Any]],
-                           salt: bytes) -> bytes:
+    def _prepare_hash_input(
+        self,
+        data: str,
+        timestamp: CryptoTimestamp,
+        context: Optional[dict[str, Any]],
+        salt: bytes,
+    ) -> bytes:
         """Prepare standardized input for hashing"""
         components = [
             f"data:{data}",
             f"timestamp:{timestamp.timestamp_utc:.6f}",
             f"nonce:{timestamp.nonce}",
-            f"source:{timestamp.source.value}"
+            f"source:{timestamp.source.value}",
         ]
 
         if context:
-            context_str = json.dumps(context, sort_keys=True, separators=(',', ':'))
+            context_str = json.dumps(context, sort_keys=True, separators=(",", ":"))
             components.append(f"context:{context_str}")
 
         combined = "|".join(components)
-        return combined.encode('utf-8') + salt
+        return combined.encode("utf-8") + salt
 
-    def _compute_hash(self,
-                     data: bytes,
-                     algorithm: HashAlgorithm,
-                     salt: bytes) -> str:
+    def _compute_hash(self, data: bytes, algorithm: HashAlgorithm, salt: bytes) -> str:
         """Compute hash using specified algorithm"""
         if algorithm == HashAlgorithm.SHA3_256:
             return hashlib.sha3_256(data).hexdigest()
@@ -314,27 +326,31 @@ class VIVOXCryptoSystem:
         else:
             raise ValueError(f"Unsupported hash algorithm: {algorithm}")
 
-    def verify_hash_record(self,
-                          original_data: str,
-                          timestamp: CryptoTimestamp,
-                          hash_record: HashRecord,
-                          context: Optional[Dict[str, Any]] = None) -> bool:
+    def verify_hash_record(
+        self,
+        original_data: str,
+        timestamp: CryptoTimestamp,
+        hash_record: HashRecord,
+        context: Optional[dict[str, Any]] = None,
+    ) -> bool:
         """
         Verify hash record integrity
-        
+
         Args:
             original_data: Original data that was hashed
             timestamp: Original timestamp
             hash_record: Hash record to verify
             context: Original context data
-            
+
         Returns:
             True if hash verification passes
         """
         try:
             # Recreate hash input
             salt = bytes.fromhex(hash_record.salt)
-            hash_input = self._prepare_hash_input(original_data, timestamp, context, salt)
+            hash_input = self._prepare_hash_input(
+                original_data, timestamp, context, salt
+            )
 
             # Verify primary hash
             expected_primary = self._compute_hash(
@@ -360,18 +376,20 @@ class VIVOXCryptoSystem:
             print(f"Hash verification error: {e}")
             return False
 
-    def create_audit_trail(self,
-                          event_id: str,
-                          collapse_data: Dict[str, Any],
-                          mathematical_trace: Dict[str, Any]) -> AuditTrail:
+    def create_audit_trail(
+        self,
+        event_id: str,
+        collapse_data: dict[str, Any],
+        mathematical_trace: dict[str, Any],
+    ) -> AuditTrail:
         """
         Create complete audit trail for collapse event
-        
+
         Args:
             event_id: Unique identifier for the event
             collapse_data: Data from z(t) collapse
             mathematical_trace: Mathematical computation trace
-            
+
         Returns:
             Complete audit trail with verification
         """
@@ -382,16 +400,14 @@ class VIVOXCryptoSystem:
         audit_data = {
             "event_id": event_id,
             "collapse_data": collapse_data,
-            "mathematical_trace": mathematical_trace
+            "mathematical_trace": mathematical_trace,
         }
 
-        audit_json = json.dumps(audit_data, sort_keys=True, separators=(',', ':'))
+        audit_json = json.dumps(audit_data, sort_keys=True, separators=(",", ":"))
 
         # Generate hash record
         hash_record = self.generate_multi_hash(
-            audit_json,
-            timestamp,
-            {"audit_type": "z_collapse_event"}
+            audit_json, timestamp, {"audit_type": "z_collapse_event"}
         )
 
         # Get previous hash for chaining
@@ -414,7 +430,7 @@ class VIVOXCryptoSystem:
             previous_hash=previous_hash,
             merkle_root=merkle_root,
             chain_position=len(self.audit_chain),
-            verification_status=verification_status
+            verification_status=verification_status,
         )
 
         # Add to audit chain
@@ -422,7 +438,7 @@ class VIVOXCryptoSystem:
 
         return audit_trail
 
-    def _calculate_merkle_root(self, hashes: List[str]) -> str:
+    def _calculate_merkle_root(self, hashes: list[str]) -> str:
         """Calculate Merkle tree root for hash list"""
         if not hashes:
             return ""
@@ -441,17 +457,17 @@ class VIVOXCryptoSystem:
                 right = current_level[i + 1] if i + 1 < len(current_level) else left
 
                 combined = left + right
-                parent_hash = hashlib.sha3_256(combined.encode('utf-8')).hexdigest()
+                parent_hash = hashlib.sha3_256(combined.encode("utf-8")).hexdigest()
                 next_level.append(parent_hash)
 
             current_level = next_level
 
         return current_level[0]
 
-    def verify_audit_chain(self) -> Tuple[bool, List[str]]:
+    def verify_audit_chain(self) -> tuple[bool, list[str]]:
         """
         Verify the entire audit chain integrity
-        
+
         Returns:
             Tuple of (is_valid, list_of_errors)
         """
@@ -478,13 +494,13 @@ class VIVOXCryptoSystem:
 
         return len(errors) == 0, errors
 
-    def export_audit_data(self, include_sensitive: bool = False) -> Dict[str, Any]:
+    def export_audit_data(self, include_sensitive: bool = False) -> dict[str, Any]:
         """
         Export audit data for compliance or debugging
-        
+
         Args:
             include_sensitive: Whether to include sensitive cryptographic data
-            
+
         Returns:
             Dictionary with audit data
         """
@@ -494,9 +510,9 @@ class VIVOXCryptoSystem:
                 "timestamp_source": self.timestamp_source.value,
                 "salt_length": self.salt_length,
                 "hash_iterations": self.hash_iterations,
-                "chain_length": len(self.audit_chain)
+                "chain_length": len(self.audit_chain),
             },
-            "audit_chain": []
+            "audit_chain": [],
         }
 
         for trail in self.audit_chain:
@@ -505,16 +521,18 @@ class VIVOXCryptoSystem:
                 "timestamp_iso": trail.timestamp.timestamp_iso,
                 "hash_primary": trail.hash_record.primary_hash,
                 "chain_position": trail.chain_position,
-                "verification_status": trail.verification_status
+                "verification_status": trail.verification_status,
             }
 
             if include_sensitive:
-                trail_data.update({
-                    "timestamp_signature": trail.timestamp.signature,
-                    "hash_salt": trail.hash_record.salt,
-                    "secondary_hashes": trail.hash_record.secondary_hashes,
-                    "mathematical_trace": trail.mathematical_trace
-                })
+                trail_data.update(
+                    {
+                        "timestamp_signature": trail.timestamp.signature,
+                        "hash_salt": trail.hash_record.salt,
+                        "secondary_hashes": trail.hash_record.secondary_hashes,
+                        "mathematical_trace": trail.mathematical_trace,
+                    }
+                )
 
             export_data["audit_chain"].append(trail_data)
 
@@ -522,7 +540,6 @@ class VIVOXCryptoSystem:
 
 
 # Integration with Z(t) Collapse Engine
-import math
 
 
 class SecureZCollapseEngine:
@@ -534,13 +551,15 @@ class SecureZCollapseEngine:
         self.crypto_system = crypto_system
         self.collapse_counter = 0
 
-    def secure_collapse_with_audit(self,
-                                  z_result: complex,
-                                  collapse_data: Dict[str, Any],
-                                  mathematical_trace: Dict[str, Any]) -> Tuple[str, AuditTrail]:
+    def secure_collapse_with_audit(
+        self,
+        z_result: complex,
+        collapse_data: dict[str, Any],
+        mathematical_trace: dict[str, Any],
+    ) -> tuple[str, AuditTrail]:
         """
         Execute z(t) collapse with complete cryptographic audit trail
-        
+
         Returns:
             Tuple of (collapse_hash, audit_trail)
         """
@@ -553,16 +572,16 @@ class SecureZCollapseEngine:
                 "real": z_result.real,
                 "imag": z_result.imag,
                 "magnitude": abs(z_result),
-                "phase": math.atan2(z_result.imag, z_result.real)
+                "phase": math.atan2(z_result.imag, z_result.real),
             },
-            **collapse_data
+            **collapse_data,
         }
 
         # Create audit trail
         audit_trail = self.crypto_system.create_audit_trail(
             event_id=event_id,
             collapse_data=complete_collapse_data,
-            mathematical_trace=mathematical_trace
+            mathematical_trace=mathematical_trace,
         )
 
         return audit_trail.hash_record.primary_hash, audit_trail
@@ -576,7 +595,7 @@ if __name__ == "__main__":
     crypto_system = VIVOXCryptoSystem(
         primary_algorithm=HashAlgorithm.SHA3_256,
         enable_secondary_hashes=True,
-        timestamp_source=TimestampSource.SYSTEM_TIME
+        timestamp_source=TimestampSource.SYSTEM_TIME,
     )
 
     # Test cryptographic timestamp
@@ -604,14 +623,10 @@ if __name__ == "__main__":
     secure_engine = SecureZCollapseEngine(crypto_system)
 
     z_result = complex(2.0, 0.0)  # Baseline test result
-    collapse_data = {
-        "alignment_score": 1.0,
-        "entropy_score": 0.0,
-        "phase_drift": 0.0
-    }
+    collapse_data = {"alignment_score": 1.0, "entropy_score": 0.0, "phase_drift": 0.0}
     mathematical_trace = {
         "formula": "z(t) = A(t) * [e^(iθ(t)) + e^(i(π-θ(t)))] × W(ΔS(t))",
-        "baseline_test": True
+        "baseline_test": True,
     }
 
     collapse_hash, audit_trail = secure_engine.secure_collapse_with_audit(

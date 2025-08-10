@@ -20,7 +20,7 @@ def find_conflicts():
     """Find all Python files with merge conflicts"""
     conflicts = []
 
-    for root, dirs, files in os.walk("."):
+    for root, _dirs, files in os.walk("."):
         if ".venv" in root or ".git" in root or ".pwm_cleanup_archive" in root:
             continue
 
@@ -32,7 +32,7 @@ def find_conflicts():
                         content = f.read()
                     if "<<<<<<< HEAD" in content:
                         conflicts.append(filepath)
-                except:
+                except BaseException:
                     pass
 
     return conflicts

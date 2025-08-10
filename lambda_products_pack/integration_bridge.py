@@ -7,7 +7,7 @@ Provides the actual integration using existing APIs
 import asyncio
 import sys
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import yaml
 
@@ -24,7 +24,7 @@ class IntegrationBridge:
         self.config = self._load_config()
         self.integrations = {}
 
-    def _load_config(self) -> Dict[str, Any]:
+    def _load_config(self) -> dict[str, Any]:
         """Load integration configuration"""
         with open(self.config_path) as f:
             return yaml.safe_load(f)

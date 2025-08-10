@@ -48,7 +48,7 @@ import os
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.identity_integration import (
     TierMappingConfig,
@@ -116,9 +116,9 @@ class UnifiedEmotionalAccessContext:
     legacy_tier: Optional[EmotionalTier] = None  # For backward compatibility
     trust_score: float = 0.5
     dream_phase: Optional[str] = None
-    codreamer_ids: List[str] = field(default_factory=list)
+    codreamer_ids: list[str] = field(default_factory=list)
     safety_override: bool = False
-    consent_grants: Dict[str, bool] = field(default_factory=dict)
+    consent_grants: dict[str, bool] = field(default_factory=dict)
     timestamp: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
@@ -129,8 +129,8 @@ class UnifiedSymbolicEmotionState:
     """Enhanced emotion state with unified tier system and user context."""
 
     user_id: str  # Lambda ID
-    emotion_vector: Dict[str, float]
-    symbolic_tags: List[str] = field(default_factory=list)
+    emotion_vector: dict[str, float]
+    symbolic_tags: list[str] = field(default_factory=list)
     lambda_tier: str = "LAMBDA_TIER_1"
     legacy_tier: Optional[EmotionalTier] = None
     safety_level: EmotionalSafetyLevel = EmotionalSafetyLevel.STABLE
@@ -138,8 +138,8 @@ class UnifiedSymbolicEmotionState:
     harmony_score: float = 0.0
     empathy_resonance: float = 0.0
     codreamer_isolation: bool = False
-    ethical_flags: List[str] = field(default_factory=list)
-    consent_required: List[str] = field(default_factory=list)
+    ethical_flags: list[str] = field(default_factory=list)
+    consent_required: list[str] = field(default_factory=list)
     timestamp: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
@@ -234,13 +234,13 @@ class UnifiedDreamSeedEmotionEngine:
         self.identity_client = get_identity_client()
 
         # Session tracking with unified context
-        self.session_contexts: Dict[str, UnifiedEmotionalAccessContext] = {}
-        self.regulation_history: List[Dict[str, Any]] = []
-        self.isolation_history: List[Dict[str, Any]] = []
+        self.session_contexts: dict[str, UnifiedEmotionalAccessContext] = {}
+        self.regulation_history: list[dict[str, Any]] = []
+        self.isolation_history: list[dict[str, Any]] = []
 
         # Safety monitoring
-        self.safety_interventions: List[Dict[str, Any]] = []
-        self.tier_access_log: List[Dict[str, Any]] = []
+        self.safety_interventions: list[dict[str, Any]] = []
+        self.tier_access_log: list[dict[str, Any]] = []
 
         # Logging paths
         self.logs_dir = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/emotion"
@@ -265,7 +265,7 @@ class UnifiedDreamSeedEmotionEngine:
     # LUKHAS_TAG: unified_tier_assignment
     @require_identity(required_tier="LAMBDA_TIER_1", check_consent="emotion_access")
     def assign_unified_emotional_tier(
-        self, user_id: str, context: Optional[Dict[str, Any]] = None
+        self, user_id: str, context: Optional[dict[str, Any]] = None
     ) -> str:
         """
         Assigns emotional access tier using unified LAMBDA_TIER system.
@@ -290,7 +290,7 @@ class UnifiedDreamSeedEmotionEngine:
                 from identity.core.user_tier_mapping import get_user_tier
 
                 lambda_tier = get_user_tier(user_id) or "LAMBDA_TIER_1"
-            except:
+            except BaseException:
                 # Fall back to context or default
                 lambda_tier = context.get("lambda_tier", "LAMBDA_TIER_1")
 
@@ -368,8 +368,8 @@ class UnifiedDreamSeedEmotionEngine:
     def process_unified_dreamseed_emotion(
         self,
         user_id: str,
-        emotion_input: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None,
+        emotion_input: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
     ) -> UnifiedSymbolicEmotionState:
         """
         Complete DREAMSEED emotion processing pipeline with unified tier system.
@@ -390,7 +390,7 @@ class UnifiedDreamSeedEmotionEngine:
             access_context = self.session_contexts[session_id]
         else:
             # Create new context
-            lambda_tier = self.assign_unified_emotional_tier(user_id, context)
+            self.assign_unified_emotional_tier(user_id, context)
             access_context = self.session_contexts.get(
                 f"session_{hashlib.md5(user_id.encode()).hexdigest()[:8]}"
             )
@@ -510,8 +510,8 @@ class UnifiedDreamSeedEmotionEngine:
     # LUKHAS_TAG: emotional_analysis_advanced
     @require_identity(required_tier="LAMBDA_TIER_3", check_consent="emotional_analysis")
     def analyze_emotional_patterns_unified(
-        self, user_id: str, time_range: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, user_id: str, time_range: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Advanced emotional pattern analysis with unified tier system.
 
@@ -573,8 +573,8 @@ class UnifiedDreamSeedEmotionEngine:
         required_tier="LAMBDA_TIER_4", check_consent="emotional_modification"
     )
     def modulate_emotional_state_unified(
-        self, user_id: str, emotion_id: str, target_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, emotion_id: str, target_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Advanced emotional state modulation with unified tier system.
 
@@ -629,7 +629,7 @@ class UnifiedDreamSeedEmotionEngine:
         }
         return mapping.get(lambda_tier)
 
-    def _get_unified_tier_features(self, user_id: str) -> Dict[str, Any]:
+    def _get_unified_tier_features(self, user_id: str) -> dict[str, Any]:
         """Get tier-specific features for user using unified system."""
         lambda_tier = "LAMBDA_TIER_1"
 
@@ -638,7 +638,7 @@ class UnifiedDreamSeedEmotionEngine:
                 from identity.core.user_tier_mapping import get_user_tier
 
                 lambda_tier = get_user_tier(user_id) or "LAMBDA_TIER_1"
-            except:
+            except BaseException:
                 pass
 
         features = UNIFIED_TIER_ACCESS_MATRIX.get(
@@ -649,9 +649,9 @@ class UnifiedDreamSeedEmotionEngine:
 
     def _inject_symbolic_tags_unified(
         self,
-        emotion_state: Dict[str, Any],
+        emotion_state: dict[str, Any],
         access_context: UnifiedEmotionalAccessContext,
-    ) -> List[str]:
+    ) -> list[str]:
         """Enhanced symbolic tag injection with user context."""
         tags = self.inject_symbolic_tags(emotion_state)  # Use existing logic
 
@@ -668,8 +668,8 @@ class UnifiedDreamSeedEmotionEngine:
         return tags
 
     def _isolate_codreamer_affect_unified(
-        self, emotion_input: Dict[str, Any], codreamer_id: str, user_id: str
-    ) -> Dict[str, Any]:
+        self, emotion_input: dict[str, Any], codreamer_id: str, user_id: str
+    ) -> dict[str, Any]:
         """Enhanced codreamer isolation with user tracking."""
         result = self.isolate_codreamer_affect(emotion_input, codreamer_id)
 
@@ -682,7 +682,7 @@ class UnifiedDreamSeedEmotionEngine:
         return result
 
     def _enforce_emotional_safety_unified(
-        self, emotion_state: Dict[str, Any], user_id: str
+        self, emotion_state: dict[str, Any], user_id: str
     ) -> bool:
         """Enhanced safety enforcement with user context."""
         is_safe = self.enforce_emotional_safety(emotion_state)
@@ -697,8 +697,8 @@ class UnifiedDreamSeedEmotionEngine:
         return is_safe
 
     def _regulate_drift_feedback_unified(
-        self, drift_score: float, emotion_state: Dict[str, Any], user_id: str
-    ) -> Dict[str, Any]:
+        self, drift_score: float, emotion_state: dict[str, Any], user_id: str
+    ) -> dict[str, Any]:
         """Enhanced drift regulation with user tracking."""
         result = self.regulate_drift_feedback(drift_score, emotion_state)
 
@@ -711,30 +711,30 @@ class UnifiedDreamSeedEmotionEngine:
         return result
 
     # Placeholder methods (would implement based on existing logic)
-    def inject_symbolic_tags(self, emotion_state: Dict[str, Any]) -> List[str]:
+    def inject_symbolic_tags(self, emotion_state: dict[str, Any]) -> list[str]:
         """Use existing symbolic tag injection logic."""
         # Implementation from original dreamseed_upgrade.py
         return []
 
     def isolate_codreamer_affect(
-        self, emotion_input: Dict[str, Any], codreamer_id: str
-    ) -> Dict[str, Any]:
+        self, emotion_input: dict[str, Any], codreamer_id: str
+    ) -> dict[str, Any]:
         """Use existing codreamer isolation logic."""
         return emotion_input
 
-    def enforce_emotional_safety(self, emotion_state: Dict[str, Any]) -> bool:
+    def enforce_emotional_safety(self, emotion_state: dict[str, Any]) -> bool:
         """Use existing safety enforcement logic."""
         return True
 
     def regulate_drift_feedback(
-        self, drift_score: float, emotion_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, drift_score: float, emotion_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """Use existing drift regulation logic."""
         return emotion_state
 
     def _calculate_harmony_score(
         self,
-        emotion_vector: Dict[str, float],
+        emotion_vector: dict[str, float],
         valence: float,
         arousal: float,
         dominance: float,
@@ -745,50 +745,50 @@ class UnifiedDreamSeedEmotionEngine:
     # Additional placeholder methods
     def _get_user_emotional_memories(
         self, user_id: str, hours_limit: float
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         return []
 
     def _analyze_dominant_emotions(
-        self, memories: List[Dict[str, Any]]
-    ) -> Dict[str, int]:
+        self, memories: list[dict[str, Any]]
+    ) -> dict[str, int]:
         return {}
 
     def _analyze_transitions(
-        self, memories: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, memories: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         return []
 
     def _analyze_valence_trends(
-        self, memories: List[Dict[str, Any]]
-    ) -> Dict[str, float]:
+        self, memories: list[dict[str, Any]]
+    ) -> dict[str, float]:
         return {}
 
     def _analyze_symbolic_patterns(
-        self, memories: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, memories: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         return {}
 
     def _verify_emotion_ownership(self, user_id: str, emotion_id: str) -> bool:
         return True
 
-    def _get_emotional_state(self, emotion_id: str) -> Optional[Dict[str, Any]]:
+    def _get_emotional_state(self, emotion_id: str) -> Optional[dict[str, Any]]:
         return {}
 
-    def _calculate_modulation_strength(self, user_features: Dict[str, Any]) -> float:
+    def _calculate_modulation_strength(self, user_features: dict[str, Any]) -> float:
         tier_strengths = {"LAMBDA_TIER_4": 0.8, "LAMBDA_TIER_5": 1.0}
         return tier_strengths.get(user_features.get("lambda_tier"), 0.5)
 
     def _apply_modulation_limits_unified(
         self,
-        current_state: Dict[str, Any],
-        target_state: Dict[str, Any],
+        current_state: dict[str, Any],
+        target_state: dict[str, Any],
         strength: float,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         return target_state  # Simplified
 
     def _update_emotional_state(
-        self, emotion_id: str, new_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, emotion_id: str, new_state: dict[str, Any]
+    ) -> dict[str, Any]:
         return {"status": "success", "emotion_id": emotion_id}
 
 

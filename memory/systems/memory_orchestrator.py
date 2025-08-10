@@ -6,7 +6,7 @@ Central orchestrator for all memory subsystems in LUKHAS AI.
 Coordinates between different memory types: symbolic, quantum, and bio-inspired.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -23,7 +23,7 @@ class MemoryOrchestrator:
     - Bio-inspired memory (neural patterns, homeostasis)
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         """Initialize memory orchestrator with configuration"""
         self.config = config or {}
         self.subsystems = {}
@@ -48,7 +48,7 @@ class MemoryOrchestrator:
         }
         logger.debug(f"Created memory session: {session_id} for user: {user_id}")
 
-    def store_memory(self, session_id: str, memory_type: str, data: Dict) -> bool:
+    def store_memory(self, session_id: str, memory_type: str, data: dict) -> bool:
         """Store memory data in appropriate subsystem"""
         try:
             session = self.active_sessions.get(session_id)
@@ -73,7 +73,7 @@ class MemoryOrchestrator:
 
     def retrieve_memory(
         self, session_id: str, memory_type: Optional[str] = None
-    ) -> List[Dict]:
+    ) -> list[dict]:
         """Retrieve memory data from session"""
         session = self.active_sessions.get(session_id)
         if not session:

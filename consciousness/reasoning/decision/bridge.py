@@ -76,6 +76,7 @@ class DecisionType(Enum):
     EMERGENCY = "emergency"          # Urgent safety-critical decisions
     COLLABORATIVE = "collaborative"  # Multi-agent coordination decisions
 
+
 class ConfidenceLevel(Enum):
     """Confidence levels for decision outcome"""
     VERY_LOW = 0.1
@@ -84,6 +85,7 @@ class ConfidenceLevel(Enum):
     HIGH = 0.7
     VERY_HIGH = 0.9
     CERTAIN = 1.0
+
 
 class DecisionCriteria(Enum):
     """Criteria for evaluating decision alternative"""
@@ -94,6 +96,7 @@ class DecisionCriteria(Enum):
     FEASIBILITY = "feasibility"     # Implementation feasibility
     ALIGNMENT = "alignment"         # Goal alignment
     IMPACT = "impact"               # Long-term impact
+
 
 @dataclass
 class DecisionContext:
@@ -110,6 +113,7 @@ class DecisionContext:
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class DecisionAlternative:
     """Represents a potential decision alternative"""
@@ -125,6 +129,7 @@ class DecisionAlternative:
     confidence: ConfidenceLevel
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class DecisionEvaluation:
     """Evaluation results for a decision alternative"""
@@ -137,6 +142,7 @@ class DecisionEvaluation:
     uncertainty_factors: List[str]
     reasoning_trace: List[str]
     confidence: ConfidenceLevel
+
 
 @dataclass
 class DecisionOutcome:
@@ -151,21 +157,22 @@ class DecisionOutcome:
     rollback_plan: Optional[Dict[str, Any]]
     decided_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
+
 class DecisionStrategy(ABC):
     """Abstract base class for decision-making strategie"""
 
     @abstractmethod
-    def evaluate_alternatives(self,
-                            context: DecisionContext,
-                            alternatives: List[DecisionAlternative]) -> List[DecisionEvaluation]:
+    def evaluate_alternatives(
+            self,
+            context: DecisionContext,
+            alternatives: List[DecisionAlternative]) -> List[DecisionEvaluation]:
         """Evaluate decision alternatives according to this strategy"""
-        pass
 
     @abstractmethod
-    def select_best_alternative(self,
-                              evaluations: List[DecisionEvaluation]) -> Tuple[str, float]:
+    def select_best_alternative(
+            self, evaluations: List[DecisionEvaluation]) -> Tuple[str, float]:
         """Select the best alternative from evaluation"""
-        pass
+
 
 class UtilityMaximizationStrategy(DecisionStrategy):
     """Decision strategy based on utility maximization"""
@@ -179,19 +186,24 @@ class UtilityMaximizationStrategy(DecisionStrategy):
             DecisionCriteria.FEASIBILITY: 0.15
         }
 
-    def evaluate_alternatives(self,
-                            context: DecisionContext,
-                            alternatives: List[DecisionAlternative]) -> List[DecisionEvaluation]:
+    def evaluate_alternatives(
+            self,
+            context: DecisionContext,
+            alternatives: List[DecisionAlternative]) -> List[DecisionEvaluation]:
         evaluations = []
 
         for alt in alternatives:
             # Calculate scores for each criterion
             criteria_scores = {}
-            criteria_scores[DecisionCriteria.UTILITY] = self._calculate_utility_score(alt)
-            criteria_scores[DecisionCriteria.RISK] = 1.0 - self._calculate_risk_score(alt)
+            criteria_scores[DecisionCriteria.UTILITY] = self._calculate_utility_score(
+                alt)
+            criteria_scores[DecisionCriteria.RISK] = 1.0 - \
+                self._calculate_risk_score(alt)
             criteria_scores[DecisionCriteria.ETHICS] = self._calculate_ethics_score(alt)
-            criteria_scores[DecisionCriteria.EFFICIENCY] = self._calculate_efficiency_score(alt)
-            criteria_scores[DecisionCriteria.FEASIBILITY] = self._calculate_feasibility_score(alt)
+            criteria_scores[DecisionCriteria.EFFICIENCY] = self._calculate_efficiency_score(
+                alt)
+            criteria_scores[DecisionCriteria.FEASIBILITY] = self._calculate_feasibility_score(
+                alt)
 
             # Calculate weighted overall score
             overall_score = sum(
@@ -215,7 +227,8 @@ class UtilityMaximizationStrategy(DecisionStrategy):
 
         return evaluations
 
-    def select_best_alternative(self, evaluations: List[DecisionEvaluation]) -> Tuple[str, float]:
+    def select_best_alternative(
+            self, evaluations: List[DecisionEvaluation]) -> Tuple[str, float]:
         if not evaluations:
             raise ValueError("No evaluations provided")
 
@@ -274,7 +287,9 @@ class UtilityMaximizationStrategy(DecisionStrategy):
             uncertainties.append("High risk exposure")
         return uncertainties
 
-    def _calculate_confidence(self, alternative: DecisionAlternative, score: float) -> ConfidenceLevel:
+    def _calculate_confidence(self,
+                              alternative: DecisionAlternative,
+                              score: float) -> ConfidenceLevel:
         # Map score to confidence level
         if score >= 0.9:
             return ConfidenceLevel.VERY_HIGH
@@ -286,6 +301,7 @@ class UtilityMaximizationStrategy(DecisionStrategy):
             return ConfidenceLevel.LOW
         else:
             return ConfidenceLevel.VERY_LOW
+
 
 class DecisionMakingBridge:
     """
@@ -333,8 +349,8 @@ class DecisionMakingBridge:
         self.performance_metrics = {}
 
         self.logger.info("Decision-Making Bridge initialized",
-                        strategies=list(self.strategies.keys()),
-                        config_keys=list(self.config.keys()))
+                         strategies=list(self.strategies.keys()),
+                         config_keys=list(self.config.keys()))
 
     def _default_config(self) -> Dict[str, Any]:
         """Default configuration for the decision bridge"""
@@ -353,10 +369,10 @@ class DecisionMakingBridge:
         }
 
     def integrate_components(self,
-                           neuro_symbolic_layer: Optional[Any] = None,
-                           energy_planner: Optional[Any] = None,
-                           ethical_governor: Optional[Any] = None,
-                           symbolic_engine: Optional[Any] = None) -> None:
+                             neuro_symbolic_layer: Optional[Any] = None,
+                             energy_planner: Optional[Any] = None,
+                             ethical_governor: Optional[Any] = None,
+                             symbolic_engine: Optional[Any] = None) -> None:
         """
         Integrate with other Lukhas Strategy Engine components
 
@@ -372,19 +388,19 @@ class DecisionMakingBridge:
         self.symbolic_engine = symbolic_engine
 
         self.logger.info("Component integration completed",
-                        integrated_components=[
-                            name for name, component in [
-                                ("nsfl", neuro_symbolic_layer),
-                                ("eaxp", energy_planner),
-                                ("ethical", ethical_governor),
-                                ("symbolic", symbolic_engine)
-                            ] if component is not None
-                        ])
+                         integrated_components=[
+                             name for name, component in [
+                                 ("nsfl", neuro_symbolic_layer),
+                                 ("eaxp", energy_planner),
+                                 ("ethical", ethical_governor),
+                                 ("symbolic", symbolic_engine)
+                             ] if component is not None
+                         ])
 
     async def make_decision(self,
-                          context: DecisionContext,
-                          alternatives: List[DecisionAlternative],
-                          strategy_name: Optional[str] = None) -> DecisionOutcome:
+                            context: DecisionContext,
+                            alternatives: List[DecisionAlternative],
+                            strategy_name: Optional[str] = None) -> DecisionOutcome:
         """
         Make a decision given context and alternatives
 
@@ -407,16 +423,18 @@ class DecisionMakingBridge:
 
             # Check if decision is already in progress
             if context.decision_id in self.active_decisions:
-                self.logger.warning("Decision already in progress", decision_id=context.decision_id)
+                self.logger.warning(
+                    "Decision already in progress",
+                    decision_id=context.decision_id)
                 return self.active_decisions[context.decision_id]
 
             # Mark decision as active
             self.active_decisions[context.decision_id] = None
 
             self.logger.info("Starting decision process",
-                           decision_id=context.decision_id,
-                           decision_type=context.decision_type.value,
-                           alternatives_count=len(alternatives))
+                             decision_id=context.decision_id,
+                             decision_type=context.decision_type.value,
+                             alternatives_count=len(alternatives))
 
             # Select decision strategy
             strategy = self._select_strategy(context, strategy_name)
@@ -436,8 +454,10 @@ class DecisionMakingBridge:
                 evaluations = await self._apply_energy_constraints(context, evaluations)
 
             # Select the best alternative
-            selected_id, confidence_score = strategy.select_best_alternative(evaluations)
-            selected_evaluation = next(e for e in evaluations if e.alternative_id == selected_id)
+            selected_id, confidence_score = strategy.select_best_alternative(
+                evaluations)
+            selected_evaluation = next(
+                e for e in evaluations if e.alternative_id == selected_id)
 
             # Generate implementation plan
             implementation_timeline = self._generate_implementation_timeline(
@@ -473,28 +493,33 @@ class DecisionMakingBridge:
             if self.config.get("learning_enabled", False):
                 self._track_decision_for_learning(context, outcome, evaluations)
 
-            decision_duration = (datetime.now(timezone.utc) - decision_start).total_seconds()
+            decision_duration = (
+                datetime.now(
+                    timezone.utc) -
+                decision_start).total_seconds()
 
             self.logger.info("Decision process completed",
-                           decision_id=context.decision_id,
-                           selected_alternative=selected_id,
-                           confidence=outcome.confidence.name,
-                           duration_seconds=decision_duration)
+                             decision_id=context.decision_id,
+                             selected_alternative=selected_id,
+                             confidence=outcome.confidence.name,
+                             duration_seconds=decision_duration)
 
             return outcome
 
         except Exception as e:
             self.logger.error("Decision process failed",
-                            decision_id=context.decision_id,
-                            error=str(e))
+                              decision_id=context.decision_id,
+                              error=str(e))
             # Clean up active decision
             if context.decision_id in self.active_decisions:
                 del self.active_decisions[context.decision_id]
             raise
         finally:
             # Clean up active decision if completed
-# SYNTAX_ERROR_FIXED:             if context.decision_id in self.active_decisions and " + "self.active_decisions[context.decision_id] is not None:
-                del self.active_decisions[context.decision_id]
+            # SYNTAX_ERROR_FIXED:             if context.decision_id in
+            # self.active_decisions and " +
+            # "self.active_decisions[context.decision_id] is not None:
+            del self.active_decisions[context.decision_id]
 
     def get_decision_status(self, decision_id: str) -> Dict[str, Any]:
         """Get the status of a decision proces"""
@@ -523,8 +548,8 @@ class DecisionMakingBridge:
 
         except Exception as e:
             self.logger.error("Failed to get decision status",
-                            decision_id=decision_id,
-                            error=str(e))
+                              decision_id=decision_id,
+                              error=str(e))
             return {"status": "error", "error": str(e)}
 
     def register_decision_strategy(self, name: str, strategy: DecisionStrategy) -> None:
@@ -550,7 +575,8 @@ class DecisionMakingBridge:
                 type_distribution["unknown"] = type_distribution.get("unknown", 0) + 1
 
             # Analyze confidence patterns
-            confidences = [outcome.confidence.value for outcome in self.decision_history]
+            confidences = [
+                outcome.confidence.value for outcome in self.decision_history]
             avg_confidence = np.mean(confidences)
             confidence_trend = self._calculate_confidence_trend(confidences)
 
@@ -614,7 +640,10 @@ class DecisionMakingBridge:
 
     # Internal helper methods
 
-    def _validate_decision_inputs(self, context: DecisionContext, alternatives: List[DecisionAlternative]) -> None:
+    def _validate_decision_inputs(
+            self,
+            context: DecisionContext,
+            alternatives: List[DecisionAlternative]) -> None:
         """Validate decision input"""
         if not context.decision_id:
             raise ValueError("Decision ID is required")
@@ -623,14 +652,18 @@ class DecisionMakingBridge:
             raise ValueError("At least one alternative is required")
 
         if len(alternatives) > self.config["max_alternatives"]:
-            raise ValueError(f"Too many alternatives: {len(alternatives)} > {self.config['max_alternatives']}")
+            raise ValueError(
+                f"Too many alternatives: {len(alternatives)} > {self.config['max_alternatives']}")
 
         # Validate alternative IDs are unique
         alt_ids = [alt.alternative_id for alt in alternatives]
         if len(alt_ids) != len(set(alt_ids)):
             raise ValueError("Alternative IDs must be unique")
 
-    def _select_strategy(self, context: DecisionContext, strategy_name: Optional[str]) -> DecisionStrategy:
+    def _select_strategy(
+            self,
+            context: DecisionContext,
+            strategy_name: Optional[str]) -> DecisionStrategy:
         """Select appropriate decision strategy"""
         if strategy_name and strategy_name in self.strategies:
             return self.strategies[strategy_name]
@@ -638,13 +671,18 @@ class DecisionMakingBridge:
         # Strategy selection logic based on context
         if context.decision_type == DecisionType.EMERGENCY:
             # For emergency decisions, use fastest strategy
-            return self.strategies.get("utility_maximization", list(self.strategies.values())[0])
+            return self.strategies.get(
+                "utility_maximization", list(
+                    self.strategies.values())[0])
 
         # Default strategy
         default_name = self.config.get("default_strategy", "utility_maximization")
         return self.strategies.get(default_name, list(self.strategies.values())[0])
 
-    async def _enhance_alternatives(self, context: DecisionContext, alternatives: List[DecisionAlternative]) -> List[DecisionAlternative]:
+    async def _enhance_alternatives(
+            self,
+            context: DecisionContext,
+            alternatives: List[DecisionAlternative]) -> List[DecisionAlternative]:
         """Enhance alternatives with integrated analysi"""
         enhanced = []
 
@@ -664,7 +702,10 @@ class DecisionMakingBridge:
 
         return enhanced
 
-    async def _apply_ethical_filtering(self, context: DecisionContext, evaluations: List[DecisionEvaluation]) -> List[DecisionEvaluation]:
+    async def _apply_ethical_filtering(
+            self,
+            context: DecisionContext,
+            evaluations: List[DecisionEvaluation]) -> List[DecisionEvaluation]:
         """Apply ethical filtering to evaluation"""
         # This would integrate with the actual ethical governor
         # For now, apply simple ethical scoring
@@ -676,7 +717,10 @@ class DecisionMakingBridge:
 
         return evaluations
 
-    async def _apply_energy_constraints(self, context: DecisionContext, evaluations: List[DecisionEvaluation]) -> List[DecisionEvaluation]:
+    async def _apply_energy_constraints(
+            self,
+            context: DecisionContext,
+            evaluations: List[DecisionEvaluation]) -> List[DecisionEvaluation]:
         """Apply energy constraints to evaluation"""
         # This would integrate with the actual energy planner
         # For now, apply simple energy considerations
@@ -690,9 +734,14 @@ class DecisionMakingBridge:
 
         return evaluations
 
-    def _generate_implementation_timeline(self, context: DecisionContext, evaluation: DecisionEvaluation, alternatives: List[DecisionAlternative]) -> List[Dict[str, Any]]:
+    def _generate_implementation_timeline(self,
+                                          context: DecisionContext,
+                                          evaluation: DecisionEvaluation,
+                                          alternatives: List[DecisionAlternative]) -> List[Dict[str,
+                                                                                                Any]]:
         """Generate implementation timeline for selected alternative"""
-        selected_alt = next(alt for alt in alternatives if alt.alternative_id == evaluation.alternative_id)
+        selected_alt = next(
+            alt for alt in alternatives if alt.alternative_id == evaluation.alternative_id)
 
         timeline = []
         start_time = datetime.now(timezone.utc)
@@ -709,7 +758,8 @@ class DecisionMakingBridge:
 
         return timeline
 
-    def _create_monitoring_plan(self, context: DecisionContext, evaluation: DecisionEvaluation) -> Dict[str, Any]:
+    def _create_monitoring_plan(self, context: DecisionContext,
+                                evaluation: DecisionEvaluation) -> Dict[str, Any]:
         """Create monitoring plan for decision implementation"""
         return {
             "monitoring_frequency": "daily",
@@ -729,7 +779,8 @@ class DecisionMakingBridge:
             ]
         }
 
-    def _create_rollback_plan(self, context: DecisionContext, evaluation: DecisionEvaluation) -> Optional[Dict[str, Any]]:
+    def _create_rollback_plan(self, context: DecisionContext,
+                              evaluation: DecisionEvaluation) -> Optional[Dict[str, Any]]:
         """Create rollback plan in case decision needs to be reversed"""
         if evaluation.overall_score > 0.8:
             return None  # High confidence decisions may not need rollback plans
@@ -750,7 +801,11 @@ class DecisionMakingBridge:
             "resource_requirements": {}
         }
 
-    def _build_decision_rationale(self, context: DecisionContext, selected: DecisionEvaluation, all_evaluations: List[DecisionEvaluation]) -> str:
+    def _build_decision_rationale(
+            self,
+            context: DecisionContext,
+            selected: DecisionEvaluation,
+            all_evaluations: List[DecisionEvaluation]) -> str:
         """Build comprehensive rationale for the decision"""
         rationale_parts = []
 
@@ -758,26 +813,36 @@ class DecisionMakingBridge:
         rationale_parts.append(f"Decision context: {context.description}")
 
         # Selection reasoning
-        rationale_parts.append(f"Selected alternative {selected.alternative_id} with overall score {selected.overall_score:.2f}")
+        rationale_parts.append(
+            f"Selected alternative {selected.alternative_id} with overall score {selected.overall_score:.2f}")
 
         # Key factors
-        top_criteria = sorted(selected.criteria_scores.items(), key=lambda x: x[1], reverse=True)[:3]
-        criteria_text = ", ".join([f"{criteria.value}: {score:.2f}" for criteria, score in top_criteria])
+        top_criteria = sorted(
+            selected.criteria_scores.items(),
+            key=lambda x: x[1],
+            reverse=True)[
+            :3]
+        criteria_text = ", ".join(
+            [f"{criteria.value}: {score:.2f}" for criteria, score in top_criteria])
         rationale_parts.append(f"Key evaluation criteria: {criteria_text}")
 
         # Comparison with other alternatives
-        other_scores = [e.overall_score for e in all_evaluations if e.alternative_id != selected.alternative_id]
+        other_scores = [
+            e.overall_score for e in all_evaluations if e.alternative_id != selected.alternative_id]
         if other_scores:
             avg_other = np.mean(other_scores)
-            rationale_parts.append(f"Selected alternative scored {selected.overall_score - avg_other:.2f} points above average")
+            rationale_parts.append(
+                f"Selected alternative scored {selected.overall_score - avg_other:.2f} points above average")
 
         # Risk and uncertainty acknowledgment
         if selected.uncertainty_factors:
-            rationale_parts.append(f"Acknowledged uncertainties: {', '.join(selected.uncertainty_factors)}")
+            rationale_parts.append(
+                f"Acknowledged uncertainties: {', '.join(selected.uncertainty_factors)}")
 
         return ". ".join(rationale_parts) + "."
 
-    def _create_evaluation_summary(self, evaluations: List[DecisionEvaluation]) -> Dict[str, Any]:
+    def _create_evaluation_summary(
+            self, evaluations: List[DecisionEvaluation]) -> Dict[str, Any]:
         """Create summary of all evaluation"""
         return {
             "total_alternatives": len(evaluations),
@@ -792,21 +857,23 @@ class DecisionMakingBridge:
             }
         }
 
-    def _track_decision_for_learning(self, context: DecisionContext, outcome: DecisionOutcome, evaluations: List[DecisionEvaluation]) -> None:
+    def _track_decision_for_learning(
+            self,
+            context: DecisionContext,
+            outcome: DecisionOutcome,
+            evaluations: List[DecisionEvaluation]) -> None:
         """Track decision for machine learning and improvement"""
         tracking_data = {
             "context_features": {
                 "decision_type": context.decision_type.value,
                 "urgency": context.urgency,
                 "complexity": context.complexity,
-                "ethical_weight": context.ethical_weight
-            },
+                "ethical_weight": context.ethical_weight},
             "outcome_features": {
                 "confidence": outcome.confidence.value,
-                "selected_score": next(e.overall_score for e in evaluations if e.alternative_id == outcome.selected_alternative)
-            },
-            "timestamp": outcome.decided_at.isoformat()
-        }
+                "selected_score": next(
+                    e.overall_score for e in evaluations if e.alternative_id == outcome.selected_alternative)},
+            "timestamp": outcome.decided_at.isoformat()}
 
         self.decision_outcomes_tracking[outcome.decision_id] = tracking_data
 
@@ -820,7 +887,8 @@ class DecisionMakingBridge:
         slope = np.polyfit(x, confidences, 1)[0]
         return slope
 
-    def _analyze_decision_timing(self, decision_times: List[datetime]) -> Dict[str, Any]:
+    def _analyze_decision_timing(
+            self, decision_times: List[datetime]) -> Dict[str, Any]:
         """Analyze timing patterns in decision"""
         if len(decision_times) < 2:
             return {"message": "Insufficient data for timing analysis"}
@@ -828,14 +896,15 @@ class DecisionMakingBridge:
         # Calculate intervals between decisions
         intervals = []
         for i in range(1, len(decision_times)):
-            interval = (decision_times[i] - decision_times[i-1]).total_seconds()
+            interval = (decision_times[i] - decision_times[i - 1]).total_seconds()
             intervals.append(interval)
 
         return {
             "average_interval_seconds": np.mean(intervals),
-            "decision_frequency_per_hour": 3600 / np.mean(intervals) if intervals else 0,
-            "pattern": "regular" if np.std(intervals) < np.mean(intervals) * 0.5 else "irregular"
-        }
+            "decision_frequency_per_hour": 3600 /
+            np.mean(intervals) if intervals else 0,
+            "pattern": "regular" if np.std(intervals) < np.mean(intervals) *
+            0.5 else "irregular"}
 
 
 # Factory function for Lukhas integration

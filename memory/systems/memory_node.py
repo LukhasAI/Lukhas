@@ -8,12 +8,13 @@ Design inspired by:
 - Apple's privacy-focused approach to personal data
 - OpenAI's sophisticated vector-based memory architectures
 """
+import logging
 
 import hashlib
 import time
 import uuid
 from collections import deque
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -61,9 +62,9 @@ class MemoryNode:
 
     def store(
         self,
-        data: Dict[str, Any],
+        data: dict[str, Any],
         memory_type: str = "default",
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
         encrypt: bool = True,
     ) -> str:
         """
@@ -128,7 +129,7 @@ class MemoryNode:
         )
         return memory_id
 
-    def retrieve(self, memory_id: str) -> Optional[Dict[str, Any]]:
+    def retrieve(self, memory_id: str) -> Optional[dict[str, Any]]:
         """
         Retrieve a specific memory by ID
 
@@ -165,7 +166,7 @@ class MemoryNode:
         logger.warning(f"Memory not found: {memory_id}")
         return None
 
-    def retrieve_recent(self, limit: int = 10) -> List[Dict[str, Any]]:
+    def retrieve_recent(self, limit: int = 10) -> list[dict[str, Any]]:
         """
         Retrieve the most recent memories
 
@@ -188,7 +189,7 @@ class MemoryNode:
 
     def retrieve_by_type(
         self, memory_type: str, limit: int = 10
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Retrieve memories of a specific type
 
@@ -226,7 +227,7 @@ class MemoryNode:
 
         return [self._prepare_memory_for_return(memory) for memory in matches]
 
-    def semantic_search(self, query: str, limit: int = 5) -> List[Dict[str, Any]]:
+    def semantic_search(self, query: str, limit: int = 5) -> list[dict[str, Any]]:
         """
         Search for memories semantically related to the query
 
@@ -245,7 +246,7 @@ class MemoryNode:
 
         # Calculate similarity with all memory embeddings
         similarities = []
-        for idx, embedding_data in enumerate(self.memory_embeddings):
+        for _idx, embedding_data in enumerate(self.memory_embeddings):
             similarity = self._calculate_similarity(
                 query_embedding, embedding_data["embedding"]
             )
@@ -348,8 +349,8 @@ class MemoryNode:
     def update_memory(
         self,
         memory_id: str,
-        data: Optional[Dict[str, Any]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        data: Optional[dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
         importance: Optional[float] = None,
     ) -> bool:
         """
@@ -427,7 +428,7 @@ class MemoryNode:
         logger.debug(f"Updated memory: {memory_id}")
         return True
 
-    def get_memory_stats(self) -> Dict[str, Any]:
+    def get_memory_stats(self) -> dict[str, Any]:
         """
         Get memory system statistics
 
@@ -449,7 +450,7 @@ class MemoryNode:
         }
 
     def _calculate_importance(
-        self, data: Dict[str, Any], metadata: Dict[str, Any]
+        self, data: dict[str, Any], metadata: dict[str, Any]
     ) -> float:
         """
         Calculate the importance of a memory for long-term storage
@@ -487,7 +488,7 @@ class MemoryNode:
 
         return min(1.0, importance)
 
-    def _generate_embedding(self, data: Dict[str, Any]) -> np.ndarray:
+    def _generate_embedding(self, data: dict[str, Any]) -> np.ndarray:
         """
         Generate an embedding vector for memory data
 
@@ -536,7 +537,7 @@ class MemoryNode:
         # For simulation, generate a random key
         return hashlib.sha256(str(uuid.uuid4()).encode()).digest()
 
-    def _encrypt_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _encrypt_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """
         Encrypt sensitive memory data
 
@@ -564,7 +565,7 @@ class MemoryNode:
 
         return encrypted_data
 
-    def _decrypt_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _decrypt_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """
         Decrypt encrypted memory data
 
@@ -581,7 +582,7 @@ class MemoryNode:
         decrypted_data = {}
 
         for key, value in data.items():
-            if isinstance(value, dict) and value.get("__encrypted") == True:
+            if isinstance(value, dict) and value.get("__encrypted"):
                 # Extract original value from the encrypted data
                 encrypted_str = value.get("data", "")
                 if encrypted_str.startswith("ENCRYPTED:"):
@@ -595,12 +596,12 @@ class MemoryNode:
 
         return decrypted_data
 
-    def _update_memory_access(self, memory: Dict[str, Any]) -> None:
+    def _update_memory_access(self, memory: dict[str, Any]) -> None:
         """Update memory access statistics"""
         memory["access_count"] = memory.get("access_count", 0) + 1
         memory["last_accessed"] = time.time()
 
-    def _prepare_memory_for_return(self, memory: Dict[str, Any]) -> Dict[str, Any]:
+    def _prepare_memory_for_return(self, memory: dict[str, Any]) -> dict[str, Any]:
         """
         Prepare a memory for returning to the caller
 
@@ -649,7 +650,7 @@ class MemoryNode:
             # Retrieve memory
             memory_id = payload.get("memory_id")
             if memory_id:
-                memory = self.retrieve(memory_id)
+                self.retrieve(memory_id)
                 # Would need to send response message with memory
 
         elif message_type == "semantic_search":
@@ -658,5 +659,5 @@ class MemoryNode:
             limit = payload.get("limit", 5)
 
             if query:
-                results = self.semantic_search(query, limit)
+                self.semantic_search(query, limit)
                 # Would need to send response message with results

@@ -41,7 +41,8 @@ class Modulator:
         current: Any = None,
         ctx: Optional[Dict[str, float]] = None,
     ):
-        # safe mini-evaluator: supports x, min, max, round, numbers, simple ops, and 'a if cond else b'
+        # safe mini-evaluator: supports x, min, max, round, numbers, simple ops,
+        # and 'a if cond else b'
         local = {
             "x": x,
             "min": min,

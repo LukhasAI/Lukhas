@@ -25,7 +25,7 @@
 
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 import structlog
@@ -64,8 +64,8 @@ class QuantumCoherenceEnhancer:
             base_coherence: Current baseline coherence (default: 102.22%)
         """
         self.base_coherence = base_coherence
-        self.quantum_states: List[QuantumState] = []
-        self.enhancement_history: List[Dict[str, Any]] = []
+        self.quantum_states: list[QuantumState] = []
+        self.enhancement_history: list[dict[str, Any]] = []
 
         # Enhancement parameters (tunable)
         self.phase_coupling_strength = 0.1
@@ -148,9 +148,9 @@ class QuantumCoherenceEnhancer:
     def enhance_coherence(
         self,
         current_coherence: float,
-        bio_data: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Tuple[float, Dict[str, Any]]:
+        bio_data: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
+    ) -> tuple[float, dict[str, Any]]:
         """
         Enhance bio-symbolic coherence using quantum collapse.
 
@@ -232,7 +232,7 @@ class QuantumCoherenceEnhancer:
 
         return enhanced_coherence, enhancement_details
 
-    def _compute_amplitude(self, bio_data: Dict[str, Any]) -> float:
+    def _compute_amplitude(self, bio_data: dict[str, Any]) -> float:
         """
         Compute quantum amplitude from bio data.
 
@@ -253,7 +253,7 @@ class QuantumCoherenceEnhancer:
 
         return amplitude
 
-    def _compute_phase(self, bio_data: Dict[str, Any]) -> float:
+    def _compute_phase(self, bio_data: dict[str, Any]) -> float:
         """
         Compute quantum phase from bio data.
 
@@ -273,7 +273,7 @@ class QuantumCoherenceEnhancer:
 
         return phase
 
-    def _compute_entropy_change(self, bio_data: Dict[str, Any]) -> float:
+    def _compute_entropy_change(self, bio_data: dict[str, Any]) -> float:
         """
         Compute entropy change from bio data.
 
@@ -324,7 +324,7 @@ class QuantumCoherenceEnhancer:
 
         return np.clip(alignment, 0, 1)
 
-    def get_quantum_summary(self) -> Dict[str, Any]:
+    def get_quantum_summary(self) -> dict[str, Any]:
         """Get summary of quantum enhancement performance."""
         if not self.enhancement_history:
             return {

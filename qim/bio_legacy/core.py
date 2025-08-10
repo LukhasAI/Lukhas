@@ -30,7 +30,7 @@ import asyncio
 import logging
 import math
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -47,7 +47,7 @@ class BioCore:
     Implements consciousness simulation, bio-rhythms, and conscious processing.
     """
 
-    def __init__(self, memory_manager=None, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, memory_manager=None, config: Optional[dict[str, Any]] = None):
         """Initialize the BioCore system."""
         self.config = config or {}
         self.memory_manager = memory_manager
@@ -115,8 +115,8 @@ class BioCore:
         return self.consciousness_level
 
     async def process_conscious_input(
-        self, input_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, input_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Process input through conscious bio-processing.
 
@@ -180,7 +180,7 @@ class BioCore:
             }
 
     async def _store_conscious_memory(
-        self, input_data: Dict[str, Any], response: Dict[str, Any]
+        self, input_data: dict[str, Any], response: dict[str, Any]
     ):
         """Store conscious interaction in memory."""
         try:
@@ -202,7 +202,7 @@ class BioCore:
         logger.info("Shutting down BioCore system...")
         self.is_initialized = False
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get current system status."""
         return {
             "module": "bio_core",

@@ -15,6 +15,7 @@ DEPENDENCIES:
   - core/memory/memory_manager.py
   - core/identity/identity_manager.py
 """
+import logging
 
 # 📄 MODULE: voice_profiling.py
 # 🔎 PURPOSE: Advanced voice profiling for personalized and adaptive speech synthesis
@@ -26,7 +27,7 @@ import os
 import random
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class VoiceProfilingEmotionEngine:
@@ -40,7 +41,7 @@ class VoiceProfilingEmotionEngine:
     - Usage statistics and adaptation data
     """
 
-    def __init__(self, profile_id: str, name: str, parameters: Dict[str, Any] = None):
+    def __init__(self, profile_id: str, name: str, parameters: dict[str, Any] = None):
         self.id = profile_id
         self.name = name
         self.parameters = parameters or {}
@@ -93,7 +94,7 @@ class VoiceProfilingEmotionEngine:
 
     def get_parameters_for_emotion(
         self, emotion: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get parameters adjusted for a specific emotion."""
         # Start with base parameters
         result = copy.deepcopy(self.parameters)
@@ -109,7 +110,7 @@ class VoiceProfilingEmotionEngine:
 
     def get_provider_parameters(
         self, provider: str, emotion: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get provider-specific parameters, adjusted for emotion if needed."""
         if provider not in self.provider_parameters:
             return {}
@@ -127,7 +128,7 @@ class VoiceProfilingEmotionEngine:
 
         return result
 
-    def add_feedback(self, feedback: Dict[str, Any]) -> None:
+    def add_feedback(self, feedback: dict[str, Any]) -> None:
         """Add user feedback to the profile."""
         self.feedback_history.append(
             {
@@ -138,12 +139,12 @@ class VoiceProfilingEmotionEngine:
         )
         self.updated_at = datetime.now().isoformat()
 
-    def record_usage(self, context: Dict[str, Any]) -> None:
+    def record_usage(self, context: dict[str, Any]) -> None:
         """Record profile usage with context."""
         self.usage_count += 1
         self.updated_at = datetime.now().isoformat()
 
-    def evolve(self, direction: str = "auto") -> Dict[str, Any]:
+    def evolve(self, direction: str = "auto") -> dict[str, Any]:
         """
         Evolve the profile based on feedback and usage patterns.
 
@@ -203,7 +204,8 @@ class VoiceProfilingEmotionEngine:
 
         elif direction == "refine":
             # Make subtle refinements based on usage patterns
-            # This is simplified - a real implementation would analyze patterns more deeply
+            # This is simplified - a real implementation would analyze patterns more
+            # deeply
             if self.usage_count > 50:
                 # Slightly increase expressiveness for well-used profiles
                 self.parameters["expressiveness"] = min(
@@ -223,7 +225,7 @@ class VoiceProfilingEmotionEngine:
         self.updated_at = datetime.now().isoformat()
         return changes
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert profile to dictionary for serialization."""
         return {
             "id": self.id,
@@ -239,7 +241,7 @@ class VoiceProfilingEmotionEngine:
         }
 
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> "VoiceProfile":
+    def from_dict(data: dict[str, Any]) -> "VoiceProfile":
         """Create a profile from dictionary data."""
         profile = VoiceProfile(
             profile_id=data.get("id"),
@@ -317,7 +319,7 @@ class VoiceProfilingEmotionEngine:
             self.logger.error(f"Error saving profile {profile.id}: {str(e)}")
             return False
 
-    def create_profile(self, name: str, parameters: Dict[str, Any] = None) -> str:
+    def create_profile(self, name: str, parameters: dict[str, Any] = None) -> str:
         """Create a new voice profile."""
         profile_id = str(uuid.uuid4())
         profile = VoiceProfile(profile_id, name, parameters)
@@ -332,7 +334,7 @@ class VoiceProfilingEmotionEngine:
         """Get a profile by ID."""
         return self.profiles.get(profile_id)
 
-    def list_profiles(self) -> List[Dict[str, Any]]:
+    def list_profiles(self) -> list[dict[str, Any]]:
         """List all available profiles."""
         return [
             {
@@ -344,7 +346,7 @@ class VoiceProfilingEmotionEngine:
             for p in self.profiles.values()
         ]
 
-    def select_profile_for_context(self, context: Dict[str, Any]) -> str:
+    def select_profile_for_context(self, context: dict[str, Any]) -> str:
         """
         Intelligently select the best profile for a given context.
 
@@ -410,7 +412,7 @@ class VoiceProfilingEmotionEngine:
         # Otherwise select the first candidate
         return candidates[0].id if candidates else list(self.profiles.keys())[0]
 
-    def record_usage(self, profile_id: str, context: Dict[str, Any]) -> bool:
+    def record_usage(self, profile_id: str, context: dict[str, Any]) -> bool:
         """
         Record profile usage with context.
 
@@ -429,8 +431,8 @@ class VoiceProfilingEmotionEngine:
         return self._save_profile(profile)
 
     def provide_feedback(
-        self, profile_id: str, feedback: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, profile_id: str, feedback: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Provide feedback on a profile and evolve it if appropriate.
 
@@ -485,8 +487,8 @@ class VoiceProfilingEmotionEngine:
             return False
 
     async def integrate_with_voice_system(
-        self, profile_id: str, voice_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, profile_id: str, voice_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Integrate profile with voice system data"""
         profile = self.get_profile(profile_id)
         if not profile:
@@ -506,7 +508,7 @@ class VoiceProfilingEmotionEngine:
         self._save_profile(profile)
         return {"success": True, "profile_id": profile_id}
 
-    async def get_voice_system_parameters(self, profile_id: str) -> Dict[str, Any]:
+    async def get_voice_system_parameters(self, profile_id: str) -> dict[str, Any]:
         """Get parameters formatted for voice system"""
         profile = self.get_profile(profile_id)
         if not profile:

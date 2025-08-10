@@ -61,7 +61,8 @@ class SecurityAuditLogger:
             with open(self.log_file, "a") as f:
                 f.write(json.dumps(audit_entry) + "\n")
 
-            self.logger.info(f"Governance decision logged: {decision_data.get('action_id', 'unknown')}")
+            self.logger.info(
+                f"Governance decision logged: {decision_data.get('action_id', 'unknown')}")
 
         except Exception as e:
             self.logger.error(f"Failed to log governance decision: {e}")
@@ -74,7 +75,8 @@ class InputValidator:
         self.logger = logging.getLogger("Λgi.validation")
         self.logger = logging.getLogger("lukhasgi.validation")
 
-    def validate_input(self, data: Any, data_type: str = "unknown") -> Tuple[bool, List[str]]:
+    def validate_input(
+        self, data: Any, data_type: str = "unknown") -> Tuple[bool, List[str]]:
         """Validate input data for governance processing."""
         errors = []
 
@@ -103,11 +105,13 @@ class CapabilityController:
 
     def __init__(self, capability_config: Dict[str, Any] = None):
         self.capability_config = capability_config or {}
-        self.allowed_capabilities = self.capability_config.get("allowed_capabilities", [])
+        self.allowed_capabilities = self.capability_config.get(
+            "allowed_capabilities", [])
         self.logger = logging.getLogger("Λgi.capabilities")
         self.logger = logging.getLogger("lukhasgi.capabilities")
 
-    def check_capability_allowed(self, capability: str, context: Dict[str, Any] = None) -> bool:
+    def check_capability_allowed(
+        self, capability: str, context: Dict[str, Any] = None) -> bool:
         """Check if a capability is allowed for the current context."""
         try:
             if not capability:
@@ -134,7 +138,8 @@ class EthicsEngine:
         self.logger = logging.getLogger("Λgi.ethics")
         self.logger = logging.getLogger("lukhasgi.ethics")
 
-    def evaluate_ethical_impact(self, action: Dict[str, Any], context: Dict[str, Any] = None) -> Dict[str, Any]:
+    def evaluate_ethical_impact(
+        self, action: Dict[str, Any], context: Dict[str, Any] = None) -> Dict[str, Any]:
         """Evaluate the ethical impact of an action."""
         try:
             ethical_assessment = {
@@ -153,15 +158,18 @@ class EthicsEngine:
             if action_type in high_risk_types:
                 ethical_assessment["risk_level"] = RiskLevel.HIGH.value
                 ethical_assessment["overall_score"] = 0.4
-                ethical_assessment["ethical_concerns"].append(f"High-risk action type: {action_type}")
+                ethical_assessment["ethical_concerns"].append(
+                    f"High-risk action type: {action_type}")
 
             # Check for personal data involvement
             if context and context.get("involves_personal_data", False):
-                ethical_assessment["ethical_concerns"].append("Action involves personal data")
+                ethical_assessment["ethical_concerns"].append(
+                    "Action involves personal data")
                 ethical_assessment["overall_score"] -= 0.1
 
             # Ensure score bounds
-            ethical_assessment["overall_score"] = max(0.0, min(1.0, ethical_assessment["overall_score"]))
+            ethical_assessment["overall_score"] = max(
+                0.0, min(1.0, ethical_assessment["overall_score"]))
 
             return ethical_assessment
 
@@ -209,7 +217,8 @@ class GIGovernanceEngine:
         self.audit_logger = SecurityAuditLogger("lukhasgi_governance_audit.log")
 
         # Governance policies
-        self.require_ethical_approval = self.governance_config.get("require_ethical_approval", True)
+        self.require_ethical_approval = self.governance_config.get(
+            "require_ethical_approval", True)
         self.min_ethical_score = self.governance_config.get("min_ethical_score", 0.6)
 
         self.logger = logging.getLogger("Λgi.governance")
@@ -248,12 +257,14 @@ class GIGovernanceEngine:
 
         try:
             # 1. Input Validation
-            is_valid, validation_errors = self.input_validator.validate_input(action, "action")
+            is_valid, validation_errors = self.input_validator.validate_input(
+                action, "action")
             evaluation_result["validation_passed"] = is_valid
             evaluation_result["validation_errors"] = validation_errors
 
             if not is_valid:
-                evaluation_result["decision_reasoning"].append("Input validation failed")
+                evaluation_result["decision_reasoning"].append(
+                    "Input validation failed")
                 self.audit_logger.log_decision(evaluation_result)
                 return evaluation_result
 

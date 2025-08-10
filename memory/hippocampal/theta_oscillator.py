@@ -17,7 +17,7 @@ import math
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable
 
 import numpy as np
 
@@ -73,7 +73,7 @@ class ThetaOscillator:
         self.last_update = time.time()
 
         # Phase-locked loops for synchronization
-        self.phase_locked_oscillators: Dict[str, float] = {}
+        self.phase_locked_oscillators: dict[str, float] = {}
 
         # Gamma coupling (30-100 Hz nested in theta)
         self.enable_gamma_coupling = True
@@ -81,11 +81,11 @@ class ThetaOscillator:
         self.gamma_phase = 0.0
 
         # History for analysis
-        self.wave_history: List[ThetaWave] = []
+        self.wave_history: list[ThetaWave] = []
         self.max_history = 1000
 
         # Callbacks for phase-specific events
-        self.phase_callbacks: Dict[OscillationPhase, List[Callable]] = {
+        self.phase_callbacks: dict[OscillationPhase, list[Callable]] = {
             phase: [] for phase in OscillationPhase
         }
 
@@ -281,7 +281,7 @@ class ThetaOscillator:
             self.current_amplitude = self.base_amplitude * (1 + amplitude_variation)
 
             # Update phase-locked oscillators
-            for osc_id, target_offset in self.phase_locked_oscillators.items():
+            for _osc_id, _target_offset in self.phase_locked_oscillators.items():
                 # They should maintain constant phase offset
                 # In real implementation, would send sync signal
                 pass
@@ -306,7 +306,7 @@ class ThetaOscillator:
             sleep_time = 1.0 / (instantaneous_freq * 10)
             await asyncio.sleep(sleep_time)
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get oscillator metrics"""
 
         if self.wave_history:

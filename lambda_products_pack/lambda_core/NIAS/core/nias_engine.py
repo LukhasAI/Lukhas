@@ -9,7 +9,7 @@ import uuid
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -127,7 +127,7 @@ class NIASEngine:
             logger.error(f"Error initializing DΛST integration: {e}")
             self.dast_adapter = None
 
-    def _initialize_emotional_gating(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_emotional_gating(self) -> dict[str, dict[str, Any]]:
         """Initialize emotional gating rules"""
         return {
             EmotionalState.RECEPTIVE.value: {
@@ -171,7 +171,7 @@ class NIASEngine:
             },
         }
 
-    def _initialize_symbolic_patterns(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_symbolic_patterns(self) -> dict[str, dict[str, Any]]:
         """Initialize symbolic processing patterns for LUKHAS integration"""
         return {
             "color_symbolism": {
@@ -208,8 +208,8 @@ class NIASEngine:
         }
 
     async def process_message(
-        self, message: Dict[str, Any], user_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, message: dict[str, Any], user_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Process a message through the complete NIΛS pipeline.
 
@@ -280,10 +280,10 @@ class NIASEngine:
 
     async def _phase_consent_check(
         self,
-        message: Dict[str, Any],
-        user_context: Dict[str, Any],
-        session: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        message: dict[str, Any],
+        user_context: dict[str, Any],
+        session: dict[str, Any],
+    ) -> dict[str, Any]:
         """Phase 1: Check user consent for message delivery"""
         phase_start = datetime.now()
 
@@ -324,10 +324,10 @@ class NIASEngine:
 
     async def _phase_emotional_gating(
         self,
-        message: Dict[str, Any],
-        user_context: Dict[str, Any],
-        session: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        message: dict[str, Any],
+        user_context: dict[str, Any],
+        session: dict[str, Any],
+    ) -> dict[str, Any]:
         """Phase 2: Check emotional state for appropriate timing using ΛBAS integration"""
         phase_start = datetime.now()
 
@@ -416,11 +416,11 @@ class NIASEngine:
 
     async def _phase_emotional_gating_fallback(
         self,
-        message: Dict[str, Any],
-        user_context: Dict[str, Any],
-        session: Dict[str, Any],
+        message: dict[str, Any],
+        user_context: dict[str, Any],
+        session: dict[str, Any],
         phase_start: datetime,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Fallback emotional gating using legacy heuristics"""
 
         # Get user's current emotional state (fallback method)
@@ -471,10 +471,10 @@ class NIASEngine:
 
     async def _phase_symbolic_processing(
         self,
-        message: Dict[str, Any],
-        user_context: Dict[str, Any],
-        session: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        message: dict[str, Any],
+        user_context: dict[str, Any],
+        session: dict[str, Any],
+    ) -> dict[str, Any]:
         """Phase 3: Apply symbolic processing using DΛST integration"""
         phase_start = datetime.now()
 
@@ -574,11 +574,11 @@ class NIASEngine:
 
     async def _phase_symbolic_processing_fallback(
         self,
-        message: Dict[str, Any],
-        user_context: Dict[str, Any],
-        session: Dict[str, Any],
+        message: dict[str, Any],
+        user_context: dict[str, Any],
+        session: dict[str, Any],
         phase_start: datetime,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Fallback symbolic processing using legacy patterns"""
 
         emotional_state = session["phases"][ProcessingPhase.EMOTIONAL_GATING.value][
@@ -628,10 +628,10 @@ class NIASEngine:
 
     async def _phase_tier_filtering(
         self,
-        message: Dict[str, Any],
-        user_context: Dict[str, Any],
-        session: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        message: dict[str, Any],
+        user_context: dict[str, Any],
+        session: dict[str, Any],
+    ) -> dict[str, Any]:
         """Phase 4: Apply tier-specific filtering"""
         phase_start = datetime.now()
 
@@ -661,10 +661,10 @@ class NIASEngine:
 
     async def _phase_widget_generation(
         self,
-        message: Dict[str, Any],
-        user_context: Dict[str, Any],
-        session: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        message: dict[str, Any],
+        user_context: dict[str, Any],
+        session: dict[str, Any],
+    ) -> dict[str, Any]:
         """Phase 5: Generate appropriate widget for delivery"""
         phase_start = datetime.now()
 
@@ -691,10 +691,10 @@ class NIASEngine:
 
     async def _phase_delivery(
         self,
-        delivery_data: Dict[str, Any],
-        user_context: Dict[str, Any],
-        session: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        delivery_data: dict[str, Any],
+        user_context: dict[str, Any],
+        session: dict[str, Any],
+    ) -> dict[str, Any]:
         """Phase 6: Complete message delivery"""
         phase_start = datetime.now()
 
@@ -749,8 +749,8 @@ class NIASEngine:
             }
 
     def _complete_processing(
-        self, session: Dict[str, Any], final_result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, session: dict[str, Any], final_result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Complete processing session with final result"""
         session["end_time"] = datetime.now().isoformat()
         session["total_duration_ms"] = (
@@ -772,7 +772,7 @@ class NIASEngine:
             "processed_at": session["end_time"],
         }
 
-    async def _assess_emotional_state(self, user_context: Dict[str, Any]) -> str:
+    async def _assess_emotional_state(self, user_context: dict[str, Any]) -> str:
         """Assess user's current emotional state using ΛBAS integration"""
         if self.abas_adapter:
             try:
@@ -809,7 +809,7 @@ class NIASEngine:
         # Fallback to legacy heuristic-based assessment
         return self._assess_emotional_state_fallback(user_context)
 
-    def _assess_emotional_state_fallback(self, user_context: Dict[str, Any]) -> str:
+    def _assess_emotional_state_fallback(self, user_context: dict[str, Any]) -> str:
         """Fallback emotional state assessment (legacy heuristics)"""
         # Check for stress indicators
         recent_interactions = user_context.get("recent_interactions", [])
@@ -826,14 +826,14 @@ class NIASEngine:
         # Default to neutral
         return EmotionalState.NEUTRAL.value
 
-    def _get_symbolic_colors(self, color_categories: List[str]) -> List[str]:
+    def _get_symbolic_colors(self, color_categories: list[str]) -> list[str]:
         """Get symbolic colors for given categories"""
         colors = []
         for category in color_categories:
             colors.extend(self.symbolic_patterns["color_symbolism"].get(category, []))
         return colors[:3]  # Limit to 3 colors
 
-    def _get_symbolic_elements(self, element_categories: List[str]) -> List[str]:
+    def _get_symbolic_elements(self, element_categories: list[str]) -> list[str]:
         """Get symbolic elements for given categories"""
         elements = []
         for category in element_categories:
@@ -848,8 +848,8 @@ class NIASEngine:
         return False
 
     async def _apply_symbolic_auth(
-        self, message: Dict[str, Any], user_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, message: dict[str, Any], user_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply LUKHAS symbolic authentication"""
         # Placeholder for ΛSYMBOLIC integration
         return {
@@ -860,8 +860,8 @@ class NIASEngine:
 
     async def _defer_message(
         self,
-        message: Dict[str, Any],
-        user_context: Dict[str, Any],
+        message: dict[str, Any],
+        user_context: dict[str, Any],
         defer_until: datetime,
     ):
         """Defer message for later processing"""
@@ -879,7 +879,7 @@ class NIASEngine:
         logger.info(f"Message deferred until {defer_until.isoformat()}: {defer_id}")
 
     async def _record_dream_seed(
-        self, message: Dict[str, Any], user_context: Dict[str, Any]
+        self, message: dict[str, Any], user_context: dict[str, Any]
     ):
         """Record dream seed for dream system integration"""
         try:
@@ -898,8 +898,8 @@ class NIASEngine:
             logger.error(f"Failed to record dream seed: {e}")
 
     async def check_emotional_state(
-        self, user_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Public method to check emotional state (used by NIAS Hub) with ΛBAS integration"""
         if self.abas_adapter:
             try:
@@ -970,7 +970,7 @@ class NIASEngine:
             except Exception as e:
                 logger.error(f"Failed to process deferred message {defer_id}: {e}")
 
-    async def get_processing_stats(self) -> Dict[str, Any]:
+    async def get_processing_stats(self) -> dict[str, Any]:
         """Get NIAS engine processing statistics"""
         return {
             **self.processing_stats,
@@ -979,7 +979,7 @@ class NIASEngine:
             "symbolic_patterns_available": len(self.symbolic_patterns),
         }
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for NIAS engine"""
         health_data = {
             "status": "healthy",

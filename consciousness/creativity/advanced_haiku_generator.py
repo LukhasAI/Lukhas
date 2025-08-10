@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 
 """
@@ -54,7 +56,7 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -314,7 +316,7 @@ class AdvancedHaikuGenerator:
                         "tech": 0.1,
                     },
                 )
-            except:
+            except BaseException:
                 pass
         # Default style weights
         return {
@@ -329,7 +331,7 @@ class AdvancedHaikuGenerator:
         theme: str = "consciousness",
         style: str = "contemplative",
         expansion_depth: int = 2,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate a single haiku with specified theme and style.
 
@@ -370,8 +372,8 @@ class AdvancedHaikuGenerator:
         }
 
     async def generate_haiku_series(
-        self, themes: List[str], count_per_theme: int = 1
-    ) -> Dict[str, Any]:
+        self, themes: list[str], count_per_theme: int = 1
+    ) -> dict[str, Any]:
         """Generate a series of haiku across multiple themes"""
         series_results = {}
         all_metrics = []
@@ -441,7 +443,7 @@ class AdvancedHaikuGenerator:
         if self.federated_model:
             try:
                 expansion_type = self.federated_model.predict_expansion_type(line)
-            except:
+            except BaseException:
                 expansion_type = random.choice(["imagery", "emotion", "contrast"])
         else:
             expansion_type = random.choice(["imagery", "emotion", "contrast"])
@@ -612,7 +614,7 @@ class AdvancedHaikuGenerator:
 
         return syllables
 
-    def _get_syllable_structure(self, haiku: str) -> List[int]:
+    def _get_syllable_structure(self, haiku: str) -> list[int]:
         """Get the syllable count for each line"""
         lines = haiku.split("\n")
         return [self._count_syllables_in_line(line) for line in lines]
@@ -622,13 +624,13 @@ class AdvancedHaikuGenerator:
         words = line.split()
         return sum(self._count_syllables(word) for word in words)
 
-    async def _calculate_consciousness_metrics(self, haiku: str) -> Dict[str, float]:
+    async def _calculate_consciousness_metrics(self, haiku: str) -> dict[str, float]:
         """Calculate consciousness-related metrics for the haiku"""
         if self.consciousness:
             try:
                 # Use quantum consciousness integration if available
                 return await self.consciousness.analyze_creative_resonance(haiku)
-            except:
+            except BaseException:
                 pass
 
         # Fallback metrics calculation
@@ -724,13 +726,9 @@ class AdvancedHaikuGenerator:
 class QuantumHaikuGenerator(AdvancedHaikuGenerator):
     """Legacy alias for QuantumHaikuGenerator"""
 
-    pass
-
 
 class NeuroHaikuGenerator(AdvancedHaikuGenerator):
     """Legacy alias for NeuroHaikuGenerator"""
-
-    pass
 
 
 async def main():

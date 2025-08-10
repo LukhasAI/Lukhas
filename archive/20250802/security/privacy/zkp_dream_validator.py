@@ -53,7 +53,7 @@ import secrets
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
@@ -90,12 +90,12 @@ class ZKPProof:
     proof_id: str
     proof_type: ZKPProofType
     proof_data: str  # Base64 encoded cryptographic proof
-    public_parameters: Dict[str, Any]
+    public_parameters: dict[str, Any]
     proof_hash: str
     validation_level: ZKPValidationLevel
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     expires_at: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -105,11 +105,11 @@ class ZKPValidationResult:
     proof_id: str
     is_valid: bool
     validation_confidence: float
-    validation_errors: List[str] = field(default_factory=list)
-    validation_warnings: List[str] = field(default_factory=list)
+    validation_errors: list[str] = field(default_factory=list)
+    validation_warnings: list[str] = field(default_factory=list)
     validated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     validator_signature: Optional[str] = None
-    audit_trail: Dict[str, Any] = field(default_factory=dict)
+    audit_trail: dict[str, Any] = field(default_factory=dict)
 
 
 class ZKPDreamValidator:
@@ -129,7 +129,7 @@ class ZKPDreamValidator:
     6. Support multiple validation levels for different security requirements
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the ZKP dream validator
 
@@ -145,20 +145,20 @@ class ZKPDreamValidator:
         self._initialize_cryptographic_keys()
 
         # Proof storage and tracking
-        self.generated_proofs: Dict[str, ZKPProof] = {}
-        self.validation_results: Dict[str, ZKPValidationResult] = {}
+        self.generated_proofs: dict[str, ZKPProof] = {}
+        self.validation_results: dict[str, ZKPValidationResult] = {}
 
         # Privacy parameters
         self.privacy_salt = secrets.token_bytes(32)
         self.commitment_schemes = {}
 
         # Audit and compliance
-        self.audit_log: List[Dict[str, Any]] = []
+        self.audit_log: list[dict[str, Any]] = []
         self.compliance_thresholds = self.config.get("compliance_thresholds", {})
 
         self.logger.info("ZKP dream validator initialized")
 
-    def _default_config(self) -> Dict[str, Any]:
+    def _default_config(self) -> dict[str, Any]:
         """Default configuration for the ZKP validator"""
         return {
             "key_size": 2048,
@@ -204,7 +204,7 @@ class ZKPDreamValidator:
             self.logger.error(f"Failed to initialize cryptographic keys: {e}")
             raise
 
-    def _initialize_pedersen_commitment(self) -> Dict[str, Any]:
+    def _initialize_pedersen_commitment(self) -> dict[str, Any]:
         """Initialize Pedersen commitment scheme parameters"""
         # Simplified Pedersen commitment for demonstration
         # In production, would use proper elliptic curve parameters
@@ -214,7 +214,7 @@ class ZKPDreamValidator:
             "field_prime": 2**256 - 189,  # Example large prime
         }
 
-    def _initialize_bulletproof_parameters(self) -> Dict[str, Any]:
+    def _initialize_bulletproof_parameters(self) -> dict[str, Any]:
         """Initialize Bulletproof parameters for range proofs"""
         return {
             "curve": "secp256k1",  # Example curve
@@ -224,7 +224,7 @@ class ZKPDreamValidator:
 
     async def generate_emotional_range_proof(
         self,
-        emotional_state: Dict[str, float],
+        emotional_state: dict[str, float],
         user_id: str,
         dream_id: str,
         validation_level: ZKPValidationLevel = ZKPValidationLevel.STANDARD,
@@ -362,7 +362,7 @@ class ZKPDreamValidator:
 
     async def generate_ethical_compliance_proof(
         self,
-        ethical_decision_data: Dict[str, Any],
+        ethical_decision_data: dict[str, Any],
         user_id: str,
         dream_id: str,
         validation_level: ZKPValidationLevel = ZKPValidationLevel.STANDARD,
@@ -486,7 +486,7 @@ class ZKPDreamValidator:
 
     async def generate_trauma_processing_proof(
         self,
-        trauma_processing_data: Dict[str, Any],
+        trauma_processing_data: dict[str, Any],
         user_id: str,
         dream_id: str,
         validation_level: ZKPValidationLevel = ZKPValidationLevel.ENHANCED,
@@ -616,7 +616,7 @@ class ZKPDreamValidator:
             raise
 
     async def validate_zkp_proof(
-        self, proof: ZKPProof, validation_context: Optional[Dict[str, Any]] = None
+        self, proof: ZKPProof, validation_context: Optional[dict[str, Any]] = None
     ) -> ZKPValidationResult:
         """
         Validate a zero-knowledge proof without requiring access to the original data.
@@ -739,7 +739,7 @@ class ZKPDreamValidator:
 
     def _create_pedersen_commitment(
         self, value: float, blinding_factor: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create a Pedersen commitment to a value"""
         params = self.commitment_schemes["pedersen"]
 
@@ -763,7 +763,7 @@ class ZKPDreamValidator:
         max_range: float,
         blinding_factor: int,
         validation_level: ZKPValidationLevel,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate a range proof for a value"""
         # Simplified range proof - in production would use bulletproofs or similar
         in_range = min_range <= value <= max_range
@@ -796,7 +796,7 @@ class ZKPDreamValidator:
         threshold: float,
         blinding_factor: int,
         validation_level: ZKPValidationLevel,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate a compliance proof"""
         compliant = compliance_score >= threshold
 
@@ -814,7 +814,7 @@ class ZKPDreamValidator:
         threshold: float,
         blinding_factor: int,
         validation_level: ZKPValidationLevel,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate a safety proof for trauma processing"""
         safe = safety_score >= threshold
 
@@ -827,7 +827,7 @@ class ZKPDreamValidator:
             "privacy_preserved": True,
         }
 
-    def _encrypt_sensitive_data(self, data: Dict[str, Any]) -> bytes:
+    def _encrypt_sensitive_data(self, data: dict[str, Any]) -> bytes:
         """Encrypt sensitive data using AES encryption"""
         # Generate random key and IV for AES encryption
         key = secrets.token_bytes(32)  # 256-bit key
@@ -850,7 +850,7 @@ class ZKPDreamValidator:
         # Store key and IV with the data (in production, would use key management)
         return key + iv + encrypted_data
 
-    def _decrypt_sensitive_data(self, encrypted_data: bytes) -> Dict[str, Any]:
+    def _decrypt_sensitive_data(self, encrypted_data: bytes) -> dict[str, Any]:
         """Decrypt sensitive data"""
         # Extract key, IV, and encrypted content
         key = encrypted_data[:32]
@@ -951,7 +951,7 @@ class ZKPDreamValidator:
         return hashlib.sha256(content.encode("utf-8")).hexdigest()[:16]
 
     def _generate_proof_hash(
-        self, proof_data: str, public_parameters: Dict[str, Any]
+        self, proof_data: str, public_parameters: dict[str, Any]
     ) -> str:
         """Generate a hash of the proof for integrity verification"""
         combined_data = proof_data + json.dumps(public_parameters, sort_keys=True)
@@ -981,7 +981,7 @@ class ZKPDreamValidator:
         """Get identifier for this validator instance"""
         return hashlib.sha256(self.privacy_salt).hexdigest()[:8]
 
-    def _add_audit_entry(self, event_type: str, data: Dict[str, Any]):
+    def _add_audit_entry(self, event_type: str, data: dict[str, Any]):
         """Add an entry to the audit log"""
         audit_entry = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -996,7 +996,7 @@ class ZKPDreamValidator:
         if len(self.audit_log) > max_entries:
             self.audit_log = self.audit_log[-max_entries:]
 
-    def get_validator_status(self) -> Dict[str, Any]:
+    def get_validator_status(self) -> dict[str, Any]:
         """Get comprehensive status of the ZKP validator"""
         return {
             "validator_status": "operational",

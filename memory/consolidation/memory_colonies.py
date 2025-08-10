@@ -15,7 +15,7 @@ Consolidated from 4 files:
 - memory/colonies/episodic_memory_colony.py
 """
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 class ConsolidatedMemorycolonies:
@@ -23,7 +23,7 @@ class ConsolidatedMemorycolonies:
         self.active_memories = {}
         self.processing_queue = []
 
-    async def process_memory(self, memory_data: Dict[str, Any]) -> Optional[Dict]:
+    async def process_memory(self, memory_data: dict[str, Any]) -> Optional[dict]:
         """Process memory through consolidated pipeline"""
         # TODO: Implement consolidated memory processing
         return None

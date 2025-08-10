@@ -36,7 +36,7 @@ import zlib
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 from cryptography.hazmat.backends import default_backend
@@ -44,8 +44,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 # Optional advanced libraries
 try:
-    from scipy.fft import dct, fft2, idct, ifft2
-    from scipy.signal import hilbert
+    from scipy.fft import dct, idct
 
     SCIPY_AVAILABLE = True
 except ImportError:
@@ -107,11 +106,11 @@ class SteganographicPayload:
     payload_type: PayloadType
     data: bytes
     encryption_key: Optional[bytes] = None
-    consciousness_lock: Optional[Dict[str, Any]] = None
+    consciousness_lock: Optional[dict[str, Any]] = None
     temporal_lock: Optional[datetime] = None
     quantum_signature: Optional[str] = None
-    plausible_alternatives: List[bytes] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    plausible_alternatives: list[bytes] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -188,8 +187,8 @@ class QuantumSteganographyEngine:
         self._initialize_consciousness_integration()
 
         # Cache for performance
-        self.embedding_cache: Dict[str, Any] = {}
-        self.extraction_cache: Dict[str, Any] = {}
+        self.embedding_cache: dict[str, Any] = {}
+        self.extraction_cache: dict[str, Any] = {}
 
         logger.info(
             f"🔮 Quantum Steganography Engine initialized in {default_mode.value} mode"
@@ -238,12 +237,12 @@ class QuantumSteganographyEngine:
     def embed_sovereign_data(
         self,
         visual_matrix: np.ndarray,
-        payload: Union[Dict[str, Any], bytes, str],
+        payload: Union[dict[str, Any], bytes, str],
         mode: Optional[SteganographyMode] = None,
-        consciousness_lock: Optional[Dict[str, Any]] = None,
+        consciousness_lock: Optional[dict[str, Any]] = None,
         temporal_lock: Optional[datetime] = None,
         quantum_entangle: bool = True,
-    ) -> Tuple[np.ndarray, SteganographicPayload]:
+    ) -> tuple[np.ndarray, SteganographicPayload]:
         """
         Embed sovereign data with maximum protection
 
@@ -341,8 +340,8 @@ class QuantumSteganographyEngine:
 
     def _prepare_payload(
         self,
-        data: Union[Dict[str, Any], bytes, str],
-        consciousness_lock: Optional[Dict[str, Any]],
+        data: Union[dict[str, Any], bytes, str],
+        consciousness_lock: Optional[dict[str, Any]],
         temporal_lock: Optional[datetime],
         quantum_entangle: bool,
     ) -> SteganographicPayload:
@@ -853,7 +852,7 @@ class QuantumSteganographyEngine:
         self,
         visual_matrix: np.ndarray,
         extraction_key: Optional[bytes] = None,
-        consciousness_context: Optional[Dict[str, Any]] = None,
+        consciousness_context: Optional[dict[str, Any]] = None,
         mode: Optional[SteganographyMode] = None,
     ) -> ExtractionResult:
         """
@@ -930,7 +929,7 @@ class QuantumSteganographyEngine:
         matrix: np.ndarray,
         mode: SteganographyMode,
         extraction_key: Optional[bytes],
-        consciousness_context: Optional[Dict[str, Any]],
+        consciousness_context: Optional[dict[str, Any]],
     ) -> ExtractionResult:
         """Extract using specific mode"""
 
@@ -1072,7 +1071,7 @@ class QuantumRandomGenerator:
 
     def generate_embedding_positions(
         self, num_positions: int, max_position: int
-    ) -> List[int]:
+    ) -> list[int]:
         """Generate quantum-random embedding positions"""
         return list(np.random.choice(max_position, size=num_positions, replace=False))
 
@@ -1082,7 +1081,6 @@ class PostQuantumCrypto:
 
     def __init__(self):
         """Initialize PQC systems"""
-        pass
 
 
 class QuantumEntanglementSimulator:
@@ -1092,7 +1090,7 @@ class QuantumEntanglementSimulator:
         """Generate quantum signature"""
         return hashlib.sha3_256(data).hexdigest()
 
-    def create_entangled_pairs(self, bits: np.ndarray) -> List[Tuple[int, int, float]]:
+    def create_entangled_pairs(self, bits: np.ndarray) -> list[tuple[int, int, float]]:
         """Create entangled bit pairs"""
         pairs = []
         for i in range(0, len(bits) - 1, 2):
@@ -1109,17 +1107,17 @@ def demonstrate_quantum_sovereignty():
         """
     🔮 QUANTUM STEGANOGRAPHY ENGINE - SOVEREIGN DATA DEMONSTRATION
     ================================================================
-    
+
     This is how we make data truly sovereign:
-    
+
     1. INVISIBLE VAULTS: Every image becomes a quantum safe
-    2. CONSCIOUSNESS LOCKS: Only your mind can unlock your data  
+    2. CONSCIOUSNESS LOCKS: Only your mind can unlock your data
     3. TEMPORAL SOVEREIGNTY: Data that reveals itself over time
     4. PLAUSIBLE DENIABILITY: Multiple truths, one reality
     5. QUANTUM ENTANGLEMENT: Unbreakable by classical computation
-    
+
     Your data doesn't just hide - it transcends detection itself.
-    
+
     Welcome to the age of Invisible Digital Sovereignty.
     """
     )

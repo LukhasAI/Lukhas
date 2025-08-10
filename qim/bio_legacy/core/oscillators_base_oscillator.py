@@ -48,7 +48,7 @@ import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional, Tuple
+from typing import Optional
 
 import numpy as np
 
@@ -147,11 +147,11 @@ class OscillatorConfig:
         Invalid configurations raise ValueError with detailed messages.
     """
 
-    frequency_range: Tuple[float, float] = (0.1, 10.0)
-    amplitude_range: Tuple[float, float] = (0.1, 2.0)
-    phase_range: Tuple[float, float] = (0, 2 * np.pi)
+    frequency_range: tuple[float, float] = (0.1, 10.0)
+    amplitude_range: tuple[float, float] = (0.1, 2.0)
+    phase_range: tuple[float, float] = (0, 2 * np.pi)
     sample_rate: int = 44100
-    wave_range: Tuple[float, float] = (-1, 1)
+    wave_range: tuple[float, float] = (-1, 1)
 
 
 class BaseOscillator(ABC):
@@ -423,7 +423,6 @@ class BaseOscillator(ABC):
             - Update energy efficiency metrics
             - Log significant state changes
         """
-        pass
 
     @abstractmethod
     def _post_phase_update(self):
@@ -440,7 +439,6 @@ class BaseOscillator(ABC):
             - Update stability metrics
             - Log phase discontinuities
         """
-        pass
 
     @abstractmethod
     def _post_amplitude_update(self):
@@ -457,7 +455,6 @@ class BaseOscillator(ABC):
             - Adjust coupled oscillators if needed
             - Log significant changes
         """
-        pass
 
     @abstractmethod
     def generate_value(self, time_step: float) -> float:
@@ -479,7 +476,6 @@ class BaseOscillator(ABC):
             - Must maintain phase coherence
             - Must be numerically stable
         """
-        pass
 
     def update_metrics(self):
         """
@@ -497,7 +493,6 @@ class BaseOscillator(ABC):
             O(1) complexity, minimal overhead
         """
         # Implementation would calculate metrics here
-        pass
 
     def __iter__(self):
         """
@@ -531,4 +526,3 @@ class BaseOscillator(ABC):
             - Must respect sample_rate
             - Must be efficient for streaming
         """
-        pass

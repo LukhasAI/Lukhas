@@ -24,7 +24,7 @@ import os
 import secrets
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Any, Dict, Tuple
+from typing import Any
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -222,7 +222,7 @@ class PQCCryptoEngine:
 
     def encapsulate_secret(
         self, public_key: bytes, algorithm: str = "Kyber768"
-    ) -> Tuple[bytes, bytes]:
+    ) -> tuple[bytes, bytes]:
         """
         Encapsulate a shared secret using KEM.
 
@@ -397,7 +397,8 @@ class PQCCryptoEngine:
                 return False
 
             # In simulation mode, verify by checking signature was created with same inputs
-            # This is a simplified check - real verification would involve complex lattice math
+            # This is a simplified check - real verification would involve complex
+            # lattice math
             sig_check = public_key[:32] + message_hash + signature.algorithm.encode()
             shake = hashlib.shake_256()
             shake.update(sig_check)
@@ -436,7 +437,7 @@ class PQCCryptoEngine:
         logger.info("Authentication key derived from entropy")
         return auth_key
 
-    def validate_entropy_quality(self, entropy_data: bytes) -> Dict[str, Any]:
+    def validate_entropy_quality(self, entropy_data: bytes) -> dict[str, Any]:
         """
         Validate quality of entropy data for cryptographic use.
 
@@ -475,7 +476,7 @@ class PQCCryptoEngine:
             "reason": "Sufficient entropy" if sufficient else "Low entropy quality",
         }
 
-    def get_crypto_config(self) -> Dict[str, Any]:
+    def get_crypto_config(self) -> dict[str, Any]:
         """
         Get current cryptographic configuration.
 
@@ -501,7 +502,7 @@ class PQCCryptoEngine:
 
     def establish_quantum_safe_channel(
         self, peer_public_key: bytes, algorithm: str = "Kyber768"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Establish a quantum-safe communication channel with a peer.
 
@@ -531,7 +532,7 @@ class PQCCryptoEngine:
             "established_at": datetime.now().isoformat(),
         }
 
-    def _derive_channel_keys(self, shared_secret: bytes) -> Dict[str, bytes]:
+    def _derive_channel_keys(self, shared_secret: bytes) -> dict[str, bytes]:
         """Derive encryption and MAC keys from shared secret"""
         # Derive encryption key
         enc_hkdf = HKDF(
@@ -587,7 +588,7 @@ class PQCCryptoEngine:
 
         return new_keypair
 
-    def quantum_safe_encrypt(self, plaintext: bytes, key: bytes) -> Dict[str, Any]:
+    def quantum_safe_encrypt(self, plaintext: bytes, key: bytes) -> dict[str, Any]:
         """
         Encrypt data using quantum-safe symmetric encryption.
 
@@ -614,7 +615,7 @@ class PQCCryptoEngine:
             "timestamp": datetime.now().isoformat(),
         }
 
-    def quantum_safe_decrypt(self, encrypted_data: Dict[str, Any], key: bytes) -> bytes:
+    def quantum_safe_decrypt(self, encrypted_data: dict[str, Any], key: bytes) -> bytes:
         """
         Decrypt data encrypted with quantum_safe_encrypt.
 

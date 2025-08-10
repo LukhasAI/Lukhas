@@ -16,23 +16,23 @@
 
 LUKHAS AI System - Function Library
 File: dream_replay_cli.py
-Path: core/dreams/dream_replay_cli.py
+Path: core / dreams / dream_replay_cli.py
 Created: "2025-06-05 09:37:28"
 Author: LUKHAS AI Team
 Version: 1.0
-This file is part of the LUKHAS AI (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS AI(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 lukhas AI System - Function Library
 File: dream_replay_cli.py
-Path: core/dreams/dream_replay_cli.py
+Path: core / dreams / dream_replay_cli.py
 Created: "2025-06-05 09:37:28"
 Author: LUKHAS AI Team
 Version: 1.0
-This file is part of the LUKHAS AI (LUKHAS Universal Knowledge & Holistic AI System)
+This file is part of the LUKHAS AI(LUKHAS Universal Knowledge & Holistic AI System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
@@ -43,10 +43,10 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 DESCRIPTION:
     A simple CLI interface that calls dream_replay.py with symbolic filters:
     - Sort by dominant emotion
-    - Filter by tag (e.g. "soothe", "replay")
+    - Filter by tag(e.g. "soothe", "replay")
     - Limit count
-    - Only show replay-worthy dreams (score + emoji filtered)
-    - Filter by suggest_voice flag (voice narration candidates)
+    - Only show replay - worthy dreams(score + emoji filtered)
+    - Filter by suggest_voice flag(voice narration candidates)
 
 """
 
@@ -59,12 +59,16 @@ def run_cli():
 
     try:
         limit = int(input("🔢 How many dreams to replay? (default 5): ").strip() or "5")
-        tag_input = input("🔖 Filter by tag? (comma-separated, or ENTER to skip): ").strip()
+        tag_input = input(
+            "🔖 Filter by tag? (comma-separated, or ENTER to skip): ").strip()
         filter_tags = [t.strip() for t in tag_input.split(",")] if tag_input else None
         replay_only = input("🔁 Only replay candidates? (y/N): ").strip().lower() == "y"
-        sort_axis = input("📊 Sort by emotion? (joy/stress/calm/longing) or ENTER to skip: ").strip().lower()
-        sort_by = sort_axis if sort_axis in ["joy", "stress", "calm", "longing"] else None
-        voice_suggested = input("🗣 Only dreams flagged for voice narration? (y/N): ").strip().lower() == "y"
+        sort_axis = input(
+            "📊 Sort by emotion? (joy/stress/calm/longing) or ENTER to skip: ").strip().lower()
+        sort_by = sort_axis if sort_axis in [
+    "joy", "stress", "calm", "longing"] else None
+        voice_suggested = input(
+            "🗣 Only dreams flagged for voice narration? (y/N): ").strip().lower() == "y"
     except Exception as e:
         print(f"⚠️ Input error: {e}")
         return
@@ -81,7 +85,7 @@ def run_cli():
 ──────────────────────────────────────────────────────────────────────────────────────
 USAGE:
     Run from root:
-        python core/modules/nias/dream_replay_cli.py
+        python core / modules / nias / dream_replay_cli.py
 
 NOTES:
     - Symbolically aligned with replay queue and dream logs

@@ -12,7 +12,7 @@ Integration module for DreamProcessor and pattern recognition.
 """
 
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 
 class DreamProcessorIntegration:
@@ -23,8 +23,8 @@ class DreamProcessorIntegration:
         self.memory_relationships = {}
 
     async def analyze_dream_patterns(
-        self, dream_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, dream_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """Analyze patterns within a dream state"""
         try:
             # Extract patterns from dream state
@@ -46,7 +46,7 @@ class DreamProcessorIntegration:
             print(f"Error analyzing dream patterns: {e}")
             return {}
 
-    def _extract_patterns(self, dream_state: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _extract_patterns(self, dream_state: dict[str, Any]) -> list[dict[str, Any]]:
         """Extract symbolic and emotional patterns from dream state"""
         patterns = []
 
@@ -74,8 +74,8 @@ class DreamProcessorIntegration:
         return patterns
 
     def _find_memory_relationships(
-        self, dream_state: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, dream_state: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Find relationships between memory fragments in dream state"""
         relationships = []
 
@@ -96,7 +96,7 @@ class DreamProcessorIntegration:
 
         return relationships
 
-    def _analyze_emotional_context(self, dream_state: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_emotional_context(self, dream_state: dict[str, Any]) -> dict[str, Any]:
         """Analyze emotional context and resonance"""
         context = {"primary_emotion": None, "intensity": 0.0, "secondary_emotions": {}}
 

@@ -1,6 +1,6 @@
 import json
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -15,10 +15,10 @@ class MemoryDriftTracker:
 
     def track_drift(
         self,
-        current_snapshot: Dict[str, Any],
-        prior_snapshot: Dict[str, Any],
+        current_snapshot: dict[str, Any],
+        prior_snapshot: dict[str, Any],
         entropy_delta: Optional[float] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Compares a current memory snapshot with a prior one to track drift.
 
@@ -55,7 +55,7 @@ class MemoryDriftTracker:
         return memory_drift_vector
 
     def _calculate_entropy_delta(
-        self, current_snapshot: Dict[str, Any], prior_snapshot: Dict[str, Any]
+        self, current_snapshot: dict[str, Any], prior_snapshot: dict[str, Any]
     ) -> float:
         """
         Calculates the change in entropy between two snapshots.
@@ -64,7 +64,7 @@ class MemoryDriftTracker:
         return np.random.rand()
 
     def _calculate_emotional_delta(
-        self, current_snapshot: Dict[str, Any], prior_snapshot: Dict[str, Any]
+        self, current_snapshot: dict[str, Any], prior_snapshot: dict[str, Any]
     ) -> float:
         """
         Calculates the change in emotional state between two snapshots.
@@ -73,7 +73,7 @@ class MemoryDriftTracker:
         return np.random.rand()
 
     def _calculate_symbolic_vector_shift(
-        self, current_snapshot: Dict[str, Any], prior_snapshot: Dict[str, Any]
+        self, current_snapshot: dict[str, Any], prior_snapshot: dict[str, Any]
     ) -> float:
         """
         Calculates the shift in the symbolic vector between two snapshots.
@@ -81,7 +81,7 @@ class MemoryDriftTracker:
         """
         return np.random.rand()
 
-    def _log_drift(self, memory_drift_vector: Dict[str, Any]) -> None:
+    def _log_drift(self, memory_drift_vector: dict[str, Any]) -> None:
         """
         Logs the memory drift vector to a file.
         """

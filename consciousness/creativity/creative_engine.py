@@ -22,6 +22,7 @@ ENTERPRISE FEATURES:
 - Memory-efficient caching with LRU eviction
 - A/B testing framework for creative algorithms
 """
+from collections import Counter
 
 import asyncio
 import hashlib
@@ -36,11 +37,8 @@ from pathlib import Path
 from typing import (
     Any,
     Callable,
-    Dict,
-    List,
     Optional,
     Protocol,
-    Tuple,
     TypeVar,
 )
 
@@ -122,12 +120,12 @@ class CreativeContext:
 
     user_id: str
     session_id: str
-    cultural_context: Dict[str, Any]
-    emotional_state: Dict[str, float]
-    previous_outputs: List[str]
-    style_preferences: Dict[CreativeStyle, float]
-    constraints: Dict[str, Any]
-    inspiration_sources: List[str] = field(default_factory=list)
+    cultural_context: dict[str, Any]
+    emotional_state: dict[str, float]
+    previous_outputs: list[str]
+    style_preferences: dict[CreativeStyle, float]
+    constraints: dict[str, Any]
+    inspiration_sources: list[str] = field(default_factory=list)
 
 
 class NeuralCreativeModel(Protocol):
@@ -139,7 +137,7 @@ class NeuralCreativeModel(Protocol):
         """Predict optimal expansion strategy for given text and context."""
         ...
 
-    async def generate_embeddings(self, concepts: List[str]) -> torch.Tensor:
+    async def generate_embeddings(self, concepts: list[str]) -> torch.Tensor:
         """Generate semantic embeddings for concept words."""
         ...
 
@@ -151,11 +149,11 @@ class NeuralCreativeModel(Protocol):
 class SymbolicKnowledgeBase(Protocol):
     """Protocol for symbolic knowledge integration."""
 
-    async def get_concept_relations(self, concept: str) -> Dict[str, float]:
+    async def get_concept_relations(self, concept: str) -> dict[str, float]:
         """Retrieve semantic relations for a concept."""
         ...
 
-    async def get_cultural_mappings(self, culture: str) -> Dict[str, Any]:
+    async def get_cultural_mappings(self, culture: str) -> dict[str, Any]:
         """Get cultural-specific symbolic mappings."""
         ...
 
@@ -167,7 +165,7 @@ class FederatedLearningClient(Protocol):
         """Aggregate local model updates with global federation."""
         ...
 
-    async def get_global_style_trends(self) -> Dict[CreativeStyle, float]:
+    async def get_global_style_trends(self) -> dict[CreativeStyle, float]:
         """Retrieve global creative style trends from federation."""
         ...
 
@@ -228,7 +226,7 @@ class AdvancedSyllableAnalyzer:
             "ui",
         ]
         self._silent_endings = ["e", "es", "ed", "le"]
-        self._syllable_cache: Dict[str, int] = {}
+        self._syllable_cache: dict[str, int] = {}
 
     @lru_cache(maxsize=10000)
     def count_syllables(self, word: str) -> int:
@@ -245,7 +243,7 @@ class AdvancedSyllableAnalyzer:
         syllable_count = 0
         prev_was_vowel = False
 
-        for i, char in enumerate(word):
+        for _i, char in enumerate(word):
             is_vowel = char in vowels
             if is_vowel and not prev_was_vowel:
                 syllable_count += 1
@@ -294,7 +292,7 @@ class EnterpriseNeuralHaikuGenerator:
 
         # Metrics and monitoring
         self.metrics_buffer = deque(maxlen=1000)
-        self.generation_cache: Dict[str, Tuple[str, float]] = {}
+        self.generation_cache: dict[str, tuple[str, float]] = {}
 
         # Neural attention mechanisms
         self.attention_weights = defaultdict(float)
@@ -346,7 +344,7 @@ class EnterpriseNeuralHaikuGenerator:
     @CircuitBreaker(failure_threshold=3, timeout=30.0)
     async def generate_haiku(
         self, context: CreativeContext, style_override: Optional[CreativeStyle] = None
-    ) -> Tuple[str, CreativeMetrics]:
+    ) -> tuple[str, CreativeMetrics]:
         """
         Generate a neural-enhanced haiku with comprehensive monitoring.
 
@@ -431,7 +429,7 @@ class EnterpriseNeuralHaikuGenerator:
 
     async def _generate_base_haiku(
         self, context: CreativeContext, style_override: Optional[CreativeStyle]
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate base haiku structure using neural guidance."""
         lines = []
         syllable_pattern = [5, 7, 5]
@@ -440,7 +438,6 @@ class EnterpriseNeuralHaikuGenerator:
         target_style = style_override or self._select_dominant_style(context)
 
         for i, target_syllables in enumerate(syllable_pattern):
-            line_context = f"line_{i}_{target_style.name}"
             concepts = await self._generate_line_concepts(context, target_style, i)
             line = await self._construct_line(concepts, target_syllables, context)
             lines.append(line)
@@ -448,8 +445,8 @@ class EnterpriseNeuralHaikuGenerator:
         return lines
 
     async def _apply_neural_expansion(
-        self, base_lines: List[str], context: CreativeContext
-    ) -> List[str]:
+        self, base_lines: list[str], context: CreativeContext
+    ) -> list[str]:
         """Apply neural-guided expansion strategies to enhance creativity."""
         expanded_lines = []
 
@@ -563,15 +560,16 @@ class EnterpriseNeuralHaikuGenerator:
 
     async def _generate_line_concepts(
         self, context: CreativeContext, style: CreativeStyle, line_index: int
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate concept words for a specific line using neural guidance."""
-        # This would integrate with the neural model to generate contextually appropriate concepts
+        # This would integrate with the neural model to generate contextually
+        # appropriate concepts
         base_concepts = ["nature", "time", "emotion", "space", "memory"]
 
         # Get cultural mappings if available
         if context.cultural_context:
             cultural_concepts = []
-            for culture in context.cultural_context.keys():
+            for culture in context.cultural_context:
                 mappings = await self.symbolic_kb.get_cultural_mappings(culture)
                 cultural_concepts.extend(mappings.get("concepts", []))
             base_concepts.extend(cultural_concepts[:3])  # Limit cultural influence
@@ -579,7 +577,7 @@ class EnterpriseNeuralHaikuGenerator:
         return base_concepts[:4]  # Return top concepts
 
     async def _construct_line(
-        self, concepts: List[str], target_syllables: int, context: CreativeContext
+        self, concepts: list[str], target_syllables: int, context: CreativeContext
     ) -> str:
         """Construct a haiku line from concepts with syllable constraints."""
         line_words = []
@@ -617,7 +615,7 @@ class EnterpriseNeuralHaikuGenerator:
         return CreativeStyle.MODERN  # Default fallback
 
     async def _post_process_haiku(
-        self, lines: List[str], context: CreativeContext
+        self, lines: list[str], context: CreativeContext
     ) -> str:
         """Post-process haiku for final quality assurance."""
         # Ensure proper capitalization and punctuation
@@ -693,7 +691,7 @@ class EnterpriseNeuralHaikuGenerator:
 
     async def _get_cached_result(
         self, cache_key: str
-    ) -> Optional[Tuple[str, CreativeMetrics]]:
+    ) -> Optional[tuple[str, CreativeMetrics]]:
         """Retrieve cached result if available and not expired."""
         if self.redis_client:
             try:
@@ -761,7 +759,7 @@ class EnterpriseNeuralHaikuGenerator:
 
         logger.info("Resources cleaned up successfully")
 
-    async def get_performance_analytics(self) -> Dict[str, Any]:
+    async def get_performance_analytics(self) -> dict[str, Any]:
         """Get comprehensive performance analytics."""
         if not self.metrics_buffer:
             return {"status": "no_data"}
@@ -836,7 +834,7 @@ class MockNeuralModel:
     ) -> ExpansionStrategy:
         return ExpansionStrategy.SENSORY_AMPLIFICATION
 
-    async def generate_embeddings(self, concepts: List[str]) -> torch.Tensor:
+    async def generate_embeddings(self, concepts: list[str]) -> torch.Tensor:
         return torch.randn(len(concepts), 768)
 
     async def compute_creativity_score(self, text: str) -> float:
@@ -844,10 +842,10 @@ class MockNeuralModel:
 
 
 class MockSymbolicKB:
-    async def get_concept_relations(self, concept: str) -> Dict[str, float]:
+    async def get_concept_relations(self, concept: str) -> dict[str, float]:
         return {"wind": 0.9, "water": 0.8, "light": 0.85, "shadow": 0.7}
 
-    async def get_cultural_mappings(self, culture: str) -> Dict[str, Any]:
+    async def get_cultural_mappings(self, culture: str) -> dict[str, Any]:
         return {"concepts": ["harmony", "balance", "nature"]}
 
 
@@ -855,7 +853,7 @@ class MockFederatedClient:
     async def aggregate_model_updates(self, local_gradients: torch.Tensor) -> None:
         pass
 
-    async def get_global_style_trends(self) -> Dict[CreativeStyle, float]:
+    async def get_global_style_trends(self) -> dict[CreativeStyle, float]:
         return {CreativeStyle.MODERN: 0.6, CreativeStyle.CLASSICAL: 0.4}
 
 

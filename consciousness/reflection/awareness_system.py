@@ -48,7 +48,7 @@ from datetime import (  # ΛTRACE_CHANGE: Added timezone
     timezone,
 )
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
 from dream.core import DreamPhase
@@ -107,7 +107,7 @@ class SystemState:
     ethical_scenarios_processed: int = 0
     # Neuroplasticity state
     current_plasticity_rate: float = 0.1
-    adaptation_history: List[float] = field(default_factory=list)
+    adaptation_history: list[float] = field(default_factory=list)
     learning_efficiency: float = 0.5
     synaptic_strength: float = 0.8
 
@@ -135,7 +135,9 @@ class QuantumAwarenessSystem:
         self.integration: UnifiedIntegration = integration
         self.config: AwarenessQuantumConfig = config or AwarenessQuantumConfig()
 
-        # ΛCONFIG_TODO: Relative path "metrics" might not be ideal for all deployments. Consider making it configurable via environment or absolute path.
+        # ΛCONFIG_TODO: Relative path "metrics" might not be ideal for all
+        # deployments. Consider making it configurable via environment or absolute
+        # path.
         self.metrics_dir: Path = Path(metrics_dir) if metrics_dir else Path("metrics")
         try:
             self.metrics_dir.mkdir(parents=True, exist_ok=True)
@@ -162,7 +164,7 @@ class QuantumAwarenessSystem:
         )
 
         self.current_state: SystemState = SystemState()
-        self.state_history: List[SystemState] = []
+        self.state_history: list[SystemState] = []
 
         self.active: bool = False
         self.monitoring_task: Optional[asyncio.Task[None]] = (
@@ -173,11 +175,11 @@ class QuantumAwarenessSystem:
         self.consciousness_engine: Optional[AwarenessEngine] = None
         self.ethics_engine: Optional[QuantumEthics] = None
         self.dream_training_task: Optional[asyncio.Task[None]] = None
-        self.ethical_scenarios_log: List[Dict[str, Any]] = []
+        self.ethical_scenarios_log: list[dict[str, Any]] = []
 
         # Neuroplasticity integration
         self.quantum_inspired_processor: Optional[QuantumProcessingCore] = None
-        self.plasticity_buffer: List[Dict[str, Any]] = []
+        self.plasticity_buffer: list[dict[str, Any]] = []
         self.safe_plasticity_mode: bool = True  # Safety by default
 
         self.integration.register_component("system_awareness", self.handle_message)
@@ -284,7 +286,7 @@ class QuantumAwarenessSystem:
         return self.current_state
 
     # @lukhas_tier_required(level=1) # ΛTRACE_ADD
-    def get_state_history(self, hours: Optional[int] = None) -> List[SystemState]:
+    def get_state_history(self, hours: Optional[int] = None) -> list[SystemState]:
         """Get system state history."""
         # ΛTRACE_ADD
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
@@ -299,7 +301,7 @@ class QuantumAwarenessSystem:
         return [state for state in self.state_history if state.last_update > cutoff]
 
     # @lukhas_tier_required(level=2) # ΛTRACE_ADD
-    async def handle_message(self, message: Dict[str, Any]) -> None:
+    async def handle_message(self, message: dict[str, Any]) -> None:
         """Handle incoming messages."""
         log = logger.bind(
             timestamp=datetime.now(timezone.utc).isoformat()
@@ -308,7 +310,7 @@ class QuantumAwarenessSystem:
             "Handling message for system_awareness.", message_keys=list(message.keys())
         )
         try:
-            content: Dict[str, Any] = message.get(
+            content: dict[str, Any] = message.get(
                 "content", {}
             )  # ΛTRACE_CHANGE: Use .get for safety
             action: Optional[str] = content.get(
@@ -363,7 +365,8 @@ class QuantumAwarenessSystem:
             timestamp=datetime.now(timezone.utc).isoformat()
         )  # ΛTRACE_ADD
         try:
-            coherence: float = await self.monitor_oscillator.measure_coherence()  # type: ignore # ΛTRACE_COMMENT: Assuming method exists and returns float
+            # type: ignore # ΛTRACE_COMMENT: Assuming method exists and returns float
+            coherence: float = await self.monitor_oscillator.measure_coherence()
 
             self.current_state.quantum_coherence = coherence
             self.current_state.last_update = datetime.now(
@@ -390,9 +393,11 @@ class QuantumAwarenessSystem:
                 )
                 self.current_state.alert_level = "normal"
 
-            # Add a copy to history to avoid modification issues if SystemState is mutable in complex ways
+            # Add a copy to history to avoid modification issues if SystemState is
+            # mutable in complex ways
             self.state_history.append(SystemState(**asdict(self.current_state)))
-            # Cap history size if needed, e.g., self.state_history = self.state_history[-MAX_HISTORY_SIZE:]
+            # Cap history size if needed, e.g., self.state_history =
+            # self.state_history[-MAX_HISTORY_SIZE:]
             log.debug(
                 "System state updated.",
                 coherence=coherence,
@@ -410,8 +415,12 @@ class QuantumAwarenessSystem:
             timestamp=datetime.now(timezone.utc).isoformat()
         )  # ΛTRACE_ADD
         try:
-            # ΛTRACE_COMMENT: Assuming orchestrator.get_health_metrics returns a Dict-like object or specific dataclass
-            orchestrator_health: Dict[str, Any] = await self.orchestrator.get_health_metrics()  # type: ignore
+            # ΛTRACE_COMMENT: Assuming orchestrator.get_health_metrics returns a
+            # Dict-like object or specific dataclass
+            # type: ignore
+            orchestrator_health: dict[str, Any] = (
+                await self.orchestrator.get_health_metrics()
+            )
 
             self.current_state.system_health = orchestrator_health.get(
                 "health_score", 1.0
@@ -443,7 +452,7 @@ class QuantumAwarenessSystem:
                 / f"metrics_{current_time.strftime('%Y%m%d_%H%M%S_%f')}.json"
             )  # ΛTRACE_CHANGE: Added microseconds for uniqueness
 
-            metrics: Dict[str, Any] = {
+            metrics: dict[str, Any] = {
                 "timestamp": current_time.isoformat(),  # ΛTRACE_CHANGE
                 "quantum_coherence": self.current_state.quantum_coherence,
                 "system_health": self.current_state.system_health,
@@ -647,7 +656,7 @@ class QuantumAwarenessSystem:
         self.current_state.dream_phase = None
         log.info("Completed dream training cycle.", scenarios_run=scenarios_run)
 
-    async def _generate_ethical_scenario(self, index: int) -> Dict[str, Any]:
+    async def _generate_ethical_scenario(self, index: int) -> dict[str, Any]:
         """Generate an ethical scenario for training."""
         # This would integrate with the actual dream engine to generate scenarios
         # For now, we'll create a simple placeholder
@@ -674,8 +683,8 @@ class QuantumAwarenessSystem:
         }
 
     async def _evaluate_ethical_scenario(
-        self, scenario: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, scenario: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evaluate an ethical scenario through the ethics engine."""
         if not self.ethics_engine:
             return {"error": "No ethics engine available"}
@@ -719,7 +728,7 @@ class QuantumAwarenessSystem:
             self.current_state.ethical_status = "initialization_failed"
 
     # ΛTRACE_ADD: Message handlers for integrations
-    async def _handle_consciousness_sync(self, message: Dict[str, Any]) -> None:
+    async def _handle_consciousness_sync(self, message: dict[str, Any]) -> None:
         """Handle consciousness synchronization messages."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
         log.debug("Handling consciousness sync message.")
@@ -744,7 +753,7 @@ class QuantumAwarenessSystem:
         except Exception as e:
             log.error("Error handling consciousness sync.", error=str(e), exc_info=True)
 
-    async def _handle_dream_training(self, message: Dict[str, Any]) -> None:
+    async def _handle_dream_training(self, message: dict[str, Any]) -> None:
         """Handle dream training messages."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
         log.debug("Handling dream training message.")
@@ -777,7 +786,7 @@ class QuantumAwarenessSystem:
         except Exception as e:
             log.error("Error handling dream training.", error=str(e), exc_info=True)
 
-    async def _handle_ethical_monitoring(self, message: Dict[str, Any]) -> None:
+    async def _handle_ethical_monitoring(self, message: dict[str, Any]) -> None:
         """Handle ethical monitoring messages."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
         log.debug("Handling ethical monitoring message.")
@@ -812,7 +821,7 @@ class QuantumAwarenessSystem:
         except Exception as e:
             log.error("Error handling ethical monitoring.", error=str(e), exc_info=True)
 
-    async def get_integrated_state(self) -> Dict[str, Any]:
+    async def get_integrated_state(self) -> dict[str, Any]:
         """Get comprehensive integrated system state."""
         return {
             "quantum": {
@@ -1023,7 +1032,7 @@ class QuantumAwarenessSystem:
         self.current_state.current_plasticity_rate = 0.01
         log.warning("Paused neuroplasticity.", reason=reason)
 
-    async def _handle_neuroplasticity_request(self, message: Dict[str, Any]) -> None:
+    async def _handle_neuroplasticity_request(self, message: dict[str, Any]) -> None:
         """Handle neuroplasticity control messages."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
 
@@ -1076,7 +1085,7 @@ class QuantumAwarenessSystem:
                 "Error handling neuroplasticity request.", error=str(e), exc_info=True
             )
 
-    async def apply_synaptic_learning(self, learning_data: Dict[str, Any]) -> None:
+    async def apply_synaptic_learning(self, learning_data: dict[str, Any]) -> None:
         """Apply learning through synaptic plasticity modulation."""
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
 
@@ -1134,7 +1143,7 @@ class QuantumAwarenessSystem:
         except Exception as e:
             log.error("Error applying synaptic learning.", error=str(e), exc_info=True)
 
-    async def _handle_state_request(self, content: Dict[str, Any]) -> None:
+    async def _handle_state_request(self, content: dict[str, Any]) -> None:
         """Handle state request."""
         log = logger.bind(
             timestamp=datetime.now(timezone.utc).isoformat()
@@ -1143,7 +1152,7 @@ class QuantumAwarenessSystem:
         try:
             hours: Optional[int] = content.get("hours")  # ΛTRACE_CHANGE: Type hint
 
-            states_to_send: List[SystemState]  # ΛTRACE_CHANGE: Type hint
+            states_to_send: list[SystemState]  # ΛTRACE_CHANGE: Type hint
             if hours is not None:  # ΛTRACE_CHANGE: Explicit check for None
                 states_to_send = self.get_state_history(hours)
             else:
@@ -1159,8 +1168,10 @@ class QuantumAwarenessSystem:
 
             response = {"type": "system_state", "states": response_states}
 
-            # ΛTRACE_COMMENT: Assuming integration.send_message is defined and handles dicts
-            await self.integration.send_message("system_awareness", response)  # type: ignore
+            # ΛTRACE_COMMENT: Assuming integration.send_message is defined and handles
+            # dicts
+            # type: ignore
+            await self.integration.send_message("system_awareness", response)
             log.debug(
                 "State request handled and response sent.",
                 num_states=len(states_to_send),
@@ -1170,16 +1181,17 @@ class QuantumAwarenessSystem:
                 "Error handling state request.", error=str(e), exc_info=True
             )  # ΛTRACE_CHANGE
 
-    async def _handle_metrics_request(self, content: Dict[str, Any]) -> None:
+    async def _handle_metrics_request(self, content: dict[str, Any]) -> None:
         """Handle metrics request."""
         log = logger.bind(
             timestamp=datetime.now(timezone.utc).isoformat()
         )  # ΛTRACE_ADD
         log.debug("Handling metrics request.", content=content)
         try:
-            metrics_data: List[Dict[str, Any]] = []  # ΛTRACE_CHANGE: Type hint
+            metrics_data: list[dict[str, Any]] = []  # ΛTRACE_CHANGE: Type hint
             # Sort files to get recent ones if there's a limit, or process all
-            # For simplicity, loading all; consider limiting for performance if many files
+            # For simplicity, loading all; consider limiting for performance if many
+            # files
             for metrics_file in sorted(self.metrics_dir.glob("metrics_*.json")):
                 try:  # ΛTRACE_ADD: Inner try for individual file processing
                     with open(metrics_file) as f:
@@ -1194,7 +1206,8 @@ class QuantumAwarenessSystem:
             response = {"type": "system_metrics", "metrics": metrics_data}
 
             # ΛTRACE_COMMENT: Assuming integration.send_message is defined
-            await self.integration.send_message("system_awareness", response)  # type: ignore
+            # type: ignore
+            await self.integration.send_message("system_awareness", response)
             log.debug(
                 "Metrics request handled and response sent.",
                 num_metrics_files=len(metrics_data),

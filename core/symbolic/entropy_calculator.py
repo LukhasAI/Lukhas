@@ -162,7 +162,7 @@ class EntropyCalculator:
             )
 
             logger.info(
-                f"ΛTRACE: Vault entropy calculated - Base: {base_entropy: .3f},
+                f"ΛTRACE: Vault entropy calculated - Base: {base_entropy: .3f},"
                 Final: {final_entropy: .3f}"
             )
             return final_entropy

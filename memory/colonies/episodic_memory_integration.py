@@ -2,10 +2,11 @@
 Episodic Memory Colony Integration Module
 Provides integration wrapper for connecting the episodic memory colony to the memory hub
 """
+import logging
 
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -39,7 +40,7 @@ class EpisodicMemoryIntegration:
     Provides a simplified interface for the memory hub.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the episodic memory integration"""
         self.config = config or {
             "max_concurrent_operations": 50,
@@ -139,10 +140,10 @@ class EpisodicMemoryIntegration:
 
     async def create_episodic_memory(
         self,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         event_type: str = "general",
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Create a new episodic memory
 
@@ -211,7 +212,7 @@ class EpisodicMemoryIntegration:
 
     async def retrieve_episodic_memory(
         self, memory_id: str, include_related: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Retrieve episodic memory by ID
 
@@ -270,8 +271,8 @@ class EpisodicMemoryIntegration:
             }
 
     async def search_episodic_memories(
-        self, query: Dict[str, Any], limit: int = 50
-    ) -> List[Dict[str, Any]]:
+        self, query: dict[str, Any], limit: int = 50
+    ) -> list[dict[str, Any]]:
         """
         Search episodic memories
 
@@ -313,8 +314,8 @@ class EpisodicMemoryIntegration:
             return []
 
     async def trigger_episode_replay(
-        self, memory_ids: Optional[List[str]] = None, replay_strength: float = 1.0
-    ) -> Dict[str, Any]:
+        self, memory_ids: Optional[list[str]] = None, replay_strength: float = 1.0
+    ) -> dict[str, Any]:
         """
         Trigger replay of episodic memories for consolidation
 
@@ -376,7 +377,7 @@ class EpisodicMemoryIntegration:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def get_consolidation_candidates(self) -> List[Dict[str, Any]]:
+    async def get_consolidation_candidates(self) -> list[dict[str, Any]]:
         """
         Get episodes ready for consolidation
 
@@ -427,7 +428,7 @@ class EpisodicMemoryIntegration:
             logger.error(f"Error getting consolidation candidates: {e}")
             return []
 
-    async def get_episodic_metrics(self) -> Dict[str, Any]:
+    async def get_episodic_metrics(self) -> dict[str, Any]:
         """
         Get episodic memory processing metrics
 
@@ -505,10 +506,10 @@ class EpisodicMemoryIntegration:
 
     async def _fallback_create_episode(
         self,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         event_type: str,
-        context: Optional[Dict[str, Any]],
-    ) -> Dict[str, Any]:
+        context: Optional[dict[str, Any]],
+    ) -> dict[str, Any]:
         """Fallback episode creation when colony is not available"""
         memory_id = str(uuid.uuid4())
 
@@ -531,7 +532,7 @@ class EpisodicMemoryIntegration:
             "fallback": True,
         }
 
-    async def _fallback_retrieve_episode(self, memory_id: str) -> Dict[str, Any]:
+    async def _fallback_retrieve_episode(self, memory_id: str) -> dict[str, Any]:
         """Fallback episode retrieval"""
         if memory_id in self.episode_registry:
             episode = self.episode_registry[memory_id]
@@ -552,8 +553,8 @@ class EpisodicMemoryIntegration:
             }
 
     async def _fallback_search_episodes(
-        self, query: Dict[str, Any], limit: int
-    ) -> List[Dict[str, Any]]:
+        self, query: dict[str, Any], limit: int
+    ) -> list[dict[str, Any]]:
         """Fallback episode search"""
         results = []
 
@@ -583,8 +584,8 @@ class EpisodicMemoryIntegration:
         return results[:limit]
 
     async def _fallback_trigger_replay(
-        self, memory_ids: Optional[List[str]], replay_strength: float
-    ) -> Dict[str, Any]:
+        self, memory_ids: Optional[list[str]], replay_strength: float
+    ) -> dict[str, Any]:
         """Fallback replay triggering"""
         if not memory_ids:
             # Select top episodes for replay
@@ -598,7 +599,9 @@ class EpisodicMemoryIntegration:
         replayed_count = 0
         for memory_id in memory_ids:
             if memory_id in self.episode_registry:
-                # SYNTAX_ERROR_FIXED:                 self.episode_registry[memory_id]['replay_count'] = " + "self.episode_registry[memory_id].get('replay_count', 0) + 1
+                # SYNTAX_ERROR_FIXED:
+                # self.episode_registry[memory_id]['replay_count'] = " +
+                # "self.episode_registry[memory_id].get('replay_count', 0) + 1
                 replayed_count += 1
 
         return {
@@ -608,7 +611,7 @@ class EpisodicMemoryIntegration:
             "fallback": True,
         }
 
-    def _get_fallback_consolidation_candidates(self) -> List[Dict[str, Any]]:
+    def _get_fallback_consolidation_candidates(self) -> list[dict[str, Any]]:
         """Get fallback consolidation candidate"""
         candidates = []
 
@@ -636,7 +639,7 @@ class EpisodicMemoryIntegration:
 
 # Factory function for creating the integration
 def create_episodic_memory_integration(
-    config: Optional[Dict[str, Any]] = None,
+    config: Optional[dict[str, Any]] = None,
 ) -> EpisodicMemoryIntegration:
     """Create and return an episodic memory integration instance"""
     return EpisodicMemoryIntegration(config)

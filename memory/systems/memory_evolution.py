@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -41,7 +43,7 @@
 """
 
 import time
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 import numpy as np
 
@@ -155,16 +157,16 @@ MODULE_NAME = "memory_evolution"
 
 
 class MemoryEvolution:
-    def __init__(self, voice_config: Optional[Dict] = None):
+    def __init__(self, voice_config: Optional[dict] = None):
         self.version_control = DocumentVersionControl()
         self.knowledge_system = KnowledgeAdaptation()
         self.usage_learning = UsageBasedLearning()
         self.bio_oscillator = BioOscillatorAdapter()
         self.voice_synthesis = VoiceSynthesisAdapter(voice_config)
         self.document_analyzer = DocumentStructureAnalyzer()
-        self.semantic_cache: Dict[str, np.ndarray] = {}
+        self.semantic_cache: dict[str, np.ndarray] = {}
 
-    def create_document(self, doc_id: str, content: str, metadata: Dict):
+    def create_document(self, doc_id: str, content: str, metadata: dict):
         """Create a new document with full evolution tracking."""
         # Analyze document structure
         structure_metrics = self.document_analyzer.analyze_structure(content)
@@ -234,7 +236,7 @@ class MemoryEvolution:
             for key in keys_to_remove:
                 del self.semantic_cache[key]
 
-    def update_document(self, doc_id: str, content: str, metadata: Dict):
+    def update_document(self, doc_id: str, content: str, metadata: dict):
         """Update document with evolution tracking."""
         # Create new version
         version = self.version_control.update_document(doc_id, content, metadata)
@@ -250,7 +252,7 @@ class MemoryEvolution:
         }
 
     def record_interaction(
-        self, user_id: str, doc_id: str, interaction_type: str, metadata: Dict
+        self, user_id: str, doc_id: str, interaction_type: str, metadata: dict
     ):
         """Record a user interaction and update learning system."""
         self.usage_learning.record_interaction(
@@ -266,13 +268,13 @@ class MemoryEvolution:
         }
         self.bio_oscillator.update_state(interaction_data)
 
-    def get_document_history(self, doc_id: str) -> List[Dict]:
+    def get_document_history(self, doc_id: str) -> list[dict]:
         """Get full version history for a document."""
         return self.version_control.get_document_history(doc_id)
 
     def get_related_documents(
         self, doc_id: str, threshold: float = 0.5
-    ) -> List[Tuple[str, float]]:
+    ) -> list[tuple[str, float]]:
         """Get related documents based on knowledge graph and semantic similarity."""
         knowledge_id = f"node_{doc_id}"
         graph_relations = self.knowledge_system.get_related_knowledge(knowledge_id)
@@ -304,7 +306,7 @@ class MemoryEvolution:
 
                 # Sort by score
                 return sorted(
-                    [(doc_id, score) for doc_id, score in combined.items()],
+                    combined.items(),
                     key=lambda x: x[1],
                     reverse=True,
                 )
@@ -312,7 +314,7 @@ class MemoryEvolution:
         # Fallback to graph relations only
         return [(rel_id.replace("node_", ""), 0.7) for rel_id in graph_relations]
 
-    def get_recommendations(self, current_doc: str, user_id: str) -> List[str]:
+    def get_recommendations(self, current_doc: str, user_id: str) -> list[str]:
         """Get document recommendations based on usage patterns and bio-oscillator resonance."""
         usage_recs = self.usage_learning.recommend_next_docs(current_doc, user_id)
         resonant_docs = self.bio_oscillator.get_resonant_knowledge()
@@ -342,7 +344,7 @@ class MemoryEvolution:
         return combined_recs
 
     def update_document_relationships(
-        self, doc_id: str, related_docs: List[str], strengths: List[float]
+        self, doc_id: str, related_docs: list[str], strengths: list[float]
     ):
         """Update relationships between documents in knowledge graph."""
         knowledge_id = f"node_{doc_id}"
@@ -355,7 +357,7 @@ class MemoryEvolution:
         """Get effectiveness score for a document."""
         return self.usage_learning.get_document_effectiveness(doc_id)
 
-    def get_usage_patterns(self, min_frequency: int = 2) -> List[Dict]:
+    def get_usage_patterns(self, min_frequency: int = 2) -> list[dict]:
         """Get common usage patterns."""
         return self.usage_learning.get_popular_sequences(min_frequency)
 
@@ -409,7 +411,7 @@ class MemoryEvolution:
             if delay > 0:
                 time.sleep(delay)
 
-    async def synthesize_document(self, doc_id: str) -> Dict:
+    async def synthesize_document(self, doc_id: str) -> dict:
         """Synthesize a document's content into speech."""
         if doc_id not in self.version_control.documents:
             raise KeyError(f"Document {doc_id} does not exist")
@@ -434,7 +436,7 @@ class MemoryEvolution:
             current_version.content, metadata
         )
 
-    async def adapt_voice_settings(self, user_id: str, preferences: Dict) -> bool:
+    async def adapt_voice_settings(self, user_id: str, preferences: dict) -> bool:
         """Adapt voice synthesis settings based on user preferences."""
         # Update user preferences
         self.usage_learning.update_user_preferences(user_id, preferences)
@@ -446,7 +448,7 @@ class MemoryEvolution:
             self.voice_synthesis.clear_cache()
         return success
 
-    def get_last_voice_synthesis(self) -> Optional[Dict]:
+    def get_last_voice_synthesis(self) -> Optional[dict]:
         """Get the result of the last voice synthesis operation."""
         return self.voice_synthesis.get_last_synthesis()
 

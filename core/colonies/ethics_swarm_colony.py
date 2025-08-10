@@ -887,7 +887,7 @@ class EthicsSwarmColony(BaseColony):
 
         # Add consensus reasoning
         reasoning.append(
-            f"Consensus achieved via: {decision_data.get('consensus_method',
+            f"Consensus achieved via: {decision_data.get('consensus_method',"
                                                          'unknown')}"
         )
 

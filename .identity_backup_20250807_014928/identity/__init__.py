@@ -40,10 +40,8 @@ from .verify import VerifyResponse, get_tier_permissions
 __all__ = [
     # Router
     "identity_router",
-
     # Database
     "user_db",
-
     # Middleware and dependencies
     "get_current_user",
     "AuthContext",
@@ -58,7 +56,6 @@ __all__ = [
     "TierGate",
     "inject_user_context",
     "extract_user_context",
-
     # Models
     "RegistrationRequest",
     "RegistrationResponse",
@@ -66,9 +63,8 @@ __all__ = [
     "LoginResponse",
     "UserProfile",
     "VerifyResponse",
-
     # Utilities
-    "get_tier_permissions"
+    "get_tier_permissions",
 ]
 
 # Module information

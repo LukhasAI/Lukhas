@@ -7,7 +7,7 @@ import json
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class RewardType(Enum):
@@ -41,11 +41,11 @@ class UserRewardProfile:
     total_credits: float = 0.0
     total_points: int = 0
     experience_level: int = 1
-    unlocked_content: List[str] = field(default_factory=list)
-    active_benefits: Dict[str, Any] = field(default_factory=dict)
-    achievements: List[str] = field(default_factory=list)
-    badges: List[str] = field(default_factory=list)
-    engagement_history: List[Dict] = field(default_factory=list)
+    unlocked_content: list[str] = field(default_factory=list)
+    active_benefits: dict[str, Any] = field(default_factory=dict)
+    achievements: list[str] = field(default_factory=list)
+    badges: list[str] = field(default_factory=list)
+    engagement_history: list[dict] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.now)
     last_activity: datetime = field(default_factory=datetime.now)
 
@@ -59,7 +59,7 @@ class Reward:
     value: Any
     name: str
     description: str
-    requirements: Dict[str, Any] = field(default_factory=dict)
+    requirements: dict[str, Any] = field(default_factory=dict)
     expiry: Optional[datetime] = None
     is_stackable: bool = True
     max_redemptions: Optional[int] = None
@@ -74,11 +74,11 @@ class ExclusiveContent:
     name: str
     description: str
     access_level: ContentAccessLevel
-    unlock_requirements: Dict[str, Any]
+    unlock_requirements: dict[str, Any]
     content_type: str  # video, article, feature, tool, etc.
     value_proposition: str
     preview_available: bool = True
-    unlocked_by: List[str] = field(default_factory=list)
+    unlocked_by: list[str] = field(default_factory=list)
 
 
 class NIASRewardEngine:
@@ -88,10 +88,10 @@ class NIASRewardEngine:
     """
 
     def __init__(self):
-        self.user_profiles: Dict[str, UserRewardProfile] = {}
-        self.rewards_catalog: Dict[str, Reward] = {}
-        self.exclusive_content: Dict[str, ExclusiveContent] = {}
-        self.engagement_multipliers: Dict[str, float] = {
+        self.user_profiles: dict[str, UserRewardProfile] = {}
+        self.rewards_catalog: dict[str, Reward] = {}
+        self.exclusive_content: dict[str, ExclusiveContent] = {}
+        self.engagement_multipliers: dict[str, float] = {
             "watched_full_ad": 1.0,
             "clicked_ad": 2.0,
             "shared_content": 3.0,
@@ -175,7 +175,7 @@ class NIASRewardEngine:
         engagement_type: str,
         engagement_duration: float,
         full_engagement: bool = False,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Process user's ad engagement and calculate rewards
         This is the core of the mutual benefit model
@@ -245,7 +245,7 @@ class NIASRewardEngine:
             ),
         }
 
-    def redeem_reward(self, user_id: str, reward_id: str) -> Dict[str, Any]:
+    def redeem_reward(self, user_id: str, reward_id: str) -> dict[str, Any]:
         """Redeem a specific reward"""
         profile = self._get_or_create_profile(user_id)
 
@@ -287,7 +287,7 @@ class NIASRewardEngine:
             "message": f"Successfully redeemed: {reward.name}",
         }
 
-    def unlock_exclusive_content(self, user_id: str, content_id: str) -> Dict[str, Any]:
+    def unlock_exclusive_content(self, user_id: str, content_id: str) -> dict[str, Any]:
         """Unlock exclusive content using credits/points"""
         profile = self._get_or_create_profile(user_id)
 
@@ -335,7 +335,7 @@ class NIASRewardEngine:
             "message": f"Unlocked: {content.name}! {content.value_proposition}",
         }
 
-    def get_user_rewards_dashboard(self, user_id: str) -> Dict[str, Any]:
+    def get_user_rewards_dashboard(self, user_id: str) -> dict[str, Any]:
         """Get comprehensive rewards dashboard for user"""
         profile = self._get_or_create_profile(user_id)
 
@@ -408,7 +408,7 @@ class NIASRewardEngine:
         return max(1, total_points // 100 + 1)
 
     def _check_requirements(
-        self, profile: UserRewardProfile, requirements: Dict[str, Any]
+        self, profile: UserRewardProfile, requirements: dict[str, Any]
     ) -> bool:
         """Check if user meets requirements"""
         for req_type, req_value in requirements.items():
@@ -426,7 +426,7 @@ class NIASRewardEngine:
                     return False
         return True
 
-    def _check_unlockables(self, profile: UserRewardProfile) -> List[Dict[str, Any]]:
+    def _check_unlockables(self, profile: UserRewardProfile) -> list[dict[str, Any]]:
         """Check for newly unlockable content"""
         newly_unlocked = []
 
@@ -450,7 +450,7 @@ class NIASRewardEngine:
 
         return newly_unlocked
 
-    def _check_achievements(self, profile: UserRewardProfile) -> List[str]:
+    def _check_achievements(self, profile: UserRewardProfile) -> list[str]:
         """Check for new achievements"""
         new_achievements = []
 
@@ -475,7 +475,7 @@ class NIASRewardEngine:
         return new_achievements
 
     def _activate_premium_feature(
-        self, profile: UserRewardProfile, feature_config: Dict[str, Any]
+        self, profile: UserRewardProfile, feature_config: dict[str, Any]
     ):
         """Activate premium feature for user"""
         duration = feature_config.get("duration", "7_days")
@@ -514,7 +514,7 @@ class NIASRewardEngine:
         return streak
 
     def _generate_reward_message(
-        self, credits: float, points: int, unlocked: List[Dict], achievements: List[str]
+        self, credits: float, points: int, unlocked: list[dict], achievements: list[str]
     ) -> str:
         """Generate engaging reward message"""
         parts = []

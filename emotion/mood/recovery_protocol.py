@@ -18,17 +18,23 @@ from core.bio_systems.bio_simulation_controller import BioSimulationController
 
 logger = logging.getLogger("bio_recovery_protocol")
 
-#LUKHAS_TAG: trauma_loop
+# LUKHAS_TAG: trauma_loop
+
+
 class BioRecoveryProtocol:
     """
     A protocol for symbolic trauma decompression.
     """
 
-    def __init__(self, mood_oscillator: MoodOscillator, simulation_controller: BioSimulationController):
+    def __init__(
+        self,
+        mood_oscillator: MoodOscillator,
+        simulation_controller: BioSimulationController,
+    ):
         self.mood_oscillator = mood_oscillator
         self.simulation_controller = simulation_controller
 
-    #LUKHAS_TAG: symbolic_recovery
+    # LUKHAS_TAG: symbolic_recovery
     async def decompress_trauma(self):
         """
         Decompresses symbolic trauma.

@@ -25,9 +25,7 @@ class DreamFeedbackController:
         self.emotional_memory = EmotionalMemory()
 
     def check_drift_event(self, drift_score: float, current_emotion) -> bool:
-        affect_delta = self.emotional_memory.affect_delta(
-            "dream_feedback", current_emotion
-        )
+        self.emotional_memory.affect_delta("dream_feedback", current_emotion)
         return drift_score >= self.drift_threshold
 
     def trigger_redirection(self, user_id: str, current_emotion: dict) -> dict:

@@ -16,7 +16,7 @@ import json
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import yaml
 
@@ -29,11 +29,11 @@ class JournalEntry:
     timestamp: datetime
     type: str  # decision, insight, pattern, question, learning
     content: str
-    metadata: Dict[str, Any]
-    tags: List[str]
-    emotional_vector: Optional[Dict[str, float]] = None
-    linked_files: Optional[List[str]] = None
-    causal_chain: Optional[List[str]] = None  # Links to other entries
+    metadata: dict[str, Any]
+    tags: list[str]
+    emotional_vector: Optional[dict[str, float]] = None
+    linked_files: Optional[list[str]] = None
+    causal_chain: Optional[list[str]] = None  # Links to other entries
 
 
 class JournalEngine:
@@ -62,14 +62,14 @@ class JournalEngine:
         for directory in directories:
             directory.mkdir(parents=True, exist_ok=True)
 
-    def _load_config(self) -> Dict[str, Any]:
+    def _load_config(self) -> dict[str, Any]:
         """Load configuration from Claude config"""
         if self.config_path.exists():
             with open(self.config_path) as f:
                 return yaml.safe_load(f)
         return self._default_config()
 
-    def _default_config(self) -> Dict[str, Any]:
+    def _default_config(self) -> dict[str, Any]:
         """Default configuration if no config file exists"""
         return {
             "lukhas_learning": {
@@ -90,10 +90,10 @@ class JournalEngine:
         self,
         type: str,
         content: str,
-        metadata: Optional[Dict[str, Any]] = None,
-        tags: Optional[List[str]] = None,
-        emotional_state: Optional[Dict[str, float]] = None,
-        linked_files: Optional[List[str]] = None,
+        metadata: Optional[dict[str, Any]] = None,
+        tags: Optional[list[str]] = None,
+        emotional_state: Optional[dict[str, float]] = None,
+        linked_files: Optional[list[str]] = None,
     ) -> JournalEntry:
         """Add a new entry to the journal"""
         timestamp = datetime.now()
@@ -126,7 +126,7 @@ class JournalEngine:
         return entry
 
     def _calculate_consciousness_level(
-        self, emotional_state: Dict[str, float]
+        self, emotional_state: dict[str, float]
     ) -> float:
         """Calculate consciousness level from emotional state (LUKHAS concept)"""
         # Simple average for now, can be made more sophisticated
@@ -184,10 +184,10 @@ class JournalEngine:
         self,
         query: Optional[str] = None,
         type: Optional[str] = None,
-        tags: Optional[List[str]] = None,
+        tags: Optional[list[str]] = None,
         date_range: Optional[tuple] = None,
-        emotional_range: Optional[Dict[str, tuple]] = None,
-    ) -> List[JournalEntry]:
+        emotional_range: Optional[dict[str, tuple]] = None,
+    ) -> list[JournalEntry]:
         """Search journal entries with various filters"""
         results = []
 
@@ -232,9 +232,9 @@ class JournalEngine:
         self,
         entry: JournalEntry,
         query: Optional[str],
-        tags: Optional[List[str]],
+        tags: Optional[list[str]],
         date_range: Optional[tuple],
-        emotional_range: Optional[Dict[str, tuple]],
+        emotional_range: Optional[dict[str, tuple]],
     ) -> bool:
         """Check if entry matches all filters"""
         # Query filter
@@ -264,7 +264,7 @@ class JournalEngine:
 
         return True
 
-    def get_daily_summary(self, date: Optional[datetime] = None) -> Dict[str, Any]:
+    def get_daily_summary(self, date: Optional[datetime] = None) -> dict[str, Any]:
         """Get summary of journal entries for a specific day"""
         if date is None:
             date = datetime.now()
@@ -315,7 +315,7 @@ class JournalEngine:
         summary["tags"] = list(summary["tags"])
         return summary
 
-    def create_memory_fold(self, entries: List[JournalEntry]) -> Dict[str, Any]:
+    def create_memory_fold(self, entries: list[JournalEntry]) -> dict[str, Any]:
         """
         Create a LUKHAS-style memory fold from journal entries
         This preserves the emotional context and causal relationships
@@ -340,8 +340,8 @@ class JournalEngine:
         return memory_fold
 
     def _calculate_emotional_trajectory(
-        self, entries: List[JournalEntry]
-    ) -> List[Dict[str, Any]]:
+        self, entries: list[JournalEntry]
+    ) -> list[dict[str, Any]]:
         """Calculate how emotions evolved over time"""
         trajectory = []
 
@@ -360,8 +360,8 @@ class JournalEngine:
         return trajectory
 
     def _build_causal_network(
-        self, entries: List[JournalEntry]
-    ) -> Dict[str, List[str]]:
+        self, entries: list[JournalEntry]
+    ) -> dict[str, list[str]]:
         """Build network of causal relationships"""
         network = {}
 
@@ -371,7 +371,7 @@ class JournalEngine:
 
         return network
 
-    def _extract_key_learnings(self, entries: List[JournalEntry]) -> List[str]:
+    def _extract_key_learnings(self, entries: list[JournalEntry]) -> list[str]:
         """Extract key learnings from insights and patterns"""
         learnings = []
 
@@ -383,8 +383,8 @@ class JournalEngine:
         return learnings[:10]  # Top 10 learnings
 
     def _track_consciousness_evolution(
-        self, entries: List[JournalEntry]
-    ) -> List[Dict[str, Any]]:
+        self, entries: list[JournalEntry]
+    ) -> list[dict[str, Any]]:
         """Track how consciousness level evolved"""
         evolution = []
 
@@ -400,7 +400,7 @@ class JournalEngine:
 
         return evolution
 
-    def export_to_markdown(self, entries: List[JournalEntry], output_path: Path):
+    def export_to_markdown(self, entries: list[JournalEntry], output_path: Path):
         """Export journal entries to markdown format"""
         content = ["# LUKHAS Learning Journal\n"]
 
@@ -436,7 +436,7 @@ class JournalEngine:
         with open(output_path, "w") as f:
             f.write("\n".join(content))
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get statistics about journal usage"""
         stats = {
             "total_entries": 0,

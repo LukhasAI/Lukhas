@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Basic memory example"""
 
-from memory import *
-
 
 def main():
     print("Using memory module")

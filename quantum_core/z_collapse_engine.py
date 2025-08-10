@@ -12,6 +12,7 @@ from typing import Any, Dict, List, Optional
 
 class CollapseType(Enum):
     """Types of collapse operations"""
+
     MEMORY_COLLAPSE = "memory_collapse"
     CONSCIOUSNESS_COLLAPSE = "consciousness_collapse"
     SYMBOLIC_COLLAPSE = "symbolic_collapse"
@@ -20,6 +21,7 @@ class CollapseType(Enum):
 @dataclass
 class CollapseResult:
     """Result of a collapse operation"""
+
     collapse_id: str
     collapse_type: CollapseType
     success: bool
@@ -31,7 +33,7 @@ class CollapseResult:
 class ZCollapseEngine:
     """
     Minimal Z-Collapse Engine for testing.
-    
+
     This is a placeholder implementation to support test infrastructure.
     """
 
@@ -40,7 +42,9 @@ class ZCollapseEngine:
         self.version = "1.0.0-minimal"
         self.active_collapses = {}
 
-    async def initiate_collapse(self, collapse_type: CollapseType, data: Any) -> CollapseResult:
+    async def initiate_collapse(
+        self, collapse_type: CollapseType, data: Any
+    ) -> CollapseResult:
         """Initiate a collapse operation"""
         collapse_id = f"collapse_{len(self.active_collapses)}"
 
@@ -51,7 +55,7 @@ class ZCollapseEngine:
             success=True,
             collapsed_items=10,  # Mock value
             compression_ratio=0.85,  # Mock value
-            metadata={"timestamp": "2025-08-03", "engine": self.name}
+            metadata={"timestamp": "2025-08-03", "engine": self.name},
         )
 
         self.active_collapses[collapse_id] = result

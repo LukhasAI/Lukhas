@@ -20,14 +20,14 @@ logger = structlog.get_logger(__name__)
 
 
 """
-+===========================================================================+
-| MODULE        : lukhas_filter_gpt.py                                       |
-| DESCRIPTION   : Manages GPT data exposure filters. Ensures only relevant  |
-|                 emotional, contextual, or vendor info is shared based on  |
-|                 tier and ethical settings.                               |
-| TYPE          : GPT Filter & Control        VERSION: v1.0.0               |
-| AUTHOR        : LUKHAS SYSTEMS                   CREATED: 2025-4-22       |
-+===========================================================================+
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
+| MODULE: lukhas_filter_gpt.py |
+| DESCRIPTION: Manages GPT data exposure filters. Ensures only relevant |
+|                 emotional, contextual, or vendor info is shared based on |
+|                 tier and ethical settings. |
+| TYPE: GPT Filter & Control        VERSION: v1.0.0 |
+| AUTHOR: LUKHAS SYSTEMS                   CREATED: 2025 - 4 - 22 |
++= == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == +
 DEPENDENCIES:
 - lukhas_emotion_log.py
 - lukhas_nias_filter.py
@@ -39,10 +39,10 @@ def extract_keywords(text):
     Extracts keywords from input text for GPT filtering.
 
     Parameters:
-    - text (str): Input text
+    - text(str): Input text
 
     Returns:
-    - list: Extracted keywords (basic split for now)
+    - list: Extracted keywords(basic split for now)
     """
     return text.lower().split()
 
@@ -51,8 +51,8 @@ def filter_gpt_payload(context_data, user_tier):
     Filters what data GPT can access for response generation.
 
     Parameters:
-    - context_data (dict): memory snippets, emotions, DST data
-    - user_tier (int): LUKHASID access level
+    - context_data(dict): memory snippets, emotions, DST data
+    - user_tier(int): LUKHASID access level
 
     Returns:
     - dict: sanitized payload for GPT
@@ -102,7 +102,7 @@ def filter_gpt_payload(context_data, user_tier):
 
 """
 ΛTRACE: End of filter_gpt.py
-ΛSTATUS: Standardized with Jules-1 framework
-ΛTAGS: #interface_standardization #batch_processed #pr_123
+ΛSTATUS: Standardized with Jules - 1 framework
+ΛTAGS:  # interface_standardization #batch_processed #pr_123
 ΛNEXT: Interface standardization Phase 6
 """

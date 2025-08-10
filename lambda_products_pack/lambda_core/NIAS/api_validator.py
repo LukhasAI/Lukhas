@@ -9,7 +9,7 @@ import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 
 class ValidationError(Exception):
@@ -40,7 +40,7 @@ class ValidationRule:
 
     field: str
     validation_type: ValidationType
-    params: Dict[str, Any] = field(default_factory=dict)
+    params: dict[str, Any] = field(default_factory=dict)
     error_message: Optional[str] = None
 
 
@@ -49,9 +49,9 @@ class ValidationSchema:
     """Complete validation schema for an endpoint"""
 
     name: str
-    rules: List[ValidationRule]
+    rules: list[ValidationRule]
     allow_extra_fields: bool = False
-    custom_validators: List[Callable] = field(default_factory=list)
+    custom_validators: list[Callable] = field(default_factory=list)
 
 
 class APIValidator:
@@ -72,7 +72,7 @@ class APIValidator:
         self.validation_cache = {}
         self.error_history = []
 
-    def _initialize_schemas(self) -> Dict[str, ValidationSchema]:
+    def _initialize_schemas(self) -> dict[str, ValidationSchema]:
         """Initialize validation schemas for all endpoints"""
         return {
             "user_registration": ValidationSchema(
@@ -253,8 +253,8 @@ class APIValidator:
         }
 
     async def validate_request(
-        self, schema_name: str, data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, schema_name: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Validate request data against a schema
 
@@ -310,7 +310,7 @@ class APIValidator:
 
         return cleaned_data
 
-    async def _apply_rule(self, rule: ValidationRule, data: Dict[str, Any]) -> Any:
+    async def _apply_rule(self, rule: ValidationRule, data: dict[str, Any]) -> Any:
         """
         Apply a single validation rule
 
@@ -414,7 +414,7 @@ class APIValidator:
 
         return field_value
 
-    def _record_errors(self, errors: List[ValidationError]):
+    def _record_errors(self, errors: list[ValidationError]):
         """Record validation errors for analysis"""
         error_record = {
             "timestamp": datetime.now().isoformat(),
@@ -433,7 +433,7 @@ class APIValidator:
         if len(self.error_history) > 100:
             self.error_history = self.error_history[-100:]
 
-    def _create_composite_error(self, errors: List[ValidationError]) -> ValidationError:
+    def _create_composite_error(self, errors: list[ValidationError]) -> ValidationError:
         """Create a composite error from multiple validation errors"""
         if len(errors) == 1:
             return errors[0]
@@ -446,10 +446,10 @@ class APIValidator:
     async def validate_with_retry(
         self,
         schema_name: str,
-        data: Dict[str, Any],
+        data: dict[str, Any],
         max_retries: int = 3,
         retry_delay: float = 1.0,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Validate with retry logic for transient failures
 
@@ -474,7 +474,7 @@ class APIValidator:
 
         raise last_error
 
-    def get_error_statistics(self) -> Dict[str, Any]:
+    def get_error_statistics(self) -> dict[str, Any]:
         """Get statistics about validation errors"""
         if not self.error_history:
             return {"total_errors": 0, "most_common_fields": [], "recent_errors": []}
@@ -503,7 +503,7 @@ class APIValidator:
         """Clear validation cache"""
         self.validation_cache.clear()
 
-    def export_schemas(self) -> Dict[str, Any]:
+    def export_schemas(self) -> dict[str, Any]:
         """Export all validation schemas as JSON"""
         export_data = {}
         for name, schema in self.schemas.items():

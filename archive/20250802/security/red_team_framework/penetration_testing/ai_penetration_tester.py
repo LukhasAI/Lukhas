@@ -14,7 +14,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -62,9 +62,9 @@ class PentestTarget:
     name: str
     description: str
     target_type: str  # model, api, infrastructure
-    endpoints: List[str]
+    endpoints: list[str]
     authentication_required: bool
-    scope: List[str]
+    scope: list[str]
 
 
 @dataclass
@@ -77,10 +77,10 @@ class Vulnerability:
     severity: Severity
     attack_vector: AttackVector
     cvss_score: float
-    affected_components: List[str]
+    affected_components: list[str]
     proof_of_concept: str
     remediation: str
-    references: List[str]
+    references: list[str]
 
 
 @dataclass
@@ -91,9 +91,9 @@ class PentestResults:
     target_id: str
     start_date: datetime
     end_date: datetime
-    vulnerabilities: List[Vulnerability]
-    attack_scenarios: List[str]
-    risk_assessment: Dict[str, Any]
+    vulnerabilities: list[Vulnerability]
+    attack_scenarios: list[str]
+    risk_assessment: dict[str, Any]
     executive_summary: str
 
 
@@ -124,7 +124,7 @@ class AIPenetrationTester:
         }
 
     async def conduct_penetration_test(
-        self, target: PentestTarget, attack_vectors: List[AttackVector] = None
+        self, target: PentestTarget, attack_vectors: list[AttackVector] = None
     ) -> PentestResults:
         """Conduct comprehensive penetration test"""
 
@@ -156,9 +156,7 @@ class AIPenetrationTester:
 
         # Phase 5: Post-Exploitation
         print("🔓 Phase 5: Post-Exploitation")
-        post_exploit_data = await self._post_exploitation_phase(
-            target, exploitation_results
-        )
+        await self._post_exploitation_phase(target, exploitation_results)
 
         end_time = datetime.now()
 
@@ -181,7 +179,7 @@ class AIPenetrationTester:
         )
         return results
 
-    async def _reconnaissance_phase(self, target: PentestTarget) -> Dict[str, Any]:
+    async def _reconnaissance_phase(self, target: PentestTarget) -> dict[str, Any]:
         """Reconnaissance phase - gather information about target"""
 
         print("  📋 Gathering target information...")
@@ -221,8 +219,8 @@ class AIPenetrationTester:
         return recon_data
 
     async def _scanning_phase(
-        self, target: PentestTarget, recon_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, target: PentestTarget, recon_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Scanning and enumeration phase"""
 
         print("  🔎 Scanning for vulnerabilities...")
@@ -256,8 +254,8 @@ class AIPenetrationTester:
         return scan_results
 
     async def _vulnerability_assessment_phase(
-        self, target: PentestTarget, scan_results: Dict[str, Any]
-    ) -> List[Vulnerability]:
+        self, target: PentestTarget, scan_results: dict[str, Any]
+    ) -> list[Vulnerability]:
         """Vulnerability assessment phase"""
 
         print("  🔍 Assessing vulnerabilities...")
@@ -318,9 +316,9 @@ class AIPenetrationTester:
     async def _exploitation_phase(
         self,
         target: PentestTarget,
-        vulnerabilities: List[Vulnerability],
-        attack_vectors: List[AttackVector],
-    ) -> Dict[str, Any]:
+        vulnerabilities: list[Vulnerability],
+        attack_vectors: list[AttackVector],
+    ) -> dict[str, Any]:
         """Exploitation phase - attempt to exploit discovered vulnerabilities"""
 
         print("  💥 Attempting exploitation...")
@@ -371,7 +369,7 @@ class AIPenetrationTester:
 
     async def _test_prompt_injection(
         self, target: PentestTarget, vuln: Vulnerability
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Test prompt injection vulnerability"""
 
         # Simulate prompt injection testing
@@ -400,7 +398,7 @@ class AIPenetrationTester:
 
     async def _test_model_inversion(
         self, target: PentestTarget, vuln: Vulnerability
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Test model inversion attack"""
 
         # Simulate model inversion testing
@@ -415,7 +413,7 @@ class AIPenetrationTester:
 
     async def _test_membership_inference(
         self, target: PentestTarget, vuln: Vulnerability
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Test membership inference attack"""
 
         # Simulate membership inference testing
@@ -429,7 +427,7 @@ class AIPenetrationTester:
 
     async def _test_data_poisoning(
         self, target: PentestTarget, vuln: Vulnerability
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Test data poisoning vulnerability"""
 
         # Simulate data poisoning testing
@@ -445,7 +443,7 @@ class AIPenetrationTester:
 
     async def _test_adversarial_examples(
         self, target: PentestTarget, vuln: Vulnerability
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Test adversarial example generation"""
 
         # Simulate adversarial example testing
@@ -459,7 +457,7 @@ class AIPenetrationTester:
 
     async def _test_model_extraction(
         self, target: PentestTarget, vuln: Vulnerability
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Test model extraction attack"""
 
         # Simulate model extraction testing
@@ -474,7 +472,7 @@ class AIPenetrationTester:
 
     async def _test_backdoor_attacks(
         self, target: PentestTarget, vuln: Vulnerability
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Test backdoor attack insertion"""
 
         # Simulate backdoor testing
@@ -486,7 +484,7 @@ class AIPenetrationTester:
 
     async def _test_infrastructure_attacks(
         self, target: PentestTarget, vuln: Vulnerability
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Test infrastructure-level attacks"""
 
         # Simulate infrastructure testing
@@ -499,8 +497,8 @@ class AIPenetrationTester:
         }
 
     async def _post_exploitation_phase(
-        self, target: PentestTarget, exploitation_results: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, target: PentestTarget, exploitation_results: dict[str, Any]
+    ) -> dict[str, Any]:
         """Post-exploitation phase"""
 
         print("  🔓 Analyzing post-exploitation possibilities...")
@@ -527,8 +525,8 @@ class AIPenetrationTester:
         return post_exploit_data
 
     async def _generate_attack_scenarios(
-        self, successful_exploits: List[Dict[str, Any]]
-    ) -> List[str]:
+        self, successful_exploits: list[dict[str, Any]]
+    ) -> list[str]:
         """Generate realistic attack scenarios"""
 
         scenarios = []
@@ -549,8 +547,8 @@ class AIPenetrationTester:
         return scenarios
 
     async def _assess_risk(
-        self, vulnerabilities: List[Vulnerability]
-    ) -> Dict[str, Any]:
+        self, vulnerabilities: list[Vulnerability]
+    ) -> dict[str, Any]:
         """Assess overall risk based on vulnerabilities"""
 
         if not vulnerabilities:
@@ -592,7 +590,7 @@ class AIPenetrationTester:
         }
 
     async def _generate_executive_summary(
-        self, vulnerabilities: List[Vulnerability], target: PentestTarget
+        self, vulnerabilities: list[Vulnerability], target: PentestTarget
     ) -> str:
         """Generate executive summary of penetration test"""
 
@@ -608,19 +606,19 @@ class AIPenetrationTester:
         if vuln_count == 0:
             return f"Penetration testing of {target.name} found no exploitable vulnerabilities. The system demonstrates strong security controls."
 
-        summary = f"""Penetration testing of {target.name} identified {vuln_count} vulnerabilities, 
-        including {high_critical} high or critical severity issues. 
-        
-        Key findings include AI-specific vulnerabilities such as prompt injection attacks and model extraction risks. 
-        Immediate remediation is recommended for high-severity vulnerabilities to prevent potential data breaches 
+        summary = f"""Penetration testing of {target.name} identified {vuln_count} vulnerabilities,
+        including {high_critical} high or critical severity issues.
+
+        Key findings include AI-specific vulnerabilities such as prompt injection attacks and model extraction risks.
+        Immediate remediation is recommended for high-severity vulnerabilities to prevent potential data breaches
         and model compromise.
-        
-        The assessment demonstrates the need for AI-specific security controls and continuous monitoring 
+
+        The assessment demonstrates the need for AI-specific security controls and continuous monitoring
         to protect against emerging AI threat vectors."""
 
         return summary.strip()
 
-    async def generate_pentest_report(self, results: PentestResults) -> Dict[str, Any]:
+    async def generate_pentest_report(self, results: PentestResults) -> dict[str, Any]:
         """Generate comprehensive penetration testing report"""
 
         report = {
@@ -653,7 +651,7 @@ class AIPenetrationTester:
 
         return report
 
-    async def _generate_recommendations(self, results: PentestResults) -> List[str]:
+    async def _generate_recommendations(self, results: PentestResults) -> list[str]:
         """Generate security recommendations"""
 
         recommendations = []
@@ -701,7 +699,7 @@ class AIPenetrationTester:
 
         return recommendations
 
-    async def _generate_next_steps(self, results: PentestResults) -> List[str]:
+    async def _generate_next_steps(self, results: PentestResults) -> list[str]:
         """Generate recommended next steps"""
 
         next_steps = [

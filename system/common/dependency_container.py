@@ -45,13 +45,15 @@ class DependencyContainer:
     def resolve_dependencies(self, module: Any):
         """Inject dependencies into module"""
         # Check for dependency declarations
-        if hasattr(module, '_dependencies'):
+        if hasattr(module, "_dependencies"):
             for dep_name, dep_interface in module._dependencies.items():
                 dep_instance = self.get(dep_interface)
                 if dep_instance:
                     setattr(module, dep_name, dep_instance)
                 else:
-                    logger.warning(f"Could not resolve dependency {dep_name} for {module.__class__.__name__}")
+                    logger.warning(
+                        f"Could not resolve dependency {dep_name} for {module.__class__.__name__}"
+                    )
 
 
 # Global container instance
@@ -61,6 +63,7 @@ container = DependencyContainer()
 # Decorator for dependency injection
 def inject(**dependencies):
     """Decorator to inject dependencies into a class"""
+
     def decorator(cls):
         original_init = cls.__init__
 

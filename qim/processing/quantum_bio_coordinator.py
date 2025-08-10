@@ -29,7 +29,7 @@ __tier__ = 2
 import hashlib  # For string to float conversion
 import uuid  # For task IDs
 from datetime import datetime, timezone  # Added timezone for UTC
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 import structlog  # Changed from standard logging
@@ -65,11 +65,12 @@ except ImportError as e:
         exc_info=True,
     )
 
-    # Define mock fallbacks if necessary for the script to parse or run in a limited mode
+    # Define mock fallbacks if necessary for the script to parse or run in a
+    # limited mode
     class MockEnhancedQuantumEngine:
         async def process_quantum_signal(
             self, signal: Any, context: Any
-        ) -> Dict[str, Any]:
+        ) -> dict[str, Any]:
             return {
                 "output": np.array([0.0]),
                 "metadata": {"coherence": 0.0, "status": "mocked_quantum_engine"},
@@ -78,19 +79,19 @@ except ImportError as e:
     class MockMitochondrialQuantumBridge:
         async def process_quantum_signal(
             self, signal: Any, context: Any
-        ) -> Tuple[np.ndarray, Dict[str, Any]]:
+        ) -> tuple[np.ndarray, dict[str, Any]]:
             return np.array([0.0]), {"coherence": 0.0, "status": "mocked_mito_bridge"}
 
     class MockQuantumSynapticGate:
         async def process_signal(
             self, bio_signal: Any, q_signal: Any, context: Any
-        ) -> Tuple[np.ndarray, Dict[str, Any]]:
+        ) -> tuple[np.ndarray, dict[str, Any]]:
             return np.array([0.0]), {"coherence": 0.0, "status": "mocked_synaptic_gate"}
 
     class MockNeuroplasticityModulator:
         async def modulate_plasticity(
             self, main_signal: Any, aux_signal: Any, context: Any
-        ) -> Tuple[np.ndarray, Dict[str, Any]]:
+        ) -> tuple[np.ndarray, dict[str, Any]]:
             return np.array([0.0]), {
                 "coherence": 0.0,
                 "status": "mocked_neuro_modulator",
@@ -140,7 +141,7 @@ class QuantumBioCoordinator:
     ensuring coherent processing.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initializes the QuantumBioCoordinator with its quantum and bio-quantum components.
         Args:
@@ -155,19 +156,19 @@ class QuantumBioCoordinator:
         self.synaptic_gate: QuantumSynapticGate = QuantumSynapticGate()
         self.plasticity_modulator: NeuroplasticityModulator = NeuroplasticityModulator()
 
-        self.system_state: Dict[str, float] = {
+        self.system_state: dict[str, float] = {
             "current_quantum_coherence": 1.0,
             "current_bio_stability_metric": 1.0,
             "overall_integration_efficiency": 1.0,
             "last_update_timestamp_utc": datetime.now(timezone.utc).timestamp(),
         }
 
-        default_processing_config: Dict[str, float] = {
+        default_processing_config: dict[str, float] = {
             "quantum_processing_threshold": 0.85,
             "bio_processing_threshold": 0.80,
             "min_integration_efficiency_threshold": 0.75,
         }
-        self.processing_config: Dict[str, float] = {
+        self.processing_config: dict[str, float] = {
             **default_processing_config,
             **(config or {}),
         }
@@ -180,8 +181,8 @@ class QuantumBioCoordinator:
 
     @lukhas_tier_required(2)
     async def process_bio_quantum(
-        self, input_data: Dict[str, Any], context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, input_data: dict[str, Any], context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Processes input data through the integrated bio-quantum pathway.
         """
@@ -194,7 +195,11 @@ class QuantumBioCoordinator:
 
         try:
             quantum_signal_input = self._prepare_quantum_signal(input_data)
-            self.log.debug("Quantum signal prepared.", task_id=task_id, signal_shape_str=str(quantum_signal_input.shape))  # type: ignore
+            self.log.debug(
+                "Quantum signal prepared.",
+                task_id=task_id,
+                signal_shape_str=str(quantum_signal_input.shape),
+            )  # type: ignore
 
             quantum_engine_result = await self.quantum_engine.process_quantum_signal(
                 quantum_signal_input, context  # type: ignore
@@ -255,8 +260,8 @@ class QuantumBioCoordinator:
     async def _process_bio_quantum_pathway(
         self,
         quantum_signal_output: np.ndarray,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Processes a quantum signal through the bio-quantum bridge components.
         """
@@ -270,14 +275,20 @@ class QuantumBioCoordinator:
                     quantum_signal_output, context
                 )
             )
-            self.log.debug("MitochondrialQuantumBridge processing complete.", output_shape_str=str(bridge_output_signal.shape))  # type: ignore
+            self.log.debug(
+                "MitochondrialQuantumBridge processing complete.",
+                output_shape_str=str(bridge_output_signal.shape),
+            )  # type: ignore
 
             gate_output_signal, gate_metadata = await self.synaptic_gate.process_signal(
                 bio_signal=bridge_output_signal,  # type: ignore
                 quantum_context_signal=quantum_signal_output,
                 processing_context=context,
             )
-            self.log.debug("QuantumSynapticGate processing complete.", output_shape_str=str(gate_output_signal.shape))  # type: ignore
+            self.log.debug(
+                "QuantumSynapticGate processing complete.",
+                output_shape_str=str(gate_output_signal.shape),
+            )  # type: ignore
 
             final_modulated_output, plasticity_metadata = (
                 await self.plasticity_modulator.modulate_plasticity(
@@ -286,7 +297,10 @@ class QuantumBioCoordinator:
                     modulation_context=context,
                 )
             )
-            self.log.debug("NeuroplasticityModulator processing complete.", output_shape_str=str(final_modulated_output.shape))  # type: ignore
+            self.log.debug(
+                "NeuroplasticityModulator processing complete.",
+                output_shape_str=str(final_modulated_output.shape),
+            )  # type: ignore
 
             return {
                 "output": final_modulated_output,  # type: ignore
@@ -306,7 +320,8 @@ class QuantumBioCoordinator:
             raise
 
     @lukhas_tier_required(1)
-    def _prepare_quantum_signal(self, input_data: Dict[str, Any]) -> np.ndarray:  # type: ignore
+    # type: ignore
+    def _prepare_quantum_signal(self, input_data: dict[str, Any]) -> np.ndarray:
         """
         Prepares a quantum signal (numpy array) from input data.
         ΛNOTE: Hashing strings for float conversion is a placeholder.
@@ -316,7 +331,7 @@ class QuantumBioCoordinator:
             input_type=type(input_data).__name__,
         )
 
-        values: List[float] = []
+        values: list[float] = []
         if isinstance(input_data, dict):
             for key in sorted(input_data.keys()):
                 value = input_data[key]
@@ -333,7 +348,9 @@ class QuantumBioCoordinator:
                     )
                 elif isinstance(value, (list, tuple, np.ndarray)):
                     try:
-                        numeric_iterable = np.array(value, dtype=float).flatten().tolist()  # type: ignore
+                        numeric_iterable = (
+                            np.array(value, dtype=float).flatten().tolist()
+                        )  # type: ignore
                         values.extend(numeric_iterable)
                     except (TypeError, ValueError):
                         self.log.warning(
@@ -348,7 +365,11 @@ class QuantumBioCoordinator:
                         value_type=type(value).__name__,
                     )
 
-            return np.array(values, dtype=float) if values else np.array([0.0], dtype=float)  # type: ignore
+            return (
+                np.array(values, dtype=float)
+                if values
+                else np.array([0.0], dtype=float)
+            )  # type: ignore
 
         self.log.warning(
             "input_data was not a dict, attempting direct conversion.",
@@ -376,8 +397,8 @@ class QuantumBioCoordinator:
     @lukhas_tier_required(3)
     def _update_system_state_metrics(
         self,
-        quantum_engine_result: Dict[str, Any],
-        bio_quantum_pathway_result: Dict[str, Any],
+        quantum_engine_result: dict[str, Any],
+        bio_quantum_pathway_result: dict[str, Any],
     ) -> None:
         """Updates the coordinator's system state based on recent processing results."""
         self.log.debug("Updating system state metrics.")
@@ -386,7 +407,7 @@ class QuantumBioCoordinator:
             "metadata", {}
         ).get("coherence", self.system_state["current_quantum_coherence"])
 
-        bio_component_coherences: List[float] = []
+        bio_component_coherences: list[float] = []
         for component_meta_key in [
             "mitochondrial_bridge_meta",
             "quantum_synaptic_gate_meta",
@@ -399,7 +420,9 @@ class QuantumBioCoordinator:
                 bio_component_coherences.append(float(component_meta["coherence"]))
 
         if bio_component_coherences:
-            self.system_state["current_bio_stability_metric"] = float(np.mean(bio_component_coherences))  # type: ignore
+            self.system_state["current_bio_stability_metric"] = float(
+                np.mean(bio_component_coherences)
+            )  # type: ignore
 
         self.system_state["overall_integration_efficiency"] = float(
             np.mean(

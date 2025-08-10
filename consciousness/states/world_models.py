@@ -20,11 +20,12 @@ Features:
 - Temporal dynamics modeling
 - Predictive modeling frameworks
 """
+import logging
 
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -58,11 +59,11 @@ class WorldState:
 
     state_id: str
     timestamp: datetime
-    entities: Dict[str, Any] = field(default_factory=dict)
-    relationships: List[Dict[str, Any]] = field(default_factory=list)
-    physics_properties: Dict[str, float] = field(default_factory=dict)
+    entities: dict[str, Any] = field(default_factory=dict)
+    relationships: list[dict[str, Any]] = field(default_factory=list)
+    physics_properties: dict[str, float] = field(default_factory=dict)
     confidence: float = 1.0
-    uncertainty: Dict[str, float] = field(default_factory=dict)
+    uncertainty: dict[str, float] = field(default_factory=dict)
 
 
 @dataclass
@@ -72,8 +73,8 @@ class PredictionResult:
     predicted_state: WorldState
     confidence: float
     prediction_horizon: timedelta
-    alternatives: List[WorldState] = field(default_factory=list)
-    uncertainty_bounds: Dict[str, Tuple[float, float]] = field(default_factory=dict)
+    alternatives: list[WorldState] = field(default_factory=list)
+    uncertainty_bounds: dict[str, tuple[float, float]] = field(default_factory=dict)
 
 
 class PhysicsEngine:
@@ -102,7 +103,7 @@ class PhysicsEngine:
             )
 
             # Apply physics laws to entities
-            for entity_id, entity in new_state.entities.items():
+            for _entity_id, entity in new_state.entities.items():
                 if "position" in entity and "velocity" in entity:
                     # Basic kinematics
                     pos = np.array(entity["position"])
@@ -140,8 +141,8 @@ class TemporalDynamicsModel:
         self.time_series_models = {}
 
     async def model_temporal_dynamics(
-        self, history: List[WorldState], prediction_horizon: timedelta
-    ) -> Dict[str, Any]:
+        self, history: list[WorldState], prediction_horizon: timedelta
+    ) -> dict[str, Any]:
         """Model temporal dynamics from historical states"""
         try:
             if len(history) < 2:
@@ -169,8 +170,8 @@ class TemporalDynamicsModel:
             return {"status": "error", "error": str(e)}
 
     async def _extract_temporal_patterns(
-        self, history: List[WorldState]
-    ) -> Dict[str, Any]:
+        self, history: list[WorldState]
+    ) -> dict[str, Any]:
         """Extract patterns from temporal sequence"""
         patterns = {"periodicity": {}, "trends": {}, "anomalies": []}
 
@@ -197,8 +198,8 @@ class TemporalDynamicsModel:
         return patterns
 
     def _calculate_entity_changes(
-        self, prev_entity: Dict, curr_entity: Dict
-    ) -> Dict[str, float]:
+        self, prev_entity: dict, curr_entity: dict
+    ) -> dict[str, float]:
         """Calculate changes between entity states"""
         changes = {}
 
@@ -211,8 +212,8 @@ class TemporalDynamicsModel:
         return changes
 
     async def _build_causality_graph(
-        self, history: List[WorldState]
-    ) -> Dict[str, List[str]]:
+        self, history: list[WorldState]
+    ) -> dict[str, list[str]]:
         """Build causality relationships between entities"""
         causality = {}
 
@@ -265,7 +266,8 @@ class TemporalDynamicsModel:
                 )
 
                 if changes_a and changes_b:
-                    # Simple correlation: if both have significant changes, consider correlated
+                    # Simple correlation: if both have significant changes, consider
+                    # correlated
                     significant_changes_a = sum(
                         1 for v in changes_a.values() if abs(v) > 0.1
                     )
@@ -282,8 +284,8 @@ class TemporalDynamicsModel:
             return 0.0
 
     async def _predict_trends(
-        self, history: List[WorldState], prediction_horizon: timedelta
-    ) -> Dict[str, Any]:
+        self, history: list[WorldState], prediction_horizon: timedelta
+    ) -> dict[str, Any]:
         """Predict future trends based on historical data"""
         trends = {}
 
@@ -302,8 +304,8 @@ class TemporalDynamicsModel:
         return trends
 
     def _calculate_linear_trend(
-        self, states: List[WorldState], entity_id: str
-    ) -> Optional[Dict[str, Any]]:
+        self, states: list[WorldState], entity_id: str
+    ) -> Optional[dict[str, Any]]:
         """Calculate linear trend for entity"""
         try:
             entity_data = [state.entities[entity_id] for state in states]
@@ -334,7 +336,7 @@ class TemporalDynamicsModel:
         except Exception:
             return None
 
-    def _calculate_temporal_confidence(self, history: List[WorldState]) -> float:
+    def _calculate_temporal_confidence(self, history: list[WorldState]) -> float:
         """Calculate confidence in temporal analysis"""
         base_confidence = 0.7
 
@@ -433,9 +435,9 @@ class WorldModels:
 
     async def create_world_state(
         self,
-        entities: Dict[str, Any],
-        relationships: Optional[List[Dict[str, Any]]] = None,
-        physics_properties: Optional[Dict[str, float]] = None,
+        entities: dict[str, Any],
+        relationships: Optional[list[dict[str, Any]]] = None,
+        physics_properties: Optional[dict[str, float]] = None,
     ) -> WorldState:
         """Create a new world state"""
         try:
@@ -521,7 +523,7 @@ class WorldModels:
             raise
 
     async def _apply_temporal_predictions(
-        self, state: WorldState, predictions: Dict[str, Any], duration: timedelta
+        self, state: WorldState, predictions: dict[str, Any], duration: timedelta
     ) -> WorldState:
         """Apply temporal predictions to state"""
         try:
@@ -580,7 +582,7 @@ class WorldModels:
         return min(0.95, final_confidence)
 
     async def get_prediction(
-        self, prediction_horizon: timedelta, context: Optional[Dict[str, Any]] = None
+        self, prediction_horizon: timedelta, context: Optional[dict[str, Any]] = None
     ) -> Optional[PredictionResult]:
         """Get prediction for specified time horizon"""
         try:
@@ -611,7 +613,7 @@ class WorldModels:
             return None
 
     async def update_world_state(
-        self, observations: Dict[str, Any], context: Optional[Dict[str, Any]] = None
+        self, observations: dict[str, Any], context: Optional[dict[str, Any]] = None
     ) -> WorldState:
         """Update world model with new observations"""
         try:
@@ -659,7 +661,7 @@ class WorldModels:
             logger.error(f"Failed to update world state: {e}")
             raise
 
-    async def get_world_analysis(self) -> Dict[str, Any]:
+    async def get_world_analysis(self) -> dict[str, Any]:
         """Get comprehensive analysis of current world model"""
         try:
             if not self.world_states:

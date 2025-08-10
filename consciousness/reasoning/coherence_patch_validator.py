@@ -8,7 +8,7 @@ import json
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
 
@@ -29,7 +29,7 @@ class CoherenceMetrics:
         self.temporal_alignment = 0.0
         self.patch_effectiveness = 0.0
 
-    def to_dict(self) -> Dict[str, float]:
+    def to_dict(self) -> dict[str, float]:
         return {
             "coherence_score": self.coherence_score,
             "stability_score": self.stability_score,
@@ -74,7 +74,7 @@ class CoherencePatch:
         self.applied = False
         self.effectiveness = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "patch_type": self.patch_type,
             "target": self.target,
@@ -105,7 +105,7 @@ class CoherencePatchValidator:
         self.log_dir.mkdir(parents=True, exist_ok=True)
 
     async def validate_coherence(
-        self, reasoning_trace: Dict[str, Any]
+        self, reasoning_trace: dict[str, Any]
     ) -> CoherenceMetrics:
         """
         Validate the coherence of a reasoning trace
@@ -141,8 +141,8 @@ class CoherencePatchValidator:
         return metrics
 
     async def validate_and_patch(
-        self, reasoning_trace: Dict[str, Any], apply_patches: bool = True
-    ) -> Dict[str, Any]:
+        self, reasoning_trace: dict[str, Any], apply_patches: bool = True
+    ) -> dict[str, Any]:
         """
         Validate coherence and apply patches if needed
 
@@ -224,7 +224,7 @@ class CoherencePatchValidator:
             "patched_trace": patched_trace if apply_patches else None,
         }
 
-    def _calculate_coherence_score(self, trace: Dict[str, Any]) -> float:
+    def _calculate_coherence_score(self, trace: dict[str, Any]) -> float:
         """Calculate overall coherence score"""
         factors = []
 
@@ -257,7 +257,7 @@ class CoherencePatchValidator:
 
         return sum(factors) / len(factors) if factors else 0.5
 
-    def _calculate_stability_score(self, trace: Dict[str, Any]) -> float:
+    def _calculate_stability_score(self, trace: dict[str, Any]) -> float:
         """Calculate reasoning stability"""
         path = trace.get("reasoning_path", [])
         if not path:
@@ -279,7 +279,7 @@ class CoherencePatchValidator:
 
         return stability
 
-    def _calculate_drift_score(self, trace: Dict[str, Any]) -> float:
+    def _calculate_drift_score(self, trace: dict[str, Any]) -> float:
         """Calculate logical drift in reasoning"""
         # Get from trace or calculate
         if "drift_score" in trace:
@@ -305,7 +305,7 @@ class CoherencePatchValidator:
 
         return sum(drift_values) / len(drift_values) if drift_values else 0.0
 
-    def _calculate_symbol_consistency(self, trace: Dict[str, Any]) -> float:
+    def _calculate_symbol_consistency(self, trace: dict[str, Any]) -> float:
         """Calculate consistency of symbol usage"""
         symbols = trace.get("symbols", [])
         if not symbols:
@@ -332,7 +332,7 @@ class CoherencePatchValidator:
 
         return consistency
 
-    def _calculate_logical_validity(self, trace: Dict[str, Any]) -> float:
+    def _calculate_logical_validity(self, trace: dict[str, Any]) -> float:
         """Calculate logical validity of reasoning"""
         # Simple heuristic-based validation
         validity_score = 1.0
@@ -353,7 +353,7 @@ class CoherencePatchValidator:
 
         return max(validity_score, 0.0)
 
-    def _calculate_temporal_alignment(self, trace: Dict[str, Any]) -> float:
+    def _calculate_temporal_alignment(self, trace: dict[str, Any]) -> float:
         """Calculate temporal consistency"""
         path = trace.get("reasoning_path", [])
         if not path:
@@ -368,7 +368,7 @@ class CoherencePatchValidator:
                         step["timestamp"].replace("Z", "+00:00")
                     )
                     timestamps.append(ts)
-                except:
+                except BaseException:
                     pass
 
         if len(timestamps) > 1:
@@ -382,7 +382,7 @@ class CoherencePatchValidator:
 
     def _identify_coherence_issues(
         self, metrics: CoherenceMetrics
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Identify specific coherence issues based on metrics"""
         issues = []
 
@@ -429,8 +429,8 @@ class CoherencePatchValidator:
         return issues
 
     async def _generate_patches(
-        self, trace: Dict[str, Any], issues: List[Dict[str, Any]]
-    ) -> List[CoherencePatch]:
+        self, trace: dict[str, Any], issues: list[dict[str, Any]]
+    ) -> list[CoherencePatch]:
         """Generate patches to fix identified issues"""
         patches = []
 
@@ -486,8 +486,8 @@ class CoherencePatchValidator:
         return patches
 
     async def _apply_patch(
-        self, trace: Dict[str, Any], patch: CoherencePatch
-    ) -> Dict[str, Any]:
+        self, trace: dict[str, Any], patch: CoherencePatch
+    ) -> dict[str, Any]:
         """Apply a coherence patch to a trace"""
         patched_trace = trace.copy()
 
@@ -508,12 +508,11 @@ class CoherencePatchValidator:
                     patched_trace["metadata"] = {}
                 patched_trace["metadata"].update(patch.value)
 
-        elif patch.operation == "extend":
-            if patch.target == "symbols":
-                if "symbols" not in patched_trace:
-                    patched_trace["symbols"] = []
-                # Auto-define symbols based on usage
-                patched_trace["symbols"].append("auto_defined_symbols")
+        elif patch.operation == "extend" and patch.target == "symbols":
+            if "symbols" not in patched_trace:
+                patched_trace["symbols"] = []
+            # Auto-define symbols based on usage
+            patched_trace["symbols"].append("auto_defined_symbols")
 
         return patched_trace
 
@@ -533,11 +532,11 @@ class CoherencePatchValidator:
 
     async def _log_validation_results(
         self,
-        trace_before: Dict[str, Any],
-        trace_after: Dict[str, Any],
+        trace_before: dict[str, Any],
+        trace_after: dict[str, Any],
         metrics_before: CoherenceMetrics,
         metrics_after: CoherenceMetrics,
-        patches_applied: List[CoherencePatch],
+        patches_applied: list[CoherencePatch],
     ):
         """Log validation and patching results"""
         log_entry = {
@@ -561,7 +560,7 @@ class CoherencePatchValidator:
         with open(log_file, "a") as f:
             f.write(json.dumps(log_entry) + "\n")
 
-    def get_validation_summary(self, last_n: int = 10) -> Dict[str, Any]:
+    def get_validation_summary(self, last_n: int = 10) -> dict[str, Any]:
         """Get summary of recent validations"""
         recent = self.validation_history[-last_n:]
 
@@ -593,8 +592,8 @@ class CoherencePatchValidator:
 
 # Backward compatibility function
 def validate_harmonization(
-    trace_before: Dict[str, Any], trace_after: Dict[str, Any]
-) -> Dict[str, Any]:
+    trace_before: dict[str, Any], trace_after: dict[str, Any]
+) -> dict[str, Any]:
     """
     Compare pre/post traces to determine effectiveness of harmonization.
 

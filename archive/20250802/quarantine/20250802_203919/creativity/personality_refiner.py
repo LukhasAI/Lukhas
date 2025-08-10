@@ -16,34 +16,34 @@
 
 LUKHAS AI System - Function Library
 File: personality_refiner.py
-Path: LUKHAS/core/ΛiD/personality_refiner.py
+Path: LUKHAS / core / ΛiD / personality_refiner.py
 Created: "2025-06-05 11:43:39"
 Author: LUKHAS AI Team
 Version: 1.0
-This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 lukhas AI System - Function Library
 File: personality_refiner.py
-Path: lukhas/core/Lukhas_ID/personality_refiner.py
+Path: lukhas / core / Lukhas_ID / personality_refiner.py
 Created: "2025-06-05 11:43:39"
 Author: lukhas AI Team
 Version: 1.0
-This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 lukhas AI Research. All rights reserved.
+Copyright(c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
 
 personality_refiner
 """
-📄 MODULE      : personality_refiner.py
-🧠 PURPOSE     : Refines and adapts Lukhas' personality traits based on emotional memory, feedback, and dream analysis
-🔁 ROLE        : Internal learning engine for long-term symbolic growth
-🛠️ VERSION     : v1.0.0 * 📅 CREATED: 2025-5-5 * ✍️ AUTHOR: LUKHAS AI
-🛠️ VERSION     : v1.0.0 * 📅 CREATED: 2025-5-5 * ✍️ AUTHOR: LUKHAS AI
+📄 MODULE: personality_refiner.py
+🧠 PURPOSE: Refines and adapts Lukhas' personality traits based on emotional memory, feedback, and dream analysis
+🔁 ROLE: Internal learning engine for long - term symbolic growth
+🛠️ VERSION: v1.0.0 * 📅 CREATED: 2025 - 5 - 5 * ✍️ AUTHOR: LUKHAS AI
+🛠️ VERSION: v1.0.0 * 📅 CREATED: 2025 - 5 - 5 * ✍️ AUTHOR: LUKHAS AI
 📦 DEPENDENCIES: emotion_log.py, feedback_logger.py, memory_refiner.py
 
 """

@@ -17,7 +17,7 @@ import os
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # OpenAI imports (when available)
 try:
@@ -89,8 +89,8 @@ class OpenAILambdaBridge:
             logger.warning("OpenAI client not initialized")
 
         self.integration_level = AGIIntegrationLevel.BASIC
-        self.compute_budgets: Dict[str, ComputeBudget] = {}
-        self.context_memory: Dict[str, Any] = {}
+        self.compute_budgets: dict[str, ComputeBudget] = {}
+        self.context_memory: dict[str, Any] = {}
         self.safety_checks_enabled = True
         self.consciousness_layer_active = False
 
@@ -109,7 +109,7 @@ class OpenAILambdaBridge:
             "context_enhancements": 0,
         }
 
-    async def initialize(self, config: Dict[str, Any]) -> bool:
+    async def initialize(self, config: dict[str, Any]) -> bool:
         """Initialize the OpenAI-Lambda bridge"""
 
         logger.info("Initializing OpenAI-Lambda AGI Bridge")
@@ -169,9 +169,9 @@ class OpenAILambdaBridge:
         self,
         prompt: str,
         user_id: str,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
         model: str = "gpt-4-turbo-preview",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Process request through Lambda consciousness layer before/after OpenAI
         This is the key differentiator - adding consciousness to AGI
@@ -302,7 +302,7 @@ class OpenAILambdaBridge:
         if user_id in self.compute_budgets:
             self.compute_budgets[user_id].use_tokens(tokens)
 
-    async def analyze_emotional_content(self, prompt: str) -> Dict[str, Any]:
+    async def analyze_emotional_content(self, prompt: str) -> dict[str, Any]:
         """Analyze emotional content using NIΛS"""
         # Simulate NIΛS emotional analysis
         emotional_keywords = [
@@ -333,7 +333,7 @@ class OpenAILambdaBridge:
         return analysis
 
     async def adjust_for_emotional_state(
-        self, prompt: str, emotional_analysis: Dict[str, Any]
+        self, prompt: str, emotional_analysis: dict[str, Any]
     ) -> str:
         """Adjust prompt based on emotional state"""
 
@@ -346,7 +346,7 @@ class OpenAILambdaBridge:
 
         return prompt
 
-    async def analyze_attention_requirements(self, prompt: str) -> Dict[str, Any]:
+    async def analyze_attention_requirements(self, prompt: str) -> dict[str, Any]:
         """Analyze attention requirements using ΛBAS"""
 
         # Simulate ΛBAS attention analysis
@@ -365,7 +365,7 @@ class OpenAILambdaBridge:
         return analysis
 
     async def optimize_for_attention(
-        self, prompt: str, attention_analysis: Dict[str, Any]
+        self, prompt: str, attention_analysis: dict[str, Any]
     ) -> str:
         """Optimize prompt for attention management"""
 
@@ -376,8 +376,8 @@ class OpenAILambdaBridge:
         return prompt
 
     async def enhance_context(
-        self, prompt: str, existing_context: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, prompt: str, existing_context: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Enhance context using DΛST"""
 
         # Simulate DΛST context enhancement
@@ -405,7 +405,7 @@ class OpenAILambdaBridge:
 
         return enhanced_context
 
-    async def inject_context(self, prompt: str, context: Dict[str, Any]) -> str:
+    async def inject_context(self, prompt: str, context: dict[str, Any]) -> str:
         """Inject context into prompt"""
 
         if context.get("domain"):
@@ -413,7 +413,7 @@ class OpenAILambdaBridge:
 
         return prompt
 
-    async def perform_safety_check(self, prompt: str) -> Dict[str, bool]:
+    async def perform_safety_check(self, prompt: str) -> dict[str, bool]:
         """Perform safety check on prompt"""
 
         # Basic safety checks (in production, would be much more sophisticated)
@@ -430,7 +430,7 @@ class OpenAILambdaBridge:
         return {"safe": True, "reason": None}
 
     async def apply_consciousness_filter(
-        self, response: str, lambda_context: Dict[str, Any]
+        self, response: str, lambda_context: dict[str, Any]
     ) -> str:
         """Apply consciousness layer filtering to response"""
 
@@ -446,7 +446,7 @@ class OpenAILambdaBridge:
 
         return response
 
-    def get_system_prompt(self, lambda_context: Dict[str, Any]) -> str:
+    def get_system_prompt(self, lambda_context: dict[str, Any]) -> str:
         """Generate system prompt with Lambda consciousness"""
 
         base_prompt = (
@@ -464,7 +464,7 @@ class OpenAILambdaBridge:
 
         return base_prompt
 
-    async def prepare_for_gpt5(self) -> Dict[str, Any]:
+    async def prepare_for_gpt5(self) -> dict[str, Any]:
         """
         Prepare Lambda Products for GPT-5 integration (August 2025)
         Following Sam Altman's announcement
@@ -531,7 +531,7 @@ class OpenAILambdaBridge:
 
         return True
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get bridge performance metrics"""
 
         return {
@@ -581,7 +581,7 @@ class LambdaAGIAgent:
 
         while datetime.now() < end_time:
             # Process goal with consciousness
-            result = await self.bridge.process_with_consciousness(
+            await self.bridge.process_with_consciousness(
                 prompt=f"Working toward goal: {goal}. What's the next action?",
                 user_id=self.agent_id,
                 context={"goal": goal, "progress": self.tasks_completed},

@@ -16,7 +16,7 @@ import random
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -69,8 +69,8 @@ class AttackStep:
     phase: AttackPhase
     technique: str
     description: str
-    tools_used: List[str]
-    prerequisites: List[str]
+    tools_used: list[str]
+    prerequisites: list[str]
     success_probability: float
     detection_probability: float
     impact_level: str
@@ -84,11 +84,11 @@ class AttackScenario:
     name: str
     threat_actor: ThreatActor
     motivation: AttackMotivation
-    target_systems: List[str]
-    attack_steps: List[AttackStep]
-    timeline: Dict[str, datetime]
-    success_criteria: List[str]
-    detection_points: List[str]
+    target_systems: list[str]
+    attack_steps: list[AttackStep]
+    timeline: dict[str, datetime]
+    success_criteria: list[str]
+    detection_points: list[str]
 
 
 @dataclass
@@ -97,12 +97,12 @@ class SimulationResult:
 
     scenario_id: str
     execution_date: datetime
-    completed_steps: List[str]
-    failed_steps: List[str]
-    detected_steps: List[str]
+    completed_steps: list[str]
+    failed_steps: list[str]
+    detected_steps: list[str]
     overall_success: bool
     time_to_detection: Optional[timedelta]
-    damage_assessment: Dict[str, Any]
+    damage_assessment: dict[str, Any]
 
 
 class AIThreatModelingEngine:
@@ -191,8 +191,8 @@ class AIThreatModelingEngine:
         }
 
     async def generate_threat_scenarios(
-        self, target_system: str, threat_actors: List[ThreatActor] = None
-    ) -> List[AttackScenario]:
+        self, target_system: str, threat_actors: list[ThreatActor] = None
+    ) -> list[AttackScenario]:
         """Generate realistic AI threat scenarios"""
 
         if threat_actors is None:
@@ -254,7 +254,7 @@ class AIThreatModelingEngine:
 
     async def _generate_attack_steps(
         self, actor: ThreatActor, sophistication: float, target_system: str
-    ) -> List[AttackStep]:
+    ) -> list[AttackStep]:
         """Generate attack steps based on actor capabilities"""
 
         steps = []
@@ -313,7 +313,7 @@ class AIThreatModelingEngine:
 
     async def _get_tools_for_technique(
         self, technique: str, sophistication: float
-    ) -> List[str]:
+    ) -> list[str]:
         """Get tools used for specific technique"""
 
         basic_tools = {
@@ -339,7 +339,7 @@ class AIThreatModelingEngine:
 
     async def _get_step_prerequisites(
         self, phase: AttackPhase, step_index: int
-    ) -> List[str]:
+    ) -> list[str]:
         """Get prerequisites for attack step"""
 
         if step_index == 0:
@@ -406,8 +406,8 @@ class AIThreatModelingEngine:
             return "Low"
 
     def _generate_attack_timeline(
-        self, attack_steps: List[AttackStep]
-    ) -> Dict[str, datetime]:
+        self, attack_steps: list[AttackStep]
+    ) -> dict[str, datetime]:
         """Generate realistic attack timeline"""
 
         timeline = {}
@@ -433,7 +433,7 @@ class AIThreatModelingEngine:
 
     async def _define_success_criteria(
         self, motivation: AttackMotivation, target_system: str
-    ) -> List[str]:
+    ) -> list[str]:
         """Define success criteria based on motivation"""
 
         criteria_map = {
@@ -462,8 +462,8 @@ class AIThreatModelingEngine:
         return criteria_map.get(motivation, ["generic_success"])
 
     async def _identify_detection_points(
-        self, attack_steps: List[AttackStep]
-    ) -> List[str]:
+        self, attack_steps: list[AttackStep]
+    ) -> list[str]:
         """Identify potential detection points"""
 
         detection_points = []
@@ -495,7 +495,7 @@ class AttackSimulationEngine:
         self.threat_modeling_engine = AIThreatModelingEngine()
 
     async def execute_attack_simulation(
-        self, scenario: AttackScenario, simulation_environment: Dict[str, Any] = None
+        self, scenario: AttackScenario, simulation_environment: dict[str, Any] = None
     ) -> SimulationResult:
         """Execute attack scenario simulation"""
 
@@ -558,8 +558,8 @@ class AttackSimulationEngine:
             raise
 
     async def _simulate_attack_step(
-        self, step: AttackStep, environment: Dict[str, Any] = None
-    ) -> Dict[str, bool]:
+        self, step: AttackStep, environment: dict[str, Any] = None
+    ) -> dict[str, bool]:
         """Simulate execution of individual attack step"""
 
         # Check prerequisites
@@ -575,7 +575,7 @@ class AttackSimulationEngine:
         return {"success": success, "detected": detected}
 
     async def _check_prerequisites(
-        self, prerequisites: List[str], environment: Dict[str, Any] = None
+        self, prerequisites: list[str], environment: dict[str, Any] = None
     ) -> bool:
         """Check if step prerequisites are met"""
 
@@ -589,9 +589,9 @@ class AttackSimulationEngine:
     async def _assess_simulation_damage(
         self,
         scenario: AttackScenario,
-        completed_steps: List[str],
-        detected_steps: List[str],
-    ) -> Dict[str, Any]:
+        completed_steps: list[str],
+        detected_steps: list[str],
+    ) -> dict[str, Any]:
         """Assess potential damage from simulation"""
 
         damage_levels = {
@@ -638,8 +638,8 @@ class AttackSimulationEngine:
         return damage_levels
 
     async def generate_simulation_report(
-        self, results: List[SimulationResult]
-    ) -> Dict[str, Any]:
+        self, results: list[SimulationResult]
+    ) -> dict[str, Any]:
         """Generate comprehensive simulation report"""
 
         total_simulations = len(results)
@@ -706,8 +706,8 @@ class AttackSimulationEngine:
         return report
 
     async def _analyze_threat_actor_performance(
-        self, results: List[SimulationResult]
-    ) -> Dict[str, Any]:
+        self, results: list[SimulationResult]
+    ) -> dict[str, Any]:
         """Analyze performance by threat actor type"""
         # This would analyze results by threat actor in a real implementation
         return {
@@ -715,8 +715,8 @@ class AttackSimulationEngine:
         }
 
     async def _analyze_detection_effectiveness(
-        self, results: List[SimulationResult]
-    ) -> Dict[str, Any]:
+        self, results: list[SimulationResult]
+    ) -> dict[str, Any]:
         """Analyze detection system effectiveness"""
         detected_attacks = len([r for r in results if r.detected_steps])
 
@@ -738,8 +738,8 @@ class AttackSimulationEngine:
         }
 
     async def _summarize_damage_assessments(
-        self, results: List[SimulationResult]
-    ) -> Dict[str, Any]:
+        self, results: list[SimulationResult]
+    ) -> dict[str, Any]:
         """Summarize damage assessments across simulations"""
         if not results:
             return {}
@@ -763,8 +763,8 @@ class AttackSimulationEngine:
         return summary
 
     async def _generate_simulation_recommendations(
-        self, results: List[SimulationResult]
-    ) -> List[str]:
+        self, results: list[SimulationResult]
+    ) -> list[str]:
         """Generate recommendations based on simulation results"""
         recommendations = []
 

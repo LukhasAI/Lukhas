@@ -5,26 +5,8 @@ Orchestrates all NIAS components for commercial dream delivery
 Part of the Lambda Products Suite by LUKHAS AI
 """
 
-import asyncio
-import logging
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from enum import Enum
-from typing import Any, Dict, List, Optional
-
-# Set up logger first
-logger = logging.getLogger("Lambda.NIΛS.DreamCommerce")
-
-# Import all NIAS components
-from .consent_manager import ConsentManager
-from .dream_generator import (
-    BioRhythm,
-    DreamContext,
-    DreamGenerator,
-    DreamMood,
-    GeneratedDream,
-)
-from .emotional_filter import EmotionalFilter
+from .vendor_portal import DreamSeed, DreamSeedType, VendorPortal
+from .user_data_integrator import UserDataIntegrator, UserDataProfile
 from .nias_core import (
     ConsentLevel,
     DeliveryResult,
@@ -33,8 +15,26 @@ from .nias_core import (
     SymbolicMessage,
     UserContext,
 )
-from .user_data_integrator import UserDataIntegrator, UserDataProfile
-from .vendor_portal import DreamSeed, DreamSeedType, VendorPortal
+from .emotional_filter import EmotionalFilter
+from .dream_generator import (
+    BioRhythm,
+    DreamContext,
+    DreamGenerator,
+    DreamMood,
+    GeneratedDream,
+)
+from .consent_manager import ConsentManager
+import asyncio
+import logging
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Optional
+
+# Set up logger first
+logger = logging.getLogger("Lambda.NIΛS.DreamCommerce")
+
+# Import all NIAS components
 
 # Import ABAS and DAST integration
 try:
@@ -74,10 +74,10 @@ class DreamCommerceSession:
     session_id: str
     user_id: str
     started_at: datetime
-    dreams_delivered: List[str] = field(default_factory=list)
-    vendor_interactions: Dict[str, List] = field(default_factory=dict)
-    conversion_events: List[Dict] = field(default_factory=list)
-    emotional_trajectory: List[Dict] = field(default_factory=list)
+    dreams_delivered: list[str] = field(default_factory=list)
+    vendor_interactions: dict[str, list] = field(default_factory=dict)
+    conversion_events: list[dict] = field(default_factory=list)
+    emotional_trajectory: list[dict] = field(default_factory=list)
     active: bool = True
 
 
@@ -89,7 +89,7 @@ class DreamDeliveryRequest:
     vendor_seed: Optional[DreamSeed] = None
     timing: DreamDeliveryTiming = DreamDeliveryTiming.BIO_OPTIMAL
     channel: DeliveryChannel = DeliveryChannel.VISUAL
-    context_data: Dict[str, Any] = field(default_factory=dict)
+    context_data: dict[str, Any] = field(default_factory=dict)
     priority: int = 5  # 1-10, higher is more priority
 
 
@@ -107,7 +107,7 @@ class DreamCommerceOrchestrator:
     - Performance tracking
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or self._default_config()
 
         # Initialize all components
@@ -126,9 +126,9 @@ class DreamCommerceOrchestrator:
             self.dast = None
 
         # Session management
-        self.active_sessions: Dict[str, DreamCommerceSession] = {}
-        self.delivery_queue: List[DreamDeliveryRequest] = []
-        self.dream_cache: Dict[str, GeneratedDream] = {}
+        self.active_sessions: dict[str, DreamCommerceSession] = {}
+        self.delivery_queue: list[DreamDeliveryRequest] = []
+        self.dream_cache: dict[str, GeneratedDream] = {}
 
         # Metrics tracking
         self.metrics = {
@@ -144,7 +144,7 @@ class DreamCommerceOrchestrator:
 
         logger.info("NIΛS Dream Commerce Orchestrator initialized")
 
-    def _default_config(self) -> Dict:
+    def _default_config(self) -> dict:
         """Default orchestrator configuration"""
         return {
             "max_dreams_per_session": 3,
@@ -164,7 +164,7 @@ class DreamCommerceOrchestrator:
         asyncio.create_task(self._monitor_sessions())
         asyncio.create_task(self._update_bio_rhythms())
 
-    async def initiate_dream_commerce(self, user_id: str) -> Dict[str, Any]:
+    async def initiate_dream_commerce(self, user_id: str) -> dict[str, Any]:
         """
         Initiate a dream commerce session for a user
 
@@ -234,7 +234,7 @@ class DreamCommerceOrchestrator:
 
     async def deliver_vendor_dream(
         self, user_id: str, vendor_id: str, seed_id: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Deliver a specific vendor dream to user
 
@@ -322,8 +322,8 @@ class DreamCommerceOrchestrator:
             return {"status": "error", "message": str(e)}
 
     async def process_user_action(
-        self, user_id: str, action: str, action_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, action: str, action_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Process user action on delivered dream
 
@@ -420,7 +420,7 @@ class DreamCommerceOrchestrator:
 
     async def _check_emotional_readiness(
         self, user_id: str, user_profile: UserDataProfile
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Check if user is emotionally ready for dream delivery"""
         # Get current emotional state
         emotional_state = user_profile.current_context.get("emotional_state", {})
@@ -509,7 +509,7 @@ class DreamCommerceOrchestrator:
 
         return context
 
-    def _determine_mood(self, emotional_state: Dict[str, float]) -> DreamMood:
+    def _determine_mood(self, emotional_state: dict[str, float]) -> DreamMood:
         """Determine dream mood from emotional state"""
         joy = emotional_state.get("joy", 0.5)
         calm = emotional_state.get("calm", 0.5)
@@ -549,7 +549,7 @@ class DreamCommerceOrchestrator:
 
     async def _deliver_dream(
         self, user_id: str, dream: GeneratedDream, seed: Optional[DreamSeed] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Deliver dream to user through appropriate channel"""
         try:
             # Create symbolic message
@@ -570,7 +570,7 @@ class DreamCommerceOrchestrator:
             )
 
             # Get user context
-            user_context = UserContext(
+            UserContext(
                 user_id=user_id,
                 tier=MessageTier.CREATIVE,
                 consent_level=ConsentLevel.DREAM_AWARE,
@@ -624,11 +624,11 @@ class DreamCommerceOrchestrator:
 
     async def _find_relevant_seeds(
         self, user_profile: UserDataProfile
-    ) -> List[DreamSeed]:
+    ) -> list[DreamSeed]:
         """Find relevant vendor seeds for user"""
         relevant_seeds = []
 
-        for vendor_id, seeds in self.vendor_portal.dream_seeds.items():
+        for _vendor_id, seeds in self.vendor_portal.dream_seeds.items():
             for seed in seeds:
                 if not seed.is_valid():
                     continue
@@ -712,15 +712,13 @@ class DreamCommerceOrchestrator:
         else:
             return "fall"
 
-    async def _update_user_preferences(self, user_id: str, update_data: Dict[str, Any]):
+    async def _update_user_preferences(self, user_id: str, update_data: dict[str, Any]):
         """Update user preferences based on actions"""
         # This would update the user's preference learning model
-        pass
 
     async def _save_dream_for_user(self, user_id: str, dream_id: str):
         """Save dream to user's collection"""
         # This would save the dream for later viewing
-        pass
 
     async def _process_delivery_queue(self):
         """Background task to process delivery queue"""
@@ -794,7 +792,7 @@ class DreamCommerceOrchestrator:
                 logger.error(f"Error updating bio rhythms: {e}")
                 await asyncio.sleep(3600)
 
-    def get_system_metrics(self) -> Dict[str, Any]:
+    def get_system_metrics(self) -> dict[str, Any]:
         """Get system metrics and performance data"""
         return {
             "active_sessions": len(self.active_sessions),

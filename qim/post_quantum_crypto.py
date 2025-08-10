@@ -31,7 +31,7 @@ __tier__ = 4
 
 
 from enum import Enum
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 from code_crypto import Classic_McEliece
 from hash_crypto import SPHINCS_Plus
@@ -66,7 +66,7 @@ class PostQuantumCryptoEngine:
     and quantum-verifiable identity proofs
     """
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = self._validate_config(config)
 
         # Explicit parameter sets with side-channel resistance
@@ -201,7 +201,7 @@ class PostQuantumCryptoEngine:
 
     def verify_identity_claim(
         self, identity_proof: IdentityProof, timestamp: Optional[int] = None
-    ) -> Tuple[bool, Dict[str, Any]]:
+    ) -> tuple[bool, dict[str, Any]]:
         """
         Verify an identity claim using zero-knowledge proofs and quantum-verifiable timestamps
 
@@ -241,7 +241,7 @@ class PostQuantumCryptoEngine:
         }
 
     def create_identity_proof(
-        self, identity_attributes: Dict[str, Any], include_timestamp: bool = True
+        self, identity_attributes: dict[str, Any], include_timestamp: bool = True
     ) -> IdentityProof:
         """
         Create a quantum-resistant identity proof with optional timestamping
@@ -274,8 +274,8 @@ class PostQuantumCryptoEngine:
         return zkp
 
     def derive_session_keys(
-        self, shared_secret: bytes, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, bytes]:
+        self, shared_secret: bytes, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, bytes]:
         """
         Derive session keys using quantum-resistant KDF with side-channel protection
 
@@ -327,7 +327,7 @@ class PostQuantumCryptoEngine:
         # Clean up old keys securely
         self._secure_cleanup()
 
-    def _protect_memory(self, sensitive_data: Dict[str, bytes]) -> None:
+    def _protect_memory(self, sensitive_data: dict[str, bytes]) -> None:
         """
         Implement memory protection for sensitive cryptographic material
         """

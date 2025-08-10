@@ -23,6 +23,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ConsciousnessState:
     """Represents a consciousness state with privacy masking"""
+
     current_state: str
     timestamp: datetime
     confidence: float
@@ -40,22 +41,26 @@ class ConsciousnessState:
             "timestamp": self.timestamp.isoformat(),
             "confidence": round(self.confidence, 3),
             "symbolic": self.symbolic_representation,
-            "privacy_mask": self.privacy_mask
+            "privacy_mask": self.privacy_mask,
         }
 
         if self.previous_state:
             data["transition"] = {
                 "from": self.previous_state,
-                "duration_ms": self.transition_duration_ms
+                "duration_ms": self.transition_duration_ms,
             }
 
         # Only include biometrics if authorized and not in simulation
         if include_biometrics and self.biometric_hints:
             # Apply privacy masking
             data["biometric_hints"] = {
-                "heart_coherence": self.biometric_hints.get("heart_coherence", "unknown"),
-                "attention_score": round(self.biometric_hints.get("attention_score", 0), 2),
-                "stress_level": self.biometric_hints.get("stress_level", "unknown")
+                "heart_coherence": self.biometric_hints.get(
+                    "heart_coherence", "unknown"
+                ),
+                "attention_score": round(
+                    self.biometric_hints.get("attention_score", 0), 2
+                ),
+                "stress_level": self.biometric_hints.get("stress_level", "unknown"),
             }
 
         return json.dumps(data)
@@ -76,7 +81,7 @@ class ConsciousnessBroadcaster:
         "dreaming": "💭",
         "flow_state": "🌊",
         "lucid": "✨",
-        "turbulent": "🌪️"
+        "turbulent": "🌪️",
     }
 
     # State transition probabilities (for simulation)
@@ -88,14 +93,16 @@ class ConsciousnessBroadcaster:
         "dreaming": ["creative", "lucid", "meditative"],
         "flow_state": ["focused", "creative", "lucid"],
         "lucid": ["meditative", "flow_state", "dreaming"],
-        "turbulent": ["focused", "analytical", "meditative"]
+        "turbulent": ["focused", "analytical", "meditative"],
     }
 
-    def __init__(self,
-                 state_file: str = "consciousness_state.json",
-                 port: int = 8765,
-                 throttle_ms: int = 5000,
-                 simulation_mode: bool = True):
+    def __init__(
+        self,
+        state_file: str = "consciousness_state.json",
+        port: int = 8765,
+        throttle_ms: int = 5000,
+        simulation_mode: bool = True,
+    ):
         self.state_file = Path(state_file)
         self.port = port
         self.throttle_ms = throttle_ms
@@ -121,15 +128,20 @@ class ConsciousnessBroadcaster:
                 timestamp=datetime.fromisoformat(data["timestamp"]),
                 confidence=data["confidence"],
                 previous_state=data.get("transitions", {}).get("previous"),
-                transition_duration_ms=data.get("transitions", {}).get("duration_ms", 0),
+                transition_duration_ms=data.get("transitions", {}).get(
+                    "duration_ms", 0
+                ),
                 biometric_hints=data.get("biometric_hints", {}),
                 symbolic_representation=data.get("symbolic_representation", ""),
-                privacy_mask=data.get("privacy_mask", "")
+                privacy_mask=data.get("privacy_mask", ""),
             )
 
             # Check GDPR consent
             gdpr = data.get("gdpr_consent", {})
-            if gdpr.get("streaming_authorized") and datetime.fromisoformat(gdpr["expires"]) > datetime.utcnow():
+            if (
+                gdpr.get("streaming_authorized")
+                and datetime.fromisoformat(gdpr["expires"]) > datetime.utcnow()
+            ):
                 self.gdpr_consent["global"] = gdpr
         else:
             # Generate simulated state
@@ -143,8 +155,7 @@ class ConsciousnessBroadcaster:
         if self.current_state:
             # Transition from current state
             possible_states = self.TRANSITIONS.get(
-                self.current_state.current_state,
-                list(self.STATES.keys())
+                self.current_state.current_state, list(self.STATES.keys())
             )
             new_state = random.choice(possible_states)
             previous = self.current_state.current_state
@@ -171,7 +182,9 @@ class ConsciousnessBroadcaster:
 
         # Create privacy mask
         mask_content = f"{new_state}_{datetime.utcnow().isoformat()}_{random.random()}"
-        privacy_mask = f"SHA3-256:{hashlib.sha3_256(mask_content.encode()).hexdigest()[:16]}..."
+        privacy_mask = (
+            f"SHA3-256:{hashlib.sha3_256(mask_content.encode()).hexdigest()[:16]}..."
+        )
 
         return ConsciousnessState(
             current_state=new_state,
@@ -182,10 +195,10 @@ class ConsciousnessBroadcaster:
             biometric_hints={
                 "heart_coherence": heart_coherence,
                 "attention_score": attention,
-                "stress_level": stress_level
+                "stress_level": stress_level,
             },
             symbolic_representation=self.STATES[new_state],
-            privacy_mask=privacy_mask
+            privacy_mask=privacy_mask,
         )
 
     async def handle_client(self, websocket: WebSocketServerProtocol, path: str):
@@ -212,7 +225,9 @@ class ConsciousnessBroadcaster:
             if client_id in self.gdpr_consent:
                 del self.gdpr_consent[client_id]
 
-    async def _handle_client_message(self, websocket: WebSocketServerProtocol, message: str):
+    async def _handle_client_message(
+        self, websocket: WebSocketServerProtocol, message: str
+    ):
         """Handle messages from clients"""
         try:
             data = json.loads(message)
@@ -220,18 +235,26 @@ class ConsciousnessBroadcaster:
 
             if msg_type == "gdpr_consent":
                 # Handle GDPR consent
-                client_id = f"{websocket.remote_address[0]}:{websocket.remote_address[1]}"
+                client_id = (
+                    f"{websocket.remote_address[0]}:{websocket.remote_address[1]}"
+                )
                 self.gdpr_consent[client_id] = {
                     "authorized": data.get("authorized", False),
                     "include_biometrics": data.get("include_biometrics", False),
-                    "expires": (datetime.utcnow() + timedelta(hours=24)).isoformat()
+                    "expires": (datetime.utcnow() + timedelta(hours=24)).isoformat(),
                 }
 
                 # Send acknowledgment
-                await websocket.send(json.dumps({
-                    "type": "consent_acknowledged",
-                    "status": "accepted" if data.get("authorized") else "rejected"
-                }))
+                await websocket.send(
+                    json.dumps(
+                        {
+                            "type": "consent_acknowledged",
+                            "status": (
+                                "accepted" if data.get("authorized") else "rejected"
+                            ),
+                        }
+                    )
+                )
 
             elif msg_type == "request_state":
                 # Send current state on demand
@@ -261,7 +284,9 @@ class ConsciousnessBroadcaster:
                     for client in self.connected_clients:
                         try:
                             # Check client's GDPR consent
-                            client_id = f"{client.remote_address[0]}:{client.remote_address[1]}"
+                            client_id = (
+                                f"{client.remote_address[0]}:{client.remote_address[1]}"
+                            )
                             consent = self.gdpr_consent.get(client_id, {})
                             include_bio = consent.get("include_biometrics", False)
 
@@ -276,9 +301,11 @@ class ConsciousnessBroadcaster:
                     self.connected_clients -= disconnected
 
                     self.last_broadcast = now
-                    logger.info(f"📡 Broadcasted {self.current_state.current_state} "
-                              f"{self.current_state.symbolic_representation} to "
-                              f"{len(self.connected_clients)} clients")
+                    logger.info(
+                        f"📡 Broadcasted {self.current_state.current_state} "
+                        f"{self.current_state.symbolic_representation} to "
+                        f"{len(self.connected_clients)} clients"
+                    )
 
                 # Wait before next update
                 await asyncio.sleep(self.throttle_ms / 1000)
@@ -305,22 +332,28 @@ async def main():
 
     parser = argparse.ArgumentParser(description="LUKHΛS Consciousness Broadcaster")
     parser.add_argument("--port", type=int, default=8765, help="WebSocket port")
-    parser.add_argument("--throttle", type=int, default=5000, help="Throttle rate in ms")
-    parser.add_argument("--simulation", action="store_true", help="Enable simulation mode")
-    parser.add_argument("--state-file", default="consciousness_state.json", help="State file path")
+    parser.add_argument(
+        "--throttle", type=int, default=5000, help="Throttle rate in ms"
+    )
+    parser.add_argument(
+        "--simulation", action="store_true", help="Enable simulation mode"
+    )
+    parser.add_argument(
+        "--state-file", default="consciousness_state.json", help="State file path"
+    )
 
     args = parser.parse_args()
 
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
 
     broadcaster = ConsciousnessBroadcaster(
         state_file=args.state_file,
         port=args.port,
         throttle_ms=args.throttle,
-        simulation_mode=args.simulation
+        simulation_mode=args.simulation,
     )
 
     await broadcaster.start()

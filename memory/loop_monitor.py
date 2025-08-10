@@ -14,10 +14,11 @@ from __future__ import annotations
 """
 
 import asyncio
+import contextlib
 import time
 from collections.abc import Awaitable
 from dataclasses import dataclass
-from typing import Dict, Optional
+from typing import Optional
 
 
 @dataclass
@@ -45,7 +46,7 @@ class SymbolicLoopMonitor:
         self.check_interval = check_interval
         self.entanglement_threshold = entanglement_threshold
         self.corruption_threshold = corruption_threshold
-        self._loops: Dict[str, LoopInfo] = {}
+        self._loops: dict[str, LoopInfo] = {}
         self._running = False
         self._monitor_task: Optional[asyncio.Task] = None
         logger.info(
@@ -88,10 +89,8 @@ class SymbolicLoopMonitor:
         self._running = False
         if self._monitor_task:
             self._monitor_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._monitor_task
-            except asyncio.CancelledError:
-                pass
             logger.info("LoopMonitor stopped")
 
     async def _monitor(self) -> None:
@@ -112,9 +111,7 @@ class SymbolicLoopMonitor:
                         corruption=info.corruption_count,
                     )
                     info.task.cancel()
-                    try:
+                    with contextlib.suppress(asyncio.CancelledError):
                         await info.task
-                    except asyncio.CancelledError:
-                        pass
                     self._loops.pop(loop_id, None)
             await asyncio.sleep(self.check_interval)

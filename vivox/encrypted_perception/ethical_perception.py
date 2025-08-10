@@ -6,7 +6,7 @@ Ensures perception respects privacy and ethical boundaries
 import hashlib
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -17,22 +17,24 @@ logger = get_logger(__name__)
 
 class PrivacyLevel(Enum):
     """Privacy levels for perception processing"""
-    MAXIMUM = "maximum"      # No identifying features processed
-    HIGH = "high"           # Heavy anonymization
-    STANDARD = "standard"   # Normal privacy protections
-    EMERGENCY = "emergency" # Reduced privacy for critical situations
+
+    MAXIMUM = "maximum"  # No identifying features processed
+    HIGH = "high"  # Heavy anonymization
+    STANDARD = "standard"  # Normal privacy protections
+    EMERGENCY = "emergency"  # Reduced privacy for critical situations
 
 
 @dataclass
 class EthicalBoundary:
     """Defines ethical boundaries for perception"""
+
     boundary_id: str
     boundary_type: str
     description: str
     enforcement_level: str  # strict, flexible, contextual
-    exceptions: List[str]   # Conditions where boundary may be relaxed
+    exceptions: list[str]  # Conditions where boundary may be relaxed
 
-    def applies_to_context(self, context: Dict[str, Any]) -> bool:
+    def applies_to_context(self, context: dict[str, Any]) -> bool:
         """Check if boundary applies to current context"""
         # Check for exceptions
         for exception in self.exceptions:
@@ -47,7 +49,7 @@ class EthicalPerceptionFilter:
     Ensures privacy and consent are respected
     """
 
-    def __init__(self, ethical_config: Optional[Dict[str, Any]] = None):
+    def __init__(self, ethical_config: Optional[dict[str, Any]] = None):
         self.config = ethical_config or self._default_ethical_config()
         self.boundaries = self._initialize_boundaries()
         self.privacy_transforms = self._initialize_privacy_transforms()
@@ -55,99 +57,111 @@ class EthicalPerceptionFilter:
         # Audit log for ethical decisions
         self.ethical_decisions = []
 
-    def _default_ethical_config(self) -> Dict[str, Any]:
+    def _default_ethical_config(self) -> dict[str, Any]:
         """Default ethical configuration"""
         return {
-            'respect_privacy': True,
-            'require_consent': True,
-            'protect_identity': True,
-            'medical_data_protection': True,
-            'child_protection_enhanced': True,
-            'vulnerable_population_safeguards': True,
-            'transparency_required': True,
-            'data_minimization': True,
-            'purpose_limitation': True,
-            'retention_limits': {
-                'standard': 24,      # hours
-                'medical': 168,     # 1 week
-                'emergency': 72     # 3 days
-            }
+            "respect_privacy": True,
+            "require_consent": True,
+            "protect_identity": True,
+            "medical_data_protection": True,
+            "child_protection_enhanced": True,
+            "vulnerable_population_safeguards": True,
+            "transparency_required": True,
+            "data_minimization": True,
+            "purpose_limitation": True,
+            "retention_limits": {
+                "standard": 24,  # hours
+                "medical": 168,  # 1 week
+                "emergency": 72,  # 3 days
+            },
         }
 
-    def _initialize_boundaries(self) -> List[EthicalBoundary]:
+    def _initialize_boundaries(self) -> list[EthicalBoundary]:
         """Initialize ethical boundaries"""
         boundaries = []
 
         # Identity protection boundary
-        boundaries.append(EthicalBoundary(
-            boundary_id='identity_protection',
-            boundary_type='privacy',
-            description='Prevent identification of individuals',
-            enforcement_level='strict',
-            exceptions=['explicit_consent', 'emergency_override']
-        ))
+        boundaries.append(
+            EthicalBoundary(
+                boundary_id="identity_protection",
+                boundary_type="privacy",
+                description="Prevent identification of individuals",
+                enforcement_level="strict",
+                exceptions=["explicit_consent", "emergency_override"],
+            )
+        )
 
         # Medical data boundary
-        boundaries.append(EthicalBoundary(
-            boundary_id='medical_privacy',
-            boundary_type='health_data',
-            description='Protect medical and health information',
-            enforcement_level='strict',
-            exceptions=['medical_emergency', 'authorized_healthcare']
-        ))
+        boundaries.append(
+            EthicalBoundary(
+                boundary_id="medical_privacy",
+                boundary_type="health_data",
+                description="Protect medical and health information",
+                enforcement_level="strict",
+                exceptions=["medical_emergency", "authorized_healthcare"],
+            )
+        )
 
         # Consent boundary
-        boundaries.append(EthicalBoundary(
-            boundary_id='consent_required',
-            boundary_type='consent',
-            description='Process only with appropriate consent',
-            enforcement_level='contextual',
-            exceptions=['public_safety', 'imminent_danger']
-        ))
+        boundaries.append(
+            EthicalBoundary(
+                boundary_id="consent_required",
+                boundary_type="consent",
+                description="Process only with appropriate consent",
+                enforcement_level="contextual",
+                exceptions=["public_safety", "imminent_danger"],
+            )
+        )
 
         # Location privacy boundary
-        boundaries.append(EthicalBoundary(
-            boundary_id='location_privacy',
-            boundary_type='location',
-            description='Protect location and movement patterns',
-            enforcement_level='flexible',
-            exceptions=['emergency_services', 'explicit_sharing']
-        ))
+        boundaries.append(
+            EthicalBoundary(
+                boundary_id="location_privacy",
+                boundary_type="location",
+                description="Protect location and movement patterns",
+                enforcement_level="flexible",
+                exceptions=["emergency_services", "explicit_sharing"],
+            )
+        )
 
         # Behavioral privacy boundary
-        boundaries.append(EthicalBoundary(
-            boundary_id='behavioral_privacy',
-            boundary_type='behavior',
-            description='Limit behavioral analysis and profiling',
-            enforcement_level='contextual',
-            exceptions=['safety_monitoring', 'authorized_care']
-        ))
+        boundaries.append(
+            EthicalBoundary(
+                boundary_id="behavioral_privacy",
+                boundary_type="behavior",
+                description="Limit behavioral analysis and profiling",
+                enforcement_level="contextual",
+                exceptions=["safety_monitoring", "authorized_care"],
+            )
+        )
 
         return boundaries
 
-    def _initialize_privacy_transforms(self) -> Dict[str, callable]:
+    def _initialize_privacy_transforms(self) -> dict[str, callable]:
         """Initialize privacy-preserving transformations"""
         return {
-            'gaussian_blur': self._gaussian_blur_transform,
-            'pixelation': self._pixelation_transform,
-            'edge_only': self._edge_detection_transform,
-            'silhouette': self._silhouette_transform,
-            'statistical_only': self._statistical_transform,
-            'differential_privacy': self._differential_privacy_transform
+            "gaussian_blur": self._gaussian_blur_transform,
+            "pixelation": self._pixelation_transform,
+            "edge_only": self._edge_detection_transform,
+            "silhouette": self._silhouette_transform,
+            "statistical_only": self._statistical_transform,
+            "differential_privacy": self._differential_privacy_transform,
         }
 
-    async def apply_ethical_filtering(self,
-                                    data: Union[np.ndarray, Dict[str, Any]],
-                                    data_type: str,
-                                    context: Dict[str, Any]) -> Tuple[Any, Dict[str, Any]]:
+    async def apply_ethical_filtering(
+        self,
+        data: Union[np.ndarray, dict[str, Any]],
+        data_type: str,
+        context: dict[str, Any],
+    ) -> tuple[Any, dict[str, Any]]:
         """
         Apply ethical filtering to perception data
-        
+
         Args:
             data: Raw perception data
             data_type: Type of data (image, sensor, audio, etc.)
             context: Processing context
-            
+
         Returns:
             Filtered data and filtering report
         """
@@ -155,7 +169,9 @@ class EthicalPerceptionFilter:
         privacy_level = self._determine_privacy_level(context)
 
         # Check ethical boundaries
-        applicable_boundaries = [b for b in self.boundaries if b.applies_to_context(context)]
+        applicable_boundaries = [
+            b for b in self.boundaries if b.applies_to_context(context)
+        ]
 
         # Apply appropriate filters
         filtered_data = data
@@ -165,13 +181,13 @@ class EthicalPerceptionFilter:
             # Apply privacy transforms for array data
             if privacy_level == PrivacyLevel.MAXIMUM:
                 filtered_data = self._apply_maximum_privacy(data, data_type)
-                applied_filters.append('maximum_privacy')
+                applied_filters.append("maximum_privacy")
             elif privacy_level == PrivacyLevel.HIGH:
                 filtered_data = self._apply_high_privacy(data, data_type)
-                applied_filters.append('high_privacy')
+                applied_filters.append("high_privacy")
             else:
                 filtered_data = self._apply_standard_privacy(data, data_type)
-                applied_filters.append('standard_privacy')
+                applied_filters.append("standard_privacy")
 
         # Apply boundary-specific filters
         for boundary in applicable_boundaries:
@@ -183,12 +199,12 @@ class EthicalPerceptionFilter:
 
         # Create filtering report
         report = {
-            'privacy_level': privacy_level.value,
-            'applied_filters': applied_filters,
-            'boundaries_enforced': [b.boundary_id for b in applicable_boundaries],
-            'data_modified': filtered_data is not data,
-            'ethical_compliance': True,
-            'consent_status': context.get('consent_level', 'implicit')
+            "privacy_level": privacy_level.value,
+            "applied_filters": applied_filters,
+            "boundaries_enforced": [b.boundary_id for b in applicable_boundaries],
+            "data_modified": filtered_data is not data,
+            "ethical_compliance": True,
+            "consent_status": context.get("consent_level", "implicit"),
         }
 
         # Log ethical decision
@@ -196,28 +212,28 @@ class EthicalPerceptionFilter:
 
         return filtered_data, report
 
-    def _determine_privacy_level(self, context: Dict[str, Any]) -> PrivacyLevel:
+    def _determine_privacy_level(self, context: dict[str, Any]) -> PrivacyLevel:
         """Determine appropriate privacy level"""
 
         # Check for emergency
-        if context.get('emergency_mode', False):
+        if context.get("emergency_mode", False):
             return PrivacyLevel.EMERGENCY
 
         # Check consent level
-        consent = context.get('consent_level', 'none')
-        if consent == 'explicit':
+        consent = context.get("consent_level", "none")
+        if consent == "explicit":
             return PrivacyLevel.STANDARD
-        elif consent == 'implicit':
+        elif consent == "implicit":
             return PrivacyLevel.HIGH
         else:
             return PrivacyLevel.MAXIMUM
 
     def _apply_maximum_privacy(self, data: np.ndarray, data_type: str) -> np.ndarray:
         """Apply maximum privacy protection"""
-        if data_type == 'image':
+        if data_type == "image":
             # Convert to statistical representation only
             return self._statistical_transform(data)
-        elif data_type == 'sensor':
+        elif data_type == "sensor":
             # Heavy noise addition
             return self._differential_privacy_transform(data, epsilon=0.1)
         else:
@@ -226,11 +242,11 @@ class EthicalPerceptionFilter:
 
     def _apply_high_privacy(self, data: np.ndarray, data_type: str) -> np.ndarray:
         """Apply high privacy protection"""
-        if data_type == 'image':
+        if data_type == "image":
             # Blur and pixelate
             blurred = self._gaussian_blur_transform(data, sigma=5.0)
             return self._pixelation_transform(blurred, block_size=16)
-        elif data_type == 'sensor':
+        elif data_type == "sensor":
             # Moderate noise
             return self._differential_privacy_transform(data, epsilon=1.0)
         else:
@@ -239,40 +255,41 @@ class EthicalPerceptionFilter:
 
     def _apply_standard_privacy(self, data: np.ndarray, data_type: str) -> np.ndarray:
         """Apply standard privacy protection"""
-        if data_type == 'image':
+        if data_type == "image":
             # Light blur
             return self._gaussian_blur_transform(data, sigma=2.0)
-        elif data_type == 'sensor':
+        elif data_type == "sensor":
             # Light noise
             return self._differential_privacy_transform(data, epsilon=5.0)
         else:
             # Default: basic anonymization
             return self._basic_anonymization(data)
 
-    async def _apply_boundary_filter(self,
-                                   data: Any,
-                                   boundary: EthicalBoundary,
-                                   data_type: str) -> Tuple[Any, Optional[str]]:
+    async def _apply_boundary_filter(
+        self, data: Any, boundary: EthicalBoundary, data_type: str
+    ) -> tuple[Any, Optional[str]]:
         """Apply filter for specific ethical boundary"""
 
-        if boundary.boundary_id == 'identity_protection':
-            if data_type == 'image' and isinstance(data, np.ndarray):
+        if boundary.boundary_id == "identity_protection":
+            if data_type == "image" and isinstance(data, np.ndarray):
                 # Remove identifying features
-                return self._remove_identifying_features(data), 'identity_removal'
+                return self._remove_identifying_features(data), "identity_removal"
 
-        elif boundary.boundary_id == 'medical_privacy':
-            if data_type == 'sensor':
+        elif boundary.boundary_id == "medical_privacy":
+            if data_type == "sensor":
                 # Aggregate medical data
-                return self._aggregate_medical_data(data), 'medical_aggregation'
+                return self._aggregate_medical_data(data), "medical_aggregation"
 
-        elif boundary.boundary_id == 'location_privacy':
-            if data_type in ['gps', 'location']:
+        elif boundary.boundary_id == "location_privacy":
+            if data_type in ["gps", "location"]:
                 # Reduce location precision
-                return self._reduce_location_precision(data), 'location_fuzzing'
+                return self._reduce_location_precision(data), "location_fuzzing"
 
         return data, None
 
-    def _gaussian_blur_transform(self, data: np.ndarray, sigma: float = 2.0) -> np.ndarray:
+    def _gaussian_blur_transform(
+        self, data: np.ndarray, sigma: float = 2.0
+    ) -> np.ndarray:
         """Apply Gaussian blur"""
         from scipy.ndimage import gaussian_filter
 
@@ -287,7 +304,9 @@ class EthicalPerceptionFilter:
         else:
             return data
 
-    def _pixelation_transform(self, data: np.ndarray, block_size: int = 8) -> np.ndarray:
+    def _pixelation_transform(
+        self, data: np.ndarray, block_size: int = 8
+    ) -> np.ndarray:
         """Apply pixelation"""
         if data.ndim < 2:
             return data
@@ -301,12 +320,16 @@ class EthicalPerceptionFilter:
             small = np.zeros((small_h, small_w))
             for i in range(small_h):
                 for j in range(small_w):
-                    block = data[i*block_size:(i+1)*block_size,
-                               j*block_size:(j+1)*block_size]
+                    block = data[
+                        i * block_size : (i + 1) * block_size,
+                        j * block_size : (j + 1) * block_size,
+                    ]
                     small[i, j] = np.mean(block)
 
             # Resize back up
-            pixelated = np.repeat(np.repeat(small, block_size, axis=0), block_size, axis=1)
+            pixelated = np.repeat(
+                np.repeat(small, block_size, axis=0), block_size, axis=1
+            )
             return pixelated[:h, :w]
         else:
             # Handle multi-channel
@@ -345,20 +368,24 @@ class EthicalPerceptionFilter:
     def _statistical_transform(self, data: np.ndarray) -> np.ndarray:
         """Convert to statistical representation"""
         # Create statistical summary instead of raw data
-        stats = np.array([
-            np.mean(data),
-            np.std(data),
-            np.median(data),
-            np.percentile(data, 25),
-            np.percentile(data, 75),
-            np.min(data),
-            np.max(data)
-        ])
+        stats = np.array(
+            [
+                np.mean(data),
+                np.std(data),
+                np.median(data),
+                np.percentile(data, 25),
+                np.percentile(data, 75),
+                np.min(data),
+                np.max(data),
+            ]
+        )
 
         # Repeat to match expected dimension
-        return np.tile(stats, len(data) // len(stats) + 1)[:len(data)]
+        return np.tile(stats, len(data) // len(stats) + 1)[: len(data)]
 
-    def _differential_privacy_transform(self, data: np.ndarray, epsilon: float = 1.0) -> np.ndarray:
+    def _differential_privacy_transform(
+        self, data: np.ndarray, epsilon: float = 1.0
+    ) -> np.ndarray:
         """Apply differential privacy"""
         # Add Laplace noise
         sensitivity = np.max(data) - np.min(data)
@@ -395,7 +422,9 @@ class EthicalPerceptionFilter:
         # Handle different array shapes
         if image.ndim == 1:
             # 1D array - apply simple blur
-            return self._gaussian_blur_transform(image.reshape(-1, 1), sigma=10.0).flatten()
+            return self._gaussian_blur_transform(
+                image.reshape(-1, 1), sigma=10.0
+            ).flatten()
         elif image.ndim == 2:
             h, w = image.shape
         elif image.ndim >= 3:
@@ -412,7 +441,7 @@ class EthicalPerceptionFilter:
 
         # Create mask for center region
         y, x = np.ogrid[:h, :w]
-        mask = (x - center_x)**2 + (y - center_y)**2 <= radius**2
+        mask = (x - center_x) ** 2 + (y - center_y) ** 2 <= radius**2
 
         # Apply heavy blur to masked region
         if image.ndim == 2:
@@ -432,7 +461,7 @@ class EthicalPerceptionFilter:
             # Average every 10 samples
             aggregated = []
             for i in range(0, len(data), 10):
-                aggregated.append(np.mean(data[i:i+10]))
+                aggregated.append(np.mean(data[i : i + 10]))
             return np.array(aggregated)
         return data
 
@@ -440,27 +469,29 @@ class EthicalPerceptionFilter:
         """Reduce location precision"""
         if isinstance(location_data, dict):
             # Round coordinates to reduce precision
-            if 'latitude' in location_data:
-                location_data['latitude'] = round(location_data['latitude'], 3)
-            if 'longitude' in location_data:
-                location_data['longitude'] = round(location_data['longitude'], 3)
+            if "latitude" in location_data:
+                location_data["latitude"] = round(location_data["latitude"], 3)
+            if "longitude" in location_data:
+                location_data["longitude"] = round(location_data["longitude"], 3)
         elif isinstance(location_data, (list, np.ndarray)):
             # Round numeric values
             return np.round(location_data, 3)
 
         return location_data
 
-    def _log_ethical_decision(self,
-                            context: Dict[str, Any],
-                            privacy_level: PrivacyLevel,
-                            applied_filters: List[str]):
+    def _log_ethical_decision(
+        self,
+        context: dict[str, Any],
+        privacy_level: PrivacyLevel,
+        applied_filters: list[str],
+    ):
         """Log ethical decision for audit"""
         decision = {
-            'timestamp': np.datetime64('now'),
-            'context': context.get('processing_purpose', 'unknown'),
-            'privacy_level': privacy_level.value,
-            'filters_applied': applied_filters,
-            'consent_status': context.get('consent_level', 'none')
+            "timestamp": np.datetime64("now"),
+            "context": context.get("processing_purpose", "unknown"),
+            "privacy_level": privacy_level.value,
+            "filters_applied": applied_filters,
+            "consent_status": context.get("consent_level", "none"),
         }
 
         self.ethical_decisions.append(decision)
@@ -478,29 +509,33 @@ class PrivacyPreservingVision:
 
     def __init__(self):
         self.privacy_techniques = {
-            'homomorphic_processing': self._homomorphic_visual_processing,
-            'secure_multiparty': self._secure_multiparty_vision,
-            'federated_analysis': self._federated_visual_analysis
+            "homomorphic_processing": self._homomorphic_visual_processing,
+            "secure_multiparty": self._secure_multiparty_vision,
+            "federated_analysis": self._federated_visual_analysis,
         }
 
-    async def process_visual_data(self,
-                                image_data: np.ndarray,
-                                processing_goal: str,
-                                privacy_requirements: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_visual_data(
+        self,
+        image_data: np.ndarray,
+        processing_goal: str,
+        privacy_requirements: dict[str, Any],
+    ) -> dict[str, Any]:
         """
         Process visual data with privacy preservation
-        
+
         Args:
             image_data: Raw image data
             processing_goal: What to extract (e.g., 'detect_anomaly', 'analyze_texture')
             privacy_requirements: Privacy constraints
-            
+
         Returns:
             Processing results without exposing private information
         """
 
         # Select appropriate technique
-        technique = self._select_privacy_technique(processing_goal, privacy_requirements)
+        technique = self._select_privacy_technique(
+            processing_goal, privacy_requirements
+        )
 
         # Apply privacy-preserving processing
         results = await self.privacy_techniques[technique](
@@ -509,20 +544,19 @@ class PrivacyPreservingVision:
 
         return results
 
-    def _select_privacy_technique(self, goal: str, requirements: Dict[str, Any]) -> str:
+    def _select_privacy_technique(self, goal: str, requirements: dict[str, Any]) -> str:
         """Select appropriate privacy technique"""
 
-        if requirements.get('distributed_processing', False):
-            return 'secure_multiparty'
-        elif requirements.get('edge_processing', False):
-            return 'federated_analysis'
+        if requirements.get("distributed_processing", False):
+            return "secure_multiparty"
+        elif requirements.get("edge_processing", False):
+            return "federated_analysis"
         else:
-            return 'homomorphic_processing'
+            return "homomorphic_processing"
 
-    async def _homomorphic_visual_processing(self,
-                                           image: np.ndarray,
-                                           goal: str,
-                                           requirements: Dict[str, Any]) -> Dict[str, Any]:
+    async def _homomorphic_visual_processing(
+        self, image: np.ndarray, goal: str, requirements: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process image using homomorphic encryption principles"""
 
         # This is a simplified simulation
@@ -532,33 +566,32 @@ class PrivacyPreservingVision:
         encrypted = image + np.random.normal(0, 10, image.shape)
 
         # Perform processing on encrypted data
-        if goal == 'detect_anomaly':
+        if goal == "detect_anomaly":
             # Compute features in encrypted space
             features = {
-                'texture_score': float(np.std(encrypted)),
-                'intensity_anomaly': float(np.max(encrypted) - np.mean(encrypted)),
-                'pattern_irregularity': float(np.var(np.diff(encrypted.flatten())))
+                "texture_score": float(np.std(encrypted)),
+                "intensity_anomaly": float(np.max(encrypted) - np.mean(encrypted)),
+                "pattern_irregularity": float(np.var(np.diff(encrypted.flatten()))),
             }
-        elif goal == 'analyze_texture':
+        elif goal == "analyze_texture":
             features = {
-                'roughness': float(np.std(np.diff(encrypted, axis=0))),
-                'contrast': float(np.ptp(encrypted)),
-                'homogeneity': float(1.0 / (1.0 + np.var(encrypted)))
+                "roughness": float(np.std(np.diff(encrypted, axis=0))),
+                "contrast": float(np.ptp(encrypted)),
+                "homogeneity": float(1.0 / (1.0 + np.var(encrypted))),
             }
         else:
             features = {}
 
         return {
-            'processing_technique': 'homomorphic',
-            'features_extracted': features,
-            'privacy_preserved': True,
-            'original_data_exposed': False
+            "processing_technique": "homomorphic",
+            "features_extracted": features,
+            "privacy_preserved": True,
+            "original_data_exposed": False,
         }
 
-    async def _secure_multiparty_vision(self,
-                                      image: np.ndarray,
-                                      goal: str,
-                                      requirements: Dict[str, Any]) -> Dict[str, Any]:
+    async def _secure_multiparty_vision(
+        self, image: np.ndarray, goal: str, requirements: dict[str, Any]
+    ) -> dict[str, Any]:
         """Simulate secure multiparty computation for vision"""
 
         # Split image into shares (simplified)
@@ -576,16 +609,15 @@ class PrivacyPreservingVision:
                 combined_features[key] = (result1[key] + result2[key]) / 2
 
         return {
-            'processing_technique': 'secure_multiparty',
-            'features_extracted': combined_features,
-            'privacy_preserved': True,
-            'shares_used': 2
+            "processing_technique": "secure_multiparty",
+            "features_extracted": combined_features,
+            "privacy_preserved": True,
+            "shares_used": 2,
         }
 
-    async def _federated_visual_analysis(self,
-                                       image: np.ndarray,
-                                       goal: str,
-                                       requirements: Dict[str, Any]) -> Dict[str, Any]:
+    async def _federated_visual_analysis(
+        self, image: np.ndarray, goal: str, requirements: dict[str, Any]
+    ) -> dict[str, Any]:
         """Simulate federated learning approach"""
 
         # Local processing only
@@ -593,39 +625,39 @@ class PrivacyPreservingVision:
 
         # Create model update (no raw data)
         model_update = {
-            'feature_statistics': {
-                k: {'mean': float(np.mean(v)), 'std': float(np.std(v))}
+            "feature_statistics": {
+                k: {"mean": float(np.mean(v)), "std": float(np.std(v))}
                 for k, v in local_features.items()
             },
-            'sample_count': 1
+            "sample_count": 1,
         }
 
         return {
-            'processing_technique': 'federated',
-            'model_update': model_update,
-            'privacy_preserved': True,
-            'raw_data_retained_locally': True
+            "processing_technique": "federated",
+            "model_update": model_update,
+            "privacy_preserved": True,
+            "raw_data_retained_locally": True,
         }
 
-    def _process_share(self, share: np.ndarray, goal: str) -> Dict[str, float]:
+    def _process_share(self, share: np.ndarray, goal: str) -> dict[str, float]:
         """Process individual share"""
-        if goal == 'detect_anomaly':
+        if goal == "detect_anomaly":
             return {
-                'mean_intensity': float(np.mean(share)),
-                'variance': float(np.var(share)),
-                'edge_density': float(np.std(np.diff(share)))
+                "mean_intensity": float(np.mean(share)),
+                "variance": float(np.var(share)),
+                "edge_density": float(np.std(np.diff(share))),
             }
         else:
-            return {
-                'general_feature': float(np.median(share))
-            }
+            return {"general_feature": float(np.median(share))}
 
-    def _extract_local_features(self, image: np.ndarray, goal: str) -> Dict[str, np.ndarray]:
+    def _extract_local_features(
+        self, image: np.ndarray, goal: str
+    ) -> dict[str, np.ndarray]:
         """Extract features locally"""
         return {
-            'histogram': np.histogram(image, bins=16)[0],
-            'edge_histogram': np.histogram(np.diff(image), bins=16)[0],
-            'texture_features': np.array([np.std(image), np.mean(image)])
+            "histogram": np.histogram(image, bins=16)[0],
+            "edge_histogram": np.histogram(np.diff(image), bins=16)[0],
+            "texture_features": np.array([np.std(image), np.mean(image)]),
         }
 
 
@@ -656,7 +688,7 @@ class NonDecodableTransform:
     def _nonlinear_mixing(self, data: np.ndarray) -> np.ndarray:
         """Apply nonlinear mixing"""
         # Use key to generate mixing matrix
-        np.random.seed(int.from_bytes(self.transform_key[:4], 'big'))
+        np.random.seed(int.from_bytes(self.transform_key[:4], "big"))
         mix_matrix = np.random.randn(len(data), len(data))
 
         # Apply nonlinear transformation
@@ -687,7 +719,7 @@ class NonDecodableTransform:
         flattened = data.flatten()
 
         # Shuffle based on key
-        np.random.seed(int.from_bytes(self.transform_key[4:8], 'big'))
+        np.random.seed(int.from_bytes(self.transform_key[4:8], "big"))
         indices = np.arange(len(flattened))
         np.random.shuffle(indices)
 

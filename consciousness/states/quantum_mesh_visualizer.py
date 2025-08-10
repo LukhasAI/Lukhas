@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 
@@ -20,7 +22,7 @@ import os
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -28,10 +30,8 @@ from core.common import get_logger
 
 # Visualization libraries
 try:
-    import matplotlib.patches as patches
     import matplotlib.pyplot as plt
     import seaborn as sns
-    from matplotlib.colors import LinearSegmentedColormap
 
     HAS_MATPLOTLIB = True
 except ImportError:
@@ -54,7 +54,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
 try:
     from ethics.quantum_mesh_integrator import (
-        EthicsRiskLevel,
         QuantumEthicsMeshIntegrator,
     )
 except ImportError:
@@ -84,7 +83,7 @@ class QuantumMeshVisualizer:
             "consciousness",
         ]
 
-    def _setup_color_schemes(self) -> Dict[str, Any]:
+    def _setup_color_schemes(self) -> dict[str, Any]:
         """Setup color schemes for different visualizations"""
         return {
             "entanglement": {
@@ -103,7 +102,7 @@ class QuantumMeshVisualizer:
 
     def load_entanglement_data(
         self, log_path: Optional[str] = None, live_mode: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Load entanglement matrix, phase conflicts, and ethics mesh states
 
@@ -126,7 +125,7 @@ class QuantumMeshVisualizer:
             logger.warning("No data source available, generating synthetic data")
             return self._generate_synthetic_data()
 
-    def _load_live_data(self) -> Dict[str, Any]:
+    def _load_live_data(self) -> dict[str, Any]:
         """Load data from live quantum mesh integrator"""
         integrator = QuantumEthicsMeshIntegrator()
 
@@ -178,7 +177,7 @@ class QuantumMeshVisualizer:
             "mesh_status": integrator.get_mesh_status(),
         }
 
-    def _load_from_logs(self, log_path: str) -> Dict[str, Any]:
+    def _load_from_logs(self, log_path: str) -> dict[str, Any]:
         """Load data from JSONL log file"""
         try:
             with open(log_path) as f:
@@ -197,7 +196,7 @@ class QuantumMeshVisualizer:
             logger.error(f"Failed to load logs: {e}")
             return self._generate_synthetic_data()
 
-    def _generate_synthetic_data(self) -> Dict[str, Any]:
+    def _generate_synthetic_data(self) -> dict[str, Any]:
         """Generate synthetic mesh data for demonstration"""
         logger.info("Generating synthetic mesh data")
 
@@ -223,7 +222,7 @@ class QuantumMeshVisualizer:
         modules = list(subsystem_states.keys())
 
         for i, mod_a in enumerate(modules):
-            for j, mod_b in enumerate(modules[i + 1 :], i + 1):
+            for _j, mod_b in enumerate(modules[i + 1 :], i + 1):
                 strength = np.random.beta(3, 1)  # Bias toward higher values
                 phase_diff = abs(
                     subsystem_states[mod_a]["phase"] - subsystem_states[mod_b]["phase"]
@@ -298,7 +297,7 @@ class QuantumMeshVisualizer:
         }
 
     def generate_entanglement_heatmap(
-        self, matrix: Dict[str, Any], save_path: Optional[str] = None
+        self, matrix: dict[str, Any], save_path: Optional[str] = None
     ) -> None:
         """Generate visual heatmap of pairwise entanglement scores"""
         if not HAS_MATPLOTLIB:
@@ -314,12 +313,12 @@ class QuantumMeshVisualizer:
 
         # Extract unique modules from pair names
         modules = set()
-        for pair in entanglements.keys():
+        for pair in entanglements:
             mod_a, mod_b = pair.split("↔")
             modules.add(mod_a)
             modules.add(mod_b)
 
-        modules = sorted(list(modules))
+        modules = sorted(modules)
         n_modules = len(modules)
 
         # Create strength and risk matrices
@@ -395,7 +394,7 @@ class QuantumMeshVisualizer:
         plt.show()
 
     def plot_phase_synchronization(
-        self, data: Dict[str, Any], save_path: Optional[str] = None
+        self, data: dict[str, Any], save_path: Optional[str] = None
     ) -> None:
         """Generate radar chart showing phase sync across subsystems"""
         if not HAS_MATPLOTLIB:
@@ -432,7 +431,7 @@ class QuantumMeshVisualizer:
         angles = np.linspace(0, 2 * np.pi, len(metrics), endpoint=False).tolist()
         angles += angles[:1]  # Complete the circle
 
-        fig, ax = plt.subplots(figsize=(10, 10), subplot_kw=dict(projection="polar"))
+        fig, ax = plt.subplots(figsize=(10, 10), subplot_kw={"projection": "polar"})
 
         colors = plt.cm.Set3(np.linspace(0, 1, len(modules)))
 
@@ -475,7 +474,7 @@ class QuantumMeshVisualizer:
         plt.show()
 
     def list_active_conflict_pairs(
-        self, conflicts: List[str], entanglements: Dict[str, Any]
+        self, conflicts: list[str], entanglements: dict[str, Any]
     ) -> str:
         """Generate human-readable output of phase-misaligned modules and risk tiers"""
         if not conflicts:
@@ -545,7 +544,7 @@ class QuantumMeshVisualizer:
         return "\n".join(output)
 
     def generate_interactive_dashboard(
-        self, data: Dict[str, Any], output_path: Optional[str] = None
+        self, data: dict[str, Any], output_path: Optional[str] = None
     ) -> str:
         """Generate interactive HTML dashboard with hover tooltips"""
         if not HAS_PLOTLY:
@@ -573,11 +572,11 @@ class QuantumMeshVisualizer:
         # 1. Entanglement heatmap
         entanglements = data["entanglement_matrix"]["entanglements"]
         modules = set()
-        for pair in entanglements.keys():
+        for pair in entanglements:
             mod_a, mod_b = pair.split("↔")
             modules.add(mod_a)
             modules.add(mod_b)
-        modules = sorted(list(modules))
+        modules = sorted(modules)
 
         # Create strength matrix
         n_modules = len(modules)
@@ -653,7 +652,7 @@ class QuantumMeshVisualizer:
                 y=risk_values,
                 mode="lines+markers",
                 name="Risk Level",
-                line=dict(color="red", width=2),
+                line={"color": "red", "width": 2},
                 hovertemplate="Time: %{x}<br>Risk: %{y:.3f}<extra></extra>",
             ),
             row=2,
@@ -742,7 +741,7 @@ class QuantumMeshVisualizer:
         return output_path
 
     def _generate_static_dashboard(
-        self, data: Dict[str, Any], output_path: Optional[str] = None
+        self, data: dict[str, Any], output_path: Optional[str] = None
     ) -> str:
         """Generate static HTML dashboard when Plotly not available"""
         logger.info("Generating static HTML dashboard")
@@ -759,7 +758,7 @@ class QuantumMeshVisualizer:
         return output_path
 
     def export_visual_summary(
-        self, data: Dict[str, Any], output_path: str, format_type: str = "markdown"
+        self, data: dict[str, Any], output_path: str, format_type: str = "markdown"
     ) -> None:
         """
         Save current mesh state as HTML report, image, or markdown snapshot
@@ -780,7 +779,7 @@ class QuantumMeshVisualizer:
         else:
             raise ValueError(f"Unsupported format: {format_type}")
 
-    def _export_markdown_report(self, data: Dict[str, Any], output_path: str) -> None:
+    def _export_markdown_report(self, data: dict[str, Any], output_path: str) -> None:
         """Export markdown report"""
         unified_field = data["unified_field"]
         conflicts = data.get("conflicts", [])
@@ -866,7 +865,7 @@ class QuantumMeshVisualizer:
 
         logger.info(f"Markdown report saved to {output_path}")
 
-    def _export_html_report(self, data: Dict[str, Any], output_path: str) -> None:
+    def _export_html_report(self, data: dict[str, Any], output_path: str) -> None:
         """Export HTML report with embedded visualizations"""
         html_content = self._create_html_template(data)
 
@@ -875,7 +874,7 @@ class QuantumMeshVisualizer:
 
         logger.info(f"HTML report saved to {output_path}")
 
-    def _export_json_snapshot(self, data: Dict[str, Any], output_path: str) -> None:
+    def _export_json_snapshot(self, data: dict[str, Any], output_path: str) -> None:
         """Export JSON snapshot"""
         # Add metadata
         export_data = {
@@ -888,7 +887,7 @@ class QuantumMeshVisualizer:
 
         logger.info(f"JSON snapshot saved to {output_path}")
 
-    def _create_html_template(self, data: Dict[str, Any]) -> str:
+    def _create_html_template(self, data: dict[str, Any]) -> str:
         """Create HTML template for reports"""
         unified_field = data["unified_field"]
         conflicts = data.get("conflicts", [])
@@ -960,7 +959,7 @@ class QuantumMeshVisualizer:
         return html
 
     def _format_conflicts_html(
-        self, conflicts: List[str], entanglements: Dict[str, Any]
+        self, conflicts: list[str], entanglements: dict[str, Any]
     ) -> str:
         """Format conflicts for HTML display"""
         if not conflicts:
@@ -981,7 +980,7 @@ class QuantumMeshVisualizer:
 
         return "".join(html_parts)
 
-    def _format_entanglements_html(self, entanglements: Dict[str, Any]) -> str:
+    def _format_entanglements_html(self, entanglements: dict[str, Any]) -> str:
         """Format entanglements for HTML grid display"""
         html_parts = []
         for pair, metrics in entanglements.items():
@@ -1102,7 +1101,7 @@ Examples:
 if __name__ == "__main__":
     exit(main())
 
-## CLAUDE CHANGELOG
+# CLAUDE CHANGELOG
 # - Created comprehensive quantum mesh visualizer with multiple visualization modes # CLAUDE_EDIT_v0.1
 # - Implemented entanglement heatmap generation with matplotlib/seaborn # CLAUDE_EDIT_v0.1
 # - Built phase synchronization radar chart for subsystem coherence # CLAUDE_EDIT_v0.1

@@ -27,7 +27,7 @@ import time
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -64,7 +64,7 @@ class SemanticRelation:
     confidence: float = 1.0  # 0-1 confidence in relation
 
     # Source information
-    derived_from: Set[str] = field(default_factory=set)  # Source memory IDs
+    derived_from: set[str] = field(default_factory=set)  # Source memory IDs
     created_at: float = field(default_factory=time.time)
     last_updated: float = field(default_factory=time.time)
 
@@ -85,8 +85,8 @@ class ConceptNode:
 
     # Content
     definition: str = ""
-    attributes: Dict[str, Any] = field(default_factory=dict)
-    examples: List[str] = field(default_factory=list)
+    attributes: dict[str, Any] = field(default_factory=dict)
+    examples: list[str] = field(default_factory=list)
 
     # Network properties
     category: Optional[str] = None
@@ -98,11 +98,11 @@ class ConceptNode:
 
     # Learning statistics
     activation_count: int = 0
-    co_activation_counts: Dict[str, int] = field(default_factory=dict)
+    co_activation_counts: dict[str, int] = field(default_factory=dict)
     consolidation_strength: float = 0.0
 
     # Source episodic memories
-    source_episodes: Set[str] = field(default_factory=set)
+    source_episodes: set[str] = field(default_factory=set)
 
     def activate(self):
         """Record activation of this concept"""
@@ -121,19 +121,19 @@ class SemanticMemoryContent:
 
     # Core concept information
     primary_concept: str = ""
-    concept_nodes: Dict[str, ConceptNode] = field(default_factory=dict)
+    concept_nodes: dict[str, ConceptNode] = field(default_factory=dict)
 
     # Relationships
-    relations: List[SemanticRelation] = field(default_factory=list)
+    relations: list[SemanticRelation] = field(default_factory=list)
 
     # Factual assertions
-    facts: List[Dict[str, Any]] = field(default_factory=list)
+    facts: list[dict[str, Any]] = field(default_factory=list)
 
     # Hierarchical organization
-    category_hierarchy: Dict[str, Set[str]] = field(default_factory=dict)
+    category_hierarchy: dict[str, set[str]] = field(default_factory=dict)
 
     # Source information
-    consolidated_from: Set[str] = field(default_factory=set)  # Source episodic IDs
+    consolidated_from: set[str] = field(default_factory=set)  # Source episodic IDs
     confidence_level: float = 1.0
 
 
@@ -160,26 +160,26 @@ class SemanticMemoryInterface(BaseMemoryInterface):
         self.consolidation_threshold = consolidation_threshold
 
         # Semantic-specific storage
-        self.semantic_memories: Dict[str, SemanticMemoryContent] = {}
-        self.concept_network: Dict[str, ConceptNode] = {}  # concept_id -> node
-        self.relation_network: Dict[str, List[SemanticRelation]] = (
+        self.semantic_memories: dict[str, SemanticMemoryContent] = {}
+        self.concept_network: dict[str, ConceptNode] = {}  # concept_id -> node
+        self.relation_network: dict[str, list[SemanticRelation]] = (
             {}
         )  # concept_id -> relations
 
         # Indices
-        self.concept_index: Dict[str, Set[str]] = defaultdict(
+        self.concept_index: dict[str, set[str]] = defaultdict(
             set
         )  # concept -> memory_ids
-        self.category_index: Dict[str, Set[str]] = defaultdict(
+        self.category_index: dict[str, set[str]] = defaultdict(
             set
         )  # category -> memory_ids
-        self.feature_index: Dict[str, Set[str]] = defaultdict(
+        self.feature_index: dict[str, set[str]] = defaultdict(
             set
         )  # feature -> concept_ids
 
         # Consolidation tracking
-        self.consolidation_candidates: List[str] = []
-        self.inference_cache: Dict[str, Any] = {}
+        self.consolidation_candidates: list[str] = []
+        self.inference_cache: dict[str, Any] = {}
 
         logger.info("SemanticMemoryInterface initialized")
 
@@ -187,8 +187,8 @@ class SemanticMemoryInterface(BaseMemoryInterface):
         self,
         content: Any,
         metadata: Optional[MemoryMetadata] = None,
-        concept_definitions: Optional[Dict[str, str]] = None,
-        relationships: Optional[List[SemanticRelation]] = None,
+        concept_definitions: Optional[dict[str, str]] = None,
+        relationships: Optional[list[SemanticRelation]] = None,
         **kwargs,
     ) -> MemoryResponse:
         """Create new semantic memory with concepts and relationships"""
@@ -294,7 +294,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
         memory_id: str,
         content: Any = None,
         metadata: Optional[MemoryMetadata] = None,
-        new_relationships: Optional[List[SemanticRelation]] = None,
+        new_relationships: Optional[list[SemanticRelation]] = None,
         **kwargs,
     ) -> MemoryResponse:
         """Update semantic memory with new knowledge"""
@@ -360,7 +360,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
         self._remove_from_indices(memory_id, semantic_content)
 
         # Clean up concept network (if no other memories reference concepts)
-        for concept_id in semantic_content.concept_nodes.keys():
+        for concept_id in semantic_content.concept_nodes:
             # Check if concept is used elsewhere
             still_used = False
             for other_memory in self.semantic_memories.values():
@@ -386,11 +386,11 @@ class SemanticMemoryInterface(BaseMemoryInterface):
 
     async def search_memories(
         self,
-        query: Union[str, Dict[str, Any]],
-        filters: Optional[Dict[str, Any]] = None,
+        query: Union[str, dict[str, Any]],
+        filters: Optional[dict[str, Any]] = None,
         limit: int = 50,
         **kwargs,
-    ) -> List[MemoryResponse]:
+    ) -> list[MemoryResponse]:
         """Search semantic memories by concept, relationship, or content"""
 
         results = []
@@ -509,7 +509,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
 
     async def consolidate_from_episodic(
         self,
-        episodic_memories: List[Dict[str, Any]],
+        episodic_memories: list[dict[str, Any]],
         consolidation_strength: float = 1.0,
     ) -> MemoryResponse:
         """Consolidate episodic memories into semantic knowledge"""
@@ -563,8 +563,8 @@ class SemanticMemoryInterface(BaseMemoryInterface):
         self,
         concept_a: str,
         concept_b: str,
-        relation_types: Optional[List[SemanticRelationType]] = None,
-    ) -> List[SemanticRelation]:
+        relation_types: Optional[list[SemanticRelationType]] = None,
+    ) -> list[SemanticRelation]:
         """Infer potential relationships between concepts"""
 
         cache_key = f"{concept_a}_{concept_b}"
@@ -606,7 +606,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
         self.inference_cache[cache_key] = inferred_relations
         return inferred_relations
 
-    def get_concept_hierarchy(self) -> Dict[str, Any]:
+    def get_concept_hierarchy(self) -> dict[str, Any]:
         """Get hierarchical organization of concepts"""
 
         hierarchy = {}
@@ -630,7 +630,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
 
         return hierarchy
 
-    def activate_concept_network(self, concepts: List[str]) -> Dict[str, float]:
+    def activate_concept_network(self, concepts: list[str]) -> dict[str, float]:
         """Simulate spreading activation in concept network"""
 
         activations = {}
@@ -683,7 +683,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
         )
 
         # Add current network relations for concepts in this memory
-        for concept_id in content.concept_nodes.keys():
+        for concept_id in content.concept_nodes:
             if concept_id in self.relation_network:
                 for relation in self.relation_network[concept_id]:
                     if relation not in expanded.relations:
@@ -718,13 +718,9 @@ class SemanticMemoryInterface(BaseMemoryInterface):
             rec_stack.remove(node)
             return False
 
-        for node in graph:
-            if node not in visited and has_cycle(node):
-                return True
+        return any(node not in visited and has_cycle(node) for node in graph)
 
-        return False
-
-    def _find_subcategories(self, concepts: List[ConceptNode]) -> Dict[str, Any]:
+    def _find_subcategories(self, concepts: list[ConceptNode]) -> dict[str, Any]:
         """Find subcategories within a concept group"""
 
         subcategories = defaultdict(list)
@@ -740,7 +736,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
         """Update search indices for memory"""
 
         # Concept index
-        for concept_id in content.concept_nodes.keys():
+        for concept_id in content.concept_nodes:
             self.concept_index[concept_id].add(memory_id)
 
         # Category index
@@ -752,7 +748,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
         """Remove memory from all indices"""
 
         # Concept index
-        for concept_id in content.concept_nodes.keys():
+        for concept_id in content.concept_nodes:
             self.concept_index[concept_id].discard(memory_id)
 
         # Category index
@@ -760,7 +756,7 @@ class SemanticMemoryInterface(BaseMemoryInterface):
             if concept_node.category:
                 self.category_index[concept_node.category].discard(memory_id)
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get semantic interface metrics"""
         base_metrics = super().get_metrics()
 

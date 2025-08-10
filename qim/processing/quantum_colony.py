@@ -7,7 +7,7 @@ import asyncio
 import cmath
 import logging
 from dataclasses import dataclass, field
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
 
@@ -28,7 +28,7 @@ class QuantumState:
     phase: float = 0.0
     coherence: float = 1.0
     entanglement_strength: float = 0.0
-    superposition_weights: List[float] = field(default_factory=lambda: [1.0])
+    superposition_weights: list[float] = field(default_factory=lambda: [1.0])
     measurement_basis: str = "computational"
 
     def normalize(self):
@@ -49,10 +49,10 @@ class QuantumAgent(SwarmAgent):
         super().__init__(agent_id)
         self.oscillator = oscillator
         self.quantum_state = QuantumState()
-        self.entangled_partners: List[str] = []
+        self.entangled_partners: list[str] = []
         self.logger = logging.getLogger(f"{__name__}.{agent_id}")
 
-    async def process_quantum(self, task: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_quantum(self, task: dict[str, Any]) -> dict[str, Any]:
         """Process task using quantum-inspired algorithms."""
         task_type = task.get("type", "unknown")
 
@@ -67,7 +67,7 @@ class QuantumAgent(SwarmAgent):
         else:
             return await self._quantum_compute(task)
 
-    async def _process_superposition(self, task: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_superposition(self, task: dict[str, Any]) -> dict[str, Any]:
         """Process multiple states in superposition."""
         states = task.get("states", [])
         weights = task.get("weights", [1.0] * len(states))
@@ -101,7 +101,7 @@ class QuantumAgent(SwarmAgent):
             "total_probability": sum(r["probability"] for r in results),
         }
 
-    async def _create_entanglement(self, task: Dict[str, Any]) -> Dict[str, Any]:
+    async def _create_entanglement(self, task: dict[str, Any]) -> dict[str, Any]:
         """Create quantum entanglement with other agents."""
         partner_ids = task.get("partners", [])
         entanglement_type = task.get("entanglement_type", "bell_state")
@@ -126,7 +126,7 @@ class QuantumAgent(SwarmAgent):
             "strength": self.quantum_state.entanglement_strength,
         }
 
-    async def _quantum_interference(self, task: Dict[str, Any]) -> Dict[str, Any]:
+    async def _quantum_interference(self, task: dict[str, Any]) -> dict[str, Any]:
         """Perform quantum interference between states."""
         states = task.get("states", [])
 
@@ -157,7 +157,7 @@ class QuantumAgent(SwarmAgent):
             "interference_patterns": interference_pattern,
         }
 
-    async def _quantum_measurement(self, task: Dict[str, Any]) -> Dict[str, Any]:
+    async def _quantum_measurement(self, task: dict[str, Any]) -> dict[str, Any]:
         """Perform quantum measurement and collapse state."""
         basis = task.get("basis", "computational")
 
@@ -182,7 +182,7 @@ class QuantumAgent(SwarmAgent):
             "coherence_after": self.quantum_state.coherence,
         }
 
-    async def _quantum_compute(self, task: Dict[str, Any]) -> Dict[str, Any]:
+    async def _quantum_compute(self, task: dict[str, Any]) -> dict[str, Any]:
         """General quantum-inspired computation."""
         operation = task.get("operation", "identity")
 
@@ -240,8 +240,8 @@ class QuantumColony(BaseColony):
             capabilities=["quantum_processing", "entanglement", "superposition"],
         )
         self.logger = logging.getLogger(f"{__name__}.{colony_id}")
-        self.quantum_oscillators: Dict[str, QuantumBioOscillator] = {}
-        self.entanglement_graph: Dict[str, List[str]] = {}
+        self.quantum_oscillators: dict[str, QuantumBioOscillator] = {}
+        self.entanglement_graph: dict[str, list[str]] = {}
         self.coherence_threshold = 0.3
         self.max_entanglement_distance = 5
 
@@ -275,7 +275,7 @@ class QuantumColony(BaseColony):
 
         self.logger.info(f"Initialized {count} quantum agents")
 
-    async def create_entangled_agents(self, count: int) -> List[str]:
+    async def create_entangled_agents(self, count: int) -> list[str]:
         """Create a group of entangled quantum agents."""
         agent_ids = []
 
@@ -313,8 +313,8 @@ class QuantumColony(BaseColony):
         return agent_ids
 
     async def execute_quantum_algorithm(
-        self, algorithm: str, params: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, algorithm: str, params: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute a quantum-inspired algorithm across the colony."""
         self.logger.info(f"Executing quantum algorithm: {algorithm}")
 
@@ -329,7 +329,7 @@ class QuantumColony(BaseColony):
         else:
             return await self._generic_quantum_compute(algorithm, params)
 
-    async def _grover_search(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def _grover_search(self, params: dict[str, Any]) -> dict[str, Any]:
         """Implement Grover's search algorithm."""
         search_space = params.get("search_space", [])
         oracle_function = params.get("oracle", lambda x: False)
@@ -367,7 +367,7 @@ class QuantumColony(BaseColony):
             "search_space_size": n,
         }
 
-    async def _quantum_annealing(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def _quantum_annealing(self, params: dict[str, Any]) -> dict[str, Any]:
         """Implement quantum annealing for optimization."""
         cost_function = params.get("cost_function", lambda x: 0)
         initial_state = params.get("initial_state", {})
@@ -407,7 +407,7 @@ class QuantumColony(BaseColony):
             "final_temperature": temperature_schedule[-1],
         }
 
-    async def _vqe_algorithm(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def _vqe_algorithm(self, params: dict[str, Any]) -> dict[str, Any]:
         """Variational Quantum Eigensolver for finding ground states."""
         hamiltonian = params.get("hamiltonian", np.eye(2))
         num_qubits = params.get("num_qubits", 1)
@@ -419,7 +419,7 @@ class QuantumColony(BaseColony):
         best_energy = float("inf")
         best_params = theta.copy()
 
-        for iteration in range(max_iterations):
+        for _iteration in range(max_iterations):
             # Prepare variational state
             state = self._prepare_variational_state(theta, num_qubits)
 
@@ -441,7 +441,7 @@ class QuantumColony(BaseColony):
             "iterations": max_iterations,
         }
 
-    async def _qaoa_algorithm(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def _qaoa_algorithm(self, params: dict[str, Any]) -> dict[str, Any]:
         """Quantum Approximate Optimization Algorithm."""
         graph = params.get("graph", {})
         depth = params.get("depth", 1)
@@ -475,8 +475,8 @@ class QuantumColony(BaseColony):
         }
 
     async def _generic_quantum_compute(
-        self, algorithm: str, params: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, algorithm: str, params: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generic quantum computation using the colony."""
         # Distribute computation across quantum agents
         agent_tasks = []
@@ -504,11 +504,11 @@ class QuantumColony(BaseColony):
             "individual_results": results,
         }
 
-    async def measure_entanglement(self) -> Dict[str, float]:
+    async def measure_entanglement(self) -> dict[str, float]:
         """Measure entanglement strength across the colony."""
         entanglement_map = {}
 
-        for agent_id, partners in self.entanglement_graph.items():
+        for agent_id, _partners in self.entanglement_graph.items():
             agent = self.agents.get(agent_id)
             if isinstance(agent, QuantumAgent):
                 strength = agent.quantum_state.entanglement_strength
@@ -549,7 +549,7 @@ class QuantumColony(BaseColony):
             f"Maintained coherence: reset {len(low_coherence_agents)} agents"
         )
 
-    def _generate_neighbor(self, state: Dict[str, Any]) -> Dict[str, Any]:
+    def _generate_neighbor(self, state: dict[str, Any]) -> dict[str, Any]:
         """Generate a neighbor state for annealing."""
         neighbor = state.copy()
 
@@ -572,7 +572,7 @@ class QuantumColony(BaseColony):
         state[0] = 1.0
 
         # Apply rotations
-        for i, angle in enumerate(theta):
+        for _i, angle in enumerate(theta):
             # Simplified rotation effect
             state *= cmath.exp(1j * angle / 2)
 
@@ -605,7 +605,7 @@ class QuantumColony(BaseColony):
         return gradient
 
     def _evaluate_qaoa(
-        self, graph: Dict[str, List[str]], beta: np.ndarray, gamma: np.ndarray
+        self, graph: dict[str, list[str]], beta: np.ndarray, gamma: np.ndarray
     ) -> float:
         """Evaluate QAOA circuit for MaxCut problem."""
         # Simplified QAOA evaluation
@@ -618,8 +618,8 @@ class QuantumColony(BaseColony):
         return cut_value
 
     def _aggregate_quantum_results(
-        self, results: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, results: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Aggregate results from multiple quantum agents."""
         if not results:
             return {}

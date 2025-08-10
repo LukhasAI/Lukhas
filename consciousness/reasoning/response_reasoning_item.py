@@ -38,7 +38,7 @@ within a larger AI response.
 # Original Stainless generation comment:
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Optional
+from typing import Optional
 
 from typing_extensions import Literal
 
@@ -85,29 +85,34 @@ logger.debug(
 
 # ΛNOTE: The `ResponseReasoningItem` class is a core symbolic data model representing a discrete unit
 # or step within a larger reasoning process. It captures its identity, summary, type,
-# and potentially sensitive or detailed content in an encrypted form, along with its status.
+# and potentially sensitive or detailed content in an encrypted form,
+# along with its status.
 class ResponseReasoningItem(BaseModel):
     """
     Represents a single item or step in the reasoning process that contributes
     to a generated response. It can include summaries, encrypted content, and status.
     """
 
-    # AIDENTITY: `id` provides a unique symbolic identifier for this specific reasoning item or thought node.
+    # AIDENTITY: `id` provides a unique symbolic identifier for this specific
+    # reasoning item or thought node.
     id: str
     """The unique identifier of this specific reasoning content/item."""
 
-    # ΛNOTE: `summary` provides a list of textual summaries associated with this reasoning item.
-    summary: List[Summary]
+    # ΛNOTE: `summary` provides a list of textual summaries associated with
+    # this reasoning item.
+    summary: list[Summary]
     """A list of summary objects providing textual reasoning content."""
 
-    # ΛNOTE: `type` is a fixed literal, symbolically categorizing this item as "reasoning".
+    # ΛNOTE: `type` is a fixed literal, symbolically categorizing this item as
+    # "reasoning".
     type: Literal["reasoning"]
     """The type of this object. Always `reasoning` for this model."""
     # Human-readable comment: Fixed literal type for discriminating this model.
 
     # ΛNOTE: `encrypted_content` allows for secure storage or transmission of sensitive
     # symbolic reasoning details, promoting privacy and confidentiality.
-    # ΛCAUTION: The security of this field depends on the robustness of the encryption method used elsewhere.
+    # ΛCAUTION: The security of this field depends on the robustness of the
+    # encryption method used elsewhere.
     encrypted_content: Optional[str] = None
     """
     Optional encrypted content of the reasoning item. This field is populated

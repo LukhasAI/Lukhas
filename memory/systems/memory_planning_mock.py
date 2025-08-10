@@ -4,7 +4,7 @@ Provides lightweight memory planning functionality without PyTorch dependencies
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -27,12 +27,12 @@ class MemoryPlanner:
     """Lightweight memory planner without PyTorch dependencies"""
 
     def __init__(self):
-        self.allocation_pools: Dict[str, Dict[str, Any]] = {}
-        self.live_ranges: Dict[str, List[LiveRange]] = {}
-        self.allocations: Dict[str, int] = {}  # tensor_id -> size
+        self.allocation_pools: dict[str, dict[str, Any]] = {}
+        self.live_ranges: dict[str, list[LiveRange]] = {}
+        self.allocations: dict[str, int] = {}  # tensor_id -> size
         logger.info("MemoryPlanner (mock) initialized")
 
-    def create_allocation_pool(self, pool_name: str, size: int) -> Dict[str, Any]:
+    def create_allocation_pool(self, pool_name: str, size: int) -> dict[str, Any]:
         """Create a new allocation pool"""
         pool = {
             "name": pool_name,
@@ -106,7 +106,7 @@ class MemoryPlanner:
 
         return False
 
-    def get_allocation_stats(self) -> Dict[str, Any]:
+    def get_allocation_stats(self) -> dict[str, Any]:
         """Get statistics about current allocations"""
         total_allocated = sum(self.allocations.values())
         total_capacity = sum(p["total_size"] for p in self.allocation_pools.values())
@@ -131,7 +131,7 @@ class MemoryPlanner:
             },
         }
 
-    def optimize_memory_layout(self) -> Dict[str, Any]:
+    def optimize_memory_layout(self) -> dict[str, Any]:
         """Optimize memory layout based on live ranges"""
         optimizations = {
             "reuse_opportunities": 0,

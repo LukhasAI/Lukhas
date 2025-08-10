@@ -8,6 +8,7 @@
 
 Consolidated module for better performance
 """
+import numpy as np
 
 import asyncio
 import hashlib
@@ -20,7 +21,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Optional, Union
 
 import aiohttp
 from aiohttp import web
@@ -243,13 +244,13 @@ class HybridMemoryItem(MemoryItem):
     audio_embedding: Optional[np.ndarray] = None
     unified_embedding: Optional[np.ndarray] = None
     importance_score: float = 1.0
-    attention_weights: Dict[str, float] = field(default_factory=dict)
+    attention_weights: dict[str, float] = field(default_factory=dict)
     usage_count: int = 0
     last_used: Optional[datetime] = None
     td_error: Optional[float] = None
-    causes: List[str] = field(default_factory=list)
-    effects: List[str] = field(default_factory=list)
-    causal_strength: Dict[str, float] = field(default_factory=dict)
+    causes: list[str] = field(default_factory=list)
+    effects: list[str] = field(default_factory=list)
+    causal_strength: dict[str, float] = field(default_factory=dict)
 
 
 class VectorStorageLayer:
@@ -278,7 +279,7 @@ class VectorStorageLayer:
 
     def search_similar(
         self, query_vector: np.ndarray, top_k: int = 10, threshold: float = 0.0
-    ) -> List[Tuple[str, float]]:
+    ) -> list[tuple[str, float]]:
         """Find similar vectors using cosine similarity"""
         if self.vector_matrix is None or len(self.vectors) == 0:
             return []
@@ -323,9 +324,9 @@ class MemoryAttentionLayer:
     def compute_attention_scores(
         self,
         query_embedding: np.ndarray,
-        memory_embeddings: List[np.ndarray],
-        context: Dict[str, Any],
-    ) -> List[float]:
+        memory_embeddings: list[np.ndarray],
+        context: dict[str, Any],
+    ) -> list[float]:
         """Compute attention scores for memories given query"""
         if not memory_embeddings:
             return []
@@ -361,7 +362,7 @@ class ContinuousLearningEngine:
         self.min_weight = 0.1
         self.max_weight = 10.0
 
-    def update_tag_importance(self, tag: str, feedback: float, context: Dict[str, Any]):
+    def update_tag_importance(self, tag: str, feedback: float, context: dict[str, Any]):
         """Update tag weight based on feedback"""
         current_weight = self.tag_weights[tag]
         self.tag_usage_stats[tag]["total"] += 1
@@ -430,7 +431,7 @@ class HybridMemoryFold(MemoryFoldSystem):
     async def fold_in_with_embedding(
         self,
         data: Any,
-        tags: List[str],
+        tags: list[str],
         embedding: Optional[np.ndarray] = None,
         text_content: Optional[str] = None,
         image_content: Optional[np.ndarray] = None,
@@ -477,8 +478,8 @@ class HybridMemoryFold(MemoryFoldSystem):
         top_k: int = 10,
         use_attention: bool = True,
         combine_with_tags: bool = True,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> List[Tuple[MemoryItem, float]]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> list[tuple[MemoryItem, float]]:
         """
         Semantic search using vector embeddings.
 
@@ -539,7 +540,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         cause_id: str,
         effect_id: str,
         strength: float = 1.0,
-        evidence: Optional[List[str]] = None,
+        evidence: Optional[list[str]] = None,
     ):
         """Add causal relationship between memories"""
         if cause_id not in self.items or effect_id not in self.items:
@@ -560,7 +561,7 @@ class HybridMemoryFold(MemoryFoldSystem):
 
     async def trace_causal_chain(
         self, memory_id: str, direction: str = "backward", max_depth: int = 5
-    ) -> List[List[Tuple[str, float]]]:
+    ) -> list[list[tuple[str, float]]]:
         """
         Trace causal chains from a memory.
 
@@ -602,7 +603,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         return paths
 
     async def update_memory_importance(
-        self, memory_id: str, feedback: float, context: Optional[Dict[str, Any]] = None
+        self, memory_id: str, feedback: float, context: Optional[dict[str, Any]] = None
     ):
         """Update memory importance based on usage feedback"""
         if memory_id not in self.items:
@@ -674,7 +675,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         """Generate audio embedding (stub - would use wav2vec2)"""
         return np.random.randn(self.embedding_dim).astype(np.float32)
 
-    def get_enhanced_statistics(self) -> Dict[str, Any]:
+    def get_enhanced_statistics(self) -> dict[str, Any]:
         """Get statistics including vector and learning metrics"""
         base_stats = super().get_statistics()
         base_stats["vector_stats"] = {
@@ -722,10 +723,7 @@ class OptimizedVectorStorageLayer(VectorStorageLayer):
     def add_vector(self, memory_id: str, vector: np.ndarray):
         """Add vector with optional quantization tracking"""
         super().add_vector(memory_id, vector)
-        if self.enable_quantization:
-            vector_size = len(vector) + 4
-        else:
-            vector_size = len(vector) * 4
+        vector_size = len(vector) + 4 if self.enable_quantization else len(vector) * 4
         self.memory_usage_bytes += vector_size
         logger.debug(
             "Vector added to optimized storage",
@@ -735,7 +733,7 @@ class OptimizedVectorStorageLayer(VectorStorageLayer):
             quantized=self.enable_quantization,
         )
 
-    def get_memory_usage_stats(self) -> Dict[str, Any]:
+    def get_memory_usage_stats(self) -> dict[str, Any]:
         """Get detailed memory usage statistics"""
         num_vectors = len(self.vectors)
         avg_size_per_vector = (
@@ -825,7 +823,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
     async def fold_in_with_embedding(
         self,
         data: Any,
-        tags: List[str],
+        tags: list[str],
         embedding: Optional[np.ndarray] = None,
         text_content: Optional[str] = None,
         image_content: Optional[np.ndarray] = None,
@@ -863,7 +861,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             quantize_embedding=self.enable_quantization,
         )
         self.items[memory_id] = optimized_memory
-        legacy_memory = MemoryItem(
+        MemoryItem(
             item_id=memory_id,
             data=data,
             timestamp=metadata["timestamp"],
@@ -935,8 +933,8 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         top_k: int = 10,
         use_attention: bool = True,
         combine_with_tags: bool = True,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> List[Tuple[MemoryItem, float]]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> list[tuple[MemoryItem, float]]:
         """
         Semantic search with optimized memory retrieval.
 
@@ -989,9 +987,9 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
     def _estimate_legacy_size(
         self,
         data: Any,
-        tags: List[str],
+        tags: list[str],
         embedding: Optional[np.ndarray],
-        metadata: Dict[str, Any],
+        metadata: dict[str, Any],
     ) -> int:
         """Estimate size of legacy memory representation"""
         content_size = len(str(data).encode("utf-8"))
@@ -1010,7 +1008,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             + system_overhead
         )
 
-    def get_optimization_statistics(self) -> Dict[str, Any]:
+    def get_optimization_statistics(self) -> dict[str, Any]:
         """Get detailed optimization statistics"""
         stats = self.optimization_stats.copy()
         if stats["memories_optimized"] > 0:
@@ -1033,7 +1031,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             stats["storage_capacity_multiplier"] = stats["overall_compression_ratio"]
         return stats
 
-    def get_enhanced_statistics(self) -> Dict[str, Any]:
+    def get_enhanced_statistics(self) -> dict[str, Any]:
         """Get comprehensive statistics including optimization metrics"""
         base_stats = super().get_enhanced_statistics()
         base_stats["optimization_stats"] = self.get_optimization_statistics()
@@ -1055,7 +1053,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
 
     async def run_optimization_benchmark(
         self, num_test_memories: int = 100, include_embeddings: bool = True
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Run optimization benchmark to validate memory savings.
 
@@ -1181,9 +1179,9 @@ class DistributedMemoryEntry:
     term: int
     index: int
     consensus_achieved: bool = False
-    validation_votes: Set[str] = field(default_factory=set)
+    validation_votes: set[str] = field(default_factory=set)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "memory_id": self.memory_id,
             "content_hash": self.content_hash,
@@ -1198,7 +1196,7 @@ class DistributedMemoryEntry:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "DistributedMemoryEntry":
+    def from_dict(cls, data: dict[str, Any]) -> "DistributedMemoryEntry":
         return cls(
             memory_id=data["memory_id"],
             content_hash=data["content_hash"],
@@ -1259,10 +1257,10 @@ class ConsensusProtocol:
         self.voted_for: Optional[str] = None
         self.state = NodeState.FOLLOWER
         self.leader_id: Optional[str] = None
-        self.memory_log: List[DistributedMemoryEntry] = []
+        self.memory_log: list[DistributedMemoryEntry] = []
         self.commit_index = 0
         self.last_applied = 0
-        self.nodes: Dict[str, NodeInfo] = {}
+        self.nodes: dict[str, NodeInfo] = {}
         self.nodes[node_id] = NodeInfo(
             node_id=node_id,
             address="localhost",
@@ -1472,7 +1470,7 @@ class ConsensusProtocol:
 
     async def _handle_append_entries(self, request):
         """Handle append entries request for log replication"""
-        data = await request.json()
+        await request.json()
         return aiohttp.web.json_response({"success": True, "term": self.current_term})
 
     async def _handle_memory_sync(self, request):
@@ -1560,7 +1558,7 @@ class DistributedMemoryFold:
         self,
         node_id: str,
         port: int,
-        bootstrap_nodes: List[Tuple[str, int]] = None,
+        bootstrap_nodes: list[tuple[str, int]] = None,
         consciousness_level: float = 0.8,
     ):
         self.node_id = node_id
@@ -1570,8 +1568,8 @@ class DistributedMemoryFold:
         self.consensus = ConsensusProtocol(
             node_id=node_id, port=port, consciousness_threshold=0.7
         )
-        self.local_memories: Dict[str, Any] = {}
-        self.distributed_memories: Dict[str, DistributedMemoryEntry] = {}
+        self.local_memories: dict[str, Any] = {}
+        self.distributed_memories: dict[str, DistributedMemoryEntry] = {}
         try:
             from .optimized_hybrid_memory_fold import OptimizedHybridMemoryFold
 
@@ -1631,9 +1629,9 @@ class DistributedMemoryFold:
     async def store_memory(
         self,
         content: str,
-        tags: List[str] = None,
+        tags: list[str] = None,
         embedding: np.ndarray = None,
-        metadata: Dict[str, Any] = None,
+        metadata: dict[str, Any] = None,
         require_consensus: bool = True,
     ) -> str:
         """
@@ -1738,7 +1736,7 @@ class DistributedMemoryFold:
 
     async def query_memory(
         self, query: str, top_k: int = 10, include_distributed: bool = True
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Query memories from distributed system.
 
@@ -1772,7 +1770,7 @@ class DistributedMemoryFold:
 
     async def _query_distributed_memories(
         self, query: str, top_k: int
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Query memories from other nodes in the network"""
         query_tasks = []
         query_id = hashlib.sha256(
@@ -1803,7 +1801,7 @@ class DistributedMemoryFold:
 
     async def _send_memory_query(
         self, node_info: NodeInfo, query: str, query_id: str
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Send memory query to specific node"""
         try:
             async with aiohttp.ClientSession() as session:
@@ -1823,7 +1821,7 @@ class DistributedMemoryFold:
             )
             return []
 
-    def get_network_status(self) -> Dict[str, Any]:
+    def get_network_status(self) -> dict[str, Any]:
         """Get status of the distributed network"""
         alive_nodes = [
             node for node in self.consensus.nodes.values() if node.is_alive()

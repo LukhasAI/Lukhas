@@ -41,7 +41,7 @@ def _page(title: str, body: str) -> str:
 <title>{html.escape(title)}</title>
 <style>
  body{{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:24px}}
- h1,h2{{font-weight:600;}} .grid{{display:grid;gap:16px;grid-template-columns:1fr 1fr}} 
+ h1,h2{{font-weight:600;}} .grid{{display:grid;gap:16px;grid-template-columns:1fr 1fr}}
  .card{{border:1px solid #eee;border-radius:12px;padding:16px}} pre{{background:#0b0b0b;color:#e6e6e6;padding:12px;border-radius:8px;overflow:auto}}
  table{{border-collapse:collapse;width:100%}} th,td{{border-bottom:1px solid #eee;padding:8px;text-align:left}} th{{font-weight:600}}
  .muted{{color:#666}} .ok{{color:#0a7d00}} .err{{color:#b40000}} a{{text-decoration:none}}

@@ -4,7 +4,7 @@ import argparse
 import json
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 
 @dataclass
@@ -37,7 +37,7 @@ class DreamMetricsView:
         self.totals.recall_misses += misses
         self.totals.timestamp = datetime.utcnow().isoformat()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self.totals)
 
     def to_json(self) -> str:

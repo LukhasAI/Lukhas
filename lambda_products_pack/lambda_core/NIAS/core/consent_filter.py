@@ -8,7 +8,7 @@ import logging
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -51,13 +51,13 @@ class ConsentFilter:
         self.storage_path = Path(storage_path) if storage_path else Path("data/consent")
         self.storage_path.mkdir(parents=True, exist_ok=True)
 
-        self.user_consents: Dict[str, Dict[str, Any]] = {}
+        self.user_consents: dict[str, dict[str, Any]] = {}
         self.consent_templates = self._initialize_consent_templates()
         self.privacy_policies = self._initialize_privacy_policies()
 
         logger.info("Consent Filter initialized with GDPR compliance")
 
-    def _initialize_consent_templates(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_consent_templates(self) -> dict[str, dict[str, Any]]:
         """Initialize consent templates for different consent types"""
         return {
             ConsentType.MESSAGE_DELIVERY.value: {
@@ -146,7 +146,7 @@ class ConsentFilter:
             },
         }
 
-    def _initialize_privacy_policies(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_privacy_policies(self) -> dict[str, dict[str, Any]]:
         """Initialize privacy policy configurations"""
         return {
             "data_retention": {
@@ -171,10 +171,10 @@ class ConsentFilter:
     async def request_consent(
         self,
         user_id: str,
-        consent_types: List[ConsentType],
+        consent_types: list[ConsentType],
         tier: str = "T3",
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Request consent from user for specific consent types.
 
@@ -233,8 +233,8 @@ class ConsentFilter:
             return {"error": str(e), "request_id": None}
 
     async def grant_consent(
-        self, user_id: str, consent_grants: Dict[str, bool], request_id: str
-    ) -> Dict[str, Any]:
+        self, user_id: str, consent_grants: dict[str, bool], request_id: str
+    ) -> dict[str, Any]:
         """
         Process user's consent grants/denials.
 
@@ -324,9 +324,9 @@ class ConsentFilter:
     async def check_consent(
         self,
         user_id: str,
-        message: Dict[str, Any],
-        required_consents: Optional[List[ConsentType]] = None,
-    ) -> Dict[str, Any]:
+        message: dict[str, Any],
+        required_consents: Optional[list[ConsentType]] = None,
+    ) -> dict[str, Any]:
         """
         Check if user has valid consent for message delivery.
 
@@ -433,8 +433,8 @@ class ConsentFilter:
             return {"approved": False, "error": str(e)}
 
     def _determine_required_consents(
-        self, message: Dict[str, Any]
-    ) -> List[ConsentType]:
+        self, message: dict[str, Any]
+    ) -> list[ConsentType]:
         """Determine which consents are required for a message"""
         required = [ConsentType.MESSAGE_DELIVERY]
 
@@ -472,7 +472,7 @@ class ConsentFilter:
 
         return consent_info["status"]
 
-    def _get_privacy_notice(self, tier: str) -> Dict[str, Any]:
+    def _get_privacy_notice(self, tier: str) -> dict[str, Any]:
         """Get tier-specific privacy notice"""
         retention = self.privacy_policies["data_retention"].get(
             tier, self.privacy_policies["data_retention"]["T3"]
@@ -491,7 +491,7 @@ class ConsentFilter:
 
     async def withdraw_consent(
         self, user_id: str, consent_type: ConsentType
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Allow user to withdraw consent"""
         try:
             if user_id not in self.user_consents:
@@ -560,7 +560,7 @@ class ConsentFilter:
         except Exception as e:
             logger.error(f"Failed to load consent data for {user_id}: {e}")
 
-    async def get_user_consent_summary(self, user_id: str) -> Dict[str, Any]:
+    async def get_user_consent_summary(self, user_id: str) -> dict[str, Any]:
         """Get comprehensive consent summary for a user"""
         if user_id not in self.user_consents:
             await self._load_user_consent_data(user_id)
@@ -600,7 +600,7 @@ class ConsentFilter:
 
         return consent_summary
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for consent filter"""
         return {
             "status": "healthy",

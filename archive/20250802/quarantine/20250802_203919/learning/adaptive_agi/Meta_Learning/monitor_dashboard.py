@@ -19,31 +19,31 @@ METADATA TAGS: #LuKhas #AI #Professional #Deployment #AI Algorithm Core NeuralNe
 
 LUKHAS AI System - Function Library
 File: monitor_dashboard.py
-Path: LUKHAS/core/learning/adaptive_agi/Meta_Learning/monitor_dashboard.py
+Path: LUKHAS / core / learning / adaptive_agi / Meta_Learning / monitor_dashboard.py
 Created: "2025-06-05 11:43:39"
 Author: LUKHAS AI Team
 Version: 1.0
-This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 lukhas AI System - Function Library
 File: monitor_dashboard.py
-Path: lukhas/core/learning/adaptive_agi/Meta_Learning/monitor_dashboard.py
+Path: lukhas / core / learning / adaptive_agi / Meta_Learning / monitor_dashboard.py
 Created: "2025-06-05 11:43:39"
 Author: lukhas AI Team
 Version: 1.0
-This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 lukhas AI Research. All rights reserved.
+Copyright(c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
 
 """
-Meta-Learning Performance Monitoring Dashboard
+Meta - Learning Performance Monitoring Dashboard
 
-Priority #1: Foundational Monitoring for Meta-Learning Enhancement System
+Priority  # 1: Foundational Monitoring for Meta-Learning Enhancement System
 Tracks accuracy, loss, gradient trends, learning rate curves, memory usage, latency,
 and ethical compliance deltas with symbolic metrics integration.
 
@@ -116,8 +116,8 @@ class SymbolicFeedback:
 
 class MetaLearningMonitorDashboard:
     """
-    Performance monitoring dashboard for meta-learning insights.
-    Serves as diagnostic backbone for the Meta-Learning Enhancement System.
+    Performance monitoring dashboard for meta - learning insights.
+    Serves as diagnostic backbone for the Meta - Learning Enhancement System.
     """
 
     def __init__(self,
@@ -142,7 +142,8 @@ class MetaLearningMonitorDashboard:
         # Quantum signature tracking for audit trails
         self.quantum_signatures = deque(maxlen=1000)
 
-        logger.info(f"MetaLearning Monitor Dashboard initialized - Session: {self.current_session_id}")
+        logger.info(
+            f"MetaLearning Monitor Dashboard initialized - Session: {self.current_session_id}")
 
     def _generate_session_id(self) -> str:
         """Generate quantum signature for session tracking"""
@@ -241,7 +242,8 @@ class MetaLearningMonitorDashboard:
             # Update drift detector
             if audit_entry.drift_detected:
                 self.drift_detector['ethical_drift'] += 0.1
-                logger.warning(f"Ethical drift detected: {action} scored {ethical_score:.3f}")
+                logger.warning(
+                    f"Ethical drift detected: {action} scored {ethical_score:.3f}")
 
             return quantum_signature
 
@@ -273,7 +275,8 @@ class MetaLearningMonitorDashboard:
             # Check symbolic reasoning health
             if symbolic_reasoning_confidence < self.symbolic_confidence_threshold:
                 self.drift_detector['symbolic_drift'] += 0.05
-                logger.warning(f"Symbolic reasoning confidence low: {symbolic_reasoning_confidence:.3f}")
+                logger.warning(
+                    f"Symbolic reasoning confidence low: {symbolic_reasoning_confidence:.3f}")
 
             logger.debug(f"Symbolic feedback logged: intent={intent_success_rate:.3f}, "
                         f"memoria={memoria_coherence:.3f}, reasoning={symbolic_reasoning_confidence:.3f}")
@@ -308,7 +311,8 @@ class MetaLearningMonitorDashboard:
             # Simple stability check - could be enhanced with pattern analysis
             collapse_factor = 0.5 if len(collapse_hash) >= 8 else -0.5
 
-        compliance_score = base_score + accuracy_factor + loss_factor + drift_factor + collapse_factor
+        compliance_score = base_score + accuracy_factor + \
+            loss_factor + drift_factor + collapse_factor
         return max(0.0, min(1.0, compliance_score))
 
     def _get_symbolic_audit_score(self) -> float:
@@ -318,8 +322,10 @@ class MetaLearningMonitorDashboard:
         # This would integrate with actual symbolic reasoning engine
         # For now, return a calculated score based on recent feedback
         if self.symbolic_feedback_history:
-            recent_feedback = list(self.symbolic_feedback_history)[-5:]  # Last 5 entries
-            avg_reasoning = np.mean([f.symbolic_reasoning_confidence for f in recent_feedback])
+            recent_feedback = list(
+                self.symbolic_feedback_history)[-5:]  # Last 5 entries
+            avg_reasoning = np.mean(
+                [f.symbolic_reasoning_confidence for f in recent_feedback])
             avg_memoria = np.mean([f.memoria_coherence for f in recent_feedback])
             return (avg_reasoning + avg_memoria) / 2
         return 0.7  # Default baseline
@@ -340,7 +346,7 @@ class MetaLearningMonitorDashboard:
 
     def _detect_learning_drift(self, metrics: LearningMetrics) -> None:
         """
-        Detect learning drift patterns for meta-learning optimization
+        Detect learning drift patterns for meta - learning optimization
         """
         # Simple drift detection - could be enhanced with more sophisticated algorithms
         recent_metrics = list(self.learning_metrics_history)[-10:]  # Last 10 entries
@@ -351,16 +357,22 @@ class MetaLearningMonitorDashboard:
 
             # Check for accuracy degradation
             if len(recent_accuracies) >= 3:
-                accuracy_trend = np.polyfit(range(len(recent_accuracies)), recent_accuracies, 1)[0]
+                accuracy_trend = np.polyfit(
+    range(
+        len(recent_accuracies)),
+        recent_accuracies,
+         1)[0]
                 if accuracy_trend < -0.1:  # Negative trend threshold
                     self.drift_detector['accuracy_drift'] += 0.1
-                    logger.warning(f"Accuracy drift detected: trend={accuracy_trend:.4f}")
+                    logger.warning(
+                        f"Accuracy drift detected: trend={accuracy_trend:.4f}")
 
             # Check for loss explosion
             if len(recent_losses) >= 3:
                 if recent_losses[-1] > np.mean(recent_losses[:-1]) * 1.5:
                     self.drift_detector['loss_drift'] += 0.2
-                    logger.warning(f"Loss explosion detected: current={recent_losses[-1]:.4f}")
+                    logger.warning(
+                        f"Loss explosion detected: current={recent_losses[-1]:.4f}")
 
     def get_dashboard_metrics(self) -> Dict[str, Any]:
         """
@@ -370,14 +382,17 @@ class MetaLearningMonitorDashboard:
             if not self.learning_metrics_history:
                 return {"status": "no_data", "message": "No metrics available yet"}
 
-            recent_metrics = list(self.learning_metrics_history)[-50:]  # Last 50 entries
-            recent_feedback = list(self.symbolic_feedback_history)[-20:]  # Last 20 entries
+            recent_metrics = list(
+                self.learning_metrics_history)[-50:]  # Last 50 entries
+            recent_feedback = list(
+                self.symbolic_feedback_history)[-20:]  # Last 20 entries
             recent_audits = list(self.ethical_audit_history)[-20:]  # Last 20 audits
 
             # Calculate aggregate statistics
             avg_accuracy = np.mean([m.accuracy for m in recent_metrics])
             avg_loss = np.mean([m.loss for m in recent_metrics])
-            avg_ethical_compliance = np.mean([m.ethical_compliance_score for m in recent_metrics])
+            avg_ethical_compliance = np.mean(
+                [m.ethical_compliance_score for m in recent_metrics])
 
             # Convergence analysis
             convergence_status = self._analyze_convergence()
@@ -458,7 +473,8 @@ class MetaLearningMonitorDashboard:
             if len(self.convergence_tracker['accuracy']) >= 10:
                 # Accuracy trend analysis
                 accuracy_data = self.convergence_tracker['accuracy'][-20:]
-                accuracy_trend = np.polyfit(range(len(accuracy_data)), accuracy_data, 1)[0]
+                accuracy_trend = np.polyfit(
+                    range(len(accuracy_data)), accuracy_data, 1)[0]
 
                 if accuracy_trend > 0.5:
                     convergence_status["accuracy_trend"] = "improving"
@@ -477,7 +493,8 @@ class MetaLearningMonitorDashboard:
                 # Calculate convergence score
                 accuracy_stability = 1.0 - np.std(accuracy_data[-10:])
                 loss_stability = 1.0 - min(np.std(loss_data[-10:]), 1.0)
-                convergence_status["convergence_score"] = (accuracy_stability + loss_stability) / 2
+                convergence_status["convergence_score"] = (
+                    accuracy_stability + loss_stability) / 2
 
         except Exception as e:
             logger.error(f"Error analyzing convergence: {e}")
@@ -543,13 +560,16 @@ def integrate_with_collapse_engine(dashboard: MetaLearningMonitorDashboard,
         resonance_level = collapse_metrics.get('resonance_level', 0.5)
 
         # Log as part of learning metrics if available
-        if hasattr(dashboard, 'learning_metrics_history') and dashboard.learning_metrics_history:
+        if hasattr(
+    dashboard,
+     'learning_metrics_history') and dashboard.learning_metrics_history:
             last_metrics = dashboard.learning_metrics_history[-1]
             # Update with collapse data
             last_metrics.collapse_hash = collapse_hash
             last_metrics.drift_score = drift_score
 
-        logger.debug(f"Integrated collapse engine data: hash={collapse_hash[:8]}, drift={drift_score}")
+        logger.debug(
+            f"Integrated collapse engine data: hash={collapse_hash[:8]}, drift={drift_score}")
 
     except Exception as e:
         logger.error(f"Error integrating with collapse engine: {e}")
@@ -574,7 +594,8 @@ def integrate_with_intent_node(dashboard: MetaLearningMonitorDashboard,
             emotional_tone_vector=emotional_context
         )
 
-        logger.debug(f"Integrated intent node feedback: success={intent_success_rate:.3f}")
+        logger.debug(
+            f"Integrated intent node feedback: success={intent_success_rate:.3f}")
 
     except Exception as e:
         logger.error(f"Error integrating with intent node: {e}")

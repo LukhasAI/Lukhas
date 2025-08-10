@@ -25,7 +25,6 @@ class ConsolidatedCommerceapi:
     def _initialize_components(self):
         """Initialize all consolidated components"""
         # TODO: Merge functionality from source files
-        pass
 
 
 # Global instance

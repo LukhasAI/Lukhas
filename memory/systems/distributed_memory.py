@@ -2,6 +2,7 @@
 Distributed Memory System using Colony Architecture
 Implements scalable, fault-tolerant memory across multiple colonies
 """
+import logging
 
 import asyncio
 import hashlib
@@ -9,7 +10,7 @@ import json
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -38,16 +39,16 @@ class DistributedMemory:
 
     memory_id: str
     memory_type: MemoryType
-    content: Dict[str, Any]
+    content: dict[str, Any]
     timestamp: datetime = field(default_factory=datetime.now)
     importance: float = 0.5
     access_count: int = 0
     last_accessed: Optional[datetime] = None
     colony_id: Optional[str] = None
-    tags: List[str] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
     embeddings: Optional[np.ndarray] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for storage."""
         return {
             "memory_id": self.memory_id,
@@ -80,7 +81,7 @@ class DistributedMemorySystem:
         self.logger.info(f"Initializing DistributedMemorySystem: {system_id}")
 
         # Memory colonies for different memory types
-        self.memory_colonies: Dict[MemoryType, MemoryColony] = {}
+        self.memory_colonies: dict[MemoryType, MemoryColony] = {}
 
         # Swarm hub for colony coordination
         self.swarm_hub = SwarmHub()
@@ -94,15 +95,15 @@ class DistributedMemorySystem:
         )
 
         # Memory index for fast lookup
-        self.memory_index: Dict[str, Tuple[MemoryType, str]] = (
+        self.memory_index: dict[str, tuple[MemoryType, str]] = (
             {}
         )  # memory_id -> (type, colony_id)
 
         # Memory similarity cache
-        self.similarity_cache: Dict[str, List[Tuple[str, float]]] = {}
+        self.similarity_cache: dict[str, list[tuple[str, float]]] = {}
 
         # Colony health tracking
-        self.colony_health: Dict[str, float] = {}
+        self.colony_health: dict[str, float] = {}
 
         self._initialized = False
 
@@ -157,10 +158,10 @@ class DistributedMemorySystem:
 
     async def store_memory(
         self,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         memory_type: MemoryType,
         importance: float = 0.5,
-        tags: Optional[List[str]] = None,
+        tags: Optional[list[str]] = None,
     ) -> str:
         """
         Store a memory in the distributed system.
@@ -273,11 +274,11 @@ class DistributedMemorySystem:
 
     async def search_memories(
         self,
-        query: Dict[str, Any],
-        memory_types: Optional[List[MemoryType]] = None,
+        query: dict[str, Any],
+        memory_types: Optional[list[MemoryType]] = None,
         limit: int = 10,
         threshold: float = 0.7,
-    ) -> List[DistributedMemory]:
+    ) -> list[DistributedMemory]:
         """
         Search for memories across colonies.
 
@@ -421,7 +422,7 @@ class DistributedMemorySystem:
         )
         return consolidated_count
 
-    async def get_memory_statistics(self) -> Dict[str, Any]:
+    async def get_memory_statistics(self) -> dict[str, Any]:
         """Get statistics about the distributed memory system."""
         stats = {
             "total_memories": len(self.memory_index),
@@ -449,7 +450,7 @@ class DistributedMemorySystem:
         return stats
 
     def _generate_memory_id(
-        self, content: Dict[str, Any], memory_type: MemoryType
+        self, content: dict[str, Any], memory_type: MemoryType
     ) -> str:
         """Generate a unique ID for a memory."""
         content_str = json.dumps(content, sort_keys=True)
@@ -459,7 +460,7 @@ class DistributedMemorySystem:
         hash_input = f"{content_str}:{type_str}:{timestamp}"
         return hashlib.sha256(hash_input.encode()).hexdigest()[:16]
 
-    async def _generate_embeddings(self, content: Dict[str, Any]) -> np.ndarray:
+    async def _generate_embeddings(self, content: dict[str, Any]) -> np.ndarray:
         """Generate embeddings for memory content (placeholder)."""
         # In a real implementation, this would use a proper embedding model
         # For now, create a simple hash-based embedding
@@ -490,7 +491,7 @@ class DistributedMemorySystem:
         else:
             return StateType.COLD
 
-    def _dict_to_memory(self, data: Dict[str, Any]) -> DistributedMemory:
+    def _dict_to_memory(self, data: dict[str, Any]) -> DistributedMemory:
         """Convert dictionary to DistributedMemory object."""
         memory = DistributedMemory(
             memory_id=data["memory_id"],
@@ -516,7 +517,7 @@ class DistributedMemorySystem:
     def _invalidate_similarity_cache(self, memory_type: MemoryType):
         """Invalidate similarity cache for a memory type."""
         keys_to_remove = [
-            k for k in self.similarity_cache.keys() if k.startswith(memory_type.value)
+            k for k in self.similarity_cache if k.startswith(memory_type.value)
         ]
         for key in keys_to_remove:
             del self.similarity_cache[key]

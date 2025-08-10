@@ -425,7 +425,7 @@ class VoiceNode:
                 # Generate audio file path
 
                 logger.info(
-                    f"Synthesized voice with ElevenLabs, profile {profile.name},
+                    f"Synthesized voice with ElevenLabs, profile {profile.name},"
                     emotion {emotion}"
                 )
                 synthesis_entry["status"] = "success"

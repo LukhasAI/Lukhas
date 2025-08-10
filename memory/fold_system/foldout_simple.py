@@ -11,15 +11,15 @@ import struct
 from collections.abc import Iterable
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 # Magic bytes for LKF-Pack format
 MAGIC = b"LKF\x01"
 
 
 async def export_folds(
-    folds: Iterable[Dict[str, Any]], path: str, codec: str = "gzip"
-) -> Dict[str, Any]:
+    folds: Iterable[dict[str, Any]], path: str, codec: str = "gzip"
+) -> dict[str, Any]:
     """Export memory folds using built-in compression"""
 
     # Convert to list to count
@@ -37,10 +37,7 @@ async def export_folds(
     json_data = json.dumps(data, separators=(",", ":")).encode("utf-8")
 
     # Compress
-    if codec == "gzip":
-        compressed = gzip.compress(json_data)
-    else:
-        compressed = json_data
+    compressed = gzip.compress(json_data) if codec == "gzip" else json_data
 
     # Write file
     path_obj = Path(path)
@@ -68,6 +65,6 @@ def create_fold_bundle(folds, bundle_name, output_dir, **kwargs):
     output_path = Path(output_dir) / filename
 
     # Use async export
-    stats = asyncio.run(export_folds(folds, str(output_path)))
+    asyncio.run(export_folds(folds, str(output_path)))
 
     return output_path

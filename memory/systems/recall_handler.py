@@ -28,7 +28,8 @@ class RecallHandler:
         Recalls a memory by its ID.
         """
         logger.info(f"Recalling memory: {memory_id}")
-        # In a real implementation, this would involve retrieving the memory from storage.
+        # In a real implementation, this would involve retrieving the memory from
+        # storage.
         recalled_memory = {"memory_id": memory_id, "content": "recalled_memory_content"}
         self.recalled_memories.append(recalled_memory)
         return recalled_memory

@@ -5,7 +5,7 @@ Date: 2025-07-19
 Description: Provides a symbolic summary for dream redirects.
 """
 
-from typing import Any, Dict
+from typing import Any
 
 # LUKHAS_TAG: dream_redirect_chain
 
@@ -19,8 +19,8 @@ class RedirectJustifier:
         self,
         drift_delta: float,
         emotion_conflict: float,
-        snapshot_context: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        snapshot_context: dict[str, Any],
+    ) -> dict[str, Any]:
         """
         Generates a symbolic summary for a redirect.
 

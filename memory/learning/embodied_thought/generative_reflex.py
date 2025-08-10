@@ -40,7 +40,8 @@ class GenerativeReflex:
         """
         # #ΛSYMBOLIC_FEEDBACK: The embodied state is a form of symbolic feedback.
         logger.info("Generating response for embodied state...")
-        # In a real implementation, this would involve a more complex mapping from state to response.
+        # In a real implementation, this would involve a more complex mapping from
+        # state to response.
         return {"response": "default_reflex_response"}
 
 

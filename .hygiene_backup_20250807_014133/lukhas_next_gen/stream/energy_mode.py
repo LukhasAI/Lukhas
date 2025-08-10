@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class EnergyProfile:
     """Energy consumption profile"""
+
     profile_name: str
     cpu_threshold: float  # 0.0 to 1.0
     memory_threshold: float  # 0.0 to 1.0
@@ -35,6 +36,7 @@ class EnergyProfile:
 @dataclass
 class SystemMetrics:
     """Current system performance metrics"""
+
     timestamp: datetime
     cpu_percent: float
     memory_percent: float
@@ -61,7 +63,7 @@ class EnergyManager:
             max_concurrent=1,
             throttle_factor=0.1,
             symbolic_indicator="🌙",
-            description="Minimal operations, maximum efficiency"
+            description="Minimal operations, maximum efficiency",
         ),
         "power_save": EnergyProfile(
             profile_name="power_save",
@@ -71,7 +73,7 @@ class EnergyManager:
             max_concurrent=2,
             throttle_factor=0.3,
             symbolic_indicator="🔋",
-            description="Conservative resource usage"
+            description="Conservative resource usage",
         ),
         "balanced": EnergyProfile(
             profile_name="balanced",
@@ -81,7 +83,7 @@ class EnergyManager:
             max_concurrent=4,
             throttle_factor=0.6,
             symbolic_indicator="⚖️",
-            description="Balanced performance and efficiency"
+            description="Balanced performance and efficiency",
         ),
         "performance": EnergyProfile(
             profile_name="performance",
@@ -91,25 +93,27 @@ class EnergyManager:
             max_concurrent=8,
             throttle_factor=1.0,
             symbolic_indicator="⚡",
-            description="Maximum performance"
-        )
+            description="Maximum performance",
+        ),
     }
 
     # Automatic switching thresholds
     SWITCH_THRESHOLDS = {
         "cpu_high": 0.8,  # Switch to lower profile
-        "cpu_low": 0.3,   # Switch to higher profile
+        "cpu_low": 0.3,  # Switch to higher profile
         "memory_high": 0.9,
         "memory_low": 0.4,
         "battery_low": 0.2,  # Force power save mode
-        "temperature_high": 80.0  # Celsius
+        "temperature_high": 80.0,  # Celsius
     }
 
-    def __init__(self,
-                 initial_profile: str = "balanced",
-                 monitoring_interval: float = 5.0,
-                 auto_switch: bool = True,
-                 log_file: str = "energy_management.log"):
+    def __init__(
+        self,
+        initial_profile: str = "balanced",
+        monitoring_interval: float = 5.0,
+        auto_switch: bool = True,
+        log_file: str = "energy_management.log",
+    ):
         self.current_profile = self.ENERGY_PROFILES[initial_profile]
         self.monitoring_interval = monitoring_interval
         self.auto_switch = auto_switch
@@ -127,7 +131,9 @@ class EnergyManager:
         self.monitoring_active = False
 
         logger.info("🌙 Energy Manager initialized")
-        logger.info(f"   Profile: {self.current_profile.profile_name} {self.current_profile.symbolic_indicator}")
+        logger.info(
+            f"   Profile: {self.current_profile.profile_name} {self.current_profile.symbolic_indicator}"
+        )
         logger.info(f"   Auto-switch: {'enabled' if auto_switch else 'disabled'}")
 
     async def start_monitoring(self):
@@ -138,7 +144,7 @@ class EnergyManager:
         await asyncio.gather(
             self._monitor_system_metrics(),
             self._manage_energy_profiles(),
-            self._process_operation_queue()
+            self._process_operation_queue(),
         )
 
     async def _monitor_system_metrics(self):
@@ -150,8 +156,16 @@ class EnergyManager:
                     timestamp=datetime.utcnow(),
                     cpu_percent=psutil.cpu_percent(interval=1),
                     memory_percent=psutil.virtual_memory().percent,
-                    disk_io=sum(psutil.disk_io_counters()[:2]) if psutil.disk_io_counters() else 0,
-                    network_io=sum(psutil.net_io_counters()[:2]) if psutil.net_io_counters() else 0
+                    disk_io=(
+                        sum(psutil.disk_io_counters()[:2])
+                        if psutil.disk_io_counters()
+                        else 0
+                    ),
+                    network_io=(
+                        sum(psutil.net_io_counters()[:2])
+                        if psutil.net_io_counters()
+                        else 0
+                    ),
                 )
 
                 # Get battery info if available
@@ -167,7 +181,7 @@ class EnergyManager:
                     temps = psutil.sensors_temperatures()
                     if temps:
                         # Get CPU temperature
-                        cpu_temps = temps.get('cpu-thermal', temps.get('coretemp', []))
+                        cpu_temps = temps.get("cpu-thermal", temps.get("coretemp", []))
                         if cpu_temps:
                             metrics.temperature = cpu_temps[0].current
                 except:
@@ -176,18 +190,21 @@ class EnergyManager:
                 # Calculate energy score (0 = efficient, 1 = intensive)
                 cpu_score = metrics.cpu_percent / 100.0
                 memory_score = metrics.memory_percent / 100.0
-                metrics.energy_score = (cpu_score * 0.6 + memory_score * 0.4)
+                metrics.energy_score = cpu_score * 0.6 + memory_score * 0.4
 
                 # Store metrics
                 self.metrics_history.append(metrics)
 
                 # Log high resource usage
                 if metrics.energy_score > 0.8:
-                    self._log_energy_event("high_usage", {
-                        "cpu": metrics.cpu_percent,
-                        "memory": metrics.memory_percent,
-                        "energy_score": metrics.energy_score
-                    })
+                    self._log_energy_event(
+                        "high_usage",
+                        {
+                            "cpu": metrics.cpu_percent,
+                            "memory": metrics.memory_percent,
+                            "energy_score": metrics.energy_score,
+                        },
+                    )
 
                 await asyncio.sleep(self.monitoring_interval)
 
@@ -208,17 +225,26 @@ class EnergyManager:
                 target_profile = None
 
                 # Check for forced power save conditions
-                if (current_metrics.battery_level and
-                    current_metrics.battery_level < self.SWITCH_THRESHOLDS["battery_low"]):
+                if (
+                    current_metrics.battery_level
+                    and current_metrics.battery_level
+                    < self.SWITCH_THRESHOLDS["battery_low"]
+                ):
                     target_profile = "power_save"
                     should_switch = True
-                elif (current_metrics.temperature and
-                      current_metrics.temperature > self.SWITCH_THRESHOLDS["temperature_high"]):
+                elif (
+                    current_metrics.temperature
+                    and current_metrics.temperature
+                    > self.SWITCH_THRESHOLDS["temperature_high"]
+                ):
                     target_profile = "deep_sleep"
                     should_switch = True
 
                 # Check CPU thresholds
-                elif current_metrics.cpu_percent > self.SWITCH_THRESHOLDS["cpu_high"] * 100:
+                elif (
+                    current_metrics.cpu_percent
+                    > self.SWITCH_THRESHOLDS["cpu_high"] * 100
+                ):
                     # Switch to more efficient profile
                     profiles = list(self.ENERGY_PROFILES.keys())
                     current_idx = profiles.index(self.current_profile.profile_name)
@@ -226,7 +252,10 @@ class EnergyManager:
                         target_profile = profiles[current_idx - 1]
                         should_switch = True
 
-                elif current_metrics.cpu_percent < self.SWITCH_THRESHOLDS["cpu_low"] * 100:
+                elif (
+                    current_metrics.cpu_percent
+                    < self.SWITCH_THRESHOLDS["cpu_low"] * 100
+                ):
                     # Switch to more performance profile
                     profiles = list(self.ENERGY_PROFILES.keys())
                     current_idx = profiles.index(self.current_profile.profile_name)
@@ -254,18 +283,23 @@ class EnergyManager:
         self.profile_switches += 1
 
         # Log the switch
-        self._log_energy_event("profile_switch", {
-            "from_profile": old_profile,
-            "to_profile": profile_name,
-            "trigger_cpu": metrics.cpu_percent,
-            "trigger_memory": metrics.memory_percent,
-            "battery_level": metrics.battery_level,
-            "temperature": metrics.temperature
-        })
+        self._log_energy_event(
+            "profile_switch",
+            {
+                "from_profile": old_profile,
+                "to_profile": profile_name,
+                "trigger_cpu": metrics.cpu_percent,
+                "trigger_memory": metrics.memory_percent,
+                "battery_level": metrics.battery_level,
+                "temperature": metrics.temperature,
+            },
+        )
 
         logger.info(f"🔄 Energy profile switched: {old_profile} → {profile_name}")
-        logger.info(f"   New limits: CPU {self.current_profile.cpu_threshold*100:.0f}%, "
-                   f"Memory {self.current_profile.memory_threshold*100:.0f}%")
+        logger.info(
+            f"   New limits: CPU {self.current_profile.cpu_threshold*100:.0f}%, "
+            f"Memory {self.current_profile.memory_threshold*100:.0f}%"
+        )
         logger.info(f"   Symbol: {self.current_profile.symbolic_indicator}")
 
     async def _process_operation_queue(self):
@@ -300,7 +334,9 @@ class EnergyManager:
                     asyncio.create_task(self._execute_operation(operation))
 
                 # Energy-aware delay
-                delay = self.current_profile.operation_delay * (1.0 / self.current_profile.throttle_factor)
+                delay = self.current_profile.operation_delay * (
+                    1.0 / self.current_profile.throttle_factor
+                )
                 await asyncio.sleep(delay)
 
             except Exception as e:
@@ -315,8 +351,11 @@ class EnergyManager:
         current_metrics = self.metrics_history[-1]
 
         # Check against current profile thresholds
-        if (current_metrics.cpu_percent / 100.0 > self.current_profile.cpu_threshold or
-            current_metrics.memory_percent / 100.0 > self.current_profile.memory_threshold):
+        if (
+            current_metrics.cpu_percent / 100.0 > self.current_profile.cpu_threshold
+            or current_metrics.memory_percent / 100.0
+            > self.current_profile.memory_threshold
+        ):
             return True
 
         return False
@@ -337,20 +376,28 @@ class EnergyManager:
 
             # Log completion
             execution_time = time.time() - start_time
-            self._log_energy_event("operation_complete", {
-                "type": operation_type,
-                "duration": execution_time,
-                "profile": self.current_profile.profile_name,
-                "throttled": self.throttle_active
-            })
+            self._log_energy_event(
+                "operation_complete",
+                {
+                    "type": operation_type,
+                    "duration": execution_time,
+                    "profile": self.current_profile.profile_name,
+                    "throttled": self.throttle_active,
+                },
+            )
 
         except Exception as e:
             logger.error(f"Error executing operation: {e}")
         finally:
             self.active_operations -= 1
 
-    def queue_operation(self, operation_type: str, duration: float = 1.0,
-                       priority: str = "normal", metadata: Optional[Dict] = None) -> str:
+    def queue_operation(
+        self,
+        operation_type: str,
+        duration: float = 1.0,
+        priority: str = "normal",
+        metadata: Optional[Dict] = None,
+    ) -> str:
         """Queue an operation for energy-aware execution"""
         operation_id = f"op_{datetime.utcnow().timestamp()}_{operation_type}"
 
@@ -361,7 +408,7 @@ class EnergyManager:
             "priority": priority,
             "metadata": metadata or {},
             "queued_at": datetime.utcnow().isoformat(),
-            "profile_at_queue": self.current_profile.profile_name
+            "profile_at_queue": self.current_profile.profile_name,
         }
 
         # Insert based on priority
@@ -382,10 +429,9 @@ class EnergyManager:
         old_profile = self.current_profile.profile_name
         self.current_profile = self.ENERGY_PROFILES[profile_name]
 
-        self._log_energy_event("manual_switch", {
-            "from_profile": old_profile,
-            "to_profile": profile_name
-        })
+        self._log_energy_event(
+            "manual_switch", {"from_profile": old_profile, "to_profile": profile_name}
+        )
 
         logger.info(f"🔧 Manual profile switch: {old_profile} → {profile_name}")
         return True
@@ -396,13 +442,13 @@ class EnergyManager:
             "timestamp": datetime.utcnow().isoformat(),
             "event": event_type,
             "profile": self.current_profile.profile_name,
-            "data": data
+            "data": data,
         }
 
         self.energy_events.append(event)
 
         # Write to log file
-        with open(self.log_file, 'a') as f:
+        with open(self.log_file, "a") as f:
             f.write(json.dumps(event) + "\n")
 
     def get_energy_report(self) -> Dict[str, Any]:
@@ -411,9 +457,15 @@ class EnergyManager:
 
         # Calculate average metrics
         if self.metrics_history:
-            avg_cpu = sum(m.cpu_percent for m in self.metrics_history) / len(self.metrics_history)
-            avg_memory = sum(m.memory_percent for m in self.metrics_history) / len(self.metrics_history)
-            avg_energy = sum(m.energy_score for m in self.metrics_history) / len(self.metrics_history)
+            avg_cpu = sum(m.cpu_percent for m in self.metrics_history) / len(
+                self.metrics_history
+            )
+            avg_memory = sum(m.memory_percent for m in self.metrics_history) / len(
+                self.metrics_history
+            )
+            avg_energy = sum(m.energy_score for m in self.metrics_history) / len(
+                self.metrics_history
+            )
         else:
             avg_cpu = avg_memory = avg_energy = 0.0
 
@@ -429,31 +481,35 @@ class EnergyManager:
                 "symbol": self.current_profile.symbolic_indicator,
                 "description": self.current_profile.description,
                 "cpu_threshold": self.current_profile.cpu_threshold * 100,
-                "memory_threshold": self.current_profile.memory_threshold * 100
+                "memory_threshold": self.current_profile.memory_threshold * 100,
             },
             "current_metrics": {
                 "cpu_percent": current_metrics.cpu_percent if current_metrics else 0,
-                "memory_percent": current_metrics.memory_percent if current_metrics else 0,
+                "memory_percent": (
+                    current_metrics.memory_percent if current_metrics else 0
+                ),
                 "energy_score": current_metrics.energy_score if current_metrics else 0,
-                "battery_level": current_metrics.battery_level if current_metrics else None,
-                "temperature": current_metrics.temperature if current_metrics else None
+                "battery_level": (
+                    current_metrics.battery_level if current_metrics else None
+                ),
+                "temperature": current_metrics.temperature if current_metrics else None,
             },
             "averages": {
                 "cpu_percent": avg_cpu,
                 "memory_percent": avg_memory,
-                "energy_score": avg_energy
+                "energy_score": avg_energy,
             },
             "operations": {
                 "active": self.active_operations,
                 "queued": len(self.operation_queue),
-                "throttle_active": self.throttle_active
+                "throttle_active": self.throttle_active,
             },
             "statistics": {
                 "profile_switches": self.profile_switches,
                 "total_events": len(self.energy_events),
                 "event_distribution": event_types,
-                "monitoring_time": len(self.metrics_history) * self.monitoring_interval
-            }
+                "monitoring_time": len(self.metrics_history) * self.monitoring_interval,
+            },
         }
 
     async def stop_monitoring(self):
@@ -469,7 +525,9 @@ async def demo_energy_manager():
 
     print("🌙 Energy Manager Demo")
     print("=" * 60)
-    print(f"Initial profile: {manager.current_profile.profile_name} {manager.current_profile.symbolic_indicator}")
+    print(
+        f"Initial profile: {manager.current_profile.profile_name} {manager.current_profile.symbolic_indicator}"
+    )
 
     # Queue some operations
     print("\n📋 Queueing operations...")
@@ -522,5 +580,5 @@ async def demo_energy_manager():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format='%(message)s')
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
     asyncio.run(demo_energy_manager())

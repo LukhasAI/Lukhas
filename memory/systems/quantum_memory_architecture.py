@@ -17,8 +17,9 @@
 │   3. Retrieve memories using quantum associative recall
 └────────────────────────────────────────────────────────────────────────────
 """
+from typing import Dict
 
-from typing import List, Optional
+from typing import Optional
 
 import numpy as np
 from qiskit import QuantumCircuit
@@ -49,7 +50,7 @@ class QuantumAssociativeMemoryBank:
         self,
         memory_id: str,
         quantum_like_state: QuantumLikeState,
-        associations: List[str],
+        associations: list[str],
     ):
         """
         Store information in superposition-like state
@@ -71,7 +72,7 @@ class QuantumAssociativeMemoryBank:
 
     async def quantum_associative_recall(
         self, query: QuantumQuery, num_iterations: Optional[int] = None
-    ) -> List[QuantumMemory]:
+    ) -> list[QuantumMemory]:
         """
         Retrieve memories using quantum parallelism
         """
@@ -97,7 +98,7 @@ class QuantumAssociativeMemoryBank:
         return self._extract_memories(results, query)
 
     def _create_grover_oracle(
-        self, memory_id: str, associations: List[str]
+        self, memory_id: str, associations: list[str]
     ) -> QuantumCircuit:
         """
         Create Grover oracle for specific memory pattern

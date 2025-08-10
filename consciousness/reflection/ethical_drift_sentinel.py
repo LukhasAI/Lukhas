@@ -62,7 +62,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -100,12 +100,12 @@ class EthicalViolation:
     violation_type: ViolationType
     severity: EscalationTier
     risk_score: float
-    metrics: Dict[str, float]
-    context: Dict[str, Any]
+    metrics: dict[str, float]
+    context: dict[str, Any]
     intervention_required: bool = False
     intervention_status: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             **asdict(self),
@@ -123,11 +123,11 @@ class InterventionAction:
     violation_id: str
     action_type: str
     target_symbol: str
-    parameters: Dict[str, Any]
+    parameters: dict[str, Any]
     status: str  # pending, executing, completed, failed
-    result: Optional[Dict[str, Any]] = None
+    result: Optional[dict[str, Any]] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return asdict(self)
 
@@ -144,7 +144,7 @@ class EthicalState:
     drift_velocity: float
     glyph_entropy: float
     last_updated: str
-    violation_history: List[str] = field(default_factory=list)
+    violation_history: list[str] = field(default_factory=list)
     intervention_count: int = 0
 
     def calculate_risk_score(self) -> float:
@@ -204,13 +204,13 @@ class EthicalDriftSentinel:
         self.state_history_size = state_history_size
 
         # State tracking
-        self.symbol_states: Dict[str, EthicalState] = {}
-        self.state_history: Dict[str, deque] = defaultdict(
+        self.symbol_states: dict[str, EthicalState] = {}
+        self.state_history: dict[str, deque] = defaultdict(
             lambda: deque(maxlen=state_history_size)
         )
 
         # Violation tracking
-        self.active_violations: Dict[str, EthicalViolation] = {}
+        self.active_violations: dict[str, EthicalViolation] = {}
         self.violation_log: deque = deque(maxlen=violation_retention)
         self.intervention_log: deque = deque(maxlen=100)
 
@@ -339,11 +339,11 @@ class EthicalDriftSentinel:
         return None
 
     def _detect_violations(
-        self, state: EthicalState, symbol_data: Dict[str, Any]
-    ) -> List[EthicalViolation]:
+        self, state: EthicalState, symbol_data: dict[str, Any]
+    ) -> list[EthicalViolation]:
         """Detect ethical violations from state and data."""
         violations = []
-        timestamp = datetime.now(timezone.utc).isoformat()
+        datetime.now(timezone.utc).isoformat()
 
         # Check emotional volatility
         if state.emotional_stability < (1.0 - self.thresholds["emotional_volatility"]):
@@ -420,8 +420,8 @@ class EthicalDriftSentinel:
         self,
         symbol_id: str,
         violation_type: ViolationType,
-        metrics: Dict[str, float],
-        context: Dict[str, Any],
+        metrics: dict[str, float],
+        context: dict[str, Any],
     ) -> EthicalViolation:
         """Create a violation record."""
         risk_score = self.symbol_states[symbol_id].calculate_risk_score()
@@ -516,8 +516,8 @@ class EthicalDriftSentinel:
                 await self._escalate_to_governor(violation, str(e))
 
     async def _execute_intervention(
-        self, action_type: str, params: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, action_type: str, params: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Execute the actual intervention.
 
@@ -599,7 +599,7 @@ class EthicalDriftSentinel:
         except Exception as e:
             logger.error("Failed to write audit log", error=str(e))
 
-    def _log_escalation(self, escalation_data: Dict[str, Any]):
+    def _log_escalation(self, escalation_data: dict[str, Any]):
         """Log governor escalation."""
         audit_entry = {
             "timestamp": escalation_data["timestamp"],
@@ -654,7 +654,7 @@ class EthicalDriftSentinel:
             ts = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
             now = datetime.now(timezone.utc)
             return (now - ts) < timedelta(minutes=minutes)
-        except:
+        except BaseException:
             return False
 
     def _determine_severity(self, risk_score: float) -> EscalationTier:
@@ -687,7 +687,7 @@ class EthicalDriftSentinel:
             last_updated=datetime.now(timezone.utc).isoformat(),
         )
 
-    def _update_ethical_state(self, state: EthicalState, symbol_data: Dict[str, Any]):
+    def _update_ethical_state(self, state: EthicalState, symbol_data: dict[str, Any]):
         """Update ethical state from symbol data."""
         # Extract metrics from symbol data
         state.coherence_score = symbol_data.get("coherence", state.coherence_score)
@@ -710,7 +710,7 @@ class EthicalDriftSentinel:
 
         state.last_updated = datetime.now(timezone.utc).isoformat()
 
-    async def _fetch_symbol_data(self, symbol_id: str) -> Dict[str, Any]:
+    async def _fetch_symbol_data(self, symbol_id: str) -> dict[str, Any]:
         """
         Fetch current data for a symbol.
 
@@ -727,7 +727,7 @@ class EthicalDriftSentinel:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    def get_sentinel_status(self) -> Dict[str, Any]:
+    def get_sentinel_status(self) -> dict[str, Any]:
         """Get current sentinel status for monitoring."""
         active_symbols = len(self.symbol_states)
         total_violations = len(self.violation_log)
@@ -774,7 +774,7 @@ class EthicalDriftSentinel:
         return min(avg_risk + recent_violation_factor, 1.0)
 
     def register_symbol(
-        self, symbol_id: str, initial_state: Optional[Dict[str, Any]] = None
+        self, symbol_id: str, initial_state: Optional[dict[str, Any]] = None
     ):
         """
         Register a symbol for monitoring.
@@ -815,7 +815,7 @@ async def create_sentinel() -> EthicalDriftSentinel:
     return sentinel
 
 
-def phase_harmonics_score(state_history: List[Dict[str, Any]]) -> float:
+def phase_harmonics_score(state_history: list[dict[str, Any]]) -> float:
     """
     Analyze ethical resonance breakdown in phase harmonics.
 
@@ -837,7 +837,7 @@ def phase_harmonics_score(state_history: List[Dict[str, Any]]) -> float:
 
     # Find dominant frequency
     dominant_idx = np.argmax(np.abs(fft_result[1 : len(fft_result) // 2])) + 1
-    dominant_freq = frequencies[dominant_idx]
+    frequencies[dominant_idx]
 
     # Calculate harmonics alignment
     harmonics = []

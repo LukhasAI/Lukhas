@@ -64,15 +64,15 @@
 
 lukhas AI System - Function Library
 File: dream_memory_export.py
-Path: core/memory/dream_memory_export.py
+Path: core / memory / dream_memory_export.py
 Created: "2025-06-05 09:37:28"
 Author: LUKHAS AI Team
 Version: 1.0
 
-This file is part of the LUKHAS AI (LUKHAS Universal Knowledge & Holistic AI System)
+This file is part of the LUKHAS AI(LUKHAS Universal Knowledge & Holistic AI System)
 Advanced Cognitive Architecture for Artificial General Intelligence
 
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
@@ -89,14 +89,14 @@ DESCRIPTION:
 
 USAGE:
     Run via terminal:
-        python core/modules/nias/dream_memory_export.py --format txt
-        python core/modules/nias/dream_memory_export.py --format md --tag "calm"
-        python core/modules/nias/dream_memory_export.py --tier 3 --emoji 🌙
+        python core / modules / nias / dream_memory_export.py - -format txt
+        python core / modules / nias / dream_memory_export.py - -format md - -tag "calm"
+        python core / modules / nias / dream_memory_export.py - -tier 3 - -emoji 🌙
 
 NOTES:
-    - Requires: dream_log.jsonl in core/logs/
+    - Requires: dream_log.jsonl in core / logs/
     - Filters: by tag, tier, or emoji
-    - Output written to: core/exports/
+    - Output written to: core / exports/
 
 """
 
@@ -134,7 +134,8 @@ def export_dreams(dreams, format):
     elif format == "txt":
         with open(filename, "w") as f:
             for d in dreams:
-                f.write(f"{d['timestamp']} | T{d['tier']} | {d['reaction_emoji']}: {d['summary']}\n")
+                f.write(
+                    f"{d['timestamp']} | T{d['tier']} | {d['reaction_emoji']}: {d['summary']}\n")
     elif format == "md":
         with open(filename, "w") as f:
             f.write("# LUClukhasS Dream Log Export\n\n")
@@ -162,18 +163,18 @@ if __name__ == "__main__":
 +──────────────────────────────────────────────────────────────────────────────+
 
 LUClukhasS MODULE USAGE SUMMARY:
-    🧠 Function: Exports symbolic dream logs in user-defined formats (JSON, TXT, MD)
-    🎯 Filters: tag, tier, emoji-based filtering
-    🗂 Output: core/exports/lukhas_dream_export.{format}
+    🧠 Function: Exports symbolic dream logs in user - defined formats(JSON, TXT, MD)
+    🎯 Filters: tag, tier, emoji - based filtering
+    🗂 Output: core / exports / lukhas_dream_export.{format}
 
 RUN EXAMPLES:
-    python dream_memory_export.py --format txt
-    python dream_memory_export.py --format md --tag "calm"
-    python dream_memory_export.py --format json --tier 3 --emoji 🌙
+    python dream_memory_export.py - -format txt
+    python dream_memory_export.py - -format md - -tag "calm"
+    python dream_memory_export.py - -format json - -tier 3 - -emoji 🌙
 
 RELATED MODULES:
     * dream_recorder.py -> source of symbolic logs
-    * dream_replay.py   -> playback and visualization
+    * dream_replay.py -> playback and visualization
     * voice_narrator.py -> for narrated dream exports
 
 - Crafted by Gonzo R.D.M 🖤 April 2025 -

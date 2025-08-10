@@ -9,7 +9,7 @@ Version: 1.1 (Standardized)
 
 # Standard Library Imports
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Third-Party Imports
 import numpy as np
@@ -30,18 +30,18 @@ def lukhas_tier_required(level: int):  # Placeholder
 class MetaLearningSystem:
     """A system that learns how to learn, optimizing its learning algorithms based on interaction patterns."""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
-        self.config: Dict[str, Any] = config or {}
-        self.learning_strategies: Dict[str, Dict[str, Any]] = (
+    def __init__(self, config: Optional[dict[str, Any]] = None):
+        self.config: dict[str, Any] = config or {}
+        self.learning_strategies: dict[str, dict[str, Any]] = (
             self._initialize_strategies()
         )
-        self.strategy_performance: Dict[str, Dict[str, Any]] = {}
+        self.strategy_performance: dict[str, dict[str, Any]] = {}
         self.exploration_rate: float = self.config.get(
             "initial_exploration_rate", 0.15
         )  # Reduced default exploration
         self.learning_cycle_count: int = 0
-        self.overall_performance_history: List[Dict[str, Any]] = []
-        self.meta_parameters: Dict[str, float] = self.config.get(
+        self.overall_performance_history: list[dict[str, Any]] = []
+        self.meta_parameters: dict[str, float] = self.config.get(
             "initial_meta_parameters",
             {
                 "meta_adaptation_rate": 0.05,
@@ -57,8 +57,8 @@ class MetaLearningSystem:
 
     @lukhas_tier_required(3)
     def optimize_learning_approach(
-        self, context: Dict[str, Any], available_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, context: dict[str, Any], available_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Analyzes context/data, selects/applies learning strategy, evaluates, and adapts."""
         self.learning_cycle_count += 1
         log.info(
@@ -117,7 +117,7 @@ class MetaLearningSystem:
         }
 
     @lukhas_tier_required(2)
-    def incorporate_feedback(self, feedback_data: Dict[str, Any]) -> None:
+    def incorporate_feedback(self, feedback_data: dict[str, Any]) -> None:
         """Incorporates explicit/implicit feedback to refine learning strategies."""
         name = feedback_data.get("strategy_name")
         if not name or name not in self.learning_strategies:
@@ -136,7 +136,7 @@ class MetaLearningSystem:
             self._tune_strategy_parameters(name, feedback_data["parameter_adjustments"])
 
     @lukhas_tier_required(1)
-    def generate_learning_report(self) -> Dict[str, Any]:
+    def generate_learning_report(self) -> dict[str, Any]:
         """Generates a report on meta-learning system performance and adaptations."""
         log.debug("Generating meta-learning report.")
         sorted_strategies = sorted(
@@ -164,7 +164,7 @@ class MetaLearningSystem:
         )
         return report
 
-    def _initialize_strategies(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_strategies(self) -> dict[str, dict[str, Any]]:
         log.debug("Initializing default learning strategies.")
         return {
             "sgd": {
@@ -194,7 +194,7 @@ class MetaLearningSystem:
             },
         }
 
-    def _extract_learning_features(self, ctx: Dict, data: Dict) -> Dict:
+    def _extract_learning_features(self, ctx: dict, data: dict) -> dict:
         log.warning("STUB: _extract_learning_features", component_status="stub")
         return {
             "vol": len(data.get("ex", [])),
@@ -204,7 +204,7 @@ class MetaLearningSystem:
             "complex": 0.5,
         }
 
-    def _select_learning_strategy(self, features: Dict) -> str:
+    def _select_learning_strategy(self, features: dict) -> str:
         log.warning("STUB: _select_learning_strategy", component_status="stub")
         if np.random.random() < self.exploration_rate:
             strat = np.random.choice(list(self.learning_strategies.keys()))
@@ -222,7 +222,7 @@ class MetaLearningSystem:
         log.debug("Exploiting strategy.", s=best_s, score=max_sc)
         return best_s
 
-    def _apply_learning_strategy(self, strat_cfg: Dict, data: Dict, ctx: Dict) -> Dict:
+    def _apply_learning_strategy(self, strat_cfg: dict, data: dict, ctx: dict) -> dict:
         algo = strat_cfg["type"]
         log.warning(
             "STUB: _apply_learning_strategy", algo=algo, component_status="stub"
@@ -230,8 +230,8 @@ class MetaLearningSystem:
         return {"status": f"{algo}_applied_stub", "metric": np.random.rand()}
 
     def _evaluate_strategy_performance(
-        self, name: str, outcome: Dict, duration_s: float
-    ) -> Dict:
+        self, name: str, outcome: dict, duration_s: float
+    ) -> dict:
         log.warning("STUB: _evaluate_strategy_performance", component_status="stub")
         acc = outcome.get("accuracy", np.random.uniform(0.5, 0.9))
         eff = 1.0 / (1.0 + max(0.1, duration_s))
@@ -252,7 +252,7 @@ class MetaLearningSystem:
         )
         return metrics
 
-    def _update_strategy_performance_record(self, name: str, new_metrics: Dict) -> None:
+    def _update_strategy_performance_record(self, name: str, new_metrics: dict) -> None:
         if name not in self.strategy_performance:
             self.strategy_performance[name] = {"usage": 0, "hist": [], "score": 0.5}
         rec = self.strategy_performance[name]
@@ -296,7 +296,7 @@ class MetaLearningSystem:
                     )
 
     def _tune_strategy_parameters(
-        self, name: str, adjustments: Dict[str, float]
+        self, name: str, adjustments: dict[str, float]
     ) -> None:
         log.warning("STUB: _tune_strategy_parameters", component_status="stub")
         if name in self.learning_strategies:
@@ -324,24 +324,22 @@ class MetaLearningSystem:
         ]
         return np.mean(last_5) - np.mean(first_5) if first_5 and last_5 else 0.0
 
-    def _calculate_data_sparsity(self, data: Dict) -> float:
+    def _calculate_data_sparsity(self, data: dict) -> float:
         return 0.1  # STUB
 
-    def _estimate_problem_complexity(self, data: Dict, ctx: Dict) -> float:
+    def _estimate_problem_complexity(self, data: dict, ctx: dict) -> float:
         return 0.6  # STUB
 
     def _calculate_strategy_feature_match(
-        self, strat_cfg: Dict, features: Dict
+        self, strat_cfg: dict, features: dict
     ) -> float:  # STUB
         score = 0.5
         s_tags = set(strat_cfg.get("tags", []))
-        f_tags = set(
-            features.get(k, v) for k, v in features.items() if isinstance(v, str)
-        )
+        f_tags = {features.get(k, v) for k, v in features.items() if isinstance(v, str)}
         score += len(s_tags.intersection(f_tags)) * 0.05
         return np.clip(score, 0.0, 1.0)
 
-    def _generate_meta_learning_insights(self) -> List[str]:
+    def _generate_meta_learning_insights(self) -> list[str]:
         log.warning("STUB: _generate_meta_learning_insights", component_status="stub")
         insights = []
         if self.exploration_rate > 0.3:

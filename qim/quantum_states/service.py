@@ -44,7 +44,7 @@ import os
 import random
 import sys
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -62,7 +62,7 @@ except ImportError:
             return True
 
         def log_activity(
-            self, activity_type: str, user_id: str, metadata: Dict[str, Any]
+            self, activity_type: str, user_id: str, metadata: dict[str, Any]
         ) -> None:
             print(f"QUANTUM_LOG: {activity_type} by {user_id}: {metadata}")
 
@@ -110,9 +110,9 @@ class QuantumService:
         self,
         user_id: str,
         quantum_algorithm: str,
-        input_qubits: List[complex],
-        quantum_inspired_gates: Optional[List[str]] = None,
-    ) -> Dict[str, Any]:
+        input_qubits: list[complex],
+        quantum_inspired_gates: Optional[list[str]] = None,
+    ) -> dict[str, Any]:
         """
         Execute quantum computational processes.
 
@@ -196,9 +196,9 @@ class QuantumService:
         self,
         user_id: str,
         entanglement_type: str,
-        target_systems: List[str],
+        target_systems: list[str],
         entanglement_strength: float = 1.0,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create entanglement-like correlation between systems.
 
@@ -284,9 +284,9 @@ class QuantumService:
     def consciousness_quantum_bridge(
         self,
         user_id: str,
-        consciousness_state: Dict[str, Any],
+        consciousness_state: dict[str, Any],
         quantum_interface: str = "coherent",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Bridge classical consciousness with quantum consciousness states.
 
@@ -360,9 +360,9 @@ class QuantumService:
     def quantum_superposition(
         self,
         user_id: str,
-        superposition_states: List[Dict[str, Any]],
+        superposition_states: list[dict[str, Any]],
         collapse_probability: Optional[float] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Manage superposition-like state states.
 
@@ -444,8 +444,8 @@ class QuantumService:
         self,
         user_id: str,
         observation_type: str = "measurement",
-        target_qubits: Optional[List[int]] = None,
-    ) -> Dict[str, Any]:
+        target_qubits: Optional[list[int]] = None,
+    ) -> dict[str, Any]:
         """
         Observe quantum-like state (causing potential collapse).
 
@@ -520,7 +520,7 @@ class QuantumService:
 
     def get_quantum_metrics(
         self, user_id: str, include_detailed: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get quantum system metrics and performance data.
 
@@ -586,8 +586,8 @@ class QuantumService:
             return {"success": False, "error": error_msg}
 
     def _execute_quantum_computation(
-        self, algorithm: str, qubits: List[complex], gates: List[str]
-    ) -> Dict[str, Any]:
+        self, algorithm: str, qubits: list[complex], gates: list[str]
+    ) -> dict[str, Any]:
         """Execute quantum computation algorithm."""
         # Simulate quantum computation
         quantum_advantage = random.uniform(1.2, 10.0)  # Quantum speedup
@@ -606,7 +606,7 @@ class QuantumService:
             "algorithm": algorithm,
         }
 
-    def _update_quantum_like_state(self, computation_results: Dict[str, Any]) -> None:
+    def _update_quantum_like_state(self, computation_results: dict[str, Any]) -> None:
         """Update quantum-like state based on computation."""
         self.quantum_like_state["active_qubits"] = len(
             computation_results.get("output_qubits", [])
@@ -616,7 +616,7 @@ class QuantumService:
         )
         self.quantum_like_state["last_quantum_update"] = datetime.utcnow()
 
-    def _get_quantum_like_state_summary(self) -> Dict[str, Any]:
+    def _get_quantum_like_state_summary(self) -> dict[str, Any]:
         """Get summary of current quantum-like state."""
         return {
             "active_qubits": self.quantum_like_state["active_qubits"],
@@ -630,8 +630,8 @@ class QuantumService:
         }
 
     def _create_quantum_entanglement(
-        self, entanglement_type: str, systems: List[str], strength: float
-    ) -> Dict[str, Any]:
+        self, entanglement_type: str, systems: list[str], strength: float
+    ) -> dict[str, Any]:
         """Create entanglement-like correlation between systems."""
         bell_states = ["Φ⁺", "Φ⁻", "Ψ⁺", "Ψ⁻"]
 
@@ -647,8 +647,8 @@ class QuantumService:
         }
 
     def _create_consciousness_quantum_bridge(
-        self, consciousness_state: Dict[str, Any], interface: str
-    ) -> Dict[str, Any]:
+        self, consciousness_state: dict[str, Any], interface: str
+    ) -> dict[str, Any]:
         """Create bridge between classical and quantum consciousness."""
         return {
             "coherence": random.uniform(0.7, 0.95),
@@ -663,8 +663,8 @@ class QuantumService:
         }
 
     def _create_quantum_superposition(
-        self, states: List[Dict[str, Any]], collapse_prob: Optional[float]
-    ) -> Dict[str, Any]:
+        self, states: list[dict[str, Any]], collapse_prob: Optional[float]
+    ) -> dict[str, Any]:
         """Create superposition-like state of states."""
         coherence = random.uniform(0.8, 0.99)
         decoherence_time = random.uniform(0.1, 10.0)  # microseconds
@@ -680,8 +680,8 @@ class QuantumService:
         }
 
     def _perform_quantum_observation(
-        self, observation_type: str, target_qubits: Optional[List[int]]
-    ) -> Dict[str, Any]:
+        self, observation_type: str, target_qubits: Optional[list[int]]
+    ) -> dict[str, Any]:
         """Perform quantum-like state observation."""
         state_collapsed = random.random() < 0.7  # 70% chance of collapse
 
@@ -698,13 +698,13 @@ class QuantumService:
             "observation_type": observation_type,
         }
 
-    def _apply_observation_effects(self, observation_results: Dict[str, Any]) -> None:
+    def _apply_observation_effects(self, observation_results: dict[str, Any]) -> None:
         """Apply effects of quantum observation to system state."""
         if observation_results.get("state_collapsed", False):
             # Reduce coherence due to state collapse
             self.quantum_like_state["quantum_coherence"] *= random.uniform(0.7, 0.9)
 
-    def _get_detailed_entanglement_metrics(self) -> Dict[str, Any]:
+    def _get_detailed_entanglement_metrics(self) -> dict[str, Any]:
         """Get detailed entanglement metrics."""
         return {
             "total_entangled_pairs": len(self.quantum_like_state["entangled_pairs"]),
@@ -712,7 +712,7 @@ class QuantumService:
             "entanglement_stability": random.uniform(0.8, 0.99),
         }
 
-    def _analyze_superposition_states(self) -> Dict[str, Any]:
+    def _analyze_superposition_states(self) -> dict[str, Any]:
         """Analyze current superposition states."""
         return {
             "active_superpositions": len(
@@ -722,7 +722,7 @@ class QuantumService:
             "decoherence_trend": "stable",
         }
 
-    def _calculate_quantum_error_rates(self) -> Dict[str, Any]:
+    def _calculate_quantum_error_rates(self) -> dict[str, Any]:
         """Calculate quantum error rates."""
         return {
             "gate_error_rate": random.uniform(0.001, 0.01),
@@ -733,24 +733,24 @@ class QuantumService:
 
 # Module API functions for easy import
 def quantum_compute(
-    user_id: str, algorithm: str, qubits: List[complex]
-) -> Dict[str, Any]:
+    user_id: str, algorithm: str, qubits: list[complex]
+) -> dict[str, Any]:
     """Simplified API for quantum computation."""
     service = QuantumService()
     return service.quantum_compute(user_id, algorithm, qubits)
 
 
 def quantum_entangle(
-    user_id: str, entanglement_type: str, systems: List[str]
-) -> Dict[str, Any]:
+    user_id: str, entanglement_type: str, systems: list[str]
+) -> dict[str, Any]:
     """Simplified API for entanglement-like correlation."""
     service = QuantumService()
     return service.quantum_entangle(user_id, entanglement_type, systems)
 
 
 def consciousness_quantum_bridge(
-    user_id: str, consciousness_state: Dict[str, Any]
-) -> Dict[str, Any]:
+    user_id: str, consciousness_state: dict[str, Any]
+) -> dict[str, Any]:
     """Simplified API for quantum consciousness bridge."""
     service = QuantumService()
     return service.consciousness_quantum_bridge(user_id, consciousness_state)

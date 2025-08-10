@@ -12,7 +12,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum, auto
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 logger = logging.getLogger("ΛVault.Core")
 
@@ -60,14 +60,14 @@ class LambdaVaultMemory:
     """Lambda-secured vault memory with symbolic anchoring"""
 
     memory_id: str
-    encrypted_data: Dict[str, Any]
+    encrypted_data: dict[str, Any]
     access_layer: LambdaVaultTier
     lambda_id: str
-    environmental_anchors: Dict[str, Any]
+    environmental_anchors: dict[str, Any]
     lambda_signature: str
     quantum_protected: bool = False
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    symbolic_context: Dict[str, Any] = field(default_factory=dict)
+    symbolic_context: dict[str, Any] = field(default_factory=dict)
 
     def get_lambda_hash(self) -> str:
         """Generate Lambda-specific hash for the memory"""
@@ -96,10 +96,10 @@ class LambdaVaultCore:
         self.access_layers = {tier.value: tier.name.lower() for tier in LambdaVaultTier}
 
         self.current_layer = LambdaVaultTier.SEED_ONLY
-        self.environmental_triggers: Dict[str, LambdaEnvironmentalTrigger] = {}
-        self.vault_memories: Dict[str, LambdaVaultMemory] = {}
-        self.lambda_seeds: Dict[str, str] = {}  # Symbolic seeds for recovery
-        self.quantum_entanglements: Set[str] = set()  # Quantum-linked vaults
+        self.environmental_triggers: dict[str, LambdaEnvironmentalTrigger] = {}
+        self.vault_memories: dict[str, LambdaVaultMemory] = {}
+        self.lambda_seeds: dict[str, str] = {}  # Symbolic seeds for recovery
+        self.quantum_entanglements: set[str] = set()  # Quantum-linked vaults
 
         # Lambda-specific vault properties
         self.lambda_signature = f"Λ🗋{self.vault_type.name[:3]}"
@@ -107,8 +107,8 @@ class LambdaVaultCore:
         self.guardian_protected = False
 
         # Audit and access logging
-        self.access_log: List[Dict[str, Any]] = []
-        self.security_events: List[Dict[str, Any]] = []
+        self.access_log: list[dict[str, Any]] = []
+        self.security_events: list[dict[str, Any]] = []
 
         # Initialize vault with creation event
         self._log_security_event(
@@ -122,7 +122,7 @@ class LambdaVaultCore:
     def register_lambda_environmental_trigger(
         self,
         trigger_type: str,
-        trigger_data: Dict[str, Any],
+        trigger_data: dict[str, Any],
         quantum_secure: bool = False,
     ) -> str:
         """Register Lambda-enhanced environmental trigger for symbolic access"""
@@ -154,7 +154,7 @@ class LambdaVaultCore:
     def verify_lambda_access(
         self,
         layer: LambdaVaultTier,
-        verification_data: Dict[str, Any],
+        verification_data: dict[str, Any],
         lambda_authenticated: bool = False,
     ) -> bool:
         """Verify Lambda vault access using multi-factor symbolic verification"""
@@ -190,9 +190,9 @@ class LambdaVaultCore:
 
     def encrypt_lambda_memory(
         self,
-        memory_data: Dict[str, Any],
+        memory_data: dict[str, Any],
         access_layer: LambdaVaultTier,
-        symbolic_context: Optional[Dict[str, Any]] = None,
+        symbolic_context: Optional[dict[str, Any]] = None,
     ) -> LambdaVaultMemory:
         """Encrypt memory with Lambda-enhanced symbolic environmental anchoring"""
         memory_id = f"λ-mem-{uuid.uuid4().hex[:8]}"
@@ -222,7 +222,7 @@ class LambdaVaultCore:
         return encrypted_memory
 
     def store_lambda_seed(
-        self, seed_id: str, symbolic_seed: str, seed_context: Dict[str, Any]
+        self, seed_id: str, symbolic_seed: str, seed_context: dict[str, Any]
     ) -> bool:
         """Store Lambda symbolic seed for vault recovery"""
         try:
@@ -256,7 +256,7 @@ class LambdaVaultCore:
             return False
 
     def recover_lambda_seed(
-        self, seed_id: str, provided_seed: str, seed_context: Dict[str, Any]
+        self, seed_id: str, provided_seed: str, seed_context: dict[str, Any]
     ) -> bool:
         """Recover Lambda vault using symbolic seed"""
         if seed_id not in self.lambda_seeds:
@@ -296,7 +296,7 @@ class LambdaVaultCore:
 
     def create_lambda_vault_backup(
         self, symbolic_phrase: str, include_quantum_state: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create Lambda-enhanced backup of vault"""
         backup_data = {
             "λ_vault_id": self.vault_id,
@@ -329,7 +329,7 @@ class LambdaVaultCore:
         return backup_data
 
     def restore_from_lambda_backup(
-        self, backup_data: Dict[str, Any], symbolic_phrase: str
+        self, backup_data: dict[str, Any], symbolic_phrase: str
     ) -> bool:
         """Restore Lambda vault from symbolic backup"""
         try:
@@ -408,7 +408,7 @@ class LambdaVaultCore:
 
     # Private methods
 
-    def _hash_trigger_data(self, data: Dict[str, Any]) -> str:
+    def _hash_trigger_data(self, data: dict[str, Any]) -> str:
         """Create Lambda-enhanced hash of trigger data"""
         lambda_enhanced_data = {
             **data,
@@ -419,7 +419,7 @@ class LambdaVaultCore:
             json.dumps(lambda_enhanced_data, sort_keys=True).encode()
         ).hexdigest()
 
-    def _get_current_lambda_anchors(self) -> Dict[str, Any]:
+    def _get_current_lambda_anchors(self) -> dict[str, Any]:
         """Get current Lambda environmental anchors"""
         lambda_anchors = {}
 
@@ -435,7 +435,7 @@ class LambdaVaultCore:
 
         return lambda_anchors
 
-    def _lambda_encrypt_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _lambda_encrypt_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """Lambda-enhanced encryption implementation"""
         # In production, this would use proper Lambda-enhanced encryption
         return {
@@ -446,11 +446,11 @@ class LambdaVaultCore:
             "λ_encryption_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    def _verify_seed_only(self, verification_data: Dict[str, Any]) -> bool:
+    def _verify_seed_only(self, verification_data: dict[str, Any]) -> bool:
         """Verify seed-only access for basic vault operations"""
         return "seed" in verification_data or "λ_seed" in verification_data
 
-    def _verify_symbolic_2fa(self, verification_data: Dict[str, Any]) -> bool:
+    def _verify_symbolic_2fa(self, verification_data: dict[str, Any]) -> bool:
         """Verify Lambda symbolic 2FA for enhanced access"""
         return (
             "emoji_sequence" in verification_data or "λ_emoji" in verification_data
@@ -458,7 +458,7 @@ class LambdaVaultCore:
             "behavior_pattern" in verification_data or "λ_behavior" in verification_data
         )
 
-    def _verify_full_kyi(self, verification_data: Dict[str, Any]) -> bool:
+    def _verify_full_kyi(self, verification_data: dict[str, Any]) -> bool:
         """Verify full Lambda KYI (Know Your Identity) for high-security operations"""
         return (
             ("legal_id" in verification_data or "λ_legal_id" in verification_data)
@@ -466,7 +466,7 @@ class LambdaVaultCore:
             and ("two_factor" in verification_data or "λ_2fa" in verification_data)
         )
 
-    def _verify_guardian_layer(self, verification_data: Dict[str, Any]) -> bool:
+    def _verify_guardian_layer(self, verification_data: dict[str, Any]) -> bool:
         """Verify Lambda Guardian layer access for vault administration"""
         return (
             "guardian_key" in verification_data or "λ_guardian" in verification_data
@@ -474,7 +474,7 @@ class LambdaVaultCore:
             "ethics_approval" in verification_data or "λ_ethics" in verification_data
         )
 
-    def _verify_lambda_quantum_layer(self, verification_data: Dict[str, Any]) -> bool:
+    def _verify_lambda_quantum_layer(self, verification_data: dict[str, Any]) -> bool:
         """Verify Lambda Quantum layer for maximum security operations"""
         return (
             ("quantum_key" in verification_data or "λ_quantum" in verification_data)
@@ -501,7 +501,7 @@ class LambdaVaultCore:
         expected_hash = self._create_lambda_symbolic_verification(phrase)
         return stored_hash == expected_hash
 
-    def _export_quantum_state(self) -> Dict[str, Any]:
+    def _export_quantum_state(self) -> dict[str, Any]:
         """Export quantum state for backup (placeholder)"""
         return {
             "λ_quantum_entanglements": list(self.quantum_entanglements),
@@ -528,7 +528,7 @@ class LambdaVaultCore:
         event_type: str,
         description: str,
         severity: str,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ):
         """Log Lambda security event"""
         self.security_events.append(
@@ -545,7 +545,7 @@ class LambdaVaultCore:
             }
         )
 
-    def get_lambda_vault_status(self) -> Dict[str, Any]:
+    def get_lambda_vault_status(self) -> dict[str, Any]:
         """Get current Lambda vault status"""
         return {
             "λ_vault_id": self.vault_id,
@@ -567,7 +567,7 @@ class LambdaVaultCore:
             "λ_last_access": datetime.now(timezone.utc).isoformat(),
         }
 
-    def get_lambda_security_summary(self) -> Dict[str, Any]:
+    def get_lambda_security_summary(self) -> dict[str, Any]:
         """Get Lambda security summary for the vault"""
         recent_events = [
             event

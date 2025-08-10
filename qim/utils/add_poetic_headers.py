@@ -225,7 +225,7 @@ def has_existing_header(content: str) -> bool:
 def add_poetic_header(filepath: Path) -> bool:
     """Add poetic header to a Python file."""
 
-    if not filepath.suffix == ".py":
+    if filepath.suffix != ".py":
         return False
 
     try:

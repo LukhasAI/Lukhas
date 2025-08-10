@@ -11,6 +11,9 @@ Original: lukhas_emotion_log_alt.py
 Advanced: lukhas_emotion_log_alt.py
 Integration Date: 2025-05-31T07:55:28.105121
 """
+from typing import Dict
+from typing import List
+import logging
 
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗
@@ -25,11 +28,14 @@ DEPENDENCIES:
 """
 
 # Sample emotion log structure
+from datetime import datetime, timedelta
+import atexit
+from cryptography.fernet import Fernet
+
 emotion_db = {"current": "neutral", "log": []}
 
 emotion_logging_enabled = True  # Default to enabled, but allow users to opt out
 
-from datetime import datetime, timedelta
 
 last_logged_time = None
 
@@ -78,8 +84,6 @@ def decay_emotion(threshold_minutes=60):
         if emotion_db["current"] != "neutral":
             log_emotion("neutral", source="decay")
 
-
-from cryptography.fernet import Fernet
 
 # Generate a key and save it securely
 key = Fernet.generate_key()
@@ -153,8 +157,6 @@ def summarize_emotions():
     emotion_counts = Counter(entry["state"] for entry in emotion_db["log"])
     return dict(emotion_counts)
 
-
-import atexit
 
 # Automatically save the emotion log on exit
 atexit.register(save_emotion_log)

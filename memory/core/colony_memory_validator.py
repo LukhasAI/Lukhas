@@ -44,7 +44,7 @@ import time
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 from uuid import uuid4
 
 from .interfaces.memory_interface import (
@@ -82,7 +82,7 @@ class ValidationRequest:
     validation_mode: ValidationMode = ValidationMode.QUORUM
 
     # Participating colonies
-    target_colonies: List[str] = field(default_factory=list)
+    target_colonies: list[str] = field(default_factory=list)
     minimum_responses: int = 2
     consensus_threshold: float = 0.67  # 2/3 majority
 
@@ -138,10 +138,10 @@ class ConsensusOutcome:
     consensus_confidence: float = 0.0
 
     # Colony responses
-    colony_responses: Dict[str, ColonyValidationResponse] = field(default_factory=dict)
+    colony_responses: dict[str, ColonyValidationResponse] = field(default_factory=dict)
 
     # Conflict resolution
-    conflicting_colonies: List[str] = field(default_factory=list)
+    conflicting_colonies: list[str] = field(default_factory=list)
     dominant_response: Optional[ColonyValidationResponse] = None
 
     # Performance
@@ -169,17 +169,17 @@ class ColonyMemoryValidator:
         self.max_concurrent_validations = max_concurrent_validations
 
         # Active validations
-        self.active_validations: Dict[str, ValidationRequest] = {}
+        self.active_validations: dict[str, ValidationRequest] = {}
         self.validation_semaphore = asyncio.Semaphore(max_concurrent_validations)
 
         # Colony management
-        self.registered_colonies: Dict[str, Dict[str, Any]] = {}
-        self.colony_trust_scores: Dict[str, float] = {}
-        self.colony_performance_history: Dict[str, List[float]] = defaultdict(list)
+        self.registered_colonies: dict[str, dict[str, Any]] = {}
+        self.colony_trust_scores: dict[str, float] = {}
+        self.colony_performance_history: dict[str, list[float]] = defaultdict(list)
 
         # Validation callbacks
-        self.validation_callbacks: List[Callable] = []
-        self.consensus_callbacks: List[Callable] = []
+        self.validation_callbacks: list[Callable] = []
+        self.consensus_callbacks: list[Callable] = []
 
         # Metrics
         self.total_validations = 0
@@ -234,7 +234,7 @@ class ColonyMemoryValidator:
     def register_colony(
         self,
         colony_id: str,
-        colony_info: Dict[str, Any],
+        colony_info: dict[str, Any],
         initial_trust_score: float = 1.0,
     ):
         """Register a colony for validation participation"""
@@ -259,7 +259,7 @@ class ColonyMemoryValidator:
         self,
         operation: MemoryOperation,
         validation_mode: Optional[ValidationMode] = None,
-        target_colonies: Optional[List[str]] = None,
+        target_colonies: Optional[list[str]] = None,
         timeout_seconds: Optional[float] = None,
     ) -> ConsensusOutcome:
         """
@@ -280,7 +280,7 @@ class ColonyMemoryValidator:
         self,
         operation: MemoryOperation,
         validation_mode: ValidationMode,
-        target_colonies: List[str],
+        target_colonies: list[str],
         timeout_seconds: float,
     ) -> ConsensusOutcome:
         """Execute the validation process"""
@@ -358,7 +358,7 @@ class ColonyMemoryValidator:
 
     async def _gather_colony_responses(
         self, request: ValidationRequest
-    ) -> Dict[str, ColonyValidationResponse]:
+    ) -> dict[str, ColonyValidationResponse]:
         """Gather validation responses from colonies"""
 
         responses = {}
@@ -465,7 +465,7 @@ class ColonyMemoryValidator:
             )
 
     def _analyze_consensus(
-        self, request: ValidationRequest, responses: Dict[str, ColonyValidationResponse]
+        self, request: ValidationRequest, responses: dict[str, ColonyValidationResponse]
     ) -> ConsensusOutcome:
         """Analyze colony responses for consensus"""
 
@@ -538,8 +538,8 @@ class ColonyMemoryValidator:
         return outcome
 
     def _select_colonies_for_validation(
-        self, target_colonies: List[str], minimum_required: int
-    ) -> List[str]:
+        self, target_colonies: list[str], minimum_required: int
+    ) -> list[str]:
         """Select best colonies for validation based on trust and performance"""
 
         # Filter to registered colonies
@@ -645,7 +645,7 @@ class ColonyMemoryValidator:
         """Register callback for consensus events"""
         self.consensus_callbacks.append(callback)
 
-    def get_colony_stats(self) -> Dict[str, Any]:
+    def get_colony_stats(self) -> dict[str, Any]:
         """Get colony statistics"""
         return {
             "registered_colonies": len(self.registered_colonies),
@@ -657,11 +657,11 @@ class ColonyMemoryValidator:
             "colony_trust_scores": dict(self.colony_trust_scores),
             "colony_performance": {
                 cid: self._get_average_response_time(cid)
-                for cid in self.registered_colonies.keys()
+                for cid in self.registered_colonies
             },
         }
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get validator metrics"""
         success_rate = self.successful_validations / max(self.total_validations, 1)
 

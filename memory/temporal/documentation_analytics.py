@@ -27,7 +27,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -77,8 +77,8 @@ class QualityScore:
 
     metric: QualityMetric
     score: float  # 0-100
-    details: Dict[str, Any]
-    recommendations: List[str]
+    details: dict[str, Any]
+    recommendations: list[str]
     confidence: float  # 0-1
 
 
@@ -90,7 +90,7 @@ class UsageMetrics:
     unique_visitors: int
     bounce_rate: float
     time_on_page: float  # seconds
-    search_queries: List[str]
+    search_queries: list[str]
     download_count: int
     feedback_rating: Optional[float]
     conversion_rate: float  # tutorial completion, etc.
@@ -106,9 +106,9 @@ class ContentGap:
     priority: str  # high, medium, low
     estimated_impact: float
     suggested_content_type: ContentType
-    related_topics: List[str]
+    related_topics: list[str]
     user_requests: int
-    search_queries: List[str]
+    search_queries: list[str]
 
 
 @dataclass
@@ -119,10 +119,10 @@ class UserBehaviorPattern:
     pattern_type: str
     description: str
     frequency: int
-    user_segments: List[str]
-    triggers: List[str]
-    outcomes: Dict[str, Any]
-    recommendations: List[str]
+    user_segments: list[str]
+    triggers: list[str]
+    outcomes: dict[str, Any]
+    recommendations: list[str]
 
 
 @dataclass
@@ -132,12 +132,12 @@ class AnalyticsReport:
     report_id: str
     analytics_type: AnalyticsType
     generated_at: datetime
-    time_period: Tuple[datetime, datetime]
-    summary: Dict[str, Any]
-    detailed_findings: List[Dict[str, Any]]
-    recommendations: List[str]
-    action_items: List[str]
-    metadata: Dict[str, Any]
+    time_period: tuple[datetime, datetime]
+    summary: dict[str, Any]
+    detailed_findings: list[dict[str, Any]]
+    recommendations: list[str]
+    action_items: list[str]
+    metadata: dict[str, Any]
 
 
 class DocumentationAnalytics:
@@ -182,9 +182,9 @@ class DocumentationAnalytics:
     async def generate_analytics_report(
         self,
         analytics_type: AnalyticsType,
-        time_period: Optional[Tuple[datetime, datetime]] = None,
-        content_paths: Optional[List[str]] = None,
-        filters: Optional[Dict[str, Any]] = None,
+        time_period: Optional[tuple[datetime, datetime]] = None,
+        content_paths: Optional[list[str]] = None,
+        filters: Optional[dict[str, Any]] = None,
     ) -> AnalyticsReport:
         """Generate comprehensive analytics report"""
 
@@ -227,9 +227,9 @@ class DocumentationAnalytics:
 
     async def _generate_quality_report(
         self,
-        time_period: Tuple[datetime, datetime],
-        content_paths: Optional[List[str]],
-        filters: Dict[str, Any],
+        time_period: tuple[datetime, datetime],
+        content_paths: Optional[list[str]],
+        filters: dict[str, Any],
     ) -> AnalyticsReport:
         """Generate documentation quality analytics report"""
 
@@ -320,15 +320,16 @@ class DocumentationAnalytics:
 
     async def _generate_usage_report(
         self,
-        time_period: Tuple[datetime, datetime],
-        content_paths: Optional[List[str]],
-        filters: Dict[str, Any],
+        time_period: tuple[datetime, datetime],
+        content_paths: Optional[list[str]],
+        filters: dict[str, Any],
     ) -> AnalyticsReport:
         """Generate usage patterns analytics report"""
 
         print("   📈 Analyzing usage patterns...")
 
-        # Simulate usage data collection (in real implementation, this would connect to analytics services)
+        # Simulate usage data collection (in real implementation, this would
+        # connect to analytics services)
         usage_data = await self._collect_usage_data(time_period, content_paths, filters)
 
         detailed_findings = []
@@ -419,7 +420,7 @@ class DocumentationAnalytics:
         )
 
     async def _generate_content_gaps_report(
-        self, time_period: Tuple[datetime, datetime], filters: Dict[str, Any]
+        self, time_period: tuple[datetime, datetime], filters: dict[str, Any]
     ) -> AnalyticsReport:
         """Generate content gaps analytics report"""
 
@@ -486,7 +487,7 @@ class DocumentationAnalytics:
         )
 
     async def _generate_user_behavior_report(
-        self, time_period: Tuple[datetime, datetime], filters: Dict[str, Any]
+        self, time_period: tuple[datetime, datetime], filters: dict[str, Any]
     ) -> AnalyticsReport:
         """Generate user behavior analytics report"""
 
@@ -560,9 +561,9 @@ class DocumentationAnalytics:
 
     async def _generate_performance_report(
         self,
-        time_period: Tuple[datetime, datetime],
-        content_paths: Optional[List[str]],
-        filters: Dict[str, Any],
+        time_period: tuple[datetime, datetime],
+        content_paths: Optional[list[str]],
+        filters: dict[str, Any],
     ) -> AnalyticsReport:
         """Generate performance metrics analytics report"""
 
@@ -666,7 +667,7 @@ class DocumentationAnalytics:
         )
 
     async def _generate_accessibility_report(
-        self, content_paths: Optional[List[str]], filters: Dict[str, Any]
+        self, content_paths: Optional[list[str]], filters: dict[str, Any]
     ) -> AnalyticsReport:
         """Generate accessibility analytics report"""
 
@@ -746,7 +747,7 @@ class DocumentationAnalytics:
 
     # Quality analysis methods
     async def _analyze_completeness(
-        self, content_path: str, filters: Dict[str, Any]
+        self, content_path: str, filters: dict[str, Any]
     ) -> QualityScore:
         """Analyze documentation completeness"""
 
@@ -802,7 +803,7 @@ class DocumentationAnalytics:
         )
 
     async def _analyze_accuracy(
-        self, content_path: str, filters: Dict[str, Any]
+        self, content_path: str, filters: dict[str, Any]
     ) -> QualityScore:
         """Analyze documentation accuracy"""
 
@@ -819,7 +820,7 @@ class DocumentationAnalytics:
         )
 
     async def _analyze_clarity(
-        self, content_path: str, filters: Dict[str, Any]
+        self, content_path: str, filters: dict[str, Any]
     ) -> QualityScore:
         """Analyze documentation clarity"""
 
@@ -866,7 +867,7 @@ class DocumentationAnalytics:
         )
 
     async def _analyze_structure(
-        self, content_path: str, filters: Dict[str, Any]
+        self, content_path: str, filters: dict[str, Any]
     ) -> QualityScore:
         """Analyze documentation structure"""
 
@@ -929,7 +930,7 @@ class DocumentationAnalytics:
         )
 
     async def _analyze_examples(
-        self, content_path: str, filters: Dict[str, Any]
+        self, content_path: str, filters: dict[str, Any]
     ) -> QualityScore:
         """Analyze documentation examples"""
 
@@ -986,7 +987,7 @@ class DocumentationAnalytics:
         )
 
     async def _analyze_accessibility(
-        self, content_path: str, filters: Dict[str, Any]
+        self, content_path: str, filters: dict[str, Any]
     ) -> QualityScore:
         """Analyze documentation accessibility"""
 
@@ -996,7 +997,7 @@ class DocumentationAnalytics:
 
         recommendations = []
         if accessibility_issues:
-            issue_types = set(issue["category"] for issue in accessibility_issues)
+            issue_types = {issue["category"] for issue in accessibility_issues}
             for issue_type in issue_types:
                 recommendations.append(f"Address {issue_type} accessibility issues")
 
@@ -1009,7 +1010,7 @@ class DocumentationAnalytics:
         )
 
     async def _analyze_freshness(
-        self, content_path: str, filters: Dict[str, Any]
+        self, content_path: str, filters: dict[str, Any]
     ) -> QualityScore:
         """Analyze documentation freshness"""
 
@@ -1051,7 +1052,7 @@ class DocumentationAnalytics:
             )
 
     async def _analyze_consistency(
-        self, content_path: str, filters: Dict[str, Any]
+        self, content_path: str, filters: dict[str, Any]
     ) -> QualityScore:
         """Analyze documentation consistency"""
 
@@ -1067,7 +1068,7 @@ class DocumentationAnalytics:
         )
 
     # Helper methods for data collection and analysis
-    async def _discover_documentation_files(self) -> List[str]:
+    async def _discover_documentation_files(self) -> list[str]:
         """Discover documentation files in the workspace"""
 
         doc_patterns = ["*.md", "*.rst", "*.txt", "*.html"]
@@ -1081,10 +1082,10 @@ class DocumentationAnalytics:
 
     async def _collect_usage_data(
         self,
-        time_period: Tuple[datetime, datetime],
-        content_paths: Optional[List[str]],
-        filters: Dict[str, Any],
-    ) -> Dict[str, UsageMetrics]:
+        time_period: tuple[datetime, datetime],
+        content_paths: Optional[list[str]],
+        filters: dict[str, Any],
+    ) -> dict[str, UsageMetrics]:
         """Collect usage data (simulated)"""
 
         # Simulated usage data
@@ -1108,8 +1109,8 @@ class DocumentationAnalytics:
         return usage_data
 
     async def _collect_performance_data(
-        self, time_period: Tuple[datetime, datetime], content_paths: Optional[List[str]]
-    ) -> Dict[str, Dict[str, Any]]:
+        self, time_period: tuple[datetime, datetime], content_paths: Optional[list[str]]
+    ) -> dict[str, dict[str, Any]]:
         """Collect performance data (simulated)"""
 
         performance_data = {}
@@ -1129,7 +1130,7 @@ class DocumentationAnalytics:
 
     async def _analyze_accessibility_issues(
         self, content_path: str
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Analyze accessibility issues in content"""
 
         try:
@@ -1172,8 +1173,8 @@ class DocumentationAnalytics:
 
     # Content gaps analysis
     async def _analyze_search_gaps(
-        self, time_period: Tuple[datetime, datetime]
-    ) -> List[ContentGap]:
+        self, time_period: tuple[datetime, datetime]
+    ) -> list[ContentGap]:
         """Analyze search queries to identify content gaps"""
 
         # Simulated search gap analysis
@@ -1209,8 +1210,8 @@ class DocumentationAnalytics:
         return gaps
 
     async def _analyze_support_ticket_gaps(
-        self, time_period: Tuple[datetime, datetime]
-    ) -> List[ContentGap]:
+        self, time_period: tuple[datetime, datetime]
+    ) -> list[ContentGap]:
         """Analyze support tickets to identify content gaps"""
 
         # Simulated support ticket analysis
@@ -1235,8 +1236,8 @@ class DocumentationAnalytics:
         return gaps
 
     async def _analyze_user_feedback_gaps(
-        self, time_period: Tuple[datetime, datetime]
-    ) -> List[ContentGap]:
+        self, time_period: tuple[datetime, datetime]
+    ) -> list[ContentGap]:
         """Analyze user feedback to identify content gaps"""
 
         # Simulated user feedback analysis
@@ -1260,7 +1261,7 @@ class DocumentationAnalytics:
 
         return gaps
 
-    async def _analyze_competitive_gaps(self) -> List[ContentGap]:
+    async def _analyze_competitive_gaps(self) -> list[ContentGap]:
         """Analyze competitive landscape to identify content gaps"""
 
         # Simulated competitive analysis
@@ -1285,8 +1286,8 @@ class DocumentationAnalytics:
         return gaps
 
     async def _prioritize_content_gaps(
-        self, gaps: List[ContentGap]
-    ) -> List[ContentGap]:
+        self, gaps: list[ContentGap]
+    ) -> list[ContentGap]:
         """Prioritize content gaps based on impact and demand"""
 
         # Sort by priority and estimated impact
@@ -1304,8 +1305,8 @@ class DocumentationAnalytics:
 
     # User behavior pattern detection
     async def _detect_navigation_patterns(
-        self, time_period: Tuple[datetime, datetime], filters: Dict[str, Any]
-    ) -> List[UserBehaviorPattern]:
+        self, time_period: tuple[datetime, datetime], filters: dict[str, Any]
+    ) -> list[UserBehaviorPattern]:
         """Detect navigation patterns"""
 
         return [
@@ -1324,8 +1325,8 @@ class DocumentationAnalytics:
         ]
 
     async def _detect_search_patterns(
-        self, time_period: Tuple[datetime, datetime], filters: Dict[str, Any]
-    ) -> List[UserBehaviorPattern]:
+        self, time_period: tuple[datetime, datetime], filters: dict[str, Any]
+    ) -> list[UserBehaviorPattern]:
         """Detect search patterns"""
 
         return [
@@ -1342,8 +1343,8 @@ class DocumentationAnalytics:
         ]
 
     async def _detect_failure_patterns(
-        self, time_period: Tuple[datetime, datetime], filters: Dict[str, Any]
-    ) -> List[UserBehaviorPattern]:
+        self, time_period: tuple[datetime, datetime], filters: dict[str, Any]
+    ) -> list[UserBehaviorPattern]:
         """Detect failure patterns"""
 
         return [
@@ -1360,8 +1361,8 @@ class DocumentationAnalytics:
         ]
 
     async def _detect_success_patterns(
-        self, time_period: Tuple[datetime, datetime], filters: Dict[str, Any]
-    ) -> List[UserBehaviorPattern]:
+        self, time_period: tuple[datetime, datetime], filters: dict[str, Any]
+    ) -> list[UserBehaviorPattern]:
         """Detect success patterns"""
 
         return [
@@ -1378,8 +1379,8 @@ class DocumentationAnalytics:
         ]
 
     async def _detect_engagement_patterns(
-        self, time_period: Tuple[datetime, datetime], filters: Dict[str, Any]
-    ) -> List[UserBehaviorPattern]:
+        self, time_period: tuple[datetime, datetime], filters: dict[str, Any]
+    ) -> list[UserBehaviorPattern]:
         """Detect engagement patterns"""
 
         return [

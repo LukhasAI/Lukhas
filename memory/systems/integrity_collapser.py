@@ -2,12 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List
-
 # ΛNOTE: Placeholder scoring parameters
 
 
-def collapse_score(fold_state: List[Dict[str, float]]) -> float:
+def collapse_score(fold_state: list[dict[str, float]]) -> float:
     """Return collapse likelihood score in [0.0, 1.0]."""
     if not fold_state:
         return 0.0
@@ -17,9 +15,9 @@ def collapse_score(fold_state: List[Dict[str, float]]) -> float:
     return max(0.0, min(1.0, score))
 
 
-def recover_overflow(fold_state: List[Dict[str, float]]) -> List[Dict[str, float]]:
+def recover_overflow(fold_state: list[dict[str, float]]) -> list[dict[str, float]]:
     """Clamp resonance values to 1.0 to recover from overflow."""
-    fixed: List[Dict[str, float]] = []
+    fixed: list[dict[str, float]] = []
     for item in fold_state:
         adjusted = dict(item)
         adjusted["resonance"] = min(item.get("resonance", 0.0), 1.0)
@@ -27,6 +25,6 @@ def recover_overflow(fold_state: List[Dict[str, float]]) -> List[Dict[str, float
     return fixed
 
 
-def snapshot_entropy(fold_state: List[Dict[str, float]]) -> List[float]:
+def snapshot_entropy(fold_state: list[dict[str, float]]) -> list[float]:
     """Return entropy values for inspection."""
     return [item.get("entropy", 0.0) for item in fold_state]

@@ -5,7 +5,7 @@ Date: 2025-07-19
 Description: Predicts the likelihood of a dream redirect being needed in the next cycle.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -16,7 +16,7 @@ class RedirectForecaster:
     redirection being needed in the next cycle.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initializes the RedirectForecaster.
 
@@ -27,7 +27,7 @@ class RedirectForecaster:
         self.history_weight = self.config.get("history_weight", 0.5)
         self.volatility_weight = self.config.get("volatility_weight", 0.5)
 
-    def forecast(self, historical_drift: List[float]) -> Dict[str, Any]:
+    def forecast(self, historical_drift: list[float]) -> dict[str, Any]:
         """
         Predicts the likelihood of a redirect being needed in the next cycle.
 

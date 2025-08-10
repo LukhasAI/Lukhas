@@ -9,7 +9,7 @@ import inspect
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set
+from typing import Any, Callable, Optional
 
 
 class ServiceLifecycle(Enum):
@@ -23,13 +23,9 @@ class ServiceLifecycle(Enum):
 class CircularDependencyError(Exception):
     """Raised when circular dependency is detected"""
 
-    pass
-
 
 class ServiceNotFoundError(Exception):
     """Raised when requested service is not registered"""
-
-    pass
 
 
 @dataclass
@@ -39,8 +35,8 @@ class ServiceDescriptor:
     name: str
     factory: Callable
     lifecycle: ServiceLifecycle
-    dependencies: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    dependencies: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
     instance: Optional[Any] = None  # For singletons
     created_at: datetime = field(default_factory=datetime.now)
 
@@ -59,11 +55,11 @@ class DependencyContainer:
     """
 
     def __init__(self):
-        self.services: Dict[str, ServiceDescriptor] = {}
-        self.scoped_instances: Dict[str, Dict[str, Any]] = {}
-        self.resolution_stack: Set[str] = set()
-        self.health_checks: Dict[str, Callable] = {}
-        self.fallback_services: Dict[str, str] = {}  # Primary -> Fallback mapping
+        self.services: dict[str, ServiceDescriptor] = {}
+        self.scoped_instances: dict[str, dict[str, Any]] = {}
+        self.resolution_stack: set[str] = set()
+        self.health_checks: dict[str, Callable] = {}
+        self.fallback_services: dict[str, str] = {}  # Primary -> Fallback mapping
         self._lock = asyncio.Lock()
 
     async def register_service(
@@ -71,8 +67,8 @@ class DependencyContainer:
         name: str,
         factory: Callable,
         lifecycle: ServiceLifecycle = ServiceLifecycle.TRANSIENT,
-        dependencies: Optional[List[str]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        dependencies: Optional[list[str]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ):
         """
         Register a service with the container
@@ -99,7 +95,7 @@ class DependencyContainer:
 
             self.services[name] = descriptor
 
-    async def _detect_dependencies(self, factory: Callable) -> List[str]:
+    async def _detect_dependencies(self, factory: Callable) -> list[str]:
         """
         Auto-detect dependencies from factory function signature
 
@@ -324,7 +320,7 @@ class DependencyContainer:
         async with self._lock:
             if scope_id in self.scoped_instances:
                 # Call dispose on any services that have it
-                for service_name, instance in self.scoped_instances[scope_id].items():
+                for _service_name, instance in self.scoped_instances[scope_id].items():
                     if hasattr(instance, "dispose"):
                         if inspect.iscoroutinefunction(instance.dispose):
                             await instance.dispose()
@@ -355,7 +351,7 @@ class DependencyContainer:
         self.health_checks.clear()
         self.fallback_services.clear()
 
-    def get_service_info(self) -> Dict[str, Any]:
+    def get_service_info(self) -> dict[str, Any]:
         """
         Get information about all registered services
 
@@ -383,7 +379,7 @@ class MockDreamGenerator:
     def __init__(self):
         self.generated_count = 0
 
-    async def generate_dream(self, context: Dict[str, Any]) -> str:
+    async def generate_dream(self, context: dict[str, Any]) -> str:
         self.generated_count += 1
         return f"Dream #{self.generated_count}: {context.get('type', 'standard')}"
 
@@ -394,7 +390,7 @@ class MockEmotionalFilter:
     def __init__(self):
         self.filter_count = 0
 
-    async def filter(self, emotional_state: Dict[str, float]) -> bool:
+    async def filter(self, emotional_state: dict[str, float]) -> bool:
         self.filter_count += 1
         return emotional_state.get("stress", 0) < 0.7
 

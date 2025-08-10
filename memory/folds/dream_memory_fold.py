@@ -20,7 +20,7 @@ import json
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 from core.common import get_logger
 
@@ -33,23 +33,23 @@ class DreamSnapshot:
 
     snapshot_id: str
     timestamp: datetime
-    dream_state: Dict[str, Any]
-    symbolic_annotations: Dict[str, Any]
-    introspective_content: Dict[str, Any]
-    drift_metrics: Dict[str, float]
+    dream_state: dict[str, Any]
+    symbolic_annotations: dict[str, Any]
+    introspective_content: dict[str, Any]
+    drift_metrics: dict[str, float]
     memory_fold_index: int
     # ΛTAG: survival_score - heuristic score for value-preservation bias
     survival_score: float = 0.0
-    tags: List[str] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert snapshot to dictionary for serialization."""
         data = asdict(self)
         data["timestamp"] = self.timestamp.isoformat()
         return data
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "DreamSnapshot":
+    def from_dict(cls, data: dict[str, Any]) -> "DreamSnapshot":
         """Create snapshot from dictionary."""
         data["timestamp"] = datetime.fromisoformat(data["timestamp"])
         if "survival_score" not in data:
@@ -64,10 +64,10 @@ class MemoryFoldState:
     fold_id: str
     creation_time: datetime
     last_sync: datetime
-    snapshots: List[DreamSnapshot] = field(default_factory=list)
+    snapshots: list[DreamSnapshot] = field(default_factory=list)
     fold_depth: int = 0
     convergence_score: float = 0.0
-    symbolic_tags: List[str] = field(default_factory=list)
+    symbolic_tags: list[str] = field(default_factory=list)
 
     def add_snapshot(self, snapshot: DreamSnapshot) -> None:
         """Add a snapshot to this fold."""
@@ -91,9 +91,9 @@ class DreamMemoryFold:
         )
         self.storage_path.mkdir(parents=True, exist_ok=True)
 
-        self.active_folds: Dict[str, MemoryFoldState] = {}
-        self.snapshot_cache: Dict[str, DreamSnapshot] = {}
-        self.sync_callbacks: List[Callable] = []
+        self.active_folds: dict[str, MemoryFoldState] = {}
+        self.snapshot_cache: dict[str, DreamSnapshot] = {}
+        self.sync_callbacks: list[Callable] = []
 
         # Initialize drift tracker integration
         self.drift_tracker_available = False
@@ -109,7 +109,7 @@ class DreamMemoryFold:
             logger.warning("Drift tracker not available for memory folding")
 
     async def create_fold(
-        self, fold_id: str, initial_tags: Optional[List[str]] = None
+        self, fold_id: str, initial_tags: Optional[list[str]] = None
     ) -> MemoryFoldState:
         """Create a new memory fold."""
         if fold_id in self.active_folds:
@@ -131,9 +131,9 @@ class DreamMemoryFold:
     async def dream_snapshot(
         self,
         fold_id: str,
-        dream_state: Dict[str, Any],
-        introspective_content: Dict[str, Any],
-        symbolic_annotations: Optional[Dict[str, Any]] = None,
+        dream_state: dict[str, Any],
+        introspective_content: dict[str, Any],
+        symbolic_annotations: Optional[dict[str, Any]] = None,
     ) -> DreamSnapshot:
         """
         Create a dream snapshot with symbolic annotation.
@@ -230,7 +230,7 @@ class DreamMemoryFold:
             logger.error(f"Error syncing fold {fold_id}: {e}")
             return False
 
-    async def get_fold_snapshots(self, fold_id: str) -> List[DreamSnapshot]:
+    async def get_fold_snapshots(self, fold_id: str) -> list[DreamSnapshot]:
         """Get all snapshots for a memory fold."""
         if fold_id not in self.active_folds:
             return []
@@ -329,7 +329,7 @@ class DreamMemoryFold:
             else:
                 fold.convergence_score = 0.0
 
-    async def get_fold_statistics(self, fold_id: str) -> Dict[str, Any]:
+    async def get_fold_statistics(self, fold_id: str) -> dict[str, Any]:
         """Get statistics for a memory fold."""
         if fold_id not in self.active_folds:
             return {}

@@ -8,7 +8,7 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 from core.common import get_logger
 
@@ -29,16 +29,16 @@ class EchoController:
     and integrates with router.py and dast_orchestrator.py.
     """
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         """
         Initialize the echo controller.
         """
         self.config = config
-        self.ping_history: Dict[str, List[datetime]] = {}
+        self.ping_history: dict[str, list[datetime]] = {}
         self.alert_log_path = "logs/ethics/ΛGOV_ALERTS.md"
         logger.info("Echo Controller initialized.")
 
-    def ping(self, agent_id: str, data: Dict[str, Any]) -> None:
+    def ping(self, agent_id: str, data: dict[str, Any]) -> None:
         """
         {AIM}{orchestrator}
         Record a ping from an agent.

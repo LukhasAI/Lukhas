@@ -87,7 +87,7 @@ def generate_glymph_backstory(emoji_seed: str) -> dict:
 # 🖼️ STEP 4: Define Retro Prompts + Generate QRLYMPH Image
 # (Uses OpenAI API + adds public/private QR codes to image)
 RETRO_PROMPTS = {
-    "prom_king": "90s yearbook photo, Lukhas wearing crown, vaporwave colors,
+    "prom_king": "90s yearbook photo, Lukhas wearing crown, vaporwave colors,"
     grainy film effect",
     "cereal_box": "Retro breakfast cereal box featuring Lukhas mascot, neon typography",
 }

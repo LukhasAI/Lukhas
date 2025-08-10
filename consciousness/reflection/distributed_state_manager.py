@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 
@@ -55,7 +57,7 @@ import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.cluster_sharding import ShardManager
 from core.common import get_logger
@@ -104,9 +106,9 @@ class StateSnapshot:
 
     snapshot_id: str
     timestamp: float
-    shard_states: Dict[int, Dict[str, StateEntry]]
+    shard_states: dict[int, dict[str, StateEntry]]
     event_version: int
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class DistributedStateManager:
@@ -141,7 +143,7 @@ class DistributedStateManager:
 
         # Sharded in-memory storage
         self.shard_manager = ShardManager(num_shards)
-        self.memory_shards: Dict[int, Dict[str, StateEntry]] = {
+        self.memory_shards: dict[int, dict[str, StateEntry]] = {
             i: {} for i in range(num_shards)
         }
 
@@ -252,7 +254,7 @@ class DistributedStateManager:
             with self.shard_locks[shard_id]:
                 shard = self.memory_shards[shard_id]
 
-                for key, entry in shard.items():
+                for _key, entry in shard.items():
                     # Calculate access frequency
                     age = current_time - entry.last_accessed
                     frequency = entry.access_count / max(age, 1)
@@ -407,12 +409,12 @@ class DistributedStateManager:
 
         return True
 
-    def get_shard_keys(self, shard_id: int) -> List[str]:
+    def get_shard_keys(self, shard_id: int) -> list[str]:
         """Get all keys in a specific shard"""
         with self.shard_locks[shard_id]:
             return list(self.memory_shards[shard_id].keys())
 
-    def get_shard_stats(self, shard_id: int) -> Dict[str, Any]:
+    def get_shard_stats(self, shard_id: int) -> dict[str, Any]:
         """Get statistics for a specific shard"""
         with self.shard_locks[shard_id]:
             shard = self.memory_shards[shard_id]
@@ -433,7 +435,7 @@ class DistributedStateManager:
                 "memory_usage": sum(len(str(e.value)) for e in shard.values()),
             }
 
-    def get_global_stats(self) -> Dict[str, Any]:
+    def get_global_stats(self) -> dict[str, Any]:
         """Get global statistics across all shards"""
         stats = {
             "node_id": self.node_id,
@@ -472,9 +474,9 @@ class DistributedStateManager:
         # Copy all shard states
         for shard_id in range(self.num_shards):
             with self.shard_locks[shard_id]:
-                snapshot.shard_states[shard_id] = {
-                    k: v for k, v in self.memory_shards[shard_id].items()
-                }
+                snapshot.shard_states[shard_id] = dict(
+                    self.memory_shards[shard_id].items()
+                )
 
         # Store snapshot as special event
         event = Event(
@@ -598,14 +600,14 @@ class MultiNodeStateManager:
     Provides cross-node state queries and replication
     """
 
-    def __init__(self, node_configs: List[Dict[str, Any]]):
+    def __init__(self, node_configs: list[dict[str, Any]]):
         """
         Initialize multi-node state manager
 
         Args:
             node_configs: List of node configurations
         """
-        self.nodes: Dict[str, DistributedStateManager] = {}
+        self.nodes: dict[str, DistributedStateManager] = {}
 
         for config in node_configs:
             node_id = config["node_id"]
@@ -635,7 +637,7 @@ class MultiNodeStateManager:
         node = self.get_node(key)
         return node.get(key, default)
 
-    def get_cluster_stats(self) -> Dict[str, Any]:
+    def get_cluster_stats(self) -> dict[str, Any]:
         """Get statistics for entire cluster"""
         stats = {
             "nodes": {},

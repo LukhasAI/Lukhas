@@ -2,6 +2,7 @@
 🧠 Abstract Reasoning Brain Core Processor
 Revolutionary orchestrator for Bio-Quantum Symbolic Reasoning
 """
+import numpy as np
 
 import logging
 from datetime import datetime

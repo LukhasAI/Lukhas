@@ -23,6 +23,10 @@ For more information, visit: https://lukhas.ai
 """
 
 
+from quantum.quantum_flux import QuantumFlux
+from typing import Optional
+
+
 def generate_episodic_dream(trace):
     """Deep trace dream: realistic, memory-preserving (early sleep phase)."""
     collapse_id = trace.get("collapse_id", "unknown")
@@ -35,10 +39,6 @@ def generate_episodic_dream(trace):
         "mutation_suggestion": "reinforce empathy circuits",
     }
 
-
-from typing import Optional
-
-from quantum.quantum_flux import QuantumFlux
 
 THEMES = [
     "a lost animal",

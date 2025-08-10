@@ -1,7 +1,7 @@
 import json
 import os
 from datetime import datetime
-from typing import Dict, Optional
+from typing import Optional
 
 
 class FederatedLearningManager:
@@ -16,7 +16,7 @@ class FederatedLearningManager:
         self._ensure_storage_exists()
 
     def register_model(
-        self, model_id: str, model_type: str, initial_weights: Dict
+        self, model_id: str, model_type: str, initial_weights: dict
     ) -> None:
         """Register a new model for federated learning"""
         model_data = {
@@ -31,7 +31,7 @@ class FederatedLearningManager:
         self.models[model_id] = model_data
         self._persist_model(model_id)
 
-    def get_model(self, model_id: str, client_id: str) -> Optional[Dict]:
+    def get_model(self, model_id: str, client_id: str) -> Optional[dict]:
         """Retrieve a model's current state"""
         if model_id not in self.models:
             self._load_model(model_id)  # Try loading from disk
@@ -51,8 +51,8 @@ class FederatedLearningManager:
         self,
         model_id: str,
         client_id: str,
-        gradients: Dict,
-        metrics: Optional[Dict] = None,
+        gradients: dict,
+        metrics: Optional[dict] = None,
     ) -> None:
         """Update model with client's gradient contributions"""
         if model_id not in self.models:

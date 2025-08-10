@@ -155,7 +155,7 @@ class TagRegistry:
                 name="#TAG:vad",
                 category=TagCategory.EMOTION,
                 description="Valence-Arousal-Dominance emotional model",
-                human_meaning="Measures emotions on three scales: pleasantness,
+                human_meaning="Measures emotions on three scales: pleasantness,"
                 intensity, and control",
                 parent_tags={"#TAG:emotion"},
                 effects=[

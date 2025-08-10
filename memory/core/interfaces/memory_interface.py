@@ -41,7 +41,7 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Union
+from typing import Any, Callable, Optional, Union
 from uuid import uuid4
 
 
@@ -100,18 +100,18 @@ class MemoryMetadata:
     stability: float = 0.0  # 0-1 consolidation level
 
     # Context
-    tags: Set[str] = field(default_factory=set)
+    tags: set[str] = field(default_factory=set)
     source: Optional[str] = None  # Origin of the memory
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
 
     # Colony distribution
-    colony_locations: Dict[str, float] = field(default_factory=dict)
+    colony_locations: dict[str, float] = field(default_factory=dict)
     primary_colony: Optional[str] = None
 
     # Associations
-    associations: Set[str] = field(default_factory=set)  # Related memory IDs
+    associations: set[str] = field(default_factory=set)  # Related memory IDs
     parent_memory: Optional[str] = None
-    child_memories: Set[str] = field(default_factory=set)
+    child_memories: set[str] = field(default_factory=set)
 
     # Access patterns
     access_count: int = 0
@@ -158,10 +158,10 @@ class MemoryOperation:
     # Operation data
     content: Any = None
     metadata: Optional[MemoryMetadata] = None
-    parameters: Dict[str, Any] = field(default_factory=dict)
+    parameters: dict[str, Any] = field(default_factory=dict)
 
     # Colony routing
-    target_colonies: List[str] = field(default_factory=list)
+    target_colonies: list[str] = field(default_factory=list)
     require_consensus: bool = False
     consensus_threshold: float = 0.6
 
@@ -188,7 +188,7 @@ class MemoryResponse:
     # Colony information
     responding_colony: Optional[str] = None
     consensus_achieved: bool = False
-    colony_responses: Dict[str, bool] = field(default_factory=dict)
+    colony_responses: dict[str, bool] = field(default_factory=dict)
 
     # Performance metrics
     execution_time_ms: float = 0.0
@@ -212,8 +212,8 @@ class BaseMemoryInterface(ABC):
         self.enable_distributed = enable_distributed
 
         # Operation tracking
-        self.active_operations: Dict[str, MemoryOperation] = {}
-        self.operation_callbacks: List[Callable] = []
+        self.active_operations: dict[str, MemoryOperation] = {}
+        self.operation_callbacks: list[Callable] = []
 
         # Metrics
         self.total_operations = 0
@@ -231,12 +231,10 @@ class BaseMemoryInterface(ABC):
         self, content: Any, metadata: Optional[MemoryMetadata] = None, **kwargs
     ) -> MemoryResponse:
         """Create a new memory"""
-        pass
 
     @abstractmethod
     async def read_memory(self, memory_id: str, **kwargs) -> MemoryResponse:
         """Read an existing memory"""
-        pass
 
     @abstractmethod
     async def update_memory(
@@ -247,28 +245,24 @@ class BaseMemoryInterface(ABC):
         **kwargs,
     ) -> MemoryResponse:
         """Update an existing memory"""
-        pass
 
     @abstractmethod
     async def delete_memory(self, memory_id: str, **kwargs) -> MemoryResponse:
         """Delete a memory"""
-        pass
 
     @abstractmethod
     async def search_memories(
         self,
-        query: Union[str, Dict[str, Any]],
-        filters: Optional[Dict[str, Any]] = None,
+        query: Union[str, dict[str, Any]],
+        filters: Optional[dict[str, Any]] = None,
         limit: int = 50,
         **kwargs,
-    ) -> List[MemoryResponse]:
+    ) -> list[MemoryResponse]:
         """Search for memories matching criteria"""
-        pass
 
     @abstractmethod
     async def validate_memory(self, memory_id: str, **kwargs) -> ValidationResult:
         """Validate memory integrity"""
-        pass
 
     # Colony integration methods
 
@@ -388,7 +382,7 @@ class BaseMemoryInterface(ABC):
         return response
 
     def _achieve_consensus(
-        self, operation: MemoryOperation, responses: Dict[str, MemoryResponse]
+        self, operation: MemoryOperation, responses: dict[str, MemoryResponse]
     ) -> MemoryResponse:
         """Achieve consensus across colony responses"""
         successful_responses = [r for r in responses.values() if r.success]
@@ -426,7 +420,7 @@ class BaseMemoryInterface(ABC):
             except Exception as e:
                 logger.error(f"Callback error: {e}")
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get interface metrics"""
         success_rate = self.successful_operations / max(self.total_operations, 1)
 
@@ -446,8 +440,8 @@ class MemoryInterfaceRegistry:
     """Registry for memory interface implementations"""
 
     def __init__(self):
-        self._interfaces: Dict[MemoryType, BaseMemoryInterface] = {}
-        self._factories: Dict[MemoryType, Callable] = {}
+        self._interfaces: dict[MemoryType, BaseMemoryInterface] = {}
+        self._factories: dict[MemoryType, Callable] = {}
 
     def register_interface(
         self, memory_type: MemoryType, interface: BaseMemoryInterface
@@ -475,7 +469,7 @@ class MemoryInterfaceRegistry:
 
         return None
 
-    def list_available_types(self) -> List[MemoryType]:
+    def list_available_types(self) -> list[MemoryType]:
         """List available memory types"""
         return list(set(self._interfaces.keys()) | set(self._factories.keys()))
 

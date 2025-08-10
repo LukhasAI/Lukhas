@@ -9,7 +9,7 @@ import hashlib
 import json
 import logging
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger("WΛLLET.SymbolicVault")
 
@@ -31,7 +31,7 @@ class WalletSymbolicVault:
         self.transaction_seeds = {}  # Symbolic seeds for transactions
 
     def register_environmental_trigger(
-        self, trigger_type: str, trigger_data: Dict[str, Any]
+        self, trigger_type: str, trigger_data: dict[str, Any]
     ):
         """Register environmental trigger for symbolic wallet access"""
         trigger_hash = self._hash_trigger_data(trigger_data)
@@ -46,7 +46,7 @@ class WalletSymbolicVault:
             f"Registered environmental trigger for wallet {self.lambda_id}: {trigger_type}"
         )
 
-    def verify_access(self, layer: int, verification_data: Dict[str, Any]) -> bool:
+    def verify_access(self, layer: int, verification_data: dict[str, Any]) -> bool:
         """Verify wallet access using multi-factor symbolic verification"""
         if layer not in self.access_layers:
             return False
@@ -64,8 +64,8 @@ class WalletSymbolicVault:
         return False
 
     def encrypt_wallet_memory(
-        self, memory_data: Dict[str, Any], access_layer: int
-    ) -> Dict[str, Any]:
+        self, memory_data: dict[str, Any], access_layer: int
+    ) -> dict[str, Any]:
         """Encrypt wallet memory with symbolic environmental anchoring"""
         if access_layer not in self.access_layers:
             raise ValueError(f"Invalid access layer: {access_layer}")
@@ -87,7 +87,7 @@ class WalletSymbolicVault:
         self,
         transaction_id: str,
         symbolic_seed: str,
-        transaction_context: Dict[str, Any],
+        transaction_context: dict[str, Any],
     ):
         """Store symbolic seed for transaction recovery"""
         seed_hash = self._hash_trigger_data(
@@ -105,7 +105,7 @@ class WalletSymbolicVault:
 
     def recover_transaction_seed(
         self, transaction_id: str, provided_seed: str
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Optional[dict[str, Any]]:
         """Recover transaction using symbolic seed"""
         if transaction_id not in self.transaction_seeds:
             return None
@@ -120,7 +120,7 @@ class WalletSymbolicVault:
 
         return None
 
-    def create_wallet_backup(self, symbolic_phrase: str) -> Dict[str, Any]:
+    def create_wallet_backup(self, symbolic_phrase: str) -> dict[str, Any]:
         """Create symbolic backup of wallet vault"""
         backup_data = {
             "lambda_id": self.lambda_id,
@@ -140,7 +140,7 @@ class WalletSymbolicVault:
         return backup_data
 
     def restore_from_backup(
-        self, backup_data: Dict[str, Any], symbolic_phrase: str
+        self, backup_data: dict[str, Any], symbolic_phrase: str
     ) -> bool:
         """Restore wallet vault from symbolic backup"""
         try:
@@ -164,11 +164,11 @@ class WalletSymbolicVault:
             logger.error(f"Failed to restore wallet vault: {e}")
             return False
 
-    def _hash_trigger_data(self, data: Dict[str, Any]) -> str:
+    def _hash_trigger_data(self, data: dict[str, Any]) -> str:
         """Create hash of trigger data for verification"""
         return hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()
 
-    def _get_current_anchors(self) -> Dict[str, Any]:
+    def _get_current_anchors(self) -> dict[str, Any]:
         """Get current environmental anchors for wallet"""
         return {
             trigger_type: {
@@ -179,7 +179,7 @@ class WalletSymbolicVault:
             if trigger["last_verified"] and trigger["confidence"] > 0.8
         }
 
-    def _encrypt_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _encrypt_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """Placeholder for actual encryption implementation"""
         # In production, this would use proper encryption
         return {
@@ -188,18 +188,18 @@ class WalletSymbolicVault:
             "data": data,  # This would actually be encrypted
         }
 
-    def _verify_seed_only(self, verification_data: Dict[str, Any]) -> bool:
+    def _verify_seed_only(self, verification_data: dict[str, Any]) -> bool:
         """Verify seed-only access for basic wallet operations"""
         return "seed" in verification_data
 
-    def _verify_symbolic_2fa(self, verification_data: Dict[str, Any]) -> bool:
+    def _verify_symbolic_2fa(self, verification_data: dict[str, Any]) -> bool:
         """Verify symbolic 2FA for wallet access"""
         return (
             "emoji_sequence" in verification_data
             and "behavior_pattern" in verification_data
         )
 
-    def _verify_full_kyi(self, verification_data: Dict[str, Any]) -> bool:
+    def _verify_full_kyi(self, verification_data: dict[str, Any]) -> bool:
         """Verify full KYI (Know Your Identity) for high-value operations"""
         return (
             "legal_id" in verification_data
@@ -207,7 +207,7 @@ class WalletSymbolicVault:
             and "two_factor" in verification_data
         )
 
-    def _verify_guardian_layer(self, verification_data: Dict[str, Any]) -> bool:
+    def _verify_guardian_layer(self, verification_data: dict[str, Any]) -> bool:
         """Verify guardian layer access for vault administration"""
         return (
             "guardian_key" in verification_data
@@ -228,7 +228,7 @@ class WalletSymbolicVault:
         expected_hash = self._create_symbolic_verification(phrase)
         return stored_hash == expected_hash
 
-    def get_wallet_status(self) -> Dict[str, Any]:
+    def get_wallet_status(self) -> dict[str, Any]:
         """Get current wallet vault status"""
         return {
             "lambda_id": self.lambda_id,

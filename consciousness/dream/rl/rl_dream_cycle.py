@@ -10,7 +10,7 @@ symbolic entanglements and resulting value drift.
 """
 
 from trace.drift_metrics import DriftTracker, compute_drift_score
-from typing import Any, Dict, List
+from typing import Any
 
 
 # ΛTAG: RL_DREAM_LOOP
@@ -18,23 +18,23 @@ class RLDreamCycle:
     """Simple reinforcement learning loop for dream processing."""
 
     def __init__(self, learning_rate: float = 0.1, gamma: float = 0.9):
-        self.q_table: Dict[str, float] = {}
+        self.q_table: dict[str, float] = {}
         self.learning_rate = learning_rate
         self.gamma = gamma
         self.drift_tracker = DriftTracker()
 
-    def _state_key(self, dream: Dict[str, Any]) -> str:
+    def _state_key(self, dream: dict[str, Any]) -> str:
         symbols = dream.get("symbols", [])
         return ":".join(sorted(symbols))
 
-    def _ethical_mutation(self, dream: Dict[str, Any]) -> Dict[str, Any]:
+    def _ethical_mutation(self, dream: dict[str, Any]) -> dict[str, Any]:
         mutated = dict(dream)
         mutated.setdefault("symbols", [])
         mutated["symbols"].append("ETHICAL_CHECK")
         mutated["ethical_mutation"] = True
         return mutated
 
-    def run_cycle(self, dreams: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def run_cycle(self, dreams: list[dict[str, Any]]) -> dict[str, Any]:
         """Process a list of dreams through an RL loop."""
         results = []
         previous = None

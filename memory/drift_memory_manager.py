@@ -14,7 +14,7 @@
 import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -34,7 +34,7 @@ class DriftMemoryManager(BaseMemoryManager):
     """
 
     def __init__(
-        self, config: Optional[Dict[str, Any]] = None, base_path: Optional[Path] = None
+        self, config: Optional[dict[str, Any]] = None, base_path: Optional[Path] = None
     ):
         """Initialize drift memory manager."""
         super().__init__(config, base_path)
@@ -50,10 +50,10 @@ class DriftMemoryManager(BaseMemoryManager):
         }
 
         # Drift tracking
-        self.drift_states: Dict[str, Dict[str, Any]] = {}
-        self.drift_history: Dict[str, List[Dict[str, Any]]] = {}
-        self.reference_states: Dict[str, Dict[str, Any]] = {}
-        self.drift_patterns: Dict[str, Any] = {}
+        self.drift_states: dict[str, dict[str, Any]] = {}
+        self.drift_history: dict[str, list[dict[str, Any]]] = {}
+        self.reference_states: dict[str, dict[str, Any]] = {}
+        self.drift_patterns: dict[str, Any] = {}
 
         self.logger.info(
             "DriftMemoryManager initialized", drift_config=self.drift_config
@@ -61,10 +61,10 @@ class DriftMemoryManager(BaseMemoryManager):
 
     async def store(
         self,
-        memory_data: Dict[str, Any],
+        memory_data: dict[str, Any],
         memory_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Store memory with drift baseline establishment.
 
@@ -145,8 +145,8 @@ class DriftMemoryManager(BaseMemoryManager):
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def retrieve(
-        self, memory_id: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, memory_id: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Retrieve memory with drift analysis.
 
@@ -205,8 +205,8 @@ class DriftMemoryManager(BaseMemoryManager):
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def update(
-        self, memory_id: str, updates: Dict[str, Any], merge: bool = True
-    ) -> Dict[str, Any]:
+        self, memory_id: str, updates: dict[str, Any], merge: bool = True
+    ) -> dict[str, Any]:
         """Update memory with drift tracking."""
         try:
             # Retrieve current state
@@ -215,10 +215,7 @@ class DriftMemoryManager(BaseMemoryManager):
                 return current
 
             # Update data
-            if merge:
-                updated_data = {**current["data"], **updates}
-            else:
-                updated_data = updates
+            updated_data = {**current["data"], **updates} if merge else updates
 
             # Update symbolic state and track drift
             new_symbolic_state = self._create_symbolic_state(updated_data)
@@ -275,7 +272,7 @@ class DriftMemoryManager(BaseMemoryManager):
             )
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def delete(self, memory_id: str, soft_delete: bool = True) -> Dict[str, Any]:
+    async def delete(self, memory_id: str, soft_delete: bool = True) -> dict[str, Any]:
         """Delete memory with drift cleanup."""
         try:
             # Clean up drift tracking
@@ -318,8 +315,8 @@ class DriftMemoryManager(BaseMemoryManager):
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def search(
-        self, criteria: Dict[str, Any], limit: Optional[int] = None
-    ) -> List[Dict[str, Any]]:
+        self, criteria: dict[str, Any], limit: Optional[int] = None
+    ) -> list[dict[str, Any]]:
         """
         Search memories with drift-aware filtering.
 
@@ -381,7 +378,7 @@ class DriftMemoryManager(BaseMemoryManager):
 
     # === Drift-specific methods ===
 
-    async def analyze_drift_patterns(self) -> Dict[str, Any]:
+    async def analyze_drift_patterns(self) -> dict[str, Any]:
         """Analyze drift patterns across all memories."""
         patterns = {
             "total_memories": len(self.drift_states),
@@ -395,7 +392,7 @@ class DriftMemoryManager(BaseMemoryManager):
         total_drift = 0.0
         drift_magnitudes = []
 
-        for memory_id, drift_state in self.drift_states.items():
+        for _memory_id, drift_state in self.drift_states.items():
             magnitude = drift_state.get("drift_magnitude", 0.0)
             drift_magnitudes.append(magnitude)
             total_drift += magnitude
@@ -421,7 +418,7 @@ class DriftMemoryManager(BaseMemoryManager):
 
         return patterns
 
-    async def get_drift_history(self, memory_id: str) -> Dict[str, Any]:
+    async def get_drift_history(self, memory_id: str) -> dict[str, Any]:
         """Get detailed drift history for a memory."""
         if memory_id not in self.drift_history:
             return {
@@ -459,7 +456,7 @@ class DriftMemoryManager(BaseMemoryManager):
 
     async def correct_drift(
         self, memory_id: str, correction_strength: Optional[float] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Manually correct drift for a memory."""
         try:
             # Verify memory exists
@@ -523,7 +520,7 @@ class DriftMemoryManager(BaseMemoryManager):
 
     # === Private helper methods ===
 
-    def _create_symbolic_state(self, memory_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_symbolic_state(self, memory_data: dict[str, Any]) -> dict[str, Any]:
         """Create symbolic representation of memory for drift tracking."""
         # Convert memory data to string for analysis
         data_str = json.dumps(memory_data, sort_keys=True)
@@ -556,7 +553,7 @@ class DriftMemoryManager(BaseMemoryManager):
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    def _compute_data_hash(self, data: Dict[str, Any]) -> str:
+    def _compute_data_hash(self, data: dict[str, Any]) -> str:
         """Compute hash of data for change detection."""
         import hashlib
 
@@ -564,7 +561,7 @@ class DriftMemoryManager(BaseMemoryManager):
         return hashlib.sha256(data_str.encode()).hexdigest()[:16]
 
     def _calculate_drift_vector(
-        self, reference_state: Dict[str, Any], current_state: Dict[str, Any]
+        self, reference_state: dict[str, Any], current_state: dict[str, Any]
     ) -> np.ndarray:
         """Calculate drift vector between states."""
         ref_vector = np.array(reference_state.get("vector", []))
@@ -578,7 +575,7 @@ class DriftMemoryManager(BaseMemoryManager):
 
         return curr_vector - ref_vector
 
-    async def _analyze_drift(self, memory_id: str) -> Dict[str, Any]:
+    async def _analyze_drift(self, memory_id: str) -> dict[str, Any]:
         """Analyze drift for a specific memory."""
         drift_info = {
             "drift_detected": False,
@@ -623,8 +620,8 @@ class DriftMemoryManager(BaseMemoryManager):
         return drift_info
 
     def _apply_drift_correction(
-        self, memory_data: Dict[str, Any], drift_info: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, memory_data: dict[str, Any], drift_info: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply correction to memory data based on drift analysis."""
         # Simple correction - in practice would be more sophisticated
         corrected_data = memory_data.copy()
@@ -640,10 +637,10 @@ class DriftMemoryManager(BaseMemoryManager):
 
     def _apply_state_correction(
         self,
-        current_state: Dict[str, Any],
-        reference_state: Dict[str, Any],
+        current_state: dict[str, Any],
+        reference_state: dict[str, Any],
         strength: float,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Apply correction to symbolic state."""
         curr_vector = np.array(current_state.get("vector", []))
         ref_vector = np.array(reference_state.get("vector", []))
@@ -658,7 +655,7 @@ class DriftMemoryManager(BaseMemoryManager):
             "correction_strength": strength,
         }
 
-    def _record_drift_event(self, memory_id: str, event: Dict[str, Any]) -> None:
+    def _record_drift_event(self, memory_id: str, event: dict[str, Any]) -> None:
         """Record a drift event in history."""
         if memory_id not in self.drift_history:
             self.drift_history[memory_id] = []
@@ -670,7 +667,7 @@ class DriftMemoryManager(BaseMemoryManager):
         if len(self.drift_history[memory_id]) > window_size:
             self.drift_history[memory_id] = self.drift_history[memory_id][-window_size:]
 
-    def _identify_common_drift_patterns(self) -> List[Dict[str, Any]]:
+    def _identify_common_drift_patterns(self) -> list[dict[str, Any]]:
         """Identify common drift patterns across memories."""
         patterns = []
 
@@ -722,7 +719,7 @@ class DriftMemoryManager(BaseMemoryManager):
 
         return patterns
 
-    def _calculate_drift_trend(self, history: List[Dict[str, Any]]) -> str:
+    def _calculate_drift_trend(self, history: list[dict[str, Any]]) -> str:
         """Calculate drift trend from history."""
         if len(history) < 2:
             return "stable"
@@ -746,7 +743,7 @@ class DriftMemoryManager(BaseMemoryManager):
         return "stable"
 
     def _matches_drift_pattern(
-        self, memory_pattern: Dict[str, Any], search_pattern: Dict[str, Any]
+        self, memory_pattern: dict[str, Any], search_pattern: dict[str, Any]
     ) -> bool:
         """Check if memory matches drift pattern criteria."""
         # Simple pattern matching - could be more sophisticated
@@ -757,7 +754,7 @@ class DriftMemoryManager(BaseMemoryManager):
                 return False
         return True
 
-    def _matches_criteria(self, data: Dict[str, Any], criteria: Dict[str, Any]) -> bool:
+    def _matches_criteria(self, data: dict[str, Any], criteria: dict[str, Any]) -> bool:
         """Check if data matches search criteria."""
         for key, value in criteria.items():
             if key not in data:
@@ -766,7 +763,7 @@ class DriftMemoryManager(BaseMemoryManager):
                 return False
         return True
 
-    async def get_statistics(self) -> Dict[str, Any]:
+    async def get_statistics(self) -> dict[str, Any]:
         """Get drift memory statistics."""
         base_stats = await super().get_statistics()
 

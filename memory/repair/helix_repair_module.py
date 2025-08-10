@@ -1,7 +1,7 @@
 """Autonomous repair routines for the Healix memory helix."""
 
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 from memory.systems.healix_memory_core import HealixMemoryCore
 
@@ -12,7 +12,7 @@ class HelixRepairModule:
     def __init__(self, core: HealixMemoryCore):
         self.core = core
 
-    async def run_repair_cycle(self) -> Dict[str, Any]:
+    async def run_repair_cycle(self) -> dict[str, Any]:
         repaired = 0
         for seg in list(self.core.memory_segments.values()):
             if seg.data.endswith("_CORRUPT"):

@@ -5,13 +5,37 @@ Tests real OpenAI API integration with fictional data scenarios
 Including edge cases that should trigger ethical blocks
 """
 
+from lambda_products_pack.lambda_core.NIAS.vendor_portal import (
+    VendorPortal,
+    VendorTier,
+)
+from lambda_products_pack.lambda_core.NIAS.user_data_integrator import (
+    UserDataIntegrator,
+    UserDataProfile,
+)
+from lambda_products_pack.lambda_core.NIAS.dream_generator import (
+    BioRhythm,
+    DreamContext,
+    DreamGenerator,
+    DreamMood,
+)
+from lambda_products_pack.lambda_core.NIAS.dream_commerce_orchestrator import (
+    DreamCommerceOrchestrator,
+)
+from lambda_products_pack.lambda_core.NIAS.consent_manager import (
+    AIGenerationType,
+    ConsentLevel,
+    ConsentManager,
+    ConsentScope,
+    DataSource,
+)
 import asyncio
 import json
 import logging
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent.parent.parent))
@@ -23,30 +47,6 @@ logging.basicConfig(
 logger = logging.getLogger("NIAS.Test")
 
 # Import NIAS components
-from lambda_products_pack.lambda_core.NIAS.consent_manager import (
-    AIGenerationType,
-    ConsentLevel,
-    ConsentManager,
-    ConsentScope,
-    DataSource,
-)
-from lambda_products_pack.lambda_core.NIAS.dream_commerce_orchestrator import (
-    DreamCommerceOrchestrator,
-)
-from lambda_products_pack.lambda_core.NIAS.dream_generator import (
-    BioRhythm,
-    DreamContext,
-    DreamGenerator,
-    DreamMood,
-)
-from lambda_products_pack.lambda_core.NIAS.user_data_integrator import (
-    UserDataIntegrator,
-    UserDataProfile,
-)
-from lambda_products_pack.lambda_core.NIAS.vendor_portal import (
-    VendorPortal,
-    VendorTier,
-)
 
 
 # Test data scenarios
@@ -54,7 +54,7 @@ class TestDataGenerator:
     """Generate realistic fictional test data"""
 
     @staticmethod
-    def generate_user_profiles() -> List[Dict[str, Any]]:
+    def generate_user_profiles() -> list[dict[str, Any]]:
         """Generate diverse user profiles with different scenarios"""
         return [
             {
@@ -269,7 +269,7 @@ class TestDataGenerator:
         ]
 
     @staticmethod
-    def generate_vendor_seeds() -> List[Dict[str, Any]]:
+    def generate_vendor_seeds() -> list[dict[str, Any]]:
         """Generate vendor dream seeds with various ethical levels"""
         return [
             {

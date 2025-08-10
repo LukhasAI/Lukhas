@@ -158,7 +158,7 @@ class LukhusAI:
         TODO: Consider returning a more structured object (e.g., a dataclass with success, data, error_code).
         """
         self.instance_logger.info(
-            f"ΛTRACE: generate_response called. TaskType: {task_type.value},
+            f"ΛTRACE: generate_response called. TaskType: {task_type.value},"
             Debug: {debug}, Prompt(first 50): '{prompt[:50]}...'"
         )
 

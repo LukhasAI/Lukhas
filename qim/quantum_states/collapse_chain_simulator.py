@@ -14,7 +14,7 @@
 
 import hashlib
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 import structlog
 
@@ -46,7 +46,7 @@ class CollapseChainSimulator:
             brain_integrator
         )
 
-    async def simulate_collapse(self, drift_trigger: Dict[str, Any]) -> None:
+    async def simulate_collapse(self, drift_trigger: dict[str, Any]) -> None:
         """
         Simulates a symbolic collapse chain.
 

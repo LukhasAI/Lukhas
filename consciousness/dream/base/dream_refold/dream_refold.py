@@ -21,12 +21,13 @@ dream fragments, offering creative recombination for emotional growth.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 """
 
-import random
-
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 💭 DREAM ENGINE CLASS
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import random
+
+
 class DreamWeaver:
     def __init__(self):
         self.templates = [

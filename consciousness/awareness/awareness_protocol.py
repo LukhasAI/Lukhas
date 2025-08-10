@@ -14,9 +14,13 @@
 ║ Advanced awareness protocol with quantum-biological features.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import logging
 
 # Module imports
-from typing import Any, Dict, Optional
+from .bio_symbolic_awareness_adapter import BioSymbolicAwarenessAdapter
+from datetime import datetime
+import asyncio
+from typing import Any, Optional
 
 from core.common import get_logger
 
@@ -48,12 +52,9 @@ Uses the bio-symbolic layer to:
 4. Support adaptive learning
 """
 
-import asyncio
-from datetime import datetime
 
-from .bio_symbolic_awareness_adapter import BioSymbolicAwarenessAdapter
-
-# Attempt to import for type hinting, but allow it to fail gracefully if not used directly for instantiation
+# Attempt to import for type hinting, but allow it to fail gracefully if
+# not used directly for instantiation
 try:
     from .symbolic_trace_logger import SymbolicTraceLogger
 except ImportError:
@@ -73,7 +74,8 @@ def lukhas_tier_required(level: int):
 
     def decorator(func):
         async def wrapper_async(*args, **kwargs):  # Handle async functions
-            # In a real scenario, user_id might be extracted from args[0] (self) or request context
+            # In a real scenario, user_id might be extracted from args[0] (self) or
+            # request context
             user_id_for_check = getattr(
                 args[0], "user_id", "unknown_user_for_tier_check"
             )
@@ -99,7 +101,8 @@ def lukhas_tier_required(level: int):
     return decorator
 
 
-# Human-readable comment: Implements the Lukhas Awareness Protocol with quantum-biological enhancements.
+# Human-readable comment: Implements the Lukhas Awareness Protocol with
+# quantum-biological enhancements.
 class LUKHASAwarenessProtocol:
     """
     Enhanced awareness protocol implementing quantum-biological features for:
@@ -116,10 +119,10 @@ class LUKHASAwarenessProtocol:
     def __init__(
         self,
         user_id: str,
-        session_data: Dict[str, Any],
+        session_data: dict[str, Any],
         symbolic_trace_engine: SymbolicTraceLogger,  # Made type hint more specific
         memory_context: Any,  # Keep Any if type is complex/unknown
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         """
         Initializes the LUKHASAwarenessProtocol.
@@ -143,7 +146,7 @@ class LUKHASAwarenessProtocol:
         self.instance_logger.debug("ΛTRACE: Initializing BioSymbolicAwarenessAdapter.")
         self.bio_adapter = BioSymbolicAwarenessAdapter(config)  # Logs its own init
 
-        self.context_vector: Optional[Dict[str, float]] = None
+        self.context_vector: Optional[dict[str, float]] = None
         self.access_tier: Optional[str] = (
             None  # This stores internal tier names like "basic", "standard"
         )
@@ -243,12 +246,12 @@ class LUKHASAwarenessProtocol:
         )  # Ensure a string is returned
 
     # Human-readable comment: Generates the contextual awareness vector.
-    async def _generate_context_vector(self) -> Dict[str, float]:
+    async def _generate_context_vector(self) -> dict[str, float]:
         """Generate contextual awareness vector from session and memory data."""
         self.instance_logger.debug(
             f"ΛTRACE: Internal: _generate_context_vector for '{self.user_id}'."
         )
-        context_vector: Dict[str, float] = {}
+        context_vector: dict[str, float] = {}
 
         try:
             session_timestamp_str = self.session_data.get("timestamp")
@@ -306,7 +309,8 @@ class LUKHASAwarenessProtocol:
         )
         return context_vector
 
-    # Human-readable comment: Determines the internal access tier based on bio-confidence score.
+    # Human-readable comment: Determines the internal access tier based on
+    # bio-confidence score.
     def _determine_tier(self) -> str:
         """
         Determine access tier based on bio confidence.
@@ -330,7 +334,7 @@ class LUKHASAwarenessProtocol:
         )
 
         # This mapping is internal to this protocol.
-        tier_mapping: Dict[int, str] = {
+        tier_mapping: dict[int, str] = {
             0: "basic",
             1: "standard",
             2: "elevated",
@@ -341,7 +345,8 @@ class LUKHASAwarenessProtocol:
         # The current code `min(int(t_conf * max_lvl), max_lvl - 1)` might need adjustment based on mapping size.
         # Assuming max_tier_level=3 means 3 distinct tiers beyond restricted (0,1,2 from mapping)
         # If self.max_tier_level is 3, then tier_level_index can be 0, 1, 2.
-        # If self.max_tier_level is 4 (as in some examples), then indices 0,1,2,3 are possible.
+        # If self.max_tier_level is 4 (as in some examples), then indices 0,1,2,3
+        # are possible.
 
         determined_tier = tier_mapping.get(
             tier_level_index, "restricted"
@@ -355,7 +360,7 @@ class LUKHASAwarenessProtocol:
     @lukhas_tier_required(
         level=3
     )  # Example: Updating bio-metrics could be a privileged operation
-    def update_bio_metrics(self, new_data: Dict[str, Any]) -> None:
+    def update_bio_metrics(self, new_data: dict[str, Any]) -> None:
         """
         Update internal bio metrics of the BioSymbolicAwarenessAdapter.
         Args:

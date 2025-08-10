@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class GLYPHRoute:
     """Represents a GLYPH routing rule"""
+
     glyph_type: str
     source_pattern: str
     target_module: str
@@ -35,10 +36,10 @@ class GLYPHRouter:
         self._cache: Dict[str, Any] = {}
         self._cache_timestamps: Dict[str, datetime] = {}
         self._metrics = {
-            'glyphs_routed': 0,
-            'cache_hits': 0,
-            'cache_misses': 0,
-            'routing_errors': 0
+            "glyphs_routed": 0,
+            "cache_hits": 0,
+            "cache_misses": 0,
+            "routing_errors": 0,
         }
 
         # Initialize default routes
@@ -50,15 +51,16 @@ class GLYPHRouter:
             # Core system routes
             GLYPHRoute("SYSTEM_*", "core.*", "orchestration", priority=10),
             GLYPHRoute("CONFIG_*", "core.*", "governance", priority=5),
-
             # Consciousness routes
-            GLYPHRoute("AWARENESS_*", "consciousness.*", "consciousness.unified", priority=10),
-            GLYPHRoute("DREAM_*", "consciousness.dream.*", "consciousness.dream", priority=10),
-
+            GLYPHRoute(
+                "AWARENESS_*", "consciousness.*", "consciousness.unified", priority=10
+            ),
+            GLYPHRoute(
+                "DREAM_*", "consciousness.dream.*", "consciousness.dream", priority=10
+            ),
             # Memory routes
             GLYPHRoute("MEMORY_*", "memory.*", "memory.core", priority=10),
             GLYPHRoute("FOLD_*", "memory.folds.*", "memory.folds", priority=10),
-
             # Cross-module routes
             GLYPHRoute("SYNC_*", "*", "orchestration.brain", priority=20),
             GLYPHRoute("ERROR_*", "*", "governance.guardian", priority=30),
@@ -78,7 +80,9 @@ class GLYPHRouter:
         self._handlers[glyph_pattern].append(handler)
         logger.info(f"Registered handler for pattern: {glyph_pattern}")
 
-    async def route_glyph(self, glyph: GLYPHSymbol, source_module: str) -> Optional[str]:
+    async def route_glyph(
+        self, glyph: GLYPHSymbol, source_module: str
+    ) -> Optional[str]:
         """Route a GLYPH to appropriate handler"""
         glyph_type = glyph.symbol_type
 
@@ -86,10 +90,10 @@ class GLYPHRouter:
         cache_key = f"{glyph_type}:{source_module}"
         cached_result = self._get_cached_route(cache_key)
         if cached_result:
-            self._metrics['cache_hits'] += 1
+            self._metrics["cache_hits"] += 1
             return cached_result
 
-        self._metrics['cache_misses'] += 1
+        self._metrics["cache_misses"] += 1
 
         # Find matching routes
         target_module = None
@@ -103,12 +107,14 @@ class GLYPHRouter:
                         break
 
         if target_module:
-            self._metrics['glyphs_routed'] += 1
+            self._metrics["glyphs_routed"] += 1
             await self._deliver_glyph(glyph, target_module)
             return target_module
         else:
-            self._metrics['routing_errors'] += 1
-            logger.warning(f"No route found for GLYPH {glyph_type} from {source_module}")
+            self._metrics["routing_errors"] += 1
+            logger.warning(
+                f"No route found for GLYPH {glyph_type} from {source_module}"
+            )
             return None
 
     def _matches_pattern(self, value: str, pattern: str) -> bool:
@@ -166,11 +172,13 @@ async def emit_glyph(glyph: GLYPHSymbol, source_module: str):
     await glyph_router.route_glyph(glyph, source_module)
 
 
-def create_glyph(symbol_type: str, payload: Dict[str, Any], metadata: Dict[str, Any] = None) -> GLYPHSymbol:
+def create_glyph(
+    symbol_type: str, payload: Dict[str, Any], metadata: Dict[str, Any] = None
+) -> GLYPHSymbol:
     """Create a GLYPH with standard format"""
     return GLYPHSymbol(
         symbol_type=symbol_type,
         symbol_data=payload,
         metadata=metadata or {},
-        timestamp=datetime.utcnow()
+        timestamp=datetime.utcnow(),
     )

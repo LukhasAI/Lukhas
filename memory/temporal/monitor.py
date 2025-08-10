@@ -55,7 +55,7 @@ def monitor_agi_system():
                         for pr in status["recent_prs"][-3:]:
                             print(f"   • {pr}")
 
-                except:
+                except BaseException:
                     pass
 
             # Check budget controller state
@@ -66,7 +66,7 @@ def monitor_agi_system():
                 daily_spend = budget_state.get("daily_spend", 0)
                 print(f"💳 Total Spend Today: ${daily_spend:.4f}")
 
-            except:
+            except BaseException:
                 pass
 
             time.sleep(10)  # Update every 10 seconds

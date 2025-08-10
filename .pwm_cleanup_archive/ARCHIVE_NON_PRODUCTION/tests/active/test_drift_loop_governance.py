@@ -16,11 +16,12 @@ from memory.core_memory.fold_lineage_tracker import (
 
 @pytest.fixture
 def mock_logger():
-    with patch(
-        "lukhas.dream.hyperspace_dream_simulator.logger"
-    ) as mock_hds_logger, patch(
-        "lukhas.memory.core_memory.fold_lineage_tracker.logger"
-    ) as mock_flt_logger:
+    with (
+        patch("lukhas.dream.hyperspace_dream_simulator.logger") as mock_hds_logger,
+        patch(
+            "lukhas.memory.core_memory.fold_lineage_tracker.logger"
+        ) as mock_flt_logger,
+    ):
         yield {"hds": mock_hds_logger, "flt": mock_flt_logger}
 
 

@@ -13,7 +13,7 @@ Provides quantum-enhanced bio-oscillator functionality.
 import math
 import random
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 @dataclass
@@ -59,7 +59,7 @@ class QuantumBioOscillator:
         self.coherence_matrix = []
         self.measurement_count = 0
 
-    def _initialize_quantum_like_state(self) -> Dict[str, Any]:
+    def _initialize_quantum_like_state(self) -> dict[str, Any]:
         """Initialize quantum-like state for the oscillator."""
         return {
             "coherence": self.config.quantum_coherence,
@@ -72,8 +72,8 @@ class QuantumBioOscillator:
         }
 
     def oscillate(
-        self, time_point: float, external_influence: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, time_point: float, external_influence: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Generate oscillation value at given time point.
 
@@ -145,7 +145,7 @@ class QuantumBioOscillator:
 
     def create_entanglement(
         self, other_oscillator: "QuantumBioOscillator", strength: float = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create entanglement-like correlation with another oscillator.
 
@@ -184,7 +184,7 @@ class QuantumBioOscillator:
 
         return entanglement_data
 
-    def apply_entanglement_effects(self, time_point: float) -> Dict[str, Any]:
+    def apply_entanglement_effects(self, time_point: float) -> dict[str, Any]:
         """
         Apply entanglement effects on oscillation.
 
@@ -200,7 +200,7 @@ class QuantumBioOscillator:
         total_effect = 0.0
         active_entanglements = 0
 
-        for entanglement_id, entanglement_data in self.entangled_oscillators.items():
+        for _entanglement_id, entanglement_data in self.entangled_oscillators.items():
             other_oscillator = (
                 entanglement_data["oscillator_2"]
                 if entanglement_data["oscillator_1"] is self
@@ -244,7 +244,7 @@ class QuantumBioOscillator:
             ),
         }
 
-    def measure_quantum_property(self, property_name: str) -> Dict[str, Any]:
+    def measure_quantum_property(self, property_name: str) -> dict[str, Any]:
         """
         Measure a quantum property of the oscillator.
 
@@ -318,7 +318,7 @@ class QuantumBioOscillator:
             0.1, self.quantum_like_state["coherence"]
         )
 
-    def evolve_quantum_like_state(self, time_step: float) -> Dict[str, Any]:
+    def evolve_quantum_like_state(self, time_step: float) -> dict[str, Any]:
         """
         Evolve the quantum-like state over time.
 
@@ -356,7 +356,7 @@ class QuantumBioOscillator:
             "decoherence_factor": natural_decoherence,
         }
 
-    def get_oscillator_metrics(self) -> Dict[str, Any]:
+    def get_oscillator_metrics(self) -> dict[str, Any]:
         """
         Get comprehensive metrics for the oscillator.
 
@@ -388,7 +388,7 @@ class QuantumBioOscillator:
 
         return metrics
 
-    def _calculate_variance(self, values: List[float]) -> float:
+    def _calculate_variance(self, values: list[float]) -> float:
         """Calculate variance of a list of values."""
         if len(values) < 2:
             return 0.0
@@ -413,7 +413,7 @@ class QuantumBioOscillator:
 
     def synchronize_with_rhythm(
         self, rhythm_frequency: float, sync_strength: float = 0.5
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Synchronize oscillator with external rhythm.
 
@@ -449,8 +449,8 @@ class QuantumBioOscillator:
         }
 
     def create_coherence_field(
-        self, other_oscillators: List["QuantumBioOscillator"]
-    ) -> Dict[str, Any]:
+        self, other_oscillators: list["QuantumBioOscillator"]
+    ) -> dict[str, Any]:
         """
         Create coherence field with multiple oscillators.
 

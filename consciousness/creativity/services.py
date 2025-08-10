@@ -4,7 +4,8 @@ Creativity Services
 Dependency injection services for the creativity module.
 """
 
-from typing import Any, Dict, List, Optional
+from hub.service_registry import register_factory
+from typing import Any, Optional
 
 from hub.service_registry import get_service, inject_services
 
@@ -46,11 +47,11 @@ class CreativityService:
     async def generate_creative_output(
         self,
         agent_id: str,
-        prompt: Dict[str, Any],
-        constraints: Optional[Dict[str, Any]] = None,
+        prompt: dict[str, Any],
+        constraints: Optional[dict[str, Any]] = None,
         memory=None,
         consciousness=None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate creative output with injected dependencies.
         """
@@ -84,11 +85,11 @@ class CreativityService:
 
     async def _generate_with_context(
         self,
-        prompt: Dict[str, Any],
-        memories: List[Dict[str, Any]],
-        awareness: Dict[str, Any],
-        constraints: Optional[Dict[str, Any]],
-    ) -> Dict[str, Any]:
+        prompt: dict[str, Any],
+        memories: list[dict[str, Any]],
+        awareness: dict[str, Any],
+        constraints: Optional[dict[str, Any]],
+    ) -> dict[str, Any]:
         """Generate creative output with context"""
         # Simplified creative generation
         return {
@@ -108,8 +109,8 @@ class CreativityService:
 
     @inject_services(dream="dream_service")
     async def dream_inspired_creation(
-        self, agent_id: str, dream_seed: Optional[Dict[str, Any]] = None, dream=None
-    ) -> Dict[str, Any]:
+        self, agent_id: str, dream_seed: Optional[dict[str, Any]] = None, dream=None
+    ) -> dict[str, Any]:
         """Create based on dream synthesis"""
         if not dream:
             return await self.generate_creative_output(
@@ -130,8 +131,8 @@ class CreativityService:
         )
 
     async def collaborative_creation(
-        self, agent_ids: List[str], theme: str
-    ) -> Dict[str, Any]:
+        self, agent_ids: list[str], theme: str
+    ) -> dict[str, Any]:
         """Enable multiple agents to create collaboratively"""
         self._ensure_services()
 
@@ -155,8 +156,8 @@ class CreativityService:
         return merged
 
     def _synthesize_contributions(
-        self, contributions: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, contributions: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Synthesize multiple creative contributions"""
         return {
             "merged_content": "Synthesized creative output",
@@ -182,7 +183,6 @@ def create_creativity_service():
 
 
 # Register with hub on import
-from hub.service_registry import register_factory
 
 register_factory(
     "creativity_service",

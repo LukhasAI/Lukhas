@@ -45,7 +45,7 @@
 
 import logging
 from dataclasses import dataclass
-from typing import Any, Callable, Dict
+from typing import Any, Callable
 
 from core.bio_systems import BioSimulationController, HormoneType
 
@@ -69,7 +69,7 @@ class EndocrineIntegration:
 
     def __init__(self, bio_controller: BioSimulationController):
         self.bio_controller = bio_controller
-        self.modulations: Dict[str, list[HormoneModulation]] = {}
+        self.modulations: dict[str, list[HormoneModulation]] = {}
         self._setup_default_modulations()
 
         # Register for endocrine state changes
@@ -237,7 +237,7 @@ class EndocrineIntegration:
                 state, lambda hormones, s=state: self._handle_state_change(s, hormones)
             )
 
-    def _handle_state_change(self, state: str, hormones: Dict[str, float]):
+    def _handle_state_change(self, state: str, hormones: dict[str, float]):
         """Handle endocrine state changes."""
         logger.info(f"Endocrine state change: {state}")
 
@@ -276,7 +276,7 @@ class EndocrineIntegration:
 
         return modulation_factor
 
-    def get_system_recommendations(self, system: str) -> Dict[str, Any]:
+    def get_system_recommendations(self, system: str) -> dict[str, Any]:
         """
         Get recommendations for a system based on current hormone state.
 
@@ -342,7 +342,7 @@ class EndocrineIntegration:
         elif event_type == "maintenance_needed":
             self.bio_controller.inject_stimulus("rest", value)
 
-    def get_daily_rhythm_phase(self) -> Dict[str, Any]:
+    def get_daily_rhythm_phase(self) -> dict[str, Any]:
         """Get current phase in the daily rhythm cycle."""
         cognitive_state = self.bio_controller.get_cognitive_state()
         phase = cognitive_state["circadian_phase"]

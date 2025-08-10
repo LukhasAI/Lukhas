@@ -87,7 +87,7 @@ class BayesianConfidenceEstimator:
         confidence = min(1.0, max(0.0, posterior))
 
         logger.debug(
-            f"Bayesian confidence: {confidence: .3f}(prior: {prior: .3f},
+            f"Bayesian confidence: {confidence: .3f}(prior: {prior: .3f},"
                                                      likelihood: {likelihood: .3f})"
         )
 

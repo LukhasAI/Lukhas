@@ -13,7 +13,7 @@ import time
 import uuid
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 
 class CredentialType(Enum):
@@ -44,8 +44,8 @@ class ΛiD:
     did: str
     public_key: str
     private_key: str  # In production, stored securely
-    profile: Dict[str, Any]
-    credentials: List[str]
+    profile: dict[str, Any]
+    credentials: list[str]
     created_at: float
     lambda_signature: str
 
@@ -73,7 +73,7 @@ class NFTToken:
     token_id: str
     contract_address: str
     owner_did: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
     verified: bool
     lambda_certified: bool
     created_at: float
@@ -85,16 +85,16 @@ class WΛLLET:
     Powered by LUKHAS consciousness and Lambda branding
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or self._default_config()
         self.lambda_brand = "Λ"
 
         # Storage (in production, use database)
-        self.identities: Dict[str, ΛiD] = {}
-        self.balances: Dict[str, float] = {}
-        self.transactions: List[Transaction] = []
-        self.nfts: Dict[str, NFTToken] = {}
-        self.credentials: Dict[str, List[str]] = {}
+        self.identities: dict[str, ΛiD] = {}
+        self.balances: dict[str, float] = {}
+        self.transactions: list[Transaction] = []
+        self.nfts: dict[str, NFTToken] = {}
+        self.credentials: dict[str, list[str]] = {}
 
         # Initialize subsystems
         self.identity_manager = IdentityManager(self)
@@ -105,7 +105,7 @@ class WΛLLET:
         # Genesis block for ledger
         self._init_genesis()
 
-    def _default_config(self) -> Dict:
+    def _default_config(self) -> dict:
         """Default WΛLLET configuration"""
         return {
             "brand": "LUKHAS",
@@ -135,7 +135,7 @@ class WΛLLET:
         self.balances[system_did] = 1000000.0  # System reserve
 
     async def create_identity(
-        self, profile: Dict[str, Any], credentials: Optional[List[str]] = None
+        self, profile: dict[str, Any], credentials: Optional[list[str]] = None
     ) -> ΛiD:
         """
         Create a new Lambda Identity (DID)
@@ -243,7 +243,7 @@ class WΛLLET:
         """
         return await self.nft_verifier.verify(token_id, owner_did)
 
-    async def mint_nft(self, owner_did: str, metadata: Dict[str, Any]) -> NFTToken:
+    async def mint_nft(self, owner_did: str, metadata: dict[str, Any]) -> NFTToken:
         """
         Mint a new Lambda NFT
 
@@ -306,7 +306,7 @@ class IdentityManager:
 
         return signature == expected
 
-    async def rotate_keys(self, did: str) -> Tuple[str, str]:
+    async def rotate_keys(self, did: str) -> tuple[str, str]:
         """Rotate cryptographic keys for an identity"""
         identity = self.wallet.identities.get(did)
         if not identity:
@@ -322,7 +322,7 @@ class IdentityManager:
 
         return new_public, new_private
 
-    async def export_identity(self, did: str) -> Dict[str, Any]:
+    async def export_identity(self, did: str) -> dict[str, Any]:
         """Export identity for backup (without private key)"""
         identity = self.wallet.identities.get(did)
         if not identity:
@@ -343,7 +343,7 @@ class Ledger:
 
     def __init__(self, wallet: WΛLLET):
         self.wallet = wallet
-        self.chain: List[Transaction] = []
+        self.chain: list[Transaction] = []
 
     async def create_transaction(
         self, from_did: str, to_did: str, amount: float, memo: Optional[str] = None
@@ -377,7 +377,7 @@ class Ledger:
 
         return tx
 
-    async def get_transactions(self, did: str, limit: int = 10) -> List[Transaction]:
+    async def get_transactions(self, did: str, limit: int = 10) -> list[Transaction]:
         """Get transactions for a DID"""
         user_txs = [
             tx
@@ -440,7 +440,7 @@ class NFTVerifier:
 
         return True
 
-    async def get_nfts(self, owner_did: str) -> List[NFTToken]:
+    async def get_nfts(self, owner_did: str) -> list[NFTToken]:
         """Get all NFTs owned by a DID"""
         return [nft for nft in self.wallet.nfts.values() if nft.owner_did == owner_did]
 
@@ -450,7 +450,7 @@ class AuthService:
 
     def __init__(self, wallet: WΛLLET):
         self.wallet = wallet
-        self.sessions: Dict[str, Dict] = {}
+        self.sessions: dict[str, dict] = {}
 
     async def login(self, did: str, password: str) -> Optional[str]:
         """Login with DID and password"""

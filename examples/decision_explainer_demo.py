@@ -4,13 +4,6 @@ LUKHAS Decision Explainability Demonstration
 Shows how decisions are explained in human-readable language
 """
 
-import asyncio
-import os
-import sys
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from core.endocrine import get_endocrine_system
 from core.explainability import (
     ExplanationLevel,
     ExplanationType,
@@ -19,6 +12,12 @@ from core.explainability import (
     get_decision_counterfactuals,
     get_decision_explainer,
 )
+from core.endocrine import get_endocrine_system
+import asyncio
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 async def demonstrate_decision_explainability():
@@ -47,27 +46,33 @@ async def demonstrate_decision_explainability():
         "ethical_weight": 0.6,
         "resource_constrained": True,
         "stakeholders": ["users", "system", "administrators"],
-        "alternatives_count": 3
+        "alternatives_count": 3,
     }
 
     emergency_outcome = {
         "selected_alternative": "immediate_reallocation",
         "confidence": 0.75,
         "score": 0.82,
-        "ethical_score": 0.7
+        "ethical_score": 0.7,
     }
 
     # Get different explanation types
     print("\n1️⃣ SUMMARY EXPLANATION:")
-    summary = await explain_decision(emergency_context, emergency_outcome, ExplanationLevel.SUMMARY)
+    summary = await explain_decision(
+        emergency_context, emergency_outcome, ExplanationLevel.SUMMARY
+    )
     print(summary)
 
     print("\n2️⃣ STANDARD EXPLANATION:")
-    standard = await explain_decision(emergency_context, emergency_outcome, ExplanationLevel.STANDARD)
+    standard = await explain_decision(
+        emergency_context, emergency_outcome, ExplanationLevel.STANDARD
+    )
     print(standard)
 
     print("\n3️⃣ DETAILED EXPLANATION:")
-    detailed = await explain_decision(emergency_context, emergency_outcome, ExplanationLevel.DETAILED)
+    detailed = await explain_decision(
+        emergency_context, emergency_outcome, ExplanationLevel.DETAILED
+    )
     print(detailed)
 
     # Scenario 2: Ethical Decision
@@ -88,18 +93,33 @@ async def demonstrate_decision_explainability():
         "ethical_weight": 0.9,
         "stakeholders": ["content_creator", "viewers", "platform", "society"],
         "alternatives": [
-            {"id": "remove", "name": "Remove Content", "score": 0.7, "ethical_score": 0.85},
-            {"id": "flag", "name": "Flag with Warning", "score": 0.8, "ethical_score": 0.7},
-            {"id": "allow", "name": "Allow Unrestricted", "score": 0.6, "ethical_score": 0.3}
+            {
+                "id": "remove",
+                "name": "Remove Content",
+                "score": 0.7,
+                "ethical_score": 0.85,
+            },
+            {
+                "id": "flag",
+                "name": "Flag with Warning",
+                "score": 0.8,
+                "ethical_score": 0.7,
+            },
+            {
+                "id": "allow",
+                "name": "Allow Unrestricted",
+                "score": 0.6,
+                "ethical_score": 0.3,
+            },
         ],
-        "alternatives_count": 3
+        "alternatives_count": 3,
     }
 
     ethical_outcome = {
         "selected_alternative": "flag",
         "confidence": 0.85,
         "score": 0.8,
-        "ethical_score": 0.7
+        "ethical_score": 0.7,
     }
 
     print("\n🔍 CAUSAL EXPLANATION (Why this decision?):")
@@ -113,7 +133,9 @@ async def demonstrate_decision_explainability():
     print(comparison)
 
     print("\n🔄 COUNTERFACTUAL EXPLANATION (What would change it?):")
-    counterfactuals = await get_decision_counterfactuals(ethical_context, ethical_outcome)
+    counterfactuals = await get_decision_counterfactuals(
+        ethical_context, ethical_outcome
+    )
     for i, cf in enumerate(counterfactuals, 1):
         print(f"  {i}. {cf}")
 
@@ -137,14 +159,14 @@ async def demonstrate_decision_explainability():
         "success_rate": 75,
         "user_preference": "balanced approach",
         "stakeholders": ["user", "learning_system"],
-        "alternatives_count": 5
+        "alternatives_count": 5,
     }
 
     strategic_outcome = {
         "selected_alternative": "adaptive_curriculum",
         "confidence": 0.92,
         "score": 0.88,
-        "ethical_score": 0.8
+        "ethical_score": 0.8,
     }
 
     print("\n📊 FULL DECISION EXPLANATION:")
@@ -167,14 +189,14 @@ async def demonstrate_decision_explainability():
         "ethical_weight": 0.3,
         "has_history": False,
         "stakeholders": ["prediction_system", "user"],
-        "alternatives_count": 2
+        "alternatives_count": 2,
     }
 
     uncertain_outcome = {
         "selected_alternative": "conservative_prediction",
         "confidence": 0.45,
         "score": 0.6,
-        "ethical_score": 0.7
+        "ethical_score": 0.7,
     }
 
     print("\n❓ LOW CONFIDENCE EXPLANATION:")
@@ -191,7 +213,7 @@ async def demonstrate_decision_explainability():
         (emergency_context, emergency_outcome),
         (ethical_context, ethical_outcome),
         (strategic_context, strategic_outcome),
-        (uncertain_context, uncertain_outcome)
+        (uncertain_context, uncertain_outcome),
     ]:
         exp = await explainer.explain_decision(context, outcome)
         all_explanations.append(exp)
@@ -202,13 +224,15 @@ async def demonstrate_decision_explainability():
     print(f"Average Confidence: {report['average_confidence']}")
 
     print("\nDominant Decision Factors:")
-    for factor_info in report['dominant_factors'][:3]:
+    for factor_info in report["dominant_factors"][:3]:
         print(f"  • {factor_info['factor']}: appeared {factor_info['frequency']} times")
 
-    print(f"\nHormonal Influence: {report['hormonal_influence']['dominant_hormone']} dominant")
+    print(
+        f"\nHormonal Influence: {report['hormonal_influence']['dominant_hormone']} dominant"
+    )
 
     print("\nIdentified Patterns:")
-    for pattern in report['common_patterns']:
+    for pattern in report["common_patterns"]:
         print(f"  • {pattern}")
 
     # Show how tags provide context
@@ -221,6 +245,7 @@ async def demonstrate_decision_explainability():
         all_tags.update(exp.relevant_tags)
 
     from core.tags import explain_tag
+
     for tag in sorted(all_tags)[:5]:
         print(f"\n{tag}:")
         print(f"  {explain_tag(tag)}")
@@ -234,6 +259,7 @@ async def demonstrate_decision_explainability():
     print("• Tracking hormonal and system state influences")
     print("• Using tags to provide additional context")
     print("=" * 80)
+
 
 if __name__ == "__main__":
     asyncio.run(demonstrate_decision_explainability())

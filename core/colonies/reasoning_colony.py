@@ -399,7 +399,7 @@ class LogicalReasoningAgent(ReasoningAgent):
                         ):
                             conclusions.append(
                                 {
-                                    "conclusion": f"Based on {antecedent},
+                                    "conclusion": f"Based on {antecedent},"
                                     we can deduce: {consequent}",
                                     "confidence": 0.8,
                                     "symbols": self._extract_symbols(content_str),

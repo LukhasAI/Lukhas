@@ -21,7 +21,7 @@ import os
 import random
 import sys
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Add parent directory to path for identity interface
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -40,7 +40,7 @@ except ImportError:
             return True
 
         def log_activity(
-            self, activity_type: str, user_id: str, metadata: Dict[str, Any]
+            self, activity_type: str, user_id: str, metadata: dict[str, Any]
         ) -> None:
             print(f"CREATIVITY_LOG: {activity_type} by {user_id}: {metadata}")
 
@@ -71,8 +71,8 @@ class CreativityService:
         content_type: str,
         prompt: str,
         style: Optional[str] = None,
-        parameters: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        parameters: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Generate creative content based on user prompt and preferences.
 
@@ -170,9 +170,9 @@ class CreativityService:
     def synthesize_dream(
         self,
         user_id: str,
-        dream_data: Dict[str, Any],
+        dream_data: dict[str, Any],
         synthesis_type: str = "narrative",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Process and synthesize dream content into coherent narratives.
 
@@ -234,9 +234,9 @@ class CreativityService:
         self,
         user_id: str,
         emotion: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         output_format: str = "text",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate content with specific emotional resonance.
 
@@ -312,9 +312,9 @@ class CreativityService:
         self,
         user_id: str,
         project_id: str,
-        contribution: Dict[str, Any],
+        contribution: dict[str, Any],
         collaboration_type: str = "additive",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Enable multi-user creative collaboration.
 
@@ -381,8 +381,8 @@ class CreativityService:
         content_type: str,
         prompt: str,
         style: Optional[str],
-        parameters: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        parameters: dict[str, Any],
+    ) -> dict[str, Any]:
         """Core creative content generation logic."""
         if content_type == "story":
             return {
@@ -410,8 +410,8 @@ class CreativityService:
             return {"content": f"Creative {content_type} inspired by: {prompt}"}
 
     def _process_dream_content(
-        self, dream_data: Dict[str, Any], synthesis_type: str
-    ) -> Dict[str, Any]:
+        self, dream_data: dict[str, Any], synthesis_type: str
+    ) -> dict[str, Any]:
         """Process dream data into coherent content."""
         return {
             "narrative": f"Dream synthesis of {len(dream_data.get('elements', []))} dream elements",
@@ -422,8 +422,8 @@ class CreativityService:
         }
 
     def _generate_emotional_content(
-        self, emotion: str, context: Dict[str, Any], output_format: str
-    ) -> Dict[str, Any]:
+        self, emotion: str, context: dict[str, Any], output_format: str
+    ) -> dict[str, Any]:
         """Generate content with specific emotional resonance."""
         return {
             "content": f"Content resonating with {emotion}",
@@ -438,9 +438,9 @@ class CreativityService:
         self,
         project_id: str,
         user_id: str,
-        contribution: Dict[str, Any],
+        contribution: dict[str, Any],
         collaboration_type: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Process collaborative creative contribution."""
         return {
             "integration_success": True,
@@ -454,21 +454,21 @@ class CreativityService:
 # Module API functions for easy import
 def generate_content(
     user_id: str, content_type: str, prompt: str, style: Optional[str] = None
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Simplified API for content generation."""
     service = CreativityService()
     return service.generate_content(user_id, content_type, prompt, style)
 
 
-def synthesize_dream(user_id: str, dream_data: Dict[str, Any]) -> Dict[str, Any]:
+def synthesize_dream(user_id: str, dream_data: dict[str, Any]) -> dict[str, Any]:
     """Simplified API for dream synthesis."""
     service = CreativityService()
     return service.synthesize_dream(user_id, dream_data)
 
 
 def generate_emotional_content(
-    user_id: str, emotion: str, context: Dict[str, Any]
-) -> Dict[str, Any]:
+    user_id: str, emotion: str, context: dict[str, Any]
+) -> dict[str, Any]:
     """Simplified API for emotional content generation."""
     service = CreativityService()
     return service.generate_emotional_content(user_id, emotion, context)

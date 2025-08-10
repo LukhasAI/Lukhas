@@ -50,21 +50,21 @@ Based on strategic documentation:
 - Modular design patterns (03_LUKHAS_MODULES.md)
 """
 
-import asyncio
-import logging
-import uuid
-from datetime import datetime
-from typing import Any, Optional
-
-from consciousness.awareness.awareness_engine import (
-    ΛAwarenessEngine as BioAwarenessSystem,
-)
-from governance.ethics.EthicsGuardian import EthicsGuardian as EthicsCore
+from quantum_attention.__init__ import DreamEngineMerged as DreamEngine
+from memory.core_memory.MemoryManager import MemoryManager
 from identity.backend.app.compliance import (
     ComplianceEngine,  # Sourced from ethical_engine.py via __init__.py
 )
-from memory.core_memory.MemoryManager import MemoryManager
-from quantum_attention.__init__ import DreamEngineMerged as DreamEngine
+from governance.ethics.EthicsGuardian import EthicsGuardian as EthicsCore
+from consciousness.awareness.awareness_engine import (
+    ΛAwarenessEngine as BioAwarenessSystem,
+)
+from typing import Any, Optional
+from datetime import datetime
+import uuid
+import asyncio
+import logging
+
 
 # TODO: Create or find existing ModuleRegistry and uncomment.
 # from .module_registry import ModuleRegistry

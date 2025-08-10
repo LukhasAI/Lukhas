@@ -67,6 +67,7 @@ Version: 1.0.0 - Research Experimental Edition
 Date: June 2025
 Classification: RESEARCH GRADE - EXPERIMENTAL & FLEXIBLE
 """
+import logging
 
 import json
 import random
@@ -75,7 +76,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
@@ -156,7 +157,7 @@ class ResearchConfig:
 
     # Research settings
     research_type: ResearchType = ResearchType.EXPERIMENTAL_RESEARCH
-    experimental_techniques: Set[ExperimentalTechnique] = field(default_factory=set)
+    experimental_techniques: set[ExperimentalTechnique] = field(default_factory=set)
     research_phase: ResearchPhase = ResearchPhase.PLANNING
 
     # Ethics and compliance
@@ -221,12 +222,12 @@ class ResearchAwarenessInput(BaseModel):
     vulnerable_population: bool = False
 
     # Experimental techniques
-    techniques_used: List[ExperimentalTechnique] = Field(default_factory=list)
-    quantum_features: Dict[str, Any] = Field(default_factory=dict)
-    bio_symbolic_features: Dict[str, Any] = Field(default_factory=dict)
+    techniques_used: list[ExperimentalTechnique] = Field(default_factory=list)
+    quantum_features: dict[str, Any] = Field(default_factory=dict)
+    bio_symbolic_features: dict[str, Any] = Field(default_factory=dict)
 
     # Data characteristics
-    data_modalities: List[str] = Field(
+    data_modalities: list[str] = Field(
         default_factory=list
     )  # text, image, audio, video, sensor
     data_sensitivity: str = "medium"  # low, medium, high, critical
@@ -246,9 +247,9 @@ class ResearchAwarenessInput(BaseModel):
     data_sharing_approved: bool = False
 
     # Research data (flexible structure for experimentation)
-    research_data: Dict[str, Any] = Field(default_factory=dict)
-    experimental_parameters: Dict[str, Any] = Field(default_factory=dict)
-    baseline_metrics: Dict[str, float] = Field(default_factory=dict)
+    research_data: dict[str, Any] = Field(default_factory=dict)
+    experimental_parameters: dict[str, Any] = Field(default_factory=dict)
+    baseline_metrics: dict[str, float] = Field(default_factory=dict)
 
     class Config:
         validate_assignment = True
@@ -264,10 +265,10 @@ class ResearchAwarenessOutput(BaseModel):
     processing_time_ms: float = Field(ge=0.0)
 
     # Research results
-    experimental_results: Dict[str, Any] = Field(default_factory=dict)
+    experimental_results: dict[str, Any] = Field(default_factory=dict)
     statistical_significance: Optional[float] = None
     effect_size: Optional[float] = None
-    confidence_intervals: Dict[str, Tuple[float, float]] = Field(default_factory=dict)
+    confidence_intervals: dict[str, tuple[float, float]] = Field(default_factory=dict)
 
     # Innovation metrics
     novelty_score: float = Field(ge=0.0, le=1.0, default=0.5)
@@ -276,27 +277,27 @@ class ResearchAwarenessOutput(BaseModel):
     adaptation_success: float = Field(ge=0.0, le=1.0, default=0.5)
 
     # Experimental technique results
-    technique_performance: Dict[str, Dict[str, Any]] = Field(default_factory=dict)
-    quantum_results: Dict[str, Any] = Field(default_factory=dict)
-    bio_symbolic_insights: Dict[str, Any] = Field(default_factory=dict)
-    swarm_coordination_metrics: Dict[str, Any] = Field(default_factory=dict)
+    technique_performance: dict[str, dict[str, Any]] = Field(default_factory=dict)
+    quantum_results: dict[str, Any] = Field(default_factory=dict)
+    bio_symbolic_insights: dict[str, Any] = Field(default_factory=dict)
+    swarm_coordination_metrics: dict[str, Any] = Field(default_factory=dict)
 
     # Research insights
-    discovered_patterns: List[Dict[str, Any]] = Field(default_factory=list)
-    anomalies_detected: List[Dict[str, Any]] = Field(default_factory=list)
-    hypothesis_validation: Dict[str, Any] = Field(default_factory=dict)
-    research_recommendations: List[str] = Field(default_factory=list)
+    discovered_patterns: list[dict[str, Any]] = Field(default_factory=list)
+    anomalies_detected: list[dict[str, Any]] = Field(default_factory=list)
+    hypothesis_validation: dict[str, Any] = Field(default_factory=dict)
+    research_recommendations: list[str] = Field(default_factory=list)
 
     # Analytics results
-    clustering_results: Dict[str, Any] = Field(default_factory=dict)
-    classification_metrics: Dict[str, float] = Field(default_factory=dict)
-    regression_analysis: Dict[str, Any] = Field(default_factory=dict)
-    time_series_analysis: Dict[str, Any] = Field(default_factory=dict)
+    clustering_results: dict[str, Any] = Field(default_factory=dict)
+    classification_metrics: dict[str, float] = Field(default_factory=dict)
+    regression_analysis: dict[str, Any] = Field(default_factory=dict)
+    time_series_analysis: dict[str, Any] = Field(default_factory=dict)
 
     # Collaboration metrics
-    federated_learning_performance: Dict[str, Any] = Field(default_factory=dict)
+    federated_learning_performance: dict[str, Any] = Field(default_factory=dict)
     multi_site_consistency: Optional[float] = None
-    data_sharing_impact: Dict[str, Any] = Field(default_factory=dict)
+    data_sharing_impact: dict[str, Any] = Field(default_factory=dict)
 
     # Research quality metrics
     reproducibility_score: float = Field(ge=0.0, le=1.0, default=0.8)
@@ -310,17 +311,17 @@ class ResearchAwarenessOutput(BaseModel):
 
     # Publication readiness
     publication_ready: bool = False
-    peer_review_suggestions: List[str] = Field(default_factory=list)
+    peer_review_suggestions: list[str] = Field(default_factory=list)
     open_science_compliance: bool = True
 
     # Future research directions
-    next_experiments: List[str] = Field(default_factory=list)
-    research_gaps_identified: List[str] = Field(default_factory=list)
-    collaboration_opportunities: List[str] = Field(default_factory=list)
+    next_experiments: list[str] = Field(default_factory=list)
+    research_gaps_identified: list[str] = Field(default_factory=list)
+    collaboration_opportunities: list[str] = Field(default_factory=list)
 
 
 def research_audit_log(
-    event: str, data: Dict[str, Any], research_id: str, level: str = "INFO"
+    event: str, data: dict[str, Any], research_id: str, level: str = "INFO"
 ):
     """Research-specific audit logging with experiment tracking."""
     audit_record = {
@@ -355,7 +356,7 @@ class QuantumInspiredProcessor:
     def __init__(self):
         self.quantum_like_state = {"superposition": 0.5, "entanglement": 0.3}
 
-    def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Simulate quantum-inspired processing."""
         # Simulate superposition-like state for exploring multiple states
         results = {}
@@ -383,7 +384,7 @@ class BioSymbolicReasoner:
         self.neural_patterns = defaultdict(list)
         self.symbolic_rules = []
 
-    def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Bio-symbolic hybrid reasoning."""
         # Simulate neural pattern recognition
         patterns = self._detect_patterns(data)
@@ -400,7 +401,7 @@ class BioSymbolicReasoner:
             ),
         }
 
-    def _detect_patterns(self, data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _detect_patterns(self, data: dict[str, Any]) -> list[dict[str, Any]]:
         """Simulate neural pattern detection."""
         patterns = []
         for key, value in data.items():
@@ -416,8 +417,8 @@ class BioSymbolicReasoner:
         return patterns
 
     def _apply_symbolic_rules(
-        self, patterns: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, patterns: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Apply symbolic reasoning rules."""
         rules = []
         for pattern in patterns:
@@ -433,8 +434,8 @@ class BioSymbolicReasoner:
         return rules
 
     def _identify_emergent_properties(
-        self, patterns: List[Dict[str, Any]], rules: List[Dict[str, Any]]
-    ) -> List[str]:
+        self, patterns: list[dict[str, Any]], rules: list[dict[str, Any]]
+    ) -> list[str]:
         """Identify emergent properties from bio-symbolic interaction."""
         emergent = []
         if len(patterns) > 2 and len(rules) > 1:
@@ -454,7 +455,7 @@ class SwarmIntelligenceCoordinator:
             for i in range(swarm_size)
         ]
 
-    def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Coordinate swarm intelligence processing."""
         # Simulate swarm optimization
         self._update_swarm(data)
@@ -466,10 +467,10 @@ class SwarmIntelligenceCoordinator:
             "swarm_best_solutions": best_agents,
             "swarm_convergence": self._calculate_convergence(),
             "collective_intelligence": self._measure_collective_performance(),
-            "emergence_detected": len(set(a["fitness"] for a in self.agents)) < 3,
+            "emergence_detected": len({a["fitness"] for a in self.agents}) < 3,
         }
 
-    def _update_swarm(self, data: Dict[str, Any]):
+    def _update_swarm(self, data: dict[str, Any]):
         """Update swarm agents based on data."""
         for agent in self.agents:
             # Simulate fitness evaluation
@@ -526,7 +527,7 @@ class ResearchAwarenessReasoner:
         self.experiment_history = []
         self.learning_progress = 0.5
 
-    def process(self, inputs: ResearchAwarenessInput) -> Dict[str, Any]:
+    def process(self, inputs: ResearchAwarenessInput) -> dict[str, Any]:
         """Process research data with experimental techniques."""
         processing_start = datetime.now(timezone.utc)
 
@@ -578,7 +579,7 @@ class ResearchAwarenessReasoner:
 
     def _core_research_processing(
         self, inputs: ResearchAwarenessInput
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Core research processing logic."""
         return {
             "research_phase": inputs.research_phase.value,
@@ -592,7 +593,7 @@ class ResearchAwarenessReasoner:
             "methodology_score": random.uniform(0.8, 0.95),
         }
 
-    def _advanced_analytics(self, inputs: ResearchAwarenessInput) -> Dict[str, Any]:
+    def _advanced_analytics(self, inputs: ResearchAwarenessInput) -> dict[str, Any]:
         """Perform advanced analytics on research data."""
         analytics = {}
 
@@ -625,8 +626,8 @@ class ResearchAwarenessReasoner:
         return analytics
 
     def _calculate_innovation_metrics(
-        self, inputs: ResearchAwarenessInput, results: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, inputs: ResearchAwarenessInput, results: dict[str, Any]
+    ) -> dict[str, Any]:
         """Calculate innovation and research quality metrics."""
         return {
             "novelty_score": min(
@@ -662,8 +663,8 @@ class ResearchAwarenessReasoner:
         return min(base_efficiency + random.uniform(-0.1, 0.1), 1.0)
 
     def _generate_research_insights(
-        self, inputs: ResearchAwarenessInput, results: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, inputs: ResearchAwarenessInput, results: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate research insights and recommendations."""
         insights = {
             "key_findings": [],
@@ -720,7 +721,7 @@ class ResearchAwarenessReasoner:
         return insights
 
     def _update_learning_progress(
-        self, inputs: ResearchAwarenessInput, results: Dict[str, Any]
+        self, inputs: ResearchAwarenessInput, results: dict[str, Any]
     ):
         """Update overall learning progress based on results."""
         # Simulate learning progress update
@@ -879,7 +880,7 @@ class ResearchAwarenessEngine:
     def _build_research_output(
         self,
         inputs: ResearchAwarenessInput,
-        processing_results: Dict[str, Any],
+        processing_results: dict[str, Any],
         processing_start: datetime,
     ) -> ResearchAwarenessOutput:
         """Build comprehensive research output."""
@@ -946,7 +947,7 @@ class ResearchAwarenessEngine:
         )
 
     def _assess_publication_readiness(
-        self, inputs: ResearchAwarenessInput, results: Dict[str, Any]
+        self, inputs: ResearchAwarenessInput, results: dict[str, Any]
     ) -> bool:
         """Assess if research results are ready for publication."""
         criteria = [
@@ -963,7 +964,7 @@ class ResearchAwarenessEngine:
         ]
         return sum(criteria) >= 3
 
-    def _generate_peer_review_suggestions(self, results: Dict[str, Any]) -> List[str]:
+    def _generate_peer_review_suggestions(self, results: dict[str, Any]) -> list[str]:
         """Generate suggestions for peer review improvement."""
         suggestions = []
 
@@ -1014,7 +1015,7 @@ class ResearchAwarenessEngine:
         if inputs.federated_learning:
             self.collaboration_network.add("federated_learning_network")
 
-    def get_research_summary(self) -> Dict[str, Any]:
+    def get_research_summary(self) -> dict[str, Any]:
         """Get comprehensive research summary and statistics."""
         return {
             "total_experiments": self.experiments_conducted,
@@ -1034,7 +1035,7 @@ class ResearchAwarenessEngine:
 # ——— Research Compliance Certification ——————————————————————————— #
 
 
-def certify_research_compliance(engine: ResearchAwarenessEngine) -> Dict[str, Any]:
+def certify_research_compliance(engine: ResearchAwarenessEngine) -> dict[str, Any]:
     """Generate research compliance and ethics certification."""
     return {
         "certification": "RESEARCH_ETHICS_COMPLIANT",

@@ -15,7 +15,7 @@ import json
 import logging
 from collections import deque
 from datetime import datetime, timedelta
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -103,8 +103,8 @@ class AdaptiveThresholdColony(BaseColony):
         logger.info(f"🎯 AdaptiveThresholdColony '{colony_id}' initialized")
 
     async def execute_task(
-        self, task_id: str, task_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, task_id: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Calculate dynamic thresholds based on context.
 
@@ -164,8 +164,8 @@ class AdaptiveThresholdColony(BaseColony):
             return result
 
     def _get_base_thresholds(
-        self, bio_data: Dict[str, Any]
-    ) -> Dict[str, Dict[str, float]]:
+        self, bio_data: dict[str, Any]
+    ) -> dict[str, dict[str, float]]:
         """Get base thresholds for given bio data types."""
         base = {}
 
@@ -200,10 +200,10 @@ class AdaptiveThresholdColony(BaseColony):
 
     async def _apply_context_modifiers(
         self,
-        base_thresholds: Dict[str, Dict[str, float]],
-        context: Dict[str, Any],
-        bio_data: Dict[str, Any],
-    ) -> Dict[str, Dict[str, float]]:
+        base_thresholds: dict[str, dict[str, float]],
+        context: dict[str, Any],
+        bio_data: dict[str, Any],
+    ) -> dict[str, dict[str, float]]:
         """Apply all context modifiers to thresholds."""
         modified = {}
 
@@ -240,8 +240,8 @@ class AdaptiveThresholdColony(BaseColony):
         return modified
 
     async def _get_modifier_values(
-        self, context: Dict[str, Any], bio_data: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, context: dict[str, Any], bio_data: dict[str, Any]
+    ) -> dict[str, float]:
         """Calculate all context modifier values."""
         modifiers = {}
 
@@ -254,7 +254,7 @@ class AdaptiveThresholdColony(BaseColony):
         return modifiers
 
     def _calculate_circadian_modifier(
-        self, context: Dict[str, Any], bio_data: Dict[str, Any]
+        self, context: dict[str, Any], bio_data: dict[str, Any]
     ) -> float:
         """Calculate circadian rhythm modifier."""
         current_hour = datetime.utcnow().hour
@@ -272,7 +272,7 @@ class AdaptiveThresholdColony(BaseColony):
         return np.clip(circadian_value, 0.3, 1.0)
 
     def _calculate_stress_modifier(
-        self, context: Dict[str, Any], bio_data: Dict[str, Any]
+        self, context: dict[str, Any], bio_data: dict[str, Any]
     ) -> float:
         """Calculate stress history modifier."""
         # Add current stress to history
@@ -295,7 +295,7 @@ class AdaptiveThresholdColony(BaseColony):
             return 1.0  # Neutral
 
     async def _calculate_colony_modifier(
-        self, context: Dict[str, Any], bio_data: Dict[str, Any]
+        self, context: dict[str, Any], bio_data: dict[str, Any]
     ) -> float:
         """Calculate colony consensus modifier."""
         # Check cache first
@@ -316,7 +316,7 @@ class AdaptiveThresholdColony(BaseColony):
         return consensus_value
 
     def _calculate_methylation_modifier(
-        self, context: Dict[str, Any], bio_data: Dict[str, Any]
+        self, context: dict[str, Any], bio_data: dict[str, Any]
     ) -> float:
         """Calculate methylation-based modifier."""
         # Get methylation decay factor from model
@@ -331,7 +331,7 @@ class AdaptiveThresholdColony(BaseColony):
         return 1.0
 
     def _calculate_user_modifier(
-        self, context: Dict[str, Any], bio_data: Dict[str, Any]
+        self, context: dict[str, Any], bio_data: dict[str, Any]
     ) -> float:
         """Calculate user-specific calibration modifier."""
         if "user_id" in context and context["user_id"] in self.user_calibration:
@@ -343,7 +343,7 @@ class AdaptiveThresholdColony(BaseColony):
         return 1.0  # Default neutral
 
     def _calculate_threshold_confidence(
-        self, thresholds: Dict[str, Dict[str, float]], context: Dict[str, Any]
+        self, thresholds: dict[str, dict[str, float]], context: dict[str, Any]
     ) -> float:
         """Calculate confidence in the adapted thresholds."""
         confidence_factors = []
@@ -370,8 +370,8 @@ class AdaptiveThresholdColony(BaseColony):
         return np.mean(confidence_factors) if confidence_factors else 0.7
 
     def _apply_methylation(
-        self, thresholds: Dict[str, Dict[str, float]], confidence: float
-    ) -> Dict[str, Dict[str, float]]:
+        self, thresholds: dict[str, dict[str, float]], confidence: float
+    ) -> dict[str, dict[str, float]]:
         """Apply methylation-based persistence to thresholds."""
         if confidence > 0.8:
             # High confidence -> increase persistence
@@ -379,7 +379,7 @@ class AdaptiveThresholdColony(BaseColony):
 
         return thresholds
 
-    def _tag_for_methylation(self, thresholds: Dict[str, Any], confidence: float):
+    def _tag_for_methylation(self, thresholds: dict[str, Any], confidence: float):
         """Tag thresholds for methylation persistence."""
         tag_name = "ΛTHRESHOLD_METHYLATED"
         self.symbolic_carryover[tag_name] = (
@@ -409,9 +409,9 @@ class AdaptiveThresholdColony(BaseColony):
 
     async def _update_from_feedback(
         self,
-        feedback: Dict[str, Any],
-        thresholds: Dict[str, Dict[str, float]],
-        context: Dict[str, Any],
+        feedback: dict[str, Any],
+        thresholds: dict[str, dict[str, float]],
+        context: dict[str, Any],
     ):
         """Update thresholds based on feedback (reinforcement learning)."""
         # Store experience
@@ -465,14 +465,14 @@ class AdaptiveThresholdColony(BaseColony):
         )
 
     def _apply_ab_tests(
-        self, thresholds: Dict[str, Dict[str, float]]
-    ) -> Dict[str, Dict[str, float]]:
+        self, thresholds: dict[str, dict[str, float]]
+    ) -> dict[str, dict[str, float]]:
         """Apply A/B test overrides to thresholds."""
         # Placeholder for A/B testing framework
         # In production, this would randomly assign variants and track results
         return thresholds
 
-    def _load_user_calibration(self) -> Dict[str, Dict[str, Any]]:
+    def _load_user_calibration(self) -> dict[str, dict[str, Any]]:
         """Load user-specific calibration data."""
         # In production, this would load from a database
         return {"default_user": {"sensitivity": 1.0, "chronotype": "neutral"}}

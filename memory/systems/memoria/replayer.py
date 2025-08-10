@@ -16,7 +16,13 @@
 """
 
 # Module imports
-from typing import Any, Dict, Optional
+import structlog
+from pathlib import Path
+from datetime import datetime, timezone
+import uuid  # For example dummy log
+import os
+import json
+from typing import Any, Optional
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -27,15 +33,8 @@ logger = get_logger(__name__)
 # ΛNOTE: This module facilitates the "replay" of LUKHAS's past dreams.
 
 # Standard Library Imports
-import json
-import os
-import uuid  # For example dummy log
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import List
 
 # Third-Party Imports
-import structlog
 
 # --- Symbolic AI Component Imports (Problematic - Need Path Resolution) ---
 # AIMPORT_TODO: Resolve these imports via proper packaging or PYTHONPATH.
@@ -62,14 +61,14 @@ except ImportError as e_sym_replay_imp:
         error_msg=str(e_sym_replay_imp),
     )
 
-    def load_traits() -> Dict[str, Any]:
+    def load_traits() -> dict[str, Any]:
         log.warning("PLACEHOLDER: load_traits() in Replayer.")
         return {"voice_pitch_factor_ph": 1.05}
 
     def speak(
         text: str,
-        emotion: Optional[Dict[str, Any]] = None,
-        traits: Optional[Dict[str, Any]] = None,
+        emotion: Optional[dict[str, Any]] = None,
+        traits: Optional[dict[str, Any]] = None,
     ) -> None:
         log.info(
             "PLACEHOLDER: speak() called.",
@@ -78,7 +77,7 @@ except ImportError as e_sym_replay_imp:
             traits_data_ph=traits,
         )
 
-    def log_symbolic_ai_memory_event(module_name: str, payload: Dict[str, Any]) -> None:
+    def log_symbolic_ai_memory_event(module_name: str, payload: dict[str, Any]) -> None:
         log.info(
             "PLACEHOLDER: log_symbolic_ai_memory_event() called.",
             module_ph=module_name,
@@ -109,7 +108,7 @@ def load_recent_dream_logs(
     limit: int = 3,
     log_date: Optional[datetime] = None,
     specific_log_file: Optional[Path] = None,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Loads recent dream log entries from core.common dream logs."""
     log.debug(
         "Loading recent dream logs for replay.",
@@ -125,7 +124,7 @@ def load_recent_dream_logs(
         log.warning("Dream log file not found for replay.", path=str(target_log))
         return []
 
-    loaded_logs: List[Dict[str, Any]] = []
+    loaded_logs: list[dict[str, Any]] = []
     try:
         with open(target_log, encoding="utf-8") as f:
             all_lines = [line.strip() for line in f if line.strip()]

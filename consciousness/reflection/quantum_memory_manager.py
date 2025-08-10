@@ -20,7 +20,7 @@
 
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 import numpy as np
 
@@ -40,7 +40,7 @@ class QuantumMemoryManager(BaseMemoryManager):
     """
 
     def __init__(
-        self, config: Optional[Dict[str, Any]] = None, base_path: Optional[Path] = None
+        self, config: Optional[dict[str, Any]] = None, base_path: Optional[Path] = None
     ):
         """Initialize quantum memory manager."""
         super().__init__(config, base_path)
@@ -55,9 +55,9 @@ class QuantumMemoryManager(BaseMemoryManager):
         }
 
         # Quantum state tracking
-        self.quantum_like_states: Dict[str, Dict[str, Any]] = {}
-        self.entanglements: Dict[str, Set[str]] = {}
-        self.coherence_scores: Dict[str, float] = {}
+        self.quantum_like_states: dict[str, dict[str, Any]] = {}
+        self.entanglements: dict[str, set[str]] = {}
+        self.coherence_scores: dict[str, float] = {}
 
         self.logger.info(
             "QuantumMemoryManager initialized", quantum_config=self.quantum_config
@@ -65,10 +65,10 @@ class QuantumMemoryManager(BaseMemoryManager):
 
     async def store(
         self,
-        memory_data: Dict[str, Any],
+        memory_data: dict[str, Any],
         memory_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Store memory with quantum enhancement.
 
@@ -129,8 +129,8 @@ class QuantumMemoryManager(BaseMemoryManager):
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def retrieve(
-        self, memory_id: str, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, memory_id: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Retrieve memory with coherence-inspired processing check.
 
@@ -180,8 +180,8 @@ class QuantumMemoryManager(BaseMemoryManager):
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def update(
-        self, memory_id: str, updates: Dict[str, Any], merge: bool = True
-    ) -> Dict[str, Any]:
+        self, memory_id: str, updates: dict[str, Any], merge: bool = True
+    ) -> dict[str, Any]:
         """Update memory with quantum-like state evolution."""
         try:
             # Retrieve current state
@@ -190,10 +190,7 @@ class QuantumMemoryManager(BaseMemoryManager):
                 return current
 
             # Update data
-            if merge:
-                updated_data = {**current["data"], **updates}
-            else:
-                updated_data = updates
+            updated_data = {**current["data"], **updates} if merge else updates
 
             # Evolve quantum-like state
             if memory_id in self.quantum_like_states:
@@ -213,7 +210,7 @@ class QuantumMemoryManager(BaseMemoryManager):
             )
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def delete(self, memory_id: str, soft_delete: bool = True) -> Dict[str, Any]:
+    async def delete(self, memory_id: str, soft_delete: bool = True) -> dict[str, Any]:
         """Delete memory with entanglement cleanup."""
         try:
             # Clean up entanglements
@@ -261,8 +258,8 @@ class QuantumMemoryManager(BaseMemoryManager):
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def search(
-        self, criteria: Dict[str, Any], limit: Optional[int] = None
-    ) -> List[Dict[str, Any]]:
+        self, criteria: dict[str, Any], limit: Optional[int] = None
+    ) -> list[dict[str, Any]]:
         """
         Search memories with quantum-aware filtering.
 
@@ -317,7 +314,7 @@ class QuantumMemoryManager(BaseMemoryManager):
 
     # === Quantum-specific methods ===
 
-    async def entangle(self, memory_id1: str, memory_id2: str) -> Dict[str, Any]:
+    async def entangle(self, memory_id1: str, memory_id2: str) -> dict[str, Any]:
         """
         Create entanglement-like correlation between memories.
 
@@ -370,8 +367,8 @@ class QuantumMemoryManager(BaseMemoryManager):
             return {"status": "error", "error": str(e)}
 
     async def visualize(
-        self, memory_id: str, options: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, memory_id: str, options: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Create quantum-like state visualization.
 
@@ -414,8 +411,8 @@ class QuantumMemoryManager(BaseMemoryManager):
     # === Private helper methods ===
 
     def _initialize_quantum_like_state(
-        self, memory_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, memory_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Initialize quantum-like state for memory."""
         # Calculate dimensionality based on data complexity
         dimensions = min(
@@ -453,15 +450,15 @@ class QuantumMemoryManager(BaseMemoryManager):
         return new_coherence
 
     def _collapse_superposition(
-        self, memory_data: Dict[str, Any], quantum_like_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, memory_data: dict[str, Any], quantum_like_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """Collapse superposition-like state to classical state."""
         # Simple collapse - in real implementation would be more sophisticated
         return memory_data
 
     def _evolve_quantum_like_state(
-        self, current_state: Dict[str, Any], updates: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, current_state: dict[str, Any], updates: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evolve quantum-like state based on updates."""
         # Simple evolution - rotate phases based on update complexity
         evolved_state = current_state.copy()
@@ -475,7 +472,7 @@ class QuantumMemoryManager(BaseMemoryManager):
         return evolved_state
 
     def _entangle_quantum_like_states(
-        self, state1: Dict[str, Any], state2: Dict[str, Any]
+        self, state1: dict[str, Any], state2: dict[str, Any]
     ) -> None:
         """Create entanglement between quantum-like states."""
         # Simplified entanglement - mix phases
@@ -492,7 +489,7 @@ class QuantumMemoryManager(BaseMemoryManager):
                     state2["phase"][i] * (1 - strength) + avg_phase * strength
                 )
 
-    def _matches_criteria(self, data: Dict[str, Any], criteria: Dict[str, Any]) -> bool:
+    def _matches_criteria(self, data: dict[str, Any], criteria: dict[str, Any]) -> bool:
         """Check if data matches search criteria."""
         for key, value in criteria.items():
             if key not in data:
@@ -501,7 +498,7 @@ class QuantumMemoryManager(BaseMemoryManager):
                 return False
         return True
 
-    async def get_statistics(self) -> Dict[str, Any]:
+    async def get_statistics(self) -> dict[str, Any]:
         """Get quantum memory statistics."""
         base_stats = await super().get_statistics()
 

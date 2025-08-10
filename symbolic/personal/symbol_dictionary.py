@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 
 class GestureType(Enum):
     """Types of gestures that can be mapped to symbols"""
+
     HAND = "hand_gesture"
     FACIAL = "facial_expression"
     BODY = "body_posture"
@@ -40,6 +41,7 @@ class GestureType(Enum):
 @dataclass
 class SymbolMapping:
     """A single symbol-to-meaning mapping"""
+
     symbol: str
     meaning: str
     gesture_type: GestureType
@@ -53,20 +55,21 @@ class SymbolMapping:
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for serialization"""
         data = asdict(self)
-        data['gesture_type'] = self.gesture_type.value
+        data["gesture_type"] = self.gesture_type.value
         return data
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'SymbolMapping':
+    def from_dict(cls, data: Dict[str, Any]) -> "SymbolMapping":
         """Create from dictionary"""
         data = data.copy()
-        data['gesture_type'] = GestureType(data['gesture_type'])
+        data["gesture_type"] = GestureType(data["gesture_type"])
         return cls(**data)
 
 
 @dataclass
 class GesturePattern:
     """Pattern recognition for gestures"""
+
     pattern_id: str
     gesture_sequence: List[str]
     timing: List[float]  # Time between gestures
@@ -100,7 +103,9 @@ class PersonalSymbolDictionary:
 
     def __init__(self, user_id: str, storage_path: Optional[Path] = None):
         self.user_id = user_id
-        self.storage_path = storage_path or Path(f".lukhas/personal/{user_id}/symbols.enc")
+        self.storage_path = storage_path or Path(
+            f".lukhas/personal/{user_id}/symbols.enc"
+        )
         self.storage_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Symbol mappings
@@ -140,7 +145,7 @@ class PersonalSymbolDictionary:
                 meaning=meaning,
                 gesture_type=gesture_type,
                 context="base_vocabulary",
-                confidence=0.9
+                confidence=0.9,
             )
 
     def unlock(self, passphrase: str) -> bool:
@@ -181,7 +186,7 @@ class PersonalSymbolDictionary:
         meaning: str,
         gesture_type: GestureType,
         context: str = "",
-        gesture_sequence: Optional[List[str]] = None
+        gesture_sequence: Optional[List[str]] = None,
     ) -> bool:
         """Add a new symbol mapping"""
         if self.is_locked:
@@ -190,10 +195,7 @@ class PersonalSymbolDictionary:
 
         # Create mapping
         mapping = SymbolMapping(
-            symbol=symbol,
-            meaning=meaning,
-            gesture_type=gesture_type,
-            context=context
+            symbol=symbol, meaning=meaning, gesture_type=gesture_type, context=context
         )
 
         # Store mapping
@@ -205,16 +207,14 @@ class PersonalSymbolDictionary:
                 pattern_id=f"{symbol}_{len(self.gesture_patterns)}",
                 gesture_sequence=gesture_sequence,
                 timing=[0.2] * (len(gesture_sequence) - 1),  # Default timing
-                matched_symbol=symbol
+                matched_symbol=symbol,
             )
             self.gesture_patterns[pattern.pattern_id] = pattern
 
         # Track evolution
-        self.evolution_history.append({
-            'action': 'add_symbol',
-            'symbol': symbol,
-            'timestamp': time.time()
-        })
+        self.evolution_history.append(
+            {"action": "add_symbol", "symbol": symbol, "timestamp": time.time()}
+        )
 
         logger.info(f"Added symbol mapping: {symbol} -> {meaning}")
         return True
@@ -230,9 +230,7 @@ class PersonalSymbolDictionary:
         return None
 
     def detect_gesture(
-        self,
-        gesture_sequence: List[str],
-        timings: Optional[List[float]] = None
+        self, gesture_sequence: List[str], timings: Optional[List[float]] = None
     ) -> Optional[str]:
         """Detect symbol from gesture sequence"""
         for pattern in self.gesture_patterns.values():
@@ -248,7 +246,7 @@ class PersonalSymbolDictionary:
         self,
         symbol: str,
         new_meaning: Optional[str] = None,
-        feedback_score: float = 0.5
+        feedback_score: float = 0.5,
     ):
         """Evolve a symbol based on feedback"""
         if self.is_locked or symbol not in self.mappings:
@@ -262,56 +260,62 @@ class PersonalSymbolDictionary:
         self.feedback_scores[symbol].append(feedback_score)
 
         # Update confidence based on feedback
-        avg_feedback = sum(self.feedback_scores[symbol]) / len(self.feedback_scores[symbol])
+        avg_feedback = sum(self.feedback_scores[symbol]) / len(
+            self.feedback_scores[symbol]
+        )
         mapping.confidence = 0.7 * mapping.confidence + 0.3 * avg_feedback
 
         # Update meaning if provided and feedback is positive
         if new_meaning and feedback_score > 0.7:
             old_meaning = mapping.meaning
             mapping.meaning = new_meaning
-            mapping.evolution_history.append({
-                'old_meaning': old_meaning,
-                'new_meaning': new_meaning,
-                'timestamp': time.time(),
-                'feedback_score': feedback_score
-            })
+            mapping.evolution_history.append(
+                {
+                    "old_meaning": old_meaning,
+                    "new_meaning": new_meaning,
+                    "timestamp": time.time(),
+                    "feedback_score": feedback_score,
+                }
+            )
 
             logger.info(f"Evolved symbol {symbol}: {old_meaning} -> {new_meaning}")
 
     def get_statistics(self) -> Dict[str, Any]:
         """Get usage statistics for the dictionary"""
         if self.is_locked:
-            return {'status': 'locked'}
+            return {"status": "locked"}
 
         total_symbols = len(self.mappings)
         total_usage = sum(m.usage_count for m in self.mappings.values())
-        avg_confidence = sum(m.confidence for m in self.mappings.values()) / max(1, total_symbols)
+        avg_confidence = sum(m.confidence for m in self.mappings.values()) / max(
+            1, total_symbols
+        )
 
         # Find most used symbols
         most_used = sorted(
-            self.mappings.items(),
-            key=lambda x: x[1].usage_count,
-            reverse=True
+            self.mappings.items(), key=lambda x: x[1].usage_count, reverse=True
         )[:5]
 
         return {
-            'user_id': self.user_id,
-            'total_symbols': total_symbols,
-            'total_usage': total_usage,
-            'average_confidence': avg_confidence,
-            'gesture_patterns': len(self.gesture_patterns),
-            'most_used_symbols': [
+            "user_id": self.user_id,
+            "total_symbols": total_symbols,
+            "total_usage": total_usage,
+            "average_confidence": avg_confidence,
+            "gesture_patterns": len(self.gesture_patterns),
+            "most_used_symbols": [
                 {
-                    'symbol': symbol,
-                    'meaning': mapping.meaning,
-                    'usage': mapping.usage_count
+                    "symbol": symbol,
+                    "meaning": mapping.meaning,
+                    "usage": mapping.usage_count,
                 }
                 for symbol, mapping in most_used
             ],
-            'evolution_events': len(self.evolution_history)
+            "evolution_events": len(self.evolution_history),
         }
 
-    def export_public_symbols(self, confidence_threshold: float = 0.8) -> Dict[str, str]:
+    def export_public_symbols(
+        self, confidence_threshold: float = 0.8
+    ) -> Dict[str, str]:
         """
         Export high-confidence symbols for universal exchange.
         Only exports symbols above confidence threshold with no personal context.
@@ -320,9 +324,11 @@ class PersonalSymbolDictionary:
 
         for symbol, mapping in self.mappings.items():
             # Only export high-confidence, non-personal symbols
-            if (mapping.confidence >= confidence_threshold and
-                mapping.context != "personal" and
-                mapping.usage_count > 5):
+            if (
+                mapping.confidence >= confidence_threshold
+                and mapping.context != "personal"
+                and mapping.usage_count > 5
+            ):
 
                 # Hash the meaning for privacy
                 meaning_hash = hashlib.sha256(
@@ -345,7 +351,7 @@ class PersonalSymbolDictionary:
                     symbol=symbol,
                     meaning="universal_pending",
                     gesture_type=GestureType.COMPOSITE,
-                    context="universal_exchange"
+                    context="universal_exchange",
                 )
                 self.mappings[symbol].confidence = confidence
 
@@ -357,16 +363,16 @@ class PersonalSymbolDictionary:
         try:
             # Prepare data
             data = {
-                'mappings': {
+                "mappings": {
                     symbol: mapping.to_dict()
                     for symbol, mapping in self.mappings.items()
                 },
-                'gesture_patterns': {
+                "gesture_patterns": {
                     pid: asdict(pattern)
                     for pid, pattern in self.gesture_patterns.items()
                 },
-                'evolution_history': self.evolution_history,
-                'feedback_scores': self.feedback_scores
+                "evolution_history": self.evolution_history,
+                "feedback_scores": self.feedback_scores,
             }
 
             # Encrypt
@@ -395,17 +401,17 @@ class PersonalSymbolDictionary:
             # Restore mappings
             self.mappings = {
                 symbol: SymbolMapping.from_dict(mapping_data)
-                for symbol, mapping_data in data.get('mappings', {}).items()
+                for symbol, mapping_data in data.get("mappings", {}).items()
             }
 
             # Restore patterns
             self.gesture_patterns = {
                 pid: GesturePattern(**pattern_data)
-                for pid, pattern_data in data.get('gesture_patterns', {}).items()
+                for pid, pattern_data in data.get("gesture_patterns", {}).items()
             }
 
-            self.evolution_history = data.get('evolution_history', [])
-            self.feedback_scores = data.get('feedback_scores', {})
+            self.evolution_history = data.get("evolution_history", [])
+            self.feedback_scores = data.get("feedback_scores", {})
 
             logger.info(f"Loaded {len(self.mappings)} symbols from encrypted storage")
 
@@ -430,7 +436,7 @@ def demo_personal_dictionary():
             meaning="focus_mode",
             gesture_type=GestureType.HAND,
             context="productivity",
-            gesture_sequence=["👆", "👆", "👏"]
+            gesture_sequence=["👆", "👆", "👏"],
         )
 
         # Add emotional gesture
@@ -439,21 +445,25 @@ def demo_personal_dictionary():
             meaning="excitement",
             gesture_type=GestureType.COMPOSITE,
             context="emotion",
-            gesture_sequence=["😊", "🙌", "✨"]
+            gesture_sequence=["😊", "🙌", "✨"],
         )
 
         # Test gesture detection
         detected = dictionary.detect_gesture(["👆", "👆", "👏"])
         if detected:
-            print(f"🎯 Detected symbol: {detected} -> {dictionary.get_meaning(detected)}")
+            print(
+                f"🎯 Detected symbol: {detected} -> {dictionary.get_meaning(detected)}"
+            )
 
         # Evolve symbol based on feedback
         dictionary.evolve_symbol("🎯", new_meaning="deep_focus", feedback_score=0.9)
 
         # Get statistics
         stats = dictionary.get_statistics()
-        print(f"📊 Dictionary stats: {stats['total_symbols']} symbols, "
-              f"{stats['total_usage']} total uses")
+        print(
+            f"📊 Dictionary stats: {stats['total_symbols']} symbols, "
+            f"{stats['total_usage']} total uses"
+        )
 
         # Export public symbols for universal exchange
         public = dictionary.export_public_symbols()

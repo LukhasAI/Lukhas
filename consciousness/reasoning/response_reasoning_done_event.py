@@ -81,16 +81,19 @@ class ResponseReasoningDoneEvent(BaseModel):
        output array to which this finalized reasoning item belongs."""
 
     # ΛNOTE: `sequence_number` marks the final sequence for this item, ensuring that this "done" event
-    # is processed after all preceding delta events for the same item. It's key for symbolic ordering.
+    # is processed after all preceding delta events for the same item. It's
+    # key for symbolic ordering.
     sequence_number: int
     """The sequence number of this 'done' event, corresponding to the final sequence number
        of any delta events for this item."""
 
-    # ΛNOTE: `text` contains the complete, finalized symbolic output of the reasoning item.
+    # ΛNOTE: `text` contains the complete, finalized symbolic output of the
+    # reasoning item.
     text: str
     """The complete and finalized reasoning text for this item."""
 
-    # ΛNOTE: The `type` field is a fixed literal, a symbolic discriminator for event type handling.
+    # ΛNOTE: The `type` field is a fixed literal, a symbolic discriminator for
+    # event type handling.
     type: Literal["response.reasoning.done"]
     """The type of the event. Always 'response.reasoning.done' for this model."""
     # Human-readable comment: This fixed literal type is used for event discrimination.

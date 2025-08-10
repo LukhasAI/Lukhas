@@ -10,7 +10,6 @@ that explain quantum functionality in poetic yet technical terms.
 import os
 import re
 from pathlib import Path
-from typing import Dict
 
 import openai
 from dotenv import load_dotenv
@@ -30,7 +29,7 @@ MODULE_INFO_PATTERN = re.compile(
 )
 
 
-def analyze_code_content(filepath: Path) -> Dict[str, str]:
+def analyze_code_content(filepath: Path) -> dict[str, str]:
     """Analyze the code to extract key functionality."""
 
     try:
@@ -102,7 +101,7 @@ def analyze_code_content(filepath: Path) -> Dict[str, str]:
         }
 
 
-def generate_intelligent_description(code_analysis: Dict[str, str]) -> str:
+def generate_intelligent_description(code_analysis: dict[str, str]) -> str:
     """Generate intelligent module description using OpenAI."""
 
     # Build a comprehensive prompt
@@ -183,7 +182,7 @@ possibilities dance in superposition until observation births reality.
 def add_intelligent_description(filepath: Path) -> bool:
     """Add intelligent module description using GPT."""
 
-    if not filepath.suffix == ".py":
+    if filepath.suffix != ".py":
         return False
 
     try:

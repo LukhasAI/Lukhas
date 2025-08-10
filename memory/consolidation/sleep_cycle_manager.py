@@ -47,7 +47,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 from uuid import uuid4
 
 import numpy as np
@@ -83,8 +83,8 @@ class SleepCycle:
     end_time: Optional[float] = None
 
     # Stage durations (seconds)
-    stage_durations: Dict[SleepStage, float] = field(default_factory=dict)
-    stage_transitions: List[Tuple[SleepStage, SleepStage, float]] = field(
+    stage_durations: dict[SleepStage, float] = field(default_factory=dict)
+    stage_transitions: list[tuple[SleepStage, SleepStage, float]] = field(
         default_factory=list
     )
 
@@ -164,13 +164,13 @@ class SleepCycleManager:
 
         # Sleep cycles
         self.current_cycle: Optional[SleepCycle] = None
-        self.cycle_history: List[SleepCycle] = []
+        self.cycle_history: list[SleepCycle] = []
         self.total_cycles = 0
 
         # Architecture tracking
         self.architecture = SleepArchitecture()
         self.stage_start_time = time.time()
-        self.time_in_stages: Dict[SleepStage, float] = dict.fromkeys(SleepStage, 0.0)
+        self.time_in_stages: dict[SleepStage, float] = dict.fromkeys(SleepStage, 0.0)
 
         # Oscillation parameters
         self.delta_power = 1.0  # Slow-wave activity
@@ -178,8 +178,8 @@ class SleepCycleManager:
         self.spindle_density = 0.0  # Sleep spindles
 
         # Callbacks
-        self.stage_callbacks: List[Callable] = []
-        self.cycle_callbacks: List[Callable] = []
+        self.stage_callbacks: list[Callable] = []
+        self.cycle_callbacks: list[Callable] = []
 
         # Background tasks
         self._running = False
@@ -265,7 +265,9 @@ class SleepCycleManager:
 
         # Update cycle tracking
         if self.current_cycle and old_stage != SleepStage.WAKE:
-            # SYNTAX_ERROR_FIXED:             self.current_cycle.stage_durations[old_stage] = " + "self.current_cycle.stage_durations.get(old_stage, 0) + stage_duration
+            # SYNTAX_ERROR_FIXED:
+            # self.current_cycle.stage_durations[old_stage] = " +
+            # "self.current_cycle.stage_durations.get(old_stage, 0) + stage_duration
             self.current_cycle.stage_transitions.append(
                 (old_stage, new_stage, current_time)
             )
@@ -286,7 +288,7 @@ class SleepCycleManager:
 
         logger.debug(f"Stage transition: {old_stage.value} -> {new_stage.value}")
 
-    def get_stage_duration(self, stage: SleepStage) -> Dict[str, float]:
+    def get_stage_duration(self, stage: SleepStage) -> dict[str, float]:
         """
         Get optimal stage duration based on cycle number and circadian phase.
         Returns min, target, and max durations in seconds.
@@ -530,7 +532,7 @@ class SleepCycleManager:
         """Register callback for cycle completion"""
         self.cycle_callbacks.append(callback)
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get sleep cycle metric"""
 
         # Current state

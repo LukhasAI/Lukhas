@@ -12,7 +12,7 @@ import uuid
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 
 # Symbol types for different content
@@ -38,9 +38,9 @@ class GlyphSymbol:
     id: str
     type: SymbolType
     content: str
-    metadata: Dict[str, Any]
-    position: Optional[Tuple[float, float, float]]  # 3D position for AR/VR
-    connections: List[str]  # IDs of connected symbols
+    metadata: dict[str, Any]
+    position: Optional[tuple[float, float, float]]  # 3D position for AR/VR
+    connections: list[str]  # IDs of connected symbols
     timestamp: float
     confidence: float
 
@@ -51,9 +51,9 @@ class SymbolicDashboard:
 
     id: str
     source_file: str
-    symbols: List[GlyphSymbol]
-    relationships: List[Dict[str, Any]]
-    metadata: Dict[str, Any]
+    symbols: list[GlyphSymbol]
+    relationships: list[dict[str, Any]]
+    metadata: dict[str, Any]
     render_format: str  # "2d", "3d", "ar", "vr"
     created_at: float
     lambda_signature: str  # Λ branded signature
@@ -65,10 +65,10 @@ class ΛLens:
     Powered by LUKHAS consciousness and GLYPH communication
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or self._default_config()
-        self.dashboards: Dict[str, SymbolicDashboard] = {}
-        self.symbol_cache: Dict[str, GlyphSymbol] = {}
+        self.dashboards: dict[str, SymbolicDashboard] = {}
+        self.symbol_cache: dict[str, GlyphSymbol] = {}
         self.lambda_brand = "Λ"
 
         # Initialize subsystems
@@ -77,7 +77,7 @@ class ΛLens:
         self.relationship_analyzer = RelationshipAnalyzer()
         self.ar_renderer = ARRenderer()
 
-    def _default_config(self) -> Dict:
+    def _default_config(self) -> dict:
         """Default ΛLens configuration"""
         return {
             "brand": "LUKHAS",
@@ -91,7 +91,7 @@ class ΛLens:
             "glyph_density": "medium",
         }
 
-    def _init_parsers(self) -> Dict:
+    def _init_parsers(self) -> dict:
         """Initialize file parsers"""
         return {
             "pdf": PDFParser(),
@@ -104,7 +104,7 @@ class ΛLens:
         }
 
     async def transform(
-        self, file_path: str, options: Optional[Dict] = None
+        self, file_path: str, options: Optional[dict] = None
     ) -> SymbolicDashboard:
         """
         Transform a file into a symbolic dashboard
@@ -164,7 +164,7 @@ class ΛLens:
 
         return dashboard
 
-    def _generate_signature(self, symbols: List[GlyphSymbol]) -> str:
+    def _generate_signature(self, symbols: list[GlyphSymbol]) -> str:
         """Generate Lambda signature for dashboard"""
         symbol_hash = hashlib.sha256(
             json.dumps([s.id for s in symbols]).encode()
@@ -195,7 +195,7 @@ class ΛLens:
         """Retrieve a cached dashboard"""
         return self.dashboards.get(dashboard_id)
 
-    async def query_symbols(self, dashboard_id: str, query: str) -> List[GlyphSymbol]:
+    async def query_symbols(self, dashboard_id: str, query: str) -> list[GlyphSymbol]:
         """Query symbols in a dashboard using natural language"""
         dashboard = self.dashboards.get(dashboard_id)
         if not dashboard:
@@ -216,8 +216,8 @@ class SymbolGenerator:
     """Generates GLYPH symbols from parsed content"""
 
     async def generate(
-        self, content: Dict, symbol_style: str = "modern", max_symbols: int = 1000
-    ) -> List[GlyphSymbol]:
+        self, content: dict, symbol_style: str = "modern", max_symbols: int = 1000
+    ) -> list[GlyphSymbol]:
         """Generate symbols from parsed content"""
         symbols = []
 
@@ -240,7 +240,7 @@ class SymbolGenerator:
 
         return symbols
 
-    async def _extract_text_symbols(self, text: str) -> List[GlyphSymbol]:
+    async def _extract_text_symbols(self, text: str) -> list[GlyphSymbol]:
         """Extract symbols from text content"""
         symbols = []
 
@@ -263,7 +263,7 @@ class SymbolGenerator:
 
         return symbols
 
-    async def _extract_code_symbols(self, code: str) -> List[GlyphSymbol]:
+    async def _extract_code_symbols(self, code: str) -> list[GlyphSymbol]:
         """Extract symbols from code content"""
         symbols = []
 
@@ -285,7 +285,7 @@ class SymbolGenerator:
 
         return symbols
 
-    async def _extract_data_symbols(self, data: Any) -> List[GlyphSymbol]:
+    async def _extract_data_symbols(self, data: Any) -> list[GlyphSymbol]:
         """Extract symbols from data content"""
         symbols = []
 
@@ -306,7 +306,7 @@ class SymbolGenerator:
 
         return symbols
 
-    def _assign_positions(self, symbols: List[GlyphSymbol]):
+    def _assign_positions(self, symbols: list[GlyphSymbol]):
         """Assign 3D positions for AR/VR rendering"""
         import math
 
@@ -335,7 +335,7 @@ class SymbolGenerator:
 class RelationshipAnalyzer:
     """Analyzes relationships between symbols"""
 
-    async def analyze(self, symbols: List[GlyphSymbol]) -> List[Dict[str, Any]]:
+    async def analyze(self, symbols: list[GlyphSymbol]) -> list[dict[str, Any]]:
         """Analyze relationships between symbols"""
         relationships = []
 
@@ -425,49 +425,49 @@ class ARRenderer:
 class BaseParser:
     """Base class for file parsers"""
 
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         """Parse file and return structured content"""
         raise NotImplementedError
 
 
 class PDFParser(BaseParser):
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         # Simplified - in production use PDF libraries
         with open(file_path, "rb") as f:
-            content = f.read()
+            f.read()
         return {"text": f"PDF content from {file_path}", "pages": 1}
 
 
 class TextParser(BaseParser):
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         with open(file_path, encoding="utf-8") as f:
             text = f.read()
         return {"text": text}
 
 
 class CodeParser(BaseParser):
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         with open(file_path, encoding="utf-8") as f:
             code = f.read()
         return {"code": code}
 
 
 class DataParser(BaseParser):
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         with open(file_path, encoding="utf-8") as f:
             data = json.load(f)
         return {"data": data}
 
 
 class MarkdownParser(BaseParser):
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         with open(file_path, encoding="utf-8") as f:
             text = f.read()
         return {"text": text, "format": "markdown"}
 
 
 class CSVParser(BaseParser):
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         # Simplified - in production use CSV libraries
         with open(file_path, encoding="utf-8") as f:
             lines = f.readlines()
@@ -491,10 +491,10 @@ if __name__ == "__main__":
             f.write(
                 """
             LUKHAS AI System Overview
-            
+
             The LUKHAS system represents a breakthrough in symbolic artificial intelligence,
             combining consciousness modeling with ethical governance.
-            
+
             Key Components:
             - Guardian System for ethical oversight
             - GLYPH communication protocol

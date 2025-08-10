@@ -26,13 +26,14 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from core.common import LukhasError
 import binascii
 import json
 import struct
 from collections.abc import Generator
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 import msgpack
 import zstandard as zstd
@@ -44,32 +45,23 @@ MAGIC = b"LKF\x01"
 SUPPORTED_SPECS = ["1.0"]
 
 
-from core.common import LukhasError
-
-
 class LKFPackError(LukhasError):
     """Base exception for LKF-Pack errors."""
-
-    pass
 
 
 class LKFPackVersionError(LKFPackError):
     """Raised when LKF-Pack version is unsupported."""
 
-    pass
-
 
 class LKFPackIntegrityError(LKFPackError):
     """Raised when CRC check fails."""
-
-    pass
 
 
 def import_folds(
     path: Union[Path, BytesIO],
     verify_crc: bool = True,
     max_entries: Optional[int] = None,
-) -> Generator[Dict[str, Any], None, None]:
+) -> Generator[dict[str, Any], None, None]:
     """
     Import memory folds from LKF-Pack v1 format.
 
@@ -215,7 +207,7 @@ def import_folds(
 
 def import_folds_safe(
     path: Path, validate_schema: bool = True, allowed_keys: Optional[set] = None
-) -> Generator[Dict[str, Any], None, None]:
+) -> Generator[dict[str, Any], None, None]:
     """
     Import memory folds with additional safety checks.
 
@@ -252,7 +244,7 @@ def import_folds_safe(
             yield fold
 
 
-def verify_lkf_pack(path: Path) -> Dict[str, Any]:
+def verify_lkf_pack(path: Path) -> dict[str, Any]:
     """
     Verify LKF-Pack file integrity without importing data.
 
@@ -315,7 +307,7 @@ def verify_lkf_pack(path: Path) -> Dict[str, Any]:
 
 def import_from_stream(
     stream, chunk_size: int = 1024 * 1024  # 1MB chunks
-) -> Generator[Dict[str, Any], None, None]:
+) -> Generator[dict[str, Any], None, None]:
     """
     Import memory folds from a streaming source.
 

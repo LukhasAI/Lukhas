@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class EntropyEntry:
     """Single entropy measurement in the drift journal"""
+
     timestamp: datetime
     entropy_score: float
     previous_state: str
@@ -41,7 +42,7 @@ class EntropyEntry:
             "symbolic_path": self.symbolic_path,
             "transition_type": self.transition_type,
             "notes": self.notes,
-            "tags": self.tags or []
+            "tags": self.tags or [],
         }
 
 
@@ -60,7 +61,7 @@ class EntropyTracker:
         "turbulent": "🌪️",
         "decaying": "🥀",
         "locked": "🔒",
-        "open": "🔓"
+        "open": "🔓",
     }
 
     # State transition types
@@ -70,18 +71,19 @@ class EntropyTracker:
         "trust_increase": ["neutral", "growing", "stable"],
         "trust_decrease": ["stable", "shifting", "turbulent"],
         "drift_correction": ["turbulent", "shifting", "neutral"],
-        "emergency_lock": ["*", "locked"]  # From any state
+        "emergency_lock": ["*", "locked"],  # From any state
     }
 
     # Drift classification thresholds
     DRIFT_THRESHOLDS = {
         "stable": (0.0, 0.3),
         "neutral": (0.3, 0.7),
-        "unstable": (0.7, 1.0)
+        "unstable": (0.7, 1.0),
     }
 
-    def __init__(self, journal_path: str = "entropy_journal.json",
-                 window_size: int = 100):
+    def __init__(
+        self, journal_path: str = "entropy_journal.json", window_size: int = 100
+    ):
         self.journal_path = Path(journal_path)
         self.window_size = window_size
         self.transition_history = deque(maxlen=window_size)
@@ -114,7 +116,7 @@ class EntropyTracker:
                         symbolic_path=entry_data["symbolic_path"],
                         transition_type=entry_data["transition_type"],
                         notes=entry_data.get("notes", ""),
-                        tags=entry_data.get("tags", [])
+                        tags=entry_data.get("tags", []),
                     )
                     self.journal_entries.append(entry)
 
@@ -139,12 +141,12 @@ class EntropyTracker:
                 "version": "1.0.0",
                 "window_size": self.window_size,
                 "last_updated": datetime.utcnow().isoformat(),
-                "total_entries": len(self.journal_entries)
+                "total_entries": len(self.journal_entries),
             },
-            "entries": [entry.to_dict() for entry in self.journal_entries]
+            "entries": [entry.to_dict() for entry in self.journal_entries],
         }
 
-        with open(self.journal_path, 'w') as f:
+        with open(self.journal_path, "w") as f:
             json.dump(data, f, indent=2)
 
     def calculate_shannon_entropy(self, transitions: List[Tuple[str, str]]) -> float:
@@ -168,7 +170,9 @@ class EntropyTracker:
 
         # Normalize to 0-1 range
         # Maximum entropy is log2(n) where n is number of unique transitions
-        max_entropy = math.log2(len(transition_counts)) if len(transition_counts) > 1 else 1
+        max_entropy = (
+            math.log2(len(transition_counts)) if len(transition_counts) > 1 else 1
+        )
         normalized_entropy = entropy / max_entropy if max_entropy > 0 else 0
 
         return min(1.0, normalized_entropy)
@@ -180,8 +184,9 @@ class EntropyTracker:
                 return drift_class
         return "unstable"
 
-    def generate_symbolic_path(self, transition_type: str,
-                             entropy_score: float) -> List[str]:
+    def generate_symbolic_path(
+        self, transition_type: str, entropy_score: float
+    ) -> List[str]:
         """Generate symbolic representation of the drift path"""
         path = []
 
@@ -208,10 +213,13 @@ class EntropyTracker:
 
         return path
 
-    def track_transition(self, transition_type: str,
-                        new_state: Optional[str] = None,
-                        notes: str = "",
-                        tags: List[str] = None) -> EntropyEntry:
+    def track_transition(
+        self,
+        transition_type: str,
+        new_state: Optional[str] = None,
+        notes: str = "",
+        tags: List[str] = None,
+    ) -> EntropyEntry:
         """
         Track a state transition and calculate entropy
         """
@@ -255,7 +263,7 @@ class EntropyTracker:
             symbolic_path=symbolic_path,
             transition_type=transition_type,
             notes=notes,
-            tags=tags or []
+            tags=tags or [],
         )
 
         # Update state
@@ -266,16 +274,18 @@ class EntropyTracker:
         self._save_journal()
 
         # Log the transition
-        logger.info(f"📊 Transition: {self.TRUST_STATES.get(previous_state, previous_state)} → "
-                   f"{self.TRUST_STATES.get(new_state, new_state)} "
-                   f"(entropy: {entropy_score:.3f}, drift: {drift_class})")
+        logger.info(
+            f"📊 Transition: {self.TRUST_STATES.get(previous_state, previous_state)} → "
+            f"{self.TRUST_STATES.get(new_state, new_state)} "
+            f"(entropy: {entropy_score:.3f}, drift: {drift_class})"
+        )
         logger.info(f"   Path: {' → '.join(symbolic_path)}")
 
         return entry
 
     def get_drift_vector(self, window: Optional[int] = None) -> List[str]:
         """Get symbolic drift vector over time window"""
-        entries = self.journal_entries[-(window or self.window_size):]
+        entries = self.journal_entries[-(window or self.window_size) :]
 
         if not entries:
             return ["🌿"]  # Default stable
@@ -298,7 +308,7 @@ class EntropyTracker:
                 "min": 0.0,
                 "max": 0.0,
                 "current": 0.0,
-                "trend": "stable"
+                "trend": "stable",
             }
 
         entropy_list = list(self.entropy_history)
@@ -311,9 +321,9 @@ class EntropyTracker:
         # Determine trend
         if len(entropy_list) >= 3:
             recent = entropy_list[-3:]
-            if all(recent[i] <= recent[i+1] for i in range(len(recent)-1)):
+            if all(recent[i] <= recent[i + 1] for i in range(len(recent) - 1)):
                 trend = "increasing"
-            elif all(recent[i] >= recent[i+1] for i in range(len(recent)-1)):
+            elif all(recent[i] >= recent[i + 1] for i in range(len(recent) - 1)):
                 trend = "decreasing"
             else:
                 trend = "fluctuating"
@@ -326,11 +336,12 @@ class EntropyTracker:
             "min": round(min(entropy_list), 4),
             "max": round(max(entropy_list), 4),
             "current": round(entropy_list[-1], 4),
-            "trend": trend
+            "trend": trend,
         }
 
-    def export_report(self, start_date: Optional[datetime] = None,
-                     end_date: Optional[datetime] = None) -> Dict:
+    def export_report(
+        self, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None
+    ) -> Dict:
         """Export entropy analysis report"""
         # Filter entries by date
         entries = self.journal_entries
@@ -349,18 +360,18 @@ class EntropyTracker:
         return {
             "period": {
                 "start": start_date.isoformat() if start_date else "beginning",
-                "end": end_date.isoformat() if end_date else "current"
+                "end": end_date.isoformat() if end_date else "current",
             },
             "summary": {
                 "total_transitions": len(entries),
                 "unique_states": len(set(e.current_state for e in entries)),
-                "entropy_stats": self.get_entropy_statistics()
+                "entropy_stats": self.get_entropy_statistics(),
             },
             "transitions": dict(transition_counts),
             "drift_distribution": dict(drift_counts),
             "drift_vector": " → ".join(drift_vector),
             "recent_entries": [e.to_dict() for e in entries[-5:]],
-            "generated_at": datetime.utcnow().isoformat()
+            "generated_at": datetime.utcnow().isoformat(),
         }
 
 
@@ -379,7 +390,7 @@ def simulate_entropy_tracking():
         ("trust_decrease", "Suspicious activity", ["security", "alert"]),
         ("consent_revoke", "User disables tracking", ["privacy", "revoke"]),
         ("drift_correction", "System stabilization", ["maintenance"]),
-        ("emergency_lock", "Security breach detected", ["security", "critical"])
+        ("emergency_lock", "Security breach detected", ["security", "critical"]),
     ]
 
     print("🎯 Entropy Tracking Simulation")
@@ -389,13 +400,16 @@ def simulate_entropy_tracking():
         entry = tracker.track_transition(transition_type, notes=notes, tags=tags)
 
         print(f"\n📊 {transition_type.upper()}")
-        print(f"   State: {tracker.TRUST_STATES.get(entry.previous_state, entry.previous_state)} → "
-              f"{tracker.TRUST_STATES.get(entry.current_state, entry.current_state)}")
+        print(
+            f"   State: {tracker.TRUST_STATES.get(entry.previous_state, entry.previous_state)} → "
+            f"{tracker.TRUST_STATES.get(entry.current_state, entry.current_state)}"
+        )
         print(f"   Entropy: {entry.entropy_score:.3f} ({entry.drift_class})")
         print(f"   Path: {' → '.join(entry.symbolic_path)}")
 
         # Brief pause for readability
         import time
+
         time.sleep(0.5)
 
     # Show final statistics
@@ -415,5 +429,5 @@ def simulate_entropy_tracking():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format='%(message)s')
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
     simulate_entropy_tracking()

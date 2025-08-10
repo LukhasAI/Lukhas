@@ -60,7 +60,6 @@ __all__ = [
     "VIVOXMoralAlignmentEngine",
     "VIVOXConsciousnessInterpretationLayer",
     "VIVOXSelfReflectiveMemory",
-
     # Memory Types
     "MemoryHelixEntry",
     "EmotionalDNA",
@@ -71,14 +70,12 @@ __all__ = [
     "MisfoldingReport",
     "MisfoldingType",
     "MisfoldingIssue",
-
     # Moral Alignment Types
     "ActionProposal",
     "MAEDecision",
     "DissonanceResult",
     "PotentialState",
     "CollapsedState",
-
     # Consciousness Types
     "ConsciousExperience",
     "ConsciousnessState",
@@ -86,20 +83,19 @@ __all__ = [
     "DriftMeasurement",
     "SimulationBranch",
     "CollapsedAction",
-
     # Self-Reflection Types
     "CollapseLogEntry",
     "SuppressionRecord",
     "AuditTrail",
     "ConscienceReport",
-    "DecisionType"
+    "DecisionType",
 ]
 
 
 async def create_vivox_system(memory_expansion: VIVOXMemoryExpansion = None) -> dict:
     """
     Create complete VIVOX system with all components initialized
-    
+
     Returns:
         dict: Dictionary containing all VIVOX components
     """
@@ -109,12 +105,14 @@ async def create_vivox_system(memory_expansion: VIVOXMemoryExpansion = None) -> 
 
     # Initialize other components
     moral_alignment = VIVOXMoralAlignmentEngine(memory_expansion)
-    consciousness = VIVOXConsciousnessInterpretationLayer(memory_expansion, moral_alignment)
+    consciousness = VIVOXConsciousnessInterpretationLayer(
+        memory_expansion, moral_alignment
+    )
     self_reflection = VIVOXSelfReflectiveMemory(memory_expansion)
 
     return {
         "memory_expansion": memory_expansion,
         "moral_alignment": moral_alignment,
         "consciousness": consciousness,
-        "self_reflection": self_reflection
+        "self_reflection": self_reflection,
     }

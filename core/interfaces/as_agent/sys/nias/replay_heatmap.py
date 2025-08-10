@@ -30,12 +30,12 @@ NOTES:
 
 """
 
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt
 import json
 import os
 
-import matplotlib.pyplot as plt
-import pandas as pd
-import seaborn as sns
 
 LOG_PATH = "core/logs/replay_queue.jsonl"
 

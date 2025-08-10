@@ -58,11 +58,13 @@ that nourishes our quest for understanding in the age of LUKHAS AI.
 - Ensures compliance with data integrity and security standards.
 
                           🏷️ ΛTAG KEYWORDS
-#MemoryManagement #AIArchitecture #AbstractClass #DataIntegrity #CognitiveComputation #Extensibility #LUKHAS #ArtificialIntelligence
+# MemoryManagement #AIArchitecture #AbstractClass #DataIntegrity
+# #CognitiveComputation #Extensibility #LUKHAS #ArtificialIntelligence
 ══════════════════════════════════════════════════════════════════════════════════
 ```
 """
 
+from from core.common import get_logger
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List, Optional, Set
 from datetime import datetime, timezone
@@ -97,7 +99,8 @@ class BaseMemoryManager(ABC):
     - analyze: Perform analysis on memory patterns
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None, base_path: Optional[Path] = None):
+    def __init__(self, config: Optional[Dict[str, Any]]
+                 = None, base_path: Optional[Path] = None):
         """
         Initialize base memory manager.
 
@@ -107,7 +110,7 @@ class BaseMemoryManager(ABC):
         """
         self.config = config or {}
         if structlog:
-from from core.common import get_logger
+
         else:
             self.logger = logging.getLogger(f"LUKHAS.Memory.{self.__class__.__name__}")
 
@@ -123,7 +126,7 @@ from from core.common import get_logger
             self.logger.info("Storage path initialized", path=str(self.base_path))
         except Exception as e:
             self.logger.error("Failed to create storage path",
-                            path=str(self.base_path), error=str(e))
+                              path=str(self.base_path), error=str(e))
             raise
 
         # Memory index for quick lookups
@@ -134,8 +137,8 @@ from from core.common import get_logger
 
     @abstractmethod
     async def store(self, memory_data: Dict[str, Any],
-                   memory_id: Optional[str] = None,
-                   metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                    memory_id: Optional[str] = None,
+                    metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Store memory data.
 
@@ -151,7 +154,7 @@ from from core.common import get_logger
 
     @abstractmethod
     async def retrieve(self, memory_id: str,
-                      context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                       context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Retrieve memory data.
 
@@ -166,8 +169,8 @@ from from core.common import get_logger
 
     @abstractmethod
     async def update(self, memory_id: str,
-                    updates: Dict[str, Any],
-                    merge: bool = True) -> Dict[str, Any]:
+                     updates: Dict[str, Any],
+                     merge: bool = True) -> Dict[str, Any]:
         """
         Update existing memory.
 
@@ -183,7 +186,7 @@ from from core.common import get_logger
 
     @abstractmethod
     async def delete(self, memory_id: str,
-                    soft_delete: bool = True) -> Dict[str, Any]:
+                     soft_delete: bool = True) -> Dict[str, Any]:
         """
         Delete memory.
 
@@ -198,7 +201,7 @@ from from core.common import get_logger
 
     @abstractmethod
     async def search(self, criteria: Dict[str, Any],
-                    limit: Optional[int] = None) -> List[Dict[str, Any]]:
+                     limit: Optional[int] = None) -> List[Dict[str, Any]]:
         """
         Search for memories matching criteria.
 
@@ -215,7 +218,8 @@ from from core.common import get_logger
 
     def generate_memory_id(self, prefix: Optional[str] = None) -> str:
         """Generate unique memory ID."""
-        timestamp = datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_')
+        timestamp = datetime.now(timezone.utc).isoformat().replace(
+            ':', '-').replace('+', '_')
         prefix = prefix or "mem"
         return f"{prefix}_{timestamp}"
 
@@ -238,7 +242,7 @@ from from core.common import get_logger
             self.logger.debug("Memory saved to disk", memory_id=memory_id)
         except Exception as e:
             self.logger.error("Failed to save memory",
-                            memory_id=memory_id, error=str(e))
+                              memory_id=memory_id, error=str(e))
             raise
 
     def _load_from_disk(self, memory_id: str) -> Dict[str, Any]:
@@ -252,7 +256,7 @@ from from core.common import get_logger
                 return json.load(f)
         except Exception as e:
             self.logger.error("Failed to load memory",
-                            memory_id=memory_id, error=str(e))
+                              memory_id=memory_id, error=str(e))
             raise
 
     def _load_index(self) -> None:
@@ -263,7 +267,7 @@ from from core.common import get_logger
                 with open(index_path, 'r') as f:
                     self._memory_index = json.load(f)
                 self.logger.info("Memory index loaded",
-                               count=len(self._memory_index))
+                                 count=len(self._memory_index))
             except Exception as e:
                 self.logger.error("Failed to load memory index", error=str(e))
                 self._memory_index = {}
@@ -298,7 +302,7 @@ from from core.common import get_logger
         }
 
     async def visualize(self, memory_id: str,
-                       options: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                        options: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Create visualization of memory.
         Default implementation returns not supported.
@@ -309,7 +313,7 @@ from from core.common import get_logger
         }
 
     async def analyze(self, memory_ids: List[str],
-                     analysis_type: str = "pattern") -> Dict[str, Any]:
+                      analysis_type: str = "pattern") -> Dict[str, Any]:
         """
         Analyze memory patterns.
         Default implementation returns not supported.

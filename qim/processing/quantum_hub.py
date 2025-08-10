@@ -9,7 +9,7 @@ a unified interface for external systems to interact with quantum.
 
 import asyncio
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
 from quantum.bio_optimization_adapter import (
@@ -63,8 +63,8 @@ class QuantumHub:
     """
 
     def __init__(self):
-        self.services: Dict[str, Any] = {}
-        self.event_handlers: Dict[str, List[callable]] = {}
+        self.services: dict[str, Any] = {}
+        self.event_handlers: dict[str, list[callable]] = {}
         self.is_initialized = False
 
         # Initialize components
@@ -288,13 +288,13 @@ class QuantumHub:
         """Get a registered service by name"""
         return self.services.get(name)
 
-    def list_services(self) -> List[str]:
+    def list_services(self) -> list[str]:
         """List all registered service names"""
         return list(self.services.keys())
 
     async def process_event(
-        self, event_type: str, event_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, event_type: str, event_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process events from other systems"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
@@ -323,8 +323,8 @@ class QuantumHub:
         text: str,
         user_id: Optional[str] = None,
         session_token: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Process text through quantum neuro symbolic engine"""
         if "neuro_symbolic" not in self.services:
             logger.error("Neuro symbolic integration not available")
@@ -344,10 +344,10 @@ class QuantumHub:
 
     async def apply_quantum_attention(
         self,
-        input_data: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None,
+        input_data: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
         user_id: Optional[str] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Apply quantum attention mechanisms to input data"""
         if "neuro_symbolic" not in self.services:
             return {
@@ -365,8 +365,8 @@ class QuantumHub:
             return {"status": "failed", "error": str(e)}
 
     async def perform_causal_reasoning(
-        self, attended_data: Dict[str, Any], user_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+        self, attended_data: dict[str, Any], user_id: Optional[str] = None
+    ) -> dict[str, Any]:
         """Perform causal reasoning on attended data"""
         if "neuro_symbolic" not in self.services:
             return {
@@ -383,7 +383,7 @@ class QuantumHub:
             logger.error(f"Causal reasoning failed: {e}")
             return {"status": "failed", "error": str(e)}
 
-    def get_neuro_symbolic_statistics(self) -> Dict[str, Any]:
+    def get_neuro_symbolic_statistics(self) -> dict[str, Any]:
         """Get neuro symbolic processing statistics"""
         if "neuro_symbolic" not in self.services:
             return {
@@ -398,7 +398,7 @@ class QuantumHub:
             logger.error(f"Failed to get neuro symbolic statistics: {e}")
             return {"available": False, "error": str(e)}
 
-    async def cleanup_neuro_symbolic_sessions(self) -> Dict[str, Any]:
+    async def cleanup_neuro_symbolic_sessions(self) -> dict[str, Any]:
         """Clean up expired neuro symbolic sessions"""
         if "neuro_symbolic" not in self.services:
             return {

@@ -111,7 +111,7 @@ DASHBOARD_HTML = """
         <div>🧠 LUKHΛS Symbolic Meta Dashboard 🛡️</div>
         <div class="trinity">⚛️🧠🛡️</div>
     </div>
-    
+
     <div id="metrics">
         <div class="metric-card">
             <div class="metric-label">Drift Score</div>
@@ -130,35 +130,35 @@ DASHBOARD_HTML = """
             <div class="metric-value" id="entropy-level">--</div>
         </div>
     </div>
-    
+
     <div class="chart-container" id="drift-chart">
         <!-- Drift trend visualization would go here -->
     </div>
-    
+
     <script>
         // WebSocket connection for real-time updates
         const ws = new WebSocket('ws://localhost:5042/ws');
-        
+
         ws.onmessage = function(event) {
             const data = JSON.parse(event.data);
             updateMetrics(data);
         };
-        
+
         function updateMetrics(data) {
             // Update drift score with color coding
             const driftElement = document.getElementById('drift-score');
             driftElement.textContent = data.drift_score.toFixed(2);
             driftElement.className = 'metric-value ' + getDriftClass(data.drift_score);
-            
+
             // Update other metrics
-            document.getElementById('trinity-coherence').textContent = 
+            document.getElementById('trinity-coherence').textContent =
                 (data.trinity_coherence * 100).toFixed(0) + '%';
-            document.getElementById('active-personas').textContent = 
+            document.getElementById('active-personas').textContent =
                 data.active_personas || '0';
-            document.getElementById('entropy-level').textContent = 
+            document.getElementById('entropy-level').textContent =
                 data.entropy_level.toFixed(3);
         }
-        
+
         function getDriftClass(score) {
             if (score < 0.3) return 'drift-low';
             if (score < 0.5) return 'drift-medium';

@@ -33,12 +33,13 @@
 import random
 import time  # Imported for simulating work
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import psutil
 
 # Initialize logger for ΛTRACE using structlog
-# Assumes structlog is configured in a higher-level __init__.py or by the script that instantiates this.
+# Assumes structlog is configured in a higher-level __init__.py or by the
+# script that instantiates this.
 
 
 # ΛEXPOSE
@@ -51,18 +52,19 @@ class MemoryCleaner:
     corruption is detected that requires specialized intervention.
     """
 
-    def __init__(self, parent_id: str, task_data: Dict[str, Any]):
+    def __init__(self, parent_id: str, task_data: dict[str, Any]):
         self.agent_id = f"{parent_id}_MEMORY_{int(datetime.now().timestamp())}"
         self.parent_id = parent_id
         self.task_data = task_data
 
         # Track cleanup statistics
-        self.last_cleanup_stats: Optional[Dict[str, Any]] = None
+        self.last_cleanup_stats: Optional[dict[str, Any]] = None
         self.last_cleanup_time: Optional[datetime] = None
-        self.last_consolidation_stats: Optional[Dict[str, Any]] = None
+        self.last_consolidation_stats: Optional[dict[str, Any]] = None
         self.last_consolidation_time: Optional[datetime] = None
 
-        # Use a child logger for this instance, inheriting parent (module-level logger) configuration
+        # Use a child logger for this instance, inheriting parent (module-level
+        # logger) configuration
         self.logger = logger.bind(agent_id=self.agent_id, parent_id=self.parent_id)
         self.logger.info(
             "🧹 Memory Cleaner sub-agent spawned",
@@ -70,10 +72,11 @@ class MemoryCleaner:
             task_data_keys=list(task_data.keys()),
         )
 
-    def analyze_memory_fragmentation(self) -> Dict[str, Any]:
+    def analyze_memory_fragmentation(self) -> dict[str, Any]:
         """Analyze current memory fragmentation state"""
         # ΛPHASE_NODE: Memory Fragmentation Analysis Start
-        # ΛDRIFT_POINT: Analyzing memory fragmentation which could be a form of system drift.
+        # ΛDRIFT_POINT: Analyzing memory fragmentation which could be a form of
+        # system drift.
         self.logger.info("Analyzing memory fragmentation state.")
 
         # Simulate memory system analysis
@@ -242,7 +245,8 @@ class MemoryCleaner:
     def consolidate_dream_sequences(self) -> bool:
         """Optimize dream replay sequences for better performance"""
         # ΛPHASE_NODE: Dream Sequence Consolidation Start
-        # ΛDREAM_LOOP: This function interacts with dream sequences, potentially optimizing them.
+        # ΛDREAM_LOOP: This function interacts with dream sequences, potentially
+        # optimizing them.
         self.logger.info("Consolidating dream replay sequences.")
 
         consolidation_stats = {

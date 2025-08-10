@@ -36,7 +36,7 @@ import asyncio  # For async methods
 import hashlib  # For CardiolipinEncoder
 import json  # For CardiolipinEncoder
 from datetime import datetime, timezone  # Standardized timestamping
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import numpy as np
 import structlog  # Standardized logging
@@ -47,7 +47,8 @@ log = structlog.get_logger(__name__)
 # AIMPORT_TODO: The triple-dot relative imports (e.g., `...quantum_processing`) are highly
 #               dependent on the execution environment and how the LUKHAS project is structured.
 #               If `lukhas` is a top-level package available in PYTHONPATH, these should be
-#               changed to absolute imports like `from quantum_processing.quantum_engine import QuantumOscillator`.
+# changed to absolute imports like `from quantum_processing.quantum_engine
+# import QuantumOscillator`.
 LUKHAS_OSCILLATORS_AVAILABLE = False
 try:
     from ...bio_core.oscillator.quantum_inspired_layer import (
@@ -125,7 +126,7 @@ class ProtonGradient:
         self.log.info("ProtonGradient component initialized.")
 
     @lukhas_tier_required(2)
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Processes input data through a quantum-modulated gradient."""
         self.log.debug(
             "Processing input via ProtonGradient.", input_keys=list(input_data.keys())
@@ -156,7 +157,9 @@ class ProtonGradient:
                     if string_lengths
                     else 0
                 )
-                gradient_strength = np.clip(gradient_strength / max(1, num_items), -10.0, 10.0).item()  # type: ignore
+                gradient_strength = np.clip(
+                    gradient_strength / max(1, num_items), -10.0, 10.0
+                ).item()  # type: ignore
 
             random_influence = np.random.randn(3) * gradient_strength * 0.1
             self.gradient_state_vector = self.quantum_oscillator.quantum_modulate(
@@ -166,7 +169,10 @@ class ProtonGradient:
             processed_data = self._apply_gradient_to_data(
                 input_data, self.gradient_state_vector
             )
-            self.log.info("ProtonGradient processing complete.", gradient_norm=np.linalg.norm(self.gradient_state_vector).item())  # type: ignore
+            self.log.info(
+                "ProtonGradient processing complete.",
+                gradient_norm=np.linalg.norm(self.gradient_state_vector).item(),
+            )  # type: ignore
             return processed_data
         except Exception as e:
             self.log.error(
@@ -181,10 +187,10 @@ class ProtonGradient:
 
     @lukhas_tier_required(3)
     def _apply_gradient_to_data(
-        self, data: Dict[str, Any], gradient_vector: np.ndarray
-    ) -> Dict[str, Any]:
+        self, data: dict[str, Any], gradient_vector: np.ndarray
+    ) -> dict[str, Any]:
         """Applies the calculated proton gradient effect to the data."""
-        processed_data: Dict[str, Any] = {}
+        processed_data: dict[str, Any] = {}
         gradient_effect_factors = gradient_vector * 0.1
 
         for i, (key, value) in enumerate(data.items()):
@@ -217,8 +223,8 @@ class QuantumAttentionGate:
 
     @lukhas_tier_required(2)
     async def attend(
-        self, input_data: Dict[str, Any], focus_map: Dict[str, float]
-    ) -> Dict[str, Any]:
+        self, input_data: dict[str, Any], focus_map: dict[str, float]
+    ) -> dict[str, Any]:
         """Applies quantum-enhanced attention using bio-oscillator integration."""
         self.log.debug(
             "Applying quantum-enhanced attention.",
@@ -248,7 +254,7 @@ class QuantumAttentionGate:
                 quantum_modulated_frequencies
             )
 
-            attended_data: Dict[str, Any] = {}
+            attended_data: dict[str, Any] = {}
             weight_idx = 0
             for key, value in input_data.items():
                 if isinstance(value, (int, float)):
@@ -300,13 +306,13 @@ class CristaFilter:
         self.log = log.bind(
             component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:]
         )
-        self.filter_state_params: Dict[str, Dict[str, float]] = {}
+        self.filter_state_params: dict[str, dict[str, float]] = {}
         self.log.info("CristaFilter initialized.")
 
     @lukhas_tier_required(2)
     async def filter(
-        self, input_data: Dict[str, Any], system_context_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, input_data: dict[str, Any], system_context_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """Applies bio-inspired filtering with quantum modulation based on system context."""
         self.log.debug(
             "Applying crista-inspired filter.",
@@ -319,7 +325,7 @@ class CristaFilter:
 
             await self._update_filter_state_params(system_context_state)
 
-            filtered_data_output: Dict[str, Any] = {}
+            filtered_data_output: dict[str, Any] = {}
             for key, value in input_data.items():
                 current_filter_params = self.filter_state_params.get(
                     key, {"threshold": 0.1, "momentum": 0.95, "quantum_weight": 1.0}
@@ -350,7 +356,7 @@ class CristaFilter:
 
     @lukhas_tier_required(3)
     def _initialize_filter_state_params(
-        self, system_context_state: Dict[str, Any]
+        self, system_context_state: dict[str, Any]
     ) -> None:
         """Initializes filter state parameters based on the initial system context."""
         self.log.debug("Initializing crista filter state params.")
@@ -363,7 +369,7 @@ class CristaFilter:
 
     @lukhas_tier_required(3)
     async def _update_filter_state_params(
-        self, system_context_state: Dict[str, Any]
+        self, system_context_state: dict[str, Any]
     ) -> None:
         """Updates filter state parameters based on dynamic system changes (simulated)."""
         self.log.debug("Updating crista filter state params based on system context.")
@@ -377,12 +383,22 @@ class CristaFilter:
                 }
 
             if isinstance(state_value, (int, float)):
-                self.filter_state_params[key]["threshold"] = np.clip(self.filter_state_params[key]["threshold"] * 0.98 + 0.02 * (1 / (1 + abs(state_value))), 0.05, 0.95).item()  # type: ignore
-                self.filter_state_params[key]["quantum_weight"] = np.clip(self.filter_state_params[key]["quantum_weight"] * (0.95 + 0.1 * np.tanh(state_value)), 0.5, 1.5).item()  # type: ignore
+                self.filter_state_params[key]["threshold"] = np.clip(
+                    self.filter_state_params[key]["threshold"] * 0.98
+                    + 0.02 * (1 / (1 + abs(state_value))),
+                    0.05,
+                    0.95,
+                ).item()  # type: ignore
+                self.filter_state_params[key]["quantum_weight"] = np.clip(
+                    self.filter_state_params[key]["quantum_weight"]
+                    * (0.95 + 0.1 * np.tanh(state_value)),
+                    0.5,
+                    1.5,
+                ).item()  # type: ignore
 
     @lukhas_tier_required(3)
     def _apply_quantum_filter_to_value(
-        self, value: float, filter_params: Dict[str, float]
+        self, value: float, filter_params: dict[str, float]
     ) -> float:
         """Applies a quantum-modulated filter to a single numeric value."""
         threshold = filter_params.get("threshold", 0.1)
@@ -405,11 +421,11 @@ class CardiolipinEncoder:
         self.log = log.bind(
             component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:]
         )
-        self.encoding_state: Dict[str, Any] = {}
+        self.encoding_state: dict[str, Any] = {}
         self.log.info("CardiolipinEncoder initialized.")
 
     @lukhas_tier_required(2)
-    def encode(self, identity_data: Dict[str, Any]) -> Dict[str, Any]:
+    def encode(self, identity_data: dict[str, Any]) -> dict[str, Any]:
         """
         Encodes identity information using a bio-inspired simulated process.
         #ΛTODO: Implement actual encoding logic beyond simple hashing.
@@ -417,7 +433,8 @@ class CardiolipinEncoder:
         self.log.debug("Encoding identity data.", input_keys=list(identity_data.keys()))
         encoded_data = identity_data.copy()
         try:
-            # Ensure all data is serializable for JSON dump, simple conversion for complex objects
+            # Ensure all data is serializable for JSON dump, simple conversion for
+            # complex objects
             serializable_data = {
                 k: (
                     str(v)

@@ -20,6 +20,7 @@ except ImportError:
     from core.interfaces.as_agent.utils.symbolic_utils import tier_label, summarize_emotion_vector
 LOG_PATH = "core/logs/trace_log.jsonl"
 
+
 def log_delivery_event(user_id, message_id, decision, context, reason=None):
     """
     Logs a delivery event with symbolic metadata.

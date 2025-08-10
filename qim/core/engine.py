@@ -71,7 +71,7 @@ __tier__ = 2
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -174,8 +174,8 @@ class EnhancedQuantumEngine:
         logger.info("Initialized enhanced quantum engine")
 
     async def process_quantum_signal(
-        self, input_signal: np.ndarray, context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, input_signal: np.ndarray, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         🌊 Quantum Signal Processing Pipeline 🌊
 
@@ -256,8 +256,8 @@ class EnhancedQuantumEngine:
         self,
         state1: np.ndarray,
         state2: np.ndarray,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         🌌 Quantum Entanglement-Like State Correlation 🌌
 
@@ -437,20 +437,20 @@ if __name__ != "__main__":
 """
 THEORETICAL FOUNDATIONS:
 
-[1] Penrose, R., & Hameroff, S. (1996). Orchestrated reduction of quantum 
-    coherence in brain microtubules: A model for consciousness. Mathematics 
+[1] Penrose, R., & Hameroff, S. (1996). Orchestrated reduction of quantum
+    coherence in brain microtubules: A model for consciousness. Mathematics
     and Computers in Simulation, 40(3-4), 453-480.
 
-[2] Stapp, H. P. (2007). Mindful universe: Quantum mechanics and the 
+[2] Stapp, H. P. (2007). Mindful universe: Quantum mechanics and the
     participating observer. Springer Science & Business Media.
 
-[3] Freeman, W. J. (2001). How brains make up their minds. Columbia 
+[3] Freeman, W. J. (2001). How brains make up their minds. Columbia
     University Press.
 
-[4] Tegmark, M. (2000). Importance of quantum decoherence in brain processes. 
+[4] Tegmark, M. (2000). Importance of quantum decoherence in brain processes.
     Physical Review E, 61(4), 4194.
 
-[5] Quantum Biology Collective (2023). Biological quantum effects in 
+[5] Quantum Biology Collective (2023). Biological quantum effects in
     neural computation. Nature Quantum Biology, 15(7), 234-267.
 
 IMPLEMENTATION NOTES:

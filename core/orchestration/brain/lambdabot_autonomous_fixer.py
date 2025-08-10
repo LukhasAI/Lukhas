@@ -266,7 +266,7 @@ class ΛBotAutonomousVulnerabilityFixer:
 
         if fix_strategy.confidence < 0.5:
             self.logger.warning(
-                f"Low confidence({fix_strategy.confidence}) for {vulnerability.id},
+                f"Low confidence({fix_strategy.confidence}) for {vulnerability.id},"
                 skipping autonomous fix"
             )
             return PRCreationResult(

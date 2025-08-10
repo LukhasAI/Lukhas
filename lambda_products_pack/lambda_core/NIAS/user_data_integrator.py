@@ -14,7 +14,7 @@ import logging
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger("Lambda.NIΛS.UserData")
 
@@ -47,8 +47,8 @@ class UserDataPreferences:
     """User preferences for data sharing"""
 
     user_id: str
-    data_sources: Dict[DataSource, Dict[str, Any]]
-    privacy_settings: Dict[str, Any]
+    data_sources: dict[DataSource, dict[str, Any]]
+    privacy_settings: dict[str, Any]
     vendor_sharing: str  # none, aggregated_only, selected_vendors, all
     retention_days: int = 90
     anonymize_by_default: bool = True
@@ -65,13 +65,13 @@ class UserDataProfile:
     """Aggregated user data profile from all sources"""
 
     user_id: str
-    interests: List[str]
-    shopping_patterns: Dict[str, Any]
-    emotional_preferences: Dict[str, float]
-    schedule_patterns: Dict[str, Any]
-    spending_categories: List[str]
-    brand_affinities: Dict[str, float]
-    dream_symbols: List[str]
+    interests: list[str]
+    shopping_patterns: dict[str, Any]
+    emotional_preferences: dict[str, float]
+    schedule_patterns: dict[str, Any]
+    spending_categories: list[str]
+    brand_affinities: dict[str, float]
+    dream_symbols: list[str]
     data_completeness: float  # 0-1 score
     last_sync: datetime = None
 
@@ -90,7 +90,7 @@ class EmailIntegrator:
 
     async def scan_receipts(
         self, email_access_token: str, provider: str, scan_depth_days: int = 30
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Scan email for shopping receipts and extract patterns
 
@@ -123,8 +123,8 @@ class EmailIntegrator:
         return patterns
 
     def extract_preferences_from_newsletters(
-        self, email_content: List[str]
-    ) -> List[str]:
+        self, email_content: list[str]
+    ) -> list[str]:
         """Extract user interests from newsletter subscriptions"""
         interests = set()
 
@@ -154,7 +154,7 @@ class ShoppingIntegrator:
 
     async def get_shopping_history(
         self, platform: str, api_token: str, months_back: int = 6
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Retrieve shopping history from e-commerce platform
 
@@ -198,7 +198,7 @@ class ShoppingIntegrator:
 
     async def get_browsing_patterns(
         self, platform: str, session_token: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get browsing patterns without purchase"""
         patterns = {
             "viewed_categories": [],
@@ -220,7 +220,7 @@ class ShoppingIntegrator:
 class CalendarIntegrator:
     """Integration with calendar for schedule awareness"""
 
-    async def get_schedule_patterns(self, calendar_token: str) -> Dict[str, Any]:
+    async def get_schedule_patterns(self, calendar_token: str) -> dict[str, Any]:
         """Extract schedule patterns for optimal ad timing"""
         patterns = {
             "busy_hours": [],
@@ -249,13 +249,13 @@ class UserDataIntegrator:
         self.email_integrator = EmailIntegrator()
         self.shopping_integrator = ShoppingIntegrator()
         self.calendar_integrator = CalendarIntegrator()
-        self.user_profiles: Dict[str, UserDataProfile] = {}
-        self.data_preferences: Dict[str, UserDataPreferences] = {}
+        self.user_profiles: dict[str, UserDataProfile] = {}
+        self.data_preferences: dict[str, UserDataPreferences] = {}
 
         logger.info("NIΛS User Data Integrator initialized")
 
     async def setup_user_preferences(
-        self, user_id: str, preferences: Dict[str, Any]
+        self, user_id: str, preferences: dict[str, Any]
     ) -> bool:
         """
         Setup user data sharing preferences
@@ -297,7 +297,7 @@ class UserDataIntegrator:
             logger.error(f"Error setting up user preferences: {e}")
             return False
 
-    def _parse_data_sources(self, sources: Dict) -> Dict[DataSource, Dict]:
+    def _parse_data_sources(self, sources: dict) -> dict[DataSource, dict]:
         """Parse and validate data source permissions"""
         parsed = {}
 
@@ -355,7 +355,6 @@ class UserDataIntegrator:
                 logger.info(f"Using cached profile for {user_id}")
                 return profile
 
-        completeness_score = 0.0
         data_points = 0
 
         # Sync email data if permitted
@@ -419,7 +418,7 @@ class UserDataIntegrator:
 
         return profile
 
-    def _item_to_symbol(self, item: Dict) -> str:
+    def _item_to_symbol(self, item: dict) -> str:
         """Convert wishlist item to dream symbol"""
         category_symbols = {
             "Sports": "🏃",
@@ -467,7 +466,7 @@ class UserDataIntegrator:
 
     async def get_vendor_safe_profile(
         self, user_id: str, vendor_id: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get user profile safe for vendor consumption
 
@@ -526,7 +525,7 @@ class UserDataIntegrator:
         logger.info(f"Generated vendor-safe profile for {vendor_id}")
         return vendor_profile
 
-    def _generalize_schedule(self, schedule: Dict) -> Dict:
+    def _generalize_schedule(self, schedule: dict) -> dict:
         """Generalize schedule to protect privacy"""
         if not schedule:
             return {"availability": "standard"}

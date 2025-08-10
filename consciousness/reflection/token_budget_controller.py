@@ -1,3 +1,5 @@
+import logging
+
 #!/usr/bin/env python3
 """
 
@@ -30,7 +32,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 
 class BudgetPriority(Enum):
@@ -360,10 +362,7 @@ class TokenBudgetController:
         cutoff_time = now - 60  # 1 minute ago
         self.call_count_window = [t for t in self.call_count_window if t > cutoff_time]
 
-        if len(self.call_count_window) >= self.max_calls_per_minute:
-            return False
-
-        return True
+        return not len(self.call_count_window) >= self.max_calls_per_minute
 
     def analyze_call_necessity(self, context: APICallContext) -> BudgetDecision:
         """
@@ -502,8 +501,8 @@ class TokenBudgetController:
         cost: float,
         success: bool = True,
         description: str = "",
-        findings: List[str] = None,
-        recommendations: List[str] = None,
+        findings: list[str] = None,
+        recommendations: list[str] = None,
     ) -> None:
         """
         Record an actual API call with comprehensive logging
@@ -634,7 +633,7 @@ class TokenBudgetController:
                 f"ΛBot Budget Reset: Daily={self.DAILY_BUDGET_LIMIT}, Accumulated={self.accumulated_credits:.3f}"
             )
 
-    def get_financial_intelligence_report(self) -> Dict[str, Any]:
+    def get_financial_intelligence_report(self) -> dict[str, Any]:
         """Get comprehensive financial intelligence report with ΛBot enhancements"""
         self.refresh_daily_budget()
 

@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
 
@@ -18,9 +18,9 @@ class EmotionalColony(BaseColony):
     def __init__(self, colony_id: str):
         super().__init__(colony_id, capabilities=["emotion_processing"])
         self.collective_emotion = EmotionalState()
-        self.emotion_history: List[Dict[str, Any]] = []
+        self.emotion_history: list[dict[str, Any]] = []
 
-    async def process_stimulus(self, stimulus: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_stimulus(self, stimulus: dict[str, Any]) -> dict[str, Any]:
         agent_emotions = []
         for agent_id, agent in self.agents.items():
             if hasattr(agent, "evaluate_emotion"):
@@ -55,11 +55,11 @@ class EmotionalColony(BaseColony):
             "contagion_triggered": collective["intensity"] > 0.8,
         }
 
-    async def _emotional_contagion(self, collective: Dict[str, Any]) -> None:
+    async def _emotional_contagion(self, collective: dict[str, Any]) -> None:
         # placeholder for contagion logic
         return None
 
-    def _merge_emotions(self, agent_emotions: List[Dict]) -> Dict[str, Any]:
+    def _merge_emotions(self, agent_emotions: list[dict]) -> dict[str, Any]:
         if not agent_emotions:
             return {"emotion_state": self.collective_emotion, "intensity": 0.0}
 

@@ -78,6 +78,6 @@ class StressGate:
 # ─── Example ──────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     gate = StressGate()
-    for i in range(5):
+    for _i in range(5):
         gate.update_stress(0.2)
         print("Fallback needed?", gate.should_fallback(), "| Report:", gate.report())

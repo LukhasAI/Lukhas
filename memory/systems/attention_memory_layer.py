@@ -43,7 +43,7 @@
 import math
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -108,7 +108,7 @@ class MultiHeadAttention:
         value: np.ndarray,
         mask: Optional[np.ndarray] = None,
         position_bias: Optional[np.ndarray] = None,
-    ) -> Tuple[np.ndarray, np.ndarray]:
+    ) -> tuple[np.ndarray, np.ndarray]:
         """
         Apply multi-head attention.
 
@@ -203,7 +203,7 @@ class TemporalAttention:
         self.min_weight = 0.1  # Minimum temporal weight
 
     def compute_temporal_bias(
-        self, query_time: datetime, memory_times: List[datetime]
+        self, query_time: datetime, memory_times: list[datetime]
     ) -> np.ndarray:
         """
         Compute temporal bias based on time differences.
@@ -231,9 +231,9 @@ class TemporalAttention:
         query_embedding: np.ndarray,
         memory_embeddings: np.ndarray,
         query_time: datetime,
-        memory_times: List[datetime],
+        memory_times: list[datetime],
         **kwargs,
-    ) -> Tuple[np.ndarray, np.ndarray]:
+    ) -> tuple[np.ndarray, np.ndarray]:
         """
         Apply temporal attention to memories.
 
@@ -244,7 +244,8 @@ class TemporalAttention:
         temporal_bias = self.compute_temporal_bias(query_time, memory_times)
 
         # Expand dimensions for batch processing
-        # For temporal attention, we repeat query to match memory length for cross-attention
+        # For temporal attention, we repeat query to match memory length for
+        # cross-attention
         num_memories = len(memory_embeddings)
         query_repeated = np.repeat(query_embedding.reshape(1, -1), num_memories, axis=0)
         query_batch = query_repeated.reshape(1, num_memories, -1)
@@ -285,7 +286,7 @@ class HierarchicalAttention:
 
     def create_hierarchical_representations(
         self, memories: np.ndarray
-    ) -> List[np.ndarray]:
+    ) -> list[np.ndarray]:
         """
         Create multi-scale representations of memories.
 
@@ -319,7 +320,7 @@ class HierarchicalAttention:
 
     def forward(
         self, query: np.ndarray, memories: np.ndarray, return_all_levels: bool = False
-    ) -> Tuple[np.ndarray, Dict[str, np.ndarray]]:
+    ) -> tuple[np.ndarray, dict[str, np.ndarray]]:
         """
         Apply hierarchical attention across multiple scales.
 
@@ -333,7 +334,7 @@ class HierarchicalAttention:
         level_weights = []
 
         # Apply attention at each level
-        for level, (level_memories, attention) in enumerate(
+        for _level, (level_memories, attention) in enumerate(
             zip(hierarchical_memories, self.level_attentions)
         ):
             if len(level_memories) == 0:
@@ -391,8 +392,8 @@ class CrossModalAttention:
         }
 
     def forward(
-        self, modality_embeddings: Dict[str, np.ndarray], primary_modality: str = "text"
-    ) -> Dict[str, np.ndarray]:
+        self, modality_embeddings: dict[str, np.ndarray], primary_modality: str = "text"
+    ) -> dict[str, np.ndarray]:
         """
         Apply cross-modal attention between different modalities.
 
@@ -469,10 +470,10 @@ class MemoryAttentionOrchestrator:
     def compute_memory_relevance(
         self,
         query: Union[str, np.ndarray],
-        memories: List[Dict[str, Any]],
+        memories: list[dict[str, Any]],
         mode: str = "multi_head",
-        context: Optional[Dict[str, Any]] = None,
-    ) -> List[Tuple[int, float]]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> list[tuple[int, float]]:
         """
         Compute relevance scores for memories using specified attention mode.
 
@@ -531,7 +532,7 @@ class MemoryAttentionOrchestrator:
         elif mode == "cross_modal" and context and "modalities" in context:
             # Use cross-modal attention
             modalities = context["modalities"]
-            attended = self.cross_modal.forward(modalities)
+            self.cross_modal.forward(modalities)
             # For simplicity, use uniform weights
             attention_weights = np.ones(len(memory_array)) / len(memory_array)
 
@@ -573,8 +574,8 @@ class MemoryAttentionOrchestrator:
         return embedding / np.linalg.norm(embedding)
 
     def explain_attention(
-        self, attention_weights: np.ndarray, memory_items: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, attention_weights: np.ndarray, memory_items: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Generate human-readable explanation of attention patterns.
 

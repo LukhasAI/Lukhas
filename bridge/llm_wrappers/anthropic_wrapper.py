@@ -41,6 +41,8 @@
 
 import logging
 
+from lukhas_pwm.branding.terminology import normalize_output
+
 # Module imports
 from .env_loader import get_api_key
 
@@ -74,18 +76,32 @@ class AnthropicWrapper:
         self, prompt: str, model: str = "claude-3-sonnet-20240229", **kwargs
     ) -> str:
         """Generate response using Anthropic API"""
+        guidance = (
+            "When describing methods, prefer 'quantum-inspired' and 'bio-inspired'. "
+            "Refer to the project as 'Lukhas AI'."
+        )
+
         if not self.client:
-            return "Anthropic client not initialized. Please check API key and installation."
+            fb = "Anthropic client not initialized. Please check API key and installation."
+            return normalize_output(fb) or fb
 
         try:
+            # Anthropic expects messages with roles; insert system guidance
             response = self.client.messages.create(
                 model=model,
                 max_tokens=kwargs.get("max_tokens", 2000),
-                messages=[{"role": "user", "content": prompt}],
+                messages=[
+                    {"role": "system", "content": guidance},
+                    {"role": "user", "content": prompt},
+                ],
             )
-            return response.content[0].text
+            text = (
+                response.content[0].text if getattr(response, "content", None) else None
+            )
+            return normalize_output(text) or text or ""
         except Exception as e:
-            return f"Anthropic API Error: {str(e)}"
+            err = f"Anthropic API Error: {str(e)}"
+            return normalize_output(err) or err
 
     def is_available(self) -> bool:
         """Check if Anthropic is available"""

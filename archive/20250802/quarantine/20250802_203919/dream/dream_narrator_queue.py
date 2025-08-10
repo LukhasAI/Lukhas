@@ -15,23 +15,23 @@
 
 LUKHAS AI System - Function Library
 File: dream_narrator_queue.py
-Path: core/dreams/dream_narrator_queue.py
+Path: core / dreams / dream_narrator_queue.py
 Created: "2025-06-05 09:37:28"
 Author: LUKHAS AI Team
 Version: 1.0
-This file is part of the LUKHAS AI (Logical Unified Knowledge Hyper-Adaptable System)
+This file is part of the LUKHAS AI(Logical Unified Knowledge Hyper - Adaptable System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 lukhas AI System - Function Library
 File: dream_narrator_queue.py
-Path: core/dreams/dream_narrator_queue.py
+Path: core / dreams / dream_narrator_queue.py
 Created: "2025-06-05 09:37:28"
 Author: LUKHAS AI Team
 Version: 1.0
-This file is part of the LUKHAS AI (LUKHAS Universal Knowledge & Holistic AI System)
+This file is part of the LUKHAS AI(LUKHAS Universal Knowledge & Holistic AI System)
 Advanced Cognitive Architecture for Artificial General Intelligence
-Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
+Copyright(c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 

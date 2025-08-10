@@ -6,7 +6,7 @@ Provides REST API endpoints for dream commerce operations
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -16,7 +16,7 @@ class APIResponse:
     """Standard API response format"""
 
     status: str
-    data: Dict[str, Any]
+    data: dict[str, Any]
     timestamp: datetime
     request_id: str
 
@@ -26,7 +26,7 @@ class UserRegistrationRequest(BaseModel):
 
     username: str = Field(..., min_length=3, max_length=50)
     email: str = Field(..., pattern=r"^[^@]+@[^@]+\.[^@]+$")
-    preferences: Dict[str, Any] = Field(default_factory=dict)
+    preferences: dict[str, Any] = Field(default_factory=dict)
 
 
 class DreamInitiationRequest(BaseModel):
@@ -51,7 +51,7 @@ class APIHandler:
             "health_status": "healthy",
         }
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check endpoint"""
         self.system_metrics["total_requests"] += 1
         return {
@@ -61,7 +61,7 @@ class APIHandler:
             "version": "1.0.0",
         }
 
-    async def register_user(self, user_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def register_user(self, user_data: dict[str, Any]) -> dict[str, Any]:
         """Register a new user"""
         self.system_metrics["total_requests"] += 1
 
@@ -87,7 +87,7 @@ class APIHandler:
             "message": f"User {request.username} registered successfully",
         }
 
-    async def initiate_dream(self, dream_request: Dict[str, Any]) -> Dict[str, Any]:
+    async def initiate_dream(self, dream_request: dict[str, Any]) -> dict[str, Any]:
         """Initiate a dream session"""
         self.system_metrics["total_requests"] += 1
 
@@ -123,7 +123,7 @@ class APIHandler:
             },
         }
 
-    async def get_user_metrics(self, user_id: str) -> Dict[str, Any]:
+    async def get_user_metrics(self, user_id: str) -> dict[str, Any]:
         """Get user metrics and statistics"""
         self.system_metrics["total_requests"] += 1
 
@@ -150,7 +150,7 @@ class APIHandler:
             },
         }
 
-    async def get_system_status(self) -> Dict[str, Any]:
+    async def get_system_status(self) -> dict[str, Any]:
         """Get overall system status"""
         self.system_metrics["total_requests"] += 1
 
@@ -175,7 +175,7 @@ class APIHandler:
             },
         }
 
-    async def get_dream_session(self, session_id: str) -> Dict[str, Any]:
+    async def get_dream_session(self, session_id: str) -> dict[str, Any]:
         """Get dream session details"""
         self.system_metrics["total_requests"] += 1
 
@@ -196,7 +196,7 @@ class APIHandler:
 
         return session
 
-    async def terminate_dream_session(self, session_id: str) -> Dict[str, Any]:
+    async def terminate_dream_session(self, session_id: str) -> dict[str, Any]:
         """Terminate a dream session"""
         self.system_metrics["total_requests"] += 1
 

@@ -4,7 +4,8 @@ Consciousness Services
 Dependency injection services for the consciousness module.
 """
 
-from typing import Any, Dict
+from hub.service_registry import register_factory
+from typing import Any
 
 from hub.service_registry import get_service, inject_services
 
@@ -38,11 +39,11 @@ class ConsciousnessService:
     async def process_awareness(
         self,
         agent_id: str,
-        stimulus: Dict[str, Any],
+        stimulus: dict[str, Any],
         memory=None,
         learning=None,
         identity=None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Process awareness with injected dependencies.
 
@@ -72,8 +73,8 @@ class ConsciousnessService:
         }
 
     async def integrate_experience(
-        self, agent_id: str, experience: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, agent_id: str, experience: dict[str, Any]
+    ) -> dict[str, Any]:
         """Integrate experience across consciousness systems"""
         self._ensure_services()
 
@@ -109,7 +110,6 @@ def create_consciousness_service():
 
 
 # Register with hub on import
-from hub.service_registry import register_factory
 
 register_factory(
     "consciousness_service",

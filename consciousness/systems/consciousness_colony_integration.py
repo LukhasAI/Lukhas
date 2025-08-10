@@ -2,10 +2,11 @@
 Consciousness-Colony Integration Module
 Enables distributed consciousness processing through colony architecture
 """
+import logging
 
 import asyncio
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -31,7 +32,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
     def __init__(
         self,
         user_id_context: Optional[str] = None,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         """Initialize distributed consciousness engine with colony support."""
         super().__init__(user_id_context, config)
@@ -123,8 +124,8 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
         self.logger.info("Distributed consciousness engine stopped")
 
     async def process_consciousness_task(
-        self, task_type: str, task_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, task_type: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Process consciousness tasks using distributed colony architecture.
 
@@ -161,8 +162,8 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
             raise
 
     async def _process_reflection_distributed(
-        self, task_id: str, data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, task_id: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process reflection using multiple colonies in parallel."""
         self.logger.debug(f"Distributing reflection task {task_id} across colonies")
 
@@ -232,8 +233,8 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
         return integrated_result
 
     async def _process_integration_distributed(
-        self, task_id: str, data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, task_id: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process integration tasks across colonies with coordination."""
         self.logger.debug(
             f"Processing integration task {task_id} with colony coordination"
@@ -288,8 +289,8 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
         }
 
     async def _process_awareness_distributed(
-        self, task_id: str, data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, task_id: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process awareness updates using colony consensus."""
         self.logger.debug(f"Processing awareness task {task_id} with colony consensus")
 
@@ -377,19 +378,19 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
                 alpha * 0.0 + (1 - alpha) * self.colony_metrics[colony]["success_rate"]
             )
 
-    async def _handle_reasoning_complete(self, event_data: Dict[str, Any]):
+    async def _handle_reasoning_complete(self, event_data: dict[str, Any]):
         """Handle completion events from reasoning colony."""
         self.logger.debug(
             f"Reasoning colony completed task: {event_data.get('task_id')}"
         )
         await self.event_bus.emit("consciousness.reasoning.integrated", event_data)
 
-    async def _handle_memory_stored(self, event_data: Dict[str, Any]):
+    async def _handle_memory_stored(self, event_data: dict[str, Any]):
         """Handle memory storage events from memory colony."""
         self.logger.debug(f"Memory colony stored: {event_data.get('memory_id')}")
         await self.event_bus.emit("consciousness.memory.updated", event_data)
 
-    async def _handle_creative_insight(self, event_data: Dict[str, Any]):
+    async def _handle_creative_insight(self, event_data: dict[str, Any]):
         """Handle creative insights from creativity colony."""
         self.logger.debug(
             f"Creativity colony generated insight: {event_data.get('insight_id')}"
@@ -405,7 +406,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
                 self.process_consciousness_task("reflection", reflection_task)
             )
 
-    async def get_colony_status(self) -> Dict[str, Any]:
+    async def get_colony_status(self) -> dict[str, Any]:
         """Get status of all consciousness colonies."""
         status = {
             "engine_running": self._running,
@@ -446,8 +447,8 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
         return status
 
     async def perform_distributed_reflection(
-        self, experience: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, experience: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         High-level method to perform reflection using distributed colonies.
         Overrides base class method to use colony architecture.

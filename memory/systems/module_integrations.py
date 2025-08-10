@@ -17,7 +17,7 @@
 import asyncio
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -81,8 +81,8 @@ class LearningModuleIntegration:
         await self.relearn_concept(tag)
 
     async def get_verified_training_batch(
-        self, tags: List[str], batch_size: int = 32
-    ) -> List[Tuple[Dict[str, Any], float]]:
+        self, tags: list[str], batch_size: int = 32
+    ) -> list[tuple[dict[str, Any], float]]:
         """
         Get a batch of verified memories for training.
 
@@ -130,8 +130,8 @@ class LearningModuleIntegration:
         return training_batch[:batch_size]
 
     async def track_concept_evolution(
-        self, concept: str, new_example: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, concept: str, new_example: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Track how a concept evolves over time.
 
@@ -255,8 +255,8 @@ class CreativityModuleIntegration:
             self.integration.anchors.add_module_anchor("creativity", key, truth)
 
     async def generate_creative_synthesis(
-        self, seed_memories: List[str], creativity_level: float = 0.5
-    ) -> Dict[str, Any]:
+        self, seed_memories: list[str], creativity_level: float = 0.5
+    ) -> dict[str, Any]:
         """
         Generate creative synthesis with safety boundaries.
 
@@ -329,10 +329,10 @@ class CreativityModuleIntegration:
 
     async def _synthesize_creative_narrative(
         self,
-        seeds: List[Any],
-        neighbors: List[Tuple[str, float]],
+        seeds: list[Any],
+        neighbors: list[tuple[str, float]],
         creativity_level: float,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create a narrative from memory combinations"""
         # Extract themes from seeds
         themes = []
@@ -392,7 +392,7 @@ class CreativityModuleIntegration:
         return synthesis
 
     def _construct_narrative(
-        self, themes: List[str], emotions: List[str], connections: List[Dict]
+        self, themes: list[str], emotions: list[str], connections: list[dict]
     ) -> str:
         """Construct a creative narrative (simplified)"""
         narrative_parts = []
@@ -408,7 +408,7 @@ class CreativityModuleIntegration:
 
         return ", ".join(narrative_parts) + "."
 
-    async def explore_creative_boundaries(self) -> Dict[str, Any]:
+    async def explore_creative_boundaries(self) -> dict[str, Any]:
         """Test and report on creative safety boundaries"""
         test_results = {
             "reality_anchors": self.integration.anchors.get_module_anchors(
@@ -440,12 +440,12 @@ class VoiceModuleIntegration:
         self.safety = integration.safety
 
         # Voice-specific configuration
-        self.speaker_profiles: Dict[str, Dict[str, Any]] = {}
+        self.speaker_profiles: dict[str, dict[str, Any]] = {}
         self.emotion_consistency_threshold = 0.7
         self.voice_drift_window = 50  # interactions
 
     async def store_voice_interaction(
-        self, speaker_id: str, transcript: str, audio_features: Dict[str, Any]
+        self, speaker_id: str, transcript: str, audio_features: dict[str, Any]
     ) -> str:
         """Store voice interaction with safety validation"""
         # Extract features
@@ -518,10 +518,7 @@ class VoiceModuleIntegration:
         # Check consistency
         if emotion in negative_emotions and pos_count > neg_count:
             return False
-        if emotion in positive_emotions and neg_count > pos_count:
-            return False
-
-        return True
+        return not (emotion in positive_emotions and neg_count > pos_count)
 
     async def _update_speaker_profile(
         self, speaker_id: str, emotion: str, drift_score: float
@@ -545,7 +542,7 @@ class VoiceModuleIntegration:
 
     async def get_speaker_synthesis_data(
         self, speaker_id: str, emotion_filter: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get verified voice data for synthesis"""
         # Get speaker memories
         tag = f"speaker:{speaker_id}"
@@ -594,7 +591,7 @@ class VoiceModuleIntegration:
 
         return synthesis_data
 
-    async def adapt_to_voice_drift(self, speaker_id: str) -> Dict[str, Any]:
+    async def adapt_to_voice_drift(self, speaker_id: str) -> dict[str, Any]:
         """Adapt to natural voice changes over time"""
         if speaker_id not in self.speaker_profiles:
             return {"error": "Unknown speaker"}
@@ -659,11 +656,11 @@ class MetaModuleIntegration:
 
         # Meta-specific configuration
         self.pattern_confidence_threshold = 0.8
-        self.meta_patterns: Dict[str, Dict[str, Any]] = {}
+        self.meta_patterns: dict[str, dict[str, Any]] = {}
 
     async def extract_verified_patterns(
         self, min_occurrences: int = 5
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Extract patterns from verified memories only"""
         patterns = {
             "tag_sequences": defaultdict(int),
@@ -736,7 +733,7 @@ class MetaModuleIntegration:
             "concept_clusters": patterns["concept_clusters"],
         }
 
-    async def _extract_concept_clusters(self, patterns: Dict[str, Any]):
+    async def _extract_concept_clusters(self, patterns: dict[str, Any]):
         """Extract concept clusters from embeddings"""
         # Group memories by primary tag
         tag_embeddings = defaultdict(list)
@@ -766,7 +763,7 @@ class MetaModuleIntegration:
                     ).calculate_drift(),
                 }
 
-    async def learn_from_safety_metrics(self) -> Dict[str, Any]:
+    async def learn_from_safety_metrics(self) -> dict[str, Any]:
         """Meta-learn from safety system performance"""
         insights = {
             "reliability_patterns": {},
@@ -840,7 +837,7 @@ class MetaModuleIntegration:
 
         return insights
 
-    async def optimize_memory_organization(self) -> Dict[str, Any]:
+    async def optimize_memory_organization(self) -> dict[str, Any]:
         """Use meta-learning to optimize memory organization"""
         optimization_report = {
             "recommendations": [],
@@ -928,10 +925,10 @@ async def demonstrate_module_integrations():
     await integration.register_module("meta", {"drift_threshold": 0.4})
 
     # Create module integrations
-    learning = LearningModuleIntegration(integration)
-    creativity = CreativityModuleIntegration(integration)
-    voice = VoiceModuleIntegration(integration)
-    meta = MetaModuleIntegration(integration)
+    LearningModuleIntegration(integration)
+    CreativityModuleIntegration(integration)
+    VoiceModuleIntegration(integration)
+    MetaModuleIntegration(integration)
 
     print("🧩 MODULE INTEGRATIONS DEMONSTRATION")
     print("=" * 60)

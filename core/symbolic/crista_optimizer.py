@@ -153,7 +153,7 @@ class SymbolicNode:
         self.activity_level = activity
         self.entropy = entropy
         self.logger.debug(
-            f"ΛTRACE: Metrics updated for SymbolicNode '{self.node_id}': Error={error},
+            f"ΛTRACE: Metrics updated for SymbolicNode '{self.node_id}': Error={error},"
             Activity={activity}, Entropy={entropy}"
         )
 

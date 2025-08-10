@@ -33,6 +33,7 @@ class AIProvider:
     api_key: Optional[str] = None
     model: Optional[str] = None
 
+
 class LUKHASAIOrchestrator:
     """🎭 The master conductor of the AI symphony"""
 
@@ -47,23 +48,33 @@ class LUKHASAIOrchestrator:
             "claude": AIProvider(
                 name="Claude Sonnet",
                 endpoint="https://api.anthropic.com",
-                strengths=["architecture", "documentation", "reasoning", "trinity_framework"],
+                strengths=[
+                    "architecture",
+                    "documentation",
+                    "reasoning",
+                    "trinity_framework",
+                ],
                 api_key=os.getenv("ANTHROPIC_API_KEY"),
-                model="claude-3-5-sonnet-20241022"
+                model="claude-3-5-sonnet-20241022",
             ),
             "gpt": AIProvider(
                 name="GPT-4",
                 endpoint="https://api.openai.com",
                 strengths=["creative", "general_coding", "explanations", "naming"],
                 api_key=os.getenv("OPENAI_API_KEY"),
-                model="gpt-4"
+                model="gpt-4",
             ),
             "ollama": AIProvider(
                 name="Ollama Local",
                 endpoint="http://localhost:11434",
-                strengths=["local_inference", "privacy", "fast_completion", "code_completion"],
-                model="deepseek-coder:33b"
-            )
+                strengths=[
+                    "local_inference",
+                    "privacy",
+                    "fast_completion",
+                    "code_completion",
+                ],
+                model="deepseek-coder:33b",
+            ),
         }
 
     def _load_lukhas_context(self) -> str:
@@ -74,11 +85,13 @@ class LUKHASAIOrchestrator:
             "# Symbolic Integration: ⚛️ Quantum, 🧠 Consciousness, 🛡️ Guardian",
             "# Conceptual Vocabulary: memory_fold, dream_resonance, quantum_consciousness",
             "# Architecture: Consciousness-aware, guardian-protected, trinity-documented",
-            ""
+            "",
         ]
         return "\n".join(context_parts)
 
-    async def route_request(self, task_type: str, content: str, context: Dict[str, Any] = None) -> str:
+    async def route_request(
+        self, task_type: str, content: str, context: Dict[str, Any] = None
+    ) -> str:
         """🧠 Route requests to optimal AI provider based on task type"""
         routing_map = {
             "trinity_documentation": "claude",
@@ -90,7 +103,7 @@ class LUKHASAIOrchestrator:
             "explanations": "gpt",
             "code_completion": "ollama",
             "local_analysis": "ollama",
-            "fast_completion": "ollama"
+            "fast_completion": "ollama",
         }
 
         provider_name = routing_map.get(task_type, "claude")
@@ -99,7 +112,9 @@ class LUKHASAIOrchestrator:
         enhanced_content = f"{self.lukhas_context}\n{content}"
 
         try:
-            return await self._call_provider(provider_name, enhanced_content, context or {})
+            return await self._call_provider(
+                provider_name, enhanced_content, context or {}
+            )
         except Exception as e:
             # Fallback to another provider
             fallback_providers = ["claude", "gpt", "ollama"]
@@ -107,15 +122,19 @@ class LUKHASAIOrchestrator:
 
             for fallback in fallback_providers:
                 try:
-                    return await self._call_provider(fallback, enhanced_content, context)
+                    return await self._call_provider(
+                        fallback, enhanced_content, context
+                    )
                 except Exception:
                     continue
 
             raise Exception(f"All AI providers failed: {e}")
 
-    async def _call_provider(self, provider_name: str, content: str, context: Dict[str, Any]) -> str:
+    async def _call_provider(
+        self, provider_name: str, content: str, context: Dict[str, Any]
+    ) -> str:
         """🎯 Call specific AI provider with LUKHAS context"""
-        provider = self.providers[provider_name]
+        self.providers[provider_name]
 
         if provider_name == "claude":
             return await self._call_claude(content, context)
@@ -140,7 +159,7 @@ class LUKHASAIOrchestrator:
             max_tokens=4096,
             temperature=0.1,
             system=system_message,
-            messages=[{"role": "user", "content": content}]
+            messages=[{"role": "user", "content": content}],
         )
 
         return response.content[0].text
@@ -160,8 +179,8 @@ class LUKHASAIOrchestrator:
             max_tokens=4096,
             messages=[
                 {"role": "system", "content": system_message},
-                {"role": "user", "content": content}
-            ]
+                {"role": "user", "content": content},
+            ],
         )
 
         return response.choices[0].message.content
@@ -173,31 +192,32 @@ class LUKHASAIOrchestrator:
                 "model": self.providers["ollama"].model,
                 "prompt": f"LUKHAS Development Context: Follow consciousness-aware patterns and Trinity Framework.\n\n{content}",
                 "stream": False,
-                "options": {
-                    "temperature": 0.1,
-                    "top_k": 40
-                }
+                "options": {"temperature": 0.1, "top_k": 40},
             }
 
-            async with session.post(f"{self.providers['ollama'].endpoint}/api/generate", json=payload) as resp:
+            async with session.post(
+                f"{self.providers['ollama'].endpoint}/api/generate", json=payload
+            ) as resp:
                 if resp.status == 200:
                     result = await resp.json()
                     return result.get("response", "")
                 else:
                     raise Exception(f"Ollama request failed: {resp.status}")
 
-    async def trinity_documentation_generation(self, element_signature: str, element_type: str = "function") -> Dict[str, str]:
+    async def trinity_documentation_generation(
+        self, element_signature: str, element_type: str = "function"
+    ) -> Dict[str, str]:
         """🎭 Generate Trinity Framework documentation using best available AI"""
         prompt = f"""
         Generate LUKHAS Trinity Framework documentation for this {element_type}:
-        
+
         {element_signature}
-        
+
         Return in this exact format:
         🎭 Poetic: [Inspiring, metaphorical description that captures the essence and consciousness aspects]
-        🌈 Human: [Clear, friendly explanation anyone can understand]  
+        🌈 Human: [Clear, friendly explanation anyone can understand]
         🎓 Technical: [Precise implementation details, parameters, return values, and LUKHAS integration notes]
-        
+
         Follow LUKHAS conventions: consciousness, memory_fold, dream_resonance, quantum_potential concepts.
         Include symbolic markers where appropriate: ⚛️ 🧠 🛡️
         """
@@ -209,75 +229,84 @@ class LUKHASAIOrchestrator:
         """Parse Trinity Framework response into structured format"""
         layers = {"poetic": "", "human": "", "technical": ""}
 
-        lines = response.split('\n')
+        lines = response.split("\n")
         current_layer = None
 
         for line in lines:
-            if line.startswith('🎭'):
+            if line.startswith("🎭"):
                 current_layer = "poetic"
-                layers[current_layer] = line.replace('🎭 Poetic:', '').strip()
-            elif line.startswith('🌈'):
+                layers[current_layer] = line.replace("🎭 Poetic:", "").strip()
+            elif line.startswith("🌈"):
                 current_layer = "human"
-                layers[current_layer] = line.replace('🌈 Human:', '').strip()
-            elif line.startswith('🎓'):
+                layers[current_layer] = line.replace("🌈 Human:", "").strip()
+            elif line.startswith("🎓"):
                 current_layer = "technical"
-                layers[current_layer] = line.replace('🎓 Technical:', '').strip()
+                layers[current_layer] = line.replace("🎓 Technical:", "").strip()
             elif current_layer and line.strip():
                 layers[current_layer] += " " + line.strip()
 
         return layers
 
-    async def lukhas_code_review(self, code: str, file_path: str = "") -> Dict[str, Any]:
+    async def lukhas_code_review(
+        self, code: str, file_path: str = ""
+    ) -> Dict[str, Any]:
         """🛡️ Comprehensive LUKHAS code review"""
         prompt = f"""
         Review this code for LUKHAS compliance and suggest improvements:
-        
+
         File: {file_path}
-        
+
         ```
         {code}
         ```
-        
+
         Check for:
         1. Trinity Framework documentation (🎭🌈🎓)
         2. Symbolic usage (⚛️🧠🛡️) in comments
         3. LUKHAS naming conventions (memory_fold, dream_resonance, etc.)
         4. Consciousness-aware patterns
         5. Guardian security considerations
-        
+
         Provide specific suggestions for improvement.
         """
 
         response = await self.route_request("code_review", prompt)
         return {"review": response, "file_path": file_path}
 
-    async def suggest_lukhas_naming(self, purpose: str, element_type: str, domain: str = "") -> List[str]:
+    async def suggest_lukhas_naming(
+        self, purpose: str, element_type: str, domain: str = ""
+    ) -> List[str]:
         """🧠 Generate LUKHAS-compliant naming suggestions"""
         prompt = f"""
         Suggest LUKHAS-compliant names for a {element_type} that {purpose}.
-        
+
         Domain context: {domain}
-        
+
         Use LUKHAS conceptual vocabulary:
         - memory_fold, dream_resonance, quantum_consciousness
         - guardian_protocol, trinity_framework, consciousness_engine
         - neural_symphony, quantum_potential, memory_palace
-        
+
         Provide 5 creative but appropriate suggestions that follow LUKHAS naming patterns.
         """
 
         response = await self.route_request("creative_naming", prompt)
         # Parse suggestions from response
         suggestions = []
-        for line in response.split('\n'):
-            if any(char.isalpha() for char in line) and ('_' in line or line[0].isupper()):
-                clean_line = line.strip('- ').strip('1234567890. ').strip()
+        for line in response.split("\n"):
+            if any(char.isalpha() for char in line) and (
+                "_" in line or line[0].isupper()
+            ):
+                clean_line = line.strip("- ").strip("1234567890. ").strip()
                 if clean_line:
                     suggestions.append(clean_line)
 
         return suggestions[:5]
 
+
 # CLI interface for testing
+
+
 async def main():
     """🎭 Interactive demonstration of AI orchestration"""
     import sys
@@ -316,7 +345,9 @@ async def main():
             purpose = sys.argv[2]
             element_type = sys.argv[3]
             domain = sys.argv[4] if len(sys.argv) > 4 else ""
-            suggestions = await orchestrator.suggest_lukhas_naming(purpose, element_type, domain)
+            suggestions = await orchestrator.suggest_lukhas_naming(
+                purpose, element_type, domain
+            )
             print("🧠 LUKHAS Naming Suggestions:")
             for i, suggestion in enumerate(suggestions, 1):
                 print(f"{i}. {suggestion}")
@@ -326,6 +357,7 @@ async def main():
 
     except Exception as e:
         print(f"❌ Error: {e}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

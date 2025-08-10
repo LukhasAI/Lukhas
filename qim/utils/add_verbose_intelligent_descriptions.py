@@ -12,7 +12,6 @@ Perfect for content generation systems.
 import os
 import re
 from pathlib import Path
-from typing import Dict, List
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -29,7 +28,7 @@ DESCRIPTION_PATTERN = re.compile(
 )
 
 
-def analyze_quantum_code(filepath: Path) -> Dict[str, any]:
+def analyze_quantum_code(filepath: Path) -> dict[str, any]:
     """Deep analysis of quantum module code."""
 
     try:
@@ -122,7 +121,7 @@ def analyze_quantum_code(filepath: Path) -> Dict[str, any]:
         }
 
 
-def generate_verbose_description(analysis: Dict[str, any]) -> str:
+def generate_verbose_description(analysis: dict[str, any]) -> str:
     """Generate verbose description with poetic story and academic explanation."""
 
     # Build comprehensive context
@@ -270,7 +269,7 @@ occur in biological neural networks.
 def add_verbose_description(filepath: Path) -> bool:
     """Add verbose intelligent description to module."""
 
-    if not filepath.suffix == ".py":
+    if filepath.suffix != ".py":
         return False
 
     try:
@@ -373,7 +372,7 @@ if __name__ == "__main__":
 # === HELPER FUNCTIONS FOR COST OPTIMIZATION ===
 
 
-def find_good_candidates(project_root: Path) -> List[Path]:
+def find_good_candidates(project_root: Path) -> list[Path]:
     """Find the best candidates for description generation."""
 
     candidates = []
@@ -425,15 +424,15 @@ def find_good_candidates(project_root: Path) -> List[Path]:
                     )
                     if has_template and not has_description:
                         unique_candidates.append(file_path)
-            except:
+            except BaseException:
                 continue
 
     return unique_candidates[:10]  # Return top 10 candidates
 
 
 def estimate_costs(
-    candidates: List[Path], model: str = "gpt-4o-mini"
-) -> Dict[str, float]:
+    candidates: list[Path], model: str = "gpt-4o-mini"
+) -> dict[str, float]:
     """Estimate API costs for processing candidates."""
 
     # Rough token estimates
@@ -498,4 +497,5 @@ def run_cost_analysis():
 
 # Usage examples:
 # python add_verbose_intelligent_descriptions.py --cost-analysis
-# python add_verbose_intelligent_descriptions.py --model gpt-4o-mini# python add_verbose_intelligent_descriptions.py --model gpt-4o-mini
+# python add_verbose_intelligent_descriptions.py --model gpt-4o-mini#
+# python add_verbose_intelligent_descriptions.py --model gpt-4o-mini

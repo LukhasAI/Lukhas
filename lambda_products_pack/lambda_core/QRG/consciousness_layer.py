@@ -20,14 +20,13 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
 # Optional imports for advanced consciousness detection
 try:
-    from scipy.signal import butter, filtfilt
-    from scipy.stats import entropy
+    pass
 
     SCIPY_AVAILABLE = True
 except ImportError:
@@ -95,9 +94,9 @@ class ConsciousnessSignature:
 
     signature_id: str
     vad_profile: VADProfile
-    interaction_patterns: Dict[str, float]
-    temporal_characteristics: Dict[str, float]
-    symbolic_resonance: Dict[str, float]
+    interaction_patterns: dict[str, float]
+    temporal_characteristics: dict[str, float]
+    symbolic_resonance: dict[str, float]
     quantum_coherence: float
 
 
@@ -111,12 +110,12 @@ class ConsciousnessAdaptation:
     📚 Academic Layer: "Parametric adjustments for consciousness-aware glyph generation"
     """
 
-    visual_adaptations: Dict[str, float]
-    animation_adaptations: Dict[str, Any]
-    color_palette: List[Tuple[int, int, int]]
+    visual_adaptations: dict[str, float]
+    animation_adaptations: dict[str, Any]
+    color_palette: list[tuple[int, int, int]]
     pattern_complexity: float
-    temporal_dynamics: Dict[str, float]
-    security_adjustments: Dict[str, Any]
+    temporal_dynamics: dict[str, float]
+    security_adjustments: dict[str, Any]
 
 
 class ConsciousnessLayer:
@@ -140,7 +139,7 @@ class ConsciousnessLayer:
     def __init__(
         self,
         privacy_mode: bool = True,
-        consciousness_sources: List[ConsciousnessSource] = None,
+        consciousness_sources: list[ConsciousnessSource] = None,
     ):
         """
         Initialize Consciousness Layer
@@ -165,9 +164,9 @@ class ConsciousnessLayer:
         self._initialize_detection_systems()
 
         # Emotional state baselines and profiles
-        self.baseline_profiles: Dict[str, VADProfile] = {}
-        self.consciousness_history: List[ConsciousnessSignature] = []
-        self.adaptation_cache: Dict[str, ConsciousnessAdaptation] = {}
+        self.baseline_profiles: dict[str, VADProfile] = {}
+        self.consciousness_history: list[ConsciousnessSignature] = []
+        self.adaptation_cache: dict[str, ConsciousnessAdaptation] = {}
 
         logger.info("🧠 Consciousness Layer initialized with privacy-first approach")
 
@@ -198,8 +197,8 @@ class ConsciousnessLayer:
 
     def detect_consciousness_state(
         self,
-        interaction_data: Optional[Dict[str, Any]] = None,
-        user_context: Optional[Dict[str, Any]] = None,
+        interaction_data: Optional[dict[str, Any]] = None,
+        user_context: Optional[dict[str, Any]] = None,
     ) -> ConsciousnessSignature:
         """
         Detect current consciousness state from available inputs
@@ -268,9 +267,9 @@ class ConsciousnessLayer:
 
     def _collect_consciousness_data(
         self,
-        interaction_data: Optional[Dict[str, Any]],
-        user_context: Optional[Dict[str, Any]],
-    ) -> Dict[str, Any]:
+        interaction_data: Optional[dict[str, Any]],
+        user_context: Optional[dict[str, Any]],
+    ) -> dict[str, Any]:
         """Collect consciousness data from available sources"""
         data = {
             "timestamp": datetime.now(),
@@ -286,7 +285,7 @@ class ConsciousnessLayer:
 
         return data
 
-    def _compute_vad_profile(self, detection_data: Dict[str, Any]) -> VADProfile:
+    def _compute_vad_profile(self, detection_data: dict[str, Any]) -> VADProfile:
         """
         Compute VAD (Valence-Arousal-Dominance) profile
 
@@ -370,8 +369,8 @@ class ConsciousnessLayer:
         )
 
     def _analyze_interaction_patterns(
-        self, detection_data: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, detection_data: dict[str, Any]
+    ) -> dict[str, float]:
         """
         Analyze user interaction patterns for consciousness indicators
 
@@ -385,8 +384,8 @@ class ConsciousnessLayer:
         return self.interaction_analyzer.analyze_patterns(detection_data)
 
     def _analyze_temporal_patterns(
-        self, detection_data: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, detection_data: dict[str, Any]
+    ) -> dict[str, float]:
         """
         Analyze temporal characteristics of interactions
 
@@ -400,8 +399,8 @@ class ConsciousnessLayer:
         return self.temporal_detector.analyze_temporal_patterns(detection_data)
 
     def _measure_symbolic_resonance(
-        self, detection_data: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, detection_data: dict[str, Any]
+    ) -> dict[str, float]:
         """
         Measure resonance with symbolic elements
 
@@ -414,7 +413,7 @@ class ConsciousnessLayer:
 
         return self.symbolic_resonator.measure_resonance(detection_data)
 
-    def _measure_quantum_coherence(self, detection_data: Dict[str, Any]) -> float:
+    def _measure_quantum_coherence(self, detection_data: dict[str, Any]) -> float:
         """
         Measure quantum coherence (theoretical)
 
@@ -566,7 +565,7 @@ class ConsciousnessLayer:
 
     def _generate_visual_adaptations(
         self, signature: ConsciousnessSignature, emotional_state: EmotionalState
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Generate visual parameter adaptations"""
         vad = signature.vad_profile
         base_adaptations = {
@@ -647,7 +646,7 @@ class ConsciousnessLayer:
 
     def _generate_animation_adaptations(
         self, signature: ConsciousnessSignature, emotional_state: EmotionalState
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate animation parameter adaptations"""
         vad = signature.vad_profile
 
@@ -732,7 +731,7 @@ class ConsciousnessLayer:
 
     def _generate_color_palette(
         self, signature: ConsciousnessSignature, emotional_state: EmotionalState
-    ) -> List[Tuple[int, int, int]]:
+    ) -> list[tuple[int, int, int]]:
         """Generate consciousness-adapted color palette"""
         vad = signature.vad_profile
 
@@ -835,7 +834,7 @@ class ConsciousnessLayer:
 
     def _generate_temporal_dynamics(
         self, signature: ConsciousnessSignature, emotional_state: EmotionalState
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Generate temporal dynamics for consciousness adaptation"""
         vad = signature.vad_profile
 
@@ -889,9 +888,8 @@ class ConsciousnessLayer:
 
     def _generate_security_adjustments(
         self, signature: ConsciousnessSignature, emotional_state: EmotionalState
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate security parameter adjustments"""
-        vad = signature.vad_profile
 
         base_security = {
             "error_correction_boost": 0.0,
@@ -925,7 +923,7 @@ class ConsciousnessLayer:
 
         return base_security
 
-    def _rgb_to_hsv(self, r: int, g: int, b: int) -> List[int]:
+    def _rgb_to_hsv(self, r: int, g: int, b: int) -> list[int]:
         """Convert RGB to HSV color space"""
         r, g, b = r / 255.0, g / 255.0, b / 255.0
         mx = max(r, g, b)
@@ -946,7 +944,7 @@ class ConsciousnessLayer:
 
         return [int(h / 2), int(s * 255), int(v * 255)]  # OpenCV format
 
-    def _hsv_to_rgb(self, h: int, s: int, v: int) -> Tuple[int, int, int]:
+    def _hsv_to_rgb(self, h: int, s: int, v: int) -> tuple[int, int, int]:
         """Convert HSV to RGB color space"""
         h = h * 2  # Convert from OpenCV format
         s = s / 255.0
@@ -977,7 +975,7 @@ class ConsciousnessLayer:
 
     def get_consciousness_analytics(
         self, time_window_hours: int = 24
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get consciousness analytics for the specified time window
 
@@ -1044,8 +1042,8 @@ class ConsciousnessLayer:
         }
 
     def _generate_consciousness_recommendations(
-        self, signatures: List[ConsciousnessSignature]
-    ) -> List[str]:
+        self, signatures: list[ConsciousnessSignature]
+    ) -> list[str]:
         """Generate consciousness wellness recommendations"""
         recommendations = []
 
@@ -1100,7 +1098,7 @@ class InteractionPatternAnalyzer:
     📚 Academic Layer: "Statistical interaction pattern analysis engine"
     """
 
-    def analyze_patterns(self, detection_data: Dict[str, Any]) -> Dict[str, float]:
+    def analyze_patterns(self, detection_data: dict[str, Any]) -> dict[str, float]:
         """Analyze interaction patterns from detection data"""
         patterns = {
             "rhythm_consistency": 0.5,
@@ -1134,8 +1132,8 @@ class TemporalRhythmDetector:
     """
 
     def analyze_temporal_patterns(
-        self, detection_data: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, detection_data: dict[str, Any]
+    ) -> dict[str, float]:
         """Analyze temporal characteristics"""
         temporal_data = {
             "rhythm_strength": 0.5,
@@ -1162,7 +1160,7 @@ class SymbolicResonanceDetector:
     📚 Academic Layer: "Symbolic preference analysis and resonance measurement"
     """
 
-    def measure_resonance(self, detection_data: Dict[str, Any]) -> Dict[str, float]:
+    def measure_resonance(self, detection_data: dict[str, Any]) -> dict[str, float]:
         """Measure symbolic resonance"""
         resonance_data = {
             "lambda_affinity": 0.5,
@@ -1190,7 +1188,7 @@ class QuantumCoherenceDetector:
     📚 Academic Layer: "Theoretical quantum field coherence detector"
     """
 
-    def measure_coherence(self, detection_data: Dict[str, Any]) -> float:
+    def measure_coherence(self, detection_data: dict[str, Any]) -> float:
         """Measure theoretical quantum coherence"""
         # Theoretical implementation - in practice would use:
         # - Quantum random number generator coherence

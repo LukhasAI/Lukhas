@@ -69,7 +69,8 @@ class Part(BaseModel):
     text: str
     """The text content of this summary part."""
 
-    # ΛNOTE: `type` is a fixed literal, symbolically identifying this as a 'summary_text' part.
+    # ΛNOTE: `type` is a fixed literal, symbolically identifying this as a
+    # 'summary_text' part.
     type: Literal["summary_text"]
     """The type of this summary part. Always `summary_text` for this model."""
     # Human-readable comment: Fixed literal type for discriminating this model part.
@@ -97,19 +98,23 @@ class ResponseReasoningSummaryPartAddedEvent(BaseModel):
     """The index of the overall output item (e.g., a message) in the response's output array
        with which this summary part is associated."""
 
-    # ΛNOTE: `part` contains the actual symbolic content of the summary segment being added.
+    # ΛNOTE: `part` contains the actual symbolic content of the summary
+    # segment being added.
     part: Part
     """The actual summary part content that was added."""
 
-    # ΛNOTE: `sequence_number` is crucial for the correct ordered assembly of summary parts.
+    # ΛNOTE: `sequence_number` is crucial for the correct ordered assembly of
+    # summary parts.
     sequence_number: int
     """The sequence number of this event, ensuring ordered processing if multiple parts are added."""
 
-    # ΛNOTE: `summary_index` indicates the position of this new part within the overall summary list for the item.
+    # ΛNOTE: `summary_index` indicates the position of this new part within
+    # the overall summary list for the item.
     summary_index: int
     """The index of this newly added summary part within the reasoning item's list of summary parts."""
 
-    # ΛNOTE: `type` is a fixed literal, symbolically identifying this event's specific purpose.
+    # ΛNOTE: `type` is a fixed literal, symbolically identifying this event's
+    # specific purpose.
     type: Literal["response.reasoning_summary_part.added"]
     """The type of the event. Always 'response.reasoning_summary_part.added' for this model."""
     # Human-readable comment: Fixed literal type for event discrimination.

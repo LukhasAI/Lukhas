@@ -27,7 +27,7 @@ if st.button("🌌 Generate Dream-Based Opinion"):
             lines = f.readlines()
         if lines:
             latest = json.loads(lines[-1])
-            symbolic_opinion = f"Lukhas reflects symbolically on: {latest.get('theme',
+            symbolic_opinion = f"Lukhas reflects symbolically on: {latest.get('theme',"
                                                                               'a recurring dream')}"
             st.success(symbolic_opinion)
 

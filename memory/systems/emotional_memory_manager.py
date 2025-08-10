@@ -6,6 +6,7 @@ DEPRECATED: This module is deprecated and will be removed in v2.0.0.
 Please use lukhas.memory.EmotionalMemoryManager instead.
 """
 
+from typing import Any, Optional
 import warnings
 
 warnings.warn(
@@ -16,8 +17,6 @@ warnings.warn(
     stacklevel=2,
 )
 
-from typing import Any, Dict, Optional
-
 
 class EmotionalModulator:
     """
@@ -27,7 +26,7 @@ class EmotionalModulator:
     and integration with the broader creative system.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the emotional modulator.
 
@@ -40,8 +39,8 @@ class EmotionalModulator:
         self.modulation_history = []
 
     def modulate_emotion(
-        self, emotion_data: Dict[str, Any], context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, emotion_data: dict[str, Any], context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Modulate emotional data based on context and history.
 
@@ -78,8 +77,8 @@ class EmotionalModulator:
         return modulated
 
     def integrate_memory_emotion(
-        self, memory_data: Dict[str, Any], emotion_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, memory_data: dict[str, Any], emotion_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Integrate memory data with emotional information.
 
@@ -103,7 +102,7 @@ class EmotionalModulator:
 
         return integrated
 
-    def get_emotional_context(self, memory_id: str) -> Dict[str, Any]:
+    def get_emotional_context(self, memory_id: str) -> dict[str, Any]:
         """
         Get emotional context for a specific memory.
 
@@ -115,7 +114,7 @@ class EmotionalModulator:
         """
         return self.memory_contexts.get(memory_id, self._default_emotional_state())
 
-    def update_emotional_state(self, new_state: Dict[str, Any]) -> None:
+    def update_emotional_state(self, new_state: dict[str, Any]) -> None:
         """
         Update the current emotional state.
 
@@ -124,7 +123,7 @@ class EmotionalModulator:
         """
         self.emotional_state.update(new_state)
 
-    def _default_emotional_state(self) -> Dict[str, Any]:
+    def _default_emotional_state(self) -> dict[str, Any]:
         """Return default emotional state."""
         return {
             "valence": 0.5,
@@ -135,7 +134,7 @@ class EmotionalModulator:
         }
 
     def _calculate_integration_score(
-        self, memory_data: Dict[str, Any], emotion_data: Dict[str, Any]
+        self, memory_data: dict[str, Any], emotion_data: dict[str, Any]
     ) -> float:
         """Calculate integration score between memory and emotion."""
         # Simple scoring based on overlap and compatibility
@@ -152,8 +151,8 @@ class EmotionalModulator:
         return min(1.0, score)
 
     def _enhance_memory_with_emotion(
-        self, memory_data: Dict[str, Any], emotion_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, memory_data: dict[str, Any], emotion_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Enhance memory data with emotional information."""
         enhanced = memory_data.copy()
 
