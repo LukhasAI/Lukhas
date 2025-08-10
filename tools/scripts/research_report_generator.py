@@ -66,7 +66,7 @@ def create_comprehensive_research_report():
             "license": "Academic Research Use",
         },
         "abstract": {
-            "summary": "This comprehensive report presents the LUKHAS AGI Framework,
+            "summary": "This comprehensive report presents the LUKHAS AGI Framework,",
             a modular artificial general intelligence system implementing the Trinity Framework(⚛️🧠🛡️) for ethical AI consciousness development. The system integrates symbolic reasoning, drift detection, memory systems, and multi - model evaluation across major language models including OpenAI GPT - 4, Anthropic Claude, Google Gemini, and Perplexity. Our analysis reveals high - level system functionality with 100 % core module operational status and comprehensive API coverage, while identifying critical drift patterns in contemporary language models requiring symbolic intervention.",
             "key_findings": [
                 "LUKHAS core system achieves 100% module operational status",

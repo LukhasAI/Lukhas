@@ -97,6 +97,66 @@ class MemoryConsolidationCompleted(DomainEvent):
         return "memory.consolidation.completed"
 
 
+# GLYPH and Symbol Domain Events
+
+
+@dataclass
+class GlyphCreated(DomainEvent):
+    """Event when a new GLYPH is created"""
+    
+    glyph_id: str = ""
+    symbol_id: str = ""
+    concept: str = ""
+    modalities: list[str] = field(default_factory=list)
+    
+    @property
+    def event_type(self) -> str:
+        return "glyph.created"
+
+
+@dataclass
+class SymbolTranslated(DomainEvent):
+    """Event when a symbol is translated between modalities"""
+    
+    original_id: str = ""
+    translated_id: str = ""
+    target_module: str = ""
+    target_modality: str = ""
+    
+    @property
+    def event_type(self) -> str:
+        return "symbol.translated"
+
+
+@dataclass
+class ConsensusReached(DomainEvent):
+    """Event when colony consensus is reached"""
+    
+    proposal_id: str = ""
+    decision: str = ""
+    confidence: float = 0.0
+    method: str = ""
+    participants: int = 0
+    
+    @property
+    def event_type(self) -> str:
+        return "consensus.reached"
+
+
+@dataclass
+class QuantumStateCollapsed(DomainEvent):
+    """Event when a quantum state collapses"""
+    
+    state_id: str = ""
+    measurement_result: str = ""
+    coherence_before: float = 0.0
+    coherence_after: float = 0.0
+    
+    @property
+    def event_type(self) -> str:
+        return "quantum.state.collapsed"
+
+
 # Consciousness Domain Events
 
 

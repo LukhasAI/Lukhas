@@ -327,8 +327,7 @@ class CoreAnalyzer:
             f.write("### 1. Keep Core AI System\n")
             f.write(f"- **{core} core AI files** - These are your Λ AI system\n")
             f.write(
-                f"- **{legitimate} legitimate components ** - Memory, dreams, mappers,
-                etc.\n"
+                f"- **{legitimate} legitimate components ** - Memory, dreams, mappers, etc.\n"
             )
             f.write(f"- **Total Λ system: {actual_lukhas} files**\n\n")
 

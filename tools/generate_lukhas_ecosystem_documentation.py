@@ -63,7 +63,7 @@ class LUKHASDocumentationOrchestrator:
             },
             "commercial_platforms": {
                 "title": "Commercial Platforms",
-                "description": "Documentation for lukhas.dev, lukhas.store,
+                "description": "Documentation for lukhas.dev, lukhas.store,",
                 lukhas.cloud",
                 "files": [
                     "PLATFORM_OVERVIEW.md",

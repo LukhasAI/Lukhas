@@ -379,8 +379,7 @@ class AIDocumentationGenerator:
                     messages=[
                         {
                             "role": "system",
-                            "content": "You are the LUKHlukhasS AI documentation system,
-                            specializing in comprehensive and philosophically aware technical documentation.",
+                            "content": "You are the LUKHlukhasS AI documentation system, specializing in comprehensive and philosophically aware technical documentation.",
                         },
                         {"role": "user", "content": prompt},
                     ],

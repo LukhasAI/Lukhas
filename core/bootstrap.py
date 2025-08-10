@@ -14,8 +14,13 @@ from core.events.contracts import (
     DreamGenerated,
     MemoryFoldCreated,
     QuantumStateCreated,
+    GlyphCreated,
+    SymbolTranslated,
+    ConsensusReached,
+    QuantumStateCollapsed,
 )
 from core.events.typed_event_bus import EventBusService, get_typed_event_bus
+from orchestration.brain.unified_cognitive_orchestrator import UnifiedCognitiveOrchestrator
 from core.interfaces.services import (
     IBridgeService,
     IConsciousnessService,
@@ -38,6 +43,7 @@ class LUKHASBootstrap:
         self.services: dict[str, Any] = {}
         self.initialized = False
         self.startup_time: Optional[datetime] = None
+        self.unified_orchestrator: Optional[UnifiedCognitiveOrchestrator] = None
 
     async def initialize(self) -> dict[str, Any]:
         """Initialize all LUKHAS services and infrastructure"""
@@ -62,11 +68,16 @@ class LUKHASBootstrap:
             logger.info("🧠 Initializing core services...")
             await self._initialize_core_services()
 
-            # Step 5: Set up event subscriptions
+            # Step 5: Initialize Unified Cognitive Orchestrator
+            logger.info("🧠 Initializing Unified Cognitive Orchestrator...")
+            self.unified_orchestrator = UnifiedCognitiveOrchestrator()
+            await self.unified_orchestrator.initialize()
+
+            # Step 6: Set up event subscriptions
             logger.info("📻 Setting up event subscriptions...")
             await self._setup_event_subscriptions()
 
-            # Step 6: Verify system health
+            # Step 7: Verify system health
             logger.info("🏥 Verifying system health...")
             health_report = await self._check_system_health()
 
@@ -210,9 +221,50 @@ class LUKHASBootstrap:
 
         return health_report
 
+    async def demonstrate_integration(self):
+        """Demonstrate the fully integrated system"""
+        if not self.unified_orchestrator:
+            logger.warning("Unified orchestrator not initialized")
+            return
+        
+        logger.info("\n🎭 DEMONSTRATING INTEGRATED LUKHAS SYSTEM")
+        logger.info("=" * 60)
+        
+        # Process various types of thoughts
+        test_thoughts = [
+            "How should we balance creativity with safety?",
+            "Remember the importance of ethical decision-making",
+            "Dream about innovative solutions to complex problems",
+            "Analyze the quantum entanglement of consciousness",
+            "Feel the emotional resonance of our decisions"
+        ]
+        
+        for thought in test_thoughts:
+            logger.info(f"\n💭 Processing: '{thought}'")
+            result = await self.unified_orchestrator.process_thought(thought)
+            logger.info(f"   ✓ Thought ID: {result['thought_id']}")
+            logger.info(f"   ✓ Awareness: {result['cognitive_state']['awareness']:.3f}")
+            logger.info(f"   ✓ Coherence: {result['cognitive_state']['coherence']:.3f}")
+        
+        # Get system status
+        status = await self.unified_orchestrator.get_system_status()
+        
+        logger.info("\n📊 SYSTEM STATUS:")
+        logger.info(f"   • Active Symbols: {status['cognitive_state']['active_symbols']}")
+        logger.info(f"   • Memory Folds: {status['memory']['total_folds']}")
+        logger.info(f"   • Cache Hit Rate: {status['memory']['cache_hit_rate']:.1%}")
+        logger.info(f"   • Quantum Coherence: {status['cognitive_state']['quantum_coherence']:.3f}")
+        logger.info(f"   • Thoughts Processed: {status['metrics']['thoughts_processed']}")
+        
+        logger.info("\n✅ Integration demonstration complete!")
+
     async def shutdown(self) -> None:
         """Gracefully shutdown all services"""
         logger.info("🔄 Starting LUKHAS shutdown...")
+        
+        # Shutdown unified orchestrator
+        if self.unified_orchestrator:
+            await self.unified_orchestrator.shutdown()
 
         # Shutdown services in reverse order
         for name in reversed(list(self.services.keys())):

@@ -2,6 +2,8 @@
 
 [![Backup & DR Status](badges/backup_status.svg)](docs/DR_STATUS_BADGE.md)
 
+> Namespace update: prefer "lukhas" imports and refer to the project as "Lukhas AI" or "Lukhas Systems". The legacy `lukhas_pwm` namespace remains available for compatibility and will be deprecated.
+
 ## Docs
 - OpenAI Modulated Endpoints: see `docs/OPENAI_ENDPOINTS.md`
 

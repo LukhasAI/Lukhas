@@ -27,7 +27,7 @@ class LUKHAS2030Consolidator:
                     "awareness",
                     "reflection",
                 ],
-                "vision": "Single consciousness core with reflection, awareness,
+                "vision": "Single consciousness core with reflection, awareness,",
                 and decision - making",
                 "features": [
                     "Self-awareness mechanisms",
