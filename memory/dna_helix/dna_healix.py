@@ -504,6 +504,9 @@ class MemoryHelix:
         self.temporal_strand = SymbolicStrand(initial_glyphs)  # Temporal markers
         self.causal_strand = SymbolicStrand(initial_glyphs)  # Causal relationships
 
+        # Storage for additional strands
+        self.strands = {}  # For storing named strands
+        
         # Metadata
         self.created_at = datetime.now()
         self.access_count = 0
@@ -600,6 +603,38 @@ class MemoryHelix:
                     for r in self.helix_core.repair_history
                 ],
             },
+        }
+
+    async def store_strand(self, strand) -> None:
+        """Store a symbolic strand in the helix"""
+        if self.locked:
+            raise PermissionError(f"Memory {self.memory_id} is locked")
+        
+        self.strands[strand.strand_id] = strand
+        self.access_count += 1
+
+    async def retrieve_strand(self, strand_id: str):
+        """Retrieve a symbolic strand by ID"""
+        if self.locked:
+            raise PermissionError(f"Memory {self.memory_id} is locked")
+        
+        self.access_count += 1
+        self.last_accessed = datetime.now()
+        return self.strands.get(strand_id)
+
+    async def verify_integrity(self) -> dict[str, Any]:
+        """Verify the integrity of the memory helix"""
+        drift_score = self.helix_core.calculate_drift()
+        should_repair = self.helix_core.should_repair()
+        
+        return {
+            "status": "healthy" if drift_score < 0.1 else "degraded" if drift_score < 0.3 else "critical",
+            "drift_score": drift_score,
+            "should_repair": should_repair,
+            "last_accessed": self.last_accessed.isoformat() if self.last_accessed else None,
+            "access_count": self.access_count,
+            "repair_count": len(self.helix_core.repair_history),
+            "locked": self.locked
         }
 
     @classmethod

@@ -12,7 +12,7 @@ Comprehensive tests for all compliance components including:
 import asyncio
 import os
 import sys
-import unittest
+import pytest
 
 from compliance.ai_regulatory_framework.eu_ai_act.compliance_validator import (
     AISystemProfile,
@@ -44,10 +44,10 @@ from compliance.ai_regulatory_framework.nist.ai_risk_management import (
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 
-class TestAIComplianceFramework(unittest.TestCase):
+class TestAIComplianceFramework:
     """Test cases for AI Regulatory Compliance Framework"""
 
-    def setUp(self):
+    def setup_method(self):
         """Set up test fixtures"""
         self.eu_validator = EUAIActValidator()
         self.gdpr_validator = GDPRValidator()
@@ -56,11 +56,12 @@ class TestAIComplianceFramework(unittest.TestCase):
 
     def test_eu_ai_act_validator_initialization(self):
         """Test EU AI Act validator initialization"""
-        self.assertIsInstance(self.eu_validator, EUAIActValidator)
-        self.assertTrue(hasattr(self.eu_validator, "high_risk_use_cases"))
-        self.assertTrue(hasattr(self.eu_validator, "prohibited_practices"))
-        self.assertTrue(len(self.eu_validator.high_risk_use_cases) > 0)
+        assert isinstance(self.eu_validator, EUAIActValidator)
+        assert hasattr(self.eu_validator, "high_risk_use_cases")
+        assert hasattr(self.eu_validator, "prohibited_practices")
+        assert len(self.eu_validator.high_risk_use_cases) > 0
 
+    @pytest.mark.asyncio
     async def test_eu_ai_act_compliance_assessment(self):
         """Test EU AI Act compliance assessment"""
         # Create test AI system profile
@@ -81,12 +82,12 @@ class TestAIComplianceFramework(unittest.TestCase):
         assessment = await self.eu_validator.assess_system_compliance(system_profile)
 
         # Validate assessment results
-        self.assertIsInstance(assessment, ComplianceAssessment)
-        self.assertEqual(assessment.system_id, "test_ai_system_001")
-        self.assertEqual(assessment.risk_category, AISystemRiskCategory.HIGH_RISK)
-        self.assertTrue(len(assessment.requirements) > 0)
-        self.assertTrue(isinstance(assessment.confidence_score, float))
-        self.assertTrue(0.0 <= assessment.confidence_score <= 1.0)
+        assert isinstance(assessment, ComplianceAssessment)
+        assert assessment.system_id == "test_ai_system_001"
+        assert assessment.risk_category == AISystemRiskCategory.HIGH_RISK
+        assert len(assessment.requirements) > 0
+        assert isinstance(assessment.confidence_score, float)
+        assert 0.0 <= assessment.confidence_score <= 1.0
 
     # GDPR test temporarily disabled - will be re-enabled when GDPR module is implemented
     # async def test_gdpr_compliance_assessment(self):
@@ -118,6 +119,7 @@ class TestAIComplianceFramework(unittest.TestCase):
     #     self.assertTrue(len(assessment.violations) >= 0)
     #     self.assertTrue(len(assessment.recommendations) > 0)
 
+    @pytest.mark.asyncio
     async def test_nist_risk_assessment(self):
         """Test NIST AI Risk Management assessment"""
         # Create test AI system metrics
@@ -142,19 +144,17 @@ class TestAIComplianceFramework(unittest.TestCase):
         )
 
         # Validate assessment results
-        self.assertEqual(assessment.system_id, "test_ai_system_001")
-        self.assertIn(
-            assessment.risk_level,
-            [
-                RiskLevel.LOW,
-                RiskLevel.MEDIUM,
-                RiskLevel.HIGH,
-                RiskLevel.CRITICAL,
-            ],
-        )
-        self.assertTrue(len(assessment.trustworthy_scores) > 0)
-        self.assertTrue(len(assessment.mitigation_strategies) > 0)
+        assert assessment.system_id == "test_ai_system_001"
+        assert assessment.risk_level in [
+            RiskLevel.LOW,
+            RiskLevel.MEDIUM,
+            RiskLevel.HIGH,
+            RiskLevel.CRITICAL,
+        ]
+        assert len(assessment.trustworthy_scores) > 0
+        assert len(assessment.mitigation_strategies) > 0
 
+    @pytest.mark.asyncio
     async def test_global_compliance_assessment(self):
         """Test global compliance orchestration"""
         # Create test global compliance profile
@@ -220,19 +220,17 @@ class TestAIComplianceFramework(unittest.TestCase):
         )
 
         # Validate global assessment results
-        self.assertEqual(report.system_id, "test_global_system_001")
-        self.assertIn(
-            report.overall_status,
-            [
-                "Fully Compliant",
-                "Mostly Compliant",
-                "Partially Compliant",
-                "Non-Compliant",
-            ],
-        )
-        self.assertTrue(len(report.jurisdiction_compliance) > 0)
-        self.assertTrue(len(report.framework_compliance) > 0)
+        assert report.system_id == "test_global_system_001"
+        assert report.overall_status in [
+            "Fully Compliant",
+            "Mostly Compliant",
+            "Partially Compliant",
+            "Non-Compliant",
+        ]
+        assert len(report.jurisdiction_compliance) > 0
+        assert len(report.framework_compliance) > 0
 
+    @pytest.mark.asyncio
     async def test_compliance_report_generation(self):
         """Test compliance report generation"""
         # Create minimal test data
@@ -256,26 +254,27 @@ class TestAIComplianceFramework(unittest.TestCase):
         report = await self.eu_validator.generate_compliance_report(assessment)
 
         # Validate report structure
-        self.assertIn("assessment_summary", report)
-        self.assertIn("requirements", report)
-        self.assertIn("violations", report)
-        self.assertIn("recommendations", report)
-        self.assertIn("next_steps", report)
-        self.assertIn("regulatory_references", report)
+        assert "assessment_summary" in report
+        assert "requirements" in report
+        assert "violations" in report
+        assert "recommendations" in report
+        assert "next_steps" in report
+        assert "regulatory_references" in report
 
     def test_framework_compatibility(self):
         """Test framework compatibility matrix"""
         compatibility = self.global_engine.framework_compatibility
 
         # Validate compatibility structure
-        self.assertIn(ComplianceFramework.EU_AI_ACT, compatibility)
-        # self.assertIn(ComplianceFramework.GDPR, compatibility)  # GDPR
+        assert ComplianceFramework.EU_AI_ACT in compatibility
+        # assert ComplianceFramework.GDPR in compatibility  # GDPR
         # temporarily disabled
 
         # Validate compatibility scores
         eu_ai_act_compat = compatibility[ComplianceFramework.EU_AI_ACT]
-        self.assertTrue(all(0.0 <= score <= 1.0 for score in eu_ai_act_compat.values()))
+        assert all(0.0 <= score <= 1.0 for score in eu_ai_act_compat.values())
 
+    @pytest.mark.asyncio
     async def test_error_handling(self):
         """Test error handling in compliance framework"""
         # Test with invalid system profile
@@ -297,80 +296,8 @@ class TestAIComplianceFramework(unittest.TestCase):
                 invalid_profile
             )
             # Should still work but may have violations
-            self.assertIsInstance(assessment, ComplianceAssessment)
+            assert isinstance(assessment, ComplianceAssessment)
         except Exception as e:
             # Error handling should be graceful
-            self.assertIsInstance(e, Exception)
+            assert isinstance(e, Exception)
 
-    def run_async_test(self, coro):
-        """Helper to run async tests"""
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        try:
-            return loop.run_until_complete(coro)
-        finally:
-            loop.close()
-
-
-def run_compliance_tests():
-    """Run all compliance framework tests"""
-    print("🧪 Running AI Regulatory Compliance Framework Tests...")
-
-    # Create test suite
-    suite = unittest.TestSuite()
-    test_case = TestAIComplianceFramework()
-
-    # Add sync tests
-    suite.addTest(TestAIComplianceFramework("test_eu_ai_act_validator_initialization"))
-    suite.addTest(TestAIComplianceFramework("test_framework_compatibility"))
-
-    # Run sync tests
-    runner = unittest.TextTestRunner(verbosity=2)
-    result = runner.run(suite)
-
-    # Run async tests manually
-    print("\n🔄 Running async compliance tests...")
-
-    async_tests = [
-        "test_eu_ai_act_compliance_assessment",
-        # 'test_gdpr_compliance_assessment',  # GDPR temporarily disabled
-        "test_nist_risk_assessment",
-        "test_global_compliance_assessment",
-        "test_compliance_report_generation",
-        "test_error_handling",
-    ]
-
-    async_results = []
-    for test_name in async_tests:
-        try:
-            print(f"  ⚡ Running {test_name}...")
-            test_method = getattr(test_case, test_name)
-            test_case.run_async_test(test_method())
-            print(f"  ✅ {test_name} passed")
-            async_results.append(True)
-        except Exception as e:
-            print(f"  ❌ {test_name} failed: {e}")
-            async_results.append(False)
-
-    # Summary
-    total_tests = len(suite._tests) + len(async_tests)
-    passed_tests = (
-        result.testsRun - len(result.failures) - len(result.errors) + sum(async_results)
-    )
-
-    print("\n📊 Test Results Summary:")
-    print(f"  Total Tests: {total_tests}")
-    print(f"  Passed: {passed_tests}")
-    print(f"  Failed: {total_tests - passed_tests}")
-
-    if passed_tests == total_tests:
-        print("🎉 All compliance framework tests passed!")
-        return True
-    else:
-        print("❌ Some compliance framework tests failed")
-        return False
-
-
-if __name__ == "__main__":
-    success = run_compliance_tests()
-    sys.exit(0 if success else 1)

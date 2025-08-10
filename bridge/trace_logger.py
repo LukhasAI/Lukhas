@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import logging
+from datetime import datetime
 
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -138,11 +139,41 @@ class BridgeTraceLogger:
         if metadata is None:
             metadata = {}
 
-        # TODO: Implement structured event logging
-        # TODO: Add event correlation
-        # TODO: Perform real-time analysis
-
-        logger.info("Bridge event logged: %s [%s]", event_id, category.value)
+        # Structured event logging implementation
+        timestamp = datetime.utcnow().isoformat()
+        
+        # Create structured event data
+        event_data = {
+            "event_id": event_id,
+            "timestamp": timestamp,
+            "category": category.value,
+            "level": level.value,
+            "component": component,
+            "message": message,
+            "metadata": metadata,
+        }
+        
+        # Add correlation data if available
+        if hasattr(self, "correlation_context"):
+            event_data["correlation_id"] = getattr(self.correlation_context, "correlation_id", None)
+            event_data["session_id"] = getattr(self.correlation_context, "session_id", None)
+        
+        # Store structured event for potential analysis
+        if not hasattr(self, "_event_history"):
+            self._event_history = []
+        self._event_history.append(event_data)
+        
+        # Keep only recent events in memory (last 1000)
+        if len(self._event_history) > 1000:
+            self._event_history = self._event_history[-1000:]
+        
+        # Structured logging with all event data
+        logger.info(
+            "Bridge event: %(event_id)s [%(category)s/%(level)s] %(component)s: %(message)s",
+            event_data,
+            extra={"structured_data": event_data}
+        )
+        
         return event_id
 
     def trace_symbolic_handshake(

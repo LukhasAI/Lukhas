@@ -27,6 +27,7 @@ class GLYPHSymbol(Enum):
     FORGET = "FORGET"
     REFLECT = "REFLECT"
     CONNECT = "CONNECT"
+    DREAM = "DREAM"
 
     # Emotional
     JOY = "JOY"
@@ -43,6 +44,8 @@ class GLYPHSymbol(Enum):
     WARNING = "WARNING"
     SUCCESS = "SUCCESS"
     FAIL = "FAIL"
+    QUERY = "QUERY"
+    ACKNOWLEDGE = "ACKNOWLEDGE"
 
     # Guardian
     VALIDATE = "VALIDATE"

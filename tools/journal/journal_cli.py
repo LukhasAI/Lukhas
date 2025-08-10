@@ -1338,7 +1338,8 @@ def prompt(ctx, type):
         try:
             subprocess.run(["pbcopy"], input=prompts[type].encode(), check=True)
             print(f"\n{Colors.GREEN}✓ Copied to clipboard!{Colors.END}")
-        except BaseException:
+        except (subprocess.CalledProcessError, FileNotFoundError, OSError) as e:
+            print_warning(f"Could not copy to clipboard: {e}")
             print(
                 f"\n{Colors.YELLOW}Copy the prompt above to use with Claude Code{Colors.END}"
             )

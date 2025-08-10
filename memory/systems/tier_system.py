@@ -725,7 +725,7 @@ def symbolic_access_test():
     """
     Test access tier logic with a symbolic operation.
     """
-    tier = TierSystem()
+    tier = DynamicTierSystem()
     operation = "modify_dream_path"
     user_context = {"role": "user", "session": "standard"}
     result = tier.check_access("user", operation, user_context)

@@ -25,6 +25,10 @@ from typing import Any, Optional, Union
 
 import numpy as np
 
+# Import logging
+from core.common import get_logger
+logger = get_logger(__name__)
+
 # Import LUKHAS components
 try:
     from ..integrity.collapse_hash import CollapseHash
@@ -289,11 +293,11 @@ class UnifiedMemoryOrchestrator:
             }
 
         logger.info(
-            "Unified Memory Orchestrator initialized",
-            hippocampal_capacity=hippocampal_capacity,
-            neocortical_capacity=neocortical_capacity,
-            colony_validation=enable_colony_validation,
-            distributed=enable_distributed,
+            f"Unified Memory Orchestrator initialized: "
+            f"hippocampal_capacity={hippocampal_capacity}, "
+            f"neocortical_capacity={neocortical_capacity}, "
+            f"colony_validation={enable_colony_validation}, "
+            f"distributed={enable_distributed}"
         )
 
     def _initialize_lukhas_subsystems(self, node_id: Optional[str]):
@@ -590,10 +594,9 @@ class UnifiedMemoryOrchestrator:
         self.encoding_count += 1
 
         logger.debug(
-            "Memory encoded",
-            memory_id=memory_id,
-            memory_type=memory_type.value,
-            encoding_strength=memory_trace.encoding_strength,
+            f"Memory encoded: memory_id={memory_id}, "
+            f"memory_type={memory_type.value}, "
+            f"encoding_strength={memory_trace.encoding_strength}"
         )
 
         return memory_id
@@ -748,11 +751,10 @@ class UnifiedMemoryOrchestrator:
             )
 
             logger.debug(
-                "Colony validation completed",
-                memory_id=memory_trace.memory_id,
-                success=validation_success,
-                consensus_confidence=outcome.consensus_confidence,
-                participating_colonies=len(outcome.colony_responses),
+                f"Colony validation completed: memory_id={memory_trace.memory_id}, "
+                f"success={validation_success}, "
+                f"consensus_confidence={outcome.consensus_confidence}, "
+                f"participating_colonies={len(outcome.colony_responses)}"
             )
 
             return validation_success
@@ -1091,10 +1093,9 @@ class UnifiedMemoryOrchestrator:
                 self.consolidation_count += 1
 
                 logger.info(
-                    "Memory consolidated to neocortex",
-                    memory_id=memory_id,
-                    strength=consolidation_strength,
-                    semantic_features=len(semantic_features),
+                    f"Memory consolidated to neocortex: memory_id={memory_id}, "
+                    f"strength={consolidation_strength}, "
+                    f"semantic_features={len(semantic_features)}"
                 )
 
                 return True
@@ -1493,14 +1494,14 @@ class UnifiedMemoryOrchestrator:
 
                 # Log health metrics
                 logger.info(
-                    "Memory system health check",
-                    hippocampal_size=len(self.hippocampal_buffer),
-                    neocortical_size=len(self.neocortical_network),
-                    working_memory_size=len(self.working_memory),
-                    encoding_count=self.encoding_count,
-                    consolidation_count=self.consolidation_count,
-                    retrieval_count=self.retrieval_count,
-                    forgetting_count=self.forgetting_count,
+                    f"Memory system health check: "
+                    f"hippocampal_size={len(self.hippocampal_buffer)}, "
+                    f"neocortical_size={len(self.neocortical_network)}, "
+                    f"working_memory_size={len(self.working_memory)}, "
+                    f"encoding_count={self.encoding_count}, "
+                    f"consolidation_count={self.consolidation_count}, "
+                    f"retrieval_count={self.retrieval_count}, "
+                    f"forgetting_count={self.forgetting_count}"
                 )
 
             except Exception as e:

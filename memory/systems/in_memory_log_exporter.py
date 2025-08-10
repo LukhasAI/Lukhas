@@ -22,11 +22,16 @@ try:
     from opentelemetry.sdk._logs.export import LogExporter, LogExportResult
 except ImportError:
     import structlog
-from core.common import get_logger
- _log_otel_fallback.warning(
-     "OpenTelemetry SDK Log components not found. InMemoryLogExporter placeholders in use.")
-  @dataclass  # type: ignore
-   class LogData:
+    from core.common import get_logger
+    
+    _log_otel_fallback = get_logger(__name__)
+    _log_otel_fallback.warning(
+        "OpenTelemetry SDK Log components not found. InMemoryLogExporter placeholders in use.")
+    
+    from typing import Any, Optional
+    
+    @dataclass  # type: ignore
+    class LogData:
         attributes: typing.Dict[str, Any]
         body: Optional[str]  # Simplified placeholder # type: ignore
 

@@ -29,7 +29,8 @@ files_to_fix = [
     "tools/scripts/consolidate_modules.py"
 ]
 
-base_dir = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
+import os
+base_dir = Path(os.getenv("LUKHAS_PWM_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM"))
 
 def find_syntax_error_line(file_path):
     """Find the line with syntax error"""

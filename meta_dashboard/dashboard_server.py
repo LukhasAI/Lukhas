@@ -7,6 +7,7 @@ Trinity Framework: ⚛️🧠🛡️
 
 import asyncio
 import logging
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
@@ -47,12 +48,12 @@ active_connections: List[WebSocket] = []
 
 # Dashboard configuration
 DASHBOARD_CONFIG = {
-    "port": 5042,
+    "port": int(os.getenv("LUKHAS_DASHBOARD_PORT", "5042")),
     "title": "LUKHΛS Symbolic Meta Dashboard",
     "enable_auth": False,
-    "refresh_rate_seconds": 15,
-    "metrics_path": Path("data/meta_metrics.json"),
-    "snapshots_path": Path("data/drift_audit_results.jsonl"),
+    "refresh_rate_seconds": int(os.getenv("LUKHAS_REFRESH_RATE", "15")),
+    "metrics_path": Path(os.getenv("LUKHAS_METRICS_PATH", "data/meta_metrics.json")),
+    "snapshots_path": Path(os.getenv("LUKHAS_SNAPSHOTS_PATH", "data/drift_audit_results.jsonl")),
 }
 
 # Static HTML template
@@ -346,8 +347,11 @@ def start_dashboard(host: str = "0.0.0.0", port: int = None):
     import uvicorn
 
     port = port or DASHBOARD_CONFIG["port"]
-    logger.info(f"🚀 Starting LUKHΛS Meta Dashboard on port {port}")
-    logger.info(f"   Access at: http://localhost:{port}")
+    # Use environment variable for display URL or fallback to localhost
+    display_host = os.getenv("LUKHAS_DASHBOARD_URL", "localhost")
+    
+    logger.info(f"🚀 Starting LUKHΛS Meta Dashboard on {host}:{port}")
+    logger.info(f"   Access at: http://{display_host}:{port}")
 
     uvicorn.run(app, host=host, port=port)
 
