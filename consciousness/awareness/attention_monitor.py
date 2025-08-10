@@ -258,9 +258,7 @@ class AttentionMonitor:
         recent_data = self.eye_data_buffer[-20:]  # Last 20 data points
 
         # Calculate fixation stability
-        # SYNTAX_ERROR_FIXED:         fixation_variance = statistics.variance([d.x
-        # for d in recent_data]) + " + "statistics.variance([d.y for d in
-        # recent_data])
+        fixation_variance = statistics.variance([d.x for d in recent_data]) + statistics.variance([d.y for d in recent_data])
 
         # Calculate average pupil diameter (attention indicator)
         avg_pupil_diameter = statistics.mean([d.pupil_diameter for d in recent_data])

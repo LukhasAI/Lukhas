@@ -3,9 +3,6 @@
 Auto-generated cleanup script for duplicate code
 """
 
-import os
-import shutil
-from pathlib import Path
 
 def cleanup_duplicates():
     """Remove or consolidate duplicate code"""

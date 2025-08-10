@@ -4,9 +4,8 @@ Bio-orchestration system for LUKHAS PWM
 Minimal implementation to support dream and consciousness systems.
 """
 
-import asyncio
 import logging
-from typing import Any, Dict, List, Optional, Callable
+from typing import Any, Dict, Callable
 
 logger = logging.getLogger(__name__)
 

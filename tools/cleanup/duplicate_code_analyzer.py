@@ -10,7 +10,7 @@ import hashlib
 import os
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
+from typing import Dict
 
 
 class DuplicateCodeAnalyzer:

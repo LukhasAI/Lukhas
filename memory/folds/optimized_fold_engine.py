@@ -17,7 +17,6 @@ Performance Features:
 
 import asyncio
 import hashlib
-import json
 import mmap
 import numpy as np
 import pickle
@@ -26,12 +25,9 @@ import time
 from collections import defaultdict, OrderedDict
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 from dataclasses import dataclass, field
-from enum import Enum
-from functools import lru_cache
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 import threading
-import uuid
 
 # Compression backend helpers
 # Prefer lz4 for speed; if unavailable, fall back to zlib so tests run without optional deps.

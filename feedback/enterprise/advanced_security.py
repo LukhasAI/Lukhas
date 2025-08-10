@@ -532,7 +532,7 @@ class AdvancedSecuritySystem(CoreInterface):
         # For demo, simulate check
 
         # Remove identifying information
-        quasi_identifiers = {
+        {
             k: v
             for k, v in feedback_attributes.items()
             if k not in ["user_id", "session_id", "feedback_id"]

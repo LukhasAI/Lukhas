@@ -2,7 +2,6 @@
 """Check for syntax errors in all Python files"""
 
 import ast
-import os
 from pathlib import Path
 
 def check_all_syntax_errors():

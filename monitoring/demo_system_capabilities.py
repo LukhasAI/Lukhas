@@ -703,7 +703,7 @@ class SystemCapabilitiesDemo:
             print(f"      • {trigger_type}: {adjustment:+.3f} ({direction})")
 
         print("\n📊 STEP 7: Learning System Performance")
-        learning_metrics = {
+        {
             "success_rate": success_rate,
             "avg_improvement": avg_improvement,
             "transfer_success_rate": transfer_success_rate,
@@ -776,7 +776,7 @@ class SystemCapabilitiesDemo:
         }
 
         print("📊 STEP 1: Real-Time Hormone Radar")
-        radar_data = await self.dashboard.generate_hormone_radar_data(
+        await self.dashboard.generate_hormone_radar_data(
             current_state["hormone_levels"]
         )
 

@@ -4,9 +4,7 @@ Fix real linting issues - not just formatting.
 Focuses on undefined names, imports, and actual errors.
 """
 
-import ast
 import subprocess
-import sys
 from pathlib import Path
 from collections import defaultdict
 

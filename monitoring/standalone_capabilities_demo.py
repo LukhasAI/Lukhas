@@ -319,7 +319,7 @@ class StandaloneMonitoringDemo:
 
         insights = []
         hormones = state.get("hormone_levels", {})
-        metrics = state.get("system_metrics", {})
+        state.get("system_metrics", {})
 
         # Stress prediction
         if hormones.get("cortisol", 0.5) > 0.6:

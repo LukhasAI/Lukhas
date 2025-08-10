@@ -11,7 +11,7 @@ Intended for lightweight post-processing. Keep replacements conservative.
 from __future__ import annotations
 
 import re
-from typing import Iterable, Tuple
+from typing import Tuple
 
 
 _REPLACEMENTS: Tuple[Tuple[re.Pattern[str], str], ...] = (

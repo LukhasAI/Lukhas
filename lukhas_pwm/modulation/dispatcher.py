@@ -4,7 +4,7 @@ from typing import Any, Optional
 
 import yaml
 
-from lukhas_pwm.flags import get_flags, is_enabled
+from lukhas_pwm.flags import is_enabled
 
 PRECEDENCE = ["alignment_risk", "stress", "ambiguity", "novelty"]
 

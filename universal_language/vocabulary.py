@@ -8,11 +8,11 @@ Consolidates all domain vocabularies from scattered implementations.
 import json
 import logging
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional
 from pathlib import Path
 
-from universal_language.core import Symbol, Concept, SymbolicDomain, ConceptType
-from universal_language.glyph import GLYPHToken, get_glyph_engine
+from universal_language.core import Symbol, Concept, SymbolicDomain
+from universal_language.glyph import get_glyph_engine
 
 logger = logging.getLogger(__name__)
 

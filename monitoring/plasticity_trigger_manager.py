@@ -104,7 +104,9 @@ class PlasticityTriggerManager:
         self.config = config or {}
 
         # Adaptation rules registry
-        self.adaptation_rules: Dict[PlasticityTriggerType, List[AdaptationRule]] = {}
+    self.adaptation_rules: Dict[PlasticityTriggerType, List[AdaptationRule]] = {}
+    # Fallback mapping by enum value string to avoid duplicate-enum mismatch
+    self._rules_by_value: Dict[str, List[AdaptationRule]] = {}
         self.custom_rules: List[AdaptationRule] = []
 
         # Tracking and state management
@@ -145,8 +147,8 @@ class PlasticityTriggerManager:
     def _initialize_default_rules(self):
         """Initialize default adaptation rules for each trigger type"""
 
-        # Stress adaptation rules
-        self.adaptation_rules[PlasticityTriggerType.STRESS_ADAPTATION] = [
+    # Stress adaptation rules
+    self.adaptation_rules[PlasticityTriggerType.STRESS_ADAPTATION] = [
             AdaptationRule(
                 trigger_type=PlasticityTriggerType.STRESS_ADAPTATION,
                 priority=AdaptationPriority.HIGH,
@@ -167,9 +169,12 @@ class PlasticityTriggerManager:
                 success_threshold=0.7,
             ),
         ]
+        self._rules_by_value[PlasticityTriggerType.STRESS_ADAPTATION.value] = self.adaptation_rules[
+            PlasticityTriggerType.STRESS_ADAPTATION
+        ]
 
         # Performance optimization rules
-        self.adaptation_rules[PlasticityTriggerType.PERFORMANCE_OPTIMIZATION] = [
+    self.adaptation_rules[PlasticityTriggerType.PERFORMANCE_OPTIMIZATION] = [
             AdaptationRule(
                 trigger_type=PlasticityTriggerType.PERFORMANCE_OPTIMIZATION,
                 priority=AdaptationPriority.MEDIUM,
@@ -184,9 +189,12 @@ class PlasticityTriggerManager:
                 success_threshold=0.6,
             )
         ]
+        self._rules_by_value[
+            PlasticityTriggerType.PERFORMANCE_OPTIMIZATION.value
+        ] = self.adaptation_rules[PlasticityTriggerType.PERFORMANCE_OPTIMIZATION]
 
         # Social enhancement rules
-        self.adaptation_rules[PlasticityTriggerType.SOCIAL_ENHANCEMENT] = [
+    self.adaptation_rules[PlasticityTriggerType.SOCIAL_ENHANCEMENT] = [
             AdaptationRule(
                 trigger_type=PlasticityTriggerType.SOCIAL_ENHANCEMENT,
                 priority=AdaptationPriority.LOW,
@@ -197,9 +205,12 @@ class PlasticityTriggerManager:
                 success_threshold=0.5,
             )
         ]
+        self._rules_by_value[PlasticityTriggerType.SOCIAL_ENHANCEMENT.value] = self.adaptation_rules[
+            PlasticityTriggerType.SOCIAL_ENHANCEMENT
+        ]
 
         # Recovery consolidation rules
-        self.adaptation_rules[PlasticityTriggerType.RECOVERY_CONSOLIDATION] = [
+    self.adaptation_rules[PlasticityTriggerType.RECOVERY_CONSOLIDATION] = [
             AdaptationRule(
                 trigger_type=PlasticityTriggerType.RECOVERY_CONSOLIDATION,
                 priority=AdaptationPriority.MEDIUM,
@@ -210,9 +221,12 @@ class PlasticityTriggerManager:
                 success_threshold=0.7,
             )
         ]
+        self._rules_by_value[
+            PlasticityTriggerType.RECOVERY_CONSOLIDATION.value
+        ] = self.adaptation_rules[PlasticityTriggerType.RECOVERY_CONSOLIDATION]
 
         # Emotional regulation rules
-        self.adaptation_rules[PlasticityTriggerType.EMOTIONAL_REGULATION] = [
+    self.adaptation_rules[PlasticityTriggerType.EMOTIONAL_REGULATION] = [
             AdaptationRule(
                 trigger_type=PlasticityTriggerType.EMOTIONAL_REGULATION,
                 priority=AdaptationPriority.HIGH,
@@ -223,6 +237,9 @@ class PlasticityTriggerManager:
                 success_threshold=0.65,
             )
         ]
+        self._rules_by_value[
+            PlasticityTriggerType.EMOTIONAL_REGULATION.value
+        ] = self.adaptation_rules[PlasticityTriggerType.EMOTIONAL_REGULATION]
 
     async def evaluate_trigger(
         self, trigger_event: PlasticityEvent, current_snapshot: EndocrineSnapshot
@@ -238,6 +255,11 @@ class PlasticityTriggerManager:
 
         # Get applicable rules for this trigger type
         rules = self.adaptation_rules.get(trigger_event.trigger_type, [])
+        if not rules:
+            # Fallback to value-based lookup to handle duplicate Enum classes
+            trigger_value = getattr(trigger_event.trigger_type, "value", None)
+            if trigger_value is not None:
+                rules = self._rules_by_value.get(str(trigger_value), [])
         if not rules:
             logger.warning(
                 "No rules defined for trigger type",

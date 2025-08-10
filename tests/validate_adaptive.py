@@ -15,7 +15,7 @@ def test_signal_system():
     """Test the signal bus and homeostasis system"""
     print("\n🧬 Testing Endocrine System...")
     try:
-        from orchestration.signals.signal_bus import SignalBus, Signal, SignalType
+        from orchestration.signals.signal_bus import SignalBus
         from orchestration.signals.homeostasis_controller import HomeostasisController
         
         # Create signal bus
@@ -173,7 +173,7 @@ def test_caching():
         
         from bridge.llm_wrappers.openai_optimized import OptimizedOpenAIClient, CacheStrategy
         
-        client = OptimizedOpenAIClient(
+        OptimizedOpenAIClient(
             cache_strategy=CacheStrategy.EXACT_MATCH,
             cache_ttl=3600
         )

@@ -945,7 +945,7 @@ class QuantumGuardianIntegration:
         if "wavefunction_manager" in self.quantum_components:
             wf_manager = self.quantum_components["wavefunction_manager"]
             if isinstance(wf_manager, WavefunctionManager):
-                anchor_wf = wf_manager.create_wavefunction(
+                wf_manager.create_wavefunction(
                     wf_id=f"consciousness_anchor_{int(time.time())}",
                     template_name="trinity_coherence",
                     initial_entropy=0.15,
@@ -1042,8 +1042,8 @@ async def main():
     integration.register_quantum_component("wavefunction_manager", wf_manager)
 
     # Create some wavefunctions for testing
-    wf1 = wf_manager.create_wavefunction("test_wf_1", template_name="trinity_coherence")
-    wf2 = wf_manager.create_wavefunction(
+    wf_manager.create_wavefunction("test_wf_1", template_name="trinity_coherence")
+    wf_manager.create_wavefunction(
         "test_wf_2", template_name="creative_flow", initial_entropy=0.6
     )
 

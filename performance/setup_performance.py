@@ -6,10 +6,9 @@ Applies performance optimizations across the entire system
 
 import asyncio
 import logging
-import sys
 import time
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -74,7 +73,6 @@ class PerformanceSetup:
             asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
         
         # Thread pool optimization
-        import concurrent.futures
         
         return {
             "gc_thresholds": gc.get_threshold(),
@@ -85,7 +83,7 @@ class PerformanceSetup:
     async def optimize_memory(self) -> Dict[str, Any]:
         """Setup memory optimizations"""
         # Import our optimization classes
-        from optimizations import MemoryOptimizer, global_memory_optimizer
+        from optimizations import global_memory_optimizer
         
         # Configure memory optimizer
         memory_config = {
@@ -277,10 +275,6 @@ class PerformanceSetup:
         loop = asyncio.get_event_loop()
         
         # Increase max tasks if needed
-        asyncio_config = {
-            "debug": False,  # Disable in production
-            "slow_callback_duration": 0.1  # 100ms threshold
-        }
         
         # Setup semaphores for rate limiting
         semaphores = {

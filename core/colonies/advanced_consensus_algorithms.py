@@ -15,8 +15,6 @@ Features:
 """
 
 import asyncio
-import hashlib
-import json
 import logging
 import numpy as np
 import random
@@ -24,7 +22,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Set
 
 # Import existing consensus components
 from .consensus_mechanisms import (
@@ -880,7 +878,7 @@ async def demo_advanced_consensus():
     
     # Reach quantum consensus
     quantum_votes = consensus.quantum_votes[proposal_id]
-    regular_votes = consensus.votes[proposal_id]
+    consensus.votes[proposal_id]
     
     outcome = await consensus._quantum_consensus(
         consensus.active_proposals[proposal_id],

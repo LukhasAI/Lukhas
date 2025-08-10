@@ -302,6 +302,24 @@ class LukhasPWMRealDataCollector:
         # Fallback: infer from recent activities
         return self._infer_attention_from_activity()
 
+    async def _get_consciousness_decisions(self) -> float:
+        """Get decision confidence from consciousness or fallback."""
+        consciousness = self.module_connections.get("consciousness")
+        if consciousness and hasattr(consciousness, "get_decision_confidence"):
+            try:
+                val = await consciousness.get_decision_confidence()
+                return float(val)
+            except Exception as e:
+                logger.debug("Error getting decision confidence", error=str(e))
+        # Fallback via generator if available
+        gen = self.fallback_generators.get("consciousness")
+        if callable(gen):
+            try:
+                return float(gen().get("decision_confidence", 0.6))
+            except Exception:
+                pass
+        return 0.6
+
     async def _get_memory_load(self) -> float:
         """Get actual memory load from memory system"""
 
@@ -451,6 +469,25 @@ class LukhasPWMRealDataCollector:
         self.fallback_generators["consciousness"] = consciousness_fallback
         logger.info("Set up consciousness fallback generators")
 
+    def _setup_memory_fallbacks(self):
+        """Set up fallback data generators for memory modules"""
+
+        import time
+        import math
+
+        def memory_fallback():
+            t = time.time()
+            load = 0.5 + 0.3 * abs(math.sin(t / 40))
+            folds = int(50 + 30 * abs(math.cos(t / 25)))
+            return {
+                "memory_load": load,
+                "consolidation_rate": 0.4 + 0.2 * math.sin(t / 60),
+                "fold_statistics": {"active_folds": folds, "total_folds": 500},
+            }
+
+        self.fallback_generators["memory"] = memory_fallback
+        logger.info("Set up memory fallback generators")
+
     def _setup_biological_fallbacks(self):
         """Set up fallback data generators for biological modules"""
 
@@ -504,7 +541,6 @@ class LukhasPWMRealDataCollector:
 
         try:
             import psutil
-            import time
 
             cpu_percent = psutil.cpu_percent() / 100
             memory_percent = psutil.virtual_memory().percent / 100
@@ -526,6 +562,15 @@ class LukhasPWMRealDataCollector:
         except ImportError:
             # Use fallback generator
             return self.fallback_generators.get("endocrine", lambda: {})()
+
+    def _infer_attention_from_activity(self) -> List[str]:
+        """Infer attention targets from recent system activity (fallback)."""
+        awareness = self._estimate_awareness_from_system_state()
+        if awareness > 0.7:
+            return ["problem_solving", "user_interaction"]
+        elif awareness > 0.5:
+            return ["system_monitoring", "background_learning"]
+        return ["idle_recovery"]
 
     async def get_monitoring_system_integration_data(self) -> Dict[str, Any]:
         """Get data specifically formatted for monitoring system integration"""

@@ -7,7 +7,6 @@ from enum import Enum
 from dataclasses import dataclass
 from typing import Dict, Any, Optional
 import warnings
-import asyncio
 
 
 class RiskLevel(Enum):

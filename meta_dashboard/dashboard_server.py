@@ -312,13 +312,6 @@ async def reset_metrics():
     """Reset metrics to baseline values"""
     try:
         # Reset to baseline
-        baseline_metrics = {
-            "drift_threshold": 0.42,
-            "average_drift_score": 0.12,
-            "trinity_coherence": 0.91,
-            "guardian_enabled": True,
-            "red_team_mode": False,
-        }
 
         # Would normally save to file here
         logger.info("Metrics reset to baseline")

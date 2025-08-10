@@ -2,7 +2,6 @@
 """Fix EOL string literal errors in Python files"""
 
 import ast
-import re
 from pathlib import Path
 
 def fix_eol_in_file(file_path):

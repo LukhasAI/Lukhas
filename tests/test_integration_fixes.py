@@ -6,7 +6,6 @@ Tests feature flags, identity bridges, signals, and colony integrity
 
 import unittest
 import sys
-import os
 from pathlib import Path
 
 # Add parent to path

@@ -5,10 +5,9 @@ Quick Cleanup Script for LUKHAS PWM
 Focuses on main module duplicates and conflicts.
 """
 
-import os
 import shutil
 from pathlib import Path
-from typing import List, Set
+from typing import List
 
 
 def find_backup_directories() -> List[Path]:

@@ -21,7 +21,6 @@ try:
     from opentelemetry.sdk._logs import LogData
     from opentelemetry.sdk._logs.export import LogExporter, LogExportResult
 except ImportError:
-    import structlog
     from core.common import get_logger
     
     _log_otel_fallback = get_logger(__name__)

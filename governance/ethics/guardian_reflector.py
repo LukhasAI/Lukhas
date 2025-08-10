@@ -35,11 +35,9 @@ Version: 1.0.0
 """
 
 from enum import Enum
-import json
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional, Tuple
-import asyncio
 from core.common import get_logger
 
 # Import LUKHAS core components
@@ -421,7 +419,7 @@ class GuardianReflector:
 
     def _synthesize_moral_score(self, framework_results: Dict) -> float:
         """Synthesize results from multiple ethical frameworks"""
-        scores = [result["score"] for result in framework_results.values()]
+        [result["score"] for result in framework_results.values()]
 
         # Weighted average (virtue ethics gets higher weight)
         weights = {

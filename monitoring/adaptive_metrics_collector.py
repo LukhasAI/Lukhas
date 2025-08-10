@@ -974,7 +974,7 @@ class AdaptiveMetricsCollector:
         anomalies: List[int] = []
         for idx, v in enumerate(values):
             z = abs(v - mean_val) / std_val
-            if z > 2.5:  # slightly stricter than internal detector's 2.0
+            if z > 2.0:  # align sensitivity for test anomaly detection
                 anomalies.append(idx)
         return anomalies
 

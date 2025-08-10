@@ -117,7 +117,7 @@ class ToolExecutor:
             return "Knowledge retrieval is currently disabled."
 
         query = args.get("query", "")
-        k = min(args.get("k", 5), 10)  # Cap at 10 results
+        min(args.get("k", 5), 10)  # Cap at 10 results
 
         # TODO: Integrate with actual RAG/vector store
         # For now, return contextual stub based on query

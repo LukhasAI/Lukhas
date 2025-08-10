@@ -219,7 +219,7 @@ class EnterpriseDemo:
         print(f"Use case: {enterprise_user['use_case']}")
 
         # Create security context
-        security_context = await self.security_system.create_security_context(
+        await self.security_system.create_security_context(
             user_id=enterprise_user["user_id"],
             session_id=f"session_{datetime.now().timestamp()}",
             auth_factors=["password", "mfa"],
@@ -265,7 +265,7 @@ class EnterpriseDemo:
         start_time = datetime.now(timezone.utc)
 
         for feedback in feedback_batch:
-            result = await self.unified_system.collect_enterprise_feedback(
+            await self.unified_system.collect_enterprise_feedback(
                 feedback,
                 random.choice(channels),
                 {

@@ -9,16 +9,14 @@ Tests the complete flow from input through all systems to output.
 import asyncio
 import pytest
 import time
-from typing import Dict, Any
 
 # Import all enhanced components
 from core.glyph.glyph_engine_enhanced import get_enhanced_glyph_engine
-from core.glyph.universal_symbol_protocol import SymbolModality, SymbolDomain
+from core.glyph.universal_symbol_protocol import SymbolDomain
 from core.colonies.advanced_consensus_algorithms import (
     AdvancedColonyConsensus, AdvancedConsensusMethod, VoteType
 )
 from memory.folds.optimized_fold_engine import OptimizedFoldEngine
-from quantum.core.quantum_processor_enhanced import QuantumProcessor
 from orchestration.brain.unified_cognitive_orchestrator import UnifiedCognitiveOrchestrator
 from core.events.typed_event_bus import get_typed_event_bus
 from core.events.contracts import GlyphCreated, ConsensusReached

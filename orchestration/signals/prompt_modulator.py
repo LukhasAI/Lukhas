@@ -6,14 +6,12 @@ Maps endocrine signals to OpenAI API parameters for adaptive behavior.
 Based on the GPT5 audit recommendations.
 """
 
-import math
 import time
 import yaml
-from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 import logging
 
-from orchestration.signals.signal_bus import Signal, SignalType
+from orchestration.signals.signal_bus import Signal
 
 logger = logging.getLogger(__name__)
 

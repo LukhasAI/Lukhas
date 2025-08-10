@@ -15,13 +15,10 @@ Features:
 - Hybrid classical-quantum algorithms
 """
 
-import hashlib
 import numpy as np
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
-import time
-from scipy.linalg import expm
+from typing import Any, Callable, Dict, List, Optional, Tuple
 from scipy.optimize import minimize
 import warnings
 

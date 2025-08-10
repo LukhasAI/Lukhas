@@ -26,7 +26,7 @@ from core.glyph.universal_symbol_protocol import (
 )
 from core.colonies.advanced_consensus_algorithms import (
     AdvancedColonyConsensus, AdvancedConsensusMethod,
-    ConsensusProposal, VoteType
+    VoteType
 )
 from memory.folds.optimized_fold_engine import OptimizedFoldEngine
 from quantum.core.quantum_processor_enhanced import QuantumProcessor, QuantumState
@@ -34,17 +34,12 @@ from quantum.core.quantum_processor_enhanced import QuantumProcessor, QuantumSta
 # Import event system
 from core.events.typed_event_bus import get_typed_event_bus
 from core.events.contracts import (
-    ConsciousnessStateChanged, MemoryFoldCreated,
-    DreamGenerated, QuantumStateCreated,
-    GlyphCreated, SymbolTranslated, ConsensusReached, QuantumStateCollapsed
+    MemoryFoldCreated,
+    GlyphCreated, ConsensusReached, QuantumStateCollapsed
 )
 
 # Import existing services
 from core.container.service_container import get_container
-from core.interfaces.services import (
-    IConsciousnessService, IMemoryService, IDreamService,
-    IQuantumService, IEmotionService, IGovernanceService
-)
 
 logger = logging.getLogger(__name__)
 
@@ -234,21 +229,21 @@ class UnifiedCognitiveOrchestrator:
         
         # Process through different modalities
         # 1. Consciousness processing
-        consciousness_symbol = self.glyph_engine.translate_for_module(
+        self.glyph_engine.translate_for_module(
             thought_symbol, "consciousness"
         )
         
         # 2. Emotional analysis
-        emotion_symbol = self.glyph_engine.translate_for_module(
+        self.glyph_engine.translate_for_module(
             thought_symbol, "emotion"
         )
         
         # 3. Memory encoding
-        memory_fold = await self._encode_to_memory(thought_symbol)
+        await self._encode_to_memory(thought_symbol)
         
         # 4. Quantum processing for complex decisions
         if self.cognitive_state.pending_decisions:
-            quantum_result = await self._quantum_process_decisions()
+            await self._quantum_process_decisions()
         
         self.metrics["thoughts_processed"] += 1
     
@@ -454,7 +449,7 @@ class UnifiedCognitiveOrchestrator:
             optimal_index = self.quantum_processor.grover_search(oracle, num_iterations=2)
             
             # Create quantum state for decision
-            builder = self.quantum_processor.create_bell_pair()
+            self.quantum_processor.create_bell_pair()
             
             self.metrics["quantum_computations"] += 1
             self.cognitive_state.quantum_coherence *= 0.95  # Decoherence
@@ -513,7 +508,7 @@ class UnifiedCognitiveOrchestrator:
         )
         
         # Create cognitive chain
-        chain = self.glyph_engine.create_cognitive_chain(
+        self.glyph_engine.create_cognitive_chain(
             ["perceive", thought, "analyze", "decide", "act"],
             source_module="orchestrator"
         )

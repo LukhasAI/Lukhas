@@ -3,7 +3,6 @@
 
 import os
 import ast
-import re
 from pathlib import Path
 
 # List of files with known EOL string literal issues

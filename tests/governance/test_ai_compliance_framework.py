@@ -9,7 +9,6 @@ Comprehensive tests for all compliance components including:
 - Global compliance orchestration
 """
 
-import asyncio
 import os
 import sys
 import pytest

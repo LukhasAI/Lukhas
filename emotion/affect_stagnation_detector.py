@@ -87,7 +87,7 @@ class AffectStagnationDetector:
             logger.warning(
                 f"Emotional stagnation detected. No significant affect change for {time_since_last_change / 3600:.2f} hours."
             )
-            primary_emotion = (
+            (
                 self.emotional_memory.current_emotion.get_primary_emotion()
             )
             # Use standard hourglass symbol for stagnation

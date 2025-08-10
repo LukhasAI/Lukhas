@@ -6,9 +6,8 @@ Tests the endocrine system, feedback cards, personal symbols, and audit trail
 
 import unittest
 import asyncio
-import json
 from pathlib import Path
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import patch
 import sys
 import os
 

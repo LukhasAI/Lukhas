@@ -9,12 +9,10 @@ import cProfile
 import gc
 import io
 import logging
-import memory_profiler
 import pstats
-import sys
 import time
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 import psutil
 
 # Configure logging
@@ -241,7 +239,7 @@ class PerformanceAnalyzer:
         try:
             from lukhas_pwm.flags import get_flags, is_enabled
             for _ in range(100):
-                flags = get_flags()
+                get_flags()
                 is_enabled("adaptive_ai")
         except:
             pass
@@ -329,7 +327,7 @@ class PerformanceAnalyzer:
         
         # Concurrent execution
         start = time.time()
-        concurrent_results = await asyncio.gather(*[test_task(i) for i in range(10)])
+        await asyncio.gather(*[test_task(i) for i in range(10)])
         concurrent_duration = time.time() - start
         
         return {

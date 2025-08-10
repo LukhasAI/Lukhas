@@ -18,12 +18,12 @@ import json
 import numpy as np
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set, Tuple
 from datetime import datetime, timezone
 import uuid
 
 # Import existing GLYPH components
-from .glyph import EmotionVector, Glyph, GlyphFactory, GlyphType
+from .glyph import EmotionVector, Glyph
 from .glyph_engine import GlyphEngine
 
 

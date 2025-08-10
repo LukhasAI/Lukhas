@@ -2,7 +2,6 @@
 """Fix all remaining syntax errors in Python files"""
 
 import ast
-import re
 from pathlib import Path
 
 def fix_multiline_string_error(file_path):

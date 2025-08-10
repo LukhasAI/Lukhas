@@ -10,10 +10,9 @@ Author: LUKHAS AI System
 Version: 1.0.0
 """
 
-import asyncio
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 from dataclasses import dataclass
 
 # Import LUKHAS components

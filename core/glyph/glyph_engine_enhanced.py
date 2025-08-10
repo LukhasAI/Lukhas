@@ -8,11 +8,7 @@ providing the foundation for all symbolic communication in LUKHAS.
 This replaces the basic glyph_engine.py with full multi-modal support.
 """
 
-import hashlib
-import json
-import numpy as np
-from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Set
 from datetime import datetime, timezone
 
 # Import existing GLYPH components

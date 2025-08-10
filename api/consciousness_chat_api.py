@@ -5,6 +5,7 @@ Consciousness Chat API
 RESTful API for natural language consciousness interaction.
 """
 
+import time
 import uuid
 from datetime import datetime
 from typing import Any, Dict, List, Optional

@@ -4,9 +4,8 @@ Bio-signals integration for LUKHAS PWM
 Minimal implementation to support dream and consciousness systems.
 """
 
-import asyncio
 import logging
-from typing import Any, Dict, Optional
+from typing import Dict
 
 logger = logging.getLogger(__name__)
 

@@ -6,15 +6,13 @@ User-specific symbolic communication and personalization.
 Based on GPT5 audit recommendations.
 """
 
-import json
 import pickle
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Set
 from uuid import uuid4
 
 import numpy as np

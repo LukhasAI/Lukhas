@@ -361,6 +361,13 @@ class EndocrineObservabilityEngine:
 
         hormone_levels = snapshot.hormone_levels
         system_metrics = snapshot.system_metrics
+        # Compatibility: map generic performance metric to processing_efficiency if provided
+        if "processing_efficiency" not in system_metrics and "performance" in system_metrics:
+            try:
+                perf = float(system_metrics.get("performance", 0.8))
+            except Exception:
+                perf = 0.8
+            system_metrics["processing_efficiency"] = perf
 
         # Stress adaptation triggers
         cortisol = hormone_levels.get("cortisol", 0.5)
@@ -390,7 +397,7 @@ class EndocrineObservabilityEngine:
             PlasticityTriggerType.PERFORMANCE_OPTIMIZATION
         ]
         if (
-            dopamine < perf_thresholds["dopamine_low"]
+            dopamine <= perf_thresholds["dopamine_low"]
             or processing_efficiency < perf_thresholds["processing_efficiency_low"]
         ):
 

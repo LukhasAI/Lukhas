@@ -14,7 +14,7 @@ from lukhas_pwm.audit.analytics_read import (
     summarize_safety_modes,
     summarize_tools,
 )
-from lukhas_pwm.flags import get_flags, is_enabled
+from lukhas_pwm.flags import is_enabled
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 

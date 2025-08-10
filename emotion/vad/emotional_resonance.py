@@ -401,7 +401,7 @@ class EmotionalResonance:
         # Try to integrate with EmotionalState from memory_emotion_mapper if available
         if MEMORY_EMOTION_MAPPER_AVAILABLE:
             try:
-                emotional_state = EmotionalState(
+                EmotionalState(
                     name=emotion_state,
                     valence=self.valence,
                     arousal=self.arousal,
