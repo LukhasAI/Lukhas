@@ -82,7 +82,7 @@ Scale consciousness-aware development across teams:
 ### For Users
 ```bash
 # Install from VS Code Marketplace
-code --install-extension lukhas-ai.consciousness-hooks
+code --install-extension LukhasAI.consciousness-hooks
 
 # Or install from VSIX
 code --install-extension consciousness-hooks-1.0.0.vsix
@@ -91,7 +91,7 @@ code --install-extension consciousness-hooks-1.0.0.vsix
 ### For Contributors
 ```bash
 # Clone the repository
-git clone https://github.com/lukhas-ai/consciousness-hooks.git
+git clone https://github.com/LukhasAI/consciousness-hooks.git
 cd consciousness-hooks
 
 # Install dependencies
@@ -213,6 +213,6 @@ Together, we're creating a world where development tools enhance human conscious
 
 - **Website**: [lukhas.ai](https://lukhas.ai)
 - **Email**: hello@lukhas.ai
-- **Discord**: [LUKHΛS ΛI Community](https://discord.gg/lukhas-ai)
+- **Discord**: [LUKHΛS ΛI Community](https://discord.gg/LukhasAI)
 - **Twitter**: [@LukhasAI](https://twitter.com/LukhasAI)
-- **GitHub**: [github.com/lukhas-ai](https://github.com/lukhas-ai)
+- **GitHub**: [github.com/LukhasAI](https://github.com/LukhasAI)

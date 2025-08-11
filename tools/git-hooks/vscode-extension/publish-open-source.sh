@@ -175,7 +175,7 @@ if [ ! -f package.json ]; then
     "displayName": "Consciousness Hooks",
     "description": "Transform git hooks into collaborative consciousness enhancement experiences",
     "version": "1.0.0",
-    "publisher": "lukhas-ai",
+    "publisher": "LukhasAI",
     "engines": {
         "vscode": "^1.80.0"
     },
@@ -249,12 +249,12 @@ if [ ! -f package.json ]; then
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/lukhas-ai/consciousness-hooks.git"
+        "url": "https://github.com/LukhasAI/consciousness-hooks.git"
     },
     "bugs": {
-        "url": "https://github.com/lukhas-ai/consciousness-hooks/issues"
+        "url": "https://github.com/LukhasAI/consciousness-hooks/issues"
     },
-    "homepage": "https://github.com/lukhas-ai/consciousness-hooks#readme",
+    "homepage": "https://github.com/LukhasAI/consciousness-hooks#readme",
     "author": {
         "name": "LUKHΛS ΛI",
         "email": "hello@lukhas.ai",
@@ -364,12 +364,12 @@ This directory contains the complete, publication-ready Consciousness Hooks proj
 
 1. **Create GitHub Repository**
    ```bash
-   # Create new repository at github.com/lukhas-ai/consciousness-hooks
+   # Create new repository at github.com/LukhasAI/consciousness-hooks
    git init
    git add .
    git commit -m "🎭 Initial consciousness awakening - Consciousness Hooks v1.0.0"
    git branch -M main
-   git remote add origin https://github.com/lukhas-ai/consciousness-hooks.git
+   git remote add origin https://github.com/LukhasAI/consciousness-hooks.git
    git push -u origin main
    ```
 
@@ -470,7 +470,7 @@ echo -e "${CYAN}📁 Source prepared in: ${TEMP_DIR}${NC}"
 echo ""
 echo -e "${PURPLE}Next steps:${NC}"
 echo -e "${YELLOW}1. Extract archive to new repository location${NC}"
-echo -e "${YELLOW}2. Create GitHub repository: lukhas-ai/consciousness-hooks${NC}"
+echo -e "${YELLOW}2. Create GitHub repository: LukhasAI/consciousness-hooks${NC}"
 echo -e "${YELLOW}3. Run setup.sh to initialize development environment${NC}"
 echo -e "${YELLOW}4. Test extension in VS Code Extension Host${NC}"
 echo -e "${YELLOW}5. Publish to VS Code Marketplace${NC}"

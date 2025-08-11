@@ -135,7 +135,7 @@ async function openInteractivePanel(
             enableScripts: true,
             retainContextWhenHidden: true,
             localResourceRoots: [
-                vscode.Uri.joinPath(vscode.extensions.getExtension('lukhas-ai.interactive-git-hooks')!.extensionUri, 'resources')
+                vscode.Uri.joinPath(vscode.extensions.getExtension('LukhasAI.interactive-git-hooks')!.extensionUri, 'resources')
             ]
         }
     );

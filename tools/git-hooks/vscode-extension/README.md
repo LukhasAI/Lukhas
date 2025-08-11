@@ -1,8 +1,8 @@
 # 🎭 Consciousness Hooks - Interactive Git Enhancement
 
-[![Version](https://img.shields.io/vscode-marketplace/v/lukhas-ai.consciousness-hooks?style=for-the-badge&logo=visual-studio-code&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=lukhas-ai.consciousness-hooks)
-[![Downloads](https://img.shields.io/vscode-marketplace/d/lukhas-ai.consciousness-hooks?style=for-the-badge&logo=visual-studio-code&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=lukhas-ai.consciousness-hooks)
-[![Rating](https://img.shields.io/vscode-marketplace/r/lukhas-ai.consciousness-hooks?style=for-the-badge&logo=visual-studio-code&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=lukhas-ai.consciousness-hooks)
+[![Version](https://img.shields.io/vscode-marketplace/v/LukhasAI.consciousness-hooks?style=for-the-badge&logo=visual-studio-code&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=LukhasAI.consciousness-hooks)
+[![Downloads](https://img.shields.io/vscode-marketplace/d/LukhasAI.consciousness-hooks?style=for-the-badge&logo=visual-studio-code&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=LukhasAI.consciousness-hooks)
+[![Rating](https://img.shields.io/vscode-marketplace/r/LukhasAI.consciousness-hooks?style=for-the-badge&logo=visual-studio-code&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=LukhasAI.consciousness-hooks)
 
 > *"Where git hooks evolve from rigid barriers into intelligent companions"* ⚛️🧠�️
 

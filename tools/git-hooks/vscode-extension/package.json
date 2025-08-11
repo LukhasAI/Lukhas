@@ -3,7 +3,7 @@
   "displayName": "Interactive Git Hooks",
   "description": "Visual, interactive git hooks with diff preview and no-code hook creation",
   "version": "1.0.0",
-  "publisher": "lukhas-ai",
+  "publisher": "LukhasAI",
   "icon": "resources/icon.png",
   "engines": {
     "vscode": "^1.80.0"
