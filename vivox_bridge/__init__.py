@@ -1,3 +1,0 @@
-"""
-Vivox_Bridge Module
-"""

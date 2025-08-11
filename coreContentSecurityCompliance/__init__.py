@@ -1,3 +1,0 @@
-"""
-Corecontentsecuritycompliance Module
-"""

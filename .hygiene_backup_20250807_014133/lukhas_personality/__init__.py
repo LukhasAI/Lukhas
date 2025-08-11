@@ -1,3 +1,0 @@
-"""
-Lukhas_Personality Module
-"""

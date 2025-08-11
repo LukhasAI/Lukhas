@@ -1,3 +1,0 @@
-"""
-Auth_Utils Module
-"""

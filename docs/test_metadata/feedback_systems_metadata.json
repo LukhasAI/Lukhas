@@ -1,0 +1,8 @@
+{
+  "system": "Feedback Systems",
+  "test_count": 2,
+  "location": "tests/",
+  "description": "Feedback loop processing and integration testing",
+  "generated_at": "2025-08-11T02:37:57.433228",
+  "status": "active"
+}

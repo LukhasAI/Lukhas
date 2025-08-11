@@ -1,3 +1,0 @@
-"""
-Activity_Logger Module
-"""

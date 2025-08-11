@@ -1,3 +1,0 @@
-"""
-Memoria Module
-"""

@@ -1,3 +1,0 @@
-"""
-Vivox Research Pack Module
-"""

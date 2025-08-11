@@ -1,3 +1,0 @@
-"""
-Corecontentcommunicationhub Module
-"""

@@ -1,3 +1,0 @@
-"""
-Audit_Logger Module
-"""

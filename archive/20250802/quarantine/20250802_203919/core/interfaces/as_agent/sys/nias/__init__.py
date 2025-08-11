@@ -1,3 +1,0 @@
-"""
-Nias Module
-"""

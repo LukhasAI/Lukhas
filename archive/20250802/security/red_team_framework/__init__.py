@@ -1,3 +1,0 @@
-"""
-Red Team Framework Module
-"""

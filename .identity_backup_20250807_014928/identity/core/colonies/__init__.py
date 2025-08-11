@@ -1,3 +1,0 @@
-"""
-Colonies Module
-"""

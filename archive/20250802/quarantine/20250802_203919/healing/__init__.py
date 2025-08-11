@@ -1,3 +1,0 @@
-"""
-Healing Module
-"""

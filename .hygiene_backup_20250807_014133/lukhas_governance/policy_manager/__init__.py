@@ -1,3 +1,0 @@
-"""
-Policy_Manager Module
-"""

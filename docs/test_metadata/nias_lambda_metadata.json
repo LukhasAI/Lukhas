@@ -1,0 +1,8 @@
+{
+  "system": "NIAS/Lambda Products",
+  "test_count": 15,
+  "location": "lambda_products_pack/lambda_core/NIAS/",
+  "description": "NIAS architecture tests including Dream Commerce, ABAS, DAST integration",
+  "generated_at": "2025-08-11T02:37:57.432415",
+  "status": "active"
+}

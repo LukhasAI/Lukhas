@@ -1,3 +1,0 @@
-"""
-Institution_Manager Module
-"""

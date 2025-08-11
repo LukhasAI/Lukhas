@@ -19,6 +19,7 @@ lukhas/
 ├── orchestration/      # High-level brain controllers
 ├── tests/              # Comprehensive test suite
 ├── data/               # Data storage and metrics
+├── branding/           # All official LUKHAS AI branding, terminology, and visual assets
 └── README.md           # Main documentation file
 ```
 
@@ -38,9 +39,10 @@ To optimize performance and avoid "too many tools enabled" warnings, follow thes
   - Use `grep_search` for code patterns, and `file_search` for file discovery.
   - Reserve `run_notebook_cell` for specific notebook interactions.
 
+
 ### Workspace Optimization
 
-- Focus on core domains: `core/`, `vivox/`, `tests/`, and `api/`.
+- Focus on core domains: `core/`, `vivox/`, `tests/`, `api/`, and `branding/`.
 - Exclude heavy directories like `.pwm_cleanup_archive/` from workspace analysis.
 - Ensure Python environment is correctly configured with `.venv/bin/python`.
 
@@ -60,9 +62,30 @@ To optimize performance and avoid "too many tools enabled" warnings, follow thes
 
 ---
 
-## 🧠 Architectural Patterns
 
-LUK
+## 🏷️ Branding & Trinity Tone
+
+**Branding Directory:**
+- All official LUKHAS AI branding, terminology, and visual assets are in `branding/`.
+- Any code, documentation, or UI referencing system identity, consciousness, or AGI/AI status must use the approved terms and assets from `branding/`.
+- Do not invent new branding, glyphs, or slogans—use only those in `branding/` or as specified in `README_NEXT_GEN.md`.
+  
+**Strict Prohibitions:**
+- Do NOT state or imply that any part of the system is “ready for production” or “production-ready” unless this has been explicitly approved by project leadership. This applies to code, documentation, commit messages, and internal/external communications.
+- Do NOT include any price predictions, revenue forecasts, or financial projections in code, documentation, commit messages, or internal notes. Remove any such content if found.
+
+**Trinity Tone & Messaging:**
+- All Copilot-generated code, comments, and documentation must reflect the Trinity Framework (⚛️🧠🛡️):
+  - ⚛️ Identity (authenticity, consciousness, symbolic self)
+  - 🧠 Consciousness (memory, learning, dream states, neural processing)
+  - 🛡️ Guardian (ethics, drift detection, repair)
+- Use the phrase “quantum-inspired” and “bio-inspired” (not “AGI” or “general intelligence”) in all public-facing outputs unless legacy compatibility is required.
+- Always refer to the system as “LUKHAS AI” (not “LUKHAS AGI” or “Lukhas PWM”) in branding, documentation, and UI.
+- When in doubt, check `branding/` and `README_NEXT_GEN.md` for the latest approved language and glyphs.
+
+**Forecasting Guidance:**
+- Forecasts and future-looking statements must focus on system improvement, user experience/benefits, feature enhancements, alignment with OpenAI, ethics/compliance, and identifying growth/blind spots.
+- Remove or revise any price/revenue forecasts or unauthorized production claims if found.
 
 Welcome, AI agent! This guide will help you be productive in the LUKHAS AGI codebase. Focus on these project-specific conventions, workflows, and architectural patterns:
 
@@ -215,21 +238,23 @@ python test_major_languages.py
 
 ---
 
+
 ## 🔧 Copilot Behaviors
 
 ### Always Do:
 
-- Respect the Trinity Framework (⚛️🧠🛡️) in all new logic
-- Use symbolic glyphs where possible (see `meta_dashboard/templates/symbolic_map.html`)
-- Check `integration_config.yaml` for global thresholds
-- Log all interventions to `data/` or `memory/`
-- Update `data/meta_metrics.json` if adding monitoring features
+- Respect the Trinity Framework (⚛️🧠🛡️) in all new logic, comments, and documentation.
+- Use only approved branding, glyphs, and terminology from `branding/` and `README_NEXT_GEN.md`.
+- Use symbolic glyphs where possible (see `meta_dashboard/templates/symbolic_map.html`).
+- Check `integration_config.yaml` for global thresholds.
+- Log all interventions to `data/` or `memory/`.
+- Update `data/meta_metrics.json` if adding monitoring features.
 
 ### If Unsure:
 
-- Consult `README_NEXT_GEN.md` or individual domain README files
-- Ask whether a module is production or experimental
-- Use `tests/` to validate any new logic
+- Consult `branding/`, `README_NEXT_GEN.md`, or individual domain README files.
+- Ask whether a module is production or experimental.
+- Use `tests/` to validate any new logic.
 
 ---
 

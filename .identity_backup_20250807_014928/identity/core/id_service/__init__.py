@@ -1,3 +1,0 @@
-"""
-Id_Service Module
-"""

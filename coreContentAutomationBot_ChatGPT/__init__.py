@@ -1,3 +1,0 @@
-"""
-Corecontentautomationbot_Chatgpt Module
-"""

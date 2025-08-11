@@ -1,3 +1,0 @@
-"""
-Mood Regulation Module
-"""

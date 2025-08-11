@@ -1,3 +1,0 @@
-"""
-Tier_Validator Module
-"""

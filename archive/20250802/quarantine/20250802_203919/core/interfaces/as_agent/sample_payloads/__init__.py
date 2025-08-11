@@ -1,3 +1,0 @@
-"""
-Sample Payloads Module
-"""

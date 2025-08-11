@@ -1,3 +1,0 @@
-"""
-Tiered_Access Module
-"""

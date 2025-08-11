@@ -1,3 +1,0 @@
-"""
-Consent_Manager Module
-"""

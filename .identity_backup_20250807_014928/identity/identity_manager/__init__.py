@@ -1,3 +1,0 @@
-"""
-Identity_Manager Module
-"""

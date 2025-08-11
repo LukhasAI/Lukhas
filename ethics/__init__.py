@@ -31,14 +31,14 @@ except ImportError:
 # Create namespaces for compatibility with imports like:
 # from ethics.meg_bridge import MEGPolicyBridge
 # from ethics.policy_engines.base import Decision, RiskLevel
-class meg_bridge:
+class MegBridge:
     """Namespace for MEG bridge components"""
     MEGPolicyBridge = MEGPolicyBridge
     create_meg_bridge = create_meg_bridge
 
-class policy_engines:
+class PolicyEngines:
     """Namespace for policy engine components"""
-    class base:
+    class Base:
         Decision = Decision
         RiskLevel = RiskLevel
 
@@ -47,6 +47,10 @@ class policy_engines:
 # from ethics.safety_checks import SafetyChecker
 ethics_engine = type('Module', (), {'EthicsEngine': EthicsEngine})()
 safety_checks = type('Module', (), {'SafetyChecker': SafetyChecker})()
+
+# Create aliases for backward compatibility
+meg_bridge = MegBridge
+policy_engines = PolicyEngines
 
 __all__ = [
     # Core classes
@@ -57,8 +61,10 @@ __all__ = [
     "MEGPolicyBridge",
     "create_meg_bridge",
     # Namespaces for compatibility
-    "meg_bridge",
-    "policy_engines",
+    "MegBridge",
+    "PolicyEngines",
+    "meg_bridge",  # Backward compatibility
+    "policy_engines",  # Backward compatibility
     "ethics_engine",
     "safety_checks"
 ]

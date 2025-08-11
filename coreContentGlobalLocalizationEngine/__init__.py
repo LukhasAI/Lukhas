@@ -1,3 +1,0 @@
-"""
-Corecontentgloballocalizationengine Module
-"""

@@ -1,3 +1,0 @@
-"""
-Meta Adaptive Module
-"""

@@ -1,0 +1,1025 @@
+{
+  "timestamp": "2025-08-11T02:27:20.186882",
+  "trinity_framework": "\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f",
+  "metadata_validation": "required",
+  "tests": {},
+  "summary": {
+    "total_tests": 0,
+    "passed": 0,
+    "failed": 0,
+    "pass_rate": "0%",
+    "metadata_compliant": 1,
+    "metadata_total": 92,
+    "compliance_rate": "1.1%"
+  },
+  "validation_report": {
+    "tests/test_guardian_intervention.py": {
+      "file": "tests/test_guardian_intervention.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_math_formula.py": {
+      "file": "tests/test_math_formula.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_universal_language.py": {
+      "file": "tests/test_universal_language.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_drift_diagnostics.py": {
+      "file": "tests/test_drift_diagnostics.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_all_new_implementations.py": {
+      "file": "tests/test_all_new_implementations.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_entropy_monitoring.py": {
+      "file": "tests/test_entropy_monitoring.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_resume_with_tools.py": {
+      "file": "tests/test_resume_with_tools.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_ul.py": {
+      "file": "tests/test_ul.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_gtpsi.py": {
+      "file": "tests/test_gtpsi.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_identity_bridge.py": {
+      "file": "tests/test_identity_bridge.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_feature_flags.py": {
+      "file": "tests/test_feature_flags.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_main_server.py": {
+      "file": "tests/test_main_server.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_read_shadow.py": {
+      "file": "tests/test_read_shadow.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_run_modulated_completion.py": {
+      "file": "tests/test_run_modulated_completion.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_perf_ingest_series.py": {
+      "file": "tests/test_perf_ingest_series.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_openai_connection.py": {
+      "file": "tests/test_openai_connection.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_dual_write_flags.py": {
+      "file": "tests/test_dual_write_flags.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_flags_integration.py": {
+      "file": "tests/test_flags_integration.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_transmission_launch.py": {
+      "file": "tests/test_transmission_launch.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_professional_architecture.py": {
+      "file": "tests/test_professional_architecture.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_adaptive_features.py": {
+      "file": "tests/test_adaptive_features.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_colony_dna_integration.py": {
+      "file": "tests/test_colony_dna_integration.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_openapi_spec.py": {
+      "file": "tests/test_openapi_spec.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_adapters.py": {
+      "file": "tests/test_adapters.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_kernel_bus.py": {
+      "file": "tests/test_kernel_bus.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_admin_dashboard.py": {
+      "file": "tests/test_admin_dashboard.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_vivox_integration.py": {
+      "file": "tests/test_vivox_integration.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_consent.py": {
+      "file": "tests/test_consent.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_colony_integration.py": {
+      "file": "tests/test_colony_integration.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_backup_manifest.py": {
+      "file": "tests/test_backup_manifest.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_missing_features.py": {
+      "file": "tests/test_missing_features.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_runner_with_metadata.py": {
+      "file": "tests/test_runner_with_metadata.py",
+      "has_metadata": true,
+      "trinity_compliant": true,
+      "guardian_approved": true,
+      "issues": []
+    },
+    "tests/test_framework.py": {
+      "file": "tests/test_framework.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_feedback_loop.py": {
+      "file": "tests/test_feedback_loop.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_audit_trail.py": {
+      "file": "tests/test_audit_trail.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_ops_backup_health.py": {
+      "file": "tests/test_ops_backup_health.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_signal_system.py": {
+      "file": "tests/test_signal_system.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_integration_fixes.py": {
+      "file": "tests/test_integration_fixes.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/test_comprehensive_monitoring.py": {
+      "file": "tests/test_comprehensive_monitoring.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/unit/test_symbolic.py": {
+      "file": "tests/unit/test_symbolic.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/unit/test_consciousness.py": {
+      "file": "tests/unit/test_consciousness.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/unit/test_memory.py": {
+      "file": "tests/unit/test_memory.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/unit/test_guardian.py": {
+      "file": "tests/unit/test_guardian.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/branding/test_terminology.py": {
+      "file": "tests/branding/test_terminology.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/branding/test_lukhas_import_alias.py": {
+      "file": "tests/branding/test_lukhas_import_alias.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/tools/test_tool_integration_complete.py": {
+      "file": "tests/tools/test_tool_integration_complete.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/tools/test_tool_analytics.py": {
+      "file": "tests/tools/test_tool_analytics.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/tools/test_tool_integration.py": {
+      "file": "tests/tools/test_tool_integration.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/tools/test_tool_executor.py": {
+      "file": "tests/tools/test_tool_executor.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/core/test_tag_registry.py": {
+      "file": "tests/core/test_tag_registry.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/core/test_endocrine_system.py": {
+      "file": "tests/core/test_endocrine_system.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/core/test_decision_explainer.py": {
+      "file": "tests/core/test_decision_explainer.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/memory/test_dna_helix.py": {
+      "file": "tests/memory/test_dna_helix.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/memory/test_dna_memory_architecture.py": {
+      "file": "tests/memory/test_dna_memory_architecture.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/security/test_red_team_integration.py": {
+      "file": "tests/security/test_red_team_integration.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/security/test_enhanced_security.py": {
+      "file": "tests/security/test_enhanced_security.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/critical_path/test_memory_flows.py": {
+      "file": "tests/critical_path/test_memory_flows.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/critical_path/test_system_integration.py": {
+      "file": "tests/critical_path/test_system_integration.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/critical_path/test_guardian_flows.py": {
+      "file": "tests/critical_path/test_guardian_flows.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/critical_path/test_consciousness_flows.py": {
+      "file": "tests/critical_path/test_consciousness_flows.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/bridge/test_openai_modulated_service.py": {
+      "file": "tests/bridge/test_openai_modulated_service.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/integration/test_final_integration.py": {
+      "file": "tests/integration/test_final_integration.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/integration/test_core_integration.py": {
+      "file": "tests/integration/test_core_integration.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/integration/test_openai_connection.py": {
+      "file": "tests/integration/test_openai_connection.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/integration/test_feedback_integration.py": {
+      "file": "tests/integration/test_feedback_integration.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/integration/test_complete_openai_flow.py": {
+      "file": "tests/integration/test_complete_openai_flow.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/integration/test_full_system_flow.py": {
+      "file": "tests/integration/test_full_system_flow.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/integration/test_lukhas_ai_setup.py": {
+      "file": "tests/integration/test_lukhas_ai_setup.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/integration/test_openai_responses.py": {
+      "file": "tests/integration/test_openai_responses.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/consciousness/test_natural_language_interface.py": {
+      "file": "tests/consciousness/test_natural_language_interface.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/consciousness/test_parallel_reality_simulator.py": {
+      "file": "tests/consciousness/test_parallel_reality_simulator.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/vivox/test_vivox_evrn.py": {
+      "file": "tests/vivox/test_vivox_evrn.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/vivox/test_vivox_improvements.py": {
+      "file": "tests/vivox/test_vivox_improvements.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/vivox/test_vivox_qready.py": {
+      "file": "tests/vivox/test_vivox_qready.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/vivox/test_vivox_ern_system.py": {
+      "file": "tests/vivox/test_vivox_ern_system.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/vivox/test_vivox_simple.py": {
+      "file": "tests/vivox/test_vivox_simple.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/vivox/test_vivox_package.py": {
+      "file": "tests/vivox/test_vivox_package.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/vivox/test_state_variety.py": {
+      "file": "tests/vivox/test_state_variety.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/governance/test_session_key_direct.py": {
+      "file": "tests/governance/test_session_key_direct.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/governance/test_governance.py": {
+      "file": "tests/governance/test_governance.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/governance/test_ai_compliance_framework.py": {
+      "file": "tests/governance/test_ai_compliance_framework.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/governance/test_comprehensive_governance.py": {
+      "file": "tests/governance/test_comprehensive_governance.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/governance/test_hybrid_session_keys.py": {
+      "file": "tests/governance/test_hybrid_session_keys.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/governance/test_compliance_integration.py": {
+      "file": "tests/governance/test_compliance_integration.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/governance/test_enhanced_governance.py": {
+      "file": "tests/governance/test_enhanced_governance.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/api/test_commercial_api.py": {
+      "file": "tests/api/test_commercial_api.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/api/test_enhanced_api.py": {
+      "file": "tests/api/test_enhanced_api.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/serve/test_openai_routes.py": {
+      "file": "tests/serve/test_openai_routes.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/e2e/test_e2e_workflows.py": {
+      "file": "tests/e2e/test_e2e_workflows.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/stress/test_enhanced_orchestrator.py": {
+      "file": "tests/stress/test_enhanced_orchestrator.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/stress/test_dream_orchestrator_simple.py": {
+      "file": "tests/stress/test_dream_orchestrator_simple.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    },
+    "tests/stress/test_vendor_portal_fixed.py": {
+      "file": "tests/stress/test_vendor_portal_fixed.py",
+      "has_metadata": false,
+      "trinity_compliant": false,
+      "guardian_approved": false,
+      "issues": [
+        "Missing @pytest.mark.metadata decorator",
+        "Missing Trinity Framework markers",
+        "Missing Guardian System approval"
+      ]
+    }
+  }
+}

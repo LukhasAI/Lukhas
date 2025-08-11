@@ -1,0 +1,8 @@
+{
+  "system": "Backup & Audit Systems",
+  "test_count": 3,
+  "location": "tests/",
+  "description": "Backup manifest validation, audit trail, operational health",
+  "generated_at": "2025-08-11T02:37:57.433107",
+  "status": "active"
+}

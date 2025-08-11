@@ -1,3 +1,0 @@
-"""
-Dream Loop Module
-"""

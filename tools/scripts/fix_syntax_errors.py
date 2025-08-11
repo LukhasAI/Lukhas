@@ -1,91 +1,103 @@
 #!/usr/bin/env python3
-"""
-🔧 PWM Syntax Error Fixer
-========================
-Fixes common syntax errors in the LUKHAS PWM codebase.
-"""
+"""Fix syntax errors in Python files - specifically EOL string literals"""
 
-import sys
+import os
+import ast
 from pathlib import Path
 
-# Add project root to path
-PROJECT_ROOT = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(PROJECT_ROOT))
+# List of files with known EOL string literal issues
+files_to_fix = [
+    "tools/AiDocumentationGenerator.py",
+    "tools/CoreAnalyzer.py", 
+    "tools/generate_lukhas_ecosystem_documentation.py",
+    "tools/command_registry.py",
+    "tools/journal/solo_dev_support.py",
+    "tools/journal/learning_assistant.py",
+    "tools/analysis/2030_full_consolidator.py",
+    "tools/analysis/import_success_summary.py",
+    "tools/analysis/generate_function_index.py",
+    "tools/analysis/operational_summary.py",
+    "tools/analysis/security_gap_analysis.py",
+    "tools/analysis/validate_lukhas_concepts.py",
+    "tools/analysis/duplicate_analysis.py",
+    "tools/scripts/generate_final_research_report.py",
+    "tools/scripts/comprehensive_system_report.py",
+    "tools/scripts/system_status_comprehensive_report.py",
+    "tools/scripts/research_report_generator.py",
+    "tools/scripts/system_diagnostic.py",
+    "tools/scripts/consolidate_modules.py"
+]
 
+import os
+base_dir = Path(os.getenv("LUKHAS_PWM_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM"))
 
-def fix_empty_try_blocks(file_path: Path) -> int:
-    """Fix empty try blocks after commented imports"""
-    with open(file_path, encoding="utf-8") as f:
+def find_syntax_error_line(file_path):
+    """Find the line with syntax error"""
+    try:
+        with open(file_path, 'r') as f:
+            content = f.read()
+            ast.parse(content)
+        return None
+    except SyntaxError as e:
+        return e.lineno, e.msg
+
+def fix_eol_string_literal(file_path):
+    """Fix EOL string literal errors in a file"""
+    error_info = find_syntax_error_line(file_path)
+    if not error_info:
+        return False
+    
+    line_no, msg = error_info
+    if "EOL while scanning string literal" not in msg:
+        return False
+    
+    with open(file_path, 'r') as f:
         lines = f.readlines()
-
-    fixed = 0
-    i = 0
-    while i < len(lines):
-        line = lines[i].strip()
-
-        # Check for try: followed by commented line or except Exception:
-        if line == "try:":
-            # Look ahead to see if next non-empty line is commented or except
-            j = i + 1
-            while j < len(lines) and not lines[j].strip():
-                j += 1
-
-            if j < len(lines):
-                next_line = lines[j].strip()
-                if next_line.startswith("#") or next_line.startswith("except"):
-                    # Insert pass statement
-                    indent = len(lines[i]) - len(lines[i].lstrip())
-                    lines.insert(i + 1, " " * (indent + 4) + "pass\n")
-                    fixed += 1
-                    i += 1
-
-        i += 1
-
-    if fixed > 0:
-        with open(file_path, "w", encoding="utf-8") as f:
+    
+    if line_no <= len(lines):
+        # Fix the line with the unclosed string
+        problem_line = lines[line_no - 1]
+        
+        # Check if it's a multiline string that needs closing
+        if '"content":' in problem_line or "'content':" in problem_line:
+            # Find the opening quote
+            if '": "' in problem_line and not problem_line.rstrip().endswith('",'):
+                # Add closing quote and comma
+                lines[line_no - 1] = problem_line.rstrip() + '"\n'
+                # Check if next line needs adjustment
+                if line_no < len(lines):
+                    next_line = lines[line_no]
+                    # If next line is a continuation, merge it
+                    if not next_line.strip().startswith('"') and not next_line.strip().startswith('}'):
+                        lines[line_no - 1] = problem_line.rstrip() + ' ' + next_line.strip() + '",\n'
+                        lines[line_no] = ''
+        
+        # Write fixed content back
+        with open(file_path, 'w') as f:
             f.writelines(lines)
-
-    return fixed
-
-
-def fix_files_with_syntax_errors() -> None:
-    """Fix known files with syntax errors"""
-    files_to_fix = [
-        "core/orchestration/brain/brain_integration_enhanced.py",
-        "core/orchestration/brain/enhanced_brain_integration.py",
-        "core/orchestration/brain/spine/main_loop.py",
-        "orchestration/brain/brain_integration_enhanced.py",
-        "orchestration/brain/enhanced_brain_integration.py",
-        "orchestration/brain/spine/main_loop.py",
-        "creativity/dream_engine/dream_engine_comprehensive.py",
-        "creativity/dream_engine/dream_engine_unified.py",
-        "memory/neuro_buffer.py",
-        "security/encryption/advanced_encryption.py",
-    ]
-
-    total_fixed = 0
-
-    for file_path in files_to_fix:
-        full_path = PROJECT_ROOT / file_path
-        if full_path.exists():
-            fixed = fix_empty_try_blocks(full_path)
-            if fixed > 0:
-                print(f"   Fixed {fixed} empty try blocks in {file_path}")
-                total_fixed += fixed
-
-    return total_fixed
-
+        
+        return True
+    
+    return False
 
 def main():
-    """Main function"""
-    print("🔧 PWM Syntax Error Fixer")
-    print("=" * 60)
-
-    print("\n📝 Fixing empty try blocks...")
-    total_fixed = fix_files_with_syntax_errors()
-
-    print(f"\n✅ Fixed {total_fixed} syntax errors!")
-
+    fixed_count = 0
+    error_count = 0
+    
+    for file_path in files_to_fix:
+        full_path = base_dir / file_path
+        if full_path.exists():
+            print(f"Checking {file_path}...")
+            if fix_eol_string_literal(full_path):
+                print(f"  ✓ Fixed EOL string literal in {file_path}")
+                fixed_count += 1
+            else:
+                error_info = find_syntax_error_line(full_path)
+                if error_info:
+                    print(f"  ✗ Error in {file_path} at line {error_info[0]}: {error_info[1]}")
+                    error_count += 1
+    
+    print(f"\nSummary: Fixed {fixed_count} files, {error_count} files still have errors")
 
 if __name__ == "__main__":
     main()
