@@ -1,0 +1,33 @@
+{
+  "task_id": "LUKHAS-CORE-001",
+  "title": "Executive Decision Integration - MEG/XIL/HITLO Implementation",
+  "priority": "P0",
+  "domain": "core_consciousness",
+  "trinity_focus": "🧠 Consciousness",
+  "description": "Critical consciousness integration points in executive decision integrator",
+  "source_file": "./core/integration/executive_decision_integrator.py",
+  "todo_items": [
+    "ΛTODO: Implement proper MEG decision creation",
+    "ΛTODO: Implement proper XIL request creation", 
+    "ΛTODO: Implement proper HITLO context creation",
+    "ΛTODO: Implement causal-to-ethical decision mapping",
+    "ΛTODO: Implement privacy decision context creation"
+  ],
+  "assigned_agent": "Chief Consciousness Architect",
+  "complexity": "high",
+  "estimated_effort": "8-12 hours",
+  "dependencies": [
+    "MEG system integration",
+    "XIL protocol implementation",
+    "HITLO orchestrator",
+    "Causal reasoning engine"
+  ],
+  "validation_criteria": [
+    "All ΛTODO items implemented",
+    "Trinity Framework compliance",
+    "Integration tests passing",
+    "Guardian safety validation"
+  ],
+  "created": "2025-08-11",
+  "status": "open"
+}

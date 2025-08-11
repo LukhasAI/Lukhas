@@ -1,0 +1,39 @@
+{
+  "task_id": "LUKHAS-CAUSAL-001",
+  "title": "Memory Causal Systems - Quantum Entanglement & Pattern Recognition",
+  "priority": "P1",
+  "domain": "memory_causal",
+  "trinity_focus": "🧠 Consciousness", 
+  "description": "Implement advanced causal reasoning with quantum entanglement detection",
+  "source_files": [
+    "./memory/causal/fold_lineage_tracker.py",
+    "./memory/causal/feedback_propagator.py",
+    "./memory/causal/verifold_connector.py"
+  ],
+  "todo_items": [
+    "TODO: Implement quantum causal entanglement detection with dream correlation",
+    "TODO: Implement machine learning-based causality pattern recognition",
+    "TODO: Implement chain connection logic",
+    "TODO: Implement session submission logic",
+    "TODO: Implement data retrieval logic", 
+    "TODO: Implement chain verification logic"
+  ],
+  "assigned_agent": "Full-Stack Consciousness Developer",
+  "complexity": "high",
+  "estimated_effort": "14-20 hours",
+  "dependencies": [
+    "Quantum entanglement modeling",
+    "Dream correlation algorithms",
+    "ML pattern recognition framework",
+    "Chain verification protocols"
+  ],
+  "validation_criteria": [
+    "Quantum entanglement detection working",
+    "Pattern recognition accuracy >85%",
+    "Chain verification functional",
+    "Causal relationship tracking",
+    "Integration with dream systems"
+  ],
+  "created": "2025-08-11",
+  "status": "open"
+}

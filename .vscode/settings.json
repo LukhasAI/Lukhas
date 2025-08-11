@@ -1,168 +1,105 @@
 {
-    "python.analysis.typeCheckingMode": "off",
-    "python.analysis.autoImportCompletions": false,
-    "python.analysis.autoFormatStrings": true,
-    "python.analysis.completeFunctionParens": true,
-    "python.analysis.diagnosticMode": "openFilesOnly",
-    "python.analysis.inlayHints.functionReturnTypes": false,
-    "python.analysis.inlayHints.variableTypes": false,
-    "python.analysis.inlayHints.callArgumentNames": "off",
-    "python.linting.enabled": false,
-    "python.linting.pylintEnabled": false,
-    "python.linting.flake8Enabled": false,
-    "python.linting.mypyEnabled": false,
-    "python.linting.flake8Args": [
-        "--config=.flake8",
-        "--max-line-length=88"
-    ],
-    "python.formatting.provider": "black",
-    "python.defaultInterpreterPath": "./.venv/bin/python",
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.black-formatter",
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": "explicit"
-        }
-    },
-    "[json]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    },
-    "[jsonc]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    },
-    "[markdown]": {
-        "editor.defaultFormatter": "vscode.markdown-language-features",
-        "editor.wordWrap": "on"
-    },
-    "files.exclude": {
-        "**/__pycache__": true,
-        "**/*.pyc": true,
-        ".pytest_cache": true,
-        "*.egg-info": true,
-        ".mypy_cache": true,
-        ".ruff_cache": true,
-        "*backup*": true,
-        ".event_bus_backup*": true,
-        ".hygiene_backup*": true,
-        "htmlcov": true,
-        ".coverage": true
-    },
-    "python.analysis.include": [
-        "core/**",
-        "vivox/**", 
-        "config/**",
-        "compliance/**",
-        "examples/**",
-        "lukhas_pwm/**",
-        "main.py"
-    ],
-    "python.analysis.exclude": [
-        "recovery/**",
-        ".pwm_cleanup_archive/**",
-        "archive/**",
-        "tools/**",
-        "docs/**",
-        "**/tests/**",
-        "**/test_*.py",
-        "**/*_test.py"
-    ],
-    "python.analysis.stubPath": "./typings",
-    "python.analysis.diagnosticSeverityOverrides": {
-        "reportMissingImports": "none",
-        "reportMissingModuleSource": "none",
-        "reportUndefinedVariable": "none",
-        "reportGeneralTypeIssues": "none",
-        "reportOptionalMemberAccess": "none",
-        "reportOptionalSubscript": "none",
-        "reportPrivateImportUsage": "none",
-        "reportUnboundVariable": "none"
-    },
-    
-    // GitHub Copilot Optimization Settings
-    "github.copilot.enable": {
-        "*": true,
-        "yaml": false,
-        "plaintext": false,
-        "markdown": true,
-        "python": true,
-        "javascript": true,
-        "typescript": true,
-        "json": true
-    },
-    
-    // Reduce tool overload by limiting suggestion providers
-    "github.copilot.advanced": {
-        "length": 500,
-        "temperature": 0.1,
-        "top_p": 1,
-        "inlineSuggestCount": 3,
-        "listCount": 10
-    },
-    
-    // Chat settings to optimize tool usage
-    "github.copilot.chat.enabled": true,
-    "github.copilot.chat.welcomeMessage": "never",
-    "github.copilot.chat.localeOverride": "en",
-    
-    // Editor optimizations for Copilot
-    "editor.inlineSuggest.enabled": true,
-    "editor.inlineSuggest.suppressSuggestions": false,
-    "editor.inlineSuggest.showToolbar": "onHover",
-    
-    // Performance optimizations
-    "github.copilot.suggestions.count": 3,
-    "github.copilot.editor.enableAutoCompletions": true,
-    "github.copilot.editor.enableCodeActions": false,
-    
-    // Disable conflicting tools and extensions
-    "tabnine.disable": true,
-    "intellicode.disable": true,
-    
-    // Focus Copilot on specific file types
-    "github.copilot.preferredLanguages": [
-        "python",
-        "typescript",
-        "javascript",
-        "json",
-        "markdown"
-    ],
-    
-    // Reduce memory usage
-    "extensions.autoCheckUpdates": false,
-    "extensions.autoUpdate": false,
-    
-    // Tool management
-    "github.copilot.chat.experimental.codeGeneration": false,
-    "github.copilot.chat.experimental.generateTests": true,
-    "github.copilot.chat.experimental.generateDocs": true,
-    
-    // Claude Code Integration Settings
-    "claude.apiKey": "configured_in_extension",
-    "claude.model": "claude-3-5-sonnet-20241022",
-    "claude.maxTokens": 4096,
-    "claude.temperature": 0.1,
-    "claude.autocomplete": true,
-    "claude.contextLength": 8000,
-    
-    // Claude + LUKHAS Optimization
-    "claude.customInstructions": "Use LUKHAS Trinity Framework (🎭🌈🎓) in documentation. Preserve symbolic vocabulary: memory_fold, dream_resonance, consciousness_engine. Add symbolic markers (⚛️🧠🛡️) in code comments. Follow LUKHAS naming patterns.",
-    
-    // Multi-AI Coordination
-    "editor.suggest.showMethods": true,
-    "editor.suggest.showFunctions": true,
-    "editor.suggest.showConstructors": true,
-    "editor.suggest.showClasses": true,
-    
-    // AI Tool Priority (Claude > Copilot for complex tasks)
-    "editor.suggestSelection": "first",
-    "editor.acceptSuggestionOnCommitCharacter": true,
-    "editor.acceptSuggestionOnEnter": "on",
-    
-    // Explorer and Open Editors Settings
-    "explorer.openEditors.visible": 10,
-    "explorer.openEditors.sortOrder": "editorOrder",
-    "explorer.compactFolders": false,
-    "workbench.explorer.fileNesting.enabled": false,
-    "workbench.sideBar.location": "left",
-    "workbench.panel.defaultLocation": "bottom"
+  // LUKHAS_PWM Consciousness Development Settings
+  "consciousness.development.mode": true,
+  "trinity.framework.active": true,
+  "lukhas.pwm.project": true,
+  
+  // Python Environment
+  "python.defaultInterpreterPath": "./.venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  
+  // File Exclusions for LUKHAS_PWM
+  "files.exclude": {
+    "**/.git": true,
+    "**/.venv": true,
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    ".pwm_cleanup_archive": true
+  },
+  
+  // Search Exclusions
+  "search.exclude": {
+    ".venv": true,
+    ".pwm_cleanup_archive": true,
+    "**/__pycache__": true
+  },
+  
+  // Claude Agent Army Integration
+  "claude.contextFiles": [
+    "./CLAUDE_ARMY.md",
+    "./README.md", 
+    "./branding/trinity/TRINITY_BRANDING_GUIDELINES.md",
+    "./lukhas_pwm_config.yaml",
+    "./.claude/tasks/real_consciousness_todos/"
+  ],
+  "claude.agentConfigs": [
+    "./agents/configs/consciousness-architect.yaml",
+    "./agents/configs/guardian-engineer.yaml", 
+    "./agents/configs/velocity-lead.yaml",
+    "./agents/configs/consciousness-dev.yaml"
+  ],
+  
+  // Advanced IntelliSense
+  "editor.suggest.preview": true,
+  "editor.suggest.showKeywords": true,
+  "editor.suggest.showSnippets": true,
+  "editor.parameterHints.enabled": true,
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": true,
+    "strings": true
+  },
+  
+  // Consciousness Code Completion
+  "editor.suggest.localityBonus": true,
+  "editor.acceptSuggestionOnCommitCharacter": true,
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.tabCompletion": "on",
+  
+  // Advanced Formatting
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll": "explicit"
+  },
+  
+  // Trinity Framework Highlighting
+  "editor.semanticHighlighting.enabled": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.guides.highlightActiveIndentation": true,
+  
+  // Consciousness Minimap
+  "editor.minimap.enabled": true,
+  "editor.minimap.showSlider": "always",
+  "editor.minimap.renderCharacters": true,
+  "editor.minimap.maxColumn": 120,
+  
+  // Advanced Search
+  "search.seedWithNearestWord": true,
+  "search.seedOnFocus": true,
+  "search.smartCase": true,
+  "search.globalFindClipboard": true,
+  
+  // Consciousness Breadcrumbs
+  "breadcrumbs.enabled": true,
+  "breadcrumbs.showKeys": true,
+  "breadcrumbs.showFunctions": true,
+  "breadcrumbs.showConstructors": true,
+  "breadcrumbs.showModules": true,
+  
+  // Advanced Git Integration
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "git.timeline.enabled": true,
+  "git.timeline.showUncommitted": true,
+  
+  // Consciousness Debugging
+  "debug.allowBreakpointsEverywhere": true,
+  "debug.inlineValues": true,
+  "debug.showBreakpointsInOverviewRuler": true,
+  "debug.console.acceptSuggestionOnEnter": "on"
 }

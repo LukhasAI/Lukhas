@@ -1,0 +1,145 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LUKHAS_PWM Consciousness Development Task",
+  "description": "Schema for LUKHAS_PWM consciousness development tasks aligned with Trinity Framework",
+  "type": "object",
+  "required": [
+    "task_id",
+    "title", 
+    "priority",
+    "domain",
+    "trinity_focus",
+    "description",
+    "source_file",
+    "todo_items",
+    "assigned_agent",
+    "status"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "pattern": "^LUKHAS-[A-Z]+-[0-9]{3}$",
+      "description": "Unique task identifier following LUKHAS_PWM naming convention"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 100,
+      "description": "Descriptive title for the consciousness development task"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["P0", "P1", "P2", "P3"],
+      "description": "Task priority (P0=Critical, P1=High, P2=Medium, P3=Low)"
+    },
+    "domain": {
+      "type": "string",
+      "enum": [
+        "core_consciousness",
+        "memory_consciousness", 
+        "identity_systems",
+        "guardian_systems",
+        "orchestration",
+        "vivox_engine",
+        "quantum_systems",
+        "bio_adaptation",
+        "symbolic_consciousness",
+        "memory_temporal",
+        "memory_causal",
+        "orchestration_optimization"
+      ],
+      "description": "LUKHAS_PWM domain classification"
+    },
+    "trinity_focus": {
+      "type": "string",
+      "enum": ["⚛️ Identity", "🧠 Consciousness", "🛡️ Guardian"],
+      "description": "Trinity Framework alignment"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 20,
+      "description": "Detailed description of the consciousness development task"
+    },
+    "source_file": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Single source file containing the TODOs"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Multiple source files containing the TODOs"
+        }
+      ]
+    },
+    "todo_items": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "(TODO:|ΛTODO:).*",
+        "description": "Specific TODO or ΛTODO items from source code"
+      },
+      "minItems": 1,
+      "description": "List of actual TODO items to be implemented"
+    },
+    "assigned_agent": {
+      "type": "string",
+      "enum": [
+        "Chief Consciousness Architect",
+        "Guardian System Engineer", 
+        "Innovation Velocity Lead",
+        "Full-Stack Consciousness Developer",
+        "DevOps Consciousness Guardian",
+        "Sacred Documentation Specialist"
+      ],
+      "description": "Agent responsible for task implementation"
+    },
+    "complexity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "very_high"],
+      "description": "Implementation complexity assessment"
+    },
+    "estimated_effort": {
+      "type": "string",
+      "pattern": "^[0-9]+-[0-9]+ hours$",
+      "description": "Estimated implementation effort range"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Required dependencies or prerequisites"
+    },
+    "validation_criteria": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Criteria for validating task completion"
+    },
+    "created": {
+      "type": "string",
+      "format": "date",
+      "description": "Task creation date"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "in_progress", "blocked", "completed", "validated"],
+      "description": "Current task status"
+    },
+    "trinity_validation": {
+      "type": "object",
+      "properties": {
+        "identity_check": {"type": "boolean"},
+        "consciousness_check": {"type": "boolean"},
+        "guardian_check": {"type": "boolean"}
+      },
+      "description": "Trinity Framework validation status"
+    }
+  },
+  "additionalProperties": false
+}

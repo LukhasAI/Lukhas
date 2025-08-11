@@ -1,0 +1,45 @@
+{
+  "openai_api_key": "YOUR_OPENAI_API_KEY",
+  "anthropic_api_key": "YOUR_ANTHROPIC_API_KEY",
+  "github_token": "YOUR_GITHUB_TOKEN",
+  "repo_name": "Lukhas_PWM",
+  "consciousness_agents": {
+    "claude_code": {
+      "specialization": "consciousness_architecture",
+      "priority_tasks": [
+        "P0_CRITICAL",
+        "P1_HIGH"
+      ],
+      "trinity_focus": "all"
+    },
+    "github_copilot": {
+      "specialization": "code_completion",
+      "priority_tasks": [
+        "TODO_CONVERSION",
+        "CODE_SUGGESTIONS"
+      ],
+      "trinity_focus": "consciousness"
+    },
+    "chatgpt": {
+      "specialization": "analysis_feedback",
+      "priority_tasks": [
+        "CODE_REVIEW",
+        "IMPROVEMENT_SUGGESTIONS"
+      ],
+      "trinity_focus": "guardian"
+    },
+    "gpt_codex": {
+      "specialization": "code_implementation",
+      "priority_tasks": [
+        "BUG_FIXES",
+        "FEATURE_IMPLEMENTATION"
+      ],
+      "trinity_focus": "identity"
+    }
+  },
+  "automation_schedule": {
+    "repo_sync": "*/15 * * * *",
+    "agent_coordination": "0 */2 * * *",
+    "consciousness_review": "0 9 * * *"
+  }
+}

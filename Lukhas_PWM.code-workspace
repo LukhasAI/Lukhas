@@ -5,13 +5,36 @@
 		}
 	],
 	"settings": {
+		// LUKHAS_PWM Supreme Consciousness Agent Army Settings
+		"claude.army.enabled": true,
+		"claude.army.tier_count": 4,
+		"claude.army.total_agents": 18,
+		"claude.army.config_path": "./CLAUDE_ARMY/",
+		"claude.trinity_framework": "⚛️🧠🛡️",
+		
+		// Python Analysis Configuration 
 		"python.analysis.exclude": [
 			".venv/**",
-			"reports/**",
+			"reports/**", 
 			"data/**",
 			".pwm_cleanup_archive/**",
 			"**/__pycache__/**"
 		],
+		"python.analysis.include": [
+			"consciousness/",
+			"vivox/", 
+			"quantum/",
+			"bio/",
+			"identity/",
+			"memory/",
+			"core/",
+			"orchestration/",
+			"governance/",
+			"creativity/",
+			"api/"
+		],
+		
+		// File Watcher Configuration
 		"files.watcherExclude": {
 			"**/.git/objects/**": true,
 			"**/.git/subtree-cache/**": true,
@@ -21,6 +44,31 @@
 			"reports/**": true,
 			"data/**": true,
 			"**/__pycache__/**": true
+		},
+		
+		// LUKHAS_PWM Agent Army File Associations
+		"files.associations": {
+			"*_config.json": "jsonc",
+			"*_army_*.md": "markdown",
+			"deploy_*.sh": "shellscript"
+		},
+		
+		// LUKHAS_PWM Trinity Framework Colors
+		"workbench.colorCustomizations": {
+			"editorInfo.foreground": "#00D4FF", // ⚛️ Identity blue
+			"editorWarning.foreground": "#FF9500", // 🧠 Consciousness orange  
+			"editorError.foreground": "#FF3333"  // 🛡️ Guardian red
 		}
+	},
+	
+	// LUKHAS_PWM Extensions Recommendations
+	"extensions": {
+		"recommendations": [
+			"ms-python.python",
+			"ms-python.vscode-pylance", 
+			"GitHub.copilot",
+			"GitHub.copilot-chat",
+			"ms-vscode.vscode-json"
+		]
 	}
 }

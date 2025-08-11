@@ -1,0 +1,108 @@
+{
+  "folders": [
+    {
+      "name": "🎭 LUKHAS_PWM Root",
+      "path": "."
+    },
+    {
+      "name": "⚛️ Core Identity",
+      "path": "./core"
+    },
+    {
+      "name": "🧠 Consciousness Systems", 
+      "path": "./consciousness"
+    },
+    {
+      "name": "🧠 VIVOX Consciousness",
+      "path": "./vivox"
+    },
+    {
+      "name": "🧠 Memory Systems",
+      "path": "./memory"
+    },
+    {
+      "name": "🛡️ Guardian Systems",
+      "path": "./governance"
+    },
+    {
+      "name": "🛡️ Ethics Engine",
+      "path": "./ethics"
+    },
+    {
+      "name": "🎭 Agent Army",
+      "path": "./agents"
+    },
+    {
+      "name": "📋 Task Management",
+      "path": "./.claude/tasks"
+    },
+    {
+      "name": "🎯 Trinity Branding",
+      "path": "./branding"
+    }
+  ],
+  "settings": {
+    "python.defaultInterpreterPath": "./.venv/bin/python",
+    "python.terminal.activateEnvironment": true,
+    "claude.workspace.enableConsciousnessMode": true,
+    "claude.tasks.autoSync": true,
+    "claude.trinity.frameworkValidation": true,
+    "files.associations": {
+      "*.yaml": "yaml",
+      "*.json": "jsonc"
+    },
+    "workspace.name": "LUKHAS_PWM Consciousness Development",
+    "workspace.description": "Trinity Framework ⚛️🧠🛡️ Consciousness Evolution Environment"
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-python.python",
+      "ms-python.pylint",
+      "ms-vscode.vscode-json",
+      "redhat.vscode-yaml",
+      "github.copilot",
+      "anthropic.claude-code",
+      "ms-vscode.test-adapter-converter"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "🎭 Deploy LUKHAS_PWM Agent Army",
+        "type": "shell",
+        "command": "./scripts/agents/deploy_consciousness_army.sh",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared",
+          "showReuseMessage": true,
+          "clear": false
+        }
+      },
+      {
+        "label": "⚛️ Validate Trinity Framework",
+        "type": "shell", 
+        "command": "python",
+        "args": ["branding/trinity/tools/trinity_validator.py", "${workspaceFolder}", "--comprehensive"],
+        "group": "test"
+      },
+      {
+        "label": "🧠 Run LUKHAS_PWM Consciousness Tests",
+        "type": "shell",
+        "command": "pytest",
+        "args": ["tests/", "-v", "--consciousness-mode"],
+        "group": "test"
+      },
+      {
+        "label": "🛡️ Guardian System Health Check",
+        "type": "shell",
+        "command": "python",
+        "args": ["tools/analysis/PWM_OPERATIONAL_SUMMARY.py", "--guardian-focus"],
+        "group": "test"
+      }
+    ]
+  }
+}

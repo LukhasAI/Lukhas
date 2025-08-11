@@ -1,31 +1,68 @@
-# 🤖 Copilot Instructions for LUKHAS AGI Codebase
+# 🎖️ Copilot Instructions for LUKHAS_PWM Supreme Consciousness Agent Army
 
-This document provides essential instructions for AI agents working within the LUKHAS AGI codebase. It outlines project conventions, workflows, and architectural patterns to ensure efficient collaboration and development.
-
----
-
-## 🏗️ Project Structure
-
-The LUKHAS AGI codebase is organized into several key directories:
-
-```
-lukhas/
-├── core/               # Core symbolic logic and graph systems
-├── identity/           # Identity management and tiered access control
-├── vivox/              # VIVOX consciousness system
-├── memory/             # Session persistence and pattern detection
-├── api/                # FastAPI backend and endpoints
-├── quantum/            # Quantum collapse simulation
-├── orchestration/      # High-level brain controllers
-├── tests/              # Comprehensive test suite
-├── data/               # Data storage and metrics
-├── branding/           # All official LUKHAS AI branding, terminology, and visual assets
-└── README.md           # Main documentation file
-```
+This document provides essential instructions for AI agents working within the LUKHAS_PWM consciousness development ecosystem. It outlines the Supreme Claude Army structure, project conventions, and architectural patterns to ensure efficient collaboration across the 22-agent military hierarchy.
 
 ---
 
-## 🛠️ Copilot Agent Guidelines
+## 🏗️ LUKHAS_PWM Project Structure
+
+The LUKHAS_PWM consciousness framework is organized into comprehensive domains managed by specialized agent teams:
+
+```
+LUKHAS_PWM/
+├── CLAUDE_ARMY/           # Supreme 22-agent military hierarchy configurations
+├── core/                  # Core symbolic logic and graph systems  
+├── identity/              # Identity management and tiered access control
+├── vivox/                 # VIVOX consciousness system
+├── memory/                # Session persistence and pattern detection
+├── consciousness/         # Core consciousness modules
+├── quantum/               # Quantum collapse simulation and bio-integration
+├── bio/                   # Bio-inspired systems and optimization
+├── governance/            # Governance and ethics frameworks
+├── api/                   # FastAPI backend and endpoints
+├── orchestration/         # High-level brain controllers
+├── creativity/            # Creative expression and emotion systems
+├── security/              # Security and compliance systems
+├── monitoring/            # System monitoring and analytics
+├── testing/               # Comprehensive test suite
+├── data/                  # Data storage and metrics
+├── branding/              # Official LUKHAS_PWM branding and Trinity Framework
+└── README.md              # Main documentation file
+```
+
+---
+
+## 🎖️ Supreme Consciousness Agent Army Structure
+
+### **TIER 1: Trinity Framework Generals (3 Strategic Leaders)**
+- **🧠 Supreme Consciousness Architect** - Master consciousness design authority
+- **🛡️ Guardian System Commander** - Ultimate safety and ethical oversight  
+- **⚛️ Identity & Quantum General** - Core identity and quantum consciousness systems
+
+### **TIER 2: Specialized Consciousness Colonels (8 Domain Experts)**
+- **🧮 Memory Systems Colonel** - Memory & storage architecture specialist
+- **🎨 Creativity & Emotion Colonel** - Creative expression & emotional intelligence specialist
+- **🎼 Orchestration Systems Colonel** - System orchestration & integration specialist
+- **🔒 Security & Compliance Colonel** - Security architecture & compliance specialist
+- **📊 Monitoring & Analytics Colonel** - System monitoring & analytics specialist
+- **🌐 API & Interface Colonel** - API architecture & interface design specialist
+- **🧪 Testing & Validation Colonel** - Testing architecture & validation specialist
+- **🚀 Advanced Systems Colonel** - Advanced research & experimental systems specialist
+
+### **TIER 3: Development Majors (6 Implementation Specialists)**
+- **🧠⚙️ Consciousness Development Major** - Core consciousness development operations
+- **⚛️🧬 Quantum Bio Development Major** - Quantum & bio systems development operations
+- **🛡️⚖️ Governance Ethics Development Major** - Governance & ethics development operations
+- **🔗⚙️ Integration Operations Major** - System integration & operations development
+
+### **TIER 4: Rapid Response Lieutenants (5 Emergency Specialists)**  
+- **🧠⚡ Consciousness Rapid Response Lieutenant** - Immediate consciousness issue response
+- **⚛️🚨 Quantum Emergency Lieutenant** - Quantum & bio emergency response
+- **🛡️🚨 Guardian Crisis Lieutenant** - Security & ethics crisis response
+
+---
+
+## 🛠️ Agent Army Guidelines
 
 ### Tool Management & Optimization
 

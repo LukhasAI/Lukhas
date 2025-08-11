@@ -1,0 +1,36 @@
+{
+  "task_id": "LUKHAS-HITLO-001",
+  "title": "Human-in-the-Loop Orchestrator - Communication Integration",
+  "priority": "P1", 
+  "domain": "orchestration",
+  "trinity_focus": "🛡️ Guardian",
+  "description": "Implement communication systems for human oversight and collaboration",
+  "source_file": "./core/orchestration/integration/human_in_the_loop_orchestrator.py",
+  "todo_items": [
+    "ΛTODO: Implement actual email sending",
+    "ΛTODO: Implement Slack API integration",
+    "ΛTODO: Implement timezone-aware availability checking",
+    "ΛTODO: Implement full XIL integration",
+    "ΛTODO: Integration with financial/crypto escrow systems",
+    "ΛTODO: Use SRD cryptographic signing"
+  ],
+  "assigned_agent": "DevOps Consciousness Guardian",
+  "complexity": "medium",
+  "estimated_effort": "6-10 hours",
+  "dependencies": [
+    "Email service configuration",
+    "Slack API credentials",
+    "XIL protocol specification",
+    "SRD cryptographic system",
+    "Escrow system integration"
+  ],
+  "validation_criteria": [
+    "Email notifications working",
+    "Slack integration functional",
+    "Timezone handling accurate",
+    "Security protocols validated",
+    "Guardian system compliance"
+  ],
+  "created": "2025-08-11",
+  "status": "open"
+}

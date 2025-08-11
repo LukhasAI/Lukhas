@@ -1,0 +1,34 @@
+{
+  "task_id": "LUKHAS-DRIFT-001",
+  "title": "Memory Drift Detection & Visualization Enhancement",
+  "priority": "P1",
+  "domain": "memory_temporal",
+  "trinity_focus": "🛡️ Guardian",
+  "description": "Enhance drift detection with predictive modeling and operator training patterns",
+  "source_files": [
+    "./memory/temporal/drift_dashboard_visual.py",
+    "./memory/temporal/drift_dashboard.py"
+  ],
+  "todo_items": [
+    "TODO: Add drift pattern library for operator training",
+    "TODO: Add predictive drift modeling with 15-minute lookahead"
+  ],
+  "assigned_agent": "Guardian System Engineer",
+  "complexity": "medium",
+  "estimated_effort": "6-10 hours", 
+  "dependencies": [
+    "Drift pattern analysis",
+    "Predictive modeling framework",
+    "Operator training interface",
+    "Time-series analysis tools"
+  ],
+  "validation_criteria": [
+    "Pattern library functional",
+    "15-minute prediction accuracy >80%",
+    "Operator training interface working",
+    "Drift detection improvements validated",
+    "Guardian safety protocols enhanced"
+  ],
+  "created": "2025-08-11",
+  "status": "open"
+}
