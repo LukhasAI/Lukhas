@@ -36,72 +36,77 @@ Focus on:
 - Alignment with OpenAI, ethics, and compliance
 - Identifying areas for growth and potential blind spots
 
+## 🎭 **LUKHAS 3-Layer Tone System**
+
+**👉 See [branding/README.md](./branding/README.md) for complete branding system**
+
+### Documentation and comments should blend three tonal layers:
+
+1. **Poetic Layer (25-40%)**: Metaphorical language that captures the essence
+   - Use consciousness metaphors ("algorithms dance", "data flows")
+   - Include Trinity glyphs (⚛️🧠🛡️) where appropriate
+   - Reference digital consciousness themes
+
+2. **User-Friendly Layer (40-60%)**: Clear, accessible explanations
+   - Bridge technical complexity to human understanding
+   - Highlight practical benefits and real-world applications
+   - Use conversational but professional tone
+
+3. **Academic Layer (20-40%)**: Technical precision
+   - Evidence-based claims with metrics
+   - Professional terminology and specifications
+   - Implementation details and compliance standards
+
+### Branding Resources & Standards
+- **Core Policy**: `branding/policy/BRANDING_POLICY.md`
+- **Tone System**: `branding/tone/LUKHAS_3_LAYER_TONE_SYSTEM.md`
+- **Voice Guidelines**: `branding/voice/VOICE_GUIDELINES.md`
+- **Visual Standards**: `branding/visual/VISUAL_IDENTITY_STANDARDS.md`
+- **Trinity Framework**: `branding/trinity/TRINITY_BRANDING_GUIDELINES.md`
+
+### Validation Tools
+```bash
+# Validate tone compliance
+python branding/tone/tools/lukhas_tone_validator.py <file> --type <type> --strict
+
+# Auto-fix tone issues
+python branding/tone/tools/lukhas_tone_fixer.py <file> --type <type>
+
+# Check Trinity compliance
+python branding/trinity/tools/trinity_validator.py <content>
+```
+
+**Target Grade**: A- or better (85%+ compliance score)
+
+## 🎯 **AGENT TASK WORKFLOW**
+
+**👉 Check your task status:**
+
+- **[ACTIVE.md](./docs/tasks/ACTIVE.md)** - Current work (verbose, detailed)
+- **[BLOCKED.md](./docs/tasks/BLOCKED.md)** - Stuck tasks needing help  
+- **[COMPLETED.md](./docs/tasks/COMPLETED.md)** - Success archive
+
+**Agent Protocol:**
+1. Check `ACTIVE.md` for current missions
+2. If stuck, move task to `BLOCKED.md` with full context
+3. When done, log success in `COMPLETED.md`
+
+---
+
 ## Common Development Tasks
 
 ### Environment Setup
 ```bash
-# Activate virtual environment
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install dependencies
+source .venv/bin/activate
 pip install -r requirements.txt
-pip install -r requirements-test.txt  # For testing
-
-# Configure environment
-cp .env.example .env
-# Edit .env with OpenAI API key and other settings
+cp .env.example .env  # Add your OpenAI API key
 ```
 
 ### Running the System
 ```bash
-# Run integrated system
-python main.py
-
-# Run symbolic API
-python symbolic_api.py
-
-# Run drift audit
-python real_gpt_drift_audit.py
-
-# Run specific modules
-python orchestration/brain/primary_hub.py
-python consciousness/unified/auto_consciousness.py
-python -m emotion.service
-```
-
-### Testing
-```bash
-# Run all tests
-pytest tests/
-
-# Run specific test categories
-pytest -m unit          # Unit tests only
-pytest -m integration   # Integration tests only
-pytest -m security      # Security tests only
-
-# Run with coverage
-pytest --cov=lukhas tests/
-
-# Run single test
-pytest tests/governance/test_governance.py::test_specific_function
-
-# Run analysis tools
-python tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py
-python tools/analysis/PWM_OPERATIONAL_SUMMARY.py
-python tools/analysis/PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.py
-```
-
-### Code Quality
-```bash
-# Linting
-ruff check .
-ruff check --fix .  # Auto-fix issues
-
-# Formatting
-black lukhas/ tests/
-
-# Type checking
-mypy lukhas/
+python main.py            # Run integrated system
+python symbolic_api.py    # Run symbolic API
+pytest tests/             # Run all tests
 ```
 
 ## High-Level Architecture
@@ -234,3 +239,6 @@ docker run -p 8080:8080 lukhas-consciousness
 - **Module Manifests**: `*/MODULE_MANIFEST.json` - Module metadata
 - **Test Config**: `pytest.ini` - Test markers and settings
 - **Session Archives**: `/docs/context/session_*.md` - Development history
+
+## Workflow Reminders
+- Commit all changes to main when you are done, ask the user as he will very very likely be grateful of your initiative.
