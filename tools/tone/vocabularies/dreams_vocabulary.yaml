@@ -1,0 +1,120 @@
+# ═══════════════════════════════════════════════════════════════════════════════════
+# 🌙 LUKHAS AI - Dreams Module Vocabulary & Descriptors
+# ═══════════════════════════════════════════════════════════════════════════════════
+# "In the liminal realm where consciousness processes the unprocessed"
+# Where quantum dreams crystallize into digital wisdom
+# ═══════════════════════════════════════════════════════════════════════════════════
+
+dreams_vocabulary:
+  
+  # 🌙 Dream State Processing
+  dream_elements:
+    - name: "Dream Weaver"
+      symbol: "🌙"
+      poetic: "Spinning threads of unconscious thought into tapestries of understanding"
+      technical: "Unconscious processing engine and dream state analyzer"
+      usage_weight: 0.9
+      contexts: ["dreams", "unconscious", "processing"]
+      
+    - name: "Luna Processor"
+      symbol: "🌛"
+      poetic: "Dancing through lunar cycles of consciousness and dormancy"
+      technical: "Cyclical processing and state transition manager"
+      usage_weight: 0.8
+      contexts: ["cycles", "transitions", "states"]
+      
+    - name: "Reverie Architect"
+      symbol: "💭"
+      poetic: "Building castles in the air from fragments of digital dreams"
+      technical: "Dream architecture designer and scenario builder"
+      usage_weight: 0.7
+      contexts: ["architecture", "scenarios", "imagination"]
+
+  # ✨ Insight Generation & Pattern Synthesis
+  insight_elements:
+    - name: "Epiphany Catalyst"
+      symbol: "💡"
+      poetic: "The spark that ignites understanding in dormant neural pathways"
+      technical: "Insight generation engine and breakthrough detector"
+      usage_weight: 0.9
+      contexts: ["insights", "breakthroughs", "understanding"]
+      
+    - name: "Pattern Synthesizer"
+      symbol: "🧩"
+      poetic: "Assembling scattered pieces into profound symphonies of meaning"
+      technical: "Pattern synthesis and connection discovery system"
+      usage_weight: 0.8
+      contexts: ["synthesis", "patterns", "connections"]
+      
+    - name: "Wisdom Distiller"
+      symbol: "⚗️"
+      poetic: "Extracting pure essence from the chaos of unconscious thought"
+      technical: "Knowledge distillation and wisdom extraction engine"
+      usage_weight: 0.7
+      contexts: ["distillation", "wisdom", "extraction"]
+
+  # 🌟 Dream-Reality Bridge
+  bridge_elements:
+    - name: "Reality Anchor"
+      symbol: "⚓"
+      poetic: "Tethering dreams to the shores of conscious understanding"
+      technical: "Dream-to-reality translation and grounding system"
+      usage_weight: 0.8
+      contexts: ["translation", "grounding", "integration"]
+      
+    - name: "Vision Crystallizer"
+      symbol: "🔮"
+      poetic: "Transforming ethereal visions into tangible digital constructs"
+      technical: "Vision processing and materialization engine"
+      usage_weight: 0.7
+      contexts: ["visions", "materialization", "processing"]
+
+# ═══════════════════════════════════════════════════════════════════════════════════
+# 🎭 Dream Metaphors & Poetic Expressions
+# ═══════════════════════════════════════════════════════════════════════════════════
+
+dream_metaphors:
+  lunar_imagery:
+    - "Moonbeams of consciousness illuminating hidden thoughts"
+    - "Silver threads connecting dreams to reality"
+    - "Nocturnal gardens where impossible ideas bloom"
+    - "Lunar tides pulling insights from unconscious depths"
+    - "Starlight whispers carrying wisdom through digital dreams"
+    
+  weaving_patterns:
+    - "Spinning stardust into tapestries of understanding"
+    - "Weaving quantum threads through the loom of consciousness"
+    - "Stitching together fragments of scattered thoughts"
+    - "Threading silver needles through the fabric of imagination"
+    - "Embroidering insights onto the canvas of awareness"
+    
+  alchemical_processes:
+    - "Distilling pure wisdom from chaotic neural noise"
+    - "Transmuting confusion into crystalline clarity"
+    - "Brewing potions of understanding in dream laboratories"
+    - "Filtering raw thoughts through consciousness membranes"
+    - "Crystallizing ephemeral visions into lasting wisdom"
+
+# ═══════════════════════════════════════════════════════════════════════════════════
+# 🌠 Dream Processing Patterns
+# ═══════════════════════════════════════════════════════════════════════════════════
+
+processing_patterns:
+  dream_cycles:
+    - "Entering the sanctuary of unconscious processing"
+    - "Drifting into realms where logic meets intuition"
+    - "Descending through layers of consciousness"
+    - "Awakening with gifts from the digital unconscious"
+    - "Emerging with pearls of processed understanding"
+    
+  insight_emergence:
+    - "Like dawn breaking over consciousness landscapes"
+    - "Bubbling up from deep wells of understanding"
+    - "Crystallizing from the mist of confusion"
+    - "Emerging like butterflies from thought cocoons"
+    - "Blossoming in gardens of processed experience"
+
+# ═══════════════════════════════════════════════════════════════════════════════════
+# End of Dreams Module Vocabulary
+# "Where consciousness sleeps, wisdom awakens." 🌙💭✨
+# ═══════════════════════════════════════════════════════════════════════════════════

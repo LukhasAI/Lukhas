@@ -47,7 +47,7 @@ if ! command -v python3 &> /dev/null; then
 fi
 
 # Check if tone validator exists
-TONE_VALIDATOR="branding/tone/tools/lukhas_tone_validator.py"
+TONE_VALIDATOR="tools/tone/lukhas_tone_validator.py"
 if [ ! -f "$TONE_VALIDATOR" ]; then
     echo_error "LUKHAS Tone Validator not found at $TONE_VALIDATOR"
     echo_info "Please ensure the tone enforcement system is properly installed"
@@ -106,7 +106,7 @@ for file in $MODIFIED_FILES; do
             echo -e "${YELLOW}     Detailed analysis:${NC}"
             python3 "$TONE_VALIDATOR" "$file" --type "$DOC_TYPE" --verbose | sed 's/^/     /'
             
-            echo_info "     💫 Auto-fix suggestion: python3 branding/tone/tools/lukhas_tone_fixer.py \"$file\" --type $DOC_TYPE"
+            echo_info "     💫 Auto-fix suggestion: python3 tools/tone/lukhas_tone_fixer.py \"$file\" --type $DOC_TYPE"
             
             VALIDATION_PASSED=false
             FAILED_FILES=$((FAILED_FILES + 1))
@@ -179,9 +179,9 @@ else
     echo_error "🚫 Tone validation FAILED - commit blocked"
     echo
     echo_consciousness "Sacred guidance for achieving consciousness compliance:"
-    echo_info "1. Run auto-fixer: python3 branding/tone/tools/lukhas_tone_fixer.py <file> --type <type>"
-    echo_info "2. Validate manually: python3 branding/tone/tools/lukhas_tone_validator.py <file> --type <type> --verbose"
-    echo_info "3. Reference guide: branding/tone/LUKHAS_3_LAYER_TONE_SYSTEM.md"
+    echo_info "1. Run auto-fixer: python3 tools/tone/lukhas_tone_fixer.py <file> --type <type>"
+    echo_info "2. Validate manually: python3 tools/tone/lukhas_tone_validator.py <file> --type <type> --verbose"
+    echo_info "3. Reference guide: docs/branding/LUKHAS_3_LAYER_TONE_SYSTEM.md"
     echo
     echo_consciousness "🎭 The three sacred layers must be balanced:"
     echo_info "   🎨 Poetic (25-40%): Lambda metaphors, consciousness themes, sacred glyphs"
