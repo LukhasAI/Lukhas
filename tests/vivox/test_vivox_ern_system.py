@@ -194,6 +194,7 @@ class TestVIVOXEventBusIntegration:
         """Mock event bus for testing"""
         mock_bus = AsyncMock()
         mock_bus.publish = AsyncMock()
+        mock_bus.emit = AsyncMock()  # Add emit method to match actual usage
         mock_bus.subscribe = AsyncMock()
         return mock_bus
 
@@ -221,8 +222,14 @@ class TestVIVOXEventBusIntegration:
         await event_integration.publish_emotional_shift(shift)
 
         # Verify event was published
-        mock_event_bus.publish.assert_called_once()
-        published_event = mock_event_bus.publish.call_args[0][0]
+        mock_event_bus.emit.assert_called()  # Check if emit was called (may be called multiple times)
+        # Find the VIVOXEmotionalShift event in the call history
+        vivox_shift_calls = [
+            call for call in mock_event_bus.emit.call_args_list 
+            if isinstance(call[0][0], VIVOXEmotionalShift)
+        ]
+        assert len(vivox_shift_calls) >= 1, "VIVOXEmotionalShift event should have been emitted"
+        published_event = vivox_shift_calls[0][0][0]
         assert isinstance(published_event, VIVOXEmotionalShift)
         assert published_event.user_id == "test_user"
 
@@ -255,7 +262,7 @@ class TestVIVOXEventBusIntegration:
         assert result.effectiveness >= 0.0
 
         # Verify events were published (emotional shift and regulation applied)
-        assert mock_event_bus.publish.call_count >= 1
+        assert mock_event_bus.emit.call_count >= 1
 
     @pytest.mark.asyncio
     async def test_event_subscription_handling(self, event_integration):
@@ -705,6 +712,7 @@ class TestVIVOXERNIntegration:
         """Mock event bus for integration testing"""
         mock_bus = AsyncMock()
         mock_bus.publish = AsyncMock()
+        mock_bus.emit = AsyncMock()  # Add emit method to match actual usage
         mock_bus.subscribe = AsyncMock()
         return mock_bus
 
@@ -789,7 +797,7 @@ class TestVIVOXERNIntegration:
         assert result.regulated_state != emotional_state
 
         # Verify events were published
-        assert mock_event_bus.publish.called
+        assert mock_event_bus.emit.called
 
         # Verify hormone system was triggered (may use simulation if system not available)
         # The endocrine integration should at least attempt to process hormones

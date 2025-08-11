@@ -8,8 +8,45 @@
 
 ## 🚨 **IMMEDIATE PRIORITY (Today/Tomorrow)**
 
-### **Task P1: Fix Guardian System Dependencies**
-**Owner:** Next Available Agent  
+### **Task P1: VIVOX Critical System Failures**
+**Owner:** Agent 1 (Core System Specialist)  
+**Estimated Time:** 4-6 hours  
+**Priority:** CRITICAL 🚨🚨
+
+```bash
+# Issue: VIVOX system has massive test failures (55/78 tests failing = 71% failure rate)
+Current Status: 10 failed, 13 passed, 10 warnings in VIVOX test suite
+
+# Critical Errors Found:
+1. TypeError: simulate_conscious_experience() unexpected keyword 'perceptual_input'
+2. TypeError: VIVOXEmotionalShift() unexpected keyword 'original_state' 
+3. AttributeError: 'VIVOXEventBusIntegration' object has no attribute 'kernel_bus'
+4. AttributeError: object has no attribute 'subscribe_to_emotional_events'
+5. KeyError: 'strategy_used' missing in feature extraction
+6. AssertionError: Multiple logic failures in pattern learning and colony propagation
+
+# Files requiring immediate attention:
+- vivox/emotional_regulation/event_integration.py (missing kernel_bus attribute)
+- vivox/consciousness/awareness/ (simulate_conscious_experience signature)
+- vivox/emotional_regulation/neuroplastic_integration.py (strategy_used KeyError)
+- tests/vivox/test_state_variety.py (consciousness integration)
+- tests/vivox/test_vivox_ern_system.py (78 tests, 10 failing)
+
+# Action Required:
+1. Fix method signatures and missing parameters across VIVOX modules
+2. Implement missing attributes (kernel_bus, subscribe_to_emotional_events)
+3. Correct feature extraction logic (add strategy_used to features)
+4. Fix event publishing and subscription mechanisms
+5. Repair consciousness simulation integration
+6. Target: 70+ tests passing (90%+ success rate)
+```
+
+**Success Criteria:** `python -m pytest tests/vivox/ -v` achieves 90%+ pass rate
+
+---
+
+### **Task P2: Fix Guardian System Dependencies**
+**Owner:** Agent 2 (Guardian Specialist)  
 **Estimated Time:** 2-4 hours  
 **Priority:** CRITICAL ⚠️
 
@@ -33,8 +70,8 @@ Error: ModuleNotFoundError: No module named 'trace.drift_harmonizer'
 
 ---
 
-### **Task P2: Resolve GTPSI FastAPI Issues**
-**Owner:** Next Available Agent  
+### **Task P3: Resolve GTPSI FastAPI Issues**
+**Owner:** Agent 1 or Agent 2 (Either)  
 **Estimated Time:** 1-2 hours  
 **Priority:** HIGH 🔥
 
@@ -59,37 +96,39 @@ Error: Invalid args for response field! Hint: check that <class 'gtpsi.studio_ho
 
 ## 🔧 **SYSTEM STABILITY (This Week)**
 
-### **Task P3: VIVOX Logic Fixes**  
-**Owner:** VIVOX Specialist Agent  
-**Estimated Time:** 1-2 days  
+### **Task P4: UL Cryptography Logic Fixes**  
+**Owner:** Agent 1 or Agent 2 (Either)  
+**Estimated Time:** 2-3 hours  
 **Priority:** HIGH 🔥
 
 ```bash
-# Issue: 55/78 VIVOX tests failing with logic errors
-Current Status: 23/78 tests passing (29% success rate)
-Target: 70+ tests passing (90%+ success rate)
+# Issue: UL module has 3/27 tests failing (89% success rate, but logic errors remain)
+Current Status: 24/27 tests passing, 3 critical failures
 
-# Major Error Categories:
-1. TypeError: simulate_conscious_experience() unexpected keyword 'perceptual_input'
-2. TypeError: VIVOXEmotionalShift() unexpected keyword 'original_state'  
-3. AttributeError: Missing 'subscribe_to_emotional_events' method
-4. KeyError: Missing 'strategy_used' in features
-5. AssertionError: Various logic assertion failures
+# Specific Failures:
+1. test_emoji_encoding: Features validation failing
+2. test_ul_signature_verification: Signature validation returning False
+3. test_complete_ul_workflow: End-to-end workflow broken
+
+# Files to fix:
+- ul/__init__.py (line 72) - Pydantic V1 to V2 validator migration
+- ul/service.py - Feature encoding and signature logic
+- tests/test_ul.py - Validation and workflow tests
 
 # Action Required:
-1. Fix method signatures across VIVOX modules
-2. Implement missing methods and attributes
-3. Correct parameter passing between components
-4. Add missing feature extraction logic
-5. Update test expectations to match actual implementation
+1. Fix emoji encoding feature validation
+2. Repair signature verification logic
+3. Complete end-to-end workflow debugging
+4. Migrate remaining Pydantic V1 validators to V2
+5. Target: 27/27 tests passing (100% success rate)
 ```
 
-**Success Criteria:** VIVOX test suite achieves 90%+ pass rate
+**Success Criteria:** `python -m pytest tests/test_ul.py -v` achieves 100% pass rate
 
 ---
 
-### **Task P4: Technical Debt Systematic Reduction**
-**Owner:** Technical Debt Agent  
+### **Task P5: Technical Debt Systematic Reduction**
+**Owner:** Agent 2 (Technical Debt Specialist)  
 **Estimated Time:** 3-5 days  
 **Priority:** MEDIUM 📋
 
@@ -231,12 +270,20 @@ Target: 540 items (25% reduction = 175 items resolved)
 ## 🔄 **COORDINATION PROTOCOL**
 
 ### **Task Assignment Priority:**
-1. **P1 & P2:** IMMEDIATE - Block all other work until resolved
-2. **P3:** HIGH - Assign to specialist with VIVOX knowledge  
-3. **P4:** MEDIUM - Can be done in parallel with others
-4. **P5-P6:** Performance tasks can be combined
-5. **P7-P8:** Compliance tasks can be combined
-6. **P9:** Background/ongoing task
+1. **P1:** CRITICAL - VIVOX system failures (71% test failure rate) - ASSIGN TO AGENT 1
+2. **P2:** CRITICAL - Guardian dependencies - ASSIGN TO AGENT 2  
+3. **P3:** HIGH - GTPSI FastAPI fixes - Either Agent 1 or 2
+4. **P4:** HIGH - UL cryptography logic - Either Agent 1 or 2
+5. **P5:** MEDIUM - Technical debt reduction - Agent 2 specialty
+6. **P6-P7:** Performance tasks can be combined
+7. **P8-P9:** Compliance tasks can be combined
+8. **P10:** Background/ongoing task
+
+### **Immediate Focus for Next Agents:**
+**Agent 1 Priority:** VIVOX system rescue - this is the most critical failure with 55/78 tests failing
+**Agent 2 Priority:** Guardian system dependencies - blocks all Trinity Framework validation
+
+**Both agents should coordinate on P3 and P4** once their primary tasks are complete.
 
 ### **Daily Check-ins:**
 - Report progress on assigned tasks
@@ -252,18 +299,21 @@ Each task includes specific success criteria with measurable outcomes following 
 ## 📈 **Expected Timeline**
 
 **Week 1 (August 11-17):**
-- Days 1-2: P1, P2 (Critical fixes)
-- Days 3-7: P3 (VIVOX logic fixes)
+- **Days 1-2: P1 (VIVOX Critical Fixes) + P2 (Guardian Dependencies)** - IMMEDIATE
+- **Days 2-3: P3 (GTPSI FastAPI) + P4 (UL Logic)** - HIGH PRIORITY
+- **Days 4-7: P5 (Technical Debt Reduction)** - MEDIUM
 
 **Week 2 (August 18-24):**
-- P4 (Technical debt reduction)
-- P5, P6 (Performance optimization)
+- P6, P7 (Performance optimization)  
+- P8, P9 (Compliance and Guardian systems)
 
 **Week 3 (August 25-31):**
-- P7, P8 (Compliance and Guardian systems)
-- P9 (Test coverage - ongoing)
+- P10 (Test coverage - ongoing)
+- Integration testing and final validation
 
-**Estimated Total:** 15-20 agent-days to complete all pending tasks
+**Estimated Total:** 18-25 agent-days to complete all pending tasks
+
+**CRITICAL PATH:** VIVOX and Guardian fixes must be completed first as they block major system functionality.
 
 ---
 

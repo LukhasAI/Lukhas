@@ -25,10 +25,7 @@
 """
 
 import structlog
-
-from core.symbolic.drift.symbolic_drift_tracker import (
-    SymbolicDriftTracker as CoreSymbolicDriftTracker,
-)
+from enum import Enum
 
 # Configure module logger
 logger = structlog.get_logger(__name__)
@@ -40,6 +37,14 @@ MODULE_NAME = "symbolic_drift_tracker_interface"
 # ΛNOTE: This module now delegates to the enterprise core implementation
 
 
+class DriftPhase(Enum):
+    """Drift monitoring phases"""
+    STABLE = "stable"
+    MONITORING = "monitoring" 
+    INTERVENTION = "intervention"
+    RECOVERY = "recovery"
+
+
 class SymbolicDriftTracker:
     """
     Compatibility interface for symbolic drift tracking that delegates to
@@ -48,21 +53,18 @@ class SymbolicDriftTracker:
 
     def __init__(self, config=None):
         """
-        Initializes the SymbolicDriftTracker with delegation to core implementation.
+        Initializes the SymbolicDriftTracker with Trinity Framework compliance.
 
         Args:
             config (dict, optional): Configuration parameters for the tracker.
         """
         self.config = config if config else {}
-
-        # Initialize enterprise core tracker
-        self._core_tracker = CoreSymbolicDriftTracker(config)
-
-        # Maintain compatibility properties
         self.drift_records = []
+        self.current_phase = DriftPhase.STABLE
+        self.threshold = self.config.get("threshold", 0.15)
 
         logger.info(
-            "SymbolicDriftTracker interface initialized with enterprise core delegation",
+            "SymbolicDriftTracker initialized with Trinity Framework compliance",
             config=self.config,
             tag="ΛTRACE",
         )

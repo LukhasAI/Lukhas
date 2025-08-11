@@ -14,7 +14,7 @@ import sys
 sys.path.append(str(Path(__file__).parent.parent))
 
 # Import Trinity components
-from core.monitoring.drift_monitor import DriftMonitor
+from core.monitoring.drift_monitor import UnifiedDriftMonitor
 from core.symbolic.symbolic_healer import SymbolicHealer, DiagnosisType
 from governance.ethics.ethical_evaluator import EthicalEvaluator
 
@@ -31,7 +31,7 @@ class TestTrinityFramework:
     
     def setup_method(self):
         """Initialize Trinity components"""
-        self.drift_monitor = DriftMonitor()
+        self.drift_monitor = UnifiedDriftMonitor()
         self.symbolic_healer = SymbolicHealer()
         self.ethical_evaluator = EthicalEvaluator()
     

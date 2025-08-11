@@ -849,11 +849,13 @@ class VIVOXConsciousnessInterpretationLayer:
         self.inert_mode = False
 
     async def simulate_conscious_experience(
-        self, perceptual_input: dict[str, Any], internal_state: dict[str, Any]
+        self, perceptual_input: dict[str, Any], internal_state: dict[str, Any] = None
     ) -> ConsciousExperience:
         """
         Collapse encrypted simulations into coherent internal states
         """
+        if internal_state is None:
+            internal_state = {}
         # Create potential consciousness vectors
         consciousness_vectors = await self._generate_consciousness_vectors(
             perceptual_input, internal_state

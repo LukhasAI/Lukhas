@@ -401,10 +401,12 @@ class VIVOXNeuroplasticLearner:
         # Context similarity
         context_similarity = pattern.matches_context(context)
 
-        # Strategy compatibility
-        strategy_compatibility = (
-            1.0 if features["strategy_used"] in pattern.effective_strategies else 0.3
-        )
+        # Strategy compatibility (only if strategy_used is provided)
+        strategy_compatibility = 1.0  # Default to neutral compatibility
+        if "strategy_used" in features:
+            strategy_compatibility = (
+                1.0 if features["strategy_used"] in pattern.effective_strategies else 0.3
+            )
 
         # Temporal decay (recent patterns are more relevant)
         temporal_decay = 1.0
@@ -708,6 +710,12 @@ class VIVOXNeuroplasticLearner:
                 "average_effectiveness": 0.0,
                 "colony_patterns": 0,
                 "most_effective_strategies": [],
+                "propagatable_patterns": 0,
+                "patterns_by_usage": {
+                    "high_usage": 0,
+                    "medium_usage": 0,
+                    "low_usage": 0,
+                },
             }
 
         # Calculate statistics

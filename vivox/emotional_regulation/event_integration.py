@@ -62,19 +62,38 @@ class VIVOXEmotionalShift(VIVOXEmotionalEvent):
     def __init__(
         self,
         user_id: str,
-        previous_state: VADVector,
-        new_state: VADVector,
-        triggers: list[str],
-        context: dict[str, Any],
+        previous_state: VADVector = None,
+        new_state: VADVector = None,
+        triggers: list[str] = None,
+        context: dict[str, Any] = None,
+        # Support legacy parameter names
+        original_state: VADVector = None,
+        trigger: str = None,  # Support single trigger parameter
+        **kwargs
     ):
         super().__init__(
             event_id=f"vivox_shift_{user_id}_{int(datetime.now().timestamp())}",
             user_id=user_id,
             event_type="vivox_emotional_shift",
         )
-        self.previous_state = previous_state.to_dict()
-        self.new_state = new_state.to_dict()
-        self.shift_magnitude = previous_state.distance_to(new_state)
+        
+        # Handle legacy parameter names
+        if original_state is not None:
+            previous_state = original_state
+        
+        # Handle single trigger parameter
+        if trigger is not None and triggers is None:
+            triggers = [trigger]
+            
+        # Set defaults for None values
+        if triggers is None:
+            triggers = []
+        if context is None:
+            context = {}
+            
+        self.previous_state = previous_state.to_dict() if previous_state else {}
+        self.new_state = new_state.to_dict() if new_state else {}
+        self.shift_magnitude = previous_state.distance_to(new_state) if (previous_state and new_state) else 0.0
         self.triggers = triggers
         self.vivox_context = context
 
@@ -170,36 +189,86 @@ class VIVOXEventBusIntegration:
 
     async def publish_emotional_shift(
         self,
-        user_id: str,
-        previous_state: VADVector,
-        new_state: VADVector,
-        triggers: list[str],
-        context: dict[str, Any],
+        user_id_or_shift = None,
+        previous_state: VADVector = None,
+        new_state: VADVector = None,
+        triggers: list[str] = None,
+        context: dict[str, Any] = None,
+        *,
+        user_id: str = None,  # Support for keyword argument
     ):
-        """Publish emotional state shift event"""
+        """Publish emotional state shift event
+        
+        Can be called with either:
+        1. Individual parameters: publish_emotional_shift(user_id, previous_state, new_state, triggers, context)
+        2. VIVOXEmotionalShift object: publish_emotional_shift(shift)
+        """
         try:
-            event = VIVOXEmotionalShift(
-                user_id=user_id,
-                previous_state=previous_state,
-                new_state=new_state,
-                triggers=triggers,
-                context=context,
-            )
+            # Handle different calling patterns
+            if user_id is not None:
+                # Called with user_id keyword argument
+                actual_user_id = user_id
+                event = VIVOXEmotionalShift(
+                    user_id=actual_user_id,
+                    previous_state=previous_state,
+                    new_state=new_state,
+                    triggers=triggers,
+                    context=context,
+                )
+            elif isinstance(user_id_or_shift, VIVOXEmotionalShift):
+                # Called with VIVOXEmotionalShift object
+                event = user_id_or_shift
+                actual_user_id = event.user_id
+                # Extract parameters from the event for system event publishing
+                if hasattr(event, 'previous_state') and hasattr(event, 'new_state'):
+                    from .vivox_ern_core import VADVector
+                    # Reconstruct VADVector from dict
+                    if event.previous_state:
+                        previous_state = VADVector(
+                            valence=event.previous_state.get('valence', 0.0),
+                            arousal=event.previous_state.get('arousal', 0.0),
+                            dominance=event.previous_state.get('dominance', 0.0),
+                            intensity=event.previous_state.get('intensity', 0.5)
+                        )
+                    else:
+                        previous_state = None
+                    
+                    if event.new_state:
+                        new_state = VADVector(
+                            valence=event.new_state.get('valence', 0.0),
+                            arousal=event.new_state.get('arousal', 0.0),
+                            dominance=event.new_state.get('dominance', 0.0),
+                            intensity=event.new_state.get('intensity', 0.5)
+                        )
+                    else:
+                        new_state = None
+                        
+                    context = event.vivox_context or {}
+            else:
+                # Traditional calling pattern with positional user_id
+                actual_user_id = user_id_or_shift
+                event = VIVOXEmotionalShift(
+                    user_id=actual_user_id,
+                    previous_state=previous_state,
+                    new_state=new_state,
+                    triggers=triggers,
+                    context=context,
+                )
 
             await self._publish_event(event)
 
             # Also publish standard system event if available
-            if self.event_bus and EVENT_SYSTEM_AVAILABLE:
+            if self.event_bus and EVENT_SYSTEM_AVAILABLE and previous_state and new_state:
                 system_event = EmotionalStateChanged(
-                    user_id=user_id,
-                    previous_state=previous_state.to_dict(),
-                    new_state=new_state.to_dict(),
-                    timestamp=datetime.now(timezone.utc),
-                    context=context,
+                    previous_vad=previous_state.to_dict(),
+                    current_vad=new_state.to_dict(),
+                    trigger=str(context.get('trigger', 'vivox_shift')),
+                    intensity=new_state.intensity if new_state else 0.0,
+                    source_module="vivox_ern"
                 )
-                await self.kernel_bus.emit(system_event)
+                await self.event_bus.emit(system_event)
 
-            logger.debug(f"Published emotional shift event for user {user_id}")
+            logger.debug(f"Published emotional shift event for user {actual_user_id}")
 
         except Exception as e:
             logger.error(f"Failed to publish emotional shift event: {e}")
@@ -229,7 +298,7 @@ class VIVOXEventBusIntegration:
                         "neuroplastic_tags": regulation_response.neuroplastic_tags,
                     },
                 )
-                await self.kernel_bus.emit(system_event)
+                await self.event_bus.emit(system_event)
 
             logger.debug(f"Published regulation event for user {user_id}")
 
@@ -278,7 +347,7 @@ class VIVOXEventBusIntegration:
         # Publish to event bus if available
         if self.event_bus:
             try:
-                await self.kernel_bus.emit(event)
+                await self.event_bus.emit(event)
             except Exception as e:
                 logger.error(f"Failed to publish to event bus: {e}")
 
@@ -351,6 +420,12 @@ class VIVOXEventBusIntegration:
             self.event_filters[event_type].append(filter_func)
 
         logger.info(f"Added subscriber for VIVOX event type: {event_type}")
+
+    def subscribe_to_emotional_events(self, callback: callable):
+        """Subscribe to all emotional events (convenience method)"""
+        self.subscribe_to_vivox_events("vivox_emotional_shift", callback)
+        self.subscribe_to_vivox_events("vivox_regulation_applied", callback) 
+        self.subscribe_to_vivox_events("vivox_emotional_memory_stored", callback)
 
     def get_event_history(
         self,
