@@ -1,0 +1,16 @@
+[importlinter]
+root_package = .
+
+[contract: Trinity Architecture]
+name = Trinity Layers
+type = layered
+layers =
+    core
+    consciousness
+    memory
+    ui
+containers =
+    core = core
+    consciousness = consciousness
+    memory = memory
+    ui = ui

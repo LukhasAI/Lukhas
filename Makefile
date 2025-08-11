@@ -1,4 +1,4 @@
-.PHONY: help test smoke api-spec clean install dev api audit-tail
+.PHONY: help test smoke api-spec clean install dev api audit-tail audit
 .PHONY: lint format fix fix-imports setup-hooks ci-local monitor test-cov deep-clean quick bootstrap
 
 # Default target
@@ -30,6 +30,7 @@ help:
 	@echo "CI/CD:"
 	@echo "  ci-local     - Run full CI pipeline locally"
 	@echo "  monitor      - Generate code quality report"
+	@echo "  audit        - Run gold-standard audit suite"
 	@echo ""
 	@echo "Maintenance:"
 	@echo "  clean        - Clean cache and temp files"
@@ -280,3 +281,7 @@ dr-quarterly:
 
 dr-monthly:
 	gh workflow run dr-dryrun-monthly.yml
+
+# Gold Standard Audit
+audit:
+	@bash -lc './scripts/audit.sh'

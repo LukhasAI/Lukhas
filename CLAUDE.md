@@ -40,7 +40,8 @@ Focus on:
 
 ### Environment Setup
 ```bash
-# Activate virtual environment
+# Create and activate virtual environment
+python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 # Install dependencies
@@ -48,30 +49,39 @@ pip install -r requirements.txt
 pip install -r requirements-test.txt  # For testing
 
 # Configure environment
-cp .env.example .env
-# Edit .env with OpenAI API key and other settings
+cp .env.example .env  # If available
+# Edit .env with required API keys:
+# - OPENAI_API_KEY
+# - ANTHROPIC_API_KEY (if needed)
+# - GOOGLE_API_KEY (if needed)
+# - PERPLEXITY_API_KEY (if needed)
 ```
 
 ### Running the System
 ```bash
-# Run integrated system
+# Main system
 python main.py
+python main.py --consciousness-active
 
-# Run symbolic API
-python symbolic_api.py
+# API servers
+make api  # Runs on port 8000
+make dev  # Development server with reload
 
-# Run drift audit
-python real_gpt_drift_audit.py
-
-# Run specific modules
+# Key modules
 python orchestration/brain/primary_hub.py
 python consciousness/unified/auto_consciousness.py
 python -m emotion.service
+
+# Audit and monitoring
+python real_gpt_drift_audit.py
+python tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py
+python tools/analysis/PWM_OPERATIONAL_SUMMARY.py
 ```
 
 ### Testing
 ```bash
 # Run all tests
+make test
 pytest tests/
 
 # Run specific test categories
@@ -80,28 +90,44 @@ pytest -m integration   # Integration tests only
 pytest -m security      # Security tests only
 
 # Run with coverage
-pytest --cov=lukhas tests/
+make test-cov
+pytest --cov=lukhas_pwm --cov=bridge --cov=core --cov=serve tests/
 
-# Run single test
-pytest tests/governance/test_governance.py::test_specific_function
+# Run single test file or function
+pytest tests/test_colony_integration.py
+pytest tests/test_colony_integration.py::test_specific_function
 
-# Run analysis tools
-python tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py
-python tools/analysis/PWM_OPERATIONAL_SUMMARY.py
-python tools/analysis/PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.py
+# Quick smoke test
+make smoke
 ```
 
 ### Code Quality
 ```bash
-# Linting
+# Auto-fix most issues (recommended)
+make fix
+
+# Manual tools
+make lint       # Run all linters (no fixes)
+make format     # Format with Black and isort
+make fix-imports # Fix import issues
+
+# Individual linters
 ruff check .
-ruff check --fix .  # Auto-fix issues
+ruff check --fix .
+black lukhas_pwm/ tests/
+mypy lukhas_pwm/
+```
 
-# Formatting
-black lukhas/ tests/
+### Build & Deploy
+```bash
+# Deploy agent army
+./CLAUDE_ARMY/deploy_claude_max_6_agents.sh
 
-# Type checking
-mypy lukhas/
+# Docker deployment
+docker-compose up
+
+# API documentation
+make api-spec  # Exports OpenAPI spec to out/openapi.json
 ```
 
 ## High-Level Architecture
@@ -116,13 +142,13 @@ mypy lukhas/
 ### Key Module Organization
 
 **Core Infrastructure:**
-- `core/` - GLYPH engine, symbolic logic, graph systems
-- `orchestration/` - Brain integration and multi-agent coordination
-- `governance/` - Guardian System v1.0.0 ethical oversight
+- `core/` - GLYPH engine, symbolic logic, graph systems, actor model
+- `orchestration/` - Brain integration, multi-agent coordination, kernel bus
+- `governance/` - Guardian System v1.0.0 ethical oversight (280+ files)
 - `branding/` - Official LUKHAS AI branding, terminology, visual assets
 
 **Consciousness Systems:**
-- `consciousness/` - Awareness and decision-making
+- `consciousness/` - Awareness, decision-making, dream states
 - `memory/` - Fold-based memory with 99.7% cascade prevention
 - `reasoning/` - Logic and causal inference
 - `identity/` - ΛiD system with tiered access control and Trinity integration
@@ -130,20 +156,23 @@ mypy lukhas/
 
 **Advanced Processing:**
 - `quantum/` - Quantum-inspired algorithms and collapse simulation
-- `bio/` - Bio-inspired adaptation systems
+- `bio/` - Bio-inspired adaptation systems, oscillators
 - `emotion/` - VAD affect and mood regulation
 - `creativity/` - Dream engine with controlled chaos
 
 **Symbolic Systems:**
-- `lukhas_embedding.py` - Ethical co-pilot and drift monitoring
-- `symbolic_healer.py` - Symbolic drift repair and diagnosis
-- `symbolic_api.py` - Core symbolic API interface
+- `symbolic/` - Multi-modal language, entropy password system
+- `universal_language/` - GLYPH vocabulary and translation
 
-**Integration:**
+**Integration & APIs:**
 - `api/` - FastAPI endpoints at `http://localhost:8080`
-- `bridge/` - External API connections with input validation
+- `bridge/` - External API connections, LLM wrappers (OpenAI, Anthropic, Gemini)
 - `architectures/` - DAST, ABAS, NIAS unified systems
-- `next_gen/` - TrustHelix and consciousness streaming
+- `modulation/` - Signal-based modulation policy system
+
+**Agent Infrastructure:**
+- `agents/` - Configuration for 25 specialized AI agents
+- `CLAUDE_ARMY/` - Deployment scripts and agent management
 
 ### Module Communication Pattern
 - All modules depend on `core/` for GLYPH processing
@@ -151,6 +180,7 @@ mypy lukhas/
 - `governance/` validates all operations
 - `memory/` provides persistence across modules
 - Integration modules named as `*_adapter.py` or `*_hub.py`
+- Kernel bus in `orchestration/symbolic_kernel_bus.py` for event routing
 
 ## Trinity Framework Behaviors
 
@@ -158,23 +188,25 @@ mypy lukhas/
 - Respect Trinity Framework (⚛️🧠🛡️) in all logic, comments, documentation
 - Use approved branding from `branding/` and `next_gen/README_NEXT_GEN.md`
 - Use symbolic glyphs where appropriate
-- Check `integration_config.yaml` for global thresholds
+- Check `integration_config.yaml` and `lukhas_pwm_config.yaml` for global thresholds
 - Log interventions to `data/` or `memory/`
 - Update `data/meta_metrics.json` when adding monitoring
 
 ### If Unsure
 - Consult `branding/` directory for approved terms
-- Check domain-specific README files
+- Check domain-specific README files (most modules have INFO_README.md)
 - Validate with tests before implementing
+- Check MODULE_MANIFEST.json files for module metadata
 
 ## File Organization
 
 **Place files correctly to maintain clean root:**
 - Analysis scripts → `tools/analysis/`
 - Test files → `tests/[module]/`
-- Reports → `docs/reports/`
+- Reports → `docs/reports/` or `test_results/`
 - Documentation → `docs/`
-- Legacy files → `.pwm_cleanup_archive/`
+- Legacy files → Move to `/Users/agi_dev/lukhas-archive/`
+- Agent configs → `agents/` or `agents/configs/`
 
 ## Import Paths
 Both work for compatibility:
@@ -193,44 +225,56 @@ from lukhas_pwm.module import Component  # Legacy
 
 ## Configuration
 
-Main config: `lukhas_pwm_config.yaml`
+Main configs:
+- `lukhas_pwm_config.yaml` - Main system configuration
+- `integration_config.yaml` - Integration settings
+- `modulation_policy.yaml` - Signal modulation rules
+- `config/` directory - Various module configs
 
 Key environment variables (`.env`):
 - `OPENAI_API_KEY` - Required for AI capabilities
+- `ANTHROPIC_API_KEY` - For Claude integration
+- `GOOGLE_API_KEY` - For Gemini integration  
+- `PERPLEXITY_API_KEY` - For Perplexity integration
 - `DATABASE_URL` - PostgreSQL connection
 - `LUKHAS_ID_SECRET` - Security key (min 32 chars)
 - `ETHICS_ENFORCEMENT_LEVEL` - strict/moderate/lenient
 - `DREAM_SIMULATION_ENABLED` - true/false
 - `QUANTUM_PROCESSING_ENABLED` - true/false
 
-## Production Deployment
-
-Three Docker-containerized microservices available:
-```bash
-# With Docker Compose
-docker-compose up
-
-# Individual service
-cd deployments/consciousness_platform
-docker build -t lukhas-consciousness .
-docker run -p 8080:8080 lukhas-consciousness
-```
-
 ## Debugging
 
 1. **Check Logs**: `trace/` directory for system-wide debugging
 2. **Monitor Drift**: Watch `drift_score` in governance metrics
 3. **Memory Issues**: Use fold visualizers for memory debugging
-4. **Ethics Violations**: Check Guardian System logs
+4. **Ethics Violations**: Check Guardian System logs in `governance/`
 5. **Module Status**: Run `tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py`
 6. **Audit Trail**: Check `data/drift_audit_summary.json`
+7. **Test Metadata**: Check `test_metadata/` for test execution details
 
 ## Important Resources
 
 - **Main Documentation**: `README.md` - System overview
-- **Trinity Framework**: `README_TRINITY.md` - Guardian system details
+- **Agent Documentation**: `AGENTS.md` - Multi-agent architecture details
 - **Branding Policy**: `branding/BRANDING_POLICY.md` - Messaging guidelines
-- **Next Gen**: `next_gen/README_NEXT_GEN.md` - Symbolic cognition
+- **Next Gen**: `next_gen/README_NEXT_GEN.md` - Future architecture
 - **Module Manifests**: `*/MODULE_MANIFEST.json` - Module metadata
-- **Test Config**: `pytest.ini` - Test markers and settings
-- **Session Archives**: `/docs/context/session_*.md` - Development history
+- **Test Config**: `pytest.ini` and `pyproject.toml` - Test settings
+- **NIAS Theory**: `NIAS_THEORY/` - Advanced theoretical concepts
+- **Test Results**: `test_results/` - Latest test reports
+
+## Makefile Targets
+
+Key targets from Makefile:
+- `make install` - Install all dependencies
+- `make test` - Run test suite
+- `make test-cov` - Run tests with coverage
+- `make lint` - Run linters (no fixes)
+- `make fix` - Auto-fix code issues (safe mode)
+- `make format` - Format code with Black
+- `make dev` - Run development server
+- `make api` - Run API server
+- `make smoke` - Run smoke tests
+- `make clean` - Clean cache files
+- `make monitor` - Generate code quality report
+- `make quick` - Fix issues and run tests

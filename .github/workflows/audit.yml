@@ -1,0 +1,35 @@
+name: LUKHAS Audit
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          pip install -r requirements.txt
+          pip install ruff black mypy bandit vulture deptry pytest pytest-cov pip-audit import-linter radon safety
+          pipx install gitleaks
+          pipx install syft
+          pipx install hadolint
+          pipx install grype
+      - name: Run audit
+        run: make audit
+      - name: Upload audit reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-reports
+          path: reports/
+      - name: Fail on critical issues
+        run: |
+          if grep -q "HIGH" reports/pip_audit.json; then exit 1; fi
+          if grep -q "CRITICAL" reports/gitleaks.json; then exit 1; fi
+          if grep -q "error" reports/ruff.txt; then exit 1; fi

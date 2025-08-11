@@ -53,3 +53,9 @@ repos:
       - id: bandit
         args: ['-ll', '--skip', 'B101,B601']
         files: ^(lukhas_pwm|bridge|core|serve)/.*\.py$
+        
+  # Secret scanning
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.17.0
+    hooks:
+      - id: gitleaks
