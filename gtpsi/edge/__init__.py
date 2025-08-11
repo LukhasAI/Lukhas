@@ -421,9 +421,13 @@ def create_gesture_recognizer(gesture_type: GestureType) -> GestureRecognizer:
         raise ValueError(f"Unsupported gesture type: {gesture_type}")
 
 
+# Import EdgeGestureProcessor from parent module
+from .. import EdgeGestureProcessor
+
 __all__ = [
     'StrokeGestureRecognizer',
     'TapSequenceRecognizer', 
     'MockStrokeData',
-    'create_gesture_recognizer'
+    'create_gesture_recognizer',
+    'EdgeGestureProcessor'  # Re-export from parent
 ]

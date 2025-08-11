@@ -23,7 +23,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any, Tuple
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 from pydantic import BaseModel, Field
 
@@ -57,7 +57,7 @@ class LocalSymbolStore:
         In production: derive from biometrics + PIN
         """
         # Derive encryption key from device key
-        kdf = PBKDF2(
+        kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,
             salt=b'lukhas_ul_salt',  # In production: random salt per device
