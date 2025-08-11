@@ -504,7 +504,7 @@ class IntegratedMonitoringSystem:
             # Seed minimal baselines if none exist yet
             if not self.performance_baselines:
                 self.performance_baselines = {
-                    "response_time_target": 0.2,   # seconds
+                    "response_time_target": 0.2,  # seconds
                     "cpu_utilization_target": 0.75,  # 75%
                     "coherence_target": 0.8,
                     "adaptation_success_target": 0.6,
