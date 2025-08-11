@@ -176,3 +176,10 @@ persistence/memories.mmap
 module-connectivity-analysis/
 visualizations/
 persistence/
+.auto-backup/
+LUKHAS_PWM_BACKUPS/
+*.pyc
+__pycache__/
+.pytest_cache/
+.DS_Store
+*.log

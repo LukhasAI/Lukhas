@@ -24,6 +24,19 @@
     "**/__pycache__": true
   },
   
+  // LUKHAS Agent Protection Settings - CRITICAL FILES
+  "agents.configs.autoBackup": true,
+  "consciousness.modules.protection": true,
+  "trinity.framework.preservation": true,
+  
+  // Critical File Monitoring
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.venv/**": true
+  },
+  "files.participants.timeout": 5000,
+  "files.simpleDialog.enable": true,
+  
   // Claude Agent Army Integration
   "claude.contextFiles": [
     "./CLAUDE_ARMY.md",
@@ -55,6 +68,26 @@
   "editor.acceptSuggestionOnCommitCharacter": true,
   "editor.acceptSuggestionOnEnter": "on",
   "editor.tabCompletion": "on",
+  
+  // Enhanced Autosave Configuration - PREVENT DATA LOSS
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.autoGuessEncoding": true,
+  "files.hotExit": "onExitAndWindowClose",
+  "workbench.editor.restoreViewState": true,
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  
+  // Backup and Recovery Enhancement
+  "files.enableTrash": true,
+  "editor.largeFileOptimizations": false,
+  "workbench.editor.untitled.hint": "hidden",
+  "workbench.editor.closeOnFileDelete": false,
+  
+  // Session Recovery
+  "window.restoreWindows": "all",
+  "window.restoreFullscreen": true,
+  "workbench.startupEditor": "welcomePageInEmptyWorkbench",
   
   // Advanced Formatting
   "editor.formatOnSave": true,
@@ -90,12 +123,26 @@
   "breadcrumbs.showConstructors": true,
   "breadcrumbs.showModules": true,
   
-  // Advanced Git Integration
+  // Enhanced Git Integration - AUTOMATIC PROTECTION
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
   "git.autofetch": true,
   "git.timeline.enabled": true,
   "git.timeline.showUncommitted": true,
+  "git.autoStash": true,
+  "git.autorefresh": true,
+  "git.branchSortOrder": "committerdate",
+  "git.fetchOnPull": true,
+  "git.pruneOnFetch": true,
+  
+  // Automatic Workspace Snapshots
+  "workbench.localHistory.enabled": true,
+  "workbench.localHistory.maxFileSize": 262144,
+  "workbench.localHistory.exclude": {
+    "**/.git/**": true,
+    "**/.venv/**": true,
+    "**/node_modules/**": true
+  },
   
   // Consciousness Debugging
   "debug.allowBreakpointsEverywhere": true,

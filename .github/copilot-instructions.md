@@ -371,7 +371,7 @@ Welcome, AI agent! This guide will help you be productive in the LUKHAS AGI code
 
 To address "too many tools enabled" warnings and optimize performance:
 
-### 🔧 Tool Usage Guidelines
+### 🔧 Professional Tool Usage Guidelines
 - **Prioritize Core Tools:** Focus on `replace_string_in_file`, `read_file`, `run_in_terminal`, `file_search`, `grep_search`
 - **Limit Concurrent Operations:** Use max 5 tools simultaneously
 - **Tool Selection Strategy:**
@@ -379,6 +379,116 @@ To address "too many tools enabled" warnings and optimize performance:
   - Search operations: Use `grep_search` for code patterns, `file_search` for file discovery
   - Execution: Use `run_in_terminal` for commands, avoid `run_notebook_cell` unless specifically needed
   - External tools: Minimize `fetch_webpage`, `open_simple_browser` usage
+
+## 🎯 PROFESSIONAL TESTING STANDARDS & EXCLUSIONS
+
+### **Critical Testing Exclusions (ALWAYS Apply)**
+```bash
+# Exclude these directories/files from ALL analysis:
+--exclude-dir=".git" \
+--exclude-dir=".vscode" \
+--exclude-dir="__pycache__" \
+--exclude-dir=".pytest_cache" \
+--exclude-dir="node_modules" \
+--exclude-dir=".env" \
+--exclude-dir="venv" \
+--exclude-dir=".venv" \
+--exclude-dir="dist" \
+--exclude-dir="build" \
+--exclude-dir="*.egg-info" \
+--exclude="*.pyc" \
+--exclude="*.pyo" \
+--exclude="*.pyd" \
+--exclude="*.so" \
+--exclude="*.dylib" \
+--exclude="*.dll" \
+--exclude=".DS_Store" \
+--exclude="*.log" \
+--exclude="*.tmp" \
+--exclude="Thumbs.db"
+```
+
+### **Analysis-Specific Exclusions**
+```bash
+# For import analysis, also exclude:
+--exclude-dir="docs" \
+--exclude-dir="examples" \
+--exclude-dir="tests" \
+--exclude-dir="demos" \
+--exclude-dir="backup*" \
+--exclude-dir="archive*" \
+--exclude-dir="legacy*" \
+--exclude-dir="old*" \
+--exclude-dir="deprecated*"
+
+# For production readiness, exclude development files:
+--exclude="*_test.py" \
+--exclude="test_*.py" \
+--exclude="*_demo.py" \
+--exclude="demo_*.py" \
+--exclude="*_example.py" \
+--exclude="example_*.py"
+```
+
+### **Professional Analysis Commands**
+```bash
+# Accurate file count (production code only):
+find . -name "*.py" \
+  -not -path "./.git/*" \
+  -not -path "./__pycache__/*" \
+  -not -path "./.pytest_cache/*" \
+  -not -path "./venv/*" \
+  -not -path "./.venv/*" \
+  -not -path "./node_modules/*" \
+  -not -path "./build/*" \
+  -not -path "./dist/*" \
+  -not -path "./*backup*/*" \
+  -not -path "./*archive*/*" \
+  -not -name "*_test.py" \
+  -not -name "test_*.py" | wc -l
+
+# Accurate directory analysis:
+find . -maxdepth 1 -type d \
+  -not -name ".*" \
+  -not -name "__pycache__" \
+  -not -name "node_modules" \
+  -not -name "venv" \
+  -not -name ".venv" \
+  -not -name "*backup*" \
+  -not -name "*archive*" | sort
+
+# Professional syntax check:
+find . -name "*.py" \
+  -not -path "./.git/*" \
+  -not -path "./__pycache__/*" \
+  -not -path "./.venv/*" \
+  -not -path "./venv/*" \
+  -not -path "./*backup*/*" \
+  -not -path "./*archive*/*" \
+  -exec python3 -m py_compile {} \; 2>&1 | grep -c "Sorry:"
+
+# Production-ready import analysis:
+grep -r "from \|import " \
+  --include="*.py" \
+  --exclude-dir=".git" \
+  --exclude-dir="__pycache__" \
+  --exclude-dir=".venv" \
+  --exclude-dir="venv" \
+  --exclude-dir="tests" \
+  --exclude-dir="docs" \
+  --exclude-dir="examples" \
+  --exclude-dir="demos" \
+  --exclude="*_test.py" \
+  --exclude="test_*.py" . | wc -l
+```
+
+### **Quality Gates (Enterprise Standards)**
+- **Syntax Health**: >95% files must compile without errors
+- **Import Health**: <5% circular import issues
+- **Architecture**: <20 top-level directories (Sam Altman standard)
+- **Code Debt**: <1000 TODO/FIXME statements
+- **Security**: 0 hardcoded secrets in production code
+- **Entry Points**: 1-3 clear main entry points maximum
 
 ### 🚀 Performance Settings Applied
 - Copilot suggestions limited to 3 per trigger
