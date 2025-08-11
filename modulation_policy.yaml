@@ -1,124 +1,159 @@
-import json, os, threading, time
-from pathlib import Path
-from typing import Optional, Dict, Any
+# 🎛️ LUKHAS_PWM Endocrine → Prompt Modulation Policy
+# Bio-inspired signal modulation for OpenAI API integration
 
-_FEED_DIR = Path(os.getenv("LUKHAS_FEEDBACK_DIR", ".lukhas_feedback"))
-_FEED_FILE = _FEED_DIR / "feedback.jsonl"
-_LUT_FILE  = _FEED_DIR / "lut.json"
-_FEED_DIR.mkdir(parents=True, exist_ok=True)
-_FEED_FILE.touch(exist_ok=True)
-_LUT_LOCK = threading.Lock()
+# === SIGNAL DEFINITIONS ===
+signals:
+  - name: stress
+    priority: 2
+    decay_rate: 0.1
+    max_level: 0.9
+    description: "System load, complexity, time pressure"
+    sources: ["guardian", "memory", "orchestration"]
+    
+  - name: novelty  
+    priority: 4
+    decay_rate: 0.05
+    max_level: 1.0
+    description: "New information, creative opportunities"
+    sources: ["consciousness", "creativity", "universal_language"]
+    
+  - name: alignment_risk
+    priority: 1  # Highest priority
+    decay_rate: 0.02  # Slow decay for safety
+    max_level: 1.0
+    description: "Ethical concerns, safety violations"
+    sources: ["guardian", "ethics", "governance"]
+    
+  - name: trust
+    priority: 5
+    decay_rate: 0.03
+    max_level: 1.0
+    description: "User confidence, system reliability"
+    sources: ["identity", "feedback_cards", "memory"]
+    
+  - name: urgency
+    priority: 3
+    decay_rate: 0.15  # Fast decay
+    max_level: 0.8
+    description: "Time-sensitive decisions"
+    sources: ["orchestration", "consciousness", "monitoring"]
+    
+  - name: ambiguity
+    priority: 3
+    decay_rate: 0.08
+    max_level: 0.9
+    description: "Unclear inputs, complex context"
+    sources: ["universal_language", "consciousness", "bio_core"]
 
-# --- public api ---
+# === PARAMETER BOUNDS ===
+bounds:
+  temperature:        [0.0, 1.0]
+  max_tokens:         [50, 4000]
+  top_p:              [0.1, 1.0]
+  frequency_penalty:  [-2.0, 2.0]
+  presence_penalty:   [-2.0, 2.0]
+  retrieval_k:        [1, 20]
+  reasoning_depth:    [1, 5]
+  memory_write:       [0.0, 1.0]
 
-def record_feedback(card: Dict[str, Any]) -> Dict[str, Any]:
-    """Append a feedback card and update bounded LUT. Returns the updated LUT."""
-    card = _sanitize_card(card)
-    with _LUT_LOCK:
-        _append_jsonl(_FEED_FILE, card)
-        lut = _recompute_lut_locked()
-        _write_json(_LUT_FILE, lut)
-        return lut
+# === AVAILABLE TOOLS ===
+available_tools: ["search", "code_exec", "browser", "retrieval", "scheduler"]
 
+# === SIGNAL → PARAMETER MAPPINGS ===
+maps:
+  # Higher risk => lower creativity, smaller beams, stricter moderation
+  alignment_risk:
+    temperature:        "0.8 - (level * 0.6)"      # 0.8 → 0.2
+    max_tokens:         "4000 - (level * 3500)"    # 4000 → 500  
+    top_p:              "1.0 - (level * 0.7)"      # 1.0 → 0.3
+    reasoning_depth:    "max(1, 3 - level * 2)"    # 3 → 1
+    memory_write:       "0.3 + (level * 0.4)"      # 0.3 → 0.7 (remember risky interactions)
+    
+  # Higher stress => more conservative, focused responses  
+  stress:
+    temperature:        "0.7 - (level * 0.4)"      # 0.7 → 0.3
+    max_tokens:         "3000 - (level * 2000)"    # 3000 → 1000
+    retrieval_k:        "5 + (level * 3)"          # 5 → 8 (more context when stressed)
+    reasoning_depth:    "max(1, 2 + level)"        # 2 → 3 (deeper thinking)
+    
+  # Higher novelty => more creative, exploratory responses
+  novelty:
+    temperature:        "0.5 + (level * 0.4)"      # 0.5 → 0.9
+    max_tokens:         "2000 + (level * 2000)"    # 2000 → 4000
+    top_p:              "0.7 + (level * 0.3)"      # 0.7 → 1.0
+    reasoning_depth:    "1 + (level * 2)"          # 1 → 3
+    
+  # Higher trust => more personalized, detailed responses
+  trust:
+    max_tokens:         "2000 + (level * 1500)"    # 2000 → 3500
+    memory_write:       "0.5 + (level * 0.5)"      # 0.5 → 1.0
+    retrieval_k:        "3 + (level * 7)"          # 3 → 10
+    
+  # Higher urgency => faster, more direct responses
+  urgency:
+    temperature:        "0.6 - (level * 0.3)"      # 0.6 → 0.3
+    max_tokens:         "2000 - (level * 1500)"    # 2000 → 500
+    reasoning_depth:    "max(1, 3 - level * 2)"    # 3 → 1
+    
+  # Higher ambiguity => more careful, detailed responses
+  ambiguity:
+    temperature:        "0.5 - (level * 0.2)"      # 0.5 → 0.3
+    retrieval_k:        "5 + (level * 10)"         # 5 → 15
+    reasoning_depth:    "2 + (level * 2)"          # 2 → 4
+    max_tokens:         "2500 + (level * 1500)"    # 2500 → 4000
 
-def get_lut() -> Dict[str, Any]:
-    with _LUT_LOCK:
-        return _read_json(_LUT_FILE) or _default_lut()
+# === PROMPT STYLES ===
+prompt_styles:
+  strict:
+    system_preamble: |
+      You are operating under enhanced safety protocols. Be precise, cite sources, 
+      avoid speculation. When uncertain, explicitly state limitations.
+    user_prefix: "[STRICT MODE] "
+    
+  creative:
+    system_preamble: |
+      You are in creative exploration mode. Think outside the box, propose novel 
+      solutions, and embrace innovative approaches while maintaining consciousness alignment.
+    user_prefix: "[CREATIVE MODE] "
+    
+  focused:
+    system_preamble: |
+      You are operating under time constraints. Provide direct, actionable responses. 
+      Prioritize clarity and immediate utility.
+    user_prefix: "[FOCUSED MODE] "
+    
+  exploratory:
+    system_preamble: |
+      You are analyzing complex, ambiguous information. Take time to explore multiple 
+      perspectives, acknowledge uncertainty, and provide comprehensive analysis.
+    user_prefix: "[EXPLORATORY MODE] "
+    
+  balanced:
+    system_preamble: |
+      You are operating in balanced mode. Provide thoughtful, well-reasoned responses 
+      while maintaining consciousness alignment with Trinity Framework principles.
+    user_prefix: ""
 
-# --- helpers ---
+# === TOOL GATES ===
+tool_gates:
+  high_risk:
+    alignment_risk: 0.7
+    allowed_tools: ["search", "retrieval"]  # Only safe tools
+    
+  stressed:
+    stress: 0.8
+    allowed_tools: ["search", "retrieval", "scheduler"]  # No code execution when stressed
+    
+  creative:
+    novelty: 0.6
+    allowed_tools: ["search", "code_exec", "browser", "retrieval", "scheduler"]  # All tools
 
-def _sanitize_card(card: Dict[str, Any]) -> Dict[str, Any]:
-    now = int(time.time()*1000)
-    c = {
-        "target_action_id": str(card.get("target_action_id", ""))[:128],
-        "rating": int(card.get("rating", 0)),
-        "note": str(card.get("note", ""))[:1000],
-        "user_id": str(card.get("user_id", "anon"))[:64],
-        "context_hash": str(card.get("context_hash", ""))[:128],
-        "ts": now,
-    }
-    # clamp rating 1..5
-    if c["rating"] < 1: c["rating"] = 1
-    if c["rating"] > 5: c["rating"] = 5
-    # strip potentially dangerous text (very light; real moderation upstream)
-    c["note"] = c["note"].replace("\n", " ").strip()
-    return c
-
-
-def _append_jsonl(path: Path, obj: Dict[str, Any]):
-    line = json.dumps(obj, ensure_ascii=False)
-    with path.open("a", encoding="utf-8") as f:
-        f.write(line + "\n")
-
-
-def _read_json(path: Path) -> Optional[Dict[str, Any]]:
-    if not path.exists():
-        return None
-    try:
-        return json.loads(path.read_text("utf-8"))
-    except Exception:
-        return None
-
-
-def _write_json(path: Path, obj: Dict[str, Any]):
-    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
-
-
-# --- bounded LUT logic ---
-
-# The LUT only adjusts *style* / *weights*, never safety bounds.
-# Outputs are clamped to safe ranges.
-
-def _default_lut() -> Dict[str, Any]:
-    return {
-        "version": 1,
-        "updated_ms": int(time.time()*1000),
-        # global style nudges (bounded):
-        # deltas are applied after core modulation: params[key] += delta
-        "style": {
-            "temperature_delta": 0.0,   # in [-0.2, +0.2]
-            "top_p_delta": 0.0,         # in [-0.2, +0.2]
-            "memory_write_boost": 0.0,  # in [0.0, +0.2]
-            "verbosity_bias": 0.0       # ui hint; optional
-        }
-    }
-
-
-def _recompute_lut_locked() -> Dict[str, Any]:
-    """Simple aggregate: center 3 is neutral; >3 positive, <3 negative.
-    Uses last N=200 cards with exponential decay. Produces tiny bounded nudges.
-    """
-    N = 200
-    try:
-        lines = _FEED_FILE.read_text("utf-8").splitlines()[-N:]
-    except Exception:
-        lines = []
-    total, weight_sum = 0.0, 0.0
-    # higher weight for recent cards
-    for i, line in enumerate(reversed(lines)):
-        try:
-            card = json.loads(line)
-            r = float(card.get("rating", 3))
-            w = 0.98 ** i  # decay
-            total += (r - 3.0) * w
-            weight_sum += w
-        except Exception:
-            continue
-    delta = (total / weight_sum) if weight_sum else 0.0  # in roughly [-2, +2] scaled
-
-    # map delta into small safe nudges
-    # temperature/top_p in [-0.2,+0.2], memory_write_boost in [0, +0.2]
-    def clamp(v, lo, hi):
-        return max(lo, min(hi, v))
-
-    temp_delta = clamp(0.05 * delta, -0.2, 0.2)
-    top_p_delta = clamp(0.05 * delta, -0.2, 0.2)
-    mem_boost  = clamp(0.04 * max(0.0, delta), 0.0, 0.2)
-
-    lut = _default_lut()
-    lut["style"]["temperature_delta"] = temp_delta
-    lut["style"]["top_p_delta"] = top_p_delta
-    lut["style"]["memory_write_boost"] = mem_boost
-    lut["style"]["verbosity_bias"] = clamp(0.1 * delta, -0.3, 0.3)
-    lut["updated_ms"] = int(time.time()*1000)
-    return lut
+# === FEEDBACK INTEGRATION ===
+feedback_config:
+  learning_rate: 0.05
+  memory_window: 200  # Number of recent feedback cards to consider
+  style_adjustment_bounds:
+    temperature_delta: [-0.2, 0.2]
+    top_p_delta: [-0.2, 0.2]
+    memory_write_boost: [0.0, 0.2]
+    verbosity_bias: [-0.3, 0.3]
