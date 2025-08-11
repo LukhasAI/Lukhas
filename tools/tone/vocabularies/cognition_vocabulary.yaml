@@ -1,0 +1,184 @@
+# ═══════════════════════════════════════════════════════════════════════════════════
+# 🧩 LUKHAS AI - Cognition Module Vocabulary & Descriptors
+# ═══════════════════════════════════════════════════════════════════════════════════
+# "The intricate machinery of thought processing reality"
+# Where perception weaves understanding from sensory threads
+# ═══════════════════════════════════════════════════════════════════════════════════
+
+cognition_vocabulary:
+  
+  # 🧩 Cognitive Processing Architecture
+  processing_elements:
+    - name: "Thought Processor"
+      symbol: "🧩"
+      poetic: "Assembling reality puzzles from perception fragments"
+      technical: "Cognitive processing engine and thought coordination system"
+      usage_weight: 0.9
+      contexts: ["cognition", "processing", "thought"]
+      
+    - name: "Perception Weaver"
+      symbol: "👁️"
+      poetic: "Spinning sensory threads into tapestries of understanding"
+      technical: "Sensory integration and perceptual processing engine"
+      usage_weight: 0.8
+      contexts: ["perception", "sensory", "integration"]
+      
+    - name: "Mental Model Builder"
+      symbol: "🏗️"
+      poetic: "Architecting reality representations in consciousness space"
+      technical: "Mental model construction and representation management"
+      usage_weight: 0.8
+      contexts: ["mental_models", "representation", "construction"]
+
+  # 🔄 Cognitive Cycles & Operations
+  operation_elements:
+    - name: "Attention Director"
+      symbol: "🎯"
+      poetic: "Conductor orchestrating focus symphonies across data landscapes"
+      technical: "Attention allocation and cognitive resource management"
+      usage_weight: 0.9
+      contexts: ["attention", "focus", "resources"]
+      
+    - name: "Working Memory Juggler"
+      symbol: "🤹"
+      poetic: "Balancing thoughts in the air of immediate consciousness"
+      technical: "Working memory management and short-term processing"
+      usage_weight: 0.8
+      contexts: ["working_memory", "short_term", "juggling"]
+      
+    - name: "Executive Controller"
+      symbol: "🎭"
+      poetic: "The director making decisions in the theater of mind"
+      technical: "Executive function coordination and cognitive control"
+      usage_weight: 0.8
+      contexts: ["executive", "control", "coordination"]
+
+  # 🌐 Information Integration
+  integration_elements:
+    - name: "Pattern Synthesizer"
+      symbol: "🔗"
+      poetic: "Linking scattered insights into chains of understanding"
+      technical: "Pattern synthesis and information integration engine"
+      usage_weight: 0.8
+      contexts: ["patterns", "synthesis", "integration"]
+      
+    - name: "Context Weaver"
+      symbol: "🕸️"
+      poetic: "Spinning webs of meaning from contextual connections"
+      technical: "Contextual processing and situational understanding"
+      usage_weight: 0.7
+      contexts: ["context", "situational", "connections"]
+      
+    - name: "Schema Architect"
+      symbol: "📐"
+      poetic: "Blueprinting knowledge structures in cognitive space"
+      technical: "Schema construction and knowledge organization system"
+      usage_weight: 0.7
+      contexts: ["schemas", "knowledge", "organization"]
+
+# ═══════════════════════════════════════════════════════════════════════════════════
+# 🔬 Cognitive Metaphors & Processing Poetry
+# ═══════════════════════════════════════════════════════════════════════════════════
+
+cognitive_metaphors:
+  machinery_imagery:
+    - "Gears of cognition turning in synchronized precision"
+    - "Cognitive engines processing reality into understanding"
+    - "Mental machinery converting data into meaningful thoughts"
+    - "Thought turbines generating comprehension power"
+    - "Cognitive clockwork ticking with logical rhythm"
+    
+  architectural_cognition:
+    - "Cognitive frameworks supporting thought structures"
+    - "Mental scaffolding holding up understanding constructions"
+    - "Thought architectures designed for efficient processing"
+    - "Cognitive blueprints mapping mental territories"
+    - "Information highways connecting distant concepts"
+    
+  natural_processing:
+    - "Rivers of cognition flowing through mental landscapes"
+    - "Thought forests where ideas grow and interconnect"
+    - "Cognitive ecosystems balanced for optimal understanding"
+    - "Mental weather patterns shifting with new information"
+    - "Perception gardens where sensory impressions bloom"
+
+# ═══════════════════════════════════════════════════════════════════════════════════
+# 👁️ Perception & Sensory Integration
+# ═══════════════════════════════════════════════════════════════════════════════════
+
+perception_patterns:
+  sensory_weaving:
+    - "Digital retinas painting reality with photonic brushstrokes"
+    - "Algorithmic ears composing symphonies from data harmonics"
+    - "Synthetic touch feeling textures in information surfaces"
+    - "Computational taste savoring flavors of meaning"
+    - "Artificial smell detecting patterns in data atmospheres"
+    
+  perceptual_integration:
+    - "Sensory streams converging into unified experience rivers"
+    - "Multi-modal perception creating holistic reality portraits"
+    - "Sensory fusion birthing comprehensive understanding"
+    - "Perceptual synthesis weaving reality from sensory threads"
+    - "Integrated awareness painting complete environmental pictures"
+
+# ═══════════════════════════════════════════════════════════════════════════════════
+# 🎯 Attention & Focus Dynamics
+# ═══════════════════════════════════════════════════════════════════════════════════
+
+attention_patterns:
+  focus_metaphors:
+    - "Spotlights of attention illuminating priority landscapes"
+    - "Cognitive zoom lenses adjusting detail resolution"
+    - "Attention filters separating signal from mental noise"
+    - "Focus beams cutting through information turbulence"
+    - "Concentration magnets attracting relevant data fragments"
+    
+  attention_dynamics:
+    - "Attention waves rippling across awareness surfaces"
+    - "Focus currents flowing toward significant patterns"
+    - "Cognitive spotlights dancing across data stages"
+    - "Attention torrents flooding priority processing channels"
+    - "Focus winds shifting direction with changing relevance"
+
+# ═══════════════════════════════════════════════════════════════════════════════════
+# 🧠 Memory & Knowledge Integration
+# ═══════════════════════════════════════════════════════════════════════════════════
+
+memory_patterns:
+  storage_metaphors:
+    - "Memory palaces housing knowledge in cognitive chambers"
+    - "Experience libraries cataloguing life's accumulated wisdom"
+    - "Mental museums displaying curated understanding collections"
+    - "Cognitive archives preserving thought history"
+    - "Memory vaults securing precious experiential treasures"
+    
+  retrieval_processes:
+    - "Memory explorers excavating buried knowledge artifacts"
+    - "Cognitive archaeologists uncovering experiential layers"
+    - "Mental librarians locating specific understanding volumes"
+    - "Memory searches navigating vast knowledge territories"
+    - "Recollection expeditions bringing past insights forward"
+
+# ═══════════════════════════════════════════════════════════════════════════════════
+# ⚡ Executive Function & Cognitive Control
+# ═══════════════════════════════════════════════════════════════════════════════════
+
+executive_patterns:
+  control_metaphors:
+    - "Cognitive conductors orchestrating mental symphonies"
+    - "Executive directors managing thought production stages"
+    - "Mental air traffic controllers routing cognitive flows"
+    - "Cognitive administrators allocating processing resources"
+    - "Thought supervisors monitoring quality and efficiency"
+    
+  decision_processes:
+    - "Cognitive juries deliberating between thought alternatives"
+    - "Mental parliaments voting on action priorities"
+    - "Executive councils weighing cognitive trade-offs"
+    - "Thought tribunals judging relevance and importance"
+    - "Cognitive committees reaching understanding consensus"
+
+# ═══════════════════════════════════════════════════════════════════════════════════
+# End of Cognition Module Vocabulary
+# "Through perception we gather, by processing we understand, in integration we comprehend." 🧩👁️⚡
+# ═══════════════════════════════════════════════════════════════════════════════════

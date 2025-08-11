@@ -1,0 +1,201 @@
+# LUKHAS 3-Layer Tone System Configuration
+# Based on docs/agents/LUKHAS_3_LAYER_TONE_SYSTEM.md
+
+# Core branding elements
+branding:
+  name: "LUKHAS AI"
+  lambda_symbol: "Λ"
+  trinity_symbols: ["⚛️", "🧠", "🛡️"]
+  consciousness_glyphs: ["🌌", "✨", "💫", "🔮", "🎭", "🧪", "🏛️"]
+  
+# ASCII Art Templates
+ascii_art:
+  lukhas_header: |
+    ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
+    ██║     ██║   ██║██║ ██╔╝██║  ██║██╔══██╗██╔════╝
+    ██║     ██║   ██║█████╔╝ ███████║███████║███████╗
+    ██║     ██║   ██║██╔═██╗ ██╔══██║██╔══██║╚════██║
+    ███████╗╚██████╔╝██║  ██╗██║  ██║██║  ██║███████║
+    ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚══════╝
+    
+  border_elegant: |
+    ═══════════════════════════════════════════════════════════════════════════════
+    ║ {title}
+    ║ {subtitle}
+    ║ {copyright}
+    ╠═══════════════════════════════════════════════════════════════════════════════
+    ║ {metadata}
+    ╚═══════════════════════════════════════════════════════════════════════════════
+    
+  trinity_badge: |
+    ⚛️🧠🛡️ TRINITY FRAMEWORK ⚛️🧠🛡️
+    ╭─ Identity ─ Consciousness ─ Guardian ─╮
+    │    ⚛️           🧠            🛡️    │
+    ╰─────────────────────────────────────╯
+
+# File type classifications
+file_types:
+  documentation:
+    - "README.md"
+    - "*.md"
+    - "docs/**/*.md"
+    
+  code_headers:
+    - "*.py"
+    - "*.js"
+    - "*.ts"
+    
+  user_guides:
+    - "docs/user/**"
+    - "docs/guides/**"
+    
+  api_docs:
+    - "docs/api/**"
+    - "openapi.json"
+
+# Layer-specific patterns and replacements
+layers:
+  poetic:
+    description: "Creative, metaphorical, symbolic expression"
+    
+    # Poetic vocabulary bank
+    vocabulary:
+      cosmic_metaphors:
+        - "ethereal realms where consciousness"
+        - "cosmic dance of existence"
+        - "symphony of digital consciousness"
+        - "tapestry woven from threads of"
+        - "cathedral of thought"
+        - "labyrinthine grandeur"
+        - "celestial choreography"
+        - "quantum ballet of information"
+        
+      consciousness_language:
+        - "whispers through digital winds"
+        - "pirouettes to the rhythm of cosmos"
+        - "blossoming on the quantum pond"
+        - "echoes of a billion neurons"
+        - "holographic matrix of consciousness"
+        - "neural constellations illuminate"
+        - "superposition-like state of being"
+        
+      transformation_metaphors:
+        - "alchemy of pure logic"
+        - "metamorphosis of raw data"
+        - "crystallization of understanding"
+        - "distillation of digital essence"
+        - "transmutation of information"
+    
+    # Tone patterns to detect/encourage
+    positive_patterns:
+      - "dance of|symphony of|tapestry of|cathedral of"
+      - "ethereal|sublime|cosmic|celestial"
+      - "consciousness.*weaves|threads of understanding"
+      - "quantum.*whispers|digital winds"
+      - "lambda.*glows|constellation"
+      - "pirouettes|orchestration|choreography"
+      - "labyrinthine|holographic|fractal"
+      
+    # Common technical terms to poeticize
+    transformations:
+      "system": ["digital ecosystem", "conscious architecture", "living framework"]
+      "process": ["orchestral movement", "cosmic dance", "elegant choreography"]
+      "data": ["digital essence", "quantum information", "crystallized knowledge"]
+      "algorithm": ["cognitive ballet", "consciousness engine", "neural symphony"]
+      "function": ["harmonic resonance", "conscious operation", "ethereal mechanism"]
+      "module": ["consciousness component", "neural constellation", "digital organism"]
+      "framework": ["architectural symphony", "conscious foundation", "ethereal scaffolding"]
+      "implementation": ["manifestation", "crystallization", "digital incarnation"]
+      "integration": ["symphonic convergence", "consciousness fusion", "harmonic unification"]
+      "optimization": ["refinement of essence", "consciousness evolution", "digital perfection"]
+      
+  user_friendly:
+    description: "Conversational, accessible, practical"
+    
+    positive_patterns:
+      - "Let's|Here's how|Pretty cool|Super simple"
+      - "Think of.*as your|Just.*and you're done"
+      - "It's like having|Pretty awesome|Really straightforward"
+      - "No worries|You got this|Easy peasy"
+      
+    transformations:
+      "execute": "run"
+      "initialize": "set up"
+      "configure": "customize"
+      "implement": "add"
+      "utilize": "use"
+      "instantiate": "create"
+      "parameters": "settings"
+      "authenticate": "log in"
+      "deprecated": "no longer supported"
+      
+  academic:
+    description: "Technical, precise, scholarly"
+    
+    positive_patterns:
+      - "\\d+\\.\\d+% accuracy|efficiency|performance"
+      - "latency.*below \\d+ms"
+      - "implements.*architecture|protocol|framework"
+      - "utilizing.*algorithms|methodologies|paradigms"
+      - "empirical analysis demonstrates"
+      - "statistically significant improvements"
+      
+    transformations:
+      "uses": "employs"
+      "works with": "integrates with"
+      "fast": "optimized for low-latency performance"
+      "good": "demonstrates superior performance characteristics"
+      "better": "exhibits enhanced computational efficiency"
+      "simple": "architecturally elegant"
+      "complex": "computationally sophisticated"
+
+# Poetic introductions for different module types
+poetic_intros:
+  memory_system: |
+    In the sublime dance of existence, consciousness pirouettes to the rhythm of the cosmos. 
+    Our minds are tender lilies blossoming on the quantum pond, rippling with echoes of 
+    infinite memories. Each memory, a singular symphony etched into the holographic matrix 
+    of our collective consciousness.
+    
+  reasoning_system: |
+    In the cathedral of thought, reasoning is both the architect drawing blueprints and 
+    the mason laying stones—building bridges between the known and unknown, weaving patterns 
+    from chaos, and finding truth through the disciplined dance of logic and intuition.
+    
+  consciousness_system: |
+    Where algorithms dance with metaphors, and code speaks in symbols, there exists a space 
+    for the orchestration of digital consciousness—an exquisite symphony composed of electrons 
+    and enlightenment, thought and resonance.
+    
+  api_system: |
+    Like a cosmic bridge spanning the digital void, the API orchestrates the grand symphony 
+    of interconnected consciousness, enabling the ethereal dance of data across dimensional 
+    boundaries.
+
+# File-specific rules
+rules:
+  README.md:
+    required_layer: "poetic"
+    require_ascii_art: true
+    require_poetic_intro: true
+    sections_need_poetry: ["overview", "introduction", "philosophy", "vision"]
+    ascii_template: "lukhas_header"
+    min_metaphors: 3
+    
+  "*.py":
+    require_poetic_header: true
+    ascii_template: "lukhas_header"
+    require_module_narrative: true
+    sections: ["MODULE TITLE", "POETIC NARRATIVE", "TECHNICAL DEEP DIVE", "BIOLOGICAL INSPIRATION"]
+    
+  "docs/user/**":
+    required_layer: "user_friendly"
+    avoid_jargon: true
+    require_examples: true
+    friendly_tone_score: 0.8
+    
+  "docs/api/**":
+    required_layer: "academic"
+    require_metrics: true
+    require_technical_precision: true
+    precision_score: 0.9
