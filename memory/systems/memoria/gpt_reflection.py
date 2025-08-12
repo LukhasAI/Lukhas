@@ -66,11 +66,11 @@ except ImportError:
                 model_requested=kwargs.get("model"))
             return _MockResponse(model=kwargs.get("model", "placeholder_model"))
 
-    class OpenAI:  # type: ignore
+    class OpenAI:  # type: ignore:
         chat: Any  # To hold an instance of _MockChat
 
         def __init__(self, api_key: Optional[str]):
-            if not OPENAI_AVAILABLE and not api_key:  # Only log if truly using placeholder due to missing lib
+            if not OPENAI_AVAILABLE and not api_key:  # Only log if truly using placeholder due to missing lib:
                 _log_placeholder_init.debug(
                     "OpenAI placeholder client initialized (no API key needed/checked for placeholder).")
             self.chat = type(
@@ -84,7 +84,7 @@ except ImportError:
 OPENAI_API_KEY_ENV_VAR_NAME = "OPENAI_API_KEY_LUKHAS"
 OPENAI_API_KEY_VALUE = os.getenv(OPENAI_API_KEY_ENV_VAR_NAME)
 
-if not OPENAI_API_KEY_VALUE and OPENAI_AVAILABLE:  # Only warn if real library is there but key is missing
+if not OPENAI_API_KEY_VALUE and OPENAI_AVAILABLE:  # Only warn if real library is there but key is missing:
     log.warning(
         f"{OPENAI_API_KEY_ENV_VAR_NAME} environment variable not set. Real OpenAI calls will fail.",
         component="GPTReflection")
@@ -100,7 +100,7 @@ if OPENAI_AVAILABLE and OPENAI_API_KEY_VALUE:
     "Failed to initialize real OpenAI client.",
      error_details=str(e_client_init))
         lukhas_openai_client = None
-elif not OPENAI_AVAILABLE:  # Library missing, use placeholder
+elif not OPENAI_AVAILABLE:  # Library missing, use placeholder:
     lukhas_openai_client = OpenAI(api_key="placeholder_key_not_used_by_mock")
     log.debug("Using placeholder OpenAI client due to missing library.")
 else:  # Library present, key missing
@@ -111,7 +111,7 @@ else:  # Library present, key missing
 LUKHAS_GPT_REFLECTION_FUNCTION_TIER = 2
 
 
-def generate_gpt_reflection(
+def generate_gpt_reflection(:
     traits_summary: Optional[str] = None, recent_reflections: Optional[str] = None,
     model_to_use: str = "gpt-4-turbo-preview", max_tokens_for_response: int = 700,  # Increased tokens
     temperature_for_generation: float = 0.68  # Slightly adjusted temperature
@@ -187,7 +187,7 @@ def generate_gpt_reflection(
 """
 # --- Example Usage (Commented Out & Standardized) ---
 def example_run_gpt_reflection_main():
-    if not structlog.get_config(): structlog.configure(processors=[structlog.dev.ConsoleRenderer()]) # Basic setup for demo
+    if not structlog.get_config(): structlog.configure(processors=[structlog.dev.ConsoleRenderer()]) # Basic setup for demo:
     log.info("--- LUKHAS GPT Self-Reflection Example ---")
     # For real OpenAI, ensure OPENAI_API_KEY_LUKHAS is set in environment.
 

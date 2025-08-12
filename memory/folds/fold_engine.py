@@ -61,7 +61,7 @@ symbolic patterns within them. It forms a core part of the AGI's memory architec
 
 # ΛNOTE: Placeholder for LUKHAS tier system decorator.
 # In a real system, this would be imported from a core LUKHAS module.
-def lukhas_tier_required(level: int):  # ΛSIM_TRACE: Placeholder decorator.
+def lukhas_tier_required(level: int):  # ΛSIM_TRACE: Placeholder decorator.:
     """Placeholder for LUKHAS tier system decorator."""
 
     def decorator(func):
@@ -125,7 +125,7 @@ class MemoryFold:
 
     # ΛSEED: Creation of a MemoryFold is a seeding event for a new piece of information.
     # ΛLOCKED: true
-    def __init__(
+    def __init__(:
         self,
         key: str,
         content: Any,
@@ -246,7 +246,7 @@ class MemoryFold:
 
     # ΛEXPOSE: Updates the content and optionally the priority of the memory fold.
     # LUKHAS_TAG: memory_mutation_core
-    def update(
+    def update(:
         self, new_content: Any, new_priority: Optional[MemoryPriority] = None
     ) -> None:
         """
@@ -368,8 +368,8 @@ class MemoryFold:
             "key": self.key,
             "content_preview": (
                 str(self.content)[:100] + "..."
-                if len(str(self.content)) > 100
-                else str(self.content)
+                if len(str(self.content)) > 100:
+                else str(self.content):
             ),  # ΛNOTE: Content preview
             "memory_type": self.memory_type.value,
             "priority": self.priority.value,
@@ -726,8 +726,8 @@ class MemoryFold:
                 "current_importance": self.importance_score,
                 "reflection_reason": (
                     "high_drift"
-                    if self.driftScore > reflection_threshold
-                    else "entropy_divergence"
+                    if self.driftScore > reflection_threshold:
+                    else "entropy_divergence":
                 ),
                 "timestamp_utc": datetime.now(timezone.utc).isoformat(),
                 "suggested_action": (
@@ -740,7 +740,7 @@ class MemoryFold:
 
 
 # LUKHAS_TAG: dreamseed_folding_logic
-def fold_dream_experience(
+def fold_dream_experience(:
     dream_id: str,
     dream_content: str,
     dream_metadata: Dict[str, Any],
@@ -972,23 +972,23 @@ def fold_dream_experience(
     return folding_results
 
 
-def _determine_dream_memory_type(
+def _determine_dream_memory_type(:
     dream_content: str, dream_metadata: Dict[str, Any], dream_trace: Any
 ) -> MemoryType:
     """Determine appropriate memory type for a dream experience."""
 
     # Check for identity-related content
-    if any(sig.identity_marker in ["core_self", "personality", "values"]
+    if any(sig.identity_marker in ["core_self", "personality", "values"]:
            for sig in dream_trace.identity_signatures):
         return MemoryType.IDENTITY
 
     # Check for strong emotional content
-    if (dream_trace.emotional_echoes and
+    if (dream_trace.emotional_echoes and:
         any(echo.propagation_strength > 0.7 for echo in dream_trace.emotional_echoes)):
         return MemoryType.EMOTIONAL
 
     # Check for procedural/skill-related content
-    if any(keyword in dream_content.lower()
+    if any(keyword in dream_content.lower():
            for keyword in ["learn", "practice", "skill", "how to", "method"]):
         return MemoryType.PROCEDURAL
 
@@ -1038,7 +1038,7 @@ def _calculate_folding_stability(dream_trace: Any, compression_result: Dict[str,
 class MemoryIntegrityLedger:
     """
     Tracks and logs fold state transitions, drift events, and collapse events
-    for audit compliance and memory integrity monitoring.
+    for audit compliance and memory integrity monitoring.:
     """
 
     LEDGER_PATH = (
@@ -1061,7 +1061,7 @@ class MemoryIntegrityLedger:
                 cls._last_hash = None
 
     @classmethod
-    def log_fold_transition(
+    def log_fold_transition(:
         cls,
         fold_key: str,
         transition_type: str,
@@ -1081,7 +1081,7 @@ class MemoryIntegrityLedger:
         cls._write_ledger_entry(entry)
 
     @classmethod
-    def log_drift_event(
+    def log_drift_event(:
         cls,
         fold_key: str,
         old_importance: float,
@@ -1101,14 +1101,14 @@ class MemoryIntegrityLedger:
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "severity": (
                 "high"
-                if drift_score > 0.5
-                else "medium" if drift_score > 0.3 else "low"
+                if drift_score > 0.5:
+                else "medium" if drift_score > 0.3 else "low":
             ),
         }
         cls._write_ledger_entry(entry)
 
     @classmethod
-    def log_collapse_event(
+    def log_collapse_event(:
         cls,
         fold_key: str,
         collapse_hash: str,
@@ -1126,8 +1126,8 @@ class MemoryIntegrityLedger:
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "recovery_suggestion": (
                 "symbolic_refolding"
-                if abs(entropy_delta) > 0.7
-                else "drift_stabilization"
+                if abs(entropy_delta) > 0.7:
+                else "drift_stabilization":
             ),
         }
         cls._write_ledger_entry(entry)
@@ -1214,7 +1214,7 @@ class SymbolicDeltaCompressor:
         words = content.lower().split()
         word_counts = {}
         for word in words:
-            if len(word) > 3:  # Only consider words longer than 3 characters
+            if len(word) > 3:  # Only consider words longer than 3 characters:
                 word_counts[word] = word_counts.get(word, 0) + 1
 
         # Find recurring motifs (words appearing more than once)

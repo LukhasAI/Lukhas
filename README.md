@@ -158,6 +158,49 @@ python api/main.py --dev-mode
 
 ---
 
+## 🔍 **SYSTEM AUDIT & COMPLIANCE**
+
+### **Security Audit Results** 
+- **Overall Alignment Score**: 6.2/10 (Partial Implementation)
+- **Critical Issues Found**: 30+ exposed API keys in test metadata
+- **Risk Level**: 🔴 HIGH - Production secrets in version control
+- **Audit Reports**: Complete reports in `docs/AUDIT/`
+
+### **Key Audit Findings**
+
+#### **Security Issues (Critical)**
+- **Exposed Secrets**: 20+ OpenAI API keys found in test metadata files
+- **Unpinned Dependencies**: 55 packages without version pinning
+- **Missing Pre-commit Hooks**: No gitleaks secret detection configured
+- **Action Required**: Immediate key rotation and secret management implementation
+
+#### **Identity & Authentication (Partial)**  
+- ✅ **WebAuthn/Passkeys**: Implemented as primary authentication
+- ⚠️ **ΛID Enforcement**: Partial implementation, missing validation middleware
+- ❌ **Consent Automation**: Backend exists but no user-facing UI
+- **Compliance Score**: 60% - Critical gaps in identity enforcement
+
+#### **Governance & Policy (Strong)**
+- ✅ **Guardian System**: Comprehensive monitoring framework
+- ✅ **Audit Trails**: Extensive logging across all modules  
+- ⚠️ **Policy Enforcement**: Monitoring-only, not blocking violations
+- **Compliance Score**: 75% - Good foundation, needs enforcement
+
+### **Development Backlog (JIRA-Ready)**
+- **Q1 Critical**: Secret management, ΛID enforcement, policy blocking
+- **Q2 Priority**: Consent UI, OAuth federation, interpretability
+- **Technical Debt**: 93 syntax errors, 200+ isolated modules
+- **Full Backlog**: See `docs/AUDIT/JIRA_BACKLOG.md`
+
+### **Audit Documentation**
+- **Alignment Audit**: `docs/AUDIT/ALIGNMENT_AUDIT.md` - OpenAI-style assessment
+- **Security Summary**: `docs/AUDIT/SECURITY_SUMMARY.md` - Critical vulnerabilities
+- **Architecture Map**: `docs/AUDIT/ARCH_MAP.md` - System topology
+- **Performance Report**: `docs/AUDIT/PERF_READOUT.md` - Bottleneck analysis
+- **SBOM Summary**: `docs/AUDIT/SBOM_SUMMARY.md` - Dependency inventory
+
+---
+
 ## 📊 **SYSTEM STATUS**
 
 ### **Operational Readiness**

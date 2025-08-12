@@ -47,7 +47,7 @@ class DirectAIRouter:
 
     # Human-readable comment: Initializes the DirectAIRouter with configurable paths.
 
-    def __init__(
+    def __init__(:
         self,
         router_path: Optional[str] = None,
         python_path: Optional[str] = None,
@@ -82,7 +82,7 @@ class DirectAIRouter:
 
     # Human-readable comment: Routes a request to the external AI router.
 
-    def route_request(
+    def route_request(:
         self, task: str, task_type: str = "general", debug: bool = False
     ) -> str:
         """
@@ -193,7 +193,7 @@ except Exception as e:
             )
             # A more robust check would be to expect a specific keyword or structure in the response.
             # For now, check if the response doesn't contain common error indicators.
-            if (
+            if (:
                 "Router Error:" not in test_response
                 and "Router execution error:" not in test_response
                 and "timed out" not in test_response

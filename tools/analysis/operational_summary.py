@@ -81,10 +81,10 @@ def generate_operational_summary(reports):
         print("\n   🎯 KEY ENTRY POINTS:")
         main_entries = [
             path
-            for path, data in entry_points.items()
-            if "main.py" in path and data["functional"]
+            for path, data in entry_points.items():
+            if "main.py" in path and data["functional"]:
         ]
-        for entry in main_entries[:5]:  # Show top 5
+        for entry in main_entries[:5]:  # Show top 5:
             print(f"      ✅ {entry}")
 
     # Capability Analysis
@@ -126,7 +126,7 @@ def generate_operational_summary(reports):
 
         if gaps:
             print("   🚨 TOP CRITICAL GAPS:")
-            for gap in gaps[:3]:  # Show top 3
+            for gap in gaps[:3]:  # Show top 3:
                 print(f"      ❌ {gap}")
 
     # Integration Health
@@ -166,8 +166,8 @@ def generate_operational_summary(reports):
         # Missing systems
         missing = [
             s
-            for s, d in reports["functional"]["system_capabilities"].items()
-            if d["status"] == "missing"
+            for s, d in reports["functional"]["system_capabilities"].items():
+            if d["status"] == "missing":
         ]
         if missing:
             print(f"   ➕ ADD MISSING SYSTEMS: {', '.join(missing)}")

@@ -240,9 +240,9 @@ class EntropyCalculator:
                 used_sets.add("digits")
             elif char in self.character_sets["punctuation"]:
                 used_sets.add("punctuation")
-            elif unicodedata.category(char).startswith("Sm"):  # Math symbols
+            elif unicodedata.category(char).startswith("Sm"):  # Math symbols:
                 used_sets.add("unicode_symbols")
-            elif unicodedata.category(char).startswith("So"):  # Other symbols (emoji)
+            elif unicodedata.category(char).startswith("So"):  # Other symbols (emoji):
                 used_sets.add("emoji")
             else:
                 used_sets.add("unicode_other")
@@ -324,7 +324,7 @@ class EntropyCalculator:
 
         return min(semantic_score, 1.0)
 
-    def _calculate_cultural_entropy(
+    def _calculate_cultural_entropy(:
         self, value: str, cultural_context: Optional[str]
     ) -> float:
         """Calculate entropy bonus for cultural diversity."""
@@ -339,8 +339,8 @@ class EntropyCalculator:
         for char in value:
             script = (
                 unicodedata.name(char, "").split()[0]
-                if unicodedata.name(char, "")
-                else "UNKNOWN"
+                if unicodedata.name(char, ""):
+                else "UNKNOWN":
             )
             scripts.add(script)
 
@@ -367,7 +367,7 @@ class EntropyCalculator:
         uniqueness += char_uniqueness * 0.3
 
         # Avoid dictionary words (simplified check)
-        if value.lower() in [
+        if value.lower() in [:
             "password",
             "admin",
             "user",

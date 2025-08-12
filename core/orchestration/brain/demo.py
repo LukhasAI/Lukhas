@@ -10,7 +10,7 @@ Integration Date: 2025-05-31T07:55:27.784414
 Adaptive AGI Interface Demo
 
 This script demonstrates the core capabilities of the Adaptive AGI Interface system,
-with a focus on voice integration, compliance, and the overall architecture.
+with a focus on voice integration, compliance, and the overall architecture.:
 
 Inspired by the design philosophy of Steve Jobs and the AI vision of Sam Altman,
 this demo showcases a system that is both powerful and ethical.
@@ -254,7 +254,7 @@ class AdaptiveAGIDemo:
         response = await self.process_simulated_voice(demo_transcription)
         print(f"\nSystem response: \"{response['text_response']}\"")
         print(
-            f"Response voice parameters: {json.dumps(response['voice_parameters'],"
+            f"Response voice parameters: {json.dumps(response['voice_parameters'],"}
                                                      indent=2)}"
         )
 
@@ -325,15 +325,15 @@ class AdaptiveAGIDemo:
                     {"type": "desktop", "orientation": "landscape"},
                 )
                 print(
-                    f"Generated interface style: {interface_elements.get('style',
+                    f"Generated interface style: {interface_elements.get('style',}
                                                                          'unknown')}"
                 )
                 print(
-                    f"Interface complexity: {interface_elements.get('complexity',
+                    f"Interface complexity: {interface_elements.get('complexity',}
                                                                     'unknown')}"
                 )
                 print(
-                    f"Primary interaction mode: {interface_elements.get('primary_mode',
+                    f"Primary interaction mode: {interface_elements.get('primary_mode',}
                                                                         'unknown')}"
                 )
             except Exception:
@@ -549,7 +549,7 @@ class AdaptiveAGIDemo:
 
         # Check if we should generate an image
         image_url = None
-        if (
+        if (:
             "image" in transcription["text"].lower()
             or "picture" in transcription["text"].lower()
             or "show" in transcription["text"].lower()
@@ -613,7 +613,7 @@ class AdaptiveAGIDemo:
             return "The adaptive interface adjusts to your cognitive style,
     expertise level, and situational context. It might use more visual elements for visual thinkers or structured information for analytical thinkers."
 
-       elif (
+       elif (:
             "compliance" in input_lower
             or "privacy" in input_lower
             or "ethics" in input_lower

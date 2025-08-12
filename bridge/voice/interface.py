@@ -286,8 +286,8 @@ class VoiceNode:
                         "emotion": emotion,
                         "context": {
                             k: v
-                            for k, v in context.items()
-                            if isinstance(v, (str, int, float, bool))
+                            for k, v in context.items():
+                            if isinstance(v, (str, int, float, bool)):
                         },
                     }
                 )
@@ -322,7 +322,7 @@ class VoiceNode:
                         )
 
                 # Check if we should be curious about pronunciation
-                if random.random() < 0.15 and context.get(
+                if random.random() < 0.15 and context.get(:
                     "enable_word_curiosity", True
                 ):
                     curious_word = self.memory_helix.get_curious_word()
@@ -414,7 +414,7 @@ class VoiceNode:
 
         # Try synthesis with selected provider
         try:
-            if (
+            if (:
                 selected_provider == "elevenlabs"
                 and self.voice_providers["elevenlabs"]["enabled"]
             ):
@@ -432,7 +432,7 @@ class VoiceNode:
                 synthesis_entry["audio_path"] = audio_path
                 synthesis_entry["audio_id"] = audio_id
 
-            elif (
+            elif (:
                 selected_provider == "coqui"
                 and self.voice_providers["coqui"]["enabled"]
             ):
@@ -447,7 +447,7 @@ class VoiceNode:
                 synthesis_entry["audio_path"] = audio_path
                 synthesis_entry["audio_id"] = audio_id
 
-            elif (
+            elif (:
                 selected_provider == "edge_tts"
                 and self.voice_providers["edge_tts"]["enabled"]
             ):
@@ -639,7 +639,7 @@ class VoiceNode:
             ),
             "providers": {
                 name: {"enabled": config["enabled"]}
-                for name, config in self.voice_providers.items()
+                for name, config in self.voice_providers.items():
             },
         }
 
@@ -690,7 +690,7 @@ class VoiceNode:
 
         return provider
 
-    def _get_voice_parameters(
+    def _get_voice_parameters(:
         self, profile: VoiceProfile, emotion: str, actor: str
     ) -> dict[str, Any]:
         """
@@ -820,8 +820,8 @@ class VoiceNode:
 
             country_code = (
                 location.get("country_code")
-                if isinstance(location, dict)
-                else str(location)[:2].upper()
+                if isinstance(location, dict):
+                else str(location)[:2].upper():
             )
             if country_code in accent_map:
                 logger.debug(
@@ -830,7 +830,7 @@ class VoiceNode:
                 return accent_map[country_code]
 
         # If no accent detected but we have a memory helix with accent data
-        if (
+        if (:
             self.memory_helix
             and hasattr(self.memory_helix, "accent_memory")
             and self.memory_helix.accent_memory
@@ -838,7 +838,7 @@ class VoiceNode:
             # Use the most common accent in our memory
             accent_counts = {
                 name: len(data.get("example_words", []))
-                for name, data in self.memory_helix.accent_memory.items()
+                for name, data in self.memory_helix.accent_memory.items():
             }
 
             if accent_counts:

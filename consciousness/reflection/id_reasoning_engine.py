@@ -127,7 +127,7 @@ class EmotionalMemoryVector:
     # Brief textual description of the context for this emotional state.
     context: str = ""
 
-    def to_dict(self) -> Dict[str, Any]:  # ΛEXPOSE
+    def to_dict(self) -> Dict[str, Any]:  # ΛEXPOSE:
         """Serializes the emotional memory vector to a dictionary for storage or transmission."""
         return {
             'valence': self.valence, 'arousal': self.arousal, 'dominance': self.dominance,
@@ -206,7 +206,7 @@ class AuditLogEntry:
     # Summary/description of data involved, not the raw data itself.
     data_involved_description: Optional[Dict[str, Any]] = None
 
-    def to_dict(self) -> Dict[str, Any]:  # ΛEXPOSE
+    def to_dict(self) -> Dict[str, Any]:  # ΛEXPOSE:
         """Serializes the audit log entry to a dictionary for storage or transmission."""
         # Human-readable comment: Converts audit log entry to a dictionary,
         # handling optional and enum fields.
@@ -258,7 +258,7 @@ class TraumaLockedMemory:
     # ΛTEMPORAL_HOOK (Init time of this system - Event)
     # ΛECHO (Initial emotional_threshold and salt are echoed from parameters)
 
-    def __init__(self, emotional_threshold: float = 0.75, key_derivation_salt_str: str = "lukhas_default_trauma_salt") -> None:  # Renamed arg
+    def __init__(self, emotional_threshold: float = 0.75, key_derivation_salt_str: str = "lukhas_default_trauma_salt") -> None:  # Renamed arg:
         """
         Initializes the TraumaLockedMemory system.
 
@@ -287,7 +287,7 @@ class TraumaLockedMemory:
     # AIDENTITY_BRIDGE (user_id_for_key links this operation to a user identity)
     # ΛTEMPORAL_HOOK (Locking is a temporal event, emotional_vector_at_lock captures state at that time)
     # ΛECHO (The emotional_vector_at_lock is echoed into the locking process)
-    def lock_memory(self, memory_content: Any, emotional_vector_at_lock: EmotionalMemoryVector, user_id_for_key: str) -> str:  # Renamed args
+    def lock_memory(self, memory_content: Any, emotional_vector_at_lock: EmotionalMemoryVector, user_id_for_key: str) -> str:  # Renamed args:
         """
         Locks (encrypts) memory data. The encryption key's derivation method and potentially
         its strength depend on the intensity of the provided emotional vector.
@@ -374,7 +374,7 @@ class TraumaLockedMemory:
     # ΛDRIFT_HOOK: The success of unlocking depends on the drift of current_emotional_state relative to the state at locking,
     # and potentially on the drift of the emotional_threshold itself if it
     # were adaptive.
-    def unlock_memory(
+    def unlock_memory(:
             self,
             memory_id: str,
             current_emotional_state: EmotionalMemoryVector,
@@ -435,7 +435,7 @@ class TraumaLockedMemory:
                 exc_info=True)
             return None
 
-    def _generate_emotional_key(self, ev: EmotionalMemoryVector, user_id: str) -> bytes:  # Renamed ev
+    def _generate_emotional_key(self, ev: EmotionalMemoryVector, user_id: str) -> bytes:  # Renamed ev:
         self.logger.debug(f"ΛTRACE: Generating emotional key for user {user_id}.")
         key_components = [str(round(ev.valence, 3)), str(round(ev.arousal, 3)), str(
             round(ev.dominance, 3)), str(round(ev.trust, 3)), user_id]
@@ -463,7 +463,7 @@ class TraumaLockedMemory:
         encrypted_data = encryptor.update(padded_data) + encryptor.finalize()
         return base64.b64encode(iv + encrypted_data).decode()
 
-    def _decrypt_data(self, encrypted_data_str: str, key: bytes) -> Any:  # Renamed
+    def _decrypt_data(self, encrypted_data_str: str, key: bytes) -> Any:  # Renamed:
         self.logger.debug("ΛTRACE: Decrypting data.")
         if not CRYPTO_AVAILABLE:
             self.logger.warning(
@@ -478,7 +478,7 @@ class TraumaLockedMemory:
         data_bytes = padded_data[:-padding_length]
         return json.loads(data_bytes.decode())
 
-    def _calculate_emotional_similarity(self, v1: EmotionalMemoryVector, v2: EmotionalMemoryVector) -> float:  # Renamed
+    def _calculate_emotional_similarity(self, v1: EmotionalMemoryVector, v2: EmotionalMemoryVector) -> float:  # Renamed:
         # self.logger.debug("ΛTRACE: Calculating emotional similarity.") # Too verbose for frequent call
         # ΛECHO (Compares two emotional vectors, v1 is typically the stored state, v2 the current)
         # ΛTEMPORAL_HOOK (Implicitly compares states from two different points in time: lock time vs current time)
@@ -590,7 +590,7 @@ class ComplianceMonitor:
         if self.region == ComplianceRegion.EU:
             self.logger.debug(
                 f"ΛTRACE ({req_id}): Performing EU AI Act specific checks.")
-            if action in [
+            if action in [:
                 'facial_recognition_public',
                 'emotion_recognition_workplace',
                     'social_scoring_public_services'] and self.compliance_rules.get('ai_act_article_5_prohibited'):
@@ -598,7 +598,7 @@ class ComplianceMonitor:
                     f"EU AI Act Article 5 violation: Potentially prohibited practice '{action}'")
                 self.logger.debug(
                     f"ΛTRACE ({req_id}): EU AI Act Article 5 violation for action '{action}'.")
-            if context.get('high_risk_ai_application') and not context.get(
+            if context.get('high_risk_ai_application') and not context.get(:
                     'human_oversight_documented') and self.compliance_rules.get('ai_act_article_9_high_risk'):
                 violations.append(
                     "EU AI Act Potential Article 9 violation: High-risk AI without documented human oversight")
@@ -632,7 +632,7 @@ class ComplianceMonitor:
         return is_compliant, violations
 
 
-class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
+class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
     """
     Enhanced Lukhas_ID Authentication and Access Management System
     Integrates quantum security, emotional memory protection, and compliance monitoring
@@ -685,7 +685,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
             {'user_consent': user_data.get('consent_given', False), 'data_excessive': len(
                 user_data.keys()) > 10}  # Example context
         )
-        if not compliant:  # ΛCOLLAPSE_POINT (Registration collapses if not compliant)
+        if not compliant:  # ΛCOLLAPSE_POINT (Registration collapses if not compliant):
             self.logger.error(
                 f"ΛTRACE ({req_id}): User registration failed compliance checks: {violations}")
             raise ValueError(f"Registration compliance violations: {violations}")
@@ -743,7 +743,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
         self.logger.info(
             f"ΛTRACE ({req_id}): Attempting to authenticate user {user_id}. Credentials keys: {list(credentials.keys())}")
 
-        if user_id not in self.users:  # AIDENTITY_BRIDGE (user_id)
+        if user_id not in self.users:  # AIDENTITY_BRIDGE (user_id):
             # AIDENTITY_BRIDGE
             self.logger.warning(
                 f"ΛTRACE ({req_id}): Authentication attempt for unknown user ID: {user_id}.")
@@ -828,7 +828,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
 
         # Tier 1: Emoji + Seed Phrase Grid
         if tier.value >= AccessTier.TIER_1_BASIC.value:
-            if not self._verify_emoji_seed(
+            if not self._verify_emoji_seed(:
                     user_record.get('emoji_seed'),
                     credentials.get('emoji_seed')):
                 self.logger.debug(
@@ -838,7 +838,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
 
         # Tier 2: + Biometrics (Face/Voice ID)
         if tier.value >= AccessTier.TIER_2_ENHANCED.value:
-            if not self._verify_biometrics(
+            if not self._verify_biometrics(:
                     user_record.get('biometric_hash'),
                     credentials.get('biometric_data')):
                 self.logger.debug(
@@ -848,7 +848,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
 
         # Tier 3: + SID Puzzle Fill-In
         if tier.value >= AccessTier.TIER_3_PROFESSIONAL.value:
-            if not self._verify_sid_puzzle(
+            if not self._verify_sid_puzzle(:
                     user_record.get('sid_puzzle'),
                     credentials.get('sid_solution')):
                 self.logger.debug(
@@ -859,8 +859,8 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
         # Tier 4: + Emergency Gesture/Fallback (Only if provided, could be
         # alternative path)
         if tier.value >= AccessTier.TIER_4_RESEARCH.value:
-            if 'emergency_gesture' in credentials:  # Check if emergency gesture is being attempted
-                if not self._verify_emergency_gesture(
+            if 'emergency_gesture' in credentials:  # Check if emergency gesture is being attempted:
+                if not self._verify_emergency_gesture(:
                         user_record.get('emergency_gesture'),
                         credentials.get('emergency_gesture')):
                     self.logger.debug(
@@ -874,7 +874,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
         # Tier 5: Admin verification (additional security)
         if tier.value >= AccessTier.TIER_5_ADMIN.value:
             # Example: Check for a valid MFA token specific to admin actions
-            if not credentials.get(
+            if not credentials.get(:
                     'admin_mfa_token'):  # Assuming a token is passed for admin auth
                 self.logger.debug(
                     f"ΛTRACE: Admin MFA token missing or invalid for user {user_id}.")
@@ -887,11 +887,11 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
         return True
 
     # ΛECHO (Compares stored vs provided)
-    def _verify_emoji_seed(
+    def _verify_emoji_seed(:
             self,
             stored: Optional[str],
             provided: Optional[str]) -> bool:
-        # self.logger.debug(f"ΛTRACE: Verifying emoji seed. Stored: {'******' if
+        # self.logger.debug(f"ΛTRACE: Verifying emoji seed. Stored: {'******' if}
         # stored else 'None'}, Provided: {'******' if provided else 'None'}") #
         # Avoid logging actual seeds
         is_match = bool(stored and provided and stored == provided)
@@ -900,7 +900,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
         return is_match
 
     # ΛECHO (Compares stored hash vs hash of provided data)
-    def _verify_biometrics(
+    def _verify_biometrics(:
             self,
             stored_hash: Optional[str],
             biometric_data: Optional[str]) -> bool:
@@ -917,7 +917,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
         return is_match
 
     # ΛECHO (Compares stored vs provided)
-    def _verify_sid_puzzle(
+    def _verify_sid_puzzle(:
             self,
             stored_puzzle_solution: Optional[str],
             provided_solution: Optional[str]) -> bool:
@@ -981,7 +981,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
         # Example: Ensure Tier 5 always has a specific critical permission if not
         # covered by 'all_system_ops'
         if tier == AccessTier.TIER_5_ADMIN:
-            if "full_audit_log_access" not in allowed_permissions:  # More descriptive name
+            if "full_audit_log_access" not in allowed_permissions:  # More descriptive name:
                 allowed_permissions.append("full_audit_log_access")
 
         unique_permissions = list(set(allowed_permissions))
@@ -1103,7 +1103,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
         self.logger.info(
             f"ΛTRACE ({req_id}): Attempting to store emotional memory for user {user_id}.")
 
-        if user_id not in self.users:  # ΛCOLLAPSE_POINT
+        if user_id not in self.users:  # ΛCOLLAPSE_POINT:
             # AIDENTITY_BRIDGE
             self.logger.error(
                 f"ΛTRACE ({req_id}): User {user_id} not found. Cannot store memory.")
@@ -1145,7 +1145,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine
         self.logger.info(
             f"ΛTRACE ({req_id}): Attempting to retrieve emotional memory {memory_id} for user {user_id}.")
 
-        if user_id not in self.users:  # ΛCOLLAPSE_POINT
+        if user_id not in self.users:  # ΛCOLLAPSE_POINT:
             # AIDENTITY_BRIDGE
             self.logger.error(
                 f"ΛTRACE ({req_id}): User {user_id} not found. Cannot retrieve memory.")

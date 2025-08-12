@@ -75,7 +75,7 @@ DREAM_SCHEDULE_DAY_CONFIG = schedule.every().sunday if SCHEDULE_LIB_AVAILABLE el
 LUKHAS_DREAM_OPERATION_EFFECTIVE_TIER = 3  # Conceptual
 
 
-def run_lukhas_symbolic_dream_script() -> None:  # Renamed
+def run_lukhas_symbolic_dream_script() -> None:  # Renamed:
     """Initiates the LUKHAS symbolic dream process by executing the dream script."""
     log.info(
         "Initiating LUKHAS symbolic dream cycle.",

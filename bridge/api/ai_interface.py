@@ -62,7 +62,7 @@ except ImportError as e:
     logger.warning(
         f"⚠️ WARNING: LUKHAS AI Router module ('router.llm_multiverse_router') not found at '{AI_ROUTER_PATH}' or its dependencies are missing. AI functionality will be disabled."
     )
-except Exception as e_general:  # Catch any other exception during import
+except Exception as e_general:  # Catch any other exception during import:
     logger.critical(
         f"ΛTRACE: An unexpected error occurred while trying to import 'multiverse_route': {e_general}",
         exc_info=True,
@@ -97,7 +97,7 @@ class LukhusAITaskType(Enum):
     )
 
     @classmethod
-    def _missing_(cls, value):  # Handle potential string inputs gracefully
+    def _missing_(cls, value):  # Handle potential string inputs gracefully:
         logger.warning(
             f"ΛTRACE: LukhusAITaskType received an unknown value '{value}'. Defaulting to GENERAL."
         )
@@ -137,7 +137,7 @@ class LukhusAI:
 
     # Human-readable comment: Generates an AI response using the external router.
 
-    def generate_response(
+    def generate_response(:
         self,
         prompt: str,
         task_type: LukhusAITaskType = LukhusAITaskType.GENERAL,
@@ -229,8 +229,8 @@ class LukhusAI:
         )
         enhanced_prompt = (
             f"Programming Language: {language}\nRequest: {prompt}"
-            if language
-            else prompt
+            if language:
+            else prompt:
         )
         return self.generate_response(enhanced_prompt, LukhusAITaskType.CODE)
 
@@ -276,8 +276,8 @@ class LukhusAI:
         )
         enhanced_prompt = (
             f"Context for Analysis:\n{context}\n\nAnalysis Request: {prompt}"
-            if context
-            else prompt
+            if context:
+            else prompt:
         )
         return self.generate_response(
             enhanced_prompt, LukhusAITaskType.ANALYSIS
@@ -297,7 +297,7 @@ class LukhusAI:
 # Human-readable comment: Quick access to code assistance.
 
 
-def ai_code(
+def ai_code(:
     prompt: str, language: str = "", component: str = "LukhusQuickAccess"
 ) -> str:
     """Global convenience function for code assistance."""

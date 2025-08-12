@@ -117,7 +117,7 @@ class PrivacyManager:
                     # Recurse into lists
                     d[key] = [
                         (anonymize_dict(item) if isinstance(item, dict) else item)
-                        for item in d[key]
+                        for item in d[key]:
                     ]
             return d
 
@@ -159,7 +159,7 @@ class PrivacyManager:
                     # Recurse into lists
                     d[key] = [
                         encrypt_dict(item) if isinstance(item, dict) else item
-                        for item in d[key]
+                        for item in d[key]:
                     ]
             return d
 
@@ -309,7 +309,7 @@ class PrivacyManager:
             "data_categories": [
                 {
                     "category": "user_profile",
-                    "retention_period": f"{self.data_retention_policies.get('user_data',"
+                    "retention_period": f"{self.data_retention_policies.get('user_data',"}
                                                                             365)} days",
                     "processing_purpose": "Personalization and user identification",
                 },

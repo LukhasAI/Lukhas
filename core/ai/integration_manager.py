@@ -69,7 +69,7 @@ except ImportError:
 log = structlog.get_logger(__name__)
 
 
-def lukhas_tier_required(level: int):  # Placeholder
+def lukhas_tier_required(level: int):  # Placeholder:
 
     def decorator(func):
         func._lukhas_tier = level
@@ -112,7 +112,7 @@ class AIResponse:
 class AIIntegrationManager:
     """Manages task delegation to AI services like Claude, OpenAI, GitHub Copilot."""
 
-    def __init__(
+    def __init__(:
         self,
         workspace_root: Optional[Union[str, Path]] = None,
         config_filename: str = DEFAULT_AI_CONFIG_FILENAME_STR,
@@ -219,8 +219,8 @@ class AIIntegrationManager:
                 content = f.read(max_chars + 100)  # Read bit more
             return (
                 content[:max_chars] + "\n... [TRUNCATED]"
-                if len(content) > max_chars
-                else content
+                if len(content) > max_chars:
+                else content:
             )
         except Exception as e:
             log.error("Error reading file for task.", path=str(full_p), error=str(e))
@@ -249,7 +249,7 @@ class AIIntegrationManager:
         files_ctx = "".join(
             [
                 f"\n\n--- File: {fp} ---\n{await self._read_file_for_task(fp,3500)}"
-                for fp in task.files
+                for fp in task.files:
             ]
         )
         # Generic system prompt
@@ -273,8 +273,8 @@ class AIIntegrationManager:
                     if r.status == 200 and resp_data.get("content"):
                         text = "".join(
                             b["text"]
-                            for b in resp_data["content"]
-                            if b["type"] == "text"
+                            for b in resp_data["content"]:
+                            if b["type"] == "text":
                         )
                         log.info("Claude task OK.", task=task.id, len=len(text))
                         return AIResponse(
@@ -344,7 +344,7 @@ class AIIntegrationManager:
         files_ctx = "".join(
             [
                 f"\n\n--- File: {fp} ---\n{await self._read_file_for_task(fp,1500)}"
-                for fp in task.files
+                for fp in task.files:
             ]
         )  # Smaller context for OpenAI
         sys_prompt = "You are an expert AI assistant for LUKHΛS. Provide detailed,"
@@ -400,7 +400,7 @@ class AIIntegrationManager:
     # ΛNOTE: For GitHub Copilot CLI, ensure it's run in a non-blocking way if
     # manager is async.
 
-    def use_github_copilot_cli(self, task: AITask) -> AIResponse:  # Renamed
+    def use_github_copilot_cli(self, task: AITask) -> AIResponse:  # Renamed:
         """Uses GitHub Copilot CLI for code tasks. (Synchronous operation)"""
         log.debug("Using GitHub Copilot CLI.", task_id=task.id, type=task.type)
         # This is synchronous. If AIIntegrationManager is heavily async, run this in a thread pool.
@@ -505,17 +505,17 @@ class AIIntegrationManager:
             preferred=preferred_service,
         )
         response: Optional[AIResponse] = None
-        if preferred_service == "claude" or (
+        if preferred_service == "claude" or (:
             preferred_service == "auto"
             and self.cfg.get("anthropic_claude", {}).get("api_key")
         ):
             response = await self.delegate_to_claude(task)
-        elif preferred_service == "openai" or (
+        elif preferred_service == "openai" or (:
             preferred_service == "auto"
             and self.cfg.get("openai_gpt", {}).get("api_key")
         ):
             response = await self.delegate_to_openai(task)
-        elif preferred_service == "copilot" and self.cfg.get("github_copilot", {}).get(
+        elif preferred_service == "copilot" and self.cfg.get("github_copilot", {}).get(:
             "cli_enabled"
         ):
             # Run sync Copilot in executor for async context
@@ -530,7 +530,7 @@ class AIIntegrationManager:
         del self.active_tasks_map[task.id]
         return response  # type: ignore
 
-    def _local_analysis_fallback(self, task: AITask) -> AIResponse:  # Renamed
+    def _local_analysis_fallback(self, task: AITask) -> AIResponse:  # Renamed:
         log.warning("Using local fallback for AI task.", task_id=task.id)
         analysis_text = f"LOCAL FALLBACK ANALYSIS for task ID: {task.id}\nType: {task.type}\nPrompt: {task.prompt[:100]}...\nFiles: {task.files}\nContext: {task.context}\n(Full AI processing requires configured services.)"
         return AIResponse(
@@ -541,7 +541,7 @@ class AIIntegrationManager:
             True,
         )
 
-    def _save_ai_task_response(self, response: AIResponse):  # Renamed
+    def _save_ai_task_response(self, response: AIResponse):  # Renamed:
         """Saves AI response to a JSON file."""
         fname = f"{response.task_id}_{response.service_name}_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.json"  # ISO Z for filename
         fpath = self.responses_storage_dir / fname
@@ -567,9 +567,9 @@ class AIIntegrationManager:
             log.error("Failed to save AI response.", path=str(fpath), error=str(e))
 
 
-class TaskTemplates:  # Static methods, no init needed
+class TaskTemplates:  # Static methods, no init needed:
     @staticmethod
-    def code_analysis(
+    def code_analysis(:
         file_paths: list[str], analysis_focus: str = "modularization"
     ) -> AITask:  # Renamed, more params
         return AITask(
@@ -590,7 +590,7 @@ class TaskTemplates:  # Static methods, no init needed
 """
 # --- Example Usage (Commented Out & Standardized) ---
 async def main_ai_integration_manager_demo_run():
-    if not structlog.get_config(): structlog.configure(processors=[structlog.stdlib.add_logger_name,structlog.stdlib.add_log_level,structlog.dev.ConsoleRenderer()])
+    if not structlog.get_config(): structlog.configure(processors=[structlog.stdlib.add_logger_name,structlog.stdlib.add_log_level,structlog.dev.ConsoleRenderer()]):
     log.info("🚀 AI Integration Manager Demo Init...")
     ws_path = DEFAULT_LUKHAS_AI_INTEGRATION_WORKSPACE / "demo_run_aim"; ws_path.mkdir(parents=True,exist_ok=True)
     cfg_file = ws_path / DEFAULT_AI_CONFIG_FILENAME_STR
@@ -603,11 +603,11 @@ async def main_ai_integration_manager_demo_run():
             with open(cfg_file,"w",encoding="utf-8") as f:json.dump(dummy_cfg_data,f,
     indent=2)
             log.info("Dummy AI cfg created for demo.", path=str(cfg_file))
-        except IOError as e: log.error("Could not write dummy AI cfg.", error=str(e))
+        except IOError as e: log.error("Could not write dummy AI cfg.", error=str(e)):
 
     mgr = AIIntegrationManager(workspace_root=ws_path)
     (ws_path / "src").mkdir(exist_ok=True) # Create src dir in demo workspace
-    with open(ws_path / "src/sample_code.py", "w") as f: f.write("def lukhas_greet(): return 'Hello from LUKHΛS AI!'")
+    with open(ws_path / "src/sample_code.py", "w") as f: f.write("def lukhas_greet(): return 'Hello from LUKHΛS AI!'"):
 
     task_instance = TaskTemplates.code_analysis(files=["src/sample_code.py"],
     analysis_focus="readability_and_best_practices")

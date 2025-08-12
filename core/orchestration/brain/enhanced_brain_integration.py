@@ -175,8 +175,8 @@ try:
                                                                                 if secondary_emotions:
             valid_secondary = {
                 e: max(0.0, min(1.0, i))
-                                                                                    for e, i in secondary_emotions.items()
-                                                                                    if e in self.emotion_vectors
+                                                                                    for e, i in secondary_emotions.items():
+                                                                                    if e in self.emotion_vectors:
             }
             self.current_state["secondary_emotions"] = valid_secondary
 
@@ -323,7 +323,7 @@ try:
 
                                                                                                                     for emotion, keys in self.emotional_associations.items():
                 distance = self.emotional_processor._calculate_emotion_distance(target_emotion, emotion)
-                                                                                                                        if distance <= (2.0 - similarity_threshold * 2.0):  # Convert threshold to distance
+                                                                                                                        if distance <= (2.0 - similarity_threshold * 2.0):  # Convert threshold to distance:
                                                                                                                         for memory_key in keys:
                         memory = self.memory_store[memory_key]
                         memory["emotional_distance"] = distance

@@ -100,7 +100,7 @@ except ImportError as e_core:
 
     # Define fallback classes for core managers if they are missing
 
-    class QRSManager:  # type: ignore
+    class QRSManager:  # type: ignore:
 
         def __init__(self, *args, **kwargs):
             logger.error("ΛTRACE: Using FALLBACK QRSManager.")
@@ -117,7 +117,7 @@ except ImportError as e_core:
         def validate_qrg_authentication(self, *args, **kwargs):
             return {"success": False, "error": "QRSManager not loaded"}
 
-    class LambdaTierManager:  # type: ignore
+    class LambdaTierManager:  # type: ignore:
 
         def __init__(self, *args, **kwargs):
             logger.error("ΛTRACE: Using FALLBACK LambdaTierManager.")
@@ -134,7 +134,7 @@ except ImportError as e_core:
         def get_symbolic_tier_status(self, lid):
             return "unknown"
 
-    class BiometricIntegrationManager:  # type: ignore
+    class BiometricIntegrationManager:  # type: ignore:
 
         def __init__(self, *args, **kwargs):
             logger.error("ΛTRACE: Using FALLBACK BiometricIntegrationManager.")
@@ -161,7 +161,7 @@ except ImportError as e_core:
                 },
             )()
 
-    class QRGType(Enum):  # type: ignore
+    class QRGType(Enum):  # type: ignore:
         AUTHENTICATION_CHALLENGE = "authentication_challenge"
         DATA_CAPSULE = "data_capsule"
         FALLBACK_QRG = "fallback_qrg"
@@ -185,7 +185,7 @@ logger.info(
 # Human-readable comment: Pydantic model for user profile creation requests.
 
 
-class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: ignore
+class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: ignore:
     """Request model for creating a new LUKHAS ΛiD profile, including symbolic data and contextual information."""
 
     symbolic_entries: list[dict[str, Any]] = (
@@ -193,8 +193,8 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             ...,
             description="A list of symbolic entries for the user's vault. Each entry is a dictionary.",
         )
-        if FASTAPI_AVAILABLE
-        else []
+        if FASTAPI_AVAILABLE:
+        else []:
     )
     consciousness_level: float = (
         Field(
@@ -203,8 +203,8 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             le=1.0,
             description="User's estimated consciousness level (normalized 0.0 to 1.0).",
         )
-        if FASTAPI_AVAILABLE
-        else 0.5
+        if FASTAPI_AVAILABLE:
+        else 0.5:
     )
     cultural_context: Optional[str] = (
         Field(
@@ -212,24 +212,24 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             description="Identifier for the user's primary cultural context(e.g.,'"
                                                                             'east_asian', 'universal').",
         )
-        if FASTAPI_AVAILABLE
-        else None
+        if FASTAPI_AVAILABLE:
+        else None:
     )
     biometric_enrolled: bool = (
         Field(
             False,
             description="Flag indicating if biometrics are already enrolled for this user.",
         )
-        if FASTAPI_AVAILABLE
-        else False
+        if FASTAPI_AVAILABLE:
+        else False:
     )
     qrg_enabled: bool = (
         Field(
             True,
             description="Flag to enable Quantum Resonance Glyph (QRG) generation with the ΛiD.",
         )
-        if FASTAPI_AVAILABLE
-        else True
+        if FASTAPI_AVAILABLE:
+        else True:
     )
     location_prefix: Optional[str] = (
         Field(
@@ -238,8 +238,8 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             description="Optional location prefix for public hash generation(e.g.,
                                                                              country code).",
         )
-        if FASTAPI_AVAILABLE
-        else "USR"
+        if FASTAPI_AVAILABLE:
+        else "USR":
     )
     org_code: Optional[str] = (
         Field(
@@ -247,8 +247,8 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             max_length=10,
             description="Optional organization code associated with the ΛiD.",
         )
-        if FASTAPI_AVAILABLE
-        else "LUKH"
+        if FASTAPI_AVAILABLE:
+        else "LUKH":
     )
     favorite_emoji: Optional[str] = (
         Field(
@@ -256,15 +256,15 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             max_length=5,
             description="A favorite emoji to personalize aspects of the ΛiD or QRG.",
         )
-        if FASTAPI_AVAILABLE
-        else "✨"
+        if FASTAPI_AVAILABLE:
+        else "✨":
     )
     logger.debug("ΛTRACE: UserProfileRequest Pydantic model defined.")
 
 # Human-readable comment: Pydantic model for symbolic authentication requests.
 
 
-class SymbolicAuthRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: ignore
+class SymbolicAuthRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: ignore:
     """Request model for authenticating a user via their LUKHAS ΛiD and a symbolic challenge response."""
 
     lambda_id: str = (
@@ -273,16 +273,16 @@ class SymbolicAuthRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: 
             min_length=5,
             description="The LUKHAS ΛiD to be authenticated.",
         )
-        if FASTAPI_AVAILABLE
-        else ""
+        if FASTAPI_AVAILABLE:
+        else "":
     )
     challenge_response: dict[str, Any] = (
         Field(
             ...,
             description="The user's response to a symbolic challenge, typically structured data.",
         )
-        if FASTAPI_AVAILABLE
-        else {}
+        if FASTAPI_AVAILABLE:
+        else {}:
     )
     requested_tier: int = (
         Field(
@@ -291,15 +291,15 @@ class SymbolicAuthRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: 
             le=5,
             description="The access tier level being requested upon successful authentication.",
         )
-        if FASTAPI_AVAILABLE
-        else 0
+        if FASTAPI_AVAILABLE:
+        else 0:
     )
     logger.debug("ΛTRACE: SymbolicAuthRequest Pydantic model defined.")
 
 # Human-readable comment: Pydantic model for QRG generation requests.
 
 
-class QRGGenerationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: ignore
+class QRGGenerationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: ignore:
     """Request model for generating a Quantum Resonance Glyph (QRG) for an existing LUKHAS ΛiD."""
 
     lambda_id: str = (
@@ -307,8 +307,8 @@ class QRGGenerationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type:
             ...,
             description="The LUKHAS ΛiD for which the QRG is to be generated.",
         )
-        if FASTAPI_AVAILABLE
-        else ""
+        if FASTAPI_AVAILABLE:
+        else "":
     )
     qrg_type: str = (
         Field(
@@ -316,8 +316,8 @@ class QRGGenerationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type:
             description="The type of QRG to generate(e.g., 'authentication_challenge',
                                                      'data_capsule').",
         )
-        if FASTAPI_AVAILABLE
-        else "authentication_challenge"
+        if FASTAPI_AVAILABLE:
+        else "authentication_challenge":
     )
     security_level: str = (
         Field(
@@ -325,8 +325,8 @@ class QRGGenerationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type:
             description="Desired security level for the QRG(e.g., 'standard',
                                                             'enhanced', 'quantum_resistant').",
         )
-        if FASTAPI_AVAILABLE
-        else "standard"
+        if FASTAPI_AVAILABLE:
+        else "standard":
     )
     expiry_minutes: int = (
         Field(
@@ -335,23 +335,23 @@ class QRGGenerationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type:
             le=10080,
             description="QRG validity period in minutes (1 min to 1 week).",
         )
-        if FASTAPI_AVAILABLE
-        else 60
+        if FASTAPI_AVAILABLE:
+        else 60:
     )
     challenge_elements: Optional[list[str]] = (
         Field(
             None,
             description="Specific symbolic elements to include in a challenge-type QRG.",
         )
-        if FASTAPI_AVAILABLE
-        else None
+        if FASTAPI_AVAILABLE:
+        else None:
     )
     logger.debug("ΛTRACE: QRGGenerationRequest Pydantic model defined.")
 
 # Human-readable comment: Pydantic model for QRG validation requests.
 
 
-class QRGValidationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: ignore
+class QRGValidationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: ignore:
     """Request model for validating a Quantum Resonance Glyph (QRG) and an associated authentication response."""
 
     qrg_data: dict[str, Any] = (
@@ -359,23 +359,23 @@ class QRGValidationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type:
             ...,
             description="The complete data payload of the QRG being validated.",
         )
-        if FASTAPI_AVAILABLE
-        else {}
+        if FASTAPI_AVAILABLE:
+        else {}:
     )
     auth_response: dict[str, Any] = (
         Field(
             ...,
             description="The user's response data for the QRG authentication challenge.",
         )
-        if FASTAPI_AVAILABLE
-        else {}
+        if FASTAPI_AVAILABLE:
+        else {}:
     )
     logger.debug("ΛTRACE: QRGValidationRequest Pydantic model defined.")
 
 # Human-readable comment: Pydantic model for updating a user's symbolic vault.
 
 
-class VaultUpdateRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: ignore
+class VaultUpdateRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: ignore:
     """Request model for adding new entries to a user's symbolic vault associated with their ΛiD."""
 
     lambda_id: str = (
@@ -383,8 +383,8 @@ class VaultUpdateRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             ...,
             description="The LUKHAS ΛiD whose symbolic vault is to be updated.",
         )
-        if FASTAPI_AVAILABLE
-        else ""
+        if FASTAPI_AVAILABLE:
+        else "":
     )
     new_entries: list[dict[str, Any]] = (
         Field(
@@ -392,15 +392,15 @@ class VaultUpdateRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             min_items=1,
             description="A list of new symbolic entries to add to the vault.",
         )
-        if FASTAPI_AVAILABLE
-        else []
+        if FASTAPI_AVAILABLE:
+        else []:
     )
     logger.debug("ΛTRACE: VaultUpdateRequest Pydantic model defined.")
 
 # Human-readable comment: Pydantic model for biometric enrollment requests.
 
 
-class BiometricEnrollRequest(
+class BiometricEnrollRequest(:
     BaseModel if FASTAPI_AVAILABLE else object
 ):  # type: ignore
     """Request model for enrolling a new biometric modality for a LUKHAS ΛiD."""
@@ -410,8 +410,8 @@ class BiometricEnrollRequest(
             ...,
             description="The LUKHAS ΛiD for which biometric enrollment is requested.",
         )
-        if FASTAPI_AVAILABLE
-        else ""
+        if FASTAPI_AVAILABLE:
+        else "":
     )
     biometric_type: str = (
         Field(
@@ -419,23 +419,23 @@ class BiometricEnrollRequest(
             description="Type of biometric being enrolled(e.g., 'face', 'voice',
                                                           'fingerprint').",
         )
-        if FASTAPI_AVAILABLE
-        else ""
+        if FASTAPI_AVAILABLE:
+        else "":
     )
     biometric_data: dict[str, Any] = (
         Field(
             ...,
             description="The biometric data payload for enrollment (format depends on type).",
         )
-        if FASTAPI_AVAILABLE
-        else {}
+        if FASTAPI_AVAILABLE:
+        else {}:
     )
     logger.debug("ΛTRACE: BiometricEnrollRequest Pydantic model defined.")
 
 # Human-readable comment: Pydantic model for biometric verification requests.
 
 
-class BiometricVerifyRequest(
+class BiometricVerifyRequest(:
     BaseModel if FASTAPI_AVAILABLE else object
 ):  # type: ignore
     """Request model for verifying a user's identity using an enrolled biometric modality."""
@@ -445,23 +445,23 @@ class BiometricVerifyRequest(
             ...,
             description="The LUKHAS ΛiD for which biometric verification is requested.",
         )
-        if FASTAPI_AVAILABLE
-        else ""
+        if FASTAPI_AVAILABLE:
+        else "":
     )
     biometric_type: str = (
         Field(..., description="Type of biometric being verified.")
-        if FASTAPI_AVAILABLE
-        else ""
+        if FASTAPI_AVAILABLE:
+        else "":
     )
     verification_data: dict[str, Any] = (
         Field(..., description="The biometric data payload for verification.")
-        if FASTAPI_AVAILABLE
-        else {}
+        if FASTAPI_AVAILABLE:
+        else {}:
     )
     logger.debug("ΛTRACE: BiometricVerifyRequest Pydantic model defined.")
 
 
-if (
+if (:
     FASTAPI_AVAILABLE and BaseModel.__subclasses__()
 ):  # Check if any Pydantic models were actually defined
     logger.info(
@@ -527,7 +527,7 @@ class LukhasUnifiedAPI:
 
         # Initialize FastAPI app instance if FastAPI is available
         self.app: Optional[FastAPI] = None
-        if (
+        if (:
             FASTAPI_AVAILABLE and FastAPI is not None
         ):  # Ensure FastAPI itself is not None
             self.app = FastAPI(
@@ -570,7 +570,7 @@ class LukhasUnifiedAPI:
 
     def _setup_fastapi_middleware(self) -> None:
         """Sets up middleware for the FastAPI application (e.g., CORS)."""
-        if (
+        if (:
             not self.app or not FASTAPI_AVAILABLE or not CORSMiddleware
         ):  # Check all dependencies
             self.logger.debug(
@@ -700,8 +700,8 @@ class LukhasUnifiedAPI:
             # dict
             user_profile_dict = (
                 request_data.model_dump()
-                if hasattr(request_data, "model_dump")
-                else request_data.__dict__
+                if hasattr(request_data, "model_dump"):
+                else request_data.__dict__:
             )  # Pydantic v1/v2 compatibility
 
             # Call the core QRS manager to create the ΛiD
@@ -711,7 +711,7 @@ class LukhasUnifiedAPI:
 
             if creation_result.get("success"):
                 self.api_stats["lambda_ids_created_count"] += 1
-                if creation_result.get("qrg_result"):  # If QRG was also generated
+                if creation_result.get("qrg_result"):  # If QRG was also generated:
                     self.api_stats["qrgs_generated_count"] += 1
                 self.logger.info(
                     f"ΛTRACE ({request_id}): ΛiD created successfully: {creation_result.get('lambda_id')}"
@@ -739,7 +739,7 @@ class LukhasUnifiedAPI:
                     "error": creation_result.get("error", "Failed to create ΛiD"),
                 }
 
-        except HTTPException:  # Re-raise FastAPI's own exceptions
+        except HTTPException:  # Re-raise FastAPI's own exceptions:
             raise
         except Exception as e:
             self.logger.error(
@@ -945,7 +945,7 @@ class LukhasUnifiedAPI:
 
     # Human-readable comment: Utility method to get the FastAPI app instance.
 
-    def get_fastapi_app_instance(
+    def get_fastapi_app_instance(:
         self,
     ) -> Optional[FastAPI]:  # Renamed for clarity
         """Returns the configured FastAPI application instance, or None if FastAPI is not available."""
@@ -985,7 +985,7 @@ _lukhas_unified_api_instance: Optional[LukhasUnifiedAPI] = None
 # Unified API application.
 
 
-def get_lukhas_unified_api_app() -> Optional[FastAPI]:  # Renamed for clarity
+def get_lukhas_unified_api_app() -> Optional[FastAPI]:  # Renamed for clarity:
     """
     Factory function to create and return the LUKHAS Unified API (FastAPI) application instance.
     Ensures a singleton pattern for the LukhasUnifiedAPI class instance.
@@ -1002,7 +1002,7 @@ def get_lukhas_unified_api_app() -> Optional[FastAPI]:  # Renamed for clarity
             logger.info(
                 "ΛTRACE: New LukhasUnifiedAPI instance created and assigned globally."
             )
-        except (
+        except (:
             Exception
         ) as e_create:  # Catch errors during LukhasUnifiedAPI instantiation
             logger.critical(
@@ -1016,8 +1016,8 @@ def get_lukhas_unified_api_app() -> Optional[FastAPI]:  # Renamed for clarity
 
     return (
         _lukhas_unified_api_instance.get_fastapi_app_instance()
-        if _lukhas_unified_api_instance
-        else None
+        if _lukhas_unified_api_instance:
+        else None:
     )
 
 

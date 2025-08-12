@@ -162,14 +162,14 @@ class DecisionStrategy(ABC):
     """Abstract base class for decision-making strategie"""
 
     @abstractmethod
-    def evaluate_alternatives(
+    def evaluate_alternatives(:
             self,
             context: DecisionContext,
             alternatives: List[DecisionAlternative]) -> List[DecisionEvaluation]:
         """Evaluate decision alternatives according to this strategy"""
 
     @abstractmethod
-    def select_best_alternative(
+    def select_best_alternative(:
             self, evaluations: List[DecisionEvaluation]) -> Tuple[str, float]:
         """Select the best alternative from evaluation"""
 
@@ -186,7 +186,7 @@ class UtilityMaximizationStrategy(DecisionStrategy):
             DecisionCriteria.FEASIBILITY: 0.15
         }
 
-    def evaluate_alternatives(
+    def evaluate_alternatives(:
             self,
             context: DecisionContext,
             alternatives: List[DecisionAlternative]) -> List[DecisionEvaluation]:
@@ -208,7 +208,7 @@ class UtilityMaximizationStrategy(DecisionStrategy):
             # Calculate weighted overall score
             overall_score = sum(
                 score * self.weights.get(criterion, 0)
-                for criterion, score in criteria_scores.items()
+                for criterion, score in criteria_scores.items():
             )
 
             evaluation = DecisionEvaluation(
@@ -227,7 +227,7 @@ class UtilityMaximizationStrategy(DecisionStrategy):
 
         return evaluations
 
-    def select_best_alternative(
+    def select_best_alternative(:
             self, evaluations: List[DecisionEvaluation]) -> Tuple[str, float]:
         if not evaluations:
             raise ValueError("No evaluations provided")
@@ -640,7 +640,7 @@ class DecisionMakingBridge:
 
     # Internal helper methods
 
-    def _validate_decision_inputs(
+    def _validate_decision_inputs(:
             self,
             context: DecisionContext,
             alternatives: List[DecisionAlternative]) -> None:
@@ -660,7 +660,7 @@ class DecisionMakingBridge:
         if len(alt_ids) != len(set(alt_ids)):
             raise ValueError("Alternative IDs must be unique")
 
-    def _select_strategy(
+    def _select_strategy(:
             self,
             context: DecisionContext,
             strategy_name: Optional[str]) -> DecisionStrategy:
@@ -728,7 +728,7 @@ class DecisionMakingBridge:
         for evaluation in evaluations:
             # Simulate energy cost calculation
             energy_cost = evaluation.overall_score * 10  # Simplified
-            if energy_cost > 50:  # High energy threshold
+            if energy_cost > 50:  # High energy threshold:
                 evaluation.overall_score *= 0.9  # Small penalty for high energy
                 evaluation.reasoning_trace.append("Energy constraint applied")
 
@@ -801,7 +801,7 @@ class DecisionMakingBridge:
             "resource_requirements": {}
         }
 
-    def _build_decision_rationale(
+    def _build_decision_rationale(:
             self,
             context: DecisionContext,
             selected: DecisionEvaluation,
@@ -841,7 +841,7 @@ class DecisionMakingBridge:
 
         return ". ".join(rationale_parts) + "."
 
-    def _create_evaluation_summary(
+    def _create_evaluation_summary(:
             self, evaluations: List[DecisionEvaluation]) -> Dict[str, Any]:
         """Create summary of all evaluation"""
         return {
@@ -853,11 +853,11 @@ class DecisionMakingBridge:
             },
             "confidence_distribution": {
                 level.name: sum(1 for e in evaluations if e.confidence == level)
-                for level in ConfidenceLevel
+                for level in ConfidenceLevel:
             }
         }
 
-    def _track_decision_for_learning(
+    def _track_decision_for_learning(:
             self,
             context: DecisionContext,
             outcome: DecisionOutcome,
@@ -887,7 +887,7 @@ class DecisionMakingBridge:
         slope = np.polyfit(x, confidences, 1)[0]
         return slope
 
-    def _analyze_decision_timing(
+    def _analyze_decision_timing(:
             self, decision_times: List[datetime]) -> Dict[str, Any]:
         """Analyze timing patterns in decision"""
         if len(decision_times) < 2:
@@ -977,7 +977,7 @@ __all__ = [
 Where possibility meets reality, where analysis meets intuition, creating
 decisions that embody both rational excellence and ethical wisdom. The
 anterior cingulate of artificial consciousness now guides every choice
-with the balance of mind and heart.
+with the balance of mind and heart.:
 
 TAG: DMB, COMPLETE, WISDOM, CHOICE, BALANCE
 TRACE: Decision-Making Bridge implementation finalized

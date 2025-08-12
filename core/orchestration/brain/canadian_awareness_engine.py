@@ -230,7 +230,7 @@ class CanadianOutput(GlobalInstitutionalOutput):
     english_documentation_available: bool = True
 
 
-def canadian_audit_log(
+def canadian_audit_log(:
     event: str,
     data: dict[str, Any],
     jurisdiction: ProvincialJurisdiction = ProvincialJurisdiction.FEDERAL,
@@ -270,7 +270,7 @@ class CanadianPrivacyModule:
         """Return the Canadian module type."""
         return "canadian_privacy_protection"
 
-    def _evaluate_jurisdictional_compliance(
+    def _evaluate_jurisdictional_compliance(:
         self,
         jurisdiction: Jurisdiction,
         result: dict[str, Any],
@@ -311,8 +311,8 @@ class CanadianPrivacyModule:
             jurisdiction=Jurisdiction.CA,
             legal_basis=(
                 LegalBasis.CONSENT.value
-                if inputs.consent_obtained
-                else LegalBasis.LEGAL_OBLIGATION.value
+                if inputs.consent_obtained:
+                else LegalBasis.LEGAL_OBLIGATION.value:
             ),
             data_category=DataCategory.PERSONAL_DATA.value,
             processing_timestamp=global_timestamp(),
@@ -361,7 +361,7 @@ class CanadianPrivacyModule:
             score += 10.0
 
         # Principle 3: Consent
-        if inputs.consent_obtained and inputs.consent_type in [
+        if inputs.consent_obtained and inputs.consent_type in [:
             "explicit",
             "implied",
         ]:
@@ -392,7 +392,7 @@ class CanadianPrivacyModule:
 
         return min(score, 100.0)
 
-    def _assess_consumer_rights(
+    def _assess_consumer_rights(:
         self, inputs: CanadianInput
     ) -> list[CPPAConsumerRights]:
         """Assess available CPPA consumer rights."""
@@ -420,12 +420,12 @@ class CanadianPrivacyModule:
         """Assess provincial privacy law compliance."""
         if inputs.province == ProvincialJurisdiction.FEDERAL:
             return "PIPEDA_COMPLIANT"
-        elif (
+        elif (:
             inputs.province == ProvincialJurisdiction.QUEBEC
             and self.config.quebec_law25_compliance
         ):
             return "QUEBEC_LAW25_COMPLIANT"
-        elif inputs.province in [
+        elif inputs.province in [:
             ProvincialJurisdiction.BRITISH_COLUMBIA,
             ProvincialJurisdiction.ALBERTA,
         ]:
@@ -509,8 +509,8 @@ class CanadianAIGovernanceModule:
             data_minimization_applied=True,
             consumer_rights_available=(
                 [CPPAConsumerRights.OPT_OUT_AUTOMATED]
-                if self.config.automated_decision_opt_out
-                else []
+                if self.config.automated_decision_opt_out:
+                else []:
             ),
             automated_decision_involved=True,
             opt_out_mechanism_provided=self.config.automated_decision_opt_out,

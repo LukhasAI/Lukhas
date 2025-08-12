@@ -281,7 +281,7 @@ def print_report_summary(report):
     print(f"API Systems: {summary.get('api_systems_online', 'N/A')}")
     print(f"Test Success: {summary.get('test_success_rate', 'N/A')}")
     print(
-        f"VIVOX Components: {summary.get('vivox_components_operational',
+        f"VIVOX Components: {summary.get('vivox_components_operational',}
                                          'N/A')} operational"
     )
 

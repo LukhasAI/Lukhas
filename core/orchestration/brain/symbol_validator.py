@@ -135,7 +135,7 @@ class LukhasComplianceChecker:
     Identifies regulatory violations and provides remediation guidance.
     """
 
-    def __init__(
+    def __init__(:
         self,
         workspace_path: str = "/Users/A_G_I/Lukhas",
         critical_only: bool = True,
@@ -298,7 +298,7 @@ class LukhasComplianceChecker:
             ],
         }
 
-    def scan_workspace(
+    def scan_workspace(:
         self,
         include_patterns: Optional[list[str]] = None,
         parallel: bool = True,
@@ -337,7 +337,7 @@ class LukhasComplianceChecker:
 
         return workspace_report
 
-    def _find_files_to_scan(
+    def _find_files_to_scan(:
         self, include_patterns: Optional[list[str]] = None
     ) -> list[Path]:
         """Find all files that should be scanned for compliance."""
@@ -371,7 +371,7 @@ class LukhasComplianceChecker:
         with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
             future_to_file = {
                 executor.submit(self._scan_single_file, file_path): file_path
-                for file_path in files
+                for file_path in files:
             }
 
             for future in concurrent.futures.as_completed(future_to_file):
@@ -447,7 +447,7 @@ class LukhasComplianceChecker:
             logger.warning(f"Error scanning {file_path}: {e}")
             return None
 
-    def _analyze_content_for_violations(
+    def _analyze_content_for_violations(:
         self, content: str, file_path: Path
     ) -> list[ComplianceViolation]:
         """Analyze file content for specific compliance violations."""
@@ -500,7 +500,7 @@ class LukhasComplianceChecker:
                     remediation="Implement opt-out mechanisms and consumer rights",))
 
         # Check for missing consent management
-        if self._processes_personal_data(content) and not self._has_consent_management(
+        if self._processes_personal_data(content) and not self._has_consent_management(:
             content
         ):
             violations.append(
@@ -666,7 +666,7 @@ class LukhasComplianceChecker:
         content_lower = content.lower()
         return any(indicator in content_lower for indicator in transparency_indicators)
 
-    def _calculate_jurisdictional_scores(
+    def _calculate_jurisdictional_scores(:
         self, violations: list[ComplianceViolation]
     ) -> dict[str, float]:
         """Calculate compliance scores per jurisdiction."""
@@ -675,8 +675,8 @@ class LukhasComplianceChecker:
         for jurisdiction in Jurisdiction:
             jurisdiction_violations = [
                 v
-                for v in violations
-                if v.jurisdiction == jurisdiction
+                for v in violations:
+                if v.jurisdiction == jurisdiction:
                 or v.jurisdiction == Jurisdiction.GLOBAL
             ]
 
@@ -730,7 +730,7 @@ class LukhasComplianceChecker:
 
         return min(risk_score, 100.0)
 
-    def _generate_recommendations(
+    def _generate_recommendations(:
         self, violations: list[ComplianceViolation]
     ) -> list[str]:
         """Generate remediation recommendations from violations."""
@@ -763,8 +763,8 @@ class LukhasComplianceChecker:
             "Audit Logging": self._has_audit_logging(content),
             "AI Transparency": (
                 self._has_ai_transparency(content)
-                if self._is_ai_module(content)
-                else True
+                if self._is_ai_module(content):
+                else True:
             ),
         }
 
@@ -780,7 +780,7 @@ class LukhasComplianceChecker:
         """Get scores for known compliant modules."""
         if module_name == "GlobalInstitutionalCompliantEngine.py":
             return {j.value: 100.0 for j in Jurisdiction}
-        elif module_name in [
+        elif module_name in [:
             "EUAwarenessEngine.py",
             "USInstitutionalAwarenessEngine.py",
         ]:
@@ -788,7 +788,7 @@ class LukhasComplianceChecker:
         else:
             return {j.value: 75.0 for j in Jurisdiction}
 
-    def _generate_workspace_report(
+    def _generate_workspace_report(:
         self, module_reports: list[ModuleComplianceReport]
     ) -> WorkspaceComplianceReport:
         """Generate comprehensive workspace compliance report."""
@@ -796,8 +796,8 @@ class LukhasComplianceChecker:
         # Count modules by compliance level
         compliant_modules = sum(
             1
-            for r in module_reports
-            if r.compliance_level
+            for r in module_reports:
+            if r.compliance_level:
             in [
                 ComplianceLevel.FULL_COMPLIANCE,
                 ComplianceLevel.SUBSTANTIAL_COMPLIANCE,
@@ -854,7 +854,7 @@ class LukhasComplianceChecker:
             executive_summary=executive_summary,
         )
 
-    def _calculate_average_jurisdiction_score(
+    def _calculate_average_jurisdiction_score(:
         self,
         module_reports: list[ModuleComplianceReport],
         jurisdiction: Jurisdiction,
@@ -862,12 +862,12 @@ class LukhasComplianceChecker:
         """Calculate average compliance score for a jurisdiction."""
         scores = [
             r.jurisdictional_scores.get(jurisdiction.value, 0.0)
-            for r in module_reports
-            if r.jurisdictional_scores
+            for r in module_reports:
+            if r.jurisdictional_scores:
         ]
         return sum(scores) / len(scores) if scores else 0.0
 
-    def _determine_overall_workspace_compliance(
+    def _determine_overall_workspace_compliance(:
         self, jurisdiction_scores: dict[str, float]
     ) -> ComplianceLevel:
         """Determine overall workspace compliance level."""
@@ -885,7 +885,7 @@ class LukhasComplianceChecker:
         else:
             return ComplianceLevel.NON_COMPLIANT
 
-    def _generate_workspace_recommendations(
+    def _generate_workspace_recommendations(:
         self, module_reports: list[ModuleComplianceReport]
     ) -> list[str]:
         """Generate workspace-level recommendations."""
@@ -901,7 +901,7 @@ class LukhasComplianceChecker:
 
         return recommendations
 
-    def _generate_executive_summary(
+    def _generate_executive_summary(:
         self,
         total_modules: int,
         compliant_modules: int,
@@ -941,7 +941,7 @@ Immediate action required for institutional deployment readiness.
 """
         return summary.strip()
 
-    def save_report(
+    def save_report(:
         self, report: WorkspaceComplianceReport, output_path: str = None
     ) -> str:
         """Save compliance report to file."""
@@ -981,7 +981,7 @@ Immediate action required for institutional deployment readiness.
                             "regulation": v.regulation,
                             "remediation": v.remediation,
                         }
-                        for v in mr.violations
+                        for v in mr.violations:
                     ],
                     "compliant_features": mr.compliant_features,
                     "missing_features": mr.missing_features,
@@ -989,7 +989,7 @@ Immediate action required for institutional deployment readiness.
                     "risk_score": mr.risk_score,
                     "last_scanned": mr.last_scanned.isoformat(),
                 }
-                for mr in report.module_reports
+                for mr in report.module_reports:
             ],
         }
 

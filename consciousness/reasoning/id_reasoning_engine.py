@@ -163,7 +163,7 @@ class LukhasIdEnhancedReasoningEngine:
         logger.info(f"Memory locked with intensity {intensity:.2f} for user {user_id}")
         return memory_id
 
-    def unlock_memory(
+    def unlock_memory(:
             self,
             memory_id: str,
             current_emotional_state: EmotionalMemoryVector,
@@ -185,7 +185,7 @@ class LukhasIdEnhancedReasoningEngine:
         # Calculate emotional similarity
         stored_vector = EmotionalMemoryVector(**{
             k: v for k, v in memory_record['emotional_vector'].items()
-            if k != 'timestamp'
+            if k != 'timestamp':
         })
 
         similarity = self._calculate_emotional_similarity(
@@ -214,7 +214,7 @@ class LukhasIdEnhancedReasoningEngine:
             logger.error(f"Failed to decrypt memory {memory_id}: {e}")
             return None
 
-    def _generate_emotional_key(
+    def _generate_emotional_key(:
             self,
             emotional_vector: EmotionalMemoryVector,
             user_id: str) -> bytes:
@@ -361,25 +361,25 @@ class LukhasIdEnhancedReasoningEngine:
         violations = []
 
         # Check data minimization
-        if self.compliance_rules.get(
+        if self.compliance_rules.get(:
                 'data_minimization') and context.get('data_excessive'):
             violations.append("Data minimization violation: Collecting excessive data")
 
         # Check purpose limitation
-        if self.compliance_rules.get(
+        if self.compliance_rules.get(:
                 'purpose_limitation') and context.get('purpose_drift'):
             violations.append(
                 "Purpose limitation violation: Using data beyond stated purpose")
 
         # Check user consent
-        if self.compliance_rules.get(
+        if self.compliance_rules.get(:
                 'user_consent_required') and not context.get('user_consent'):
             violations.append(
                 "User consent violation: No explicit consent for data processing")
 
         # EU AI Act specific checks
         if self.region == ComplianceRegion.EU:
-            if action in [
+            if action in [:
                 'facial_recognition',
                 'emotion_recognition',
                     'social_scoring']:
@@ -592,7 +592,7 @@ class LukhasIdEnhancedReasoningEngine:
         # In real implementation, this would validate puzzle solution
         return stored_puzzle == provided_solution
 
-    def _verify_emergency_gesture(
+    def _verify_emergency_gesture(:
             self,
             stored_gesture: str,
             provided_gesture: str) -> bool:
@@ -740,7 +740,7 @@ class LukhasIdEnhancedReasoningEngine:
             'audit_entries': len(self.audit_log),
             'recent_violations': [
                 entry for entry in self.compliance_monitor.audit_log
-                if not entry['compliant'] and
+                if not entry['compliant'] and:
                 datetime.fromisoformat(entry['timestamp']) > datetime.now() - timedelta(hours=24)
             ]
         }

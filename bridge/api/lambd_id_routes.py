@@ -45,7 +45,7 @@ except ImportError as e:
     # Define a fallback controller if import fails, to allow app to load but
     # endpoints will fail
 
-    class LambdaIDController:  # type: ignore
+    class LambdaIDController:  # type: ignore:
 
         def __init__(self):
             logger.error("ΛTRACE: Using FALLBACK LambdaIDController.")
@@ -121,7 +121,7 @@ def _get_req_id(prefix="req"):
 
 @lambd_id_bp.route("/generate", methods=["POST"])
 @limiter.limit("10 per minute; 200 per hour")  # More specific limit for this route
-def generate_lambda_id_route():  # Renamed for clarity
+def generate_lambda_id_route():  # Renamed for clarity:
     """
     Generates a new LUKHAS ΛiD based on user tier, symbolic preferences,
     and other optional configurations.
@@ -194,7 +194,7 @@ def generate_lambda_id_route():  # Renamed for clarity
 
 @lambd_id_bp.route("/validate", methods=["POST"])
 @limiter.limit("50 per minute; 1000 per hour")
-def validate_lambda_id_route():  # Renamed
+def validate_lambda_id_route():  # Renamed:
     """
     Validates an existing LUKHAS ΛiD against format, entropy, tier compliance,
     and optionally checks for collisions.
@@ -276,7 +276,7 @@ def validate_lambda_id_route():  # Renamed
 
 @lambd_id_bp.route("/entropy", methods=["POST"])
 @limiter.limit("30 per minute; 500 per hour")
-def calculate_entropy_route():  # Renamed
+def calculate_entropy_route():  # Renamed:
     """
     Calculates the entropy score for a given list of symbolic inputs,
     optionally considering user tier and calculation method.
@@ -329,7 +329,7 @@ def calculate_entropy_route():  # Renamed
         )
 
         logger.info(
-            f"ΛTRACE({req_id}): / entropy response. Score: {result.get('entropy_score',
+            f"ΛTRACE({req_id}): / entropy response. Score: {result.get('entropy_score',}
                                                                        'N/A')}"
         )
         return jsonify(result), 200
@@ -356,7 +356,7 @@ def calculate_entropy_route():  # Renamed
 
 @lambd_id_bp.route("/tiers", methods=["GET"])
 @limiter.limit("100 per hour")  # Less frequent, allow more
-def get_tier_information_route():  # Renamed
+def get_tier_information_route():  # Renamed:
     """
     Retrieves information about LUKHAS ΛiD tiers, either for a specific tier
     or all tiers, optionally including progression maps.
@@ -408,7 +408,7 @@ def get_tier_information_route():  # Renamed
 
 @lambd_id_bp.route("/upgrade", methods=["POST"])
 @limiter.limit("5 per hour; 1 per minute")  # Stricter limit for upgrades
-def request_tier_upgrade_route():  # Renamed
+def request_tier_upgrade_route():  # Renamed:
     """
     Handles a request to upgrade a user's LUKHAS ΛiD to a target tier.
     Requires validation data and current ΛiD.
@@ -436,7 +436,7 @@ def request_tier_upgrade_route():  # Renamed
         current_lambda_id_val = request_data.get("current_lambda_id")
         target_tier_val = request_data.get("target_tier")  # Should be int
 
-        if (
+        if (:
             not current_lambda_id_val or target_tier_val is None
         ):  # Check for None explicitly for target_tier=0
             logger.warning(
@@ -466,8 +466,8 @@ def request_tier_upgrade_route():  # Renamed
 
         status_code = (
             200
-            if result.get("success") and result.get("upgrade_approved")
-            else (202 if result.get("success") else 400)
+            if result.get("success") and result.get("upgrade_approved"):
+            else (202 if result.get("success") else 400):
         )  # 202 Accepted if not approved but request ok
         log_level = logger.info if status_code < 400 else logger.warning
         log_level(
@@ -496,7 +496,7 @@ def request_tier_upgrade_route():  # Renamed
 
 
 @lambd_id_bp.route("/health", methods=["GET"])
-def health_check_route():  # Renamed
+def health_check_route():  # Renamed:
     """Provides a health check for the LambdaID service, including its controller dependencies."""
     req_id = _get_req_id("health_lid")
     logger.info(
@@ -513,8 +513,8 @@ def health_check_route():  # Renamed
         response_payload = {
             "status": (
                 "healthy"
-                if health_status_details.get("overall_status") == "healthy"
-                else "degraded"
+                if health_status_details.get("overall_status") == "healthy":
+                else "degraded":
             ),
             "version": health_status_details.get(
                 "controller_version", "N/A"
@@ -555,7 +555,7 @@ def health_check_route():  # Renamed
 
 
 @lambd_id_bp.errorhandler(429)  # Assuming limiter is attached to this blueprint or app
-def handle_rate_limit_exceeded_on_bp(e):  # Renamed
+def handle_rate_limit_exceeded_on_bp(e):  # Renamed:
     """Handles 429 Rate Limit Exceeded errors specifically for the lambd_id_bp."""
     req_id = _get_req_id("err429")
     # The error 'e' from Flask-Limiter might have a description attribute.
@@ -582,7 +582,7 @@ def handle_rate_limit_exceeded_on_bp(e):  # Renamed
 
 
 @lambd_id_bp.errorhandler(404)  # This handles 404s *within* this blueprint's prefix
-def handle_not_found_on_bp(e):  # Renamed
+def handle_not_found_on_bp(e):  # Renamed:
     """Handles 404 Not Found errors for routes under lambd_id_bp."""
     req_id = _get_req_id("err404")
     logger.warning(
@@ -604,7 +604,7 @@ def handle_not_found_on_bp(e):  # Renamed
 
 
 @lambd_id_bp.errorhandler(405)  # Method Not Allowed within this blueprint
-def handle_method_not_allowed_on_bp(e):  # Renamed
+def handle_method_not_allowed_on_bp(e):  # Renamed:
     """Handles 405 Method Not Allowed errors for routes under lambd_id_bp."""
     req_id = _get_req_id("err405")
     logger.warning(

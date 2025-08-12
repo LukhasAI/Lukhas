@@ -210,7 +210,7 @@ if settings:
     with st.expander("📜 System Metadata"):
         st.markdown(f"**Version:** {settings.get('version', 'unknown')}")
         st.markdown(
-            f"** Last Updated: ** {settings.get('update', {}).get('last_updated',"
+            f"** Last Updated: ** {settings.get('update', {}).get('last_updated',"}
                                                                   'unknown')}"
         )
 

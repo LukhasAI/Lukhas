@@ -81,8 +81,8 @@ class LUKHASDocumentationOrchestrator:
             },
             "integrated_plugins": {
                 "title": "Integrated Plugin Documentation",
-                "description": "Documentation for Health Advisor, ΛEasyDoc,
-                and LukhasDoc plugins",
+                "description": "Documentation for Health Advisor, ΛEasyDoc, "
+                "and LukhasDoc plugins",
                 "files": [
                     "HEALTH_ADVISOR_DOCS.md",
                     "LAMBDA_EASYDOC_DOCS.md",
@@ -100,8 +100,8 @@ class LUKHASDocumentationOrchestrator:
             },
             "marketplace": {
                 "title": "LUKHAS Marketplace Documentation",
-                "description": "Marketplace operations, revenue sharing,
-                and developer resources",
+                "description": "Marketplace operations, revenue sharing, "
+                "and developer resources",
                 "files": [
                     "MARKETPLACE_GUIDE.md",
                     "REVENUE_MODEL.md",

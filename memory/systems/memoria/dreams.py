@@ -70,7 +70,7 @@ except ImportError:
         )
         model: str = "placeholder_dream_model_dp"
 
-    class OpenAI:  # type: ignore
+    class OpenAI:  # type: ignore:
         chat: Any
 
         def __init__(self, api_key: Optional[str]):
@@ -138,7 +138,7 @@ except ImportError as e_sym_dreams_imp:
         error_msg=str(e_sym_dreams_imp),
     )
 
-    def load_all_entries(
+    def load_all_entries(:
         entry_type_filter: Optional[str] = None,
     ) -> List[Dict[str, Any]]:
         log.warning("PLACEHOLDER: load_all_entries() in Dreams module.")
@@ -216,7 +216,7 @@ def compute_survival_score(dream_text: str) -> float:
     return max(0.0, min(score, 1.0))
 
 
-def generate_dream_narrative(
+def generate_dream_narrative(:
     model_name: str = "gpt-4-turbo", temperature: float = 0.88, max_tokens: int = 750
 ) -> Optional[str]:  # Updated defaults
     """Generates a symbolic dream narrative for LUKHAS using an OpenAI GPT model."""
@@ -237,8 +237,8 @@ def generate_dream_narrative(
             size=min(3, len(memory_fragments_data)),
             replace=False,
         )
-        if len(memory_fragments_data) > 0
-        else []
+        if len(memory_fragments_data) > 0:
+        else []:
     )
 
     prompt_text_parts = [
@@ -256,7 +256,7 @@ def generate_dream_narrative(
         mem_frags_str = "\n".join(
             [
                 f"- Content Preview: {str(mem.get('content', mem))[:75]}..."
-                for mem in sampled_memories
+                for mem in sampled_memories:
             ]
         )
         prompt_text_parts.append(
@@ -336,8 +336,8 @@ def extract_visual_prompts_from_dream(dream_text_content: str) -> List[str]:
     ]
     extracted_prompts = [
         f"LUKHAS Symbolic DreamVision Prompt: A surreal depiction of '{line.strip()}'"
-        for line in dream_text_content.splitlines()
-        if line.strip() and any(kw in line.lower() for kw in dream_keywords)
+        for line in dream_text_content.splitlines():
+        if line.strip() and any(kw in line.lower() for kw in dream_keywords):
     ]
     log.debug(
         "Visual prompts extracted from dream.",
@@ -347,7 +347,7 @@ def extract_visual_prompts_from_dream(dream_text_content: str) -> List[str]:
     return extracted_prompts
 
 
-def save_dream_to_log(
+def save_dream_to_log(:
     dream_text_content: str,
     dream_id_val: Optional[str] = None,
     dream_metadata: Optional[Dict[str, Any]] = None,

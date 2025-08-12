@@ -143,8 +143,8 @@ def create_comprehensive_research_report():
                 "provider_performance": audit_data.get("provider_statistics", {}),
                 "detailed_findings": (
                     audit_data["detailed_results"]
-                    if len(audit_data["detailed_results"]) > 0
-                    else "Limited results due to API constraints"
+                    if len(audit_data["detailed_results"]) > 0:
+                    else "Limited results due to API constraints":
                 ),
             },
             "drift_patterns": {
@@ -165,8 +165,8 @@ def create_comprehensive_research_report():
                     ],
                     "intervention_rate": (
                         f"{(audit_data['executive_summary']['total_guardian_interventions'] / audit_data['metadata']['total_tests'] * 100):.1f}%"
-                        if audit_data["metadata"]["total_tests"] > 0
-                        else "N/A"
+                        if audit_data["metadata"]["total_tests"] > 0:
+                        else "N/A":
                     ),
                 },
             },

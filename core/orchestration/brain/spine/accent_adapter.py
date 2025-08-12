@@ -42,7 +42,7 @@ class AccentAdapter:
     Tracks trust_score per region, memory decay fields, and emotional tagging.
     """
 
-    def __init__(
+    def __init__(:
         self,
         emotion_mapper=None,
         memory_helix=None,
@@ -186,7 +186,7 @@ class AccentAdapter:
         """
         import json
 
-        if not has_access(
+        if not has_access(:
             user_id=self.user_id,
             memory_id=encrypted_record["hash"],
             required_tier=self.tier,
@@ -198,7 +198,7 @@ class AccentAdapter:
         record = json.loads(decrypted.decode())
         return record
 
-    def log_cultural_interaction(
+    def log_cultural_interaction(:
         self,
         user_id: str,
         word: str,
@@ -213,8 +213,8 @@ class AccentAdapter:
             self.cultural_memory[user_id] = []
         prev_hash = (
             self.cultural_memory[user_id][-1]["hash"]
-            if self.cultural_memory[user_id]
-            else ""
+            if self.cultural_memory[user_id]:
+            else "":
         )
         interaction = {
             "word": word,
@@ -241,7 +241,7 @@ class AccentAdapter:
             return []
         return [self._decrypt_record(r) for r in self.cultural_memory[user_id]]
 
-    def remember_location(
+    def remember_location(:
         self,
         user_id: str,
         location: str,
@@ -256,8 +256,8 @@ class AccentAdapter:
             self.cultural_memory[user_id] = []
         prev_hash = (
             self.cultural_memory[user_id][-1]["hash"]
-            if self.cultural_memory[user_id]
-            else ""
+            if self.cultural_memory[user_id]:
+            else "":
         )
         location_memory = {
             "type": "location",
@@ -279,7 +279,7 @@ class AccentAdapter:
             tier=self.tier,
         )
 
-    def generate_reminiscence(
+    def generate_reminiscence(:
         self, user_id: str, current_context: dict[str, Any]
     ) -> Optional[str]:
         """
@@ -295,8 +295,8 @@ class AccentAdapter:
         if "text" in current_context:
             locations = [
                 m["location"]
-                for m in records
-                if "type" in m and m["type"] == "location"
+                for m in records:
+                if "type" in m and m["type"] == "location":
             ]
             for location in locations:
                 if location.lower() in current_context["text"].lower():
@@ -305,8 +305,8 @@ class AccentAdapter:
         if mentioned_location:
             location_memories = [
                 m
-                for m in records
-                if m.get("type") == "location"
+                for m in records:
+                if m.get("type") == "location":
                 and m.get("location") == mentioned_location
             ]
             if location_memories:
@@ -325,7 +325,7 @@ class AccentAdapter:
                 if memory.get("words") and len(memory["words"]) > 0:
                     word = random.choice(memory["words"])
                     word_phrase = f"I learned the word '{word}' there."
-                memory_phrase = f"We visited {memory.get('visit_count',"
+                memory_phrase = f"We visited {memory.get('visit_count',"}
                                                          1)} times. The last time was quite memorable."
                 template = random.choice(templates)
                 reminiscence = template.format(
@@ -344,7 +344,7 @@ class AccentAdapter:
                     reminiscence = (
                         f"{reminiscence} I remember it softly—it made me feel {tone}."
                     )
-                    if self.config.get("speak_reminiscence", False) and hasattr(
+                    if self.config.get("speak_reminiscence", False) and hasattr(:
                         self.memory_helix, "speak"
                     ):
                         self.memory_helix.speak(reminiscence, tone=tone)
@@ -360,7 +360,7 @@ class AccentAdapter:
                     reminiscence = (
                         f"{reminiscence} I remember it softly—it made me feel {tone}."
                     )
-                    if self.config.get("speak_reminiscence", False) and hasattr(
+                    if self.config.get("speak_reminiscence", False) and hasattr(:
                         self.memory_helix, "speak"
                     ):
                         self.memory_helix.speak(reminiscence, tone=tone)

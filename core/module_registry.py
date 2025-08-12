@@ -123,7 +123,7 @@ class ModuleRegistry:
             f"ModuleRegistry initialized - Tier enforcement: {TIER_SYSTEM_AVAILABLE}"
         )
 
-    def register_module(
+    def register_module(:
         self,
         module_id: str,
         module_instance: Any,
@@ -341,8 +341,8 @@ class ModuleRegistry:
             "health_status": module_info.health_status,
             "last_accessed": (
                 module_info.last_accessed.isoformat()
-                if module_info.last_accessed
-                else None
+                if module_info.last_accessed:
+                else None:
             ),
             "access_count": module_info.access_count,
             "uptime": (datetime.utcnow() - module_info.registered_at).total_seconds(),

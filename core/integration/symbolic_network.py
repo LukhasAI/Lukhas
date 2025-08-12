@@ -164,7 +164,7 @@ class SymbolicNode:
 
     # Method to update performance metrics
 
-    def update_metrics(
+    def update_metrics(:
         self,
         error: float,
         activity: float,
@@ -208,7 +208,7 @@ class SymbolicNode:
 
     # Method to split the node
 
-    def split(
+    def split(:
         self, style: str = "crista_junction", split_ratio: float = 0.5
     ) -> list["SymbolicNode"]:
         """
@@ -224,7 +224,7 @@ class SymbolicNode:
             f"ΛTRACE: Splitting SymbolicNode '{self.node_id}' (Style: {style},"
                                                                Ratio: {split_ratio: .2f})."
         )
-        if not (0.1 <= split_ratio <= 0.9):  # Ensure ratio is valid
+        if not (0.1 <= split_ratio <= 0.9):  # Ensure ratio is valid:
             self.logger.warning(
                 f"ΛTRACE: Invalid split_ratio {split_ratio} for node '{self.node_id}'. Defaulting to 0.5."
             )
@@ -259,7 +259,7 @@ class SymbolicNode:
             child.connections = self.connections.copy()  # Inherit all connections
             child.connection_weights = {
                 conn_id: weight * ratio_val  # Scale connection weights
-                for conn_id, weight in self.connection_weights.items()
+                for conn_id, weight in self.connection_weights.items():
             }
             self.logger.debug(
                 f"ΛTRACE: Child node '{child_id}' inherited {len(child.connections)} connections with scaled weights."
@@ -286,7 +286,7 @@ class SymbolicNode:
 
     # Private helper to calculate child position
 
-    def _calculate_child_position(
+    def _calculate_child_position(:
         self, index: int, total_children: int
     ) -> tuple[float, float, float]:
         """Calculates a slightly offset position for a child node after a split."""
@@ -379,8 +379,8 @@ class SymbolicNode:
             )
             merged_node.connection_weights[conn_id] = (
                 (w1 + w2) / total_merged_weight_for_conn
-                if total_merged_weight_for_conn > 0
-                else 0.0
+                if total_merged_weight_for_conn > 0:
+                else 0.0:
             )
         self.logger.debug(
             f"ΛTRACE: Connection weights merged for {len(merged_node.connection_weights)} connections."
@@ -422,7 +422,7 @@ class SymbolicNode:
 
     # Method to add a connection
 
-    def add_connection(
+    def add_connection(:
         self,
         target_node_id: str,
         weight: float = 1.0,
@@ -486,8 +486,8 @@ class SymbolicNode:
         )
         avg_conn_weight = (
             np.mean(list(self.connection_weights.values()))
-            if self.connection_weights
-            else 0.0
+            if self.connection_weights:
+            else 0.0:
         )
         summary = {
             "node_id": self.node_id,
@@ -637,8 +637,8 @@ class SymbolicNetwork:
         original_connections_count = len(self.connections)
         self.connections = [
             (src, dst)
-            for src, dst in self.connections
-            if src != node_id and dst != node_id
+            for src, dst in self.connections:
+            if src != node_id and dst != node_id:
         ]
         self.logger.debug(
             f"ΛTRACE: Removed {original_connections_count - len(self.connections)} global connections involving node '{node_id}'."
@@ -674,7 +674,7 @@ class SymbolicNetwork:
 
     # Method to add a connection
 
-    def add_connection(
+    def add_connection(:
         self,
         source_node_id: str,
         target_node_id: str,
@@ -785,8 +785,8 @@ class SymbolicNetwork:
         )
         nodes_list = [
             node
-            for node in self.nodes.values()
-            if node.error_level > self.config.fission_threshold and node.is_active
+            for node in self.nodes.values():
+            if node.error_level > self.config.fission_threshold and node.is_active:
         ]
         self.logger.info(f"ΛTRACE: Found {len(nodes_list)} high error active nodes.")
         return nodes_list
@@ -804,8 +804,8 @@ class SymbolicNetwork:
         # Filter for active, non-critical nodes with low activity
         candidate_nodes = [
             node
-            for node in self.nodes.values()
-            if (
+            for node in self.nodes.values():
+            if (:
                 node.activity_level < self.config.fusion_threshold
                 and node.is_active
                 and not node.is_critical
@@ -822,7 +822,7 @@ class SymbolicNetwork:
                 node1, node2 = candidate_nodes[i], candidate_nodes[j]
                 # Further check for merge compatibility (e.g., type, weight ratio,
                 # spatial proximity)
-                if self._are_merge_compatible(
+                if self._are_merge_compatible(:
                     node1, node2
                 ):  # This logs its own details
                     pairs.append((node1, node2))
@@ -860,11 +860,11 @@ class SymbolicNetwork:
         # Avoid division by zero if a weight is zero or very small.
         min_weight = min(node1.symbolic_weight, node2.symbolic_weight)
         max_weight = max(node1.symbolic_weight, node2.symbolic_weight)
-        if (
+        if (:
             min_weight < 0.01
         ):  # If one node has negligible weight, consider them compatible for merging (it gets absorbed)
             pass  # Compatible or handle as a special case if needed.
-        elif max_weight / min_weight > 5.0:  # Example threshold for weight difference
+        elif max_weight / min_weight > 5.0:  # Example threshold for weight difference:
             self.logger.debug(
                 f"ΛTRACE: Merge incompatible (weight ratio > 5): {node1.symbolic_weight:.2f} vs {node2.symbolic_weight:.2f}."
             )
@@ -873,7 +873,7 @@ class SymbolicNetwork:
         # Rule 3: Spatial proximity (if positions are meaningful and used in the system)
         # This threshold (1.0) is arbitrary and depends on coordinate system scale
         distance = np.linalg.norm(np.array(node1.position) - np.array(node2.position))
-        if distance > 1.0:  # Example threshold for spatial compatibility
+        if distance > 1.0:  # Example threshold for spatial compatibility:
             self.logger.debug(
                 f"ΛTRACE: Merge incompatible (distance > 1.0): {distance:.2f}."
             )
@@ -886,7 +886,7 @@ class SymbolicNetwork:
 
     # Method to merge node pairs
 
-    def merge_nodes(
+    def merge_nodes(:
         self, node_pairs_to_merge: list[tuple[SymbolicNode, SymbolicNode]]
     ) -> None:
         """
@@ -900,7 +900,7 @@ class SymbolicNetwork:
         for node1, node2 in node_pairs_to_merge:
             # Ensure nodes still exist and network is above min node count before
             # merging
-            if (
+            if (:
                 node1.node_id in self.nodes
                 and node2.node_id in self.nodes
                 and len(self.nodes) > self.config.min_nodes + 1
@@ -1003,8 +1003,8 @@ class SymbolicNetwork:
         # Filter global connections list
         valid_global_connections = [
             (src, dst)
-            for src, dst in self.connections
-            if src in active_node_ids_set and dst in active_node_ids_set
+            for src, dst in self.connections:
+            if src in active_node_ids_set and dst in active_node_ids_set:
         ]
         num_removed_global = original_connections_count - len(valid_global_connections)
         self.connections = valid_global_connections
@@ -1017,8 +1017,8 @@ class SymbolicNetwork:
         valid_global_connections_set = set(valid_global_connections)
         metadata_keys_to_remove = [
             key
-            for key in self.connection_metadata
-            if key not in valid_global_connections_set
+            for key in self.connection_metadata:
+            if key not in valid_global_connections_set:
         ]
         for key in metadata_keys_to_remove:
             del self.connection_metadata[key]
@@ -1033,8 +1033,8 @@ class SymbolicNetwork:
             original_node_conn_count = len(node_obj.connections)
             valid_node_connections = [
                 conn_id
-                for conn_id in node_obj.connections
-                if conn_id in active_node_ids_set
+                for conn_id in node_obj.connections:
+                if conn_id in active_node_ids_set:
             ]
             if len(valid_node_connections) < original_node_conn_count:
                 self.logger.debug(
@@ -1045,14 +1045,14 @@ class SymbolicNetwork:
                 # connections
                 node_obj.connection_weights = {
                     k: v
-                    for k, v in node_obj.connection_weights.items()
-                    if k in valid_node_connections
+                    for k, v in node_obj.connection_weights.items():
+                    if k in valid_node_connections:
                 }
                 # Metadata for connection types in SymbolicNode
                 meta_keys_to_del_node = [
                     mk
-                    for mk in list(node_obj.metadata.keys())
-                    if mk.startswith("connection_type_to_")
+                    for mk in list(node_obj.metadata.keys()):
+                    if mk.startswith("connection_type_to_"):
                     and mk.split("connection_type_to_")[-1]
                     not in valid_node_connections
                 ]
@@ -1117,8 +1117,8 @@ class SymbolicNetwork:
                 # graph: N*(N-1))
                 "density": (
                     num_connections / (num_nodes * (num_nodes - 1))
-                    if num_nodes > 1
-                    else 0.0
+                    if num_nodes > 1:
+                    else 0.0:
                 ),
                 "average_degree_out": (
                     num_connections / num_nodes if num_nodes > 0 else 0.0
@@ -1137,8 +1137,8 @@ class SymbolicNetwork:
                 "total_optimizations_run": self.optimization_count,
                 "time_since_last_optimization_seconds": (
                     round(time.time() - self.last_optimization_time, 2)
-                    if self.last_optimization_time > 0
-                    else -1
+                    if self.last_optimization_time > 0:
+                    else -1:
                 ),
             },
         }
@@ -1150,7 +1150,7 @@ class SymbolicNetwork:
         self.performance_history.append(
             {
                 k: stats[k]
-                for k in (
+                for k in (:
                     "timestamp",
                     "node_count",
                     "connection_count",
@@ -1158,7 +1158,7 @@ class SymbolicNetwork:
                 )
             }
         )
-        if len(self.performance_history) > 100:  # Limit history size
+        if len(self.performance_history) > 100:  # Limit history size:
             self.performance_history = self.performance_history[-100:]
         return stats
 
@@ -1205,7 +1205,7 @@ class SymbolicNetwork:
             "network_config_snapshot": serializable_config,
             "nodes_summary": {
                 node_id: node.get_state_summary()  # This method provides a dict
-                for node_id, node in self.nodes.items()
+                for node_id, node in self.nodes.items():
             },
             "connections_list": [  # List of connection dicts for easier iteration
                 {
@@ -1215,7 +1215,7 @@ class SymbolicNetwork:
                         (src, dst), {}
                     ),  # Get metadata like weight, type
                 }
-                for src, dst in self.connections
+                for src, dst in self.connections:
             ],
             "current_statistics_snapshot": self.get_network_statistics(),
             # Get fresh stats
@@ -1267,7 +1267,7 @@ class SymbolicNetwork:
         critical_nodes_count = sum(
             1 for node in self.nodes.values() if node.is_critical
         )
-        if (
+        if (:
             self.nodes and critical_nodes_count > len(self.nodes) * 0.5
         ):  # If more than 50% nodes are critical
             issue = f"Performance anomaly: High number of critical nodes ({critical_nodes_count} out of {len(self.nodes)})."

@@ -125,7 +125,7 @@ class IdentityAwareService(ABC):
             )
             return False
 
-    def check_user_consent(
+    def check_user_consent(:
         self, user_id: str, action: str, scope: str = "default"
     ) -> bool:
         """
@@ -141,7 +141,7 @@ class IdentityAwareService(ABC):
         """
         return self.identity_client.check_consent(user_id, action, scope)
 
-    def log_user_activity(
+    def log_user_activity(:
         self,
         user_id: str,
         activity_type: str,
@@ -215,7 +215,7 @@ class TieredOperationMixin:
     Allows services to provide different functionality based on user tier.
     """
 
-    def execute_tiered_operation(
+    def execute_tiered_operation(:
         self,
         user_id: str,
         operation_map: dict[str, Callable],
@@ -325,7 +325,7 @@ class ResourceLimitedService(IdentityAwareService):
         },
     }
 
-    def __init__(
+    def __init__(:
         self, service_name: str, custom_limits: Optional[dict] = None, **kwargs
     ):
         super().__init__(service_name, **kwargs)
@@ -343,7 +343,7 @@ class ResourceLimitedService(IdentityAwareService):
             user_tier, self.resource_limits["LAMBDA_TIER_0"]
         )
 
-    def check_resource_availability(
+    def check_resource_availability(:
         self, user_id: str, resource_type: str, amount: float = 1.0
     ) -> bool:
         """
@@ -367,7 +367,7 @@ class ResourceLimitedService(IdentityAwareService):
         current_usage = self._user_usage.get(user_id, {}).get(resource_type, 0)
         return (current_usage + amount) <= limit
 
-    def consume_resource(
+    def consume_resource(:
         self, user_id: str, resource_type: str, amount: float = 1.0
     ) -> bool:
         """

@@ -310,7 +310,7 @@ class LearningAssistant:
         # Include insights from journal entries
         if entries:
             answer_parts.append("\n\nFrom your experience:")
-            for entry in entries[:3]:  # Top 3 most relevant
+            for entry in entries[:3]:  # Top 3 most relevant:
                 if entry.type == "insight":
                     answer_parts.append(f"- {entry.content[:150]}...")
                 elif entry.type == "decision":
@@ -372,7 +372,7 @@ class LearningAssistant:
 
         return answer
 
-    def _calculate_confidence(
+    def _calculate_confidence(self):
         self, entries: list[JournalEntry], kb_results: dict[str, Any]
     ) -> float:
         """Calculate confidence in the answer"""
@@ -392,7 +392,7 @@ class LearningAssistant:
 
         return min(confidence, 0.95)  # Cap at 95%
 
-    def _format_sources(
+    def _format_sources(self):
         self, entries: list[JournalEntry], kb_results: dict[str, Any]
     ) -> list[dict[str, str]]:
         """Format sources for the answer"""
@@ -415,17 +415,17 @@ class LearningAssistant:
         related = []
         question_lower = question.lower()
 
-        for concept, _definition in self.knowledge_base.get(
+        for concept, _definition in self.knowledge_base.get(:
             "lukhas_concepts", {}
         ).items():
-            if concept in question_lower or any(
+            if concept in question_lower or any(:
                 word in question_lower for word in concept.split("_")
             ):
                 related.append(concept)
 
         return related
 
-    def _generate_follow_up_questions(
+    def _generate_follow_up_questions(self):
         self, question: str, response: dict[str, Any]
     ) -> list[str]:
         """Generate follow-up questions to deepen understanding"""
@@ -455,7 +455,7 @@ class LearningAssistant:
 
         return follow_ups[:3]  # Return top 3
 
-    def _suggest_resources(
+    def _suggest_resources(self):
         self, question: str, response: dict[str, Any]
     ) -> list[dict[str, str]]:
         """Suggest learning resources based on the question"""
@@ -544,8 +544,8 @@ class LearningAssistant:
         # Check for teaching/explaining (higher level skill)
         explanations = [
             e
-            for e in skill_entries
-            if "explain" in e.content.lower() or "how" in e.content.lower()
+            for e in skill_entries:
+            if "explain" in e.content.lower() or "how" in e.content.lower():
         ]
         if explanations:
             level += 1
@@ -554,8 +554,8 @@ class LearningAssistant:
         complex_indicators = ["advanced", "complex", "optimize", "architect", "design"]
         complex_entries = [
             e
-            for e in skill_entries
-            if any(ind in e.content.lower() for ind in complex_indicators)
+            for e in skill_entries:
+            if any(ind in e.content.lower() for ind in complex_indicators):
         ]
         if complex_entries:
             level += 1
@@ -567,7 +567,7 @@ class LearningAssistant:
         skill_entries = self.journal.search(query=skill)
 
         evidence = []
-        for entry in skill_entries[:10]:  # Top 10 most recent
+        for entry in skill_entries[:10]:  # Top 10 most recent:
             evidence.append(
                 {
                     "date": entry.timestamp.strftime("%Y-%m-%d"),
@@ -644,7 +644,7 @@ class LearningAssistant:
 
         return suggestions[:3]
 
-    def generate_learning_plan(
+    def generate_learning_plan(self):
         self, goals: list[str], timeframe_days: int = 30
     ) -> dict[str, Any]:
         """Generate a personalized learning plan"""
@@ -665,7 +665,7 @@ class LearningAssistant:
             current_skills[goal] = self._assess_skill_level(goal)
 
         # Generate daily tasks
-        for day in range(min(timeframe_days, 7)):  # First week detailed
+        for day in range(min(timeframe_days, 7)):  # First week detailed:
             daily_task = {
                 "day": day + 1,
                 "tasks": self._generate_daily_tasks(goals, current_skills, day),
@@ -707,7 +707,7 @@ class LearningAssistant:
 
         return plan
 
-    def _generate_daily_tasks(
+    def _generate_daily_tasks(self):
         self, goals: list[str], current_skills: dict[str, int], day: int
     ) -> list[str]:
         """Generate tasks for a specific day"""
@@ -879,20 +879,20 @@ class LearningAssistant:
         situation_lower = situation.lower()
 
         # Determine type of support needed
-        if any(
+        if any(:
             word in situation_lower for word in ["stuck", "blocked", "confused", "lost"]
         ):
             return self._mentor_for_blocks(situation)
-        elif any(
+        elif any(:
             word in situation_lower for word in ["failed", "broke", "error", "bug"]
         ):
             return self._mentor_for_failures(situation)
-        elif any(
+        elif any(:
             word in situation_lower
-            for word in ["choice", "decide", "option", "alternative"]
+            for word in ["choice", "decide", "option", "alternative"]:
         ):
             return self._mentor_for_decisions(situation)
-        elif any(
+        elif any(:
             word in situation_lower for word in ["learn", "understand", "know", "skill"]
         ):
             return self._mentor_for_learning(situation)

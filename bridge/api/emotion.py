@@ -278,8 +278,8 @@ async def get_emotion_neighborhood(
             "threshold_used": threshold,
             "neighborhood_density": (
                 len(neighborhood) / len(memory_system.emotion_vectors)
-                if memory_system.emotion_vectors
-                else 0
+                if memory_system.emotion_vectors:
+                else 0:
             ),
         }
 

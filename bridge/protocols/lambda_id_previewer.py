@@ -267,7 +267,7 @@ class PublicLambdaIDPreviewer:
             },
         }
 
-    def preview_lambda_id(
+    def preview_lambda_id(:
         self, lambda_id: str, include_educational: bool = True
     ) -> PreviewResult:
         """
@@ -314,8 +314,8 @@ class PublicLambdaIDPreviewer:
 
             result.is_valid = (
                 validation_result.valid
-                if hasattr(validation_result, "valid")
-                else validation_result.get("valid", False)
+                if hasattr(validation_result, "valid"):
+                else validation_result.get("valid", False):
             )
             result.validation_details = self._format_validation_details(
                 validation_result
@@ -465,7 +465,7 @@ class PublicLambdaIDPreviewer:
             "errors": [],
         }
 
-    def _extract_tier(
+    def _extract_tier(:
         self, lambda_id: str, format_info: dict[str, Any]
     ) -> Optional[int]:
         """Extract tier information from ΛiD."""
@@ -493,7 +493,7 @@ class PublicLambdaIDPreviewer:
                 "errors": ["Unknown validation result format"],
             }
 
-    def _generate_analysis(
+    def _generate_analysis(:
         self,
         lambda_id: str,
         format_info: dict[str, Any],
@@ -574,7 +574,7 @@ class PublicLambdaIDPreviewer:
         else:
             return "poor"
 
-    def _get_security_recommendations(
+    def _get_security_recommendations(:
         self, entropy_analysis: dict[str, Any]
     ) -> list[str]:
         """Get security recommendations based on entropy analysis."""
@@ -617,7 +617,7 @@ class PublicLambdaIDPreviewer:
         }
         return benefits.get(subtype, [])
 
-    def _generate_suggestions(
+    def _generate_suggestions(:
         self,
         lambda_id: str,
         format_info: dict[str, Any],
@@ -651,7 +651,7 @@ class PublicLambdaIDPreviewer:
 
         return suggestions
 
-    def _generate_warnings(
+    def _generate_warnings(:
         self,
         lambda_id: str,
         format_info: dict[str, Any],
@@ -721,7 +721,7 @@ class PublicLambdaIDPreviewer:
 
         return demos
 
-    def generate_demo_lambda_id(
+    def generate_demo_lambda_id(:
         self, tier: int = 2, format_type: str = "standard"
     ) -> dict[str, Any]:
         """Generate a demo ΛiD for educational purposes."""
@@ -802,7 +802,7 @@ class PublicLambdaIDPreviewer:
             },
             "symbolic_character_access": {
                 tier: info["symbolic_chars"]
-                for tier, info in self.educational_content["tier_explanations"].items()
+                for tier, info in self.educational_content["tier_explanations"].items():
             },
             "upgrade_paths": {
                 tier: {
@@ -811,18 +811,18 @@ class PublicLambdaIDPreviewer:
                         self.educational_content["tier_explanations"][tier + 1][
                             "features"
                         ]
-                        if tier < 5
-                        else []
+                        if tier < 5:
+                        else []:
                     ),
                     "new_symbols": (
                         self.educational_content["tier_explanations"][tier + 1][
                             "symbolic_chars"
                         ]
-                        if tier < 5
-                        else []
+                        if tier < 5:
+                        else []:
                     ),
                 }
-                for tier in range(6)
+                for tier in range(6):
             },
         }
 
@@ -889,7 +889,7 @@ class PublicLambdaIDPreviewer:
                         tier_info = self.educational_content["tier_explanations"][tier]
                         analysis["next_character_suggestions"] = [
                             f"Use {char} for tier {tier}"
-                            for char in tier_info["symbolic_chars"][:3]
+                            for char in tier_info["symbolic_chars"][:3]:
                         ]
                     else:
                         analysis["format_validation"]["errors"].append(

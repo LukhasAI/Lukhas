@@ -52,7 +52,7 @@ class IntentRouter:
         self.patterns = self._initialize_patterns()
         self.glyph_map = self._initialize_glyph_map()
 
-    def _initialize_patterns(
+    def _initialize_patterns(:
         self,
     ) -> dict[IntentType, list[tuple[str, float]]]:
         """Initialize regex patterns for intent detection."""
@@ -143,7 +143,7 @@ class IntentRouter:
                 if match:
                     # Adjust confidence based on match quality
                     confidence = base_confidence
-                    if match.group(0) == text_lower:  # Full match
+                    if match.group(0) == text_lower:  # Full match:
                         confidence = min(1.0, confidence + 0.1)
 
                     if confidence > best_confidence:
@@ -162,7 +162,7 @@ class IntentRouter:
             glyphs=glyphs,
         )
 
-    def _extract_parameters(
+    def _extract_parameters(:
         self, text: str, intent_type: IntentType, match: re.Match
     ) -> dict[str, Any]:
         """Extract relevant parameters from the matched text."""
@@ -235,7 +235,7 @@ class IntentRouter:
             "endpoint": "/api/memory/explore",
             "parameters": intent.parameters,
             "glyphs": intent.glyphs,
-            "message": f"Searching memory folds for: {intent.parameters.get('topic',"
+            "message": f"Searching memory folds for: {intent.parameters.get('topic',"}
                                                                             'all memories')}",
         }
 

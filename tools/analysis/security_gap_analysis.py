@@ -236,8 +236,8 @@ class SecurityComplianceAnalyzer:
             )
 
             print(
-                f"   • {module.upper()}: {file_count} files, {func_count} functions,
-                {total_lines} lines, {security_score} security keywords - {status}"
+                f"   • {module.upper()}: {file_count} files, {func_count} functions, "
+                f"{total_lines} lines, {security_score} security keywords - {status}"
             )
 
         # Critical Gaps

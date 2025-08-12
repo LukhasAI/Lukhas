@@ -133,7 +133,7 @@ class QuantumCrypto:
 
     @staticmethod
     @lukhas_tier_required(level=4)  # ΛTRACE_ADD
-    def encrypt_api_key(
+    def encrypt_api_key(:
         api_key: str, λid: str
     ) -> tuple[str, str]:  # ΛTRACE_CHANGE: Added Tuple return type
         """Encrypt API key with ΛiD-derived key."""
@@ -169,7 +169,7 @@ class VeriFoldGlyphGenerator:
     """Generate visual glyphs with hidden API authentication data."""
 
     @lukhas_tier_required(level=3)  # ΛTRACE_ADD
-    def create_animated_glyph(
+    def create_animated_glyph(:
         self, api_key_data: dict[str, Any], λid_profile: ΛiDProfile
     ) -> VeriFoldGlyph:
         """Create animated glyph with hidden API key data."""
@@ -292,7 +292,7 @@ class VeriFoldGlyphGenerator:
             lines += f'<path d="M{x1:.2f},{y1:.2f} Q200,200 {x2:.2f},{y2:.2f}" stroke="#FFFFFF" stroke-width="1" opacity="0.3" fill="none"/>'
         return lines
 
-    def _embed_qr_in_visual(
+    def _embed_qr_in_visual(:
         self, api_data: dict[str, Any], visual: str
     ) -> str:  # ΛTRACE_CHANGE: visual arg added, type hint for api_data
         """Embed QR code data in visual layers."""
@@ -310,7 +310,7 @@ class VeriFoldGlyphGenerator:
         }
         return base64.b64encode(json.dumps(qr_payload).encode()).decode()
 
-    def _create_steganographic_layer(
+    def _create_steganographic_layer(:
         self, api_data: dict[str, Any]
     ) -> str:  # ΛTRACE_CHANGE: Type hint
         """Create hidden steganographic data layer."""
@@ -326,12 +326,12 @@ class VeriFoldGlyphGenerator:
         }
         return base64.b64encode(json.dumps(hidden_data).encode()).decode()
 
-    def _generate_animation_sequence(
+    def _generate_animation_sequence(:
         self, tier: int
     ) -> list[dict[str, Any]]:  # ΛTRACE_CHANGE: More specific type
         """Generate animation frames for glyph."""
         frames: list[dict[str, Any]] = []  # ΛTRACE_CHANGE: Type hint
-        for frame_num in range(tier * 10):  # ΛTRACE_CHANGE: Renamed frame to frame_num
+        for frame_num in range(tier * 10):  # ΛTRACE_CHANGE: Renamed frame to frame_num:
             frames.append(
                 {
                     "frame": frame_num,
@@ -343,7 +343,7 @@ class VeriFoldGlyphGenerator:
             )
         return frames
 
-    def _generate_quantum_signature(
+    def _generate_quantum_signature(:
         self, data: dict[str, Any], user_id: str
     ) -> str:  # ΛTRACE_CHANGE: Type hint
         """Generate quantum signature for verification (placeholder)."""
@@ -394,7 +394,7 @@ class LUKHASAPIManager:
         )
 
     @lukhas_tier_required(level=2)  # ΛTRACE_ADD
-    def register_λid_profile(
+    def register_λid_profile(:
         self,
         user_id: str,
         professional_roles: list[str],
@@ -441,7 +441,7 @@ class LUKHASAPIManager:
         return profile
 
     @lukhas_tier_required(level=3)  # ΛTRACE_ADD
-    def store_api_key(
+    def store_api_key(:
         self, λid: str, service_name: str, api_key: str, access_tier: int = 1
     ) -> QuantumAPIKey:
         """Store API key with quantum encryption and VeriFold glyph."""
@@ -537,7 +537,7 @@ class LUKHASAPIManager:
             with open(glyph_file) as f:
                 glyph_data: dict[str, Any] = json.load(f)  # ΛTRACE_CHANGE: Type hint
 
-            if not self._verify_glyph_integrity(
+            if not self._verify_glyph_integrity(:
                 glyph_data
             ):  # ΛTRACE_CHANGE: Pass full glyph_data
                 log.error("Glyph integrity verification failed.")  # ΛTRACE_CHANGE
@@ -552,7 +552,7 @@ class LUKHASAPIManager:
             key_file: Path = (
                 self.storage_path / f"api_key_{key_id}.json"
             )  # ΛTRACE_CHANGE: Type hint
-            if not key_file.exists():  # ΛTRACE_ADD: Check if key file exists
+            if not key_file.exists():  # ΛTRACE_ADD: Check if key file exists:
                 log.error("API key file not found for glyph.", key_id=key_id)
                 return None
 
@@ -575,7 +575,7 @@ class LUKHASAPIManager:
             log.info("API authentication via glyph successful.")  # ΛTRACE_CHANGE
             return api_key
 
-        except json.JSONDecodeError as e:  # ΛTRACE_ADD
+        except json.JSONDecodeError as e:  # ΛTRACE_ADD:
             log.error(
                 "JSON decoding error during glyph authentication.",
                 error=str(e),
@@ -590,7 +590,7 @@ class LUKHASAPIManager:
             return None
 
     @lukhas_tier_required(level=3)  # ΛTRACE_ADD
-    def generate_professional_verification_glyph(
+    def generate_professional_verification_glyph(:
         self, λid: str, document_hash: str, signature_type: str
     ) -> VeriFoldGlyph:
         """Generate professional verification glyph for documents."""
@@ -659,7 +659,7 @@ class LUKHASAPIManager:
                 profile_file=str(profile_file),
             )
             return ΛiDProfile(**data)
-        except (OSError, json.JSONDecodeError) as e:  # ΛTRACE_ADD
+        except (OSError, json.JSONDecodeError) as e:  # ΛTRACE_ADD:
             log.error(
                 "Failed to load or parse ΛiD profile.",
                 profile_file=str(profile_file),
@@ -667,7 +667,7 @@ class LUKHASAPIManager:
             )
             return None
 
-    def _verify_glyph_integrity(
+    def _verify_glyph_integrity(:
         self, glyph_data: VeriFoldGlyph | dict[str, Any]
     ) -> bool:  # ΛTRACE_CHANGE: Accept Dict or VeriFoldGlyph
         """Verify glyph integrity using quantum signatures (placeholder)."""
@@ -675,7 +675,7 @@ class LUKHASAPIManager:
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
         log.debug("Verifying glyph integrity.")
 
-        if isinstance(
+        if isinstance(:
             glyph_data, VeriFoldGlyph
         ):  # ΛTRACE_ADD: Handle dataclass instance
             glyph_dict = asdict(glyph_data)
@@ -695,7 +695,7 @@ class LUKHASAPIManager:
             "integrity_hash"
         )  # ΛTRACE_CHANGE: Use .get for safety
 
-        if not expected_hash:  # ΛTRACE_ADD
+        if not expected_hash:  # ΛTRACE_ADD:
             log.error("Integrity hash missing from glyph metadata.")
             return False
 
@@ -703,7 +703,7 @@ class LUKHASAPIManager:
             f"{visual_data}{hidden_qr}".encode()
         ).hexdigest()  # ΛTRACE_CHANGE: Type hint
         is_valid = actual_hash == expected_hash
-        if not is_valid:  # ΛTRACE_ADD
+        if not is_valid:  # ΛTRACE_ADD:
             log.warning(
                 "Glyph integrity check failed.",
                 expected_hash=expected_hash,
@@ -713,7 +713,7 @@ class LUKHASAPIManager:
             log.debug("Glyph integrity check successful.")
         return is_valid
 
-    def _update_usage_tracking(
+    def _update_usage_tracking(:
         self, key_id: str
     ) -> None:  # ΛTRACE_CHANGE: Return type None
         """Update API key usage statistics."""
@@ -724,12 +724,12 @@ class LUKHASAPIManager:
             self.storage_path / f"api_key_{key_id}.json"
         )  # ΛTRACE_CHANGE: Type hint
 
-        if not key_file.exists():  # ΛTRACE_ADD
+        if not key_file.exists():  # ΛTRACE_ADD:
             log.error("Cannot update usage tracking: API key file not found.")
             return
 
         try:  # ΛTRACE_ADD: Error handling for file operations
-            with open(
+            with open(:
                 key_file, "r+"
             ) as f:  # ΛTRACE_CHANGE: Open in r+ for read and write
                 key_data: dict[str, Any] = json.load(f)  # ΛTRACE_CHANGE: Type hint
@@ -747,7 +747,7 @@ class LUKHASAPIManager:
                 json.dump(key_data, f, indent=2)
                 f.truncate()  # ΛTRACE_ADD
             log.debug("API key usage tracking updated.")  # ΛTRACE_ADD
-        except (OSError, json.JSONDecodeError) as e:  # ΛTRACE_ADD
+        except (OSError, json.JSONDecodeError) as e:  # ΛTRACE_ADD:
             log.error("Failed to update API key usage tracking.", error=str(e))
 
 
@@ -828,7 +828,7 @@ def demo_quantum_api_management():
     =====================================
     """
         )
-    except Exception as e:  # ΛTRACE_ADD
+    except Exception as e:  # ΛTRACE_ADD:
         demo_log.error(
             "Error during demo execution.",
             error=str(e),

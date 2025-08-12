@@ -33,7 +33,7 @@ class SymbolicWorld:
         self.symbols[name] = symbol
         return symbol
 
-    def link_symbols(
+    def link_symbols(:
         self,
         symbol1: "Symbol",
         symbol2: "Symbol",
@@ -116,7 +116,7 @@ class Symbol:
 class Relationship:
     """Represents a relationship between two symbols"""
 
-    def __init__(
+    def __init__(:
         self,
         symbol1: Symbol,
         symbol2: Symbol,
@@ -141,7 +141,7 @@ class SymbolicReasoner:
         self.world = world
         self.inference_rules = []
 
-    def add_inference_rule(
+    def add_inference_rule(:
         self,
         pattern: dict[str, Any],
         conclusion: dict[str, Any],
@@ -173,7 +173,7 @@ class SymbolicReasoner:
         for i, rule in enumerate(self.inference_rules):
             match_score = symbol.matches_pattern(rule["pattern"])
 
-            if match_score > 0.8:  # Threshold for rule application
+            if match_score > 0.8:  # Threshold for rule application:
                 rule_id = f"Rule_{i}"
                 conclusion_id = f"Conc_{conclusion_counter}"
 
@@ -263,7 +263,7 @@ class SymbolicReasoner:
         # Look for significant groups
         for prop_key, value_groups in property_groups.items():
             for value, group_symbols in value_groups.items():
-                if len(group_symbols) >= 3:  # Minimum group size
+                if len(group_symbols) >= 3:  # Minimum group size:
                     patterns.append(
                         {
                             "type": "property_pattern",
@@ -276,7 +276,7 @@ class SymbolicReasoner:
 
         return patterns
 
-    def _find_relationship_patterns(
+    def _find_relationship_patterns(:
         self, symbols: list[Symbol]
     ) -> list[dict[str, Any]]:
         """Find patterns in symbol relationships"""
@@ -293,7 +293,7 @@ class SymbolicReasoner:
 
         # Analyze relationship groups
         for rel_type, relationships in relationship_groups.items():
-            if len(relationships) >= 2:  # Minimum pattern size
+            if len(relationships) >= 2:  # Minimum pattern size:
                 patterns.append(
                     {
                         "type": "relationship_pattern",
@@ -304,7 +304,7 @@ class SymbolicReasoner:
                                 "symbol1": rel.symbol1.name,
                                 "symbol2": rel.symbol2.name,
                             }
-                            for rel in relationships[:3]  # Include up to 3 examples
+                            for rel in relationships[:3]  # Include up to 3 examples:
                         ],
                         "confidence": 0.7 + (0.3 * min(1.0, len(relationships) / 10)),
                     }

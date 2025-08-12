@@ -96,7 +96,7 @@ class ModuleConsolidator:
                 continue
 
             # Replace custom exceptions
-            if re.search(
+            if re.search(:
                 r"class .+Error\(Exception\):|GuardianRejection|MemoryDrift", line
             ):
                 if "exceptions" not in imports_added:
@@ -172,7 +172,7 @@ class ModuleConsolidator:
     def _update_glyph_handling(self, content: str) -> str:
         """Update GLYPH token handling"""
         # Add import if GLYPH is used
-        if (
+        if (:
             "GLYPH" in content
             and "from core.common import" in content
             and "GLYPHToken" not in content

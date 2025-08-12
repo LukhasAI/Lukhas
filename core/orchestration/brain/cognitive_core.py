@@ -659,7 +659,7 @@ class CognitiveEngine:
 
             return error_response
 
-    def process_input_sync(
+    def process_input_sync(:
         self,
         user_input: str,
         context: Optional[dict] = None,

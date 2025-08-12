@@ -216,7 +216,7 @@ def require_auth(required_tier: str = "LAMBDA_TIER_1") -> Callable:
 # Standardized API Error Handling Function
 
 
-def handle_api_error(
+def handle_api_error(:
     error: Exception, endpoint: str, user_id: Optional[str]
 ) -> dict[str, Any]:
     """
@@ -280,7 +280,7 @@ def get_request_user_id() -> str:
 
 @app.route(f"{BASE_PATH}/ethics/assess", methods=["POST"])
 @require_auth("LAMBDA_TIER_1")  # Example tier
-def ethics_assess_action_endpoint():  # Renamed for clarity
+def ethics_assess_action_endpoint():  # Renamed for clarity:
     """Assess ethical implications of a proposed action or scenario."""
     endpoint_path = "/ethics/assess"
     user_id = get_request_user_id()
@@ -328,7 +328,7 @@ def ethics_assess_action_endpoint():  # Renamed for clarity
 
 @app.route(f"{BASE_PATH}/ethics/compliance", methods=["POST"])
 @require_auth("LAMBDA_TIER_2")  # Example tier
-def ethics_check_compliance_endpoint():  # Renamed for clarity
+def ethics_check_compliance_endpoint():  # Renamed for clarity:
     """Check a proposal or system design for compliance with ethical guidelines."""
     endpoint_path = "/ethics/compliance"
     user_id = get_request_user_id()
@@ -378,7 +378,7 @@ def ethics_check_compliance_endpoint():  # Renamed for clarity
 
 @app.route(f"{BASE_PATH}/memory/store", methods=["POST"])
 @require_auth("LAMBDA_TIER_1")
-def memory_store_item_endpoint():  # Renamed
+def memory_store_item_endpoint():  # Renamed:
     """Store an item (e.g., text, data) in the AGI's memory system."""
     endpoint_path = "/memory/store"
     user_id = get_request_user_id()
@@ -426,7 +426,7 @@ def memory_store_item_endpoint():  # Renamed
 
 @app.route(f"{BASE_PATH}/memory/retrieve/<memory_id>", methods=["GET"])
 @require_auth("LAMBDA_TIER_1")
-def memory_retrieve_item_endpoint(memory_id: str):  # Renamed
+def memory_retrieve_item_endpoint(memory_id: str):  # Renamed:
     """Retrieve a specific memory item by its ID."""
     endpoint_path = f"/memory/retrieve/{memory_id}"
     user_id = get_request_user_id()
@@ -455,7 +455,7 @@ def memory_retrieve_item_endpoint(memory_id: str):  # Renamed
 
 @app.route(f"{BASE_PATH}/memory/search", methods=["POST"])
 @require_auth("LAMBDA_TIER_1")
-def memory_search_items_endpoint():  # Renamed
+def memory_search_items_endpoint():  # Renamed:
     """Search stored memories based on a query and optional filters."""
     endpoint_path = "/memory/search"
     user_id = get_request_user_id()
@@ -507,7 +507,7 @@ def memory_search_items_endpoint():  # Renamed
 
 @app.route(f"{BASE_PATH}/creativity/generate", methods=["POST"])
 @require_auth("LAMBDA_TIER_1")
-def creativity_generate_content_endpoint():  # Renamed
+def creativity_generate_content_endpoint():  # Renamed:
     """Generate various types of creative content based on a prompt."""
     endpoint_path = "/creativity/generate"
     user_id = get_request_user_id()
@@ -556,14 +556,14 @@ def creativity_generate_content_endpoint():  # Renamed
 
 @app.route(f"{BASE_PATH}/creativity/dream", methods=["POST"])
 @require_auth("LAMBDA_TIER_3")  # Higher tier for specialized function
-def creativity_synthesize_dream_endpoint():  # Renamed
+def creativity_synthesize_dream_endpoint():  # Renamed:
     """Synthesize dream-like narratives or content based on input data."""
     endpoint_path = "/creativity/dream"
     user_id = get_request_user_id()
     logger.info(f"ΛTRACE: Request received for {endpoint_path} by user '{user_id}'.")
     try:
         data = request.get_json()
-        if (
+        if (:
             not data or "dream_data" not in data
         ):  # Assuming 'dream_data' is the key input
             logger.warning(
@@ -607,7 +607,7 @@ def creativity_synthesize_dream_endpoint():  # Renamed
 
 @app.route(f"{BASE_PATH}/consciousness/awareness", methods=["POST"])
 @require_auth("LAMBDA_TIER_1")
-def consciousness_process_awareness_endpoint():  # Renamed
+def consciousness_process_awareness_endpoint():  # Renamed:
     """Process an incoming stream of data for consciousness awareness modeling."""
     endpoint_path = "/consciousness/awareness"
     user_id = get_request_user_id()
@@ -653,7 +653,7 @@ def consciousness_process_awareness_endpoint():  # Renamed
 
 @app.route(f"{BASE_PATH}/consciousness/introspect", methods=["POST"])
 @require_auth("LAMBDA_TIER_2")
-def consciousness_perform_introspection_endpoint():  # Renamed
+def consciousness_perform_introspection_endpoint():  # Renamed:
     """Initiate an introspective analysis process on a specified focus area."""
     endpoint_path = "/consciousness/introspect"
     user_id = get_request_user_id()
@@ -701,7 +701,7 @@ def consciousness_perform_introspection_endpoint():  # Renamed
 
 @app.route(f"{BASE_PATH}/consciousness/state", methods=["GET"])
 @require_auth("LAMBDA_TIER_1")
-def consciousness_get_state_endpoint():  # Renamed
+def consciousness_get_state_endpoint():  # Renamed:
     """Retrieve the current state of the consciousness model."""
     endpoint_path = "/consciousness/state"
     user_id = get_request_user_id()
@@ -734,7 +734,7 @@ def consciousness_get_state_endpoint():  # Renamed
 
 @app.route(f"{BASE_PATH}/learning/learn", methods=["POST"])
 @require_auth("LAMBDA_TIER_1")
-def learning_learn_from_data_endpoint():  # Renamed
+def learning_learn_from_data_endpoint():  # Renamed:
     """Initiate a learning process from a specified data source."""
     endpoint_path = "/learning/learn"
     user_id = get_request_user_id()
@@ -781,14 +781,14 @@ def learning_learn_from_data_endpoint():  # Renamed
 
 @app.route(f"{BASE_PATH}/learning/adapt", methods=["POST"])
 @require_auth("LAMBDA_TIER_2")
-def learning_adapt_behavior_endpoint():  # Renamed
+def learning_adapt_behavior_endpoint():  # Renamed:
     """Adapt AGI behavior based on provided context and target behaviors."""
     endpoint_path = "/learning/adapt"
     user_id = get_request_user_id()
     logger.info(f"ΛTRACE: Request received for {endpoint_path} by user '{user_id}'.")
     try:
         data = request.get_json()
-        if (
+        if (:
             not data
             or "adaptation_context" not in data
             or "behavior_targets" not in data
@@ -834,7 +834,7 @@ def learning_adapt_behavior_endpoint():  # Renamed
 
 @app.route(f"{BASE_PATH}/quantum/compute", methods=["POST"])
 @require_auth("LAMBDA_TIER_3")  # Higher tier for quantum computation
-def quantum_perform_computation_endpoint():  # Renamed
+def quantum_perform_computation_endpoint():  # Renamed:
     """Execute a quantum algorithm with specified input qubits and gates."""
     endpoint_path = "/quantum/compute"
     user_id = get_request_user_id()
@@ -859,10 +859,10 @@ def quantum_perform_computation_endpoint():  # Renamed
             qubits = [
                 (
                     complex(q_val)
-                    if isinstance(q_val, (int, float))
-                    else complex(q_val["real"], q_val["imag"])
+                    if isinstance(q_val, (int, float)):
+                    else complex(q_val["real"], q_val["imag"]):
                 )
-                for q_val in data["input_qubits"]
+                for q_val in data["input_qubits"]:
             ]
             logger.debug(f"ΛTRACE: Parsed input_qubits: {qubits}")
         except (KeyError, ValueError, TypeError) as q_err:
@@ -905,7 +905,7 @@ def quantum_perform_computation_endpoint():  # Renamed
 
 @app.route(f"{BASE_PATH}/quantum/entangle", methods=["POST"])
 @require_auth("LAMBDA_TIER_4")  # Highest tier for advanced quantum operations
-def quantum_create_entanglement_endpoint():  # Renamed
+def quantum_create_entanglement_endpoint():  # Renamed:
     """Create entanglement-like correlation between specified target systems."""
     endpoint_path = "/quantum/entangle"
     user_id = get_request_user_id()
@@ -954,7 +954,7 @@ def quantum_create_entanglement_endpoint():  # Renamed
 
 
 @app.route(f"{BASE_PATH}/health", methods=["GET"])
-def system_health_check_endpoint():  # Renamed
+def system_health_check_endpoint():  # Renamed:
     """Provides a basic health check of the API server and connected modules."""
     endpoint_path = f"{BASE_PATH}/health"
     logger.info(f"ΛTRACE: Request received for {endpoint_path} (health check).")
@@ -984,7 +984,7 @@ def system_health_check_endpoint():  # Renamed
 
 @app.route(f"{BASE_PATH}/info", methods=["GET"])
 @require_auth("LAMBDA_TIER_1")  # Basic info might still need some auth
-def system_api_info_endpoint():  # Renamed
+def system_api_info_endpoint():  # Renamed:
     """Returns information about the API, its version, and available module endpoints."""
     endpoint_path = f"{BASE_PATH}/info"
     user_id = get_request_user_id()
@@ -1052,7 +1052,7 @@ def system_api_info_endpoint():  # Renamed
 
 
 @app.errorhandler(404)
-def handle_not_found_error(
+def handle_not_found_error(:
     error: Exception,
 ) -> Any:  # error type is werkzeug.exceptions.NotFound
     """Handles 404 Not Found errors with a standardized JSON response."""
@@ -1074,7 +1074,7 @@ def handle_not_found_error(
 
 
 @app.errorhandler(405)
-def handle_method_not_allowed_error(
+def handle_method_not_allowed_error(:
     error: Exception,
 ) -> Any:  # error type is werkzeug.exceptions.MethodNotAllowed
     """Handles 405 Method Not Allowed errors with a standardized JSON response."""
@@ -1095,7 +1095,7 @@ def handle_method_not_allowed_error(
 
 
 @app.errorhandler(500)
-def handle_internal_server_error(
+def handle_internal_server_error(:
     error: Exception,
 ) -> Any:  # Catches general internal server errors
     """Handles 500 Internal Server Errors with a standardized JSON response."""

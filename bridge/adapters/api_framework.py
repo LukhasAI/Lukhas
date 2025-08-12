@@ -244,8 +244,8 @@ class RequestTracingMiddleware(BaseHTTPMiddleware):
         endpoint = request.url.path.split("/")
         version = (
             endpoint[2]
-            if len(endpoint) > 2 and endpoint[2] in ["v1", "v2", "v3"]
-            else "unknown"
+            if len(endpoint) > 2 and endpoint[2] in ["v1", "v2", "v3"]:
+            else "unknown":
         )
 
         request_count.labels(

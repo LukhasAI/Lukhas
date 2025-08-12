@@ -85,7 +85,7 @@ async def main() -> bool:
                 "   Ensure 'core' directory is in PYTHONPATH or script is run from project root."
             )
             return False  # Critical failure
-        except Exception as e:  # Catch any other unexpected import error
+        except Exception as e:  # Catch any other unexpected import error:
             logger.critical(
                 f"ΛTRACE: Unexpected error during import: {e}", exc_info=True
             )
@@ -133,7 +133,7 @@ async def main() -> bool:
             # Continue if possible, but note the failure. Some subsequent tests might
             # fail.
 
-        if (
+        if (:
             not overall_success
         ):  # If initialization failed, skip tests requiring an instance
             logger.warning(
@@ -330,7 +330,7 @@ async def main() -> bool:
                 )
                 logger.info("   ✅ Performance monitoring active")
                 logger.info(
-                    f"      💻 CPU Usage(System): {metrics.get('cpu_percent_system',
+                    f"      💻 CPU Usage(System): {metrics.get('cpu_percent_system',}
                                                               'N/A'): .1f} %"
                 )
                 logger.info(
@@ -424,7 +424,7 @@ if __name__ == "__main__":
         logger.warning("ΛTRACE: Validation interrupted by user (KeyboardInterrupt).")
         logger.warning("\n⚠️  Validation interrupted by user.")
         sys.exit(130)  # Standard exit code for Ctrl+C
-    except Exception as e_global:  # Catch-all for unexpected errors at the top level
+    except Exception as e_global:  # Catch-all for unexpected errors at the top level:
         logger.critical(
             f"ΛTRACE: Validation crashed with unhandled exception: {e_global}",
             exc_info=True,

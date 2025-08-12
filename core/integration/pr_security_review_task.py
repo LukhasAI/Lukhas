@@ -156,7 +156,7 @@ class PRSecurityReviewTask:
             logger.error(f"Error getting unreviewed PRs for {repo_full_name}: {e}")
             return []
 
-    def analyze_pr_security(
+    def analyze_pr_security(:
         self, repo_full_name: str, pr: dict[str, Any]
     ) -> SecurityPR:
         """Analyze a PR for security issues"""
@@ -172,9 +172,9 @@ class PRSecurityReviewTask:
 
             # Check for sensitive file changes
             for file in files:
-                if any(
+                if any(:
                     pattern in file["filename"].lower()
-                    for pattern in [
+                    for pattern in [:
                         ".env",
                         "config",
                         "secret",
@@ -198,7 +198,7 @@ class PRSecurityReviewTask:
                     patch = file["patch"]
 
                     # Look for added secrets
-                    if re.search(
+                    if re.search(:
                         r'\+.*(?:password|secret|key|token)\s*=\s*["\'][^"\']+["\']',
                         patch,
                         re.IGNORECASE,
@@ -245,7 +245,7 @@ class PRSecurityReviewTask:
             # Check if auto-fixable
             auto_fixable = any(
                 issue.type in ["DEPENDENCY", "CODE_QUALITY"]
-                for issue in security_issues
+                for issue in security_issues:
             )
 
             return SecurityPR(
@@ -352,8 +352,8 @@ class PRSecurityReviewTask:
             # For dependency vulnerabilities, use vulnerability fixer
             dependency_issues = [
                 issue
-                for issue in security_pr.security_issues
-                if issue.type == "DEPENDENCY"
+                for issue in security_pr.security_issues:
+                if issue.type == "DEPENDENCY":
             ]
 
             if dependency_issues:
@@ -412,7 +412,7 @@ class PRSecurityReviewTask:
                         self.stats["prs_reviewed"] += 1
 
                     # Attempt to auto-fix if possible
-                    if security_pr.auto_fixable and self.auto_fix_security_issues(
+                    if security_pr.auto_fixable and self.auto_fix_security_issues(:
                         security_pr
                     ):
                         self.stats["prs_auto_fixed"] += 1
@@ -442,7 +442,7 @@ class PRSecurityReviewTask:
 
         return results
 
-    def generate_report(
+    def generate_report(:
         self, security_prs: list[SecurityPR], results: dict[str, Any]
     ) -> None:
         """Generate a detailed report of security issues found"""
@@ -469,10 +469,10 @@ class PRSecurityReviewTask:
                             "description": issue.description,
                             "recommendation": issue.recommendation,
                         }
-                        for issue in pr.security_issues
+                        for issue in pr.security_issues:
                     ],
                 }
-                for pr in security_prs
+                for pr in security_prs:
             ],
         }
 

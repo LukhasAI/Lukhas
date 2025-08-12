@@ -218,7 +218,7 @@ class QRSManager:
                 "creation_time": time.time() - start_time,
             }
 
-    def authenticate_with_symbolic_challenge(
+    def authenticate_with_symbolic_challenge(:
         self, lambda_id: str, challenge_response: dict[str, Any]
     ) -> dict[str, Any]:
         """
@@ -262,7 +262,7 @@ class QRSManager:
             logger.error(f"ΛTRACE: Symbolic authentication error: {e}")
             return {"success": False, "error": str(e)}
 
-    def generate_qrg_for_lambda_id(
+    def generate_qrg_for_lambda_id(:
         self, lambda_id: str, qrg_type: QRGType, **kwargs
     ) -> dict[str, Any]:
         """
@@ -307,7 +307,7 @@ class QRSManager:
             logger.error(f"ΛTRACE: QRG generation error: {e}")
             return {"success": False, "error": str(e)}
 
-    def validate_qrg_authentication(
+    def validate_qrg_authentication(:
         self, qrg_data: dict[str, Any], auth_response: dict[str, Any]
     ) -> dict[str, Any]:
         """
@@ -370,7 +370,7 @@ class QRSManager:
         """Get ΛiD from QRG ID."""
         return self.qrg_mapping.get(qrg_id)
 
-    def update_symbolic_vault(
+    def update_symbolic_vault(:
         self, lambda_id: str, new_entries: list[dict[str, Any]]
     ) -> dict[str, Any]:
         """
@@ -413,7 +413,7 @@ class QRSManager:
             logger.error(f"ΛTRACE: Vault update error: {e}")
             return {"success": False, "error": str(e)}
 
-    def _parse_symbolic_entries(
+    def _parse_symbolic_entries(:
         self, entries: list[dict[str, Any]]
     ) -> list[SymbolicVaultEntry]:
         """Parse symbolic entries into vault format."""
@@ -447,7 +447,7 @@ class QRSManager:
 
         return parsed_entries
 
-    def _generate_public_hash(
+    def _generate_public_hash(:
         self, lambda_id_result: dict[str, Any], user_profile: dict[str, Any]
     ) -> str:
         """Generate public hash in format: ΛiD#{Prefix}{OrgCode}{Emoji}{HashFragment}."""
@@ -464,7 +464,7 @@ class QRSManager:
 
         return f"ΛiD#{prefix}{org_code}{emoji}‿{hash_fragment}"
 
-    def _calculate_initial_tier(
+    def _calculate_initial_tier(:
         self,
         symbolic_vault: list[SymbolicVaultEntry],
         user_profile: dict[str, Any],
@@ -488,7 +488,7 @@ class QRSManager:
         else:
             return 0  # Free
 
-    def _calculate_tier_eligibility(
+    def _calculate_tier_eligibility(:
         self, symbolic_vault: list[SymbolicVaultEntry]
     ) -> dict[str, bool]:
         """Calculate tier eligibility based on current vault."""
@@ -524,7 +524,7 @@ class QRSManager:
 
         return challenge_elements
 
-    def _validate_symbolic_challenge(
+    def _validate_symbolic_challenge(:
         self,
         profile: LambdaIDProfile,
         challenge_elements: list[str],
@@ -541,7 +541,7 @@ class QRSManager:
             # Find matching vault entry
             matching_entry = None
             for vault_entry in profile.symbolic_vault:
-                if (
+                if (:
                     vault_entry.entry_type.value == element_type
                     and vault_entry.value.startswith(element_hint)
                 ):
@@ -561,7 +561,7 @@ class QRSManager:
             "successful_count": sum(validation_results.values()),
         }
 
-    def _validate_symbolic_elements(
+    def _validate_symbolic_elements(:
         self, profile: LambdaIDProfile, auth_response: dict[str, Any]
     ) -> dict[str, Any]:
         """Validate symbolic elements for QRG authentication."""
@@ -582,7 +582,7 @@ class QRSManager:
 
         return {"success": True}
 
-    def _update_vault_usage_stats(
+    def _update_vault_usage_stats(:
         self, profile: LambdaIDProfile, challenge_response: dict[str, Any]
     ) -> None:
         """Update usage statistics for vault entries."""

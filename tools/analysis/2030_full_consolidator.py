@@ -27,8 +27,8 @@ class LUKHAS2030Consolidator:
                     "awareness",
                     "reflection",
                 ],
-                "vision": "Single consciousness core with reflection, awareness,",
-                and decision - making",
+                "vision": "Single consciousness core with reflection, awareness, "
+                "and decision-making",
                 "features": [
                     "Self-awareness mechanisms",
                     "Reflection depth control",
@@ -232,7 +232,7 @@ class LUKHAS2030Consolidator:
 
         for root, _dirs, files in os.walk("."):
             # Skip archives
-            if any(
+            if any(:
                 skip in root for skip in [".pwm_cleanup_archive", "__pycache__", ".git"]
             ):
                 continue
@@ -317,7 +317,7 @@ class LUKHAS2030Consolidator:
         )
         total_lines_saved = sum(
             r["potential_savings"]["lines_saved"]
-            for r in self.analysis_results.values()
+            for r in self.analysis_results.values():
         )
 
         report = {
@@ -486,7 +486,7 @@ def create_master_plan(report: dict[str, Any]):
 ## Executive Summary
 
 The LUKHAS 2030 consolidation will transform our codebase from {report['summary']['current_files']} files
-with {report['summary']['current_lines']:,} lines into a lean, powerful SGI system with approximately
+with {report['summary']['current_lines']:,} lines into a lean, powerful SGI system with approximately:
 {report['summary']['overall_reduction']} reduction in complexity while enhancing capabilities.
 
 ## System Consolidations

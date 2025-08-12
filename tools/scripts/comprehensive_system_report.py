@@ -316,8 +316,8 @@ class LUKHASSystemDiagnostic:
         # Check core modules
         failed_modules = [
             name
-            for name, data in self.results["core_modules"].items()
-            if data["status"] == "error"
+            for name, data in self.results["core_modules"].items():
+            if data["status"] == "error":
         ]
         if failed_modules:
             issues.append(
@@ -333,8 +333,8 @@ class LUKHASSystemDiagnostic:
         # Check API credentials
         missing_apis = [
             name
-            for name, data in self.results["api_credentials"].items()
-            if data["status"] == "❌ Missing"
+            for name, data in self.results["api_credentials"].items():
+            if data["status"] == "❌ Missing":
         ]
         if missing_apis:
             issues.append(
@@ -362,8 +362,8 @@ class LUKHASSystemDiagnostic:
         # Check test results
         failed_tests = [
             name
-            for name, data in self.results["test_results"].items()
-            if data.get("status", "").startswith("❌")
+            for name, data in self.results["test_results"].items():
+            if data.get("status", "").startswith("❌"):
         ]
         if failed_tests:
             issues.append(
@@ -387,8 +387,8 @@ class LUKHASSystemDiagnostic:
         working_modules = len(
             [
                 m
-                for m in self.results["core_modules"].values()
-                if m["status"] == "working"
+                for m in self.results["core_modules"].values():
+                if m["status"] == "working":
             ]
         )
         module_health = (
@@ -399,8 +399,8 @@ class LUKHASSystemDiagnostic:
         available_apis = len(
             [
                 a
-                for a in self.results["api_credentials"].values()
-                if a["status"] == "✅ Available"
+                for a in self.results["api_credentials"].values():
+                if a["status"] == "✅ Available":
             ]
         )
         api_coverage = (available_apis / total_apis * 100) if total_apis > 0 else 0
@@ -476,7 +476,7 @@ class LUKHASSystemDiagnostic:
         print(f"📅 Date: {self.report_timestamp}")
         print(f"🏥 Overall Health: {summary.get('overall_health', 'Unknown')}")
         print(
-            f"🧬 Module Health: {summary.get('module_health_percentage',
+            f"🧬 Module Health: {summary.get('module_health_percentage',}
                                             0)} % ({summary.get('working_modules', 0)} / {summary.get('total_modules_tested', 0)})"
         )
         print(

@@ -49,7 +49,7 @@ except ImportError as e:
     # Define fallbacks if essential components are missing, to allow app to
     # potentially load
 
-    class EnhancedOnboardingManager:  # type: ignore
+    class EnhancedOnboardingManager:  # type: ignore:
 
         def __init__(self):
             logger.critical(
@@ -70,7 +70,7 @@ except ImportError as e:
 
     # If `app` from unified_api cannot be imported, this module cannot define routes on it.
     # This is a critical failure for this file's purpose.
-    if (
+    if (:
         "app" not in locals() or "api_response" not in locals()
     ):  # Check if app was successfully imported
         logger.critical(
@@ -83,7 +83,7 @@ except ImportError as e:
 
         # type: ignore
 
-        def api_response(
+        def api_response(:
             success: bool,
             data: Optional[dict[str, Any]] = None,
             message: Optional[str] = None,
@@ -99,7 +99,7 @@ except ImportError as e:
             )
 
 # Initialize Enhanced Onboarding Manager if app was loaded
-if app:  # Only initialize if Flask app instance is available
+if app:  # Only initialize if Flask app instance is available:
     onboarding_manager = EnhancedOnboardingManager()
     logger.info("ΛTRACE: EnhancedOnboardingManager initialized.")
 else:
@@ -120,10 +120,10 @@ def _generate_request_id(prefix: str = "req") -> str:
 
 
 # Human-readable comment: Endpoint to start a new enhanced onboarding session.
-if app:  # Check if app is defined (i.e., import was successful)
+if app:  # Check if app is defined (i.e., import was successful):
 
     @app.route("/api/v2/onboarding/start", methods=["POST"])
-    def start_enhanced_onboarding_endpoint():  # Renamed for clarity
+    def start_enhanced_onboarding_endpoint():  # Renamed for clarity:
         """
         Starts an enhanced, progressive onboarding session for a user.
         Accepts initial context data to tailor the onboarding flow.
@@ -141,7 +141,7 @@ if app:  # Check if app is defined (i.e., import was successful)
                 f"ΛTRACE ({request_id}): Initial context from request: {initial_context if initial_context else 'None provided'}"
             )
 
-            if not onboarding_manager:  # Check if manager is initialized
+            if not onboarding_manager:  # Check if manager is initialized:
                 logger.error(
                     f"ΛTRACE ({request_id}): OnboardingManager not initialized. Cannot start session."
                 )
@@ -158,7 +158,7 @@ if app:  # Check if app is defined (i.e., import was successful)
                 initial_context
             )  # This method should log its own details
 
-            if result.get("success"):  # Use .get for safer access
+            if result.get("success"):  # Use .get for safer access:
                 session["onboarding_session_id"] = result.get(
                     "session_id"
                 )  # Store in Flask session
@@ -209,7 +209,7 @@ if app:  # Check if app is defined (i.e., import was successful)
 if app:
 
     @app.route("/api/v2/onboarding/progress", methods=["POST"])
-    def progress_onboarding_stage_endpoint():  # Renamed
+    def progress_onboarding_stage_endpoint():  # Renamed:
         """
         Advances the user through the adaptive onboarding flow to the next stage,
         based on data submitted for the current stage.
@@ -310,7 +310,7 @@ if app:
 if app:
 
     @app.route("/api/v2/onboarding/complete", methods=["POST"])
-    def complete_enhanced_onboarding_endpoint():  # Renamed
+    def complete_enhanced_onboarding_endpoint():  # Renamed:
         """
         Finalizes the enhanced onboarding process for the user and attempts to create their LUKHAS ΛiD.
         """
@@ -397,7 +397,7 @@ if app:
 if app:
 
     @app.route("/api/v2/onboarding/status/<session_id>", methods=["GET"])
-    def get_onboarding_status_endpoint(session_id: str):  # Renamed
+    def get_onboarding_status_endpoint(session_id: str):  # Renamed:
         """
         Retrieves the current status, progress, and stage information for a given onboarding session ID.
         """
@@ -469,7 +469,7 @@ if app:
 if app:
 
     @app.route("/api/v2/onboarding/templates/personality", methods=["GET"])
-    def get_personality_templates_endpoint():  # Renamed
+    def get_personality_templates_endpoint():  # Renamed:
         """
         Returns a list of available onboarding personality templates, including their
         descriptions, features, and recommended use cases.
@@ -617,7 +617,7 @@ if app:
 if app:
 
     @app.route("/api/v2/onboarding/templates/cultural", methods=["GET"])
-    def get_cultural_templates_endpoint():  # Renamed
+    def get_cultural_templates_endpoint():  # Renamed:
         """
         Returns a list of available cultural context templates, including suggested
         languages, symbols, and welcome messages for tailored onboarding.
@@ -744,7 +744,7 @@ if app:
 if app:
 
     @app.route("/api/v2/onboarding/suggestions/symbolic", methods=["POST"])
-    def get_symbolic_suggestions_endpoint():  # Renamed
+    def get_symbolic_suggestions_endpoint():  # Renamed:
         """
         Provides personalized symbolic element suggestions based on user's personality type,
         cultural context, interests, and desired security level.

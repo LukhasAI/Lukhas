@@ -1,0 +1,234 @@
+{
+  "deployment_plan": {
+    "name": "LUKHAS Restoration Initiative",
+    "objective": "Fix and integrate 200+ isolated modules into coherent system",
+    "timeline": "4 weeks",
+    "strategy": "Parallel specialized agent deployment"
+  },
+  
+  "agents": {
+    "testing_specialist": {
+      "name": "Testing & Validation Specialist",
+      "focus": "Fix test collection errors, validate modules",
+      "primary_directories": [
+        "tests/",
+        "test_results/",
+        "test_metadata/"
+      ],
+      "tasks": [
+        {
+          "id": "TS-001",
+          "priority": "HIGH",
+          "description": "Fix syntax errors in test files",
+          "files": [
+            "tests/test_terminology.py",
+            "tests/test_lukhas_import_alias.py",
+            "tests/test_tool_integration_complete.py"
+          ]
+        },
+        {
+          "id": "TS-002",
+          "priority": "HIGH",
+          "description": "Create integration test suite for module connections",
+          "output": "tests/test_module_integration.py"
+        },
+        {
+          "id": "TS-003",
+          "priority": "MEDIUM",
+          "description": "Validate all core modules have working tests",
+          "modules": ["consciousness", "memory", "governance", "identity"]
+        }
+      ]
+    },
+    
+    "integration_specialist": {
+      "name": "Module Integration Specialist",
+      "focus": "Connect isolated modules, fix imports",
+      "primary_directories": [
+        "lukhas_pwm/",
+        "lukhas/",
+        "core/"
+      ],
+      "tasks": [
+        {
+          "id": "IS-001",
+          "priority": "CRITICAL",
+          "description": "Create central lukhas/__init__.py with proper module exports",
+          "output": "lukhas/__init__.py"
+        },
+        {
+          "id": "IS-002",
+          "priority": "HIGH",
+          "description": "Create module_registry.py for all module discovery",
+          "output": "lukhas/module_registry.py"
+        },
+        {
+          "id": "IS-003",
+          "priority": "HIGH",
+          "description": "Fix import paths in isolated bio modules",
+          "directories": ["bio/", "bio_core/", "bio_awareness/", "bio_signals/"]
+        },
+        {
+          "id": "IS-004",
+          "priority": "MEDIUM",
+          "description": "Consolidate 27 bio modules into coherent package",
+          "output": "bio/__init__.py"
+        }
+      ]
+    },
+    
+    "syntax_fixer": {
+      "name": "Syntax Error Elimination Specialist",
+      "focus": "Fix all Python syntax errors",
+      "primary_directories": [
+        "tools/",
+        "bridge/",
+        "core/"
+      ],
+      "tasks": [
+        {
+          "id": "SF-001",
+          "priority": "CRITICAL",
+          "description": "Fix remaining syntax errors in tools/ directory",
+          "count": "95 files with errors"
+        },
+        {
+          "id": "SF-002",
+          "priority": "HIGH",
+          "description": "Fix malformed function definitions",
+          "pattern": "def function(: -> def function(self):"
+        },
+        {
+          "id": "SF-003",
+          "priority": "HIGH",
+          "description": "Fix unclosed f-strings and string literals",
+          "files": ["tools/analysis/*.py", "tools/scripts/*.py"]
+        }
+      ]
+    },
+    
+    "api_consolidator": {
+      "name": "API & Bridge Consolidation Specialist",
+      "focus": "Unify scattered API endpoints",
+      "primary_directories": [
+        "api/",
+        "bridge/",
+        "serve/"
+      ],
+      "tasks": [
+        {
+          "id": "AC-001",
+          "priority": "HIGH",
+          "description": "Create unified FastAPI application",
+          "output": "api/main.py"
+        },
+        {
+          "id": "AC-002",
+          "priority": "HIGH",
+          "description": "Consolidate bridge/api/* endpoints",
+          "files": ["bridge/api/*.py"]
+        },
+        {
+          "id": "AC-003",
+          "priority": "MEDIUM",
+          "description": "Create OpenAPI documentation",
+          "output": "api/openapi.json"
+        }
+      ]
+    },
+    
+    "consciousness_architect": {
+      "name": "Consciousness System Architect",
+      "focus": "Trinity Framework integration",
+      "primary_directories": [
+        "consciousness/",
+        "memory/",
+        "governance/"
+      ],
+      "tasks": [
+        {
+          "id": "CA-001",
+          "priority": "HIGH",
+          "description": "Connect consciousness modules to memory system",
+          "modules": ["consciousness", "memory"]
+        },
+        {
+          "id": "CA-002",
+          "priority": "HIGH",
+          "description": "Wire Guardian validation across all modules",
+          "module": "governance"
+        },
+        {
+          "id": "CA-003",
+          "priority": "MEDIUM",
+          "description": "Implement Trinity Framework validation",
+          "output": "consciousness/trinity_validator.py"
+        }
+      ]
+    },
+    
+    "documentation_guardian": {
+      "name": "Documentation & Accuracy Guardian",
+      "focus": "Remove false claims, document reality",
+      "primary_directories": [
+        "docs/",
+        "README.md",
+        "AGENTS.md"
+      ],
+      "tasks": [
+        {
+          "id": "DG-001",
+          "priority": "HIGH",
+          "description": "Remove all unverified performance claims",
+          "files": ["README.md", "AGENTS.md"]
+        },
+        {
+          "id": "DG-002",
+          "priority": "HIGH",
+          "description": "Document actual working modules",
+          "output": "docs/WORKING_MODULES.md"
+        },
+        {
+          "id": "DG-003",
+          "priority": "MEDIUM",
+          "description": "Create honest capability matrix",
+          "output": "docs/CAPABILITY_MATRIX.md"
+        }
+      ]
+    }
+  },
+  
+  "coordination": {
+    "mcp_server": {
+      "enabled": true,
+      "docker_image": "lukhas-mcp:latest",
+      "port": 8000,
+      "coordination_endpoint": "/agent/tasks"
+    },
+    
+    "task_queue": {
+      "type": "priority_queue",
+      "persistence": "redis",
+      "status_dashboard": "http://localhost:8000/dashboard"
+    },
+    
+    "communication": {
+      "method": "shared_filesystem",
+      "status_dir": ".agent_status/",
+      "results_dir": ".agent_results/"
+    }
+  },
+  
+  "success_metrics": {
+    "phase_1": {
+      "syntax_errors_fixed": "100%",
+      "tests_passing": ">50%",
+      "modules_connected": ">80%"
+    },
+    "phase_2": {
+      "api_unified": true,
+      "trinity_validated": true,
+      "documentation_accurate": true
+    }
+  }
+}

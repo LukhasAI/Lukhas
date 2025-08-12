@@ -44,8 +44,8 @@ COMMANDS = {
     "Launch Public Dashboard": {
         "shortcut": "Ctrl+Shift+L",
         "script": "python3 dashboards/main.py",
-        "description": "Starts the LUCAS public companion dashboard(voice, thoughts,",
-                                                                    visuals).",
+        "description": "Starts the LUCAS public companion dashboard(voice, thoughts, "
+                       "visuals).",
     },
     "Trigger Audit Log (CLI)": {
         "shortcut": "Ctrl+Alt+A",

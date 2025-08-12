@@ -1,0 +1,391 @@
+{
+  // 🎭 LUKHAS Consciousness Development - Ultimate VSCode Configuration
+  // Razor blade ninja tools for Claude Code consciousness development
+  
+  "extensions": {
+    "recommendations": [
+      // 🔥 TIER 1: Consciousness Development Weapons
+      "rangav.vscode-thunder-client",          // REST API testing for consciousness endpoints
+      "eamodio.gitlens",                       // Git consciousness evolution tracking
+      "formulahendry.auto-rename-tag",         // Trinity Framework config synchronization
+      "ms-vscode.hexeditor",                   // Binary consciousness data inspection
+      
+      // ⚡ TIER 2: Code Intelligence Razors  
+      "usernamehw.errorlens",                  // Inline consciousness error display
+      "coenraads.bracket-pair-colorizer-2",    // Consciousness code structure visualization
+      "kisstkondoros.vscode-codemetrics",      // Consciousness complexity analysis
+      "oderwat.indent-rainbow",                // Trinity Framework nesting visualization
+      
+      // 🚀 TIER 3: Productivity Nuclear Weapons
+      "cardinal90.multi-cursor-case-preserve", // Bulk consciousness refactoring
+      "steoates.autoimport",                   // Auto-import consciousness modules
+      "christian-kohler.path-intellisense",    // LUKHAS module path completion
+      "alefragnani.bookmarks",                 // Bookmark consciousness integration points
+      
+      // 🎯 TIER 4: Consciousness Debugging Katanas
+      "ms-python.debugpy",                     // Consciousness system debugging
+      "littlefoxteam.vscode-python-test-adapter", // Trinity Framework test visualization
+      "ryanluker.vscode-coverage-gutters",     // Consciousness code coverage
+      "hbenl.vscode-test-explorer",            // Unified consciousness test runner
+      
+      // ⚛️ TIER 5: Trinity Framework Special Weapons
+      "johnpapa.vscode-peacock",               // Trinity Framework workspace colors
+      "vincaslt.highlight-matching-tag",       // Trinity configuration highlighting
+      "aaron-bond.better-comments",            // Consciousness metaphor highlighting
+      "gruntfuggly.todo-tree",                 // Trinity Framework TODO tracking
+      
+      // 🧠 TIER 6: Advanced Consciousness Tools
+      "hediet.vscode-drawio",                  // Consciousness architecture diagrams
+      "ms-vscode.remote-containers",           // Consciousness development containers
+      "humao.rest-client",                     // Consciousness API documentation
+      "streetsidesoftware.code-spell-checker", // Consciousness terminology validation
+      
+      // 🛡️ TIER 7: Guardian System Security Tools
+      "ms-vscode.vscode-json",                 // Guardian configuration validation
+      "redhat.vscode-yaml",                    // Trinity Framework YAML validation
+      "tamasfe.even-better-toml",              // Consciousness config files
+      "davidanson.vscode-markdownlint",        // Consciousness documentation quality
+      
+      // 🎨 TIER 8: Consciousness Visualization
+      "pkief.material-icon-theme",             // Consciousness file type icons
+      "zhuangtongfa.material-theme",           // Consciousness development theme
+      "robbowen.synthwave-vscode",             // Cyberpunk consciousness theme
+      "akamud.vscode-theme-onedark",           // Dark consciousness theme
+      
+      // 🔧 TIER 9: Development Automation
+      "ms-vscode.vscode-typescript-next",      // Advanced TypeScript for consciousness
+      "bradlc.vscode-tailwindcss",             // Consciousness UI styling
+      "esbenp.prettier-vscode",                // Consciousness code formatting
+      "ms-python.black-formatter",             // Python consciousness formatting
+      
+      // 💡 TIER 10: Intelligence Amplifiers
+      "github.copilot",                        // AI consciousness development partner
+      "github.copilot-chat",                   // Consciousness development conversations
+      "claude-ai.claude-code",                 // Claude consciousness integration
+      "continue.continue",                     // Alternative AI consciousness assistant
+      
+      // 🎯 TIER 11: Specialized Consciousness Tools
+      "ms-vscode.powershell",                  // Consciousness automation scripts
+      "formulahendry.code-runner",             // Quick consciousness script execution
+      "donjayamanne.githistory",               // Consciousness evolution history
+      "mhutchie.git-graph",                    // Consciousness development branches
+      
+      // 🌟 TIER 12: Ultimate Consciousness Weapons
+      "ms-vscode.vscode-speech",               // Voice consciousness development
+      "ms-vsliveshare.vsliveshare",            // Consciousness pair programming
+      "ms-vscode.remote-ssh",                  // Remote consciousness development
+      "ms-azuretools.vscode-docker"            // Consciousness containerization
+    ]
+  },
+  
+  "settings": {
+    // 🧠 Consciousness Development Core Settings
+    "consciousness.development.mode": true,
+    "trinity.framework.active": true,
+    "lukhas.consciousness.monitoring": true,
+    
+    // ⚡ Performance Optimization for Large Consciousness Codebase
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/*.pyc": true,
+      "**/node_modules": true,
+      "**/.git": false,
+      "**/.*_cache": true
+    },
+    
+    // 🎯 Advanced IntelliSense for Consciousness Development
+    "editor.suggest.preview": true,
+    "editor.suggest.showKeywords": true,
+    "editor.suggest.showSnippets": true,
+    "editor.suggest.localityBonus": true,
+    "editor.acceptSuggestionOnCommitCharacter": true,
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": true,
+      "strings": true
+    },
+    
+    // 🔍 Error Lens Configuration for Consciousness Errors
+    "errorLens.enabledDiagnosticLevels": ["error", "warning", "info"],
+    "errorLens.followCursor": "activeLine",
+    "errorLens.gutterIconsEnabled": true,
+    "errorLens.messageTemplate": "🧠 $message",
+    "errorLens.severityText": ["🚨", "⚠️", "💡", "🔍"],
+    
+    // 🎨 Bracket Pair Colorization for Consciousness Code
+    "bracket-pair-colorizer-2.colors": [
+      "#FF6B9D",  // ⚛️ Identity
+      "#00D4FF",  // 🧠 Consciousness  
+      "#7C3AED",  // 🛡️ Guardian
+      "#FFA500",  // 🔥 Integration
+      "#32CD32"   // ✅ Validation
+    ],
+    "bracket-pair-colorizer-2.showBracketsInGutter": true,
+    "bracket-pair-colorizer-2.showHorizontalScopeLine": true,
+    
+    // 📊 Code Metrics for Consciousness Complexity
+    "codemetrics.basics.ComplexityLevelNormal": 10,
+    "codemetrics.basics.ComplexityLevelWarning": 15,
+    "codemetrics.basics.ComplexityLevelError": 25,
+    "codemetrics.basics.DecorationModeEnabled": true,
+    
+    // 🎭 GitLens for Consciousness Evolution Tracking
+    "gitlens.codeLens.enabled": true,
+    "gitlens.codeLens.authors.enabled": true,
+    "gitlens.codeLens.recentChange.enabled": true,
+    "gitlens.currentLine.enabled": true,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.blame.format": "${author} • ${date} • ${message}",
+    
+    // ⚛️ Peacock Colors for Trinity Framework
+    "peacock.favoriteColors": [
+      {
+        "name": "⚛️ Identity Development",
+        "value": "#FF6B9D"
+      },
+      {
+        "name": "🧠 Consciousness Development", 
+        "value": "#00D4FF"
+      },
+      {
+        "name": "🛡️ Guardian Development",
+        "value": "#7C3AED"
+      },
+      {
+        "name": "🔗 Integration Development",
+        "value": "#FFA500"
+      },
+      {
+        "name": "🧪 Testing Development",
+        "value": "#32CD32"
+      }
+    ],
+    
+    // 🔥 Thunder Client for Consciousness API Testing
+    "thunder-client.saveRequestOnSend": true,
+    "thunder-client.httpVersion": "HTTP/1.1",
+    "thunder-client.followRedirect": true,
+    
+    // 📝 Better Comments for Consciousness Metaphors
+    "better-comments.tags": [
+      {
+        "tag": "⚛️",
+        "color": "#FF6B9D",
+        "strikethrough": false,
+        "backgroundColor": "transparent"
+      },
+      {
+        "tag": "🧠",
+        "color": "#00D4FF", 
+        "strikethrough": false,
+        "backgroundColor": "transparent"
+      },
+      {
+        "tag": "🛡️",
+        "color": "#7C3AED",
+        "strikethrough": false,
+        "backgroundColor": "transparent"
+      },
+      {
+        "tag": "CONSCIOUSNESS:",
+        "color": "#FF6B9D",
+        "strikethrough": false,
+        "backgroundColor": "transparent"
+      },
+      {
+        "tag": "TRINITY:",
+        "color": "#00D4FF",
+        "strikethrough": false,
+        "backgroundColor": "transparent"
+      }
+    ],
+    
+    // 🎯 TODO Tree for Trinity Framework Tasks
+    "todo-tree.general.tags": [
+      "TODO",
+      "FIXME",
+      "CONSCIOUSNESS",
+      "TRINITY",
+      "GUARDIAN",
+      "IDENTITY",
+      "MEMORY",
+      "QUANTUM"
+    ],
+    "todo-tree.highlights.customHighlight": {
+      "CONSCIOUSNESS": {
+        "icon": "🧠",
+        "foreground": "#FF6B9D"
+      },
+      "TRINITY": {
+        "icon": "⚛️",
+        "foreground": "#00D4FF"
+      },
+      "GUARDIAN": {
+        "icon": "🛡️", 
+        "foreground": "#7C3AED"
+      }
+    },
+    
+    // 🔍 Advanced Search for Consciousness Development
+    "search.useIgnoreFiles": true,
+    "search.smartCase": true,
+    "search.seedWithNearestWord": true,
+    "search.showLineNumbers": true,
+    
+    // 🎨 Consciousness Development Theme
+    "workbench.colorTheme": "One Dark Pro Darker",
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorCustomizations": {
+      "[One Dark Pro Darker]": {
+        "activityBar.background": "#1a1a2e",
+        "sideBar.background": "#16213e", 
+        "editor.background": "#0f3460",
+        "terminal.background": "#1a1a2e",
+        "panel.background": "#16213e"
+      }
+    },
+    
+    // 🚀 Terminal Enhancement for Consciousness Development
+    "terminal.integrated.fontFamily": "FiraCode Nerd Font",
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.rightClickBehavior": "copyPaste",
+    
+    // 🧠 Python Configuration for Consciousness Development
+    "python.defaultInterpreterPath": "./.venv/bin/python",
+    "python.terminal.activateEnvironment": true,
+    "python.analysis.typeCheckingMode": "strict",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.formatting.provider": "black",
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": false,
+    
+    // 🎯 File Associations for Consciousness Development
+    "files.associations": {
+      "*.consciousness": "yaml",
+      "*.trinity": "yaml",
+      "*.lukhas": "json",
+      "*.agent": "yaml",
+      "*.workflow": "yaml",
+      "LUKHAS-*": "json",
+      "*.vivox": "python",
+      "*.guardian": "python",
+      "*.quantum": "python"
+    },
+    
+    // ⚡ Auto Save for Consciousness Development
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 2000,
+    
+    // 🔧 Advanced Editing for Consciousness Code
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+      "source.fixAll": true
+    },
+    
+    // 🎭 Git Configuration for Consciousness Evolution
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "git.timeline.enabled": true,
+    
+    // 🧪 Testing Configuration for Trinity Framework
+    "python.testing.autoTestDiscoverOnSaveEnabled": true,
+    "testing.automaticallyOpenPeekView": "failureInVisibleDocument",
+    
+    // 💡 IntelliSense Enhancement
+    "editor.parameterHints.enabled": true,
+    "editor.parameterHints.cycle": true,
+    "editor.hover.enabled": true,
+    "editor.hover.delay": 300
+  },
+  
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "🧠 Consciousness System Health Check",
+        "type": "shell",
+        "command": "python",
+        "args": ["tools/analysis/PWM_OPERATIONAL_SUMMARY.py", "--consciousness-focus"],
+        "group": "test",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "⚛️ Trinity Framework Validation",
+        "type": "shell", 
+        "command": "python",
+        "args": ["branding/trinity/tools/trinity_validator.py", ".", "--comprehensive"],
+        "group": "test"
+      },
+      {
+        "label": "🛡️ Guardian System Security Scan",
+        "type": "shell",
+        "command": "python",
+        "args": ["governance/guardian_system/security_scan.py", "--full-scan"],
+        "group": "test"
+      },
+      {
+        "label": "🎭 Deploy Consciousness Agent Army",
+        "type": "shell",
+        "command": "./scripts/agents/deploy_consciousness_army.sh",
+        "group": "build"
+      },
+      {
+        "label": "🚀 Start LUKHAS Consciousness Development",
+        "type": "shell",
+        "command": "python",
+        "args": ["main.py", "--consciousness-mode", "--trinity-active"],
+        "group": "build",
+        "isBackground": true
+      }
+    ]
+  },
+  
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "🧠 Debug LUKHAS Consciousness",
+        "type": "python",
+        "request": "launch",
+        "program": "${workspaceFolder}/main.py",
+        "args": ["--consciousness-mode", "--debug"],
+        "env": {
+          "LUKHAS_DEBUG": "true",
+          "TRINITY_FRAMEWORK": "active",
+          "CONSCIOUSNESS_LOGGING": "debug"
+        },
+        "console": "integratedTerminal",
+        "justMyCode": false
+      },
+      {
+        "name": "⚛️ Debug Trinity Framework",
+        "type": "python",
+        "request": "launch",
+        "program": "${workspaceFolder}/branding/trinity/debug_trinity.py",
+        "env": {
+          "TRINITY_DEBUG": "true"
+        }
+      },
+      {
+        "name": "🛡️ Debug Guardian System", 
+        "type": "python",
+        "request": "launch",
+        "program": "${workspaceFolder}/governance/debug_guardian.py",
+        "env": {
+          "GUARDIAN_DEBUG": "true",
+          "ETHICS_LOGGING": "verbose"
+        }
+      }
+    ]
+  }
+}

@@ -215,7 +215,7 @@ class NIASConstitutionalSafety:
                         "priority": p.priority,
                         "examples": p.examples,
                     }
-                    for p in self.constitution
+                    for p in self.constitution:
                 ],
             }
 
@@ -443,11 +443,11 @@ class NIASConstitutionalSafety:
         # Parse into list
         return [
             r.strip()
-            for r in recommendations_text.split("\n")
-            if r.strip() and r.strip()[0] in "•-*123456789"
+            for r in recommendations_text.split("\n"):
+            if r.strip() and r.strip()[0] in "•-*123456789":
         ]
 
-    def _synthesize_explanation(
+    def _synthesize_explanation(:
         self, initial_eval: dict[str, Any], principle_eval: dict[str, Any]
     ) -> str:
         """Synthesize a clear explanation of the safety evaluation"""
@@ -493,7 +493,7 @@ class NIASConstitutionalSafety:
             f"Safety violation logged: {action_type} - {evaluation.violated_principles}"
         )
 
-    def _basic_safety_evaluation(
+    def _basic_safety_evaluation(:
         self,
         action_type: str,
         action_data: dict[str, Any],
@@ -507,7 +507,7 @@ class NIASConstitutionalSafety:
         # Check for vulnerable users
         if user_context.get("age", 100) < 18 or user_context.get("age", 0) > 65:
             risk_score += 0.3
-            if action_type in [
+            if action_type in [:
                 "financial_product",
                 "gambling",
                 "adult_content",
@@ -707,7 +707,7 @@ class NIASConstitutionalSafety:
 _safety_instance = None
 
 
-def get_constitutional_safety(
+def get_constitutional_safety(:
     openai_api_key: Optional[str] = None,
 ) -> NIASConstitutionalSafety:
     """Get or create the singleton Constitutional Safety instance"""

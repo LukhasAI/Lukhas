@@ -102,7 +102,7 @@ class MemoryMediaFileStorage(MediaFileStorage, CacheStatsProvider):
         self._files_by_id: dict[str, MemoryFile] = {}
         self._media_endpoint = media_endpoint
 
-    def load_and_get_id(
+    def load_and_get_id(:
         self,
         path_or_data: str | bytes,
         mimetype: str,
@@ -113,8 +113,8 @@ class MemoryMediaFileStorage(MediaFileStorage, CacheStatsProvider):
         file_data: bytes
         file_data = (
             self._read_file(path_or_data)
-            if isinstance(path_or_data, str)
-            else path_or_data
+            if isinstance(path_or_data, str):
+            else path_or_data:
         )
 
         # Because our file_ids are stable, if we already have a file with the
@@ -178,6 +178,6 @@ class MemoryMediaFileStorage(MediaFileStorage, CacheStatsProvider):
                 cache_name="",
                 byte_length=len(file.content),
             )
-            for _, file in files_by_id.items()
+            for _, file in files_by_id.items():
         ]
         return group_stats(stats)

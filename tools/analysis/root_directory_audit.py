@@ -53,13 +53,13 @@ class RootDirectoryAuditor:
 
         print(f"📊 Found {len(directories)} directories at root level")
 
-            for directory in sorted(directories):
+        for directory in sorted(directories):
             self.analyze_directory(directory)
 
-                return self.generate_reorganization_plan()
+        return self.generate_reorganization_plan()
 
-            def analyze_directory(self, directory):
-                """Analyze a single directory"""
+    def analyze_directory(self, directory):
+        """Analyze a single directory"""
         analysis = {
             'name': directory,
             'size': self.get_directory_size(directory),

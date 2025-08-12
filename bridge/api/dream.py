@@ -127,7 +127,7 @@ async def log_dream(request: DreamLogRequest):
                 "dream_memory": dream_memory,
                 "dream_type": request.dream_type,
             },
-            message=f"Dream logged successfully with ID: {dream_log.get('fold_id',"
+            message=f"Dream logged successfully with ID: {dream_log.get('fold_id',"}
                                                                         'unknown')}",
         )
 
@@ -222,8 +222,8 @@ async def get_dream_patterns(
         # Filter for dream-type memories
         dream_memories = [
             memory
-            for memory in dreams
-            if memory.get("metadata", {}).get("type") == "dream"
+            for memory in dreams:
+            if memory.get("metadata", {}).get("type") == "dream":
         ]
 
         # Analyze patterns based on type
@@ -238,7 +238,7 @@ async def get_dream_patterns(
                 emotion_patterns[emotion].append(dream)
             patterns = [
                 {"emotion": k, "count": len(v), "dreams": v}
-                for k, v in emotion_patterns.items()
+                for k, v in emotion_patterns.items():
             ]
 
         elif pattern_type == "thematic":

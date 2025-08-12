@@ -220,8 +220,8 @@ class EmotionalOscillator:
             # Filter invalid emotions and normalize intensities
             valid_secondary = {
                 e: max(0.0, min(1.0, i))
-                for e, i in secondary_emotions.items()
-                if e in self.emotion_vector.emotion_vectors
+                for e, i in secondary_emotions.items():
+                if e in self.emotion_vector.emotion_vectors:
             }
             self.current_state["secondary_emotions"] = valid_secondary
             
@@ -658,7 +658,7 @@ class MemoryEmotionalIntegrator:
                 
             # Check if memory is recent enough
             time_diff = (datetime.now() - fold.created_at).total_seconds()
-            if time_diff <= (hours_limit * 3600):  # Convert hours to seconds
+            if time_diff <= (hours_limit * 3600):  # Convert hours to seconds:
                 recent_memories.append(key)
                 
             # Break if we have enough memories

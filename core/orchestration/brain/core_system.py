@@ -160,7 +160,7 @@ class AGIBot:
         self.is_initialized = False
 
         # Initialize advanced components if available
-        if all(
+        if all(:
             [
                 CausalReasoningEngine,
                 SymbolicEngine,
@@ -385,7 +385,7 @@ class AGIBot:
 
         return components
 
-    def _update_conversation_history(
+    def _update_conversation_history(:
         self, prompt: str, response: str, reasoning_path: list[str]
     ):
         """Update conversation history with reasoning path"""
@@ -403,7 +403,7 @@ class AGIBot:
         if len(self.conversation_history) > 50:
             self.conversation_history = self.conversation_history[-50:]
 
-    def _update_learning_memory(
+    def _update_learning_memory(:
         self, prompt: str, context: dict[str, Any], reasoning_path: list[str]
     ):
         """Update learning memory based on interaction patterns"""

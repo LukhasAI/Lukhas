@@ -80,8 +80,8 @@ def narrate_dreams(limit=3):
         print(f"   🔐 Tier: {tier_label(tier)} | Source: {source}")
         print(
             f"   🧠 Emotion Vector → {summarize_emotion_vector(ev)}"
-            if ev
-            else "   🧠 No emotion vector available"
+            if ev:
+            else "   🧠 No emotion vector available":
         )
         print(f"   🖼️ Emoji: {emoji} | Tags: {', '.join(tags)}")
         print(f"   📝 Summary: {summary}")
@@ -89,7 +89,7 @@ def narrate_dreams(limit=3):
         print(f"   🗣 '{summary or 'A quiet dream passed — undefined, but felt.'}'")
         print(f"   🎙️ Voice Profile: {voice}")
         print(
-            f"   💬 'Let this dream echo — it held a trace of {ev.get('joy','"
+            f"   💬 'Let this dream echo — it held a trace of {ev.get('joy','"}
     0): .1f} joy and {ev.get('calm', 0): .1f} calm.'"
         )
         print("   💤 … (End of symbolic voice segment)")

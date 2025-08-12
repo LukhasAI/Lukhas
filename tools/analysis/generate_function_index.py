@@ -113,8 +113,7 @@ class FunctionIndexGenerator:
                     {"function": node.name, "module": module_name}
                 )
             elif isinstance(decorator, ast.Attribute):
-                decorator_name = f"{decorator.value.id if isinstance(decorator.value,
-                                                                     ast.Name) else '...'}.{decorator.attr}"
+                decorator_name = f"{decorator.value.id if isinstance(decorator.value, ast.Name) else '...'}.{decorator.attr}"
                 decorators.append(decorator_name)
 
         # Extract return type if available

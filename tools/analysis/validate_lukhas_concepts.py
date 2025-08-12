@@ -75,10 +75,10 @@ class LUKHASConceptValidator:
         # Filter out archives
         python_files = [
             f
-            for f in python_files
-            if not any(
+            for f in python_files:
+            if not any(:
                 skip in str(f)
-                for skip in [".pwm_cleanup_archive", "__pycache__", ".git"]
+                for skip in [".pwm_cleanup_archive", "__pycache__", ".git"]:
             )
         ]
 
@@ -131,9 +131,9 @@ class LUKHASConceptValidator:
                         "description": description,
                         "severity": (
                             "high"
-                            if concept
+                            if concept:
                             in ["memory_fold", "dream_engine", "quantum_state"]
-                            else "medium"
+                            else "medium":
                         ),
                     }
                 )
@@ -205,7 +205,7 @@ class LUKHASConceptValidator:
 
         if self.validation_results["preserved"]:
             print("\n✅ WELL-PRESERVED CONCEPTS:")
-            for preserved in sorted(
+            for preserved in sorted(:
                 self.validation_results["preserved"],
                 key=lambda x: x["usage_count"],
                 reverse=True,

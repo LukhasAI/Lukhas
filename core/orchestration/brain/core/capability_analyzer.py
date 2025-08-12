@@ -774,8 +774,8 @@ class LUKHASCapabilityAnalyzer:
         # Calculate utilization metrics
         utilization_rate = (
             len(all_detected_capabilities) / total_capabilities_available
-            if total_capabilities_available > 0
-            else 0
+            if total_capabilities_available > 0:
+            else 0:
         )
 
         analysis = {
@@ -833,12 +833,12 @@ class LUKHASCapabilityAnalyzer:
 
         avg_processing_times = {
             test_type: sum(times) / len(times)
-            for test_type, times in processing_times.items()
+            for test_type, times in processing_times.items():
         }
 
         avg_token_usage = {
             test_type: sum(tokens) / len(tokens)
-            for test_type, tokens in token_usage.items()
+            for test_type, tokens in token_usage.items():
         }
 
         # Generate recommendations
@@ -878,7 +878,7 @@ class LUKHASCapabilityAnalyzer:
 
         return report
 
-    def _generate_recommendations(
+    def _generate_recommendations(:
         self, capability_analysis: dict[str, Any]
     ) -> list[str]:
         """Generate recommendations based on capability analysis."""
@@ -979,7 +979,7 @@ async def main():
         )
 
         print("\n Top Used Capabilities:")
-        for capability, count in report["capability_analysis"]["top_used_capabilities"][
+        for capability, count in report["capability_analysis"]["top_used_capabilities"][:
             :5
         ]:
             print(f"  * {capability}: {count} times")

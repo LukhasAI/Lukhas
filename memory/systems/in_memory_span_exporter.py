@@ -29,12 +29,12 @@ from core.common import get_logger
    class ReadableSpan:
         name: str  # Simplified placeholder # type: ignore
 
-    class SpanExporter:  # type: ignore
-        def export(
+    class SpanExporter:  # type: ignore:
+        def export(:
             self,
             spans: typing.Sequence[ReadableSpan]) -> 'SpanExportResult': return SpanExportResult(False)  # type: ignore
-        def shutdown(self) -> None: pass
-        def force_flush(self, timeout_millis: int = 30000) -> bool: return True
+        def shutdown(self) -> None: pass:
+        def force_flush(self, timeout_millis: int = 30000) -> bool: return True:
 
     @dataclass  # type: ignore
     class SpanExportResult:
@@ -43,7 +43,7 @@ from core.common import get_logger
     SpanExportResult.FAILURE = SpanExportResult(False)  # type: ignore
 
 
-class InMemorySpanExporter(SpanExporter):  # type: ignore
+class InMemorySpanExporter(SpanExporter):  # type: ignore:
     """
     Implementation of OpenTelemetry SpanExporter that stores spans in memory.
     Primarily for testing purposes. Exported spans can be retrieved via get_finished_spans().

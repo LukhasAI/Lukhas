@@ -115,8 +115,8 @@ class ΛBotAutonomousVulnerabilityFixer:
             user_request=False,
             urgency=(
                 CallUrgency.HIGH
-                if vulnerability.severity == VulnerabilitySeverity.CRITICAL
-                else CallUrgency.MEDIUM
+                if vulnerability.severity == VulnerabilitySeverity.CRITICAL:
+                else CallUrgency.MEDIUM:
             ),
             estimated_cost=0.02,  # AI analysis cost
             description=f"AI analysis for {vulnerability.package_name} vulnerability in {vulnerability.repository}",
@@ -523,7 +523,7 @@ class ΛBotAutonomousVulnerabilityFixer:
 
         return pr_data
 
-    def _generate_pr_description(
+    def _generate_pr_description(:
         self, vulnerability: Vulnerability, fix_strategy: FixStrategy
     ) -> str:
         """Generate comprehensive PR description"""
@@ -628,8 +628,8 @@ class ΛBotAutonomousVulnerabilityFixer:
         # Prioritize critical and high severity vulnerabilities
         critical_vulns = [
             v
-            for v in self.vulnerability_manager.vulnerabilities
-            if v.severity
+            for v in self.vulnerability_manager.vulnerabilities:
+            if v.severity:
             in [VulnerabilitySeverity.CRITICAL, VulnerabilitySeverity.HIGH]
         ]
 
@@ -672,7 +672,7 @@ class ΛBotAutonomousVulnerabilityFixer:
                     "pr_url": r.pr_url,
                     "repository": (r.pr_url.split("/")[-3] if r.pr_url else "unknown"),
                 }
-                for r in successful_fixes
+                for r in successful_fixes:
             ],
             "total_ai_cost": sum(
                 r.ai_cost for r in fix_results if isinstance(r, PRCreationResult)

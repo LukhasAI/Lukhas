@@ -607,7 +607,7 @@ class UniversalDecisionInterceptor:
 class DecisionAuditDecorator:
     """Decorator for automatically embedding audit trails into functions"""
 
-    def __init__(
+    def __init__(:
         self,
         decision_type: DecisionType,
         audit_level: DecisionAuditLevel = DecisionAuditLevel.STANDARD,

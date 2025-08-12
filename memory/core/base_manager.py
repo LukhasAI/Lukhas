@@ -99,7 +99,7 @@ class BaseMemoryManager(ABC):
     - analyze: Perform analysis on memory patterns
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]]
+    def __init__(self, config: Optional[Dict[str, Any]]:
                  = None, base_path: Optional[Path] = None):
         """
         Initialize base memory manager.
@@ -230,7 +230,7 @@ class BaseMemoryManager(ABC):
         else:
             return [
                 mid for mid, meta in self._memory_index.items()
-                if not meta.get('deleted', False)
+                if not meta.get('deleted', False):
             ]
 
     def _save_to_disk(self, memory_id: str, data: Dict[str, Any]) -> None:
@@ -328,7 +328,7 @@ class BaseMemoryManager(ABC):
         total_memories = len(self._memory_index)
         deleted_memories = sum(
             1 for meta in self._memory_index.values()
-            if meta.get('deleted', False)
+            if meta.get('deleted', False):
         )
 
         return {

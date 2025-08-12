@@ -127,7 +127,7 @@ class LUKHASDNALink:
         except Exception as e:
             return f"[Learn Loop Error] {str(e)}"
 
-    def generate_email_draft(
+    def generate_email_draft(:
         self, topic, recipient="someone", language="en", tone="formal"
     ):
         """

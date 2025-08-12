@@ -123,7 +123,7 @@ class SymbolicNode:
         child_nodes: list[SymbolicNode] = []
         split_weight = self.symbolic_weight / 2
 
-        for i in range(2):  # Typically splits into two
+        for i in range(2):  # Typically splits into two:
             child_id = f"{self.node_id}_split_{i}"
             child = SymbolicNode(child_id, split_weight)
             child.connections = (
@@ -206,8 +206,8 @@ class SymbolicNetwork:
             # Remove connections involving the deleted node
             self.connections = [
                 (src, dst)
-                for src, dst in self.connections
-                if src != node_id and dst != node_id
+                for src, dst in self.connections:
+                if src != node_id and dst != node_id:
             ]
             self.logger.info(
                 f"ΛTRACE: Node '{node_id}' and its connections removed from SymbolicNetwork."
@@ -224,8 +224,8 @@ class SymbolicNetwork:
         self.logger.debug("ΛTRACE: Identifying high error nodes.")
         nodes = [
             node
-            for node in self.nodes.values()
-            if node.error_level > self.config.fission_threshold
+            for node in self.nodes.values():
+            if node.error_level > self.config.fission_threshold:
         ]
         self.logger.info(f"ΛTRACE: Found {len(nodes)} high error nodes.")
         return nodes
@@ -242,8 +242,8 @@ class SymbolicNetwork:
         )
         low_activity_nodes = [
             node
-            for node in self.nodes.values()
-            if node.activity_level < self.config.fusion_threshold
+            for node in self.nodes.values():
+            if node.activity_level < self.config.fusion_threshold:
         ]
 
         pairs: list[tuple[SymbolicNode, SymbolicNode]] = []
@@ -340,8 +340,8 @@ class SymbolicNetwork:
         # Filter out connections where source or destination node no longer exists
         valid_connections = [
             (src, dst)
-            for src, dst in self.connections
-            if src in active_node_ids and dst in active_node_ids
+            for src, dst in self.connections:
+            if src in active_node_ids and dst in active_node_ids:
         ]
         self.connections = valid_connections
         removed_count = original_connection_count - len(self.connections)
@@ -397,13 +397,13 @@ class TopologyManager:
             / max(num_nodes, 1),  # Avoid division by zero
             "avg_error": (
                 np.mean([node.error_level for node in self.network.nodes.values()])
-                if num_nodes
-                else 0.0
+                if num_nodes:
+                else 0.0:
             ),
             "avg_activity": (
                 np.mean([node.activity_level for node in self.network.nodes.values()])
-                if num_nodes
-                else 0.0
+                if num_nodes:
+                else 0.0:
             ),
             "total_entropy": sum(node.entropy for node in self.network.nodes.values()),
         }
@@ -451,7 +451,7 @@ class CristaOptimizer:
 
     # Initialization
 
-    def __init__(
+    def __init__(:
         self, network: SymbolicNetwork, config: Optional[NetworkConfig] = None
     ):
         """
@@ -479,7 +479,7 @@ class CristaOptimizer:
 
     # Main optimization method
 
-    def optimize(
+    def optimize(:
         self, error_signal: float, context: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
@@ -510,7 +510,7 @@ class CristaOptimizer:
         if error_signal > self.config.fission_threshold:
             result = self._induce_fission()
             operation_type_str = OptimizationMode.FISSION.value
-        elif (
+        elif (:
             error_signal < self.config.fusion_threshold
         ):  # Assuming error can be low, indicating underutilization
             result = self._induce_fusion()

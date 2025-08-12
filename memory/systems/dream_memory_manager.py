@@ -74,7 +74,7 @@ from core.common import get_logger
 # ΛNOTE: Placeholder for LUKHAS tier system decorator.
 
 
-def lukhas_tier_required(level: int):  # ΛSIM_TRACE: Placeholder decorator.
+def lukhas_tier_required(level: int):  # ΛSIM_TRACE: Placeholder decorator.:
     """Placeholder for LUKHAS tier system decorator."""
     def decorator(func):
         func._lukhas_tier = level
