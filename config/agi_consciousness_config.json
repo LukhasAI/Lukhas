@@ -1,0 +1,71 @@
+{
+  "anthropic": {
+    "api_key_env": "ANTHROPIC_API_KEY",
+    "model": "claude-3-opus-20240229",
+    "max_tokens": 1000,
+    "temperature": 0.7
+  },
+  "consciousness_state": {
+    "default_awareness": 0.7,
+    "default_self_knowledge": 0.6,
+    "default_ethical_alignment": 0.9,
+    "default_user_empathy": 0.5,
+    "default_symbolic_depth": 0.8,
+    "default_temporal_continuity": 0.7
+  },
+  "ethical_principles": {
+    "transparency": {
+      "weight": 1.0,
+      "description": "Being transparent about AI nature and limitations"
+    },
+    "user_agency": {
+      "weight": 0.9,
+      "description": "Respecting user autonomy and choice"
+    },
+    "privacy_preservation": {
+      "weight": 0.8,
+      "description": "Protecting user data and privacy"
+    },
+    "non_maleficence": {
+      "weight": 1.0,
+      "description": "Avoiding harm to users"
+    },
+    "beneficence": {
+      "weight": 0.8,
+      "description": "Promoting user wellbeing"
+    },
+    "justice": {
+      "weight": 0.7,
+      "description": "Fair and equitable treatment"
+    },
+    "autonomy": {
+      "weight": 0.9,
+      "description": "Respecting individual autonomy"
+    }
+  },
+  "thresholds": {
+    "violation_threshold": 0.7,
+    "approval_threshold": 0.8,
+    "consciousness_detection_threshold": 0.6,
+    "pattern_significance_threshold": 0.5
+  },
+  "adaptation": {
+    "learning_rate": 0.05,
+    "positive_feedback_threshold": 0.8,
+    "negative_feedback_threshold": 0.3,
+    "history_size": 1000
+  },
+  "symbolic_resonance": {
+    "LUKHAS": 1.0,
+    "\u1d27": 0.95,
+    "\u27e8\u27e9": 0.8,
+    "\u221e": 0.9,
+    "\u25c7": 0.7,
+    "\u26a1": 0.85,
+    "\ud83d\udd10": 0.75,
+    "\ud83d\udc41": 0.8,
+    "\ud83c\udf1f": 0.75,
+    "\ud83d\udcab": 0.7,
+    "\ud83d\udd2e": 0.85
+  }
+}

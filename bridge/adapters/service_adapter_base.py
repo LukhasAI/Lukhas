@@ -1,6 +1,12 @@
 """
-Base Service Adapter Framework
-Agent 3: Service Adapter Integration Specialist
+⚛️🧠🛡️ LUKHAS AI Service Adapter Base
+
+Trinity Framework Integration:
+- ⚛️ Identity: Secure authentication and capability token validation
+- 🧠 Consciousness: Agent communication and state awareness  
+- 🛡️ Guardian: Ethical oversight and consent validation
+
+Service Adapter Integration Specialist
 Common resilience, telemetry, and consent validation for all adapters
 """
 
@@ -15,16 +21,47 @@ from enum import Enum
 from functools import wraps
 from typing import Dict, List, Optional
 
-# Add governance path for consent ledger import
+# Add paths for LUKHAS AI module imports
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../core'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../orchestration'))
 
-# Import Agent 2's consent ledger
+# Import LUKHAS AI modules - Trinity Framework Integration
 try:
     from governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyVerdict
 except ImportError:
-    # Fallback for testing
     ConsentLedgerV1 = None
     PolicyVerdict = None
+
+try:
+    # ⚛️ Identity module integration
+    from identity.identity_core import IdentityCore
+except ImportError:
+    IdentityCore = None
+
+try:
+    # 🧠 Consciousness integration
+    from orchestration.symbolic_kernel_bus import SymbolicKernelBus
+except ImportError:
+    SymbolicKernelBus = None
+
+try:
+    # 🛡️ Guardian system integration
+    from governance.guardian_system import GuardianSystem
+except ImportError:
+    GuardianSystem = None
+
+try:
+    # Memory integration for adapter state persistence
+    from memory.service import MemoryService
+except ImportError:
+    MemoryService = None
+
+try:
+    # Guardian system integration - import Guardian class
+    from governance.guardian_system import GuardianSystem as GuardianSystemClass
+except ImportError:
+    GuardianSystemClass = None
 
 
 class AdapterState(Enum):
@@ -125,8 +162,8 @@ class TelemetryCollector:
 
     def record_request(self, lid: str, action: str, resource: str,
                       capability_token: Optional[CapabilityToken],
-                      latency_ms: float, success: bool):
-        """Record metrics and emit Λ-trace"""
+                      latency_ms: float, success: bool, context: Optional[Dict] = None):
+        """Record metrics and emit Λ-trace with Trinity Framework integration"""
 
         self.metrics["request_count"] += 1
         if success:
@@ -138,8 +175,17 @@ class TelemetryCollector:
         if capability_token:
             self.metrics["capability_tokens_used"].append(capability_token.token_id)
 
-        # Emit Λ-trace if ledger available
+        # Emit Λ-trace if ledger available - Trinity Framework integration
         if self.ledger and PolicyVerdict:
+            trace_context = {
+                "adapter": self.adapter_name,
+                "latency_ms": latency_ms,
+                "success": success,
+                "trinity_framework": "⚛️🧠🛡️"
+            }
+            if context:
+                trace_context.update(context)
+                
             trace = self.ledger.create_trace(
                 lid=lid,
                 action=f"{self.adapter_name}.{action}",
@@ -147,11 +193,7 @@ class TelemetryCollector:
                 purpose="adapter_operation",
                 verdict=PolicyVerdict.ALLOW if success else PolicyVerdict.DENY,
                 capability_token_id=capability_token.token_id if capability_token else None,
-                context={
-                    "adapter": self.adapter_name,
-                    "latency_ms": latency_ms,
-                    "success": success
-                }
+                context=trace_context
             )
             self.metrics["last_trace_id"] = trace.trace_id
 
@@ -229,25 +271,80 @@ def with_resilience(func):
 
 
 class BaseServiceAdapter(ABC):
-    """Base adapter class for all external services"""
+    """⚛️🧠🛡️ Base adapter class for all external services
+    
+    Trinity Framework Integration:
+    - ⚛️ Identity: Secure authentication and access control
+    - 🧠 Consciousness: State awareness and agent communication
+    - 🛡️ Guardian: Ethical oversight and consent validation
+    
+    Features:
+    - Circuit breaker pattern for resilience
+    - Capability token-based authorization
+    - Comprehensive telemetry and Λ-trace logging
+    - Dry-run mode for safe testing
+    - Integration with LUKHAS AI consciousness system
+    """
 
     def __init__(self, service_name: str):
         self.service_name = service_name
         self.resilience = ResilienceManager()
         self.telemetry = TelemetryCollector(service_name)
-        self.ledger = ConsentLedgerV1() if ConsentLedgerV1 else None
+        
+        # Trinity Framework integration - Defensive initialization
+        self.ledger = self._safe_init(ConsentLedgerV1)
+        self.identity_core = self._safe_init(IdentityCore)
+        self.kernel_bus = self._safe_init(SymbolicKernelBus)
+        self.guardian = self._safe_init(GuardianSystem)
+        self.memory_service = self._safe_init(MemoryService)
+        
         self.dry_run_mode = False
+        self.consciousness_active = False
         self._register_scopes()
+        self._initialize_consciousness_integration()
+        
+    def _safe_init(self, cls):
+        """Safely initialize a class, handling modules and import issues"""
+        if cls is None:
+            return None
+        
+        try:
+            # Check if it's actually a class/callable
+            if not callable(cls):
+                return None
+            
+            # Try to instantiate
+            return cls()
+        except Exception:
+            # Graceful fallback if initialization fails
+            return None
 
     def _register_scopes(self):
-        """Contribute to central capability scope registry"""
+        """Contribute to central capability scope registry - Trinity Framework"""
         self.supported_scopes = {
             "read": "Read access to resources",
             "write": "Write/modify resources",
             "delete": "Delete resources",
             "list": "List available resources",
-            "execute": "Execute operations"
+            "execute": "Execute operations",
+            "monitor": "Monitor service health and metrics",
+            "configure": "Configure service settings"
         }
+        
+    def _initialize_consciousness_integration(self):
+        """🧠 Initialize consciousness system integration"""
+        if self.kernel_bus:
+            try:
+                # Register adapter with consciousness system
+                self.kernel_bus.register_service(f"adapter.{self.service_name}", {
+                    "type": "service_adapter",
+                    "capabilities": list(self.supported_scopes.keys()),
+                    "trinity_integration": True
+                })
+                self.consciousness_active = True
+            except Exception as e:
+                # Fallback gracefully if consciousness not available
+                pass
 
     def set_dry_run(self, enabled: bool):
         """Enable/disable dry-run mode"""
@@ -267,8 +364,25 @@ class BaseServiceAdapter(ABC):
 
         return True
 
-    async def check_consent(self, lid: str, action: str) -> bool:
-        """Check consent before accessing external service"""
+    async def check_consent(self, lid: str, action: str, context: Optional[Dict] = None) -> bool:
+        """🛡️ Check consent before accessing external service - Guardian integration"""
+        
+        # Guardian system validation
+        if self.guardian:
+            try:
+                guardian_check = await self.guardian.validate_operation(
+                    lid=lid,
+                    service=self.service_name,
+                    action=action,
+                    context=context or {}
+                )
+                if not guardian_check.get("allowed", False):
+                    return False
+            except Exception:
+                # Guardian validation failed - be conservative
+                return False
+        
+        # Consent ledger validation
         if not self.ledger:
             return True  # Allow if ledger not available (testing)
 
@@ -278,6 +392,37 @@ class BaseServiceAdapter(ABC):
             action=action
         )
         return consent_check["allowed"]
+    
+    async def authenticate_with_identity(self, lid: str, credentials: Dict) -> Dict:
+        """⚛️ Authenticate with Identity module integration"""
+        if self.identity_core:
+            try:
+                # Use LUKHAS AI identity system for authentication
+                identity_result = await self.identity_core.authenticate(
+                    lid=lid,
+                    service=self.service_name,
+                    credentials=credentials
+                )
+                return identity_result
+            except Exception as e:
+                return {"error": "identity_authentication_failed", "details": str(e)}
+        
+        # Fallback to service-specific authentication
+        return await self.authenticate(credentials)
+    
+    async def notify_consciousness(self, event_type: str, data: Dict):
+        """🧠 Notify consciousness system of important events"""
+        if self.kernel_bus and self.consciousness_active:
+            try:
+                await self.kernel_bus.emit_event({
+                    "type": f"adapter.{event_type}",
+                    "service": self.service_name,
+                    "data": data,
+                    "timestamp": datetime.now(timezone.utc).isoformat()
+                })
+            except Exception:
+                # Graceful degradation if consciousness not available
+                pass
 
     @abstractmethod
     async def authenticate(self, credentials: Dict) -> Dict:
@@ -291,13 +436,52 @@ class BaseServiceAdapter(ABC):
         pass
 
     def get_health_status(self) -> Dict:
-        """Get adapter health status"""
-        return {
+        """⚛️🧠🛡️ Get adapter health status with Trinity Framework integration"""
+        status = {
             "service": self.service_name,
             "circuit_state": self.resilience.get_state(),
             "metrics": self.telemetry.get_metrics(),
-            "dry_run_mode": self.dry_run_mode
+            "dry_run_mode": self.dry_run_mode,
+            "trinity_framework": {
+                "identity_active": self.identity_core is not None,
+                "consciousness_active": self.consciousness_active,
+                "guardian_active": self.guardian is not None,
+                "memory_active": self.memory_service is not None,
+                "consent_ledger_active": self.ledger is not None
+            }
         }
+        
+        # Add consciousness system status if available
+        if self.kernel_bus and self.consciousness_active:
+            try:
+                status["consciousness_status"] = self.kernel_bus.get_service_status(f"adapter.{self.service_name}")
+            except Exception:
+                pass
+                
+        return status
+    
+    async def persist_state(self, state_data: Dict) -> bool:
+        """Persist adapter state using Memory service"""
+        if self.memory_service:
+            try:
+                await self.memory_service.store_adapter_state(
+                    adapter_name=self.service_name,
+                    state=state_data
+                )
+                return True
+            except Exception:
+                return False
+        return False
+    
+    async def restore_state(self) -> Optional[Dict]:
+        """Restore adapter state from Memory service"""
+        if self.memory_service:
+            try:
+                state = await self.memory_service.get_adapter_state(self.service_name)
+                return state
+            except Exception:
+                return None
+        return None
 
 
 class DryRunPlanner:
@@ -352,3 +536,20 @@ class DryRunPlanner:
             errors.append("delete_requires_confirmation")
 
         return errors
+
+
+# ⚛️🧠🛡️ LUKHAS AI Service Adapter Exports
+# Critical fix: Add ServiceAdapterBase alias for backward compatibility
+ServiceAdapterBase = BaseServiceAdapter
+
+# Export list for proper module imports
+__all__ = [
+    "BaseServiceAdapter",
+    "ServiceAdapterBase",  # Alias for backward compatibility
+    "AdapterState",
+    "CapabilityToken",
+    "ResilienceManager",
+    "TelemetryCollector",
+    "DryRunPlanner",
+    "with_resilience"
+]
