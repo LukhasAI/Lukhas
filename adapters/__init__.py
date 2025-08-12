@@ -13,8 +13,10 @@ ACK GUARDRAILS
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, List, Optional, Any, AsyncIterator
+from collections.abc import AsyncIterator
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -82,31 +84,31 @@ class ServiceAdapter(ABC):
     - Metadata-first design with content escalation
     - Comprehensive error handling and audit logging
     """
-    
+
     def __init__(self, service_name: str, consent_service=None):
         self.service_name = service_name
         self.consent_service = consent_service
-        
+
     @abstractmethod
     async def initialize(self, config: Dict[str, Any]) -> None:
         """Initialize the adapter with configuration"""
         pass
-        
+
     @abstractmethod
     async def verify_capability_token(
-        self, 
-        token: str, 
+        self,
+        token: str,
         required_scopes: List[str],
         resource_id: Optional[str] = None
     ) -> Dict[str, Any]:
         """Verify capability token has required scopes for operation"""
         pass
-    
+
     # Core operations (all require capability token verification)
-    
+
     @abstractmethod
     async def list_resources(
-        self, 
+        self,
         capability_token: str,
         parent_id: Optional[str] = None,
         resource_type: Optional[str] = None,
@@ -114,28 +116,28 @@ class ServiceAdapter(ABC):
     ) -> List[ResourceMetadata]:
         """List resources with metadata only (requires metadata scope)"""
         pass
-        
+
     @abstractmethod
     async def get_resource_metadata(
-        self, 
+        self,
         capability_token: str,
         resource_id: str
     ) -> ResourceMetadata:
         """Get detailed metadata for specific resource (requires metadata scope)"""
         pass
-        
+
     @abstractmethod
     async def get_resource_content(
-        self, 
+        self,
         capability_token: str,
         resource_id: str
     ) -> ResourceContent:
         """Get full resource content (requires content scope)"""
         pass
-        
+
     @abstractmethod
     async def put_resource(
-        self, 
+        self,
         capability_token: str,
         parent_id: Optional[str],
         name: str,
@@ -144,10 +146,10 @@ class ServiceAdapter(ABC):
     ) -> OperationResult:
         """Create or update resource (requires write scope)"""
         pass
-        
+
     @abstractmethod
     async def move_resource(
-        self, 
+        self,
         capability_token: str,
         resource_id: str,
         new_parent_id: str,
@@ -155,41 +157,41 @@ class ServiceAdapter(ABC):
     ) -> OperationResult:
         """Move resource to different location (requires move scope)"""
         pass
-        
+
     @abstractmethod
     async def search_resources(
-        self, 
+        self,
         capability_token: str,
         query: SearchQuery
     ) -> List[ResourceMetadata]:
         """Search resources (requires appropriate scope based on search depth)"""
         pass
-        
+
     @abstractmethod
     async def watch_resources(
-        self, 
+        self,
         capability_token: str,
         watch_request: WatchRequest
     ) -> str:
         """Set up real-time resource watching (requires watch scope)"""
         pass
-        
+
     @abstractmethod
     async def unwatch_resources(
-        self, 
+        self,
         capability_token: str,
         watch_id: str
     ) -> OperationResult:
         """Remove resource watch (requires watch scope)"""
         pass
-    
+
     # Helper methods
-    
+
     async def _log_operation(
-        self, 
-        operation: str, 
+        self,
+        operation: str,
         resource_id: Optional[str] = None,
-        success: bool = True, 
+        success: bool = True,
         error: Optional[str] = None,
         metadata: Optional[Dict[str, Any]] = None
     ):
@@ -205,12 +207,12 @@ class ServiceAdapter(ABC):
             "timestamp": datetime.utcnow()
         }
         print(f"AUDIT: {log_entry}")  # In production: send to audit service
-    
+
     def _extract_required_scopes(self, operation: str, resource_type: str = None) -> List[str]:
         """Extract required scopes based on operation and resource type"""
         scope_map = {
             "list": [f"{resource_type or 'files'}.list.metadata"],
-            "get_metadata": [f"{resource_type or 'files'}.read.metadata"],  
+            "get_metadata": [f"{resource_type or 'files'}.read.metadata"],
             "get_content": [f"{resource_type or 'files'}.read.content"],
             "put": [f"{resource_type or 'files'}.write"],
             "move": [f"{resource_type or 'files'}.move"],
@@ -222,9 +224,9 @@ class ServiceAdapter(ABC):
 
 __all__ = [
     'ServiceAdapter',
-    'ResourceMetadata', 
+    'ResourceMetadata',
     'ResourceContent',
     'SearchQuery',
-    'WatchRequest', 
+    'WatchRequest',
     'OperationResult'
 ]

@@ -10,9 +10,8 @@ Enhanced Swarm System with Real Agent Behaviors
 Integrated with Colony Coherence Upgrade
 Fixes the current implementation gaps and aligns with BaseColony infrastructure
 """
-import logging
-
 import asyncio
+import logging
 import random
 import time
 from collections import defaultdict, deque

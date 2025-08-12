@@ -11,6 +11,12 @@ This adapter provides unified access to:
 And all other Lambda Products
 """
 
+import logging
+import sys
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Optional
+
 from .plugin_base import (
     HealthStatus,
     LukhasPlugin,
@@ -18,11 +24,6 @@ from .plugin_base import (
     PluginPriority,
     PluginStatus,
 )
-import logging
-import sys
-from datetime import datetime
-from pathlib import Path
-from typing import Any, Optional
 
 # Add lambda-products to path for imports
 lambda_products_path = Path(__file__).parent.parent

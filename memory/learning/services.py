@@ -4,10 +4,9 @@ Learning Services
 Dependency injection services for the learning module.
 """
 
-from hub.service_registry import register_factory
 from typing import Any, Optional
 
-from hub.service_registry import get_service, inject_services
+from hub.service_registry import get_service, inject_services, register_factory
 
 
 class LearningService:

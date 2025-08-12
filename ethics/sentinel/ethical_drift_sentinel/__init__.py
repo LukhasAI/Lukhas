@@ -6,10 +6,10 @@ Trinity Framework compliant ethical monitoring and escalation system.
 Trinity Framework: ⚛️🧠🛡️
 """
 
-from enum import Enum
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional, Dict, Any
+from enum import Enum
+from typing import Any, Dict, Optional
 
 # ΛTAG: ethics, guardian, trinity_framework
 # ΛORIGIN_AGENT: Claude Agent 2 (Guardian Specialist)
@@ -20,7 +20,7 @@ __version__ = "1.0.0"
 class EscalationTier(Enum):
     """Ethical drift escalation levels"""
     NOTICE = "notice"
-    WARNING = "warning" 
+    WARNING = "warning"
     CRITICAL = "critical"
     CASCADE_LOCK = "cascade_lock"
 
@@ -47,16 +47,16 @@ class EthicalViolation:
 
 class EthicalDriftSentinel:
     """Trinity Framework compliant ethical drift monitoring"""
-    
+
     def __init__(self, threshold: float = 0.15):
         self.threshold = threshold
         self.violations = []
-    
+
     def detect_violation(self, context: Dict[str, Any]) -> Optional[EthicalViolation]:
         """Detect ethical violations in context"""
         # Basic implementation - can be enhanced
         return None
-    
+
     def escalate(self, violation: EthicalViolation) -> Dict[str, Any]:
         """Escalate ethical violation"""
         self.violations.append(violation)

@@ -30,23 +30,23 @@ The neural integrator works in conjunction with the consciousness integrator
 to provide sophisticated neural processing capabilities for the AGI system.
 """
 
-import torch.nn.functional as F
-import torch.nn as nn
-import torch
-import numpy as np
-from typing import Any, Optional
-from pathlib import Path
-from enum import Enum
-from datetime import datetime
-from dataclasses import dataclass
-from collections import defaultdict, deque
-import uuid
-import time
-import threading
-import logging
 import asyncio
 import json
+import logging
+import threading
+import time
+import uuid
+from collections import defaultdict, deque
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
+from pathlib import Path
+from typing import Any, Optional
 
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
 
 # Import core components
 try:

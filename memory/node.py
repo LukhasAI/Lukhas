@@ -4,13 +4,10 @@ Original: intent_node.py
 Advanced: intent_node.py
 Integration Date: 2025-05-31T07:55:28.128623
 """
-from collections import deque
-from typing import List
 import logging
-
-from typing import Any
 import time
-from typing import Any, Optional
+from collections import deque
+from typing import Any, List, Optional
 
 import numpy as np
 

@@ -14,16 +14,18 @@ System-wide guardrails applied:
 ACK GUARDRAILS
 """
 
-from datetime import datetime, timezone
-from typing import Dict, List, Optional, Any
-from fastapi import APIRouter, HTTPException, Depends, Request
-from fastapi.responses import JSONResponse
+from datetime import datetime
+from typing import Any, Dict, Optional
 
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 from . import (
-    SymbolType, MeaningType, SymbolBinding, CompositionChallenge,
-    CompositionProof, ULSignature, requires_ul_entropy, get_required_symbols
+    CompositionProof,
+    MeaningType,
+    SymbolType,
+    ULSignature,
+    requires_ul_entropy,
 )
 from .service import UniversalLanguageService
 
@@ -115,16 +117,16 @@ async def bind_symbol(
             request.meaning_type,
             request.meaning_value
         )
-        
+
         # Get symbol details for quality score
         symbol = service.local_store.symbols.get(symbol_id)
-        
+
         return BindSymbolResponse(
             symbol_id=symbol_id,
             quality_score=symbol.quality_score if symbol else 0.0,
             message=f"Symbol bound to '{request.meaning_value}' successfully"
         )
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Symbol binding failed: {str(e)}")
 
@@ -145,17 +147,17 @@ async def request_challenge(
             status_code=400,
             detail=f"Action '{request.action}' does not require UL entropy"
         )
-    
+
     try:
         challenge = await service.request_challenge(request.lid, request.action)
-        
+
         return ChallengeResponse(
             challenge_id=challenge.challenge_id,
             composition=challenge.composition,
             expected_symbols=challenge.expected_symbols,
             expires_at=challenge.expires_at
         )
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Challenge generation failed: {str(e)}")
 
@@ -179,23 +181,23 @@ async def verify_proof(
             computation_time_ms=request.computation_time_ms,
             quality_score=request.quality_score
         )
-        
+
         # Get challenge to find LID
         challenge = service.challenge_service.active_challenges.get(request.challenge_id)
         if not challenge:
             raise ValueError("Challenge not found or expired")
-        
+
         # Parse challenge to get LID and action
         lid = "gonzo"  # In production: extract from challenge
         action = "grant_admin_scope"  # In production: extract from challenge
-        
+
         # Verify proof
         verified = await service.challenge_service.verify_composition_proof(lid, proof)
-        
+
         if verified:
             # Create UL signature
             signature = await service.create_approval_signature(lid, action, proof)
-            
+
             return ProofVerificationResponse(
                 verified=True,
                 signature=signature,
@@ -206,7 +208,7 @@ async def verify_proof(
                 verified=False,
                 message="Composition proof verification failed"
             )
-            
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Proof verification failed: {str(e)}")
 
@@ -253,7 +255,7 @@ async def list_ul_actions() -> Dict[str, Any]:
     Returns all high-risk actions with UL requirements.
     """
     from . import UL_ENHANCED_ACTIONS
-    
+
     return {
         "ul_enhanced_actions": UL_ENHANCED_ACTIONS,
         "info": {
@@ -316,7 +318,7 @@ async def demo_ul_flow(
             "description": "Combine with GTΨ for complete high-risk approval"
         }
     ]
-    
+
     return {
         "message": "Universal Language (UL) Demo",
         "workflow": demo_steps,

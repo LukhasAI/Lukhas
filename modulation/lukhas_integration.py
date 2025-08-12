@@ -10,12 +10,12 @@ Trinity Framework: ⚛️🧠🛡️
 - 🛡️ Guardian: Safety-first signal validation and response
 """
 
-from typing import List, Dict, Any, Optional
 import asyncio
 import time
+from typing import Any, Dict, List
 
-from .signals import Signal, SignalModulator, ModulationParams
 from .openai_integration import ModulatedOpenAIClient, build_function_definitions
+from .signals import ModulationParams, Signal, SignalModulator
 
 
 class EndocrineSignalEmitter:

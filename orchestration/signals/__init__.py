@@ -22,8 +22,8 @@ from .signal_bus import (
     SignalBus,
     SignalPattern,
     SignalType,
-    get_signal_bus,
     emit_stress,
+    get_signal_bus,
 )
 
 __all__ = [

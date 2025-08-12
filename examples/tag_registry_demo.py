@@ -4,14 +4,15 @@ LUKHAS Tag Registry Demonstration
 Shows how the tag system provides human interpretability
 """
 
+import os
+import sys
+
 from core.tags import (
     explain_tag,
     get_decision_tags,
     get_hormone_tags,
     get_tag_registry,
 )
-import os
-import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

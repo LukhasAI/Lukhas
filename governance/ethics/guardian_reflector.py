@@ -34,10 +34,11 @@ License: Proprietary
 Version: 1.0.0
 """
 
-from enum import Enum
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Tuple
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
+
 from core.common import get_logger
 
 # Import LUKHAS core components
@@ -680,7 +681,7 @@ class GuardianReflector:
                 await self.protect_consciousness(event_data)
         except Exception as e:
             logger.error(f"Error handling consciousness event: {e}")
-    
+
     async def validate_action(self, action_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Validate an action through ethical reflection
@@ -694,7 +695,7 @@ class GuardianReflector:
         try:
             # Perform ethical reflection on the action
             reflection = await self.reflect_on_decision(action_data)
-            
+
             # Convert reflection to validation format expected by tests
             return {
                 "approved": reflection.moral_score >= 0.7,  # Approve if moral score is high
@@ -704,7 +705,7 @@ class GuardianReflector:
                 "concerns": reflection.concerns,
                 "recommendations": reflection.recommendations
             }
-            
+
         except Exception as e:
             logger.error(f"Action validation failed: {e}")
             return {

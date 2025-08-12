@@ -12,21 +12,24 @@ Privacy-first design:
 """
 
 import base64
+import hashlib
 import json
 import secrets
 from datetime import datetime, timedelta, timezone
-from typing import Dict, List, Optional, Tuple
-import hashlib
-import struct
+from typing import Dict, List, Optional
 
-from pydantic import BaseModel, Field
-from fastapi import APIRouter, HTTPException, Request, status
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
 # WebAuthn imports (in production use webauthn library)
 try:
-    from webauthn import generate_registration_options, verify_registration_response
-    from webauthn import generate_authentication_options, verify_authentication_response
+    from webauthn import (
+        generate_authentication_options,
+        generate_registration_options,
+        verify_authentication_response,
+        verify_registration_response,
+    )
     from webauthn.helpers.cose import COSEAlgorithmIdentifier
     WEBAUTHN_AVAILABLE = True
 except ImportError:
@@ -55,19 +58,19 @@ class PasskeyChallenge(BaseModel):
 
 class WebAuthnBootstrap:
     """WebAuthn/Passkeys authentication system for LUKHAS Identity"""
-    
+
     def __init__(self):
         self.rp_id = "identity.lukhas.com"  # Relying Party ID
         self.rp_name = "LUKHAS Identity"
         self.origin = "https://identity.lukhas.com"
-        
+
         # In-memory storage (in production: use PostgreSQL from schema.sql)
         self.credentials: Dict[str, List[WebAuthnCredential]] = {}
         self.challenges: Dict[str, PasskeyChallenge] = {}
-        
+
         # Audit logging
         self.audit_log = []
-    
+
     def generate_registration_challenge(self, canonical_lid: str, display_name: str = None) -> Dict:
         """
         Generate WebAuthn registration challenge for new passkey.
@@ -80,10 +83,10 @@ class WebAuthnBootstrap:
             WebAuthn registration options for client
         """
         start_time = datetime.now(timezone.utc)
-        
+
         # Generate cryptographically secure challenge
         challenge = base64.urlsafe_b64encode(secrets.token_bytes(32)).decode().rstrip('=')
-        
+
         # Store challenge for verification (requirement #6: audit trail)
         challenge_obj = PasskeyChallenge(
             challenge=challenge,
@@ -91,10 +94,10 @@ class WebAuthnBootstrap:
             created_at=start_time
         )
         self.challenges[challenge] = challenge_obj
-        
+
         # Create user handle (hashed ΛID for privacy)
         user_handle = self._hash_lid_for_user_handle(canonical_lid)
-        
+
         if WEBAUTHN_AVAILABLE:
             # Real WebAuthn implementation
             options = generate_registration_options(
@@ -114,7 +117,7 @@ class WebAuthnBootstrap:
                     "user_verification": "required"
                 }
             )
-            
+
             # Convert to dict for JSON response
             return {
                 "challenge": challenge,
@@ -151,7 +154,7 @@ class WebAuthnBootstrap:
                 },
                 "attestation": "direct"
             }
-    
+
     def verify_registration(self, canonical_lid: str, credential_response: Dict) -> Dict:
         """
         Verify WebAuthn registration response and store credential.
@@ -167,16 +170,16 @@ class WebAuthnBootstrap:
             challenge = credential_response.get("challenge")
             if not challenge or challenge not in self.challenges:
                 raise ValueError("Invalid or expired challenge")
-            
+
             challenge_obj = self.challenges[challenge]
             if challenge_obj.user_lid != canonical_lid:
                 raise ValueError("Challenge user mismatch")
-            
+
             # Check challenge timeout (60 seconds)
             if datetime.now(timezone.utc) - challenge_obj.created_at > timedelta(seconds=60):
                 del self.challenges[challenge]
                 raise ValueError("Challenge expired")
-            
+
             if WEBAUTHN_AVAILABLE:
                 # Real verification
                 verification = verify_registration_response(
@@ -185,23 +188,23 @@ class WebAuthnBootstrap:
                     expected_origin=self.origin,
                     expected_rp_id=self.rp_id
                 )
-                
+
                 if not verification.verified:
                     raise ValueError("Registration verification failed")
-                
+
                 credential_id = verification.credential_id
                 public_key = verification.credential_public_key
                 sign_count = verification.sign_count
-                
+
             else:
                 # Mock verification for development
                 credential_id = base64.urlsafe_b64encode(secrets.token_bytes(32)).decode().rstrip('=')
                 public_key = secrets.token_bytes(64)  # Mock public key
                 sign_count = 0
-            
+
             # Hash public key for storage (requirement #5: edge first, no raw data)
             public_key_hash = hashlib.sha256(public_key).hexdigest()
-            
+
             # Store credential
             credential = WebAuthnCredential(
                 credential_id=credential_id,
@@ -210,29 +213,29 @@ class WebAuthnBootstrap:
                 device_name=self._detect_device_name(credential_response),
                 created_at=datetime.now(timezone.utc)
             )
-            
+
             if canonical_lid not in self.credentials:
                 self.credentials[canonical_lid] = []
-            
+
             self.credentials[canonical_lid].append(credential)
-            
+
             # Clean up challenge
             del self.challenges[challenge]
-            
+
             # Audit log (requirement #6)
             self._log_audit_event("webauthn_registration", canonical_lid, {
                 "credential_id": credential_id[:16] + "...",  # Truncate for privacy
                 "device_name": credential.device_name,
                 "success": True
             })
-            
+
             return {
                 "success": True,
                 "credential_id": credential_id,
                 "device_name": credential.device_name,
                 "message": "Passkey registered successfully"
             }
-            
+
         except Exception as e:
             # Audit log failure
             self._log_audit_event("webauthn_registration", canonical_lid, {
@@ -240,7 +243,7 @@ class WebAuthnBootstrap:
                 "error": str(e)
             })
             raise HTTPException(status_code=400, detail=str(e))
-    
+
     def generate_authentication_challenge(self, canonical_lid: str) -> Dict:
         """
         Generate WebAuthn authentication challenge for existing user.
@@ -255,10 +258,10 @@ class WebAuthnBootstrap:
         user_credentials = self.credentials.get(canonical_lid, [])
         if not user_credentials:
             raise HTTPException(status_code=404, detail="No passkeys found for user")
-        
+
         # Generate challenge
         challenge = base64.urlsafe_b64encode(secrets.token_bytes(32)).decode().rstrip('=')
-        
+
         # Store challenge
         challenge_obj = PasskeyChallenge(
             challenge=challenge,
@@ -266,7 +269,7 @@ class WebAuthnBootstrap:
             created_at=datetime.now(timezone.utc)
         )
         self.challenges[challenge] = challenge_obj
-        
+
         # Get credential IDs for allowCredentials
         allow_credentials = [
             {
@@ -275,7 +278,7 @@ class WebAuthnBootstrap:
             }
             for cred in user_credentials
         ]
-        
+
         if WEBAUTHN_AVAILABLE:
             options = generate_authentication_options(
                 rp_id=self.rp_id,
@@ -287,7 +290,7 @@ class WebAuthnBootstrap:
                 user_verification="required",
                 timeout=60000
             )
-            
+
             return {
                 "challenge": challenge,
                 "rpId": self.rp_id,
@@ -304,7 +307,7 @@ class WebAuthnBootstrap:
                 "userVerification": "required",
                 "timeout": 60000
             }
-    
+
     def verify_authentication(self, canonical_lid: str, auth_response: Dict) -> Dict:
         """
         Verify WebAuthn authentication response.
@@ -320,20 +323,20 @@ class WebAuthnBootstrap:
             challenge = auth_response.get("challenge")
             if not challenge or challenge not in self.challenges:
                 raise ValueError("Invalid or expired challenge")
-            
+
             challenge_obj = self.challenges[challenge]
             if challenge_obj.user_lid != canonical_lid:
                 raise ValueError("Challenge user mismatch")
-            
+
             # Check timeout
             if datetime.now(timezone.utc) - challenge_obj.created_at > timedelta(seconds=60):
                 del self.challenges[challenge]
                 raise ValueError("Challenge expired")
-            
+
             credential_id = auth_response.get("credentialId")
             if not credential_id:
                 raise ValueError("Missing credential ID")
-            
+
             # Find user's credential
             user_credentials = self.credentials.get(canonical_lid, [])
             credential = None
@@ -341,10 +344,10 @@ class WebAuthnBootstrap:
                 if cred.credential_id == credential_id:
                     credential = cred
                     break
-            
+
             if not credential:
                 raise ValueError("Credential not found")
-            
+
             if WEBAUTHN_AVAILABLE:
                 # Real verification
                 verification = verify_authentication_response(
@@ -355,32 +358,32 @@ class WebAuthnBootstrap:
                     credential_public_key=credential.public_key_hash.encode(),  # In production: decode stored key
                     credential_current_sign_count=credential.sign_count
                 )
-                
+
                 if not verification.verified:
                     raise ValueError("Authentication verification failed")
-                
+
                 new_sign_count = verification.new_sign_count
             else:
                 # Mock verification
                 new_sign_count = credential.sign_count + 1
-            
+
             # Update credential
             credential.sign_count = new_sign_count
             credential.last_used_at = datetime.now(timezone.utc)
-            
+
             # Clean up challenge
             del self.challenges[challenge]
-            
+
             # Generate capability token (requirement #4: least privilege JWT)
             capability_token = self._generate_capability_token(canonical_lid, ["identity.read", "identity.update"])
-            
+
             # Audit log
             self._log_audit_event("webauthn_authentication", canonical_lid, {
                 "credential_id": credential_id[:16] + "...",
                 "device_name": credential.device_name,
                 "success": True
             })
-            
+
             return {
                 "success": True,
                 "canonical_lid": canonical_lid,
@@ -388,7 +391,7 @@ class WebAuthnBootstrap:
                 "device_name": credential.device_name,
                 "message": "Authentication successful"
             }
-            
+
         except Exception as e:
             # Audit log failure
             self._log_audit_event("webauthn_authentication", canonical_lid, {
@@ -396,16 +399,16 @@ class WebAuthnBootstrap:
                 "error": str(e)
             })
             raise HTTPException(status_code=401, detail=str(e))
-    
+
     def _hash_lid_for_user_handle(self, canonical_lid: str) -> str:
         """Create hashed user handle from ΛID (privacy protection)."""
         return hashlib.sha256(f"lukhas:lid:{canonical_lid}".encode()).hexdigest()[:32]
-    
+
     def _detect_device_name(self, credential_response: Dict) -> str:
         """Detect device name from WebAuthn response (for audit/UX)."""
         # In production: parse authenticator data for device info
         return "Unknown Device"
-    
+
     def _generate_capability_token(self, canonical_lid: str, scopes: List[str]) -> str:
         """
         Generate short-lived capability token (requirement #4).
@@ -415,7 +418,7 @@ class WebAuthnBootstrap:
         # Mock JWT token with caveats
         payload = {
             "sub": canonical_lid,
-            "iss": "https://identity.lukhas.com", 
+            "iss": "https://identity.lukhas.com",
             "aud": ["lukhas-api"],
             "iat": datetime.now(timezone.utc).timestamp(),
             "exp": (datetime.now(timezone.utc) + timedelta(hours=1)).timestamp(),
@@ -426,11 +429,11 @@ class WebAuthnBootstrap:
                 "resource_ids": ["*"]
             }
         }
-        
+
         # In production: sign with RSA private key
         token = base64.urlsafe_b64encode(json.dumps(payload).encode()).decode().rstrip('=')
         return f"cap_token_{token}"
-    
+
     def _log_audit_event(self, event_type: str, canonical_lid: str, metadata: Dict):
         """Log audit event (requirement #6: audit trail)."""
         event = {
@@ -440,7 +443,7 @@ class WebAuthnBootstrap:
             "metadata": metadata
         }
         self.audit_log.append(event)
-        
+
         # In production: write to PostgreSQL audit_log table
         print(f"AUDIT: {event_type} for {canonical_lid} - {metadata.get('success', False)}")
 
@@ -472,7 +475,7 @@ async def webauthn_challenge(
         else:
             options = webauthn.generate_authentication_challenge(lid)
             return JSONResponse({"status": "challenge", "options": options})
-            
+
     except HTTPException:
         raise
     except Exception as e:
@@ -518,7 +521,7 @@ async def list_credentials(lid: str):
     Returns list of credential metadata (no sensitive data).
     """
     credentials = webauthn.credentials.get(lid, [])
-    
+
     return {
         "canonical_lid": lid,
         "credentials": [
@@ -541,20 +544,20 @@ async def revoke_credential(lid: str, credential_id: str):
     Revoke/delete a WebAuthn credential (requirement #6: revocation paths).
     """
     credentials = webauthn.credentials.get(lid, [])
-    
+
     for i, cred in enumerate(credentials):
         if cred.credential_id == credential_id:
             del credentials[i]
-            
+
             # Audit log
             webauthn._log_audit_event("webauthn_revocation", lid, {
                 "credential_id": credential_id[:16] + "...",
                 "device_name": cred.device_name,
                 "success": True
             })
-            
+
             return {"success": True, "message": "Credential revoked"}
-    
+
     raise HTTPException(status_code=404, detail="Credential not found")
 
 
@@ -565,7 +568,7 @@ async def webauthn_status():
     total_users = len(webauthn.credentials)
     total_credentials = sum(len(creds) for creds in webauthn.credentials.values())
     active_challenges = len(webauthn.challenges)
-    
+
     return {
         "status": "healthy",
         "webauthn_available": WEBAUTHN_AVAILABLE,

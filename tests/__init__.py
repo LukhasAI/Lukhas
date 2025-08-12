@@ -20,15 +20,17 @@ __all__ = ["PWMTestOrchestrator"]
 
 # Try to import real GuardianReflector, fallback to mock
 try:
-    from governance.ethics.guardian_reflector import GuardianReflector as RealGuardianReflector
-    
+    from governance.ethics.guardian_reflector import (
+        GuardianReflector as RealGuardianReflector,
+    )
+
     class GuardianReflector(RealGuardianReflector):
         """Enhanced Guardian Reflector for testing with real implementation"""
-        
+
         def __init__(self, config=None):
             super().__init__(config)
             self._is_real = True
-        
+
         async def reflect_on_decision(self, context):
             """Enhanced reflection using real Guardian when available"""
             try:
@@ -39,7 +41,7 @@ try:
                     return await super().reflect_on_decision(context)
             except Exception:
                 pass
-            
+
             # Fallback to enhanced mock
             return type(
                 "EthicalReflection",

@@ -27,6 +27,7 @@ import numpy as np
 
 # Import logging
 from core.common import get_logger
+
 logger = get_logger(__name__)
 
 # Import LUKHAS components
@@ -211,7 +212,7 @@ class UnifiedMemoryOrchestrator:
         self.hippocampal_buffer: deque[MemoryTrace] = deque(maxlen=min(hippocampal_capacity, 1000))  # Limit to 1000
         self.neocortical_network: dict[str, MemoryTrace] = {}
         self.working_memory: dict[str, MemoryTrace] = {}
-        
+
         # Memory limits for leak prevention
         self.max_neocortical_size = min(neocortical_capacity, 10000)  # Limit to 10K
         self.max_working_memory_size = 50  # Strict limit for working memory
@@ -229,7 +230,7 @@ class UnifiedMemoryOrchestrator:
         self.sleep_stage = SleepStage.AWAKE
         self.consolidation_queue: deque[str] = deque(maxlen=self.max_consolidation_queue_size)
         self.replay_buffer: list[MemoryTrace] = []
-        
+
         # Background task management
         self.background_tasks: list = []
 
@@ -271,7 +272,7 @@ class UnifiedMemoryOrchestrator:
 
         # Start background processes (if event loop is available)
         self._start_background_tasks()
-        
+
         # Memory cleanup timer
         self.last_cleanup = datetime.now(timezone.utc)
         self.cleanup_interval = 300  # 5 minutes
@@ -517,7 +518,7 @@ class UnifiedMemoryOrchestrator:
         try:
             # Only start tasks if we have an event loop
             loop = asyncio.get_running_loop()
-            
+
             # Create and track tasks to prevent memory leaks
             self.background_tasks = [
                 loop.create_task(self._consolidation_loop()),
@@ -525,7 +526,7 @@ class UnifiedMemoryOrchestrator:
                 loop.create_task(self._memory_replay_loop()),
                 loop.create_task(self._health_maintenance_loop())
             ]
-            
+
             logger.info(f"Background tasks started: {len(self.background_tasks)} tasks")
         except RuntimeError:
             # No event loop running, tasks will be started manually when needed
@@ -1509,7 +1510,7 @@ class UnifiedMemoryOrchestrator:
                     )
                     for memory_id, _ in sorted_working[:-target_size]:
                         del self.working_memory[memory_id]
-                
+
                 # Periodic memory cleanup
                 current_time = datetime.now(timezone.utc)
                 if (current_time - self.last_cleanup).total_seconds() > self.cleanup_interval:
@@ -1542,47 +1543,47 @@ class UnifiedMemoryOrchestrator:
         """Add memory to working memory with size management"""
         if len(self.working_memory) >= self.max_working_memory_size:
             # Remove least recently accessed memory
-            oldest_id = min(self.working_memory.keys(), 
+            oldest_id = min(self.working_memory.keys(),
                           key=lambda x: self.working_memory[x].last_accessed)
             del self.working_memory[oldest_id]
-        
+
         self.working_memory[memory_id] = memory_trace
 
     def _cleanup_old_neocortical_memories(self):
         """Clean up old neocortical memories when at capacity"""
         if len(self.neocortical_network) < self.max_neocortical_size:
             return
-            
+
         # Remove oldest 10% of memories
         target_size = int(self.max_neocortical_size * 0.9)
         sorted_memories = sorted(
             self.neocortical_network.items(),
             key=lambda x: x[1].last_accessed
         )
-        
+
         # Remove oldest memories
         for memory_id, _ in sorted_memories[:-target_size]:
             del self.neocortical_network[memory_id]
-            
+
         logger.info(f"Cleaned up neocortical memories: {len(self.neocortical_network)} remaining")
 
     async def _aggressive_memory_cleanup(self):
         """Perform aggressive memory cleanup to prevent leaks"""
         logger.info("Performing aggressive memory cleanup...")
-        
+
         # Clean up indices
         for index_dict in [self.semantic_index, self.temporal_index, self.emotional_index]:
             if len(index_dict) > self.max_index_entries:
                 # Remove least frequently used entries
-                sorted_keys = sorted(index_dict.keys(), 
+                sorted_keys = sorted(index_dict.keys(),
                                    key=lambda x: len(index_dict[x]))
                 for key in sorted_keys[:len(index_dict) - self.max_index_entries]:
                     del index_dict[key]
-        
+
         # Limit replay buffer size aggressively
         if len(self.replay_buffer) > self.max_replay_buffer_size // 2:
             self.replay_buffer = self.replay_buffer[-(self.max_replay_buffer_size // 2):]
-        
+
         # Cancel and recreate background tasks if they're consuming too much memory
         if len(self.background_tasks) > 10:  # Should only be 4
             for task in self.background_tasks:
@@ -1590,13 +1591,13 @@ class UnifiedMemoryOrchestrator:
                     task.cancel()
             self.background_tasks = []
             self._start_background_tasks()
-            
+
         logger.info("Aggressive memory cleanup completed")
 
     async def shutdown(self):
         """Properly shutdown the orchestrator and cleanup resources"""
         logger.info("Shutting down UnifiedMemoryOrchestrator...")
-        
+
         # Cancel all background tasks
         for task in self.background_tasks:
             if not task.done():
@@ -1605,7 +1606,7 @@ class UnifiedMemoryOrchestrator:
                     await task
                 except asyncio.CancelledError:
                     pass
-        
+
         # Clear all memory structures
         self.hippocampal_buffer.clear()
         self.neocortical_network.clear()
@@ -1615,7 +1616,7 @@ class UnifiedMemoryOrchestrator:
         self.emotional_index.clear()
         self.consolidation_queue.clear()
         self.replay_buffer.clear()
-        
+
         logger.info("UnifiedMemoryOrchestrator shutdown complete")
 
     def get_memory_statistics(self) -> dict[str, Any]:

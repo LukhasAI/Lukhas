@@ -9,22 +9,23 @@ import asyncio
 import time
 from collections import deque
 from datetime import datetime, timezone
-from typing import Dict, Any, List
+from typing import Any, Dict, List
+
+from bio.endocrine_integration import EndocrineIntegration
 
 # Import LUKHAS modules to demonstrate data integration
 from consciousness.unified.auto_consciousness import AutoConsciousness
-from memory.memoria import Memoria
 from emotion.service import EmotionService
-from reasoning.causal.causal_inference import CausalInferenceEngine
-from bio.endocrine_integration import EndocrineIntegration
+from memory.memoria import Memoria
 
 # Import our monitoring system
 from monitoring import (
-    start_complete_monitoring_system,
     MonitoringProfile,
     PlasticityTriggerType,
+    start_complete_monitoring_system,
 )
 from orchestration.signals.signal_bus import SignalBus
+from reasoning.causal.causal_inference import CausalInferenceEngine
 
 
 class LukhasPWMDataFeeder:
@@ -546,11 +547,11 @@ class LukhasPWMDataFeeder:
             # Higher stress sensitivity during typical stress hours
             if 9 <= current_hour <= 17:  # Work hours
                 threshold -= 0.1
-            elif 22 <= current_hour or current_hour <= 6:  # Sleep hours
+            elif current_hour >= 22 or current_hour <= 6:  # Sleep hours
                 threshold += 0.1
         elif trigger_type == "recovery":
             # More recovery triggers during evening/night
-            if 20 <= current_hour or current_hour <= 8:
+            if current_hour >= 20 or current_hour <= 8:
                 threshold -= 0.15
 
         # 4. SYSTEM LOAD ADAPTATION: Adjust based on current system state

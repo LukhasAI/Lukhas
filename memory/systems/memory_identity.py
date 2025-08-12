@@ -2,9 +2,8 @@
 Memory-Identity Integration Module
 Provides integration between memory system and Lukhas_ID for identity-based access control
 """
-import logging
-
 import json
+import logging
 from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional

@@ -21,7 +21,6 @@ Features:
 - Predictive modeling frameworks
 """
 import logging
-
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum

@@ -1,8 +1,3 @@
-from collections import deque
-from typing import Union
-import logging
-import time
-
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: agi_consciousness_engine.py (Chunk 1/N)
 # MODULE: consciousness.core_consciousness.agi_consciousness_engine
@@ -15,17 +10,18 @@ import time
 #               anthropic (external), abc, logging
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
-
 # Original file header comment:
 # LUKHAS Consciousness-Aware AGI Authentication Engine
 # File: /lukhas_wallet/agi_consciousness_engine.py (Original path comment)
-
 import asyncio
 import hashlib
 import json
+import logging
+import time
+from collections import deque
 from dataclasses import asdict, dataclass, field  # Added field
 from datetime import datetime
-from typing import Any, Optional  # Added Any
+from typing import Any, Optional, Union  # Added Any
 
 import numpy as np
 

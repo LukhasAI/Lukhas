@@ -2,11 +2,10 @@
 Distributed Memory System using Colony Architecture
 Implements scalable, fault-tolerant memory across multiple colonies
 """
-import logging
-
 import asyncio
 import hashlib
 import json
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum

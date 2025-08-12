@@ -16,6 +16,7 @@ Integration Date: 2025-05-31T07:55:30.341806
 # ╚═══════════════════════════════════════════════════════════════════╝
 
 import streamlit as st  # Streamlit available - UI enabled
+
 from core.dashboard_settings import get_paired_apps
 
 st.set_page_config(page_title="LUKHAS Agent Dashboard", layout="wide")

@@ -14,10 +14,10 @@ Suggests realignment actions when drift metrics diverge from acceptable threshol
 
 import logging
 from collections import deque
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
-from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
 
 # ΛTAG: codex, drift, harmonizer, trinity_framework
 # ΛORIGIN_AGENT: Claude Agent 2 (Guardian Specialist)
@@ -81,12 +81,12 @@ class DriftHarmonizer:
         self.threshold = threshold
         self.history: deque = deque(maxlen=history_size)
         self.timestamps: deque = deque(maxlen=history_size)
-        
+
         # Trinity Framework components
         self.identity_weight = 0.35  # ⚛️ Identity influence
-        self.consciousness_weight = 0.35  # 🧠 Consciousness influence  
+        self.consciousness_weight = 0.35  # 🧠 Consciousness influence
         self.guardian_weight = 0.30  # 🛡️ Guardian influence
-        
+
         # Advanced analysis parameters
         self.severity_thresholds = {
             DriftSeverity.STABLE: 0.0,
@@ -95,7 +95,7 @@ class DriftHarmonizer:
             DriftSeverity.HIGH: 0.25,
             DriftSeverity.CRITICAL: 0.4
         }
-        
+
         # Realignment strategy mappings
         self.strategy_mapping = {
             DriftSeverity.STABLE: RealignmentStrategy.SYMBOLIC_GROUNDING,
@@ -104,7 +104,7 @@ class DriftHarmonizer:
             DriftSeverity.HIGH: RealignmentStrategy.GUARDIAN_INTERVENTION,
             DriftSeverity.CRITICAL: RealignmentStrategy.EMERGENCY_SHUTDOWN
         }
-        
+
         logger.info(f"DriftHarmonizer initialized with threshold={threshold}, Trinity compliance enabled")
 
     def record_drift(self, score: float, metadata: Optional[Dict[str, Any]] = None) -> None:
@@ -118,12 +118,12 @@ class DriftHarmonizer:
         timestamp = datetime.now(timezone.utc)
         self.history.append(score)
         self.timestamps.append(timestamp)
-        
+
         # Log significant drift events
         severity = self._classify_severity(score)
         if severity in [DriftSeverity.HIGH, DriftSeverity.CRITICAL]:
             logger.warning(f"Significant drift recorded: {score:.3f} ({severity.value})")
-        
+
         # Store metadata if provided
         if metadata and hasattr(self, '_metadata'):
             self._metadata[timestamp] = metadata
@@ -136,7 +136,7 @@ class DriftHarmonizer:
             Simple realignment suggestion string
         """
         analysis = self.analyze_drift()
-        
+
         if analysis.severity == DriftSeverity.STABLE:
             return "Drift stable"
         elif "symbolic" in analysis.recommended_strategy.value:
@@ -162,33 +162,33 @@ class DriftHarmonizer:
                 urgency_score=0.0,
                 timestamp=datetime.now(timezone.utc)
             )
-        
+
         # Current drift assessment
         current_drift = self.history[-1]
         avg_drift = sum(self.history) / len(self.history)
         recent_drift = sum(list(self.history)[-5:]) / min(5, len(self.history))
-        
+
         # Classify severity
         severity = self._classify_severity(current_drift)
-        
+
         # Analyze trend
         trend = self._analyze_trend()
-        
+
         # Predict future drift
         predicted_severity = self._predict_future_severity(trend, current_drift)
-        
+
         # Calculate confidence based on data quality
         confidence = self._calculate_confidence()
-        
+
         # Identify affected systems using Trinity Framework
         affected_systems = self._identify_affected_systems(current_drift)
-        
+
         # Recommend strategy
         strategy = self._recommend_strategy(severity, trend, predicted_severity)
-        
+
         # Calculate urgency
         urgency = self._calculate_urgency(severity, trend, predicted_severity)
-        
+
         return DriftAnalysis(
             severity=severity,
             trend=trend,
@@ -209,14 +209,14 @@ class DriftHarmonizer:
         """
         if not self.history:
             return {"identity": 1.0, "consciousness": 1.0, "guardian": 1.0}
-        
+
         current_drift = self.history[-1]
-        
+
         # Simulate Trinity component assessment (would integrate with actual systems)
         identity_balance = max(0.0, 1.0 - (current_drift * self.identity_weight * 2))
         consciousness_balance = max(0.0, 1.0 - (current_drift * self.consciousness_weight * 2))
         guardian_balance = max(0.0, 1.0 - (current_drift * self.guardian_weight * 2))
-        
+
         return {
             "identity": round(identity_balance, 3),
             "consciousness": round(consciousness_balance, 3),
@@ -234,15 +234,15 @@ class DriftHarmonizer:
         """Analyze drift trend from recent history"""
         if len(self.history) < 3:
             return "stable"
-        
+
         recent_values = list(self.history)[-5:]
         if len(recent_values) < 3:
             return "stable"
-        
+
         # Simple trend analysis
         first_half = sum(recent_values[:len(recent_values)//2]) / (len(recent_values)//2)
         second_half = sum(recent_values[len(recent_values)//2:]) / (len(recent_values) - len(recent_values)//2)
-        
+
         diff = second_half - first_half
         if abs(diff) < 0.02:
             return "stable"
@@ -259,7 +259,7 @@ class DriftHarmonizer:
             projected_drift = current_drift * 0.8
         else:
             projected_drift = current_drift
-        
+
         return self._classify_severity(projected_drift)
 
     def _calculate_confidence(self) -> float:
@@ -274,7 +274,7 @@ class DriftHarmonizer:
     def _identify_affected_systems(self, drift_score: float) -> List[str]:
         """Identify which Trinity systems are affected by drift"""
         affected = []
-        
+
         # Trinity Framework component thresholds
         if drift_score > 0.1:
             affected.append("identity")
@@ -282,20 +282,20 @@ class DriftHarmonizer:
             affected.append("consciousness")
         if drift_score > 0.08:
             affected.append("guardian")
-        
+
         return affected
 
     def _recommend_strategy(self, severity: DriftSeverity, trend: str, predicted: DriftSeverity) -> RealignmentStrategy:
         """Recommend realignment strategy based on comprehensive analysis"""
         base_strategy = self.strategy_mapping.get(severity, RealignmentStrategy.SYMBOLIC_GROUNDING)
-        
+
         # Adjust strategy based on trend and prediction
         if trend == "increasing" and predicted in [DriftSeverity.HIGH, DriftSeverity.CRITICAL]:
             if base_strategy == RealignmentStrategy.SYMBOLIC_GROUNDING:
                 return RealignmentStrategy.ETHICAL_CORRECTION
             elif base_strategy == RealignmentStrategy.ETHICAL_CORRECTION:
                 return RealignmentStrategy.GUARDIAN_INTERVENTION
-        
+
         return base_strategy
 
     def _calculate_urgency(self, severity: DriftSeverity, trend: str, predicted: DriftSeverity) -> float:
@@ -307,19 +307,19 @@ class DriftHarmonizer:
             DriftSeverity.HIGH: 0.8,
             DriftSeverity.CRITICAL: 1.0
         }
-        
+
         urgency = base_urgency.get(severity, 0.0)
-        
+
         # Adjust based on trend
         if trend == "increasing":
             urgency = min(1.0, urgency * 1.3)
         elif trend == "decreasing":
             urgency = max(0.0, urgency * 0.7)
-        
+
         # Adjust based on prediction
         if predicted in [DriftSeverity.HIGH, DriftSeverity.CRITICAL]:
             urgency = min(1.0, urgency * 1.2)
-        
+
         return round(urgency, 3)
 
     def reset_history(self) -> None:
@@ -332,10 +332,10 @@ class DriftHarmonizer:
         """Get summary of current drift state"""
         if not self.history:
             return {"status": "no_data", "drift_count": 0}
-        
+
         analysis = self.analyze_drift()
         trinity_balance = self.get_trinity_balance()
-        
+
         return {
             "current_drift": self.history[-1],
             "average_drift": sum(self.history) / len(self.history),
@@ -354,33 +354,33 @@ class DriftHarmonizer:
 def validate_trinity_compliance(harmonizer: DriftHarmonizer) -> bool:
     """Validate that DriftHarmonizer meets Trinity Framework requirements"""
     required_methods = ["record_drift", "suggest_realignment", "analyze_drift", "get_trinity_balance"]
-    
+
     for method in required_methods:
         if not hasattr(harmonizer, method):
             return False
-    
+
     # Check Trinity weights sum to 1.0 (approximately)
     weight_sum = harmonizer.identity_weight + harmonizer.consciousness_weight + harmonizer.guardian_weight
     if abs(weight_sum - 1.0) > 0.01:
         return False
-    
+
     return True
 
 
 if __name__ == "__main__":
     # Example usage and validation
     harmonizer = DriftHarmonizer(threshold=0.15)
-    
+
     # Simulate drift measurements
     test_drifts = [0.02, 0.05, 0.12, 0.18, 0.25, 0.15, 0.10, 0.08]
-    
+
     for drift in test_drifts:
         harmonizer.record_drift(drift)
-    
+
     # Get analysis
     analysis = harmonizer.analyze_drift()
     summary = harmonizer.get_drift_summary()
-    
+
     print(f"Drift Analysis: {analysis.severity.value} ({analysis.confidence:.1%} confidence)")
     print(f"Trend: {analysis.trend}")
     print(f"Recommendation: {analysis.recommended_strategy.value}")

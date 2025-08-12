@@ -5,11 +5,6 @@
 End-to-end test of tool governance, safety modes, and feedback system.
 """
 
-from orchestration.signals.signal_bus import Signal, SignalType
-from orchestration.signals.homeostasis import ModulationParams
-from lukhas_pwm.feedback.store import record_feedback
-from lukhas_pwm.audit.store import audit_log_write
-from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 import asyncio
 import os
 import sys
@@ -17,6 +12,12 @@ import time
 from pathlib import Path
 
 import httpx
+
+from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
+from lukhas_pwm.audit.store import audit_log_write
+from lukhas_pwm.feedback.store import record_feedback
+from orchestration.signals.homeostasis import ModulationParams
+from orchestration.signals.signal_bus import Signal, SignalType
 
 # Add project root to path
 project_root = Path(__file__).parent

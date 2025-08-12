@@ -12,13 +12,13 @@ import statistics
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import structlog
 
-from orchestration.signals.signal_bus import SignalBus, Signal, SignalType
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Optional import of global bus getter for default wiring
 try:

@@ -11,14 +11,14 @@ from __future__ import annotations
 import asyncio
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import structlog
 
-from orchestration.signals.signal_bus import SignalBus, Signal, SignalType
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 try:
     from orchestration.signals.homeostasis_controller import (
@@ -75,12 +75,12 @@ except Exception:
 
 try:
     from monitoring.plasticity_trigger_manager import (
-        PlasticityTriggerManager,
         AdaptationPlan,
+        PlasticityTriggerManager,
     )
 except Exception:
     try:
-        from .plasticity_trigger_manager import PlasticityTriggerManager, AdaptationPlan
+        from .plasticity_trigger_manager import AdaptationPlan, PlasticityTriggerManager
     except Exception:
 
         class PlasticityTriggerManager:  # type: ignore
@@ -188,15 +188,15 @@ except Exception:
 
 try:
     from monitoring.hormone_driven_dashboard import (
-        HormoneDrivenDashboard,
         DashboardMode,
+        HormoneDrivenDashboard,
         create_hormone_driven_dashboard,
     )
 except Exception:
     try:
         from .hormone_driven_dashboard import (
-            HormoneDrivenDashboard,
             DashboardMode,
+            HormoneDrivenDashboard,
             create_hormone_driven_dashboard,
         )
     except Exception:
@@ -221,15 +221,15 @@ except Exception:
 
 try:
     from monitoring.neuroplastic_learning_orchestrator import (
-        NeuroplasticLearningOrchestrator,
         LearningPhase,
+        NeuroplasticLearningOrchestrator,
         create_neuroplastic_learning_orchestrator,
     )
 except Exception:
     try:
         from .neuroplastic_learning_orchestrator import (
-            NeuroplasticLearningOrchestrator,
             LearningPhase,
+            NeuroplasticLearningOrchestrator,
             create_neuroplastic_learning_orchestrator,
         )
     except Exception:

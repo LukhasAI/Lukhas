@@ -5,7 +5,6 @@ This module combines the voice integration capabilities from both prot1 and prot
 with quantum enhancement features for improved emotional processing and voice synthesis.
 """
 import logging
-
 import time
 from dataclasses import dataclass
 from typing import Any, Optional

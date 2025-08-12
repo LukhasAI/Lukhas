@@ -9,7 +9,7 @@ Trinity Framework: ⚛️🧠🛡️
 
 import time
 from collections import defaultdict, deque
-from typing import Dict, List, Optional, Any
+from typing import Dict, Optional
 
 # ΛTAG: drift, metrics, guardian
 # ΛORIGIN_AGENT: Claude Agent 2 (Guardian Specialist)

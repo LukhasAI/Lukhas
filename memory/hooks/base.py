@@ -6,14 +6,13 @@ process memory items during storage and retrieval operations.
 ΛTAG: memory_hook_base
 """
 
-from core.common import LukhasError
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Optional
 
-from core.common import get_logger
+from core.common import LukhasError, get_logger
 
 logger = get_logger(__name__)
 

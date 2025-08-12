@@ -9,9 +9,8 @@
 🌊 Abstract Reasoning Brain Bio-Oscillator
 Specialized oscillator for coordinating abstract reasoning across brain systems
 """
-import logging
-
 import asyncio
+import logging
 import math
 import time
 from datetime import datetime

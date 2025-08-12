@@ -3,7 +3,6 @@ Quantum Consciousness Integration Wrapper
 Integration wrapper for connecting quantum consciousness integration to the consciousness hub
 """
 import logging
-
 import uuid
 from datetime import datetime
 from typing import Any, Optional

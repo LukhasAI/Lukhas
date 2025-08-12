@@ -4,10 +4,11 @@ LUKHAS Endocrine System Demonstration
 Shows how the hormone system modulates system behavior
 """
 
-from core.endocrine import get_endocrine_system
 import asyncio
 import os
 import sys
+
+from core.endocrine import get_endocrine_system
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

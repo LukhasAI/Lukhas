@@ -3,13 +3,13 @@
 Capture and save DALL-E 3 generated dream images
 """
 
-from openai import OpenAI
 import asyncio
 from datetime import datetime
 from pathlib import Path
 
 import requests
 from dotenv import load_dotenv
+from openai import OpenAI
 
 # Load environment
 load_dotenv()

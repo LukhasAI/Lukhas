@@ -23,17 +23,17 @@ Author: Aethios AGI Team
 Date: May 4, 2025
 """
 
-from aethios.interface.voice.speech_processor import SpeechProcessor
-from aethios.interface.voice.emotional_fingerprinter import EmotionalFingerprinter
-from aethios.core.context_analyzer import ContextAnalyzer
-from typing import Any, Optional
-from pathlib import Path
-from dataclasses import dataclass
-import time
-import logging
 import asyncio
 import json
+import logging
+import time
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Optional
 
+from aethios.core.context_analyzer import ContextAnalyzer
+from aethios.interface.voice.emotional_fingerprinter import EmotionalFingerprinter
+from aethios.interface.voice.speech_processor import SpeechProcessor
 
 # Core system components
 

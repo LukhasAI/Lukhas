@@ -14,14 +14,14 @@ System-wide guardrails applied:
 ACK GUARDRAILS
 """
 
+import hashlib
+import json
+import secrets
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Dict, List, Optional, Any, Tuple, Union
-import hashlib
-import secrets
-import json
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import BaseModel, Field, validator
 
@@ -68,7 +68,7 @@ class SymbolBinding(BaseModel):
     symbol_data: Any = Field(..., description="Raw symbol data (kept local)")
     meaning_type: MeaningType = Field(..., description="Type of meaning")
     meaning_value: str = Field(..., description="Meaning to bind")
-    
+
     @validator('meaning_value')
     def validate_meaning(cls, v):
         if not v or len(v.strip()) == 0:
@@ -107,12 +107,12 @@ class ULSignature(BaseModel):
 
 class SymbolEncoder(ABC):
     """Abstract encoder for different symbol types"""
-    
+
     @abstractmethod
     def encode(self, symbol_data: Any) -> bytes:
         """Encode symbol data to bytes for hashing"""
         pass
-    
+
     @abstractmethod
     def extract_features(self, symbol_data: Any) -> List[float]:
         """Extract numerical features for quality scoring"""
@@ -121,7 +121,7 @@ class SymbolEncoder(ABC):
 
 class EmojiEncoder(SymbolEncoder):
     """Encoder for emoji symbols"""
-    
+
     def encode(self, symbol_data: Any) -> bytes:
         """Encode emoji or emoji sequence"""
         if isinstance(symbol_data, str):
@@ -131,24 +131,24 @@ class EmojiEncoder(SymbolEncoder):
             return ''.join(symbol_data).encode('utf-8')
         else:
             raise ValueError("Emoji data must be string or list")
-    
+
     def extract_features(self, symbol_data: Any) -> List[float]:
         """Extract features from emoji"""
         emoji_str = symbol_data if isinstance(symbol_data, str) else ''.join(symbol_data)
-        
+
         features = [
             len(emoji_str),                    # Length
             len(set(emoji_str)),               # Unique characters
             emoji_str.count('😀') / len(emoji_str) if emoji_str else 0,  # Happiness ratio
             1.0 if any(ord(c) > 127462 for c in emoji_str) else 0.0     # Has complex emoji
         ]
-        
+
         return features
 
 
 class WordEncoder(SymbolEncoder):
     """Encoder for word/phrase symbols"""
-    
+
     def encode(self, symbol_data: Any) -> bytes:
         """Encode word or phrase"""
         if isinstance(symbol_data, str):
@@ -157,24 +157,24 @@ class WordEncoder(SymbolEncoder):
             return normalized.encode('utf-8')
         else:
             raise ValueError("Word data must be string")
-    
+
     def extract_features(self, symbol_data: Any) -> List[float]:
         """Extract features from word/phrase"""
         text = symbol_data.lower().strip()
-        
+
         features = [
             len(text),                         # Length
             text.count(' ') + 1,               # Word count
             len(set(text)),                    # Unique characters
             sum(1 for c in text if c.isalpha()) / len(text) if text else 0  # Letter ratio
         ]
-        
+
         return features
 
 
 class ColorEncoder(SymbolEncoder):
     """Encoder for color sequence symbols"""
-    
+
     def encode(self, symbol_data: Any) -> bytes:
         """Encode color sequence"""
         if isinstance(symbol_data, list):
@@ -183,7 +183,7 @@ class ColorEncoder(SymbolEncoder):
             return color_str.encode('utf-8')
         else:
             raise ValueError("Color data must be list of colors")
-    
+
     def extract_features(self, symbol_data: Any) -> List[float]:
         """Extract features from color sequence"""
         features = [
@@ -192,7 +192,7 @@ class ColorEncoder(SymbolEncoder):
             1.0,                                # Placeholder for color harmony
             1.0                                 # Placeholder for contrast
         ]
-        
+
         return features
 
 
@@ -204,7 +204,7 @@ def create_symbol_encoder(symbol_type: SymbolType) -> SymbolEncoder:
         SymbolType.COLOR: ColorEncoder(),
         # Stroke and other types would use their specific encoders
     }
-    
+
     return encoders.get(symbol_type, WordEncoder())  # Default to word encoder
 
 
@@ -212,11 +212,11 @@ def hash_symbol(symbol_data: Any, symbol_type: SymbolType, salt: str) -> str:
     """Hash symbol data with salt for privacy"""
     encoder = create_symbol_encoder(symbol_type)
     encoded_data = encoder.encode(symbol_data)
-    
+
     hasher = hashlib.sha256()
     hasher.update(salt.encode())
     hasher.update(encoded_data)
-    
+
     return hasher.hexdigest()
 
 
@@ -224,14 +224,14 @@ def calculate_symbol_quality(symbol_data: Any, symbol_type: SymbolType) -> float
     """Calculate quality score for symbol"""
     encoder = create_symbol_encoder(symbol_type)
     features = encoder.extract_features(symbol_data)
-    
+
     if not features:
         return 0.0
-    
+
     # Simple quality based on complexity
     complexity = sum(features) / len(features)
     quality = min(1.0, complexity / 10.0)  # Normalize to [0, 1]
-    
+
     return quality
 
 
@@ -243,15 +243,15 @@ def compose_symbol_proof(symbols: List[PersonalSymbol], operators: List[str], no
     """
     hasher = hashlib.sha256()
     hasher.update(nonce.encode())
-    
+
     # Include symbol hashes in order
     for i, symbol in enumerate(symbols):
         hasher.update(symbol.symbol_hash.encode())
-        
+
         # Include operator if not last symbol
         if i < len(operators):
             hasher.update(operators[i].encode())
-    
+
     return hasher.hexdigest()
 
 
@@ -273,11 +273,11 @@ def parse_composition(composition_str: str) -> Tuple[List[str], List[str]]:
     """
     # Define operator symbols
     operators = ['+', '-', '*', '/', '~', '→']
-    
+
     meanings = []
     ops = []
     current_meaning = ""
-    
+
     for char in composition_str:
         if char in operators:
             if current_meaning.strip():
@@ -286,11 +286,11 @@ def parse_composition(composition_str: str) -> Tuple[List[str], List[str]]:
             ops.append(char)
         else:
             current_meaning += char
-    
+
     # Add last meaning
     if current_meaning.strip():
         meanings.append(current_meaning.strip())
-    
+
     return meanings, ops
 
 
@@ -302,7 +302,7 @@ UL_ENHANCED_ACTIONS = {
         "composition_required": True
     },
     "delete_all_data": {
-        "description": "Delete all user data permanently", 
+        "description": "Delete all user data permanently",
         "required_symbols": 3,
         "composition_required": True
     },

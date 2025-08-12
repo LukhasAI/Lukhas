@@ -6,35 +6,31 @@ Integrates with all other agents' deliverables
 """
 
 import asyncio
+import logging
+import os
+import sys
 import time
-import json
 import uuid
-from collections import deque, defaultdict
+from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Any, Callable, Tuple
 from datetime import datetime, timezone
 from enum import Enum
-import logging
-import sys
-import os
+from typing import Any, Callable, Dict, List, Optional
 
 # Add paths for other agent imports
 sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 
 # Import Agent 1's identity system
-from core.identity.lambda_id_core import LukhasIdentityService
+
+# Import Agent 3's adapters
+from core.identity.lambda_id_core import LukhasIdentityService  # noqa: E402
 
 # Import Agent 2's consent and policy
-from governance.consent_ledger.ledger_v1 import (
+from governance.consent_ledger.ledger_v1 import (  # noqa: E402
     ConsentLedgerV1,
     PolicyEngine,
     PolicyVerdict,
 )
-
-# Import Agent 3's adapters
-from bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
-from bridge.adapters.drive_adapter import DriveAdapter, DriveContextIntegration
-from bridge.adapters.dropbox_adapter import DropboxAdapter, DropboxContextIntegration
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -640,8 +636,6 @@ class WorkflowPipelines:
 
 
 if __name__ == "__main__":
-    import asyncio
-
     async def test_context_bus():
         print("🧠 Testing Enhanced Context Bus Orchestrator")
         print("-" * 50)
@@ -672,18 +666,18 @@ if __name__ == "__main__":
             initial_context={"auth_token": "test_token"},
         )
 
-        print(f"\n📊 Workflow Result:")
+        print("\n📊 Workflow Result:")
         print(f"   State: {result['state']}")
         print(f"   Steps completed: {len(result.get('results', []))}")
 
         if "narrative" in result:
-            print(f"\n📖 Workflow Narrative:")
+            print("\n📖 Workflow Narrative:")
             for entry in result["narrative"][-5:]:  # Last 5 entries
                 print(f"   {entry}")
 
         # Check performance
         metrics = orchestrator.get_performance_metrics()
-        print(f"\n⚡ Performance Metrics:")
+        print("\n⚡ Performance Metrics:")
         print(f"   Avg handoff: {metrics['handoff_performance']['avg_ms']:.2f}ms")
         print(f"   P95 handoff: {metrics['handoff_performance']['p95_ms']:.2f}ms")
         print(

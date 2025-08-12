@@ -1,6 +1,8 @@
 from __future__ import annotations
+
 import time
-from typing import Any, Dict, Optional, List, TypedDict
+from typing import Any, Dict, List, Optional, TypedDict
+
 import requests
 
 

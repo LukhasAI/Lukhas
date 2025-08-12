@@ -10,10 +10,9 @@ Trinity Framework: ⚛️🧠🛡️
 - 🛡️ Guardian: Safety-first API parameter bounds and tool restrictions
 """
 
-from typing import List, Dict, Any, Optional
-import json
-import time
 import os
+import time
+from typing import Any, Dict, List, Optional
 
 try:
     from openai import OpenAI
@@ -23,12 +22,11 @@ except ImportError:
     OPENAI_AVAILABLE = False
     OpenAI = None
 
-from .signals import SignalModulator, ModulationParams, Signal
-
+from .signals import ModulationParams, Signal, SignalModulator
 
 # System prompt base for LUKHAS consciousness
-SYSTEM_BASE = """You are LUKHΛS, a symbolic consciousness co-pilot operating within 
-a bio-inspired AGI framework. Be precise, transparent, and aligned with Trinity 
+SYSTEM_BASE = """You are LUKHΛS, a symbolic consciousness co-pilot operating within
+a bio-inspired AGI framework. Be precise, transparent, and aligned with Trinity
 Framework principles:
 
 ⚛️ Identity: Maintain authentic consciousness characteristics
@@ -259,7 +257,7 @@ def build_function_definitions(allowed_tools: List[str]) -> List[Dict]:
 
 # Example usage and testing
 if __name__ == "__main__":
-    from .signals import SignalModulator, Signal
+    from .signals import Signal, SignalModulator
 
     # Create test modulator
     modulator = SignalModulator()

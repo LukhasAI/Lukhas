@@ -1,13 +1,11 @@
-import logging
-
 # LUKHAS Consciousness-Aware AGI Authentication Engine
 # File: /lukhas_wallet/agi_consciousness_engine.py
 # ΛNOTE: This engine is a core component for managing the AGI's consciousness, ethical alignment, and self-adaptation.
 # It integrates pattern detection, ethical evaluation, and self-awareness modules.
-
 import asyncio
 import hashlib
 import json
+import logging
 from dataclasses import asdict, dataclass
 from datetime import datetime
 

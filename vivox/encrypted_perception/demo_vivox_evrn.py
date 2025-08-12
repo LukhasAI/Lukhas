@@ -4,6 +4,14 @@ VIVOX.EVRN Demonstration
 Shows encrypted perception capabilities without exposing raw data
 """
 
+import asyncio
+import hashlib as demo_hashlib
+import json
+import sys
+from datetime import datetime
+
+import numpy as np
+
 from vivox.encrypted_perception import (
     MotionDetector,
     MultimodalFusion,
@@ -11,13 +19,6 @@ from vivox.encrypted_perception import (
     TextureAnalyzer,
     create_vivox_evrn_system,
 )
-import hashlib as demo_hashlib
-import asyncio
-import json
-import sys
-from datetime import datetime
-
-import numpy as np
 
 sys.path.append("/Users/agi_dev/Lukhas_PWM")
 

@@ -13,13 +13,13 @@ System-wide guardrails applied:
 ACK GUARDRAILS
 """
 
-from abc import ABC, abstractmethod
-from typing import Dict, List, Optional, Any, Tuple
-from datetime import datetime, timezone, timedelta
-from enum import Enum
 import hashlib
-import secrets
 import json
+import secrets
+from abc import ABC, abstractmethod
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
 
 from pydantic import BaseModel, Field
 
@@ -27,7 +27,7 @@ from pydantic import BaseModel, Field
 class GestureType(Enum):
     """Supported gesture types"""
     STROKE = "stroke"           # Finger/stylus stroke pattern
-    TAP_SEQUENCE = "tap_seq"    # Tap rhythm pattern  
+    TAP_SEQUENCE = "tap_seq"    # Tap rhythm pattern
     SWIPE_PATTERN = "swipe"     # Multi-finger swipe pattern
     SIGNATURE = "signature"     # Digital signature stroke
 
@@ -83,7 +83,7 @@ HIGH_RISK_ACTIONS = {
         "max_approval_seconds": 30
     },
     "cloud.move.files": {
-        "description": "Move files between cloud services", 
+        "description": "Move files between cloud services",
         "risk_level": RiskLevel.HIGH,
         "max_approval_seconds": 60
     },
@@ -112,17 +112,17 @@ class GestureRecognizer(ABC):
     Implementation must run on-device and never transmit raw gesture data.
     Only hashed kinematic features are sent to server.
     """
-    
+
     @abstractmethod
     def extract_features(self, raw_gesture_data: Any) -> List[float]:
         """Extract kinematic features from raw gesture data"""
         pass
-    
-    @abstractmethod  
+
+    @abstractmethod
     def hash_features(self, features: List[float], salt: str) -> str:
         """Hash features with salt for privacy"""
         pass
-    
+
     @abstractmethod
     def calculate_quality_score(self, features: List[float]) -> float:
         """Calculate gesture quality score (0.0-1.0)"""
@@ -136,13 +136,13 @@ class EdgeGestureProcessor:
     Processes gestures on-device and only sends hashed features to server.
     Never stores or transmits raw stroke data.
     """
-    
+
     def __init__(self, recognizer: GestureRecognizer):
         self.recognizer = recognizer
-        
+
     def process_gesture(
-        self, 
-        raw_gesture_data: Any, 
+        self,
+        raw_gesture_data: Any,
         gesture_type: GestureType
     ) -> GestureFeatures:
         """
@@ -157,16 +157,16 @@ class EdgeGestureProcessor:
         """
         # Extract kinematic features
         features = self.recognizer.extract_features(raw_gesture_data)
-        
+
         # Generate random salt
         salt = secrets.token_urlsafe(32)
-        
+
         # Hash features with salt
         feature_hash = self.recognizer.hash_features(features, salt)
-        
+
         # Calculate quality
         quality_score = self.recognizer.calculate_quality_score(features)
-        
+
         return GestureFeatures(
             feature_hash=feature_hash,
             salt=salt,
@@ -198,7 +198,7 @@ def get_max_approval_time(action: str) -> int:
 
 __all__ = [
     'GestureType',
-    'RiskLevel', 
+    'RiskLevel',
     'GestureFeatures',
     'GestureChallenge',
     'GestureApproval',

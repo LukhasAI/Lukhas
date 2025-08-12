@@ -4,6 +4,11 @@ LUKHAS Decision Explainability Demonstration
 Shows how decisions are explained in human-readable language
 """
 
+import asyncio
+import os
+import sys
+
+from core.endocrine import get_endocrine_system
 from core.explainability import (
     ExplanationLevel,
     ExplanationType,
@@ -12,10 +17,6 @@ from core.explainability import (
     get_decision_counterfactuals,
     get_decision_explainer,
 )
-from core.endocrine import get_endocrine_system
-import asyncio
-import os
-import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

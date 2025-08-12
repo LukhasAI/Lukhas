@@ -10,7 +10,7 @@ import asyncio
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
@@ -20,24 +20,24 @@ import structlog
 try:
     # When imported as part of the monitoring package
     from .endocrine_observability_engine import (
-        PlasticityTriggerType,
-        PlasticityEvent,
         EndocrineSnapshot,
+        PlasticityEvent,
+        PlasticityTriggerType,
     )
 except Exception:
     try:
         # When imported via absolute package path from repo root
         from monitoring.endocrine_observability_engine import (
-            PlasticityTriggerType,
-            PlasticityEvent,
             EndocrineSnapshot,
+            PlasticityEvent,
+            PlasticityTriggerType,
         )
     except Exception:
         # When the 'monitoring' folder is on sys.path directly
         from endocrine_observability_engine import (
-            PlasticityTriggerType,
-            PlasticityEvent,
             EndocrineSnapshot,
+            PlasticityEvent,
+            PlasticityTriggerType,
         )
 
 logger = structlog.get_logger(__name__)

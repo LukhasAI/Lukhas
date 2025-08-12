@@ -10,12 +10,13 @@ Quantum-biological adapter for intent processing that integrates UnifiedNode
 features with the intent recognition system.
 """
 
-from datetime import datetime
 import logging
+from datetime import datetime
 from typing import Any, Optional
-from ..unified_node import UnifiedNode
+
 import numpy as np
 
+from ..unified_node import UnifiedNode
 
 logger = logging.getLogger(__name__)
 

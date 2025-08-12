@@ -4,12 +4,10 @@ Original: intent_node.py
 Advanced: intent_node.py
 Integration Date: 2025-05-31T07:55:28.128623
 """
-from typing import Callable
-import uuid
-
 import logging
 import time
-from typing import Any, Optional
+import uuid
+from typing import Any, Callable, Optional
 
 
 class MultiAgentCollaboration:

@@ -342,7 +342,7 @@ def start_dashboard(host: str = "0.0.0.0", port: int = None):
     port = port or DASHBOARD_CONFIG["port"]
     # Use environment variable for display URL or fallback to localhost
     display_host = os.getenv("LUKHAS_DASHBOARD_URL", "localhost")
-    
+
     logger.info(f"🚀 Starting LUKHΛS Meta Dashboard on {host}:{port}")
     logger.info(f"   Access at: http://{display_host}:{port}")
 

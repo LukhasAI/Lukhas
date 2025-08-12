@@ -6,22 +6,22 @@ Live demonstration of all monitoring system capabilities
 """
 
 import asyncio
-from pathlib import Path
 import sys
+from pathlib import Path
 
 # Add monitoring to path
 sys.path.append(str(Path(__file__).parent))
 
+from adaptive_metrics_collector import AdaptiveMetricsCollector, OperationalContext
+from bio_symbolic_coherence_monitor import BioSymbolicCoherenceMonitor
 from endocrine_observability_engine import (
     EndocrineObservabilityEngine,
     PlasticityTriggerType,
 )
-from plasticity_trigger_manager import PlasticityTriggerManager
-from bio_symbolic_coherence_monitor import BioSymbolicCoherenceMonitor
-from adaptive_metrics_collector import AdaptiveMetricsCollector, OperationalContext
 from hormone_driven_dashboard import HormoneDrivenDashboard
-from neuroplastic_learning_orchestrator import NeuroplasticLearningOrchestrator
 from integrated_monitoring_system import IntegratedMonitoringSystem
+from neuroplastic_learning_orchestrator import NeuroplasticLearningOrchestrator
+from plasticity_trigger_manager import PlasticityTriggerManager
 from real_data_collector import LukhasPWMRealDataCollector
 
 

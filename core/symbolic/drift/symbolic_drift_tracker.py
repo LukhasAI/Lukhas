@@ -24,8 +24,9 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import structlog
 from enum import Enum
+
+import structlog
 
 # Configure module logger
 logger = structlog.get_logger(__name__)
@@ -40,7 +41,7 @@ MODULE_NAME = "symbolic_drift_tracker_interface"
 class DriftPhase(Enum):
     """Drift monitoring phases"""
     STABLE = "stable"
-    MONITORING = "monitoring" 
+    MONITORING = "monitoring"
     INTERVENTION = "intervention"
     RECOVERY = "recovery"
 

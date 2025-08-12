@@ -81,7 +81,9 @@ class AdaptiveAGISystem:
             from core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import (
                 NeuroSymbolicEngine,
             )
-            from governance.identity.core.id_service.identity_manager import IdentityManager
+            from governance.identity.core.id_service.identity_manager import (
+                IdentityManager,
+            )
 
             # Backend components
             from memory.node import Node

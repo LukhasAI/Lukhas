@@ -26,11 +26,10 @@
 ║ • Comprehensive error handling and fallbacks
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import logging
-
 import asyncio
 import base64
 import json
+import logging
 import os
 from datetime import datetime
 from pathlib import Path

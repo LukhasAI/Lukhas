@@ -26,17 +26,19 @@ Author: LUKHAS AI System
 License: LUKHAS Commercial License
 """
 
-from quantum_steganographic_demo import (
-    GlyphStyle,
-    QuantumQRInfluencer,
-    SteganographicGlyphGenerator,
-)
-from qrg_integration import LukhusQRGIntegrator, QRGType
 import os
 import sys
 import threading
 import time
 import unittest
+
+from qrg_integration import LukhusQRGIntegrator, QRGType
+
+from quantum_steganographic_demo import (
+    GlyphStyle,
+    QuantumQRInfluencer,
+    SteganographicGlyphGenerator,
+)
 
 # Add current directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))

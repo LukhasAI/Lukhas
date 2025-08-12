@@ -3,7 +3,6 @@ Memory Tracker Integration Module
 Provides integration wrapper for connecting the memory tracker to the memory hub
 """
 import logging
-
 import os
 import uuid
 from datetime import datetime

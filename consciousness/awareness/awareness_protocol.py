@@ -14,15 +14,15 @@
 ║ Advanced awareness protocol with quantum-biological features.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import logging
-
-# Module imports
-from .bio_symbolic_awareness_adapter import BioSymbolicAwarenessAdapter
-from datetime import datetime
 import asyncio
+import logging
+from datetime import datetime
 from typing import Any, Optional
 
 from core.common import get_logger
+
+# Module imports
+from .bio_symbolic_awareness_adapter import BioSymbolicAwarenessAdapter
 
 # Configure module logger
 logger = get_logger(__name__)

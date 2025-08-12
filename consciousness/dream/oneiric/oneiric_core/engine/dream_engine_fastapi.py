@@ -11,16 +11,16 @@ This module combines the best features from both prototypes:
 ΛLOCKED: false
 ΛCANONICAL: Consolidated FastAPI-enabled dream engine
 """
-import logging
-
-from pydantic import BaseModel, Field
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, HTTPException
-import uvicorn
-import contextlib
 import asyncio
+import contextlib
+import logging
 from datetime import datetime
 from typing import Any, Optional
+
+import uvicorn
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
 
 # Set up logging
 logger = logging.getLogger("enhanced_dream_fastapi")

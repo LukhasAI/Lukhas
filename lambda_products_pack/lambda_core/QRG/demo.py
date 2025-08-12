@@ -12,18 +12,19 @@ Example:
     python demo.py --layer poetic --security-tier 5 --interactive
 """
 
-from system_bridge import (
-    LambdaIdIntegration,
-    LukhasAccessTier,
-    SymbolicIdentity,
-)
-from quantum_entropy import EntropyProfile, TrueQuantumRandomness
-from qrg_core import ConsciousnessContext, QuantumResonanceGlyph
 import argparse
 import sys
 import time
 from pathlib import Path
 from typing import Any, Optional
+
+from qrg_core import ConsciousnessContext, QuantumResonanceGlyph
+from quantum_entropy import EntropyProfile, TrueQuantumRandomness
+from system_bridge import (
+    LambdaIdIntegration,
+    LukhasAccessTier,
+    SymbolicIdentity,
+)
 
 # Add current directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))

@@ -76,21 +76,21 @@ class VIVOXEmotionalShift(VIVOXEmotionalEvent):
             user_id=user_id,
             event_type="vivox_emotional_shift",
         )
-        
+
         # Handle legacy parameter names
         if original_state is not None:
             previous_state = original_state
-        
+
         # Handle single trigger parameter
         if trigger is not None and triggers is None:
             triggers = [trigger]
-            
+
         # Set defaults for None values
         if triggers is None:
             triggers = []
         if context is None:
             context = {}
-            
+
         self.previous_state = previous_state.to_dict() if previous_state else {}
         self.new_state = new_state.to_dict() if new_state else {}
         self.shift_magnitude = previous_state.distance_to(new_state) if (previous_state and new_state) else 0.0
@@ -232,7 +232,7 @@ class VIVOXEventBusIntegration:
                         )
                     else:
                         previous_state = None
-                    
+
                     if event.new_state:
                         new_state = VADVector(
                             valence=event.new_state.get('valence', 0.0),
@@ -242,7 +242,7 @@ class VIVOXEventBusIntegration:
                         )
                     else:
                         new_state = None
-                        
+
                     context = event.vivox_context or {}
             else:
                 # Traditional calling pattern with positional user_id
@@ -424,7 +424,7 @@ class VIVOXEventBusIntegration:
     def subscribe_to_emotional_events(self, callback: callable):
         """Subscribe to all emotional events (convenience method)"""
         self.subscribe_to_vivox_events("vivox_emotional_shift", callback)
-        self.subscribe_to_vivox_events("vivox_regulation_applied", callback) 
+        self.subscribe_to_vivox_events("vivox_regulation_applied", callback)
         self.subscribe_to_vivox_events("vivox_emotional_memory_stored", callback)
 
     def get_event_history(

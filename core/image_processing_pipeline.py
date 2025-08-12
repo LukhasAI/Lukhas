@@ -16,8 +16,6 @@
 ║ independent processing stages connected via event bus for scalable AI workflows.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from dataclasses import asdict
-
 import asyncio
 import logging
 import mimetypes
@@ -25,7 +23,7 @@ import os
 import time
 import uuid
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional

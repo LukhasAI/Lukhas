@@ -6,7 +6,7 @@ Auto-generated cleanup script for duplicate code
 
 def cleanup_duplicates():
     """Remove or consolidate duplicate code"""
-    
+
     # Duplicate functions to consolidate
     duplicates = {
         'main()': ['tools/analysis/functional_analysis.py:293', '.hygiene_backup_20250807_014149/tools/analysis/functional_analysis.py:292', '.hygiene_backup_20250807_014133/tools/analysis/functional_analysis.py:292'],
@@ -30,15 +30,15 @@ def cleanup_duplicates():
         '__init__(self)': ['core/symbolic_legacy/bio/mito_quantum_attention.py:73', 'qim/bio_legacy/core/symbolic_mito_quantum_attention.py:67'],
         '__init__(self)': ['core/symbolic_legacy/bio/mito_quantum_attention.py:92', 'core/symbolic_legacy/bio/mito_quantum_attention_adapter.py:203', 'qim/bio_legacy/core/symbolic_mito_quantum_attention.py:85'],
     }
-    
+
     print("🧹 Cleaning up duplicates...")
-    
+
     # TODO: Implement actual consolidation logic
     # For now, just report what would be cleaned
-    
+
     for signature, locations in duplicates.items():
         print(f"  Would consolidate {signature} from {len(locations)} locations")
-    
+
     print("\n✅ Cleanup analysis complete!")
     print("⚠️  Manual review required before actual deletion")
 

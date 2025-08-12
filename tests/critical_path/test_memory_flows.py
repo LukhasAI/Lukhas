@@ -38,7 +38,7 @@ class TestMemoryDNAHelixPath:
     def test_symbolic_strand_creation(self):
         """Test symbolic strand creation and operations"""
         try:
-            from core.common.glyph import GLYPHToken, GLYPHSymbol
+            from core.common.glyph import GLYPHSymbol, GLYPHToken
             from memory.dna_helix.dna_healix import SymbolicStrand
 
             # Create test GLYPH token
@@ -68,7 +68,7 @@ class TestMemoryDNAHelixPath:
     async def test_memory_helix_storage_retrieval(self):
         """Test memory helix storage and retrieval path"""
         try:
-            from core.common.glyph import GLYPHToken, GLYPHSymbol
+            from core.common.glyph import GLYPHSymbol, GLYPHToken
             from memory.dna_helix.dna_healix import MemoryHelix, SymbolicStrand
 
             # Create memory helix with correct constructor parameters
@@ -82,7 +82,7 @@ class TestMemoryDNAHelixPath:
                 payload={"content": "MEMORY_TEST", "importance": 0.8},
             )
 
-            # Create a mock strand with the test token content  
+            # Create a mock strand with the test token content
             strand = type('MockStrand', (), {
                 'strand_id': "strand_001",
                 'glyph_sequence': [test_token],
@@ -109,7 +109,7 @@ class TestMemoryDNAHelixPath:
 
             # Create origin strand for DNAHealixCore
             origin_strand = SymbolicStrand(["memory", "test", "drift"])
-            
+
             # Create DNA helix core with required origin parameter
             core = DNAHealixCore(origin=origin_strand)
 
@@ -239,7 +239,7 @@ class TestMemoryPerformancePaths:
     async def test_memory_concurrent_access_path(self):
         """Test concurrent memory access path"""
         try:
-            from core.common.glyph import GLYPHToken, GLYPHSymbol
+            from core.common.glyph import GLYPHSymbol, GLYPHToken
             from memory.dna_helix.dna_healix import MemoryHelix, SymbolicStrand
 
             helix = MemoryHelix(memory_id="concurrent_test", initial_glyphs=["concurrent", "test", "helix"])
@@ -295,7 +295,7 @@ class TestMemoryErrorRecoveryPaths:
             # Create origin and corrupted strands
             origin_strand = SymbolicStrand(["memory", "integrity", "test"])
             corrupted_strand = SymbolicStrand(["corrupted", "different", "data"])
-            
+
             core = DNAHealixCore(origin=origin_strand, current=corrupted_strand)
 
             # Should detect high drift between very different strands

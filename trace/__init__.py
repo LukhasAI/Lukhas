@@ -10,7 +10,12 @@ Trinity Framework: ⚛️🧠🛡️
 - 🛡️ Guardian: Ethical drift detection and correction
 """
 
-from .drift_harmonizer import DriftHarmonizer, DriftSeverity, RealignmentStrategy, DriftAnalysis
+from .drift_harmonizer import (
+    DriftAnalysis,
+    DriftHarmonizer,
+    DriftSeverity,
+    RealignmentStrategy,
+)
 from .drift_metrics import DriftTracker
 
 __version__ = "1.0.0"
@@ -20,7 +25,7 @@ __trinity_compliance__ = True
 # Export main classes
 __all__ = [
     "DriftHarmonizer",
-    "DriftTracker", 
+    "DriftTracker",
     "DriftSeverity",
     "RealignmentStrategy",
     "DriftAnalysis"

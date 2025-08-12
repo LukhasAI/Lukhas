@@ -27,14 +27,12 @@ OBSERVABILITY FEATURES:
 - Log aggregation and intelligent log analysis
 - SLA monitoring with automatic incident management
 """
-from collections import Counter
-import logging
-
 import asyncio
 import json
+import logging
 import time
 import uuid
-from collections import defaultdict, deque
+from collections import Counter, defaultdict, deque
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta

@@ -11,10 +11,11 @@ Trinity Framework: ⚛️🧠🛡️
 - 🛡️ Guardian: Safety-first signal validation and bounds
 """
 
-from dataclasses import dataclass
-from typing import Dict, Any, List, Literal, Optional
-import time
 import math
+import time
+from dataclasses import dataclass
+from typing import Any, Dict, List, Literal
+
 import yaml
 
 
@@ -93,7 +94,7 @@ class SignalModulator:
     def __init__(self, policy_path: str = "modulation_policy.yaml"):
         """Initialize with modulation policy configuration"""
         try:
-            with open(policy_path, "r") as f:
+            with open(policy_path) as f:
                 self.policy = yaml.safe_load(f)
         except FileNotFoundError:
             # Fallback to minimal policy
@@ -274,7 +275,7 @@ if __name__ == "__main__":
     # Get modulation parameters
     params = modulator.combine_signals(signals)
 
-    print(f"🎛️ Modulation Result:")
+    print("🎛️ Modulation Result:")
     print(f"   Temperature: {params.temperature:.2f}")
     print(f"   Max Tokens: {params.max_tokens}")
     print(f"   Style: {params.prompt_style}")

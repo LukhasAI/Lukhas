@@ -5,8 +5,8 @@ Improves reliability from 77% to 95%+ with proper dependency management
 """
 
 import asyncio
-import os
 import logging
+import os
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta

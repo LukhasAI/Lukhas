@@ -4,8 +4,8 @@ Integration tests for P0/P1 fixes
 Tests feature flags, identity bridges, signals, and colony integrity
 """
 
-import unittest
 import sys
+import unittest
 from pathlib import Path
 
 # Add parent to path
@@ -14,116 +14,116 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 class TestFeatureFlags(unittest.TestCase):
     """Test feature flag system"""
-    
+
     def test_import(self):
         """Test that flags module imports correctly"""
         from lukhas_pwm import flags
         self.assertIsNotNone(flags)
-    
+
     def test_get_flags(self):
         """Test getting all flags"""
         from lukhas_pwm.flags import get_flags
         all_flags = get_flags()
         self.assertIsInstance(all_flags, dict)
         self.assertIn("adaptive_ai", all_flags)
-    
+
     def test_require_feature(self):
         """Test requiring a feature"""
-        from lukhas_pwm.flags import require_feature, FeatureFlagContext
-        
+        from lukhas_pwm.flags import FeatureFlagContext, require_feature
+
         # Should work for enabled feature
         with FeatureFlagContext(test_feature=True):
             require_feature("test_feature")  # Should not raise
-        
+
         # Should raise for disabled feature
         with FeatureFlagContext(test_feature=False):
             with self.assertRaises(RuntimeError):
                 require_feature("test_feature")
-    
+
     def test_when_enabled_decorator(self):
         """Test conditional execution decorator"""
-        from lukhas_pwm.flags import when_enabled, FeatureFlagContext
-        
+        from lukhas_pwm.flags import FeatureFlagContext, when_enabled
+
         call_count = 0
-        
+
         @when_enabled("test_feature")
         def test_func():
             nonlocal call_count
             call_count += 1
             return "executed"
-        
+
         # Should execute when enabled
         with FeatureFlagContext(test_feature=True):
             result = test_func()
             self.assertEqual(call_count, 1)
             self.assertEqual(result, "executed")
-        
+
         # Should not execute when disabled
         with FeatureFlagContext(test_feature=False):
             result = test_func()
             self.assertEqual(call_count, 1)  # No increment
             self.assertIsNone(result)
-    
+
     def test_context_manager(self):
         """Test feature flag context manager"""
-        from lukhas_pwm.flags import is_enabled, FeatureFlagContext
-        
+        from lukhas_pwm.flags import FeatureFlagContext, is_enabled
+
         # Original state
         original = is_enabled("test_flag")
-        
+
         # Override in context
         with FeatureFlagContext(test_flag=True):
             self.assertTrue(is_enabled("test_flag"))
-        
+
         # Should restore original
         self.assertEqual(is_enabled("test_flag"), original)
 
 
 class TestIdentityBridges(unittest.TestCase):
     """Test identity bridge components"""
-    
+
     def test_governance_identity_import(self):
         """Test importing from governance.identity"""
         from governance.identity import (
             IdentityClient,
             IdentityManager,
             IdentityValidator,
-            TierValidator
+            TierValidator,
         )
-        
+
         # Should get classes (stubs or real)
         self.assertIsNotNone(IdentityClient)
         self.assertIsNotNone(IdentityManager)
         self.assertIsNotNone(IdentityValidator)
         self.assertIsNotNone(TierValidator)
-    
+
     def test_identity_client_basic(self):
         """Test basic IdentityClient operations"""
         from governance.identity import get_identity_client
-        
+
         client = get_identity_client()
         self.assertIsNotNone(client)
-        
+
         # Should have authenticate method
         self.assertTrue(hasattr(client, 'authenticate'))
-    
+
     def test_tier_validation(self):
         """Test tier access validation"""
         from governance.identity import check_tier_access
-        
+
         # Basic should not access enterprise
         self.assertFalse(check_tier_access("basic", "enterprise"))
-        
+
         # Enterprise should access basic
         self.assertTrue(check_tier_access("enterprise", "basic"))
-        
+
         # Same tier should work
         self.assertTrue(check_tier_access("premium", "premium"))
-    
+
     def test_user_validation(self):
         """Test user identity validation"""
         from governance.identity import validate_user_identity
-        
+
         # Should return boolean
         result = validate_user_identity("test_user", "test_token")
         self.assertIsInstance(result, bool)
@@ -131,7 +131,7 @@ class TestIdentityBridges(unittest.TestCase):
 
 class TestOrchestrationSignals(unittest.TestCase):
     """Test signal bus and related components"""
-    
+
     def test_signal_imports(self):
         """Test that all signal components import"""
         from orchestration.signals import (
@@ -139,46 +139,46 @@ class TestOrchestrationSignals(unittest.TestCase):
             SignalBus,
             SignalPattern,
             SignalType,
-            get_signal_bus
+            get_signal_bus,
         )
-        
+
         self.assertIsNotNone(Signal)
         self.assertIsNotNone(SignalBus)
         self.assertIsNotNone(SignalPattern)
         self.assertIsNotNone(SignalType)
         self.assertIsNotNone(get_signal_bus)
-    
+
     def test_signal_creation(self):
         """Test creating and publishing signals"""
-        from orchestration.signals import Signal, SignalType, SignalBus
-        
+        from orchestration.signals import Signal, SignalBus, SignalType
+
         bus = SignalBus()
-        
+
         # Create signal
         signal = Signal(
             name=SignalType.STRESS,
             level=0.7,
             source="test_module"
         )
-        
+
         self.assertEqual(signal.name, SignalType.STRESS)
         self.assertEqual(signal.level, 0.7)
         self.assertEqual(signal.source, "test_module")
-        
+
         # Publish should work
         bus.publish(signal)
-    
+
     def test_signal_pattern_matching(self):
         """Test SignalPattern matching"""
         from orchestration.signals import Signal, SignalPattern, SignalType
-        
+
         # Create pattern
         pattern = SignalPattern(
             name_pattern=SignalType.STRESS,
             level_min=0.5,
             level_max=1.0
         )
-        
+
         # Should match
         signal1 = Signal(
             name=SignalType.STRESS,
@@ -186,7 +186,7 @@ class TestOrchestrationSignals(unittest.TestCase):
             source="test"
         )
         self.assertTrue(pattern.matches(signal1))
-        
+
         # Should not match (wrong type)
         signal2 = Signal(
             name=SignalType.NOVELTY,
@@ -194,7 +194,7 @@ class TestOrchestrationSignals(unittest.TestCase):
             source="test"
         )
         self.assertFalse(pattern.matches(signal2))
-        
+
         # Should not match (level too low)
         signal3 = Signal(
             name=SignalType.STRESS,
@@ -202,20 +202,20 @@ class TestOrchestrationSignals(unittest.TestCase):
             source="test"
         )
         self.assertFalse(pattern.matches(signal3))
-    
+
     def test_signal_bus_pubsub(self):
         """Test publish/subscribe functionality"""
-        from orchestration.signals import SignalBus, Signal, SignalType
-        
+        from orchestration.signals import Signal, SignalBus, SignalType
+
         bus = SignalBus()
         received = []
-        
+
         # Subscribe
         def handler(signal):
             received.append(signal)
-        
+
         bus.subscribe(SignalType.STRESS, handler)
-        
+
         # Publish
         signal = Signal(
             name=SignalType.STRESS,
@@ -223,7 +223,7 @@ class TestOrchestrationSignals(unittest.TestCase):
             source="test"
         )
         bus.publish(signal)
-        
+
         # Should receive
         self.assertEqual(len(received), 1)
         self.assertEqual(received[0].level, 0.5)
@@ -231,64 +231,63 @@ class TestOrchestrationSignals(unittest.TestCase):
 
 class TestColonyIntegrity(unittest.TestCase):
     """Test colony modules after fixes"""
-    
+
     def test_ethics_stubs_import(self):
         """Test that ethics stubs import correctly"""
         from ethics import (
-            MEGPolicyBridge,
             Decision,
-            RiskLevel,
             EthicsEngine,
-            SafetyChecker
+            MEGPolicyBridge,
+            RiskLevel,
+            SafetyChecker,
         )
-        
+
         self.assertIsNotNone(MEGPolicyBridge)
         self.assertIsNotNone(Decision)
         self.assertIsNotNone(RiskLevel)
         self.assertIsNotNone(EthicsEngine)
         self.assertIsNotNone(SafetyChecker)
-    
+
     def test_ethics_namespace_imports(self):
         """Test namespace-style imports"""
         from ethics.meg_bridge import MEGPolicyBridge, create_meg_bridge
         from ethics.policy_engines.base import Decision, RiskLevel
-        
+
         # Should get the stub classes
         self.assertIsNotNone(MEGPolicyBridge)
         self.assertIsNotNone(create_meg_bridge)
         self.assertIsNotNone(Decision)
         self.assertIsNotNone(RiskLevel)
-    
+
     def test_meg_bridge_basic(self):
         """Test MEG bridge basic functionality"""
         from ethics import create_meg_bridge
-        
+
         bridge = create_meg_bridge()
         decision = bridge.evaluate({"action": "test"})
-        
+
         self.assertIsNotNone(decision)
         self.assertTrue(hasattr(decision, 'approved'))
         self.assertTrue(hasattr(decision, 'reasoning'))
         self.assertTrue(hasattr(decision, 'risk_level'))
-    
+
     def test_colony_imports_no_side_effects(self):
         """Test that colony imports don't have side effects"""
         # These imports should not execute demo code
-        from core.colonies import governance_colony
-        from core.colonies import reasoning_colony
-        
+        from core.colonies import governance_colony, reasoning_colony
+
         # Should import without errors
         self.assertIsNotNone(governance_colony)
         self.assertIsNotNone(reasoning_colony)
-    
+
     def test_colony_demo_isolated(self):
         """Test that demo code is properly isolated"""
         from core.colonies.demo import (
             run_governance_demo,
+            run_memory_demo,
             run_reasoning_demo,
-            run_memory_demo
         )
-        
+
         # Demo functions should exist
         self.assertIsNotNone(run_governance_demo)
         self.assertIsNotNone(run_reasoning_demo)
@@ -297,12 +296,12 @@ class TestColonyIntegrity(unittest.TestCase):
 
 class TestIntegrationFlow(unittest.TestCase):
     """Test complete integration flows"""
-    
+
     def test_signal_with_feature_flag(self):
         """Test signals gated by feature flags"""
         from lukhas_pwm.flags import FeatureFlagContext, when_enabled
         from orchestration.signals import Signal, SignalType
-        
+
         @when_enabled("adaptive_signals")
         def emit_adaptive_signal():
             return Signal(
@@ -310,33 +309,33 @@ class TestIntegrationFlow(unittest.TestCase):
                 level=0.5,
                 source="adaptive"
             )
-        
+
         # Should work when enabled
         with FeatureFlagContext(adaptive_signals=True):
             signal = emit_adaptive_signal()
             self.assertIsNotNone(signal)
             self.assertEqual(signal.level, 0.5)
-        
+
         # Should return None when disabled
         with FeatureFlagContext(adaptive_signals=False):
             signal = emit_adaptive_signal()
             self.assertIsNone(signal)
-    
+
     def test_identity_with_ethics(self):
         """Test identity validation with ethics check"""
-        from governance.identity import validate_user_identity
         from ethics import EthicsEngine
-        
+        from governance.identity import validate_user_identity
+
         # Both should work together
         user_valid = validate_user_identity("test_user")
-        
+
         engine = EthicsEngine()
         decision = engine.evaluate("test_action", {"user_valid": user_valid})
-        
+
         # This is async, so we need to handle it differently
         import asyncio
         decision = asyncio.run(engine.evaluate("test_action", {"user_valid": user_valid}))
-        
+
         self.assertIsNotNone(decision)
         self.assertTrue(hasattr(decision, 'approved'))
 
@@ -345,18 +344,18 @@ def run_tests():
     """Run all integration tests"""
     loader = unittest.TestLoader()
     suite = unittest.TestSuite()
-    
+
     # Add all test classes
     suite.addTests(loader.loadTestsFromTestCase(TestFeatureFlags))
     suite.addTests(loader.loadTestsFromTestCase(TestIdentityBridges))
     suite.addTests(loader.loadTestsFromTestCase(TestOrchestrationSignals))
     suite.addTests(loader.loadTestsFromTestCase(TestColonyIntegrity))
     suite.addTests(loader.loadTestsFromTestCase(TestIntegrationFlow))
-    
+
     # Run with verbosity
     runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(suite)
-    
+
     # Print summary
     print("\n" + "="*70)
     print("INTEGRATION FIXES TEST SUMMARY")
@@ -364,12 +363,12 @@ def run_tests():
     print(f"Tests run: {result.testsRun}")
     print(f"Failures: {len(result.failures)}")
     print(f"Errors: {len(result.errors)}")
-    
+
     if result.wasSuccessful():
         print("\n✅ All integration fixes are working!")
     else:
         print("\n❌ Some tests failed - check output above")
-    
+
     return result.wasSuccessful()
 
 

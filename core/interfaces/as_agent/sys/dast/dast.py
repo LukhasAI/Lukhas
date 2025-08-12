@@ -16,9 +16,10 @@ to the correct logic modules like memory, voice, dream, or delegate systems.
 """
 
 
+from consent_manager import verify_or_revoke
+
 from core.interfaces.logic.voice.voice_renderer import render_voice
 from ethics_jury import run_ethics_review, should_trigger_jury
-from consent_manager import verify_or_revoke
 
 # Registry of available symbolic tasks
 REGISTERED_TASKS = {}

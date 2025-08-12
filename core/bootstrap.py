@@ -16,7 +16,6 @@ from core.events.contracts import (
     QuantumStateCreated,
 )
 from core.events.typed_event_bus import EventBusService, get_typed_event_bus
-from orchestration.brain.unified_cognitive_orchestrator import UnifiedCognitiveOrchestrator
 from core.interfaces.services import (
     IBridgeService,
     IConsciousnessService,
@@ -25,6 +24,9 @@ from core.interfaces.services import (
     IGovernanceService,
     IMemoryService,
     IQuantumService,
+)
+from orchestration.brain.unified_cognitive_orchestrator import (
+    UnifiedCognitiveOrchestrator,
 )
 
 logger = logging.getLogger(__name__)
@@ -222,10 +224,10 @@ class LUKHASBootstrap:
         if not self.unified_orchestrator:
             logger.warning("Unified orchestrator not initialized")
             return
-        
+
         logger.info("\n🎭 DEMONSTRATING INTEGRATED LUKHAS SYSTEM")
         logger.info("=" * 60)
-        
+
         # Process various types of thoughts
         test_thoughts = [
             "How should we balance creativity with safety?",
@@ -234,30 +236,30 @@ class LUKHASBootstrap:
             "Analyze the quantum entanglement of consciousness",
             "Feel the emotional resonance of our decisions"
         ]
-        
+
         for thought in test_thoughts:
             logger.info(f"\n💭 Processing: '{thought}'")
             result = await self.unified_orchestrator.process_thought(thought)
             logger.info(f"   ✓ Thought ID: {result['thought_id']}")
             logger.info(f"   ✓ Awareness: {result['cognitive_state']['awareness']:.3f}")
             logger.info(f"   ✓ Coherence: {result['cognitive_state']['coherence']:.3f}")
-        
+
         # Get system status
         status = await self.unified_orchestrator.get_system_status()
-        
+
         logger.info("\n📊 SYSTEM STATUS:")
         logger.info(f"   • Active Symbols: {status['cognitive_state']['active_symbols']}")
         logger.info(f"   • Memory Folds: {status['memory']['total_folds']}")
         logger.info(f"   • Cache Hit Rate: {status['memory']['cache_hit_rate']:.1%}")
         logger.info(f"   • Quantum Coherence: {status['cognitive_state']['quantum_coherence']:.3f}")
         logger.info(f"   • Thoughts Processed: {status['metrics']['thoughts_processed']}")
-        
+
         logger.info("\n✅ Integration demonstration complete!")
 
     async def shutdown(self) -> None:
         """Gracefully shutdown all services"""
         logger.info("🔄 Starting LUKHAS shutdown...")
-        
+
         # Shutdown unified orchestrator
         if self.unified_orchestrator:
             await self.unified_orchestrator.shutdown()

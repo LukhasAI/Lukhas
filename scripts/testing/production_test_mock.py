@@ -5,10 +5,6 @@
 Tests all systems with mock OpenAI responses for development.
 """
 
-from orchestration.signals.homeostasis import ModulationParams
-from lukhas_pwm.metrics import get_metrics_collector
-from lukhas_pwm.audit.tool_analytics import get_analytics
-from lukhas_pwm.audit.store import audit_log_write
 import hashlib
 import json
 import os
@@ -22,6 +18,11 @@ from typing import Any, Dict, List
 
 # Load environment variables
 from dotenv import load_dotenv
+
+from lukhas_pwm.audit.store import audit_log_write
+from lukhas_pwm.audit.tool_analytics import get_analytics
+from lukhas_pwm.metrics import get_metrics_collector
+from orchestration.signals.homeostasis import ModulationParams
 
 load_dotenv()
 

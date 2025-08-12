@@ -5,8 +5,22 @@ Orchestrates all NIAS components for commercial dream delivery
 Part of the Lambda Products Suite by LUKHAS AI
 """
 
-from .vendor_portal import DreamSeed, DreamSeedType, VendorPortal
-from .user_data_integrator import UserDataIntegrator, UserDataProfile
+import asyncio
+import logging
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Optional
+
+from .consent_manager import ConsentManager
+from .dream_generator import (
+    BioRhythm,
+    DreamContext,
+    DreamGenerator,
+    DreamMood,
+    GeneratedDream,
+)
+from .emotional_filter import EmotionalFilter
 from .nias_core import (
     ConsentLevel,
     DeliveryResult,
@@ -15,21 +29,8 @@ from .nias_core import (
     SymbolicMessage,
     UserContext,
 )
-from .emotional_filter import EmotionalFilter
-from .dream_generator import (
-    BioRhythm,
-    DreamContext,
-    DreamGenerator,
-    DreamMood,
-    GeneratedDream,
-)
-from .consent_manager import ConsentManager
-import asyncio
-import logging
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from enum import Enum
-from typing import Any, Optional
+from .user_data_integrator import UserDataIntegrator, UserDataProfile
+from .vendor_portal import DreamSeed, DreamSeedType, VendorPortal
 
 # Set up logger first
 logger = logging.getLogger("Lambda.NIΛS.DreamCommerce")

@@ -1,24 +1,24 @@
 """Memoria core component for symbolic trace management."""
 
-from typing import Any, Optional
 from dataclasses import dataclass
+from typing import Any, Optional
 
 # Enhanced dependency: quantum_mind with better fallback
 try:
     from quantum_mind import (
-        ConsciousnessPhase, 
-        get_current_phase, 
-        get_quantum_mind, 
-        QuantumMindInterface
+        ConsciousnessPhase,
+        QuantumMindInterface,
+        get_current_phase,
+        get_quantum_mind,
     )
     QUANTUM_MIND_AVAILABLE = True
 except Exception:  # pragma: no cover - fallback if quantum_mind is unavailable
-    from enum import Enum
     import time
+    from enum import Enum
 
     class ConsciousnessPhase(Enum):  # Enhanced stub
         DORMANT = "dormant"
-        AWAKENING = "awakening" 
+        AWAKENING = "awakening"
         AWARE = "aware"
         ACTIVE = "active"  # Keep for backward compatibility
         FOCUSED = "focused"
@@ -36,7 +36,7 @@ except Exception:  # pragma: no cover - fallback if quantum_mind is unavailable
             return ConsciousnessPhase.AWARE
         else:
             return ConsciousnessPhase.DORMANT
-    
+
     class QuantumMindInterface:
         def __init__(self):
             self.phase = ConsciousnessPhase.AWARE
@@ -44,16 +44,17 @@ except Exception:  # pragma: no cover - fallback if quantum_mind is unavailable
             return self.phase
         def is_operational(self):
             return True
-    
+
     def get_quantum_mind():
         return QuantumMindInterface()
-    
+
     QUANTUM_MIND_AVAILABLE = False
 
 
 # Logging setup with optional structlog
 try:
     import structlog  # type: ignore  # noqa: F401
+
     from core.common import get_logger
 
     logger = get_logger(__name__)
@@ -90,11 +91,11 @@ class CoreMemoriaComponent:
         self.consciousness_log: list[str] = []
         self.current_consciousness_phase: Optional[str] = None
         self.trace_store: dict[str, Any] = {}
-        
+
         # Enhanced: Connect to quantum mind interface
         self.quantum_mind = get_quantum_mind()
         self.use_quantum_mind = QUANTUM_MIND_AVAILABLE
-        
+
         if self.use_quantum_mind:
             self.logger.info("CoreMemoria initialized with quantum mind integration")
         else:
@@ -107,7 +108,7 @@ class CoreMemoriaComponent:
             quantum_phase = self.quantum_mind.get_phase()
             phase = quantum_phase.value
             operational = self.quantum_mind.is_operational()
-            
+
             if not operational:
                 self.logger.warning(f"Quantum mind not operational in phase: {phase}")
         else:
@@ -115,14 +116,14 @@ class CoreMemoriaComponent:
             quantum_phase = get_current_phase()
             phase = quantum_phase.value
             operational = True
-        
+
         self.consciousness_log.append(phase)
         self.current_consciousness_phase = phase
-        
+
         # Enhanced logging
         if hasattr(self.logger, "debug"):
             self.logger.debug(f"Recorded consciousness phase: {phase} (operational: {operational})")
-        
+
         return phase
 
     def process_symbolic_trace(
@@ -158,11 +159,11 @@ class CoreMemoriaComponent:
             "trace_count": len(self.trace_store),
             "consciousness_log_length": len(self.consciousness_log),
         }
-        
+
         if self.use_quantum_mind:
             status["quantum_mind_operational"] = self.quantum_mind.is_operational()
             status["quantum_phase"] = self.quantum_mind.get_phase().value
-        
+
         return status
 
 

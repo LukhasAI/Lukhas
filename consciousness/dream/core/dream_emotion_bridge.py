@@ -4,9 +4,8 @@ Author: Jules 05
 Date: 2024-07-15
 Description: Provides bridge logic for dream-emotion replay triggers.
 """
-from datetime import datetime
-
 import json
+from datetime import datetime
 from pathlib import Path
 
 from memory.emotional import EmotionalMemory

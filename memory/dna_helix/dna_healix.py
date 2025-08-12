@@ -506,7 +506,7 @@ class MemoryHelix:
 
         # Storage for additional strands
         self.strands = {}  # For storing named strands
-        
+
         # Metadata
         self.created_at = datetime.now()
         self.access_count = 0
@@ -609,7 +609,7 @@ class MemoryHelix:
         """Store a symbolic strand in the helix"""
         if self.locked:
             raise PermissionError(f"Memory {self.memory_id} is locked")
-        
+
         self.strands[strand.strand_id] = strand
         self.access_count += 1
 
@@ -617,7 +617,7 @@ class MemoryHelix:
         """Retrieve a symbolic strand by ID"""
         if self.locked:
             raise PermissionError(f"Memory {self.memory_id} is locked")
-        
+
         self.access_count += 1
         self.last_accessed = datetime.now()
         return self.strands.get(strand_id)
@@ -626,7 +626,7 @@ class MemoryHelix:
         """Verify the integrity of the memory helix"""
         drift_score = self.helix_core.calculate_drift()
         should_repair = self.helix_core.should_repair()
-        
+
         return {
             "status": "healthy" if drift_score < 0.1 else "degraded" if drift_score < 0.3 else "critical",
             "drift_score": drift_score,

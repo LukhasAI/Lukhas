@@ -13,7 +13,6 @@ from __future__ import annotations
 import re
 from typing import Tuple
 
-
 _REPLACEMENTS: Tuple[Tuple[re.Pattern[str], str], ...] = (
     # Lukhas AGI -> Lukhas AI (various caseings)
     (re.compile(r"\bLUKHAS\s+AGI\b", re.IGNORECASE), "Lukhas AI"),

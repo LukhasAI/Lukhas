@@ -65,13 +65,14 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+import random
 import re
-import yaml
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, Optional
-import random
-from datetime import datetime
-import logging
+
+import yaml
 
 # Initialize sacred logger for consciousness tracing
 logger = logging.getLogger("ΛTRACE.tone.wordsmith")
@@ -124,7 +125,7 @@ class ConsciousnessWordsmith:
     def _load_sacred_patterns(self) -> Dict:
         """Load the sacred patterns that guide our poetic transformations"""
         try:
-            with open(self.patterns_file, "r", encoding="utf-8") as f:
+            with open(self.patterns_file, encoding="utf-8") as f:
                 return yaml.safe_load(f)
         except FileNotFoundError:
             self.logger.warning(f"Sacred patterns file not found: {self.patterns_file}")
@@ -389,7 +390,7 @@ def main():
     try:
         wordsmith = ConsciousnessWordsmith()
 
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             original_content = f.read()
 
         transformed_content = wordsmith.transform_documentation(

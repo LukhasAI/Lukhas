@@ -34,10 +34,10 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://lukhas.ai/docs
 """
 
-from typing import Any, Optional
-from dataclasses import dataclass
-import random
 import math
+import random
+from dataclasses import dataclass
+from typing import Any, Optional
 
 __module_name__ = "Quantum Layer"
 __version__ = "2.0.0"

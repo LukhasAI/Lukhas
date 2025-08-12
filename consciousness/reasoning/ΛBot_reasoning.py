@@ -14,7 +14,6 @@ Created: 2025-07-02
 Status: PRODUCTION READY
 """
 
-from ΛBot_auditor import ΛBotAuditor
 import asyncio
 import os
 import sys
@@ -23,6 +22,8 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
+
+from ΛBot_auditor import ΛBotAuditor
 
 # Configure logging
 logging.basicConfig(

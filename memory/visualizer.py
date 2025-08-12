@@ -38,10 +38,11 @@
 """
 
 # Module imports
-import streamlit as st  # Streamlit available - enabled visualization
 from dataclasses import dataclass
 from datetime import datetime  # timedelta not used
 from typing import Any, Optional
+
+import streamlit as st  # Streamlit available - enabled visualization
 
 # Configure module logger
 

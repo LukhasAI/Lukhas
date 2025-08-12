@@ -45,9 +45,8 @@ allowing for:
 ΛTODO: Add colony load balancing for optimal dream distribution
 AIDEA: Implement colony evolution tracking for dream processing capabilities
 """
-import logging
-
 import asyncio
+import logging
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone

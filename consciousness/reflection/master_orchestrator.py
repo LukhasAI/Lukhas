@@ -47,9 +47,8 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛTODO: Add brain/memory orchestration integration when approved
 AIDEA: Implement LUKHAS cycle optimization with memory integration
 """
-import logging
-
 import asyncio
+import logging
 import time
 from collections import deque
 from dataclasses import dataclass, field

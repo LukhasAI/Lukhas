@@ -34,8 +34,6 @@
 ║ Symbolic Tags: {ΛCOMPRESS}, {ΛDELTA}, {ΛLOOP}, {ΛENTROPY}
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
-import numpy as np
-
 # Module imports
 import hashlib
 import json
@@ -45,6 +43,8 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
+
+import numpy as np
 
 # Configure module logger
 

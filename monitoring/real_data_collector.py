@@ -8,9 +8,9 @@ Actual implementation showing how monitoring system collects real data from LUKH
 import asyncio
 import importlib
 import inspect
-from pathlib import Path
-from typing import Dict, Any, List
 from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, List
 
 import structlog
 
@@ -573,8 +573,8 @@ class LukhasPWMRealDataCollector:
     def _setup_consciousness_fallbacks(self):
         """Set up fallback data generators for consciousness modules"""
 
-        import time
         import math
+        import time
 
         def consciousness_fallback():
             t = time.time()
@@ -590,8 +590,8 @@ class LukhasPWMRealDataCollector:
     def _setup_memory_fallbacks(self):
         """Set up fallback data generators for memory modules"""
 
-        import time
         import math
+        import time
 
         def memory_fallback():
             t = time.time()
@@ -609,8 +609,8 @@ class LukhasPWMRealDataCollector:
     def _setup_biological_fallbacks(self):
         """Set up fallback data generators for biological modules"""
 
-        import time
         import math
+        import time
 
         def hormone_fallback():
             t = time.time()

@@ -5,12 +5,13 @@ Advanced: synthesis.py
 Integration Date: 2025-05-31T07:55:28.358534
 """
 
-from core.common import get_logger
-from typing import Any, Optional
-from dataclasses import dataclass
-import os
 import asyncio
 import logging
+import os
+from dataclasses import dataclass
+from typing import Any, Optional
+
+from core.common import get_logger
 
 """
 Emotionally Intelligent Voice Synthesis Module

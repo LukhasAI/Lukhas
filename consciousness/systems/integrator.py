@@ -33,17 +33,17 @@ The integrator maintains consciousness continuity and ensures
 seamless communication between all cognitive modules.
 """
 
-from typing import Any, Optional
-from pathlib import Path
-from enum import Enum
-from datetime import datetime
-from dataclasses import asdict, dataclass
-import uuid
-import time
-import threading
-import logging
 import asyncio
 import json
+import logging
+import threading
+import time
+import uuid
+from dataclasses import asdict, dataclass
+from datetime import datetime
+from enum import Enum
+from pathlib import Path
+from typing import Any, Optional
 
 # Try to import from core.common if available
 try:

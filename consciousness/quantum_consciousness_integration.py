@@ -41,13 +41,11 @@
 ║ Symbolic Tags: {ΛQUANTUM}, {ΛCONSCIOUSNESS}, {ΛCREATIVE}, {ΛINTEGRATION}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from typing import Union
-import logging
-
 # Module imports
 import asyncio
+import logging
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any, Optional, Union
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.consciousness.quantum_consciousness_integration")

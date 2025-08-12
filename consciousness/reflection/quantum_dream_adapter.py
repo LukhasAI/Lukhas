@@ -23,13 +23,13 @@ This adapter integrates the dream engine with the quantum bio-oscillator system,
 enabling quantum-enhanced dream processing and memory consolidation.
 """
 
-from ..oscillator.quantum_inspired_layer import QuantumBioOscillator
-from ..oscillator.orchestrator import BioOrchestrator
-from typing import Any, Optional
-from datetime import datetime
 import asyncio
 from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Optional
 
+from ..oscillator.orchestrator import BioOrchestrator
+from ..oscillator.quantum_inspired_layer import QuantumBioOscillator
 
 logger = logging.getLogger("quantum_dream")
 

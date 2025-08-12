@@ -11,17 +11,18 @@ Shows:
 - API endpoints for tool registry
 """
 
-from orchestration.signals.homeostasis import ModulationParams
-from lukhas_pwm.openai.tooling import (
-    build_tools_from_allowlist,
-    get_all_tools,
-    get_tool_names,
-)
 import json
 import sys
 import uuid
 from datetime import datetime
 from pathlib import Path
+
+from lukhas_pwm.openai.tooling import (
+    build_tools_from_allowlist,
+    get_all_tools,
+    get_tool_names,
+)
+from orchestration.signals.homeostasis import ModulationParams
 
 # Add project root to path
 project_root = Path(__file__).parent

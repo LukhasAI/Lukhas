@@ -23,6 +23,7 @@ from typing import Any, cast
 
 from bridge.llm_wrappers.tool_executor import execute_tool as bridged_execute_tool
 from lukhas_pwm.audit.tool_analytics import get_analytics
+from lukhas_pwm.branding.terminology import normalize_chunk, normalize_output
 from lukhas_pwm.metrics import get_metrics_collector
 from lukhas_pwm.openai.tooling import build_tools_from_allowlist, get_all_tools
 from orchestration.signals.homeostasis import (
@@ -31,7 +32,6 @@ from orchestration.signals.homeostasis import (
     SystemEvent,
 )
 from orchestration.signals.modulator import PromptModulation, PromptModulator
-from lukhas_pwm.branding.terminology import normalize_output, normalize_chunk
 from orchestration.signals.signal_bus import Signal, get_signal_bus
 
 from .unified_openai_client import UnifiedOpenAIClient

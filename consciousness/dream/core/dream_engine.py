@@ -30,10 +30,9 @@
 ║ - #ΛCOLLAPSE_HOOK                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 """
-import logging
-
 import asyncio
 import contextlib
+import logging
 from datetime import datetime
 from typing import Any, Optional
 

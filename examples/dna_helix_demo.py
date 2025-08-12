@@ -4,16 +4,17 @@
 Shows the immutable memory architecture in action
 """
 
-from memory.dna_helix.helix_vault import HelixVault
+import asyncio
+import os
+import sys
+
 from memory.dna_helix import (
     MemoryHelix,
     RepairMethod,
     SymbolicRepairLoop,
     SymbolicStrand,
 )
-import asyncio
-import os
-import sys
+from memory.dna_helix.helix_vault import HelixVault
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

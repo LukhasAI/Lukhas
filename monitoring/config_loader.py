@@ -6,9 +6,10 @@ Loads monitoring configuration with environment variable overrides
 """
 
 import os
-import yaml
 from pathlib import Path
 from typing import Any, Dict, Optional, Union
+
+import yaml
 
 
 def load_config(config_path: Optional[str] = None) -> Dict[str, Any]:
@@ -28,7 +29,7 @@ def load_config(config_path: Optional[str] = None) -> Dict[str, Any]:
     # Load base configuration from YAML
     config = {}
     if Path(config_path).exists():
-        with open(config_path, "r") as f:
+        with open(config_path) as f:
             config = yaml.safe_load(f) or {}
 
     # Apply environment variable overrides
@@ -381,8 +382,8 @@ def load_validated_config(
 
 if __name__ == "__main__":
     """CLI interface for configuration management."""
-    import sys
     import json
+    import sys
 
     if len(sys.argv) > 1 and sys.argv[1] == "--validate":
         config, validation = load_validated_config()

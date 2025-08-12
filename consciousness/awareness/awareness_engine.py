@@ -35,9 +35,8 @@
 ║ • Predictive Processing Framework (Clark, 2013)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import logging
-
 import asyncio
+import logging
 from datetime import datetime
 from typing import (  # List not used in signatures but kept
     Any,

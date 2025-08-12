@@ -14,6 +14,8 @@
 # 🛠️ DEPENDENCY: settings_loader.py
 # ════════════════════════════════════════════════════════════════════════
 
+import structlog
+
 from .settings_loader import (
     SETTINGS,
     get_setting,
@@ -21,7 +23,6 @@ from .settings_loader import (
     preview_defaults,
     validate_settings,
 )
-import structlog
 
 # Initialize logger for ΛTRACE using structlog
 logger = structlog.get_logger("ΛTRACE.core.config.ReadSettingsScript")

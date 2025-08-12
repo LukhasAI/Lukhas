@@ -13,10 +13,10 @@ capabilities with prot2's quantum features.
 """
 
 # import streamlit as st  # TODO: Install or implement streamlit
-from typing import Any, Optional
-from core.common import get_logger
 from dataclasses import dataclass
+from typing import Any, Optional
 
+from core.common import get_logger
 
 try:
     from bio.quantum_bio_components import ProtonGradient

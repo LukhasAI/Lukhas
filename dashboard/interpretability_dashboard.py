@@ -14,12 +14,12 @@ Features:
 """
 
 import asyncio
+import uuid
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional
-import uuid
 
 from core.common import get_logger
 from core.common.exceptions import LukhasError, ValidationError

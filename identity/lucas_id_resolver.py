@@ -15,13 +15,12 @@ ACK GUARDRAILS
 import re
 import secrets
 import time
-from datetime import datetime, timedelta, timezone
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, Optional, Tuple
 from urllib.parse import urlencode
 
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field, validator
-import jwt
-from fastapi import APIRouter, HTTPException, status
+
 
 # ABNF Grammar Implementation for ΛID
 class LucasIDParser:
@@ -29,15 +28,15 @@ class LucasIDParser:
     ABNF-compliant parser for LucasID (ΛID) format:
     LUCASID = [NAMESPACE ":"] USERNAME [SP PROVIDER] [SP LOCALE] [SP EMOJI]
     """
-    
+
     # Validation regex for canonical core (namespace:username)
     CANONICAL_REGEX = re.compile(r'^(?:(?P<namespace>[a-z0-9_-]{1,48}):)?(?P<username>[a-z0-9_-]{3,32})$')
-    
+
     # Extended patterns for full ΛID with optional components
     PROVIDER_PATTERN = re.compile(r'@(google|apple|github|microsoft|lukhas|[a-z]+)')
     LOCALE_PATTERN = re.compile(r'~([a-z0-9-]+)')
     EMOJI_PATTERN = re.compile(r'[\U0001F300-\U0001FAD6\U00002600-\U000026FF]')
-    
+
     @classmethod
     def parse_canonical(cls, input_str: str) -> Tuple[Optional[str], str]:
         """
@@ -50,33 +49,33 @@ class LucasIDParser:
             ValueError if format is invalid
         """
         start_time = time.perf_counter()
-        
+
         # Normalize input
         canonical = input_str.strip().lower()
-        
+
         # Remove UI affordances if present
         if canonical.startswith('#λid ') or canonical.startswith('#lid '):
             canonical = canonical.split(' ', 1)[1]
-        
+
         # Extract canonical part (before any @ ~ emoji)
         canonical = canonical.split('@')[0].split('~')[0]
         canonical = re.sub(r'[\U0001F300-\U0001FAD6\U00002600-\U000026FF]', '', canonical).strip()
-        
+
         # Validate against ABNF
         match = cls.CANONICAL_REGEX.match(canonical)
         if not match:
             raise ValueError(f"Invalid ΛID format: {input_str}")
-        
+
         namespace = match.group('namespace')
         username = match.group('username')
-        
+
         # Performance tracking (must be < 2ms per requirements)
         parse_time = (time.perf_counter() - start_time) * 1000
         if parse_time > 2.0:  # Log slow parses
             print(f"SLOW_PARSE: {parse_time:.2f}ms for {input_str}")
-        
+
         return namespace, username
-    
+
     @classmethod
     def parse_full(cls, input_str: str) -> Dict[str, Optional[str]]:
         """
@@ -85,24 +84,24 @@ class LucasIDParser:
         """
         # Parse canonical part first
         namespace, username = cls.parse_canonical(input_str)
-        
+
         # Extract optional components
         provider = None
         locale = None
         emoji = None
-        
+
         provider_match = cls.PROVIDER_PATTERN.search(input_str)
         if provider_match:
             provider = provider_match.group(1)
-        
+
         locale_match = cls.LOCALE_PATTERN.search(input_str)
         if locale_match:
             locale = locale_match.group(1)
-            
+
         emoji_match = cls.EMOJI_PATTERN.search(input_str)
         if emoji_match:
             emoji = emoji_match.group(0)
-        
+
         return {
             'namespace': namespace,
             'username': username,
@@ -118,7 +117,7 @@ class LucasIDResolver:
     ΛID Resolver that maps canonical identities to provider authentication flows.
     Acts as OIDC Provider for "Sign in with LUKHΛS" functionality.
     """
-    
+
     def __init__(self):
         # OAuth provider configurations
         self.oauth_providers = {
@@ -148,7 +147,7 @@ class LucasIDResolver:
                 'client_id': 'lukhas-webauthn'
             }
         }
-        
+
         # OIDC configuration for "Sign in with LUKHΛS"
         self.oidc_config = {
             'issuer': 'https://identity.lukhas.com',
@@ -160,7 +159,7 @@ class LucasIDResolver:
             'subject_types_supported': ['public'],
             'id_token_signing_alg_values_supported': ['RS256']
         }
-        
+
         # Reserved namespaces (from seeding script)
         self.reserved_namespaces = {
             'openai': {'verified': True, 'tier': 'T5'},
@@ -170,7 +169,7 @@ class LucasIDResolver:
             'apple': {'verified': True, 'tier': 'T2'},
             'github': {'verified': True, 'tier': 'T2'}
         }
-    
+
     def resolve_login(self, input_str: str, provider: Optional[str] = None) -> Dict[str, str]:
         """
         Core resolution endpoint: POST /identity/resolve-login
@@ -188,21 +187,21 @@ class LucasIDResolver:
             }
         """
         start_time = time.perf_counter()
-        
+
         try:
             # Parse canonical ΛID
             parsed = LucasIDParser.parse_full(input_str)
             canonical_lid = parsed['canonical_lid']
-            
+
             # Determine provider
             resolved_provider = provider or parsed.get('provider') or 'lukhas'
-            
+
             if resolved_provider not in self.oauth_providers:
                 raise ValueError(f"Unsupported provider: {resolved_provider}")
-            
+
             # Generate CSRF state
             state = secrets.token_urlsafe(32)
-            
+
             # Build auth URL
             if resolved_provider == 'lukhas':
                 # First-party WebAuthn flow
@@ -217,19 +216,19 @@ class LucasIDResolver:
                     'state': state,
                     'redirect_uri': f'https://identity.lukhas.com/oauth/callback/{resolved_provider}'
                 }
-                
+
                 # Add provider-specific parameters
                 if resolved_provider == 'apple':
                     auth_params['response_mode'] = 'form_post'
                 elif resolved_provider == 'microsoft':
                     auth_params['prompt'] = 'select_account'
-                
+
                 auth_url = f"{provider_config['auth_url']}?{urlencode(auth_params)}"
-            
+
             # Log resolution (audit trail requirement)
             resolution_time = (time.perf_counter() - start_time) * 1000
             self._log_resolution(canonical_lid, resolved_provider, resolution_time)
-            
+
             return {
                 'canonical_lid': canonical_lid,
                 'provider': resolved_provider,
@@ -238,21 +237,21 @@ class LucasIDResolver:
                 'namespace': parsed['namespace'],
                 'username': parsed['username']
             }
-            
+
         except ValueError as e:
             raise HTTPException(status_code=400, detail=str(e))
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Resolution failed: {str(e)}")
-    
+
     def _log_resolution(self, lid: str, provider: str, resolution_time_ms: float):
         """Log resolution for audit trail (requirement #6)."""
         # In production: write to audit log table
         print(f"RESOLUTION: {lid} -> {provider} ({resolution_time_ms:.2f}ms)")
-    
+
     def get_oidc_configuration(self) -> Dict:
         """GET /.well-known/openid-configuration"""
         return self.oidc_config
-    
+
     def get_jwks(self) -> Dict:
         """GET /.well-known/jwks.json - JSON Web Key Set for token verification"""
         # In production: use actual RSA keys from KMS/enclave
@@ -275,13 +274,13 @@ class ResolveLoginRequest(BaseModel):
     """Request model for /identity/resolve-login"""
     input: str = Field(..., description="ΛID input like 'stanford:alice_smith' or 'gonzo'")
     provider: Optional[str] = Field(None, description="Optional provider override (google|apple|github|lukhas)")
-    
+
     @validator('input')
     def validate_input(cls, v):
         if not v or len(v.strip()) < 3:
             raise ValueError("Input must be at least 3 characters")
         return v.strip().lower()
-    
+
     @validator('provider')
     def validate_provider(cls, v):
         if v and v not in ['google', 'apple', 'github', 'microsoft', 'lukhas']:
@@ -358,13 +357,13 @@ def benchmark_parser():
     """Benchmark parser performance (must be < 2ms per requirements)."""
     test_cases = [
         "gonzo",
-        "stanford:alice_smith", 
+        "stanford:alice_smith",
         "openai:reviewer",
         "acme:engineering-johndoe",
         "a" * 32,  # Max username length
         "x" * 48 + ":" + "y" * 32  # Max namespace + username
     ]
-    
+
     times = []
     for test_input in test_cases:
         start = time.perf_counter()
@@ -376,12 +375,12 @@ def benchmark_parser():
             print(f"PARSE: {test_input} -> {parse_time:.3f}ms")
         except ValueError as e:
             print(f"INVALID: {test_input} -> {e}")
-    
+
     if times:
         p95 = sorted(times)[int(len(times) * 0.95)]
         print(f"P95 parse time: {p95:.3f}ms (requirement: < 2ms)")
         return p95 < 2.0
-    
+
     return False
 
 
@@ -389,18 +388,18 @@ if __name__ == "__main__":
     # Run benchmark
     print("🧪 Running ΛID Parser Benchmark...")
     benchmark_parser()
-    
+
     # Test resolution
     print("\n🔍 Testing Resolution...")
     resolver = LucasIDResolver()
-    
+
     test_cases = [
         ("gonzo", None),
         ("stanford:alice_smith", "google"),
         ("openai:reviewer", "apple"),
         ("mit:prof_johnson", "lukhas")
     ]
-    
+
     for input_str, provider in test_cases:
         try:
             result = resolver.resolve_login(input_str, provider)

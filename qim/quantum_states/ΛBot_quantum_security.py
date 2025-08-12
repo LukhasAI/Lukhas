@@ -34,8 +34,8 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://lukhas.ai/docs
 """
 
-import sys
 import os
+import sys
 
 __module_name__ = "Quantum Λbot Quantum Security"
 __version__ = "2.0.0"

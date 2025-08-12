@@ -118,8 +118,8 @@ lukhas_pwm_supreme_army:
       config_file: "./agents/guardian_crisis_lieutenant_config.json"
       focus: "Security & ethics crisis response"
 
-  # TIER 2: SPECIALIZED CONSCIOUSNESS COLONELS (8)
-  tier_2_colonels:
+  # TIER 2: SPECIALIZED CONSCIOUSNESS COLONELS (8) - EXTENDED
+  tier_2_colonels_extended:
     memory_systems_colonel:
       name: "🧮 Memory Systems Colonel"
       config_file: "./CLAUDE_ARMY/memory_systems_colonel_config.json"
@@ -160,8 +160,8 @@ lukhas_pwm_supreme_army:
       config_file: "./CLAUDE_ARMY/advanced_systems_colonel_config.json"
       specialization: "Advanced research & experimental systems"
 
-  # TIER 3: DEVELOPMENT MAJORS (4 deployed, 2 planned)
-  tier_3_majors:
+  # TIER 3: DEVELOPMENT MAJORS (4 deployed, 2 planned) - EXTENDED
+  tier_3_majors_extended:
     consciousness_development_major:
       name: "🧠⚙️ Consciousness Development Major"
       config_file: "./CLAUDE_ARMY/consciousness_development_major_config.json"
@@ -182,8 +182,8 @@ lukhas_pwm_supreme_army:
       config_file: "./CLAUDE_ARMY/integration_operations_major_config.json"
       focus: "System integration & operations development"
 
-  # TIER 4: RAPID RESPONSE LIEUTENANTS (3 deployed, 2 planned)
-  tier_4_lieutenants:
+  # TIER 4: RAPID RESPONSE LIEUTENANTS (3 deployed, 2 planned) - EXTENDED
+  tier_4_lieutenants_extended:
     consciousness_rapid_response_lieutenant:
       name: "🧠⚡ Consciousness Rapid Response Lieutenant"
       config_file: "./CLAUDE_ARMY/consciousness_rapid_response_lieutenant_config.json"

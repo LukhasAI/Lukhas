@@ -7,6 +7,13 @@ sophisticated Lukhas PWM architecture, leveraging its existing
 plugin registry and module registry systems.
 """
 
+import logging
+import sys
+from datetime import datetime
+from enum import Enum
+from pathlib import Path
+from typing import Any, Optional
+
 from plugins.plugin_base import (
     HealthStatus,
     LukhasPlugin,
@@ -14,12 +21,6 @@ from plugins.plugin_base import (
     PluginPriority,
     PluginStatus,
 )
-import logging
-import sys
-from datetime import datetime
-from enum import Enum
-from pathlib import Path
-from typing import Any, Optional
 
 # Add Lukhas PWM to path
 lukhas_pwm_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")

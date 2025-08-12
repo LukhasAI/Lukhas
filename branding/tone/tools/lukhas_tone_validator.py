@@ -8,12 +8,12 @@ ensuring that technical precision dances harmoniously with poetic soul."*
 The automated guardian of LUKHAS AI's distinctive 3-Layer Tone System.
 """
 
-import re
 import argparse
+import re
 import sys
-from typing import List
 from dataclasses import dataclass
 from pathlib import Path
+from typing import List
 
 
 @dataclass
@@ -407,7 +407,7 @@ def main():
 
     # Read and validate the sacred text
     try:
-        with open(args.file, "r", encoding="utf-8") as f:
+        with open(args.file, encoding="utf-8") as f:
             content = f.read()
     except Exception as e:
         print(f"❌ Error reading file: {e}")

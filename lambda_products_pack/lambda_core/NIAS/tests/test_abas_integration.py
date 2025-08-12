@@ -4,11 +4,12 @@ Test ABAS Integration with NIAS Engine
 Verify that the NIAS Engine properly integrates with ABAS attention boundaries
 """
 
-from NIΛS.core.nias_engine import get_nias_engine
 import asyncio
 import logging
 import sys
 from pathlib import Path
+
+from NIΛS.core.nias_engine import get_nias_engine
 
 # Add lambda-products to path
 lambda_products_path = Path(__file__).parent.parent.parent

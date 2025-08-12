@@ -14,20 +14,23 @@ ACK GUARDRAILS
 """
 
 import asyncio
-import hashlib
+import json
 import secrets
 import time
-from datetime import datetime, timezone, timedelta
-from typing import Dict, List, Optional, Any, Tuple
-import json
+from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, List, Optional
 
 import asyncpg
 from pydantic import BaseModel, Field, validator
 
 from .. import (
-    GestureType, RiskLevel, GestureFeatures, GestureChallenge, 
-    GestureApproval, requires_gtpsi_approval, get_action_risk_level,
-    get_max_approval_time, HIGH_RISK_ACTIONS
+    HIGH_RISK_ACTIONS,
+    GestureApproval,
+    GestureChallenge,
+    GestureFeatures,
+    GestureType,
+    get_max_approval_time,
+    requires_gtpsi_approval,
 )
 
 
@@ -37,7 +40,7 @@ class GestureVerificationRequest(BaseModel):
     challenge_id: str = Field(..., description="Challenge identifier")
     gesture_features: GestureFeatures = Field(..., description="Hashed gesture features")
     nonce: str = Field(..., description="Cryptographic nonce")
-    
+
     @validator('nonce')
     def validate_nonce(cls, v):
         if len(v) < 16:
@@ -78,32 +81,32 @@ class GTΨVerificationService:
     - Create time-locked approval records for specific actions
     - Validate and consume approvals when actions are performed
     """
-    
+
     def __init__(self, db_url: str = "postgresql://localhost/lukhas"):
         self.db_url = db_url
         self.db_pool = None
-        
+
         # In-memory storage for development (production uses PostgreSQL)
         self.stored_gestures: Dict[str, List[GestureFeatures]] = {}  # lid -> gestures
         self.active_challenges: Dict[str, GestureChallenge] = {}     # challenge_id -> challenge
         self.approvals: Dict[str, GestureApproval] = {}             # approval_id -> approval
-        
+
     async def initialize(self):
         """Initialize database connection and create tables"""
         if self.db_url != "mock":
             self.db_pool = await asyncpg.create_pool(self.db_url, min_size=1, max_size=5)
             await self._create_tables()
-    
+
     async def close(self):
         """Close database connections"""
         if self.db_pool:
             await self.db_pool.close()
-    
+
     async def _create_tables(self):
         """Create GTΨ database tables"""
         if not self.db_pool:
             return
-            
+
         async with self.db_pool.acquire() as conn:
             await conn.execute("""
                 CREATE SCHEMA IF NOT EXISTS gtpsi;
@@ -173,11 +176,11 @@ class GTΨVerificationService:
                 CREATE INDEX IF NOT EXISTS idx_challenges_expires ON gtpsi.challenges(expires_at);
                 CREATE INDEX IF NOT EXISTS idx_approvals_expires ON gtpsi.approvals(expires_at);
             """)
-    
+
     async def generate_challenge(
-        self, 
-        lid: str, 
-        action: str, 
+        self,
+        lid: str,
+        action: str,
         action_context: Dict[str, Any]
     ) -> GestureChallenge:
         """
@@ -194,18 +197,18 @@ class GTΨVerificationService:
         # Check if action requires GTΨ approval
         if not requires_gtpsi_approval(action):
             raise ValueError(f"Action '{action}' does not require GTΨ approval")
-        
+
         # Generate challenge
         challenge_id = f"gtpsi_{secrets.token_urlsafe(32)}"
         nonce = secrets.token_urlsafe(32)
-        
+
         # Determine required gesture type (could be user preference)
         required_gesture_type = GestureType.STROKE  # Default to stroke
-        
+
         # Set expiration based on action risk
         max_approval_seconds = get_max_approval_time(action)
         expires_at = datetime.now(timezone.utc) + timedelta(seconds=max_approval_seconds)
-        
+
         challenge = GestureChallenge(
             challenge_id=challenge_id,
             lid=lid,
@@ -215,19 +218,19 @@ class GTΨVerificationService:
             expires_at=expires_at,
             nonce=nonce
         )
-        
+
         # Store challenge
         self.active_challenges[challenge_id] = challenge
-        
+
         # Audit log
         await self._log_audit_event(
             "challenge_generated", lid, action, challenge_id=challenge_id
         )
-        
+
         return challenge
-    
+
     async def verify_gesture(
-        self, 
+        self,
         request: GestureVerificationRequest,
         client_ip: Optional[str] = None
     ) -> GestureVerificationResponse:
@@ -242,44 +245,44 @@ class GTΨVerificationService:
             Verification result with approval ID if successful
         """
         start_time = time.perf_counter()
-        
+
         try:
             # 1. Validate challenge
             challenge = self.active_challenges.get(request.challenge_id)
             if not challenge:
                 raise ValueError("Invalid or expired challenge")
-            
+
             if challenge.lid != request.lid:
                 raise ValueError("Challenge user mismatch")
-            
+
             if datetime.now(timezone.utc) > challenge.expires_at:
                 del self.active_challenges[request.challenge_id]
                 raise ValueError("Challenge expired")
-            
+
             # 2. Verify nonce matches
             if request.nonce != challenge.nonce:
                 raise ValueError("Invalid nonce")
-            
+
             # 3. Check gesture quality
             if request.gesture_features.quality_score < 0.3:
                 raise ValueError("Gesture quality too low")
-            
+
             # 4. Verify against stored patterns
             verification_score = await self._verify_against_patterns(
-                request.lid, 
+                request.lid,
                 request.gesture_features
             )
-            
+
             if verification_score < 0.7:  # 70% similarity threshold
                 raise ValueError("Gesture pattern does not match")
-            
+
             # 5. Create approval record
             approval_id = f"approval_{secrets.token_urlsafe(24)}"
             approval_expiry = min(
                 challenge.expires_at,
                 datetime.now(timezone.utc) + timedelta(seconds=get_max_approval_time(challenge.action))
             )
-            
+
             approval = GestureApproval(
                 approval_id=approval_id,
                 challenge_id=request.challenge_id,
@@ -291,13 +294,13 @@ class GTΨVerificationService:
                 expires_at=approval_expiry,
                 used=False
             )
-            
+
             # Store approval
             self.approvals[approval_id] = approval
-            
+
             # Mark challenge as completed
             challenge.expires_at = datetime.now(timezone.utc) + timedelta(seconds=60)  # Keep for cleanup
-            
+
             # Audit success
             processing_time = (time.perf_counter() - start_time) * 1000
             await self._log_audit_event(
@@ -305,30 +308,30 @@ class GTΨVerificationService:
                 challenge_id=request.challenge_id, approval_id=approval_id,
                 success=True, metadata={"processing_time_ms": processing_time, "score": verification_score}
             )
-            
+
             return GestureVerificationResponse(
                 verified=True,
                 approval_id=approval_id,
                 expires_at=approval_expiry
             )
-            
+
         except Exception as e:
             # Audit failure
             processing_time = (time.perf_counter() - start_time) * 1000
             await self._log_audit_event(
-                "gesture_verification_failed", request.lid, 
+                "gesture_verification_failed", request.lid,
                 challenge.action if challenge else "unknown",
-                challenge_id=request.challenge_id, success=False, 
+                challenge_id=request.challenge_id, success=False,
                 error_message=str(e), metadata={"processing_time_ms": processing_time}
             )
-            
+
             return GestureVerificationResponse(
                 verified=False,
                 error=str(e)
             )
-    
+
     async def check_action_approval(
-        self, 
+        self,
         request: ActionApprovalRequest
     ) -> ActionApprovalResponse:
         """
@@ -345,56 +348,56 @@ class GTΨVerificationService:
             approval = self.approvals.get(request.approval_id)
             if not approval:
                 raise ValueError("Approval not found")
-            
+
             # Validate approval
             if approval.lid != request.lid:
                 raise ValueError("Approval user mismatch")
-            
+
             if approval.action != request.action:
                 raise ValueError("Approval action mismatch")
-            
+
             if approval.used:
                 raise ValueError("Approval already used")
-            
+
             if datetime.now(timezone.utc) > approval.expires_at:
                 raise ValueError("Approval expired")
-            
+
             # Validate action context matches (for sensitive operations)
             if approval.action in ["share_link_public", "delete_files"]:
                 # Must match exactly for destructive operations
                 if approval.action_context != request.action_context:
                     raise ValueError("Action context mismatch")
-            
+
             # Mark approval as used
             approval.used = True
             approval.used_at = datetime.now(timezone.utc)
-            
+
             # Audit log
             await self._log_audit_event(
                 "approval_used", request.lid, request.action,
                 approval_id=request.approval_id, success=True
             )
-            
+
             return ActionApprovalResponse(
                 approved=True,
                 approval_record=approval
             )
-            
+
         except Exception as e:
             # Audit failure
             await self._log_audit_event(
                 "approval_check_failed", request.lid, request.action,
                 approval_id=request.approval_id, success=False, error_message=str(e)
             )
-            
+
             return ActionApprovalResponse(
                 approved=False,
                 error=str(e)
             )
-    
+
     async def enroll_gesture_pattern(
-        self, 
-        lid: str, 
+        self,
+        lid: str,
         gesture_features: GestureFeatures
     ) -> str:
         """
@@ -408,24 +411,24 @@ class GTΨVerificationService:
             Pattern ID
         """
         pattern_id = f"pattern_{secrets.token_urlsafe(16)}"
-        
+
         # Store pattern
         if lid not in self.stored_gestures:
             self.stored_gestures[lid] = []
-        
+
         self.stored_gestures[lid].append(gesture_features)
-        
+
         # Audit enrollment
         await self._log_audit_event(
             "gesture_enrolled", lid, "enrollment", success=True,
             metadata={"pattern_id": pattern_id, "gesture_type": gesture_features.gesture_type.value}
         )
-        
+
         return pattern_id
-    
+
     async def _verify_against_patterns(
-        self, 
-        lid: str, 
+        self,
+        lid: str,
         gesture_features: GestureFeatures
     ) -> float:
         """
@@ -439,10 +442,10 @@ class GTΨVerificationService:
             # No patterns enrolled - auto-enroll first gesture
             await self.enroll_gesture_pattern(lid, gesture_features)
             return 1.0  # First gesture always matches
-        
+
         # Compare against all stored patterns
         best_score = 0.0
-        
+
         for pattern in stored_patterns:
             if pattern.gesture_type == gesture_features.gesture_type:
                 # Simple hash matching (in production: more sophisticated similarity)
@@ -452,42 +455,42 @@ class GTΨVerificationService:
                     # Partial similarity based on quality scores
                     quality_avg = (pattern.quality_score + gesture_features.quality_score) / 2
                     score = quality_avg * 0.6  # Reduced score for non-exact match
-                
+
                 best_score = max(best_score, score)
-        
+
         return best_score
-    
+
     async def cleanup_expired(self) -> Dict[str, int]:
         """Clean up expired challenges and approvals"""
         now = datetime.now(timezone.utc)
-        
+
         # Clean challenges
         expired_challenges = [
             cid for cid, challenge in self.active_challenges.items()
             if now > challenge.expires_at
         ]
-        
+
         for cid in expired_challenges:
             del self.active_challenges[cid]
-        
+
         # Clean approvals
         expired_approvals = [
             aid for aid, approval in self.approvals.items()
             if now > approval.expires_at
         ]
-        
+
         for aid in expired_approvals:
             del self.approvals[aid]
-        
+
         return {
             "expired_challenges": len(expired_challenges),
             "expired_approvals": len(expired_approvals)
         }
-    
+
     async def _log_audit_event(
-        self, 
-        event_type: str, 
-        lid: str, 
+        self,
+        event_type: str,
+        lid: str,
         action: str,
         challenge_id: Optional[str] = None,
         approval_id: Optional[str] = None,
@@ -507,25 +510,25 @@ class GTΨVerificationService:
             "metadata": metadata or {},
             "timestamp": datetime.now(timezone.utc).isoformat()
         }
-        
+
         print(f"GTΨ AUDIT: {json.dumps(log_entry, indent=2)}")
-    
+
     def get_system_stats(self) -> Dict[str, Any]:
         """Get GTΨ system statistics"""
         now = datetime.now(timezone.utc)
-        
+
         active_challenges = len([
             c for c in self.active_challenges.values()
             if now <= c.expires_at
         ])
-        
+
         active_approvals = len([
             a for a in self.approvals.values()
             if not a.used and now <= a.expires_at
         ])
-        
+
         total_enrolled_users = len(self.stored_gestures)
-        
+
         return {
             "active_challenges": active_challenges,
             "active_approvals": active_approvals,
@@ -539,40 +542,40 @@ async def demonstrate_gtpsi_workflow():
     """Demonstrate complete GTΨ workflow"""
     print("🔐 GTΨ Gesture Authentication Demonstration")
     print("=" * 50)
-    
+
     service = GTΨVerificationService("mock")
     await service.initialize()
-    
+
     # 1. User wants to perform high-risk action
     print("📧 User wants to send email...")
     challenge = await service.generate_challenge(
         "gonzo",
-        "send_email", 
+        "send_email",
         {
             "to": "alice@example.com",
             "subject": "Important proposal",
             "recipient_count": 1
         }
     )
-    
+
     print(f"✅ Challenge generated: {challenge.challenge_id}")
     print(f"   Required gesture: {challenge.required_gesture_type}")
     print(f"   Expires: {challenge.expires_at}")
-    
+
     # 2. Client performs gesture (mock)
     print("\n✍️  User performs gesture...")
-    from ..edge import MockStrokeData, EdgeGestureProcessor, create_gesture_recognizer
-    
+    from ..edge import EdgeGestureProcessor, MockStrokeData, create_gesture_recognizer
+
     # Generate mock gesture data
     stroke_data = MockStrokeData.generate_signature_stroke()
-    
+
     # Process on-device
     recognizer = create_gesture_recognizer(GestureType.STROKE)
     processor = EdgeGestureProcessor(recognizer)
-    
+
     gesture_features = processor.process_gesture(stroke_data, GestureType.STROKE)
     print(f"   Gesture quality: {gesture_features.quality_score:.2f}")
-    
+
     # 3. Verify gesture with server
     verification_request = GestureVerificationRequest(
         lid="gonzo",
@@ -580,12 +583,12 @@ async def demonstrate_gtpsi_workflow():
         gesture_features=gesture_features,
         nonce=challenge.nonce
     )
-    
+
     verification_result = await service.verify_gesture(verification_request)
-    
+
     if verification_result.verified:
         print(f"✅ Gesture verified! Approval ID: {verification_result.approval_id}")
-        
+
         # 4. Use approval for action
         print("\n📤 Executing send email action...")
         action_request = ActionApprovalRequest(
@@ -594,9 +597,9 @@ async def demonstrate_gtpsi_workflow():
             action="send_email",
             action_context=challenge.action_context
         )
-        
+
         action_result = await service.check_action_approval(action_request)
-        
+
         if action_result.approved:
             print("✅ Action approved and executed!")
             print("📧 Email sent successfully with GTΨ approval")
@@ -604,14 +607,14 @@ async def demonstrate_gtpsi_workflow():
             print(f"❌ Action denied: {action_result.error}")
     else:
         print(f"❌ Gesture verification failed: {verification_result.error}")
-    
+
     # 5. System stats
     stats = service.get_system_stats()
-    print(f"\n📊 System Stats:")
+    print("\n📊 System Stats:")
     print(f"   Active challenges: {stats['active_challenges']}")
     print(f"   Active approvals: {stats['active_approvals']}")
     print(f"   Enrolled users: {stats['enrolled_users']}")
-    
+
     await service.close()
     print("\n🎉 GTΨ workflow demonstration complete!")
 

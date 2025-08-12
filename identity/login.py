@@ -23,29 +23,29 @@ def validate_password(password: str):
     """
     if len(password) < 8:
         return False, "Password must be at least 8 characters long"
-    
+
     if not re.search(r"[A-Z]", password):
         return False, "Password must contain at least one uppercase letter"
-    
+
     if not re.search(r"[a-z]", password):
         return False, "Password must contain at least one lowercase letter"
-    
+
     if not re.search(r"\d", password):
         return False, "Password must contain at least one number"
-    
+
     if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
         return False, "Password must contain at least one special character"
-    
+
     # Check for common weak patterns
     weak_patterns = [
-        r"password", r"123456", r"qwerty", r"admin", 
+        r"password", r"123456", r"qwerty", r"admin",
         r"letmein", r"welcome", r"monkey", r"dragon"
     ]
-    
+
     for pattern in weak_patterns:
         if re.search(pattern, password, re.IGNORECASE):
             return False, f"Password contains common weak pattern: {pattern}"
-    
+
     return True, "Password is valid"
 
 
@@ -60,7 +60,7 @@ def login_user(email: str, password: str) -> Dict[str, Any]:
             "user_id": None,
             "token": None
         }
-    
+
     # Enhanced user ID generation with validation
     if "@" not in email or "." not in email.split("@")[1]:
         return {
@@ -69,9 +69,9 @@ def login_user(email: str, password: str) -> Dict[str, Any]:
             "user_id": None,
             "token": None
         }
-    
+
     user_id = email.split("@")[0].replace(".", "_").lower()
-    
+
     # Enhanced metadata with security info
     metadata = {
         "email": email,

@@ -8,25 +8,26 @@ providing the foundation for all symbolic communication in LUKHAS.
 This replaces the basic glyph_engine.py with full multi-modal support.
 """
 
-from typing import Any, Dict, List, Optional, Set, cast
-from datetime import datetime, timezone
 import asyncio
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional, Set, cast
+
+from core.events.contracts import GlyphCreated, SymbolTranslated
+
+# Import event system for integration
+from core.events.typed_event_bus import get_typed_event_bus
 
 # Import existing GLYPH components
 from .glyph import EmotionVector, Glyph, GlyphFactory, GlyphType
 
 # Import Universal Symbol Protocol
 from .universal_symbol_protocol import (
-    UniversalSymbol,
-    SymbolModality,
     SymbolDomain,
+    SymbolModality,
     SymbolTranslator,
+    UniversalSymbol,
     UniversalSymbolProtocol,
 )
-
-# Import event system for integration
-from core.events.typed_event_bus import get_typed_event_bus
-from core.events.contracts import GlyphCreated, SymbolTranslated
 
 
 class EnhancedGlyphEngine:

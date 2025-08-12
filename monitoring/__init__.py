@@ -27,6 +27,22 @@ This creates a living, breathing AI system that actively monitors itself,
 adapts to changing conditions, and continuously learns from its experiences.
 """
 
+from .adaptive_metrics_collector import (
+    AdaptiveMetricsCollector,
+    MetricContext,
+    MetricDataPoint,
+    MetricDefinition,
+    MetricType,
+    create_adaptive_metrics_collector,
+)
+from .bio_symbolic_coherence_monitor import (
+    BioSymbolicCoherenceMonitor,
+    CoherenceLevel,
+    CoherenceMeasurement,
+    CoherenceMetric,
+    CoherenceReport,
+    create_bio_symbolic_coherence_monitor,
+)
 from .endocrine_observability_engine import (
     EndocrineObservabilityEngine,
     EndocrineSnapshot,
@@ -34,51 +50,14 @@ from .endocrine_observability_engine import (
     PlasticityTriggerType,
     create_endocrine_observability_engine,
 )
-
-from .plasticity_trigger_manager import (
-    PlasticityTriggerManager,
-    AdaptationPlan,
-    AdaptationRule,
-    AdaptationStrategy,
-    AdaptationPriority,
-)
-
-from .bio_symbolic_coherence_monitor import (
-    BioSymbolicCoherenceMonitor,
-    CoherenceReport,
-    CoherenceLevel,
-    CoherenceMetric,
-    CoherenceMeasurement,
-    create_bio_symbolic_coherence_monitor,
-)
-
-from .adaptive_metrics_collector import (
-    AdaptiveMetricsCollector,
-    MetricType,
-    MetricContext,
-    MetricDefinition,
-    MetricDataPoint,
-    create_adaptive_metrics_collector,
-)
-
 from .hormone_driven_dashboard import (
-    HormoneDrivenDashboard,
-    DashboardMode,
-    VisualizationType,
     DashboardAlert,
+    DashboardMode,
+    HormoneDrivenDashboard,
     PredictionInsight,
+    VisualizationType,
     create_hormone_driven_dashboard,
 )
-
-from .neuroplastic_learning_orchestrator import (
-    NeuroplasticLearningOrchestrator,
-    LearningPhase,
-    LearningGoal,
-    AdaptationExperiment,
-    LearningInsight,
-    create_neuroplastic_learning_orchestrator,
-)
-
 from .integrated_monitoring_system import (
     IntegratedMonitoringSystem,
     IntegrationState,
@@ -87,21 +66,35 @@ from .integrated_monitoring_system import (
     create_integrated_monitoring_system,
     start_complete_monitoring_system,
 )
-
 from .monitoring_config import (
     ComprehensiveMonitoringConfig,
-    MonitoringProfile,
-    EndocrineMonitoringConfig,
-    MetricsCollectionConfig,
-    PlasticityConfig,
     DashboardConfig,
-    LearningConfig,
+    EndocrineMonitoringConfig,
     IntegrationConfig,
+    LearningConfig,
+    MetricsCollectionConfig,
     MonitoringConfigManager,
+    MonitoringProfile,
+    PlasticityConfig,
+    create_default_monitoring_config,
     load_monitoring_config,
     save_monitoring_config,
     validate_monitoring_config,
-    create_default_monitoring_config,
+)
+from .neuroplastic_learning_orchestrator import (
+    AdaptationExperiment,
+    LearningGoal,
+    LearningInsight,
+    LearningPhase,
+    NeuroplasticLearningOrchestrator,
+    create_neuroplastic_learning_orchestrator,
+)
+from .plasticity_trigger_manager import (
+    AdaptationPlan,
+    AdaptationPriority,
+    AdaptationRule,
+    AdaptationStrategy,
+    PlasticityTriggerManager,
 )
 
 # Version information

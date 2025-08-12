@@ -5,14 +5,13 @@ FastAPI endpoints for OAuth login flows and enterprise user management.
 """
 
 from typing import Optional
-from urllib.parse import unquote
 
 from fastapi import APIRouter, HTTPException, Query, Request, status
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, EmailStr, Field
 
-from .oauth_federation import oauth_federation, OAuthProvider, EnterpriseConfig
 from .identity_core import AccessTier
+from .oauth_federation import OAuthProvider, oauth_federation
 
 router = APIRouter(prefix="/identity/oauth", tags=["OAuth & Enterprise"])
 
@@ -106,25 +105,25 @@ async def initiate_oauth_login(request: OAuthLoginRequest):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Unsupported OAuth provider: {request.provider}"
         )
-    
+
     try:
         # Generate state for CSRF protection
         import secrets
         state = secrets.token_urlsafe(32)
-        
+
         # Generate OAuth authorization URL
         auth_url = oauth_federation.generate_oauth_url(
             provider=provider,
             redirect_uri=request.redirect_uri,
             state=state
         )
-        
+
         return OAuthLoginResponse(
             provider=request.provider.lower(),
             authorization_url=auth_url,
             state=state
         )
-        
+
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -152,12 +151,12 @@ async def oauth_login_redirect(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Unsupported provider: {provider}"
         )
-    
+
     auth_url = oauth_federation.generate_oauth_url(
         provider=provider_enum,
         redirect_uri=redirect_uri
     )
-    
+
     return RedirectResponse(url=auth_url)
 
 
@@ -190,7 +189,7 @@ async def oauth_callback(request: OAuthCallbackRequest):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Unsupported provider: {request.provider}"
         )
-    
+
     # Handle OAuth callback
     result = await oauth_federation.handle_oauth_callback(
         provider=provider,
@@ -198,13 +197,13 @@ async def oauth_callback(request: OAuthCallbackRequest):
         redirect_uri=request.redirect_uri,
         state=request.state
     )
-    
+
     if not result["success"]:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=result["error"]
         )
-    
+
     return LoginSuccessResponse(**result)
 
 
@@ -228,17 +227,17 @@ async def oauth_callback_get(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Unsupported provider: {provider}"
         )
-    
+
     # Get redirect URI from referrer or default
     redirect_uri = str(request.url_for("oauth_callback_get", provider=provider))
-    
+
     result = await oauth_federation.handle_oauth_callback(
         provider=provider_enum,
         code=code,
         redirect_uri=redirect_uri,
         state=state
     )
-    
+
     if result["success"]:
         # In production, redirect to your frontend with token
         frontend_url = f"https://yourapp.com/auth/success?token={result['token']}&user_id={result['user_id']}"
@@ -259,7 +258,7 @@ async def get_organizations():
     Returns all configured enterprise domains and their settings.
     """
     orgs = oauth_federation.get_organization_configs()
-    
+
     return {
         "organizations": [
             {
@@ -302,7 +301,7 @@ async def create_enterprise_user(org_id: str, request: EnterpriseUserRequest):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="URL organization ID must match request organization ID"
         )
-    
+
     # Get organization config
     org_configs = oauth_federation.get_organization_configs()
     if org_id not in org_configs:
@@ -310,33 +309,33 @@ async def create_enterprise_user(org_id: str, request: EnterpriseUserRequest):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Organization {org_id} not found"
         )
-    
+
     org_config = org_configs[org_id]
-    
+
     # Validate email domain
     email_domain = request.user_email.split("@")[1].lower()
     org_domain = org_config.domain_pattern.replace("*.", "")
-    
+
     if not email_domain.endswith(org_domain):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Email domain {email_domain} does not match organization domain {org_domain}"
         )
-    
+
     # Generate user ID
     if request.custom_user_id:
         username = request.custom_user_id
     else:
         username = str(request.user_email).split("@")[0].replace(".", "_").lower()
-    
+
     user_id = org_config.user_id_format.format(
         org_id=org_id,
         username=username
     )
-    
+
     # Create user
     tier = AccessTier(request.tier) if request.tier else org_config.default_tier
-    
+
     metadata = {
         "email": str(request.user_email),
         "organization_id": org_id,
@@ -344,10 +343,10 @@ async def create_enterprise_user(org_id: str, request: EnterpriseUserRequest):
         "auto_verified": org_config.auto_verify,
         "created_via": "enterprise_api"
     }
-    
+
     token = oauth_federation.identity_core.create_token(user_id, tier, metadata)
     glyphs = oauth_federation.identity_core.generate_identity_glyph(user_id)
-    
+
     return {
         "success": True,
         "user_id": user_id,
@@ -387,7 +386,7 @@ async def link_oauth_account(request: AccountLinkRequest):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Unsupported provider: {request.secondary_provider}"
         )
-    
+
     # Validate primary user exists
     primary_user = oauth_federation.get_user_info(request.primary_user_id)
     if not primary_user:
@@ -395,33 +394,33 @@ async def link_oauth_account(request: AccountLinkRequest):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Primary user not found"
         )
-    
+
     # Process secondary OAuth
     secondary_result = await oauth_federation.handle_oauth_callback(
         provider=secondary_provider,
         code=request.secondary_code,
         redirect_uri=request.redirect_uri
     )
-    
+
     if not secondary_result["success"]:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Secondary OAuth failed: {secondary_result['error']}"
         )
-    
+
     # Link accounts
     link_success = oauth_federation.link_accounts(
         primary_user_id=request.primary_user_id,
         secondary_provider=secondary_provider,
         secondary_user_id=secondary_result["user_id"]
     )
-    
+
     if not link_success:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to link accounts"
         )
-    
+
     return {
         "success": True,
         "primary_user_id": request.primary_user_id,
@@ -435,14 +434,14 @@ async def link_oauth_account(request: AccountLinkRequest):
 @router.get("/user/{user_id}")
 async def get_federated_user_info(user_id: str):
     """Get federated user information and linked accounts."""
-    
+
     user = oauth_federation.get_user_info(user_id)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found"
         )
-    
+
     return {
         "user_id": user.lukhas_user_id,
         "email": user.email,
@@ -463,7 +462,7 @@ async def get_federated_user_info(user_id: str):
 @router.get("/providers")
 async def get_oauth_providers():
     """Get list of configured OAuth providers."""
-    
+
     providers = []
     for provider, config in oauth_federation.providers.items():
         providers.append({
@@ -472,7 +471,7 @@ async def get_oauth_providers():
             "scopes": config.scopes,
             "authorization_url": config.authorization_url
         })
-    
+
     return {
         "providers": providers,
         "total": len(providers)
@@ -482,9 +481,9 @@ async def get_oauth_providers():
 @router.post("/cleanup-temp-users")
 async def cleanup_temporary_users():
     """Admin endpoint to clean up expired temporary users."""
-    
+
     oauth_federation.cleanup_temporary_users()
-    
+
     return {
         "success": True,
         "message": "Temporary users cleaned up"
@@ -496,7 +495,7 @@ async def cleanup_temporary_users():
 @router.get("/health")
 async def oauth_health_check():
     """Health check for OAuth federation system."""
-    
+
     return {
         "status": "healthy",
         "providers_configured": len(oauth_federation.providers),

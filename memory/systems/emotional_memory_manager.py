@@ -6,8 +6,8 @@ DEPRECATED: This module is deprecated and will be removed in v2.0.0.
 Please use lukhas.memory.EmotionalMemoryManager instead.
 """
 
-from typing import Any, Optional
 import warnings
+from typing import Any, Optional
 
 warnings.warn(
     "lukhas.memory.systems.emotional_memory_manager is deprecated and will be removed in v2.0.0. "

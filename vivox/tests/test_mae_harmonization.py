@@ -3,14 +3,15 @@ Test VIVOX.MAE Harmonization Features
 Tests the enhanced moral alignment engine with ethical framework harmonization
 """
 
+import asyncio
+import os
+import sys
+
 from vivox.moral_alignment.vivox_mae_core import (
     ActionProposal,
     EthicalFrameworkHarmonizer,
     VIVOXMoralAlignmentEngine,
 )
-import asyncio
-import os
-import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 

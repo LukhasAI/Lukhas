@@ -11,9 +11,8 @@ Original: lukhas_emotion_log_alt.py
 Advanced: lukhas_emotion_log_alt.py
 Integration Date: 2025-05-31T07:55:28.105121
 """
-from typing import Dict
-from typing import List
 import logging
+from typing import Dict, List
 
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗
@@ -28,8 +27,9 @@ DEPENDENCIES:
 """
 
 # Sample emotion log structure
-from datetime import datetime, timedelta
 import atexit
+from datetime import datetime, timedelta
+
 from cryptography.fernet import Fernet
 
 emotion_db = {"current": "neutral", "log": []}

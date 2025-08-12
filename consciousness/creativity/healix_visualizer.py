@@ -15,16 +15,17 @@ HealixMapper Visualization & UX Interface
 DNA-inspired memory visualization with stunning visual representations
 """
 
+import asyncio
+from collections import defaultdict
+from datetime import datetime
+from typing import Optional
+
+import matplotlib.pyplot as plt
+import numpy as np
+import plotly.graph_objects as go
+from golden_healix_mapper import HealixMapper, MemoryStrand, MutationStrategy
 from matplotlib.animation import FuncAnimation
 from plotly.subplots import make_subplots
-from golden_healix_mapper import HealixMapper, MemoryStrand, MutationStrategy
-import plotly.graph_objects as go
-import numpy as np
-import matplotlib.pyplot as plt
-from typing import Optional
-from datetime import datetime
-from collections import defaultdict
-import asyncio
 
 
 class HealixVisualizer:

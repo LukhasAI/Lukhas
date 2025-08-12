@@ -12,9 +12,8 @@ Identity and authentication
 This hub coordinates all identity subsystem components and provides
 a unified interface for external systems to interact with identity.
 """
-import logging
-
 import asyncio
+import logging
 import time
 from dataclasses import asdict
 from typing import Any, Optional
@@ -28,8 +27,8 @@ from governance.identity.core.auth.biometric_integration import (
 from governance.identity.core.qrs_manager import QRSManager
 from governance.identity.core.sent.consent_manager import LambdaConsentManager
 from governance.identity.core.swarm.tier_aware_swarm_hub import TierAwareSwarmHub
-from identity.deployment_package import DemoOrchestrator, TestOrchestrator
 from governance.identity.interface import ConsentManager
+from identity.deployment_package import DemoOrchestrator, TestOrchestrator
 from identity.lukhus_ultimate_test_suite import UltimateTestOrchestrator
 from identity.qrg_test_suite import TestQRGCore
 

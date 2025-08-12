@@ -5,11 +5,9 @@ Provides basic consciousness module access without heavy dependencies
 """
 
 import asyncio
-import logging
 import json
-import os
+import logging
 import sys
-from typing import Any, Dict
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -21,12 +19,12 @@ try:
     from mcp.server.models import InitializationOptions
     from mcp.server.stdio import stdio_server
     from mcp.types import (
-        Resource,
-        Tool,
-        TextContent,
         CallToolRequest,
         ListResourcesRequest,
         ListToolsRequest,
+        Resource,
+        TextContent,
+        Tool,
     )
 except ImportError as e:
     logger.error(f"Failed to import MCP: {e}")

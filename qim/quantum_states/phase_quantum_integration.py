@@ -34,14 +34,14 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://lukhas.ai/docs
 """
 
+from core.identity.identity_engine import QuantumIdentityEngine
+from core.integration.governance.__init__ import QuantumEthicsEngine
+from core.testing.plugin_test_framework import QuantumTestOracle
+from quantum.quantum_processing_core import BaseOscillator
+from reasoning.symbolic_reasoning import SymbolicEngine
 from tools.documentation.symbolic_knowledge_core.knowledge_graph import (
     MultiverseKnowledgeWeb,
 )
-from reasoning.symbolic_reasoning import SymbolicEngine
-from quantum.quantum_processing_core import BaseOscillator
-from core.testing.plugin_test_framework import QuantumTestOracle
-from core.integration.governance.__init__ import QuantumEthicsEngine
-from core.identity.identity_engine import QuantumIdentityEngine
 
 __module_name__ = "Quantum Phase Quantum Integration"
 __version__ = "2.0.0"

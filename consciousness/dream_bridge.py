@@ -3,13 +3,13 @@
 Dream-Consciousness Bridge
 Implements the critical connection between dream synthesis and consciousness.
 """
-from orchestration.integration_hub import get_integration_hub
 from typing import Any
 
 from dream.engine import DreamEngine
 
 from consciousness.bridge import ConsciousnessBridge
 from memory.core import MemoryCore
+from orchestration.integration_hub import get_integration_hub
 
 
 class DreamConsciousnessBridge:

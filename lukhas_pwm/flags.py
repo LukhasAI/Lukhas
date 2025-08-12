@@ -3,27 +3,28 @@ Feature Flags System for LUKHAS PWM
 Minimal implementation to satisfy tests and control feature rollout
 """
 
-import os
 import functools
-from typing import Dict, Callable
-from pathlib import Path
-import yaml
+import os
 import warnings
+from pathlib import Path
+from typing import Callable, Dict
+
+import yaml
 
 
 class FeatureFlags:
     """Centralized feature flag management"""
-    
+
     _instance = None
     _flags: Dict[str, bool] = {}
     _overrides: Dict[str, bool] = {}
-    
+
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance._load_flags()
         return cls._instance
-    
+
     def _load_flags(self):
         """Load flags from environment and optional YAML"""
         # Default flags
@@ -35,13 +36,13 @@ class FeatureFlags:
             "guardian_system": True,
             "feature_flags": True,  # Meta flag
         }
-        
+
         # Load from environment variables (LUKHAS_FLAG_*)
         for key in os.environ:
             if key.startswith("LUKHAS_FLAG_"):
                 flag_name = key[12:].lower()  # Remove prefix
                 self._flags[flag_name] = os.environ[key].lower() in ("true", "1", "yes")
-        
+
         # Load from YAML if exists
         yaml_path = Path("lukhas_flags.yaml")
         if yaml_path.exists():
@@ -52,26 +53,26 @@ class FeatureFlags:
                         self._flags.update(yaml_flags)
             except Exception as e:
                 warnings.warn(f"Failed to load flags from YAML: {e}")
-    
+
     def get(self, name: str, default: bool = False) -> bool:
         """Get flag value with optional default"""
         # Check overrides first (for testing)
         if name in self._overrides:
             return self._overrides[name]
         return self._flags.get(name, default)
-    
+
     def set_override(self, name: str, value: bool):
         """Set temporary override (mainly for testing)"""
         self._overrides[name] = value
-    
+
     def clear_override(self, name: str):
         """Clear a temporary override"""
         self._overrides.pop(name, None)
-    
+
     def clear_all_overrides(self):
         """Clear all temporary overrides"""
         self._overrides.clear()
-    
+
     def all_flags(self) -> Dict[str, bool]:
         """Get all flags with overrides applied"""
         result = self._flags.copy()
@@ -132,12 +133,12 @@ def when_enabled(name: str) -> Callable:
                     )
                     return None
             return func(*args, **kwargs)
-        
+
         # Mark for test frameworks
         if not _flags.get(name):
             wrapper.__unittest_skip__ = True
             wrapper.__unittest_skip_why__ = f"Feature '{name}' is disabled"
-        
+
         return wrapper
     return decorator
 
@@ -149,18 +150,18 @@ def is_enabled(name: str) -> bool:
 
 class FeatureFlagContext:
     """Context manager for temporary feature flag overrides"""
-    
+
     def __init__(self, **flags):
         self.flags = flags
         self.original = {}
-    
+
     def __enter__(self):
         """Store original values and apply overrides"""
         for name, value in self.flags.items():
             self.original[name] = _flags.get(name)
             _flags.set_override(name, value)
         return self
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Restore original values"""
         for name in self.flags:
@@ -170,7 +171,7 @@ class FeatureFlagContext:
 # Convenience exports
 __all__ = [
     "get_flags",
-    "require_feature", 
+    "require_feature",
     "when_enabled",
     "is_enabled",
     "FeatureFlagContext"

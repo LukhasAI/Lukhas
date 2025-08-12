@@ -392,8 +392,9 @@ class TestMemoryAndPerformance:
         print("\n🧪 Test 01: Memory Leak Detection")
         print("=" * 50)
 
-        from agents.autonomous_agent_framework import AutonomousAgent
         from plugin_system.plugin_base import PluginSystem
+
+        from agents.autonomous_agent_framework import AutonomousAgent
 
         # Start memory tracking
         tracemalloc.start()
@@ -521,11 +522,12 @@ class TestEdgeCasesAndSecurity:
         print("\n🧪 Test 01: Edge Case Testing")
         print("=" * 50)
 
+        from plugin_system.plugin_base import PluginSystem
+
         from agents.autonomous_agent_framework import (
             AgentGoal,
             AutonomousAgent,
         )
-        from plugin_system.plugin_base import PluginSystem
 
         edge_cases_passed = []
         edge_cases_failed = []

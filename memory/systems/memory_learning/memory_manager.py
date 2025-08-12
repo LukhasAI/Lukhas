@@ -42,13 +42,14 @@ import logging
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from core.common import LukhasError
 import json
 import os
 import re  # Add re for regex operations in extract_insights
 import uuid
 from datetime import datetime, timedelta
 from typing import Any, Optional, Union
+
+from core.common import LukhasError
 
 # Import memory components
 # TODO: Resolve import paths if these files are moved or structure changes.

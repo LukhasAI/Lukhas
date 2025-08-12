@@ -5,8 +5,6 @@ Addresses TODO 168: Distributed tracing with correlation IDs
 This module provides comprehensive tracing capabilities for distributed
 AI agent interactions, enabling observability and debugging.
 """
-from dataclasses import asdict
-
 import json
 import logging
 import threading
@@ -14,7 +12,7 @@ import time
 import uuid
 from collections import defaultdict, deque
 from contextlib import contextmanager
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from typing import Any, Optional
 
 # Set up logging

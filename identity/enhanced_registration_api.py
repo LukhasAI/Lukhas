@@ -7,7 +7,7 @@ API endpoints for custom user ID registration and username management.
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException, status
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
 from .enhanced_registration import enhanced_registration
 
@@ -98,9 +98,9 @@ async def register_with_custom_id(request: CustomRegistrationRequest):
             custom_user_id=request.custom_user_id,
             display_name=request.display_name
         )
-        
+
         return RegistrationResponse(**result)
-        
+
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -135,7 +135,7 @@ async def check_username_availability(request: UsernameCheckRequest):
     try:
         result = enhanced_registration.check_user_id_availability(request.user_id)
         return AvailabilityResponse(**result)
-        
+
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -170,7 +170,7 @@ async def get_username_suggestions(request: SuggestionRequest):
     try:
         result = enhanced_registration.get_user_id_suggestions(str(request.email))
         return SuggestionResponse(**result)
-        
+
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -204,14 +204,14 @@ async def get_username_rules():
             }
         },
         "reserved_usernames": [
-            "admin", "root", "system", "api", "www", "mail", "ftp", 
+            "admin", "root", "system", "api", "www", "mail", "ftp",
             "test", "guest", "anonymous", "user", "support", "help",
             "lukhas", "lambda", "trinity", "guardian", "consciousness",
             "quantum", "dream", "emotion", "governance"
         ],
         "tips": [
             "Keep it memorable and easy to type",
-            "Avoid numbers at the end if possible", 
+            "Avoid numbers at the end if possible",
             "Consider using underscore to separate words",
             "Your display name can be different and more formal",
             "Username cannot be changed after registration"
@@ -240,7 +240,7 @@ async def get_demo_usernames():
         ],
         "tier_examples": {
             "T1": ["observer_1", "viewer_demo"],
-            "T2": ["creator_joe", "builder_alice"], 
+            "T2": ["creator_joe", "builder_alice"],
             "T3": ["advanced_user", "consciousness_dev"],
             "T4": ["quantum_alice", "architect_bob"],
             "T5": ["guardian_admin", "trinity_master"]
@@ -252,8 +252,8 @@ async def get_demo_usernames():
 # Backward compatibility endpoint
 @router.post("/legacy", response_model=RegistrationResponse)
 async def register_legacy_mode(
-    email: EmailStr, 
-    password: str, 
+    email: EmailStr,
+    password: str,
     requested_tier: Optional[str] = "T2"
 ):
     """
@@ -269,9 +269,9 @@ async def register_legacy_mode(
             requested_tier=requested_tier,
             custom_user_id=None  # Force email-derived ID
         )
-        
+
         return RegistrationResponse(**result)
-        
+
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

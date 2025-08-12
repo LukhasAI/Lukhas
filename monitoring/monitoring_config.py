@@ -7,13 +7,13 @@ biological-inspired monitoring settings for the enhanced LUKHAS system.
 """
 
 import json
-import yaml
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import structlog
+import yaml
 
 logger = structlog.get_logger(__name__)
 
@@ -475,7 +475,7 @@ class MonitoringConfigManager:
         # Load from file if it exists
         if self.config_path.exists():
             try:
-                with open(self.config_path, "r") as f:
+                with open(self.config_path) as f:
                     if self.config_path.suffix.lower() == ".yaml":
                         file_config = yaml.safe_load(f)
                     else:

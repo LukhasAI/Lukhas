@@ -5,30 +5,6 @@ Tests real OpenAI API integration with fictional data scenarios
 Including edge cases that should trigger ethical blocks
 """
 
-from lambda_products_pack.lambda_core.NIAS.vendor_portal import (
-    VendorPortal,
-    VendorTier,
-)
-from lambda_products_pack.lambda_core.NIAS.user_data_integrator import (
-    UserDataIntegrator,
-    UserDataProfile,
-)
-from lambda_products_pack.lambda_core.NIAS.dream_generator import (
-    BioRhythm,
-    DreamContext,
-    DreamGenerator,
-    DreamMood,
-)
-from lambda_products_pack.lambda_core.NIAS.dream_commerce_orchestrator import (
-    DreamCommerceOrchestrator,
-)
-from lambda_products_pack.lambda_core.NIAS.consent_manager import (
-    AIGenerationType,
-    ConsentLevel,
-    ConsentManager,
-    ConsentScope,
-    DataSource,
-)
 import asyncio
 import json
 import logging
@@ -36,6 +12,31 @@ import os
 import sys
 from pathlib import Path
 from typing import Any
+
+from lambda_products_pack.lambda_core.NIAS.consent_manager import (
+    AIGenerationType,
+    ConsentLevel,
+    ConsentManager,
+    ConsentScope,
+    DataSource,
+)
+from lambda_products_pack.lambda_core.NIAS.dream_commerce_orchestrator import (
+    DreamCommerceOrchestrator,
+)
+from lambda_products_pack.lambda_core.NIAS.dream_generator import (
+    BioRhythm,
+    DreamContext,
+    DreamGenerator,
+    DreamMood,
+)
+from lambda_products_pack.lambda_core.NIAS.user_data_integrator import (
+    UserDataIntegrator,
+    UserDataProfile,
+)
+from lambda_products_pack.lambda_core.NIAS.vendor_portal import (
+    VendorPortal,
+    VendorTier,
+)
 
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent.parent.parent))

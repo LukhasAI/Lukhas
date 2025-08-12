@@ -3,16 +3,15 @@ LUKHAS ΛID Core Identity System
 Agent 1: Identity & Authentication Specialist Implementation
 """
 
+import base64
 import hashlib
-import json
-import jwt
 import secrets
 import time
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Dict, Optional, List, Any
-from dataclasses import dataclass, asdict
-from pathlib import Path
-import base64
+from typing import Any, Dict, List, Optional
+
+import jwt
 
 # Performance target: <100ms p95 latency
 PERFORMANCE_TARGET_MS = 100
@@ -30,7 +29,7 @@ class LukhasID:
 
 class NamespaceSchema:
     """ΛID Namespace Schema Definition"""
-    
+
     NAMESPACES = {
         "user": {
             "prefix": "USR",
@@ -48,25 +47,25 @@ class NamespaceSchema:
             "capabilities": ["api_access", "data_process"]
         }
     }
-    
+
     @classmethod
     def validate_namespace(cls, namespace: str, metadata: Dict) -> bool:
         """Validate namespace requirements"""
         if namespace not in cls.NAMESPACES:
             return False
-        
+
         schema = cls.NAMESPACES[namespace]
         required = schema["required_fields"]
-        
+
         return all(field in metadata for field in required)
 
 
 class LambdaIDGenerator:
     """ΛID Generation Engine"""
-    
+
     def __init__(self):
         self.entropy_pool = secrets.SystemRandom()
-        
+
     def generate_lid(self, namespace: str, metadata: Dict) -> str:
         """
         Generate unique ΛID with namespace prefix
@@ -74,21 +73,21 @@ class LambdaIDGenerator:
         """
         if not NamespaceSchema.validate_namespace(namespace, metadata):
             raise ValueError(f"Invalid namespace or metadata for {namespace}")
-        
+
         prefix = NamespaceSchema.NAMESPACES[namespace]["prefix"]
         timestamp = str(int(time.time() * 1000))  # Millisecond precision
         random_component = secrets.token_hex(8)
-        
+
         # Create checksum for integrity
         checksum_input = f"{prefix}{timestamp}{random_component}"
         checksum = hashlib.sha256(checksum_input.encode()).hexdigest()[:8]
-        
+
         return f"{prefix}-{timestamp}-{random_component}-{checksum}"
-    
+
     def create_identity(self, namespace: str, metadata: Dict) -> LukhasID:
         """Create complete LUKHAS Identity"""
         lid = self.generate_lid(namespace, metadata)
-        
+
         return LukhasID(
             lid=lid,
             namespace=namespace,
@@ -99,12 +98,12 @@ class LambdaIDGenerator:
 
 class JWTTokenManager:
     """Secure JWT Token Management"""
-    
+
     def __init__(self, secret_key: Optional[str] = None):
         self.secret_key = secret_key or secrets.token_urlsafe(32)
         self.algorithm = "HS256"  # Will upgrade to ES256 with KMS
-        
-    def issue_token(self, lid: str, namespace: str, 
+
+    def issue_token(self, lid: str, namespace: str,
                    capabilities: List[str], ttl_seconds: int = 3600) -> str:
         """Issue JWT token for authenticated identity"""
         payload = {
@@ -116,15 +115,15 @@ class JWTTokenManager:
             "iss": "lukhas-identity",
             "aud": "lukhas-services"
         }
-        
+
         return jwt.encode(payload, self.secret_key, algorithm=self.algorithm)
-    
+
     def validate_token(self, token: str) -> Dict:
         """Validate and decode JWT token"""
         try:
             payload = jwt.decode(
-                token, 
-                self.secret_key, 
+                token,
+                self.secret_key,
                 algorithms=[self.algorithm],
                 audience="lukhas-services",
                 issuer="lukhas-identity"
@@ -138,20 +137,20 @@ class JWTTokenManager:
 
 class WebAuthnPasskey:
     """WebAuthn/FIDO2 Passkey Integration"""
-    
+
     def __init__(self):
         self.challenges = {}  # In production, use Redis/cache
-        
+
     def generate_registration_challenge(self, lid: str) -> Dict:
         """Generate WebAuthn registration challenge"""
         challenge = base64.urlsafe_b64encode(secrets.token_bytes(32)).decode()
-        
+
         self.challenges[lid] = {
             "challenge": challenge,
             "timestamp": time.time(),
             "type": "registration"
         }
-        
+
         return {
             "challenge": challenge,
             "rp": {
@@ -174,37 +173,37 @@ class WebAuthnPasskey:
             "timeout": 60000,
             "attestation": "direct"
         }
-    
+
     def generate_login_challenge(self, lid: str) -> Dict:
         """Generate WebAuthn login challenge"""
         challenge = base64.urlsafe_b64encode(secrets.token_bytes(32)).decode()
-        
+
         self.challenges[lid] = {
             "challenge": challenge,
             "timestamp": time.time(),
             "type": "authentication"
         }
-        
+
         return {
             "challenge": challenge,
             "timeout": 60000,
             "userVerification": "required",
             "rpId": "lukhas.ai"
         }
-    
+
     def verify_response(self, lid: str, response: Dict) -> bool:
         """Verify WebAuthn response (simplified for MVP)"""
         # In production, implement full WebAuthn verification
         if lid not in self.challenges:
             return False
-        
+
         challenge_data = self.challenges[lid]
-        
+
         # Check challenge age (max 5 minutes)
         if time.time() - challenge_data["timestamp"] > 300:
             del self.challenges[lid]
             return False
-        
+
         # Simplified verification for MVP
         # In production: verify signature, attestation, etc.
         del self.challenges[lid]
@@ -213,34 +212,34 @@ class WebAuthnPasskey:
 
 class IdentityService:
     """Main Identity Service coordinating all components"""
-    
+
     def __init__(self):
         self.id_generator = LambdaIDGenerator()
         self.token_manager = JWTTokenManager()
         self.passkey_manager = WebAuthnPasskey()
         self.identities = {}  # In production, use database
-        
+
     def register_user(self, email: str, display_name: str) -> Dict:
         """Register new user with ΛID"""
         start_time = time.time()
-        
+
         # Create identity
         identity = self.id_generator.create_identity(
             namespace="user",
             metadata={"email": email, "display_name": display_name}
         )
-        
+
         # Store identity
         self.identities[identity.lid] = identity
-        
+
         # Generate passkey challenge
         passkey_challenge = self.passkey_manager.generate_registration_challenge(
             identity.lid
         )
-        
+
         # Check performance
         elapsed_ms = (time.time() - start_time) * 1000
-        
+
         return {
             "lid": identity.lid,
             "namespace": identity.namespace,
@@ -248,21 +247,21 @@ class IdentityService:
             "performance_ms": elapsed_ms,
             "meets_target": elapsed_ms < PERFORMANCE_TARGET_MS
         }
-    
+
     def authenticate(self, lid: str, passkey_response: Dict) -> Dict:
         """Authenticate user with passkey"""
         start_time = time.time()
-        
+
         # Verify passkey
         if not self.passkey_manager.verify_response(lid, passkey_response):
             return {"success": False, "error": "Invalid passkey"}
-        
+
         # Get identity
         if lid not in self.identities:
             return {"success": False, "error": "Identity not found"}
-        
+
         identity = self.identities[lid]
-        
+
         # Issue token
         capabilities = NamespaceSchema.NAMESPACES[identity.namespace]["capabilities"]
         token = self.token_manager.issue_token(
@@ -270,10 +269,10 @@ class IdentityService:
             namespace=identity.namespace,
             capabilities=capabilities
         )
-        
+
         # Check performance
         elapsed_ms = (time.time() - start_time) * 1000
-        
+
         return {
             "success": True,
             "lid": lid,
@@ -282,7 +281,7 @@ class IdentityService:
             "performance_ms": elapsed_ms,
             "meets_target": elapsed_ms < PERFORMANCE_TARGET_MS
         }
-    
+
     def validate_access(self, token: str) -> Dict:
         """Validate access token"""
         return self.token_manager.validate_token(token)
@@ -291,12 +290,12 @@ class IdentityService:
 # Fallback authentication methods
 class FallbackAuth:
     """OTP and recovery codes for fallback authentication"""
-    
+
     @staticmethod
     def generate_otp() -> str:
         """Generate 6-digit OTP"""
         return str(secrets.randbelow(900000) + 100000)
-    
+
     @staticmethod
     def generate_recovery_codes(count: int = 10) -> List[str]:
         """Generate recovery codes"""
@@ -306,14 +305,14 @@ class FallbackAuth:
 if __name__ == "__main__":
     # Demo identity service
     service = IdentityService()
-    
+
     # Register user
     print("🔑 Registering user...")
     result = service.register_user("demo@lukhas.ai", "Demo User")
     print(f"ΛID: {result['lid']}")
     print(f"Performance: {result['performance_ms']:.2f}ms")
     print(f"Meets <100ms target: {result['meets_target']}")
-    
+
     # Simulate authentication
     print("\n🔐 Authenticating...")
     auth_result = service.authenticate(result['lid'], {"mock": "response"})

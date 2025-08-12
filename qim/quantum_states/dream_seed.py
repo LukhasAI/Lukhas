@@ -23,8 +23,9 @@ For more information, visit: https://lukhas.ai
 """
 
 
-from quantum.quantum_flux import QuantumFlux
 from typing import Optional
+
+from quantum.quantum_flux import QuantumFlux
 
 
 def generate_episodic_dream(trace):

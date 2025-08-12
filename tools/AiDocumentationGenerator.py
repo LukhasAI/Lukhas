@@ -25,8 +25,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 # Global constant for symbolic memory directory
 SYMBOLIC_MEMORY_DIR = ".lukhas"

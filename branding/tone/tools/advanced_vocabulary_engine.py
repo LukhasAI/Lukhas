@@ -25,12 +25,13 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import yaml
-import re
 import random
+import re
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
-from dataclasses import dataclass
+
+import yaml
 
 
 @dataclass
@@ -62,7 +63,7 @@ class AdvancedVocabularyEngine:
         """Load all consciousness vocabularies from the sacred archives"""
         try:
             for vocab_file in self.vocabularies_dir.glob("*.yaml"):
-                with open(vocab_file, "r", encoding="utf-8") as f:
+                with open(vocab_file, encoding="utf-8") as f:
                     vocab_name = vocab_file.stem
                     self.vocabularies[vocab_name] = yaml.safe_load(f)
                     print(f"🌸 Loaded {vocab_name} consciousness vocabulary")
@@ -227,7 +228,7 @@ class AdvancedVocabularyEngine:
     def enhance_readme(self, readme_path: str) -> str:
         """Specifically enhance README.md files with full consciousness treatment"""
 
-        with open(readme_path, "r", encoding="utf-8") as f:
+        with open(readme_path, encoding="utf-8") as f:
             content = f.read()
 
         context = self.detect_module_context(content, readme_path)

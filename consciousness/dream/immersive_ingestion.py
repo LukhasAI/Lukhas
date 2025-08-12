@@ -5,7 +5,6 @@ symbolic dream system. Complex orchestration is hidden so that first
 experiences feel magical.
 """
 import logging
-
 from typing import Any
 
 # ΛTAG: dream_ingestion_interface

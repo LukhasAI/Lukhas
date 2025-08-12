@@ -16,10 +16,10 @@
 """
 
 # Module imports
-from enum import Enum
-from dataclasses import dataclass, field
-import time
 import asyncio
+import time
+from dataclasses import dataclass, field
+from enum import Enum
 from typing import Any, Optional
 
 from core.common import get_logger

@@ -9,15 +9,15 @@ consciousness, reasoning) to ensure system integration and harmony.
 
 from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
 import structlog
 
 from orchestration.signals.signal_bus import (
-    SignalBus,
     Signal,
+    SignalBus,
     SignalType,
     get_signal_bus,
 )

@@ -9,7 +9,6 @@ This adapter enables Lambda Products to leverage GPT-OSS for enhanced:
 - Data Analytics & Strategic Thinking (DΛST)
 """
 
-from gpt_oss_brain import GPTOSSBrainSpecialist
 import asyncio
 import hashlib
 import logging
@@ -22,6 +21,8 @@ from datetime import datetime
 from enum import Enum, auto
 from pathlib import Path
 from typing import Any, Optional
+
+from gpt_oss_brain import GPTOSSBrainSpecialist
 
 sys.path.append(
     str(Path(__file__).parent.parent.parent / "agi-integration/brain-modules")

@@ -4,13 +4,14 @@
 # 🎯 AUDIENCE: Governance reviewers (e.g. Sam Altman, auditors)
 # ════════════════════════════════════════════════════════════════════════
 
-from core.tracing import trace_tools  # assuming trace_tools.py is importable
-import pandas as pd
-from pathlib import Path
 import json
 import os
+from pathlib import Path
 
+import pandas as pd
 import streamlit as st
+
+from core.tracing import trace_tools  # assuming trace_tools.py is importable
 
 LOG_PATH = "logs/emergency_log.jsonl"
 

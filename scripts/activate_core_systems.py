@@ -6,13 +6,14 @@ Activates the Signal Bus and Endocrine System for full AGI operation.
 Part of the 21-day AGI implementation roadmap.
 """
 
-from orchestration.signals.signal_bus import Signal, SignalType, get_signal_bus
-from feedback.card_system import FeedbackCardSystem
-from core.endocrine.hormone_system import get_endocrine_system
 import asyncio
 import logging
 import sys
 from pathlib import Path
+
+from core.endocrine.hormone_system import get_endocrine_system
+from feedback.card_system import FeedbackCardSystem
+from orchestration.signals.signal_bus import Signal, SignalType, get_signal_bus
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))

@@ -15,19 +15,18 @@ ACK GUARDRAILS
 
 import asyncio
 from datetime import datetime
-from typing import Dict, List, Optional, Any
-from ipaddress import ip_address
+from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, HTTPException, Depends, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 
 from .service import (
-    ConsentService, 
-    ConsentGrantRequest, 
-    ConsentRevokeRequest,
     CapabilityToken,
-    ConsentLedgerEntry
+    ConsentGrantRequest,
+    ConsentLedgerEntry,
+    ConsentRevokeRequest,
+    ConsentService,
 )
 
 
@@ -127,11 +126,11 @@ def get_client_ip(request: Request) -> str:
     forwarded_for = request.headers.get("X-Forwarded-For")
     if forwarded_for:
         return forwarded_for.split(",")[0].strip()
-    
+
     real_ip = request.headers.get("X-Real-IP")
     if real_ip:
         return real_ip
-    
+
     # Fallback to direct connection IP
     return request.client.host if request.client else "unknown"
 
@@ -177,19 +176,19 @@ async def grant_consent(
             ttl_minutes=request_data.ttl_minutes,
             resource_pattern=request_data.resource_pattern
         )
-        
+
         # Grant consent
         grant_id, capability_token = await service.grant_consent(
             service_request,
             client_ip=get_client_ip(request),
             client_context=get_client_context(request)
         )
-        
+
         return GrantConsentResponse(
             grant_id=grant_id,
             capability_token=capability_token
         )
-        
+
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
@@ -220,22 +219,22 @@ async def revoke_consent(
             scopes=request_data.scopes,
             reason=request_data.reason
         )
-        
+
         # Revoke consent
         revoked_count = await service.revoke_consent(
             service_request,
             client_ip=get_client_ip(request)
         )
-        
+
         message = f"Successfully revoked {revoked_count} consent grant(s)"
         if revoked_count == 0:
             message = "No matching consent grants found to revoke"
-        
+
         return RevokeConsentResponse(
             revoked_count=revoked_count,
             message=message
         )
-        
+
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
@@ -262,13 +261,13 @@ async def get_consent_ledger(
     """
     try:
         entries = await consent_service.get_consent_ledger(lid, service, active_only)
-        
+
         return LedgerResponse(
             lid=lid,
             entries=entries,
             total_entries=len(entries)
         )
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Ledger retrieval failed: {str(e)}")
 
@@ -297,9 +296,9 @@ async def escalate_to_content(
             purpose=request_data.purpose,
             ttl_minutes=request_data.ttl_minutes
         )
-        
+
         return EscalateResponse(capability_token=capability_token)
-        
+
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
@@ -328,12 +327,12 @@ async def verify_capability_token(
             required_scopes=request_data.required_scopes,
             resource_id=request_data.resource_id
         )
-        
+
         return VerifyTokenResponse(
             valid=True,
             claims=claims
         )
-        
+
     except Exception as e:
         return VerifyTokenResponse(
             valid=False,
@@ -372,7 +371,7 @@ async def get_consent_statistics(
                 "p95_verify_time_ms": 15.8
             }
         )
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Stats retrieval failed: {str(e)}")
 
@@ -391,13 +390,13 @@ async def cleanup_expired_grants(
     """
     try:
         result = await service.cleanup_expired()
-        
+
         return JSONResponse({
             "message": "Cleanup completed successfully",
             "expired_grants": result["expired_grants"],
             "expired_tokens": result["expired_tokens"]
         })
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Cleanup failed: {str(e)}")
 
@@ -435,7 +434,7 @@ async def system_info():
         ],
         "endpoints": {
             "grant": "POST /consent/grant - Grant consent and issue token",
-            "revoke": "POST /consent/revoke - Revoke consent and invalidate tokens", 
+            "revoke": "POST /consent/revoke - Revoke consent and invalidate tokens",
             "ledger": "GET /consent/ledger - Get user's consent ledger",
             "escalate": "POST /consent/escalate - Escalate to content access",
             "verify": "POST /consent/verify - Verify capability token"
@@ -454,7 +453,7 @@ async def startup_event():
         print("🔐 LUKHAS Consent Fabric initialized")
 
 
-@router.on_event("shutdown") 
+@router.on_event("shutdown")
 async def shutdown_event():
     """Clean up resources on shutdown"""
     global consent_service
@@ -468,20 +467,20 @@ async def demonstrate_consent_api():
     """Demonstrate consent API functionality"""
     print("🔗 LUKHAS Consent API Demonstration")
     print("=" * 40)
-    
-    from fastapi.testclient import TestClient
+
     from fastapi import FastAPI
-    
+    from fastapi.testclient import TestClient
+
     # Create test app
     app = FastAPI()
     app.include_router(router)
     client = TestClient(app)
-    
+
     # Test grant consent
     print("📝 Testing consent grant...")
     grant_response = client.post("/consent/grant", json={
         "lid": "gonzo",
-        "service": "gmail", 
+        "service": "gmail",
         "scopes": ["email.read.headers"],
         "purpose": "Unified inbox display",
         "ttl_minutes": 120
@@ -490,7 +489,7 @@ async def demonstrate_consent_api():
     if grant_response.status_code == 200:
         grant_data = grant_response.json()
         print(f"Grant ID: {grant_data['grant_id']}")
-    
+
     # Test get ledger
     print("\n📋 Testing consent ledger...")
     ledger_response = client.get("/consent/ledger?lid=gonzo")
@@ -498,7 +497,7 @@ async def demonstrate_consent_api():
     if ledger_response.status_code == 200:
         ledger_data = ledger_response.json()
         print(f"Total entries: {ledger_data['total_entries']}")
-    
+
     # Test system info
     print("\n📊 Testing system info...")
     info_response = client.get("/consent/info")
@@ -506,7 +505,7 @@ async def demonstrate_consent_api():
     if info_response.status_code == 200:
         info_data = info_response.json()
         print(f"Service: {info_data['service']}")
-    
+
     print("\n✅ Consent API demonstration complete!")
 
 

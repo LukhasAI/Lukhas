@@ -16,25 +16,24 @@ Environment:
     export OPENAI_API_KEY="your-api-key-here"
 """
 
+import asyncio
 import os
 import sys
-import asyncio
 import time
-from typing import Dict, List, Any
+from typing import List
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 try:
-    from modulation.signals import Signal, SignalModulator, ModulationParams
+    from modulation.lukhas_integration import (
+        EndocrineSignalEmitter,
+    )
     from modulation.openai_integration import (
         ModulatedOpenAIClient,
         build_function_definitions,
     )
-    from modulation.lukhas_integration import (
-        EndocrineLLMOrchestrator,
-        EndocrineSignalEmitter,
-    )
+    from modulation.signals import Signal, SignalModulator
 
     LUKHAS_MODULATION_AVAILABLE = True
 except ImportError as e:
@@ -155,9 +154,9 @@ async def test_consciousness_orchestration():
         # Mock OpenAI client for testing without API key
         if not os.getenv("OPENAI_API_KEY"):
             print("   ⚠️ Using mock OpenAI client (no API key)")
-            openai_client = None
+            _ = None  # Mock client not used in this test
         else:
-            openai_client = ModulatedOpenAIClient(modulator)
+            _ = ModulatedOpenAIClient(modulator)  # Client created but not used in this test
 
         # Create signal emitter
         emitter = EndocrineSignalEmitter()
@@ -200,7 +199,7 @@ async def test_consciousness_orchestration():
 
         # Test modulation with all signals
         params = modulator.combine_signals(all_signals)
-        print(f"   🎛️ Modulation result:")
+        print("   🎛️ Modulation result:")
         print(f"     • Style: {params.prompt_style}")
         print(f"     • Temperature: {params.temperature:.2f}")
         print(f"     • Active signals: {len(params.signal_context)}")
@@ -222,7 +221,7 @@ def test_policy_loading():
         policy_maps = len(modulator.policy.get("maps", {}))
         policy_styles = len(modulator.policy.get("prompt_styles", {}))
 
-        print(f"   ✅ Policy loaded successfully:")
+        print("   ✅ Policy loaded successfully:")
         print(f"     • Signals defined: {policy_signals}")
         print(f"     • Modulation maps: {policy_maps}")
         print(f"     • Prompt styles: {policy_styles}")
@@ -231,7 +230,7 @@ def test_policy_loading():
         modulator_default = SignalModulator("non_existent_policy.yaml")
         default_signals = len(modulator_default.policy.get("signals", []))
 
-        print(f"   ✅ Default policy fallback works:")
+        print("   ✅ Default policy fallback works:")
         print(f"     • Default signals: {default_signals}")
 
         print("   ✅ Policy loading test complete\n")

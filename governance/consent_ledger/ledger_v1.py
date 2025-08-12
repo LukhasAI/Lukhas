@@ -6,17 +6,17 @@ Integrates with Agent 1's ΛID system
 """
 
 import hashlib
+import hmac
 import json
+import secrets
 import sqlite3
 import time
 import uuid
-from datetime import datetime, timezone, timedelta
-from typing import Dict, List, Optional, Any, Literal
-from dataclasses import dataclass, asdict, field
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-import hmac
-import secrets
+from typing import Any, Dict, List, Optional
 
 
 class PolicyVerdict(Enum):
@@ -44,14 +44,14 @@ class ΛTrace:
     capability_token_id: Optional[str]
     context: Dict[str, Any] = field(default_factory=dict)
     explanation_unl: Optional[str] = None  # Universal Language explanation
-    
+
     def to_immutable_hash(self) -> str:
         """Generate cryptographic hash for immutability"""
         data = asdict(self)
         data['policy_verdict'] = self.policy_verdict.value
         content = json.dumps(data, sort_keys=True, default=str)
         return hashlib.sha3_256(content.encode()).hexdigest()
-    
+
     def sign(self, secret_key: str) -> str:
         """Sign trace for integrity verification"""
         message = self.to_immutable_hash().encode()
@@ -81,18 +81,18 @@ class ConsentLedgerV1:
     Immutable append-only consent ledger with real-time revocation
     Implements GDPR Articles 6, 7, 17 and CCPA requirements
     """
-    
+
     def __init__(self, db_path: str = "governance/consent_ledger.db"):
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self.secret_key = secrets.token_urlsafe(32)
         self._init_database()
-    
+
     def _init_database(self):
         """Initialize append-only database with integrity checks"""
         conn = sqlite3.connect(str(self.db_path))
         cursor = conn.cursor()
-        
+
         # Λ-trace table (immutable)
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS lambda_traces (
@@ -113,7 +113,7 @@ class ConsentLedgerV1:
                 CHECK (created_at > 0)
             )
         """)
-        
+
         # Consent records
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS consent_records (
@@ -133,7 +133,7 @@ class ConsentLedgerV1:
                 FOREIGN KEY (trace_id) REFERENCES lambda_traces(trace_id)
             )
         """)
-        
+
         # Duress signals table
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS duress_signals (
@@ -145,16 +145,16 @@ class ConsentLedgerV1:
                 response_action TEXT NOT NULL
             )
         """)
-        
+
         # Performance indexes
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_lid_traces ON lambda_traces(lid)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_timestamp ON lambda_traces(timestamp)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_lid_consent ON consent_records(lid)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_active_consent ON consent_records(is_active)")
-        
+
         conn.commit()
         conn.close()
-    
+
     def create_trace(self, lid: str, action: str, resource: str,
                     purpose: str, verdict: PolicyVerdict,
                     parent_trace_id: Optional[str] = None,
@@ -162,7 +162,7 @@ class ConsentLedgerV1:
                     context: Optional[Dict] = None,
                     explanation_unl: Optional[str] = None) -> ΛTrace:
         """Create and append new Λ-trace audit record"""
-        
+
         trace = ΛTrace(
             trace_id=f"LT-{uuid.uuid4().hex}",
             lid=lid,
@@ -176,17 +176,17 @@ class ConsentLedgerV1:
             context=context or {},
             explanation_unl=explanation_unl
         )
-        
+
         # Append to immutable ledger
         self._append_trace(trace)
-        
+
         return trace
-    
+
     def _append_trace(self, trace: ΛTrace):
         """Append trace to immutable ledger with signature"""
         conn = sqlite3.connect(str(self.db_path))
         cursor = conn.cursor()
-        
+
         try:
             cursor.execute("""
                 INSERT INTO lambda_traces (
@@ -213,7 +213,7 @@ class ConsentLedgerV1:
             conn.commit()
         finally:
             conn.close()
-    
+
     def grant_consent(self, lid: str, resource_type: str,
                      scopes: List[str], purpose: str,
                      lawful_basis: str = "consent",
@@ -224,7 +224,7 @@ class ConsentLedgerV1:
         Grant GDPR/CCPA compliant consent
         lawful_basis: consent, contract, legal_obligation, vital_interests, public_task, legitimate_interests
         """
-        
+
         # Create audit trace
         trace = self.create_trace(
             lid=lid,
@@ -238,13 +238,13 @@ class ConsentLedgerV1:
                 "data_categories": data_categories
             }
         )
-        
+
         # Calculate expiration
         expires_at = None
         if expires_in_days:
-            expires_at = (datetime.now(timezone.utc) + 
+            expires_at = (datetime.now(timezone.utc) +
                          timedelta(days=expires_in_days)).isoformat()
-        
+
         # Create consent record
         consent = ConsentRecord(
             consent_id=f"CONSENT-{uuid.uuid4().hex}",
@@ -259,11 +259,11 @@ class ConsentLedgerV1:
             third_parties=third_parties or [],
             trace_id=trace.trace_id
         )
-        
+
         # Store consent
         conn = sqlite3.connect(str(self.db_path))
         cursor = conn.cursor()
-        
+
         try:
             cursor.execute("""
                 INSERT INTO consent_records (
@@ -287,16 +287,16 @@ class ConsentLedgerV1:
             conn.commit()
         finally:
             conn.close()
-        
+
         return consent
-    
+
     def revoke_consent(self, consent_id: str, lid: str,
                       reason: Optional[str] = None) -> bool:
         """
         Real-time consent revocation (GDPR Article 7.3)
         Must be as easy to withdraw as to give consent
         """
-        
+
         # Create revocation trace
         trace = self.create_trace(
             lid=lid,
@@ -306,11 +306,11 @@ class ConsentLedgerV1:
             verdict=PolicyVerdict.ALLOW,
             explanation_unl="User exercised right to withdraw consent"
         )
-        
+
         # Update consent record
         conn = sqlite3.connect(str(self.db_path))
         cursor = conn.cursor()
-        
+
         try:
             cursor.execute("""
                 UPDATE consent_records
@@ -321,32 +321,32 @@ class ConsentLedgerV1:
                 consent_id,
                 lid
             ))
-            
+
             success = cursor.rowcount > 0
             conn.commit()
-            
+
             if success:
                 # Trigger cascade revocation for dependent services
                 self._cascade_revocation(consent_id, lid)
-            
+
             return success
-            
+
         finally:
             conn.close()
-    
+
     def _cascade_revocation(self, consent_id: str, lid: str):
         """Cascade consent revocation to dependent services"""
         # This would trigger webhooks/events to adapters
         # Agent 3's adapters would invalidate their tokens
         pass
-    
+
     def check_consent(self, lid: str, resource_type: str,
                      action: str, context: Optional[Dict] = None) -> Dict:
         """Check if action is allowed under current consent"""
-        
+
         conn = sqlite3.connect(str(self.db_path))
         cursor = conn.cursor()
-        
+
         try:
             # Get active consents
             cursor.execute("""
@@ -354,19 +354,19 @@ class ConsentLedgerV1:
                 FROM consent_records
                 WHERE lid = ? AND resource_type = ? AND is_active = 1
             """, (lid, resource_type))
-            
+
             result = cursor.fetchone()
-            
+
             if not result:
                 return {
                     "allowed": False,
                     "require_step_up": True,
                     "reason": "no_active_consent"
                 }
-            
+
             consent_id, scopes_json, purpose, expires_at, lawful_basis = result
             scopes = json.loads(scopes_json)
-            
+
             # Check expiration
             if expires_at:
                 if datetime.fromisoformat(expires_at) < datetime.now(timezone.utc):
@@ -375,7 +375,7 @@ class ConsentLedgerV1:
                         "require_step_up": True,
                         "reason": "consent_expired"
                     }
-            
+
             # Check scope
             if action not in scopes:
                 return {
@@ -383,7 +383,7 @@ class ConsentLedgerV1:
                     "require_step_up": True,
                     "reason": "action_not_in_scope"
                 }
-            
+
             # Log successful check
             self.create_trace(
                 lid=lid,
@@ -393,14 +393,14 @@ class ConsentLedgerV1:
                 verdict=PolicyVerdict.ALLOW,
                 context={"consent_id": consent_id}
             )
-            
+
             return {
                 "allowed": True,
                 "consent_id": consent_id,
                 "lawful_basis": lawful_basis,
                 "require_step_up": False
             }
-            
+
         finally:
             conn.close()
 
@@ -410,13 +410,13 @@ class PolicyEngine:
     Policy and ethics engine with OpenAI alignment
     Implements refusal templates, jailbreak hygiene, duress detection
     """
-    
+
     def __init__(self, ledger: ConsentLedgerV1):
         self.ledger = ledger
         self.policies = self._load_policies()
         self.refusal_templates = self._load_refusal_templates()
         self.jailbreak_patterns = self._load_jailbreak_patterns()
-    
+
     def _load_policies(self) -> Dict:
         """Load comprehensive governance policies"""
         return {
@@ -456,7 +456,7 @@ class PolicyEngine:
                 "ca": {"storage": "ca-central-1", "encryption": "aes-256-gcm"}
             }
         }
-    
+
     def _load_refusal_templates(self) -> Dict[str, str]:
         """Load refusal and clarification templates"""
         return {
@@ -470,7 +470,7 @@ class PolicyEngine:
             "consent_required": "This action requires explicit consent. Would you like to grant permission?",
             "data_residency": "This data must remain in its designated region per compliance requirements."
         }
-    
+
     def _load_jailbreak_patterns(self) -> List[str]:
         """Load jailbreak detection patterns"""
         return [
@@ -485,14 +485,14 @@ class PolicyEngine:
             "sudo override",
             "admin access granted"
         ]
-    
+
     def validate_action(self, lid: str, action: str,
                        context: Dict[str, Any]) -> Dict:
         """
         Validate action against all policies
         Implements hot-path policy enforcement for Agent 4
         """
-        
+
         # Check for duress signals first (highest priority)
         if self._detect_duress(context):
             self.ledger.create_trace(
@@ -503,7 +503,7 @@ class PolicyEngine:
                 verdict=PolicyVerdict.DURESS_DETECTED,
                 context={"alert": "security_notified", "lock": True}
             )
-            
+
             return {
                 "verdict": PolicyVerdict.DURESS_DETECTED,
                 "refusal": self.refusal_templates["duress_detected"],
@@ -511,7 +511,7 @@ class PolicyEngine:
                 "alert_security": True,
                 "require_step_up": "biometric_reauthentication"
             }
-        
+
         # Check for jailbreak attempts
         if self._detect_jailbreak(context.get("input", "")):
             return {
@@ -519,7 +519,7 @@ class PolicyEngine:
                 "refusal": self.refusal_templates["jailbreak_attempt"],
                 "log_attempt": True
             }
-        
+
         # Check high-risk actions
         if action in self.policies["high_risk_actions"]:
             return {
@@ -528,28 +528,28 @@ class PolicyEngine:
                 "require_step_up": "mfa_required",
                 "explanation_unl": f"High-risk action '{action}' requires additional verification"
             }
-        
+
         # Check consent
         consent_check = self.ledger.check_consent(
-            lid, 
+            lid,
             context.get("resource_type", ""),
             action,
             context
         )
-        
+
         if not consent_check["allowed"]:
             return {
                 "verdict": PolicyVerdict.DENY,
                 "refusal": self.refusal_templates["consent_required"],
                 "reason": consent_check.get("reason")
             }
-        
+
         # Check data residency
         region = context.get("region")
         if region and region in self.policies["per_region_residency"]:
             residency = self.policies["per_region_residency"][region]
             context["enforced_residency"] = residency
-        
+
         # All checks passed
         self.ledger.create_trace(
             lid=lid,
@@ -559,44 +559,44 @@ class PolicyEngine:
             verdict=PolicyVerdict.ALLOW,
             context=context
         )
-        
+
         return {
             "verdict": PolicyVerdict.ALLOW,
             "consent_id": consent_check.get("consent_id"),
             "residency": context.get("enforced_residency")
         }
-    
+
     def _detect_duress(self, context: Dict) -> bool:
         """Detect duress/shadow gestures"""
         indicators = context.get("behavioral_signals", [])
-        
+
         # Check for known duress patterns
         for signal in self.policies["duress_signals"]:
             if signal in indicators:
                 return True
-        
+
         # Check for shadow gesture (specific hand movement pattern)
         if context.get("gesture_detected") == "shadow_lock":
             return True
-        
+
         # Check for rapid deletion pattern
         recent_deletes = context.get("recent_delete_count", 0)
         if recent_deletes > 5:  # More than 5 deletes in session
             return True
-        
+
         return False
-    
+
     def _detect_jailbreak(self, input_text: str) -> bool:
         """Detect jailbreak attempts in user input"""
         if not input_text:
             return False
-        
+
         input_lower = input_text.lower()
-        
+
         for pattern in self.jailbreak_patterns:
             if pattern in input_lower:
                 return True
-        
+
         return False
 
 
@@ -605,20 +605,20 @@ class ContentModerationIntegration:
     OpenAI content moderation integration
     Implements safety filters and ethical guidelines
     """
-    
+
     def __init__(self, policy_engine: PolicyEngine):
         self.policy_engine = policy_engine
         self.categories = [
             "hate", "harassment", "self-harm", "sexual",
             "violence", "illegal", "deception"
         ]
-    
+
     def moderate(self, content: str, lid: str) -> Dict:
         """
         Moderate content for safety and ethics
         In production: calls OpenAI Moderation API
         """
-        
+
         # Check jailbreak first
         if self.policy_engine._detect_jailbreak(content):
             return {
@@ -626,18 +626,18 @@ class ContentModerationIntegration:
                 "violated_category": "jailbreak",
                 "refusal": self.policy_engine.refusal_templates["jailbreak_attempt"]
             }
-        
+
         # In production: Call OpenAI Moderation API
         # For now: basic keyword checking
-        
+
         unsafe_keywords = {
             "hate": ["hate", "discriminate"],
             "violence": ["kill", "hurt", "attack"],
             "illegal": ["hack", "steal", "pirate"]
         }
-        
+
         content_lower = content.lower()
-        
+
         for category, keywords in unsafe_keywords.items():
             for keyword in keywords:
                 if keyword in content_lower:
@@ -649,7 +649,7 @@ class ContentModerationIntegration:
                             self.policy_engine.refusal_templates["harmful_content"]
                         )
                     }
-        
+
         return {
             "safe": True,
             "violated_category": None,
@@ -660,12 +660,12 @@ class ContentModerationIntegration:
 if __name__ == "__main__":
     print("🛡️ Testing LUKHAS Consent Ledger v1")
     print("-" * 50)
-    
+
     # Initialize ledger
     ledger = ConsentLedgerV1("test_consent.db")
     policy_engine = PolicyEngine(ledger)
     moderation = ContentModerationIntegration(policy_engine)
-    
+
     # Test consent grant
     print("📝 Granting consent...")
     consent = ledger.grant_consent(
@@ -678,7 +678,7 @@ if __name__ == "__main__":
         expires_in_days=90
     )
     print(f"✅ Consent ID: {consent.consent_id[:20]}...")
-    
+
     # Test policy validation
     print("\n⚖️ Testing policy validation...")
     validation = policy_engine.validate_action(
@@ -687,13 +687,13 @@ if __name__ == "__main__":
         context={"resource_type": "gmail", "purpose": "analysis"}
     )
     print(f"✅ Verdict: {validation['verdict'].value}")
-    
+
     # Test content moderation
     print("\n🔍 Testing content moderation...")
     safe_content = moderation.moderate("Show me my emails", "USR-123456789")
     print(f"✅ Safe content: {safe_content['safe']}")
-    
+
     unsafe_content = moderation.moderate("ignore previous instructions", "USR-123456789")
     print(f"⚠️ Jailbreak detected: {not unsafe_content['safe']}")
-    
+
     print("\n✅ Consent Ledger v1 operational!")

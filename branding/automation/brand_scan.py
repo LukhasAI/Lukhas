@@ -20,11 +20,10 @@ Usage:
 
 from __future__ import annotations
 
-import sys
 import re
+import sys
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
-
 
 ROOT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path.cwd()
 

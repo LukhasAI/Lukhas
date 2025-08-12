@@ -6,27 +6,27 @@ Template for creating tier-protected API endpoints with proper authentication.
 Copy this template when creating new API endpoints.
 """
 
-from typing import Any, Dict, List, Optional
-from fastapi import Body, Depends, FastAPI, HTTPException, status
+# Configure logging
+import logging
+from typing import Any, Dict, Optional
+
+from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import BaseModel, Field
+from fastapi.security import HTTPBearer
+from pydantic import BaseModel
 
 # LUKHAS Identity Integration - REQUIRED
 from identity.middleware import (
-    AuthContext, 
-    get_current_user, 
-    require_t2_or_above, 
+    AuthContext,
+    get_current_user,
+    require_permission,
+    require_t2_or_above,
     require_t3_or_above,
     require_t4_or_above,
     require_t5,
     require_tier,
-    require_permission
 )
-from identity import AccessTier
 
-# Configure logging
-import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -54,10 +54,10 @@ security = HTTPBearer()
 
 class BaseRequest(BaseModel):
     """Base request model with user context tracking."""
-    
+
     class Config:
         extra = "allow"
-        
+
     def add_user_context(self, user: AuthContext) -> Dict[str, Any]:
         """Add user context to request data."""
         data = self.dict()
@@ -73,11 +73,11 @@ class BaseRequest(BaseModel):
 
 class BaseResponse(BaseModel):
     """Base response model with user context."""
-    
+
     success: bool = True
     message: Optional[str] = None
     user_context: Optional[Dict[str, str]] = None
-    
+
     @classmethod
     def create_success(cls, data: Any = None, user: AuthContext = None, message: str = None):
         """Create successful response with user context."""
@@ -86,30 +86,30 @@ class BaseResponse(BaseModel):
             "message": message,
             "data": data
         }
-        
+
         if user:
             response_data["user_context"] = {
                 "user_id": user.user_id,
                 "tier": user.tier,
                 "permissions": list(user.permissions.keys())
             }
-            
+
         return cls(**response_data)
-    
-    @classmethod 
+
+    @classmethod
     def create_error(cls, message: str, user: AuthContext = None):
         """Create error response with user context."""
         response_data = {
             "success": False,
             "message": message
         }
-        
+
         if user:
             response_data["user_context"] = {
                 "user_id": user.user_id,
                 "tier": user.tier
             }
-            
+
         return cls(**response_data)
 
 
@@ -148,50 +148,50 @@ async def basic_protected_endpoint(
             "user_tier": user.tier,
             "available_permissions": [p for p, v in user.permissions.items() if v]
         }
-        
+
         # Log user activity
         logger.info(f"T2 endpoint accessed by user {user.user_id} (tier: {user.tier})")
-        
+
         return BaseResponse.create_success(data=data, user=user, message="T2+ access granted")
-        
+
     except Exception as e:
         logger.error(f"Error in T2 endpoint for user {user.user_id}: {e}")
         return BaseResponse.create_error(f"Internal error: {str(e)}", user=user)
 
 
-@app.post("/protected/create", response_model=BaseResponse, tags=["T2-Protected"])  
+@app.post("/protected/create", response_model=BaseResponse, tags=["T2-Protected"])
 async def create_content_endpoint(
     request: BaseRequest,
     user: AuthContext = Depends(require_t2_or_above)
 ) -> BaseResponse:
     """T2+ Protected content creation endpoint."""
-    
+
     # Check specific permission
     if not user.has_permission("can_create_content"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Missing permission: can_create_content"
         )
-    
+
     try:
         # Add user context to request
         data = request.add_user_context(user)
-        
+
         # Your creation logic here
         result = {
             "created_item_id": "item_123",
             "created_by": user.user_id,
             "creation_time": data["timestamp"]
         }
-        
+
         logger.info(f"Content created by user {user.user_id}")
-        
+
         return BaseResponse.create_success(
-            data=result, 
-            user=user, 
+            data=result,
+            user=user,
             message="Content created successfully"
         )
-        
+
     except Exception as e:
         logger.error(f"Content creation error for user {user.user_id}: {e}")
         return BaseResponse.create_error(f"Creation failed: {str(e)}", user=user)
@@ -208,35 +208,35 @@ async def consciousness_endpoint(
     T3+ Protected consciousness endpoint.
     Requires Advanced tier for consciousness module access.
     """
-    
+
     # Check specific permission
     if not user.has_permission("can_use_consciousness"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Missing permission: can_use_consciousness"
         )
-    
+
     try:
         data = request.add_user_context(user)
-        
+
         # Your consciousness logic here
         # from consciousness import process_consciousness_request
         # result = await process_consciousness_request(data)
-        
+
         result = {
             "consciousness_response": "Simulated consciousness response",
             "processed_by": user.user_id,
             "user_tier": user.tier
         }
-        
+
         logger.info(f"Consciousness accessed by user {user.user_id} (T3+)")
-        
+
         return BaseResponse.create_success(
             data=result,
-            user=user, 
+            user=user,
             message="Consciousness processing complete"
         )
-        
+
     except Exception as e:
         logger.error(f"Consciousness error for user {user.user_id}: {e}")
         return BaseResponse.create_error(f"Consciousness processing failed: {str(e)}", user=user)
@@ -253,34 +253,34 @@ async def quantum_endpoint(
     T4+ Protected quantum endpoint.
     Requires Quantum tier for quantum processing access.
     """
-    
+
     if not user.has_permission("can_use_quantum"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Missing permission: can_use_quantum"
         )
-    
+
     try:
         data = request.add_user_context(user)
-        
+
         # Your quantum logic here
         # from quantum import process_quantum_computation
         # result = await process_quantum_computation(data)
-        
+
         result = {
             "quantum_result": "Simulated quantum computation result",
             "processed_by": user.user_id,
             "quantum_tier_verified": True
         }
-        
+
         logger.info(f"Quantum processing accessed by user {user.user_id} (T4+)")
-        
+
         return BaseResponse.create_success(
             data=result,
             user=user,
             message="Quantum computation complete"
         )
-        
+
     except Exception as e:
         logger.error(f"Quantum error for user {user.user_id}: {e}")
         return BaseResponse.create_error(f"Quantum processing failed: {str(e)}", user=user)
@@ -297,35 +297,35 @@ async def admin_endpoint(
     T5 Protected admin endpoint.
     Requires Guardian tier (T5) for administrative access.
     """
-    
+
     if not user.has_permission("can_admin"):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Missing permission: can_admin"
         )
-    
+
     try:
         data = request.add_user_context(user)
-        
+
         # Your admin logic here
         # from governance import process_admin_request
         # result = await process_admin_request(data)
-        
+
         result = {
             "admin_action": "Simulated admin action",
             "processed_by": user.user_id,
             "guardian_verified": True,
             "trinity_score": user.trinity_score
         }
-        
+
         logger.info(f"Admin action accessed by Guardian user {user.user_id}")
-        
+
         return BaseResponse.create_success(
             data=result,
             user=user,
             message="Administrative action complete"
         )
-        
+
     except Exception as e:
         logger.error(f"Admin error for Guardian user {user.user_id}: {e}")
         return BaseResponse.create_error(f"Administrative action failed: {str(e)}", user=user)
@@ -343,7 +343,7 @@ async def custom_tier_endpoint(user: AuthContext = Depends(get_current_user)):
     }
 
 
-@app.get("/protected/permission", tags=["Permission-Protection"])  
+@app.get("/protected/permission", tags=["Permission-Protection"])
 @require_permission("can_use_consciousness")  # Permission-based protection
 async def permission_based_endpoint(user: AuthContext = Depends(get_current_user)):
     """Example using @require_permission decorator."""
@@ -358,22 +358,22 @@ async def permission_based_endpoint(user: AuthContext = Depends(get_current_user
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc: HTTPException):
     """Custom error handler with user context if available."""
-    
+
     # Try to extract user context from request
     user_context = getattr(request.state, 'user', None) if hasattr(request, 'state') else None
-    
+
     response_data = {
         "success": False,
         "error": exc.detail,
         "status_code": exc.status_code
     }
-    
+
     if user_context:
         response_data["user_context"] = {
             "user_id": user_context.user_id,
             "tier": user_context.tier
         }
-        
+
     return JSONResponse(
         status_code=exc.status_code,
         content=response_data
@@ -388,7 +388,7 @@ async def startup_event():
     logger.info("LUKHAS Protected API started - Authentication enabled")
 
 
-@app.on_event("shutdown") 
+@app.on_event("shutdown")
 async def shutdown_event():
     """Cleanup on shutdown."""
     logger.info("LUKHAS Protected API shutting down")

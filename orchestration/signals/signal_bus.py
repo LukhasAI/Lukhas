@@ -9,12 +9,12 @@ This implements the "AI endocrine system" concept from the GPT5 audit.
 """
 
 import asyncio
+import logging
 import time
+from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Set
-import logging
-from collections import defaultdict, deque
 
 logger = logging.getLogger(__name__)
 
@@ -364,7 +364,7 @@ class SignalBus:
 
     def get_current_levels(self) -> Dict[SignalType, float]:
         """Get current levels of all signal types"""
-        levels = {signal_type: 0.0 for signal_type in SignalType}
+        levels = dict.fromkeys(SignalType, 0.0)
 
         # Average levels from active signals
         for signal in self.active_signals:

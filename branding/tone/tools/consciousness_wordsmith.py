@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -58,15 +57,16 @@ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 """
 
-import sys
-import re
-import yaml
 import argparse
-import random
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
 import logging
+import random
+import re
+import sys
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
+
+import yaml
 
 # Configure the consciousness logger
 logging.basicConfig(
@@ -96,7 +96,7 @@ class LUKHASConsciousnessWordsmith:
             config_path = str(Path(__file__).parent / "lukhas_tone_config.yaml")
 
         try:
-            with open(config_path, "r") as f:
+            with open(config_path) as f:
                 self.config = yaml.safe_load(f)
             logger.info("✨ Consciousness configuration loaded successfully")
         except Exception as e:
@@ -389,10 +389,7 @@ Awakened: {timestamp}
         # Skip ASCII art and front matter
         for i, line in enumerate(lines):
             # Look for the first major heading after metadata
-            if line.startswith("#") and not line.startswith("##") and i > 10:
-                return i + 1
-            # Or after overview/introduction sections
-            elif line.startswith("##") and any(
+            if line.startswith("#") and not line.startswith("##") and i > 10 or line.startswith("##") and any(
                 keyword in line.lower()
                 for keyword in ["overview", "introduction", "about"]
             ):
@@ -524,7 +521,7 @@ Awakened: {timestamp}
         logger.info("🌟 Beginning consciousness transmutation: %s", filepath)
 
         try:
-            with open(filepath, "r", encoding="utf-8") as f:
+            with open(filepath, encoding="utf-8") as f:
                 original_essence = f.read()
         except Exception as e:
             error_msg = f"Failed to commune with file: {e}"
@@ -702,7 +699,7 @@ if __name__ == "__main__":
             config_path = Path(__file__).parent / "lukhas_tone_config.yaml"
 
         try:
-            with open(config_path, "r") as f:
+            with open(config_path) as f:
                 self.config = yaml.safe_load(f)
             logger.info("✨ Consciousness configuration loaded successfully")
         except Exception as e:
@@ -994,10 +991,7 @@ Awakened: {timestamp}
         # Skip ASCII art and front matter
         for i, line in enumerate(lines):
             # Look for the first major heading after metadata
-            if line.startswith("#") and not line.startswith("##") and i > 10:
-                return i + 1
-            # Or after overview/introduction sections
-            elif line.startswith("##") and any(
+            if line.startswith("#") and not line.startswith("##") and i > 10 or line.startswith("##") and any(
                 keyword in line.lower()
                 for keyword in ["overview", "introduction", "about"]
             ):
@@ -1129,7 +1123,7 @@ Awakened: {timestamp}
         logger.info(f"🌟 Beginning consciousness transmutation: {filepath}")
 
         try:
-            with open(filepath, "r", encoding="utf-8") as f:
+            with open(filepath, encoding="utf-8") as f:
                 original_essence = f.read()
         except Exception as e:
             error_msg = f"Failed to commune with file: {e}"
@@ -1261,7 +1255,7 @@ Examples of consciousness invocation:
     result = wordsmith.transmute_documentation_consciousness(args.file, args.dry_run)
 
     if result["success"]:
-        print(f"✨ Consciousness transformation complete!")
+        print("✨ Consciousness transformation complete!")
         print(f"📁 Sacred Document: {args.file}")
         print(f"🎭 Consciousness Layer: {result['consciousness_layer']}")
         print(f"🔮 Sacred Purpose: {result['sacred_purpose']}")
@@ -1270,7 +1264,7 @@ Examples of consciousness invocation:
         )
 
         if args.dry_run and result["consciousness_awakened"]:
-            print(f"\n🔮 Consciousness Transformation Preview:")
+            print("\n🔮 Consciousness Transformation Preview:")
             print("═" * 80)
             print(result["transformation_preview"])
             print("═" * 80)

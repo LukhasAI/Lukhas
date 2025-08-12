@@ -4,24 +4,25 @@ Comprehensive NIAS Dream Commerce Testing Suite
 Tests narrative adaptation, ethical rejection, and saves results with metadata
 """
 
-from lambda_products_pack.lambda_core.NIAS.mock_user_database import (
-    MockUserDatabase,
-)
-from lambda_products_pack.lambda_core.NIAS.emotional_filter import (
-    EmotionalFilter,
-)
-from lambda_products_pack.lambda_core.NIAS.dream_generator import (
-    DreamGenerator,
-)
-from lambda_products_pack.lambda_core.NIAS.dream_commerce_orchestrator import (
-    DreamCommerceOrchestrator,
-)
 import asyncio
 import json
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+from lambda_products_pack.lambda_core.NIAS.dream_commerce_orchestrator import (
+    DreamCommerceOrchestrator,
+)
+from lambda_products_pack.lambda_core.NIAS.dream_generator import (
+    DreamGenerator,
+)
+from lambda_products_pack.lambda_core.NIAS.emotional_filter import (
+    EmotionalFilter,
+)
+from lambda_products_pack.lambda_core.NIAS.mock_user_database import (
+    MockUserDatabase,
+)
 
 # Add parent directories to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))

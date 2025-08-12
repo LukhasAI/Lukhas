@@ -4,22 +4,23 @@ Test NIAS Dream Generation with real OpenAI API
 Loads API key from .env file
 """
 
-from lambda_products_pack.lambda_core.NIAS.vendor_portal import (
-    DreamSeed,
-    DreamSeedType,
-)
-from lambda_products_pack.lambda_core.NIAS.dream_generator import (
-    BioRhythm,
-    DreamContext,
-    DreamGenerator,
-    DreamMood,
-)
 import asyncio
 import os
 import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
+
+from lambda_products_pack.lambda_core.NIAS.dream_generator import (
+    BioRhythm,
+    DreamContext,
+    DreamGenerator,
+    DreamMood,
+)
+from lambda_products_pack.lambda_core.NIAS.vendor_portal import (
+    DreamSeed,
+    DreamSeedType,
+)
 
 # Load environment variables from .env file
 env_path = Path(__file__).parent.parent.parent.parent / ".env"

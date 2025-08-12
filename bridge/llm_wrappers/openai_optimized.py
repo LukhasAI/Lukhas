@@ -43,7 +43,7 @@ class CacheEntry:
     hits: int = 0
     model: str = ""
     tokens_saved: int = 0
-    
+
     def is_expired(self) -> bool:
         """Check if cache entry is expired"""
         return time.time() - self.timestamp > self.ttl
@@ -56,15 +56,15 @@ class RateLimitConfig:
     requests_per_hour: int = 3000
     tokens_per_minute: int = 90000
     tokens_per_hour: int = 2000000
-    
+
     # Burst allowance
     burst_multiplier: float = 1.5
-    
+
     # Backoff strategy
     initial_backoff_ms: int = 1000
     max_backoff_ms: int = 60000
     backoff_multiplier: float = 2.0
-    
+
     # Model-specific limits
     model_limits: Dict[str, Dict[str, int]] = field(default_factory=lambda: {
         "gpt-4": {"rpm": 40, "tpm": 40000},
@@ -78,7 +78,7 @@ class OptimizedOpenAIClient:
     Optimized OpenAI client with caching and rate limiting.
     Reduces costs and improves performance.
     """
-    
+
     def __init__(
         self,
         api_key: Optional[str] = None,
@@ -102,20 +102,20 @@ class OptimizedOpenAIClient:
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         self.client = OpenAI(api_key=self.api_key)
         self.async_client = AsyncOpenAI(api_key=self.api_key)
-        
+
         # Caching
         self.cache_strategy = cache_strategy
         self.cache_ttl = cache_ttl
         self.cache_size = cache_size
         self.cache: OrderedDict[str, CacheEntry] = OrderedDict()
         self.cache_dir = cache_dir or Path("data/openai_cache")
-        
+
         # Rate limiting
         self.rate_config = rate_config or RateLimitConfig()
         self.request_history: deque = deque(maxlen=10000)
         self.token_history: deque = deque(maxlen=10000)
         self.current_backoff = 0
-        
+
         # Statistics
         self.stats = {
             "total_requests": 0,
@@ -126,13 +126,13 @@ class OptimizedOpenAIClient:
             "errors": 0,
             "rate_limited": 0
         }
-        
+
         # Load persistent cache if exists
         if self.cache_strategy != CacheStrategy.NONE:
             self._load_cache()
-        
+
         logger.info(f"Optimized OpenAI client initialized with {cache_strategy.value} caching")
-    
+
     def _generate_cache_key(self, prompt: str, model: str, **kwargs) -> str:
         """Generate cache key for a request"""
         if self.cache_strategy == CacheStrategy.EXACT_MATCH:
@@ -144,7 +144,7 @@ class OptimizedOpenAIClient:
             }
             key_str = json.dumps(key_data, sort_keys=True)
             return hashlib.sha256(key_str.encode()).hexdigest()
-        
+
         elif self.cache_strategy == CacheStrategy.SEMANTIC:
             # Simplified semantic key (would need embeddings for real implementation)
             # For now, normalize and hash
@@ -152,16 +152,16 @@ class OptimizedOpenAIClient:
             key_data = {"normalized": normalized, "model": model}
             key_str = json.dumps(key_data, sort_keys=True)
             return hashlib.sha256(key_str.encode()).hexdigest()
-        
+
         else:
             # No caching
             return ""
-    
+
     def _check_cache(self, key: str) -> Optional[CacheEntry]:
         """Check if response is cached"""
         if not key or self.cache_strategy == CacheStrategy.NONE:
             return None
-        
+
         entry = self.cache.get(key)
         if entry and not entry.is_expired():
             # Move to end (LRU)
@@ -171,14 +171,14 @@ class OptimizedOpenAIClient:
             self.stats["tokens_saved"] += entry.tokens_saved
             logger.debug(f"Cache hit: {key[:8]}... (hits: {entry.hits})")
             return entry
-        
+
         # Remove expired entry
         if entry:
             del self.cache[key]
-        
+
         self.stats["cache_misses"] += 1
         return None
-    
+
     def _add_to_cache(
         self,
         key: str,
@@ -190,12 +190,12 @@ class OptimizedOpenAIClient:
         """Add response to cache"""
         if not key or self.cache_strategy == CacheStrategy.NONE:
             return
-        
+
         # Enforce cache size limit
         while len(self.cache) >= self.cache_size:
             # Remove oldest entry
             self.cache.popitem(last=False)
-        
+
         entry = CacheEntry(
             key=key,
             prompt=prompt,
@@ -205,10 +205,10 @@ class OptimizedOpenAIClient:
             model=model,
             tokens_saved=tokens_used
         )
-        
+
         self.cache[key] = entry
         logger.debug(f"Added to cache: {key[:8]}... (size: {len(self.cache)})")
-    
+
     async def _check_rate_limits(self, model: str, estimated_tokens: int) -> bool:
         """
         Check if request would exceed rate limits.
@@ -217,14 +217,14 @@ class OptimizedOpenAIClient:
             True if request can proceed, False if should wait
         """
         current_time = time.time()
-        
+
         # Get model-specific limits
         model_type = model.split("-")[0] + "-" + model.split("-")[1] if "-" in model else model
         limits = self.rate_config.model_limits.get(
             model_type,
             {"rpm": self.rate_config.requests_per_minute, "tpm": self.rate_config.tokens_per_minute}
         )
-        
+
         # Check requests per minute
         recent_requests = [
             t for t in self.request_history
@@ -235,7 +235,7 @@ class OptimizedOpenAIClient:
             wait_time = 60 - (current_time - recent_requests[0])
             logger.warning(f"Rate limit: {len(recent_requests)} requests in last minute, waiting {wait_time:.1f}s")
             return False
-        
+
         # Check tokens per minute
         recent_tokens = [
             (t, tokens) for t, tokens in self.token_history
@@ -246,9 +246,9 @@ class OptimizedOpenAIClient:
             self.stats["rate_limited"] += 1
             logger.warning(f"Token limit: {total_recent_tokens} tokens in last minute")
             return False
-        
+
         return True
-    
+
     async def _wait_for_rate_limit(self, model: str, estimated_tokens: int):
         """Wait until rate limits allow request"""
         while not await self._check_rate_limits(model, estimated_tokens):
@@ -260,21 +260,21 @@ class OptimizedOpenAIClient:
                     self.current_backoff * self.rate_config.backoff_multiplier,
                     self.rate_config.max_backoff_ms
                 )
-            
+
             wait_seconds = self.current_backoff / 1000
             logger.info(f"Rate limited, waiting {wait_seconds:.1f}s")
             await asyncio.sleep(wait_seconds)
-        
+
         # Reset backoff on success
         self.current_backoff = 0
-    
+
     def _estimate_tokens(self, prompt: str, max_tokens: Optional[int] = None) -> int:
         """Estimate token count for a prompt"""
         # Simple estimation: ~4 characters per token
         prompt_tokens = len(prompt) // 4
         response_tokens = max_tokens or 500  # Default estimate
         return prompt_tokens + response_tokens
-    
+
     async def complete(
         self,
         prompt: str,
@@ -299,7 +299,7 @@ class OptimizedOpenAIClient:
             API response dictionary
         """
         self.stats["total_requests"] += 1
-        
+
         # Check cache
         if use_cache:
             cache_key = self._generate_cache_key(prompt, model, temperature=temperature, **kwargs)
@@ -308,15 +308,15 @@ class OptimizedOpenAIClient:
                 return cached.response
         else:
             cache_key = ""
-        
+
         # Estimate tokens and check rate limits
         estimated_tokens = self._estimate_tokens(prompt, max_tokens)
         await self._wait_for_rate_limit(model, estimated_tokens)
-        
+
         # Make API call
         try:
             messages = [{"role": "user", "content": prompt}]
-            
+
             response = await self.async_client.chat.completions.create(
                 model=model,
                 messages=messages,
@@ -324,34 +324,34 @@ class OptimizedOpenAIClient:
                 temperature=temperature,
                 **kwargs
             )
-            
+
             # Convert to dict
             response_dict = response.model_dump()
-            
+
             # Track usage
             tokens_used = response.usage.total_tokens if hasattr(response, 'usage') else estimated_tokens
             self.request_history.append(time.time())
             self.token_history.append((time.time(), tokens_used))
             self.stats["tokens_used"] += tokens_used
-            
+
             # Cache response
             if use_cache and cache_key:
                 self._add_to_cache(cache_key, prompt, response_dict, model, tokens_used)
-            
+
             return response_dict
-            
+
         except openai.RateLimitError as e:
             self.stats["rate_limited"] += 1
             logger.error(f"Rate limit error: {e}")
             # Retry with backoff
             await asyncio.sleep(self.rate_config.initial_backoff_ms / 1000)
             return await self.complete(prompt, model, max_tokens, temperature, use_cache, **kwargs)
-            
+
         except Exception as e:
             self.stats["errors"] += 1
             logger.error(f"API error: {e}")
             raise
-    
+
     async def embed(
         self,
         text: str,
@@ -377,45 +377,45 @@ class OptimizedOpenAIClient:
                 return cached.response["data"][0]["embedding"]
         else:
             cache_key = ""
-        
+
         # Check rate limits
         estimated_tokens = len(text) // 4
         await self._wait_for_rate_limit(model, estimated_tokens)
-        
+
         # Make API call
         try:
             response = await self.async_client.embeddings.create(
                 model=model,
                 input=text
             )
-            
+
             response_dict = response.model_dump()
             embedding = response.data[0].embedding
-            
+
             # Track usage
             self.request_history.append(time.time())
             self.token_history.append((time.time(), estimated_tokens))
             self.stats["tokens_used"] += estimated_tokens
-            
+
             # Cache response
             if use_cache and cache_key:
                 self._add_to_cache(cache_key, text, response_dict, model, estimated_tokens)
-            
+
             return embedding
-            
+
         except Exception as e:
             self.stats["errors"] += 1
             logger.error(f"Embedding error: {e}")
             raise
-    
+
     def _save_cache(self):
         """Save cache to disk"""
         if self.cache_strategy == CacheStrategy.NONE:
             return
-        
+
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         cache_file = self.cache_dir / "cache.json"
-        
+
         # Convert cache to serializable format
         cache_data = {
             key: {
@@ -429,22 +429,22 @@ class OptimizedOpenAIClient:
             }
             for key, entry in self.cache.items()
         }
-        
+
         with open(cache_file, "w") as f:
             json.dump(cache_data, f)
-        
+
         logger.info(f"Saved {len(self.cache)} cache entries to disk")
-    
+
     def _load_cache(self):
         """Load cache from disk"""
         cache_file = self.cache_dir / "cache.json"
         if not cache_file.exists():
             return
-        
+
         try:
-            with open(cache_file, "r") as f:
+            with open(cache_file) as f:
                 cache_data = json.load(f)
-            
+
             # Rebuild cache
             for key, data in cache_data.items():
                 entry = CacheEntry(
@@ -457,16 +457,16 @@ class OptimizedOpenAIClient:
                     model=data.get("model", ""),
                     tokens_saved=data.get("tokens_saved", 0)
                 )
-                
+
                 # Only add non-expired entries
                 if not entry.is_expired():
                     self.cache[key] = entry
-            
+
             logger.info(f"Loaded {len(self.cache)} cache entries from disk")
-            
+
         except Exception as e:
             logger.error(f"Failed to load cache: {e}")
-    
+
     def get_statistics(self) -> Dict[str, Any]:
         """Get client statistics"""
         cache_hit_rate = (
@@ -474,7 +474,7 @@ class OptimizedOpenAIClient:
             if (self.stats["cache_hits"] + self.stats["cache_misses"]) > 0
             else 0
         )
-        
+
         return {
             "total_requests": self.stats["total_requests"],
             "cache_hits": self.stats["cache_hits"],
@@ -487,12 +487,12 @@ class OptimizedOpenAIClient:
             "errors": self.stats["errors"],
             "rate_limited": self.stats["rate_limited"]
         }
-    
+
     def clear_cache(self):
         """Clear the cache"""
         self.cache.clear()
         logger.info("Cache cleared")
-    
+
     def __del__(self):
         """Save cache on cleanup"""
         if hasattr(self, 'cache') and self.cache:
@@ -501,10 +501,10 @@ class OptimizedOpenAIClient:
 
 class BatchProcessor:
     """Process multiple requests efficiently"""
-    
+
     def __init__(self, client: OptimizedOpenAIClient):
         self.client = client
-    
+
     async def process_batch(
         self,
         prompts: List[str],
@@ -525,14 +525,14 @@ class BatchProcessor:
             List of responses
         """
         semaphore = asyncio.Semaphore(max_concurrent)
-        
+
         async def process_one(prompt: str) -> Dict[str, Any]:
             async with semaphore:
                 return await self.client.complete(prompt, model, **kwargs)
-        
+
         tasks = [process_one(prompt) for prompt in prompts]
         responses = await asyncio.gather(*tasks)
-        
+
         return responses
 
 
@@ -540,7 +540,7 @@ class BatchProcessor:
 if __name__ == "__main__":
     import asyncio
     import os
-    
+
     async def demo():
         # Create optimized client
         client = OptimizedOpenAIClient(
@@ -548,10 +548,10 @@ if __name__ == "__main__":
             cache_ttl=3600,
             rate_config=RateLimitConfig(requests_per_minute=20)
         )
-        
+
         print("🚀 Optimized OpenAI Client Demo")
         print("=" * 40)
-        
+
         # First request (cache miss)
         response1 = await client.complete(
             "What is machine learning?",
@@ -559,7 +559,7 @@ if __name__ == "__main__":
             max_tokens=100
         )
         print(f"Response 1: {response1['choices'][0]['message']['content'][:100]}...")
-        
+
         # Same request (cache hit)
         response2 = await client.complete(
             "What is machine learning?",
@@ -567,16 +567,16 @@ if __name__ == "__main__":
             max_tokens=100
         )
         print(f"Response 2 (cached): {response2['choices'][0]['message']['content'][:100]}...")
-        
+
         # Get statistics
         stats = client.get_statistics()
-        print(f"\n📊 Statistics:")
+        print("\n📊 Statistics:")
         print(f"  Total requests: {stats['total_requests']}")
         print(f"  Cache hits: {stats['cache_hits']}")
         print(f"  Cache hit rate: {stats['cache_hit_rate']:.1%}")
         print(f"  Tokens saved: {stats['tokens_saved']}")
         print(f"  Cost saved: ${stats['cost_saved']:.4f}")
-        
+
         # Batch processing
         batch_processor = BatchProcessor(client)
         prompts = [
@@ -584,24 +584,24 @@ if __name__ == "__main__":
             "What is JavaScript?",
             "What is Rust?"
         ]
-        
+
         print("\n🔄 Processing batch...")
         responses = await batch_processor.process_batch(
             prompts,
             max_concurrent=2,
             max_tokens=50
         )
-        
+
         for i, response in enumerate(responses):
             content = response['choices'][0]['message']['content']
             print(f"  {i+1}. {content[:50]}...")
-        
+
         # Final stats
         final_stats = client.get_statistics()
-        print(f"\n📊 Final Statistics:")
+        print("\n📊 Final Statistics:")
         print(f"  Total requests: {final_stats['total_requests']}")
         print(f"  Cache size: {final_stats['cache_size']}")
         print(f"  Tokens used: {final_stats['tokens_used']}")
-    
+
     # Run demo
     asyncio.run(demo())

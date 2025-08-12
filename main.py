@@ -4,12 +4,13 @@ LUKHAS AI - Logical Unified Knowledge Hyper-Adaptable System
 Main entry point for the neuroplastic AGI system with professional architecture
 """
 
-from core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
 import asyncio
 import logging
 import os
 import sys
 from datetime import datetime
+
+from core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
 
 # Add project root to Python path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

@@ -6,14 +6,13 @@ providing a centralized system for extending memory operations.
 ΛTAG: memory_hook_registry
 """
 
-from core.common import LukhasError
 import time
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import IntEnum
 from typing import Optional
 
-from core.common import get_logger
+from core.common import LukhasError, get_logger
 
 from .base import HookExecutionError, MemoryHook, MemoryItem
 

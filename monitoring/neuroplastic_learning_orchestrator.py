@@ -10,13 +10,13 @@ import asyncio
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
 
 import structlog
 
-from orchestration.signals.signal_bus import SignalBus, Signal, SignalType
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Flexible imports for direct-module execution and package usage
 # Endocrine engine types
@@ -63,17 +63,17 @@ except Exception:
 try:
     from monitoring.plasticity_trigger_manager import (
         AdaptationPlan,
+        AdaptationPriority,
         AdaptationRule,
         AdaptationStrategy,
-        AdaptationPriority,
     )
 except Exception:
     try:
         from .plasticity_trigger_manager import (
             AdaptationPlan,
+            AdaptationPriority,
             AdaptationRule,
             AdaptationStrategy,
-            AdaptationPriority,
         )
     except Exception:
         # Minimal stubs

@@ -17,49 +17,33 @@ Version: 1.0.0
 License: Proprietary
 """
 
+from universal_language.compositional import (
+    CompositionTemplate,
+    SymbolComposer,
+    SymbolProgramSynthesizer,
+    get_program_synthesizer,
+    get_symbol_composer,
+)
+from universal_language.constitutional import (
+    ConstitutionalAPI,
+    ConstitutionalGuardrails,
+    ConstitutionalValidator,
+    SymbolSandbox,
+    get_constitutional_api,
+)
 from universal_language.core import (
-    UniversalLanguageCore,
-    Symbol,
     Concept,
     Grammar,
-    Vocabulary
+    Symbol,
+    UniversalLanguageCore,
+    Vocabulary,
 )
-
-from universal_language.glyph import (
-    GLYPHEngine,
-    GLYPH_MAP,
-    GLYPHToken
-)
-
+from universal_language.glyph import GLYPH_MAP, GLYPHEngine, GLYPHToken
 from universal_language.grammar import (
     GrammarEngine,
-    SyntaxRule,
     GrammarValidator,
-    LanguageParser
-)
-
-from universal_language.vocabulary import (
-    UnifiedVocabulary,
-    VocabularyManager,
-    DomainVocabulary
-)
-
-from universal_language.translator import (
-    UniversalTranslator,
-    ConceptMapper,
-    CrossModalTranslator
-)
-
-from universal_language.multimodal import (
-    MultiModalProcessor,
-    ModalityType,
-    ModalityFeatures
-)
-
-from universal_language.privacy import (
-    PrivateSymbolVault,
-    SymbolEncryption,
-    ConceptAnonymizer
+    LanguageParser,
+    SyntaxRule,
 )
 
 # AGI-level enhancements
@@ -67,31 +51,34 @@ from universal_language.llm_integration import (
     LLMLanguageBridge,
     LLMSymbolAPI,
     SymbolRLHF,
-    get_llm_symbol_api
+    get_llm_symbol_api,
 )
-
-from universal_language.constitutional import (
-    ConstitutionalValidator,
-    ConstitutionalGuardrails,
-    SymbolSandbox,
-    ConstitutionalAPI,
-    get_constitutional_api
+from universal_language.multimodal import (
+    ModalityFeatures,
+    ModalityType,
+    MultiModalProcessor,
 )
-
 from universal_language.neuromemory import (
-    NeuroSymbolicMemory,
-    HippocampalBuffer,
     CorticalNetwork,
+    HippocampalBuffer,
+    NeuroSymbolicMemory,
     WorkingMemory,
-    get_neurosymbolic_memory
+    get_neurosymbolic_memory,
 )
-
-from universal_language.compositional import (
-    SymbolComposer,
-    SymbolProgramSynthesizer,
-    CompositionTemplate,
-    get_symbol_composer,
-    get_program_synthesizer
+from universal_language.privacy import (
+    ConceptAnonymizer,
+    PrivateSymbolVault,
+    SymbolEncryption,
+)
+from universal_language.translator import (
+    ConceptMapper,
+    CrossModalTranslator,
+    UniversalTranslator,
+)
+from universal_language.vocabulary import (
+    DomainVocabulary,
+    UnifiedVocabulary,
+    VocabularyManager,
 )
 
 __version__ = "2.0.0"  # Upgraded for AGI capabilities

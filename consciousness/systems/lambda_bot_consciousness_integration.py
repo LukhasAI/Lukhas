@@ -2,9 +2,8 @@
 ΛBot Consciousness Monitor Integration Module
 Provides integration wrapper for connecting the ΛBot consciousness monitor to the consciousness hub
 """
-import logging
-
 import asyncio
+import logging
 from datetime import datetime
 from typing import Any, Optional
 

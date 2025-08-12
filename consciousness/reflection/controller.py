@@ -32,8 +32,8 @@ COMPLIANCE STATUS: ENTERPRISE GRADE
 - ✅ SOX Section 404 (Audit Controls)
 - ✅ ISO 27001 Security Controls
 """
-from pathlib import Path
 import logging
+from pathlib import Path
 
 """
 Main AGI Controller for LUKHAS AGI System - Enterprise Compliance Edition
@@ -81,10 +81,11 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
-import numpy as np
-from orchestration.brain.privacy_manager import PrivacyManager
-from governance.identity.auth_backend.audit_logger import AuditLogger
 
+import numpy as np
+
+from governance.identity.auth_backend.audit_logger import AuditLogger
+from orchestration.brain.privacy_manager import PrivacyManager
 
 # 🛡️ Compliance and Security Imports
 

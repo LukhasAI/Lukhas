@@ -8,8 +8,6 @@
 
 Consolidated module for better performance
 """
-import numpy as np
-
 import asyncio
 import hashlib
 import json
@@ -24,6 +22,7 @@ from enum import Enum
 from typing import Any, Optional, Union
 
 import aiohttp
+import numpy as np
 from aiohttp import web
 from hybrid_memory_fold import (
     ContinuousLearningEngine,

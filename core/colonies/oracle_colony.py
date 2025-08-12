@@ -30,12 +30,9 @@ import json
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
-from bridge.openai_core_service import ModelType
-from bridge.openai_core_service import OpenAICoreService
-from bridge.openai_core_service import OpenAIRequest
+from bridge.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
 from core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger("ΛTRACE.oracle_colony")

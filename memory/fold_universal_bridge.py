@@ -31,7 +31,6 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 import logging
-
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from typing import Any, Optional

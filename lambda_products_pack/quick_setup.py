@@ -35,8 +35,9 @@ async def main():
     # Step 2: Import Lambda Products
     print("\n📦 Step 2: Loading Lambda Products...")
     try:
-        from agents.autonomous_agent_framework import AgentOrchestrator
         from plugins.plugin_base import PluginSystem
+
+        from agents.autonomous_agent_framework import AgentOrchestrator
 
         print("✅ Plugin system loaded")
         print("✅ Agent framework loaded")

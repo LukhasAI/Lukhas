@@ -27,10 +27,11 @@ Auto-generated component to achieve 100% AI connectivity.
 This component handles memory functionality in the AI consciousness computing system.
 """
 
-from datetime import datetime
 import asyncio
-from core.common import get_logger
+from datetime import datetime
 from typing import Any, Optional
+
+from core.common import get_logger
 
 
 class MemoryProcessor:

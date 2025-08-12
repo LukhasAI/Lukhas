@@ -5,8 +5,6 @@ Addresses TODO 142: Optimized dual EDA/P2P communication
 This module implements an energy-efficient communication fabric that
 minimizes network overhead and maximizes resource utilization.
 """
-from dataclasses import asdict
-
 import asyncio
 import json
 import logging
@@ -14,7 +12,7 @@ import threading
 import time
 import uuid
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any, Callable
 

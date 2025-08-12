@@ -4,19 +4,15 @@ Agent 5: User Experience & Feedback Specialist
 Implements passkey login, workflow transparency, feedback collection
 """
 
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Request, Form
-from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel
-from typing import Dict, List, Optional, Any
-import asyncio
-import json
-import time
+import os
+import sys
 import uuid
 from datetime import datetime, timezone
-import sys
-import os
+from typing import Any, Dict, List, Optional
+
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.responses import HTMLResponse
+from pydantic import BaseModel
 
 # Add paths for agent imports
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
@@ -43,19 +39,19 @@ orchestrator = ContextBusOrchestrator()
 class ConnectionManager:
     def __init__(self):
         self.active_connections: Dict[str, WebSocket] = {}
-    
+
     async def connect(self, websocket: WebSocket, client_id: str):
         await websocket.accept()
         self.active_connections[client_id] = websocket
-    
+
     def disconnect(self, client_id: str):
         if client_id in self.active_connections:
             del self.active_connections[client_id]
-    
+
     async def send_personal_message(self, message: str, client_id: str):
         if client_id in self.active_connections:
             await self.active_connections[client_id].send_text(message)
-    
+
     async def broadcast(self, message: str):
         for connection in self.active_connections.values():
             await connection.send_text(message)
@@ -589,7 +585,7 @@ async def authenticate(request: PasskeyAuthRequest):
         method="passkey",
         credential=request.credential
     )
-    
+
     if result["success"]:
         # Create session (in production: use secure session management)
         return {
@@ -598,7 +594,7 @@ async def authenticate(request: PasskeyAuthRequest):
             "token": result["tokens"]["id_token"],
             "performance": result["performance"]
         }
-    
+
     return {"success": False, "error": "Authentication failed"}
 
 @app.post("/api/consent/grant")
@@ -611,7 +607,7 @@ async def grant_consent(request: ConsentRequest):
         purpose=request.purpose,
         expires_in_days=90
     )
-    
+
     return {
         "consent_id": consent.consent_id,
         "granted": True
@@ -626,15 +622,15 @@ async def revoke_consent(lid: str, consent_id: str):
 @app.post("/api/workflow/execute")
 async def execute_workflow(request: WorkflowRequest):
     """Execute workflow with transparency"""
-    
+
     # Create workflow pipeline
     pipeline = WorkflowPipelines.create_travel_analysis_pipeline(orchestrator)
-    
+
     # Set adapters to dry-run for demo
     orchestrator.gmail_adapter.set_dry_run(True)
     orchestrator.drive_adapter.set_dry_run(True)
     orchestrator.dropbox_adapter.set_dry_run(True)
-    
+
     # Execute workflow
     result = await orchestrator.execute_workflow(
         lid=request.lid,
@@ -642,7 +638,7 @@ async def execute_workflow(request: WorkflowRequest):
         steps=pipeline,
         initial_context=request.context
     )
-    
+
     return result
 
 @app.get("/api/workflow/status/{workflow_id}")
@@ -655,7 +651,7 @@ async def submit_feedback(feedback: FeedbackSubmission):
     """Submit user feedback"""
     feedback.timestamp = datetime.now(timezone.utc).isoformat()
     feedback_storage.append(feedback.dict())
-    
+
     # Emit Λ-trace for feedback
     consent_ledger.create_trace(
         lid=feedback.lid,
@@ -668,7 +664,7 @@ async def submit_feedback(feedback: FeedbackSubmission):
             "comment": feedback.comment
         }
     )
-    
+
     return {"success": True, "feedback_id": f"FB-{uuid.uuid4().hex}"}
 
 @app.get("/api/feedback/summary")
@@ -676,7 +672,7 @@ async def get_feedback_summary():
     """Get feedback summary"""
     if not feedback_storage:
         return {"average_rating": 0, "total_feedback": 0}
-    
+
     ratings = [f["rating"] for f in feedback_storage]
     return {
         "average_rating": sum(ratings) / len(ratings),
@@ -688,11 +684,11 @@ async def get_feedback_summary():
 async def get_metrics():
     """Get system metrics"""
     perf_metrics = orchestrator.get_performance_metrics()
-    
+
     # Get active consents count
     # In production: query database
     active_consents = 3  # Mock value
-    
+
     return {
         "auth_latency_ms": identity_service.metrics.get("p95_latency", 0),
         "handoff_latency_ms": perf_metrics["handoff_performance"]["p95_ms"],
@@ -705,13 +701,13 @@ async def get_metrics():
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
     """WebSocket for real-time updates"""
     await manager.connect(websocket, client_id)
-    
+
     try:
         while True:
             # Send workflow updates
             data = await websocket.receive_text()
             await manager.send_personal_message(f"Update: {data}", client_id)
-            
+
     except WebSocketDisconnect:
         manager.disconnect(client_id)
 

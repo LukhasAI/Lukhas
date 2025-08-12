@@ -14,18 +14,26 @@ ACK GUARDRAILS
 """
 
 import asyncio
-import json
-from datetime import datetime, timezone, timedelta
-from typing import Dict, List, Optional, Any, Callable
-from enum import Enum
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
-from . import GestureType, RiskLevel, requires_gtpsi_approval, get_action_risk_level, HIGH_RISK_ACTIONS
-from .server.verify import GTΨVerificationService, GestureVerificationRequest, ActionApprovalRequest
-from .edge import create_gesture_recognizer, EdgeGestureProcessor, MockStrokeData
+from . import (
+    HIGH_RISK_ACTIONS,
+    GestureType,
+    RiskLevel,
+    get_action_risk_level,
+    requires_gtpsi_approval,
+)
+from .edge import EdgeGestureProcessor, create_gesture_recognizer
+from .server.verify import (
+    ActionApprovalRequest,
+    GestureVerificationRequest,
+    GTΨVerificationService,
+)
 
 
 class ConsentUIRequest(BaseModel):
@@ -68,15 +76,15 @@ class StudioGTΨHooks:
     - Processing gesture submissions with edge privacy
     - Time-locked approval management with visual countdown
     """
-    
+
     def __init__(self, verification_service: GTΨVerificationService = None):
         self.verification_service = verification_service or GTΨVerificationService("mock")
         self.active_consent_sessions = {}  # session_id -> consent context
-        
+
     async def initialize(self):
         """Initialize GTΨ verification service"""
         await self.verification_service.initialize()
-    
+
     def requires_consent(self, action: str, context: Dict[str, Any] = None) -> bool:
         """
         Check if action requires GTΨ consent.
@@ -90,27 +98,27 @@ class StudioGTΨHooks:
         """
         if not requires_gtpsi_approval(action):
             return False
-        
+
         # Additional context-based risk assessment
         if action == "send_email" and context:
             recipient_count = context.get("recipient_count", 0)
             has_attachments = context.get("has_attachments", False)
-            
+
             # Mass emails or emails with attachments need GTΨ
             return recipient_count > 5 or has_attachments
-        
+
         if action == "share_link_public":
             # Always require GTΨ for public sharing
             return True
-            
+
         if action == "cloud.move.files" and context:
             file_count = context.get("file_count", 0)
-            
+
             # Moving many files needs GTΨ
             return file_count > 10
-        
+
         return True  # Default to requiring GTΨ for high-risk actions
-    
+
     async def request_consent_ui(self, request: ConsentUIRequest) -> ConsentUIResponse:
         """
         Generate consent UI for high-risk action.
@@ -124,14 +132,14 @@ class StudioGTΨHooks:
         # Generate GTΨ challenge
         challenge = await self.verification_service.generate_challenge(
             request.lid,
-            request.action, 
+            request.action,
             request.action_context
         )
-        
+
         # Get action details
         action_info = HIGH_RISK_ACTIONS.get(request.action, {})
         risk_level = get_action_risk_level(request.action)
-        
+
         # Build UI configuration
         ui_config = {
             "action": request.action,
@@ -143,19 +151,19 @@ class StudioGTΨHooks:
             "warnings": self._generate_risk_warnings(request.action, risk_level),
             "visual_theme": self._get_risk_theme(risk_level)
         }
-        
+
         # Calculate countdown
         now = datetime.now(timezone.utc)
         countdown_seconds = int((challenge.expires_at - now).total_seconds())
-        
+
         return ConsentUIResponse(
             challenge_id=challenge.challenge_id,
             ui_config=ui_config,
             countdown_seconds=countdown_seconds
         )
-    
+
     async def submit_gesture(
-        self, 
+        self,
         request: GestureSubmissionRequest,
         client_ip: Optional[str] = None
     ) -> GestureSubmissionResponse:
@@ -173,17 +181,17 @@ class StudioGTΨHooks:
             # Process gesture on server-side (simulating edge processing)
             recognizer = create_gesture_recognizer(request.gesture_type)
             processor = EdgeGestureProcessor(recognizer)
-            
+
             gesture_features = processor.process_gesture(
                 request.gesture_data,
                 request.gesture_type
             )
-            
+
             # Get challenge details for nonce
             challenge = self.verification_service.active_challenges.get(request.challenge_id)
             if not challenge:
                 raise ValueError("Challenge not found or expired")
-            
+
             # Verify gesture
             verification_request = GestureVerificationRequest(
                 lid=challenge.lid,
@@ -191,9 +199,9 @@ class StudioGTΨHooks:
                 gesture_features=gesture_features,
                 nonce=challenge.nonce
             )
-            
+
             result = await self.verification_service.verify_gesture(verification_request, client_ip)
-            
+
             if result.verified:
                 return GestureSubmissionResponse(
                     success=True,
@@ -206,13 +214,13 @@ class StudioGTΨHooks:
                     success=False,
                     message=f"Gesture verification failed: {result.error}"
                 )
-                
+
         except Exception as e:
             return GestureSubmissionResponse(
                 success=False,
                 message=f"Gesture processing error: {str(e)}"
             )
-    
+
     async def check_action_approval(
         self,
         lid: str,
@@ -238,32 +246,32 @@ class StudioGTΨHooks:
             action=action,
             action_context=action_context
         )
-        
+
         result = await self.verification_service.check_action_approval(request)
         return result.approved
-    
+
     def _generate_context_summary(self, action: str, context: Dict[str, Any]) -> str:
         """Generate human-readable context summary"""
         if action == "send_email":
             to = context.get("to", ["unknown"])
             subject = context.get("subject", "No subject")
             return f"Send email to {', '.join(to[:3])} with subject '{subject[:50]}...'"
-        
+
         elif action == "cloud.move.files":
             file_count = context.get("file_count", 0)
             destination = context.get("destination", "unknown location")
             return f"Move {file_count} files to {destination}"
-        
+
         elif action == "share_link_public":
             resource_name = context.get("resource_name", "file")
             return f"Create public sharing link for '{resource_name}'"
-        
+
         elif action == "delete_files":
             file_count = context.get("file_count", 0)
             return f"Permanently delete {file_count} files"
-        
+
         return f"Perform {action}"
-    
+
     def _get_gesture_instructions(self, gesture_type: GestureType) -> List[str]:
         """Get instructions for gesture type"""
         if gesture_type == GestureType.STROKE:
@@ -275,7 +283,7 @@ class StudioGTΨHooks:
             ]
         elif gesture_type == GestureType.TAP_SEQUENCE:
             return [
-                "Tap your personal rhythm pattern", 
+                "Tap your personal rhythm pattern",
                 "Use consistent timing between taps",
                 "Complete all taps within the time limit",
                 "Keep the rhythm steady and recognizable"
@@ -283,50 +291,50 @@ class StudioGTΨHooks:
         elif gesture_type == GestureType.SIGNATURE:
             return [
                 "Sign your name or initials",
-                "Use natural signing motion", 
+                "Use natural signing motion",
                 "Complete the signature smoothly",
                 "Match your usual signing style"
             ]
         else:
             return ["Complete your personal gesture pattern"]
-    
+
     def _generate_risk_warnings(self, action: str, risk_level: RiskLevel) -> List[str]:
         """Generate appropriate risk warnings"""
         warnings = []
-        
+
         if risk_level == RiskLevel.CRITICAL:
             warnings.append("⚠️ CRITICAL ACTION: This action cannot be undone")
-            
+
         if action == "send_email":
             warnings.extend([
                 "This will send an email on your behalf",
                 "Recipients will see it came from your account",
                 "Consider if the content and recipients are correct"
             ])
-            
+
         elif action == "delete_files":
             warnings.extend([
                 "Files will be permanently deleted",
                 "This action cannot be undone",
                 "Make sure you have backups if needed"
             ])
-            
+
         elif action == "share_link_public":
             warnings.extend([
                 "Anyone with the link will be able to access this content",
                 "The link may be indexed by search engines",
                 "Consider the privacy implications carefully"
             ])
-            
+
         elif action == "cloud.move.files":
             warnings.extend([
                 "Files will be moved between services",
                 "Sharing permissions may change",
                 "Check that the destination is correct"
             ])
-        
+
         return warnings
-    
+
     def _get_risk_theme(self, risk_level: RiskLevel) -> Dict[str, str]:
         """Get UI theme based on risk level"""
         themes = {
@@ -337,25 +345,25 @@ class StudioGTΨHooks:
                 "icon": "shield-check"
             },
             RiskLevel.MEDIUM: {
-                "primary_color": "#f59e0b",     # Amber  
+                "primary_color": "#f59e0b",     # Amber
                 "border_color": "#fde68a",
                 "background": "#fffbeb",
                 "icon": "exclamation-triangle"
             },
             RiskLevel.HIGH: {
                 "primary_color": "#ef4444",     # Red
-                "border_color": "#fecaca", 
+                "border_color": "#fecaca",
                 "background": "#fef2f2",
                 "icon": "shield-exclamation"
             },
             RiskLevel.CRITICAL: {
                 "primary_color": "#dc2626",     # Dark red
                 "border_color": "#fca5a5",
-                "background": "#fef2f2", 
+                "background": "#fef2f2",
                 "icon": "shield-x"
             }
         }
-        
+
         return themes.get(risk_level, themes[RiskLevel.MEDIUM])
 
 
@@ -387,7 +395,7 @@ async def request_consent_ui(
     """
     if not hooks.requires_consent(request.action, request.action_context):
         raise HTTPException(status_code=400, detail="Action does not require GTΨ consent")
-    
+
     try:
         response = await hooks.request_consent_ui(request)
         return response
@@ -561,7 +569,7 @@ async def consent_ui_html():
     </body>
     </html>
     """
-    
+
     return HTMLResponse(content=html_content)
 
 
@@ -574,7 +582,7 @@ async def demo_consent_flow():
     """
     hooks = StudioGTΨHooks()
     await hooks.initialize()
-    
+
     demo_actions = [
         {
             "action": "send_email",
@@ -582,17 +590,17 @@ async def demo_consent_flow():
             "requires_consent": hooks.requires_consent("send_email", {"has_attachments": True})
         },
         {
-            "action": "share_link_public", 
+            "action": "share_link_public",
             "context": {"resource_name": "financial_report.pdf"},
             "requires_consent": hooks.requires_consent("share_link_public")
         },
         {
             "action": "delete_files",
-            "context": {"file_count": 5, "files": ["old_backup.zip", "temp_data.csv"]}, 
+            "context": {"file_count": 5, "files": ["old_backup.zip", "temp_data.csv"]},
             "requires_consent": hooks.requires_consent("delete_files")
         }
     ]
-    
+
     return {
         "message": "GTΨ Demo - High-risk actions and consent requirements",
         "demo_actions": demo_actions,
@@ -623,14 +631,14 @@ if __name__ == "__main__":
     async def demo():
         hooks = StudioGTΨHooks()
         await hooks.initialize()
-        
+
         print("🎨 GTΨ Studio Integration Demo")
         print("=" * 35)
-        
+
         # Test consent requirement
         needs_consent = hooks.requires_consent("send_email", {"has_attachments": True})
         print(f"Send email with attachments needs consent: {needs_consent}")
-        
+
         if needs_consent:
             # Request consent UI
             ui_request = ConsentUIRequest(
@@ -638,12 +646,12 @@ if __name__ == "__main__":
                 action="send_email",
                 action_context={"to": ["alice@example.com"], "subject": "Test", "has_attachments": True}
             )
-            
+
             ui_response = await hooks.request_consent_ui(ui_request)
             print(f"Consent UI generated: {ui_response.challenge_id}")
             print(f"Time limit: {ui_response.countdown_seconds} seconds")
             print(f"Risk warnings: {len(ui_response.ui_config['warnings'])} items")
-        
+
         print("\n✅ Studio integration demo complete!")
-    
+
     asyncio.run(demo())

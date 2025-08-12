@@ -6,36 +6,36 @@ Tests all capabilities of the biological-inspired monitoring system
 """
 
 import asyncio
-import pytest
 import sys
-from pathlib import Path
-from datetime import datetime, timezone
 import time
+from datetime import datetime, timezone
+from pathlib import Path
+
+import pytest
 
 # Add monitoring to path
 sys.path.append(str(Path(__file__).parent.parent / "monitoring"))
 
+import structlog  # noqa: E402
+from adaptive_metrics_collector import (  # noqa: E402
+    AdaptiveMetricsCollector,
+    OperationalContext,
+)
+from bio_symbolic_coherence_monitor import BioSymbolicCoherenceMonitor  # noqa: E402
 from endocrine_observability_engine import (  # noqa: E402
     EndocrineObservabilityEngine,
     EndocrineSnapshot,
     PlasticityEvent,
     PlasticityTriggerType,
 )
-from plasticity_trigger_manager import PlasticityTriggerManager  # noqa: E402
-from bio_symbolic_coherence_monitor import BioSymbolicCoherenceMonitor  # noqa: E402
-from adaptive_metrics_collector import (  # noqa: E402
-    AdaptiveMetricsCollector,
-    OperationalContext,
-)
 from hormone_driven_dashboard import HormoneDrivenDashboard  # noqa: E402
-from neuroplastic_learning_orchestrator import (  # noqa: E402
-    NeuroplasticLearningOrchestrator,
-    ExperimentPhase,
-)
 from integrated_monitoring_system import IntegratedMonitoringSystem  # noqa: E402
+from neuroplastic_learning_orchestrator import (  # noqa: E402
+    ExperimentPhase,
+    NeuroplasticLearningOrchestrator,
+)
+from plasticity_trigger_manager import PlasticityTriggerManager  # noqa: E402
 from real_data_collector import LukhasPWMRealDataCollector  # noqa: E402
-
-import structlog  # noqa: E402
 
 logger = structlog.get_logger(__name__)
 

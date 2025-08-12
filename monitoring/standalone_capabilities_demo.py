@@ -6,12 +6,12 @@ Demonstrates all monitoring capabilities without external dependencies
 """
 
 import asyncio
-import time
 import math
+import time
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from dataclasses import dataclass
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 
 class PlasticityTriggerType(Enum):
@@ -101,7 +101,7 @@ class StandaloneMonitoringDemo:
         hour = datetime.now().hour
         if trigger_type == "stress_adaptation" and 9 <= hour <= 17:
             circadian_factor = -0.1  # More sensitive during work hours
-        elif trigger_type == "recovery_consolidation" and (19 <= hour or hour <= 8):
+        elif trigger_type == "recovery_consolidation" and (hour >= 19 or hour <= 8):
             circadian_factor = -0.15  # More sensitive during rest hours
         else:
             circadian_factor = 0

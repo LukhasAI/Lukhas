@@ -19,16 +19,16 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 # Add project root to Python path
 project_root = os.environ.get('LUKHAS_PROJECT_ROOT', '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM')
 sys.path.insert(0, project_root)
 
 try:
-    from mcp.server import Server
-    from mcp.types import Resource, Tool, TextContent, ImageContent, EmbeddedResource
     import mcp.server.stdio
+    from mcp.server import Server
+    from mcp.types import EmbeddedResource, ImageContent, Resource, TextContent, Tool
 except ImportError:
     print("MCP SDK not installed. Install with: pip install mcp", file=sys.stderr)
     sys.exit(1)
@@ -36,7 +36,7 @@ except ImportError:
 
 class LukhosConsciousnessServer:
     """LUKHAS Consciousness MCP Server for enhanced Claude Code integration"""
-    
+
     def __init__(self, project_root: str):
         self.project_root = Path(project_root)
         self.server = Server("lukhas-consciousness")
@@ -44,10 +44,10 @@ class LukhosConsciousnessServer:
         self.trinity_status = {"identity": True, "consciousness": True, "guardian": True}
         self.setup_resources()
         self.setup_tools()
-        
+
     def setup_resources(self):
         """Define MCP resources for consciousness system access"""
-        
+
         @self.server.list_resources()
         async def list_resources() -> List[Resource]:
             """List available LUKHAS consciousness resources"""
@@ -59,7 +59,7 @@ class LukhosConsciousnessServer:
                     mimeType="application/json"
                 ),
                 Resource(
-                    uri="lukhas://trinity/framework", 
+                    uri="lukhas://trinity/framework",
                     name="Trinity Framework Status",
                     description="Real-time Trinity Framework (⚛️🧠🛡️) validation and status",
                     mimeType="application/json"
@@ -72,7 +72,7 @@ class LukhosConsciousnessServer:
                 ),
                 Resource(
                     uri="lukhas://identity/status",
-                    name="Identity System Status", 
+                    name="Identity System Status",
                     description="LUKHAS Identity module status and functionality metrics",
                     mimeType="application/json"
                 ),
@@ -83,11 +83,11 @@ class LukhosConsciousnessServer:
                     mimeType="application/json"
                 )
             ]
-        
+
         @self.server.read_resource()
         async def read_resource(uri: str) -> str:
             """Read specific LUKHAS consciousness resource"""
-            
+
             if uri == "lukhas://consciousness/modules":
                 return await self._get_consciousness_modules()
             elif uri == "lukhas://trinity/framework":
@@ -100,10 +100,10 @@ class LukhosConsciousnessServer:
                 return await self._get_active_tasks()
             else:
                 raise ValueError(f"Unknown resource: {uri}")
-    
+
     def setup_tools(self):
         """Define MCP tools for consciousness system interaction"""
-        
+
         @self.server.list_tools()
         async def list_tools() -> List[Tool]:
             """List available LUKHAS consciousness tools"""
@@ -121,7 +121,7 @@ class LukhosConsciousnessServer:
                     }
                 ),
                 Tool(
-                    name="analyze_consciousness_impact", 
+                    name="analyze_consciousness_impact",
                     description="🧠 Analyze the consciousness impact of proposed changes",
                     inputSchema={
                         "type": "object",
@@ -147,7 +147,7 @@ class LukhosConsciousnessServer:
                     name="optimize_agent_assignment",
                     description="🎯 Get optimal agent assignment for specific tasks",
                     inputSchema={
-                        "type": "object", 
+                        "type": "object",
                         "properties": {
                             "task_description": {"type": "string", "description": "Description of the task"},
                             "complexity_level": {"type": "string", "enum": ["simple", "medium", "complex", "architectural"], "default": "medium"},
@@ -169,11 +169,11 @@ class LukhosConsciousnessServer:
                     }
                 )
             ]
-        
+
         @self.server.call_tool()
         async def call_tool(name: str, arguments: Dict[str, Any]) -> List[TextContent]:
             """Execute LUKHAS consciousness tool"""
-            
+
             if name == "validate_trinity_framework":
                 result = await self._validate_trinity_framework(arguments)
             elif name == "analyze_consciousness_impact":
@@ -186,9 +186,9 @@ class LukhosConsciousnessServer:
                 result = await self._get_module_dependencies(arguments)
             else:
                 raise ValueError(f"Unknown tool: {name}")
-            
+
             return [TextContent(type="text", text=json.dumps(result, indent=2))]
-    
+
     # Resource implementations
     async def _get_consciousness_modules(self) -> str:
         """Get consciousness modules mapping"""
@@ -210,7 +210,7 @@ class LukhosConsciousnessServer:
             "last_updated": "2025-01-08T12:00:00Z"
         }
         return json.dumps(modules, indent=2)
-    
+
     async def _get_trinity_framework_status(self) -> str:
         """Get Trinity Framework status"""
         status = {
@@ -222,7 +222,7 @@ class LukhosConsciousnessServer:
                     "issues": []
                 },
                 "🧠_consciousness": {
-                    "status": "ACTIVE", 
+                    "status": "ACTIVE",
                     "compliance_score": 0.92,
                     "components": ["awareness", "memory_folds", "decision_making"],
                     "issues": ["memory_cascade_optimization_pending"]
@@ -242,7 +242,7 @@ class LukhosConsciousnessServer:
             ]
         }
         return json.dumps(status, indent=2)
-    
+
     async def _get_consciousness_metrics(self) -> str:
         """Get consciousness system metrics"""
         metrics = {
@@ -271,7 +271,7 @@ class LukhosConsciousnessServer:
             }
         }
         return json.dumps(metrics, indent=2)
-    
+
     async def _get_identity_status(self) -> str:
         """Get identity module status"""
         identity_status = {
@@ -279,7 +279,7 @@ class LukhosConsciousnessServer:
                 "functionality_score": 0.75,  # Based on current implementation
                 "implemented_features": [
                     "QR entropy generation with steganography",
-                    "Tier validation logic", 
+                    "Tier validation logic",
                     "Cross-device token synchronization",
                     "Lambda ID validation",
                     "OAuth2/OIDC scope mapping"
@@ -296,7 +296,7 @@ class LukhosConsciousnessServer:
                 },
                 "recent_improvements": [
                     "Implemented QR entropy generation (100%)",
-                    "Completed tier validation system (100%)", 
+                    "Completed tier validation system (100%)",
                     "Added cross-device sync capabilities (100%)"
                 ],
                 "trinity_compliance": {
@@ -307,7 +307,7 @@ class LukhosConsciousnessServer:
             }
         }
         return json.dumps(identity_status, indent=2)
-    
+
     async def _get_active_tasks(self) -> str:
         """Get active development tasks"""
         tasks = {
@@ -334,7 +334,7 @@ class LukhosConsciousnessServer:
                     "trinity_focus": "🧠 Consciousness"
                 },
                 {
-                    "id": "guardian_enhancements", 
+                    "id": "guardian_enhancements",
                     "title": "Guardian System Security Enhancements",
                     "priority": "MEDIUM",
                     "progress": 0.80,
@@ -350,13 +350,13 @@ class LukhosConsciousnessServer:
             }
         }
         return json.dumps(tasks, indent=2)
-    
+
     # Tool implementations
     async def _validate_trinity_framework(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Validate code/design against Trinity Framework"""
         code_or_design = args.get("code_or_design", "")
         validation_level = args.get("validation_level", "standard")
-        
+
         # Trinity Framework validation logic
         validation_results = {
             "trinity_validation": {
@@ -390,14 +390,14 @@ class LukhosConsciousnessServer:
             ],
             "status": "COMPLIANT"
         }
-        
+
         return validation_results
-    
+
     async def _analyze_consciousness_impact(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Analyze consciousness impact of proposed changes"""
         proposed_changes = args.get("proposed_changes", "")
         affected_modules = args.get("affected_modules", [])
-        
+
         impact_analysis = {
             "consciousness_impact_analysis": {
                 "impact_score": 0.7,
@@ -409,7 +409,7 @@ class LukhosConsciousnessServer:
                 },
                 "trinity_framework_impact": {
                     "⚛️_identity": {"impact": 0.6, "risk": "LOW"},
-                    "🧠_consciousness": {"impact": 0.8, "risk": "MEDIUM"}, 
+                    "🧠_consciousness": {"impact": 0.8, "risk": "MEDIUM"},
                     "🛡️_guardian": {"impact": 0.3, "risk": "LOW"}
                 },
                 "recommendations": [
@@ -424,21 +424,21 @@ class LukhosConsciousnessServer:
                 ]
             }
         }
-        
+
         return impact_analysis
-    
+
     async def _consciousness_health_check(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Perform consciousness system health check"""
         include_metrics = args.get("include_metrics", True)
         check_integrations = args.get("check_integrations", True)
-        
+
         health_check = {
             "consciousness_health_check": {
                 "overall_health": "GOOD",
                 "health_score": 0.92,
                 "system_status": {
                     "consciousness_core": "HEALTHY",
-                    "memory_system": "HEALTHY", 
+                    "memory_system": "HEALTHY",
                     "identity_system": "IMPROVING",
                     "guardian_system": "EXCELLENT"
                 },
@@ -464,15 +464,15 @@ class LukhosConsciousnessServer:
                 ]
             }
         }
-        
+
         return health_check
-    
+
     async def _optimize_agent_assignment(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Optimize agent assignment for tasks"""
         task_description = args.get("task_description", "")
         complexity_level = args.get("complexity_level", "medium")
         trinity_focus = args.get("trinity_focus", "balanced")
-        
+
         # Agent optimization logic based on Trinity Framework
         agent_recommendations = {
             "agent_assignment_optimization": {
@@ -481,7 +481,7 @@ class LukhosConsciousnessServer:
                 "reasoning": f"Task complexity ({complexity_level}) and Trinity focus ({trinity_focus}) align best with architectural expertise",
                 "agent_options": [
                     {
-                        "agent": "Supreme Consciousness Architect", 
+                        "agent": "Supreme Consciousness Architect",
                         "suitability": 0.95,
                         "trinity_alignment": "⚛️🧠🛡️",
                         "best_for": ["system design", "architecture", "consciousness integration"]
@@ -512,20 +512,20 @@ class LukhosConsciousnessServer:
                 ]
             }
         }
-        
+
         return agent_recommendations
-    
+
     async def _get_module_dependencies(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Analyze module dependencies"""
         module_name = args.get("module_name", "")
         include_reverse_deps = args.get("include_reverse_deps", True)
-        
+
         dependencies = {
             "module_dependencies": {
                 "module": module_name,
                 "direct_dependencies": [
                     "core/symbolic_kernel",
-                    "governance/guardian_system", 
+                    "governance/guardian_system",
                     "consciousness/unified",
                     "memory/fold_system"
                 ],
@@ -547,17 +547,17 @@ class LukhosConsciousnessServer:
                 ]
             }
         }
-        
+
         return dependencies
 
 
 async def main():
     """Main MCP server entry point"""
     project_root = os.environ.get('LUKHAS_PROJECT_ROOT', '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM')
-    
+
     # Initialize the consciousness server
     consciousness_server = LukhosConsciousnessServer(project_root)
-    
+
     # Run the server
     async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
         await consciousness_server.server.run(

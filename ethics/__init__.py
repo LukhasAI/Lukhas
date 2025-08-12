@@ -7,12 +7,12 @@ import warnings
 
 # Import real implementations from governance
 try:
-    from governance.policy.base import Decision, RiskLevel
     from governance.ethics.ethics_engine import EthicsEngine
+    from governance.policy.base import Decision, RiskLevel
 except ImportError as e:
     warnings.warn(f"Could not import governance ethics components: {e}")
     # Fall back to stubs if needed
-    from .stubs import Decision, RiskLevel, EthicsEngine
+    from .stubs import Decision, EthicsEngine, RiskLevel
 
 # Import or create MEGPolicyBridge
 try:

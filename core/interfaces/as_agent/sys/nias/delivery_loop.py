@@ -22,9 +22,10 @@ DESCRIPTION:
 """
 
 
+from nias.core.nias_engine import NIASEngine
+
 from ethics.seedra.seedra_core import SEEDRACore
 from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
-from nias.core.nias_engine import NIASEngine
 
 # Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
 

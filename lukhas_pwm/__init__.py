@@ -8,13 +8,13 @@ Note:
 
 from __future__ import annotations
 
-import os
-import warnings
 import importlib
 import importlib.abc
 import importlib.machinery
-from importlib.machinery import PathFinder
+import os
 import sys
+import warnings
+from importlib.machinery import PathFinder
 from types import ModuleType
 
 if os.environ.get("LUKHAS_SILENCE_IMPORT_NOTICE", "0") not in {"1", "true", "TRUE"}:

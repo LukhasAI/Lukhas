@@ -5,10 +5,8 @@ Enhanced features for solo developers - pair programming, motivation, burnout pr
 """
 
 import random
-from datetime import datetime
-from datetime import timedelta
-from typing import Any
-from typing import Optional
+from datetime import datetime, timedelta
+from typing import Any, Optional
 
 from .journal_engine import JournalEngine
 from .learning_assistant import LearningAssistant

@@ -316,8 +316,9 @@ class IntegrationTestRunner:
         }
 
         try:
-            from agents.autonomous_agent_framework import AgentOrchestrator
             from plugins.plugin_base import PluginSystem
+
+            from agents.autonomous_agent_framework import AgentOrchestrator
 
             # Benchmark 1: Plugin registration throughput
             plugin_system = PluginSystem()

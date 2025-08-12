@@ -17,7 +17,6 @@
 import logging
 
 # Module imports
-
 from core.common import get_logger
 
 # Configure module logger

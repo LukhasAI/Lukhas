@@ -6,6 +6,7 @@ import json
 import subprocess
 from datetime import datetime
 
+
 def generate_sbom():
     """Generate SBOM in SPDX format"""
     sbom = {
@@ -17,14 +18,14 @@ def generate_sbom():
         "name": "LUKHAS AI System",
         "packages": []
     }
-    
+
     # Get Python dependencies
     result = subprocess.run(
         ["pip", "freeze"],
         capture_output=True,
         text=True
     )
-    
+
     for line in result.stdout.split('\n'):
         if '==' in line:
             name, version = line.split('==')
@@ -33,7 +34,7 @@ def generate_sbom():
                 "version": version,
                 "supplier": "PyPI"
             })
-    
+
     return sbom
 
 if __name__ == "__main__":

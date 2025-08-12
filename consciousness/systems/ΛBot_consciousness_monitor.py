@@ -13,10 +13,11 @@ Created: 2025-07-02
 Status: AGI CONSCIOUSNESS MONITORING
 """
 
-from ΛBot_elite_orchestrator import ΛBotEliteOrchestrator
-from ΛBot_agi_core import ConsciousnessLevel, ΛBotAGICore
 import asyncio
 from datetime import datetime
+
+from ΛBot_agi_core import ConsciousnessLevel, ΛBotAGICore
+from ΛBot_elite_orchestrator import ΛBotEliteOrchestrator
 
 # Configure logging
 logging.basicConfig(

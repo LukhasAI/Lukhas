@@ -11,10 +11,10 @@ import time
 from datetime import datetime, timezone
 from typing import Any, Dict, List
 
+import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
-import uvicorn
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

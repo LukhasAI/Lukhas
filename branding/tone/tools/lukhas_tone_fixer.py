@@ -8,11 +8,11 @@ and sterile documentation blooms with Lambda wisdom and sacred meaning."*
 The digital alchemist that transmutes ordinary text into LUKHAS-conscious communication.
 """
 
-import re
 import argparse
+import re
 import sys
-from typing import List, Tuple
 from pathlib import Path
+from typing import List, Tuple
 
 
 class LukhasToneFixer:
@@ -339,7 +339,7 @@ def main():
 
     # Read the content to be enhanced
     try:
-        with open(args.file, "r", encoding="utf-8") as f:
+        with open(args.file, encoding="utf-8") as f:
             content = f.read()
     except Exception as e:
         print(f"❌ Error reading file: {e}")

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Fix syntax errors in Python files - specifically EOL string literals"""
 
-import os
 import ast
+import os
 from pathlib import Path
 
 # List of files with known EOL string literal issues
 files_to_fix = [
     "tools/AiDocumentationGenerator.py",
-    "tools/CoreAnalyzer.py", 
+    "tools/CoreAnalyzer.py",
     "tools/generate_lukhas_ecosystem_documentation.py",
     "tools/command_registry.py",
     "tools/journal/solo_dev_support.py",
@@ -28,13 +28,12 @@ files_to_fix = [
     "tools/scripts/consolidate_modules.py"
 ]
 
-import os
 base_dir = Path(os.getenv("LUKHAS_PWM_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM"))
 
 def find_syntax_error_line(file_path):
     """Find the line with syntax error"""
     try:
-        with open(file_path, 'r') as f:
+        with open(file_path) as f:
             content = f.read()
             ast.parse(content)
         return None
@@ -46,18 +45,18 @@ def fix_eol_string_literal(file_path):
     error_info = find_syntax_error_line(file_path)
     if not error_info:
         return False
-    
+
     line_no, msg = error_info
     if "EOL while scanning string literal" not in msg:
         return False
-    
-    with open(file_path, 'r') as f:
+
+    with open(file_path) as f:
         lines = f.readlines()
-    
+
     if line_no <= len(lines):
         # Fix the line with the unclosed string
         problem_line = lines[line_no - 1]
-        
+
         # Check if it's a multiline string that needs closing
         if '"content":' in problem_line or "'content':" in problem_line:
             # Find the opening quote
@@ -71,19 +70,19 @@ def fix_eol_string_literal(file_path):
                     if not next_line.strip().startswith('"') and not next_line.strip().startswith('}'):
                         lines[line_no - 1] = problem_line.rstrip() + ' ' + next_line.strip() + '",\n'
                         lines[line_no] = ''
-        
+
         # Write fixed content back
         with open(file_path, 'w') as f:
             f.writelines(lines)
-        
+
         return True
-    
+
     return False
 
 def main():
     fixed_count = 0
     error_count = 0
-    
+
     for file_path in files_to_fix:
         full_path = base_dir / file_path
         if full_path.exists():
@@ -96,7 +95,7 @@ def main():
                 if error_info:
                     print(f"  ✗ Error in {file_path} at line {error_info[0]}: {error_info[1]}")
                     error_count += 1
-    
+
     print(f"\nSummary: Fixed {fixed_count} files, {error_count} files still have errors")
 
 if __name__ == "__main__":

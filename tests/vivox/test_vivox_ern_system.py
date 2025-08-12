@@ -225,7 +225,7 @@ class TestVIVOXEventBusIntegration:
         mock_event_bus.emit.assert_called()  # Check if emit was called (may be called multiple times)
         # Find the VIVOXEmotionalShift event in the call history
         vivox_shift_calls = [
-            call for call in mock_event_bus.emit.call_args_list 
+            call for call in mock_event_bus.emit.call_args_list
             if isinstance(call[0][0], VIVOXEmotionalShift)
         ]
         assert len(vivox_shift_calls) >= 1, "VIVOXEmotionalShift event should have been emitted"

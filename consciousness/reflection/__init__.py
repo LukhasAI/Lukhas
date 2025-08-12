@@ -17,6 +17,8 @@
 
 # Module imports
 
+from core.common import get_logger
+
 from .lambda_mirror import (
     AlignmentScore,
     AlignmentStatus,
@@ -26,7 +28,6 @@ from .lambda_mirror import (
     ReflectionEntry,
     ReflectionType,
 )
-from core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)

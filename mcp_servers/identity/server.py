@@ -19,7 +19,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 # Add project root to Python path
 project_root = os.environ.get('LUKHAS_PROJECT_ROOT', '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM')
@@ -28,9 +28,9 @@ sys.path.insert(0, project_root)
 sys.path.insert(0, identity_module_path)
 
 try:
-    from mcp.server import Server
-    from mcp.types import Resource, Tool, TextContent, ImageContent, EmbeddedResource
     import mcp.server.stdio
+    from mcp.server import Server
+    from mcp.types import EmbeddedResource, ImageContent, Resource, TextContent, Tool
 except ImportError:
     print("MCP SDK not installed. Install with: pip install mcp", file=sys.stderr)
     sys.exit(1)
@@ -38,17 +38,17 @@ except ImportError:
 
 class LukhosIdentityServer:
     """LUKHAS Identity MCP Server for enhanced Claude Code integration"""
-    
+
     def __init__(self, project_root: str, identity_module_path: str):
         self.project_root = Path(project_root)
         self.identity_path = Path(identity_module_path)
         self.server = Server("lukhas-identity")
         self.setup_resources()
         self.setup_tools()
-        
+
     def setup_resources(self):
         """Define MCP resources for identity system access"""
-        
+
         @self.server.list_resources()
         async def list_resources() -> List[Resource]:
             """List available LUKHAS identity resources"""
@@ -84,11 +84,11 @@ class LukhosIdentityServer:
                     mimeType="application/json"
                 )
             ]
-        
+
         @self.server.read_resource()
         async def read_resource(uri: str) -> str:
             """Read specific LUKHAS identity resource"""
-            
+
             if uri == "lukhas://identity/status":
                 return await self._get_identity_status()
             elif uri == "lukhas://identity/tiers":
@@ -101,10 +101,10 @@ class LukhosIdentityServer:
                 return await self._get_integrations_status()
             else:
                 raise ValueError(f"Unknown resource: {uri}")
-    
+
     def setup_tools(self):
         """Define MCP tools for identity system interaction"""
-        
+
         @self.server.list_tools()
         async def list_tools() -> List[Tool]:
             """List available LUKHAS identity tools"""
@@ -171,7 +171,7 @@ class LukhosIdentityServer:
                     }
                 ),
                 Tool(
-                    name="identity_health_check", 
+                    name="identity_health_check",
                     description="Perform comprehensive identity system health check",
                     inputSchema={
                         "type": "object",
@@ -183,11 +183,11 @@ class LukhosIdentityServer:
                     }
                 )
             ]
-        
+
         @self.server.call_tool()
         async def call_tool(name: str, arguments: Dict[str, Any]) -> List[TextContent]:
             """Execute LUKHAS identity tool"""
-            
+
             if name == "validate_lambda_id":
                 result = await self._validate_lambda_id(arguments)
             elif name == "check_tier_eligibility":
@@ -202,9 +202,9 @@ class LukhosIdentityServer:
                 result = await self._identity_health_check(arguments)
             else:
                 raise ValueError(f"Unknown tool: {name}")
-            
+
             return [TextContent(type="text", text=json.dumps(result, indent=2))]
-    
+
     # Resource implementations
     async def _get_identity_status(self) -> str:
         """Get identity system status"""
@@ -214,14 +214,14 @@ class LukhosIdentityServer:
                 "functionality_score": 0.75,
                 "performance_metrics": {
                     "auth_latency_p95": "35ms",
-                    "token_validation_latency": "15ms", 
+                    "token_validation_latency": "15ms",
                     "success_rate": 0.96,
                     "error_rate": 0.004
                 },
                 "implemented_features": [
                     "✅ QR entropy generation with steganography",
                     "✅ Comprehensive tier validation logic",
-                    "✅ Cross-device token synchronization", 
+                    "✅ Cross-device token synchronization",
                     "✅ ΛID validation with checksum support",
                     "✅ OAuth2/OIDC scope mapping",
                     "✅ Trinity Framework compliance"
@@ -244,7 +244,7 @@ class LukhosIdentityServer:
                     },
                     {
                         "feature": "Cross-Device Token Sync",
-                        "completion": "100%", 
+                        "completion": "100%",
                         "impact": "Seamless multi-device experience"
                     }
                 ],
@@ -256,7 +256,7 @@ class LukhosIdentityServer:
             }
         }
         return json.dumps(status, indent=2)
-    
+
     async def _get_tier_system(self) -> str:
         """Get tier system information"""
         tiers = {
@@ -283,7 +283,7 @@ class LukhosIdentityServer:
                 "features_by_tier": {
                     "basic_features": "All tiers",
                     "symbolic_selection": "Tier 1+",
-                    "multi_device_sync": "Tier 2+", 
+                    "multi_device_sync": "Tier 2+",
                     "biometric_auth": "Tier 3+",
                     "premium_features": "Tier 3+",
                     "enterprise_features": "Tier 4+"
@@ -291,7 +291,7 @@ class LukhosIdentityServer:
             }
         }
         return json.dumps(tiers, indent=2)
-    
+
     async def _get_authentication_status(self) -> str:
         """Get authentication system status"""
         auth_status = {
@@ -323,13 +323,13 @@ class LukhosIdentityServer:
                 },
                 "integration_status": {
                     "trinity_framework": "ACTIVE",
-                    "guardian_system": "MONITORED", 
+                    "guardian_system": "MONITORED",
                     "consciousness_integration": "PARTIAL"
                 }
             }
         }
         return json.dumps(auth_status, indent=2)
-    
+
     async def _get_lambda_id_system(self) -> str:
         """Get ΛID system information"""
         lambda_id_system = {
@@ -371,7 +371,7 @@ class LukhosIdentityServer:
             }
         }
         return json.dumps(lambda_id_system, indent=2)
-    
+
     async def _get_integrations_status(self) -> str:
         """Get integrations status"""
         integrations = {
@@ -392,7 +392,7 @@ class LukhosIdentityServer:
                     "browser_support": "Chrome, Firefox, Safari, Edge"
                 },
                 "cross_device_sync": {
-                    "status": "ACTIVE", 
+                    "status": "ACTIVE",
                     "sync_methods": ["encrypted_channels", "webrtc_p2p"],
                     "device_trust_scoring": "ACTIVE",
                     "sync_latency": "150ms",
@@ -412,19 +412,19 @@ class LukhosIdentityServer:
                 },
                 "trinity_integration": {
                     "⚛️_identity_core": "COMPLETE",
-                    "🧠_consciousness_aware": "PARTIAL", 
+                    "🧠_consciousness_aware": "PARTIAL",
                     "🛡️_guardian_protected": "ACTIVE"
                 }
             }
         }
         return json.dumps(integrations, indent=2)
-    
+
     # Tool implementations
     async def _validate_lambda_id(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Validate a ΛID"""
         lambda_id = args.get("lambda_id", "")
         validation_level = args.get("validation_level", "standard")
-        
+
         # Mock validation logic (in real implementation, would use actual validator)
         validation_result = {
             "lambda_id_validation": {
@@ -453,14 +453,14 @@ class LukhosIdentityServer:
                 "recommendations": []
             }
         }
-        
+
         return validation_result
-    
+
     async def _check_tier_eligibility(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Check tier eligibility"""
         user_id = args.get("user_id", "")
         target_tier = args.get("target_tier", 0)
-        
+
         eligibility_result = {
             "tier_eligibility_check": {
                 "user_id": user_id,
@@ -484,15 +484,15 @@ class LukhosIdentityServer:
                 ] if target_tier > 2 else ["Tier upgrade available"]
             }
         }
-        
+
         return eligibility_result
-    
+
     async def _generate_qr_entropy(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Generate QR with entropy"""
         session_id = args.get("session_id", "")
         entropy_bytes = args.get("entropy_bytes", 32)
         user_context = args.get("user_context", {})
-        
+
         qr_result = {
             "qr_entropy_generation": {
                 "session_id": session_id,
@@ -520,14 +520,14 @@ class LukhosIdentityServer:
                 "scan_instructions": "Scan with LUKHAS app for secure authentication"
             }
         }
-        
+
         return qr_result
-    
+
     async def _analyze_auth_performance(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Analyze authentication performance"""
         time_range = args.get("time_range", "24h")
         include_breakdown = args.get("include_breakdown", True)
-        
+
         performance_analysis = {
             "auth_performance_analysis": {
                 "time_range": time_range,
@@ -563,20 +563,20 @@ class LukhosIdentityServer:
                 ],
                 "trinity_compliance": {
                     "⚛️_identity": "OPTIMAL",
-                    "🧠_consciousness": "GOOD", 
+                    "🧠_consciousness": "GOOD",
                     "🛡️_guardian": "EXCELLENT"
                 }
             }
         }
-        
+
         return performance_analysis
-    
+
     async def _sync_cross_device_tokens(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Sync tokens across devices"""
         user_id = args.get("user_id", "")
         source_device = args.get("source_device", "")
         target_devices = args.get("target_devices", [])
-        
+
         sync_result = {
             "cross_device_token_sync": {
                 "user_id": user_id,
@@ -608,15 +608,15 @@ class LukhosIdentityServer:
                 ]
             }
         }
-        
+
         return sync_result
-    
+
     async def _identity_health_check(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Perform identity system health check"""
         include_performance = args.get("include_performance", True)
         check_integrations = args.get("check_integrations", True)
         validate_trinity = args.get("validate_trinity", True)
-        
+
         health_check = {
             "identity_system_health_check": {
                 "overall_health": "GOOD",
@@ -636,7 +636,7 @@ class LukhosIdentityServer:
                 } if include_performance else None,
                 "integration_health": {
                     "oauth2_oidc": "ACTIVE",
-                    "webauthn": "PARTIAL", 
+                    "webauthn": "PARTIAL",
                     "biometric_systems": "DEVELOPMENT",
                     "consciousness_system": "INTEGRATED",
                     "guardian_system": "MONITORED"
@@ -652,14 +652,14 @@ class LukhosIdentityServer:
                 ],
                 "recommendations": [
                     "Complete WebAuthn/FIDO2 implementation",
-                    "Enhance biometric validation algorithms", 
+                    "Enhance biometric validation algorithms",
                     "Optimize cross-device sync performance",
                     "Add more comprehensive monitoring"
                 ],
                 "next_maintenance_window": "2025-01-15T02:00:00Z"
             }
         }
-        
+
         return health_check
 
 
@@ -667,10 +667,10 @@ async def main():
     """Main MCP server entry point"""
     project_root = os.environ.get('LUKHAS_PROJECT_ROOT', '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM')
     identity_module_path = os.environ.get('IDENTITY_MODULE_PATH', f'{project_root}/governance/identity')
-    
+
     # Initialize the identity server
     identity_server = LukhosIdentityServer(project_root, identity_module_path)
-    
+
     # Run the server
     async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
         await identity_server.server.run(

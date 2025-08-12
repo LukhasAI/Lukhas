@@ -4,6 +4,10 @@ NIAS Comprehensive Ad Demo
 Shows various advertising scenarios and targeting
 """
 
+import asyncio
+import sys
+from pathlib import Path
+
 from nias_core import (
     NIΛS,
     ConsentLevel,
@@ -11,9 +15,6 @@ from nias_core import (
     MessageTier,
     SymbolicMessage,
 )
-import asyncio
-import sys
-from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 

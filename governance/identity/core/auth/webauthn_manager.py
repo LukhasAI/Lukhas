@@ -15,16 +15,19 @@ Features:
 """
 
 import base64
-import hashlib
 import json
 import secrets
 import time
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 try:
-    from webauthn import generate_registration_options, verify_registration_response
-    from webauthn import generate_authentication_options, verify_authentication_response
+    from webauthn import (
+        generate_authentication_options,
+        generate_registration_options,
+        verify_authentication_response,
+        verify_registration_response,
+    )
     from webauthn.helpers import structs
     WEBAUTHN_AVAILABLE = True
 except ImportError:
@@ -35,7 +38,7 @@ except ImportError:
 
 class WebAuthnCredential:
     """WebAuthn credential data structure"""
-    
+
     def __init__(self, credential_data: Dict):
         self.credential_id = credential_data.get('credential_id', '')
         self.public_key = credential_data.get('public_key', '')
@@ -43,10 +46,10 @@ class WebAuthnCredential:
         self.user_id = credential_data.get('user_id', '')
         self.authenticator_data = credential_data.get('authenticator_data', {})
         self.created_at = credential_data.get('created_at', datetime.utcnow().isoformat())
-        self.last_used = credential_data.get('last_used', None)
+        self.last_used = credential_data.get('last_used')
         self.tier_level = credential_data.get('tier_level', 0)
         self.device_type = credential_data.get('device_type', 'unknown')
-        
+
     def to_dict(self) -> Dict:
         """Convert credential to dictionary"""
         return {
@@ -64,27 +67,27 @@ class WebAuthnCredential:
 
 class WebAuthnManager:
     """⚛️🧠🛡️ Trinity-compliant WebAuthn/FIDO2 authentication manager"""
-    
+
     def __init__(self, config: Optional[Dict] = None):
         self.config = config or {}
         self.rp_id = self.config.get('rp_id', 'lukhas.ai')
         self.rp_name = self.config.get('rp_name', 'LUKHAS AI Identity System')
         self.origin = self.config.get('origin', 'https://lukhas.ai')
-        
+
         # Credential storage (in production, would use database)
         self.credentials: Dict[str, List[WebAuthnCredential]] = {}
         self.pending_registrations: Dict[str, Dict] = {}
         self.pending_authentications: Dict[str, Dict] = {}
-        
+
         # Performance optimization
         self.validation_cache = {}
         self.challenge_cache = {}
-        
+
         # Trinity Framework integration
         self.guardian_validator = None      # 🛡️ Guardian
         self.consciousness_tracker = None   # 🧠 Consciousness
         self.identity_verifier = None       # ⚛️ Identity
-        
+
         # Tier-based authenticator requirements
         self.tier_requirements = {
             0: {'user_verification': False, 'platform_attachment': 'any'},
@@ -94,20 +97,20 @@ class WebAuthnManager:
             4: {'user_verification': True, 'platform_attachment': 'platform'},
             5: {'user_verification': True, 'platform_attachment': 'platform', 'resident_key': True}
         }
-        
-    def generate_registration_options(self, user_id: str, user_name: str, 
+
+    def generate_registration_options(self, user_id: str, user_name: str,
                                     user_display_name: str, user_tier: int = 0) -> Dict[str, Any]:
         """🔐 Generate WebAuthn registration options for new credential"""
         try:
             start_time = time.time()
-            
+
             # Generate challenge
             challenge = secrets.token_bytes(32)
             challenge_b64 = base64.urlsafe_b64encode(challenge).decode().rstrip('=')
-            
+
             # Get tier requirements
             tier_reqs = self.tier_requirements.get(user_tier, self.tier_requirements[0])
-            
+
             # Exclude existing credentials for this user
             existing_credentials = []
             if user_id in self.credentials:
@@ -115,7 +118,7 @@ class WebAuthnManager:
                     {'id': cred.credential_id, 'type': 'public-key'}
                     for cred in self.credentials[user_id]
                 ]
-            
+
             # Generate registration options
             registration_options = {
                 'challenge': challenge_b64,
@@ -148,7 +151,7 @@ class WebAuthnManager:
                     'hmacCreateSecret': True if user_tier >= 4 else False
                 }
             }
-            
+
             # Store pending registration
             registration_id = f"reg_{secrets.token_hex(16)}"
             self.pending_registrations[registration_id] = {
@@ -159,13 +162,13 @@ class WebAuthnManager:
                 'created_at': datetime.utcnow().isoformat(),
                 'expires_at': (datetime.utcnow() + timedelta(minutes=5)).isoformat()
             }
-            
+
             # 🧠 Update consciousness patterns
             self._update_consciousness_patterns(user_id, 'webauthn_registration_initiated')
-            
+
             # Performance tracking
             generation_time = (time.time() - start_time) * 1000
-            
+
             return {
                 'success': True,
                 'registration_id': registration_id,
@@ -175,54 +178,54 @@ class WebAuthnManager:
                 'guardian_approved': True,
                 'expires_at': self.pending_registrations[registration_id]['expires_at']
             }
-            
+
         except Exception as e:
             return {
                 'success': False,
                 'error': f'Registration options generation failed: {str(e)}',
                 'generation_time_ms': (time.time() - start_time) * 1000 if 'start_time' in locals() else 0
             }
-    
-    def verify_registration_response(self, registration_id: str, 
+
+    def verify_registration_response(self, registration_id: str,
                                    response: Dict[str, Any]) -> Dict[str, Any]:
         """✅ Verify WebAuthn registration response and create credential"""
         try:
             start_time = time.time()
-            
+
             # Validate pending registration
             if registration_id not in self.pending_registrations:
                 return {'success': False, 'error': 'Invalid registration ID'}
-            
+
             pending_reg = self.pending_registrations[registration_id]
-            
+
             # Check expiration
             expires_at = datetime.fromisoformat(pending_reg['expires_at'])
             if datetime.utcnow() > expires_at:
                 del self.pending_registrations[registration_id]
                 return {'success': False, 'error': 'Registration expired'}
-            
+
             # 🛡️ Guardian validation
             if not self._constitutional_validation(pending_reg['user_id'], 'webauthn_registration', response):
                 return {'success': False, 'error': 'Guardian validation failed'}
-            
+
             # Extract and validate response components
             try:
                 attestation_response = response.get('response', {})
                 client_data_json = attestation_response.get('clientDataJSON', '')
                 attestation_object = attestation_response.get('attestationObject', '')
-                
+
                 # Decode client data
                 client_data = json.loads(base64.urlsafe_b64decode(client_data_json + '==='))
-                
+
                 # Verify challenge
                 response_challenge = client_data.get('challenge', '')
                 if response_challenge != pending_reg['challenge_b64']:
                     return {'success': False, 'error': 'Challenge mismatch'}
-                
+
                 # Verify origin
                 if client_data.get('origin') != self.origin:
                     return {'success': False, 'error': 'Origin mismatch'}
-                
+
                 # Create credential record
                 credential = WebAuthnCredential({
                     'credential_id': response.get('id', ''),
@@ -237,22 +240,22 @@ class WebAuthnManager:
                     'tier_level': pending_reg['user_tier'],
                     'device_type': self._determine_device_type(response)
                 })
-                
+
                 # Store credential
                 user_id = pending_reg['user_id']
                 if user_id not in self.credentials:
                     self.credentials[user_id] = []
                 self.credentials[user_id].append(credential)
-                
+
                 # Clean up pending registration
                 del self.pending_registrations[registration_id]
-                
+
                 # 🧠 Update consciousness patterns
                 self._update_consciousness_patterns(user_id, 'webauthn_credential_registered')
-                
+
                 # Performance tracking
                 verification_time = (time.time() - start_time) * 1000
-                
+
                 return {
                     'success': True,
                     'credential_id': credential.credential_id,
@@ -263,27 +266,27 @@ class WebAuthnManager:
                     'guardian_approved': True,
                     'trinity_compliant': True
                 }
-                
+
             except (json.JSONDecodeError, ValueError) as e:
                 return {'success': False, 'error': f'Invalid response format: {str(e)}'}
-            
+
         except Exception as e:
             return {
                 'success': False,
                 'error': f'Registration verification failed: {str(e)}',
                 'verification_time_ms': (time.time() - start_time) * 1000 if 'start_time' in locals() else 0
             }
-    
-    def generate_authentication_options(self, user_id: Optional[str] = None, 
+
+    def generate_authentication_options(self, user_id: Optional[str] = None,
                                       tier_level: int = 0) -> Dict[str, Any]:
         """🔓 Generate WebAuthn authentication options"""
         try:
             start_time = time.time()
-            
+
             # Generate challenge
             challenge = secrets.token_bytes(32)
             challenge_b64 = base64.urlsafe_b64encode(challenge).decode().rstrip('=')
-            
+
             # Get allowed credentials
             allowed_credentials = []
             if user_id and user_id in self.credentials:
@@ -296,10 +299,10 @@ class WebAuthnManager:
                     for cred in self.credentials[user_id]
                     if cred.tier_level >= tier_level  # Only credentials at or above required tier
                 ]
-            
+
             # Get tier requirements
             tier_reqs = self.tier_requirements.get(tier_level, self.tier_requirements[0])
-            
+
             # Generate authentication options
             auth_options = {
                 'challenge': challenge_b64,
@@ -312,7 +315,7 @@ class WebAuthnManager:
                     'credProps': True
                 }
             }
-            
+
             # Store pending authentication
             auth_id = f"auth_{secrets.token_hex(16)}"
             self.pending_authentications[auth_id] = {
@@ -323,14 +326,14 @@ class WebAuthnManager:
                 'created_at': datetime.utcnow().isoformat(),
                 'expires_at': (datetime.utcnow() + timedelta(minutes=5)).isoformat()
             }
-            
+
             # 🧠 Update consciousness patterns
             if user_id:
                 self._update_consciousness_patterns(user_id, 'webauthn_authentication_initiated')
-            
+
             # Performance tracking
             generation_time = (time.time() - start_time) * 1000
-            
+
             return {
                 'success': True,
                 'authentication_id': auth_id,
@@ -340,37 +343,37 @@ class WebAuthnManager:
                 'generation_time_ms': generation_time,
                 'expires_at': self.pending_authentications[auth_id]['expires_at']
             }
-            
+
         except Exception as e:
             return {
                 'success': False,
                 'error': f'Authentication options generation failed: {str(e)}',
                 'generation_time_ms': (time.time() - start_time) * 1000 if 'start_time' in locals() else 0
             }
-    
-    def verify_authentication_response(self, authentication_id: str, 
+
+    def verify_authentication_response(self, authentication_id: str,
                                      response: Dict[str, Any]) -> Dict[str, Any]:
         """🔍 Verify WebAuthn authentication response"""
         try:
             start_time = time.time()
-            
+
             # Validate pending authentication
             if authentication_id not in self.pending_authentications:
                 return {'success': False, 'error': 'Invalid authentication ID'}
-            
+
             pending_auth = self.pending_authentications[authentication_id]
-            
+
             # Check expiration
             expires_at = datetime.fromisoformat(pending_auth['expires_at'])
             if datetime.utcnow() > expires_at:
                 del self.pending_authentications[authentication_id]
                 return {'success': False, 'error': 'Authentication expired'}
-            
+
             # Find credential
             credential_id = response.get('id', '')
             credential = None
             user_id = None
-            
+
             # Search for credential across users (for usernameless flow)
             for uid, creds in self.credentials.items():
                 for cred in creds:
@@ -380,50 +383,50 @@ class WebAuthnManager:
                         break
                 if credential:
                     break
-            
+
             if not credential:
                 return {'success': False, 'error': 'Credential not found'}
-            
+
             # Validate user ID if specified
             if pending_auth['user_id'] and pending_auth['user_id'] != user_id:
                 return {'success': False, 'error': 'User ID mismatch'}
-            
+
             # 🛡️ Guardian validation
             if not self._constitutional_validation(user_id, 'webauthn_authentication', response):
                 return {'success': False, 'error': 'Guardian validation failed'}
-            
+
             # Extract and validate response components
             try:
                 auth_response = response.get('response', {})
                 client_data_json = auth_response.get('clientDataJSON', '')
                 authenticator_data = auth_response.get('authenticatorData', '')
                 signature = auth_response.get('signature', '')
-                
+
                 # Decode client data
                 client_data = json.loads(base64.urlsafe_b64decode(client_data_json + '==='))
-                
+
                 # Verify challenge
                 response_challenge = client_data.get('challenge', '')
                 if response_challenge != pending_auth['challenge_b64']:
                     return {'success': False, 'error': 'Challenge mismatch'}
-                
+
                 # Verify origin
                 if client_data.get('origin') != self.origin:
                     return {'success': False, 'error': 'Origin mismatch'}
-                
+
                 # Update credential usage
                 credential.last_used = datetime.utcnow().isoformat()
                 credential.sign_count += 1
-                
+
                 # Clean up pending authentication
                 del self.pending_authentications[authentication_id]
-                
+
                 # 🧠 Update consciousness patterns
                 self._update_consciousness_patterns(user_id, 'webauthn_authentication_successful')
-                
+
                 # Performance tracking
                 verification_time = (time.time() - start_time) * 1000
-                
+
                 return {
                     'success': True,
                     'user_id': user_id,
@@ -436,17 +439,17 @@ class WebAuthnManager:
                     'trinity_compliant': True,
                     'authentication_method': 'webauthn_fido2'
                 }
-                
+
             except (json.JSONDecodeError, ValueError) as e:
                 return {'success': False, 'error': f'Invalid response format: {str(e)}'}
-            
+
         except Exception as e:
             return {
                 'success': False,
                 'error': f'Authentication verification failed: {str(e)}',
                 'verification_time_ms': (time.time() - start_time) * 1000 if 'start_time' in locals() else 0
             }
-    
+
     def get_user_credentials(self, user_id: str) -> Dict[str, Any]:
         """📋 Get all WebAuthn credentials for a user"""
         try:
@@ -457,10 +460,10 @@ class WebAuthnManager:
                     'credentials': [],
                     'total_credentials': 0
                 }
-            
+
             user_creds = self.credentials[user_id]
             credentials_info = []
-            
+
             for cred in user_creds:
                 credentials_info.append({
                     'credential_id': cred.credential_id[:16] + '...',  # Truncate for security
@@ -470,61 +473,61 @@ class WebAuthnManager:
                     'device_type': cred.device_type,
                     'sign_count': cred.sign_count
                 })
-            
+
             return {
                 'success': True,
                 'user_id': user_id,
                 'credentials': credentials_info,
                 'total_credentials': len(credentials_info)
             }
-            
+
         except Exception as e:
             return {
                 'success': False,
                 'error': f'Failed to get credentials: {str(e)}',
                 'credentials': []
             }
-    
+
     def revoke_credential(self, user_id: str, credential_id: str) -> Dict[str, Any]:
         """🚫 Revoke a WebAuthn credential"""
         try:
             if user_id not in self.credentials:
                 return {'success': False, 'error': 'User has no credentials'}
-            
+
             user_creds = self.credentials[user_id]
             credential_found = False
-            
+
             for i, cred in enumerate(user_creds):
                 if cred.credential_id == credential_id:
                     del user_creds[i]
                     credential_found = True
                     break
-            
+
             if not credential_found:
                 return {'success': False, 'error': 'Credential not found'}
-            
+
             # 🧠 Update consciousness patterns
             self._update_consciousness_patterns(user_id, 'webauthn_credential_revoked')
-            
+
             return {
                 'success': True,
                 'user_id': user_id,
                 'credential_id': credential_id[:16] + '...',
                 'revoked_at': datetime.utcnow().isoformat()
             }
-            
+
         except Exception as e:
             return {
                 'success': False,
                 'error': f'Credential revocation failed: {str(e)}'
             }
-    
+
     # Helper methods
-    
+
     def _determine_device_type(self, response: Dict[str, Any]) -> str:
         """Determine device type from WebAuthn response"""
         transports = response.get('transports', [])
-        
+
         if 'internal' in transports:
             return 'platform_authenticator'
         elif 'usb' in transports:
@@ -535,54 +538,54 @@ class WebAuthnManager:
             return 'bluetooth_authenticator'
         else:
             return 'unknown_authenticator'
-    
+
     def _constitutional_validation(self, user_id: str, operation: str, data: Any) -> bool:
         """🛡️ Guardian constitutional validation"""
         try:
             # Basic safety checks
             if not user_id or len(user_id) < 8:
                 return False
-            
+
             # Check operation type
             if operation not in ['webauthn_registration', 'webauthn_authentication']:
                 return False
-            
+
             # Validate data structure
             if not isinstance(data, dict):
                 return False
-            
+
             # Check for suspicious patterns
             data_str = str(data)
             if any(pattern in data_str.lower() for pattern in ['script', 'eval', 'javascript:']):
                 return False
-            
+
             # ⚛️ Identity integrity check
             if len(user_id) > 100:  # Prevent oversized IDs
                 return False
-            
+
             return True
-            
+
         except Exception:
             return False  # Deny on error for safety
-    
+
     def _update_consciousness_patterns(self, user_id: str, action: str):
         """🧠 Update consciousness patterns for security analysis"""
         # This would integrate with the consciousness tracking system
         timestamp = datetime.utcnow().isoformat()
         print(f"Consciousness update: {user_id} | {action} | {timestamp}")
-    
+
     def webauthn_health_check(self) -> Dict[str, Any]:
         """🏥 Perform WebAuthn system health check"""
         try:
             total_credentials = sum(len(creds) for creds in self.credentials.values())
             active_registrations = len(self.pending_registrations)
             active_authentications = len(self.pending_authentications)
-            
+
             # Clean expired pending operations
             current_time = datetime.utcnow()
             expired_regs = 0
             expired_auths = 0
-            
+
             for reg_id, reg_data in list(self.pending_registrations.items()):
                 try:
                     expires_at = datetime.fromisoformat(reg_data['expires_at'])
@@ -592,7 +595,7 @@ class WebAuthnManager:
                 except Exception:
                     del self.pending_registrations[reg_id]
                     expired_regs += 1
-            
+
             for auth_id, auth_data in list(self.pending_authentications.items()):
                 try:
                     expires_at = datetime.fromisoformat(auth_data['expires_at'])
@@ -602,7 +605,7 @@ class WebAuthnManager:
                 except Exception:
                     del self.pending_authentications[auth_id]
                     expired_auths += 1
-            
+
             return {
                 'webauthn_health_check': {
                     'overall_status': 'HEALTHY',
@@ -624,7 +627,7 @@ class WebAuthnManager:
                     }
                 }
             }
-            
+
         except Exception as e:
             return {
                 'webauthn_health_check': {
@@ -632,7 +635,7 @@ class WebAuthnManager:
                     'error': str(e)
                 }
             }
-    
+
     def _get_tier_distribution(self) -> Dict[str, int]:
         """Get distribution of credentials by tier level"""
         tier_dist = {str(i): 0 for i in range(6)}
@@ -641,7 +644,7 @@ class WebAuthnManager:
                 tier_key = str(cred.tier_level)
                 tier_dist[tier_key] += 1
         return tier_dist
-    
+
     def _get_device_type_distribution(self) -> Dict[str, int]:
         """Get distribution of credentials by device type"""
         device_dist = {}

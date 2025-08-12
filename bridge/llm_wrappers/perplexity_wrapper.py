@@ -41,10 +41,10 @@
 
 import logging
 
-from lukhas_pwm.branding.terminology import normalize_output
-
 # Module imports
 import requests
+
+from lukhas_pwm.branding.terminology import normalize_output
 
 from .env_loader import get_api_key
 

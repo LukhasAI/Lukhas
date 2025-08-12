@@ -9,11 +9,10 @@ systems, Trinity Framework validation, and intelligent context management.
 
 import asyncio
 import json
-import os
+import logging
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Sequence
-import logging
+from typing import Any, Dict, List
 
 # MCP SDK imports
 from mcp.server import Server
@@ -21,23 +20,17 @@ from mcp.server.models import InitializationOptions
 from mcp.server.stdio import stdio_server
 from mcp.types import (
     Resource,
-    Tool,
     TextContent,
-    ImageContent,
-    EmbeddedResource,
-    CallToolRequest,
-    ReadResourceRequest,
-    ListResourcesRequest,
-    ListToolsRequest,
+    Tool,
 )
 
 # LUKHAS consciousness imports
 sys.path.append(".")
 try:
+    from branding.trinity.trinity_validator import TrinityFrameworkValidator
     from consciousness.awareness_engine import ConsciousnessAwarenessEngine
     from governance.guardian_system.guardian_validator import GuardianValidator
     from memory.fold_system import MemoryFoldSystem
-    from branding.trinity.trinity_validator import TrinityFrameworkValidator
     from tools.analysis.PWM_OPERATIONAL_SUMMARY import LUKHASOperationalAnalyzer
 except ImportError as e:
     logging.warning(f"Could not import LUKHAS modules: {e}")
@@ -131,31 +124,31 @@ class LUKHASConsciousnessMCP:
             resources.extend(
                 [
                     Resource(
-                        uri=f"lukhas://consciousness/modules",
+                        uri="lukhas://consciousness/modules",
                         name="LUKHAS Consciousness Modules",
                         description="Complete mapping of all consciousness modules",
                         mimeType="application/json",
                     ),
                     Resource(
-                        uri=f"lukhas://trinity/framework",
+                        uri="lukhas://trinity/framework",
                         name="Trinity Framework (⚛️🧠🛡️)",
                         description="Core Trinity Framework principles and validation",
                         mimeType="application/json",
                     ),
                     Resource(
-                        uri=f"lukhas://consciousness/metrics",
+                        uri="lukhas://consciousness/metrics",
                         name="Consciousness System Metrics",
                         description="Real-time consciousness system health and performance",
                         mimeType="application/json",
                     ),
                     Resource(
-                        uri=f"lukhas://tasks/active",
+                        uri="lukhas://tasks/active",
                         name="Active Consciousness Tasks",
                         description="Current consciousness development tasks and priorities",
                         mimeType="text/markdown",
                     ),
                     Resource(
-                        uri=f"lukhas://agent/assignments",
+                        uri="lukhas://agent/assignments",
                         name="Agent Task Assignments",
                         description="Current Claude agent task assignments and collaboration patterns",
                         mimeType="application/json",
@@ -575,7 +568,7 @@ class LUKHASConsciousnessMCP:
         self, arguments: Dict[str, Any]
     ) -> List[TextContent]:
         """Validate content against Trinity Framework."""
-        content = arguments["content"]
+        _ = arguments["content"]  # Content validation would be implemented here
         module = arguments.get("module", "unknown")
         validation_type = arguments.get("validation_type", "code")
 
@@ -612,11 +605,11 @@ class LUKHASConsciousnessMCP:
                 + "\n".join(
                     f"- {check}" for check in validation_result["passed_checks"]
                 )
-                + f"\n\n❌ Failed Checks:\n"
+                + "\n\n❌ Failed Checks:\n"
                 + "\n".join(
                     f"- {check}" for check in validation_result["failed_checks"]
                 )
-                + f"\n\n💡 Recommendations:\n"
+                + "\n\n💡 Recommendations:\n"
                 + "\n".join(f"- {rec}" for rec in validation_result["recommendations"]),
             )
         ]
@@ -626,7 +619,7 @@ class LUKHASConsciousnessMCP:
     ) -> List[TextContent]:
         """Suggest optimal agent assignment for a task."""
         task_description = arguments["task_description"]
-        modules_involved = arguments.get("modules_involved", [])
+        _ = arguments.get("modules_involved", [])  # Would be used for enhanced assignment logic
         complexity = arguments.get("complexity", "medium")
 
         # Agent assignment logic

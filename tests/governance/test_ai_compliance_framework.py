@@ -11,6 +11,7 @@ Comprehensive tests for all compliance components including:
 
 import os
 import sys
+
 import pytest
 
 from compliance.ai_regulatory_framework.eu_ai_act.compliance_validator import (

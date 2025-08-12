@@ -7,10 +7,11 @@ Command-line interface for running symbolic anomaly analysis on dream sessions.
 Part of the Jules-13 task implementation for dream pattern detection.
 """
 
-from dream.tools.symbolic_anomaly_explorer import SymbolicAnomalyExplorer
 import argparse
 import sys
 from pathlib import Path
+
+from dream.tools.symbolic_anomaly_explorer import SymbolicAnomalyExplorer
 
 # Add parent directories to path for imports
 PROJECT_ROOT = Path(__file__).parent.parent.parent

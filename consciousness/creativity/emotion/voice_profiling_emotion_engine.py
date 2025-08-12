@@ -15,14 +15,12 @@ DEPENDENCIES:
   - core/memory/memory_manager.py
   - core/identity/identity_manager.py
 """
-import logging
-
 # 📄 MODULE: voice_profiling.py
 # 🔎 PURPOSE: Advanced voice profiling for personalized and adaptive speech synthesis
 # 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-05-08 • ✍️ AUTHOR: LUKHAS AI
-
 import copy
 import json
+import logging
 import os
 import random
 import uuid

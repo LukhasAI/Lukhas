@@ -18,9 +18,9 @@ Trinity Framework Integration: ⚛️🧠🛡️
 - 🛡️ Guardian: Safety-first modulation policies
 """
 
-from .signals import Signal, ModulationParams, SignalModulator
+from .lukhas_integration import EndocrineLLMOrchestrator, EndocrineSignalEmitter
 from .openai_integration import ModulatedOpenAIClient, build_function_definitions
-from .lukhas_integration import EndocrineSignalEmitter, EndocrineLLMOrchestrator
+from .signals import ModulationParams, Signal, SignalModulator
 
 __all__ = [
     "Signal",

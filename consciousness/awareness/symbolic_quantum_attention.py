@@ -12,11 +12,12 @@ Advanced: quantum_attention.py
 Integration Date: 2025-05-31T07:55:28.192995
 """
 
-from orchestration_src.brain.attention.quantum_attention import *  # TODO: Specify imports
-from bio.core import BioOrchestrator, ResourcePriority
 from typing import Any, Optional
 
 import numpy as np
+
+from bio.core import BioOrchestrator, ResourcePriority
+from orchestration_src.brain.attention.quantum_attention import *  # TODO: Specify imports
 
 logger = logging.getLogger("QuantumAttention")
 

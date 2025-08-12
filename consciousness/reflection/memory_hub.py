@@ -14,9 +14,8 @@ This hub coordinates all memory subsystem components and provides
 a unified interface for external systems to interact with memory.
 
 """
-import logging
-
 import asyncio
+import logging
 from datetime import datetime
 from typing import Any, Optional
 

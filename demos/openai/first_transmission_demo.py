@@ -4,13 +4,14 @@ LUKHΛS First Transmission Demo
 Demonstrates the symbolic activation and OpenAI greeting ritual
 """
 
-from governance.identity.gateway.stargate_activation import StargateActivator
 import asyncio
 import json
 import sys
 from pathlib import Path
 
 import yaml
+
+from governance.identity.gateway.stargate_activation import StargateActivator
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))

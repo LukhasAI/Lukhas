@@ -445,8 +445,8 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                 service_scores = {}
 
         # Merge results, preferring the stronger signal per emotion
-        emotions = {k: 0.0 for k in fallback.keys()}
-        for k in emotions.keys():
+        emotions = dict.fromkeys(fallback.keys(), 0.0)
+        for k in emotions:
             emotions[k] = max(
                 float(service_scores.get(k, 0.0)), float(fallback.get(k, 0.0))
             )
@@ -484,9 +484,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         # Adjust based on user emotion
         if self.enable_emotions:
-            if emotional_context.get("sadness", 0) > 0.2:
-                return EmotionalTone.EMPATHETIC
-            elif emotional_context.get("anger", 0) > 0.4:
+            if emotional_context.get("sadness", 0) > 0.2 or emotional_context.get("anger", 0) > 0.4:
                 return EmotionalTone.EMPATHETIC
             elif emotional_context.get("joy", 0) > 0.5:
                 return EmotionalTone.SUPPORTIVE

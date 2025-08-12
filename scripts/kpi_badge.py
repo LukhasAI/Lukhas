@@ -19,15 +19,15 @@ from pathlib import Path
 
 def load_json(p: str) -> dict:
     try:
-        with open(p, "r", encoding="utf-8") as f:
+        with open(p, encoding="utf-8") as f:
             return json.load(f)
     except Exception:
         return {}
 
 
 def pick_status(kpi: dict) -> tuple[str, str]:
-    w_ok = bool(((kpi.get("weekly") or {}).get("ok")))
-    m_ok = bool(((kpi.get("monthly") or {}).get("ok")))
+    w_ok = bool((kpi.get("weekly") or {}).get("ok"))
+    m_ok = bool((kpi.get("monthly") or {}).get("ok"))
     q = kpi.get("quarterly") or {}
     q_present = bool(q.get("present"))
     q_ok = bool(q.get("ok"))

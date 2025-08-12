@@ -3,7 +3,6 @@ Episodic Memory Colony Integration Module
 Provides integration wrapper for connecting the episodic memory colony to the memory hub
 """
 import logging
-
 import uuid
 from datetime import datetime
 from typing import Any, Optional

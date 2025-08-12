@@ -6,10 +6,11 @@ Maps endocrine signals to OpenAI API parameters for adaptive behavior.
 Based on the GPT5 audit recommendations.
 """
 
-import time
-import yaml
-from typing import Any, Dict, List, Optional
 import logging
+import time
+from typing import Any, Dict, List, Optional
+
+import yaml
 
 from orchestration.signals.signal_bus import Signal
 
@@ -106,7 +107,7 @@ class PromptModulator:
     Modulates OpenAI API parameters based on system signals.
     Implements the signal-to-prompt mapping from the GPT5 audit.
     """
-    
+
     def __init__(self, policy: Optional[Dict[str, Any]] = None):
         """
         Initialize modulator with policy.
@@ -118,41 +119,41 @@ class PromptModulator:
         self.last_emit_ts = {
             s["name"]: 0 for s in self.policy["signals"]
         }
-        
+
         # Cache for expression evaluation
         self._eval_cache = {}
-        
+
         logger.info("Prompt modulator initialized")
-    
+
     def load_policy(self, policy_path: str):
         """Load policy from YAML file"""
-        with open(policy_path, 'r') as f:
+        with open(policy_path) as f:
             self.policy = yaml.safe_load(f)
         logger.info(f"Loaded modulation policy from {policy_path}")
-    
+
     def _cooldown_ok(self, signal: Signal) -> bool:
         """Check if signal is outside cooldown period"""
         signal_config = next(
             (s for s in self.policy["signals"] if s["name"] == signal.name.value),
             None
         )
-        
+
         if not signal_config:
             return True
-        
+
         cooldown_ms = signal_config.get("cooldown_ms", 0)
         if cooldown_ms <= 0:
             return True
-        
+
         last_emit = self.last_emit_ts.get(signal.name.value, 0)
         current_time = time.time()
-        
+
         if (current_time - last_emit) * 1000 >= cooldown_ms:
             self.last_emit_ts[signal.name.value] = current_time
             return True
-        
+
         return False
-    
+
     def _safe_eval(
         self,
         expr: str,
@@ -168,7 +169,7 @@ class PromptModulator:
         cache_key = (expr, x, str(ctx))
         if cache_key in self._eval_cache:
             return self._eval_cache[cache_key]
-        
+
         # Build safe namespace
         safe_namespace = {
             "x": x,
@@ -178,10 +179,10 @@ class PromptModulator:
             "current": current,
             "__builtins__": {}
         }
-        
+
         if ctx:
             safe_namespace.update(ctx)
-        
+
         try:
             # Evaluate expression
             result = eval(expr, {"__builtins__": {}}, safe_namespace)
@@ -190,7 +191,7 @@ class PromptModulator:
         except Exception as e:
             logger.error(f"Error evaluating expression '{expr}': {e}")
             return current if current is not None else 0.5
-    
+
     def combine_signals(self, signals: List[Signal]) -> Dict[str, Any]:
         """
         Combine signals into modulated parameters.
@@ -203,15 +204,15 @@ class PromptModulator:
         """
         # Filter and normalize signals
         active_signals = {}
-        
+
         for signal in signals:
             if not self._cooldown_ok(signal):
                 continue
-            
+
             # Clamp signal level
             level = max(0.0, min(1.0, signal.level))
             active_signals[signal.name.value] = level
-        
+
         # Initialize default parameters
         params = {
             "temperature": 0.6,
@@ -224,37 +225,37 @@ class PromptModulator:
             "safety_mode": "balanced",
             "tool_allowlist": ["retrieval", "browser"],
         }
-        
+
         # Context for cross-signal conditions
         ctx = active_signals.copy()
-        
+
         # Apply signal modulations in precedence order
         precedence = ["alignment_risk", "stress", "ambiguity", "urgency", "novelty", "trust"]
-        
+
         for signal_name in precedence:
             if signal_name not in active_signals:
                 continue
-            
+
             x = active_signals[signal_name]
             mappings = self.policy["maps"].get(signal_name, {})
-            
+
             for param_name, rule in mappings.items():
                 current = params.get(param_name)
-                
+
                 if isinstance(rule, str):
                     # Handle conditional expressions
                     if " if " in rule and " else " in rule:
                         # Parse simple ternary: "value if condition else other"
                         parts = rule.split(" if ")
                         true_value = parts[0].strip()
-                        
+
                         else_parts = parts[1].split(" else ")
                         condition = else_parts[0].strip()
                         false_value = else_parts[1].strip()
-                        
+
                         # Evaluate condition
                         cond_result = self._safe_eval(condition, x, current, ctx)
-                        
+
                         if cond_result:
                             params[param_name] = true_value
                         else:
@@ -262,39 +263,39 @@ class PromptModulator:
                     else:
                         # Regular expression
                         params[param_name] = self._safe_eval(rule, x, current, ctx)
-                
+
                 elif isinstance(rule, list):
                     params[param_name] = rule
-        
+
         # Apply bounds
         bounds = self.policy["bounds"]
-        
+
         # Numeric bounds
         for param in ["temperature", "top_p", "memory_write", "reasoning_effort"]:
             if param in params and param in bounds:
                 min_val, max_val = bounds[param]
                 params[param] = float(max(min_val, min(max_val, params[param])))
-        
+
         # Integer bounds
         for param in ["max_output_tokens", "retrieval_k", "planner_beam"]:
             if param in params and param in bounds:
                 min_val, max_val = bounds[param]
                 params[param] = int(max(min_val, min(max_val, params[param])))
-        
+
         # Add prompt style
         safety_mode = params.get("safety_mode", "balanced")
         if safety_mode in self.policy["prompt_styles"]:
             params["prompt_style"] = self.policy["prompt_styles"][safety_mode]
-        
+
         # Add audit info
         params["_audit"] = {
             "signals": active_signals,
             "timestamp": time.time(),
             "precedence": precedence,
         }
-        
+
         return params
-    
+
     def generate_explanation(self, params: Dict[str, Any]) -> str:
         """
         Generate human-readable explanation of modulation.
@@ -307,12 +308,12 @@ class PromptModulator:
         """
         audit = params.get("_audit", {})
         signals = audit.get("signals", {})
-        
+
         if not signals:
             return "No active signals - using default parameters"
-        
+
         explanations = []
-        
+
         # Explain dominant signals
         for signal_name, level in sorted(signals.items(), key=lambda x: x[1], reverse=True):
             if level > 0.5:
@@ -324,15 +325,15 @@ class PromptModulator:
                     explanations.append(f"High ambiguity ({level:.1%}) → more retrieval and reasoning")
                 elif signal_name == "novelty":
                     explanations.append(f"High novelty ({level:.1%}) → increased creativity")
-        
+
         # Add parameter summary
         explanations.append(
             f"Parameters: temp={params.get('temperature', 0):.2f}, "
             f"safety={params.get('safety_mode', 'unknown')}"
         )
-        
+
         return "; ".join(explanations)
-    
+
     def apply_to_openai_kwargs(
         self,
         base_kwargs: Dict[str, Any],
@@ -349,17 +350,17 @@ class PromptModulator:
             Modified kwargs for OpenAI API call
         """
         kwargs = base_kwargs.copy()
-        
+
         # Apply temperature and top_p
         if "temperature" in params:
             kwargs["temperature"] = params["temperature"]
-        
+
         if "top_p" in params:
             kwargs["top_p"] = params["top_p"]
-        
+
         if "max_output_tokens" in params:
             kwargs["max_tokens"] = params["max_output_tokens"]
-        
+
         # Add system message from prompt style
         if "prompt_style" in params:
             style = params["prompt_style"]
@@ -372,27 +373,27 @@ class PromptModulator:
                             style["system_preamble"] + "\n\n" +
                             system_msg.get("content", "")
                         )
-        
+
         # Add stop sequences
         if "prompt_style" in params:
             style = params["prompt_style"]
             if "stop_sequences" in style:
                 kwargs["stop"] = style["stop_sequences"]
-        
+
         return kwargs
-    
+
     def get_tool_allowlist(self, params: Dict[str, Any]) -> List[str]:
         """Get allowed tools based on modulation"""
         return params.get("tool_allowlist", ["retrieval", "browser"])
-    
+
     def get_memory_write_strength(self, params: Dict[str, Any]) -> float:
         """Get memory write strength from modulation"""
         return params.get("memory_write", 0.5)
-    
+
     def get_retrieval_k(self, params: Dict[str, Any]) -> int:
         """Get number of documents to retrieve"""
         return params.get("retrieval_k", 5)
-    
+
     def get_planner_beam(self, params: Dict[str, Any]) -> int:
         """Get planning beam width"""
         return params.get("planner_beam", 3)

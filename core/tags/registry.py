@@ -4,12 +4,10 @@ Comprehensive registry of all tags with meanings, relationships, and human inter
 """
 
 import json
-from dataclasses import dataclass
-from dataclasses import field
+from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 
 class TagCategory(Enum):

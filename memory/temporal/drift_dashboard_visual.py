@@ -48,15 +48,16 @@ IDEA: Implement AR/VR mode for 3D drift space visualization
 """
 
 # import streamlit as st  # TODO: Install or implement streamlit
-from core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
-from trace.drift_dashboard import DriftDashboard, DriftSeverity
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from trace.drift_dashboard import DriftDashboard, DriftSeverity
 
 import pandas as pd
 import plotly.graph_objects as go
+
+from core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
 
 # Add parent directory to path for imports
 PROJECT_ROOT = Path(__file__).parent.parent
