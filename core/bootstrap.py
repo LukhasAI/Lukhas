@@ -8,6 +8,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from core.adapters.module_service_adapter import register_service_adapters
+from core.adapters.seven_agent_adapter import register_seven_agent_services
 from core.container.service_container import ServiceContainer, get_container
 from core.events.contracts import (
     ConsciousnessStateChanged,
@@ -61,6 +62,10 @@ class LUKHASBootstrap:
             # Step 3: Register service adapters
             logger.info("🔧 Registering service adapters...")
             register_service_adapters()
+            
+            # Step 3b: Register 7-agent architecture services
+            logger.info("⚛️🧠🛡️ Registering 7-agent architecture services...")
+            register_seven_agent_services(self.container)
 
             # Step 4: Initialize core services
             logger.info("🧠 Initializing core services...")

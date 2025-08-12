@@ -137,6 +137,29 @@ class IEmotionService(IService):
         """Regulate emotional state"""
 
 
+# Identity Service Interface
+
+
+class IIdentityService(IService):
+    """Interface for identity and authentication operations"""
+    
+    @abstractmethod
+    async def authenticate(self, credentials: dict[str, Any]) -> Optional[dict[str, Any]]:
+        """Authenticate user with credentials"""
+        
+    @abstractmethod
+    async def verify_identity(self, token: str) -> bool:
+        """Verify identity token"""
+        
+    @abstractmethod
+    async def create_identity(self, user_data: dict[str, Any]) -> str:
+        """Create new identity"""
+        
+    @abstractmethod
+    async def get_identity(self, user_id: str) -> Optional[dict[str, Any]]:
+        """Get identity information"""
+
+
 # Governance Service Interface
 
 

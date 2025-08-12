@@ -1,3 +1,0 @@
-"""
-Reasoning_Colony Module
-"""
