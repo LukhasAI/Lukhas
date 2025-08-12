@@ -26,7 +26,7 @@ APPROVED_TERMS = {
     "system_name": "LUKHAS AI",
     "consciousness_type": "quantum-inspired",
     "bio_processing": "bio-inspired",
-    "framework": "Trinity Framework"
+    "framework": "Trinity Framework",
 }
 
 # Color Schemes (for UI components)
@@ -34,7 +34,7 @@ COLORS = {
     "primary": "#2E86AB",
     "secondary": "#A23B72",
     "accent": "#F18F01",
-    "background": "#C73E1D"
+    "background": "#C73E1D",
 }
 
 
@@ -48,7 +48,7 @@ def get_trinity_description():
     return {
         "identity": f"{IDENTITY_SYMBOL} Identity (authenticity, consciousness, symbolic self)",
         "consciousness": f"{CONSCIOUSNESS_SYMBOL} Consciousness (memory, learning, neural processing)",
-        "guardian": f"{GUARDIAN_SYMBOL} Guardian (ethics, drift detection, repair)"
+        "guardian": f"{GUARDIAN_SYMBOL} Guardian (ethics, drift detection, repair)",
     }
 
 
@@ -68,8 +68,15 @@ def validate_branding_compliance(text):
 
 # Module initialization
 __all__ = [
-    'SYSTEM_NAME', 'SYSTEM_VERSION', 'TRINITY_FRAMEWORK',
-    'IDENTITY_SYMBOL', 'CONSCIOUSNESS_SYMBOL', 'GUARDIAN_SYMBOL',
-    'APPROVED_TERMS', 'COLORS',
-    'get_system_signature', 'get_trinity_description', 'validate_branding_compliance'
+    "SYSTEM_NAME",
+    "SYSTEM_VERSION",
+    "TRINITY_FRAMEWORK",
+    "IDENTITY_SYMBOL",
+    "CONSCIOUSNESS_SYMBOL",
+    "GUARDIAN_SYMBOL",
+    "APPROVED_TERMS",
+    "COLORS",
+    "get_system_signature",
+    "get_trinity_description",
+    "validate_branding_compliance",
 ]

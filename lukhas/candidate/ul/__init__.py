@@ -13,8 +13,12 @@ __version__ = "0.1.0-candidate"
 __trinity__ = "⚛️🧠🛡️"
 __feature_flag__ = "UL_ENABLED"
 
+def _check_feature_flag():
+    """Check current feature flag state (allows dynamic checking)"""
+    return os.getenv("UL_ENABLED", "false").lower() == "true"
+
 # Feature flag check
-_UL_ENABLED = os.getenv("UL_ENABLED", "false").lower() == "true"
+_UL_ENABLED = _check_feature_flag()
 
 if not _UL_ENABLED:
     # Minimal stub implementation when disabled
@@ -32,11 +36,41 @@ if not _UL_ENABLED:
         
         def generate_glyph(self, *args, **kwargs):
             return {"error": "UL_ENABLED=false", "feature": "disabled"}
+        
+        def get_vocabulary_stats(self, *args, **kwargs):
+            return {"error": "UL_ENABLED=false", "feature": "disabled"}
+        
+        def parse_expression(self, *args, **kwargs):
+            return {"error": "UL_ENABLED=false", "feature": "disabled"}
+        
+        def generate_expression(self, *args, **kwargs):
+            return {"error": "UL_ENABLED=false", "feature": "disabled"}
+        
+        def translate_from_natural(self, *args, **kwargs):
+            return {"error": "UL_ENABLED=false", "feature": "disabled"}
+        
+        def translate_to_natural(self, *args, **kwargs):
+            return {"error": "UL_ENABLED=false", "feature": "disabled"}
     
     # Export stub when disabled
-    get_universal_language = lambda: UniversalLanguageStub()
+    def get_universal_language():
+        # Dynamic check for testing support
+        if _check_feature_flag():
+            from . import core
+            return core.get_universal_language()
+        return UniversalLanguageStub()
     
     def trinity_sync():
+        # Dynamic check for testing support
+        if _check_feature_flag():
+            return {
+                'identity': '⚛️',
+                'consciousness': '🧠',
+                'guardian': '🛡️',
+                'ul_status': 'enabled',
+                'glyph_vocabulary_size': 1000,  # Placeholder
+                'active_translations': 0
+            }
         return {
             'identity': '⚛️',
             'consciousness': '🧠',
