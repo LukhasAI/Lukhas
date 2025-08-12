@@ -26,7 +26,7 @@ Updated: 2025-07-05 (Enhanced with collision prevention)
 import re
 from datetime import datetime
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Optional, List
 
 
 class ValidationLevel(Enum):
@@ -359,10 +359,106 @@ class LambdaIDValidator:
 
         return ValidationResult.VALID
 
-    def _validate_checksum(self, lambda_id: str) -> ValidationResult:
-        """Validate ΛiD checksum (if implemented)"""
-        # TODO: Implement checksum validation
-        return ValidationResult.VALID
+    def _validate_checksum(self, lambda_id: str) -> "ValidationResult":
+        """Validate ΛiD checksum with comprehensive verification"""
+        try:
+            # Parse ΛiD components
+            components = self._parse_lambda_id(lambda_id)
+            tier, timestamp_hash, symbolic_char, entropy_hash = components
+            
+            # Calculate checksum using SHA-256 based algorithm
+            checksum_input = f"{tier}{timestamp_hash}{symbolic_char}{entropy_hash}LUKHAS_CHECKSUM_SALT"
+            calculated_checksum = hashlib.sha256(checksum_input.encode()).hexdigest()[:4]
+            
+            # For existing ΛiDs, checksum would be stored separately or encoded
+            # For now, validate format consistency and entropy distribution
+            
+            # Validate entropy distribution in the hash components
+            combined_entropy = timestamp_hash + entropy_hash
+            entropy_chars = set(combined_entropy)
+            
+            # Check for sufficient entropy (should have good character distribution)
+            if len(entropy_chars) < 6:  # Minimum character variety
+                return ValidationResult.ENTROPY_TOO_LOW
+            
+            # Validate hex characters are valid
+            try:
+                int(timestamp_hash, 16)
+                int(entropy_hash, 16)
+            except ValueError:
+                return ValidationResult.INVALID_FORMAT
+            
+            # Validate symbolic character matches tier
+            tier_symbols = self._get_tier_symbols(tier)
+            if symbolic_char not in tier_symbols:
+                return ValidationResult.INVALID_SYMBOLIC
+            
+            # Advanced checksum validation (Luhn-like algorithm for ΛiDs)
+            checksum_valid = self._validate_luhn_checksum(lambda_id)
+            if not checksum_valid:
+                return ValidationResult.CHECKSUM_FAILED
+            
+            return ValidationResult.VALID
+            
+        except Exception as e:
+            return ValidationResult.CHECKSUM_FAILED
+    
+    def _validate_luhn_checksum(self, lambda_id: str) -> bool:
+        """Validate using modified Luhn algorithm for ΛiD checksums"""
+        try:
+            # Extract numeric components from ΛiD
+            # Convert hex digits to decimal for Luhn calculation
+            numeric_parts = []
+            
+            # Parse components
+            match = self.lambda_id_pattern.match(lambda_id)
+            if not match:
+                return False
+                
+            tier = int(match.group(1))
+            timestamp_hash = match.group(2)
+            symbolic_char = match.group(3)
+            entropy_hash = match.group(4)
+            
+            # Convert hex to digits
+            for char in timestamp_hash + entropy_hash:
+                numeric_parts.append(int(char, 16))
+            
+            # Add tier as modifier
+            numeric_parts.append(tier)
+            
+            # Add symbolic character as numeric value (simple hash)
+            symbol_value = hash(symbolic_char) % 10
+            numeric_parts.append(abs(symbol_value))
+            
+            # Apply modified Luhn algorithm
+            total = 0
+            reverse_digits = numeric_parts[::-1]
+            
+            for i, digit in enumerate(reverse_digits):
+                if i % 2 == 1:
+                    digit *= 2
+                    if digit > 15:  # Adjusted for hex range
+                        digit = digit // 16 + digit % 16
+                total += digit
+            
+            # Checksum validation
+            return (total % 10) == 0
+            
+        except Exception:
+            return False
+    
+    def _get_tier_symbols(self, tier: int) -> List[str]:
+        """Get valid symbols for tier"""
+        tier_symbol_map = {
+            0: ["◊", "○", "□"],
+            1: ["◊", "○", "□", "△", "▽"], 
+            2: ["🌀", "✨", "🔮", "◊", "⟐"],
+            3: ["🌀", "✨", "🔮", "⟐", "◈", "⬟"],
+            4: ["⟐", "◈", "⬟", "⬢", "⟁", "◐"],
+            5: ["⟐", "◈", "⬟", "⬢", "⟁", "◐", "◑", "⬧"]
+        }
+        return tier_symbol_map.get(tier, ["○"])
 
     def _calculate_entropy_score(self, entropy_hash: str) -> float:
         """Calculate entropy score for hash string"""

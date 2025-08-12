@@ -1,38 +1,81 @@
-# Testing requirements for LUKHAS AGI Enterprise System
+# Testing requirements for LUKHAS AI Identity Module
 
 # Core testing framework
-pytest>=7.0.0
+pytest>=7.4.0
 pytest-asyncio>=0.21.0
-pytest-cov>=4.0.0
-pytest-mock>=3.10.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+pytest-xdist>=3.3.0
+pytest-benchmark>=4.0.0
+pytest-timeout>=2.1.0
 
 # Testing utilities
-faker>=18.0.0
-factory-boy>=3.2.0
+faker>=19.0.0
+factory-boy>=3.3.0
+
+# Performance and memory profiling
+memory-profiler>=0.60.0
+psutil>=5.9.0
+py-spy>=0.3.14
 
 # Async testing
 aiofiles>=23.0.0
 aioresponses>=0.7.4
+aiohttp>=3.8.0
+anyio>=3.7.0
 
 # Mocking and fixtures
 responses>=0.23.0
-freezegun>=1.2.0
+freezegun>=1.2.2
+respx>=0.20.0
 
 # Code quality
 black>=23.0.0
 isort>=5.12.0
 flake8>=6.0.0
-mypy>=1.0.0
+mypy>=1.5.0
+ruff>=0.0.280
 
 # Performance testing
 pytest-benchmark>=4.0.0
 locust>=2.0.0
 
 # Security testing
-bandit>=1.7.0
+bandit[toml]>=1.7.5
 safety>=2.3.0
+
+# Image processing for QR code tests
+Pillow>=10.0.0
+qrcode[pil]>=7.4.2
+
+# Cryptography and authentication
+cryptography>=41.0.0
+PyJWT[crypto]>=2.8.0
+webauthn>=1.11.0
+passlib>=1.7.4
+
+# HTTP and API testing
+httpx>=0.24.0
+requests>=2.31.0
+
+# Database testing
+pytest-postgresql>=5.0.0
+sqlalchemy>=2.0.0
 
 # Reporting
 pytest-html>=3.2.0
 pytest-json-report>=1.5.0
 pytest-metadata>=3.0.0
+junitparser>=3.1.0
+coverage[toml]>=7.2.0
+coverage-badge>=1.1.0
+
+# Trinity Framework specific
+pydantic>=2.0.0
+tenacity>=8.2.0
+click>=8.1.0
+structlog>=23.0.0
+prometheus-client>=0.17.0
+
+# Development utilities
+pre-commit>=3.3.0

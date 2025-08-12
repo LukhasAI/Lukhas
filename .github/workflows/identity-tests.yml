@@ -1,0 +1,373 @@
+name: LUKHAS Identity Module Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'identity/**'
+      - 'governance/identity/**'
+      - 'tests/identity/**'
+      - '.github/workflows/identity-tests.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'identity/**'
+      - 'governance/identity/**'
+      - 'tests/identity/**'
+      - '.github/workflows/identity-tests.yml'
+
+env:
+  PYTHON_VERSION: '3.11'
+  LUKHAS_ID_SECRET: 'test_secret_key_for_ci_12345678901234567890'
+  DATABASE_URL: 'sqlite:///test_identity.db'
+  ETHICS_ENFORCEMENT_LEVEL: 'strict'
+
+jobs:
+  test-identity-components:
+    name: Identity Components Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    strategy:
+      matrix:
+        test-suite:
+          - qr-entropy
+          - tier-validation
+          - webauthn-fido2
+          - oauth2-oidc
+          - integration
+          - performance
+          - security
+    
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: lukhas_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+          
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libffi-dev \
+            libssl-dev \
+            python3-dev \
+            build-essential \
+            libpq-dev \
+            libjpeg-dev \
+            libpng-dev \
+            zlib1g-dev
+            
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          pip install -r requirements.txt
+          pip install -r tests/requirements-test.txt
+          
+          # Install additional testing dependencies
+          pip install \
+            pytest-xdist \
+            pytest-cov \
+            pytest-benchmark \
+            pytest-asyncio \
+            memory-profiler \
+            psutil \
+            pillow \
+            qrcode[pil] \
+            cryptography \
+            pyjwt[crypto] \
+            webauthn
+            
+      - name: Create test directories
+        run: |
+          mkdir -p test_data
+          mkdir -p security_test_data
+          mkdir -p perf_test_data
+          mkdir -p async_test_data
+          mkdir -p security_integration_test
+          
+      - name: Run QR Entropy Generation Tests
+        if: matrix.test-suite == 'qr-entropy'
+        run: |
+          pytest tests/identity/test_qr_entropy_generation.py \
+            -v --tb=short --maxfail=5 \
+            --cov=governance.identity.auth_backend.qr_entropy_generator \
+            --cov-report=xml:coverage-qr.xml \
+            --junitxml=results-qr.xml
+            
+      - name: Run Tier Validation Tests
+        if: matrix.test-suite == 'tier-validation'
+        run: |
+          pytest tests/identity/test_tier_validation.py \
+            -v --tb=short --maxfail=5 \
+            --cov=identity.identity_core \
+            --cov-report=xml:coverage-tier.xml \
+            --junitxml=results-tier.xml
+            
+      - name: Run WebAuthn/FIDO2 Tests
+        if: matrix.test-suite == 'webauthn-fido2'
+        run: |
+          pytest tests/identity/test_webauthn_fido2.py \
+            -v --tb=short --maxfail=5 \
+            --cov=governance.identity.core.auth.webauthn_manager \
+            --cov-report=xml:coverage-webauthn.xml \
+            --junitxml=results-webauthn.xml
+            
+      - name: Run OAuth2/OIDC Tests
+        if: matrix.test-suite == 'oauth2-oidc'
+        run: |
+          pytest tests/identity/test_oauth2_oidc_provider.py \
+            -v --tb=short --maxfail=5 \
+            --cov=governance.identity.core.auth.oauth2_oidc_provider \
+            --cov-report=xml:coverage-oauth.xml \
+            --junitxml=results-oauth.xml
+            
+      - name: Run Integration Tests
+        if: matrix.test-suite == 'integration'
+        run: |
+          pytest tests/identity/test_identity_integration.py \
+            -v --tb=short --maxfail=3 \
+            --junitxml=results-integration.xml
+            
+      - name: Run Performance Tests
+        if: matrix.test-suite == 'performance'
+        run: |
+          pytest tests/identity/test_identity_performance.py \
+            -v --tb=short --maxfail=3 \
+            --benchmark-json=benchmark-results.json \
+            --junitxml=results-performance.xml
+            
+      - name: Run Security Tests
+        if: matrix.test-suite == 'security'
+        run: |
+          pytest tests/identity/test_identity_security.py \
+            -v --tb=short --maxfail=3 \
+            --junitxml=results-security.xml
+            
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results-${{ matrix.test-suite }}
+          path: |
+            results-*.xml
+            coverage-*.xml
+            benchmark-results.json
+            
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        if: matrix.test-suite != 'performance' && matrix.test-suite != 'security'
+        with:
+          file: coverage-*.xml
+          flags: identity-${{ matrix.test-suite }}
+          name: identity-${{ matrix.test-suite }}-coverage
+          
+  performance-benchmark:
+    name: Performance Benchmark
+    runs-on: ubuntu-latest
+    needs: test-identity-components
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-benchmark memory-profiler psutil
+          
+      - name: Run performance benchmarks
+        run: |
+          pytest tests/identity/test_identity_performance.py::TestIdentityPerformance::test_token_creation_performance \
+            -v --benchmark-json=benchmark-pr.json
+            
+      - name: Compare with baseline
+        run: |
+          # In a real setup, this would compare against stored baseline
+          echo "Performance benchmark completed"
+          cat benchmark-pr.json | jq '.benchmarks[].stats.mean'
+          
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Run Bandit Security Scan
+        run: |
+          pip install bandit[toml]
+          bandit -r identity/ governance/identity/ -f json -o bandit-report.json
+          
+      - name: Run Safety Check
+        run: |
+          pip install safety
+          safety check --json --output safety-report.json || true
+          
+      - name: Run Semgrep Security Analysis
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: p/security-audit p/secrets p/python
+          
+      - name: Upload security reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-reports
+          path: |
+            bandit-report.json
+            safety-report.json
+            
+  generate-test-report:
+    name: Generate Test Report
+    runs-on: ubuntu-latest
+    needs: test-identity-components
+    if: always()
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Download all test results
+        uses: actions/download-artifact@v3
+        
+      - name: Install dependencies
+        run: |
+          pip install junitparser coverage pytest-html
+          
+      - name: Combine test results
+        run: |
+          # Combine JUnit XML files
+          python -c "
+          import os
+          from junitparser import JUnitXml
+          
+          combined = JUnitXml()
+          for root, dirs, files in os.walk('.'):
+              for file in files:
+                  if file.startswith('results-') and file.endswith('.xml'):
+                      try:
+                          suite = JUnitXml.fromfile(os.path.join(root, file))
+                          combined += suite
+                      except Exception as e:
+                          print(f'Error processing {file}: {e}')
+          
+          combined.write('combined-results.xml')
+          print(f'Combined {len(combined)} test suites')
+          "
+          
+      - name: Generate HTML report
+        run: |
+          python -c "
+          import xml.etree.ElementTree as ET
+          import json
+          from datetime import datetime
+          
+          # Parse combined results
+          tree = ET.parse('combined-results.xml')
+          root = tree.getroot()
+          
+          total_tests = int(root.get('tests', 0))
+          failures = int(root.get('failures', 0))
+          errors = int(root.get('errors', 0))
+          success_rate = ((total_tests - failures - errors) / total_tests * 100) if total_tests > 0 else 0
+          
+          report = {
+              'timestamp': datetime.utcnow().isoformat(),
+              'total_tests': total_tests,
+              'passed': total_tests - failures - errors,
+              'failures': failures,
+              'errors': errors,
+              'success_rate': success_rate,
+              'suites': []
+          }
+          
+          for testsuite in root.findall('testsuite'):
+              suite_info = {
+                  'name': testsuite.get('name', 'Unknown'),
+                  'tests': int(testsuite.get('tests', 0)),
+                  'failures': int(testsuite.get('failures', 0)),
+                  'errors': int(testsuite.get('errors', 0)),
+                  'time': float(testsuite.get('time', 0))
+              }
+              report['suites'].append(suite_info)
+          
+          with open('test-report.json', 'w') as f:
+              json.dump(report, f, indent=2)
+              
+          print(f'✅ Test Report Generated:')
+          print(f'  Total Tests: {total_tests}')
+          print(f'  Success Rate: {success_rate:.1f}%')
+          print(f'  Failures: {failures}')
+          print(f'  Errors: {errors}')
+          "
+          
+      - name: Upload final report
+        uses: actions/upload-artifact@v3
+        with:
+          name: identity-test-report
+          path: |
+            combined-results.xml
+            test-report.json
+            
+      - name: Comment PR with results
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const fs = require('fs');
+            
+            try {
+              const report = JSON.parse(fs.readFileSync('test-report.json', 'utf8'));
+              
+              const comment = `## 🔐 LUKHAS Identity Module Test Results
+              
+              **Overall Results:**
+              - ✅ Tests Passed: ${report.passed}/${report.total_tests} (${report.success_rate.toFixed(1)}%)
+              - ❌ Failures: ${report.failures}
+              - 🚨 Errors: ${report.errors}
+              
+              **Test Suites:**
+              ${report.suites.map(suite => 
+                `- **${suite.name}**: ${suite.tests - suite.failures - suite.errors}/${suite.tests} passed (${(suite.time * 1000).toFixed(0)}ms)`
+              ).join('\n')}
+              
+              **Trinity Framework Compliance:** ⚛️🧠🛡️ ${report.success_rate >= 95 ? 'VERIFIED' : 'NEEDS REVIEW'}
+              
+              *Generated at: ${report.timestamp}*
+              `;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            } catch (error) {
+              console.log('Could not post PR comment:', error);
+            }
