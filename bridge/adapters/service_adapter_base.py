@@ -146,7 +146,7 @@ class ResilienceManager:
 
 
 class TelemetryCollector:
-    """Metrics and Λ-trace emission"""
+    """Enhanced metrics and Λ-trace emission with comprehensive audit trail logging"""
 
     def __init__(self, adapter_name: str):
         self.adapter_name = adapter_name
@@ -156,15 +156,21 @@ class TelemetryCollector:
             "failure_count": 0,
             "total_latency_ms": 0,
             "capability_tokens_used": [],
-            "last_trace_id": None
+            "last_trace_id": None,
+            "security_events": [],
+            "dangerous_operations": 0,
+            "consent_denials": 0,
+            "rate_limit_hits": 0
         }
         self.ledger = ConsentLedgerV1() if ConsentLedgerV1 else None
+        self.audit_trail = []  # In-memory audit trail
 
     def record_request(self, lid: str, action: str, resource: str,
                       capability_token: Optional[CapabilityToken],
                       latency_ms: float, success: bool, context: Optional[Dict] = None):
-        """Record metrics and emit Λ-trace with Trinity Framework integration"""
+        """Enhanced request recording with comprehensive audit trail and Λ-trace integration"""
 
+        # Update basic metrics
         self.metrics["request_count"] += 1
         if success:
             self.metrics["success_count"] += 1
@@ -172,16 +178,57 @@ class TelemetryCollector:
             self.metrics["failure_count"] += 1
         self.metrics["total_latency_ms"] += latency_ms
 
+        # Track security-specific metrics
+        if context:
+            if context.get("denial_type"):
+                self.metrics["consent_denials"] += 1
+                self.metrics["security_events"].append({
+                    "type": "consent_denial",
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "lid": lid,
+                    "action": action,
+                    "reason": context.get("reason", "Unknown")
+                })
+            
+            if "dangerous_operation" in context.get("approval_type", ""):
+                self.metrics["dangerous_operations"] += 1
+                self.metrics["security_events"].append({
+                    "type": "dangerous_operation",
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "lid": lid,
+                    "action": action,
+                    "confirmed": context.get("confirmed", False)
+                })
+            
+            if context.get("reason") == "rate_limit_exceeded":
+                self.metrics["rate_limit_hits"] += 1
+
         if capability_token:
             self.metrics["capability_tokens_used"].append(capability_token.token_id)
 
-        # Emit Λ-trace if ledger available - Trinity Framework integration
+        # Create comprehensive audit trail entry
+        audit_entry = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "adapter": self.adapter_name,
+            "lid": lid,
+            "action": action,
+            "resource": resource,
+            "success": success,
+            "latency_ms": latency_ms,
+            "capability_token_id": capability_token.token_id if capability_token else None,
+            "context": context or {},
+            "trace_id": None  # Will be filled by Λ-trace
+        }
+
+        # Emit Λ-trace if ledger available - Enhanced Trinity Framework integration
         if self.ledger and PolicyVerdict:
             trace_context = {
                 "adapter": self.adapter_name,
                 "latency_ms": latency_ms,
                 "success": success,
-                "trinity_framework": "⚛️🧠🛡️"
+                "trinity_framework": "⚛️🧠🛡️",
+                "audit_entry_id": len(self.audit_trail),
+                "security_level": self._assess_security_level(action, context)
             }
             if context:
                 trace_context.update(context)
@@ -196,6 +243,25 @@ class TelemetryCollector:
                 context=trace_context
             )
             self.metrics["last_trace_id"] = trace.trace_id
+            audit_entry["trace_id"] = trace.trace_id
+
+        # Store in audit trail
+        self.audit_trail.append(audit_entry)
+        
+        # Keep audit trail manageable (last 1000 entries)
+        if len(self.audit_trail) > 1000:
+            self.audit_trail = self.audit_trail[-1000:]
+
+    def _assess_security_level(self, action: str, context: Optional[Dict]) -> str:
+        """Assess security level of operation for audit purposes"""
+        if context and context.get("denial_type"):
+            return "high_risk"
+        elif "delete" in action.lower() or "remove" in action.lower():
+            return "medium_risk"
+        elif "read" in action.lower() or "list" in action.lower():
+            return "low_risk"
+        else:
+            return "medium_risk"
 
     def get_metrics(self) -> Dict:
         """Get current metrics"""
@@ -482,6 +548,74 @@ class BaseServiceAdapter(ABC):
             except Exception:
                 return None
         return None
+    
+    async def detect_duress_signal(self, lid: str, request_data: Dict) -> Dict[str, Any]:
+        """🚨 Detect duress/shadow gestures (Canary Pack 5)"""
+        
+        duress_indicators = {
+            "temporal_anomalies": [],
+            "behavioral_anomalies": [],
+            "pattern_anomalies": [],
+            "risk_score": 0.0
+        }
+        
+        # Check for temporal anomalies (unusual timing)
+        current_hour = datetime.now().hour
+        if current_hour < 6 or current_hour > 22:  # Late night/early morning
+            duress_indicators["temporal_anomalies"].append("unusual_time_access")
+            duress_indicators["risk_score"] += 0.3
+        
+        # Check for rapid successive requests
+        if hasattr(self, '_last_request_time'):
+            time_diff = time.time() - self._last_request_time
+            if time_diff < 5:  # Less than 5 seconds between requests
+                duress_indicators["behavioral_anomalies"].append("rapid_requests")
+                duress_indicators["risk_score"] += 0.4
+        
+        self._last_request_time = time.time()
+        
+        # Check for pattern anomalies (specific duress patterns)
+        request_str = str(request_data).lower()
+        duress_patterns = {
+            "help_me": 0.8,
+            "emergency": 0.7,
+            "forced": 0.6,
+            "under_threat": 0.9,
+            "not_me": 0.5
+        }
+        
+        for pattern, score in duress_patterns.items():
+            if pattern in request_str:
+                duress_indicators["pattern_anomalies"].append(pattern)
+                duress_indicators["risk_score"] += score
+        
+        # Check for shadow gesture sequences (specific key combinations)
+        if request_data.get("shadow_sequence"):
+            duress_indicators["pattern_anomalies"].append("shadow_sequence_detected")
+            duress_indicators["risk_score"] += 0.9
+        
+        # Evaluate overall risk
+        is_duress = duress_indicators["risk_score"] > 0.7
+        
+        if is_duress:
+            # Log duress detection
+            await self._log_denial(lid, "duress_detected", "security_threat", 
+                                 f"Duress signals detected: {duress_indicators}")
+            
+            # Notify security systems
+            await self.notify_consciousness("duress_detected", {
+                "lid": lid,
+                "indicators": duress_indicators,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "requires_investigation": True
+            })
+        
+        return {
+            "duress_detected": is_duress,
+            "risk_score": duress_indicators["risk_score"],
+            "indicators": duress_indicators,
+            "recommended_action": "block_and_investigate" if is_duress else "allow"
+        }
 
 
 class DryRunPlanner:
@@ -542,6 +676,52 @@ class DryRunPlanner:
 # Critical fix: Add ServiceAdapterBase alias for backward compatibility
 ServiceAdapterBase = BaseServiceAdapter
 
+# Rate limiting implementation
+class RateLimiter:
+    """🚦 Rate limiter for adapter operations (Canary Pack 5)"""
+    
+    def __init__(self, max_requests: int = 100, window_seconds: int = 60):
+        self.max_requests = max_requests
+        self.window_seconds = window_seconds
+        self.requests = {}  # lid -> [(timestamp, action), ...]
+    
+    def is_allowed(self, lid: str, action: str) -> Dict[str, Any]:
+        """Check if request is within rate limits"""
+        now = time.time()
+        
+        # Initialize if new user
+        if lid not in self.requests:
+            self.requests[lid] = []
+        
+        # Clean old requests outside window
+        self.requests[lid] = [
+            (ts, act) for ts, act in self.requests[lid] 
+            if now - ts < self.window_seconds
+        ]
+        
+        # Check if over limit
+        current_count = len(self.requests[lid])
+        
+        if current_count >= self.max_requests:
+            return {
+                "allowed": False,
+                "reason": "rate_limit_exceeded",
+                "current_count": current_count,
+                "max_requests": self.max_requests,
+                "window_seconds": self.window_seconds,
+                "retry_after": self.window_seconds
+            }
+        
+        # Record this request
+        self.requests[lid].append((now, action))
+        
+        return {
+            "allowed": True,
+            "current_count": current_count + 1,
+            "remaining": self.max_requests - current_count - 1
+        }
+
+
 # Export list for proper module imports
 __all__ = [
     "BaseServiceAdapter",
@@ -551,5 +731,6 @@ __all__ = [
     "ResilienceManager",
     "TelemetryCollector",
     "DryRunPlanner",
+    "RateLimiter",
     "with_resilience"
 ]
