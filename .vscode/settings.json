@@ -21,11 +21,9 @@
   "consciousness.development.mode": true,
   "trinity.framework.active": true,
   "lukhas.pwm.project": true,
-  
   // Python Environment
   "python.defaultInterpreterPath": "./.venv/bin/python",
   "python.terminal.activateEnvironment": true,
-  
   // File Exclusions for LUKHAS_PWM
   "files.exclude": {
     "**/.git": true,
@@ -34,19 +32,16 @@
     "**/*.pyc": true,
     ".pwm_cleanup_archive": true
   },
-  
   // Search Exclusions
   "search.exclude": {
     ".venv": true,
     ".pwm_cleanup_archive": true,
     "**/__pycache__": true
   },
-  
   // LUKHAS Agent Protection Settings - CRITICAL FILES
   "agents.configs.autoBackup": true,
   "consciousness.modules.protection": true,
   "trinity.framework.preservation": true,
-  
   // Critical File Monitoring
   "files.watcherExclude": {
     "**/.git/objects/**": true,
@@ -54,7 +49,6 @@
   },
   "files.participants.timeout": 5000,
   "files.simpleDialog.enable": true,
-  
   // Claude Agent Army Integration
   "claude.contextFiles": [
     ".vscode/claude-context/project-context.md",
@@ -89,14 +83,17 @@
   ],
   "claude.project.type": "consciousness-agi",
   "claude.project.framework": "trinity",
-  "claude.project.patterns": ["lambda-id", "consciousness-aware", "bio-inspired"],
+  "claude.project.patterns": [
+    "lambda-id",
+    "consciousness-aware",
+    "bio-inspired"
+  ],
   "claude.agentConfigs": [
     "./agents/configs/consciousness-architect.yaml",
-    "./agents/configs/guardian-engineer.yaml", 
+    "./agents/configs/guardian-engineer.yaml",
     "./agents/configs/velocity-lead.yaml",
     "./agents/configs/consciousness-dev.yaml"
   ],
-  
   // Advanced IntelliSense
   "editor.suggest.preview": true,
   "editor.suggest.showKeywords": true,
@@ -107,13 +104,11 @@
     "comments": true,
     "strings": true
   },
-  
   // Consciousness Code Completion
   "editor.suggest.localityBonus": true,
   "editor.acceptSuggestionOnCommitCharacter": true,
   "editor.acceptSuggestionOnEnter": "on",
   "editor.tabCompletion": "on",
-  
   // Enhanced Autosave Configuration - PREVENT DATA LOSS
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
@@ -122,18 +117,15 @@
   "workbench.editor.restoreViewState": true,
   "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromQuickOpen": false,
-  
   // Backup and Recovery Enhancement
   "files.enableTrash": true,
   "editor.largeFileOptimizations": false,
   "workbench.editor.untitled.hint": "hidden",
   "workbench.editor.closeOnFileDelete": false,
-  
   // Session Recovery
   "window.restoreWindows": "all",
   "window.restoreFullscreen": true,
   "workbench.startupEditor": "welcomePageInEmptyWorkbench",
-  
   // Advanced Formatting
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
@@ -142,34 +134,32 @@
     "source.organizeImports": "explicit",
     "source.fixAll": "explicit"
   },
-  // Set a valid default formatter (built-in or available)
-  "editor.defaultFormatter": "ms-python.black-formatter",
-  
+  // Set a valid default formatter for Python
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  // Set a valid default formatter for JSONC
   // Trinity Framework Highlighting
   "editor.semanticHighlighting.enabled": true,
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": "active",
   "editor.guides.highlightActiveIndentation": true,
-  
   // Consciousness Minimap
   "editor.minimap.enabled": true,
   "editor.minimap.showSlider": "always",
   "editor.minimap.renderCharacters": true,
   "editor.minimap.maxColumn": 120,
-  
   // Advanced Search
   "search.seedWithNearestWord": true,
   "search.seedOnFocus": true,
   "search.smartCase": true,
   "search.globalFindClipboard": true,
-  
   // Consciousness Breadcrumbs
   "breadcrumbs.enabled": true,
   "breadcrumbs.showKeys": true,
   "breadcrumbs.showFunctions": true,
   "breadcrumbs.showConstructors": true,
   "breadcrumbs.showModules": true,
-  
   // Enhanced Git Integration - AUTOMATIC PROTECTION
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
@@ -181,7 +171,6 @@
   "git.branchSortOrder": "committerdate",
   "git.fetchOnPull": true,
   "git.pruneOnFetch": true,
-  
   // Automatic Workspace Snapshots
   "workbench.localHistory.enabled": true,
   "workbench.localHistory.maxFileSize": 262144,
@@ -190,10 +179,19 @@
     "**/.venv/**": true,
     "**/node_modules/**": true
   },
-  
   // Consciousness Debugging
   "debug.allowBreakpointsEverywhere": true,
   "debug.inlineValues": true,
   "debug.showBreakpointsInOverviewRuler": true,
-  "debug.console.acceptSuggestionOnEnter": "on"
+  "debug.console.acceptSuggestionOnEnter": "on",
+  "python-envs.pythonProjects": [
+    {
+      "path": "",
+      "envManager": "ms-python.python:venv",
+      "packageManager": "ms-python.python:pip"
+    }
+  ],
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
 }
