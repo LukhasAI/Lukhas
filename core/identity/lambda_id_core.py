@@ -487,6 +487,13 @@ class LukhasIdentityService:
     """
     Main Identity Service coordinating all components
     Integrates with Consent Ledger for Λ-trace audit records
+    
+    Trinity Framework Integration:
+    ⚛️ Identity: Core identity authentication and authorization
+    🧠 Consciousness: Performance monitoring and adaptive optimization
+    🛡️ Guardian: Security validation and audit trail integration
+    
+    Performance Target: <100ms p95 authentication latency
     """
 
     def __init__(self):
@@ -495,11 +502,23 @@ class LukhasIdentityService:
         self.passkey_manager = WebAuthnPasskeyManager()
         self.fallback_auth = FallbackAuthMethods()
 
-        # Performance tracking
+        # Performance tracking with Trinity Framework integration
         self.metrics = {
             "auth_latencies": [],
-            "p95_latency": 0
+            "p95_latency": 0,
+            "operations_count": 0,
+            "failed_operations": 0,
+            "security_events": 0
         }
+        
+        # Trinity Framework status tracking
+        self._trinity_framework_active = {
+            "identity": True,      # ⚛️ Core identity system
+            "consciousness": True, # 🧠 Performance awareness  
+            "guardian": True       # 🛡️ Security monitoring
+        }
+        
+        logger.info("⚛️🧠🛡️ LUKHAS Identity Service initialized with Trinity Framework integration")
 
     def register_user(self, email: str, display_name: str,
                      consent_id: Optional[str] = None) -> Dict[str, Any]:
@@ -522,9 +541,9 @@ class LukhasIdentityService:
         # Generate backup codes
         backup_codes = self.fallback_auth.generate_backup_codes()
 
-        # Track performance
+        # Track performance with success status
         elapsed_ms = (time.perf_counter() - start) * 1000
-        self._track_performance(elapsed_ms)
+        self._track_performance(elapsed_ms, success=True)
 
         return {
             "lid": lid,
@@ -532,8 +551,9 @@ class LukhasIdentityService:
             "backup_codes": backup_codes,
             "performance": {
                 "latency_ms": elapsed_ms,
-                "meets_target": elapsed_ms < 100
-            }
+                "meets_target": elapsed_ms < MAX_AUTH_LATENCY_MS
+            },
+            "trinity_status": self.trinity_status
         }
 
     def authenticate(self, lid: str, method: str = "passkey",
@@ -562,9 +582,9 @@ class LukhasIdentityService:
                 "expires_in": 3600
             }
 
-        # Track performance
+        # Track performance with success status
         elapsed_ms = (time.perf_counter() - start) * 1000
-        self._track_performance(elapsed_ms)
+        self._track_performance(elapsed_ms, success=success)
 
         return {
             "success": success,
@@ -572,25 +592,64 @@ class LukhasIdentityService:
             "tokens": tokens,
             "performance": {
                 "latency_ms": elapsed_ms,
-                "meets_target": elapsed_ms < 100,
+                "meets_target": elapsed_ms < MAX_AUTH_LATENCY_MS,
                 "p95_latency": self.metrics["p95_latency"]
-            }
+            },
+            "trinity_status": self.trinity_status
         }
 
-    def _track_performance(self, latency_ms: float):
-        """Track performance metrics"""
+    @property
+    def trinity_status(self) -> Dict[str, bool]:
+        """
+        Trinity Framework integration status
+        ⚛️ Identity: Core identity authentication system
+        🧠 Consciousness: Performance monitoring and adaptive optimization  
+        🛡️ Guardian: Security validation and audit trail
+        """
+        return self._trinity_framework_active.copy()
+    
+    @property
+    def performance_metrics(self) -> Dict[str, Union[float, int, bool]]:
+        """
+        Real-time performance metrics for Trinity Framework consciousness
+        Tracks authentication latency against <100ms target
+        """
+        current_p95 = self.metrics["p95_latency"]
+        operations = self.metrics["operations_count"]
+        
+        return {
+            "p95_latency_ms": round(current_p95, 2),
+            "target_met": current_p95 < MAX_AUTH_LATENCY_MS,
+            "operations_count": operations,
+            "average_latency_ms": round(self.metrics.get("average_latency", 0), 2),
+            "failed_operations": self.metrics["failed_operations"],
+            "success_rate": round((operations - self.metrics["failed_operations"]) / max(operations, 1) * 100, 2)
+        }
+
+    def _track_performance(self, latency_ms: float, success: bool = True):
+        """Track performance metrics with Trinity Framework consciousness"""
         self.metrics["auth_latencies"].append(latency_ms)
+        self.metrics["operations_count"] += 1
+        
+        if not success:
+            self.metrics["failed_operations"] += 1
 
-        # Keep last 1000 measurements
-        if len(self.metrics["auth_latencies"]) > 1000:
-            self.metrics["auth_latencies"] = self.metrics["auth_latencies"][-1000:]
+        # Keep last 1000 measurements for accurate p95 calculation
+        if len(self.metrics["auth_latencies"]) > MAX_PERFORMANCE_SAMPLES:
+            self.metrics["auth_latencies"] = self.metrics["auth_latencies"][-MAX_PERFORMANCE_SAMPLES:]
 
-        # Calculate p95 and average
+        # Calculate p95 and average with consciousness awareness
         if self.metrics["auth_latencies"]:
             sorted_latencies = sorted(self.metrics["auth_latencies"])
             p95_index = int(len(sorted_latencies) * 0.95)
             self.metrics["p95_latency"] = sorted_latencies[p95_index]
             self.metrics["average_latency"] = sum(sorted_latencies) / len(sorted_latencies)
+            
+            # 🧠 Consciousness: Log performance awareness
+            if self.metrics["p95_latency"] > MAX_AUTH_LATENCY_MS:
+                logger.warning(f"🧠 Performance target exceeded: {self.metrics['p95_latency']:.2f}ms > {MAX_AUTH_LATENCY_MS}ms")
+            elif latency_ms > MAX_AUTH_LATENCY_MS:
+                logger.debug(f"🧠 Single operation exceeded target: {latency_ms:.2f}ms")
     
     def _validate_registration_request(self, email: str) -> None:
         """🛡️ Validate registration request for security"""
@@ -618,7 +677,7 @@ class LukhasIdentityService:
         return False  # Not implemented yet
     
     def get_performance_metrics(self) -> Dict[str, Any]:
-        """🧠 Get current performance and security metrics"""
+        """🧠 Get current performance and security metrics (Legacy method)"""
         return {
             "performance": self.metrics,
             "security": getattr(self, 'security_metrics', {}),
@@ -626,11 +685,8 @@ class LukhasIdentityService:
                 "hit_rate": getattr(self, 'cache_hit_rate', 0),
                 "cache_size": len(getattr(self, 'performance_cache', {}))
             },
-            "trinity_status": {
-                "identity": True,       # ⚛️ Always active
-                "consciousness": True,   # 🧠 Adaptive performance
-                "guardian": True        # 🛡️ Security monitoring
-            }
+            "trinity_status": self.trinity_status,
+            "performance_summary": self.performance_metrics
         }
 
 
@@ -698,15 +754,19 @@ if __name__ == "__main__":
         print(f"🛡️ Guardian: {trinity_status['guardian']}")
         print()
 
+        # Test Trinity Framework properties
+        print("⚛️ Testing Trinity Framework attributes...")
+        print(f"Trinity Status: {service.trinity_status}")
+        print(f"Performance Metrics: {service.performance_metrics}")
+        print()
+
         # Test registration with comprehensive validation
         print("📝 Registering user with validation...")
         result = service.register_user("test@lukhas.ai", "Test User")
         print(f"✅ ΛID: {result['lid']}")
         print(f"⚡ Latency: {result['performance']['latency_ms']:.2f}ms")
         print(f"🎯 Meets <{MAX_AUTH_LATENCY_MS}ms: {result['performance']['meets_target']}")
-        if 'trace_id' in result:
-            print(f"🛡️ Λ-trace: {result['trace_id']}")
-        print(f"⚛️ Trinity Status: {result.get('trinity_status', {})}")
+        print(f"⚛️ Trinity Status: {result['trinity_status']}")
 
         # Test authentication with enhanced features
         print("\n🔐 Testing authentication with Trinity Framework...")
@@ -714,17 +774,23 @@ if __name__ == "__main__":
         print(f"✅ Success: {auth['success']}")
         print(f"⚡ Latency: {auth['performance']['latency_ms']:.2f}ms")
         print(f"📊 P95 Latency: {auth['performance']['p95_latency']:.2f}ms")
-        if 'trace_id' in auth:
-            print(f"🛡️ Λ-trace: {auth['trace_id']}")
-        if 'security_status' in auth:
-            print(f"🛡️ Security: {auth['security_status']}")
+        print(f"⚛️ Trinity Status: {auth['trinity_status']}")
             
-        # Test performance metrics
-        print("\n📊 Performance & Security Metrics:")
-        metrics = service.get_performance_metrics()
-        print(f"🏃 Total Auths: {metrics['performance'].get('total_authentications', 0)}")
-        print(f"❌ Failed Auths: {metrics['performance'].get('failed_authentications', 0)}")
-        print(f"🎯 Average Latency: {metrics['performance'].get('average_latency', 0):.2f}ms")
+        # Test Trinity Framework properties after operations
+        print("\n📊 Trinity Framework Metrics After Operations:")
+        print(f"🔑 Trinity Status: {service.trinity_status}")
+        perf_metrics = service.performance_metrics
+        print(f"⚡ P95 Latency: {perf_metrics['p95_latency_ms']:.2f}ms")
+        print(f"🎯 Target Met: {perf_metrics['target_met']}")
+        print(f"🏃 Operations Count: {perf_metrics['operations_count']}")
+        print(f"📈 Success Rate: {perf_metrics['success_rate']:.1f}%")
+        
+        # Test legacy performance metrics method
+        print("\n📊 Legacy Performance & Security Metrics:")
+        legacy_metrics = service.get_performance_metrics()
+        print(f"🏃 Operations: {legacy_metrics['performance']['operations_count']}")
+        print(f"🎯 Average Latency: {legacy_metrics['performance'].get('average_latency', 0):.2f}ms")
+        print(f"⚛️ Trinity Integration: {legacy_metrics['trinity_status']}")
         
         # Test error handling
         print("\n🚨 Testing error handling...")
