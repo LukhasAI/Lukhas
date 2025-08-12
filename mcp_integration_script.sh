@@ -19,8 +19,8 @@ echo "🔧 Creating MCP server configuration..."
 cat > .claude/mcp/servers/lukhas-consciousness-config.json << 'EOF'
 {
   "lukhas-consciousness": {
-    "command": "python",
-    "args": ["mcp_servers/lukhas_consciousness/lukhas_consciousness_mcp.py"],
+  "command": "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/.venv/bin/python",
+  "args": ["mcp_servers/lukhas_consciousness/lukhas_consciousness_mcp.py"],
     "env": {
       "LUKHAS_PROJECT_ROOT": ".",
       "CONSCIOUSNESS_MODE": "true",
@@ -196,7 +196,7 @@ export MCP_LOG_LEVEL=INFO
 mkdir -p mcp_servers/logs
 
 # Start MCP server with logging
-python mcp_servers/lukhas_consciousness/lukhas_consciousness_mcp.py \
+"/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/.venv/bin/python" mcp_servers/lukhas_consciousness/lukhas_consciousness_mcp.py \
   > mcp_servers/logs/lukhas_consciousness.log 2>&1 &
 
 MCP_PID=$!
@@ -370,7 +370,7 @@ The LUKHAS Consciousness MCP (Model Context Protocol) Server provides Claude Cod
 
 4. **Test Integration**
    ```bash
-   python scripts/mcp/test_mcp_integration.py
+  "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/.venv/bin/python" scripts/mcp/test_mcp_integration.py
    ```
 
 ## Usage Examples

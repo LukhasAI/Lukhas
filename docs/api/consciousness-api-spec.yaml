@@ -1,0 +1,20 @@
+openapi: 3.0.0
+info:
+  title: LUKHAS Consciousness API
+  version: 1.0.0
+paths:
+  /consciousness/analyze:
+    post:
+      summary: Analyze consciousness patterns
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      responses:
+        "200":
+          description: Analysis result

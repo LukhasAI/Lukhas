@@ -1,0 +1,59 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    // LUKHAS_PWM Enhanced Autosave Protection
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 500,
+    "files.hotExit": "onExitAndWindowClose",
+    "workbench.editor.restoreViewState": true,
+    "workbench.localHistory.enabled": true,
+    
+    // Agent Configuration Protection
+    "lukhas.agents.autoProtect": true,
+    "consciousness.modules.backup": true,
+    "trinity.framework.guard": true,
+    
+    // Enhanced Session Management
+    "window.restoreWindows": "all",
+    "workbench.editor.closeOnFileDelete": false,
+    "workbench.editor.enablePreview": false,
+    
+    // Git Auto-Protection
+    "git.autoStash": true,
+    "git.autorefresh": true,
+    "git.timeline.enabled": true
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-python.python",
+      "ms-toolsai.jupyter",
+      "GitHub.copilot",
+      "ms-azuretools.vscode-docker",
+      "ms-vscode.vscode-json"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "🛡️ Auto-Backup LUKHAS Agents",
+        "type": "shell",
+        "command": "cp -r agents/ .auto-backup/agents-$(date +%Y%m%d-%H%M%S)/",
+        "group": "build",
+        "runOptions": {
+          "runOn": "folderOpen"
+        }
+      },
+      {
+        "label": "🔄 Auto-Save Session State",
+        "type": "shell", 
+        "command": "git add -A && git stash push -m 'Auto-save session $(date)'",
+        "group": "build"
+      }
+    ]
+  }
+}

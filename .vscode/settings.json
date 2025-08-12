@@ -1,4 +1,22 @@
 {
+  // GitHub Copilot Integration
+  "github.copilot.enable": true,
+  "github.copilot.inlineSuggest.enable": true,
+  "github.copilot.suggestionDelay": 300,
+  "github.copilot.advanced": true,
+  "github.copilot.enableCompletions": true,
+  "github.copilot.enablePanel": false,
+  "github.copilot.enableAutoCompletions": true,
+  "github.copilot.enableTabCompletions": true,
+  "github.copilot.enableStatusBar": false,
+  "github.copilot.enableSuggestions": true,
+  "github.copilot.enableInNotebooks": true,
+  "github.copilot.enableInTerminal": false,
+  "github.copilot.enableInComments": true,
+  "github.copilot.enableInMarkdown": true,
+  "github.copilot.enableInPython": true,
+  "github.copilot.enableInJupyter": true,
+  "github.copilot.enableInInteractive": true,
   // LUKHAS_PWM Consciousness Development Settings
   "consciousness.development.mode": true,
   "trinity.framework.active": true,
@@ -39,12 +57,39 @@
   
   // Claude Agent Army Integration
   "claude.contextFiles": [
+    ".vscode/claude-context/project-context.md",
+    ".vscode/claude-context/coding-standards.md",
+    ".vscode/claude-context/api-patterns.md",
+    "README.md",
+    "FINAL_IMPLEMENTATION_REPORT.md",
     "./CLAUDE_ARMY.md",
-    "./README.md", 
     "./branding/trinity/TRINITY_BRANDING_GUIDELINES.md",
     "./lukhas_pwm_config.yaml",
     "./.claude/tasks/real_consciousness_todos/"
   ],
+  "claude.autoSuggestEnabled": true,
+  "claude.suggestionDelay": 500,
+  "claude.maxSuggestions": 5,
+  "claude.codeReviewEnabled": true,
+  "claude.consciousnessPatterns": true,
+  "claude.customInstructions": "Follow LUKHAS consciousness patterns: Trinity Framework (🎭🌈🎓), symbolic vocabulary (⚛️🧠🛡️💫🌊), ΛID namespaces, Λ-trace auditing, bio-inspired design",
+  "claude.excludePatterns": [
+    "**/.venv/**",
+    "**/node_modules/**",
+    "**/__pycache__/**",
+    "**/reports/**",
+    "**/.git/**"
+  ],
+  "claude.includePatterns": [
+    "**/core/**/*.py",
+    "**/consciousness/**/*.py",
+    "**/orchestration/**/*.py",
+    "**/governance/**/*.py",
+    "**/*.md"
+  ],
+  "claude.project.type": "consciousness-agi",
+  "claude.project.framework": "trinity",
+  "claude.project.patterns": ["lambda-id", "consciousness-aware", "bio-inspired"],
   "claude.agentConfigs": [
     "./agents/configs/consciousness-architect.yaml",
     "./agents/configs/guardian-engineer.yaml", 
@@ -97,6 +142,8 @@
     "source.organizeImports": "explicit",
     "source.fixAll": "explicit"
   },
+  // Set a valid default formatter (built-in or available)
+  "editor.defaultFormatter": "ms-python.black-formatter",
   
   // Trinity Framework Highlighting
   "editor.semanticHighlighting.enabled": true,

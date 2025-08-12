@@ -2,8 +2,8 @@
 """
 Bio-inspired signal-to-prompt modulation for OpenAI API integration.
 
-This system translates LUKHAS_PWM's endocrine signals (biological-inspired "hormones") 
-into OpenAI API parameters, enabling consciousness system to modulate GPT behavior 
+This system translates LUKHAS_PWM's endocrine signals (biological-inspired "hormones")
+into OpenAI API parameters, enabling consciousness system to modulate GPT behavior
 based on internal state.
 
 Core Components:
@@ -24,12 +24,12 @@ from .lukhas_integration import EndocrineSignalEmitter, EndocrineLLMOrchestrator
 
 __all__ = [
     "Signal",
-    "ModulationParams", 
+    "ModulationParams",
     "SignalModulator",
     "ModulatedOpenAIClient",
     "build_function_definitions",
     "EndocrineSignalEmitter",
-    "EndocrineLLMOrchestrator"
+    "EndocrineLLMOrchestrator",
 ]
 
 # Version and metadata

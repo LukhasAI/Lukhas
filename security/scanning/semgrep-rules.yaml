@@ -1,0 +1,7 @@
+rules:
+  - id: consciousness-secrets
+    patterns:
+      - pattern: "secret"
+      - pattern: "consciousness"
+    message: "Potential consciousness secret exposure"
+    severity: ERROR

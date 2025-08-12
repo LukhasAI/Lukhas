@@ -1,0 +1,4 @@
+# Trivy config for LUKHAS
+severity:
+  - CRITICAL
+  - HIGH
