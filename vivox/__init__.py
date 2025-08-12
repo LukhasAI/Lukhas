@@ -4,7 +4,7 @@ DEPRECATED: This module will be removed on 2025-11-01
 Please update imports to: lukhas.candidate.vivox
 
 NOTE: This is a candidate module. Enable with feature flag:
-  VIVOX_ENABLED=true
+  VIVOX_LITE=true
 """
 
 import os
@@ -18,7 +18,7 @@ warnings.warn(
 )
 
 # Check if feature flag is enabled
-flag_name = "VIVOX_ENABLED"
+flag_name = "VIVOX_LITE"
 if os.getenv(flag_name, "false").lower() == "true":
     try:
         from lukhas.candidate.vivox import *
