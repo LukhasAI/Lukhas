@@ -16,6 +16,35 @@ from core.interfaces.services import (
     IBridgeService,
 )
 
+try:
+    from lukhas.accepted.core.telemetry import AgentSpans, instrument
+except ImportError:
+    # Fallback if telemetry not available
+    class AgentSpans:
+        @staticmethod
+        def lid_issue(*args, **kwargs):
+            from contextlib import nullcontext
+            return nullcontext()
+        @staticmethod
+        def lid_verify(*args, **kwargs):
+            from contextlib import nullcontext
+            return nullcontext()
+        @staticmethod
+        def consent_record(*args, **kwargs):
+            from contextlib import nullcontext
+            return nullcontext()
+        @staticmethod
+        def consent_check(*args, **kwargs):
+            from contextlib import nullcontext
+            return nullcontext()
+        @staticmethod
+        def adapter_metadata(*args, **kwargs):
+            from contextlib import nullcontext
+            return nullcontext()
+    
+    def instrument(func):
+        return func
+
 logger = logging.getLogger(__name__)
 
 
@@ -48,6 +77,7 @@ class LambdaIdentityServiceAdapter(IIdentityService):
                 logger.error(f"Failed to import ΛID modules: {e}")
                 self._initialized = False
                 
+    @instrument
     async def authenticate(self, credentials: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Authenticate using ΛID system with <100ms target"""
         await self.initialize()
@@ -55,12 +85,16 @@ class LambdaIdentityServiceAdapter(IIdentityService):
             return None
             
         try:
-            # Use the ΛID authentication
-            result = self._identity_service.authenticate_namespace(
-                namespace=credentials.get('namespace', 'default'),
-                token=credentials.get('token')
-            )
-            return result
+            with AgentSpans.lid_issue(
+                user_id=credentials.get('user_id', 'unknown'),
+                namespace=credentials.get('namespace', 'default')
+            ):
+                # Use the ΛID authentication
+                result = self._identity_service.authenticate_namespace(
+                    namespace=credentials.get('namespace', 'default'),
+                    token=credentials.get('token')
+                )
+                return result
         except Exception as e:
             logger.error(f"ΛID authentication failed: {e}")
             return None
@@ -72,7 +106,8 @@ class LambdaIdentityServiceAdapter(IIdentityService):
             return False
             
         try:
-            return self._identity_service.validate_token(token)
+            with AgentSpans.lid_verify(token=token):
+                return self._identity_service.validate_token(token)
         except Exception as e:
             logger.error(f"Token verification failed: {e}")
             return False
@@ -146,6 +181,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
                 logger.error(f"Failed to import Consent Ledger: {e}")
                 self._initialized = False
                 
+    @instrument
     async def check_consent(self, user_id: str, action: str) -> bool:
         """Check if user has consented to action"""
         await self.initialize()
@@ -153,10 +189,11 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
             return False
             
         try:
-            return self._consent_ledger.has_valid_consent(
-                subject_id=user_id,
-                purpose=action
-            )
+            with AgentSpans.consent_check(user_id=user_id, purpose=action):
+                return self._consent_ledger.has_valid_consent(
+                    subject_id=user_id,
+                    purpose=action
+                )
         except Exception as e:
             logger.error(f"Consent check failed: {e}")
             return False
@@ -168,12 +205,13 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
             return False
             
         try:
-            self._consent_ledger.record_consent(
-                subject_id=user_id,
-                purpose=action,
-                granted=granted
-            )
-            return True
+            with AgentSpans.consent_record(user_id=user_id, purpose=action, granted=granted):
+                self._consent_ledger.record_consent(
+                    subject_id=user_id,
+                    purpose=action,
+                    granted=granted
+                )
+                return True
         except Exception as e:
             logger.error(f"Failed to record consent: {e}")
             return False
@@ -312,6 +350,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
             logger.error(f"Failed to connect to {service}: {e}")
             return False
             
+    @instrument
     async def fetch_data(self, service: str, query: Dict[str, Any]) -> Optional[Any]:
         """Fetch data from external service"""
         await self.initialize()
@@ -321,7 +360,8 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
             return None
             
         try:
-            return await adapter.fetch(query)
+            with AgentSpans.adapter_metadata(service=service, action='fetch'):
+                return await adapter.fetch(query)
         except Exception as e:
             logger.error(f"Failed to fetch from {service}: {e}")
             return None
