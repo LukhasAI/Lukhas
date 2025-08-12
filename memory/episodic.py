@@ -5,7 +5,11 @@ Please update imports to: lukhas.accepted.memory.episodic
 """
 
 import warnings
-from lukhas.accepted.memory.episodic import *
+try:
+    from lukhas.accepted.memory.episodic import *
+except ImportError:
+    # Fallback for gradual migration
+    pass
 
 warnings.warn(
     "Import 'memory.episodic' is deprecated and will be removed on 2025-11-01. "
@@ -13,6 +17,3 @@ warnings.warn(
     DeprecationWarning,
     stacklevel=2
 )
-
-# Re-export everything for backward compatibility
-__all__ = dir()

@@ -1,0 +1,36 @@
+# LUKHAS AI Code Ownership Matrix
+# Lanes + Modules mapped to specialized agent teams
+
+# Production Lane (accepted/)
+/lukhas/accepted/             @identity-auth-specialist @consent-compliance-specialist
+/lukhas/accepted/core/        @context-orchestrator-specialist
+/lukhas/accepted/adapters/    @adapter-integration-specialist
+/lukhas/accepted/bio/         @adapter-integration-specialist @testing-devops-specialist
+/lukhas/accepted/memory/      @testing-devops-specialist
+/lukhas/accepted/colonies/    @context-orchestrator-specialist
+/lukhas/accepted/orchestrator/ @context-orchestrator-specialist
+
+# Candidate Lane (staging)
+/lukhas/candidate/ul/         @ux-feedback-specialist
+/lukhas/candidate/vivox/      @consciousness-architect
+/lukhas/candidate/qim/        @context-orchestrator-specialist
+/lukhas/candidate/colonies/   @context-orchestrator-specialist
+
+# Quarantine Lane (legacy/unsafe)
+/lukhas/quarantine/           @legacy-connector @testing-devops-specialist
+
+# Archive Lane (historical)
+/lukhas/archive/              @testing-devops-specialist
+
+# Documentation & ADRs
+/docs/ADR/                    @ux-feedback-specialist @testing-devops-specialist
+/docs/MIGRATION_GUIDE.md      @testing-devops-specialist
+
+# CI/CD & Tools
+/.github/                     @testing-devops-specialist @security-ops
+/tools/                       @testing-devops-specialist
+/.importlinter                @testing-devops-specialist
+
+# Security & Compliance
+/security/                    @consent-compliance-specialist @security-ops
+*.env*                        @security-ops
