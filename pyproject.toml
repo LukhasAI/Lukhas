@@ -98,16 +98,18 @@ testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-addopts = "-v --tb=short --strict-markers"
+addopts = "-q -n auto --maxfail=1 --disable-warnings --strict-markers --strict-config --cov=lukhas --cov-report=term-missing"
 markers = [
     "unit: Unit tests",
     "integration: Integration tests",
     "security: Security tests",
     "slow: Slow tests",
+    "live: requires live capability tokens",
 ]
 
 [tool.coverage.run]
-source = ["lukhas_pwm", "bridge", "core", "serve"]
+branch = true
+source = ["lukhas/accepted", "core", "bridge", "governance", "orchestration"]
 omit = [
     "*/tests/*",
     "*/test_*.py",
@@ -117,6 +119,9 @@ omit = [
 ]
 
 [tool.coverage.report]
+fail_under = 15
+precision = 2
+show_missing = true
 exclude_lines = [
     "pragma: no cover",
     "def __repr__",

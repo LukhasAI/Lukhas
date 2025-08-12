@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 """
-Pytest configuration and shared fixtures for LUKHAS test suite
-Provides common test utilities and symbolic validation helpers
+LUKHAS AI Test Configuration and Fixtures
+Risk-weighted testing with capability tokens and metadata-only mode
+Trinity Framework: ⚛️🧠🛡️
 """
 
 import asyncio
 import json
+import os
 import sys
+import time
+import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import Any, Dict, Optional
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -19,6 +24,9 @@ sys.path.append(str(Path(__file__).parent.parent))
 # Test configuration
 pytest_plugins = ["pytest_asyncio"]
 
+# Environment setup for metadata-only mode by default
+os.environ.setdefault('METADATA_ONLY', '1')
+
 
 @pytest.fixture(scope="session")
 def event_loop():
@@ -26,6 +34,203 @@ def event_loop():
     loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
     loop.close()
+
+
+@pytest.fixture(scope="session")
+def cap_token():
+    """
+    Session-scoped capability token for live adapter testing.
+    Only available when explicitly requested via --live flag.
+    """
+    if os.getenv('LUKHAS_TEST_LIVE', '').lower() == 'true':
+        return {
+            'token': f'cap_{uuid.uuid4().hex}',
+            'scopes': ['gmail.read', 'drive.read_metadata', 'dropbox.list'],
+            'expires_at': time.time() + 3600
+        }
+    return None
+
+
+@pytest.fixture
+def lid_user():
+    """ΛID test user fixture with <100ms perf target"""
+    return {
+        'user_id': f'lid_{uuid.uuid4().hex[:8]}',
+        'namespace': 'test',
+        'email': 'test@lukhas.ai',
+        'webauthn_registered': False,
+        'created_at': time.time(),
+        'perf_target_ms': 100
+    }
+
+
+@pytest.fixture
+def webauthn_assertion():
+    """WebAuthn assertion fixture for passkey testing"""
+    return {
+        'credential_id': uuid.uuid4().bytes,
+        'client_data': b'{"challenge":"test_challenge","origin":"https://lukhas.ai"}',
+        'authenticator_data': b'\x00' * 37,  # Minimal valid authenticator data
+        'signature': b'\x00' * 64,  # Placeholder signature
+        'user_handle': uuid.uuid4().bytes
+    }
+
+
+@pytest.fixture
+def consent_token(lid_user):
+    """Consent token fixture with GDPR/CCPA compliance"""
+    return {
+        'subject_id': lid_user['user_id'],
+        'purpose': 'test_processing',
+        'granted': True,
+        'scopes': ['basic', 'analytics'],
+        'consent_id': f'consent_{uuid.uuid4().hex[:8]}',
+        'timestamp': time.time(),
+        'expires_at': time.time() + 86400,  # 24 hours
+        'jurisdiction': 'GDPR'
+    }
+
+
+@pytest.fixture(autouse=True)
+def metadata_only(monkeypatch, request):
+    """
+    Auto-apply metadata-only mode for adapters unless @pytest.mark.live is used.
+    This prevents accidental live API calls and keeps CI deterministic.
+    """
+    if 'live' not in request.keywords:
+        monkeypatch.setenv('METADATA_ONLY', '1')
+        
+        # Mock responses for metadata-only mode
+        metadata_responses = {
+            'gmail': {
+                'messages': [
+                    {'id': 'msg_001', 'subject': 'Test Email', 'from': 'sender@test.com'},
+                    {'id': 'msg_002', 'subject': 'Another Test', 'from': 'another@test.com'}
+                ]
+            },
+            'drive': {
+                'files': [
+                    {'id': 'file_001', 'name': 'test.txt', 'size': 1024, 'mimeType': 'text/plain'},
+                    {'id': 'file_002', 'name': 'image.png', 'size': 2048, 'mimeType': 'image/png'}
+                ]
+            },
+            'dropbox': {
+                'entries': [
+                    {'id': 'dbx_001', 'name': 'folder', 'path': '/folder', '.tag': 'folder'},
+                    {'id': 'dbx_002', 'name': 'file.pdf', 'path': '/file.pdf', 'size': 3072}
+                ]
+            }
+        }
+        monkeypatch.setattr('os.environ.get', lambda k, d=None: '1' if k == 'METADATA_ONLY' else d)
+        return metadata_responses
+    else:
+        monkeypatch.setenv('METADATA_ONLY', '0')
+        monkeypatch.setenv('LUKHAS_TEST_LIVE', 'true')
+        return None
+
+
+@pytest.fixture
+def perf_tracker():
+    """Performance tracking fixture for p50/p95 measurement"""
+    class PerfTracker:
+        def __init__(self):
+            self.measurements = {}
+            
+        def start(self, operation: str) -> float:
+            start_time = time.perf_counter()
+            return start_time
+            
+        def end(self, operation: str, start_time: float) -> float:
+            elapsed_ms = (time.perf_counter() - start_time) * 1000
+            if operation not in self.measurements:
+                self.measurements[operation] = []
+            self.measurements[operation].append(elapsed_ms)
+            return elapsed_ms
+            
+        def get_p50_p95(self, operation: str) -> Dict[str, float]:
+            if operation not in self.measurements or not self.measurements[operation]:
+                return {'p50': 0.0, 'p95': 0.0}
+                
+            sorted_times = sorted(self.measurements[operation])
+            n = len(sorted_times)
+            p50_idx = int(n * 0.5)
+            p95_idx = int(n * 0.95)
+            
+            return {
+                'p50': sorted_times[p50_idx] if p50_idx < n else sorted_times[-1],
+                'p95': sorted_times[p95_idx] if p95_idx < n else sorted_times[-1],
+                'mean': sum(sorted_times) / n,
+                'count': n
+            }
+            
+        def assert_budget(self, operation: str, p95_budget_ms: float):
+            """Assert that p95 latency is within budget"""
+            stats = self.get_p50_p95(operation)
+            assert stats['p95'] <= p95_budget_ms, \
+                f"{operation} p95 ({stats['p95']:.2f}ms) exceeds budget ({p95_budget_ms}ms)"
+    
+    return PerfTracker()
+
+
+@pytest.fixture
+def trace_collector():
+    """Λ-trace collector for audit and rationale tracking"""
+    class TraceCollector:
+        def __init__(self):
+            self.traces = []
+            
+        def add_trace(self, action: str, rationale: str, tags: Dict[str, Any] = None):
+            trace = {
+                'trace_id': f'λ_{uuid.uuid4().hex[:8]}',
+                'timestamp': time.time(),
+                'action': action,
+                'rationale': rationale,
+                'tags': tags or {},
+                'privileged': tags.get('privileged', False) if tags else False
+            }
+            self.traces.append(trace)
+            return trace
+            
+        def get_privileged_actions(self):
+            return [t for t in self.traces if t['privileged']]
+            
+        def assert_rationale_exists(self, action: str):
+            matching = [t for t in self.traces if t['action'] == action]
+            assert matching, f"No Λ-trace found for action: {action}"
+            assert all(t['rationale'] for t in matching), \
+                f"Missing rationale for action: {action}"
+    
+    return TraceCollector()
+
+
+# Performance budget constants
+PERF_BUDGETS = {
+    'auth_p95_ms': 100,
+    'handoff_p95_ms': 250,
+    'e2e_demo_s': 3,
+    'consent_check_ms': 50,
+    'adapter_metadata_ms': 150
+}
+
+
+@pytest.fixture
+def perf_budgets():
+    """Performance budget fixture"""
+    return PERF_BUDGETS.copy()
+
+
+# Mark configuration for different test types
+def pytest_configure(config):
+    """Configure custom markers"""
+    config.addinivalue_line(
+        "markers", "golden_path: golden path integration test"
+    )
+    config.addinivalue_line(
+        "markers", "perf: performance test with budget validation"
+    )
+    config.addinivalue_line(
+        "markers", "risk_critical: risk-critical path requiring full coverage"
+    )
 
 
 @pytest.fixture
