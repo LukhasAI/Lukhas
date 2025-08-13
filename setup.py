@@ -13,7 +13,7 @@ long_description = readme_path.read_text() if readme_path.exists() else ""
 
 setup(
     name="lukhas-ai",
-    version="3.0.0",
+    version="1.0.0",
     author="LUKHAS AI",
     description="Production-ready consciousness-aware AI platform with Trinity Framework (⚛️🧠🛡️) - Complete namespace migration",
     long_description=long_description,

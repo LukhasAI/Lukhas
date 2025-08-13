@@ -6,7 +6,7 @@ Complete namespace migration from lukhas_pwm → lukhas
 Acceptance system available at lukhas.acceptance
 """
 
-__version__ = "3.0.0"
+__version__ = "1.0.0"
 __trinity__ = "⚛️🧠🛡️"
 
 # Main package exports (from old lukhas_pwm)

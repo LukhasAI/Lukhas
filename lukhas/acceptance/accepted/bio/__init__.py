@@ -4,7 +4,7 @@ Unified bio-inspired processing system
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-__version__ = "3.0.0"
+__version__ = "1.0.0"
 __trinity__ = "⚛️🧠🛡️"
 
 # Core components
