@@ -106,8 +106,7 @@ def main():
     # Priority directories (most likely to have issues)
     priority_dirs = [
         "bridge/llm_wrappers",
-        "lukhas",
-        "bridge/api",
+        "lukhas" "bridge/api",
         "core",
         "serve",
         "tests",
