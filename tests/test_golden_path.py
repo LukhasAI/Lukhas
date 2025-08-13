@@ -114,7 +114,7 @@ async def test_golden_path_e2e(
     handoff_start = perf_tracker.start('handoff')
     
     # Mock the Context Bus
-    with patch('orchestration.context_bus_enhanced.ContextBusEnhanced') as MockBus:
+    with patch('orchestration.context_bus_enhanced.ContextBusOrchestrator') as MockBus:
         mock_bus = MockBus.return_value
         mock_bus.publish = AsyncMock()
         mock_bus.subscribe = AsyncMock()
