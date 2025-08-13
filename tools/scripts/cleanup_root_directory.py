@@ -43,7 +43,7 @@ class RootDirectoryCleaner:
                 "*_report.json",
             ],
             "docs/planning/": ["*_PLAN.md", "*_ROADMAP.md"],
-            "tools/analysis/": ["*_analyzer.py", "*_finder.py"],
+            "tools/analysis/": ["_*.py", "*_analyzer.py", "*_finder.py"],
             "tools/scripts/": [
                 "*_consolidator.py",
                 "bootstrap.py",

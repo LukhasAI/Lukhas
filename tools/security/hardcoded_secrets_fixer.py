@@ -346,9 +346,7 @@ def main():
     report = fixer.generate_report()
 
     # Save report
-    report_path = Path(
-        "/Users/agi_dev/Lukhas/docs/reports/HARDCODED_SECRETS_AUDIT.md"
-    )
+    report_path = Path("/Users/agi_dev/Lukhas/s/reports/HARDCODED_SECRETS_AUDIT.md")
     report_path.parent.mkdir(parents=True, exist_ok=True)
     with open(report_path, "w") as f:
         f.write(report)
