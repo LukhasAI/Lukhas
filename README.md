@@ -130,6 +130,9 @@ export OPENAI_API_KEY="your-key"
 export ANTHROPIC_API_KEY="your-key"
 export GOOGLE_API_KEY="your-key"
 export PERPLEXITY_API_KEY="your-key"
+
+# Verify installation
+python -c "import lukhas; print(lukhas.get_trinity_status())"
 ```
 
 ### **Deploy Agent Army**
@@ -148,6 +151,9 @@ claude-code chat supreme-consciousness-architect "System status check"
 ```bash
 # Launch main system
 python main.py --consciousness-active
+
+# Test the new lukhas namespace
+python -c "import lukhas; print(f'🎭 Version: {lukhas.__version__}')"
 
 # Run comprehensive tests
 pytest tests/ -v --trinity-validation
@@ -231,6 +237,8 @@ python api/main.py --dev-mode
 - **Agent Orchestration**: `config/agent_orchestration.json`
 - **Claude Code Config**: `.claude/config.yaml`
 - **Task Management**: `docs/tasks/ACTIVE.md`
+- **Package Entry Point**: `lukhas/__init__.py` (new namespace)
+- **Legacy Compatibility**: `lukhas_pwm.py` (backwards compatibility)
 
 ### **Testing Framework**
 ```bash
@@ -241,6 +249,9 @@ pytest tests/
 pytest tests/consciousness/ -v
 pytest tests/memory/ -v
 pytest tests/guardian/ -v
+
+# Test new namespace integration
+python -c "import lukhas.api, lukhas.flags; print('✅ All modules loaded')"
 
 # Performance benchmarks
 python tools/analysis/PWM_OPERATIONAL_SUMMARY.py

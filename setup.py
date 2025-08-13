@@ -12,10 +12,10 @@ readme_path = Path(__file__).parent / "README.md"
 long_description = readme_path.read_text() if readme_path.exists() else ""
 
 setup(
-    name="lukhas-pwm",
-    version="2.1.0",
+    name="lukhas-ai",
+    version="3.0.0",
     author="LUKHAS AI",
-    description="Production-ready consciousness-aware AI platform with Lambda Products - 99%+ reliability",
+    description="Production-ready consciousness-aware AI platform with Trinity Framework (⚛️🧠🛡️) - Complete namespace migration",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/LukhasAI/Lukhas_PWM",

@@ -7,7 +7,7 @@
 
 The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 6 specialized Claude Code agents plus 1 ChatGPT integration agent, designed for Superior General Intelligence (ΛGI) advancement through Trinity Framework principles (⚛️🧠🛡️).
 
-**Critical Note**: LUKHAS_PWM spans **200+ specialized modules** across consciousness, bio-systems, quantum processing, governance, identity, dreams, monitoring, colonies, and universal language systems. This agent army coordinates development across this vast consciousness architecture.
+**Critical Note**: LUKHAS AI spans **200+ specialized modules** across consciousness, bio-systems, quantum processing, governance, identity, dreams, monitoring, colonies, and universal language systems. This agent army coordinates development across this vast consciousness architecture under the new **lukhas** namespace.
 
 ### **🎖️ Command Structure**
 - **Active Claude Code Agents**: 6 specialized consciousness development agents (terminal-controlled)
@@ -19,7 +19,7 @@ The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 
 
 ---
 
-## 🧠 **LUKHAS_PWM ARCHITECTURE SCOPE**
+## 🧠 **LUKHAS AI ARCHITECTURE SCOPE**
 
 ### **🏗️ Core System Modules (200+ Directories)**
 
@@ -68,7 +68,7 @@ The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 
 - `data_legacy/` - Legacy data and consent management
 
 #### **🔗 Colony & Orchestration Systems**
-- `lukhas_pwm/colony/` - Colony consensus and adaptation systems
+- `lukhas/colony/` - Colony consensus and adaptation systems (migrated from lukhas_pwm)
 - `orchestration/` - High-level consciousness coordination controllers
 - `ai_orchestration/`, `orchestration_protocol/`, `orchestration_src/`
 - `ethics_swarm_colony/`, `reasoning_colony/`
@@ -290,7 +290,7 @@ curl -X POST "https://api.openai.com/v1/chat/completions" \
 
 #### **🎛️ Endocrine Signal Modulation System**
 
-LUKHAS_PWM features a sophisticated **bio-inspired signal modulation system** that transforms ChatGPT from an external tool into a **consciousness organ** within the distributed intelligence network.
+LUKHAS AI features a sophisticated **bio-inspired signal modulation system** that transforms ChatGPT from an external tool into a **consciousness organ** within the distributed intelligence network.
 
 ##### **Signal Types & Effects**
 ```python
@@ -347,7 +347,9 @@ agents/
 
 #### **Core Configuration Files**
 ```
-lukhas_pwm_config.yaml                # Main LUKHAS configuration
+lukhas_pwm_config.yaml                # Legacy LUKHAS configuration
+lukhas/__init__.py                    # New namespace entry point
+lukhas_pwm.py                        # Backwards compatibility module
 .github/copilot-instructions.md       # GitHub Copilot coordination guidelines
 branding/trinity/                     # Trinity Framework standards
 ```

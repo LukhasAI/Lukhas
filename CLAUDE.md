@@ -91,7 +91,7 @@ pytest -m security      # Security tests only
 
 # Run with coverage
 make test-cov
-pytest --cov=lukhas_pwm --cov=bridge --cov=core --cov=serve tests/
+pytest --cov=lukhas --cov=bridge --cov=core --cov=serve tests/
 
 # Run single test file or function
 pytest tests/test_colony_integration.py
@@ -114,8 +114,8 @@ make fix-imports # Fix import issues
 # Individual linters
 ruff check .
 ruff check --fix .
-black lukhas_pwm/ tests/
-mypy lukhas_pwm/
+black lukhas/ tests/
+mypy lukhas/
 ```
 
 ### Build & Deploy
@@ -212,7 +212,8 @@ make api-spec  # Exports OpenAPI spec to out/openapi.json
 Both work for compatibility:
 ```python
 from lukhas.module import Component  # Preferred
-from lukhas_pwm.module import Component  # Legacy
+from lukhas.module import Component  # New namespace
+from lukhas_pwm.module import Component  # Legacy (backwards compatibility)
 ```
 
 ## Security Considerations
