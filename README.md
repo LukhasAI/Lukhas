@@ -238,7 +238,7 @@ python api/main.py --dev-mode
 - **Claude Code Config**: `.claude/config.yaml`
 - **Task Management**: `docs/tasks/ACTIVE.md`
 - **Package Entry Point**: `lukhas/__init__.py` (new namespace)
-- **Legacy Compatibility**: `lukhas_pwm.py` (backwards compatibility for migration)
+- **Main Entry Point**: `lukhas.py` (primary system interface)
 
 ### **Testing Framework**
 ```bash

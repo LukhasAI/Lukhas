@@ -19,7 +19,7 @@ This is the **LUKHAS AI** repository - a modular AI system that combines conscio
 ## 🚫 Critical Branding & Messaging Rules
 
 ### Required Terminology
-- **Always use**: "LUKHAS AI" (never "LUKHAS AGI" or "Lukhas PWM")
+- **Always use**: "LUKHAS AI" (never "LUKHAS AGI")
 - **Always use**: "quantum-inspired" (not "quantum processing")
 - **Always use**: "bio-inspired" (not "bio processes")
 - **Use approved glyphs**: Only from `branding/` directory or `next_gen/README_NEXT_GEN.md`
@@ -188,7 +188,7 @@ make api-spec  # Exports OpenAPI spec to out/openapi.json
 - Respect Trinity Framework (⚛️🧠🛡️) in all logic, comments, documentation
 - Use approved branding from `branding/` and `next_gen/README_NEXT_GEN.md`
 - Use symbolic glyphs where appropriate
-- Check `integration_config.yaml` and `lukhas_pwm_config.yaml` for global thresholds
+- Check `integration_config.yaml` and `lukhas_config.yaml` for global thresholds
 - Log interventions to `data/` or `memory/`
 - Update `data/meta_metrics.json` when adding monitoring
 
@@ -209,11 +209,9 @@ make api-spec  # Exports OpenAPI spec to out/openapi.json
 - Agent configs → `agents/` or `agents/configs/`
 
 ## Import Paths
-Both work for compatibility:
+Standard import path:
 ```python
-from lukhas.module import Component  # Preferred
-from lukhas.module import Component  # New namespace
-from lukhas_pwm.module import Component  # Legacy (backwards compatibility)
+from lukhas.module import Component  # Standard import
 ```
 
 ## Security Considerations
@@ -227,7 +225,7 @@ from lukhas_pwm.module import Component  # Legacy (backwards compatibility)
 ## Configuration
 
 Main configs:
-- `lukhas_pwm_config.yaml` - Main system configuration
+- `lukhas_config.yaml` - Main system configuration
 - `integration_config.yaml` - Integration settings
 - `modulation_policy.yaml` - Signal modulation rules
 - `config/` directory - Various module configs
