@@ -178,7 +178,7 @@ def main():
     
     # Generate safe cleanup script
     script = generate_safe_cleanup_script(categories)
-    script_path = Path('safe_cleanup.sh')
+    script_path = Path('scripts/safe_cleanup.sh')
     with open(script_path, 'w') as f:
         f.write(script)
     script_path.chmod(0o755)
@@ -186,7 +186,7 @@ def main():
     print(f"\n✅ Safe cleanup script generated: {script_path}")
     
     # Create review file for manual inspection
-    review_path = Path('safe_cleanup_review.txt')
+    review_path = Path('test_metadata/safe_cleanup_review.txt')
     with open(review_path, 'w') as f:
         f.write("LUKHAS AI Safe Cleanup Review\n")
         f.write("=" * 60 + "\n\n")

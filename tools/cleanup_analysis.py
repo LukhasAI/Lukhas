@@ -158,13 +158,13 @@ def main():
     
     # Generate cleanup script
     script = generate_cleanup_script(categories)
-    script_path = Path('cleanup_orphaned_files.sh')
+    script_path = Path('scripts/cleanup_orphaned_files.sh')
     with open(script_path, 'w') as f:
         f.write(script)
     script_path.chmod(0o755)
     
     print(f"\n✅ Cleanup script generated: {script_path}")
-    print("Run: ./cleanup_orphaned_files.sh")
+    print("Run: ./scripts/cleanup_orphaned_files.sh")
     
     # Calculate space savings
     total_size = 0

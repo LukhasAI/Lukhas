@@ -16,7 +16,7 @@ COPY modulation/ ./modulation/
 COPY agents/configs/ ./agents/configs/
 
 # Copy MCP server
-COPY lukhas_mcp_server_simple.py ./lukhas_mcp_server.py
+COPY ai_orchestration/lukhas_mcp_server_simple.py ./lukhas_mcp_server.py
 
 # Copy only essential config files
 COPY lukhas_pwm_config.yaml ./lukhas_pwm_config.yaml

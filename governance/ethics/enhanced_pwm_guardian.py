@@ -80,7 +80,7 @@ class EnhancedPWMWorkspaceGuardian:
             "README.md",
             "LICENSE",
             "requirements.txt",
-            "package.json",
+            "node_configs/package.json",
             ".gitignore",
             "Dockerfile",
             "Makefile",

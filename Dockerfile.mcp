@@ -18,7 +18,7 @@ COPY modulation/ ./modulation/
 COPY agents/configs/ ./agents/configs/
 
 # Copy MCP server
-COPY lukhas_mcp_server.py ./lukhas_mcp_server.py
+COPY ai_orchestration/lukhas_mcp_server.py ./lukhas_mcp_server.py
 
 # Install additional dependencies
 COPY requirements.txt .
