@@ -11,7 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Initialize managers
     const configManager = new ConfigurationManager();
     const gitHookManager = new GitHookManager(configManager);
-    const hookBuilder = new HookBuilder();
+    const hookBuilder = new HookBuilder(configManager);
 
     // Initialize providers
     const hooksProvider = new InteractiveHooksProvider(gitHookManager, configManager);
