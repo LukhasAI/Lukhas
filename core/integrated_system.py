@@ -12,11 +12,20 @@ import logging
 import uuid
 from typing import Any, Optional
 
-from bio import MitochondriaModel
-from core.colonies.base_colony import BaseColony
-from core.colonies.creativity_colony import CreativityColony
-from core.colonies.memory_colony import MemoryColony
-from core.colonies.reasoning_colony import ReasoningColony
+# MitochondriaModel is optional - create a simple placeholder if not available
+try:
+    from bio.core.systems_mitochondria_model import MitochondriaModel
+except ImportError:
+    # Simple placeholder for energy model
+    class MitochondriaModel:
+        def __init__(self):
+            self.energy = 100.0
+
+# Use the new, working colony system from lukhas.accepted
+from lukhas.accepted.colonies.base import BaseColony
+from lukhas.accepted.colonies.creativity import get_creativity_colony
+from lukhas.accepted.colonies.memory import get_memory_colony
+from lukhas.accepted.colonies.reasoning import get_reasoning_colony
 
 # Import our core components
 

@@ -1,0 +1,483 @@
+{
+  "summary": {
+    "total_python_files": 3473,
+    "imported_files": 831,
+    "orphaned_files": 2454,
+    "usage_percentage": 23.927440253383242,
+    "entry_points": [
+      "api/main.py",
+      "orchestration/brain/primary_hub.py",
+      "main.py",
+      "consciousness/unified/auto_consciousness.py",
+      "serve/app.py"
+    ]
+  },
+  "module_statistics": {
+    "core": {
+      "total_files": 910,
+      "imported_files": 204,
+      "orphaned_files": 666,
+      "usage_percentage": 22.41758241758242,
+      "orphaned_list": [
+        "core/actor_model.py",
+        "core/actor_supervision_integration.py",
+        "core/adaptive_ux_engine.py",
+        "core/agi/adaptive/meta_learning.py",
+        "core/agi/autonomous_learning.py",
+        "core/agi/consciousness_stream.py",
+        "core/agi/self_healing.py",
+        "core/agi/self_improvement.py",
+        "core/ai/integration_manager.py",
+        "core/api/api_client.py"
+      ]
+    },
+    "bridge": {
+      "total_files": 160,
+      "imported_files": 32,
+      "orphaned_files": 127,
+      "usage_percentage": 20.0,
+      "orphaned_list": [
+        "bridge/adapter.py",
+        "bridge/adapters/adapters.py",
+        "bridge/adapters/api_documentation_generator.py",
+        "bridge/adapters/api_framework.py",
+        "bridge/adapters/create_classical_dream_api.py",
+        "bridge/adapters/create_classical_emotional_api.py",
+        "bridge/adapters/create_colony_consensus_api.py",
+        "bridge/adapters/create_dream_recall_api.py",
+        "bridge/adapters/create_emotional_coherence_api.py",
+        "bridge/adapters/create_memory_fold_api.py"
+      ]
+    },
+    "governance": {
+      "total_files": 286,
+      "imported_files": 59,
+      "orphaned_files": 207,
+      "usage_percentage": 20.62937062937063,
+      "orphaned_list": [
+        "governance/audit_logger.py",
+        "governance/audit_trail.py",
+        "governance/common.py",
+        "governance/compliance_drift_monitor.py",
+        "governance/ethics/HEADER_FOOTER_TEMPLATE.py",
+        "governance/ethics/LGOV_validator.py",
+        "governance/ethics/_spikethickness.py",
+        "governance/ethics/audit_ethics_monitor.py",
+        "governance/ethics/batch_guard.py",
+        "governance/ethics/constitutional_ai.py"
+      ]
+    },
+    "consciousness": {
+      "total_files": 325,
+      "imported_files": 30,
+      "orphaned_files": 260,
+      "usage_percentage": 9.230769230769232,
+      "orphaned_list": [
+        "consciousness/activation.py",
+        "consciousness/awareness/attention_monitor.py",
+        "consciousness/awareness/awareness_engine.py",
+        "consciousness/awareness/awareness_engine_elevated.py",
+        "consciousness/awareness/awareness_processor.py",
+        "consciousness/awareness/awareness_protocol.py",
+        "consciousness/awareness/awareness_tracker.py",
+        "consciousness/awareness/bio_symbolic_awareness_adapter.py",
+        "consciousness/awareness/symbolic_quantum_attention.py",
+        "consciousness/awareness/symbolic_trace_logger.py"
+      ]
+    },
+    "memory": {
+      "total_files": 381,
+      "imported_files": 51,
+      "orphaned_files": 323,
+      "usage_percentage": 13.385826771653544,
+      "orphaned_list": [
+        "memory/adapters/colony_memory_adapter.py",
+        "memory/adapters/creativity_adapter.py",
+        "memory/basic.py",
+        "memory/causal.py",
+        "memory/causal/CausalReasoning.py",
+        "memory/causal/CausalReasoningModule.py",
+        "memory/causal/causal_program_inducer.py",
+        "memory/causal/causal_reasoner_template.py",
+        "memory/causal/causal_reasoning.py",
+        "memory/causal/emotion_intent_link.py"
+      ]
+    },
+    "orchestration": {
+      "total_files": 93,
+      "imported_files": 61,
+      "orphaned_files": 9,
+      "usage_percentage": 65.59139784946237,
+      "orphaned_list": [
+        "orchestration/brain.py",
+        "orchestration/gpt_colony_orchestrator.py",
+        "orchestration/kernel_bus_examples.py",
+        "orchestration/migrate_to_kernel_bus.py",
+        "orchestration/signals/homeostasis.py",
+        "orchestration/signals/homeostasis_controller.py",
+        "orchestration/signals/modulator.py",
+        "orchestration/signals/prompt_modulator.py",
+        "orchestration/signals/signal_bus.py"
+      ]
+    },
+    "identity": {
+      "total_files": 42,
+      "imported_files": 17,
+      "orphaned_files": 12,
+      "usage_percentage": 40.476190476190474,
+      "orphaned_list": [
+        "identity/api.py",
+        "identity/core.py",
+        "identity/enhanced_registration.py",
+        "identity/enhanced_registration_api.py",
+        "identity/identity_emergence.py",
+        "identity/login.py",
+        "identity/lucas_id_resolver.py",
+        "identity/middleware.py",
+        "identity/oauth_api.py",
+        "identity/oauth_federation.py"
+      ]
+    },
+    "emotion": {
+      "total_files": 36,
+      "imported_files": 8,
+      "orphaned_files": 24,
+      "usage_percentage": 22.22222222222222,
+      "orphaned_list": [
+        "emotion/affect_detection/affect_stagnation_detector.py",
+        "emotion/affect_detection/recurring_emotion_tracker.py",
+        "emotion/affect_stagnation_detector.py",
+        "emotion/cycler.py",
+        "emotion/dreamseed_upgrade.py",
+        "emotion/emotion_hub.py",
+        "emotion/empathy/enhanced_memory_manager.py",
+        "emotion/examples/basic/example.py",
+        "emotion/models.py",
+        "emotion/mood/drift_alignment_controller.py"
+      ]
+    },
+    "quantum": {
+      "total_files": 43,
+      "imported_files": 36,
+      "orphaned_files": 0,
+      "usage_percentage": 83.72093023255815,
+      "orphaned_list": []
+    },
+    "bio": {
+      "total_files": 31,
+      "imported_files": 24,
+      "orphaned_files": 0,
+      "usage_percentage": 77.41935483870968,
+      "orphaned_list": []
+    },
+    "symbolic": {
+      "total_files": 16,
+      "imported_files": 5,
+      "orphaned_files": 12,
+      "usage_percentage": 31.25,
+      "orphaned_list": [
+        "symbolic/entropy_password_system.py",
+        "symbolic/exchange/universal_exchange.py",
+        "symbolic/multi_modal_language.py",
+        "symbolic/personal/symbol_dictionary.py",
+        "symbolic/vocabularies/bio_vocabulary.py",
+        "symbolic/vocabularies/dream_vocabulary.py",
+        "symbolic/vocabularies/emotion_vocabulary.py",
+        "symbolic/vocabularies/identity_vocabulary.py",
+        "symbolic/vocabularies/usage_examples.py",
+        "symbolic/vocabularies/vision_vocabulary.py"
+      ]
+    },
+    "universal_language": {
+      "total_files": 12,
+      "imported_files": 9,
+      "orphaned_files": 11,
+      "usage_percentage": 75.0,
+      "orphaned_list": [
+        "universal_language/compositional.py",
+        "universal_language/constitutional.py",
+        "universal_language/core.py",
+        "universal_language/glyph.py",
+        "universal_language/grammar.py",
+        "universal_language/llm_integration.py",
+        "universal_language/multimodal.py",
+        "universal_language/neuromemory.py",
+        "universal_language/privacy.py",
+        "universal_language/translator.py"
+      ]
+    },
+    "vivox": {
+      "total_files": 53,
+      "imported_files": 17,
+      "orphaned_files": 34,
+      "usage_percentage": 32.075471698113205,
+      "orphaned_list": [
+        "vivox/collapse/debug_z_test.py",
+        "vivox/collapse/z_collapse_engine.py",
+        "vivox/consciousness/state_variety_enhancement.py",
+        "vivox/consciousness/vivox_cil_core.py",
+        "vivox/crypto/timestamp_verification.py",
+        "vivox/emotional_regulation/endocrine_integration.py",
+        "vivox/emotional_regulation/event_integration.py",
+        "vivox/emotional_regulation/neuroplastic_integration.py",
+        "vivox/emotional_regulation/transparency_audit.py",
+        "vivox/emotional_regulation/vivox_ern_core.py"
+      ]
+    },
+    "qim": {
+      "total_files": 174,
+      "imported_files": 3,
+      "orphaned_files": 145,
+      "usage_percentage": 1.7241379310344827,
+      "orphaned_list": [
+        "qim/attention_economics.py",
+        "qim/bio/HEADER_TEMPLATE.py",
+        "qim/bio/adaptive_ux_core.py",
+        "qim/bio/bio_oscillator.py",
+        "qim/bio/bio_symbolic_swarm_hub.py",
+        "qim/bio/enhanced_ecosystem_documentation.py",
+        "qim/bio/orchestration_compatibility.py",
+        "qim/bio_components.py",
+        "qim/bio_legacy/awareness/awareness.py",
+        "qim/bio_legacy/bio_homeostasis.py"
+      ]
+    },
+    "lukhas": {
+      "total_files": 36,
+      "imported_files": 27,
+      "orphaned_files": 24,
+      "usage_percentage": 75.0,
+      "orphaned_list": [
+        "lukhas/accepted/bio/adapters.py",
+        "lukhas/accepted/bio/awareness.py",
+        "lukhas/accepted/bio/core.py",
+        "lukhas/accepted/bio/oscillator.py",
+        "lukhas/accepted/bio/quantum.py",
+        "lukhas/accepted/bio/symbolic.py",
+        "lukhas/accepted/bio/voice.py",
+        "lukhas/accepted/colonies/base.py",
+        "lukhas/accepted/colonies/consciousness.py",
+        "lukhas/accepted/colonies/creativity.py"
+      ]
+    },
+    "api": {
+      "total_files": 6,
+      "imported_files": 3,
+      "orphaned_files": 4,
+      "usage_percentage": 50.0,
+      "orphaned_list": [
+        "api/consciousness_chat_api.py",
+        "api/feedback_api.py",
+        "api/integrated_consciousness_api.py",
+        "api/universal_language_api.py"
+      ]
+    },
+    "serve": {
+      "total_files": 7,
+      "imported_files": 2,
+      "orphaned_files": 6,
+      "usage_percentage": 28.57142857142857,
+      "orphaned_list": [
+        "serve/feedback_routes.py",
+        "serve/main.py",
+        "serve/openai_routes.py",
+        "serve/routes.py",
+        "serve/schemas.py",
+        "serve/ui/dashboard.py"
+      ]
+    },
+    "agents": {
+      "total_files": 0,
+      "imported_files": 0,
+      "orphaned_files": 0,
+      "usage_percentage": 0,
+      "orphaned_list": []
+    },
+    "adapters": {
+      "total_files": 5,
+      "imported_files": 5,
+      "orphaned_files": 1,
+      "usage_percentage": 100.0,
+      "orphaned_list": [
+        "adapters/cloud_consolidation.py"
+      ]
+    },
+    "architectures": {
+      "total_files": 3,
+      "imported_files": 3,
+      "orphaned_files": 3,
+      "usage_percentage": 100.0,
+      "orphaned_list": [
+        "architectures/ABAS/proactive_assistance.py",
+        "architectures/ABAS/usage_analytics_loop.py",
+        "architectures/DAST/realtime_service_switching.py"
+      ]
+    }
+  },
+  "top_orphaned_files": [
+    "CLAUDE_ARMY/CLAUDE_ARMY/workspaces/testing-devops-specialist/tests/test_mvp.py",
+    "CLAUDE_ARMY/mvp_demo.py",
+    "CLAUDE_ARMY/workspaces/consent-compliance-specialist/src/consent_ledger.py",
+    "CLAUDE_ARMY/workspaces/identity-auth-specialist/src/lambda_id.py",
+    "CLAUDE_ARMY/workspaces/special-ops-secrets-kms-legacy/tools/sbom.py",
+    "NIAS_THEORY/NIAS_O1_COMPLETE/context_builder.py",
+    "NIAS_THEORY/NIAS_O1_COMPLETE/nias_core.py",
+    "NIAS_THEORY/NIAS_O1_COMPLETE/nias_mode.py",
+    "NIAS_THEORY/NIAS_O1_COMPLETE/symbolic_matcher.py",
+    "adapters/cloud_consolidation.py",
+    "ai_orchestration/lukhas_ai_orchestrator.py",
+    "ai_orchestration/lukhas_knowledge_server.py",
+    "api/consciousness_chat_api.py",
+    "api/feedback_api.py",
+    "api/integrated_consciousness_api.py",
+    "api/universal_language_api.py",
+    "architectures/ABAS/proactive_assistance.py",
+    "architectures/ABAS/usage_analytics_loop.py",
+    "architectures/DAST/realtime_service_switching.py",
+    "branding/automation/brand_manager.py",
+    "branding/automation/brand_scan.py",
+    "branding/branding/test_lukhas_import_alias.py",
+    "branding/branding/test_terminology.py",
+    "branding/policy/terminology.py",
+    "branding/tone/tools/advanced_vocabulary_engine.py",
+    "branding/tone/tools/consciousness_wordsmith.py",
+    "branding/tone/tools/enhanced_consciousness_wordsmith.py",
+    "branding/tone/tools/lukhas_tone_fixer.py",
+    "branding/tone/tools/lukhas_tone_validator.py",
+    "bridge/adapter.py",
+    "bridge/adapters/adapters.py",
+    "bridge/adapters/api_documentation_generator.py",
+    "bridge/adapters/api_framework.py",
+    "bridge/adapters/create_classical_dream_api.py",
+    "bridge/adapters/create_classical_emotional_api.py",
+    "bridge/adapters/create_colony_consensus_api.py",
+    "bridge/adapters/create_dream_recall_api.py",
+    "bridge/adapters/create_emotional_coherence_api.py",
+    "bridge/adapters/create_memory_fold_api.py",
+    "bridge/adapters/launch_demo_apis.py",
+    "bridge/adapters/service_adapter_verification.py",
+    "bridge/api/ai_interface.py",
+    "bridge/api/api.py",
+    "bridge/api/api_hub.py",
+    "bridge/api/apply_api_fixes.py",
+    "bridge/api/colony_endpoints.py",
+    "bridge/api/config.py",
+    "bridge/api/config_manager.py",
+    "bridge/api/controllers.py",
+    "bridge/api/direct_ai_router.py"
+  ],
+  "most_imported": [
+    [
+      "core/logging/__init__.py",
+      765
+    ],
+    [
+      "core/common/__init__.py",
+      265
+    ],
+    [
+      "core/common.py",
+      265
+    ],
+    [
+      "lukhas_pwm/openai/__init__.py",
+      44
+    ],
+    [
+      "core/colonies/base_colony.py",
+      37
+    ],
+    [
+      "orchestration/signals/signal_bus.py",
+      27
+    ],
+    [
+      "core/symbolism/tags.py",
+      21
+    ],
+    [
+      "core/interfaces/dependency_injection.py",
+      21
+    ],
+    [
+      "core/base/__init__.py",
+      19
+    ],
+    [
+      "governance/identity/interface.py",
+      18
+    ],
+    [
+      "core/swarm.py",
+      18
+    ],
+    [
+      "orchestration/signals/homeostasis.py",
+      16
+    ],
+    [
+      "core/__init__.py",
+      15
+    ],
+    [
+      "bridge/llm_wrappers/openai_modulated_service.py",
+      14
+    ],
+    [
+      "core/common/exceptions.py",
+      13
+    ],
+    [
+      "core/interfaces/__init__.py",
+      13
+    ],
+    [
+      "vivox/__init__.py",
+      12
+    ],
+    [
+      "orchestration/symbolic_kernel_bus.py",
+      12
+    ],
+    [
+      "lukhas_pwm/flags.py",
+      12
+    ],
+    [
+      "core/actor_system.py",
+      11
+    ]
+  ],
+  "never_imported": [
+    "CLAUDE_ARMY/CLAUDE_ARMY/workspaces/testing-devops-specialist/tests/test_mvp.py",
+    "CLAUDE_ARMY/mvp_demo.py",
+    "CLAUDE_ARMY/workspaces/consent-compliance-specialist/src/consent_ledger.py",
+    "CLAUDE_ARMY/workspaces/identity-auth-specialist/src/lambda_id.py",
+    "CLAUDE_ARMY/workspaces/special-ops-secrets-kms-legacy/tools/sbom.py",
+    "NIAS_THEORY/NIAS_O1_COMPLETE/context_builder.py",
+    "NIAS_THEORY/NIAS_O1_COMPLETE/nias_core.py",
+    "NIAS_THEORY/NIAS_O1_COMPLETE/nias_mode.py",
+    "NIAS_THEORY/NIAS_O1_COMPLETE/symbolic_matcher.py",
+    "ai_orchestration/lukhas_ai_orchestrator.py",
+    "api/consciousness_chat_api.py",
+    "api/feedback_api.py",
+    "api/universal_language_api.py",
+    "api_documentation_generator/__init__.py",
+    "bio/ai_client/__init__.py",
+    "bio/awareness/__init__.py",
+    "bio/base_oscillator/__init__.py",
+    "bio/symbolic/bio/__init__.py",
+    "bio/symbolic/bio/core/__init__.py",
+    "bio/systems/__init__.py",
+    "bio/systems/orchestration/__init__.py",
+    "bio_awareness/__init__.py",
+    "bio_symbolic_/__init__.py",
+    "branding/automation/brand_manager.py",
+    "branding/automation/brand_scan.py",
+    "branding/branding/test_lukhas_import_alias.py",
+    "branding/branding/test_terminology.py",
+    "branding/policy/__init__.py",
+    "branding/policy/terminology.py",
+    "branding/tone/tools/advanced_vocabulary_engine.py"
+  ]
+}
