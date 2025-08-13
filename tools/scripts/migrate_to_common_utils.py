@@ -54,7 +54,7 @@ def update_imports_in_file(file_path: Path):
 
 def main():
     """Run migration"""
-    root = Path("/Users/agi_dev/Lukhas_PWM")
+    root = Path("/Users/agi_dev/Lukhas")
     updated_files = []
 
     for py_file in root.rglob("*.py"):

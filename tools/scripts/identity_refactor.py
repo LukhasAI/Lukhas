@@ -15,7 +15,7 @@ class IdentityRefactor:
     """Refactor identity module to use unified identity_core.py"""
 
     def __init__(self):
-        self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
+        self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
         self.backup_dir = (
             self.workspace
             / f".identity_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"

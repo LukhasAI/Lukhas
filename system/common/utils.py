@@ -1,5 +1,5 @@
 """
-Common utilities for LUKHAS PWM
+Common utilities for LUKHAS
 ===============================
 Centralized utility functions to reduce code duplication.
 """

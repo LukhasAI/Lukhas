@@ -150,8 +150,8 @@ jobs:
     
     - name: 🧠 Run Consciousness Analysis
       run: |
-        python tools/analysis/PWM_OPERATIONAL_SUMMARY.py --consciousness-focus
-        python tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py --consciousness-analysis
+        python tools/analysis/_OPERATIONAL_SUMMARY.py --consciousness-focus
+        python tools/analysis/_FUNCTIONAL_ANALYSIS.py --consciousness-analysis
     
     - name: 🎭 Execute Inter-Agent Pipeline
       run: |
@@ -395,7 +395,7 @@ class LUKHASEmergencyMonitor:
         """Check consciousness system health metrics."""
         try:
             result = subprocess.run([
-                "python", "tools/analysis/PWM_OPERATIONAL_SUMMARY.py", 
+                "python", "tools/analysis/_OPERATIONAL_SUMMARY.py", 
                 "--emergency-check"
             ], capture_output=True, text=True, timeout=30)
             
@@ -644,8 +644,8 @@ class LUKHASMasterControl:
     async def run_analysis_only(self):
         """Analysis-only mode."""
         scripts = [
-            "python tools/analysis/PWM_OPERATIONAL_SUMMARY.py --consciousness-focus",
-            "python tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py --consciousness-analysis",
+            "python tools/analysis/_OPERATIONAL_SUMMARY.py --consciousness-focus",
+            "python tools/analysis/_FUNCTIONAL_ANALYSIS.py --consciousness-analysis",
             "python scripts/automation/quick_chatgpt_analysis.py"
         ]
         

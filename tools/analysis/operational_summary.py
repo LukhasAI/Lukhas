@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PWM Operational Status Summary
+ Operational Status Summary
 Creates a clear summary of what's working vs what's just connected
 """
 
@@ -13,19 +13,19 @@ def load_analysis_reports():
     reports = {}
 
     # Load connectivity analysis
-    connectivity_file = Path("PWM_WORKSPACE_STATUS_REPORT.json")
+    connectivity_file = Path("_WORKSPACE_STATUS_REPORT.json")
     if connectivity_file.exists():
         with open(connectivity_file) as f:
             reports["connectivity"] = json.load(f)
 
     # Load functional analysis
-    functional_file = Path("PWM_FUNCTIONAL_ANALYSIS_REPORT.json")
+    functional_file = Path("_FUNCTIONAL_ANALYSIS_REPORT.json")
     if functional_file.exists():
         with open(functional_file) as f:
             reports["functional"] = json.load(f)
 
     # Load security analysis
-    security_file = Path("PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.json")
+    security_file = Path("_SECURITY_COMPLIANCE_GAP_ANALYSIS.json")
     if security_file.exists():
         with open(security_file) as f:
             reports["security"] = json.load(f)

@@ -50,7 +50,7 @@ class LUKHASConceptValidator:
             "guardian_protocol": "Ethical oversight system",
             # Special Terms
             "lukhas": "The system name itself",
-            "pwm": "Pack What Matters",
+            "": "Pack What Matters",
             "sgi": "Symbolic General Intelligence",
         }
 
@@ -78,7 +78,7 @@ class LUKHASConceptValidator:
             for f in python_files:
             if not any(:
                 skip in str(f)
-                for skip in [".pwm_cleanup_archive", "__pycache__", ".git"]:
+                for skip in ["._cleanup_archive", "__pycache__", ".git"]:
             )
         ]
 

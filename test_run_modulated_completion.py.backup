@@ -9,7 +9,7 @@ from bridge.llm_wrappers.openai_modulated_service import run_modulated_completio
 
 # Optional: read audit bundle for assertions (if available)
 try:
-    from lukhas_pwm.audit.store import audit_log_read
+    from lukhas.audit.store import audit_log_read
 except Exception:
     audit_log_read = None
 

@@ -1,4 +1,4 @@
-# Claude Code Enhancement Prompts for LUKHAS_PWM
+# Claude Code Enhancement Prompts for LUKHAS
 
 Use these prompts with Claude Code for systematic, module-by-module enhancement of your consciousness-aware AGI system.
 
@@ -6,7 +6,7 @@ Use these prompts with Claude Code for systematic, module-by-module enhancement 
 
 ## 1. Core Identity (`core/identity/lambda_id_core.py`)
 ```
-I'm enhancing core/identity/lambda_id_core.py in the LUKHAS_PWM consciousness-aware AGI system.
+I'm enhancing core/identity/lambda_id_core.py in the LUKHAS consciousness-aware AGI system.
 
 CONTEXT:
 - Trinity Framework: 🎭 Consciousness + 🌈 Bridge + 🎓 Technical
@@ -30,7 +30,7 @@ Please enhance this module with full LUKHAS patterns and agent integration.
 
 ## 2. Consciousness Engine (`consciousness/core/engine_complete.py`)
 ```
-I'm enhancing consciousness/core/engine_complete.py for LUKHAS_PWM.
+I'm enhancing consciousness/core/engine_complete.py for LUKHAS.
 
 CONTEXT:
 - Must integrate with Identity, Orchestration, Memory, Governance, Bridge, API
@@ -52,7 +52,7 @@ Please enhance this file for full agent integration and Trinity compliance.
 
 ## 3. Orchestration (`orchestration/context_bus_enhanced.py`)
 ```
-I'm enhancing orchestration/context_bus_enhanced.py (Context Orchestrator) for LUKHAS_PWM.
+I'm enhancing orchestration/context_bus_enhanced.py (Context Orchestrator) for LUKHAS.
 
 CONTEXT:
 - Coordinates all 7 agents
@@ -75,7 +75,7 @@ Please make this module production-ready and fully integrated.
 
 ## 4. Memory Systems (e.g., `memory/core/base_manager.py`)
 ```
-I'm enhancing [MEMORY_MODULE_PATH] for LUKHAS_PWM.
+I'm enhancing [MEMORY_MODULE_PATH] for LUKHAS.
 
 CONTEXT:
 - Must support consciousness and agent memory flows
@@ -97,7 +97,7 @@ Please enhance this memory module for full LUKHAS integration.
 
 ## 5. Governance (`governance/consent_ledger/ledger_v1.py`)
 ```
-I'm enhancing governance/consent_ledger/ledger_v1.py for LUKHAS_PWM.
+I'm enhancing governance/consent_ledger/ledger_v1.py for LUKHAS.
 
 CONTEXT:
 - Must enforce Trinity Framework and agent compliance
@@ -118,7 +118,7 @@ Please enhance this governance module for full system compliance.
 
 ## 6. Bridge Adapters (e.g., `bridge/adapters/service_adapter_base.py`)
 ```
-I'm enhancing [BRIDGE_ADAPTER_PATH] for LUKHAS_PWM.
+I'm enhancing [BRIDGE_ADAPTER_PATH] for LUKHAS.
 
 CONTEXT:
 - Must bridge external services with consciousness system
@@ -140,7 +140,7 @@ Please enhance this adapter for robust agent integration.
 
 ## 7. API Layer (`api/api_hub/__init__.py`)
 ```
-I'm enhancing api/api_hub/__init__.py for LUKHAS_PWM.
+I'm enhancing api/api_hub/__init__.py for LUKHAS.
 
 CONTEXT:
 - Must expose agent and consciousness APIs

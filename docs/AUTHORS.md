@@ -132,7 +132,7 @@ When citing this work, please use:
 ```
 Martinez, G., & Claude (Anthropic). (2025). LUKHAS Next Generation: 
 A Trinity Framework for Quantum-Safe Conscious AI Systems. 
-GitHub Repository: https://github.com/agi_dev/Lukhas_PWM
+GitHub Repository: https://github.com/agi_dev/Lukhas
 ```
 
 ## 💝 Special Thanks

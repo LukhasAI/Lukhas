@@ -1,7 +1,7 @@
 import time
 from typing import Any, Optional
 
-from lukhas_pwm.dna.interfaces import DNAWriteReceipt, HelixMemory
+from lukhas.dna.interfaces import DNAWriteReceipt, HelixMemory
 
 
 class InMemoryHelix(HelixMemory):

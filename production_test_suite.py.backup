@@ -21,8 +21,8 @@ from typing import Any, Dict, List, Optional
 from dotenv import load_dotenv
 
 from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
-from lukhas_pwm.audit.store import audit_log_write
-from lukhas_pwm.metrics import get_metrics_collector
+from lukhas.audit.store import audit_log_write
+from lukhas.metrics import get_metrics_collector
 from orchestration.signals.homeostasis import ModulationParams
 from orchestration.signals.signal_bus import Signal, SignalType, emit_signal
 
@@ -112,7 +112,7 @@ class ProductionTestSuite:
             "project_id": os.getenv("PROJECT_ID"),
             "environment": "production",
             "test_suite_version": "1.0.0",
-            "framework": "LUKHAS_PWM",
+            "framework": "LUKHAS",
             "trinity_version": "⚛️🧠🛡️ v1.0",
         }
 
@@ -494,7 +494,7 @@ class ProductionTestSuite:
 
         report = {
             "company": "LUKHAS AI",
-            "product": "PWM Governance System",
+            "product": " Governance System",
             "test_suite": self.suite_id,
             "date": self.suite_start.isoformat(),
             "executive_summary": {

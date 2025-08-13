@@ -422,7 +422,7 @@ python -m pytest tests/compliance/ -v
 ### **Agent 4 Validation:**
 ```bash
 # File organization validation
-ls -la /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/ | wc -l  # Should be <15 files
+ls -la /Users/agi_dev/LOCAL-REPOS/Lukhas/ | wc -l  # Should be <15 files
 python tools/organization/validate_file_structure.py
 git status  # Should show clean organization
 

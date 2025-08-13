@@ -10,18 +10,18 @@ from pathlib import Path
 
 
 def complete_cleanup():
-    """Remove all remaining PWM_, lukhas_, and other redundant prefixes"""
+    """Remove all remaining _, lukhas_, and other redundant prefixes"""
 
-    workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
+    workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas"
     changes = []
 
     print("🧹 COMPLETE HYGIENE CLEANUP")
     print("=" * 60)
 
-    # Find and rename all PWM_ prefixed files
-    print("\n📄 Removing PWM_ prefixes from all files...")
-    for py_file in workspace.rglob("PWM_*.py"):
-        new_name = py_file.name.replace("PWM_", "").lower()
+    # Find and rename all _ prefixed files
+    print("\n📄 Removing _ prefixes from all files...")
+    for py_file in workspace.rglob("_*.py"):
+        new_name = py_file.name.replace("_", "").lower()
         new_path = py_file.parent / new_name
 
         if not new_path.exists():
@@ -76,8 +76,8 @@ def complete_cleanup():
 
     # Special case renames for clarity
     special_renames = {
-        "tools/analysis/pwm_current_connectivity_analysis.py": "tools/analysis/connectivity_analysis.py",
-        "tools/analysis/pwm_root_directory_audit_fixed.py": "tools/analysis/root_audit_fixed.py",
+        "tools/analysis/_current_connectivity_analysis.py": "tools/analysis/connectivity_analysis.py",
+        "tools/analysis/_root_directory_audit_fixed.py": "tools/analysis/root_audit_fixed.py",
         "tools/analysis/lambda_id_audit.py": "tools/analysis/lambda_identity_audit.py",
     }
 
@@ -96,7 +96,7 @@ def complete_cleanup():
     updated_files = 0
 
     for py_file in workspace.rglob("*.py"):
-        if ".hygiene_backup" in str(py_file) or ".pwm_cleanup" in str(py_file):
+        if ".hygiene_backup" in str(py_file) or "._cleanup" in str(py_file):
             continue
 
         try:
@@ -119,12 +119,12 @@ def complete_cleanup():
             content = re.sub(r"from system_(\w+)", r"from \1", content)
             content = re.sub(r"import system_(\w+)", r"import \1", content)
 
-            # Remove PWM_ prefixes from imports
+            # Remove _ prefixes from imports
             content = re.sub(
-                r"from tools\.analysis\.PWM_(\w+)", r"from tools.analysis.\1", content
+                r"from tools\.analysis\._(\w+)", r"from tools.analysis.\1", content
             )
             content = re.sub(
-                r"import tools\.analysis\.PWM_(\w+)",
+                r"import tools\.analysis\._(\w+)",
                 r"import tools.analysis.\1",
                 content,
             )

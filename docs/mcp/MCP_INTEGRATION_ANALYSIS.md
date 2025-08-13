@@ -30,7 +30,7 @@
 mcp-server --consciousness-context \
   --trinity-framework \
   --agent-count=6 \
-  --workspace=/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM
+  --workspace=/Users/agi_dev/LOCAL-REPOS/Lukhas
 ```
 
 #### **Phase 2: ChatGPT API MCP Bridge (Priority 2)**

@@ -169,7 +169,7 @@ response = await system.generate(
 
 ## Conclusion
 
-The Adaptive AI features are successfully integrated into LUKHAS PWM, providing biological-inspired adaptation, comprehensive feedback loops, and significant cost optimization. The system can now learn from interactions, adapt to stress, and maintain complete transparency through audit trails.
+The Adaptive AI features are successfully integrated into LUKHAS , providing biological-inspired adaptation, comprehensive feedback loops, and significant cost optimization. The system can now learn from interactions, adapt to stress, and maintain complete transparency through audit trails.
 
 **Status: Production Ready** ✅
 

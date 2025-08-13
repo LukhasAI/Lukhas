@@ -48,6 +48,7 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛTODO: Add colony discovery mechanisms for distributed deployments
 AIDEA: Implement colony consciousness evolution tracking
 """
+
 import asyncio
 import logging
 import time
@@ -102,7 +103,7 @@ except ImportError as e:
 try:
     from core.tier_aware_colony_proxy import TierAwareColonyProxy
 
-    from .pwm_cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.quantum_identity_manager import (
+    from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.quantum_identity_manager import (
         QuantumUserContext,
     )
 

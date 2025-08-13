@@ -269,8 +269,8 @@ name: "LUKHAS Unified System"
 version: "2.0.0"
 
 # Hierarchical organization with clear ownership
-lukhas_pwm:
-  # Core PWM settings
+lukhas:
+  # Core  settings
   
 plugin_system:
   # Plugin management settings

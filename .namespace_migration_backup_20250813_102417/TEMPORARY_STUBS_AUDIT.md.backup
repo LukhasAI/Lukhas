@@ -1,12 +1,12 @@
 # Temporary Stubs and Bridges Audit
 
-This document tracks all temporary stubs, bridges, and compatibility shims in the LUKHAS PWM system.
+This document tracks all temporary stubs, bridges, and compatibility shims in the LUKHAS  system.
 
 ## Status Overview
 
 | Component | Type | Status | Real Implementation | Notes |
 |-----------|------|---------|-------------------|--------|
-| Feature Flags | New Module | ✅ Complete | `/lukhas_pwm/flags.py` | Production ready |
+| Feature Flags | New Module | ✅ Complete | `/lukhas/flags.py` | Production ready |
 | Identity Bridge | Bridge | ✅ Sophisticated | `/governance/identity/__init__.py` | Full compatibility system |
 | Signal Pattern | Missing Class | ✅ Added | `/orchestration/signals/signal_bus.py` | Now exported properly |
 | Ethics Components | Mixed | ⚠️ Partial | Multiple locations | Mix of real and stubs |
@@ -52,7 +52,7 @@ from governance.identity import IdentityClient, TierValidator
 from identity.core.tier import TierValidator  # Deprecated but works
 ```
 
-### 2. Feature Flags (`lukhas_pwm/flags.py`)
+### 2. Feature Flags (`lukhas/flags.py`)
 **Type**: New utility module
 **Status**: ✅ Complete implementation
 **Features**:
@@ -78,7 +78,7 @@ from lukhas.flags import get_flags, require_feature, when_enabled
 ## Temporary Files Created
 
 ### Files We Added
-1. `/lukhas_pwm/flags.py` - Feature flag system (KEEP - production ready)
+1. `/lukhas/flags.py` - Feature flag system (KEEP - production ready)
 2. `/governance/identity/__init__.py` - Already existed, sophisticated bridge (KEEP)
 3. `/orchestration/signals/signal_bus.py` - Added SignalPattern class (KEEP)
 4. `/ethics/stubs.py` - Temporary stubs (REVIEW - some may be replaceable)
@@ -120,7 +120,7 @@ from lukhas.flags import get_flags, require_feature, when_enabled
 
 ### Test Command
 ```bash
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM
+cd /Users/agi_dev/LOCAL-REPOS/Lukhas
 python3 tests/test_integration_fixes.py
 ```
 

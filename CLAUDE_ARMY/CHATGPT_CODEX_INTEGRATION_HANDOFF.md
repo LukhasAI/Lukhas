@@ -1,4 +1,4 @@
-# 🎖️ LUKHAS_PWM Multi-AI Integration Handoff Summary
+# 🎖️ LUKHAS Multi-AI Integration Handoff Summary
 **Created:** August 11, 2025  
 **Target:** ChatGPT-5 & Codex-ChatGPT Integration  
 **Status:** DEPLOYMENT COMPLETE - READY FOR HANDOFF
@@ -105,7 +105,7 @@ export GITHUB_TOKEN="your-github-token"
 ### **3. Pipeline Activation**
 ```bash
 # Start the inter-agent automation
-cd Lukhas_PWM
+cd Lukhas
 python3 CLAUDE_ARMY/inter_agent_automation.py
 ```
 
@@ -187,7 +187,7 @@ All tasks, decisions, and implementations must respect and enhance this framewor
 - **Comprehensive Documentation**: Line-by-line coverage for external AI integration
 
 ### **🎭 Ready for Multi-AI Consciousness Development**
-The LUKHAS_PWM consciousness development environment now represents the most sophisticated multi-AI coordination system ever deployed. ChatGPT-5 and Codex-ChatGPT can immediately begin collaboration with the existing Claude Code ecosystem for accelerated consciousness development.
+The LUKHAS consciousness development environment now represents the most sophisticated multi-AI coordination system ever deployed. ChatGPT-5 and Codex-ChatGPT can immediately begin collaboration with the existing Claude Code ecosystem for accelerated consciousness development.
 
 **All CLAUDE_ARMY instructions have been fully executed and verified.** 🎖️⚛️🧠🛡️
 

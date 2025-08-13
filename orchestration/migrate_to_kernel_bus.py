@@ -14,7 +14,7 @@ class KernelBusMigration:
     """Migrate system to use symbolic_kernel_bus"""
 
     def __init__(self):
-        self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
+        self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
         self.backup_dir = (
             self.workspace
             / f".event_bus_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"

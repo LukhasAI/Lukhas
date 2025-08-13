@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Lambda Products Integration Test Runner
-Tests integration with Lukhas PWM and production deployment readiness
+Tests integration with Lukhas  and production deployment readiness
 """
 
 import asyncio
@@ -135,30 +135,30 @@ class IntegrationTestRunner:
 
         return results
 
-    async def test_lukhas_pwm_integration(self) -> dict[str, Any]:
-        """Test integration with Lukhas PWM system"""
-        print("\n🔗 Testing Lukhas PWM Integration...")
+    async def test_lukhas_integration(self) -> dict[str, Any]:
+        """Test integration with Lukhas  system"""
+        print("\n🔗 Testing Lukhas  Integration...")
 
-        results = {"test": "Lukhas PWM Integration", "status": "FAILED", "details": {}}
+        results = {"test": "Lukhas  Integration", "status": "FAILED", "details": {}}
 
         try:
-            # Try to import PWM components
+            # Try to import  components
             try:
                 pass
 
-                results["details"]["pwm_available"] = True
+                results["details"]["_available"] = True
             except ImportError:
-                results["details"]["pwm_available"] = False
+                results["details"]["_available"] = False
                 results["status"] = "SKIPPED"
-                print("   ⏭️  PWM not available - skipping integration test")
+                print("   ⏭️   not available - skipping integration test")
                 return results
 
             # Test adapter
-            from integrations.lukhas_pwm_adapter import (
-                LukhasPWMIntegrationAdapter,
+            from integrations.lukhas_adapter import (
+                LukhasIntegrationAdapter,
             )
 
-            adapter = LukhasPWMIntegrationAdapter()
+            adapter = LukhasIntegrationAdapter()
 
             # Auto-register products
             products = await adapter.auto_register_all_products()
@@ -171,7 +171,7 @@ class IntegrationTestRunner:
             if products and consciousness_connected:
                 results["status"] = "PASSED"
                 print(
-                    f"   ✅ PWM Integration successful - {len(products)} products registered"
+                    f"   ✅  Integration successful - {len(products)} products registered"
                 )
             else:
                 print("   ⚠️  Partial integration - some components failed")
@@ -383,7 +383,7 @@ class IntegrationTestRunner:
         # Integration tests
         test_results.append(await self.test_plugin_registration_performance())
         test_results.append(await self.test_agent_orchestration())
-        test_results.append(await self.test_lukhas_pwm_integration())
+        test_results.append(await self.test_lukhas_integration())
         test_results.append(await self.test_api_endpoints())
         test_results.append(await self.test_deployment_readiness())
 

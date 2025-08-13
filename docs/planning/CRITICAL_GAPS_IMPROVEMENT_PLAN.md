@@ -196,7 +196,7 @@ class BioAdaptationEngine:
 #### Step 1: Fix Async/Await Issues
 ```bash
 # Create async-aware stress test framework
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM
+cd /Users/agi_dev/LOCAL-REPOS/Lukhas
 cp tests/stress/run_all_stress_tests.py tests/stress/run_all_stress_tests_fixed.py
 ```
 

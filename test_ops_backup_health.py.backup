@@ -2,7 +2,7 @@ import json
 
 from fastapi.testclient import TestClient
 
-from lukhas_pwm.api.app import app
+from lukhas.api.app import app
 
 
 def test_backup_health_reads_last_success(tmp_path, monkeypatch):

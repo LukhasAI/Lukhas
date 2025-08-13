@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Lambda Products Quick Setup Script
-Automatically integrates Lambda Products with Lukhas PWM
+Automatically integrates Lambda Products with Lukhas
 """
 
 import asyncio
@@ -16,21 +16,21 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 async def main():
     print("=" * 60)
-    print("🚀 LAMBDA PRODUCTS - QUICK SETUP FOR LUKHAS PWM")
+    print("🚀 LAMBDA PRODUCTS - QUICK SETUP FOR LUKHAS ")
     print("=" * 60)
 
     # Step 1: Check environment
     print("\n📋 Step 1: Checking environment...")
     try:
-        # Check if we can import Lukhas PWM
+        # Check if we can import Lukhas
         pass
 
-        print("✅ Lukhas PWM detected")
-        pwm_available = True
+        print("✅ Lukhas  detected")
+        _available = True
     except ImportError:
-        print("⚠️  Lukhas PWM not found in Python path")
+        print("⚠️  Lukhas  not found in Python path")
         print("   Lambda Products will run in standalone mode")
-        pwm_available = False
+        _available = False
 
     # Step 2: Import Lambda Products
     print("\n📦 Step 2: Loading Lambda Products...")
@@ -51,30 +51,30 @@ async def main():
     PluginSystem()
     print("✅ Plugin system initialized")
 
-    # Step 4: Register with PWM if available
-    if pwm_available:
-        print("\n🔗 Step 4: Integrating with Lukhas PWM...")
+    # Step 4: Register with  if available
+    if _available:
+        print("\n🔗 Step 4: Integrating with Lukhas ...")
         try:
-            from integrations.lukhas_pwm_adapter import (
-                LukhasPWMIntegrationAdapter,
+            from integrations.lukhas_adapter import (
+                LukhasIntegrationAdapter,
             )
 
-            adapter = LukhasPWMIntegrationAdapter()
+            adapter = LukhasIntegrationAdapter()
 
             # Auto-register all products
             products_registered = await adapter.auto_register_all_products()
 
             if products_registered:
                 print(
-                    f"✅ Successfully registered {len(products_registered)} Lambda Products with PWM"
+                    f"✅ Successfully registered {len(products_registered)} Lambda Products with "
                 )
                 for product in products_registered:
                     print(f"   - {product}")
             else:
-                print("⚠️  No products registered (PWM might not be running)")
+                print("⚠️  No products registered ( might not be running)")
 
         except Exception as e:
-            print(f"⚠️  PWM integration failed: {e}")
+            print(f"⚠️   integration failed: {e}")
             print("   Lambda Products will run independently")
 
     # Step 5: Deploy sample agents
@@ -141,7 +141,7 @@ async def main():
     test_results = {
         "plugin_system": "✅ PASSED",
         "agent_framework": "✅ PASSED",
-        "pwm_integration": "✅ PASSED" if pwm_available else "⏭️  SKIPPED",
+        "_integration": "✅ PASSED" if _available else "⏭️  SKIPPED",
         "openai_bridge": "✅ PASSED" if api_key else "⏭️  SKIPPED",
     }
 
@@ -161,7 +161,7 @@ async def main():
     print("\n🔧 Configuration:")
     print("   - Plugin System: ACTIVE")
     print("   - Agent Framework: ACTIVE")
-    print(f"   - PWM Integration: {'CONNECTED' if pwm_available else 'STANDALONE'}")
+    print(f"   -  Integration: {'CONNECTED' if _available else 'STANDALONE'}")
     print(f"   - OpenAI Bridge: {'CONNECTED' if api_key else 'NOT CONFIGURED'}")
 
     print("\n📚 Next Steps:")

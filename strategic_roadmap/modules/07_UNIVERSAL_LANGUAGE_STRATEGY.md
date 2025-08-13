@@ -1,8 +1,8 @@
 # Strategic Analysis: UNIVERSAL LANGUAGE & SYMBOLIC Systems
-## LUKHAS PWM Language Unification Roadmap
+## LUKHAS  Language Unification Roadmap
 
 ### Executive Summary
-LUKHAS PWM has multiple disconnected language and symbolic systems spread across various modules: `/symbolic/`, `/bio_symbolic/`, `/core/symbolic/`, plus references to Universal Language and LUKHAS Grammar. Industry leaders would consolidate these into a unified, interoperable language infrastructure that becomes the communication backbone for AGI.
+LUKHAS  has multiple disconnected language and symbolic systems spread across various modules: `/symbolic/`, `/bio_symbolic/`, `/core/symbolic/`, plus references to Universal Language and LUKHAS Grammar. Industry leaders would consolidate these into a unified, interoperable language infrastructure that becomes the communication backbone for AGI.
 
 **Current State**: Fragmented across 5+ implementations, no central coordination, missing grammar module.
 

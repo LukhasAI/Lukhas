@@ -1,6 +1,6 @@
 """
 Lambda Products Adapter for LUKHAS Plugin System
-Integrates all Lambda Products as modular plugins into LUKHAS PWM
+Integrates all Lambda Products as modular plugins into LUKHAS
 
 This adapter provides unified access to:
 - NIΛS: Non-intrusive messaging with emotional gating
@@ -291,7 +291,7 @@ class DASTPlugin(LukhasPlugin):
 
 class LambdaProductsAdapter:
     """
-    Main adapter for integrating all Lambda Products into LUKHAS PWM
+    Main adapter for integrating all Lambda Products into LUKHAS
 
     This class manages the registration and lifecycle of Lambda Product plugins,
     providing a unified interface for the LUKHAS ecosystem.

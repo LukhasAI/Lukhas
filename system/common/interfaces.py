@@ -1,5 +1,5 @@
 """
-Common interfaces for LUKHAS PWM
+Common interfaces for LUKHAS
 ================================
 Consolidated interface definitions to reduce duplication.
 """

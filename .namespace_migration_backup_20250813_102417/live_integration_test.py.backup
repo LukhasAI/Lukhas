@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Live Integration Test for LUKHΛS PWM ↔ OpenAI (modulation + tool-loop)
+Live Integration Test for LUKHΛS  ↔ OpenAI (modulation + tool-loop)
 
 Scenarios:
   A) No tools needed  → normal completion
@@ -26,7 +26,7 @@ except Exception:
     print("❌ Missing `openai` package. Install with: pip install openai")
     raise
 
-# --- LUKHΛS PWM imports ------------------------------------------------------
+# --- LUKHΛS  imports ------------------------------------------------------
 try:
     from bridge.llm_wrappers.openai_modulated_service import (
         run_modulated_completion,
@@ -40,7 +40,7 @@ except Exception:
 
 # Optional: pull last audit bundle to link, if desired
 try:
-    from lukhas_pwm.audit.store import audit_log_read
+    from lukhas.audit.store import audit_log_read
 except Exception:
     audit_log_read = None
 

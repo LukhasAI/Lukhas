@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test script for LUKHAS PWM monitoring system
+Test script for LUKHAS  monitoring system
 Validates all monitoring components and configurations
 """
 
@@ -26,7 +26,7 @@ class MonitoringTester:
 
     async def run_all_tests(self):
         """Run all monitoring tests"""
-        logger.info("🧪 Starting LUKHAS PWM Monitoring Tests")
+        logger.info("🧪 Starting LUKHAS  Monitoring Tests")
 
         tests = [
             ("Dependencies", self.test_dependencies),
@@ -266,7 +266,7 @@ class MonitoringTester:
 
         # Test feature flags integration
         try:
-            from lukhas_pwm.flags import get_flags, is_enabled
+            from lukhas.flags import get_flags, is_enabled
 
             flags = get_flags()
             integration_tests["feature_flags"] = {
@@ -303,7 +303,7 @@ class MonitoringTester:
         error_tests = sum(1 for r in self.test_results if r["status"] == "ERROR")
 
         logger.info("\n" + "=" * 60)
-        logger.info("📊 LUKHAS PWM Monitoring Test Summary")
+        logger.info("📊 LUKHAS  Monitoring Test Summary")
         logger.info("=" * 60)
         logger.info(f"📈 Total Tests: {total_tests}")
         logger.info(f"✅ Passed: {passed_tests}")

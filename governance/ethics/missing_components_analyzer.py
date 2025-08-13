@@ -7,7 +7,7 @@
 #TAG:colony
 
 
-PWM Missing Components Analyzer
+ LUKHAS Missing Components Analyzer
 Identifies gaps in ethics, compliance, and governance that might exist in the prototype
 """
 
@@ -95,7 +95,7 @@ def analyze_missing_components():
         ],
     }
 
-    print("🔍 PWM Missing Components Analysis")
+    print("🔍 LUKHAS Missing Components Analysis")
     print("=" * 60)
 
     missing_components = {}

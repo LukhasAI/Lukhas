@@ -7,7 +7,7 @@ monkeypatch without touching core executor internals.
 
 from typing import Any
 
-from lukhas_pwm.tools.tool_executor import get_tool_executor
+from lukhas.tools.tool_executor import get_tool_executor
 
 
 class ToolExecutionError(Exception):

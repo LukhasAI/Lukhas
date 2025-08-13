@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Deep Cleanup and Archive Script for Lukhas PWM
+Deep Cleanup and Archive Script for Lukhas 
 Archives deprecated files, cleans cache, updates docs, and creates clean package
 """
 
@@ -15,7 +15,7 @@ class WorkspaceCleanup:
     """Comprehensive workspace cleanup and archiving"""
 
     def __init__(self):
-        self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
+        self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas"
         self.archive_dir = (
             Path.home()
             / "lukhas-archive"
@@ -250,7 +250,7 @@ class WorkspaceCleanup:
 
         setup_content = '''#!/usr/bin/env python3
 """
-Lukhas PWM Setup Configuration
+Lukhas  Setup Configuration
 """
 
 from setuptools import setup, find_packages
@@ -261,13 +261,13 @@ readme_path = Path(__file__).parent / "README.md"
 long_description = readme_path.read_text() if readme_path.exists() else ""
 
 setup(
-    name="lukhas-pwm",
+    name="lukhas-",
     version="2.0.0",
     author="LUKHAS AI",
     description="Production-ready consciousness-aware AI platform with Lambda Products",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/lukhas-pwm",
+    url="https://github.com/yourusername/lukhas-",
     packages=find_packages(exclude=["tests*", "docs*", "examples*"]),
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -415,7 +415,7 @@ setup(
         print("\n📦 Creating clean package...")
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        zip_name = f"lukhas_pwm_clean_{timestamp}.zip"
+        zip_name = f"lukhas_an_{timestamp}.zip"
         zip_path = self.workspace.parent / zip_name
 
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:

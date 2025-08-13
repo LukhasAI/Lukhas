@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-🔍 PWM Active Import Analysis Tool
+🔍  Active Import Analysis Tool
 =================================
-Identifies import errors in the active LUKHAS PWM codebase (excluding archives).
+Identifies import errors in the active LUKHAS  codebase (excluding archives).
 """
 
 import ast
@@ -22,7 +22,7 @@ class ActiveImportAnalyzer:
 
     # Directories to exclude from analysis
     EXCLUDE_DIRS = {
-        ".pwm_cleanup_archive",
+        "._cleanup_archive",
         "archive",
         "__pycache__",
         ".git",
@@ -415,7 +415,7 @@ def generate_fixes(report: dict) -> list[str]:
 
 def main():
     """Main analysis function"""
-    print("🔍 PWM Active Import Analysis")
+    print("🔍  Active Import Analysis")
     print("=" * 60)
 
     analyzer = ActiveImportAnalyzer(PROJECT_ROOT)
@@ -461,7 +461,7 @@ def main():
         / "docs"
         / "reports"
         / "analysis"
-        / "PWM_ACTIVE_IMPORT_ANALYSIS_REPORT.json"
+        / "_ACTIVE_IMPORT_ANALYSIS_REPORT.json"
     )
     report_path.parent.mkdir(parents=True, exist_ok=True)
 

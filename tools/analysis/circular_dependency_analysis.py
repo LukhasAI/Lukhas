@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-🔄 PWM Circular Dependency Analysis
+🔄  Circular Dependency Analysis
 ==================================
-Identifies and analyzes circular dependencies in LUKHAS PWM.
+Identifies and analyzes circular dependencies in LUKHAS .
 """
 
 import ast
@@ -83,7 +83,7 @@ class DependencyAnalyzer:
             return str(file_path)
 
     def _is_local_module(self, module_name: str) -> bool:
-        """Check if module is part of LUKHAS PWM"""
+        """Check if module is part of LUKHAS"""
         if not module_name:
             return False
 
@@ -380,7 +380,7 @@ def get_module(name: str) -> Optional[{interface_name.replace('_interface',
 
 def main():
     """Main analysis function"""
-    print("🔄 PWM Circular Dependency Analysis")
+    print("🔄  Circular Dependency Analysis")
     print("=" * 60)
 
     analyzer = DependencyAnalyzer(PROJECT_ROOT)
@@ -395,7 +395,7 @@ def main():
                 "__pycache__",
                 ".git",
                 "archive",
-                ".pwm_cleanup_archive",
+                "._cleanup_archive",
                 "venv",
                 ".venv",
             ]
@@ -469,7 +469,7 @@ def main():
         / "docs"
         / "reports"
         / "analysis"
-        / "PWM_CIRCULAR_DEPENDENCY_REPORT.json"
+        / "_CIRCULAR_DEPENDENCY_REPORT.json"
     )
     report_path.parent.mkdir(parents=True, exist_ok=True)
 

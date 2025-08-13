@@ -8,13 +8,13 @@ from typing import Optional
 from fastapi import APIRouter, Depends, Header, HTTPException, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 
-from lukhas_pwm.audit.analytics_read import (
+from lukhas.audit.analytics_read import (
     recent_incidents,
     recent_tool_usage,
     summarize_safety_modes,
     summarize_tools,
 )
-from lukhas_pwm.flags import is_enabled
+from lukhas.flags import is_enabled
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 

@@ -17,19 +17,21 @@ class TestFeatureFlags(unittest.TestCase):
 
     def test_import(self):
         """Test that flags module imports correctly"""
-        from lukhas_pwm import flags
+        from lukhas import flags
+
         self.assertIsNotNone(flags)
 
     def test_get_flags(self):
         """Test getting all flags"""
-        from lukhas_pwm.flags import get_flags
+        from lukhas.flags import get_flags
+
         all_flags = get_flags()
         self.assertIsInstance(all_flags, dict)
         self.assertIn("adaptive_ai", all_flags)
 
     def test_require_feature(self):
         """Test requiring a feature"""
-        from lukhas_pwm.flags import FeatureFlagContext, require_feature
+        from lukhas.flags import FeatureFlagContext, require_feature
 
         # Should work for enabled feature
         with FeatureFlagContext(test_feature=True):
@@ -42,7 +44,7 @@ class TestFeatureFlags(unittest.TestCase):
 
     def test_when_enabled_decorator(self):
         """Test conditional execution decorator"""
-        from lukhas_pwm.flags import FeatureFlagContext, when_enabled
+        from lukhas.flags import FeatureFlagContext, when_enabled
 
         call_count = 0
 
@@ -66,7 +68,7 @@ class TestFeatureFlags(unittest.TestCase):
 
     def test_context_manager(self):
         """Test feature flag context manager"""
-        from lukhas_pwm.flags import FeatureFlagContext, is_enabled
+        from lukhas.flags import FeatureFlagContext, is_enabled
 
         # Original state
         original = is_enabled("test_flag")
@@ -105,7 +107,7 @@ class TestIdentityBridges(unittest.TestCase):
         self.assertIsNotNone(client)
 
         # Should have authenticate method
-        self.assertTrue(hasattr(client, 'authenticate'))
+        self.assertTrue(hasattr(client, "authenticate"))
 
     def test_tier_validation(self):
         """Test tier access validation"""
@@ -155,11 +157,7 @@ class TestOrchestrationSignals(unittest.TestCase):
         bus = SignalBus()
 
         # Create signal
-        signal = Signal(
-            name=SignalType.STRESS,
-            level=0.7,
-            source="test_module"
-        )
+        signal = Signal(name=SignalType.STRESS, level=0.7, source="test_module")
 
         self.assertEqual(signal.name, SignalType.STRESS)
         self.assertEqual(signal.level, 0.7)
@@ -174,33 +172,19 @@ class TestOrchestrationSignals(unittest.TestCase):
 
         # Create pattern
         pattern = SignalPattern(
-            name_pattern=SignalType.STRESS,
-            level_min=0.5,
-            level_max=1.0
+            name_pattern=SignalType.STRESS, level_min=0.5, level_max=1.0
         )
 
         # Should match
-        signal1 = Signal(
-            name=SignalType.STRESS,
-            level=0.7,
-            source="test"
-        )
+        signal1 = Signal(name=SignalType.STRESS, level=0.7, source="test")
         self.assertTrue(pattern.matches(signal1))
 
         # Should not match (wrong type)
-        signal2 = Signal(
-            name=SignalType.NOVELTY,
-            level=0.7,
-            source="test"
-        )
+        signal2 = Signal(name=SignalType.NOVELTY, level=0.7, source="test")
         self.assertFalse(pattern.matches(signal2))
 
         # Should not match (level too low)
-        signal3 = Signal(
-            name=SignalType.STRESS,
-            level=0.3,
-            source="test"
-        )
+        signal3 = Signal(name=SignalType.STRESS, level=0.3, source="test")
         self.assertFalse(pattern.matches(signal3))
 
     def test_signal_bus_pubsub(self):
@@ -217,11 +201,7 @@ class TestOrchestrationSignals(unittest.TestCase):
         bus.subscribe(SignalType.STRESS, handler)
 
         # Publish
-        signal = Signal(
-            name=SignalType.STRESS,
-            level=0.5,
-            source="test"
-        )
+        signal = Signal(name=SignalType.STRESS, level=0.5, source="test")
         bus.publish(signal)
 
         # Should receive
@@ -267,9 +247,9 @@ class TestColonyIntegrity(unittest.TestCase):
         decision = bridge.evaluate({"action": "test"})
 
         self.assertIsNotNone(decision)
-        self.assertTrue(hasattr(decision, 'approved'))
-        self.assertTrue(hasattr(decision, 'reasoning'))
-        self.assertTrue(hasattr(decision, 'risk_level'))
+        self.assertTrue(hasattr(decision, "approved"))
+        self.assertTrue(hasattr(decision, "reasoning"))
+        self.assertTrue(hasattr(decision, "risk_level"))
 
     def test_colony_imports_no_side_effects(self):
         """Test that colony imports don't have side effects"""
@@ -299,16 +279,12 @@ class TestIntegrationFlow(unittest.TestCase):
 
     def test_signal_with_feature_flag(self):
         """Test signals gated by feature flags"""
-        from lukhas_pwm.flags import FeatureFlagContext, when_enabled
+        from lukhas.flags import FeatureFlagContext, when_enabled
         from orchestration.signals import Signal, SignalType
 
         @when_enabled("adaptive_signals")
         def emit_adaptive_signal():
-            return Signal(
-                name=SignalType.STRESS,
-                level=0.5,
-                source="adaptive"
-            )
+            return Signal(name=SignalType.STRESS, level=0.5, source="adaptive")
 
         # Should work when enabled
         with FeatureFlagContext(adaptive_signals=True):
@@ -334,10 +310,13 @@ class TestIntegrationFlow(unittest.TestCase):
 
         # This is async, so we need to handle it differently
         import asyncio
-        decision = asyncio.run(engine.evaluate("test_action", {"user_valid": user_valid}))
+
+        decision = asyncio.run(
+            engine.evaluate("test_action", {"user_valid": user_valid})
+        )
 
         self.assertIsNotNone(decision)
-        self.assertTrue(hasattr(decision, 'approved'))
+        self.assertTrue(hasattr(decision, "approved"))
 
 
 def run_tests():
@@ -357,9 +336,9 @@ def run_tests():
     result = runner.run(suite)
 
     # Print summary
-    print("\n" + "="*70)
+    print("\n" + "=" * 70)
     print("INTEGRATION FIXES TEST SUMMARY")
-    print("="*70)
+    print("=" * 70)
     print(f"Tests run: {result.testsRun}")
     print(f"Failures: {len(result.failures)}")
     print(f"Errors: {len(result.errors)}")

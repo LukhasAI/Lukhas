@@ -5,11 +5,7 @@
         "count": 10,
         "physical_cores": 10,
         "current_usage": 12.4,
-        "load_average": [
-          3.13037109375,
-          3.0537109375,
-          2.61962890625
-        ]
+        "load_average": [3.13037109375, 3.0537109375, 2.61962890625]
       },
       "memory": {
         "total_gb": 16.0,
@@ -73,10 +69,10 @@
   "Import Performance": {
     "result": {
       "import_times": {
-        "lukhas_pwm.flags": {
+        "lukhas.flags": {
           "duration_ms": 0,
           "status": "error",
-          "error": "No module named 'lukhas_pwm'"
+          "error": "No module named 'lukhas'"
         },
         "governance.policy.base": {
           "duration_ms": 0,
@@ -109,7 +105,7 @@
   },
   "Function Profiling": {
     "result": {
-      "profile_output": "         341 function calls (339 primitive calls) in 0.002 seconds\n\n   Ordered by: cumulative time\n   List reduced from 86 to 20 due to restriction <20>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        2    0.000    0.000    0.001    0.001 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:1815(_run_once)\n        2    0.000    0.000    0.001    0.001 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/selectors.py:554(select)\n        2    0.001    0.001    0.001    0.001 {method 'control' of 'select.kqueue' objects}\n        2    0.000    0.000    0.001    0.000 /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/performance/optimization_analysis.py:238(_simulate_typical_operations)\n        1    0.000    0.000    0.000    0.000 /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/performance/optimization_analysis.py:250(<listcomp>)\n      2/1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:1002(_find_and_load)\n      2/1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:967(_find_and_load_unlocked)\n        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:220(_call_with_frames_removed)\n        1    0.000    0.000    0.000    0.000 {built-in method builtins.__import__}\n        2    0.000    0.000    0.000    0.000 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/events.py:78(_run)\n        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:901(_find_spec)\n        2    0.000    0.000    0.000    0.000 {method 'run' of 'Context' objects}\n        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1406(find_spec)\n        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1374(_get_spec)\n        1    0.000    0.000    0.000    0.000 /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/performa",
+      "profile_output": "         341 function calls (339 primitive calls) in 0.002 seconds\n\n   Ordered by: cumulative time\n   List reduced from 86 to 20 due to restriction <20>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        2    0.000    0.000    0.001    0.001 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py:1815(_run_once)\n        2    0.000    0.000    0.001    0.001 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/selectors.py:554(select)\n        2    0.001    0.001    0.001    0.001 {method 'control' of 'select.kqueue' objects}\n        2    0.000    0.000    0.001    0.000 /Users/agi_dev/LOCAL-REPOS/Lukhas/performance/optimization_analysis.py:238(_simulate_typical_operations)\n        1    0.000    0.000    0.000    0.000 /Users/agi_dev/LOCAL-REPOS/Lukhas/performance/optimization_analysis.py:250(<listcomp>)\n      2/1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:1002(_find_and_load)\n      2/1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:967(_find_and_load_unlocked)\n        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:220(_call_with_frames_removed)\n        1    0.000    0.000    0.000    0.000 {built-in method builtins.__import__}\n        2    0.000    0.000    0.000    0.000 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/events.py:78(_run)\n        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:901(_find_spec)\n        2    0.000    0.000    0.000    0.000 {method 'run' of 'Context' objects}\n        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1406(find_spec)\n        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1374(_get_spec)\n        1    0.000    0.000    0.000    0.000 /Users/agi_dev/LOCAL-REPOS/Lukhas/performa",
       "total_calls": 341,
       "primitive_calls": 339
     },
@@ -153,7 +149,7 @@
   },
   "Optimization Opportunities": {
     "result": {},
-    "analysis_duration": 1.3113021850585938e-05,
+    "analysis_duration": 1.3113021850585938e-5,
     "status": "success"
   },
   "recommendations": [

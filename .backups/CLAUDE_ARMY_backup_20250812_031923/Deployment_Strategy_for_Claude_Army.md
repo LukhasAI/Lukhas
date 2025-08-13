@@ -107,7 +107,7 @@ The setup script is designed to **enhance** your existing LUKHAS structure, not 
 - ✅ Your Trinity Framework branding (`branding/`)
 - ✅ Your 17 active tasks (`docs/tasks/ACTIVE.md`)
 - ✅ Your Guardian System (`governance/`)
-- ✅ Your configuration (`lukhas_pwm_config.yaml`)
+- ✅ Your configuration (`lukhas_config.yaml`)
 
 ### **Adds New Capabilities:**
 - 🆕 Advanced VSCode workspace configuration

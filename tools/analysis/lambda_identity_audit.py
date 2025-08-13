@@ -20,7 +20,7 @@ class LambdaIDSystemAudit:
     """Audits the ΛiD identity system for security and functionality"""
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas_PWM")
+        self.root_path = Path("/Users/agi_dev/Lukhas")
         self.identity_modules = []
         self.security_issues = []
         self.functionality_map = {}

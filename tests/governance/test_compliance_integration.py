@@ -9,7 +9,7 @@ import asyncio
 import sys
 
 # Add the compliance framework to the path
-sys.path.insert(0, "/Users/agi_dev/Lukhas_PWM")
+sys.path.insert(0, "/Users/agi_dev/Lukhas")
 
 
 def test_imports():

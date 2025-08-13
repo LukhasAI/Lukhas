@@ -62,7 +62,7 @@ def main():
     except Exception:
         pass
 
-    tar_name = f"lukhas_pwm_backup_{tag}.tar.{comp}"
+    tar_name = f"lukhas_backup_{tag}.tar.{comp}"
     tar_path = os.path.join(args.outdir, tar_name)
 
     mode = f"w:{comp}"

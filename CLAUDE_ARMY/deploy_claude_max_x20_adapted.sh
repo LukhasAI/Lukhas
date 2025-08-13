@@ -11,7 +11,7 @@ echo "Strategy: 6 Specialized Agents for MVP Demo"
 echo ""
 
 # Configuration
-LUKHAS_ROOT="/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM"
+LUKHAS_ROOT="/Users/agi_dev/LOCAL-REPOS/Lukhas"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 LOG_DIR="$LUKHAS_ROOT/CLAUDE_ARMY/logs/$TIMESTAMP"
 

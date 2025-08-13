@@ -2,7 +2,7 @@
 
 ### **Primary Location: `core/consciousness/dream_engine/`**
 ```
-lukhas_pwm/
+lukhas/
 ├── core/
 │   ├── consciousness
 │   │   ├── dream_engine/
@@ -24,7 +24,7 @@ lukhas_pwm/
 
 ### **Supporting Modules in Safety Framework:**
 ```
-lukhas_pwm/
+lukhas/
 ├── core/
 │   ├── safety/
 │   │   ├── constitutional_ai/
@@ -37,7 +37,7 @@ lukhas_pwm/
 
 ### **Integration Layer:**
 ```
-lukhas_pwm/
+lukhas/
 ├── core/
 │   ├── integration/
 │   │   ├── innovation_orchestrator.py         # ← NEW: Master controller

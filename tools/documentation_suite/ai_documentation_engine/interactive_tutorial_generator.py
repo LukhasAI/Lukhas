@@ -573,7 +573,7 @@ Modern AI systems can have significant impact on people's lives, so ensuring the
         return f"""
 **API Integration Basics**
 
-{topic} covers how to interact with the LUKHAS PWM API ecosystem:
+{topic} covers how to interact with the LUKHAS  API ecosystem:
 
 **Core Concepts:**
 - **RESTful APIs**: Standard HTTP-based interfaces for system interaction
@@ -602,7 +602,7 @@ Modern AI systems can have significant impact on people's lives, so ensuring the
         return f"""
 **Introduction to {topic}**
 
-This section introduces the key concepts and principles of {topic} in the LUKHAS PWM ecosystem.
+This section introduces the key concepts and principles of {topic} in the LUKHAS  ecosystem.
 
 **Overview:**
 {topic} is an important component that enables advanced AI system management and operations.
@@ -628,7 +628,7 @@ This section introduces the key concepts and principles of {topic} in the LUKHAS
         if difficulty_level == DifficultyLevel.BEGINNER:
             code = """
 # Basic compliance validation example
-from system_pwm.compliance import ComplianceEngine
+from system.pliance import ComplianceEngine
 
 # Initialize the compliance engine
 engine = ComplianceEngine()
@@ -656,8 +656,8 @@ Score: 85/100
         else:
             code = """
 # Advanced multi-framework compliance validation
-from system_pwm.compliance import GlobalComplianceEngine
-from system_pwm.compliance.frameworks import EUAIAct, GDPR, NIST
+from system.pliance import GlobalComplianceEngine
+from system.pliance.frameworks import EUAIAct, GDPR, NIST
 
 # Initialize global compliance engine
 engine = GlobalComplianceEngine()
@@ -702,7 +702,7 @@ NIST: compliant (Score: 91/100)
 
         code = """
 # Security testing example
-from system_pwm.security import RedTeamFramework
+from system.urity import RedTeamFramework
 
 # Initialize red team framework
 red_team = RedTeamFramework()
@@ -740,11 +740,11 @@ Vulnerabilities: 2
         code = """
 # API integration example
 import requests
-from system_pwm.client import APIClient
+from system.ent import APIClient
 
 # Initialize API client
 client = APIClient(
-    base_url="https://api.lukhas-pwm.com",
+    base_url="https://api.lukhas-.com",
     api_key="your-api-key"
 )
 
@@ -773,7 +773,7 @@ Compliance Score: 87
 
         code = f"""
 # Basic {topic} example
-from system_pwm import {topic.title().replace(' ', '')}
+from system ort {topic.title().replace(' ', '')}
 
 # Initialize component
 component = {topic.title().replace(' ', '')}()
@@ -809,7 +809,7 @@ You need to create a compliance validation for an AI system that processes custo
 Complete the code below to properly configure and validate compliance for this high-risk AI system.
 """,
             "starter_code": """
-from system_pwm.compliance import EUAIActValidator
+from system.pliance import EUAIActValidator
 
 # TODO: Create the AI system profile
 system_profile = {
@@ -871,7 +871,7 @@ You need to test it for prompt injection vulnerabilities.
 Complete the security testing configuration and analyze the results.
 """,
             "starter_code": """
-from system_pwm.security import PromptInjectionTester
+from system.urity import PromptInjectionTester
 
 # TODO: Configure the target system
 target = {
@@ -917,13 +917,13 @@ assert isinstance(tester, PromptInjectionTester)
             "content": """
 **Exercise: API Integration**
 
-Integrate with the LUKHAS PWM API to perform a compliance validation through the REST API.
+Integrate with the LUKHAS  API to perform a compliance validation through the REST API.
 
 **Your Task:**
 Complete the API client configuration and make a successful compliance validation request.
 """,
             "starter_code": """
-from system_pwm.client import APIClient
+from system.ent import APIClient
 
 # TODO: Configure the API client
 client = APIClient(
@@ -947,7 +947,7 @@ assert hasattr(client, 'base_url')
 assert hasattr(client, 'api_key') or hasattr(client, 'token')
 """,
             "hints": [
-                "Use 'https://api.lukhas-pwm.com' as base URL",
+                "Use 'https://api.lukhas-.com' as base URL",
                 "Add your API key for authentication",
                 "Use client.compliance.validate() method",
                 "Check response.status_code for success",
@@ -970,7 +970,7 @@ Follow the TODOs in the code to complete the implementation.
 """,
             "starter_code": """
 # TODO: Import the required module
-from system_pwm import ...
+from system ort ...
 
 # TODO: Initialize the component
 component = ...
@@ -988,7 +988,7 @@ print(f"Result: {result}")
             "expected_output": f"{topic} processing completed successfully",
             "validation_code": "assert result is not None",
             "hints": [
-                f"Import the {topic} module from system_pwm",
+                f"Import the {topic} module from system"
                 f"Initialize {topic}() class",
                 "Add basic configuration options",
                 "Call the process() method",
@@ -1105,7 +1105,7 @@ print(f"Result: {result}")
 2. Which framework is most relevant for {topic}?
    a) React
    b) TensorFlow
-   c) LUKHAS PWM
+   c) LUKHAS 
    d) Django
 
 3. What is a key benefit of implementing {topic}?
@@ -1181,7 +1181,7 @@ Here are some common issues you might encounter and how to resolve them:
 5. Consult documentation and community forums
 
 **Getting Help:**
-- Check the documentation at docs.lukhas-pwm.com
+- Check the documentation at docs.lukhas-.com
 - Join the community forum
 - Contact support for critical issues
 """

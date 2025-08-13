@@ -1,10 +1,10 @@
-# 🎯 LUKHAS PWM Governance Configuration
+# 🎯 LUKHAS  Governance Configuration
 # Pack-What-Matters specific governance settings
 
 governance:
   enabled: true
   version: "1.0.0"
-  mode: "pwm_workspace"
+  mode: "_workspace"
 
 guardian_system:
   remediator_sensitivity: 0.7
@@ -16,12 +16,12 @@ safety_thresholds:
   productivity_critical: 0.8
   emergency_intervention: 0.95
 
-pwm_specific:
+_specific:
   protect_git_operations: true
   monitor_file_deletions: true
   workspace_bloat_detection: true
   backup_integrity_checks: true
-  
+
   # Protected file patterns
   protected_patterns:
     - "*.git/*"

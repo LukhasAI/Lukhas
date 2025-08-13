@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Complete Integration Script for Lambda Products + Lukhas PWM
+Complete Integration Script for Lambda Products + Lukhas 
 Connects all systems for full operational capability
 """
 
@@ -12,15 +12,15 @@ from datetime import datetime
 from pathlib import Path
 
 # Set up paths
-LUKHAS_PWM_PATH = Path(__file__).parent
-LAMBDA_PRODUCTS_PATH = LUKHAS_PWM_PATH / "lambda_products_pack"
+LUKHAS_H = Path(__file__).parent
+LAMBDA_PRODUCTS_PATH = LUKHAS_H / "lambda_products_pack"
 
-sys.path.insert(0, str(LUKHAS_PWM_PATH))
+sys.path.insert(0, str(LUKHAS_H))
 sys.path.insert(0, str(LAMBDA_PRODUCTS_PATH))
 
 
 class LukhasLambdaIntegrator:
-    """Complete integration system for Lukhas PWM + Lambda Products"""
+    """Complete integration system for Lukhas Lambda Products"""
 
     def __init__(self):
         self.integration_status = {
@@ -228,9 +228,9 @@ class LukhasLambdaIntegrator:
             # Configure tier mappings
 
             # Apply tier system to Lambda Products
-            from integrations.lukhas_pwm_adapter import LukhasPWMIntegrationAdapter
+            from integrations.lukhas_pter import LukhasIgronAdapter
 
-            adapter = LukhasPWMIntegrationAdapter()
+            adapter = LukhasegrationAdapter()
 
             # Map Lambda Products to tiers
             tier_mappings = {
@@ -423,7 +423,7 @@ class LukhasLambdaIntegrator:
     async def run_full_integration(self):
         """Execute complete integration of all systems"""
         print("=" * 60)
-        print("🚀 LUKHAS PWM + LAMBDA PRODUCTS FULL INTEGRATION")
+        print("🚀 LUKHAS LAMBDA PRODUCTS FULL INTEGRATION")
         print("=" * 60)
         print("Connecting all systems for complete operational capability...")
 
@@ -470,7 +470,7 @@ class LukhasLambdaIntegrator:
 
         if success_rate >= 75:
             print("\n🎉 INTEGRATION SUCCESSFUL!")
-            print("Lukhas PWM + Lambda Products are now fully integrated")
+            print("Lukhas Lambda Products are now fully integrated")
             print("\nCapabilities Enabled:")
             print("  ✅ Consciousness-aware advertising (NIAS)")
             print("  ✅ Emotionally intelligent agents")
@@ -502,7 +502,7 @@ async def main():
 
 if __name__ == "__main__":
     print("\n🔧 Starting Full System Integration...")
-    print("This will connect all Lambda Products with Lukhas PWM")
+    print("This will connect all Lambda Products with Lukhas 
     print("Please wait...\n")
 
     try:

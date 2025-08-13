@@ -16,7 +16,7 @@
 ### 1. Environment Setup (Run Before Starting Work)
 ```bash
 # Activate virtual environment
-source /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/.venv/bin/activate
+source /Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/bin/activate
 
 # Increase Node.js memory limit
 export NODE_OPTIONS="--max-old-space-size=8192"
@@ -68,7 +68,7 @@ rm -rf ~/.claude/cache/*
   - `bridge/adapters/service_adapter_base.py`
   - `MODULE_STATUS_REPORT.md`
   - `governance/security/security_audit_engine.py`
-  - `lukhas_pwm/branding.py`
+  - `lukhas/branding.py`
   - `security/scanning/consciousness-security-rules.py`
   - `tests/canary/test_candidate_systems.py`
   - `universal_language/__init__.py.shim`
@@ -104,8 +104,8 @@ make fix
 make lint
 
 # System analysis
-python tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py
-python tools/analysis/PWM_OPERATIONAL_SUMMARY.py
+python tools/analysis/_FUNCTIONAL_ANALYSIS.py
+python tools/analysis/_OPERATIONAL_SUMMARY.py
 
 # Deployment
 ./CLAUDE_ARMY/deploy_claude_max_6_agents.sh
@@ -122,7 +122,7 @@ python tools/analysis/PWM_OPERATIONAL_SUMMARY.py
 
 ## 💡 Tips for Next Agent
 1. This is the LUKHAS AI repository - uses Trinity Framework (⚛️🧠🛡️)
-2. Always use "LUKHAS AI" (not "LUKHAS AGI" or "Lukhas PWM")
+2. Always use "LUKHAS AI" (not "LUKHAS AGI" or "Lukhas ")
 3. Check CLAUDE.md for full project guidelines
 4. Current phase: Post-Phase 4 (candidate systems migration completed)
 5. If you encounter similar crashes, try breaking the task into smaller pieces

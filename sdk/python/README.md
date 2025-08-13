@@ -1,4 +1,4 @@
-# LUKHΛS PWM — Python SDK
+# LUKHΛS  — Python SDK
 
 ## Install (local)
 ```bash
@@ -9,9 +9,9 @@ pip install -e .
 ## Usage
 
 ```python
-from lukhas_pwm import LukhasPWM
+from lukhas import Lukhas
 
-client = LukhasPWM("http://127.0.0.1:8000", api_key="dev-key")
+client = Lukhas("http://127.0.0.1:8000", api_key="dev-key")
 
 # Feedback
 client.feedback_card(target_action_id="A-123", rating=5, note="great")

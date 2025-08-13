@@ -12,7 +12,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from lukhas_pwm.tools.tool_executor import get_tool_executor
+from lukhas.tools.tool_executor import get_tool_executor
 
 load_dotenv()
 sys.path.insert(0, str(Path.cwd()))
@@ -87,7 +87,7 @@ async def test_schedule_task():
     # Schedule a task
     args = {
         "when": "tomorrow at 3pm",
-        "note": "Review LUKHAS PWM documentation and update README",
+        "note": "Review LUKHAS  documentation and update README",
     }
     print(f"\n{BLUE}Schedule:{RESET} {args}")
     result = await executor.execute("schedule_task", json.dumps(args))

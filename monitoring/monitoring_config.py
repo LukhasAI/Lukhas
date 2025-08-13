@@ -312,7 +312,7 @@ class ComprehensiveMonitoringConfig:
 
     # Profile and environment
     profile: MonitoringProfile = MonitoringProfile.DEVELOPMENT
-    environment_name: str = "lukhas_pwm"
+    environment_name: str = "lukhas"
     config_version: str = "1.0.0"
 
     # Component configurations

@@ -21,7 +21,7 @@ class FeedbackCard(TypedDict, total=False):
     tags: list[str] | None
 
 
-class LukhasPWM:
+class Lukhas:
     """
     Minimal, production-safe client.
     - Adds x-api-key when provided
@@ -131,4 +131,4 @@ class LukhasPWM:
         return f"{self.base}/audit/view/{audit_id}"
 
 
-__all__ = ["LukhasPWM", "LukhasError", "FeedbackCard"]
+__all__ = ["Lukhas", "LukhasError", "FeedbackCard"]

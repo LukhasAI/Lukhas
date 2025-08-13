@@ -1,8 +1,8 @@
-# 🚀 **Complete LUKHAS PWM Development Environment**
+# 🚀 **Complete LUKHAS  Development Environment**
 
 
 
-Now for the **secret sauce** - hidden VSCode features that make you a 10x PWM developer:
+Now for the **secret sauce** - hidden VSCode features that make you a 10x  developer:
 
 ## 🎯 **Command Palette Power Features**
 
@@ -24,7 +24,7 @@ Ctrl+G - Go to Line Number
 Cmd+Shift+M - Show Problems Panel
 ```
 
-## 🧠 ** Lukhas PWM Development Shortcuts**
+## 🧠 ** Lukhas  Development Shortcuts**
 
 ### **Trinity Framework Shortcuts** (Custom)
 Add to `keybindings.json`:
@@ -56,7 +56,7 @@ Add to `keybindings.json`:
 python main.py --consciousness-active --debug
 
 # Terminal 2: Guardian Monitoring  
-watch -n 1 'python tools/analysis/PWM_OPERATIONAL_SUMMARY.py --brief'
+watch -n 1 'python tools/analysis/_OPERATIONAL_SUMMARY.py --brief'
 
 # Terminal 3: Agent Communication
 claude-code chat consciousness-architect --stream

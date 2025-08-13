@@ -52,7 +52,7 @@ def main():
 
     # Check integrations
     print("\n🔗 Integrations:")
-    results.append(check_component("PWM Adapter", "integrations.lukhas_pwm_adapter"))
+    results.append(check_component(" Adapter", "integrations.lukhas_adapter"))
     results.append(check_component("OpenAI Bridge", "integrations.openai_agi_bridge"))
 
     # Check config

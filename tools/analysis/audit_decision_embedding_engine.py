@@ -1,5 +1,5 @@
 """
-Decision Audit Engine for LUKHAS PWM
+Decision Audit Engine for LUKHAS
 ====================================
 
 This module provides decision auditing and embedding capabilities

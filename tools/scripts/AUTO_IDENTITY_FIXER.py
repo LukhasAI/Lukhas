@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Automated Identity Integration Fixer
+LUKHAS  Automated Identity Integration Fixer
 ===============================================
 Automatically fixes identity integration issues across the codebase.
 Adds authentication, tier protection, and user ID linking where needed.
@@ -47,13 +47,16 @@ USER_CONTEXT_FUNCTIONS = [
 class AutoIdentityFixer:
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path)
-        self.backup_dir = self.root_path / f"identity_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = (
+            self.root_path
+            / f"identity_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        )
         self.fixes_applied = []
         self.errors = []
 
     def fix_all(self, dry_run: bool = False):
         """Run all automated fixes."""
-        print("🔧 LUKHAS PWM Automated Identity Fixer")
+        print("🔧 LUKHAS  Automated Identity Fixer")
         print("=" * 50)
 
         if not dry_run:
@@ -94,7 +97,9 @@ class AutoIdentityFixer:
                 original_content = content
 
                 # Check if already has identity imports
-                has_identity_imports = "from identity" in content or "import identity" in content
+                has_identity_imports = (
+                    "from identity" in content or "import identity" in content
+                )
 
                 # Find API endpoints
                 endpoints_found = []
@@ -121,7 +126,9 @@ class AutoIdentityFixer:
                 if content != original_content:
                     if not dry_run:
                         api_file.write_text(content)
-                    self.fixes_applied.append(f"Protected {len(endpoints_found)} endpoints in {api_file.name}")
+                    self.fixes_applied.append(
+                        f"Protected {len(endpoints_found)} endpoints in {api_file.name}"
+                    )
 
             except Exception as e:
                 self.errors.append(f"Error fixing {api_file}: {e}")
@@ -196,7 +203,9 @@ except ImportError as e:
 
                 if not dry_run:
                     init_file.write_text(content)
-                self.fixes_applied.append(f"Added {required_tier} protection to {module_name}")
+                self.fixes_applied.append(
+                    f"Added {required_tier} protection to {module_name}"
+                )
 
             except Exception as e:
                 self.errors.append(f"Error protecting {module_name}: {e}")
@@ -217,7 +226,9 @@ except ImportError as e:
             files_modified = 0
 
             for py_file in py_files[:5]:  # Limit to first 5 files per module for safety
-                if any(skip in str(py_file) for skip in ["__pycache__", "test", "backup"]):
+                if any(
+                    skip in str(py_file) for skip in ["__pycache__", "test", "backup"]
+                ):
                     continue
 
                 try:
@@ -237,7 +248,9 @@ except ImportError as e:
                         content = self._add_user_context_to_functions(content)
 
                         if not dry_run:
-                            backup_file = self.backup_dir / f"{py_file.name}_{files_modified}"
+                            backup_file = (
+                                self.backup_dir / f"{py_file.name}_{files_modified}"
+                            )
                             shutil.copy2(py_file, backup_file)
                             py_file.write_text(content)
 
@@ -247,7 +260,9 @@ except ImportError as e:
                     self.errors.append(f"Error adding user context to {py_file}: {e}")
 
             if files_modified > 0:
-                self.fixes_applied.append(f"Added user linking to {files_modified} files in {module_name}")
+                self.fixes_applied.append(
+                    f"Added user linking to {files_modified} files in {module_name}"
+                )
 
     def _add_missing_imports(self, dry_run: bool):
         """Add missing identity imports to files that need them."""
@@ -257,17 +272,28 @@ except ImportError as e:
 
         # Find files that use auth but missing imports
         for py_file in self.root_path.rglob("*.py"):
-            if any(skip in str(py_file) for skip in ["__pycache__", "test", "backup", "archive"]):
+            if any(
+                skip in str(py_file)
+                for skip in ["__pycache__", "test", "backup", "archive"]
+            ):
                 continue
 
             try:
                 content = py_file.read_text()
 
                 # Has auth usage but no imports
-                has_auth_usage = any(pattern in content for pattern in [
-                    "AuthContext", "require_tier", "get_current_user", "user.user_id"
-                ])
-                has_identity_import = "from identity" in content or "import identity" in content
+                has_auth_usage = any(
+                    pattern in content
+                    for pattern in [
+                        "AuthContext",
+                        "require_tier",
+                        "get_current_user",
+                        "user.user_id",
+                    ]
+                )
+                has_identity_import = (
+                    "from identity" in content or "import identity" in content
+                )
 
                 if has_auth_usage and not has_identity_import:
                     print(f"  📦 {py_file.relative_to(self.root_path)}")
@@ -287,7 +313,7 @@ except ImportError as e:
 
     def _add_identity_imports(self, content: str) -> str:
         """Add identity imports to Python file content."""
-        imports_to_add = '''
+        imports_to_add = """
 # LUKHAS Identity Integration - Auto-generated
 from typing import Optional
 try:
@@ -313,24 +339,26 @@ except ImportError:
         T1 = T2 = T3 = T4 = T5 = "mock"
     AccessTier = MockAccessTier()
 
-'''
+"""
 
         # Find the right place to insert imports (after existing imports)
-        lines = content.split('\n')
+        lines = content.split("\n")
         import_end_idx = 0
 
         for i, line in enumerate(lines):
-            if (line.strip().startswith(('import ', 'from ')) or
-                line.strip().startswith('"""') or
-                line.strip().startswith("'''") or
-                line.strip() == '' or
-                line.strip().startswith('#')):
+            if (
+                line.strip().startswith(("import ", "from "))
+                or line.strip().startswith('"""')
+                or line.strip().startswith("'''")
+                or line.strip() == ""
+                or line.strip().startswith("#")
+            ):
                 import_end_idx = i + 1
             else:
                 break
 
         lines.insert(import_end_idx, imports_to_add)
-        return '\n'.join(lines)
+        return "\n".join(lines)
 
     def _protect_endpoints(self, content: str, filename: str) -> str:
         """Add authentication to API endpoints."""
@@ -346,7 +374,7 @@ except ImportError:
             auth_dep = "require_t2_or_above"
 
         # Find endpoint functions and add authentication
-        lines = content.split('\n')
+        lines = content.split("\n")
         modified_lines = []
         i = 0
 
@@ -354,12 +382,12 @@ except ImportError:
             line = lines[i]
 
             # Check if this line defines an API endpoint
-            if re.match(r'@(app|router)\.(get|post|put|delete|patch)', line.strip()):
+            if re.match(r"@(app|router)\.(get|post|put|delete|patch)", line.strip()):
                 modified_lines.append(line)
 
                 # Look for the function definition
                 j = i + 1
-                while j < len(lines) and not lines[j].strip().startswith('async def '):
+                while j < len(lines) and not lines[j].strip().startswith("async def "):
                     modified_lines.append(lines[j])
                     j += 1
 
@@ -369,15 +397,23 @@ except ImportError:
                     # Add user parameter if not present
                     if "AuthContext" not in func_line and "user:" not in func_line:
                         # Insert user parameter
-                        func_match = re.match(r'(\s*async def\s+\w+\s*\([^)]*)', func_line)
+                        func_match = re.match(
+                            r"(\s*async def\s+\w+\s*\([^)]*)", func_line
+                        )
                         if func_match:
                             func_start = func_match.group(1)
-                            if func_line.endswith('):'):
+                            if func_line.endswith("):"):
                                 # Add parameter before closing paren
-                                new_func_line = func_line[:-2] + f', user: AuthContext = Depends({auth_dep})):'
+                                new_func_line = (
+                                    func_line[:-2]
+                                    + f", user: AuthContext = Depends({auth_dep})):"
+                                )
                             else:
                                 # Function continues on next line
-                                new_func_line = func_line + f', user: AuthContext = Depends({auth_dep})'
+                                new_func_line = (
+                                    func_line
+                                    + f", user: AuthContext = Depends({auth_dep})"
+                                )
                             modified_lines.append(new_func_line)
                         else:
                             modified_lines.append(func_line)
@@ -391,17 +427,29 @@ except ImportError:
                 modified_lines.append(line)
                 i += 1
 
-        return '\n'.join(modified_lines)
+        return "\n".join(modified_lines)
 
     def _add_user_context_to_functions(self, content: str) -> str:
         """Add user_id tracking to function bodies."""
 
         # Simple approach: add user_id to data dictionaries
         patterns_to_enhance = [
-            (r'(\s+)(data\s*=\s*\{)', r'\1\2\n\1    "user_id": getattr(user, "user_id", "anonymous"),'),
-            (r'(\s+)(result\s*=\s*\{)', r'\1\2\n\1    "user_id": getattr(user, "user_id", "anonymous"),'),
-            (r'(\s+)(response\s*=\s*\{)', r'\1\2\n\1    "user_id": getattr(user, "user_id", "anonymous"),'),
-            (r'(\s+)(log_data\s*=\s*\{)', r'\1\2\n\1    "user_id": getattr(user, "user_id", "anonymous"),'),
+            (
+                r"(\s+)(data\s*=\s*\{)",
+                r'\1\2\n\1    "user_id": getattr(user, "user_id", "anonymous"),',
+            ),
+            (
+                r"(\s+)(result\s*=\s*\{)",
+                r'\1\2\n\1    "user_id": getattr(user, "user_id", "anonymous"),',
+            ),
+            (
+                r"(\s+)(response\s*=\s*\{)",
+                r'\1\2\n\1    "user_id": getattr(user, "user_id", "anonymous"),',
+            ),
+            (
+                r"(\s+)(log_data\s*=\s*\{)",
+                r'\1\2\n\1    "user_id": getattr(user, "user_id", "anonymous"),',
+            ),
         ]
 
         for pattern, replacement in patterns_to_enhance:
@@ -427,13 +475,17 @@ except ImportError:
         if self.backup_dir.exists():
             print(f"\n💾 Backups saved to: {self.backup_dir}")
 
-        print(f"\n📁 Total files in backup: {len(list(self.backup_dir.rglob('*'))) if self.backup_dir.exists() else 0}")
+        print(
+            f"\n📁 Total files in backup: {len(list(self.backup_dir.rglob('*'))) if self.backup_dir.exists() else 0}"
+        )
 
         # Next steps
         print("\n🚀 Next Steps:")
         print("  1. Review changes in backup directory")
         print("  2. Test API endpoints with authentication")
-        print("  3. Run identity audit again: python3 tools/analysis/IDENTITY_INTEGRATION_AUDIT.py")
+        print(
+            "  3. Run identity audit again: python3 tools/analysis/IDENTITY_INTEGRATION_AUDIT.py"
+        )
         print("  4. Fix any remaining manual issues")
 
 
@@ -447,7 +499,7 @@ def main():
     else:
         print("⚠️  LIVE MODE - Files will be modified (backups created)")
         response = input("Continue? (y/N): ")
-        if response.lower() != 'y':
+        if response.lower() != "y":
             print("Aborted.")
             return
 

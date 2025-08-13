@@ -62,11 +62,11 @@ This document outlines the comprehensive autosave and data protection enhancemen
 
 # Set up automatic backup (every hour)
 crontab -e
-# Add: 0 * * * * cd /path/to/Lukhas_PWM && ./scripts/utilities/auto_backup_lukhas.sh
+# Add: 0 * * * * cd /path/to/Lukhas && ./scripts/utilities/auto_backup_lukhas.sh
 ```
 
 ### 4. **Enhanced Workspace Configuration**
-**File**: `lukhas-pwm-enhanced-autosave.code-workspace`
+**File**: `lukhas--enhanced-autosave.code-workspace`
 
 **Features**:
 - Workspace-specific autosave settings
@@ -185,7 +185,7 @@ du -sh .auto-backup/ .git-agent-backups/
 
 ## 💡 Best Practices
 
-1. **Always use the enhanced workspace**: `lukhas-pwm-enhanced-autosave.code-workspace`
+1. **Always use the enhanced workspace**: `lukhas--enhanced-autosave.code-workspace`
 2. **Run manual backups** before major changes
 3. **Check git status** before complex operations
 4. **Use git stash** for temporary safety checkpoints

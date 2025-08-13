@@ -1,7 +1,7 @@
-# LUKHAS PWM Configuration
-name: "LUKHAS PWM"
+# LUKHAS Configuration
+name: "LUKHAS AI"
 version: "1.0.0"
-audience: "Personal Workspace Management"
+audience: "Advanced AI Consciousness Platform"
 
 features:
   cognitive_workspace: true

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PWM Communication Optimizer
+ Communication Optimizer
 ===========================
 Implements optimizations for module communication pathways.
 """
@@ -17,10 +17,10 @@ logger = logging.getLogger(__name__)
 
 
 class CommunicationOptimizer:
-    """Optimizes module communication pathways in LUKHAS PWM"""
+    """Optimizes module communication pathways in LUKHAS """
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas_PWM")
+        self.root_path = Path("/Users/agi_dev/Lukhas"
         self.optimizations_made = []
         self.phase_status = {
             "phase1": "pending",

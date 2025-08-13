@@ -28,7 +28,7 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Base directory
-BASE_DIR="/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/lambda_products_pack"
+BASE_DIR="/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack"
 BUILD_DIR="$BASE_DIR/build"
 
 # Function to build content for each domain

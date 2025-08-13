@@ -42,4 +42,4 @@
 - 🚀 Better project navigation
 - 📚 Clear separation of concerns
 
-The LUKHAS PWM project now has a clean, well-organized structure that makes it easy to navigate and maintain!
+The LUKHAS  project now has a clean, well-organized structure that makes it easy to navigate and maintain!

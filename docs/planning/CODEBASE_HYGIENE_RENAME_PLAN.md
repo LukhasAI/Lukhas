@@ -4,7 +4,7 @@
 - **Modules/Files**: `snake_case.py` (lowercase, underscores)
 - **Directories**: `snake_case` for packages, `PascalCase` for high-level components
 - **Classes**: `PascalCase`
-- **Remove**: All `lukhas_`, `legacy_`, `PWM_` prefixes
+- **Remove**: All `lukhas_`, `legacy_`, `_` prefixes
 - **Consolidate**: Single-purpose scattered files into cohesive modules
 
 ## 📋 Rename Mappings (15 Critical Changes)
@@ -24,14 +24,14 @@ lukhas_lambda_id/               → lambda_identity/           Standard ordering
 lukhas_next_gen/                → next_gen/                  Remove prefix
 ```
 
-### 2. Analysis Tool Renames (Remove PWM_ prefix)
+### 2. Analysis Tool Renames (Remove _ prefix)
 ```
 BEFORE                                      → AFTER                          LOGIC
-tools/analysis/PWM_OPERATIONAL_SUMMARY.py  → operational_summary.py         Tool purpose is clear
-tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py  → functional_analysis.py         Standard naming
-tools/analysis/PWM_WORKSPACE_STATUS.py     → workspace_status.py            Concise and clear
-tools/analysis/PWM_SECURITY_GAP.py         → security_gap_analysis.py      Full clarity
-tools/analysis/PWM_IMPORT_FIXER.py         → import_fixer.py                Action-oriented name
+tools/analysis/_OPERATIONAL_SUMMARY.py  → operational_summary.py         Tool purpose is clear
+tools/analysis/_FUNCTIONAL_ANALYSIS.py  → functional_analysis.py         Standard naming
+tools/analysis/_WORKSPACE_STATUS.py     → workspace_status.py            Concise and clear
+tools/analysis/_SECURITY_GAP.py         → security_gap_analysis.py      Full clarity
+tools/analysis/_IMPORT_FIXER.py         → import_fixer.py                Action-oriented name
 ```
 
 ### 3. Core Module Consolidation
@@ -85,16 +85,16 @@ RENAME_MAPPINGS = {
     'lukhas_next_gen': 'next_gen',
     
     # File renames (tools/analysis/)
-    'tools/analysis/PWM_OPERATIONAL_SUMMARY.py': 'tools/analysis/operational_summary.py',
-    'tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py': 'tools/analysis/functional_analysis.py',
-    'tools/analysis/PWM_WORKSPACE_STATUS_ANALYSIS.py': 'tools/analysis/workspace_status.py',
-    'tools/analysis/PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.py': 'tools/analysis/security_gap_analysis.py',
-    'tools/analysis/PWM_TARGETED_IMPORT_FIXER.py': 'tools/analysis/import_fixer.py',
+    'tools/analysis/_OPERATIONAL_SUMMARY.py': 'tools/analysis/operational_summary.py',
+    'tools/analysis/_FUNCTIONAL_ANALYSIS.py': 'tools/analysis/functional_analysis.py',
+    'tools/analysis/_WORKSPACE_STATUS_ANALYSIS.py': 'tools/analysis/workspace_status.py',
+    'tools/analysis/_SECURITY_COMPLIANCE_GAP_ANALYSIS.py': 'tools/analysis/security_gap_analysis.py',
+    'tools/analysis/_TARGETED_IMPORT_FIXER.py': 'tools/analysis/import_fixer.py',
 }
 
 def execute_renames():
     """Execute the rename plan"""
-    workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
+    workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
     
     for old_path, new_path in RENAME_MAPPINGS.items():
         old_full = workspace / old_path
@@ -131,7 +131,7 @@ def execute_renames():
 
 ## ✅ Validation Checklist
 - [ ] All `lukhas_` prefixes removed from directories
-- [ ] All `PWM_` prefixes removed from analysis tools
+- [ ] All `_` prefixes removed from analysis tools
 - [ ] Sparse modules consolidated into single files
 - [ ] All imports updated across codebase
 - [ ] Tests pass with new structure

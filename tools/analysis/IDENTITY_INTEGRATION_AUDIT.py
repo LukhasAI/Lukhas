@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Identity Integration Audit
+LUKHAS  Identity Integration Audit
 ======================================
 Comprehensive analysis of identity module integration across the codebase.
 Checks tier-based access control, login enforcement, and user ID linking.
@@ -13,11 +13,11 @@ from pathlib import Path
 # Key modules that should have tier-based access control
 PROTECTED_MODULES = {
     "consciousness": "T3",  # Requires T3 or above
-    "dream": "T3",         # Requires T3 or above
-    "emotion": "T3",       # Requires T3 or above
-    "quantum": "T4",       # Requires T4 or above
-    "governance": "T5",    # Requires T5 (Guardian)
-    "api": "T2",          # Requires T2 for API access
+    "dream": "T3",  # Requires T3 or above
+    "emotion": "T3",  # Requires T3 or above
+    "quantum": "T4",  # Requires T4 or above
+    "governance": "T5",  # Requires T5 (Guardian)
+    "api": "T2",  # Requires T2 for API access
 }
 
 # API endpoint patterns that should be protected
@@ -70,7 +70,7 @@ class IdentityAudit:
 
     def audit(self):
         """Run complete identity integration audit."""
-        print("🔍 LUKHAS PWM Identity Integration Audit")
+        print("🔍 LUKHAS  Identity Integration Audit")
         print("=" * 60)
 
         # 1. Check protected modules
@@ -106,7 +106,10 @@ class IdentityAudit:
 
             # Check all Python files in module
             for py_file in module_path.rglob("*.py"):
-                if any(skip in str(py_file) for skip in ["__pycache__", "test", "backup", "archive"]):
+                if any(
+                    skip in str(py_file)
+                    for skip in ["__pycache__", "test", "backup", "archive"]
+                ):
                     continue
 
                 module_info["files_checked"] += 1
@@ -115,17 +118,23 @@ class IdentityAudit:
                     content = f.read()
 
                 # Check for identity imports
-                has_identity = any(re.search(pattern, content) for pattern in IDENTITY_PATTERNS)
+                has_identity = any(
+                    re.search(pattern, content) for pattern in IDENTITY_PATTERNS
+                )
 
                 # Check for enforcement
-                has_enforcement = any(re.search(pattern, content) for pattern in ENFORCEMENT_PATTERNS)
+                has_enforcement = any(
+                    re.search(pattern, content) for pattern in ENFORCEMENT_PATTERNS
+                )
 
                 if has_enforcement:
                     module_info["files_protected"] += 1
                 else:
                     module_info["files_unprotected"] += 1
                     if not has_identity:
-                        module_info["unprotected_files"].append(str(py_file.relative_to(self.root_path)))
+                        module_info["unprotected_files"].append(
+                            str(py_file.relative_to(self.root_path))
+                        )
 
             if module_info["files_protected"] > 0:
                 self.stats["protected_modules"] += 1
@@ -137,11 +146,16 @@ class IdentityAudit:
             # Report module status
             protection_rate = (
                 module_info["files_protected"] / module_info["files_checked"] * 100
-                if module_info["files_checked"] > 0 else 0
+                if module_info["files_checked"] > 0
+                else 0
             )
 
-            status = "✅" if protection_rate > 50 else "⚠️" if protection_rate > 0 else "❌"
-            print(f"  {status} {module_name}: {protection_rate:.1f}% protected ({module_info['files_protected']}/{module_info['files_checked']} files)")
+            status = (
+                "✅" if protection_rate > 50 else "⚠️" if protection_rate > 0 else "❌"
+            )
+            print(
+                f"  {status} {module_name}: {protection_rate:.1f}% protected ({module_info['files_protected']}/{module_info['files_checked']} files)"
+            )
 
     def _audit_api_endpoints(self):
         """Check if API endpoints are protected."""
@@ -168,8 +182,12 @@ class IdentityAudit:
                 continue
 
             # Check if file has identity protection
-            has_identity = any(re.search(pattern, content) for pattern in IDENTITY_PATTERNS)
-            has_enforcement = any(re.search(pattern, content) for pattern in ENFORCEMENT_PATTERNS)
+            has_identity = any(
+                re.search(pattern, content) for pattern in IDENTITY_PATTERNS
+            )
+            has_enforcement = any(
+                re.search(pattern, content) for pattern in ENFORCEMENT_PATTERNS
+            )
 
             self.stats["api_endpoints"] += len(endpoints)
 
@@ -179,7 +197,9 @@ class IdentityAudit:
             else:
                 self.stats["unprotected_endpoints"] += len(endpoints)
                 status = "❌"
-                self.issues.append(f"Unprotected API file: {py_file.relative_to(self.root_path)}")
+                self.issues.append(
+                    f"Unprotected API file: {py_file.relative_to(self.root_path)}"
+                )
 
             print(f"  {status} {py_file.name}: {len(endpoints)} endpoints")
 
@@ -209,7 +229,9 @@ class IdentityAudit:
             has_user_linking = False
 
             for py_file in module_dir.rglob("*.py"):
-                if any(skip in str(py_file) for skip in ["__pycache__", "test", "backup"]):
+                if any(
+                    skip in str(py_file) for skip in ["__pycache__", "test", "backup"]
+                ):
                     continue
 
                 with open(py_file, encoding="utf-8") as f:
@@ -229,8 +251,7 @@ class IdentityAudit:
 
         # Show critical modules without user linking
         critical_without_linking = [
-            m for m in modules_without_user_linking
-            if m in PROTECTED_MODULES
+            m for m in modules_without_user_linking if m in PROTECTED_MODULES
         ]
 
         if critical_without_linking:
@@ -247,8 +268,12 @@ class IdentityAudit:
 
         # Overall statistics
         print("\n📈 Overall Statistics:")
-        print(f"  • Protected Modules: {self.stats['protected_modules']}/{self.stats['total_modules']}")
-        print(f"  • Protected API Endpoints: {self.stats['protected_endpoints']}/{self.stats['api_endpoints']}")
+        print(
+            f"  • Protected Modules: {self.stats['protected_modules']}/{self.stats['total_modules']}"
+        )
+        print(
+            f"  • Protected API Endpoints: {self.stats['protected_endpoints']}/{self.stats['api_endpoints']}"
+        )
 
         # Module breakdown
         print("\n🔐 Module Protection Status:")
@@ -274,7 +299,9 @@ class IdentityAudit:
         if self.stats["unprotected_endpoints"] > 0:
             print("  1. Add authentication to all API endpoints using:")
             print("     from identity import get_current_user, AuthContext")
-            print("     async def endpoint(user: AuthContext = Depends(get_current_user)):")
+            print(
+                "     async def endpoint(user: AuthContext = Depends(get_current_user)):"
+            )
 
         if self.stats["unprotected_modules"] > 0:
             print("\n  2. Protect sensitive modules with tier checks:")
@@ -303,15 +330,19 @@ class IdentityAudit:
 
         # Final verdict
         protection_score = (
-            (self.stats["protected_modules"] / max(self.stats["total_modules"], 1)) * 0.4 +
-            (self.stats["protected_endpoints"] / max(self.stats["api_endpoints"], 1)) * 0.6
+            (self.stats["protected_modules"] / max(self.stats["total_modules"], 1))
+            * 0.4
+            + (self.stats["protected_endpoints"] / max(self.stats["api_endpoints"], 1))
+            * 0.6
         ) * 100
 
         print("\n" + "=" * 60)
         if protection_score > 80:
             print(f"✅ IDENTITY INTEGRATION: GOOD ({protection_score:.1f}%)")
         elif protection_score > 50:
-            print(f"⚠️ IDENTITY INTEGRATION: NEEDS IMPROVEMENT ({protection_score:.1f}%)")
+            print(
+                f"⚠️ IDENTITY INTEGRATION: NEEDS IMPROVEMENT ({protection_score:.1f}%)"
+            )
         else:
             print(f"❌ IDENTITY INTEGRATION: CRITICAL ({protection_score:.1f}%)")
         print("=" * 60)

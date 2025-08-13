@@ -1,4 +1,4 @@
-# @lukhas/pwm — TypeScript SDK
+# @lukhas/ — TypeScript SDK
 
 ## Install (local)
 ```bash
@@ -10,9 +10,9 @@ npm run build
 ## Usage
 
 ```ts
-import { LukhasPWM } from "@lukhas/pwm";
+import { Lukhas } from "@lukhas/";
 
-const client = new LukhasPWM({ baseUrl: "http://127.0.0.1:8000", apiKey: "dev-key" });
+const client = new Lukhas({ baseUrl: "http://127.0.0.1:8000", apiKey: "dev-key" });
 
 await client.feedbackCard({ target_action_id: "A-1", rating: 5, note: "great" });
 const reg = await client.toolsRegistry();

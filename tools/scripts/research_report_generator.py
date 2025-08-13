@@ -20,7 +20,7 @@ def create_comprehensive_research_report():
     """Create comprehensive research report combining all analyses"""
 
     # Load existing reports
-    base_path = Path("/Users/agi_dev/Lukhas_PWM/data")
+    base_path = Path("/Users/agi_dev/Lukhas/data")
 
     # Find latest reports
     system_reports = list(base_path.glob("comprehensive_system_report_*.json"))

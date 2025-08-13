@@ -19,8 +19,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 def test_browser_tool_flag():
     """Test FLAG_BROWSER_TOOL gates browser tool availability"""
-    from lukhas_pwm.flags.ff import Flags
-    from lukhas_pwm.openai.tooling import build_tools_from_allowlist
+    from lukhas.flags.ff import Flags
+    from lukhas.openai.tooling import build_tools_from_allowlist
 
     # Test with flag disabled (default)
     with patch.dict(os.environ, {}, clear=False):
@@ -55,8 +55,8 @@ def test_browser_tool_flag():
 
 def test_strict_default_flag():
     """Test FLAG_STRICT_DEFAULT forces strict safety mode"""
-    from lukhas_pwm.flags.ff import Flags
-    from lukhas_pwm.modulation.dispatcher import Modulator
+    from lukhas.flags.ff import Flags
+    from lukhas.modulation.dispatcher import Modulator
 
     # Mock policy file
     policy = {
@@ -113,8 +113,8 @@ def test_strict_default_flag():
 
 def test_tool_analytics_flag():
     """Test FLAG_TOOL_ANALYTICS controls analytics logging"""
-    from lukhas_pwm.audit.tool_analytics import ToolAnalytics
-    from lukhas_pwm.flags.ff import Flags
+    from lukhas.audit.tool_analytics import ToolAnalytics
+    from lukhas.flags.ff import Flags
 
     # Test with analytics enabled (default)
     with patch.dict(os.environ, {"FLAG_TOOL_ANALYTICS": "true"}):
@@ -149,8 +149,8 @@ def test_tool_analytics_flag():
 
 def test_analytics_incident_logging():
     """Test that incident logging respects FLAG_TOOL_ANALYTICS"""
-    from lukhas_pwm.audit.tool_analytics import ToolAnalytics
-    from lukhas_pwm.flags.ff import Flags
+    from lukhas.audit.tool_analytics import ToolAnalytics
+    from lukhas.flags.ff import Flags
 
     # Test with analytics enabled
     with patch.dict(os.environ, {"FLAG_TOOL_ANALYTICS": "true"}):
@@ -159,7 +159,7 @@ def test_analytics_incident_logging():
         analytics = ToolAnalytics()
 
         # Mock the write_incident function to track calls
-        with patch("lukhas_pwm.audit.tool_analytics.write_incident") as mock_write:
+        with patch("lukhas.audit.tool_analytics.write_incident") as mock_write:
             incident = analytics.record_blocked_attempt(
                 audit_id="test_audit",
                 attempted_tool="dangerous_tool",
@@ -177,7 +177,7 @@ def test_analytics_incident_logging():
         Flags._ts = 0
         analytics = ToolAnalytics()
 
-        with patch("lukhas_pwm.audit.tool_analytics.write_incident") as mock_write:
+        with patch("lukhas.audit.tool_analytics.write_incident") as mock_write:
             incident = analytics.record_blocked_attempt(
                 audit_id="test_audit",
                 attempted_tool="dangerous_tool",
@@ -195,9 +195,9 @@ def test_analytics_incident_logging():
 
 def test_flag_combinations():
     """Test various flag combinations work together"""
-    from lukhas_pwm.flags.ff import Flags
-    from lukhas_pwm.modulation.dispatcher import Modulator
-    from lukhas_pwm.openai.tooling import build_tools_from_allowlist
+    from lukhas.flags.ff import Flags
+    from lukhas.modulation.dispatcher import Modulator
+    from lukhas.openai.tooling import build_tools_from_allowlist
 
     # Test: strict mode + no browser + no analytics
     with patch.dict(

@@ -3,7 +3,7 @@
 Generated: 2025-08-07T02:21:07.086446
 
 ## Summary
-- Backup location: /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/.event_bus_backup_20250807_022103
+- Backup location: /Users/agi_dev/LOCAL-REPOS/Lukhas/.event_bus_backup_20250807_022103
 - Files updated: 30
 - Experimental code removed: 2
 

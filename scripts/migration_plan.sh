@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # 🎯 LUKHAS Safe Internal Migration - Incremental Plan
-# Step-by-step namespace transition (lukhas_pwm → lukhas)
+# Step-by-step namespace transition (lukhas → lukhas)
 
 echo "🎯 LUKHAS Internal Namespace Migration Plan"
 echo "═══════════════════════════════════════════════════════════════"
 echo
 
 echo "📊 Current State Analysis:"
-echo "✅ lukhas_pwm/ exists with main modules"
+echo "✅ lukhas/ exists with main modules"
 echo "✅ lukhas/ exists with different structure"  
 echo "✅ Import aliasing system already in place"
 echo "✅ Both namespaces currently working"
@@ -19,30 +19,30 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo
 
 echo "STEP 1: Test Current State 🧪"
-echo "  python -c 'import lukhas_pwm; import lukhas; print(\"✅ Both work\")'"
+echo "  python -c 'import lukhas; import lukhas; print(\"✅ Both work\")'"
 echo
 
 echo "STEP 2: Gradual Import Updates (Low Risk) 📝"
 echo "  # Update new code to use 'import lukhas'"
-echo "  # Leave existing 'import lukhas_pwm' for now"
+echo "  # Leave existing 'import lukhas' for now"
 echo "  # Test each change individually"
 echo
 
 echo "STEP 3: Move Modules to lukhas/ (Medium Risk) 📦"
-echo "  # Move lukhas_pwm/* to lukhas/ gradually"
+echo "  # Move lukhas/* to lukhas/ gradually"
 echo "  # Update lukhas/__init__.py to expose them"
-echo "  # Keep lukhas_pwm/ as alias directory"
+echo "  # Keep lukhas/ as alias directory"
 echo
 
 echo "STEP 4: Update All Imports (Medium Risk) 🔄"
 echo "  # Run: ./scripts/migrate_namespace_internal.sh"
-echo "  # Updates all 'from lukhas_pwm' → 'from lukhas'"
+echo "  # Updates all 'from lukhas' → 'from lukhas'"
 echo "  # Creates backup before changes"
 echo
 
-echo "STEP 5: Remove lukhas_pwm/ (High Risk - Later) 🗑️"
+echo "STEP 5: Remove lukhas/ (High Risk - Later) 🗑️"
 echo "  # Only after everything tested"
-echo "  # git mv lukhas_pwm/ → rename to avoid this step"
+echo "  # git mv lukhas/ → rename to avoid this step"
 echo
 
 echo "🎮 Choose Your Approach:"
@@ -57,7 +57,7 @@ read -p "Enter choice [1/2/3]: " choice
 case $choice in
     1)
         echo "✅ CONSERVATIVE approach selected"
-        echo "• Continue using existing lukhas_pwm imports"
+        echo "• Continue using existing lukhas imports"
         echo "• Use 'import lukhas' for new code only" 
         echo "• Transition gradually over time"
         ;;

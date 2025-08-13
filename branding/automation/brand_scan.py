@@ -34,7 +34,7 @@ EXCLUDE_DIRS = {
     ".venv",
     "node_modules",
     "__pycache__",
-    ".pwm_cleanup_archive",
+    "._cleanup_archive",
     "archive",
     "recovery",
     "dist",

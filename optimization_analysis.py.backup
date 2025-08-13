@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Performance Optimization Analysis
+LUKHAS  Performance Optimization Analysis
 Identifies bottlenecks and optimization opportunities
 """
 
@@ -20,6 +20,7 @@ import psutil
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class PerformanceAnalyzer:
     """Analyzes system performance and identifies optimization opportunities"""
 
@@ -30,7 +31,7 @@ class PerformanceAnalyzer:
 
     async def run_full_analysis(self) -> Dict[str, Any]:
         """Run complete performance analysis"""
-        logger.info("🚀 Starting LUKHAS PWM Performance Analysis")
+        logger.info("🚀 Starting LUKHAS  Performance Analysis")
 
         analyses = [
             ("System Resources", self.analyze_system_resources),
@@ -40,7 +41,7 @@ class PerformanceAnalyzer:
             ("API Performance", self.analyze_api_performance),
             ("Database Performance", self.analyze_database_performance),
             ("Concurrency Analysis", self.analyze_concurrency),
-            ("Optimization Opportunities", self.identify_optimizations)
+            ("Optimization Opportunities", self.identify_optimizations),
         ]
 
         for analysis_name, analysis_func in analyses:
@@ -53,16 +54,13 @@ class PerformanceAnalyzer:
                 self.results[analysis_name] = {
                     "result": result,
                     "analysis_duration": duration,
-                    "status": "success"
+                    "status": "success",
                 }
                 logger.info(f"✅ {analysis_name} completed in {duration:.2f}s")
 
             except Exception as e:
                 logger.error(f"❌ {analysis_name} failed: {e}")
-                self.results[analysis_name] = {
-                    "error": str(e),
-                    "status": "error"
-                }
+                self.results[analysis_name] = {"error": str(e), "status": "error"}
 
         # Generate recommendations
         self.results["recommendations"] = self.generate_recommendations()
@@ -80,7 +78,9 @@ class PerformanceAnalyzer:
             "count": psutil.cpu_count(),
             "physical_cores": psutil.cpu_count(logical=False),
             "current_usage": psutil.cpu_percent(interval=1),
-            "load_average": psutil.getloadavg() if hasattr(psutil, 'getloadavg') else None
+            "load_average": (
+                psutil.getloadavg() if hasattr(psutil, "getloadavg") else None
+            ),
         }
 
         # Memory information
@@ -89,16 +89,16 @@ class PerformanceAnalyzer:
             "total_gb": round(memory.total / (1024**3), 2),
             "available_gb": round(memory.available / (1024**3), 2),
             "used_percent": memory.percent,
-            "free_gb": round(memory.free / (1024**3), 2)
+            "free_gb": round(memory.free / (1024**3), 2),
         }
 
         # Disk information
-        disk = psutil.disk_usage('/')
+        disk = psutil.disk_usage("/")
         disk_info = {
             "total_gb": round(disk.total / (1024**3), 2),
             "used_gb": round(disk.used / (1024**3), 2),
             "free_gb": round(disk.free / (1024**3), 2),
-            "used_percent": round((disk.used / disk.total) * 100, 1)
+            "used_percent": round((disk.used / disk.total) * 100, 1),
         }
 
         # Process information
@@ -108,7 +108,7 @@ class PerformanceAnalyzer:
             "cpu_percent": current_process.cpu_percent(),
             "threads": current_process.num_threads(),
             "open_files": len(current_process.open_files()),
-            "connections": len(current_process.connections())
+            "connections": len(current_process.connections()),
         }
 
         return {
@@ -116,7 +116,7 @@ class PerformanceAnalyzer:
             "memory": memory_info,
             "disk": disk_info,
             "process": process_info,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
     async def analyze_memory_usage(self) -> Dict[str, Any]:
@@ -128,7 +128,7 @@ class PerformanceAnalyzer:
         gc_stats = {
             "collections": gc.get_stats(),
             "garbage_objects": len(gc.garbage),
-            "tracked_objects": len(gc.get_objects())
+            "tracked_objects": len(gc.get_objects()),
         }
 
         # Memory growth simulation
@@ -155,8 +155,8 @@ class PerformanceAnalyzer:
                 "post_allocation_mb": post_alloc_memory,
                 "post_cleanup_mb": post_cleanup_memory,
                 "growth_mb": post_alloc_memory - baseline_memory,
-                "leaked_mb": post_cleanup_memory - baseline_memory
-            }
+                "leaked_mb": post_cleanup_memory - baseline_memory,
+            },
         }
 
     async def analyze_import_performance(self) -> Dict[str, Any]:
@@ -165,11 +165,11 @@ class PerformanceAnalyzer:
 
         # Test critical module imports
         critical_modules = [
-            "lukhas_pwm.flags",
+            "lukhas.flags",
             "governance.policy.base",
             "orchestration.signals.signal_bus",
             "consciousness.unified.auto_consciousness",
-            "memory.folds.optimized_fold_engine"
+            "memory.folds.optimized_fold_engine",
         ]
 
         for module in critical_modules:
@@ -179,17 +179,19 @@ class PerformanceAnalyzer:
                 duration = time.time() - start
                 import_times[module] = {
                     "duration_ms": round(duration * 1000, 2),
-                    "status": "success"
+                    "status": "success",
                 }
             except ImportError as e:
                 import_times[module] = {
                     "duration_ms": 0,
                     "status": "error",
-                    "error": str(e)
+                    "error": str(e),
                 }
 
         # Calculate statistics
-        successful_imports = [t for t in import_times.values() if t["status"] == "success"]
+        successful_imports = [
+            t for t in import_times.values() if t["status"] == "success"
+        ]
         if successful_imports:
             durations = [t["duration_ms"] for t in successful_imports]
             stats = {
@@ -197,15 +199,12 @@ class PerformanceAnalyzer:
                 "successful_imports": len(successful_imports),
                 "average_duration_ms": round(sum(durations) / len(durations), 2),
                 "max_duration_ms": max(durations),
-                "min_duration_ms": min(durations)
+                "min_duration_ms": min(durations),
             }
         else:
             stats = {"total_imports": len(import_times), "successful_imports": 0}
 
-        return {
-            "import_times": import_times,
-            "statistics": stats
-        }
+        return {"import_times": import_times, "statistics": stats}
 
     async def analyze_function_performance(self) -> Dict[str, Any]:
         """Profile function performance using cProfile"""
@@ -223,7 +222,7 @@ class PerformanceAnalyzer:
         # Get stats
         stats_stream = io.StringIO()
         stats = pstats.Stats(profiler, stream=stats_stream)
-        stats.sort_stats('cumulative')
+        stats.sort_stats("cumulative")
         stats.print_stats(20)  # Top 20 functions
 
         profile_output = stats_stream.getvalue()
@@ -231,14 +230,15 @@ class PerformanceAnalyzer:
         return {
             "profile_output": profile_output[:2000],  # Truncate for readability
             "total_calls": stats.total_calls,
-            "primitive_calls": stats.prim_calls
+            "primitive_calls": stats.prim_calls,
         }
 
     async def _simulate_typical_operations(self):
         """Simulate typical system operations for profiling"""
         # Simulate feature flag operations
         try:
-            from lukhas_pwm.flags import get_flags, is_enabled
+            from lukhas.flags import get_flags, is_enabled
+
             for _ in range(100):
                 get_flags()
                 is_enabled("adaptive_ai")
@@ -276,7 +276,7 @@ class PerformanceAnalyzer:
             "p95_response_ms": round(p95_response, 2),
             "max_response_ms": round(max(start_times), 2),
             "min_response_ms": round(min(start_times), 2),
-            "total_requests": len(start_times)
+            "total_requests": len(start_times),
         }
 
     async def analyze_database_performance(self) -> Dict[str, Any]:
@@ -286,7 +286,7 @@ class PerformanceAnalyzer:
 
         # Write performance
         start = time.time()
-        with open(test_file, 'w') as f:
+        with open(test_file, "w") as f:
             for i in range(1000):
                 f.write(f"test_line_{i}\n")
         write_duration = time.time() - start
@@ -303,16 +303,17 @@ class PerformanceAnalyzer:
         return {
             "write_performance": {
                 "duration_ms": round(write_duration * 1000, 2),
-                "lines_per_second": round(1000 / write_duration, 2)
+                "lines_per_second": round(1000 / write_duration, 2),
             },
             "read_performance": {
                 "duration_ms": round(read_duration * 1000, 2),
-                "lines_per_second": round(len(lines) / read_duration, 2)
-            }
+                "lines_per_second": round(len(lines) / read_duration, 2),
+            },
         }
 
     async def analyze_concurrency(self) -> Dict[str, Any]:
         """Analyze concurrency and async performance"""
+
         # Test async task performance
         async def test_task(task_id):
             await asyncio.sleep(0.01)
@@ -335,7 +336,7 @@ class PerformanceAnalyzer:
             "sequential_duration_ms": round(sequential_duration * 1000, 2),
             "concurrent_duration_ms": round(concurrent_duration * 1000, 2),
             "speedup_factor": round(sequential_duration / concurrent_duration, 2),
-            "task_count": 10
+            "task_count": 10,
         }
 
     async def identify_optimizations(self) -> Dict[str, Any]:
@@ -352,14 +353,14 @@ class PerformanceAnalyzer:
                 optimizations["memory"] = {
                     "priority": "high",
                     "recommendation": "Implement memory optimization strategies",
-                    "current_usage": f"{memory_usage}%"
+                    "current_usage": f"{memory_usage}%",
                 }
 
             if cpu_usage > 70:
                 optimizations["cpu"] = {
                     "priority": "medium",
                     "recommendation": "Optimize CPU-intensive operations",
-                    "current_usage": f"{cpu_usage}%"
+                    "current_usage": f"{cpu_usage}%",
                 }
 
         # Analyze import performance
@@ -372,7 +373,7 @@ class PerformanceAnalyzer:
                 optimizations["imports"] = {
                     "priority": "medium",
                     "recommendation": "Implement lazy loading for heavy modules",
-                    "current_average": f"{avg_duration}ms"
+                    "current_average": f"{avg_duration}ms",
                 }
 
         # Analyze API performance
@@ -384,7 +385,7 @@ class PerformanceAnalyzer:
                 optimizations["api_response"] = {
                     "priority": "high",
                     "recommendation": "Implement caching and async optimizations",
-                    "current_p95": f"{p95_response}ms"
+                    "current_p95": f"{p95_response}ms",
                 }
 
         return optimizations
@@ -394,48 +395,50 @@ class PerformanceAnalyzer:
         recommendations = []
 
         # General recommendations based on analysis
-        recommendations.extend([
-            {
-                "category": "Memory Management",
-                "priority": "high",
-                "title": "Implement Memory Pooling",
-                "description": "Use object pooling for frequently created/destroyed objects",
-                "implementation": "Create memory pools for GLYPH tokens, API responses, and temporary objects",
-                "estimated_improvement": "15-25% memory reduction"
-            },
-            {
-                "category": "Async Operations",
-                "priority": "high",
-                "title": "Optimize Async/Await Usage",
-                "description": "Ensure all I/O operations are properly async",
-                "implementation": "Audit and convert blocking operations to async equivalents",
-                "estimated_improvement": "20-40% response time improvement"
-            },
-            {
-                "category": "Caching",
-                "priority": "medium",
-                "title": "Implement Multi-Layer Caching",
-                "description": "Add caching at multiple levels (memory, Redis, CDN)",
-                "implementation": "LRU cache for hot paths, Redis for session data, CDN for static assets",
-                "estimated_improvement": "30-50% response time improvement"
-            },
-            {
-                "category": "Database",
-                "priority": "medium",
-                "title": "Connection Pooling",
-                "description": "Implement database connection pooling",
-                "implementation": "Use SQLAlchemy connection pools with proper sizing",
-                "estimated_improvement": "10-20% database performance improvement"
-            },
-            {
-                "category": "Monitoring",
-                "priority": "low",
-                "title": "Implement Performance Profiling",
-                "description": "Add continuous performance monitoring",
-                "implementation": "Integrate with APM tools (e.g., New Relic, DataDog)",
-                "estimated_improvement": "Enables ongoing optimization"
-            }
-        ])
+        recommendations.extend(
+            [
+                {
+                    "category": "Memory Management",
+                    "priority": "high",
+                    "title": "Implement Memory Pooling",
+                    "description": "Use object pooling for frequently created/destroyed objects",
+                    "implementation": "Create memory pools for GLYPH tokens, API responses, and temporary objects",
+                    "estimated_improvement": "15-25% memory reduction",
+                },
+                {
+                    "category": "Async Operations",
+                    "priority": "high",
+                    "title": "Optimize Async/Await Usage",
+                    "description": "Ensure all I/O operations are properly async",
+                    "implementation": "Audit and convert blocking operations to async equivalents",
+                    "estimated_improvement": "20-40% response time improvement",
+                },
+                {
+                    "category": "Caching",
+                    "priority": "medium",
+                    "title": "Implement Multi-Layer Caching",
+                    "description": "Add caching at multiple levels (memory, Redis, CDN)",
+                    "implementation": "LRU cache for hot paths, Redis for session data, CDN for static assets",
+                    "estimated_improvement": "30-50% response time improvement",
+                },
+                {
+                    "category": "Database",
+                    "priority": "medium",
+                    "title": "Connection Pooling",
+                    "description": "Implement database connection pooling",
+                    "implementation": "Use SQLAlchemy connection pools with proper sizing",
+                    "estimated_improvement": "10-20% database performance improvement",
+                },
+                {
+                    "category": "Monitoring",
+                    "priority": "low",
+                    "title": "Implement Performance Profiling",
+                    "description": "Add continuous performance monitoring",
+                    "implementation": "Integrate with APM tools (e.g., New Relic, DataDog)",
+                    "estimated_improvement": "Enables ongoing optimization",
+                },
+            ]
+        )
 
         return recommendations
 
@@ -444,16 +447,17 @@ class PerformanceAnalyzer:
         results_file = self.base_dir / "performance_analysis_results.json"
 
         import json
-        with open(results_file, 'w') as f:
+
+        with open(results_file, "w") as f:
             json.dump(self.results, f, indent=2, default=str)
 
         logger.info(f"📄 Results saved to: {results_file}")
 
     def print_summary(self):
         """Print performance analysis summary"""
-        logger.info("\n" + "="*70)
-        logger.info("📊 LUKHAS PWM Performance Analysis Summary")
-        logger.info("="*70)
+        logger.info("\n" + "=" * 70)
+        logger.info("📊 LUKHAS  Performance Analysis Summary")
+        logger.info("=" * 70)
 
         # System overview
         system_resources = self.results.get("System Resources", {}).get("result", {})
@@ -471,14 +475,18 @@ class PerformanceAnalyzer:
         api_perf = self.results.get("API Performance", {}).get("result", {})
         if api_perf:
             logger.info("🚀 API Performance:")
-            logger.info(f"   Average Response: {api_perf.get('average_response_ms', 0):.1f}ms")
+            logger.info(
+                f"   Average Response: {api_perf.get('average_response_ms', 0):.1f}ms"
+            )
             logger.info(f"   P95 Response: {api_perf.get('p95_response_ms', 0):.1f}ms")
 
         # Concurrency
         concurrency = self.results.get("Concurrency Analysis", {}).get("result", {})
         if concurrency:
             logger.info("⚡ Concurrency:")
-            logger.info(f"   Speedup Factor: {concurrency.get('speedup_factor', 0):.1f}x")
+            logger.info(
+                f"   Speedup Factor: {concurrency.get('speedup_factor', 0):.1f}x"
+            )
 
         # Recommendations
         recommendations = self.results.get("recommendations", [])
@@ -489,8 +497,11 @@ class PerformanceAnalyzer:
             logger.info(f"   • {rec.get('title', 'Unknown')}")
             logger.info(f"     {rec.get('estimated_improvement', 'Improvement TBD')}")
 
-        logger.info(f"\n⏱️  Total Analysis Time: {self.results.get('total_analysis_time', 0):.2f}s")
-        logger.info("="*70)
+        logger.info(
+            f"\n⏱️  Total Analysis Time: {self.results.get('total_analysis_time', 0):.2f}s"
+        )
+        logger.info("=" * 70)
+
 
 async def main():
     """Run performance analysis"""
@@ -502,10 +513,17 @@ async def main():
     high_priority_count = len([o for o in optimizations if o.get("priority") == "high"])
 
     if high_priority_count > 0:
-        logger.info(f"\n⚠️  Found {high_priority_count} high-priority optimization opportunities")
-        logger.info("   Review the detailed analysis results for implementation guidance")
+        logger.info(
+            f"\n⚠️  Found {high_priority_count} high-priority optimization opportunities"
+        )
+        logger.info(
+            "   Review the detailed analysis results for implementation guidance"
+        )
     else:
-        logger.info("\n✅ System performance looks good - no critical optimizations needed")
+        logger.info(
+            "\n✅ System performance looks good - no critical optimizations needed"
+        )
+
 
 if __name__ == "__main__":
     asyncio.run(main())

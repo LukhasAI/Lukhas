@@ -1,7 +1,7 @@
 #!/bin/bash
-# Setup PWM Git Hooks
+# Setup  Git Hooks
 
-echo "🔧 Setting up PWM Git hooks..."
+echo "🔧 Setting up  Git hooks..."
 
 # Set git hooks path
 git config core.hooksPath .githooks

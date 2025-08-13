@@ -80,7 +80,7 @@ package-lock.json
 htmlcov/
 
 # Archive directories (legacy)
-.pwm_cleanup_archive/
+._cleanup_archive/
 archive/
 recovery/
 backup/

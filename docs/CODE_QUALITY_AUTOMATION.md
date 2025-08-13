@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the automated code quality system implemented for LUKHAS PWM. The system provides comprehensive linting, formatting, testing, and monitoring capabilities to maintain high code standards with minimal manual intervention.
+This document describes the automated code quality system implemented for LUKHAS . The system provides comprehensive linting, formatting, testing, and monitoring capabilities to maintain high code standards with minimal manual intervention.
 
 ## Quick Start
 

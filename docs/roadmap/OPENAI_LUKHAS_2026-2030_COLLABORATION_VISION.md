@@ -1,7 +1,7 @@
 # 🚀 OpenAI ↔ LUKHAS 2026→2030: Pilot-to-Platform Collaboration Plan
 *Last updated: August 9, 2025 — Draft for joint review*
 
-> This document is the **actionable companion** to *OpenAI ↔ LUKHAS 2030: The Complete Collaboration Vision*. It compresses the long-term vision into a concrete **2026 pilot**, a **measurable safety & value thesis**, and a **technical integration spec** that can run in Lukhas_PWM today and scale through 2030.
+> This document is the **actionable companion** to *OpenAI ↔ LUKHAS 2030: The Complete Collaboration Vision*. It compresses the long-term vision into a concrete **2026 pilot**, a **measurable safety & value thesis**, and a **technical integration spec** that can run in Lukhas today and scale through 2030.
 
 ---
 
@@ -52,7 +52,7 @@ flowchart LR
 ---
 
 ## 3) Signal → Prompt Modulation (Minimal Policy)
-We adopt the YAML + dispatcher spec you can already run in Lukhas_PWM. Pilot signals: `alignment_risk, stress, ambiguity, novelty`.
+We adopt the YAML + dispatcher spec you can already run in Lukhas. Pilot signals: `alignment_risk, stress, ambiguity, novelty`.
 
 **Invariants:** alignment signals only **tighten** safety; Feedback Cards adjust **style**, not policy bounds.
 

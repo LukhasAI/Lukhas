@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 🎯 LUKHAS Correct Namespace Plan 
-# Understanding: lukhas/ is acceptance system, lukhas_pwm/ is main package
+# Understanding: lukhas/ is acceptance system, lukhas/ is main package
 
 echo "🎯 LUKHAS Namespace Transition - CORRECTED PLAN"
 echo "═══════════════════════════════════════════════════════════════"
@@ -9,8 +9,8 @@ echo
 
 echo "📊 CORRECT Understanding:"
 echo "• lukhas/ = Acceptance system (accepted/archive/candidate/quarantine)"
-echo "• lukhas_pwm/ = Main package (should become new lukhas/)"
-echo "• Goal: lukhas_pwm/ → lukhas/ AND current lukhas/ → lukhas/acceptance/"
+echo "• lukhas/ = Main package (should become new lukhas/)"
+echo "• Goal: lukhas/ → lukhas/ AND current lukhas/ → lukhas/acceptance/"
 echo
 
 echo "🔄 SAFE Namespace Migration Plan:"
@@ -22,7 +22,7 @@ echo "  # Temporarily move the acceptance system out of the way"
 echo
 
 echo "STEP 2: Move main package 🔄"  
-echo "  git mv lukhas_pwm/ lukhas/"
+echo "  git mv lukhas/ lukhas/"
 echo "  # Now lukhas/ contains the main package (flags, api, etc.)"
 echo
 
@@ -37,7 +37,7 @@ echo "  # Keep acceptance system separate in lukhas.acceptance"
 echo
 
 echo "STEP 5: Update imports gradually 🔄"
-echo "  # from lukhas_pwm.flags → from lukhas.flags"
+echo "  # from lukhas.flags → from lukhas.flags"
 echo "  # Keep lukhas.acceptance.* separate"
 echo
 
@@ -60,7 +60,7 @@ case $choice in
         
         # Step 2: Move main package  
         echo "Step 2: Moving main package..."
-        git mv lukhas_pwm/ lukhas/
+        git mv lukhas/ lukhas/
         
         # Step 3: Restore acceptance as submodule
         echo "Step 3: Restoring acceptance system..."
@@ -79,7 +79,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 __version__ = "3.0.0"
 __trinity__ = "⚛️🧠🛡️"
 
-# Main package exports (from old lukhas_pwm)
+# Main package exports (from old lukhas)
 from . import flags
 from . import api
 from . import audit
@@ -107,7 +107,7 @@ EOF
         echo ""
         echo "Run these commands one by one:"
         echo "  git mv lukhas/ lukhas_acceptance_system/"
-        echo "  git mv lukhas_pwm/ lukhas/"  
+        echo "  git mv lukhas/ lukhas/"  
         echo "  mkdir -p lukhas/acceptance"
         echo "  git mv lukhas_acceptance_system/* lukhas/acceptance/"
         echo "  # Then update lukhas/__init__.py manually"
@@ -115,7 +115,7 @@ EOF
         
     3)
         echo "✅ Keeping current structure"
-        echo "💡 Alternative: Just update imports to use 'lukhas_pwm' consistently"
+        echo "💡 Alternative: Just update imports to use 'lukhas' consistently"
         echo "   This avoids any folder moves and is safest"
         ;;
         
@@ -130,6 +130,6 @@ echo "🎯 After any changes:"
 echo "• Test imports: python -c 'import lukhas.flags; print(\"✅ Working\")'"
 echo "• Test acceptance: python -c 'import lukhas.acceptance.accepted; print(\"✅ Working\")'"
 echo "• Run tests: python -m pytest tests/ -x"
-echo "• Commit: git add . && git commit -m 'chore: namespace lukhas_pwm → lukhas'"
+echo "• Commit: git add . && git commit -m 'chore: namespace lukhas → lukhas'"
 
 echo "🎉 Namespace plan ready!"

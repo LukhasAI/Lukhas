@@ -1,7 +1,7 @@
 # LUKHAS AI Repository Inventory & Topology
 
 ## Repository Overview
-- **Repository Root**: `/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM`
+- **Repository Root**: `/Users/agi_dev/LOCAL-REPOS/Lukhas`
 - **Total Files**: 9,374 (up to 4 levels deep)
 - **Git Status**: Clean (staged changes for agent compliance tasks and tone enforcement)
 - **Latest Commit**: `c967783` - "fix: Resolve critical VIVOX system failures and improve test stability"
@@ -58,7 +58,7 @@
 - **`Dockerfile`** ✓ - Container build configuration
 
 ### System Configuration
-- **`lukhas_pwm_config.yaml`** ✓ - Main system configuration
+- **`lukhas_config.yaml`** ✓ - Main system configuration
 - **`integration_config.yaml`** ✓ - Integration thresholds and settings
 - **`modulation_policy.yaml`** ✓ - Policy configuration
 

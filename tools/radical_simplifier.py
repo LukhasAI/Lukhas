@@ -50,7 +50,7 @@ class RadicalSimplifier:
         for root, _dirs, files in os.walk("."):
             if any(
                 skip in root
-                for skip in [".git", "__pycache__", ".pwm_cleanup_archive", "venv"]
+                for skip in [".git", "__pycache__", "._cleanup_archive", "venv"]
             ):
                 continue
 

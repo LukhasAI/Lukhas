@@ -1,4 +1,4 @@
-# LUKHΛS PWM OpenAPI / Swagger
+# LUKHΛS  OpenAPI / Swagger
 
 - Swagger UI: `/docs`
 - ReDoc: `/redoc`

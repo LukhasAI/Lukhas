@@ -190,7 +190,7 @@ All systems include:
 
 ## ✨ Conclusion
 
-The LUKHAS PWM system now features:
+The LUKHAS  system now features:
 - **True AI plasticity** through endocrine signaling
 - **Deep personalization** via symbol dictionaries
 - **Complete transparency** with audit trails

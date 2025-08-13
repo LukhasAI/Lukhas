@@ -1,4 +1,4 @@
-# 🎭 LUKHAS_PWM Supreme Claude Army Battalion
+# 🎭 LUKHAS Supreme Claude Army Battalion
 # Strategic Agent Allocation for 200+ Module Consciousness Ecosystem
 
 ## 🏛️ TIER 1: TRINITY FRAMEWORK GENERALS (Strategic Leadership)
@@ -86,7 +86,7 @@
 ## 🔧 TIER 3: DEVELOPMENT MAJORS (Implementation Specialists)
 
 ### 12. 🏗️ Infrastructure Major
-**Modules**: architectures/, deployments/, config*, lukhas_pwm/
+**Modules**: architectures/, deployments/, config*, lukhas/
 
 ### 13. 📚 Documentation Major
 **Modules**: docs/, branding/, reports/, badges/

@@ -1,7 +1,7 @@
-# LUKHAS_PWM Agent Context
+# LUKHAS Agent Context
 
 ## Project Overview
-LUKHAS_PWM is a modular consciousness AI framework built around the Trinity Framework (⚛️🧠🛡️):
+LUKHAS is a modular consciousness AI framework built around the Trinity Framework (⚛️🧠🛡️):
 - ⚛️ Identity: Consciousness authenticity and symbolic self-expression
 - 🧠 Consciousness: Memory, cognition, dream states, neural processing  
 - 🛡️ Guardian: Ethical protection, drift detection, safety protocols
@@ -78,7 +78,7 @@ All decisions must pass the unified framework:
 
 ## File Structure Awareness
 ```
-LUKHAS_PWM/
+LUKHAS/
 ├── .claude/tasks/real_consciousness_todos/  # Current validated tasks
 ├── agents/configs/                          # Agent configurations
 ├── core/                                    # Core consciousness systems
@@ -87,7 +87,7 @@ LUKHAS_PWM/
 ├── identity/                                # Identity and access systems
 ├── governance/                              # Guardian and ethics systems
 ├── branding/                                # Trinity Framework guidelines
-└── lukhas_pwm_config.yaml                  # Main configuration
+└── lukhas_config.yaml                  # Main configuration
 ```
 
 ## Trinity Framework Integration

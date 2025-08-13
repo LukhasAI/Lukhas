@@ -37,7 +37,7 @@ def save_context_manually():
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     # Create contexts directory
-    context_dir = Path("/Users/agi_dev/Lukhas_PWM/docs/claude_contexts")
+    context_dir = Path("/Users/agi_dev/Lukhas/docs/claude_contexts")
     context_dir.mkdir(parents=True, exist_ok=True)
 
     filename = f"claude_context_{timestamp}.md"
@@ -52,7 +52,7 @@ def save_context_manually():
     template = f"""# Claude Code Context - {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 ## Session Information
-- Repository: LUKHAS PWM
+- Repository: LUKHAS 
 - Date: {datetime.now().strftime("%Y-%m-%d")}
 - Time: {datetime.now().strftime("%H:%M:%S")}
 
@@ -143,7 +143,7 @@ extractClaudeContext();
 """
 
     script_path = Path(
-        "/Users/agi_dev/Lukhas_PWM/tools/scripts/claude_context_extractor.js"
+        "/Users/agi_dev/Lukhas/tools/scripts/claude_context_extractor.js"
     )
     with open(script_path, "w") as f:
         f.write(script_content)

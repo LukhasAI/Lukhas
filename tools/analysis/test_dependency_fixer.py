@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PWM Test Dependency Fixer
+LUKHAS Test Dependency Fixer
 =========================
 Systematically fixes missing dependencies in test files.
 """
@@ -18,7 +18,7 @@ class TestDependencyFixer:
     """Fixes missing dependencies in test files"""
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas_PWM")
+        self.root_path = Path("/Users/agi_dev/Lukhas")
         self.test_files = []
         self.missing_modules = set()
         self.fixed_count = 0
@@ -72,7 +72,7 @@ class TestDependencyFixer:
         local_patterns = [
             "z_collapse_engine",
             "timestamp_verification",
-            "pwm_workspace_guardian",
+            "lukhas_workspace_guardian",
             "lukhas",
             "core",
             "memory",

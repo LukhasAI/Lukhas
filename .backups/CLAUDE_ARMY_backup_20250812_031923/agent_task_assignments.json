@@ -5,16 +5,12 @@
     "timeline": "4 weeks",
     "strategy": "Parallel specialized agent deployment"
   },
-  
+
   "agents": {
     "testing_specialist": {
       "name": "Testing & Validation Specialist",
       "focus": "Fix test collection errors, validate modules",
-      "primary_directories": [
-        "tests/",
-        "test_results/",
-        "test_metadata/"
-      ],
+      "primary_directories": ["tests/", "test_results/", "test_metadata/"],
       "tasks": [
         {
           "id": "TS-001",
@@ -40,15 +36,11 @@
         }
       ]
     },
-    
+
     "integration_specialist": {
       "name": "Module Integration Specialist",
       "focus": "Connect isolated modules, fix imports",
-      "primary_directories": [
-        "lukhas_pwm/",
-        "lukhas/",
-        "core/"
-      ],
+      "primary_directories": ["lukhas/", "lukhas/", "core/"],
       "tasks": [
         {
           "id": "IS-001",
@@ -76,15 +68,11 @@
         }
       ]
     },
-    
+
     "syntax_fixer": {
       "name": "Syntax Error Elimination Specialist",
       "focus": "Fix all Python syntax errors",
-      "primary_directories": [
-        "tools/",
-        "bridge/",
-        "core/"
-      ],
+      "primary_directories": ["tools/", "bridge/", "core/"],
       "tasks": [
         {
           "id": "SF-001",
@@ -106,15 +94,11 @@
         }
       ]
     },
-    
+
     "api_consolidator": {
       "name": "API & Bridge Consolidation Specialist",
       "focus": "Unify scattered API endpoints",
-      "primary_directories": [
-        "api/",
-        "bridge/",
-        "serve/"
-      ],
+      "primary_directories": ["api/", "bridge/", "serve/"],
       "tasks": [
         {
           "id": "AC-001",
@@ -136,15 +120,11 @@
         }
       ]
     },
-    
+
     "consciousness_architect": {
       "name": "Consciousness System Architect",
       "focus": "Trinity Framework integration",
-      "primary_directories": [
-        "consciousness/",
-        "memory/",
-        "governance/"
-      ],
+      "primary_directories": ["consciousness/", "memory/", "governance/"],
       "tasks": [
         {
           "id": "CA-001",
@@ -166,15 +146,11 @@
         }
       ]
     },
-    
+
     "documentation_guardian": {
       "name": "Documentation & Accuracy Guardian",
       "focus": "Remove false claims, document reality",
-      "primary_directories": [
-        "docs/",
-        "README.md",
-        "AGENTS.md"
-      ],
+      "primary_directories": ["docs/", "README.md", "AGENTS.md"],
       "tasks": [
         {
           "id": "DG-001",
@@ -197,7 +173,7 @@
       ]
     }
   },
-  
+
   "coordination": {
     "mcp_server": {
       "enabled": true,
@@ -205,20 +181,20 @@
       "port": 8000,
       "coordination_endpoint": "/agent/tasks"
     },
-    
+
     "task_queue": {
       "type": "priority_queue",
       "persistence": "redis",
       "status_dashboard": "http://localhost:8000/dashboard"
     },
-    
+
     "communication": {
       "method": "shared_filesystem",
       "status_dir": ".agent_status/",
       "results_dir": ".agent_results/"
     }
   },
-  
+
   "success_metrics": {
     "phase_1": {
       "syntax_errors_fixed": "100%",

@@ -71,7 +71,7 @@ jobs:
       
       - name: Validate flag configuration
         run: |
-          python -c "from lukhas_pwm.flags import get_flags; print(get_flags().log_state())"
+          python -c "from lukhas.flags import get_flags; print(get_flags().log_state())"
 
   # Tool governance tests
   tool-governance:
@@ -237,7 +237,7 @@ jobs:
       
       - name: Create deployment bundle
         run: |
-          tar -czf lukhas-pwm-${{ github.sha }}.tar.gz \
+          tar -czf lukhas--${{ github.sha }}.tar.gz \
             --exclude='.git' \
             --exclude='__pycache__' \
             --exclude='*.pyc' \
@@ -248,7 +248,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: deployment-bundle
-          path: lukhas-pwm-${{ github.sha }}.tar.gz
+          path: lukhas--${{ github.sha }}.tar.gz
 
   # Deploy to staging
   deploy-staging:
@@ -268,7 +268,7 @@ jobs:
       - name: Deploy to staging
         run: |
           echo "Deploying to staging environment..."
-          echo "Would deploy lukhas-pwm-${{ github.sha }}.tar.gz"
+          echo "Would deploy lukhas--${{ github.sha }}.tar.gz"
           # Add actual deployment commands here
 
   # Deploy to production
@@ -289,7 +289,7 @@ jobs:
       - name: Deploy to production
         run: |
           echo "Deploying to production environment..."
-          echo "Would deploy lukhas-pwm-${{ github.sha }}.tar.gz"
+          echo "Would deploy lukhas--${{ github.sha }}.tar.gz"
           # Add actual deployment commands here
       
       - name: Run post-deployment checks
@@ -309,7 +309,7 @@ jobs:
       
       - name: Generate summary
         run: |
-          echo "## 🚀 LUKHAS PWM CI/CD Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## 🚀 LUKHAS  CI/CD Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Results" >> $GITHUB_STEP_SUMMARY
           echo "- Smoke Check: ✅" >> $GITHUB_STEP_SUMMARY

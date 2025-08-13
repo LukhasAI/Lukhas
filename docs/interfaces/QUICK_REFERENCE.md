@@ -1,4 +1,4 @@
-# 🚀 LUKHAS PWM Module Interface Quick Reference
+# 🚀 LUKHAS  Module Interface Quick Reference
 
 ## Common Imports
 

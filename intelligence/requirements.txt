@@ -1,5 +1,5 @@
 # Lukhas Intelligence Engine Requirements
-# For PWM integration
+# For  integration
 
 # Core dependencies
 numpy>=1.21.0

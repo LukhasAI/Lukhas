@@ -297,7 +297,7 @@
 │                                                   │
 │   /help for help, /status for your current setup  │
 │                                                   │
-│   cwd: /Users/agi_dev/Lukhas_PWM                  │
+│   cwd: /Users/agi_dev/Lukhas                  │
 ╰───────────────────────────────────────────────────╯
 
  ※ Tip: Send messages to Claude while it works to steer Claude in real-time
@@ -350,7 +350,7 @@
 
      … +156 lines (ctrl+r to expand)
 
-⏺ Bash(chmod +x /Users/agi_dev/Lukhas_PWM/tools/scripts/save_claude_context.py)
+⏺ Bash(chmod +x /Users/agi_dev/Lukhas/tools/scripts/save_claude_context.py)
   ⎿  (No content)
 
 ⏺ Now let me create a more integrated solution that works with the LUKHAS memory
@@ -369,7 +369,7 @@
      import sys
      … +158 lines (ctrl+r to expand)
 
-⏺ Bash(chmod +x /Users/agi_dev/Lukhas_PWM/tools/scripts/claude_memory_integration.py)
+⏺ Bash(chmod +x /Users/agi_dev/Lukhas/tools/scripts/claude_memory_integration.py)
   ⎿  (No content)
 
 ⏺ Now let me create a quick README for these tools:
@@ -378,7 +378,7 @@
   ⎿  Wrote 69 lines to tools/scripts/CLAUDE_CONTEXT_TOOLS.md                         
      # Claude Code Context Saving Tools
      This directory contains tools to save and manage Claude Code conversation
-     contexts within the LUKHAS PWM repository.
+     contexts within the LUKHAS  repository.
      ## Available Tools
      ### 1. `save_claude_context.py`
      Simple tool to save Claude Code conversations manually.
@@ -426,20 +426,20 @@
   To use right now: Run python3 tools/scripts/save_claude_context.py and paste this
   conversation into the opened file.
 
-> https://vscode.dev/github/LukhasAI/Lukhas_PWM/blob/main5266052b/5  this is the 
+> https://vscode.dev/github/LukhasAI/Lukhas/blob/main5266052b/5  this is the 
   claude code chat i want to save the context from
 
 ⏺ I'll help you save the context from that Claude Code chat. Let me fetch the content
    from that GitHub link:
 
-⏺ Fetch(https://vscode.dev/github/LukhasAI/Lukhas_PWM/blob/main5266052b/5)
+⏺ Fetch(https://vscode.dev/github/LukhasAI/Lukhas/blob/main5266052b/5)
   ⎿  Received 417.8KB (200 OK)
 
 ⏺ It seems the link might not be directly accessible or might be pointing to VS
   Code's internal structure rather than the chat content. Let me try a different
   approach:
 
-⏺ Bash(curl -s "https://vscode.dev/github/LukhasAI/Lukhas_PWM/blob/main5266052b/5" |
+⏺ Bash(curl -s "https://vscode.dev/github/LukhasAI/Lukhas/blob/main5266052b/5" |
       head -1000)
   ⎿ <!doctype html><html><head><script>performance.mark('code/didStartRenderer');</sc
     ript><meta charset="utf-8"/><link rel="stylesheet" href="https://main.vscode-cdn.
@@ -476,7 +476,7 @@
     - Paste it into the template file that was just created and opened
 
   The template file is ready at:
-  /Users/agi_dev/Lukhas_PWM/docs/claude_contexts/claude_context_20250801_202733.md
+  /Users/agi_dev/Lukhas/docs/claude_contexts/claude_context_20250801_202733.md
 
   Simply paste your Claude Code conversation into this file to save it for future
   reference.
@@ -486,12 +486,12 @@
 
 ⏺ I understand - the terminal restarted and you lost the last part of the
   conversation. Looking at what you've pasted, I can see you were working on
-  organizing the LUKHAS PWM repository, specifically:
+  organizing the LUKHAS  repository, specifically:
 
   1. Analyzing system connectivity - Found 99.9% connectivity, 49/53 working systems
   2. Updating CLAUDE.md - Added file organization guidelines
   3. Creating directory structure - Set up proper folders for docs, tools, tests
-  4. Moving files - Relocated PWM_ROOT_ORGANIZATION_PLAN.md to
+  4. Moving files - Relocated _ROOT_ORGANIZATION_PLAN.md to
   docs/planning/completed/
   5. Fixing import issues - Created governance/common.py and fixed imports
   6. Creating pre-commit hooks - Added file organization checks

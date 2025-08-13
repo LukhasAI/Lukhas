@@ -1,4 +1,4 @@
-# LUKHAS PWM Deployment Guide
+# LUKHAS  Deployment Guide
 
 ## Table of Contents
 1. [Prerequisites](#prerequisites)
@@ -56,7 +56,7 @@ OPENAI_API_KEY=sk-...
 # Database
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
-POSTGRES_DB=lukhas_pwm
+POSTGRES_DB=lukhas
 POSTGRES_USER=lukhas
 POSTGRES_PASSWORD=<secure-password>
 
@@ -79,8 +79,8 @@ GUARDIAN_CONSENSUS_REQUIRED=3
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/lukhas_pwm.git
-cd lukhas_pwm
+git clone https://github.com/yourusername/lukhas.git
+cd lukhas
 ```
 
 ### 2. Setup Python Environment
@@ -155,7 +155,7 @@ services:
   postgres:
     image: postgres:14-alpine
     environment:
-      POSTGRES_DB: lukhas_pwm_dev
+      POSTGRES_DB: lukhas_dev
       POSTGRES_USER: lukhas
       POSTGRES_PASSWORD: dev_password
     volumes:
@@ -308,7 +308,7 @@ services:
     image: postgres:14-alpine
     restart: always
     environment:
-      POSTGRES_DB: lukhas_pwm
+      POSTGRES_DB: lukhas
       POSTGRES_USER: lukhas
       POSTGRES_PASSWORD_FILE: /run/secrets/db_password
     volumes:
@@ -496,7 +496,7 @@ spec:
 ### 4. Helm Chart
 
 ```yaml
-# helm/lukhas-pwm/values.yaml
+# helm/lukhas-/values.yaml
 global:
   environment: production
   image:
@@ -522,7 +522,7 @@ guardian:
 postgresql:
   enabled: true
   auth:
-    database: lukhas_pwm
+    database: lukhas
     username: lukhas
   persistence:
     size: 100Gi
@@ -550,11 +550,11 @@ Deploy with Helm:
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 
-# Install LUKHAS PWM
-helm install lukhas-pwm ./helm/lukhas-pwm \
+# Install LUKHAS 
+helm install lukhas- ./helm/lukhas- \
   --namespace lukhas-core \
   --create-namespace \
-  --values ./helm/lukhas-pwm/values.yaml
+  --values ./helm/lukhas-/values.yaml
 ```
 
 ## Configuration Management
@@ -565,7 +565,7 @@ helm install lukhas-pwm ./helm/lukhas-pwm \
 # config/base.py
 class BaseConfig:
     # Core settings
-    APP_NAME = "LUKHAS PWM"
+    APP_NAME = "LUKHAS "
     VERSION = "1.0.0"
     
     # Guardian settings
@@ -775,13 +775,13 @@ python orchestration/brain/primary_hub.py --debug --trace-glyphs
 
 ```bash
 # Backup database
-pg_dump -h localhost -U lukhas lukhas_pwm > backup_$(date +%Y%m%d).sql
+pg_dump -h localhost -U lukhas lukhas > backup_$(date +%Y%m%d).sql
 
 # Vacuum and analyze
-psql -h localhost -U lukhas -d lukhas_pwm -c "VACUUM ANALYZE;"
+psql -h localhost -U lukhas -d lukhas -c "VACUUM ANALYZE;"
 
 # Check table sizes
-psql -h localhost -U lukhas -d lukhas_pwm -c "
+psql -h localhost -U lukhas -d lukhas -c "
 SELECT schemaname,tablename,pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) 
 FROM pg_tables WHERE schemaname = 'public' ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
 "
@@ -797,9 +797,9 @@ kubectl set image deployment/brain-hub brain-hub=lukhas/brain-hub:v1.1.0 -n lukh
 kubectl rollout undo deployment/brain-hub -n lukhas-core
 
 # Update with Helm
-helm upgrade lukhas-pwm ./helm/lukhas-pwm \
+helm upgrade lukhas- ./helm/lukhas- \
   --namespace lukhas-core \
-  --values ./helm/lukhas-pwm/values.yaml \
+  --values ./helm/lukhas-/values.yaml \
   --atomic \
   --cleanup-on-fail
 ```
@@ -831,7 +831,7 @@ helm upgrade lukhas-pwm ./helm/lukhas-pwm \
 1. **Complete System Recovery**:
    ```bash
    # Restore database
-   psql -h localhost -U lukhas -d lukhas_pwm < backup_20240115.sql
+   psql -h localhost -U lukhas -d lukhas < backup_20240115.sql
    
    # Restore configurations
    kubectl apply -f configs_backup.yaml
@@ -921,7 +921,7 @@ resources:
 
 ## Conclusion
 
-This deployment guide provides comprehensive instructions for deploying LUKHAS PWM in various environments. Key considerations:
+This deployment guide provides comprehensive instructions for deploying LUKHAS  in various environments. Key considerations:
 
 1. **Start Simple**: Begin with Docker Compose for development
 2. **Scale Gradually**: Move to Kubernetes as needs grow
@@ -929,4 +929,4 @@ This deployment guide provides comprehensive instructions for deploying LUKHAS P
 4. **Backup Regularly**: Implement automated backup procedures
 5. **Test Disaster Recovery**: Practice recovery procedures regularly
 
-For additional support, consult the module-specific documentation or contact the LUKHAS PWM development team.
+For additional support, consult the module-specific documentation or contact the LUKHAS  development team.

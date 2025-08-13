@@ -4,8 +4,8 @@
 
 ### Setup
 ```bash
-# Navigate to your LUKHAS PWM directory
-cd /Users/agi_dev/Lukhas_PWM
+# Navigate to your LUKHAS  directory
+cd /Users/agi_dev/Lukhas
 
 # Make the journal command executable (already done)
 chmod +x journal
@@ -17,7 +17,7 @@ chmod +x journal
 ### Optional: Add to PATH for easier access
 ```bash
 # Add this to your ~/.zshrc or ~/.bash_profile
-export PATH="/Users/agi_dev/Lukhas_PWM:$PATH"
+export PATH="/Users/agi_dev/Lukhas:$PATH"
 
 # Then you can just type 'journal' from anywhere
 journal status
@@ -187,18 +187,18 @@ git commit -m "Add caching to improve performance"
 ### 1. Create Aliases
 Add to your `~/.zshrc`:
 ```bash
-alias j="/Users/agi_dev/Lukhas_PWM/journal"
-alias jq="/Users/agi_dev/Lukhas_PWM/journal quick"
-alias ja="/Users/agi_dev/Lukhas_PWM/journal add"
-alias js="/Users/agi_dev/Lukhas_PWM/journal search"
-alias jask="/Users/agi_dev/Lukhas_PWM/journal ask"
+alias j="/Users/agi_dev/Lukhas/journal"
+alias jq="/Users/agi_dev/Lukhas/journal quick"
+alias ja="/Users/agi_dev/Lukhas/journal add"
+alias js="/Users/agi_dev/Lukhas/journal search"
+alias jask="/Users/agi_dev/Lukhas/journal ask"
 ```
 
 ### 2. iTerm2 Profiles
 Create a dedicated iTerm2 profile for journaling:
 1. Preferences → Profiles → New Profile
 2. Name it "LUKHAS Journal"
-3. Set Working Directory to `/Users/agi_dev/Lukhas_PWM`
+3. Set Working Directory to `/Users/agi_dev/Lukhas`
 4. Set a custom color scheme for better visibility
 
 ### 3. Keyboard Shortcuts
@@ -210,7 +210,7 @@ Set up iTerm2 hotkeys:
 ```bash
 # Add to .git/hooks/post-commit
 #!/bin/bash
-echo "Commit: $(git log -1 --pretty=%B)" | /Users/agi_dev/Lukhas_PWM/journal add -t decision
+echo "Commit: $(git log -1 --pretty=%B)" | /Users/agi_dev/Lukhas/journal add -t decision
 ```
 
 ## Common Workflows
@@ -334,7 +334,7 @@ Common emotions:
 ### Command not found
 ```bash
 # Make sure you're in the right directory
-cd /Users/agi_dev/Lukhas_PWM
+cd /Users/agi_dev/Lukhas
 ./journal status
 ```
 

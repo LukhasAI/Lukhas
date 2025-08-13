@@ -154,7 +154,7 @@ This document maps all major components, services, and modules within the LUKHAS
 - **Memory Storage**: Memory-mapped files in `memory_folds/folds.mmap`
 
 ### Configuration Storage
-- **Main Config**: `lukhas_pwm_config.yaml`
+- **Main Config**: `lukhas_config.yaml`
 - **Integration Config**: `integration_config.yaml`
 - **Per-module Configs**: Individual JSON files in `config/`
 

@@ -3263,7 +3263,7 @@
       "./tools/vscode_diagnostic.py",
       "./tools/full_connectivity_resolver.py",
       "./tools/generate_html_post.py",
-      "./tools/analysis/PWM_OPERATIONAL_SUMMARY.py",
+      "./tools/analysis/_OPERATIONAL_SUMMARY.py",
       "./tools/analysis/audit_decision_embedding_engine.py",
       "./tools/analysis/smart_consolidator.py"
     ],
@@ -3277,138 +3277,57 @@
           "./tools/documentation/memory_evolution/usage_learning.py",
           "UsageBasedLearning"
         ],
-        [
-          "./learning/usage_learning.py",
-          "UsageBasedLearning"
-        ]
+        ["./learning/usage_learning.py", "UsageBasedLearning"]
       ],
       "__init__": [
-        [
-          "./tools/enterprise/health_check_system.py",
-          "DatabaseHealthCheck"
-        ],
-        [
-          "./bio/recovery_protocol.py",
-          "BioRecoveryProtocol"
-        ],
-        [
-          "./core/common.py",
-          "BaseMessage"
-        ],
-        [
-          "./memory/core.py",
-          "ConsensusProtocol"
-        ],
+        ["./tools/enterprise/health_check_system.py", "DatabaseHealthCheck"],
+        ["./bio/recovery_protocol.py", "BioRecoveryProtocol"],
+        ["./core/common.py", "BaseMessage"],
+        ["./memory/core.py", "ConsensusProtocol"],
         [
           "./memory/fold_system/distributed_memory_fold.py",
           "ConsensusProtocol"
         ],
-        [
-          "./memory/systems/core.py",
-          "BaseModule"
-        ],
-        [
-          "./bridge/integration_bridge.py",
-          "BaseLucasModule"
-        ],
-        [
-          "./architectures/abas/core/abas_engine.py",
-          "ABASEngine"
-        ],
-        [
-          "./orchestration/colony_orchestrator.py",
-          "BaseColony"
-        ],
+        ["./memory/systems/core.py", "BaseModule"],
+        ["./bridge/integration_bridge.py", "BaseLucasModule"],
+        ["./architectures/abas/core/abas_engine.py", "ABASEngine"],
+        ["./orchestration/colony_orchestrator.py", "BaseColony"],
         [
           "./orchestration/brain/reasoning/symbolic_validator.py",
           "BaseValidator"
         ]
       ],
       "": [
-        [
-          "./tools/enterprise/observability_system.py",
-          "MetricBaseline"
-        ],
-        [
-          "./core/agent_coordination.py",
-          "CoordinationProtocol"
-        ],
-        [
-          "./core/interfaces/protocols/awareness_protocol.py",
-          "ProtocolStatus"
-        ],
+        ["./tools/enterprise/observability_system.py", "MetricBaseline"],
+        ["./core/agent_coordination.py", "CoordinationProtocol"],
+        ["./core/interfaces/protocols/awareness_protocol.py", "ProtocolStatus"],
         [
           "./memory/protection/symbolic_quarantine_sanctum.py",
           "RepairProtocolType"
         ],
-        [
-          "./memory/systems/core.py",
-          "BaseConfig"
-        ],
-        [
-          "./memory/systems/core.py",
-          "BaseHealth"
-        ],
-        [
-          "./identity/api/api.py",
-          "BaseModel"
-        ],
-        [
-          "./creativity/creative_q_expression.py",
-          "CreativeExpressionProtocol"
-        ],
-        [
-          "./creativity/creative_engine.py",
-          "SymbolicKnowledgeBase"
-        ],
-        [
-          "./learning/learning_gateway.py",
-          "LearningGatewayInterface"
-        ],
-        [
-          "./learning/system.py",
-          "BaseMetaLearner"
-        ],
-        [
-          "./learning/learning_system.py",
-          "BaseMetaLearner"
-        ],
+        ["./memory/systems/core.py", "BaseConfig"],
+        ["./memory/systems/core.py", "BaseHealth"],
+        ["./identity/api/api.py", "BaseModel"],
+        ["./creativity/creative_q_expression.py", "CreativeExpressionProtocol"],
+        ["./creativity/creative_engine.py", "SymbolicKnowledgeBase"],
+        ["./learning/learning_gateway.py", "LearningGatewayInterface"],
+        ["./learning/system.py", "BaseMetaLearner"],
+        ["./learning/learning_system.py", "BaseMetaLearner"],
         [
           "./reasoning/abstract_reasoning_demo.original.py",
           "AbstractReasoningBrainInterface"
         ],
-        [
-          "./voice/systems/synthesis.py",
-          "BaseTTSProvider"
-        ],
-        [
-          "./orchestration/config/production_config.py",
-          "DatabaseConfig"
-        ],
-        [
-          "./orchestration/specialized/lambda_dependa_bot.py",
-          "CodeFixerBase"
-        ],
-        [
-          "./orchestration/specialized/lambda_dependa_bot.py",
-          "BotProtocol"
-        ],
+        ["./voice/systems/synthesis.py", "BaseTTSProvider"],
+        ["./orchestration/config/production_config.py", "DatabaseConfig"],
+        ["./orchestration/specialized/lambda_dependa_bot.py", "CodeFixerBase"],
+        ["./orchestration/specialized/lambda_dependa_bot.py", "BotProtocol"],
         [
           "./orchestration/core_modules/orchestration_service.py",
           "OrchestrationProtocol"
         ],
-        [
-          "./quantum/\u039bBot_quantum_security.py",
-          "LatticeBasedCrypto"
-        ],
-        [
-          "./quantum/\u039bBot_quantum_security.py",
-          "HashBasedSignatures"
-        ],
-        [
-          "./quantum/\u039bBot_quantum_security.py",
-          "CodeBasedCrypto"
-        ]
+        ["./quantum/\u039bBot_quantum_security.py", "LatticeBasedCrypto"],
+        ["./quantum/\u039bBot_quantum_security.py", "HashBasedSignatures"],
+        ["./quantum/\u039bBot_quantum_security.py", "CodeBasedCrypto"]
       ]
     },
     "recommendation": "Consolidate base classes in core/base/"
@@ -3428,9 +3347,7 @@
     "recommendation": "Extract common utilities to core/utilities/"
   },
   "memory_system_unification": {
-    "current_systems": [
-      "memory/systems"
-    ],
+    "current_systems": ["memory/systems"],
     "target_architecture": {
       "name": "DNA-like Memory Helix",
       "features": [
@@ -3445,10 +3362,7 @@
     }
   },
   "dream_engine_merger": {
-    "current_systems": [
-      "dream/engine",
-      "dream/oneiric"
-    ],
+    "current_systems": ["dream/engine", "dream/oneiric"],
     "target_architecture": {
       "name": "Quantum Learning Dream Engine",
       "features": [
@@ -3462,9 +3376,7 @@
     }
   },
   "emotion_integration": {
-    "current_systems": [
-      "emotion"
-    ],
+    "current_systems": ["emotion"],
     "target_architecture": {
       "name": "Integrated Emotion-Feeling-Memory System",
       "features": [

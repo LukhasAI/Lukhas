@@ -1,4 +1,4 @@
-# 🔍 PWM Comprehensive Missing Components Analysis
+# 🔍  Comprehensive Missing Components Analysis
 
 ## 📊 Current Status After Phase 1 Cherry-Pick
 
@@ -71,7 +71,7 @@
 ### Phase 2A: Core Learning Systems (CRITICAL)
 ```bash
 # Copy advanced learning systems
-cp -r /Users/agi_dev/Lukhas/clean-agi/learning/ /Users/agi_dev/Lukhas_PWM/learning_advanced/
+cp -r /Users/agi_dev/Lukhas/clean-agi/learning/ /Users/agi_dev/Lukhas/learning_advanced/
 ```
 
 **Impact**: 
@@ -83,10 +83,10 @@ cp -r /Users/agi_dev/Lukhas/clean-agi/learning/ /Users/agi_dev/Lukhas_PWM/learni
 ### Phase 2B: Neural Architecture Enhancement (HIGH)
 ```bash
 # Copy core neural architecture
-cp /Users/agi_dev/Lukhas/clean-agi/neural_architecture/brain_integration.py /Users/agi_dev/Lukhas_PWM/orchestration/brain/
-cp /Users/agi_dev/Lukhas/clean-agi/neural_architecture/enhanced_brain_integration.py /Users/agi_dev/Lukhas_PWM/orchestration/brain/
-cp /Users/agi_dev/Lukhas/clean-agi/neural_architecture/quantum_neuro_symbolic_engine.py /Users/agi_dev/Lukhas_PWM/quantum/
-cp /Users/agi_dev/Lukhas/clean-agi/neural_architecture/human_oversight_manager.py /Users/agi_dev/Lukhas_PWM/orchestration/
+cp /Users/agi_dev/Lukhas/clean-agi/neural_architecture/brain_integration.py /Users/agi_dev/Lukhas/orchestration/brain/
+cp /Users/agi_dev/Lukhas/clean-agi/neural_architecture/enhanced_brain_integration.py /Users/agi_dev/Lukhas/orchestration/brain/
+cp /Users/agi_dev/Lukhas/clean-agi/neural_architecture/quantum_neuro_symbolic_engine.py /Users/agi_dev/Lukhas/quantum/
+cp /Users/agi_dev/Lukhas/clean-agi/neural_architecture/human_oversight_manager.py /Users/agi_dev/Lukhas/orchestration/
 ```
 
 **Impact**:
@@ -98,7 +98,7 @@ cp /Users/agi_dev/Lukhas/clean-agi/neural_architecture/human_oversight_manager.p
 ### Phase 2C: Advanced Reasoning (MEDIUM)
 ```bash
 # Copy reasoning enhancements
-cp -r /Users/agi_dev/Lukhas/clean-agi/reasoning/ /Users/agi_dev/Lukhas_PWM/reasoning_advanced/
+cp -r /Users/agi_dev/Lukhas/clean-agi/reasoning/ /Users/agi_dev/Lukhas/reasoning_advanced/
 ```
 
 **Impact**:
@@ -109,7 +109,7 @@ cp -r /Users/agi_dev/Lukhas/clean-agi/reasoning/ /Users/agi_dev/Lukhas_PWM/reaso
 ### Phase 2D: Privacy Enhancement (MEDIUM)
 ```bash
 # Copy privacy management
-cp /Users/agi_dev/Lukhas/clean-agi/identity/privacy_manager.py /Users/agi_dev/Lukhas_PWM/identity/
+cp /Users/agi_dev/Lukhas/clean-agi/identity/privacy_manager.py /Users/agi_dev/Lukhas/identity/
 ```
 
 **Impact**:
@@ -176,7 +176,7 @@ cp /Users/agi_dev/Lukhas/clean-agi/identity/privacy_manager.py /Users/agi_dev/Lu
 
 **Command Ready**: 
 ```bash
-cp -r /Users/agi_dev/Lukhas/clean-agi/learning/ /Users/agi_dev/Lukhas_PWM/learning_advanced/
+cp -r /Users/agi_dev/Lukhas/clean-agi/learning/ /Users/agi_dev/Lukhas/learning_advanced/
 ```
 
 ---

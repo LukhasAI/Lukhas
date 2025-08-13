@@ -66,7 +66,7 @@ mv OPENAI_INPUT_OUTPUT_REPORT.md docs/openai/ 2>/dev/null && echo "  ✓ OPENAI_
 mv PRODUCTION_TEST_REPORT.md docs/openai/ 2>/dev/null && echo "  ✓ PRODUCTION_TEST_REPORT.md → docs/openai/"
 mv TOOL_EXECUTOR_IMPLEMENTATION.md docs/openai/ 2>/dev/null && echo "  ✓ TOOL_EXECUTOR_IMPLEMENTATION.md → docs/openai/"
 mv TOOL_INTEGRATION_COMPLETE.md docs/openai/ 2>/dev/null && echo "  ✓ TOOL_INTEGRATION_COMPLETE.md → docs/openai/"
-mv GPT5_AUDITS_LUKHAS_PWM.md docs/openai/ 2>/dev/null && echo "  ✓ GPT5_AUDITS_LUKHAS_PWM.md → docs/openai/"
+mv GPT5_AUDITS_LUKHAS.md docs/openai/ 2>/dev/null && echo "  ✓ GPT5_AUDITS_LUKHAS.md → docs/openai/"
 mv IMPLEMENTATION_SUMMARY.md docs/openai/ 2>/dev/null && echo "  ✓ IMPLEMENTATION_SUMMARY.md → docs/openai/"
 
 # Release docs

@@ -408,7 +408,7 @@ class AutonomousInnovationOrchestrator:
 
 ### **Integration with Your Existing Modules:**
 ```python
-# In your main Lukhas_PWM initialization
+# In your main Lukhas initialization
 async def initialize_agi_supremacy_modules():
     """Initialize complete AGI supremacy capability"""
     

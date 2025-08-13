@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-🔍 PWM Import Analysis Tool
+🔍  Import Analysis Tool
 ==========================
-Identifies and analyzes import errors across the LUKHAS PWM codebase.
+Identifies and analyzes import errors across the LUKHAS  codebase.
 """
 
 import ast
@@ -254,7 +254,7 @@ class ImportAnalyzer:
 
 def main():
     """Main analysis function"""
-    print("🔍 PWM Import Analysis")
+    print("🔍  Import Analysis")
     print("=" * 60)
 
     analyzer = ImportAnalyzer(PROJECT_ROOT)
@@ -324,11 +324,7 @@ def main():
     import json
 
     report_path = (
-        PROJECT_ROOT
-        / "docs"
-        / "reports"
-        / "analysis"
-        / "PWM_IMPORT_ANALYSIS_REPORT.json"
+        PROJECT_ROOT / "docs" / "reports" / "analysis" / "_IMPORT_ANALYSIS_REPORT.json"
     )
     report_path.parent.mkdir(parents=True, exist_ok=True)
 

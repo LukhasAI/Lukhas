@@ -1,9 +1,9 @@
 """
-Lambda Products Adapter for Lukhas PWM Integration
-Bridges Lambda Products into the advanced Lukhas PWM system
+Lambda Products Adapter for Lukhas  Integration
+Bridges Lambda Products into the advanced Lukhas  system
 
 This adapter enables Lambda Products to work as plugins within the
-sophisticated Lukhas PWM architecture, leveraging its existing
+sophisticated Lukhas  architecture, leveraging its existing
 plugin registry and module registry systems.
 """
 
@@ -22,19 +22,19 @@ from plugins.plugin_base import (
     PluginStatus,
 )
 
-# Add Lukhas PWM to path
-lukhas_pwm_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
-sys.path.insert(0, str(lukhas_pwm_path))
+# Add Lukhas  to path
+lukhas_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
+sys.path.insert(0, str(lukhas_path))
 
-# Import Lukhas PWM components
+# Import Lukhas  components
 try:
     from core.module_registry import ModuleInfo, ModuleRegistry, TierLevel
     from core.plugin_registry import Plugin, PluginRegistry, PluginType
 
-    LUKHAS_PWM_AVAILABLE = True
+    LUKHAS_AVAILABLE = True
 except ImportError as e:
-    logging.warning(f"Lukhas PWM components not available: {e}")
-    LUKHAS_PWM_AVAILABLE = False
+    logging.warning(f"Lukhas  components not available: {e}")
+    LUKHAS_AVAILABLE = False
 
     # Define fallbacks
     class Plugin:
@@ -58,9 +58,9 @@ sys.path.insert(0, str(lambda_products_path))
 logger = logging.getLogger(__name__)
 
 
-class LambdaProductsPWMPlugin(Plugin):
+class LambdaProductsPlugin(Plugin):
     """
-    Base class for Lambda Products as Lukhas PWM plugins
+    Base class for Lambda Products as Lukhas  plugins
     """
 
     def __init__(self, lambda_plugin: LukhasPlugin):
@@ -106,9 +106,9 @@ class LambdaProductsPWMPlugin(Plugin):
         }
 
 
-class LukhasPWMIntegrationAdapter:
+class LukhasIntegrationAdapter:
     """
-    Adapter for integrating Lambda Products into Lukhas PWM system
+    Adapter for integrating Lambda Products into Lukhas  system
     """
 
     def __init__(self):
@@ -116,7 +116,7 @@ class LukhasPWMIntegrationAdapter:
         self.module_registry = None
         self.registered_products = {}
 
-        if LUKHAS_PWM_AVAILABLE:
+        if LUKHAS_AVAILABLE:
             self.plugin_registry = PluginRegistry()
             self.module_registry = ModuleRegistry()
 
@@ -133,10 +133,10 @@ class LukhasPWMIntegrationAdapter:
         return tier_map.get(product_id, TierLevel.VISITOR)
 
     async def auto_register_all_products(self) -> list[str]:
-        """Auto-register all Lambda Products with PWM"""
+        """Auto-register all Lambda Products with"""
         registered = []
 
-        if not LUKHAS_PWM_AVAILABLE:
+        if not LUKHAS_AVAILABLE:
             return registered
 
         # Import all Lambda Products
@@ -166,22 +166,22 @@ class LukhasPWMIntegrationAdapter:
     async def register_lambda_product(
         self, lambda_plugin: LukhasPlugin, config: Optional[dict[str, Any]] = None
     ) -> bool:
-        """Register a Lambda Product with Lukhas PWM"""
+        """Register a Lambda Product with Lukhas"""
 
-        if not LUKHAS_PWM_AVAILABLE:
-            logger.warning("Lukhas PWM not available, running in standalone mode")
+        if not LUKHAS_AVAILABLE:
+            logger.warning("Lukhas  not available, running in standalone mode")
             return False
 
         try:
-            # Create PWM plugin wrapper
-            pwm_plugin = LambdaProductsPWMPlugin(lambda_plugin)
+            # Create  plugin wrapper
+            _plugin = LambdaProductsPlugin(lambda_plugin)
 
             # Always initialize with config (use empty dict if not provided)
             init_config = config if config else {}
-            await pwm_plugin.initialize(init_config)
+            await _plugin.initialize(init_config)
 
             # Register with plugin registry
-            self.plugin_registry.register_plugin(pwm_plugin)
+            self.plugin_registry.register_plugin(_plugin)
 
             # Create module info for module registry
             module_info = ModuleInfo(
@@ -189,7 +189,7 @@ class LukhasPWMIntegrationAdapter:
                 name=lambda_plugin.manifest.name,
                 version=lambda_plugin.manifest.version,
                 path=f"lambda_products.{lambda_plugin.manifest.id}",
-                instance=pwm_plugin,
+                instance=_plugin,
                 min_tier=self.get_tier_requirement(lambda_plugin.manifest.id),
                 permissions=set(lambda_plugin.manifest.capabilities),
                 dependencies=lambda_plugin.manifest.dependencies,
@@ -203,7 +203,7 @@ class LukhasPWMIntegrationAdapter:
             # Register with module registry - use correct API signature
             self.module_registry.register_module(
                 module_id=module_info.module_id,
-                module_instance=pwm_plugin,
+                module_instance=_plugin,
                 name=module_info.name,
                 version=module_info.version,
                 path=module_info.path,
@@ -214,12 +214,12 @@ class LukhasPWMIntegrationAdapter:
 
             # Track registration
             self.registered_products[lambda_plugin.manifest.id] = {
-                "plugin": pwm_plugin,
+                "plugin": _plugin,
                 "module_info": module_info,
                 "lambda_plugin": lambda_plugin,
             }
 
-            logger.info(f"✅ Registered {lambda_plugin.manifest.name} with Lukhas PWM")
+            logger.info(f"✅ Registered {lambda_plugin.manifest.name} with Lukhas ")
             return True
 
         except Exception as e:
@@ -255,13 +255,13 @@ class LukhasPWMIntegrationAdapter:
             return {"error": f"Product {product_id} not registered"}
 
         # Process through product
-        pwm_plugin = self.registered_products[product_id]["plugin"]
-        return await pwm_plugin.process(input_data)
+        _plugin = self.registered_products[product_id]["plugin"]
+        return await _plugin.process(input_data)
 
     async def get_system_status(self) -> dict[str, Any]:
         """Get overall system status"""
         status = {
-            "pwm_available": LUKHAS_PWM_AVAILABLE,
+            "_available": LUKHAS_AVAILABLE,
             "registered_products": list(self.registered_products.keys()),
             "health_status": {},
         }
@@ -278,7 +278,7 @@ class LukhasPWMIntegrationAdapter:
 
     def get_module_registry_info(self) -> dict[str, Any]:
         """Get module registry information"""
-        if not LUKHAS_PWM_AVAILABLE or not self.module_registry:
+        if not LUKHAS_AVAILABLE or not self.module_registry:
             return {"available": False}
 
         modules = {}
@@ -297,16 +297,16 @@ class LukhasPWMIntegrationAdapter:
         return {"available": True, "modules": modules}
 
 
-# Example Lambda Product implementations for PWM
-class NIASPWMPlugin(LukhasPlugin):
-    """NIΛS adapted for PWM integration"""
+# Example Lambda Product implementations for
+class NIASPlugin(LukhasPlugin):
+    """NIΛS adapted for  integration"""
 
     def __init__(self):
         manifest = PluginManifest(
             id="nias",
             name="NIΛS - Non-Intrusive Messaging",
             version="2.0.0",
-            description="Emotional gating and consent-based messaging for PWM",
+            description="Emotional gating and consent-based messaging for ",
             capabilities=["emotional_filtering", "consent_management", "tier_gating"],
             dependencies=[],
             priority=PluginPriority.HIGH,
@@ -373,15 +373,15 @@ class NIASPWMPlugin(LukhasPlugin):
         }
 
 
-class ABASPWMPlugin(LukhasPlugin):
-    """ΛBAS adapted for PWM integration"""
+class ABASPlugin(LukhasPlugin):
+    """ΛBAS adapted for  integration"""
 
     def __init__(self):
         manifest = PluginManifest(
             id="abas",
             name="ΛBAS - Attention Boundary System",
             version="2.0.0",
-            description="Attention management integrated with PWM consciousness",
+            description="Attention management integrated with  consciousness",
             capabilities=[
                 "boundary_protection",
                 "flow_detection",
@@ -447,15 +447,15 @@ class ABASPWMPlugin(LukhasPlugin):
         }
 
 
-class DASTPWMPlugin(LukhasPlugin):
-    """DΛST adapted for PWM integration"""
+class DASTPlugin(LukhasPlugin):
+    """DΛST adapted for  integration"""
 
     def __init__(self):
         manifest = PluginManifest(
             id="dast",
             name="DΛST - Dynamic Adaptive Symbol Tracking",
             version="2.0.0",
-            description="Context tracking integrated with PWM memory systems",
+            description="Context tracking integrated with  memory systems",
             capabilities=[
                 "context_tracking",
                 "pattern_recognition",

@@ -1,8 +1,8 @@
-# 📚 LUKHAS PWM Module Interfaces & Contracts
+# 📚 LUKHAS  Module Interfaces & Contracts
 
 ## Overview
 
-This document defines the interfaces and contracts between LUKHAS PWM modules, establishing clear boundaries and communication protocols for the system's components.
+This document defines the interfaces and contracts between LUKHAS  modules, establishing clear boundaries and communication protocols for the system's components.
 
 ## Table of Contents
 

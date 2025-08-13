@@ -40,7 +40,7 @@
       "./MODULE_INDEX.md",
       "./branding/trinity/TRINITY_BRANDING_GUIDELINES.md",
       "./docs/tasks/ACTIVE.md",
-      "./lukhas_pwm_config.yaml"
+      "./lukhas_config.yaml"
     ],
     "claude-code.agentProfiles": "./agents/configs/",
     "claude-code.workflowTemplates": "./.claude/workflows/",

@@ -235,7 +235,7 @@ class AdvancedVocabularyEngine:
 
         # Extract module name from path or content
         module_name = Path(readme_path).parent.name.title()
-        if module_name.lower() in ["lukhas_pwm", "root", "."]:
+        if module_name.lower() in ["lukhas", "root", "."]:
             module_name = "LUKHAS AI Core Consciousness"
 
         # Create enhanced header

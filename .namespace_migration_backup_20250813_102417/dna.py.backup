@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query
 
-from lukhas_pwm.dna.memory_inmem import InMemoryHelix
-from lukhas_pwm.migration.legacy_jsonl import LegacyJSONL
+from lukhas.dna.memory_inmem import InMemoryHelix
+from lukhas.migration.legacy_jsonl import LegacyJSONL
 
 router = APIRouter(prefix="/dna", tags=["DNA"])
 

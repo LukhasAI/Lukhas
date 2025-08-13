@@ -69,7 +69,7 @@ The agents created a **proof-of-concept** in `CLAUDE_ARMY/` but the **real work*
 ## 📂 Directory Mapping
 
 ```
-LUKHAS_PWM/
+LUKHAS/
 ├── core/
 │   ├── identity/
 │   │   └── lambda_id_core.py ✅ (Agent 1)

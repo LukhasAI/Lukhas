@@ -54,7 +54,7 @@ class LUKHASSystem:
 
     def __init__(self, config_path: Optional[str] = None):
         """Initialize the LUKHAS system"""
-        self.config_path = config_path or "lukhas_pwm_config.yaml"
+        self.config_path = config_path or "lukhas_config.yaml"
         self.logger = setup_logging()
         self.module_manager = get_module_manager()
         self.start_time = None
@@ -73,7 +73,7 @@ class LUKHASSystem:
             True if initialization successful, False otherwise
         """
         self.logger.info("=" * 70)
-        self.logger.info("🧠 LUKHAS PWM System Initialization")
+        self.logger.info("🧠 LUKHAS  System Initialization")
         self.logger.info("=" * 70)
 
         self.start_time = time.time()
@@ -387,7 +387,7 @@ def main():
     """Main entry point for system initialization"""
     import argparse
 
-    parser = argparse.ArgumentParser(description="Initialize LUKHAS PWM System")
+    parser = argparse.ArgumentParser(description="Initialize LUKHAS  System")
     parser.add_argument(
         "--priority",
         choices=["CRITICAL", "HIGH", "MEDIUM", "LOW", "OPTIONAL"],
@@ -396,7 +396,7 @@ def main():
     )
     parser.add_argument(
         "--config",
-        default="lukhas_pwm_config.yaml",
+        default="lukhas_config.yaml",
         help="Path to configuration file",
     )
     parser.add_argument(

@@ -27,7 +27,7 @@ This is the **LUKHAS AI** repository - a SOPHISTICATED COGNITIVE ARCHITECTURE wi
 ## 🚫 Critical Branding & Messaging Rules
 
 ### Required Terminology
-- **Always use**: "LUKHAS AI" (never "LUKHAS AGI" or "Lukhas PWM")
+- **Always use**: "LUKHAS AI" (never "LUKHAS AGI" or "Lukhas ")
 - **Always use**: "quantum-inspired" (not "quantum processing")
 - **Always use**: "bio-inspired" (not "bio processes")
 - **Use approved glyphs**: Only from `branding/` directory or `next_gen/README_NEXT_GEN.md`
@@ -82,8 +82,8 @@ python -m emotion.service
 
 # Audit and monitoring
 python real_gpt_drift_audit.py
-python tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py
-python tools/analysis/PWM_OPERATIONAL_SUMMARY.py
+python tools/analysis/_FUNCTIONAL_ANALYSIS.py
+python tools/analysis/_OPERATIONAL_SUMMARY.py
 ```
 
 ### Testing
@@ -99,7 +99,7 @@ pytest -m security      # Security tests only
 
 # Run with coverage
 make test-cov
-pytest --cov=lukhas_pwm --cov=bridge --cov=core --cov=serve tests/
+pytest --cov=lukhas --cov=bridge --cov=core --cov=serve tests/
 
 # Run single test file or function
 pytest tests/test_colony_integration.py
@@ -122,8 +122,8 @@ make fix-imports # Fix import issues
 # Individual linters
 ruff check .
 ruff check --fix .
-black lukhas_pwm/ tests/
-mypy lukhas_pwm/
+black lukhas/ tests/
+mypy lukhas/
 ```
 
 ### Build & Deploy
@@ -196,7 +196,7 @@ make api-spec  # Exports OpenAPI spec to out/openapi.json
 - Respect Trinity Framework (⚛️🧠🛡️) in all logic, comments, documentation
 - Use approved branding from `branding/` and `next_gen/README_NEXT_GEN.md`
 - Use symbolic glyphs where appropriate
-- Check `integration_config.yaml` and `lukhas_pwm_config.yaml` for global thresholds
+- Check `integration_config.yaml` and `lukhas_config.yaml` for global thresholds
 - Log interventions to `data/` or `memory/`
 - Update `data/meta_metrics.json` when adding monitoring
 
@@ -234,7 +234,7 @@ from lukhas.module import Component  # Legacy
 ## Configuration
 
 Main configs:
-- `lukhas_pwm_config.yaml` - Main system configuration
+- `lukhas_config.yaml` - Main system configuration
 - `integration_config.yaml` - Integration settings
 - `modulation_policy.yaml` - Signal modulation rules
 - `config/` directory - Various module configs
@@ -256,7 +256,7 @@ Key environment variables (`.env`):
 2. **Monitor Drift**: Watch `drift_score` in governance metrics
 3. **Memory Issues**: Use fold visualizers for memory debugging
 4. **Ethics Violations**: Check Guardian System logs in `governance/`
-5. **Module Status**: Run `tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py`
+5. **Module Status**: Run `tools/analysis/_FUNCTIONAL_ANALYSIS.py`
 6. **Audit Trail**: Check `data/drift_audit_summary.json`
 7. **Test Metadata**: Check `test_metadata/` for test execution details
 

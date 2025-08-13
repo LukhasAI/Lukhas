@@ -31,7 +31,7 @@ class ClaudeLUKHASIntegration:
 
     def _discover_lukhas_modules(self) -> dict[str, Path]:
         """Discover available LUKHAS modules"""
-        base_path = Path("/Users/agi_dev/Lukhas_PWM")
+        base_path = Path("/Users/agi_dev/Lukhas")
         modules = {}
 
         # Core LUKHAS modules

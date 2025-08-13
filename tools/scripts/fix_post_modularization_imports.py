@@ -34,7 +34,7 @@ IMPORT_MAPPINGS = {
     "core.config": "core.common.config",
     "consciousness.core_consciousness.awareness_engine": "consciousness.awareness.awareness_engine",
     "consciousness.core_consciousness.dream_engine.__init__": "quantum_attention.__init__",
-    "core.quantum_identity_manager": ".pwm_cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.quantum_identity_manager",
+    "core.quantum_identity_manager": "._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.quantum_identity_manager",
     "memory.fold_engine": "memory.folds.fold_engine",
 }
 
@@ -72,7 +72,7 @@ def fix_imports_in_file(file_path: Path) -> bool:
 
 def main():
     """Fix imports across the codebase"""
-    root = Path("/Users/agi_dev/Lukhas_PWM")
+    root = Path("/Users/agi_dev/Lukhas"
     fixed_count = 0
 
     print("🔧 Fixing imports post-modularization...")

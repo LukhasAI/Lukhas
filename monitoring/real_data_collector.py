@@ -2,7 +2,7 @@
 """
 Real Data Collector
 ==================
-Actual implementation showing how monitoring system collects real data from LUKHAS PWM modules
+Actual implementation showing how monitoring system collects real data from LUKHAS  modules
 """
 
 import asyncio
@@ -17,9 +17,9 @@ import structlog
 logger = structlog.get_logger(__name__)
 
 
-class LukhasPWMRealDataCollector:
+class LukhasRealDataCollector:
     """
-    Collects actual data from real LUKHAS PWM modules.
+    Collects actual data from real LUKHAS  modules.
     This shows the concrete implementation of data integration.
     """
 
@@ -30,12 +30,12 @@ class LukhasPWMRealDataCollector:
         self.fallback_generators = {}
 
         # Module discovery paths
-        self.lukhas_root = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
+        self.lukhas_root = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
     async def initialize_real_connections(self):
-        """Initialize connections to actual LUKHAS PWM modules"""
+        """Initialize connections to actual LUKHAS  modules"""
 
-        logger.info("Initializing connections to real LUKHAS PWM modules")
+        logger.info("Initializing connections to real LUKHAS  modules")
 
         # 1. CONSCIOUSNESS MODULE CONNECTIONS
         await self._connect_consciousness_modules()
@@ -390,7 +390,7 @@ class LukhasPWMRealDataCollector:
             logger.warning("Could not initialize module instance", error=str(e))
 
     # ACTUAL DATA COLLECTION METHODS
-    # These methods show how to extract real data from LUKHAS PWM modules
+    # These methods show how to extract real data from LUKHAS  modules
 
     async def _get_consciousness_awareness(self) -> float:
         """Get actual awareness level from consciousness module"""
@@ -503,9 +503,9 @@ class LukhasPWMRealDataCollector:
         return self._estimate_emotional_state_from_behavior()
 
     async def collect_comprehensive_data(self) -> Dict[str, Any]:
-        """Collect comprehensive data from all connected LUKHAS PWM modules"""
+        """Collect comprehensive data from all connected LUKHAS  modules"""
 
-        logger.debug("Collecting comprehensive data from LUKHAS PWM modules")
+        logger.debug("Collecting comprehensive data from LUKHAS  modules")
 
         # Collect from all connected modules
         data = {
@@ -743,14 +743,14 @@ class LukhasPWMRealDataCollector:
 
 # Usage example
 async def demonstrate_real_data_collection():
-    """Demonstrate real data collection from LUKHAS PWM modules"""
+    """Demonstrate real data collection from LUKHAS  modules"""
 
-    print("🔍 LUKHAS PWM Real Data Collection Demonstration")
+    print("🔍 LUKHAS  Real Data Collection Demonstration")
     print("=" * 55)
 
-    collector = LukhasPWMRealDataCollector()
+    collector = LukhasRealDataCollector()
 
-    print("📡 Initializing connections to LUKHAS PWM modules...")
+    print("📡 Initializing connections to LUKHAS  modules...")
     await collector.initialize_real_connections()
 
     print(f"✅ Connected to {len(collector.module_connections)} modules:")

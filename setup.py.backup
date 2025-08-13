@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Lukhas PWM Setup Configuration
+Lukhas  Setup Configuration
 """
 
 from pathlib import Path
@@ -12,13 +12,13 @@ readme_path = Path(__file__).parent / "README.md"
 long_description = readme_path.read_text() if readme_path.exists() else ""
 
 setup(
-    name="lukhas-pwm",
+    name="lukhas-",
     version="2.1.0",
     author="LUKHAS AI",
     description="Production-ready consciousness-aware AI platform with Lambda Products - 99%+ reliability",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/LukhasAI/Lukhas_PWM",
+    url="https://github.com/LukhasAI/Lukhas",
     packages=find_packages(exclude=["tests*", "docs*", "examples*"]),
     classifiers=[
         "Development Status :: 4 - Beta",

@@ -41,7 +41,7 @@ def main():
 
     directories = {
         "bridge/llm_wrappers": "LLM Wrappers",
-        "lukhas_pwm": "LUKHAS PWM Core",
+        "lukhas": "LUKHAS  Core",
         "bridge/api": "Bridge API",
         "serve": "Serve Module",
         "tests": "Tests",

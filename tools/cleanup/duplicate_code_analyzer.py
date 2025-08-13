@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Duplicate Code Analyzer for LUKHAS PWM
+Duplicate Code Analyzer for LUKHAS
 =======================================
 Identifies duplicate and conflicting code patterns for cleanup.
 """
@@ -38,10 +38,17 @@ class DuplicateCodeAnalyzer:
                 print(f"  Progress: {i}/{total_files} files...")
 
             # Skip certain directories
-            if any(skip in str(file_path) for skip in [
-                "__pycache__", ".git", ".venv", "venv",
-                ".pwm_cleanup_archive", "archive"
-            ]):
+            if any(
+                skip in str(file_path)
+                for skip in [
+                    "__pycache__",
+                    ".git",
+                    ".venv",
+                    "venv",
+                    "._cleanup_archive",
+                    "archive",
+                ]
+            ):
                 continue
 
             self._analyze_file(file_path)
@@ -51,7 +58,7 @@ class DuplicateCodeAnalyzer:
     def _analyze_file(self, file_path: Path):
         """Analyze a single file for duplicates"""
         try:
-            content = file_path.read_text(encoding='utf-8')
+            content = file_path.read_text(encoding="utf-8")
             tree = ast.parse(content)
 
             # Analyze functions
@@ -73,13 +80,15 @@ class DuplicateCodeAnalyzer:
         signature = f"{node.name}({', '.join(params)})"
 
         # Store by signature
-        self.function_signatures[signature].append({
-            'file': str(file_path.relative_to(self.root_path)),
-            'line': node.lineno,
-            'name': node.name,
-            'params': params,
-            'body_hash': self._hash_node(node)
-        })
+        self.function_signatures[signature].append(
+            {
+                "file": str(file_path.relative_to(self.root_path)),
+                "line": node.lineno,
+                "name": node.name,
+                "params": params,
+                "body_hash": self._hash_node(node),
+            }
+        )
 
     def _analyze_class(self, node: ast.ClassDef, file_path: Path):
         """Analyze class for duplicates"""
@@ -89,34 +98,40 @@ class DuplicateCodeAnalyzer:
             if isinstance(item, ast.FunctionDef):
                 methods.append(item.name)
 
-        self.class_definitions[node.name].append({
-            'file': str(file_path.relative_to(self.root_path)),
-            'line': node.lineno,
-            'methods': methods,
-            'bases': [self._get_name(base) for base in node.bases]
-        })
+        self.class_definitions[node.name].append(
+            {
+                "file": str(file_path.relative_to(self.root_path)),
+                "line": node.lineno,
+                "methods": methods,
+                "bases": [self._get_name(base) for base in node.bases],
+            }
+        )
 
     def _analyze_import(self, node, file_path: Path):
         """Analyze imports for conflicts"""
         if isinstance(node, ast.Import):
             for alias in node.names:
                 module = alias.name
-                self.conflicting_imports[module].append({
-                    'file': str(file_path.relative_to(self.root_path)),
-                    'line': node.lineno,
-                    'as': alias.asname
-                })
+                self.conflicting_imports[module].append(
+                    {
+                        "file": str(file_path.relative_to(self.root_path)),
+                        "line": node.lineno,
+                        "as": alias.asname,
+                    }
+                )
         elif isinstance(node, ast.ImportFrom):
             if node.module:
                 for alias in node.names:
                     import_str = f"{node.module}.{alias.name}"
-                    self.conflicting_imports[import_str].append({
-                        'file': str(file_path.relative_to(self.root_path)),
-                        'line': node.lineno,
-                        'from': node.module,
-                        'import': alias.name,
-                        'as': alias.asname
-                    })
+                    self.conflicting_imports[import_str].append(
+                        {
+                            "file": str(file_path.relative_to(self.root_path)),
+                            "line": node.lineno,
+                            "from": node.module,
+                            "import": alias.name,
+                            "as": alias.asname,
+                        }
+                    )
 
     def _hash_node(self, node) -> str:
         """Create hash of AST node"""
@@ -138,11 +153,11 @@ class DuplicateCodeAnalyzer:
     def _generate_report(self) -> Dict:
         """Generate duplicate analysis report"""
         report = {
-            'summary': {},
-            'duplicate_functions': [],
-            'duplicate_classes': [],
-            'conflicting_imports': [],
-            'recommendations': []
+            "summary": {},
+            "duplicate_functions": [],
+            "duplicate_classes": [],
+            "conflicting_imports": [],
+            "recommendations": [],
         }
 
         # Find duplicate functions
@@ -152,64 +167,71 @@ class DuplicateCodeAnalyzer:
                 # Check if actually duplicate (same body hash)
                 hash_groups = defaultdict(list)
                 for loc in locations:
-                    hash_groups[loc['body_hash']].append(loc)
+                    hash_groups[loc["body_hash"]].append(loc)
 
                 for body_hash, group in hash_groups.items():
                     if len(group) > 1:
                         duplicate_count += len(group) - 1
-                        report['duplicate_functions'].append({
-                            'signature': signature,
-                            'locations': [
-                                f"{g['file']}:{g['line']}" for g in group
-                            ],
-                            'count': len(group)
-                        })
+                        report["duplicate_functions"].append(
+                            {
+                                "signature": signature,
+                                "locations": [
+                                    f"{g['file']}:{g['line']}" for g in group
+                                ],
+                                "count": len(group),
+                            }
+                        )
 
         # Find duplicate classes
         for class_name, locations in self.class_definitions.items():
             if len(locations) > 1:
-                report['duplicate_classes'].append({
-                    'class': class_name,
-                    'locations': [
-                        {
-                            'file': loc['file'],
-                            'line': loc['line'],
-                            'methods': loc['methods']
-                        } for loc in locations
-                    ],
-                    'count': len(locations)
-                })
+                report["duplicate_classes"].append(
+                    {
+                        "class": class_name,
+                        "locations": [
+                            {
+                                "file": loc["file"],
+                                "line": loc["line"],
+                                "methods": loc["methods"],
+                            }
+                            for loc in locations
+                        ],
+                        "count": len(locations),
+                    }
+                )
 
         # Find problematic imports
         for module, imports in self.conflicting_imports.items():
             if len(imports) > 5:  # Same module imported in many places
-                report['conflicting_imports'].append({
-                    'module': module,
-                    'import_count': len(imports),
-                    'files': list(set(imp['file'] for imp in imports))[:10]
-                })
+                report["conflicting_imports"].append(
+                    {
+                        "module": module,
+                        "import_count": len(imports),
+                        "files": list(set(imp["file"] for imp in imports))[:10],
+                    }
+                )
 
         # Summary
-        report['summary'] = {
-            'total_duplicate_functions': duplicate_count,
-            'total_duplicate_classes': len(report['duplicate_classes']),
-            'heavily_imported_modules': len(report['conflicting_imports']),
-            'estimated_lines_saveable': duplicate_count * 10  # Rough estimate
+        report["summary"] = {
+            "total_duplicate_functions": duplicate_count,
+            "total_duplicate_classes": len(report["duplicate_classes"]),
+            "heavily_imported_modules": len(report["conflicting_imports"]),
+            "estimated_lines_saveable": duplicate_count * 10,  # Rough estimate
         }
 
         # Recommendations
         if duplicate_count > 0:
-            report['recommendations'].append(
+            report["recommendations"].append(
                 f"Found {duplicate_count} duplicate functions. Consider creating shared utilities."
             )
 
-        if report['duplicate_classes']:
-            report['recommendations'].append(
+        if report["duplicate_classes"]:
+            report["recommendations"].append(
                 f"Found {len(report['duplicate_classes'])} duplicate class definitions. Consider consolidation."
             )
 
-        if report['conflicting_imports']:
-            report['recommendations'].append(
+        if report["conflicting_imports"]:
+            report["recommendations"].append(
                 "Some modules are imported excessively. Consider creating facade modules."
             )
 
@@ -221,50 +243,55 @@ def main():
     analyzer = DuplicateCodeAnalyzer()
     report = analyzer.analyze()
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("📊 DUPLICATE CODE ANALYSIS REPORT")
-    print("="*60)
+    print("=" * 60)
 
     # Summary
     print("\n📈 Summary:")
     print(f"  Duplicate functions: {report['summary']['total_duplicate_functions']}")
     print(f"  Duplicate classes: {report['summary']['total_duplicate_classes']}")
-    print(f"  Heavily imported modules: {report['summary']['heavily_imported_modules']}")
-    print(f"  Estimated lines saveable: ~{report['summary']['estimated_lines_saveable']}")
+    print(
+        f"  Heavily imported modules: {report['summary']['heavily_imported_modules']}"
+    )
+    print(
+        f"  Estimated lines saveable: ~{report['summary']['estimated_lines_saveable']}"
+    )
 
     # Top duplicates
-    if report['duplicate_functions']:
+    if report["duplicate_functions"]:
         print("\n🔄 Top Duplicate Functions:")
-        for dup in report['duplicate_functions'][:10]:
+        for dup in report["duplicate_functions"][:10]:
             print(f"  • {dup['signature']}: {dup['count']} copies")
-            for loc in dup['locations'][:3]:
+            for loc in dup["locations"][:3]:
                 print(f"    - {loc}")
 
-    if report['duplicate_classes']:
+    if report["duplicate_classes"]:
         print("\n🔄 Duplicate Classes:")
-        for dup in report['duplicate_classes'][:10]:
+        for dup in report["duplicate_classes"][:10]:
             print(f"  • {dup['class']}: {dup['count']} definitions")
-            for loc in dup['locations'][:3]:
+            for loc in dup["locations"][:3]:
                 print(f"    - {loc['file']}:{loc['line']}")
 
     # Recommendations
-    if report['recommendations']:
+    if report["recommendations"]:
         print("\n💡 Recommendations:")
-        for rec in report['recommendations']:
+        for rec in report["recommendations"]:
             print(f"  • {rec}")
 
     # Save detailed report
     import json
+
     report_path = Path("docs/reports/analysis/DUPLICATE_CODE_REPORT.json")
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(report_path, 'w') as f:
+    with open(report_path, "w") as f:
         json.dump(report, f, indent=2)
 
     print(f"\n📄 Detailed report saved to: {report_path}")
 
     # Generate cleanup script
-    if report['duplicate_functions']:
+    if report["duplicate_functions"]:
         generate_cleanup_script(report)
 
 
@@ -286,7 +313,7 @@ def cleanup_duplicates():
     duplicates = {
 """
 
-    for dup in report['duplicate_functions'][:20]:
+    for dup in report["duplicate_functions"][:20]:
         script += f"        '{dup['signature']}': {dup['locations']},\n"
 
     script += """    }
@@ -309,7 +336,7 @@ if __name__ == "__main__":
     script_path = Path("tools/cleanup/cleanup_duplicates.py")
     script_path.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(script_path, 'w') as f:
+    with open(script_path, "w") as f:
         f.write(script)
 
     os.chmod(script_path, 0o755)

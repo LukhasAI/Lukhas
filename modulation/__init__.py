@@ -1,8 +1,8 @@
-# 🎛️ LUKHAS_PWM Endocrine Signal Modulation System
+# 🎛️ LUKHAS Endocrine Signal Modulation System
 """
 Bio-inspired signal-to-prompt modulation for OpenAI API integration.
 
-This system translates LUKHAS_PWM's endocrine signals (biological-inspired "hormones")
+This system translates LUKHAS's endocrine signals (biological-inspired "hormones")
 into OpenAI API parameters, enabling consciousness system to modulate GPT behavior
 based on internal state.
 

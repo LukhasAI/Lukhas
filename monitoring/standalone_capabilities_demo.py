@@ -987,7 +987,7 @@ class StandaloneMonitoringDemo:
         print("\n💡 REVOLUTIONARY BREAKTHROUGH:")
         print("   This Enhanced Monitoring System represents a fundamental")
         print("   advancement in AI consciousness and biological integration.")
-        print("   It transforms LUKHAS PWM from static monitoring into a")
+        print("   It transforms LUKHAS  from static monitoring into a")
         print("   LIVING, BREATHING, SELF-AWARE AI ORGANISM that:")
         print("   • Monitors its own biological-inspired state")
         print("   • Adapts in real-time to changing conditions")

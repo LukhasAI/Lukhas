@@ -16,9 +16,9 @@ def get_flake8_issues(directory: str) -> dict:
 
     issues = defaultdict(list)
     for line in result.stdout.splitlines():
-        if ':' in line:
+        if ":" in line:
             try:
-                parts = line.split(':', 3)
+                parts = line.split(":", 3)
                 if len(parts) >= 4:
                     filepath = parts[0]
                     line_num = int(parts[1])
@@ -26,17 +26,14 @@ def get_flake8_issues(directory: str) -> dict:
                     error = parts[3].strip()
 
                     # Parse error code and message
-                    error_parts = error.split(' ', 1)
+                    error_parts = error.split(" ", 1)
                     if len(error_parts) >= 2:
                         code = error_parts[0]
                         msg = error_parts[1]
 
-                        issues[filepath].append({
-                            'line': line_num,
-                            'col': col,
-                            'code': code,
-                            'msg': msg
-                        })
+                        issues[filepath].append(
+                            {"line": line_num, "col": col, "code": code, "msg": msg}
+                        )
             except (ValueError, IndexError):
                 continue
 
@@ -48,43 +45,43 @@ def fix_undefined_names(filepath: Path, issues: list) -> bool:
 
     # Common imports for undefined names
     import_map = {
-        'logging': 'import logging',
-        'time': 'import time',
-        'uuid': 'import uuid',
-        'json': 'import json',
-        'asyncio': 'import asyncio',
-        'np': 'import numpy as np',
-        'pd': 'import pandas as pd',
-        'datetime': 'from datetime import datetime',
-        'timezone': 'from datetime import timezone',
-        'Dict': 'from typing import Dict',
-        'List': 'from typing import List',
-        'Optional': 'from typing import Optional',
-        'Any': 'from typing import Any',
-        'Union': 'from typing import Union',
-        'Tuple': 'from typing import Tuple',
-        'Set': 'from typing import Set',
-        'Type': 'from typing import Type',
-        'Callable': 'from typing import Callable',
-        'TypeVar': 'from typing import TypeVar',
-        'cast': 'from typing import cast',
-        'dataclass': 'from dataclasses import dataclass',
-        'field': 'from dataclasses import field',
-        'asdict': 'from dataclasses import asdict',
-        'Path': 'from pathlib import Path',
-        'defaultdict': 'from collections import defaultdict',
-        'deque': 'from collections import deque',
-        'Counter': 'from collections import Counter',
-        'ABC': 'from abc import ABC',
-        'abstractmethod': 'from abc import abstractmethod',
+        "logging": "import logging",
+        "time": "import time",
+        "uuid": "import uuid",
+        "json": "import json",
+        "asyncio": "import asyncio",
+        "np": "import numpy as np",
+        "pd": "import pandas as pd",
+        "datetime": "from datetime import datetime",
+        "timezone": "from datetime import timezone",
+        "Dict": "from typing import Dict",
+        "List": "from typing import List",
+        "Optional": "from typing import Optional",
+        "Any": "from typing import Any",
+        "Union": "from typing import Union",
+        "Tuple": "from typing import Tuple",
+        "Set": "from typing import Set",
+        "Type": "from typing import Type",
+        "Callable": "from typing import Callable",
+        "TypeVar": "from typing import TypeVar",
+        "cast": "from typing import cast",
+        "dataclass": "from dataclasses import dataclass",
+        "field": "from dataclasses import field",
+        "asdict": "from dataclasses import asdict",
+        "Path": "from pathlib import Path",
+        "defaultdict": "from collections import defaultdict",
+        "deque": "from collections import deque",
+        "Counter": "from collections import Counter",
+        "ABC": "from abc import ABC",
+        "abstractmethod": "from abc import abstractmethod",
     }
 
     undefined_names = set()
     for issue in issues:
-        if issue['code'] == 'F821':
+        if issue["code"] == "F821":
             # Extract undefined name from message
-            msg = issue['msg']
-            if 'undefined name' in msg:
+            msg = issue["msg"]
+            if "undefined name" in msg:
                 name = msg.split("'")[1] if "'" in msg else None
                 if name:
                     undefined_names.add(name)
@@ -121,10 +118,10 @@ def fix_undefined_names(filepath: Path, issues: list) -> bool:
 
             # Add blank line after imports
             if insert_idx < len(lines) and lines[insert_idx].strip():
-                lines.insert(insert_idx, '')
+                lines.insert(insert_idx, "")
 
             # Write back
-            filepath.write_text('\n'.join(lines))
+            filepath.write_text("\n".join(lines))
             return True
 
     except Exception as e:
@@ -136,7 +133,7 @@ def fix_undefined_names(filepath: Path, issues: list) -> bool:
 def fix_syntax_errors(filepath: Path, issues: list) -> bool:
     """Fix common syntax errors"""
 
-    syntax_issues = [i for i in issues if i['code'] in ['E999', 'E901', 'E902']]
+    syntax_issues = [i for i in issues if i["code"] in ["E999", "E901", "E902"]]
     if not syntax_issues:
         return False
 
@@ -146,10 +143,10 @@ def fix_syntax_errors(filepath: Path, issues: list) -> bool:
 
         # Fix unclosed strings
         for issue in syntax_issues:
-            if 'EOL while scanning string' in issue['msg']:
+            if "EOL while scanning string" in issue["msg"]:
                 lines = content.splitlines()
-                if issue['line'] <= len(lines):
-                    line_idx = issue['line'] - 1
+                if issue["line"] <= len(lines):
+                    line_idx = issue["line"] - 1
                     line = lines[line_idx]
 
                     # Count quotes
@@ -162,7 +159,7 @@ def fix_syntax_errors(filepath: Path, issues: list) -> bool:
                     elif double_quotes % 2 == 1:
                         lines[line_idx] = line + '"'
 
-                    content = '\n'.join(lines)
+                    content = "\n".join(lines)
 
         if content != original:
             filepath.write_text(content)
@@ -178,8 +175,16 @@ def main():
     """Main function"""
 
     # Directories to fix
-    dirs_to_fix = ['core', 'bridge', 'lukhas_pwm', 'serve', 'orchestration',
-                   'governance', 'consciousness', 'memory']
+    dirs_to_fix = [
+        "core",
+        "bridge",
+        "lukhas",
+        "serve",
+        "orchestration",
+        "governance",
+        "consciousness",
+        "memory",
+    ]
 
     print("🔧 Fixing real linting issues (not just formatting)...")
 
@@ -201,8 +206,10 @@ def main():
                 continue
 
             # Group issues by type
-            undefined_issues = [i for i in file_issues if i['code'] == 'F821']
-            syntax_issues = [i for i in file_issues if i['code'] in ['E999', 'E901', 'E902']]
+            undefined_issues = [i for i in file_issues if i["code"] == "F821"]
+            syntax_issues = [
+                i for i in file_issues if i["code"] in ["E999", "E901", "E902"]
+            ]
 
             fixed = False
 

@@ -11,7 +11,7 @@ import sys
 from datetime import datetime
 
 # Add parent directories to path for imports
-sys.path.append("/Users/agi_dev/Lukhas_PWM")
+sys.path.append("/Users/agi_dev/Lukhas")
 
 
 def test_red_team_framework_integration():
@@ -320,7 +320,7 @@ async def test_red_team_workflow():
 def main():
     """Run all Red Team framework tests"""
 
-    print("🚀 LUKHAS PWM RED TEAM FRAMEWORK - COMPREHENSIVE TESTING")
+    print("🚀 LUKHAS  RED TEAM FRAMEWORK - COMPREHENSIVE TESTING")
     print("=" * 80)
 
     # Test 1: Component imports

@@ -1,8 +1,8 @@
-# LUKHAS PWM Security Enhancements
+# LUKHAS  Security Enhancements
 
 ## Overview
 
-This document describes the comprehensive security enhancements implemented to replace placeholder encryption and authentication throughout the LUKHAS PWM system.
+This document describes the comprehensive security enhancements implemented to replace placeholder encryption and authentication throughout the LUKHAS  system.
 
 ## 🔐 Key Security Improvements
 

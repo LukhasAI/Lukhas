@@ -2,7 +2,7 @@
 """
 Data Integration Map
 ===================
-Shows exactly how data flows from LUKHAS PWM modules into the monitoring system
+Shows exactly how data flows from LUKHAS  modules into the monitoring system
 """
 
 from dataclasses import dataclass
@@ -10,7 +10,7 @@ from dataclasses import dataclass
 
 @dataclass
 class DataIntegrationMap:
-    """Complete mapping of LUKHAS PWM data sources to monitoring system"""
+    """Complete mapping of LUKHAS  data sources to monitoring system"""
 
     # 🧠 CONSCIOUSNESS MODULE DATA
     consciousness_sources = {
@@ -222,7 +222,7 @@ class DataIntegrationMap:
 def show_data_flow_example():
     """Show concrete example of data flowing through the system"""
 
-    print("🌊 LUKHAS PWM → Enhanced Monitoring System Data Flow")
+    print("🌊 LUKHAS  → Enhanced Monitoring System Data Flow")
     print("=" * 60)
 
     # Example: User interaction triggers cascade

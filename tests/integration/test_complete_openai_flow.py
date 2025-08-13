@@ -184,7 +184,7 @@ async def test_tool_blocking():
 
 async def main():
     """Run all tests"""
-    print(f"{GREEN}🔍 LUKHAS PWM - Complete OpenAI Flow Analysis{RESET}")
+    print(f"{GREEN}🔍 LUKHAS  - Complete OpenAI Flow Analysis{RESET}")
     print("Testing direct API, modulation, tools, and governance")
     print(f"Organization: {os.getenv('ORGANIZATION_ID', 'Not set')}")
     print(f"Project: {os.getenv('PROJECT_ID', 'Not set')}")

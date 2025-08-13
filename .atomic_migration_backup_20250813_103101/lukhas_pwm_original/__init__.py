@@ -1,8 +1,8 @@
-"""LUKHAS PWM - Pulse Width Modulation System
+"""LUKHAS  - Pulse Width Modulation System
 🎭 LUKHAS Trinity Framework (🎭🌈🎓) integration point
 
 Note:
-- The package namespace is transitioning from `lukhas_pwm` to `lukhas`.
+- The package namespace is transitioning from `lukhas` to `lukhas`.
 - Existing imports continue to work. Prefer `import lukhas...` going forward.
 """
 
@@ -19,14 +19,14 @@ from types import ModuleType
 
 if os.environ.get("LUKHAS_SILENCE_IMPORT_NOTICE", "0") not in {"1", "true", "TRUE"}:
     warnings.warn(
-        "Namespace notice: `lukhas_pwm` is kept for compatibility; please migrate imports to `lukhas`.",
+        "Namespace notice: `lukhas` is kept for compatibility; please migrate imports to `lukhas`.",
         DeprecationWarning,
         stacklevel=2,
     )
 
 
 class _ReverseAliasImportLoader(importlib.abc.Loader):
-    """Loader that imports from `lukhas.*` and exposes as `lukhas_pwm.*`."""
+    """Loader that imports from `lukhas.*` and exposes as `lukhas.*`."""
 
     def __init__(self, target_name: str) -> None:
         self._target_name = target_name
@@ -43,17 +43,17 @@ class _ReverseAliasImportLoader(importlib.abc.Loader):
 
 
 class _ReverseAliasFinder(importlib.abc.MetaPathFinder):
-    """Maps `lukhas_pwm.*` -> `lukhas.*` if the original module is missing and the target exists.
+    """Maps `lukhas.*` -> `lukhas.*` if the original module is missing and the target exists.
 
     This enables legacy imports to keep working after the codebase is migrated to the
-    `lukhas` package. If `lukhas_pwm.*` exists, we return None to allow normal loading.
+    `lukhas` package. If `lukhas.*` exists, we return None to allow normal loading.
     """
 
-    _SRC_PREFIX = "lukhas_pwm"
+    _SRC_PREFIX = "lukhas"
     _DST_PREFIX = "lukhas"
 
     def find_spec(self, fullname: str, path=None, target=None):  # type: ignore[override]
-        # Only handle submodules under lukhas_pwm.*
+        # Only handle submodules under lukhas.*
         if not fullname.startswith(self._SRC_PREFIX + "."):
             return None
 

@@ -1,4 +1,4 @@
-# LUKHAS PWM Trigger System Technical Guide
+# LUKHAS  Trigger System Technical Guide
 
 ## Overview
 
@@ -277,7 +277,7 @@ def _update_trigger_success_rate(self, trigger_type: str, success: bool):
 
 ```python
 class ModuleDataCollector:
-    """Systematic data collection from LUKHAS PWM modules"""
+    """Systematic data collection from LUKHAS  modules"""
     
     async def collect_consciousness_data(self) -> Dict[str, Any]:
         """Collect consciousness-related metrics"""

@@ -5,19 +5,19 @@ from typing import Optional
 
 from fastapi import Depends, FastAPI, Header, HTTPException
 
-from lukhas_pwm.api.admin import router as admin_router
-from lukhas_pwm.api.audit import router as audit_router
-from lukhas_pwm.api.dna import router as dna_router
-from lukhas_pwm.api.feedback import router as feedback_router
-from lukhas_pwm.api.incidents import router as incidents_router
-from lukhas_pwm.api.metrics import router as metrics_router
-from lukhas_pwm.api.ops import router as ops_router
-from lukhas_pwm.api.perf import router as perf_router
-from lukhas_pwm.api.tools import router as tools_router
+from lukhas.api.admin import router as admin_router
+from lukhas.api.audit import router as audit_router
+from lukhas.api.dna import router as dna_router
+from lukhas.api.feedback import router as feedback_router
+from lukhas.api.incidents import router as incidents_router
+from lukhas.api.metrics import router as metrics_router
+from lukhas.api.ops import router as ops_router
+from lukhas.api.perf import router as perf_router
+from lukhas.api.tools import router as tools_router
 
 # --- app metadata ---
 app = FastAPI(
-    title="LUKHΛS PWM API",
+    title="LUKHΛS  API",
     version="1.0.0",
     description="Governed tool loop, auditability, feedback LUT, and safety modes.",
     contact={"name": "LUKHAS", "url": "https://lukhas.ai"},

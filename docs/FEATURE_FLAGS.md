@@ -2,7 +2,7 @@
 
 ## Overview
 
-LUKHAS PWM uses environment variable-based feature flags to control runtime behavior without code changes. All flags follow the `FLAG_*` naming convention and are cached for 5 seconds to balance performance with responsiveness.
+LUKHAS  uses environment variable-based feature flags to control runtime behavior without code changes. All flags follow the `FLAG_*` naming convention and are cached for 5 seconds to balance performance with responsiveness.
 
 ## Available Flags
 
@@ -21,7 +21,7 @@ export FLAG_BROWSER_TOOL=true
 unset FLAG_BROWSER_TOOL
 ```
 
-**Implementation:** `lukhas_pwm/openai/tooling.py:105-107`
+**Implementation:** `lukhas/openai/tooling.py:105-107`
 
 ---
 
@@ -40,7 +40,7 @@ export FLAG_STRICT_DEFAULT=1
 unset FLAG_STRICT_DEFAULT
 ```
 
-**Implementation:** `lukhas_pwm/modulation/dispatcher.py:74`
+**Implementation:** `lukhas/modulation/dispatcher.py:74`
 
 ---
 
@@ -63,7 +63,7 @@ export FLAG_TOOL_ANALYTICS=false
 export FLAG_TOOL_ANALYTICS=true
 ```
 
-**Implementation:** `lukhas_pwm/audit/tool_analytics.py:90,109,140`
+**Implementation:** `lukhas/audit/tool_analytics.py:90,109,140`
 
 ## Usage Examples
 

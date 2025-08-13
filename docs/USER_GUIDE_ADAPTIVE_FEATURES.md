@@ -47,7 +47,7 @@ Welcome to the next generation of LUKHAS—where AI systems adapt like living or
 pip install lukhas-gpt5-features
 
 # Or update existing installation
-pip install --upgrade lukhas-pwm
+pip install --upgrade lukhas-
 ```
 
 ### Your First Adaptive Experience

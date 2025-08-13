@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🎯 PWM Targeted Import Fixer
+🎯  Targeted Import Fixer
 ============================
 Fixes remaining critical import errors and syntax issues.
 """
@@ -30,7 +30,7 @@ class TargetedImportFixer:
 
         syntax_fixes = [
             {
-                "file": "tools/analysis/PWM_ROOT_DIRECTORY_AUDIT.py",
+                "file": "tools/analysis/_ROOT_DIRECTORY_AUDIT.py",
                 "line": 385,
                 "fix": self.fix_audit_syntax,
             },
@@ -68,7 +68,7 @@ class TargetedImportFixer:
                     logger.error(f"❌ Could not fix {fix_info['file']}: {e}")
 
     def fix_audit_syntax(self, file_path: Path, line_num: int) -> None:
-        """Fix PWM_ROOT_DIRECTORY_AUDIT.py syntax error"""
+        """Fix _ROOT_DIRECTORY_AUDIT.py syntax error"""
         with open(file_path, encoding="utf-8") as f:
             lines = f.readlines()
 
@@ -321,7 +321,7 @@ class TargetedImportFixer:
 
 def main():
     """Main execution"""
-    print("🎯 PWM Targeted Import Fixer")
+    print("🎯  Targeted Import Fixer")
     print("=" * 50)
 
     fixer = TargetedImportFixer()

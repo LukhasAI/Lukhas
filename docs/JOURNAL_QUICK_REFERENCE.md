@@ -57,10 +57,10 @@ exit               → Exit mode
 
 ## 🎯 Aliases for ~/.zshrc
 ```bash
-alias j="cd /Users/agi_dev/Lukhas_PWM && ./journal"
-alias jq="cd /Users/agi_dev/Lukhas_PWM && ./journal quick"
-alias ja="cd /Users/agi_dev/Lukhas_PWM && ./journal add"
-alias js="cd /Users/agi_dev/Lukhas_PWM && ./journal search"
+alias j="cd /Users/agi_dev/Lukhas && ./journal"
+alias jq="cd /Users/agi_dev/Lukhas && ./journal quick"
+alias ja="cd /Users/agi_dev/Lukhas && ./journal add"
+alias js="cd /Users/agi_dev/Lukhas && ./journal search"
 ```
 
 ## 🤝 Solo Dev Commands

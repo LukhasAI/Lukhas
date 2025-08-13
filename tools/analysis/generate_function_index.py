@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Function Index Generator
+LUKHAS  Function Index Generator
 Creates a comprehensive index of all functions in the codebase
 """
 
@@ -37,7 +37,7 @@ class FunctionIndexGenerator:
             # Skip archive directories
             if any(
                 skip in str(file_path)
-                for skip in [".pwm_cleanup_archive", "__pycache__", ".git"]
+                for skip in ["._cleanup_archive", "__pycache__", ".git"]
             ):
                 continue
 
@@ -233,7 +233,7 @@ class FunctionIndexGenerator:
 
     def generate_api_docs(self, index: dict[str, Any]) -> str:
         """Generate API documentation from index"""
-        lines = ["# LUKHAS PWM Function API Reference\n"]
+        lines = ["# LUKHAS  Function API Reference\n"]
         lines.append(f"Generated: {index['timestamp']}\n")
         lines.append(f"Total Functions: {index['summary']['total_functions']}\n")
 

@@ -24,7 +24,7 @@ Generated: 2025-08-02 20:36:23
 - VISION.md -> docs/VISION.md
 - ROADMAP.md -> docs/ROADMAP.md
 - docker-compose.yml -> misc/docker-compose.yml
-- Lukhas_PWM.code-workspace -> misc/Lukhas_PWM.code-workspace
+- Lukhas.code-workspace -> misc/Lukhas.code-workspace
 - integrate_isolated_components.py -> tools/scripts/integrate_isolated_components.py
 - LUKHAS_MODULE_STANDARDIZATION_PLAN.md -> docs/planning/LUKHAS_MODULE_STANDARDIZATION_PLAN.md
 

@@ -345,7 +345,7 @@ This guide ensures LUKHAS's unique concepts and personality are preserved during
 
 ## Special Terms
 - **LUKHAS**: Always uppercase in classes/constants
-- **PWM**: Pack-What-Matters - always uppercase
+- ****: Pack-What-Matters - always uppercase
 - **SGI**: Symbolic General Intelligence - always uppercase
 - **AGI**: Always uppercase
 

@@ -1,9 +1,9 @@
 """
-LUKHAS PWM OAuth Federation & Enterprise Identity System
+LUKHAS  OAuth Federation & Enterprise Identity System
 =======================================================
 Comprehensive federated authentication supporting:
 - OAuth providers (Apple, Google, Microsoft, GitHub, etc.)
-- Enterprise/institutional user ID prefixes  
+- Enterprise/institutional user ID prefixes
 - Temporary user allocation and account linking
 - Multi-provider account management
 
@@ -28,6 +28,7 @@ from .identity_core import AccessTier, identity_core
 
 class OAuthProvider(Enum):
     """Supported OAuth providers."""
+
     APPLE = "apple"
     GOOGLE = "google"
     MICROSOFT = "microsoft"
@@ -38,22 +39,32 @@ class OAuthProvider(Enum):
 
 class UserIDType(Enum):
     """Types of user ID allocation."""
-    STANDARD = "standard"          # Regular user: john_doe
-    ENTERPRISE = "enterprise"      # Enterprise: acme-john_doe
-    INSTITUTIONAL = "institutional" # Academic: stanford-alice_smith
-    TEMPORARY = "temporary"        # Temp: temp_abc123
-    FEDERATED = "federated"        # OAuth: google_123456789
+
+    STANDARD = "standard"  # Regular user: john_doe
+    ENTERPRISE = "enterprise"  # Enterprise: acme-john_doe
+    INSTITUTIONAL = "institutional"  # Academic: stanford-alice_smith
+    TEMPORARY = "temporary"  # Temp: temp_abc123
+    FEDERATED = "federated"  # OAuth: google_123456789
 
 
 class EnterpriseConfig(BaseModel):
     """Configuration for enterprise/institutional domains."""
-    organization_id: str = Field(..., description="Short org identifier (e.g., 'acme', 'stanford')")
-    domain_pattern: str = Field(..., description="Email domain pattern (e.g., '*.company.com')")
+
+    organization_id: str = Field(
+        ..., description="Short org identifier (e.g., 'acme', 'stanford')"
+    )
+    domain_pattern: str = Field(
+        ..., description="Email domain pattern (e.g., '*.company.com')"
+    )
     display_name: str = Field(..., description="Human readable name")
-    default_tier: AccessTier = Field(AccessTier.T2, description="Default tier for org users")
+    default_tier: AccessTier = Field(
+        AccessTier.T2, description="Default tier for org users"
+    )
     auto_verify: bool = Field(False, description="Auto-verify users from this domain")
     sso_required: bool = Field(False, description="Require SSO for this org")
-    user_id_format: str = Field("{org_id}-{username}", description="User ID format template")
+    user_id_format: str = Field(
+        "{org_id}-{username}", description="User ID format template"
+    )
 
     class Config:
         use_enum_values = True
@@ -61,6 +72,7 @@ class EnterpriseConfig(BaseModel):
 
 class OAuthProviderConfig(BaseModel):
     """OAuth provider configuration."""
+
     provider: OAuthProvider
     client_id: str
     client_secret: str
@@ -76,6 +88,7 @@ class OAuthProviderConfig(BaseModel):
 
 class FederatedUser(BaseModel):
     """Federated user account information."""
+
     lukhas_user_id: str
     provider: OAuthProvider
     provider_user_id: str
@@ -117,7 +130,7 @@ class OAuthFederationManager:
                 authorization_url="https://appleid.apple.com/auth/authorize",
                 token_url="https://appleid.apple.com/auth/token",
                 userinfo_url="",  # Apple provides user info in token response
-                scopes=["name", "email"]
+                scopes=["name", "email"],
             ),
             OAuthProvider.GOOGLE: OAuthProviderConfig(
                 provider=OAuthProvider.GOOGLE,
@@ -126,7 +139,7 @@ class OAuthFederationManager:
                 authorization_url="https://accounts.google.com/o/oauth2/auth",
                 token_url="https://oauth2.googleapis.com/token",
                 userinfo_url="https://www.googleapis.com/oauth2/v2/userinfo",
-                scopes=["openid", "email", "profile"]
+                scopes=["openid", "email", "profile"],
             ),
             OAuthProvider.GITHUB: OAuthProviderConfig(
                 provider=OAuthProvider.GITHUB,
@@ -135,8 +148,8 @@ class OAuthFederationManager:
                 authorization_url="https://github.com/login/oauth/authorize",
                 token_url="https://github.com/login/oauth/access_token",
                 userinfo_url="https://api.github.com/user",
-                scopes=["user:email"]
-            )
+                scopes=["user:email"],
+            ),
         }
 
         self.providers = default_providers
@@ -149,7 +162,7 @@ class OAuthFederationManager:
                 display_name="OpenAI",
                 default_tier=AccessTier.T5,  # Full access for OpenAI reviewers
                 auto_verify=True,
-                user_id_format="openai-{username}"
+                user_id_format="openai-{username}",
             ),
             "stanford": EnterpriseConfig(
                 organization_id="stanford",
@@ -157,7 +170,7 @@ class OAuthFederationManager:
                 display_name="Stanford University",
                 default_tier=AccessTier.T3,
                 auto_verify=True,
-                user_id_format="stanford-{username}"
+                user_id_format="stanford-{username}",
             ),
             "mit": EnterpriseConfig(
                 organization_id="mit",
@@ -165,11 +178,13 @@ class OAuthFederationManager:
                 display_name="MIT",
                 default_tier=AccessTier.T3,
                 auto_verify=True,
-                user_id_format="mit-{username}"
-            )
+                user_id_format="mit-{username}",
+            ),
         }
 
-    def generate_oauth_url(self, provider: OAuthProvider, redirect_uri: str, state: str = None) -> str:
+    def generate_oauth_url(
+        self, provider: OAuthProvider, redirect_uri: str, state: str = None
+    ) -> str:
         """Generate OAuth authorization URL."""
 
         if provider not in self.providers:
@@ -184,7 +199,7 @@ class OAuthFederationManager:
             "redirect_uri": redirect_uri,
             "scope": " ".join(config.scopes),
             "response_type": "code",
-            "state": state or secrets.token_urlsafe(32)
+            "state": state or secrets.token_urlsafe(32),
         }
 
         # Provider-specific parameters
@@ -194,17 +209,15 @@ class OAuthFederationManager:
         return f"{config.authorization_url}?{urlencode(params)}"
 
     async def handle_oauth_callback(
-        self,
-        provider: OAuthProvider,
-        code: str,
-        redirect_uri: str,
-        state: str = None
+        self, provider: OAuthProvider, code: str, redirect_uri: str, state: str = None
     ) -> Dict[str, Any]:
         """Handle OAuth callback and create/link user account."""
 
         try:
             # Exchange code for token
-            token_data = await self._exchange_code_for_token(provider, code, redirect_uri)
+            token_data = await self._exchange_code_for_token(
+                provider, code, redirect_uri
+            )
 
             # Get user info from provider
             user_info = await self._get_user_info(provider, token_data["access_token"])
@@ -218,7 +231,7 @@ class OAuthFederationManager:
                 provider_user_id=str(user_info["id"]),
                 email=user_info["email"],
                 display_name=user_info.get("name"),
-                organization=org_config
+                organization=org_config,
             )
 
             # Create or update federated user
@@ -229,7 +242,7 @@ class OAuthFederationManager:
                 email=user_info["email"],
                 display_name=user_info.get("name"),
                 avatar_url=user_info.get("picture"),
-                organization_id=org_config.organization_id if org_config else None
+                organization_id=org_config.organization_id if org_config else None,
             )
 
             # Generate LUKHAS token
@@ -242,7 +255,7 @@ class OAuthFederationManager:
                 "organization": org_config.organization_id if org_config else None,
                 "federated": True,
                 "verified": org_config.auto_verify if org_config else False,
-                "oauth_login": True
+                "oauth_login": True,
             }
 
             token = identity_core.create_token(lukhas_user_id, tier, metadata)
@@ -258,18 +271,21 @@ class OAuthFederationManager:
                 "glyphs": glyphs,
                 "provider": provider.value,
                 "organization": org_config.organization_id if org_config else None,
-                "is_new_user": federated_user.created_at > datetime.now(timezone.utc) - timedelta(minutes=5),
-                "federated": True
+                "is_new_user": federated_user.created_at
+                > datetime.now(timezone.utc) - timedelta(minutes=5),
+                "federated": True,
             }
 
         except Exception as e:
             return {
                 "success": False,
                 "error": f"OAuth login failed: {str(e)}",
-                "provider": provider.value
+                "provider": provider.value,
             }
 
-    async def _exchange_code_for_token(self, provider: OAuthProvider, code: str, redirect_uri: str) -> Dict[str, Any]:
+    async def _exchange_code_for_token(
+        self, provider: OAuthProvider, code: str, redirect_uri: str
+    ) -> Dict[str, Any]:
         """Exchange authorization code for access token."""
         config = self.providers[provider]
 
@@ -278,19 +294,19 @@ class OAuthFederationManager:
             "client_secret": config.client_secret,
             "code": code,
             "grant_type": "authorization_code",
-            "redirect_uri": redirect_uri
+            "redirect_uri": redirect_uri,
         }
 
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                config.token_url,
-                data=data,
-                headers={"Accept": "application/json"}
+                config.token_url, data=data, headers={"Accept": "application/json"}
             )
             response.raise_for_status()
             return response.json()
 
-    async def _get_user_info(self, provider: OAuthProvider, access_token: str) -> Dict[str, Any]:
+    async def _get_user_info(
+        self, provider: OAuthProvider, access_token: str
+    ) -> Dict[str, Any]:
         """Get user information from OAuth provider."""
         config = self.providers[provider]
 
@@ -301,8 +317,7 @@ class OAuthFederationManager:
 
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                config.userinfo_url,
-                headers={"Authorization": f"Bearer {access_token}"}
+                config.userinfo_url, headers={"Authorization": f"Bearer {access_token}"}
             )
             response.raise_for_status()
             return response.json()
@@ -324,7 +339,7 @@ class OAuthFederationManager:
         provider_user_id: str,
         email: str,
         display_name: Optional[str],
-        organization: Optional[EnterpriseConfig]
+        organization: Optional[EnterpriseConfig],
     ) -> str:
         """Allocate LUKHAS user ID based on provider and organization."""
 
@@ -337,7 +352,9 @@ class OAuthFederationManager:
         existing_by_email = self._find_user_by_email(email)
         if existing_by_email:
             # Link this OAuth account to existing user
-            existing_by_email.linked_accounts.append(f"{provider.value}:{provider_user_id}")
+            existing_by_email.linked_accounts.append(
+                f"{provider.value}:{provider_user_id}"
+            )
             return existing_by_email.lukhas_user_id
 
         # Generate new user ID
@@ -345,8 +362,7 @@ class OAuthFederationManager:
             # Enterprise/institutional user ID
             username = email.split("@")[0].replace(".", "_").lower()
             user_id = organization.user_id_format.format(
-                org_id=organization.organization_id,
-                username=username
+                org_id=organization.organization_id, username=username
             )
         else:
             # Standard federated user ID
@@ -369,7 +385,7 @@ class OAuthFederationManager:
         email: str,
         display_name: Optional[str],
         avatar_url: Optional[str],
-        organization_id: Optional[str]
+        organization_id: Optional[str],
     ) -> FederatedUser:
         """Create or update federated user record."""
 
@@ -394,7 +410,7 @@ class OAuthFederationManager:
                 is_temporary=False,
                 verified=organization_id is not None,  # Auto-verify org users
                 created_at=datetime.now(timezone.utc),
-                last_login=datetime.now(timezone.utc)
+                last_login=datetime.now(timezone.utc),
             )
 
             self.federated_users[lukhas_user_id] = federated_user
@@ -408,12 +424,17 @@ class OAuthFederationManager:
             "provider": provider.value,
             "email": email,
             "created_at": datetime.now(timezone.utc),
-            "expires_at": datetime.now(timezone.utc) + timedelta(hours=1)
+            "expires_at": datetime.now(timezone.utc) + timedelta(hours=1),
         }
 
         return temp_id
 
-    def link_accounts(self, primary_user_id: str, secondary_provider: OAuthProvider, secondary_user_id: str) -> bool:
+    def link_accounts(
+        self,
+        primary_user_id: str,
+        secondary_provider: OAuthProvider,
+        secondary_user_id: str,
+    ) -> bool:
         """Link multiple OAuth accounts to the same LUKHAS user."""
         primary_user = self.federated_users.get(primary_user_id)
         if not primary_user:
@@ -425,7 +446,9 @@ class OAuthFederationManager:
 
         return True
 
-    def _find_user_by_provider(self, provider: OAuthProvider, provider_user_id: str) -> Optional[FederatedUser]:
+    def _find_user_by_provider(
+        self, provider: OAuthProvider, provider_user_id: str
+    ) -> Optional[FederatedUser]:
         """Find user by OAuth provider and provider user ID."""
         for user in self.federated_users.values():
             if user.provider == provider and user.provider_user_id == provider_user_id:
@@ -459,7 +482,8 @@ class OAuthFederationManager:
         """Clean up expired temporary users."""
         now = datetime.now(timezone.utc)
         expired = [
-            temp_id for temp_id, data in self.temp_users.items()
+            temp_id
+            for temp_id, data in self.temp_users.items()
             if data["expires_at"] < now
         ]
 
@@ -484,9 +508,13 @@ def get_google_login_url(redirect_uri: str) -> str:
 
 async def handle_apple_callback(code: str, redirect_uri: str) -> Dict[str, Any]:
     """Handle Apple Sign-In callback."""
-    return await oauth_federation.handle_oauth_callback(OAuthProvider.APPLE, code, redirect_uri)
+    return await oauth_federation.handle_oauth_callback(
+        OAuthProvider.APPLE, code, redirect_uri
+    )
 
 
 async def handle_google_callback(code: str, redirect_uri: str) -> Dict[str, Any]:
     """Handle Google Sign-In callback."""
-    return await oauth_federation.handle_oauth_callback(OAuthProvider.GOOGLE, code, redirect_uri)
+    return await oauth_federation.handle_oauth_callback(
+        OAuthProvider.GOOGLE, code, redirect_uri
+    )

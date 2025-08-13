@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Fix Diagnostic Issues in LUKHAS PWM
+# Fix Diagnostic Issues in LUKHAS 
 # This script helps resolve the "unresolved diagnostics" messages during commits
 
-echo "🔧 LUKHAS PWM Diagnostic Fixer"
+echo "🔧 LUKHAS  Diagnostic Fixer"
 echo "================================"
 echo ""
 

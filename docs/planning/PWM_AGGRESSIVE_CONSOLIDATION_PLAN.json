@@ -4,100 +4,44 @@
     "CORE": {
       "current_files": 632,
       "candidates_for_consolidation": 377,
-      "submodules": [
-        "glyph",
-        "symbolic",
-        "neural",
-        "integration"
-      ],
-      "hybrid_submodules": [
-        "symbolic",
-        "neural"
-      ]
+      "submodules": ["glyph", "symbolic", "neural", "integration"],
+      "hybrid_submodules": ["symbolic", "neural"]
     },
     "MEMORY": {
       "current_files": 224,
       "candidates_for_consolidation": 111,
-      "submodules": [
-        "folds",
-        "causal",
-        "temporal",
-        "consolidation"
-      ],
-      "hybrid_submodules": [
-        "temporal",
-        "causal"
-      ]
+      "submodules": ["folds", "causal", "temporal", "consolidation"],
+      "hybrid_submodules": ["temporal", "causal"]
     },
     "GOVERNANCE": {
       "current_files": 28,
       "candidates_for_consolidation": 116,
-      "submodules": [
-        "guardian",
-        "ethics",
-        "policy",
-        "oversight"
-      ],
-      "hybrid_submodules": [
-        "ethics",
-        "policy"
-      ]
+      "submodules": ["guardian", "ethics", "policy", "oversight"],
+      "hybrid_submodules": ["ethics", "policy"]
     },
     "EMOTION": {
       "current_files": 20,
       "candidates_for_consolidation": 61,
-      "submodules": [
-        "vad",
-        "mood",
-        "empathy",
-        "regulation"
-      ],
-      "hybrid_submodules": [
-        "empathy",
-        "mood"
-      ]
+      "submodules": ["vad", "mood", "empathy", "regulation"],
+      "hybrid_submodules": ["empathy", "mood"]
     },
     "BRIDGE": {
       "current_files": 23,
       "candidates_for_consolidation": 122,
-      "submodules": [
-        "api",
-        "external",
-        "protocols",
-        "adapters"
-      ],
-      "hybrid_submodules": [
-        "protocols",
-        "adapters"
-      ]
+      "submodules": ["api", "external", "protocols", "adapters"],
+      "hybrid_submodules": ["protocols", "adapters"]
     },
     "QIM": {
       "current_files": 88,
       "candidates_for_consolidation": 51,
-      "submodules": [
-        "quantum_states",
-        "entanglement",
-        "superposition",
-        "bio"
-      ],
-      "hybrid_submodules": [
-        "superposition",
-        "entanglement"
-      ]
+      "submodules": ["quantum_states", "entanglement", "superposition", "bio"],
+      "hybrid_submodules": ["superposition", "entanglement"]
     },
     "CONSCIOUSNESS": {
       "current_files": 63,
       "candidates_for_consolidation": 85,
-      "submodules": [
-        "awareness",
-        "reflection",
-        "unified",
-        "states"
-      ],
-      "hybrid_submodules": [
-        "states",
-        "reflection"
-      ]
+      "submodules": ["awareness", "reflection", "unified", "states"],
+      "hybrid_submodules": ["states", "reflection"]
     }
   },
   "consolidation_actions": [
@@ -111,9 +55,9 @@
         "./tools/OrganizationScanner.py",
         "./tools/enhanced_ecosystem_documentation.py",
         "./tools/documentation/symbolic_knowledge_core/knowledge_graph.py",
-        "./tools/analysis/PWM_OPERATIONAL_SUMMARY.py",
-        "./tools/analysis/PWM_WORKSPACE_STATUS_ANALYSIS.py",
-        "./tools/analysis/pwm_deep_analysis.py",
+        "./tools/analysis/_OPERATIONAL_SUMMARY.py",
+        "./tools/analysis/_WORKSPACE_STATUS_ANALYSIS.py",
+        "./tools/analysis/_deep_analysis.py",
         "./tools/analysis/isolated_file_finder.py"
       ],
       "total_files": 122,
@@ -124,7 +68,7 @@
       "target_module": "QIM",
       "files": [
         "./tools/keyword_extractor.py",
-        "./tools/analysis/PWM_HYBRID_COMPONENT_ANALYZER.py",
+        "./tools/analysis/_HYBRID_COMPONENT_ANALYZER.py",
         "./tools/scripts/create_classical_dream_api.py",
         "./tools/scripts/consolidation/consolidate_quantum_sgi_core.py",
         "./tools/scripts/consolidation/consolidate_identity_quantum_secure.py",
@@ -149,7 +93,7 @@
         "./tools/journal/journal_cli.py",
         "./tools/journal/learning_assistant.py",
         "./tools/analysis/universal_mesh_architecture.py",
-        "./tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py",
+        "./tools/analysis/_FUNCTIONAL_ANALYSIS.py",
         "./tools/enterprise/api_framework.py"
       ],
       "total_files": 85,
@@ -182,8 +126,8 @@
         "./tools/session_logger.py",
         "./tools/tier.py",
         "./tools/ethics.py",
-        "./tools/analysis/PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.py",
-        "./tools/analysis/PWM_MISSING_COMPONENTS_ANALYZER.py",
+        "./tools/analysis/_SECURITY_COMPLIANCE_GAP_ANALYSIS.py",
+        "./tools/analysis/_MISSING_COMPONENTS_ANALYZER.py",
         "./tools/scripts/bootstrap.py",
         "./tools/scripts/bootstrap_20250802_203623.py",
         "./tools/scripts/cleanup_root_directory.py"

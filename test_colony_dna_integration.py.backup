@@ -1,6 +1,6 @@
-from lukhas_pwm.colony.adapters.consensus_to_dna import persist_consensus_to_dna
-from lukhas_pwm.colony.contracts import ConsensusResult
-from lukhas_pwm.dna.memory_inmem import InMemoryHelix
+from lukhas.colony.adapters.consensus_to_dna import persist_consensus_to_dna
+from lukhas.colony.contracts import ConsensusResult
+from lukhas.dna.memory_inmem import InMemoryHelix
 
 
 def _consensus(

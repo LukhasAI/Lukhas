@@ -8,14 +8,14 @@ from pathlib import Path
 
 def count_syntax_errors(base_path=None):
     if base_path is None:
-        base_path = os.getenv("LUKHAS_PWM_ROOT", os.getcwd())
+        base_path = os.getenv("LUKHAS_ROOT", os.getcwd())
     base_dir = Path(base_path)
     total_errors = 0
     error_details = []
 
     for py_file in base_dir.rglob("*.py"):
         # Skip archive and backup directories
-        if any(part in str(py_file).lower() for part in ['archive', 'backup', 'pwm_cleanup', '.git']):
+        if any(part in str(py_file).lower() for part in ['archive', 'backup', '_cleanup', '.git']):
             continue
 
         try:

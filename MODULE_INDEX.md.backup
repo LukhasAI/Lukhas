@@ -125,7 +125,7 @@ Each module includes tests in:
 ## Configuration
 
 Module configuration in:
-- Global: `lukhas_pwm_config.yaml`
+- Global: `lukhas_config.yaml`
 - Module-specific: `[module]/config.yaml`
 - Environment: `.env` variables
 

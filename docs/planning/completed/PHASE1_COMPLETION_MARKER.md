@@ -53,7 +53,7 @@
 
 ## 🔧 Components Integrated
 
-### From `/Users/agi_dev/Lukhas/compliance/` → `/Users/agi_dev/Lukhas_PWM/compliance/`
+### From `/Users/agi_dev/Lukhas/compliance/` → `/Users/agi_dev/Lukhas/compliance/`
 ```
 ✅ A-consent-verifier.py
 ✅ ai_compliance.py
@@ -68,7 +68,7 @@
 ✅ symbolic_governance_checker.py
 ```
 
-### From `/Users/agi_dev/Lukhas/security/` → `/Users/agi_dev/Lukhas_PWM/security/`
+### From `/Users/agi_dev/Lukhas/security/` → `/Users/agi_dev/Lukhas/security/`
 ```
 ✅ self_healing_eu_compliance_engine.py (32,714 lines)
 ✅ self_healing_eu_compliance_monitor.py (28,284 lines)
@@ -76,7 +76,7 @@
 ✅ risk_management/ (complete framework)
 ```
 
-### From `/Users/agi_dev/Lukhas/governance/` → `/Users/agi_dev/Lukhas_PWM/governance/`
+### From `/Users/agi_dev/Lukhas/governance/` → `/Users/agi_dev/Lukhas/governance/`
 ```
 ✅ EthicalAuditor.py (24,690 lines)
 ✅ policy_manager.py
@@ -85,7 +85,7 @@
 ✅ compliance_report_generator.py
 ```
 
-### From `/Users/agi_dev/Lukhas/ethics/` → `/Users/agi_dev/Lukhas_PWM/ethics/`
+### From `/Users/agi_dev/Lukhas/ethics/` → `/Users/agi_dev/Lukhas/ethics/`
 ```
 ✅ ethical_evaluator.py (enhanced)
 ✅ 85+ additional ethical framework components
@@ -112,7 +112,7 @@
 
 ## 📁 Artifacts Generated
 
-- **Analysis Reports**: PWM_FUNCTIONAL_ANALYSIS_REPORT.json
+- **Analysis Reports**: _FUNCTIONAL_ANALYSIS_REPORT.json
 - **Status Documentation**: Phase 1 completion markers
 - **Integration Logs**: All cherry-pick operations logged
 - **Updated Documentation**: README.md with Phase 1 details

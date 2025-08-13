@@ -43,13 +43,13 @@ done
 # Create the zip file from the temp directory
 echo "Creating zip file..."
 cd "$temp_dir"
-zip -r "../lukhas_pwm_gpt5_clean.zip" . -x "*.pyc" "*/__pycache__/*"
+zip -r "../lukhas_gpt5_clean.zip" . -x "*.pyc" "*/__pycache__/*"
 cd ..
 
 # Clean up
 rm -rf "$temp_dir"
 
 # Show results
-echo "Package created: lukhas_pwm_gpt5_clean.zip"
-ls -lh lukhas_pwm_gpt5_clean.zip
+echo "Package created: lukhas_gpt5_clean.zip"
+ls -lh lukhas_gpt5_clean.zip
 echo "Done!"

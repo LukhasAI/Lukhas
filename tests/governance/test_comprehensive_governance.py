@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🌟 Comprehensive PWM Governance Test Suite
+🌟 Comprehensive  Governance Test Suite
 ==========================================
 
 Ultimate testing combining ALL superior LUKHAS components:
@@ -8,7 +8,7 @@ Ultimate testing combining ALL superior LUKHAS components:
 - Enhanced Ethics Engine (multi-framework)
 - Red Team Protocol (security validation)
 - LUKHAS Ethics Guard (tier-based consent)
-- PWM Workspace Guardian (complete protection)
+-  Workspace Guardian (complete protection)
 
 This is the COMPREHENSIVE test suite using all your superior components.
 """
@@ -21,7 +21,7 @@ from datetime import datetime
 # Add paths for all modules
 sys.path.insert(0, os.path.dirname(__file__))
 
-print("🌟 Comprehensive PWM Governance Testing - ALL Superior Components")
+print("🌟 Comprehensive  Governance Testing - ALL Superior Components")
 print("=" * 70)
 
 # Import availability tracking
@@ -35,7 +35,7 @@ modules_available = {
 
 # Try importing Guardian Reflector
 try:
-    from testing import PWMTestOrchestrator
+    from testing import TestOrchestrator
 
     modules_available["guardian_reflector"] = True
     print("✅ Guardian Reflector testing suite loaded")
@@ -44,34 +44,34 @@ except ImportError as e:
 
 # Try importing Enhanced Governance
 try:
-    from governance.enhanced_pwm_guardian import EnhancedPWMWorkspaceGuardian
+    from governance.enhanced_guardian import EnhancedWorkspaceGuardian
 
     modules_available["enhanced_governance"] = True
-    print("✅ Enhanced PWM Governance loaded")
+    print("✅ Enhanced  Governance loaded")
 except ImportError as e:
     print(f"⚠️ Enhanced Governance not available: {e}")
 
 # Try importing Basic Governance
 try:
-    from governance.pwm_workspace_guardian import PWMWorkspaceGuardian
+    from governance._workspace_guardian import WorkspaceGuardian
 
     modules_available["basic_governance"] = True
-    print("✅ Basic PWM Governance loaded")
+    print("✅ Basic  Governance loaded")
 except ImportError as e:
     print(f"⚠️ Basic Governance not available: {e}")
 
 # Try importing Ethics Orchestrator
 try:
-    from ethics import PWMEthicsOrchestrator
+    from ethics import EthicsOrchestrator
 
     modules_available["ethics_orchestrator"] = True
-    print("✅ PWM Ethics Orchestrator loaded")
+    print("✅  Ethics Orchestrator loaded")
 except ImportError as e:
     print(f"⚠️ Ethics Orchestrator not available: {e}")
 
 # Try importing Red Team
 try:
-    from red_team import PWMRedTeamProtocol
+    from red_team import RedTeamProtocol
 
     modules_available["red_team"] = True
     print("✅ Red Team Protocol loaded")
@@ -79,9 +79,9 @@ except ImportError as e:
     print(f"⚠️ Red Team Protocol not available: {e}")
 
 
-class ComprehensivePWMTestSuite:
+class ComprehensiveTestSuite:
     """
-    🚀 Ultimate PWM Testing Suite
+    🚀 Ultimate  Testing Suite
 
     Tests ALL superior components in integrated fashion.
     """
@@ -103,7 +103,7 @@ class ComprehensivePWMTestSuite:
         # Initialize Guardian Reflector Testing
         if modules_available["guardian_reflector"]:
             try:
-                self.test_orchestrator = PWMTestOrchestrator()
+                self.test_orchestrator = TestOrchestrator()
                 success = await self.test_orchestrator.initialize_testing()
                 initialization_results["guardian_reflector"] = (
                     "SUCCESS" if success else "FAILED"
@@ -118,7 +118,7 @@ class ComprehensivePWMTestSuite:
         # Initialize Enhanced Governance
         if modules_available["enhanced_governance"]:
             try:
-                self.enhanced_guardian = EnhancedPWMWorkspaceGuardian()
+                self.enhanced_guardian = EnhancedWorkspaceGuardian()
                 await self.enhanced_guardian.initialize()
                 initialization_results["enhanced_governance"] = "SUCCESS"
                 print("🛡️ Enhanced Governance: ✅ SUCCESS")
@@ -129,7 +129,7 @@ class ComprehensivePWMTestSuite:
         # Initialize Basic Governance (fallback)
         if modules_available["basic_governance"] and not self.enhanced_guardian:
             try:
-                self.basic_guardian = PWMWorkspaceGuardian()
+                self.basic_guardian = WorkspaceGuardian()
                 await self.basic_guardian.initialize()
                 initialization_results["basic_governance"] = "SUCCESS"
                 print("🛡️ Basic Governance: ✅ SUCCESS")
@@ -140,7 +140,7 @@ class ComprehensivePWMTestSuite:
         # Initialize Ethics Orchestrator
         if modules_available["ethics_orchestrator"]:
             try:
-                self.ethics_orchestrator = PWMEthicsOrchestrator()
+                self.ethics_orchestrator = EthicsOrchestrator()
                 initialization_results["ethics_orchestrator"] = "SUCCESS"
                 print("🧠 Ethics Orchestrator: ✅ SUCCESS")
             except Exception as e:
@@ -150,7 +150,7 @@ class ComprehensivePWMTestSuite:
         # Initialize Red Team
         if modules_available["red_team"]:
             try:
-                self.red_team = PWMRedTeamProtocol()
+                self.red_team = RedTeamProtocol()
                 initialization_results["red_team"] = "SUCCESS"
                 print("🔴 Red Team Protocol: ✅ SUCCESS")
             except Exception as e:
@@ -161,7 +161,7 @@ class ComprehensivePWMTestSuite:
 
     async def run_comprehensive_testing(self):
         """Run the ultimate comprehensive test suite."""
-        print("\n🚀 Running Comprehensive PWM Governance Testing...")
+        print("\n🚀 Running Comprehensive  Governance Testing...")
         print("=" * 70)
 
         test_results = {
@@ -304,7 +304,7 @@ class ComprehensivePWMTestSuite:
     def generate_comprehensive_report(self):
         """Generate comprehensive test report."""
         print("\n" + "=" * 70)
-        print("🏁 COMPREHENSIVE PWM GOVERNANCE TEST RESULTS")
+        print("🏁 COMPREHENSIVE  GOVERNANCE TEST RESULTS")
         print("=" * 70)
 
         if not self.test_results:
@@ -374,7 +374,7 @@ class ComprehensivePWMTestSuite:
         # Recommendations
         print("\n💡 Recommendations:")
         if status == "ALL_TESTS_PASSED":
-            print("   🌟 Your PWM workspace has ENTERPRISE-GRADE protection!")
+            print("   🌟 Your  workspace has ENTERPRISE-GRADE protection!")
             print("   🚀 All superior LUKHAS components are working optimally")
             print("   🎯 Ready for production workspace management")
         elif status == "PARTIAL_SUCCESS":
@@ -390,9 +390,9 @@ class ComprehensivePWMTestSuite:
 
 
 async def main():
-    """Run the ultimate comprehensive PWM governance test suite."""
+    """Run the ultimate comprehensive  governance test suite."""
 
-    print("🚀 Initializing Comprehensive PWM Governance Test Suite...")
+    print("🚀 Initializing Comprehensive  Governance Test Suite...")
 
     # Check module availability summary
     available_count = sum(modules_available.values())
@@ -405,7 +405,7 @@ async def main():
         return False
 
     # Initialize and run comprehensive tests
-    test_suite = ComprehensivePWMTestSuite()
+    test_suite = ComprehensiveTestSuite()
 
     # Initialize all systems
     await test_suite.initialize_all_systems()
@@ -426,8 +426,8 @@ async def main():
 if __name__ == "__main__":
     success = asyncio.run(main())
     if success:
-        print("\n🎯 PWM Comprehensive Governance Testing Complete!")
+        print("\n🎯  Comprehensive Governance Testing Complete!")
         sys.exit(0)
     else:
-        print("\n🔧 PWM Governance System Requires Attention")
+        print("\n🔧  Governance System Requires Attention")
         sys.exit(1)

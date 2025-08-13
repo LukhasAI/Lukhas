@@ -14,7 +14,7 @@ Successfully organized recent files from the root directory into appropriate sub
 - `start_mcp_server.sh` - MCP server launcher
 
 ### 📂 reports/ (Analysis Reports & Metrics)
-- `PWM_FUNCTIONAL_ANALYSIS_REPORT.json` - System analysis
+- `_FUNCTIONAL_ANALYSIS_REPORT.json` - System analysis
 - `comprehensive_orphan_report.json` - Orphaned file analysis
 - `coverage.json` - Test coverage metrics
 - `module_usage_report.json` - Module usage statistics
@@ -52,8 +52,8 @@ Successfully organized recent files from the root directory into appropriate sub
 - `Dockerfile.mcp.light` - Updated path: `ai_orchestration/lukhas_mcp_server_simple.py`
 
 ### Guardian Protection
-- `governance/guardian/pwm_workspace_guardian.py` - Updated package.json path
-- `governance/ethics/enhanced_pwm_guardian.py` - Updated package.json path
+- `governance/guardian/_workspace_guardian.py` - Updated package.json path
+- `governance/ethics/enhanced_guardian.py` - Updated package.json path
 
 ### Analysis Tools
 - `tools/safe_cleanup_analysis.py` - Updated output paths

@@ -19,9 +19,9 @@ from typing import Any, Dict, List
 # Load environment variables
 from dotenv import load_dotenv
 
-from lukhas_pwm.audit.store import audit_log_write
-from lukhas_pwm.audit.tool_analytics import get_analytics
-from lukhas_pwm.metrics import get_metrics_collector
+from lukhas.audit.store import audit_log_write
+from lukhas.audit.tool_analytics import get_analytics
+from lukhas.metrics import get_metrics_collector
 from orchestration.signals.homeostasis import ModulationParams
 
 load_dotenv()
@@ -111,7 +111,7 @@ class MockProductionTestSuite:
             "project_id": os.getenv("PROJECT_ID", "not_set"),
             "environment": "production",
             "test_suite_version": "1.0.0",
-            "framework": "LUKHAS_PWM",
+            "framework": "LUKHAS",
             "trinity_version": "⚛️🧠🛡️ v1.0",
         }
 
@@ -531,7 +531,7 @@ class MockProductionTestSuite:
 
         report = {
             "company": "LUKHAS AI",
-            "product": "PWM Governance System",
+            "product": " Governance System",
             "test_suite": self.suite_id,
             "date": self.suite_start.isoformat(),
             "mode": "MOCK_VALIDATION",

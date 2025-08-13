@@ -34,7 +34,7 @@ Add this to your top-level `README.md` to display the live badge on GitHub:
 GitHub serves the SVG directly when viewing the repository. For external docs, you can reference the raw URL:
 
 ```
-https://raw.githubusercontent.com/LukhasAI/Lukhas_PWM/main/badges/backup_status.svg
+https://raw.githubusercontent.com/LukhasAI/Lukhas/main/badges/backup_status.svg
 ```
 
 ## Inputs and secrets

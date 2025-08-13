@@ -5,7 +5,7 @@
     }
   ],
   "settings": {
-    // LUKHAS_PWM Enhanced Autosave Protection
+    // LUKHAS Enhanced Autosave Protection
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 500,
     "files.hotExit": "onExitAndWindowClose",

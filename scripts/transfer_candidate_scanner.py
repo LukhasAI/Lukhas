@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Scan sibling repositories in /Users/agi_dev/LOCAL-REPOS for modules that are
-likely worth transferring into Lukhas_PWM or pruning (duplicates/backups).
+likely worth transferring into Lukhas or pruning (duplicates/backups).
 
 Outputs a JSON report under reports/transfer_scan/transfer_candidates.json
 with two sections: candidates_transfer and candidates_prune.
@@ -47,7 +47,7 @@ TRANSFER_KEYWORDS = [
 ]
 
 PRUNE_HINTS = [
-    ".pwm_cleanup_archive",
+    "._cleanup_archive",
     "advanced_backups",
     "syntax_backups",
     "*.backup",

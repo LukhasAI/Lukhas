@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Unified Monitoring Dashboard
-Comprehensive real-time monitoring for all PWM systems
+LUKHAS  Unified Monitoring Dashboard
+Comprehensive real-time monitoring for all  systems
 Trinity Framework: ⚛️🧠🛡️
 """
 
@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="LUKHAS PWM Unified Monitoring Dashboard",
-    description="Real-time monitoring for all PWM systems including consciousness, memory, ethics, and performance",
+    title="LUKHAS  Unified Monitoring Dashboard",
+    description="Real-time monitoring for all  systems including consciousness, memory, ethics, and performance",
     version="2.0.0",
 )
 
@@ -43,7 +43,7 @@ active_connections: List[WebSocket] = []
 DASHBOARD_CONFIG = {
     "port": 3000,
     "host": "0.0.0.0",
-    "title": "LUKHAS PWM Unified Dashboard",
+    "title": "LUKHAS  Unified Dashboard",
     "refresh_rate": 5,  # seconds
     "enable_auth": False,
     "data_retention_hours": 24,
@@ -62,7 +62,7 @@ historical_data = []
 
 
 class MetricsCollector:
-    """Collects and aggregates metrics from all PWM systems"""
+    """Collects and aggregates metrics from all  systems"""
 
     def __init__(self):
         self.last_collection = 0
@@ -216,7 +216,7 @@ class MetricsCollector:
     async def _collect_flags_metrics(self) -> Dict[str, Any]:
         """Collect feature flags status"""
         try:
-            from lukhas_pwm.flags import get_flags
+            from lukhas.flags import get_flags
 
             flags = get_flags()
 
@@ -267,7 +267,7 @@ metrics_collector = MetricsCollector()
 @app.on_event("startup")
 async def startup_event():
     """Initialize dashboard on startup"""
-    logger.info("🚀 Starting LUKHAS PWM Unified Dashboard")
+    logger.info("🚀 Starting LUKHAS  Unified Dashboard")
 
     # Start background metrics collection
     asyncio.create_task(metrics_collection_loop())
@@ -399,7 +399,7 @@ async def dashboard_home():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>LUKHAS PWM Unified Dashboard</title>
+        <title>LUKHAS  Unified Dashboard</title>
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
@@ -521,7 +521,7 @@ async def dashboard_home():
     <body>
         <div class="header">
             <div class="trinity">⚛️🧠🛡️</div>
-            <div class="title">LUKHAS PWM Unified Dashboard</div>
+            <div class="title">LUKHAS  Unified Dashboard</div>
             <div class="subtitle">Real-time monitoring and analytics</div>
             <div class="subtitle" id="last-update">Connecting...</div>
         </div>
@@ -598,7 +598,7 @@ async def dashboard_home():
         </div>
         
         <div class="footer">
-            <div>LUKHAS PWM Dashboard v2.0.0 | Trinity Framework</div>
+            <div>LUKHAS  Dashboard v2.0.0 | Trinity Framework</div>
             <div>WebSocket Status: <span id="connection-status" class="status-warning">Connecting...</span></div>
         </div>
         
@@ -791,7 +791,7 @@ async def health_check():
     """Health check endpoint"""
     return {
         "status": "healthy",
-        "dashboard": "LUKHAS PWM Unified Dashboard",
+        "dashboard": "LUKHAS  Unified Dashboard",
         "version": "2.0.0",
         "trinity": "⚛️🧠🛡️",
         "active_connections": len(active_connections),
@@ -804,7 +804,7 @@ def start_dashboard(host: str = None, port: int = None, dev: bool = False):
     host = host or DASHBOARD_CONFIG["host"]
     port = port or DASHBOARD_CONFIG["port"]
 
-    logger.info("🚀 Starting LUKHAS PWM Unified Dashboard")
+    logger.info("🚀 Starting LUKHAS  Unified Dashboard")
     logger.info(f"   📊 Dashboard: http://{host}:{port}")
     logger.info(f"   📡 WebSocket: ws://{host}:{port}/ws")
     logger.info(f"   🔗 API: http://{host}:{port}/api/metrics")

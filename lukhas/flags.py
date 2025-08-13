@@ -1,5 +1,5 @@
 """
-Feature Flags System for LUKHAS PWM
+Feature Flags System for LUKHAS
 Minimal implementation to satisfy tests and control feature rollout
 """
 
@@ -92,10 +92,10 @@ def get_flags() -> Dict[str, bool]:
 def require_feature(name: str) -> None:
     """
     Require a feature to be enabled, raise if not.
-    
+
     Args:
         name: Feature flag name
-        
+
     Raises:
         RuntimeError: If feature is not enabled
     """
@@ -109,27 +109,29 @@ def require_feature(name: str) -> None:
 def when_enabled(name: str) -> Callable:
     """
     Decorator to conditionally execute based on feature flag.
-    
+
     Args:
         name: Feature flag name
-        
+
     Returns:
         Decorator that skips function if feature is disabled
     """
+
     def decorator(func: Callable) -> Callable:
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             if not _flags.get(name):
                 # Skip execution, return None or raise
-                if hasattr(func, '__unittest_skip__'):
+                if hasattr(func, "__unittest_skip__"):
                     # For test methods, skip
                     import unittest
+
                     raise unittest.SkipTest(f"Feature '{name}' is disabled")
                 else:
                     # For regular functions, return None with warning
                     warnings.warn(
                         f"Skipping {func.__name__}: feature '{name}' is disabled",
-                        category=UserWarning
+                        category=UserWarning,
                     )
                     return None
             return func(*args, **kwargs)
@@ -140,6 +142,7 @@ def when_enabled(name: str) -> Callable:
             wrapper.__unittest_skip_why__ = f"Feature '{name}' is disabled"
 
         return wrapper
+
     return decorator
 
 
@@ -174,5 +177,5 @@ __all__ = [
     "require_feature",
     "when_enabled",
     "is_enabled",
-    "FeatureFlagContext"
+    "FeatureFlagContext",
 ]

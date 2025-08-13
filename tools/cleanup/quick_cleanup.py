@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Quick Cleanup Script for LUKHAS PWM
+Quick Cleanup Script for LUKHAS
 ====================================
 Focuses on main module duplicates and conflicts.
 """
@@ -19,7 +19,7 @@ def find_backup_directories() -> List[Path]:
         ".hygiene_backup_*",
         ".identity_backup_*",
         ".event_bus_backup_*",
-        ".pwm_cleanup_archive"
+        "._cleanup_archive",
     ]
 
     for pattern in patterns:
@@ -67,7 +67,14 @@ def cleanup_imports() -> int:
     ]
 
     # Only fix in main modules, not backups
-    main_modules = ["core", "consciousness", "governance", "orchestration", "bridge", "api"]
+    main_modules = [
+        "core",
+        "consciousness",
+        "governance",
+        "orchestration",
+        "bridge",
+        "api",
+    ]
 
     for module in main_modules:
         if not Path(module).exists():
@@ -127,7 +134,7 @@ def consolidate_duplicates(duplicates: dict) -> dict:
         suggestions[module_name] = {
             "primary": primary,
             "duplicates": [loc for loc in locations if loc != primary],
-            "action": f"Consolidate into {primary}"
+            "action": f"Consolidate into {primary}",
         }
 
     return suggestions
@@ -135,7 +142,7 @@ def consolidate_duplicates(duplicates: dict) -> dict:
 
 def main():
     """Run quick cleanup"""
-    print("🧹 LUKHAS PWM Quick Cleanup")
+    print("🧹 LUKHAS  Quick Cleanup")
     print("=" * 60)
 
     # Find backups
@@ -182,14 +189,15 @@ def main():
         "backups_archived": len(backups),
         "imports_fixed": fixed,
         "duplicates_found": duplicates,
-        "suggestions": suggestions if duplicates else {}
+        "suggestions": suggestions if duplicates else {},
     }
 
     report_path = Path("docs/reports/cleanup_report.json")
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
     import json
-    with open(report_path, 'w') as f:
+
+    with open(report_path, "w") as f:
         json.dump(report, f, indent=2)
 
     print(f"\n📄 Report saved to: {report_path}")

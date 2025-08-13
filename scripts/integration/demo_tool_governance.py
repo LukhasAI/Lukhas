@@ -17,7 +17,7 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 
-from lukhas_pwm.openai.tooling import (
+from lukhas.openai.tooling import (
     build_tools_from_allowlist,
     get_all_tools,
     get_tool_names,

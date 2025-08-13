@@ -31,7 +31,7 @@ class AutoLintFixer:
     def fix_with_black(self):
         """Format code with Black"""
         print("🔧 Running Black formatter...")
-        dirs = ["lukhas_pwm", "bridge", "core", "serve", "tests"]
+        dirs = ["lukhas", "bridge", "core", "serve", "tests"]
         for dir_name in dirs:
             if (self.project_root / dir_name).exists():
                 code, out, err = self.run_command(
@@ -54,7 +54,7 @@ class AutoLintFixer:
     def fix_imports_with_isort(self):
         """Sort imports with isort"""
         print("🔧 Sorting imports with isort...")
-        dirs = ["lukhas_pwm", "bridge", "core", "serve", "tests"]
+        dirs = ["lukhas"bridge", "core", "serve", "tests"]
         for dir_name in dirs:
             if (self.project_root / dir_name).exists():
                 code, out, err = self.run_command(
@@ -73,7 +73,7 @@ class AutoLintFixer:
     def remove_unused_imports(self):
         """Remove unused imports with autoflake"""
         print("🔧 Removing unused imports...")
-        dirs = ["lukhas_pwm", "bridge", "core", "serve"]
+        dirs = ["lukhas"bridge", "core", "serve"]
         for dir_name in dirs:
             if (self.project_root / dir_name).exists():
                 code, out, err = self.run_command(

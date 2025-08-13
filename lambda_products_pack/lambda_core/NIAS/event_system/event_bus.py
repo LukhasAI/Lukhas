@@ -2,7 +2,7 @@
 Enhanced Event Bus System for NIΛS
 Supports dream coordination, priority queues, and correlation tracking
 
-This is adapted from the lukhas-pwm-advanced event bus system
+This is adapted from the lukhas--advanced event bus system
 specifically for the Lambda Products NIAS implementation.
 """
 

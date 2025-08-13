@@ -22,7 +22,7 @@ from core.api.service_stubs import (
     UnifiedConsciousness,
 )
 
-sys.path.insert(0, "/Users/agi_dev/Lukhas_PWM")
+sys.path.insert(0, "/Users/agi_dev/Lukhas")
 
 # Import enhanced API
 

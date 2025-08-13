@@ -3,7 +3,7 @@ LUKHAS Plugin System Base Classes
 Universal plugin architecture for modular AI components integration
 
 This provides the foundation for integrating Lambda Products and other modules
-as plug-and-play components into LUKHAS PWM and other systems.
+as plug-and-play components into LUKHAS  and other systems.
 """
 
 import asyncio

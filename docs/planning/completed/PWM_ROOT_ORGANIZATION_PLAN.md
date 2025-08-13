@@ -1,4 +1,4 @@
-# 🗂️ PWM Root Directory Organization Plan
+# 🗂️  Root Directory Organization Plan
 
 ## 📋 Current Root Directory Analysis
 
@@ -8,36 +8,36 @@
 - `LICENSE` ✅ (Legal requirement)
 - `requirements.txt` ✅ (Core dependencies)
 - `package.json` ✅ (Node.js dependencies)
-- `lukhas_pwm_config.yaml` ✅ (Core configuration)
+- `lukhas_config.yaml` ✅ (Core configuration)
 - `.gitignore`, `.env.example`, `.env.template` ✅ (Git/environment)
-- `Lukhas_PWM.code-workspace` ✅ (VS Code workspace)
+- `Lukhas.code-workspace` ✅ (VS Code workspace)
 - Core data files: `helix_memory_store.jsonl`, `lukhas_memory_folds.db` ✅
 
 ### Files to Organize into Subdirectories
 
 #### 📊 Analysis Tools → `tools/analysis/`
-- `PWM_FUNCTIONAL_ANALYSIS.py`
-- `PWM_OPERATIONAL_SUMMARY.py`
-- `PWM_WORKSPACE_STATUS_ANALYSIS.py`
-- `PWM_MISSING_COMPONENTS_ANALYZER.py`
-- `PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.py`
-- `pwm_deep_analysis.py`
+- `_FUNCTIONAL_ANALYSIS.py`
+- `_OPERATIONAL_SUMMARY.py`
+- `_WORKSPACE_STATUS_ANALYSIS.py`
+- `_MISSING_COMPONENTS_ANALYZER.py`
+- `_SECURITY_COMPLIANCE_GAP_ANALYSIS.py`
+- `_deep_analysis.py`
 
 #### 📈 Analysis Reports → `docs/reports/`
-- `PWM_FUNCTIONAL_ANALYSIS_REPORT.json`
-- `PWM_CONNECTIVITY_ANALYSIS.json`
-- `PWM_WORKSPACE_STATUS_REPORT.json`
-- `PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.json`
+- `_FUNCTIONAL_ANALYSIS_REPORT.json`
+- `_CONNECTIVITY_ANALYSIS.json`
+- `_WORKSPACE_STATUS_REPORT.json`
+- `_SECURITY_COMPLIANCE_GAP_ANALYSIS.json`
 
 #### 📋 Planning Documents → `docs/planning/completed/`
-- `PWM_CHERRY_PICK_PLAN.md`
-- `PWM_COMPREHENSIVE_MISSING_COMPONENTS_ANALYSIS.md`
-- `PWM_PHASE3_ADVANCED_TOOLS_ANALYSIS.md`
-- `PWM_SECURITY_COMPLIANCE_EXPANSION_PLAN.md`
+- `_CHERRY_PICK_PLAN.md`
+- `_COMPREHENSIVE_MISSING_COMPONENTS_ANALYSIS.md`
+- `_PHASE3_ADVANCED_TOOLS_ANALYSIS.md`
+- `_SECURITY_COMPLIANCE_EXPANSION_PLAN.md`
 
 #### 📊 Status Reports → `docs/reports/status/`
-- `PWM_CURRENT_STATUS_REPORT.md`
-- `PWM_OPERATIONAL_STATUS_REPORT.md`
+- `_CURRENT_STATUS_REPORT.md`
+- `_OPERATIONAL_STATUS_REPORT.md`
 
 #### 📚 Archive Documentation → `docs/archive/`
 - `README_CONSOLIDATED.md`
@@ -66,22 +66,22 @@ mkdir -p deployments/containers
 
 ### Phase 2: Move Analysis Tools
 ```bash
-mv PWM_*.py tools/analysis/
-mv pwm_deep_analysis.py tools/analysis/
+mv _*.py tools/analysis/
+mv _deep_analysis.py tools/analysis/
 ```
 
 ### Phase 3: Move Reports & Documentation
 ```bash
-mv PWM_*_REPORT.json docs/reports/analysis/
-mv PWM_*_STATUS_REPORT.md docs/reports/status/
-mv PWM_*_ANALYSIS.json docs/reports/analysis/
+mv _*_REPORT.json docs/reports/analysis/
+mv _*_STATUS_REPORT.md docs/reports/status/
+mv _*_ANALYSIS.json docs/reports/analysis/
 ```
 
 ### Phase 4: Archive Completed Planning
 ```bash
-mv PWM_*_PLAN.md docs/planning/completed/
-mv PWM_COMPREHENSIVE_MISSING_COMPONENTS_ANALYSIS.md docs/planning/completed/
-mv PWM_PHASE3_ADVANCED_TOOLS_ANALYSIS.md docs/planning/completed/
+mv _*_PLAN.md docs/planning/completed/
+mv _COMPREHENSIVE_MISSING_COMPONENTS_ANALYSIS.md docs/planning/completed/
+mv _PHASE3_ADVANCED_TOOLS_ANALYSIS.md docs/planning/completed/
 ```
 
 ### Phase 5: Move Tests
@@ -102,15 +102,15 @@ mv README_CONSOLIDATED.md docs/archive/
 ## 📁 Final Clean Root Structure
 
 ```
-🧠 LUKHAS_PWM/
+🧠 LUKHAS/
 ├── 📄 CLAUDE.md                    # User-required root file
 ├── 📄 README.md                    # Primary documentation
 ├── 📄 LICENSE                      # Legal
 ├── 📄 requirements.txt             # Core dependencies
 ├── 📄 package.json                 # Node.js dependencies
-├── 📄 lukhas_pwm_config.yaml       # Core configuration
+├── 📄 lukhas_config.yaml       # Core configuration
 ├── 📄 .gitignore, .env.example     # Environment files
-├── 📄 Lukhas_PWM.code-workspace    # VS Code workspace
+├── 📄 Lukhas.code-workspace    # VS Code workspace
 ├── 📄 helix_memory_store.jsonl     # Core data
 ├── 📄 lukhas_memory_folds.db       # Core database
 ├── 📁 docs/                        # All documentation
@@ -145,7 +145,7 @@ Each completed phase will have:
 
 ## ✅ Implementation Complete
 
-Root directory reorganization has been successfully executed, creating a clean, professional structure while preserving all PWM work and maintaining LUKHAS functionality.
+Root directory reorganization has been successfully executed, creating a clean, professional structure while preserving all  work and maintaining LUKHAS functionality.
 
 **Status**: COMPLETED ✅  
 **Date**: August 1, 2025  

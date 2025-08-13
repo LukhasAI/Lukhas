@@ -17,7 +17,7 @@ class AggressiveFileConsolidator:
 
     def __init__(self):
         # Load the consolidation plan
-        with open("docs/planning/PWM_AGGRESSIVE_CONSOLIDATION_PLAN.json") as f:
+        with open("docs/planning/_AGGRESSIVE_CONSOLIDATION_PLAN.json") as f:
             self.plan = json.load(f)
 
         self.moved_files = []
@@ -141,7 +141,7 @@ class AggressiveFileConsolidator:
                     "__pycache__",
                     ".venv",
                     "quarantine",
-                    ".pwm_cleanup_archive",
+                    "._cleanup_archive",
                 ]
             ):
                 continue
@@ -291,7 +291,7 @@ class AggressiveFileConsolidator:
             report["files_by_module"][module] = dict(report["files_by_module"][module])
 
         # Save report
-        report_path = "docs/reports/PWM_AGGRESSIVE_CONSOLIDATION_REPORT.json"
+        report_path = "docs/reports/_AGGRESSIVE_CONSOLIDATION_REPORT.json"
         os.makedirs(os.path.dirname(report_path), exist_ok=True)
 
         with open(report_path, "w") as f:
@@ -337,7 +337,7 @@ def main():
     if consolidator.failed_moves:
         print(f"\n⚠️ Failed to move {len(consolidator.failed_moves)} files")
 
-    print("\n📋 Report saved to: docs/reports/PWM_AGGRESSIVE_CONSOLIDATION_REPORT.json")
+    print("\n📋 Report saved to: docs/reports/_AGGRESSIVE_CONSOLIDATION_REPORT.json")
 
 
 if __name__ == "__main__":

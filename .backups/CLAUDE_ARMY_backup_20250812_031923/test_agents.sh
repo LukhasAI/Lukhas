@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# 🎯 LUKHAS_PWM Agent Army Test & Validation
+# 🎯 LUKHAS Agent Army Test & Validation
 # Test all agent configurations and behaviors
 
-echo "🎭 Testing LUKHAS_PWM Agent Army"
+echo "🎭 Testing LUKHAS Agent Army"
 echo "⚛️🧠🛡️ Trinity Framework Agent Validation"
 echo "=========================================="
 

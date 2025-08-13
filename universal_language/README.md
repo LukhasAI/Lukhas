@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Universal Language module is a **unified, standalone language system** that consolidates all symbolic, grammatical, and multi-modal communication capabilities in LUKHAS PWM. This module replaces and unifies the previously fragmented implementations scattered across `/symbolic/`, `/core/symbolic/`, `/bio_symbolic/`, and other directories.
+The Universal Language module is a **unified, standalone language system** that consolidates all symbolic, grammatical, and multi-modal communication capabilities in LUKHAS. This module replaces and unifies the previously fragmented implementations scattered across `/symbolic/`, `/core/symbolic/`, `/bio_symbolic/`, and other directories.
 
 ## Key Features
 

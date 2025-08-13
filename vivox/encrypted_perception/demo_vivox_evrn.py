@@ -20,7 +20,7 @@ from vivox.encrypted_perception import (
     create_vivox_evrn_system,
 )
 
-sys.path.append("/Users/agi_dev/Lukhas_PWM")
+sys.path.append("/Users/agi_dev/Lukhas")
 
 
 class VIVOXEVRNDemo:

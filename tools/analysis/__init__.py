@@ -1,5 +1,5 @@
 """
-Analysis Tools Module for LUKHAS PWM
+Analysis Tools Module for LUKHAS
 ====================================
 
 This module provides analysis and audit tools for the LUKHAS system.

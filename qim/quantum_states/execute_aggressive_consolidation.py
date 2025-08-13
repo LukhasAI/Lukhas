@@ -12,7 +12,7 @@ from datetime import datetime
 
 def load_consolidation_plan():
     """Load the consolidation plan"""
-    plan_path = "docs/planning/PWM_AGGRESSIVE_CONSOLIDATION_PLAN.json"
+    plan_path = "docs/planning/_AGGRESSIVE_CONSOLIDATION_PLAN.json"
     with open(plan_path) as f:
         return json.load(f)
 
@@ -361,7 +361,7 @@ def main():
         ],
     }
 
-    report_path = "docs/reports/PWM_CONSOLIDATION_REPORT.json"
+    report_path = "docs/reports/_CONSOLIDATION_REPORT.json"
     os.makedirs(os.path.dirname(report_path), exist_ok=True)
     with open(report_path, "w") as f:
         json.dump(report, f, indent=2)

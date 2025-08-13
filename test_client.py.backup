@@ -1,4 +1,4 @@
-from lukhas_pwm.client import LukhasPWM
+from lukhas.client import Lukhas
 
 
 class FakeResp:
@@ -25,6 +25,6 @@ def test_feedback_and_lut(monkeypatch):
         raise AssertionError("unexpected url " + url)
 
     monkeypatch.setattr("requests.Session.request", fake_request, raising=True)
-    c = LukhasPWM("http://x")
+    c = Lukhas("http://x")
     assert c.feedback_card(target_action_id="A", rating=5)["status"] == "ok"
     assert c.feedback_lut()["version"] == 1

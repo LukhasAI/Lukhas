@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   api:
@@ -42,7 +42,7 @@ services:
   postgres:
     image: postgres:15-alpine
     environment:
-      - POSTGRES_DB=lukhas_pwm
+      - POSTGRES_DB=lukhas
       - POSTGRES_USER=lukhas
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-lukhas-dev-password}
     ports:

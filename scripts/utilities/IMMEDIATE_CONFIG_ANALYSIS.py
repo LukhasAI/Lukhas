@@ -3,7 +3,7 @@
 Config Consolidation Strategy
 ============================
 
-Analysis of 287+ config files in LUKHAS_PWM workspace.
+Analysis of 287+ config files in LUKHAS workspace.
 This script identifies redundant, conflicting, and orphaned config files.
 
 CRITICAL FINDINGS:
@@ -28,8 +28,7 @@ def analyze_config_files():
 
     for root, dirs, files in os.walk("."):
         if any(
-            skip in root
-            for skip in [".pwm_cleanup_archive", ".cleanup_archive", ".git"]
+            skip in root for skip in ["._cleanup_archive", ".cleanup_archive", ".git"]
         ):
             continue
 

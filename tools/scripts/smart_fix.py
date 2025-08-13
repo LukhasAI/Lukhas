@@ -41,7 +41,7 @@ class SmartFixer:
                 "--format",
                 "%(path)s:%(row)d:%(col)d: %(code)s %(text)s",
                 "--exclude",
-                ".venv,venv,__pycache__,test_metadata,lukhas_pwm/flags",
+                ".venv,venv,__pycache__,test_metadata,lukhas/flags",
             ]
         )
 

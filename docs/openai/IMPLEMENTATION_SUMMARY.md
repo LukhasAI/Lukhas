@@ -1,4 +1,4 @@
-# 🚀 LUKHAS PWM Implementation Summary
+# 🚀 LUKHAS  Implementation Summary
 
 ## 📅 Implementation Date: August 9, 2025
 

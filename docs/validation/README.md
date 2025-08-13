@@ -693,7 +693,7 @@ Based on comprehensive analysis after complete Phase 1-6 integration:
 
 ## 🧠 🎛️ Configuration
 
-Configure LUKHAS components in `lukhas_pwm_config.yaml`:
+Configure LUKHAS components in `lukhas_config.yaml`:
 
 ```yaml
 lukhas:
@@ -751,7 +751,7 @@ python tests/governance/test_governance.py
 python tests/governance/test_compliance_integration.py
 
 # 🧠 Generate ΛETHICS report
-python tools/analysis/PWM_ETHICS_ANALYSIS.py
+python tools/analysis/_ETHICS_ANALYSIS.py
 ```
 
 ### 🧠 📊 Ethical Metrics
@@ -921,8 +921,8 @@ traced_gpt = AuditLogger(safe_gpt)
 
 This repository includes comprehensive analysis tools:
 
-- **tools/analysis/PWM_OPERATIONAL_SUMMARY.py**: Complete operational status analysis
-- **tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py**: Deep functional capability assessment
+- **tools/analysis/_OPERATIONAL_SUMMARY.py**: Complete operational status analysis
+- **tools/analysis/_FUNCTIONAL_ANALYSIS.py**: Deep functional capability assessment
 
 ## 🧠 🧪 Comprehensive Testing Suite
 
@@ -1020,10 +1020,10 @@ pytest lambda_products_pack/lambda_core/NIAS/test_nias_comprehensive.py
 python tests/stress/run_all_stress_tests.py
 
 # 🧠 Generate test reports
-python tools/analysis/PWM_TEST_COVERAGE_REPORT.py
+python tools/analysis/_TEST_COVERAGE_REPORT.py
 ```
-- **tools/analysis/PWM_WORKSPACE_STATUS_ANALYSIS.py**: Connectivity and integration analysis
-- **tools/analysis/PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.py**: Security gap identification
+- **tools/analysis/_WORKSPACE_STATUS_ANALYSIS.py**: Connectivity and integration analysis
+- **tools/analysis/_SECURITY_COMPLIANCE_GAP_ANALYSIS.py**: Security gap identification
 
 All reports are organized in `docs/reports/` with status reports and analysis results.
 
@@ -1032,7 +1032,7 @@ All reports are organized in `docs/reports/` with status reports and analysis re
 The repository follows a clean organization structure:
 
 ```
-📁 tools/analysis/         # Analysis scripts (PWM_*.py)
+📁 tools/analysis/         # Analysis scripts (_*.py)
 📁 docs/reports/          # All reports and analysis results
    ├── status/           # Status reports (*_STATUS_REPORT.md)
    └── analysis/         # Analysis results (*_REPORT.json)
@@ -1191,7 +1191,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 - 📧 Email: support@lukhas.ai
 - 💬 Discord: [Join our community](https://discord.gg/lukhas)
 - 📚 Documentation: [docs.lukhas.ai](https://docs.lukhas.ai)
-- 🐛 Issues: [GitHub Issues](https://github.com/LukhasAI/Lukhas_PWM/issues)
+- 🐛 Issues: [GitHub Issues](https://github.com/LukhasAI/Lukhas/issues)
 
 ---
 

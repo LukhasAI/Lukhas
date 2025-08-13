@@ -1,4 +1,4 @@
-# LUKHAS PWM Docker Image
+# LUKHAS  Docker Image
 # ========================
 FROM python:3.11-slim
 

@@ -31,7 +31,7 @@ try:
     from consciousness.awareness_engine import ConsciousnessAwarenessEngine
     from governance.guardian_system.guardian_validator import GuardianValidator
     from memory.fold_system import MemoryFoldSystem
-    from tools.analysis.PWM_OPERATIONAL_SUMMARY import LUKHASOperationalAnalyzer
+    from tools.analysis._OPERATIONAL_SUMMARY import LUKHASOperationalAnalyzer
 except ImportError as e:
     logging.warning(f"Could not import LUKHAS modules: {e}")
 
@@ -619,7 +619,9 @@ class LUKHASConsciousnessMCP:
     ) -> List[TextContent]:
         """Suggest optimal agent assignment for a task."""
         task_description = arguments["task_description"]
-        _ = arguments.get("modules_involved", [])  # Would be used for enhanced assignment logic
+        _ = arguments.get(
+            "modules_involved", []
+        )  # Would be used for enhanced assignment logic
         complexity = arguments.get("complexity", "medium")
 
         # Agent assignment logic

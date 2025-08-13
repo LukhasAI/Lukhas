@@ -122,7 +122,7 @@ from typing import Any, Optional, List  # Added List
 ### 2. **Memory Profiler Conflict**
 ```bash
 # Resolved naming conflict with local memory_profiler directory
-rm -rf /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/memory_profiler
+rm -rf /Users/agi_dev/LOCAL-REPOS/Lukhas/memory_profiler
 ```
 
 ### 3. **QR Generator Syntax Error**

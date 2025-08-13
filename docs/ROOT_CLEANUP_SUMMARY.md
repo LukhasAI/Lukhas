@@ -14,7 +14,7 @@ We've successfully cleaned up the root directory by organizing **74 files** into
 ### 📁 New Organization Structure
 
 ```
-LUKHAS_PWM/
+LUKHAS/
 ├── 📄 Root (16 files - config only)
 │
 ├── 📁 docs/ (45 documents)

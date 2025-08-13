@@ -254,7 +254,7 @@
 1. **Deploy landing pages**
    ```bash
    # Deploy to lukhas.ai
-   cd /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/lambda_products_pack
+   cd /Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack
    # Use generated landing page
    cp auctor/generated_content/landing_page_lambda_ai.html /var/www/lukhas.ai/index.html
    ```

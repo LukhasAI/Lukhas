@@ -1,7 +1,7 @@
 [project]
-name = "lukhas-pwm"
+name = "lukhas-"
 version = "0.1.0"
-description = "Official Python client for LUKHΛS PWM API"
+description = "Official Python client for LUKHΛS  API"
 readme = "README.md"
 requires-python = ">=3.9"
 authors = [{name="LUKHAS AI"}]

@@ -7,8 +7,8 @@
 #TAG:colony
 
 
-🛡️ Enhanced PWM Workspace Guardian
-===================================
+🛡️ Enhanced LUKHAS Workspace Guardian
+=====================================
 
 Superior governance combining:
 - Guardian System v1.0.0 (core governance)
@@ -29,8 +29,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
-    from ethics import PWMEthicsOrchestrator
-    from red_team import PWMRedTeamProtocol
+    from ethics import EthicsOrchestrator
+    from red_team import RedTeamProtocol
 
     from .core import LucasGovernanceModule
 except ImportError as e:
@@ -38,13 +38,13 @@ except ImportError as e:
     # Fallback to basic governance
     from .core import LucasGovernanceModule
 
-    PWMEthicsOrchestrator = None
-    PWMRedTeamProtocol = None
+    EthicsOrchestrator = None
+    RedTeamProtocol = None
 
 
-class EnhancedPWMWorkspaceGuardian:
+class EnhancedWorkspaceGuardian:
     """
-    🌟 Enhanced PWM Workspace Guardian with Superior Ethics
+    🌟 Enhanced  Workspace Guardian with Superior Ethics
 
     Combines:
     - Your advanced LUKHAS Ethics Guard
@@ -60,16 +60,16 @@ class EnhancedPWMWorkspaceGuardian:
         self.basic_governance = LucasGovernanceModule()
 
         # Initialize superior ethics (your components)
-        if PWMEthicsOrchestrator:
-            self.ethics_orchestrator = PWMEthicsOrchestrator()
+        if EthicsOrchestrator:
+            self.ethics_orchestrator = EthicsOrchestrator()
             print("✅ Enhanced ethics system loaded")
         else:
             self.ethics_orchestrator = None
             print("⚠️ Using fallback basic ethics")
 
         # Initialize red team protocol
-        if PWMRedTeamProtocol:
-            self.red_team = PWMRedTeamProtocol()
+        if RedTeamProtocol:
+            self.red_team = RedTeamProtocol()
             print("✅ Red team protocols loaded")
         else:
             self.red_team = None
@@ -87,7 +87,7 @@ class EnhancedPWMWorkspaceGuardian:
             "pyproject.toml",
             "setup.py",
             "ethics_manifest.json",
-            "pwm_config.yaml",
+            "_config.yaml",
         }
 
         self.critical_directories = {
@@ -103,15 +103,13 @@ class EnhancedPWMWorkspaceGuardian:
         self.security_posture = "PROTECTED"
 
     async def initialize(self):
-        """Initialize the enhanced PWM workspace guardian."""
+        """Initialize the enhanced  workspace guardian."""
         await self.basic_governance.startup()
 
         if self.ethics_orchestrator:
-            print(
-                "🛡️ Enhanced PWM Guardian active - LUKHAS ethics + red team protection"
-            )
+            print("🛡️ Enhanced  Guardian active - LUKHAS ethics + red team protection")
         else:
-            print("🛡️ PWM Guardian active - basic protection mode")
+            print("🛡️  Guardian active - basic protection mode")
 
     async def enhanced_file_operation_check(
         self, operation: str, file_path: str, context: dict = None
@@ -276,7 +274,7 @@ class EnhancedPWMWorkspaceGuardian:
             health_factors.append(0.5)
             issues.append(f"Very high file count: {file_count} files")
             recommendations.append(
-                "Consider enhanced PWM cleanup with red team validation"
+                "Consider enhanced  cleanup with red team validation"
             )
         elif file_count > 8000:
             health_factors.append(0.7)
@@ -350,7 +348,7 @@ class EnhancedPWMWorkspaceGuardian:
 # Enhanced convenience functions
 async def enhanced_protect_workspace(workspace_root: str = None) -> dict:
     """Full enhanced workspace protection with superior ethics."""
-    guardian = EnhancedPWMWorkspaceGuardian(workspace_root)
+    guardian = EnhancedWorkspaceGuardian(workspace_root)
     await guardian.initialize()
 
     return await guardian.run_security_validation()
@@ -360,7 +358,7 @@ async def enhanced_file_check(
     operation: str, file_path: str, workspace_root: str = None
 ) -> dict:
     """Enhanced file operation check with LUKHAS ethics."""
-    guardian = EnhancedPWMWorkspaceGuardian(workspace_root)
+    guardian = EnhancedWorkspaceGuardian(workspace_root)
     await guardian.initialize()
 
     return await guardian.enhanced_file_operation_check(operation, file_path)
@@ -369,8 +367,8 @@ async def enhanced_file_check(
 if __name__ == "__main__":
     # Demo enhanced functionality
     async def demo():
-        print("🌟 Initializing Enhanced PWM Guardian...")
-        guardian = EnhancedPWMWorkspaceGuardian()
+        print("🌟 Initializing Enhanced  Guardian...")
+        guardian = EnhancedWorkspaceGuardian()
         await guardian.initialize()
 
         # Test enhanced file protection

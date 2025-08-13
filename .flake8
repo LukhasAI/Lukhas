@@ -23,7 +23,7 @@ exclude =
     .pytest_cache,
     .ruff_cache,
     test_metadata,
-    lukhas_pwm/flags,
+    lukhas/flags,
     node_modules,
     htmlcov,
     .coverage,
@@ -32,7 +32,7 @@ exclude =
     .event_bus_backup*,
     .hygiene_backup*,
     *.bak,
-    .pwm_cleanup_archive,
+    ._cleanup_archive,
     archive,
     *_archive,
     *_ARCHIVE*

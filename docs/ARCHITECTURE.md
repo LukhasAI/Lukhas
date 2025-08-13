@@ -1,4 +1,4 @@
-# LUKHAS PWM Architecture Documentation
+# LUKHAS  Architecture Documentation
 
 ## Table of Contents
 1. [Executive Summary](#executive-summary)
@@ -14,7 +14,7 @@
 
 ## Executive Summary
 
-LUKHAS PWM (Pack-What-Matters) is a production-ready Artificial General Intelligence (AGI) system that combines neuroplastic adaptation, symbolic reasoning, and ethical governance. Built on a modular architecture with 41 interconnected subsystems, it achieves 99.9% system connectivity while maintaining Guardian System protection for all operations.
+LUKHAS  (Pack-What-Matters) is a production-ready Artificial General Intelligence (AGI) system that combines neuroplastic adaptation, symbolic reasoning, and ethical governance. Built on a modular architecture with 41 interconnected subsystems, it achieves 99.9% system connectivity while maintaining Guardian System protection for all operations.
 
 ### Key Capabilities
 - **Consciousness & Reasoning**: Multi-tiered awareness with causal inference
@@ -597,6 +597,6 @@ ws.on('message', (data) => {
 
 ## Conclusion
 
-LUKHAS PWM represents a significant advancement in AGI architecture, combining symbolic reasoning, neural processing, and ethical governance in a production-ready system. The modular design enables continuous improvement while maintaining system integrity through the Guardian System.
+LUKHAS  represents a significant advancement in AGI architecture, combining symbolic reasoning, neural processing, and ethical governance in a production-ready system. The modular design enables continuous improvement while maintaining system integrity through the Guardian System.
 
 For detailed module documentation, see the individual README files in each module directory. For API specifications, refer to the OpenAPI documentation at `/docs`.

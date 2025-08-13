@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Integration Bridge for Lambda Products + Lukhas PWM
+Integration Bridge for Lambda Products + Lukhas
 Provides the actual integration using existing APIs
 """
 
@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 class IntegrationBridge:
-    """Bridge for integrating Lambda Products with Lukhas PWM"""
+    """Bridge for integrating Lambda Products with Lukhas"""
 
     def __init__(self):
         self.config_path = Path(__file__).parent / "integration_config.yaml"
@@ -348,7 +348,7 @@ class IntegrationBridge:
         print("=" * 60)
         print("🌉 LAMBDA PRODUCTS INTEGRATION BRIDGE")
         print("=" * 60)
-        print("Connecting Lambda Products with Lukhas PWM systems...")
+        print("Connecting Lambda Products with Lukhas  systems...")
 
         results = []
 
@@ -404,7 +404,7 @@ async def main():
     success_rate = await bridge.run_integration()
 
     if success_rate >= 80:
-        print("\n✨ Lambda Products are now fully integrated with Lukhas PWM!")
+        print("\n✨ Lambda Products are now fully integrated with Lukhas !")
         return 0
     else:
         return 1

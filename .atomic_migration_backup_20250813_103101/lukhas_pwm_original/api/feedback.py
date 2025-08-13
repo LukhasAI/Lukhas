@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
-from lukhas_pwm.feedback.store import get_lut, record_feedback
+from lukhas.feedback.store import get_lut, record_feedback
 
 router = APIRouter(prefix="/feedback", tags=["feedback"])
 

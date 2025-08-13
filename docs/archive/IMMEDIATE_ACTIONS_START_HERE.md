@@ -29,7 +29,7 @@ from ..gtpsi import EdgeGestureProcessor
 # The 2,887 files are verified safe to delete
 git commit -m "🧹 Repository cleanup: Remove verified backup/archive files
 
-- Removed .pwm_cleanup_archive/ (2,603 files)
+- Removed ._cleanup_archive/ (2,603 files)
 - Removed timestamped backup directories
 - Removed disaster recovery snapshots
 - Removed outdated documentation files

@@ -2,7 +2,7 @@
 AI-Powered Documentation Engine
 ===============================
 
-Advanced documentation generation system for LUKHAS PWM ecosystem.
+Advanced documentation generation system for LUKHAS  ecosystem.
 Automatically generates comprehensive, contextual, and intelligent documentation
 for all components, APIs, and integrations.
 
@@ -870,7 +870,7 @@ The API provides comprehensive functionality for AI system management, complianc
         self, analysis_results: list[CodeAnalysisResult]
     ) -> str:
         """Generate user guide introduction"""
-        return f"""Welcome to the LUKHAS PWM ecosystem user guide. This guide will help you get started with using our advanced AI platform.
+        return f"""Welcome to the LUKHAS  ecosystem user guide. This guide will help you get started with using our advanced AI platform.
 
 **What you'll learn:**
 - How to set up and configure the system
@@ -905,7 +905,7 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
         if len(analysis_results) == 1:
             return f"{analysis_results[0].module_name} - {request.doc_type.value.replace('_', ' ').title()}"
         else:
-            return f"LUKHAS PWM {request.doc_type.value.replace('_', ' ').title()}"
+            return f"LUKHAS  {request.doc_type.value.replace('_', ' ').title()}"
 
     async def _generate_metadata(
         self, request: DocumentationRequest, analysis_results: list[CodeAnalysisResult]
@@ -943,7 +943,7 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
     ) -> list[str]:
         """Generate basic code examples"""
         return [
-            "# Example: Basic usage\nfrom system_pwm import ComplianceEngine\n\nengine = ComplianceEngine()\nresult = engine.validate_compliance()",
+            "# Example: Basic usage\nfrom system ort ComplianceEngine\n\nengine = ComplianceEngine()\nresult = engine.validate_compliance()",
             "# Example: Advanced configuration\nengine.configure({\n    'strict_mode': True,\n    'auto_remediation': True\n})",
         ]
 
@@ -952,8 +952,8 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
     ) -> list[str]:
         """Generate installation examples"""
         return [
-            "pip install lukhas-pwm",
-            "# Or install from source\ngit clone https://github.com/LukhasAI/Lukhas_PWM.git\ncd Lukhas_PWM\npip install -e .",
+            "pip install lukhas-",
+            "# Or install from source\ngit clone https://github.com/LukhasAI/Lukhas.\ncd Lukhas\npipstall -e .",
         ]
 
     async def _generate_configuration_examples(
@@ -961,7 +961,7 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
     ) -> list[str]:
         """Generate configuration examples"""
         return [
-            "# Configuration file: lukhas_pwm_config.yaml\napi:\n  host: localhost\n  port: 8000\ncompliance:\n  strict_mode: true"
+            "# Configuration file: lukhas_fig.yaml\napi:\n  host: localhost\n  port: 8000\ncompliance:\n  strict_mode: true"
         ]
 
     async def _generate_module_examples(self, result: CodeAnalysisResult) -> list[str]:
@@ -972,31 +972,31 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
         self, analysis_results: list[CodeAnalysisResult]
     ) -> str:
         """Generate getting started content"""
-        return "Follow these steps to get started with LUKHAS PWM:\n\n1. Install the package\n2. Configure your environment\n3. Run your first compliance check"
+        return "Follow these steps to get started with LUKHAS :\n\n1. Install the package\n2. Configure your environment\n3. Run your first compliance check"
 
     async def _generate_prerequisites_content(
         self, analysis_results: list[CodeAnalysisResult]
     ) -> str:
         """Generate prerequisites content"""
-        return "Before installing LUKHAS PWM, ensure you have:\n\n- Python 3.8 or higher\n- pip package manager\n- Virtual environment (recommended)"
+        return "Before installing LUKHAS , ensure you have:\n\n- Python 3.8 or higher\n- pip package manager\n- Virtual environment (recommended)"
 
     async def _generate_installation_content(
         self, analysis_results: list[CodeAnalysisResult]
     ) -> str:
         """Generate installation content"""
-        return "LUKHAS PWM can be installed using pip or from source. Follow the appropriate method for your setup."
+        return "LUKHAS  can be installed using pip or from source. Follow the appropriate method for your setup."
 
     async def _generate_configuration_content(
         self, analysis_results: list[CodeAnalysisResult]
     ) -> str:
         """Generate configuration content"""
-        return "Configure LUKHAS PWM by setting up the configuration file and environment variables."
+        return "Configure LUKHAS  by setting up the configuration file and environment variables."
 
     async def _generate_architecture_overview(
         self, analysis_results: list[CodeAnalysisResult]
     ) -> str:
         """Generate architecture overview"""
-        return f"The LUKHAS PWM system architecture consists of {len(analysis_results)} main modules organized in a modular, scalable design."
+        return f"The LUKHAS  system architecture consists of {len(analysis_results)} main modules organized in a modular, scalable design."
 
     async def _generate_component_architecture_sections(
         self, analysis_results: list[CodeAnalysisResult]

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🎛️ LUKHAS_PWM Endocrine Modulation System Example
+🎛️ LUKHAS Endocrine Modulation System Example
 
 Complete demonstration of bio-inspired signal-to-prompt modulation for OpenAI integration.
 This example shows how LUKHAS consciousness modules emit endocrine signals that
@@ -44,7 +44,7 @@ except ImportError as e:
 def print_banner():
     """Print system banner"""
     print("🎛️" + "=" * 70)
-    print("   LUKHAS_PWM Endocrine → OpenAI Modulation System")
+    print("   LUKHAS Endocrine → OpenAI Modulation System")
     print("   Bio-inspired consciousness signal processing")
     print("   Trinity Framework: ⚛️🧠🛡️")
     print("=" * 72)
@@ -156,7 +156,9 @@ async def test_consciousness_orchestration():
             print("   ⚠️ Using mock OpenAI client (no API key)")
             _ = None  # Mock client not used in this test
         else:
-            _ = ModulatedOpenAIClient(modulator)  # Client created but not used in this test
+            _ = ModulatedOpenAIClient(
+                modulator
+            )  # Client created but not used in this test
 
         # Create signal emitter
         emitter = EndocrineSignalEmitter()

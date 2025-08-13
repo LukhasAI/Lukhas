@@ -1,6 +1,6 @@
-# 🚀 LUKHAS PWM Quick Start Guide
+# 🚀 LUKHAS  Quick Start Guide
 
-Welcome to LUKHAS PWM - Pack What Matters! This guide will get you up and running quickly.
+Welcome to LUKHAS  - Pack What Matters! This guide will get you up and running quickly.
 
 ## 📋 Prerequisites
 
@@ -13,8 +13,8 @@ Welcome to LUKHAS PWM - Pack What Matters! This guide will get you up and runnin
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/LukhasAI/Lukhas_PWM.git
-cd Lukhas_PWM
+git clone https://github.com/LukhasAI/Lukhas.git
+cd Lukhas
 ```
 
 ### 2. Set Up Virtual Environment
@@ -69,10 +69,10 @@ python lambda_products_pack/lambda_core/NIAS/test_nias_comprehensive.py
 Check system health and performance:
 ```bash
 # Run functional analysis
-python tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py
+python tools/analysis/_FUNCTIONAL_ANALYSIS.py
 
 # Check operational status
-python tools/analysis/PWM_OPERATIONAL_SUMMARY.py
+python tools/analysis/_OPERATIONAL_SUMMARY.py
 ```
 
 ## 🏗️ Architecture Overview
@@ -118,7 +118,7 @@ is_safe = await guardian.validate_operation(operation_data)
 ## 📁 Project Structure
 
 ```
-LUKHAS_PWM/
+LUKHAS/
 ├── docs/           # Documentation and reports
 ├── tests/          # Test suites
 ├── tools/          # Analysis and utility scripts
@@ -152,7 +152,7 @@ LUKHAS_PWM/
 
 ## 🤝 Support
 
-- **Issues**: [GitHub Issues](https://github.com/LukhasAI/Lukhas_PWM/issues)
+- **Issues**: [GitHub Issues](https://github.com/LukhasAI/Lukhas/issues)
 - **Documentation**: [docs.lukhas.ai](https://docs.lukhas.ai)
 - **Discord**: [Join Community](https://discord.gg/lukhas)
 
@@ -165,4 +165,4 @@ LUKHAS_PWM/
 
 ---
 
-**Welcome to LUKHAS PWM!** You're now ready to build with production-ready AGI modules.
+**Welcome to LUKHAS !** You're now ready to build with production-ready AGI modules.

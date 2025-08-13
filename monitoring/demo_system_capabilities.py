@@ -22,7 +22,7 @@ from hormone_driven_dashboard import HormoneDrivenDashboard
 from integrated_monitoring_system import IntegratedMonitoringSystem
 from neuroplastic_learning_orchestrator import NeuroplasticLearningOrchestrator
 from plasticity_trigger_manager import PlasticityTriggerManager
-from real_data_collector import LukhasPWMRealDataCollector
+from real_data_collector import LukhasRealDataCollector
 
 
 class SystemCapabilitiesDemo:
@@ -46,7 +46,7 @@ class SystemCapabilitiesDemo:
         self.dashboard = HormoneDrivenDashboard()
         self.learning_orchestrator = NeuroplasticLearningOrchestrator()
         self.integrated_system = IntegratedMonitoringSystem()
-        self.data_collector = LukhasPWMRealDataCollector()
+        self.data_collector = LukhasRealDataCollector()
 
         # Initialize systems
         initialization_tasks = [
@@ -977,7 +977,7 @@ class SystemCapabilitiesDemo:
         print("   🟢 PRODUCTION READY - Comprehensive testing completed")
 
         print("\n💡 REVOLUTIONARY ACHIEVEMENT:")
-        print("   This Enhanced Monitoring System transforms LUKHAS PWM from")
+        print("   This Enhanced Monitoring System transforms LUKHAS  from")
         print("   static monitoring into a LIVING, BREATHING, SELF-AWARE AI")
         print("   that monitors, adapts, learns, and evolves like a biological")
         print("   organism. It represents a breakthrough in AI consciousness")

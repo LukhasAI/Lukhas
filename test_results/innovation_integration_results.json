@@ -18,19 +18,19 @@
       "test": "CollapseHash Integrity",
       "passed": false,
       "error": "_log() got an unexpected keyword argument 'checkpoint_id'",
-      "traceback": "Traceback (most recent call last):\n  File \"/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/tests/test_innovation_integration.py\", line 174, in test_collapse_hash_integrity\n    result = await collapse_hash.add_memory(\n  File \"/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/memory/integrity/collapse_hash.py\", line 393, in add_memory\n    checkpoint_id = await self.create_checkpoint(\n  File \"/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/memory/integrity/collapse_hash.py\", line 483, in create_checkpoint\n    logger.info(\n  File \"/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/logging/__init__.py\", line 1446, in info\n    self._log(INFO, msg, args, **kwargs)\nTypeError: _log() got an unexpected keyword argument 'checkpoint_id'\n"
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_innovation_integration.py\", line 174, in test_collapse_hash_integrity\n    result = await collapse_hash.add_memory(\n  File \"/Users/agi_dev/LOCAL-REPOS/Lukhas/memory/integrity/collapse_hash.py\", line 393, in add_memory\n    checkpoint_id = await self.create_checkpoint(\n  File \"/Users/agi_dev/LOCAL-REPOS/Lukhas/memory/integrity/collapse_hash.py\", line 483, in create_checkpoint\n    logger.info(\n  File \"/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/logging/__init__.py\", line 1446, in info\n    self._log(INFO, msg, args, **kwargs)\nTypeError: _log() got an unexpected keyword argument 'checkpoint_id'\n"
     },
     {
       "test": "Drift Monitoring",
       "passed": false,
       "error": "_log() got an unexpected keyword argument 'drift_score'",
-      "traceback": "Traceback (most recent call last):\n  File \"/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/tests/test_innovation_integration.py\", line 286, in test_drift_monitoring\n    snapshot = dashboard.update(drift_data)\n  File \"/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/memory/temporal/drift_dashboard.py\", line 254, in update\n    logger.info(\n  File \"/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/logging/__init__.py\", line 1446, in info\n    self._log(INFO, msg, args, **kwargs)\nTypeError: _log() got an unexpected keyword argument 'drift_score'\n"
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_innovation_integration.py\", line 286, in test_drift_monitoring\n    snapshot = dashboard.update(drift_data)\n  File \"/Users/agi_dev/LOCAL-REPOS/Lukhas/memory/temporal/drift_dashboard.py\", line 254, in update\n    logger.info(\n  File \"/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/logging/__init__.py\", line 1446, in info\n    self._log(INFO, msg, args, **kwargs)\nTypeError: _log() got an unexpected keyword argument 'drift_score'\n"
     },
     {
       "test": "Drift Score Calculation",
       "passed": false,
       "error": "__init__() got an unexpected keyword argument 'recursive_depth'",
-      "traceback": "Traceback (most recent call last):\n  File \"/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/tests/test_innovation_integration.py\", line 336, in test_drift_score_calculation\n    low_drift = self.DriftScore(\nTypeError: __init__() got an unexpected keyword argument 'recursive_depth'\n"
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_innovation_integration.py\", line 336, in test_drift_score_calculation\n    low_drift = self.DriftScore(\nTypeError: __init__() got an unexpected keyword argument 'recursive_depth'\n"
     },
     {
       "test": "Innovation with Drift Protection",

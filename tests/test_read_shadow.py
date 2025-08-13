@@ -1,6 +1,6 @@
-from lukhas_pwm.dna.memory_inmem import InMemoryHelix
-from lukhas_pwm.migration.legacy_jsonl import LegacyJSONL
-from lukhas_pwm.migration.read_strategy import read_memory
+from lukhas.dna.memory_inmem import InMemoryHelix
+from lukhas.migration.legacy_jsonl import LegacyJSONL
+from lukhas.migration.read_strategy import read_memory
 
 
 def test_read_shadow_logs_and_returns_primary(monkeypatch, capsys, tmp_path):

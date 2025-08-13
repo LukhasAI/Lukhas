@@ -70,7 +70,7 @@ class SmartNamingRefactor:
             "ethical_drift",
             "moral_compass",
             "lukhas",
-            "pwm",
+            "",
             "sgi",
             "agi",
         }
@@ -195,8 +195,7 @@ class SmartNamingRefactor:
             f
             for f in python_files
             if not any(
-                skip in str(f)
-                for skip in [".pwm_cleanup_archive", "__pycache__", ".git"]
+                skip in str(f) for skip in ["._cleanup_archive", "__pycache__", ".git"]
             )
         ]
 
@@ -306,7 +305,7 @@ class LUKHASNameTransformer(ast.NodeTransformer):
         name = name.replace("Λ", "Lambda").replace("λ", "Lambda")
 
         # Handle acronyms
-        for acronym in ["lukhas", "pwm", "sgi", "agi"]:
+        for acronym in ["lukhas", "", "sgi", "agi"]:
             if acronym in name.lower():
                 name = re.sub(
                     f"\\b{acronym}\\b", acronym.upper(), name, flags=re.IGNORECASE
@@ -318,7 +317,7 @@ class LUKHASNameTransformer(ast.NodeTransformer):
             return "".join(
                 (
                     part.capitalize()
-                    if part.lower() not in ["PWM", "SGI", "AGI", "LUKHAS"]
+                    if part.lower() not in ["", "SGI", "AGI", "LUKHAS"]
                     else part
                 )
                 for part in parts

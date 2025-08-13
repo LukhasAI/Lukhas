@@ -39,7 +39,7 @@ source ~/.zshrc
 
 #### 1. Install Python Dependencies
 ```bash
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM
+cd /Users/agi_dev/LOCAL-REPOS/Lukhas
 pip install anthropic openai aiohttp
 ```
 

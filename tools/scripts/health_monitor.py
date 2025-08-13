@@ -54,7 +54,7 @@ class SystemHealthMonitor:
         conflicts = []
         for root, _dirs, files in os.walk("."):
             # Skip venv and git directories
-            if ".venv" in root or ".git" in root or ".pwm_cleanup_archive" in root:
+            if ".venv" in root or ".git" in root or "._cleanup_archive" in root:
                 continue
 
             for file in files:
@@ -86,7 +86,7 @@ class SystemHealthMonitor:
 
         errors = []
         for root, _dirs, files in os.walk("."):
-            if ".venv" in root or ".git" in root or ".pwm_cleanup_archive" in root:
+            if ".venv" in root or ".git" in root or "._cleanup_archive" in root:
                 continue
 
             for file in files:
@@ -118,7 +118,7 @@ class SystemHealthMonitor:
 
         main_files = []
         for root, _dirs, files in os.walk("."):
-            if ".venv" in root or ".git" in root or ".pwm_cleanup_archive" in root:
+            if ".venv" in root or ".git" in root or "._cleanup_archive" in root:
                 continue
 
             if "main.py" in files:

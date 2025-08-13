@@ -1,4 +1,4 @@
-# 📦 Lambda Products Complete Package for Lukhas PWM
+# 📦 Lambda Products Complete Package for Lukhas 
 
 **Version:** 1.0.0  
 **Date:** August 6, 2025  
@@ -6,12 +6,12 @@
 
 ## 🎯 What's Included
 
-This package contains **EVERYTHING** needed to integrate Lambda Products with Lukhas PWM:
+This package contains **EVERYTHING** needed to integrate Lambda Products with Lukhas :
 
 ### ✅ Complete Components
 - **Plugin System** - Full plugin architecture with auto-registration
 - **Autonomous Agents** - AI workforce ready to deploy
-- **PWM Integration** - Seamless Lukhas PWM adapter
+- ** Integration** - Seamless Lukhas  adapter
 - **OpenAI Bridge** - GPT-4/5 consciousness layer
 - **Configuration** - Unified YAML configs
 - **Documentation** - Complete guides and API docs
@@ -29,7 +29,7 @@ This package contains **EVERYTHING** needed to integrate Lambda Products with Lu
 
 ### Option 1: Automatic Setup (Recommended)
 ```bash
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/lambda_products_pack
+cd /Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack
 python quick_setup.py
 ```
 
@@ -44,8 +44,8 @@ python setup.py install
 # Run tests
 python -m pytest tests/
 
-# Integrate with PWM
-python -c "from integrations.lukhas_pwm_adapter import LukhasPWMIntegrationAdapter; adapter = LukhasPWMIntegrationAdapter(); adapter.auto_register_all_products()"
+# Integrate with 
+python -c "from integrations.lukhas_adapter import LukhasIntegrationAdapter; adapter = LukhasIntegrationAdapter(); adapter.auto_register_all_products()"
 ```
 
 ## 📁 Package Structure
@@ -61,7 +61,7 @@ lambda_products_pack/
 │   └── lambda_workforce_agents.py     # Specialized agents
 │
 ├── 🔗 integrations/         # External integrations
-│   ├── lukhas_pwm_adapter.py    # PWM bridge
+│   ├── lukhas_adapter.py    #  bridge
 │   └── openai_agi_bridge.py     # OpenAI GPT-4/5
 │
 ├── ⚙️ config/               # Configuration files
@@ -101,7 +101,7 @@ lambda_products_pack/
 - Self-learning and adaptation
 
 ### 🌐 Integrations
-- **Lukhas PWM** - Seamless integration
+- **Lukhas ** - Seamless integration
 - **OpenAI GPT-4/5** - Consciousness layer
 - **Enterprise Systems** - API adapters
 
@@ -171,7 +171,7 @@ result = await bridge.process_with_consciousness(
 python quick_setup.py
 ```
 
-Your Lambda Products are now integrated with Lukhas PWM and ready for production use!
+Your Lambda Products are now integrated with Lukhas  and ready for production use!
 
 ---
 

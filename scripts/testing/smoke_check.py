@@ -1,5 +1,5 @@
 """
-Lightweight smoke check for LUKHAS PWM
+Lightweight smoke check for LUKHAS
 --------------------------------------
 Validates app import, feedback health, Signal Bus publish, and
 offline safety logic.

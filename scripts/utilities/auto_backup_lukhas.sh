@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# LUKHAS_PWM Auto-Backup Script
+# LUKHAS Auto-Backup Script
 # Prevents data loss by creating automatic backups
 
 echo "🛡️ LUKHAS Agent Protection - Auto-Backup Started"
 echo "=============================================="
 
 # Create backup directory with timestamp OUTSIDE workspace
-BACKUP_DIR="$HOME/LOCAL-REPOS/LUKHAS_PWM_BACKUPS/$(date +%Y%m%d-%H%M%S)"
+BACKUP_DIR="$HOME/LOCAL-REPOS/LUKHAS_BACKUPS/$(date +%Y%m%d-%H%M%S)"
 mkdir -p "$BACKUP_DIR"
 
 # Backup critical agent configurations
@@ -32,7 +32,7 @@ echo "  ✓ Configuration files backed up"
 # Create backup manifest
 echo "📋 Creating Backup Manifest..."
 cat > "$BACKUP_DIR/BACKUP_MANIFEST.txt" << EOF
-LUKHAS_PWM Auto-Backup
+LUKHAS Auto-Backup
 =====================
 Timestamp: $(date)
 Agent Configs: $(find agents/ -name "*.json" -o -name "*.yaml" | wc -l) files
@@ -46,8 +46,8 @@ EOF
 
 # Clean old backups (keep last 10) OUTSIDE workspace
 echo "🧹 Cleaning old backups..."
-ls -1dt "$HOME/LOCAL-REPOS/LUKHAS_PWM_BACKUPS"/*/ 2>/dev/null | tail -n +11 | xargs rm -rf
-KEPT_BACKUPS=$(ls -1d "$HOME/LOCAL-REPOS/LUKHAS_PWM_BACKUPS"/*/ 2>/dev/null | wc -l)
+ls -1dt "$HOME/LOCAL-REPOS/LUKHAS_BACKUPS"/*/ 2>/dev/null | tail -n +11 | xargs rm -rf
+KEPT_BACKUPS=$(ls -1d "$HOME/LOCAL-REPOS/LUKHAS_BACKUPS"/*/ 2>/dev/null | wc -l)
 echo "  ✓ Kept $KEPT_BACKUPS recent backups"
 
 echo ""

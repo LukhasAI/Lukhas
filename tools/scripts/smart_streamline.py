@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-PWM Smart Streamline
-====================
+LUKHAS Smart Streamline
+=======================
 Post-modularization streamlining that preserves connectivity and functionality.
 """
 
@@ -23,7 +23,7 @@ class SmartStreamline:
     """Smart streamlining that preserves modularization work"""
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas_PWM")
+        self.root_path = Path("/Users/agi_dev/Lukhas")
         self.connectivity_map = defaultdict(set)
         self.import_fixes = []
         self.consolidations = []
@@ -249,7 +249,7 @@ def fix_imports_in_file(file_path: Path) -> bool:
 
 def main():
     """Fix imports across the codebase"""
-    root = Path("/Users/agi_dev/Lukhas_PWM")
+    root = Path("/Users/agi_dev/Lukhas")
     fixed_count = 0
 
     print("🔧 Fixing imports post-modularization...")

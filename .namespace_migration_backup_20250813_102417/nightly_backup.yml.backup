@@ -24,7 +24,7 @@ jobs:
         run: |
           mkdir -p .lukhas_backup/out
           python3 scripts/backup_create.py \
-            --include lukhas_pwm data \
+            --include lukhas data \
             --exclude "*.tmp" "*.log" \
             --outdir .lukhas_backup/out | tee .lukhas_backup/out/backup_create.out.json
       - name: KPI digest (optional)

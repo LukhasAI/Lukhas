@@ -513,7 +513,7 @@ async def main():
     # Get workspace root from environment or default
     import os
 
-    workspace_root = os.getenv("LUKHAS_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
+    workspace_root = os.getenv("LUKHAS_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
     # Create and run the MCP server
     server_instance = LUKHASMCPServer(workspace_root)

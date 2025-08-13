@@ -1,5 +1,5 @@
 """
-Bio-signals integration for LUKHAS PWM
+Bio-signals integration for LUKHAS
 =====================================
 Minimal implementation to support dream and consciousness systems.
 """
@@ -61,7 +61,7 @@ class QuantumBioOscillator:
             "frequency": self.frequency,
             "amplitude": self.amplitude,
             "phase": self.phase,
-            "active": self.active
+            "active": self.active,
         }
 
     async def modulate_frequency(self, new_frequency: float):
@@ -71,4 +71,4 @@ class QuantumBioOscillator:
 
 
 # Export main classes
-__all__ = ['BioSignals', 'QuantumBioOscillator']
+__all__ = ["BioSignals", "QuantumBioOscillator"]

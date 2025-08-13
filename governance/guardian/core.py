@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Core governance classes for PWM Workspace Guardian
+Core governance classes for  Workspace Guardian
 ==================================================
 Minimal implementation to support testing infrastructure.
 """
@@ -41,7 +41,7 @@ class EthicalDecision:
 
 class LucasGovernanceModule:
     """
-    Minimal governance module for PWM testing.
+    Minimal governance module for  testing.
 
     This is a lightweight implementation to support the test infrastructure.
     Full governance integration will be handled in the comprehensive fix.
@@ -90,13 +90,11 @@ async def protect_my_workspace(workspace_path: str = None) -> bool:
     import importlib.util
     import os
 
-    guardian_path = os.path.join(os.path.dirname(__file__), "pwm_workspace_guardian.py")
-    spec = importlib.util.spec_from_file_location(
-        "pwm_workspace_guardian", guardian_path
-    )
+    guardian_path = os.path.join(os.path.dirname(__file__), "_workspace_guardian.py")
+    spec = importlib.util.spec_from_file_location("_workspace_guardian", guardian_path)
     guardian_module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(guardian_module)
 
-    guardian = guardian_module.PWMWorkspaceGuardian(workspace_path)
+    guardian = guardian_module.WorkspaceGuardian(workspace_path)
     await guardian.initialize()
     return True

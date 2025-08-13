@@ -1,6 +1,6 @@
 """
 Setup configuration for LUKHAS Lambda Products Suite
-Enterprise-ready AI modules for integration with Lukhas PWM
+Enterprise-ready AI modules for integration with Lukhas
 """
 
 import os
@@ -61,9 +61,9 @@ setup(
             "flake8>=5.0.0",
             "mypy>=1.0.0",
         ],
-        "pwm": [
-            # Dependencies for Lukhas PWM integration
-            "lukhas-pwm>=1.0.0",
+        "": [
+            # Dependencies for Lukhas  integration
+            "lukhas->=1.0.0",
         ],
         "quantum": [
             # Quantum computing features
@@ -81,18 +81,18 @@ setup(
     entry_points={
         "lukhas.plugins": [
             # Core Lambda Products
-            "nias = lambda_products.NIΛS.core.nias_plugin:NIASPWMPlugin",
-            "abas = lambda_products.ΛBAS.core.abas_plugin:ABASPWMPlugin",
-            "dast = lambda_products.DΛST.core.dast_plugin:DASTPWMPlugin",
-            "wallet = lambda_products.WΛLLET.core.wallet_plugin:WalletPWMPlugin",
-            "lens = lambda_products.ΛLens.core.lens_plugin:LensPWMPlugin",
-            "trace = lambda_products.ΛTrace.core.trace_plugin:TracePWMPlugin",
-            "nimbus = lambda_products.ΛNimbus.core.nimbus_plugin:NimbusPWMPlugin",
-            "poetica = lambda_products.POETICΛ.core.poetica_plugin:PoeticaPWMPlugin",
-            "voice = lambda_products.VoiceΛ.core.voice_plugin:VoicePWMPlugin",
-            "journal = lambda_products.JOURNΛL.core.journal_plugin:JournalPWMPlugin",
-            "weaver = lambda_products.WEΛVER.core.weaver_plugin:WeaverPWMPlugin",
-            "echo = lambda_products.ECHOΛ.core.echo_plugin:EchoPWMPlugin",
+            "nias = lambda_products.NIΛS.core.nias_plugin:NIASPlugin",
+            "abas = lambda_products.ΛBAS.core.abas_plugin:ABASPlugin",
+            "dast = lambda_products.DΛST.core.dast_plugin:DASTPlugin",
+            "wallet = lambda_products.WΛLLET.core.wallet_plugin:WalletPlugin",
+            "lens = lambda_products.ΛLens.core.lens_plugin:LensPlugin",
+            "trace = lambda_products.ΛTrace.core.trace_plugin:TracePlugin",
+            "nimbus = lambda_products.ΛNimbus.core.nimbus_plugin:NimbusPlugin",
+            "poetica = lambda_products.POETICΛ.core.poetica_plugin:PoeticaPlugin",
+            "voice = lambda_products.VoiceΛ.core.voice_plugin:VoicePlugin",
+            "journal = lambda_products.JOURNΛL.core.journal_plugin:JournalPlugin",
+            "weaver = lambda_products.WEΛVER.core.weaver_plugin:WeaverPlugin",
+            "echo = lambda_products.ECHOΛ.core.echo_plugin:EchoPlugin",
         ],
         "console_scripts": [
             # CLI tools

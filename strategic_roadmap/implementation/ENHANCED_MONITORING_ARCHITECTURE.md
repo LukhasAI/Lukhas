@@ -1,8 +1,8 @@
-# LUKHAS PWM Enhanced Monitoring System Architecture
+# LUKHAS  Enhanced Monitoring System Architecture
 
 ## Overview
 
-The Enhanced Monitoring System with Endocrine-Triggered Plasticity transforms LUKHAS PWM from static monitoring into a **self-aware, adaptive, learning organism** that continuously evolves to optimize its performance based on real biological principles.
+The Enhanced Monitoring System with Endocrine-Triggered Plasticity transforms LUKHAS  from static monitoring into a **self-aware, adaptive, learning organism** that continuously evolves to optimize its performance based on real biological principles.
 
 ## 🎯 How the System Triggers
 
@@ -10,7 +10,7 @@ The system uses a sophisticated **6-factor triggering mechanism**:
 
 ### Core Triggering Components
 
-1. **Real-time data collection** from all LUKHAS PWM modules every 2-5 seconds
+1. **Real-time data collection** from all LUKHAS  modules every 2-5 seconds
 2. **Multi-dimensional trigger evaluation** combining biological + cognitive signals  
 3. **Adaptive threshold calculations** that learn and adjust over time
 4. **Cooldown management** to prevent trigger spam
@@ -110,9 +110,9 @@ if current_value (0.71) > threshold (0.54): TRIGGER!
 - Learning mode → higher performance thresholds
 - Social interaction → adjusted social thresholds
 
-## 📊 How Data is Generated from LUKHAS PWM Modules
+## 📊 How Data is Generated from LUKHAS  Modules
 
-The system connects to **real LUKHAS PWM modules** and extracts data through direct integration:
+The system connects to **real LUKHAS  modules** and extracts data through direct integration:
 
 ### Direct Module Integration
 
@@ -248,7 +248,7 @@ When real modules are unavailable:
 ### Integration Architecture
 
 ```
-LUKHAS PWM Modules
+LUKHAS  Modules
         ↓
 Real Data Collector
         ↓
@@ -338,9 +338,9 @@ This creates a **truly biological-inspired AI system** that:
 - **Demonstration**: Visual focus, stable operation
 
 ### Integration Requirements
-- Compatible with existing LUKHAS PWM architecture
+- Compatible with existing LUKHAS  architecture
 - Minimal performance impact on core systems
 - Non-intrusive data collection methods
 - Backward compatibility with existing modules
 
-The system transforms LUKHAS PWM from static monitoring into a **self-aware, adaptive, learning organism** that continuously evolves to optimize its performance based on real biological principles.
+The system transforms LUKHAS  from static monitoring into a **self-aware, adaptive, learning organism** that continuously evolves to optimize its performance based on real biological principles.

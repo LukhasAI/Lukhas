@@ -19,7 +19,7 @@ COPY agents/configs/ ./agents/configs/
 COPY ai_orchestration/lukhas_mcp_server_simple.py ./lukhas_mcp_server.py
 
 # Copy only essential config files
-COPY lukhas_pwm_config.yaml ./lukhas_pwm_config.yaml
+COPY lukhas_config.yaml ./lukhas_config.yaml
 COPY modulation_policy.yaml ./modulation_policy.yaml
 
 # Expose MCP port

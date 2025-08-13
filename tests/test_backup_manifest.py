@@ -7,7 +7,7 @@ def test_backup_manifest_schema(tmp_path):
         "version": 1,
         "tag": "test",
         "created_utc": "2025-08-10T00:00:00Z",
-        "files": [{"path": "lukhas_pwm/api/app.py", "sha256": "x" * 64}],
+        "files": [{"path": "lukhas/api/app.py", "sha256": "x" * 64}],
         "bundle": {
             "path": "out/test.tar.zst",
             "sha256": "y" * 64,

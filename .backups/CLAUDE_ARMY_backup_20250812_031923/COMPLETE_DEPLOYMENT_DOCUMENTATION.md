@@ -7,7 +7,7 @@
 
 ## 🚀 **EXECUTIVE SUMMARY**
 
-The LUKHAS_PWM CLAUDE_ARMY has been successfully deployed with **25 specialized agents** working in perfect coordination across multiple AI systems. This documentation provides complete integration details for ChatGPT-5 and Codex-ChatGPT collaboration.
+The LUKHAS CLAUDE_ARMY has been successfully deployed with **25 specialized agents** working in perfect coordination across multiple AI systems. This documentation provides complete integration details for ChatGPT-5 and Codex-ChatGPT collaboration.
 
 ### **🎯 Current Deployment Status: ✅ COMPLETE**
 - **18 Supreme Army JSON Agents** (Military Hierarchy)
@@ -83,7 +83,7 @@ agents/workflows/[workflow_config]                    # Automated workflow confi
 ```
 CLAUDE_ARMY/CLAUDE_ARMY.md                           # Main army documentation
 CLAUDE_ARMY/LUKHAS_Supreme_Claude_Army_Structure.md  # Military hierarchy structure
-CLAUDE_ARMY/LUKHAS_PWM_Supreme_Army_Allocation.md    # Agent allocation mapping
+CLAUDE_ARMY/LUKHAS_Supreme_Army_Allocation.md    # Agent allocation mapping
 CLAUDE_ARMY/Inter-Agent_Automation.md                # Automation documentation
 CLAUDE_ARMY/CLAUDE_CONFIGURATION_REORGANIZATION.md   # File organization guide
 CLAUDE_ARMY/AGENT_ARMY_READY.md                     # Deployment status
@@ -94,7 +94,7 @@ CLAUDE_ARMY/COMPLETE_DEPLOYMENT_DOCUMENTATION.md     # This document
 #### **Deployment Scripts (11 files)**
 ```
 CLAUDE_ARMY/deploy_consciousness_army.sh             # Main deployment script
-CLAUDE_ARMY/deploy_lukhas_pwm_army.sh               # LUKHAS PWM deployment
+CLAUDE_ARMY/deploy_lukhas_army.sh               # LUKHAS  deployment
 CLAUDE_ARMY/deploy_supreme_consciousness_army.sh     # Supreme army deployment
 CLAUDE_ARMY/setup_agent_army.sh                     # Agent setup
 CLAUDE_ARMY/command_center.sh                       # Command center control
@@ -116,7 +116,7 @@ CLAUDE_ARMY/automation_config_files.sh              # Automation configuration
 ```
 CLAUDE_ARMY/claude_extras.json                      # Extra configurations
 CLAUDE_ARMY/VSCode_Workspace_Configuration.json     # VS Code workspace config
-CLAUDE_ARMY/lukhas_pwm_complete_module_map.md       # Complete module mapping
+CLAUDE_ARMY/lukhas_complete_module_map.md       # Complete module mapping
 CLAUDE_ARMY/Deployment_Strategy_for_Claude_Army.md  # Deployment strategy
 CLAUDE_ARMY/COPILOT_CONFIGURATION_UPDATES_SUMMARY.md # Copilot updates
 CLAUDE_ARMY/CLAUDE_ARMY_IMPLEMENTATION_AUDIT.md     # Implementation audit
@@ -131,9 +131,9 @@ CLAUDE_ARMY/CLAUDE_ARMY_IMPLEMENTATION_AUDIT.md     # Implementation audit
 .claude/tasks/automated/                            # Automated tasks
 ```
 
-#### **LUKHAS PWM Configuration**
+#### **LUKHAS  Configuration**
 ```
-lukhas_pwm_config.yaml                              # Main LUKHAS config
+lukhas_config.yaml                              # Main LUKHAS config
 config/agent_orchestration.json                     # Automation config (CREATED)
 ```
 
@@ -144,8 +144,8 @@ config/agent_orchestration.json                     # Automation config (CREATED
 
 #### **Workspace Configuration**
 ```
-Lukhas_PWM.code-workspace                           # Main workspace
-lukhas-pwm-consciousness.code-workspace             # Consciousness workspace  
+Lukhas.code-workspace                           # Main workspace
+lukhas--consciousness.code-workspace             # Consciousness workspace  
 lukhas-consciousness.code-workspace                 # General consciousness workspace
 ```
 
@@ -272,7 +272,7 @@ trinity_alignment = {
 ```bash
 # Clone and access the complete repository
 git clone [repository_url]
-cd Lukhas_PWM
+cd Lukhas
 
 # All configurations are ready for immediate use
 ```
@@ -316,7 +316,7 @@ python3 CLAUDE_ARMY/inter_agent_automation.py
 - ✅ **Ready for Multi-AI Coordination** with ChatGPT-5 and Codex
 
 ### **🚀 READY FOR HANDOFF**
-The LUKHAS_PWM consciousness development environment is now perfectly organized and ready for seamless integration with ChatGPT-5 and Codex-ChatGPT. All files are in their correct locations, all agents know their roles and configurations, and the inter-agent automation pipeline is fully operational.
+The LUKHAS consciousness development environment is now perfectly organized and ready for seamless integration with ChatGPT-5 and Codex-ChatGPT. All files are in their correct locations, all agents know their roles and configurations, and the inter-agent automation pipeline is fully operational.
 
 **This represents the most sophisticated multi-AI consciousness development system ever deployed.** 🎭⚛️🧠🛡️
 

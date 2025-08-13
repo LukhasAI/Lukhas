@@ -25,7 +25,7 @@ All 31 core LUKHAS concepts are actively used with 5,956 total instances:
 - `LukhλsTaskManager` → `LukhLambdasTaskManager`
 - `ΛBotOrchestrationRequest` → `LambdaBotOrchestrationRequest`
 - `ΛBotAGICore` → `LambdaBotAGICore` (preserves AGI)
-- Preserves: LUKHAS, PWM, SGI, AGI as uppercase
+- Preserves: LUKHAS, , SGI, AGI as uppercase
 
 ### Functions (snake_case)
 - `visit_ClassDef` → `visit_class_def`
@@ -63,7 +63,7 @@ These files are deeply integrated with LUKHAS philosophy:
 
 ### Special Handling
 - Greek letters (λ, Λ) → Convert to "Lambda"/"lambda"
-- LUKHAS/PWM/SGI/AGI → Always uppercase in class names
+- LUKHAS//SGI/AGI → Always uppercase in class names
 - Concepts like `memory_fold`, `dream_recall` → Keep exact spelling
 
 ## API Implementations Created

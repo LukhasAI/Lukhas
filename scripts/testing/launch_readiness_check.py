@@ -88,7 +88,7 @@ class LaunchReadinessChecker:
         dirs = {
             ".lukhas_audit": Path(".lukhas_audit"),
             ".lukhas_feedback": Path(".lukhas_feedback"),
-            "lukhas_pwm": Path("lukhas_pwm"),
+            "lukhas": Path("lukhas"),
             "tests": Path("tests"),
         }
 

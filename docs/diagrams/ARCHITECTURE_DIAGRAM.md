@@ -1,4 +1,4 @@
-# LUKHAS PWM Architecture Diagrams
+# LUKHAS  Architecture Diagrams
 
 ## System Architecture Overview
 
@@ -368,7 +368,7 @@ graph LR
     end
 ```
 
-These diagrams provide a visual representation of LUKHAS PWM's architecture, showing:
+These diagrams provide a visual representation of LUKHAS 's architecture, showing:
 1. Overall system structure and layers
 2. Data flow through the system
 3. Module interactions and dependencies

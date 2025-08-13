@@ -1,41 +1,35 @@
 {
-    "include": [
-        "core",
-        "vivox", 
-        "config",
-        "compliance",
-        "examples"
-    ],
-    "exclude": [
-        "recovery",
-        ".pwm_cleanup_archive", 
-        "archive",
-        "tools",
-        "docs",
-        "**/tests",
-        "**/test_*.py",
-        "**/*_test.py",
-        "**/__pycache__",
-        "**/*.pyc"
-    ],
-    "defineConstant": {
-        "DEBUG": true
-    },
-    "stubPath": "./typings",
-    "reportMissingImports": "warning",
-    "reportMissingTypeStubs": "information",
-    "reportOptionalMemberAccess": "warning",
-    "reportOptionalCall": "warning",
-    "reportOptionalIterable": "warning",
-    "reportOptionalContextManager": "warning",
-    "reportUntypedFunctionDecorator": "information",
-    "reportUnusedImport": "warning",
-    "reportUnusedClass": "information",
-    "reportUnusedFunction": "information",
-    "reportUnusedVariable": "warning",
-    "reportDuplicateImport": "warning",
-    "pythonVersion": "3.9",
-    "pythonPlatform": "Darwin",
-    "venvPath": ".",
-    "venv": ".venv"
+  "include": ["core", "vivox", "config", "compliance", "examples"],
+  "exclude": [
+    "recovery",
+    "._cleanup_archive",
+    "archive",
+    "tools",
+    "docs",
+    "**/tests",
+    "**/test_*.py",
+    "**/*_test.py",
+    "**/__pycache__",
+    "**/*.pyc"
+  ],
+  "defineConstant": {
+    "DEBUG": true
+  },
+  "stubPath": "./typings",
+  "reportMissingImports": "warning",
+  "reportMissingTypeStubs": "information",
+  "reportOptionalMemberAccess": "warning",
+  "reportOptionalCall": "warning",
+  "reportOptionalIterable": "warning",
+  "reportOptionalContextManager": "warning",
+  "reportUntypedFunctionDecorator": "information",
+  "reportUnusedImport": "warning",
+  "reportUnusedClass": "information",
+  "reportUnusedFunction": "information",
+  "reportUnusedVariable": "warning",
+  "reportDuplicateImport": "warning",
+  "pythonVersion": "3.9",
+  "pythonPlatform": "Darwin",
+  "venvPath": ".",
+  "venv": ".venv"
 }

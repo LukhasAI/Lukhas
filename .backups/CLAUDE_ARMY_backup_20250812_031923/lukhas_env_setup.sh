@@ -75,7 +75,7 @@ cat > lukhas-consciousness.code-workspace << 'EOF'
       "./MODULE_INDEX.md",
       "./branding/trinity/TRINITY_BRANDING_GUIDELINES.md",
       "./docs/tasks/ACTIVE.md",
-      "./lukhas_pwm_config.yaml",
+      "./lukhas_config.yaml",
       "./contexts/**/*.md",
       "./contexts/**/*.json"
     ],
@@ -239,14 +239,14 @@ cat > lukhas-consciousness.code-workspace << 'EOF'
         "label": "🛡️ Guardian System Health Check",
         "type": "shell",
         "command": "python",
-        "args": ["tools/analysis/PWM_OPERATIONAL_SUMMARY.py"],
+        "args": ["tools/analysis/_OPERATIONAL_SUMMARY.py"],
         "group": "test"
       },
       {
         "label": "🎯 Generate Consciousness Report",
         "type": "shell",
         "command": "python",
-        "args": ["tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py"],
+        "args": ["tools/analysis/_FUNCTIONAL_ANALYSIS.py"],
         "group": "build"
       }
     ]
@@ -820,7 +820,7 @@ context_files:
     - "./architectures/"
     - "./quantum/"
     - "./bio/"
-    - "./lukhas_pwm_config.yaml"
+    - "./lukhas_config.yaml"
 
 specializations:
   consciousness_architecture:
@@ -1157,14 +1157,14 @@ cat > .vscode/tasks.json << 'EOF'
       "label": "🛡️ Complete Guardian System Health Check",
       "type": "shell", 
       "command": "python",
-      "args": ["tools/analysis/PWM_OPERATIONAL_SUMMARY.py", "--guardian-focus"],
+      "args": ["tools/analysis/_OPERATIONAL_SUMMARY.py", "--guardian-focus"],
       "group": "test"
     },
     {
       "label": "🎯 Generate Comprehensive Consciousness Report",
       "type": "shell",
       "command": "python", 
-      "args": ["tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py", "--consciousness-analysis"],
+      "args": ["tools/analysis/_FUNCTIONAL_ANALYSIS.py", "--consciousness-analysis"],
       "group": "build"
     },
     {

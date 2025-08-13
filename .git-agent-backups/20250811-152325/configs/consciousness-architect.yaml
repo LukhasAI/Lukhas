@@ -41,7 +41,7 @@ context_files:
     - "./architectures/"
     - "./quantum/"
     - "./bio/"
-    - "./lukhas_pwm_config.yaml"
+    - "./lukhas_config.yaml"
 
 specializations:
   consciousness_architecture:

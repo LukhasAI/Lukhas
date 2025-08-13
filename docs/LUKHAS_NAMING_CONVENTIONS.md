@@ -67,7 +67,7 @@ class QuantumState:
 class LUKHASCore:  # Acronyms stay uppercase
     pass
 
-class PWMGuardian:
+class Guardian:
     pass
 
 # ❌ Incorrect
@@ -157,13 +157,13 @@ class MemoryFoldProcessor:
 ### Acronym Handling
 LUKHAS-specific acronyms remain uppercase:
 - `LUKHAS` - Always uppercase in class names
-- `PWM` - Pack What Matters
+- `` - Pack What Matters
 - `SGI` - Symbolic General Intelligence
 - `AGI` - Artificial General Intelligence
 
 ```python
 class LUKHASMemorySystem:  # Not LukhasMemorySystem
-class PWMCore:            # Not PwmCore
+class Core:            # Not Core
 class SGIProcessor:       # Not SgiProcessor
 ```
 
@@ -240,7 +240,7 @@ As LUKHAS evolves toward 2030:
 - [ ] Constants: UPPER_SNAKE_CASE (MAX_FOLDS, DREAM_DEPTH)
 - [ ] Files: snake_case.py (memory_fold.py, dream_engine.py)
 - [ ] Preserve LUKHAS concepts exactly as designed
-- [ ] Keep acronyms uppercase (LUKHAS, PWM, SGI)
+- [ ] Keep acronyms uppercase (LUKHAS, , SGI)
 - [ ] Document any new concepts introduced
 
 ---

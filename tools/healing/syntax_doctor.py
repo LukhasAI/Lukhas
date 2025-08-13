@@ -57,7 +57,7 @@ class SyntaxDoctor:
             # Skip virtual environments and git
             if any(
                 skip in root
-                for skip in [".venv", ".git", "__pycache__", ".pwm_cleanup_archive"]
+                for skip in [".venv", ".git", "__pycache__", "._cleanup_archive"]
             ):
                 continue
 

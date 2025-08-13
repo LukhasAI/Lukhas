@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Class Registry Generator
+LUKHAS  Class Registry Generator
 Creates a comprehensive registry of all classes in the codebase
 """
 
@@ -37,7 +37,7 @@ class ClassRegistryGenerator:
             # Skip archive directories
             if any(
                 skip in str(file_path)
-                for skip in [".pwm_cleanup_archive", "__pycache__", ".git"]
+                for skip in ["._cleanup_archive", "__pycache__", ".git"]
             ):
                 continue
 
@@ -177,7 +177,7 @@ class ClassRegistryGenerator:
 
     def generate_markdown_docs(self, registry: dict[str, Any]) -> str:
         """Generate markdown documentation from registry"""
-        lines = ["# LUKHAS PWM Class Registry\n"]
+        lines = ["# LUKHAS  Class Registry\n"]
         lines.append(f"Generated: {registry['timestamp']}\n")
         lines.append(f"Total Classes: {registry['summary']['total_classes']}\n")
 

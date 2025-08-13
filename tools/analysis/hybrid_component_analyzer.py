@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PWM Hybrid Component Analyzer - Identifies quantum-hybrid subdirectories
+ Hybrid Component Analyzer - Identifies quantum-hybrid subdirectories
 Runs scenarios to discover natural inter-module relationships
 """
 
@@ -59,7 +59,7 @@ class HybridComponentAnalyzer:
         subdirs = {}
 
         for root, _dirs, files in os.walk(module_path):
-            if ".venv" in root or ".pwm_cleanup_archive" in root:
+            if ".venv" in root or "._cleanup_archive" in root:
                 continue
 
             subdir_name = os.path.relpath(root, module_path)
@@ -181,7 +181,7 @@ class HybridComponentAnalyzer:
                 continue
 
             for root, _dirs, files in os.walk(module_dir):
-                if ".venv" in root or ".pwm_cleanup_archive" in root:
+                if ".venv" in root or "._cleanup_archive" in root:
                     continue
 
                 for file in files:
@@ -240,7 +240,7 @@ class HybridComponentAnalyzer:
 
         # Search for tag definitions and usage
         for root, _dirs, files in os.walk("."):
-            if ".venv" in root or ".pwm_cleanup_archive" in root:
+            if ".venv" in root or "._cleanup_archive" in root:
                 continue
 
             for file in files:
@@ -353,7 +353,7 @@ class HybridComponentAnalyzer:
 def main():
     analyzer = HybridComponentAnalyzer()
 
-    print("=== PWM Hybrid Component Analysis ===")
+    print("===  Hybrid Component Analysis ===")
     print("Identifying quantum-hybrid subdirectories...\n")
 
     # Run scenario analysis
@@ -385,7 +385,7 @@ def main():
     }
 
     # Save to file
-    output_path = "docs/reports/analysis/PWM_HYBRID_COMPONENT_MAPPING.json"
+    output_path = "docs/reports/analysis/_HYBRID_COMPONENT_MAPPING.json"
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w") as f:

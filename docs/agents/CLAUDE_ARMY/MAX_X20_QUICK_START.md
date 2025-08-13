@@ -54,7 +54,7 @@
 
 ```bash
 # 1. Run the adapted deployment script
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/CLAUDE_ARMY
+cd /Users/agi_dev/LOCAL-REPOS/Lukhas/CLAUDE_ARMY
 chmod +x deploy_claude_max_x20_adapted.sh
 ./deploy_claude_max_x20_adapted.sh
 

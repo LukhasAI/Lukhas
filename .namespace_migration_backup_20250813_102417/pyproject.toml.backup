@@ -15,7 +15,7 @@ extend-exclude = '''
   | \.pytest_cache
   | \.tox
   | test_metadata
-  | lukhas_pwm/flags
+  | lukhas/flags
 )/
 '''
 
@@ -30,12 +30,12 @@ exclude = [
     "build",
     "dist",
     "test_metadata",
-    "lukhas_pwm/flags",
+    "lukhas/flags",
     "*backup*",
     ".event_bus_backup*",
     ".hygiene_backup*",
     ".identity_backup*",
-    ".pwm_cleanup_archive",
+    "._cleanup_archive",
     "archive",
     "*_archive",
     "*_ARCHIVE*",
@@ -90,7 +90,7 @@ exclude = [
     "venv/",
     ".venv/",
     "test_metadata/",
-    "lukhas_pwm/flags/",
+    "lukhas/flags/",
 ]
 
 [tool.pytest.ini_options]

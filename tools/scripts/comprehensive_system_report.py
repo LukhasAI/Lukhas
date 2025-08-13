@@ -25,7 +25,7 @@ class LUKHASSystemDiagnostic:
 
     def __init__(self):
         self.report_timestamp = datetime.now(timezone.utc).isoformat()
-        self.base_path = Path("/Users/agi_dev/Lukhas_PWM")
+        self.base_path = Path("/Users/agi_dev/Lukhas")
         self.results = {
             "metadata": {
                 "report_title": "LUKHAS Comprehensive System Status Report",

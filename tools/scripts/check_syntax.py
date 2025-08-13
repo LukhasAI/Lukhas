@@ -6,14 +6,14 @@ from pathlib import Path
 
 
 def check_all_syntax_errors():
-    base_dir = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
+    base_dir = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
     error_count = 0
     files_with_errors = []
 
     # Check all Python files
     for py_file in base_dir.rglob("*.py"):
         # Skip archive and backup directories
-        if any(part in str(py_file).lower() for part in ['archive', 'backup', 'pwm_cleanup']):
+        if any(part in str(py_file).lower() for part in ['archive', 'backup', '_cleanup']):
             continue
 
         try:

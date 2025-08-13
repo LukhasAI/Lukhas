@@ -177,7 +177,7 @@ module-connectivity-analysis/
 visualizations/
 persistence/
 .auto-backup/
-LUKHAS_PWM_BACKUPS/
+LUKHAS_BACKUPS/
 *.pyc
 __pycache__/
 .pytest_cache/

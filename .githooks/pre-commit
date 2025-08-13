@@ -1,8 +1,8 @@
 #!/bin/bash
-# PWM File Organization Pre-commit Hook
+#  File Organization Pre-commit Hook
 # Ensures files are created in proper directories
 
-echo "🛡️ PWM File Organization Check..."
+echo "🛡️  File Organization Check..."
 
 # Colors for output
 RED='\033[0;31m'
@@ -13,11 +13,11 @@ NC='\033[0m' # No Color
 # Track if we have issues
 ISSUES_FOUND=0
 
-# Check for PWM analysis files in root
-PWM_FILES_IN_ROOT=$(git status --porcelain | grep '^A.*PWM_.*\.py$' | grep -v 'tools/analysis/' || true)
-if [ ! -z "$PWM_FILES_IN_ROOT" ]; then
-    echo -e "${RED}❌ PWM analysis files found in root directory:${NC}"
-    echo "$PWM_FILES_IN_ROOT"
+# Check for  analysis files in root
+_FILES_IN_ROOT=$(git status --porcelain | grep '^A.*_.*\.py$' | grep -v 'tools/analysis/' || true)
+if [ ! -z "$_FILES_IN_ROOT" ]; then
+    echo -e "${RED}❌  analysis files found in root directory:${NC}"
+    echo "$_FILES_IN_ROOT"
     echo -e "${YELLOW}→ These should be in tools/analysis/${NC}"
     ISSUES_FOUND=1
 fi
@@ -32,7 +32,7 @@ if [ ! -z "$TEST_FILES_IN_ROOT" ]; then
 fi
 
 # Check for report files in root
-REPORT_FILES_IN_ROOT=$(git status --porcelain | grep -E '^A.*(PWM_.*_REPORT\.(md|json)|.*_STATUS_REPORT\.md)$' | grep -v 'docs/reports/' || true)
+REPORT_FILES_IN_ROOT=$(git status --porcelain | grep -E '^A.*(_.*_REPORT\.(md|json)|.*_STATUS_REPORT\.md)$' | grep -v 'docs/reports/' || true)
 if [ ! -z "$REPORT_FILES_IN_ROOT" ]; then
     echo -e "${RED}❌ Report files found in root directory:${NC}"
     echo "$REPORT_FILES_IN_ROOT"
@@ -41,7 +41,7 @@ if [ ! -z "$REPORT_FILES_IN_ROOT" ]; then
 fi
 
 # Check for planning documents in root
-PLAN_FILES_IN_ROOT=$(git status --porcelain | grep -E '^A.*PWM_.*_PLAN\.md$' | grep -v 'docs/planning/' || true)
+PLAN_FILES_IN_ROOT=$(git status --porcelain | grep -E '^A.*_.*_PLAN\.md$' | grep -v 'docs/planning/' || true)
 if [ ! -z "$PLAN_FILES_IN_ROOT" ]; then
     echo -e "${RED}❌ Planning documents found in root directory:${NC}"
     echo "$PLAN_FILES_IN_ROOT"
@@ -56,11 +56,11 @@ else
     echo -e "\n${RED}File organization issues detected!${NC}"
     echo -e "${YELLOW}Please move files to their proper directories:${NC}"
     echo ""
-    echo "  📁 Analysis tools (PWM_*.py) → tools/analysis/"
+    echo "  📁 Analysis tools (_*.py) → tools/analysis/"
     echo "  📁 Test files (test_*.py) → tests/<subdirectory>/"
     echo "  📁 Status reports (*_STATUS_REPORT.md) → docs/reports/status/"
     echo "  📁 Analysis reports (*_REPORT.json) → docs/reports/analysis/"
-    echo "  📁 Planning docs (PWM_*_PLAN.md) → docs/planning/completed/"
+    echo "  📁 Planning docs (_*_PLAN.md) → docs/planning/completed/"
     echo ""
     echo "See CLAUDE.md for complete file organization guidelines."
     echo ""

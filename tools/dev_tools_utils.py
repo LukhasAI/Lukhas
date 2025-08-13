@@ -1,6 +1,6 @@
 """
 Dev Tools Utils Module
-Provides utilities for development and debugging of LUKHAS PWM system
+Provides utilities for development and debugging of LUKHAS  system
 """
 
 import json
@@ -49,7 +49,7 @@ def get_module_info(module_path: str) -> Dict[str, Any]:
     }
 
     try:
-        with open(path, encoding='utf-8') as f:
+        with open(path, encoding="utf-8") as f:
             lines = f.readlines()
             info["lines"] = len(lines)
 
@@ -57,17 +57,17 @@ def get_module_info(module_path: str) -> Dict[str, Any]:
                 line = line.strip()
 
                 # Extract imports
-                if line.startswith(('import ', 'from ')):
+                if line.startswith(("import ", "from ")):
                     info["imports"].append({"line": line_no, "statement": line})
 
                 # Extract class definitions
-                elif line.startswith('class '):
-                    class_name = line.split()[1].split('(')[0].split(':')[0]
+                elif line.startswith("class "):
+                    class_name = line.split()[1].split("(")[0].split(":")[0]
                     info["classes"].append({"line": line_no, "name": class_name})
 
                 # Extract function definitions
-                elif line.startswith('def ') or line.startswith('async def '):
-                    func_name = line.split('(')[0].split()[-1]
+                elif line.startswith("def ") or line.startswith("async def "):
+                    func_name = line.split("(")[0].split()[-1]
                     info["functions"].append({"line": line_no, "name": func_name})
 
     except Exception as e:
@@ -120,11 +120,13 @@ def analyze_directory_structure(directory: str = ".") -> Dict[str, Any]:
 
                 # Track largest files
                 size = item.stat().st_size
-                stats["largest_files"].append({
-                    "path": str(item),
-                    "size": size,
-                    "size_mb": round(size / (1024 * 1024), 2)
-                })
+                stats["largest_files"].append(
+                    {
+                        "path": str(item),
+                        "size": size,
+                        "size_mb": round(size / (1024 * 1024), 2),
+                    }
+                )
             elif item.is_dir():
                 stats["total_directories"] += 1
 
@@ -161,15 +163,14 @@ def check_dependencies() -> Dict[str, Any]:
         # Parse requirements
         for line in lines:
             line = line.strip()
-            if line and not line.startswith('#'):
+            if line and not line.startswith("#"):
                 # Extract package name (handle versions and extras)
-                package_name = line.split('==')[0].split('>=')[0].split('<=')[0]
-                package_name = package_name.split('[')[0].strip()
+                package_name = line.split("==")[0].split(">=")[0].split("<=")[0]
+                package_name = package_name.split("[")[0].strip()
 
-                result["dependencies"].append({
-                    "name": package_name,
-                    "requirement": line
-                })
+                result["dependencies"].append(
+                    {"name": package_name, "requirement": line}
+                )
 
                 # Check if installed
                 try:
@@ -207,7 +208,7 @@ def generate_dev_report() -> Dict[str, Any]:
         "requirements.txt",
         "lukhas_config.yaml",
         "main.py",
-        "pytest.ini"
+        "pytest.ini",
     ]
 
     for key_file in key_files:
@@ -215,7 +216,7 @@ def generate_dev_report() -> Dict[str, Any]:
         report["key_files"][key_file] = {
             "exists": file_path.exists(),
             "path": str(file_path),
-            "size": file_path.stat().st_size if file_path.exists() else 0
+            "size": file_path.stat().st_size if file_path.exists() else 0,
         }
 
     return report
@@ -234,7 +235,7 @@ def save_report(report: Dict[str, Any], filename: Optional[str] = None) -> str:
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
     try:
-        with open(report_path, 'w', encoding='utf-8') as f:
+        with open(report_path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2)
 
         logger.info(f"Development report saved to {report_path}")
@@ -254,12 +255,14 @@ def quick_health_check() -> Dict[str, Any]:
             "status": "healthy",
             "checks": {
                 "project_root_found": True,
-                "requirements_file_exists": (project_root / "requirements.txt").exists(),
+                "requirements_file_exists": (
+                    project_root / "requirements.txt"
+                ).exists(),
                 "config_file_exists": (project_root / "lukhas_config.yaml").exists(),
                 "main_entry_exists": (project_root / "main.py").exists(),
                 "claude_md_exists": (project_root / "CLAUDE.md").exists(),
             },
-            "recommendations": []
+            "recommendations": [],
         }
 
         # Add recommendations based on missing files
@@ -284,7 +287,7 @@ def quick_health_check() -> Dict[str, Any]:
             "status": "error",
             "error": str(e),
             "checks": {},
-            "recommendations": ["Fix critical error in development environment"]
+            "recommendations": ["Fix critical error in development environment"],
         }
 
     return health
@@ -295,9 +298,11 @@ def main():
     """Main CLI entry point for dev tools utilities."""
     import argparse
 
-    parser = argparse.ArgumentParser(description="LUKHAS PWM Development Tools")
+    parser = argparse.ArgumentParser(description="LUKHAS  Development Tools")
     parser.add_argument("--health", action="store_true", help="Run quick health check")
-    parser.add_argument("--report", action="store_true", help="Generate full dev report")
+    parser.add_argument(
+        "--report", action="store_true", help="Generate full dev report"
+    )
     parser.add_argument("--analyze", type=str, help="Analyze directory structure")
     parser.add_argument("--deps", action="store_true", help="Check dependencies")
     parser.add_argument("--save", action="store_true", help="Save report to file")

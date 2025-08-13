@@ -11,7 +11,7 @@ import time
 import uuid
 from pathlib import Path
 
-from lukhas_pwm.audit.tool_analytics import (
+from lukhas.audit.tool_analytics import (
     ToolAnalytics,
     enforce_tool_governance,
     get_analytics,

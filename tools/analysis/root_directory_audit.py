@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Root Directory Audit and Reorganization Plan
+LUKHAS  Root Directory Audit and Reorganization Plan
 Analyzes all root directories and creates a comprehensive reorganization plan
 """
 
@@ -501,14 +501,14 @@ class RootDirectoryAuditor:
                                                                                                                                         return script_content
 
                                                                                                                                     def main():
-    print("🔍 LUKHAS PWM ROOT DIRECTORY AUDIT")
+    print("🔍 LUKHAS  ROOT DIRECTORY AUDIT")
     print("=" * 50)
 
     auditor = RootDirectoryAuditor()
     plan = auditor.analyze_root()
 
     # Save plan
-    plan_path = 'docs/planning/PWM_ROOT_REORGANIZATION_PLAN.json'
+    plan_path = 'docs/planning/_ROOT_REORGANIZATION_PLAN.json'
     os.makedirs(os.path.dirname(plan_path), exist_ok=True)
                                                                                                                                         with open(plan_path, 'w') as f:
         json.dump(plan, f, indent=2)

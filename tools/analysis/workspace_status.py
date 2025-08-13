@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PWM Workspace Status Analysis
+ Workspace Status Analysis
 ============================
 Comprehensive analysis of current workspace connectivity, working systems,
     and isolated files.
@@ -12,7 +12,7 @@ from collections import defaultdict
 from pathlib import Path
 
 
-class PWMWorkspaceAnalyzer:
+class WorkspaceAnalyzer:
 
     def __init__(self, root_path="."):
         self.root_path = Path(root_path)
@@ -75,7 +75,7 @@ class PWMWorkspaceAnalyzer:
 
     def scan_workspace(self):
         """Scan entire workspace for Python files."""
-        print("🔍 Scanning PWM workspace...")
+        print("🔍 Scanning  workspace...")
 
         python_files = list(self.root_path.rglob("*.py"))
         total_files = len(python_files)
@@ -89,7 +89,7 @@ class PWMWorkspaceAnalyzer:
             rel_path = file_path.relative_to(self.root_path)
 
             # Skip archive and hidden directories
-            if ".pwm_cleanup_archive" in str(rel_path) or str(rel_path).startswith("."):
+            if "._cleanup_archive" in str(rel_path) or str(rel_path).startswith("."):
                 continue
 
             file_info = self.analyze_file(file_path)
@@ -226,7 +226,7 @@ class PWMWorkspaceAnalyzer:
 
         return report
 
-    def save_report(self, filename="PWM_WORKSPACE_STATUS_REPORT.json"):
+    def save_report(self, filename="_WORKSPACE_STATUS_REPORT.json"):
         """Save detailed report to file."""
         report = self.generate_report()
 
@@ -241,7 +241,7 @@ class PWMWorkspaceAnalyzer:
         report = self.generate_report()
 
         print("\n" + "=" * 60)
-        print("🎯 PWM WORKSPACE STATUS ANALYSIS")
+        print("🎯  WORKSPACE STATUS ANALYSIS")
         print("=" * 60)
 
         overview = report["workspace_overview"]
@@ -295,7 +295,7 @@ class PWMWorkspaceAnalyzer:
 
 
 if __name__ == "__main__":
-    analyzer = PWMWorkspaceAnalyzer()
+    analyzer = WorkspaceAnalyzer()
     analyzer.scan_workspace()
     analyzer.analyze_connectivity()
     analyzer.identify_working_systems()

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Comprehensive Stress Test Suite for ALL LUKHAS_PWM Components
+Comprehensive Stress Test Suite for ALL LUKHAS Components
 Tests every module at scale with OpenAI API integration
 """
 
@@ -66,7 +66,7 @@ class LUKHASStressTester:
     async def run_all_tests(self) -> dict[str, Any]:
         """Run stress tests on all LUKHAS components"""
         print("\n" + "=" * 80)
-        print("🚀 LUKHAS_PWM COMPREHENSIVE STRESS TEST SUITE")
+        print("🚀 LUKHAS COMPREHENSIVE STRESS TEST SUITE")
         print("=" * 80)
         print(f"Start Time: {self.start_time}")
         print(f"Configuration: {self.test_config}")
@@ -1685,7 +1685,7 @@ class LUKHASStressTester:
 
     def _generate_markdown_report(self, report: dict[str, Any]) -> str:
         """Generate markdown report"""
-        md = f"""# 🚀 LUKHAS_PWM Comprehensive Stress Test Report
+        md = f"""# 🚀 LUKHAS Comprehensive Stress Test Report
 
 **Test Run ID:** {report['test_run_id']}
 **Date:** {report['start_time']}

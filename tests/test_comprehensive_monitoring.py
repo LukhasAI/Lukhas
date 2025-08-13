@@ -35,7 +35,7 @@ from neuroplastic_learning_orchestrator import (  # noqa: E402
     NeuroplasticLearningOrchestrator,
 )
 from plasticity_trigger_manager import PlasticityTriggerManager  # noqa: E402
-from real_data_collector import LukhasPWMRealDataCollector  # noqa: E402
+from real_data_collector import LukhasRealDataCollector  # noqa: E402
 
 logger = structlog.get_logger(__name__)
 
@@ -57,7 +57,7 @@ class TestComprehensiveMonitoringSystem:
         self.dashboard = HormoneDrivenDashboard()
         self.learning_orchestrator = NeuroplasticLearningOrchestrator()
         self.integrated_system = IntegratedMonitoringSystem()
-        self.data_collector = LukhasPWMRealDataCollector()
+        self.data_collector = LukhasRealDataCollector()
 
         await self._initialize_all_systems()
 
@@ -696,7 +696,7 @@ class TestComprehensiveMonitoringSystem:
         print("   ✅ Adaptive threshold calculations tests passed")
 
     async def test_real_data_integration(self):
-        """Test real data integration from LUKHAS PWM modules"""
+        """Test real data integration from LUKHAS  modules"""
         print("\n🔗 TESTING: Real Data Integration")
         print("-" * 50)
 

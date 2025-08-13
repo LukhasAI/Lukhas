@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Complete Lukhas PWM + Lambda Products System Test
+Complete Lukhas  + Lambda Products System Test
 Tests all components including new GPT-OSS integration
 """
 
@@ -23,12 +23,12 @@ os.environ["OPENAI_COMPATIBLE"] = "true"
 
 
 class CompleteSystemTest:
-    """Comprehensive test suite for entire Lukhas PWM + Lambda Products system"""
+    """Comprehensive test suite for entire Lukhas  + Lambda Products system"""
 
     def __init__(self):
         self.results = {
             "timestamp": datetime.now().isoformat(),
-            "lukhas_pwm_tests": [],
+            "lukhas_tests": [],
             "lambda_products_tests": [],
             "gpt_oss_tests": [],
             "integration_tests": [],
@@ -37,10 +37,10 @@ class CompleteSystemTest:
         }
 
     async def test_lukhas_core_systems(self) -> dict[str, Any]:
-        """Test core Lukhas PWM systems"""
-        print("\n🧠 Testing Lukhas PWM Core Systems...")
+        """Test core Lukhas  systems"""
+        print("\n🧠 Testing Lukhas  Core Systems...")
 
-        results = {"test": "Lukhas PWM Core", "components": {}}
+        results = {"test": "Lukhas  Core", "components": {}}
 
         # Test Consciousness System
         try:
@@ -277,11 +277,11 @@ class CompleteSystemTest:
 
         results = {"test": "System Integration", "integrations": {}}
 
-        # Test Lambda-PWM Integration
+        # Test Lambda- Integration
         try:
-            from integrations.lukhas_pwm_adapter import LukhasPWMIntegrationAdapter
+            from integrations.lukhas_adapter import LukhasIntegrationAdapter
 
-            adapter = LukhasPWMIntegrationAdapter()
+            adapter = LukhasIntegrationAdapter()
 
             # Test consciousness connection
             consciousness_connected = await adapter.connect_consciousness_layer()
@@ -301,8 +301,8 @@ class CompleteSystemTest:
             print(f"   📦 Products Registered: {len(products) if products else 0}")
 
         except Exception as e:
-            results["integrations"]["lambda_pwm"] = f"❌ FAILED: {e}"
-            print(f"   ❌ Lambda-PWM Integration: {e}")
+            results["integrations"]["lambda"] = f"❌ FAILED: {e}"
+            print(f"   ❌ Lambda- Integration: {e}")
 
         # Test Cross-System Communication
         try:
@@ -453,11 +453,11 @@ class CompleteSystemTest:
     async def run_complete_test(self):
         """Run all tests and generate comprehensive report"""
         print("=" * 60)
-        print("🧪 COMPLETE LUKHAS PWM + LAMBDA PRODUCTS SYSTEM TEST")
+        print("🧪 COMPLETE LUKHAS  + LAMBDA PRODUCTS SYSTEM TEST")
         print("=" * 60)
 
         # Run all test suites
-        self.results["lukhas_pwm_tests"] = await self.test_lukhas_core_systems()
+        self.results["lukhas_tests"] = await self.test_lukhas_core_systems()
         self.results["lambda_products_tests"] = await self.test_lambda_products()
         self.results["gpt_oss_tests"] = await self.test_gpt_oss_integration()
         self.results["integration_tests"] = await self.test_system_integration()
@@ -480,9 +480,9 @@ class CompleteSystemTest:
         total_tests = 0
         passed_tests = 0
 
-        # Count Lukhas PWM tests
-        if "components" in self.results["lukhas_pwm_tests"]:
-            for _component, status in self.results["lukhas_pwm_tests"][
+        # Count Lukhas  tests
+        if "components" in self.results["lukhas_tests"]:
+            for _component, status in self.results["lukhas_tests"][
                 "components"
             ].items():
                 total_tests += 1
@@ -537,14 +537,14 @@ class CompleteSystemTest:
         # Save markdown report
         md_file = Path(__file__).parent / "COMPLETE_SYSTEM_TEST_REPORT.md"
         with open(md_file, "w") as f:
-            f.write("# Complete Lukhas PWM + Lambda Products System Test Report\n\n")
+            f.write("# Complete Lukhas  + Lambda Products System Test Report\n\n")
             f.write(f"**Date:** {self.results['timestamp']}\n\n")
 
             # Write component status
             f.write("## Component Status\n\n")
-            f.write("### Lukhas PWM Core\n")
-            if "components" in self.results["lukhas_pwm_tests"]:
-                for component, status in self.results["lukhas_pwm_tests"][
+            f.write("### Lukhas  Core\n")
+            if "components" in self.results["lukhas_tests"]:
+                for component, status in self.results["lukhas_tests"][
                     "components"
                 ].items():
                     f.write(f"- **{component}**: {status}\n")
@@ -590,7 +590,7 @@ async def main():
 
 if __name__ == "__main__":
     print("\n🚀 Starting Complete System Test...")
-    print("   Testing Lukhas PWM + Lambda Products + GPT-OSS")
+    print("   Testing Lukhas  + Lambda Products + GPT-OSS")
     print("   This may take a few moments...\n")
 
     try:

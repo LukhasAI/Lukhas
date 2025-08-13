@@ -30,7 +30,7 @@ try:
     from .client import LukhasAI
 
     # Legacy alias for backwards compatibility
-    LukhasPWM = LukhasAI
+    Lukhas = LukhasAI
 except ImportError:
     pass
 
@@ -81,6 +81,6 @@ __all__ = [
     "get_trinity_status",
     # Main client
     "LukhasAI",
-    "LukhasPWM",  # Legacy alias
+    "Lukhas",  # Legacy alias
     "LukhasAI",
 ]

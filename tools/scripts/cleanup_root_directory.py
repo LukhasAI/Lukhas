@@ -24,7 +24,7 @@ class RootDirectoryCleaner:
             "requirements-test.txt",
             "package.json",
             "package-lock.json",
-            "lukhas_pwm_config.yaml",
+            "lukhas_config.yaml",
             ".gitignore",
             ".env.example",
             ".env",
@@ -43,7 +43,7 @@ class RootDirectoryCleaner:
                 "*_report.json",
             ],
             "docs/planning/": ["*_PLAN.md", "*_ROADMAP.md"],
-            "tools/analysis/": ["PWM_*.py", "*_analyzer.py", "*_finder.py"],
+            "tools/analysis/": ["*_analyzer.py", "*_finder.py"],
             "tools/scripts/": [
                 "*_consolidator.py",
                 "bootstrap.py",

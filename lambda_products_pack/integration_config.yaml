@@ -1,10 +1,10 @@
-# Lambda Products + Lukhas PWM Integration Configuration
-# This file defines how Lambda Products integrate with Lukhas PWM systems
+# Lambda Products + Lukhas  Integration Configuration
+# This file defines how Lambda Products integrate with Lukhas  systems
 
 integration:
-  mode: "hybrid"  # standalone | integrated | hybrid
+  mode: "hybrid" # standalone | integrated | hybrid
   version: "2.0.0"
-  
+
 # Component Mappings
 components:
   consciousness:
@@ -24,7 +24,7 @@ components:
           features:
             - tone_consciousness
             - narrative_awareness
-            
+
   guardian:
     enabled: true
     lambda_products:
@@ -42,7 +42,7 @@ components:
           policies:
             - privacy_first
             - user_sovereignty
-            
+
   memory:
     enabled: true
     lambda_products:
@@ -60,7 +60,7 @@ components:
           features:
             - content_history
             - style_memory
-            
+
   glyph:
     enabled: true
     symbolic_tokens:
@@ -73,7 +73,7 @@ components:
       nias: "📬"
       wallet: "👛"
       lens: "🔍"
-      
+
   tiers:
     enabled: true
     mappings:
@@ -85,7 +85,7 @@ components:
         lambda_products: ["nias", "abas", "lens", "auctor", "argus"]
       T3_TRUSTED:
         lambda_products: ["dast", "wallet", "trace", "nimbus", "legado"]
-        
+
   dreams:
     enabled: true
     lambda_products:
@@ -99,7 +99,7 @@ components:
             - dream_narratives
             - poetic_generation
             - tone_modulation
-            
+
 # GPT-OSS Configuration
 gpt_oss:
   enabled: true
@@ -109,7 +109,7 @@ gpt_oss:
     consciousness_layer: true
     compute_budget: "auto"
     agi_preparation: true
-    
+
 # Commercial Features
 commercial:
   enabled: true
@@ -129,7 +129,7 @@ commercial:
     white_label:
       price: 25000
       features: ["customization", "dedicated_support"]
-      
+
   revenue_tracking:
     enabled: true
     metrics:
@@ -137,7 +137,7 @@ commercial:
       - arr
       - customer_lifetime_value
       - churn_rate
-      
+
 # NIAS Specific Configuration
 nias:
   emotional_gating:
@@ -146,7 +146,7 @@ nias:
       stress_block: 0.8
       flow_protect: 0.7
       optimal_window: [0.3, 0.7]
-      
+
   consent_levels:
     basic:
       features: ["essential_only"]
@@ -154,7 +154,7 @@ nias:
       features: ["personalization", "analytics"]
     full_symbolic:
       features: ["all", "dream_integration", "symbolic_resonance"]
-      
+
   delivery_methods:
     visual:
       weight: 0.6
@@ -168,7 +168,7 @@ nias:
     deferred:
       weight: 0.05
       priority: 4
-      
+
 # Agent Configuration
 agents:
   autonomous_days: 7
@@ -180,26 +180,26 @@ agents:
       capabilities: ["attention_management", "priority_sorting"]
     dast:
       capabilities: ["context_tracking", "intelligence_gathering"]
-    
+
   orchestration:
     max_concurrent: 1000
-    deployment_speed: 100000  # agents/sec
-    health_check_interval: 60  # seconds
-    
+    deployment_speed: 100000 # agents/sec
+    health_check_interval: 60 # seconds
+
 # Plugin System
 plugins:
-  registration_throughput: 50000  # ops/sec target
+  registration_throughput: 50000 # ops/sec target
   health_monitoring: true
   hot_swap: true
   event_driven: true
-  
+
 # Performance Targets
 performance:
-  plugin_registration: 2  # ms
-  agent_deployment: 200  # ms
-  api_response: 200  # ms
-  memory_operations: 100  # ops/sec
-  
+  plugin_registration: 2 # ms
+  agent_deployment: 200 # ms
+  api_response: 200 # ms
+  memory_operations: 100 # ops/sec
+
 # Deployment Configuration
 deployment:
   mode: "production"
@@ -211,14 +211,14 @@ deployment:
     prometheus: true
     grafana: true
     alerts: true
-    
+
 # Security Configuration
 security:
   encryption: "AES-256"
   post_quantum: "prepared"
   consent_tracking: true
   audit_logging: true
-  
+
 # Analytics Configuration
 analytics:
   enabled: true

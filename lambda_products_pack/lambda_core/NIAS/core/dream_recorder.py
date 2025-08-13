@@ -1,6 +1,6 @@
 """
 Dream Recorder for NIΛS system
-Adapted from system-pwm-advanced for Lambda Products integration
+Adapted from system--advanced for Lambda Products integration
 """
 
 import json

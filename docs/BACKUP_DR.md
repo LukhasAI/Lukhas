@@ -1,4 +1,4 @@
-# Backup & DR for LUKHAS PWM
+# Backup & DR for LUKHAS 
 
 This module provides:
 - Snapshot creation with tar + zstd/gzip, per-file and bundle SHA-256

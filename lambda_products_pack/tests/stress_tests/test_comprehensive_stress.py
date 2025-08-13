@@ -96,7 +96,7 @@ class TestPathValidation:
             "plugin_system/lambda_products_adapter.py",
             "agents/autonomous_agent_framework.py",
             "agents/lambda_workforce_agents.py",
-            "integration/lukhas_pwm_adapter.py",
+            "integration/lukhas_adapter.py",
             "integrations/openai_agi_bridge.py",
         ]
 
@@ -131,7 +131,7 @@ class TestPathValidation:
                 ["AutonomousAgent", "AgentOrchestrator"],
             ),
             ("agents.lambda_workforce_agents", ["NIASEmotionalIntelligenceAgent"]),
-            ("integration.lukhas_pwm_adapter", ["LukhasPWMIntegrationAdapter"]),
+            ("integration.lukhas_adapter", ["LukhasIntegrationAdapter"]),
         ]
 
         failed_imports = []
@@ -680,37 +680,37 @@ class TestIntegrationPaths:
     """Test all integration paths work correctly"""
 
     @pytest.mark.asyncio
-    async def test_01_pwm_integration_path(self):
-        """Test 01: Full PWM integration path"""
-        print("\n🧪 Test 01: PWM Integration Path")
+    async def test_01_integration_path(self):
+        """Test 01: Full  integration path"""
+        print("\n🧪 Test 01:  Integration Path")
         print("=" * 50)
 
         try:
-            from integration.lukhas_pwm_adapter import (
-                ABASPWMPlugin,
-                DASTPWMPlugin,
-                LukhasPWMIntegrationAdapter,
-                NIASPWMPlugin,
+            from integration.lukhas_adapter import (
+                ABASPlugin,
+                DASTPlugin,
+                LukhasIntegrationAdapter,
+                NIASPlugin,
             )
 
-            adapter = LukhasPWMIntegrationAdapter()
+            adapter = LukhasIntegrationAdapter()
 
             # Register all products
-            products = [NIASPWMPlugin(), ABASPWMPlugin(), DASTPWMPlugin()]
+            products = [NIASPlugin(), ABASPlugin(), DASTPlugin()]
 
             for product in products:
                 success = await adapter.register_lambda_product(product, {})
                 assert (
                     success or not adapter.plugin_registry
-                ), "Registration should succeed or PWM not available"
+                ), "Registration should succeed or  not available"
 
-            print("✅ PWM integration path validated")
+            print("✅  integration path validated")
 
-            TEST_RESULTS["path_validation"]["pwm_integration"] = "passed"
+            TEST_RESULTS["path_validation"]["_integration"] = "passed"
 
         except Exception as e:
-            print(f"❌ PWM integration failed: {e}")
-            TEST_RESULTS["path_validation"]["pwm_integration"] = f"failed: {e}"
+            print(f"❌  integration failed: {e}")
+            TEST_RESULTS["path_validation"]["_integration"] = f"failed: {e}"
             raise
 
     @pytest.mark.asyncio

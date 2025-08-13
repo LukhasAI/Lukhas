@@ -11,7 +11,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Optional
 
-from lukhas_pwm.flags import get_flags
+from lukhas.flags import get_flags
 
 # Storage paths
 AUDIT_DIR = Path(".lukhas_audit")

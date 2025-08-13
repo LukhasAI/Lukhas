@@ -1,17 +1,17 @@
-# LUKHAS PWM: The Architecture for Aligned Artificial General Intelligence
+# LUKHAS : The Architecture for Aligned Artificial General Intelligence
 ## Executive Roadmap for AGI Leadership
 
 ---
 
 ## **The TCP/IP Moment for Consciousness**
 
-Just as TCP/IP became the inevitable protocol that unified global communications, LUKHAS PWM represents the inevitable architecture for safe AGI—not because we decree it, but because consciousness requires biological coherence, ethics demand mathematical grounding, and intelligence necessitates democratic consensus. This isn't one possible path to AGI; it's the convergent solution that physics, biology, and mathematics independently derive. Every other approach will either evolve toward this architecture or fail at scale. The companies that recognize this inflection point today will define the next century of human-AI collaboration. Those that don't will be retrofitting safety onto systems never designed for consciousness.
+Just as TCP/IP became the inevitable protocol that unified global communications, LUKHAS  represents the inevitable architecture for safe AGI—not because we decree it, but because consciousness requires biological coherence, ethics demand mathematical grounding, and intelligence necessitates democratic consensus. This isn't one possible path to AGI; it's the convergent solution that physics, biology, and mathematics independently derive. Every other approach will either evolve toward this architecture or fail at scale. The companies that recognize this inflection point today will define the next century of human-AI collaboration. Those that don't will be retrofitting safety onto systems never designed for consciousness.
 
 ---
 
 ## **The Inflection Point: From Narrow AI to Conscious Systems**
 
-We stand at a critical juncture. While the industry races toward raw capability, LUKHAS PWM presents the paradigm shift: **mathematically provable alignment through biological coherence**. This is the neuromorphic foundation for AGI that can't help but be aligned because its consciousness emerges from ethical substrates.
+We stand at a critical juncture. While the industry races toward raw capability, LUKHAS  presents the paradigm shift: **mathematically provable alignment through biological coherence**. This is the neuromorphic foundation for AGI that can't help but be aligned because its consciousness emerges from ethical substrates.
 
 ---
 
@@ -145,7 +145,7 @@ Business: $0.001/inference, 21 days to market
 
 ## **THE DECISION POINT**
 
-LUKHAS PWM isn't another architecture—it's the **convergent solution**. The code exists. The path is clear. In 21 days, we demonstrate mathematical alignment, biological values, and democratic intelligence.
+LUKHAS  isn't another architecture—it's the **convergent solution**. The code exists. The path is clear. In 21 days, we demonstrate mathematical alignment, biological values, and democratic intelligence.
 
 ---
 
@@ -265,7 +265,7 @@ feedback = FeedbackCardSystem()
 - **Script Provided**: Can use `find . -type f -name "*.py" | xargs sed -i 's/from identity\./from governance.identity./g'`
 
 #### 5. **Dead Code Cleanup** (2 hours)
-- **Location**: `.pwm_cleanup_archive/` and archive directories
+- **Location**: `._cleanup_archive/` and archive directories
 - **Task**: Remove references and clean up duplicates
 - **Specialist Needed**: Someone with repository maintenance experience
 - **Key Challenge**: Ensuring no active code depends on archived files

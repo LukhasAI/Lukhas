@@ -28,9 +28,9 @@ from orchestration.signals.signal_bus import SignalBus
 from reasoning.causal.causal_inference import CausalInferenceEngine
 
 
-class LukhasPWMDataFeeder:
+class LukhasDataFeeder:
     """
-    Feeds real data from all LUKHAS PWM modules into the monitoring system.
+    Feeds real data from all LUKHAS  modules into the monitoring system.
     This shows how the monitoring system gets triggered by actual system state.
     """
 
@@ -40,9 +40,9 @@ class LukhasPWMDataFeeder:
         self.last_trigger_times = {}
 
     async def initialize_data_sources(self):
-        """Initialize connections to all LUKHAS PWM modules"""
+        """Initialize connections to all LUKHAS  modules"""
 
-        print("🔌 Connecting to LUKHAS PWM modules...")
+        print("🔌 Connecting to LUKHAS  modules...")
 
         try:
             # Connect to consciousness system
@@ -65,7 +65,7 @@ class LukhasPWMDataFeeder:
             self.data_sources["endocrine"] = EndocrineIntegration()
             await self.data_sources["endocrine"].initialize()
 
-            print("✅ Connected to all LUKHAS PWM data sources")
+            print("✅ Connected to all LUKHAS  data sources")
 
         except Exception as e:
             print(f"⚠️ Some modules unavailable: {e}")
@@ -73,7 +73,7 @@ class LukhasPWMDataFeeder:
             await self._create_mock_data_sources()
 
     async def _create_mock_data_sources(self):
-        """Create mock data sources that simulate real LUKHAS PWM data"""
+        """Create mock data sources that simulate real LUKHAS  data"""
 
         class MockConsciousness:
             async def get_awareness_level(self):
@@ -156,7 +156,7 @@ class LukhasPWMDataFeeder:
             "endocrine": MockEndocrine(),
         }
 
-        print("🎭 Mock data sources created - simulating real LUKHAS PWM behavior")
+        print("🎭 Mock data sources created - simulating real LUKHAS  behavior")
 
     async def feed_continuous_data(self):
         """Continuously feed data from LUKHAS modules to monitoring system"""
@@ -186,7 +186,7 @@ class LukhasPWMDataFeeder:
                 await asyncio.sleep(5.0)
 
     async def _collect_comprehensive_state(self) -> Dict[str, Any]:
-        """Collect comprehensive state from all LUKHAS PWM modules"""
+        """Collect comprehensive state from all LUKHAS  modules"""
 
         # Consciousness data
         consciousness_data = {
@@ -603,7 +603,7 @@ class LukhasPWMDataFeeder:
 async def demonstrate_trigger_system():
     """Demonstrate the complete trigger system in action"""
 
-    print("🚀 LUKHAS PWM Enhanced Monitoring System - Trigger Demonstration")
+    print("🚀 LUKHAS  Enhanced Monitoring System - Trigger Demonstration")
     print("=" * 70)
 
     # 1. Start the monitoring system
@@ -615,14 +615,14 @@ async def demonstrate_trigger_system():
     print("✅ Monitoring system started")
 
     # 2. Create data feeder
-    data_feeder = LukhasPWMDataFeeder(monitoring_system)
+    data_feeder = LukhasDataFeeder(monitoring_system)
     await data_feeder.initialize_data_sources()
 
-    print("✅ Connected to LUKHAS PWM data sources")
+    print("✅ Connected to LUKHAS  data sources")
 
     # 3. Run demonstration
     print("\n📊 Starting real-time monitoring and triggering...")
-    print("Watch for trigger events based on simulated LUKHAS PWM data:")
+    print("Watch for trigger events based on simulated LUKHAS  data:")
     print("- 🚨 Stress triggers from high cortisol/adrenaline")
     print("- 📉 Performance triggers from low efficiency")
     print("- 🤝 Social triggers from low oxytocin")

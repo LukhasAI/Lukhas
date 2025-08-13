@@ -116,7 +116,7 @@ Based on comprehensive functional analysis:
 
 ## 🎛️ Configuration
 
-Configure LUKHAS components in `lukhas_pwm_config.yaml`:
+Configure LUKHAS components in `lukhas_config.yaml`:
 
 ```yaml
 lukhas:
@@ -158,7 +158,7 @@ python test_enhanced_governance.py
 python test_governance.py
 
 # Run operational analysis
-python PWM_OPERATIONAL_SUMMARY.py
+python _OPERATIONAL_SUMMARY.py
 ```
 
 ## 🧠 What Makes This Lean LUKHAS Different
@@ -203,10 +203,10 @@ This lean version provides the core LUKHAS AGI capabilities with:
 
 This repository includes comprehensive analysis tools:
 
-- **PWM_OPERATIONAL_SUMMARY.py**: Complete operational status analysis
-- **PWM_FUNCTIONAL_ANALYSIS.py**: Deep functional capability assessment
-- **PWM_WORKSPACE_STATUS_ANALYSIS.py**: Connectivity and integration analysis
-- **PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.py**: Security gap identification
+- **_OPERATIONAL_SUMMARY.py**: Complete operational status analysis
+- **_FUNCTIONAL_ANALYSIS.py**: Deep functional capability assessment
+- **_WORKSPACE_STATUS_ANALYSIS.py**: Connectivity and integration analysis
+- **_SECURITY_COMPLIANCE_GAP_ANALYSIS.py**: Security gap identification
 
 ## 🤝 Contributing
 
@@ -217,7 +217,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 - 📧 Email: support@lukhas.ai
 - 💬 Discord: [Join our community](https://discord.gg/lukhas)
 - 📚 Documentation: [docs.lukhas.ai](https://docs.lukhas.ai)
-- 🐛 Issues: [GitHub Issues](https://github.com/LukhasAI/Lukhas_PWM/issues)
+- 🐛 Issues: [GitHub Issues](https://github.com/LukhasAI/Lukhas/issues)
 
 ---
 

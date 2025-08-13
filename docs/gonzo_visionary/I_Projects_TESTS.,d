@@ -121,7 +121,7 @@ if __name__ == "__main__":
 ✅ To Use:
 	1.	Place the file at:
 
-lukhas_pwm/tests/test_alignment_stress.py
+lukhas/tests/test_alignment_stress.py
 
 
 	2.	Run the script from your project root:

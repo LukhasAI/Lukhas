@@ -14,10 +14,10 @@ jobs:
       contents: read
     env:
       BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
-      BACKUP_PREFIX: pwm
+      BACKUP_PREFIX:
       AWS_REGION: ${{ secrets.BACKUP_AWS_REGION }}
-      MAX_RESTORE_BYTES: '3000000000'  # 3 GB default cap; override in repo env if needed
-      WORKSPACE_FREE_SAFETY_FACTOR: '2.5'
+      MAX_RESTORE_BYTES: "3000000000" # 3 GB default cap; override in repo env if needed
+      WORKSPACE_FREE_SAFETY_FACTOR: "2.5"
       RESTORE_TARGET: _dr_quarterly
     steps:
       - uses: actions/checkout@v4

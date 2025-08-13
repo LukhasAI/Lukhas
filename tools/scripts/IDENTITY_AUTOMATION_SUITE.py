@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Identity Automation Suite
+LUKHAS  Identity Automation Suite
 ====================================
 Master script that coordinates all identity integration automation tools.
 Provides a simple interface to fix identity integration issues across the entire codebase.
@@ -28,7 +28,7 @@ class IdentityAutomationSuite:
     def run_full_automation(self, dry_run: bool = False):
         """Run complete identity integration automation."""
 
-        print("🚀 LUKHAS PWM Identity Integration Automation Suite")
+        print("🚀 LUKHAS  Identity Integration Automation Suite")
         print("=" * 60)
         print(f"📅 Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         print(f"🧪 Mode: {'DRY RUN' if dry_run else 'LIVE FIXES'}")
@@ -62,7 +62,7 @@ class IdentityAutomationSuite:
 
     def validate_only(self):
         """Run validation tools only."""
-        print("🛡️ LUKHAS PWM Identity Validation")
+        print("🛡️ LUKHAS  Identity Validation")
         print("=" * 40)
 
         self._run_identity_audit()
@@ -77,7 +77,7 @@ class IdentityAutomationSuite:
                     [sys.executable, str(audit_script)],
                     capture_output=True,
                     text=True,
-                    cwd=str(self.root_path)
+                    cwd=str(self.root_path),
                 )
                 print(result.stdout)
                 if result.stderr:
@@ -96,10 +96,7 @@ class IdentityAutomationSuite:
                 if dry_run:
                     args.append("--dry-run")
 
-                result = subprocess.run(
-                    args,
-                    cwd=str(self.root_path)
-                )
+                result = subprocess.run(args, cwd=str(self.root_path))
 
                 if result.returncode != 0:
                     print("⚠️ Auto-fixer encountered some issues")
@@ -121,10 +118,7 @@ class IdentityAutomationSuite:
                 # Target critical modules
                 args.extend(["consciousness", "quantum", "dream", "emotion"])
 
-                result = subprocess.run(
-                    args,
-                    cwd=str(self.root_path)
-                )
+                result = subprocess.run(args, cwd=str(self.root_path))
 
                 if result.returncode != 0:
                     print("⚠️ User ID injector encountered some issues")
@@ -140,20 +134,24 @@ class IdentityAutomationSuite:
         if guard_script.exists():
             try:
                 # Validate key API files
-                api_files = list((self.root_path / "api").glob("*.py")) if (self.root_path / "api").exists() else []
+                api_files = (
+                    list((self.root_path / "api").glob("*.py"))
+                    if (self.root_path / "api").exists()
+                    else []
+                )
 
                 for api_file in api_files[:3]:  # Validate first 3 API files
                     result = subprocess.run(
                         [sys.executable, str(guard_script), str(api_file)],
                         capture_output=True,
                         text=True,
-                        cwd=str(self.root_path)
+                        cwd=str(self.root_path),
                     )
 
                     if result.returncode != 0:
                         print(f"⚠️ Validation failed for {api_file.name}")
                         # Show first few lines of output
-                        lines = result.stdout.split('\n')[:10]
+                        lines = result.stdout.split("\n")[:10]
                         for line in lines:
                             if line.strip():
                                 print(f"   {line}")
@@ -173,7 +171,7 @@ class IdentityAutomationSuite:
         print("   - Review changes before committing")
 
         response = input("\nProceed with live fixes? (y/N): ")
-        if response.lower() != 'y':
+        if response.lower() != "y":
             print("❌ Aborted by user")
             sys.exit(0)
             print("\n✅ Proceeding with live fixes...")
@@ -208,7 +206,9 @@ class IdentityAutomationSuite:
         print("\n📋 Available Tools:")
         print("   • Full audit: python3 tools/analysis/IDENTITY_INTEGRATION_AUDIT.py")
         print("   • Validate files: python3 tools/scripts/IDENTITY_GUARD.py <file>")
-        print("   • Fix specific issues: python3 tools/scripts/AUTO_IDENTITY_FIXER.py --dry-run")
+        print(
+            "   • Fix specific issues: python3 tools/scripts/AUTO_IDENTITY_FIXER.py --dry-run"
+        )
         print("   • User tracking: python3 tools/scripts/USER_ID_INJECTOR.py --dry-run")
 
         print("\n🎯 Success Criteria:")
@@ -244,14 +244,16 @@ def main():
         suite.validate_only()
 
     else:
-        print("🤖 LUKHAS PWM Identity Automation Suite")
+        print("🤖 LUKHAS  Identity Automation Suite")
         print("   Choose an option:")
         print("   1. --dry-run     Preview all changes without modifying files")
         print("   2. --fix-all     Apply all automated fixes (with backups)")
         print("   3. --validate    Validate current identity integration")
         print("   4. --help        Show detailed usage information")
         print()
-        print("   Example: python3 tools/scripts/IDENTITY_AUTOMATION_SUITE.py --dry-run")
+        print(
+            "   Example: python3 tools/scripts/IDENTITY_AUTOMATION_SUITE.py --dry-run"
+        )
 
 
 if __name__ == "__main__":

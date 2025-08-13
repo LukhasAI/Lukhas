@@ -79,7 +79,7 @@ class SystemDiagnostic:
             ("data/meta_metrics.json", "Meta Metrics"),
             ("data/drift_audit_summary.json", "Drift Audit"),
             ("integration_config.yaml", "Integration Config"),
-            ("lukhas_pwm_config.yaml", "PWM Config"),
+            ("lukhas_config.yaml", " Config"),
         ]
 
         results = {}

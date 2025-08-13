@@ -68,7 +68,7 @@ The LUKHAS AI Agent Army operates with precision and strategic focus, featuring 
 - `data_legacy/` - Legacy data and consent management
 
 #### **🔗 Colony & Orchestration Systems**
-- `lukhas/colony/` - Colony consensus and adaptation systems (migrated from lukhas_pwm)
+- `lukhas/colony/` - Colony consensus and adaptation systems (migrated from lukhas)
 - `orchestration/` - High-level consciousness coordination controllers
 - `ai_orchestration/`, `orchestration_protocol/`, `orchestration_src/`
 - `ethics_swarm_colony/`, `reasoning_colony/`
@@ -347,9 +347,9 @@ agents/
 
 #### **Core Configuration Files**
 ```
-lukhas_pwm_config.yaml                # Legacy LUKHAS configuration
+lukhas_config.yaml                    # Main LUKHAS configuration
 lukhas/__init__.py                    # New namespace entry point
-lukhas_pwm.py                        # Backwards compatibility module
+lukhas.py                        # Backwards compatibility module
 .github/copilot-instructions.md       # GitHub Copilot coordination guidelines
 branding/trinity/                     # Trinity Framework standards
 ```
@@ -520,7 +520,7 @@ ls -la .claude/tasks/
 python branding/trinity/tools/trinity_validator.py . --comprehensive
 
 # Check Guardian System status
-python tools/analysis/PWM_OPERATIONAL_SUMMARY.py --guardian-focus
+python tools/analysis/_OPERATIONAL_SUMMARY.py --guardian-focus
 
 # Review compliance reports
 cat docs/reports/COMPLIANCE_AUDIT_REPORT.md

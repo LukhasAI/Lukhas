@@ -338,7 +338,7 @@ async def main():
     """🎭 Demonstration of LUKHAS knowledge server capabilities"""
     import sys
 
-    workspace = "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM"
+    workspace = "/Users/agi_dev/LOCAL-REPOS/Lukhas"
     server = LUKHASKnowledgeServer(workspace)
 
     print("🎭 LUKHAS Knowledge Server - Interactive Demo")

@@ -1,4 +1,4 @@
-# LUKHAS PWM Diagnostic Issues Resolution Guide
+# LUKHAS  Diagnostic Issues Resolution Guide
 
 ## Problem Summary
 
@@ -13,7 +13,7 @@ You're seeing "unresolved diagnostics" messages during commits because:
 The `pyproject.toml` didn't exclude backup directories, causing thousands of false positives:
 - `.event_bus_backup*`
 - `.hygiene_backup*`  
-- `.pwm_cleanup_archive`
+- `._cleanup_archive`
 - `archive/`
 
 **Status**: ✅ FIXED - Added exclusions to pyproject.toml

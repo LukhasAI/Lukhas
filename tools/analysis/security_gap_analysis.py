@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-PWM Security & Compliance Gap Analysis
+ Security & Compliance Gap Analysis
 ====================================
-Comprehensive analysis of Privacy, Security, Compliance, and Ethics gaps in PWM workspace.
+Comprehensive analysis of Privacy, Security, Compliance, and Ethics gaps in  workspace.
 """
 
 import ast
@@ -121,35 +121,47 @@ class SecurityComplianceAnalyzer:
         # Privacy gaps
         if len(self.analysis["privacy"]["files"]) < 5:
             gaps.append(
-                {"category": "Privacy", "severity": "HIGH",
-                 "issue": "Insufficient privacy protection mechanisms",
-                 "details":
-                 f"Only {len(self.analysis['privacy']['files'])} privacy files found. Need comprehensive GDPR, data anonymization, and user consent management.", })
+                {
+                    "category": "Privacy",
+                    "severity": "HIGH",
+                    "issue": "Insufficient privacy protection mechanisms",
+                    "details": f"Only {len(self.analysis['privacy']['files'])} privacy files found. Need comprehensive GDPR, data anonymization, and user consent management.",
+                }
+            )
 
         # Security gaps
         if len(self.analysis["security"]["files"]) < 10:
             gaps.append(
-                {"category": "Security", "severity": "CRITICAL",
-                 "issue": "Inadequate security infrastructure",
-                 "details":
-                 f"Only {len(self.analysis['security']['files'])} security files found. Missing authentication, authorization, encryption, and threat detection.", })
+                {
+                    "category": "Security",
+                    "severity": "CRITICAL",
+                    "issue": "Inadequate security infrastructure",
+                    "details": f"Only {len(self.analysis['security']['files'])} security files found. Missing authentication, authorization, encryption, and threat detection.",
+                }
+            )
 
         # Compliance gaps
         if len(self.analysis["compliance"]["files"]) < 8:
             gaps.append(
-                {"category": "Compliance", "severity": "HIGH",
-                 "issue": "Insufficient compliance framework",
-                 "details":
-                 f"Only {len(self.analysis['compliance']['files'])} compliance files found. Need regulatory compliance, audit trails, and policy enforcement.", })
+                {
+                    "category": "Compliance",
+                    "severity": "HIGH",
+                    "issue": "Insufficient compliance framework",
+                    "details": f"Only {len(self.analysis['compliance']['files'])} compliance files found. Need regulatory compliance, audit trails, and policy enforcement.",
+                }
+            )
 
         # Ethics gaps
         ethics_functions = len(self.analysis["ethics"]["functions"])
         if ethics_functions < 20:
             gaps.append(
-                {"category": "Ethics", "severity": "MEDIUM",
-                 "issue": "Limited ethical decision-making framework",
-                 "details":
-                 f"Only {ethics_functions} ethics functions found. Need bias detection, fairness algorithms, and ethical AI governance.", })
+                {
+                    "category": "Ethics",
+                    "severity": "MEDIUM",
+                    "issue": "Limited ethical decision-making framework",
+                    "details": f"Only {ethics_functions} ethics functions found. Need bias detection, fairness algorithms, and ethical AI governance.",
+                }
+            )
 
         return gaps
 
@@ -196,7 +208,7 @@ class SecurityComplianceAnalyzer:
 
     def run_analysis(self):
         """Run complete security and compliance analysis."""
-        print("🔍 Analyzing PWM Security & Compliance Infrastructure...")
+        print("🔍 Analyzing  Security & Compliance Infrastructure...")
 
         # Analyze each module
         for module in ["privacy", "security", "compliance", "ethics"]:
@@ -217,7 +229,7 @@ class SecurityComplianceAnalyzer:
     def print_report(self):
         """Print comprehensive security and compliance report."""
         print("\n" + "=" * 80)
-        print("🛡️  PWM SECURITY & COMPLIANCE GAP ANALYSIS")
+        print("🛡️   SECURITY & COMPLIANCE GAP ANALYSIS")
         print("=" * 80)
 
         # Module Status
@@ -286,9 +298,7 @@ class SecurityComplianceAnalyzer:
         print("   3. 🟡 Expand ethics module for comprehensive AI governance")
         print("   4. ✅ Create integrated security & compliance dashboard")
 
-    def save_detailed_report(
-        self, filename="PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.json"
-    ):
+    def save_detailed_report(self, filename="_SECURITY_COMPLIANCE_GAP_ANALYSIS.json"):
         """Save detailed analysis to JSON file."""
         with open(filename, "w") as f:
             json.dump(self.analysis, f, indent=2, default=str)

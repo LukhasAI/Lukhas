@@ -26,7 +26,7 @@ class ClaudeContextMemory:
     """Integrates Claude Code contexts with LUKHAS memory system."""
 
     def __init__(self):
-        self.memory_dir = Path("/Users/agi_dev/Lukhas_PWM/memory/claude_contexts")
+        self.memory_dir = Path("/Users/agi_dev/Lukhas/memory/claude_contexts")
         self.memory_dir.mkdir(parents=True, exist_ok=True)
 
     def create_memory_fold(self, context_data):
@@ -128,7 +128,7 @@ def main():
     example_context = {
         "session_id": datetime.now().strftime("%Y%m%d_%H%M%S"),
         "metadata": {
-            "repository": "LUKHAS PWM",
+            "repository": "LUKHAS ",
             "date": datetime.now().strftime("%Y-%m-%d"),
             "purpose": "Save Claude Code chat context",
         },

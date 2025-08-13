@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PWM Redundancy Remover
+ Redundancy Remover
 =====================
 Safely removes identified redundant code while preserving functionality.
 """
@@ -21,7 +21,7 @@ class RedundancyRemover:
     """Safely removes redundant code"""
 
     def __init__(self, dry_run: bool = True):
-        self.root_path = Path("/Users/agi_dev/Lukhas_PWM")
+        self.root_path = Path("/Users/agi_dev/Lukhas"
         self.dry_run = dry_run
         self.backup_dir = (
             self.root_path
@@ -153,7 +153,7 @@ class RedundancyRemover:
         logger.info("\n🔧 Removing exact duplicate functions...")
 
         # Load streamline report
-        report_path = self.root_path / "docs" / "reports" / "PWM_STREAMLINE_REPORT.json"
+        report_path = self.root_path / "docs" / "reports" / "_STREAMLINE_REPORT.json"
         if not report_path.exists():
             logger.warning("   Streamline report not found")
             return

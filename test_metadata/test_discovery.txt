@@ -1,16 +1,16 @@
 [1m============================= test session starts ==============================[0m
-platform darwin -- Python 3.9.6, pytest-8.4.1, pluggy-1.6.0 -- /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/.venv/bin/python
+platform darwin -- Python 3.9.6, pytest-8.4.1, pluggy-1.6.0 -- /Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/bin/python
 cachedir: .pytest_cache
 metadata: {'Python': '3.9.6', 'Platform': 'macOS-26.0-arm64-arm-64bit', 'Packages': {'pytest': '8.4.1', 'pluggy': '1.6.0'}, 'Plugins': {'Faker': '37.5.3', 'html': '4.1.1', 'asyncio': '1.1.0', 'json-report': '1.5.0', 'metadata': '3.1.1', 'anyio': '4.10.0', 'cov': '6.2.1', 'mock': '3.14.1', 'benchmark': '5.1.0'}}
 benchmark: 5.1.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
-rootdir: /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM
+rootdir: /Users/agi_dev/LOCAL-REPOS/Lukhas
 configfile: pytest.ini
 testpaths: tests
 plugins: Faker-37.5.3, html-4.1.1, asyncio-1.1.0, json-report-1.5.0, metadata-3.1.1, anyio-4.10.0, cov-6.2.1, mock-3.14.1, benchmark-5.1.0
 asyncio: mode=auto, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
 [1mcollecting ... [0mcollected 450 items / 10 errors / 4 skipped
 
-<Dir Lukhas_PWM>
+<Dir Lukhas>
   <Package tests>
     <Package api>
       <Module test_enhanced_api.py>
@@ -463,7 +463,7 @@ asyncio: mode=auto, asyncio_default_fixture_loop_scope=None, asyncio_default_tes
         <Coroutine test_global_compliance>
           Test Global Compliance Engine
       <Module test_enhanced_governance.py>
-        🧪 Enhanced PWM Governance Test Suite
+        🧪 EnhanceWM Governance Test Suite
         =====================================
         
         Tests the superior ethics and red team integrated governance system.
@@ -472,7 +472,7 @@ asyncio: mode=auto, asyncio_default_fixture_loop_scope=None, asyncio_default_tes
         <Coroutine test_basic_governance>
           Test basic governance as fallback.
       <Module test_governance.py>
-        �� PWM Governance Test Script
+        �WM Governance Test Script
         =============================
         
         Quick test to validate the governance integration.
@@ -1179,7 +1179,7 @@ asyncio: mode=auto, asyncio_default_fixture_loop_scope=None, asyncio_default_tes
         <Coroutine test_adaptive_threshold_calculations>
           Test adaptive threshold calculation algorithms
         <Coroutine test_real_data_integration>
-          Test real data integration from LUKHAS PWM modules
+          Test real data integration from LUKHAS  modules
         <Coroutine test_performance_and_load>
           Test system performance under load
         <Coroutine test_complete_integration_flow>
@@ -1250,7 +1250,7 @@ asyncio: mode=auto, asyncio_default_fixture_loop_scope=None, asyncio_default_tes
 
 ==================================== ERRORS ====================================
 [31m[1m______________ ERROR collecting tests/api/test_commercial_api.py _______________[0m
-[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/tests/api/test_commercial_api.py'.
+[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/api/test_commercial_api.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
@@ -1262,19 +1262,19 @@ serve/main.py:10: in <module>
 serve/openai_routes.py:8: in <module>
     from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 bridge/llm_wrappers/openai_modulated_service.py:26: in <module>
-    from lukhas_pwm.branding.terminology import normalize_chunk, normalize_output
-E   ModuleNotFoundError: No module named 'lukhas_pwm.branding'[0m
+    from lukhas.branding.terminology import normalize_chunk, normalize_output
+E   ModuleNotFoundError: No module named 'lukhas.branding'[0m
 [31m[1m_____________ ERROR collecting tests/branding/test_terminology.py ______________[0m
-[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/tests/branding/test_terminology.py'.
+[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/branding/test_terminology.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
     return _bootstrap._gcd_import(name[level:], package, level)
 tests/branding/test_terminology.py:1: in <module>
-    from lukhas_pwm.branding.terminology import normalize_output
-E   ModuleNotFoundError: No module named 'lukhas_pwm.branding'[0m
+    from lukhas.branding.terminology import normalize_output
+E   ModuleNotFoundError: No module named 'lukhas.branding'[0m
 [31m[1m________ ERROR collecting tests/bridge/test_openai_modulated_service.py ________[0m
-[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/tests/bridge/test_openai_modulated_service.py'.
+[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/bridge/test_openai_modulated_service.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
@@ -1282,10 +1282,10 @@ Traceback:
 tests/bridge/test_openai_modulated_service.py:3: in <module>
     from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 bridge/llm_wrappers/openai_modulated_service.py:26: in <module>
-    from lukhas_pwm.branding.terminology import normalize_chunk, normalize_output
-E   ModuleNotFoundError: No module named 'lukhas_pwm.branding'[0m
+    from lukhas.branding.terminology import normalize_chunk, normalize_output
+E   ModuleNotFoundError: No module named 'lukhas.branding'[0m
 [31m[1m_______ ERROR collecting tests/integration/test_complete_openai_flow.py ________[0m
-[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/tests/integration/test_complete_openai_flow.py'.
+[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_complete_openai_flow.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
@@ -1293,10 +1293,10 @@ Traceback:
 tests/integration/test_complete_openai_flow.py:14: in <module>
     from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 bridge/llm_wrappers/openai_modulated_service.py:26: in <module>
-    from lukhas_pwm.branding.terminology import normalize_chunk, normalize_output
-E   ModuleNotFoundError: No module named 'lukhas_pwm.branding'[0m
+    from lukhas.branding.terminology import normalize_chunk, normalize_output
+E   ModuleNotFoundError: No module named 'lukhas.branding'[0m
 [31m[1m_________ ERROR collecting tests/integration/test_final_integration.py _________[0m
-[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/tests/integration/test_final_integration.py'.
+[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_final_integration.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
@@ -1304,10 +1304,10 @@ Traceback:
 tests/integration/test_final_integration.py:15: in <module>
     from bridge.llm_wrappers.openai_modulated_service import run_modulated_completion
 bridge/llm_wrappers/openai_modulated_service.py:26: in <module>
-    from lukhas_pwm.branding.terminology import normalize_chunk, normalize_output
-E   ModuleNotFoundError: No module named 'lukhas_pwm.branding'[0m
+    from lukhas.branding.terminology import normalize_chunk, normalize_output
+E   ModuleNotFoundError: No module named 'lukhas.branding'[0m
 [31m[1m_________ ERROR collecting tests/integration/test_openai_responses.py __________[0m
-[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/tests/integration/test_openai_responses.py'.
+[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/integration/test_openai_responses.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
@@ -1315,10 +1315,10 @@ Traceback:
 tests/integration/test_openai_responses.py:14: in <module>
     from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 bridge/llm_wrappers/openai_modulated_service.py:26: in <module>
-    from lukhas_pwm.branding.terminology import normalize_chunk, normalize_output
-E   ModuleNotFoundError: No module named 'lukhas_pwm.branding'[0m
+    from lukhas.branding.terminology import normalize_chunk, normalize_output
+E   ModuleNotFoundError: No module named 'lukhas.branding'[0m
 [31m[1m______________ ERROR collecting tests/serve/test_openai_routes.py ______________[0m
-[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/tests/serve/test_openai_routes.py'.
+[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/serve/test_openai_routes.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
@@ -1330,10 +1330,10 @@ serve/main.py:10: in <module>
 serve/openai_routes.py:8: in <module>
     from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 bridge/llm_wrappers/openai_modulated_service.py:26: in <module>
-    from lukhas_pwm.branding.terminology import normalize_chunk, normalize_output
-E   ModuleNotFoundError: No module named 'lukhas_pwm.branding'[0m
+    from lukhas.branding.terminology import normalize_chunk, normalize_output
+E   ModuleNotFoundError: No module named 'lukhas.branding'[0m
 [31m[1m___________________ ERROR collecting tests/test_adapters.py ____________________[0m
-[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/tests/test_adapters.py'.
+[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_adapters.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
@@ -1344,7 +1344,7 @@ adapters/cloud_consolidation.py:26: in <module>
     from consent.service import ConsentService
 E   ModuleNotFoundError: No module named 'consent.service'[0m
 [31m[1m____________________ ERROR collecting tests/test_consent.py ____________________[0m
-[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/tests/test_consent.py'.
+[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_consent.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
@@ -1372,15 +1372,15 @@ E   ModuleNotFoundError: No module named 'consent.api'[0m
 [1m[31mE   fastapi.exceptions.FastAPIError: Invalid args for response field! Hint: check that <class 'gtpsi.studio_hooks.StudioGTΨHooks'> is a valid Pydantic field type. If you are using a return type annotation that is not a valid Pydantic field (e.g. Union[Response, dict, None]) you can disable generating the response model from the type annotation with the path operation decorator parameter response_model=None. Read more: https://fastapi.tiangolo.com/tutorial/response-model/[0m
 [33m=============================== warnings summary ===============================[0m
 bridge/llm_wrappers/tool_executor.py:10
-  /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/bridge/llm_wrappers/tool_executor.py:10: DeprecationWarning: Namespace notice: `lukhas_pwm` is kept for compatibility; please migrate imports to `lukhas`.
-    from lukhas_pwm.tools.tool_executor import get_tool_executor
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/bridge/llm_wrappers/tool_executor.py:10: DeprecationWarning: Namespace notice: `lukhas` is kept for compatibility; please migrate imports to `lukhas`.
+    from lukhas.tools.tool_executor import get_tool_executor
 
 quantum/core/quantum_processor_enhanced.py:34
-  /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/quantum/core/quantum_processor_enhanced.py:34: UserWarning: Qiskit not available. Using numpy-based quantum simulation.
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/quantum/core/quantum_processor_enhanced.py:34: UserWarning: Qiskit not available. Using numpy-based quantum simulation.
     warnings.warn("Qiskit not available. Using numpy-based quantum simulation.")
 
 gtpsi/server/verify.py:44
-  /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/gtpsi/server/verify.py:44: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+  /Users/agi_dev/LOCAL-REPOS/Lukhas/gtpsi/server/verify.py:44: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
     @validator('nonce')
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html

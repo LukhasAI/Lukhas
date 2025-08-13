@@ -25,7 +25,7 @@ This document analyzes all files currently in the root directory and recommends 
 
 ### Project Files (✅ KEEP IN ROOT)
 - `main.py` - Main entry point
-- `lukhas_pwm_config.yaml` - Core LUKHAS config
+- `lukhas_config.yaml` - Core LUKHAS config
 - `modulation_policy.yaml` - Core policy config
 
 ### Development Tools (✅ KEEP IN ROOT)
@@ -34,7 +34,7 @@ This document analyzes all files currently in the root directory and recommends 
 - `pip-constraints.txt` - Dependency constraints
 
 ### IDE Configuration (✅ KEEP IN ROOT)
-- `Lukhas_PWM.code-workspace` - VS Code workspace
+- `Lukhas.code-workspace` - VS Code workspace
 - `claude_desktop_config.json` - Claude Desktop config
 
 ## Files to Move to `/docs/`
@@ -97,7 +97,7 @@ This document analyzes all files currently in the root directory and recommends 
 - `PRODUCTION_TEST_REPORT.md`
 - `TOOL_EXECUTOR_IMPLEMENTATION.md`
 - `TOOL_INTEGRATION_COMPLETE.md`
-- `GPT5_AUDITS_LUKHAS_PWM.md`
+- `GPT5_AUDITS_LUKHAS.md`
 - `IMPLEMENTATION_SUMMARY.md`
 
 ## Files to Move to `/scripts/`
@@ -146,12 +146,12 @@ This document analyzes all files currently in the root directory and recommends 
 ## Recommended Directory Structure
 
 ```
-LUKHAS_PWM/
+LUKHAS/
 ├── 📄 Root Configuration Files (keep minimal)
 │   ├── .env, .gitignore, LICENSE, README.md
 │   ├── Makefile, requirements.txt, setup.py
 │   ├── pyproject.toml, pytest.ini
-│   └── main.py, lukhas_pwm_config.yaml
+│   └── main.py, lukhas_config.yaml
 │
 ├── 📁 docs/
 │   ├── 📁 setup/

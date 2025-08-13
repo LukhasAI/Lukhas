@@ -1,5 +1,5 @@
-# LUKHAS_PWM Complete Module Mapping & Agent Allocation
-# Comprehensive mapping of all modules in the LUKHAS_PWM ecosystem
+# LUKHAS Complete Module Mapping & Agent Allocation
+# Comprehensive mapping of all modules in the LUKHAS ecosystem
 
 ## 🎭 CORE TRINITY FRAMEWORK MODULES
 
@@ -207,7 +207,7 @@
 
 ## 📦 PRODUCT & DEPLOYMENT
 - **lambda_products_pack/** - Lambda products
-- **lukhas_pwm/** - LUKHAS PWM core
+- **lukhas/** - LUKHAS  core
 - **lukhas/** - LUKHAS framework
 - **deployments/** - Deployment configs
 - **transmission_bundle/** - Transmission system

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Setup script for LUKHAS PWM monitoring infrastructure
+Setup script for LUKHAS  monitoring infrastructure
 Configures and starts all monitoring components
 """
 
@@ -188,7 +188,7 @@ class MonitoringSetup:
             "global": {"scrape_interval": "15s"},
             "scrape_configs": [
                 {
-                    "job_name": "lukhas-pwm",
+                    "job_name": "lukhas-",
                     "static_configs": [
                         {
                             "targets": [
@@ -214,13 +214,13 @@ class MonitoringSetup:
         """Create utility scripts for monitoring"""
         scripts = {
             "start_monitoring.sh": """#!/bin/bash
-# Start all LUKHAS PWM monitoring services
-echo "🚀 Starting LUKHAS PWM Monitoring..."
+# Start all LUKHAS  monitoring services
+echo "🚀 Starting LUKHAS  Monitoring..."
 python3 monitoring/setup_monitoring.py --start-all
 """,
             "stop_monitoring.sh": """#!/bin/bash
 # Stop all monitoring services
-echo "🛑 Stopping LUKHAS PWM Monitoring..."
+echo "🛑 Stopping LUKHAS  Monitoring..."
 pkill -f "unified_dashboard"
 pkill -f "meta_dashboard" 
 pkill -f "prometheus"
@@ -268,8 +268,8 @@ if __name__ == "__main__":
     def create_systemd_services(self, config: Dict[str, Any]):
         """Create systemd service files for production deployment"""
         services = {
-            "lukhas-pwm-dashboard": {
-                "description": "LUKHAS PWM Unified Dashboard",
+            "lukhas--dashboard": {
+                "description": "LUKHAS  Unified Dashboard",
                 "command": f"{sys.executable} {self.base_dir}/unified_dashboard.py",
                 "port": config["unified_dashboard"]["port"],
             }
@@ -307,12 +307,12 @@ WantedBy=multi-user.target
         logger.info("📋 To install systemd services:")
         logger.info(f"   sudo cp {systemd_dir}/*.service /etc/systemd/system/")
         logger.info("   sudo systemctl daemon-reload")
-        logger.info("   sudo systemctl enable lukhas-pwm-dashboard")
-        logger.info("   sudo systemctl start lukhas-pwm-dashboard")
+        logger.info("   sudo systemctl enable lukhas--dashboard")
+        logger.info("   sudo systemctl start lukhas--dashboard")
 
     def run_setup(self, args):
         """Run the complete setup process"""
-        logger.info("🔧 Starting LUKHAS PWM Monitoring Setup...")
+        logger.info("🔧 Starting LUKHAS  Monitoring Setup...")
 
         # Check dependencies
         if not self.check_dependencies():
@@ -344,7 +344,7 @@ WantedBy=multi-user.target
         if args.start_all or args.start_meta:
             self.start_meta_dashboard(config)
 
-        logger.info("✅ LUKHAS PWM Monitoring Setup Complete!")
+        logger.info("✅ LUKHAS  Monitoring Setup Complete!")
 
         if self.services:
             logger.info("🚀 Running services:")
@@ -370,7 +370,7 @@ WantedBy=multi-user.target
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Setup LUKHAS PWM monitoring infrastructure"
+        description="Setup LUKHAS  monitoring infrastructure"
     )
 
     parser.add_argument(

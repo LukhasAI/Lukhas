@@ -338,7 +338,7 @@ Everything controlled from one simple file - `lukhas_unified_config.yaml`!
 #### 📚 Academic
 ```yaml
 # Hierarchical configuration with schema validation
-lukhas_pwm:
+lukhas:
   version: "1.0.0"
   features:
     cognitive_workspace: true

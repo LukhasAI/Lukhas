@@ -2,7 +2,7 @@
 
 ## 🚀 Quick Start
 
-This package contains the complete Lambda Products suite, ready for integration with Lukhas PWM.
+This package contains the complete Lambda Products suite, ready for integration with Lukhas .
 
 ### Package Contents
 
@@ -10,7 +10,7 @@ This package contains the complete Lambda Products suite, ready for integration 
 lambda_products_pack/
 ├── plugins/          # Plugin system & adapters
 ├── agents/          # Autonomous agent frameworks
-├── integrations/    # PWM & OpenAI bridges
+├── integrations/    #  & OpenAI bridges
 ├── config/          # Unified configuration
 ├── docs/            # Complete documentation
 ├── tests/           # Stress & integration tests
@@ -24,7 +24,7 @@ lambda_products_pack/
 ### Step 1: Install Dependencies
 
 ```bash
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/lambda_products_pack
+cd /Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack
 pip install -r requirements.txt
 ```
 
@@ -39,17 +39,17 @@ Or for development:
 python setup.py develop
 ```
 
-## 🔌 Plugin Integration with Lukhas PWM
+## 🔌 Plugin Integration with Lukhas 
 
 ### Automatic Integration
 
-Lambda Products automatically integrates with Lukhas PWM if detected:
+Lambda Products automatically integrates with Lukhas  if detected:
 
 ```python
-from lambda_products_pack.integrations.lukhas_pwm_adapter import LukhasPWMIntegrationAdapter
+from lambda_products_pack.integrations.lukhas_adapter import LukhasIntegrationAdapter
 
 # Initialize adapter
-adapter = LukhasPWMIntegrationAdapter()
+adapter = LukhasIntegrationAdapter()
 
 # Register Lambda Products
 await adapter.auto_register_all_products()
@@ -62,13 +62,13 @@ from lambda_products_pack.plugins import NIASPlugin, ABASPlugin, DASTPlugin
 
 # Register individual plugins
 nias = NIASPlugin()
-await pwm_registry.register_plugin(nias)
+await _registry.register_plugin(nias)
 
 abas = ABASPlugin()
-await pwm_registry.register_plugin(abas)
+await _registry.register_plugin(abas)
 
 dast = DASTPlugin()
-await pwm_registry.register_plugin(dast)
+await _registry.register_plugin(dast)
 ```
 
 ## 🤖 Autonomous Agents
@@ -168,7 +168,7 @@ lambda_products:
     tier_required: 3
     knowledge_graph: true
 
-lukhas_pwm:
+lukhas:
   integration_enabled: true
   auto_register: true
   
@@ -182,7 +182,7 @@ openai:
 
 ```bash
 export OPENAI_API_KEY="your-api-key"
-export LUKHAS_PWM_PATH="/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM"
+export LUKHAS_PATH="/Users/agi_dev/LOCAL-REPOS/Lukhas"
 export LAMBDA_PRODUCTS_ENV="production"
 ```
 
@@ -204,7 +204,7 @@ python tests/stress_tests/test_comprehensive_stress.py
 ### Run Integration Tests
 
 ```bash
-python tests/integration_tests/test_lukhas_pwm_integration.py
+python tests/integration_tests/test_lukhas_integration.py
 ```
 
 ## 📊 Performance Metrics
@@ -225,14 +225,14 @@ Expected performance with this package:
 1. **Import Errors**
    ```bash
    # Add to Python path
-   export PYTHONPATH="${PYTHONPATH}:/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/lambda_products_pack"
+   export PYTHONPATH="${PYTHONPATH}:/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack"
    ```
 
-2. **PWM Integration Not Found**
+2. ** Integration Not Found**
    ```python
-   # Manually specify PWM path
+   # Manually specify  path
    import sys
-   sys.path.insert(0, '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM')
+   sys.path.insert(0, '/Users/agi_dev/LOCAL-REPOS/Lukhas')
    ```
 
 3. **OpenAI Connection Failed**
@@ -272,12 +272,12 @@ fleet_status = get_fleet_status()
 
 ```python
 import asyncio
-from lambda_products_pack.integrations import LukhasPWMIntegrationAdapter
+from lambda_products_pack.integrations import LukhasIntegrationAdapter
 from lambda_products_pack.agents import LambdaWorkforceOrchestrator
 
 async def main():
-    # Step 1: Initialize PWM integration
-    adapter = LukhasPWMIntegrationAdapter()
+    # Step 1: Initialize  integration
+    adapter = LukhasIntegrationAdapter()
     
     # Step 2: Register all Lambda Products
     await adapter.auto_register_all_products()
@@ -307,8 +307,8 @@ For issues or questions:
 
 ## 🎉 Ready to Go!
 
-Your Lambda Products package is ready for integration with Lukhas PWM. The system will:
-- Automatically detect and integrate with PWM
+Your Lambda Products package is ready for integration with Lukhas . The system will:
+- Automatically detect and integrate with 
 - Deploy autonomous agents
 - Connect to OpenAI when configured
 - Provide enterprise-grade AI capabilities
@@ -318,6 +318,6 @@ Start with the quick integration example above and scale as needed!
 ---
 
 **Package Version:** 1.0.0  
-**Compatible with:** Lukhas PWM 2.0+  
+**Compatible with:** Lukhas  2.0+  
 **Python Required:** 3.9+  
 **Last Updated:** August 6, 2025

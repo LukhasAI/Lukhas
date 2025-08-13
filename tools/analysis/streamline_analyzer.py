@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-PWM Streamline Analyzer
+ Streamline Analyzer
 ======================
-Focused redundancy analysis and streamlining recommendations for LUKHAS PWM.
+Focused redundancy analysis and streamlining recommendations for LUKHAS 
 """
 
 import ast
@@ -21,7 +21,7 @@ class StreamlineAnalyzer:
     """Analyzes specific modules for streamlining opportunities"""
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas_PWM")
+        self.root_path = Path("/Users/agi_dev/Lukhas"
         self.key_modules = [
             "core",
             "consciousness",
@@ -42,7 +42,7 @@ class StreamlineAnalyzer:
 
     def analyze(self) -> dict[str, Any]:
         """Run focused streamlining analysis"""
-        logger.info("🔍 Analyzing LUKHAS PWM for streamlining opportunities...\n")
+        logger.info("🔍 Analyzing LUKHAS r streamlining opportunities...\n")
 
         # Analyze key modules
         for module in self.key_modules:
@@ -64,7 +64,7 @@ class StreamlineAnalyzer:
         }
 
         # Save report
-        report_path = self.root_path / "docs" / "reports" / "PWM_STREAMLINE_REPORT.json"
+        report_path = self.root_path / "docs" / "reports" / "REAMLINE_REPORT.json"
         report_path.parent.mkdir(parents=True, exist_ok=True)
         with open(report_path, "w") as f:
             json.dump(report, f, indent=2)
@@ -415,7 +415,7 @@ class StreamlineAnalyzer:
             for task in phase["tasks"][:2]:
                 print(f"      - {task}")
 
-        print("\n✅ Full report saved to: docs/reports/PWM_STREAMLINE_REPORT.json")
+        print("\n✅ Full report saved to: docs/reports/REAMLINE_REPORT.json")
         print("=" * 80)
 
 

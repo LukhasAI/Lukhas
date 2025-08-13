@@ -21,7 +21,7 @@ echo "✅ Claude Code CLI found"
 echo ""
 
 # Set working directory
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM
+cd /Users/agi_dev/LOCAL-REPOS/Lukhas
 
 echo "🎯 DEPLOYING 6 CORE CONSCIOUSNESS AGENTS:"
 echo "========================================"

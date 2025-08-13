@@ -38,7 +38,7 @@ System Throughput:
 ## 📦 Deliverables
 
 ### Clean Package Created
-- **File:** `lukhas_pwm_clean_20250807_011805.zip`
+- **File:** `lukhas_clean_20250807_011805.zip`
 - **Size:** 57 MB
 - **Location:** `/Users/agi_dev/LOCAL-REPOS/`
 - **Contents:** Complete LUKHAS PWM + Lambda Products integration
@@ -122,12 +122,12 @@ Error Rate: 0.0%
 ### 1. Extract Clean Package
 ```bash
 cd /Users/agi_dev/LOCAL-REPOS/
-unzip lukhas_pwm_clean_20250807_011805.zip -d lukhas_pwm_production/
+unzip lukhas_clean_20250807_011805.zip -d lukhas_production/
 ```
 
 ### 2. Install Dependencies
 ```bash
-cd lukhas_pwm_production/
+cd lukhas_production/
 pip install -r requirements.txt
 ```
 

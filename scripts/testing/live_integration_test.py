@@ -14,8 +14,8 @@ from pathlib import Path
 import httpx
 
 from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
-from lukhas_pwm.audit.store import audit_log_write
-from lukhas_pwm.feedback.store import record_feedback
+from lukhas.audit.store import audit_log_write
+from lukhas.feedback.store import record_feedback
 from orchestration.signals.homeostasis import ModulationParams
 from orchestration.signals.signal_bus import Signal, SignalType
 

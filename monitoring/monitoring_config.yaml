@@ -1,4 +1,4 @@
-# LUKHAS PWM Monitoring Configuration
+# LUKHAS  Monitoring Configuration
 # Trinity Framework: ⚛️🧠🛡️
 
 # Unified Dashboard Configuration
@@ -6,11 +6,11 @@ unified_dashboard:
   enabled: true
   host: "0.0.0.0"
   port: 3000
-  refresh_rate: 5  # seconds
-  title: "LUKHAS PWM Unified Dashboard"
-  enable_auth: false  # Set to true for production
+  refresh_rate: 5 # seconds
+  title: "LUKHAS  Unified Dashboard"
+  enable_auth: false # Set to true for production
 
-# Meta/Symbolic Dashboard Configuration  
+# Meta/Symbolic Dashboard Configuration
 meta_dashboard:
   enabled: true
   port: 5042
@@ -20,55 +20,55 @@ meta_dashboard:
 # Metrics Collection Configuration
 metrics_collection:
   enabled: true
-  interval: 1  # seconds
+  interval: 1 # seconds
   retention_hours: 24
   batch_size: 100
-  
+
   # Metrics sources
   sources:
-    system: true      # CPU, memory, disk
-    api: true         # FastAPI endpoints
-    consciousness: true  # Awareness, reflection
-    memory: true      # Folds, drift, integrity  
-    ethics: true      # Guardian decisions
-    dream: true       # Dream engine metrics
-    flags: true       # Feature flags status
+    system: true # CPU, memory, disk
+    api: true # FastAPI endpoints
+    consciousness: true # Awareness, reflection
+    memory: true # Folds, drift, integrity
+    ethics: true # Guardian decisions
+    dream: true # Dream engine metrics
+    flags: true # Feature flags status
 
 # Alerting Configuration
 alerting:
   enabled: true
-  
+
   # Alert thresholds
   thresholds:
     # System thresholds
     cpu_critical: 90.0
     memory_critical: 90.0
     disk_critical: 95.0
-    
+
     # Application thresholds
     drift_warning: 0.5
     drift_critical: 0.8
-    response_time_slow: 1000  # ms
+    response_time_slow: 1000 # ms
     error_rate_high: 0.05
-    
+
     # Consciousness thresholds
     awareness_low: 0.3
     processing_overload: 0.9
-    
+
     # Ethics thresholds
     ethics_score_low: 0.7
     rejection_rate_high: 0.1
-    
+
   # Alert retention
   retention_hours: 72
   max_alerts: 1000
-  
+
   # Notification channels (configure webhooks/emails)
   notifications:
     console: true
     file: true
-    webhook: false  # Set webhook URL below
-    email: false    # Configure SMTP below
+    webhook: false # Set webhook URL below
+    email: false # Configure SMTP below
 
 # Integration Configuration
 integrations:
@@ -77,43 +77,43 @@ integrations:
     enabled: false
     port: 9090
     metrics_path: "/metrics"
-    
-  # Grafana dashboards  
+
+  # Grafana dashboards
   grafana:
     enabled: false
     host: "localhost"
     port: 3001
-    
+
   # External monitoring services
   datadog:
     enabled: false
-    api_key: ""  # Set in environment: DATADOG_API_KEY
-    
+    api_key: "" # Set in environment: DATADOG_API_KEY
+
   # Slack notifications
   slack:
     enabled: false
-    webhook_url: ""  # Set webhook URL
+    webhook_url: "" # Set webhook URL
     channel: "#lukhas-alerts"
-    
+
   # PagerDuty integration
   pagerduty:
     enabled: false
-    routing_key: ""  # Set PagerDuty integration key
+    routing_key: "" # Set PagerDuty integration key
 
 # Security Configuration
 security:
   # API authentication
   api_key_required: false
-  api_key: ""  # Set in environment: LUKHAS_MONITORING_API_KEY
-  
+  api_key: "" # Set in environment: LUKHAS_MONITORING_API_KEY
+
   # Rate limiting
   rate_limits:
     api_requests_per_minute: 1000
     websocket_connections_max: 100
-    
+
   # CORS settings
   cors:
-    allowed_origins: ["*"]  # Restrict in production
+    allowed_origins: ["*"] # Restrict in production
     allowed_methods: ["GET", "POST"]
 
 # Performance Configuration
@@ -121,36 +121,36 @@ performance:
   # WebSocket settings
   websocket_ping_interval: 30
   websocket_ping_timeout: 10
-  
+
   # Database settings (if using persistent storage)
   database:
-    url: "sqlite:///monitoring.db"  # Use PostgreSQL for production
+    url: "sqlite:///monitoring.db" # Use PostgreSQL for production
     pool_size: 10
     max_overflow: 20
-    
+
   # Caching
   cache:
     enabled: true
-    ttl: 300  # seconds
+    ttl: 300 # seconds
     max_entries: 10000
 
 # Dashboard Customization
 dashboard:
   # Theme settings
-  theme: "dark"  # dark, light, auto
-  
+  theme: "dark" # dark, light, auto
+
   # Refresh rates for different components
   refresh_rates:
-    metrics: 5      # Main metrics
-    alerts: 10      # Alert panel  
-    charts: 15      # Historical charts
-    logs: 30        # Log viewer
-    
+    metrics: 5 # Main metrics
+    alerts: 10 # Alert panel
+    charts: 15 # Historical charts
+    logs: 30 # Log viewer
+
   # Chart configurations
   charts:
     max_points: 100
     time_window_hours: 24
-    
+
   # Custom panels (add your own monitoring panels)
   custom_panels:
     - name: "Custom Metric"
@@ -160,19 +160,19 @@ dashboard:
 
 # Logging Configuration
 logging:
-  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  level: "INFO" # DEBUG, INFO, WARNING, ERROR
   format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-  
+
   # Log files
   files:
     main: "logs/monitoring.log"
     metrics: "logs/metrics.log"
     alerts: "logs/alerts.log"
     errors: "logs/errors.log"
-    
+
   # Log rotation
   rotation:
-    max_bytes: 10485760  # 10MB
+    max_bytes: 10485760 # 10MB
     backup_count: 5
 
 # Data Storage
@@ -180,7 +180,7 @@ data_storage:
   # Metrics storage
   metrics_file: "data/metrics.jsonl"
   alerts_file: "data/alerts.jsonl"
-  
+
   # Historical data retention
   cleanup:
     enabled: true
@@ -192,11 +192,11 @@ development:
   # Mock data generation
   mock_data: false
   mock_alerts: false
-  
+
   # Debug features
   debug_mode: false
   verbose_logging: false
-  
+
   # Auto-reload
   auto_reload: true
 
@@ -205,15 +205,15 @@ production:
   # High availability
   ha_enabled: false
   replica_count: 1
-  
+
   # Load balancing
   load_balancer: false
-  
+
   # SSL/TLS
   ssl_enabled: false
   ssl_cert: ""
   ssl_key: ""
-  
+
   # Backup
   backup:
     enabled: false

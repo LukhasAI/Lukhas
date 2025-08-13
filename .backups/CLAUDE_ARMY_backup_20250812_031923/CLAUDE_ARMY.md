@@ -155,7 +155,7 @@ context_files:
   - "./memory/"
   - "./emotion/"
   - "./api/"
-  - "./lukhas_pwm_config.yaml"
+  - "./lukhas_config.yaml"
 
 coding_principles:
   - "Write for AGI-scale performance"

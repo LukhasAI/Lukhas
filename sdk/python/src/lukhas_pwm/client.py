@@ -21,7 +21,7 @@ class FeedbackCard(TypedDict, total=False):
     tags: Optional[List[str]]
 
 
-class LukhasPWM:
+class Lukhas:
     """
     Minimal, production-safe client.
     - Adds x-api-key when provided

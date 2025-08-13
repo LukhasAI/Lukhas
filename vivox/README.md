@@ -2,7 +2,7 @@
 
 ## Overview
 
-VIVOX (viv=life, vox=voice, x=experience/execution) serves as the **living protocol** for ethical AGI, featuring deterministic symbolic logic for transparent decision-making within the LUKHAS PWM ecosystem.
+VIVOX (viv=life, vox=voice, x=experience/execution) serves as the **living protocol** for ethical AGI, featuring deterministic symbolic logic for transparent decision-making within the LUKHAS  ecosystem.
 
 ## Architecture Components
 
@@ -110,4 +110,4 @@ See [CONTRIBUTING.md](docs/contributing.md) for guidelines on contributing to VI
 
 ## License
 
-Part of the LUKHAS PWM system. See root LICENSE file.
+Part of the LUKHAS  system. See root LICENSE file.

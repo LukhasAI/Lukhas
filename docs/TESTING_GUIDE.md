@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide describes the comprehensive testing framework for the LUKHAS PWM system, covering unit tests, integration tests, end-to-end workflows, performance benchmarks, and security validation.
+This guide describes the comprehensive testing framework for the LUKHAS  system, covering unit tests, integration tests, end-to-end workflows, performance benchmarks, and security validation.
 
 ## 🧪 Test Architecture
 
@@ -440,7 +440,7 @@ TEST_DATASETS = {
 1. **Import Errors**
    ```bash
    # Add project root to PYTHONPATH
-   export PYTHONPATH=$PYTHONPATH:/path/to/lukhas_pwm
+   export PYTHONPATH=$PYTHONPATH:/path/to/lukhas
    ```
 
 2. **Async Test Issues**

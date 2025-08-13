@@ -1,4 +1,4 @@
-"""Common utilities for LUKHAS PWM"""
+"""Common utilities for LUKHAS"""
 
 from .utils import (
     SingletonMeta,

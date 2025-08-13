@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Ecosystem Harmony Audit
+LUKHAS  Ecosystem Harmony Audit
 Comprehensive analysis to ensure all systems are pulling their weight
 and working in harmonious synchrony
 """

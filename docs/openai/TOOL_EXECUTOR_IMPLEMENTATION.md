@@ -6,7 +6,7 @@ Successfully implemented a **safe, modular tool execution system** for OpenAI fu
 
 ## ✅ What Was Implemented
 
-### 1. **Tool Executor Module** (`lukhas_pwm/tools/tool_executor.py`)
+### 1. **Tool Executor Module** (`lukhas/tools/tool_executor.py`)
 A complete handler system for OpenAI tool calls with:
 - **Knowledge Retrieval** - Returns contextual information
 - **URL Browsing** - Safe web access (disabled by default)
@@ -77,7 +77,7 @@ response = await execute_and_resume(client, messages, tool_calls)
 ## 📁 File Structure
 
 ```
-lukhas_pwm/
+lukhas/
 ├── tools/
 │   └── tool_executor.py       # Main executor implementation
 └── data/
@@ -161,6 +161,6 @@ The system is now capable of handling tool calls from OpenAI and returning appro
 
 ---
 
-**Implementation by**: Your suggestions + LUKHAS PWM Team
+**Implementation by**: Your suggestions + LUKHAS  Team
 **Date**: August 9, 2025
 **Status**: Core implementation complete, ready for integration

@@ -66,7 +66,7 @@ import ast
 from pathlib import Path
 errors = 0
 for p in Path('.').rglob('*.py'):
-    if any(skip in str(p) for skip in ['.git', '__pycache__', '.pwm_cleanup_archive']):
+    if any(skip in str(p) for skip in ['.git', '__pycache__', '._cleanup_archive']):
         continue
     try:
         ast.parse(p.read_text(encoding='utf-8', errors='ignore'))

@@ -97,7 +97,7 @@ Based on your Trinity Framework and consciousness development priorities, here a
 
 ```bash
 # Deploy the 6 core Claude Code agents
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM
+cd /Users/agi_dev/LOCAL-REPOS/Lukhas
 
 # 1. Supreme Consciousness Architect
 claude-code create-agent supreme-consciousness-architect \

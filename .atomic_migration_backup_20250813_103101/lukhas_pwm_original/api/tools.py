@@ -5,7 +5,7 @@ Registry endpoint for OpenAI function-calling tools with governance.
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
-from lukhas_pwm.openai.tooling import get_all_tools, get_tool_names
+from lukhas.openai.tooling import get_all_tools, get_tool_names
 
 router = APIRouter(prefix="/tools", tags=["tools"])
 

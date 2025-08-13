@@ -1,3 +1,3 @@
-"""LUKHAS PWM Feedback System ⚛️
+"""LUKHAS  Feedback System ⚛️
 Feedback collection and Look-Up Table (LUT) integration
 """

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-🔧 PWM Comprehensive Import Fixer
+🔧  Comprehensive Import Fixer
 =================================
-Systematically fixes all import errors and dependencies in LUKHAS PWM.
+Systematically fixes all import errors and dependencies in LUKHAS .
 """
 
 import ast
@@ -38,7 +38,7 @@ class ImportErrorFixer:
 
         # Modules to ignore (archived, obsolete, etc.)
         self.ignored_patterns = [
-            ".pwm_cleanup_archive",
+            "._cleanup_archive",
             "ARCHIVE_",
             "BACKUP_",
             ".venv",
@@ -504,7 +504,7 @@ class ImportErrorFixer:
 
 def main():
     """Main execution function"""
-    print("🔧 PWM Comprehensive Import Fixer")
+    print("🔧  Comprehensive Import Fixer")
     print("=" * 60)
 
     fixer = ImportErrorFixer(PROJECT_ROOT)
@@ -517,7 +517,7 @@ def main():
     print(f"   Total errors processed: {report['errors_fixed']['total_errors']}")
 
     # Save detailed report
-    report_path = PROJECT_ROOT / "docs/reports/analysis/PWM_IMPORT_FIX_REPORT.json"
+    report_path = PROJECT_ROOT / "docs/reports/analysis/_IMPORT_FIX_REPORT.json"
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(report_path, "w", encoding="utf-8") as f:

@@ -39,7 +39,7 @@
       "./MODULE_INDEX.md",
       "./branding/trinity/TRINITY_BRANDING_GUIDELINES.md",
       "./docs/tasks/ACTIVE.md",
-      "./lukhas_pwm_config.yaml"
+      "./lukhas_config.yaml"
     ],
     "claude-code.agentProfiles": "./agents/configs/",
     "claude-code.workflowTemplates": "./.claude/workflows/",
@@ -592,7 +592,7 @@ Add to `keybindings.json`:
 python main.py --consciousness-active --debug
 
 # Terminal 2: Guardian Monitoring  
-watch -n 1 'python tools/analysis/PWM_OPERATIONAL_SUMMARY.py --brief'
+watch -n 1 'python tools/analysis/_OPERATIONAL_SUMMARY.py --brief'
 
 # Terminal 3: Agent Communication
 claude-code chat consciousness-architect --stream

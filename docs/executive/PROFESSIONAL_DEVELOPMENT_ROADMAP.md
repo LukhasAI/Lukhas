@@ -370,7 +370,7 @@ const ColonyDashboard: React.FC = () => {
 
 ### 1. Code Organization
 ```
-lukhas_pwm/
+lukhas/
 ├── src/
 │   ├── api/           # FastAPI endpoints
 │   ├── core/          # Business logic

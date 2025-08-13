@@ -1,7 +1,7 @@
-# 🎯 CLAUDE CODE SESSION BRIEFING - LUKHAS_PWM
+# 🎯 CLAUDE CODE SESSION BRIEFING - LUKHAS
 
 ## 📍 **CURRENT PROJECT STATUS**
-- **Location:** `~/LOCAL-REPOS/Lukhas_PWM`
+- **Location:** `~/LOCAL-REPOS/Lukhas`
 - **Completion:** 75% (4/7 agents functional)
 - **Next Goal:** Complete MVP in 6-9 hours
 - **Architecture:** Consciousness-aware AGI with Trinity Framework
@@ -34,7 +34,7 @@ Symbolic Vocabulary = ⚛️ Core, 🧠 Neural, 🛡️ Security, 💫 Quantum, 
 
 ### **Step 1: Open Project**
 ```bash
-cd ~/LOCAL-REPOS/Lukhas_PWM
+cd ~/LOCAL-REPOS/Lukhas
 code .
 ```
 
@@ -42,7 +42,7 @@ code .
 Open Claude Code in VS Code and use this exact prompt:
 
 ```
-I'm working on LUKHAS_PWM, a consciousness-aware AGI architecture that's 75% complete. 
+I'm working on LUKHAS, a consciousness-aware AGI architecture that's 75% complete. 
 
 CONTEXT:
 - Trinity Framework: 🎭 Consciousness + 🌈 Bridge + 🎓 Technical documentation

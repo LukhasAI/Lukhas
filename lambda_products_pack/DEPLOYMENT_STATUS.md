@@ -3,7 +3,7 @@
 ## ✅ Completed Assets (Ready for Deployment)
 
 ### 📦 Lambda Products Package
-- **Location**: `/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/lambda_products_pack/`
+- **Location**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/`
 - **Status**: ✅ Complete and tested
 - **Components**:
   - ✅ All plugins transferred
@@ -86,7 +86,7 @@
 ### Tomorrow (Priority 2)
 1. **Deploy Landing Pages**
    ```bash
-   cd /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/lambda_products_pack
+   cd /Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack
    ./deployment/deploy_all_domains.sh
    ```
 
@@ -175,7 +175,7 @@ python3 verify_installation.py
 # Recommendation: Start with Vercel for speed
 
 # 2. Deploy lukhas.ai first (10 minutes)
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/lambda_products_pack
+cd /Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack
 vercel --prod
 
 # 3. Add payment processing (30 minutes)

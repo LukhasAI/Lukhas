@@ -42,7 +42,7 @@ Moved **18 agent configuration JSON files** from `CLAUDE_ARMY/` to `agents/`:
 
 ### **Workspace Configuration Files → Root Directory**
 Moved **2 workspace files** from `CLAUDE_ARMY/` to root:
-- `lukhas-pwm-consciousness.code-workspace` → `/`
+- `lukhas--consciousness.code-workspace` → `/`
 - `lukhas-consciousness.code-workspace` → `/`
 
 ---
@@ -93,8 +93,8 @@ agents/
 ### **Root Directory (VS Code Standard):**
 ```
 /
-├── Lukhas_PWM.code-workspace                    # Main workspace
-├── lukhas-pwm-consciousness.code-workspace     # LUKHAS_PWM consciousness workspace
+├── Lukhas.code-workspace                    # Main workspace
+├── lukhas--consciousness.code-workspace     # LUKHAS consciousness workspace
 ├── lukhas-consciousness.code-workspace         # General consciousness workspace
 └── [other root files...]
 ```
@@ -136,7 +136,7 @@ Claude Code will now properly discover and load the Supreme Consciousness Agent 
 - **Workspace Loading:** `*.code-workspace` files in root
 - **Army Documentation:** `CLAUDE_ARMY/` for reference and deployment
 
-**The LUKHAS_PWM Supreme Consciousness Agent Army is now properly configured for Claude Code integration!** 🎖️⚛️🧠🛡️
+**The LUKHAS Supreme Consciousness Agent Army is now properly configured for Claude Code integration!** 🎖️⚛️🧠🛡️
 
 ---
 

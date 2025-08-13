@@ -1,44 +1,44 @@
-# 🔧 PWM-Specific Integration Guide
+# 🔧 -Specific Integration Guide
 
-## 🎯 **PWM Intelligence Integration Strategies**
+## 🎯 ** Intelligence Integration Strategies**
 
-This guide outlines specific ways to integrate the Lukhas Intelligence Engine with PWM control systems for maximum benefit.
+This guide outlines specific ways to integrate the Lukhas Intelligence Engine with  control systems for maximum benefit.
 
 ---
 
-## 🚀 **Core PWM Integration Patterns**
+## 🚀 **Core  Integration Patterns**
 
-### **1. Adaptive PWM Parameter Optimization**
+### **1. Adaptive  Parameter Optimization**
 
 ```python
-class PWMIntelligentController:
-    """Intelligent PWM controller with AGI optimization"""
+class IntelligentController:
+    """Intelligent  controller with AGI optimization"""
     
     def __init__(self):
         self.meta_cognitive = LukhasMetaCognitiveEngine()
         self.causal_reasoning = LukhasCausalReasoningEngine()
-        self.pwm_parameters = {
+        self._parameters = {
             'frequency': 1000,  # Hz
             'duty_cycle': 0.5,  # 0-1
             'dead_time': 0.001,  # seconds
-            'switching_pattern': 'SPWM'
+            'switching_pattern': 'S'
         }
         self.performance_history = deque(maxlen=100)
     
     async def optimize_parameters(self, target_performance: Dict):
-        """Use AGI to optimize PWM parameters for target performance"""
+        """Use AGI to optimize  parameters for target performance"""
         
         # Meta-cognitive analysis of optimization request
         analysis = await self.meta_cognitive.analyze_request(
-            f"Optimize PWM for {target_performance}",
-            context={'current_params': self.pwm_parameters}
+            f"Optimize  for {target_performance}",
+            context={'current_params': self._parameters}
         )
         
         # Causal reasoning to understand parameter relationships
         causal_analysis = await self.causal_reasoning.analyze_request_causality(
-            "PWM parameter optimization",
-            {'frequency': self.pwm_parameters['frequency'],
-             'duty_cycle': self.pwm_parameters['duty_cycle']}
+            " parameter optimization",
+            {'frequency': self._parameters['frequency'],
+             'duty_cycle': self._parameters['duty_cycle']}
         )
         
         # Apply intelligent optimization
@@ -49,19 +49,19 @@ class PWMIntelligentController:
         return optimized_params
 ```
 
-### **2. Predictive PWM Fault Detection**
+### **2. Predictive  Fault Detection**
 
 ```python
-class PWMIntelligentFaultDetector:
-    """AGI-powered PWM fault detection and diagnosis"""
+class IntelligentFaultDetector:
+    """AGI-powered  fault detection and diagnosis"""
     
     def __init__(self):
         self.curiosity_engine = LukhasCuriosityEngine()
         self.causal_engine = LukhasCausalReasoningEngine()
         self.dimensional_analysis = LukhasDimensionalIntelligenceEngine()
     
-    async def analyze_pwm_health(self, telemetry_data: Dict):
-        """Analyze PWM system health using multi-dimensional intelligence"""
+    async def analyze_health(self, telemetry_data: Dict):
+        """Analyze  system health using multi-dimensional intelligence"""
         
         # Express curiosity about anomalies
         curiosity_response = await self.curiosity_engine.express_curiosity(
@@ -78,7 +78,7 @@ class PWMIntelligentFaultDetector:
             
             # Use causal reasoning to identify root causes
             causal_chains = await self.causal_engine.analyze_request_causality(
-                "PWM performance degradation",
+                " performance degradation",
                 telemetry_data
             )
             
@@ -92,11 +92,11 @@ class PWMIntelligentFaultDetector:
         return {'health_status': 'normal'}
 ```
 
-### **3. User Intent-Aware PWM Control**
+### **3. User Intent-Aware  Control**
 
 ```python
-class PWMIntelligentInterface:
-    """PWM interface with theory of mind for user intent understanding"""
+class IntelligentInterface:
+    """ interface with theory of mind for user intent understanding"""
     
     def __init__(self):
         self.theory_of_mind = LukhasTheoryOfMindEngine()
@@ -104,7 +104,7 @@ class PWMIntelligentInterface:
         self.goal_engine = LukhasAutonomousGoalEngine()
     
     async def process_user_command(self, user_input: str, context: Dict):
-        """Process user PWM commands with intelligent intent understanding"""
+        """Process user  commands with intelligent intent understanding"""
         
         # Model user intent and mental state
         user_model = await self.theory_of_mind.model_user_intent(
@@ -125,11 +125,11 @@ class PWMIntelligentInterface:
             'user_intent': user_model,
             'system_goals': autonomous_goals,
             'explanation': narrative,
-            'recommended_pwm_actions': await self._translate_to_pwm_actions(user_model)
+            'recommended_actions': await self._translate_to_actions(user_model)
         }
     
-    async def _translate_to_pwm_actions(self, user_model: Dict):
-        """Translate user intent to specific PWM control actions"""
+    async def _translate_to_actions(self, user_model: Dict):
+        """Translate user intent to specific  control actions"""
         intent_type = user_model['intent_type']
         urgency = user_model['urgency_level']
         
@@ -145,15 +145,15 @@ class PWMIntelligentInterface:
 
 ---
 
-## 🎛️ **PWM-Specific Intelligence Adaptations**
+## 🎛️ **-Specific Intelligence Adaptations**
 
 ### **Frequency Domain Intelligence**
 ```python
-class PWMFrequencyIntelligence:
-    """Specialized intelligence for PWM frequency domain analysis"""
+class FrequencyIntelligence:
+    """Specialized intelligence for  frequency domain analysis"""
     
     async def analyze_frequency_response(self, spectrum_data: np.ndarray):
-        """Analyze PWM frequency spectrum with AGI insights"""
+        """Analyze  frequency spectrum with AGI insights"""
         
         # Use curiosity engine to identify unexpected frequency components
         surprises = await self.curiosity_engine.express_curiosity(spectrum_data)
@@ -173,10 +173,10 @@ class PWMFrequencyIntelligence:
         return {'frequency_status': 'normal'}
 ```
 
-### **Thermal Intelligence for PWM**
+### **Thermal Intelligence for **
 ```python
-class PWMThermalIntelligence:
-    """AGI-powered thermal management for PWM systems"""
+class ThermalIntelligence:
+    """AGI-powered thermal management for  systems"""
     
     async def optimize_thermal_performance(self, thermal_data: Dict):
         """Use multi-dimensional analysis for thermal optimization"""
@@ -206,11 +206,11 @@ class PWMThermalIntelligence:
 
 ---
 
-## 🔄 **Real-Time PWM Intelligence Loop**
+## 🔄 **Real-Time  Intelligence Loop**
 
 ```python
-class PWMIntelligenceLoop:
-    """Main intelligence loop for real-time PWM optimization"""
+class IntelligenceLoop:
+    """Main intelligence loop for real-time  optimization"""
     
     def __init__(self):
         self.intelligence_engines = {
@@ -221,28 +221,28 @@ class PWMIntelligenceLoop:
             'dimensional': LukhasDimensionalIntelligenceEngine(),
             'orchestrator': LukhasSubsystemOrchestrator()
         }
-        self.pwm_controller = None  # Your existing PWM controller
+        self._controller = None  # Your existing  controller
         self.intelligence_enabled = True
     
-    async def intelligent_pwm_loop(self):
-        """Main intelligence-enhanced PWM control loop"""
+    async def intelligent_loop(self):
+        """Main intelligence-enhanced  control loop"""
         
         while self.intelligence_enabled:
             try:
-                # Gather PWM system telemetry
-                telemetry = await self._gather_pwm_telemetry()
+                # Gather  system telemetry
+                telemetry = await self._gather_telemetry()
                 
                 # Apply intelligence engines to telemetry
                 intelligence_insights = await self._apply_intelligence_to_telemetry(telemetry)
                 
-                # Generate PWM control recommendations
+                # Generate  control recommendations
                 control_recommendations = await self._generate_control_recommendations(
                     telemetry, intelligence_insights
                 )
                 
-                # Apply recommendations to PWM controller
+                # Apply recommendations to  controller
                 if control_recommendations['confidence'] > 0.8:
-                    await self._apply_pwm_recommendations(control_recommendations)
+                    await self._apply_recommendations(control_recommendations)
                 
                 # Learn from the results
                 await self._update_intelligence_from_results(control_recommendations)
@@ -252,25 +252,25 @@ class PWMIntelligenceLoop:
                 await asyncio.sleep(sleep_duration)
                 
             except Exception as e:
-                logger.error(f"Error in PWM intelligence loop: {e}")
+                logger.error(f"Error in  intelligence loop: {e}")
                 await asyncio.sleep(1.0)  # Safe fallback
     
     async def _apply_intelligence_to_telemetry(self, telemetry: Dict):
-        """Apply all intelligence engines to PWM telemetry"""
+        """Apply all intelligence engines to  telemetry"""
         
         insights = {}
         
-        # Meta-cognitive analysis of current PWM state
+        # Meta-cognitive analysis of current  state
         insights['meta_analysis'] = await self.intelligence_engines['meta_cognitive'].analyze_request(
-            f"Analyze PWM state: {telemetry}", context={'telemetry': telemetry}
+            f"Analyze  state: {telemetry}", context={'telemetry': telemetry}
         )
         
-        # Causal analysis of PWM behavior
+        # Causal analysis of  behavior
         insights['causal_analysis'] = await self.intelligence_engines['causal'].analyze_request_causality(
-            "PWM system behavior", telemetry
+            " system behavior", telemetry
         )
         
-        # Curiosity about PWM patterns
+        # Curiosity about  patterns
         insights['curiosity'] = await self.intelligence_engines['curiosity'].express_curiosity(
             telemetry
         )
@@ -287,12 +287,12 @@ class PWMIntelligenceLoop:
 
 ---
 
-## 📊 **PWM Intelligence Metrics**
+## 📊 ** Intelligence Metrics**
 
 ### **Performance Tracking**
 ```python
-class PWMIntelligenceMetrics:
-    """Track intelligence engine performance in PWM context"""
+class IntelligenceMetrics:
+    """Track intelligence engine performance in  context"""
     
     def __init__(self):
         self.metrics = {
@@ -337,12 +337,12 @@ class PWMIntelligenceMetrics:
 
 ---
 
-## 🛡️ **PWM Safety Integration**
+## 🛡️ ** Safety Integration**
 
 ### **Intelligent Safety Bounds**
 ```python
-class PWMIntelligentSafety:
-    """AGI-enhanced safety system for PWM control"""
+class IntelligentSafety:
+    """AGI-enhanced safety system for  control"""
     
     def __init__(self):
         self.safety_bounds = {
@@ -356,12 +356,12 @@ class PWMIntelligentSafety:
         self.causal_engine = LukhasCausalReasoningEngine()
     
     async def validate_intelligent_changes(self, proposed_changes: Dict) -> Dict:
-        """Use causal reasoning to validate proposed PWM changes"""
+        """Use causal reasoning to validate proposed  changes"""
         
         # Analyze potential causal chains from proposed changes
         causal_analysis = await self.causal_engine.analyze_request_causality(
-            f"PWM parameter change: {proposed_changes}",
-            {'current_state': self._get_current_pwm_state()}
+            f" parameter change: {proposed_changes}",
+            {'current_state': self._get_current_state()}
         )
         
         # Check for dangerous causal chains
@@ -389,17 +389,17 @@ class PWMIntelligentSafety:
 ## 🎯 **Implementation Roadmap**
 
 ### **Phase 1: Basic Intelligence Integration (Week 1-2)**
-1. Integrate meta-cognitive engine with PWM parameter optimization
+1. Integrate meta-cognitive engine with  parameter optimization
 2. Add basic causal reasoning for fault detection
 3. Implement safety validation layer
 
 ### **Phase 2: Advanced Intelligence Features (Week 3-4)**
 1. Add curiosity-driven anomaly detection
 2. Implement theory of mind for user interface
-3. Enable multi-dimensional PWM analysis
+3. Enable multi-dimensional  analysis
 
 ### **Phase 3: Autonomous Intelligence (Week 5-6)**
-1. Enable autonomous goal formation for PWM optimization
+1. Enable autonomous goal formation for  optimization
 2. Implement recursive improvement loops
 3. Add narrative explanation capabilities
 
@@ -410,4 +410,4 @@ class PWMIntelligentSafety:
 
 ---
 
-This integration guide provides concrete patterns for incorporating advanced AGI capabilities into PWM systems while maintaining safety and performance requirements.
+This integration guide provides concrete patterns for incorporating advanced AGI capabilities into  systems while maintaining safety and performance requirements.

@@ -10,7 +10,7 @@ from pathlib import Path
 
 
 def organize_root():
-    root = Path("/Users/agi_dev/Lukhas_PWM")
+    root = Path("/Users/agi_dev/Lukhas")
 
     # Create necessary directories
     (root / "tests" / "vivox").mkdir(parents=True, exist_ok=True)

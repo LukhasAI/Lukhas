@@ -22,10 +22,10 @@ import uuid
 from typing import Any, cast
 
 from bridge.llm_wrappers.tool_executor import execute_tool as bridged_execute_tool
-from lukhas_pwm.audit.tool_analytics import get_analytics
-from lukhas_pwm.branding.terminology import normalize_chunk, normalize_output
-from lukhas_pwm.metrics import get_metrics_collector
-from lukhas_pwm.openai.tooling import build_tools_from_allowlist, get_all_tools
+from lukhas.audit.tool_analytics import get_analytics
+from lukhas.branding.terminology import normalize_chunk, normalize_output
+from lukhas.metrics import get_metrics_collector
+from lukhas.openai.tooling import build_tools_from_allowlist, get_all_tools
 from orchestration.signals.homeostasis import (
     HomeostasisController,
     ModulationParams,
@@ -567,7 +567,7 @@ async def _run_modulated_completion_impl(
     # local imports avoided if not required; tolerate missing audit store
     # in tests
     try:
-        from lukhas_pwm.audit.store import audit_log_write as _audit_log_write
+        from lukhas.audit.store import audit_log_write as _audit_log_write
     except Exception:  # pragma: no cover - optional in offline tests
         _audit_log_write = None  # type: ignore
     from orchestration.signals.homeostasis import ModulationParams
@@ -834,8 +834,8 @@ def resume_with_tools(
     import asyncio
     import json
 
-    from lukhas_pwm.audit.tool_analytics import get_analytics
-    from lukhas_pwm.tools.tool_executor import get_tool_executor
+    from lukhas.audit.tool_analytics import get_analytics
+    from lukhas.tools.tool_executor import get_tool_executor
 
     analytics = get_analytics()
     executor = get_tool_executor()

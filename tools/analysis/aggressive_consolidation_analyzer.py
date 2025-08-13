@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Aggressive Consolidation Analyzer
+LUKHAS  Aggressive Consolidation Analyzer
 Identifies and maps all files for aggressive modular consolidation
 """
 
@@ -70,7 +70,7 @@ class AggressiveConsolidator:
 
     def analyze_workspace(self):
         """Analyze entire workspace for consolidation"""
-        print("🔍 Analyzing LUKHAS PWM workspace for aggressive consolidation...")
+        print("🔍 Analyzing LUKHAS  workspace for aggressive consolidation...")
 
         total_files = 0
 
@@ -83,7 +83,7 @@ class AggressiveConsolidator:
                     "__pycache__",
                     ".venv",
                     "quarantine",
-                    ".pwm_cleanup_archive",
+                    "._cleanup_archive",
                 ]
             ):
                 continue
@@ -319,7 +319,7 @@ def main():
     plan = consolidator.analyze_workspace()
 
     # Save plan
-    plan_path = "docs/planning/PWM_AGGRESSIVE_CONSOLIDATION_PLAN.json"
+    plan_path = "docs/planning/_AGGRESSIVE_CONSOLIDATION_PLAN.json"
     os.makedirs(os.path.dirname(plan_path), exist_ok=True)
     with open(plan_path, "w") as f:
         json.dump(plan, f, indent=2)

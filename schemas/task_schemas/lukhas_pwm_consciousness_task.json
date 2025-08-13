@@ -1,11 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "LUKHAS_PWM Consciousness Development Task",
-  "description": "Schema for LUKHAS_PWM consciousness development tasks aligned with Trinity Framework",
+  "title": "LUKHAS Consciousness Development Task",
+  "description": "Schema for LUKHAS consciousness development tasks aligned with Trinity Framework",
   "type": "object",
   "required": [
     "task_id",
-    "title", 
+    "title",
     "priority",
     "domain",
     "trinity_focus",
@@ -19,7 +19,7 @@
     "task_id": {
       "type": "string",
       "pattern": "^LUKHAS-[A-Z]+-[0-9]{3}$",
-      "description": "Unique task identifier following LUKHAS_PWM naming convention"
+      "description": "Unique task identifier following LUKHAS naming convention"
     },
     "title": {
       "type": "string",
@@ -36,7 +36,7 @@
       "type": "string",
       "enum": [
         "core_consciousness",
-        "memory_consciousness", 
+        "memory_consciousness",
         "identity_systems",
         "guardian_systems",
         "orchestration",
@@ -48,7 +48,7 @@
         "memory_causal",
         "orchestration_optimization"
       ],
-      "description": "LUKHAS_PWM domain classification"
+      "description": "LUKHAS domain classification"
     },
     "trinity_focus": {
       "type": "string",
@@ -89,7 +89,7 @@
       "type": "string",
       "enum": [
         "Chief Consciousness Architect",
-        "Guardian System Engineer", 
+        "Guardian System Engineer",
         "Innovation Velocity Lead",
         "Full-Stack Consciousness Developer",
         "DevOps Consciousness Guardian",
@@ -134,9 +134,9 @@
     "trinity_validation": {
       "type": "object",
       "properties": {
-        "identity_check": {"type": "boolean"},
-        "consciousness_check": {"type": "boolean"},
-        "guardian_check": {"type": "boolean"}
+        "identity_check": { "type": "boolean" },
+        "consciousness_check": { "type": "boolean" },
+        "guardian_check": { "type": "boolean" }
       },
       "description": "Trinity Framework validation status"
     }

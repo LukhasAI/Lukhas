@@ -66,7 +66,7 @@ import personality.creative_core
 ## 📁 New Directory Structure
 
 ```
-LUKHAS_PWM/
+LUKHAS/
 ├── awareness_protocol/     # Protocol modules
 ├── brain_core/             # Core brain systems
 ├── dreams/                 # Dream engine

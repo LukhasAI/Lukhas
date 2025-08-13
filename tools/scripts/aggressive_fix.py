@@ -174,7 +174,7 @@ def main():
         "tools",  # 1065 issues
         "bridge",  # 349 issues
         "tests",  # 251 issues
-        "lukhas_pwm",  # 11 issues
+        "lukhas",  # 11 issues
     ]
 
     total_start = time.time()

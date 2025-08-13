@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Naming Convention Scanner
+LUKHAS  Naming Convention Scanner
 Identifies classes, functions, and files that don't follow naming conventions
 """
 
@@ -50,7 +50,7 @@ class NamingConventionScanner:
             # Skip archive directories
             if any(
                 skip in str(file_path)
-                for skip in [".pwm_cleanup_archive", "__pycache__", ".git"]
+                for skip in ["._cleanup_archive", "__pycache__", ".git"]
             ):
                 continue
 

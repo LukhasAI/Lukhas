@@ -1,8 +1,8 @@
 from typing import Any, Optional
 
-from lukhas_pwm.dna.interfaces import DNAWriteReceipt, HelixMemory
-from lukhas_pwm.flags import is_enabled
-from lukhas_pwm.migration.legacy_store import LegacyStore
+from lukhas.dna.interfaces import DNAWriteReceipt, HelixMemory
+from lukhas.flags import is_enabled
+from lukhas.migration.legacy_store import LegacyStore
 
 
 def write_memory_dual(

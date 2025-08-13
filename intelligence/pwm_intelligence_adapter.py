@@ -1,17 +1,17 @@
 """
-PWM Intelligence Adapter
+ Intelligence Adapter
 ========================
-Adapter layer for integrating Lukhas Intelligence Engine with PWM systems.
+Adapter layer for integrating Lukhas Intelligence Engine with  systems.
 
 Usage:
-    from intelligence.pwm_intelligence_adapter import PWMIntelligenceManager
+    from intelligence._intelligence_adapter import IntelligenceManager
 
-    # Initialize intelligence for PWM
-    intelligence = PWMIntelligenceManager()
+    # Initialize intelligence for
+    intelligence = IntelligenceManager()
     await intelligence.initialize()
 
-    # Use for PWM optimization
-    optimized_params = await intelligence.optimize_pwm_parameters(
+    # Use for  optimization
+    optimized_params = await intelligence.optimize_parameters(
         current_params={'frequency': 1000, 'duty_cycle': 0.5},
         target_performance={'efficiency': 0.95, 'ripple': 0.02}
     )
@@ -33,17 +33,17 @@ from .intelligence_engine import (
     LukhasTheoryOfMindEngine,
 )
 
-logger = logging.getLogger("PWM_Intelligence")
+logger = logging.getLogger("_Intelligence")
 
 
-class PWMIntelligenceManager:
+class IntelligenceManager:
     """
-    Main manager class for PWM-specific intelligence operations
+    Main manager class for -specific intelligence operations
     """
 
     def __init__(self):
         self.engines = {}
-        self.pwm_optimization_history = []
+        self._optimization_history = []
         self.safety_bounds = {
             "max_frequency": 100000,  # Hz
             "min_frequency": 100,  # Hz
@@ -52,8 +52,8 @@ class PWMIntelligenceManager:
         }
 
     async def initialize(self):
-        """Initialize all intelligence engines for PWM use"""
-        logger.info("🚀 Initializing PWM Intelligence Manager")
+        """Initialize all intelligence engines for  use"""
+        logger.info("🚀 Initializing  Intelligence Manager")
 
         # Initialize core engines
         self.engines = {
@@ -71,16 +71,16 @@ class PWMIntelligenceManager:
             await engine.initialize()
             logger.info(f"✅ Initialized {name} engine")
 
-        logger.info("🧠 PWM Intelligence Manager ready")
+        logger.info("🧠  Intelligence Manager ready")
 
-    async def optimize_pwm_parameters(
+    async def optimize_parameters(
         self, current_params: Dict, target_performance: Dict
     ) -> Dict[str, Any]:
         """
-        Use AGI to optimize PWM parameters for target performance
+        Use AGI to optimize  parameters for target performance
 
         Args:
-            current_params: Current PWM parameters (frequency, duty_cycle, etc.)
+            current_params: Current  parameters (frequency, duty_cycle, etc.)
             target_performance: Target performance metrics (efficiency, ripple, etc.)
 
         Returns:
@@ -89,7 +89,7 @@ class PWMIntelligenceManager:
 
         # Meta-cognitive analysis of optimization request
         optimization_request = (
-            f"Optimize PWM from {current_params} for {target_performance}"
+            f"Optimize  from {current_params} for {target_performance}"
         )
         meta_analysis = await self.engines["meta_cognitive"].analyze_request(
             optimization_request,
@@ -131,7 +131,7 @@ class PWMIntelligenceManager:
             optimized_params = await self._apply_safety_constraints(optimized_params)
 
         # Store optimization history
-        self.pwm_optimization_history.append(
+        self._optimization_history.append(
             {
                 "timestamp": datetime.now().isoformat(),
                 "original_params": current_params,
@@ -154,8 +154,8 @@ class PWMIntelligenceManager:
             ),
         }
 
-    async def analyze_pwm_anomaly(self, telemetry_data: Dict) -> Dict[str, Any]:
-        """Analyze PWM system anomalies using curiosity and causal reasoning"""
+    async def analyze_anomaly(self, telemetry_data: Dict) -> Dict[str, Any]:
+        """Analyze  system anomalies using curiosity and causal reasoning"""
 
         # Express curiosity about the anomaly
         curiosity_response = await self.engines["curiosity"].express_curiosity(
@@ -167,7 +167,7 @@ class PWMIntelligenceManager:
 
         # Perform causal analysis of the anomaly
         causal_analysis = await self.engines["causal"].analyze_request_causality(
-            f"PWM anomaly: {telemetry_data}", telemetry_data
+            f" anomaly: {telemetry_data}", telemetry_data
         )
 
         # Multi-dimensional analysis
@@ -194,7 +194,7 @@ class PWMIntelligenceManager:
     async def _calculate_optimized_parameters(
         self, current: Dict, targets: Dict, meta: Dict, causal: Dict, dimensional: Dict
     ) -> Dict:
-        """Calculate optimized PWM parameters based on intelligence analysis"""
+        """Calculate optimized  parameters based on intelligence analysis"""
 
         optimized = current.copy()
 
@@ -220,7 +220,7 @@ class PWMIntelligenceManager:
         return optimized
 
     async def _validate_parameter_safety(self, params: Dict) -> Dict[str, Any]:
-        """Validate PWM parameters against safety bounds"""
+        """Validate  parameters against safety bounds"""
 
         issues = []
 
@@ -293,19 +293,19 @@ class PWMIntelligenceManager:
         return improvements
 
 
-# Example usage for PWM teams
-async def example_pwm_intelligence_usage():
-    """Example of how to use PWM intelligence in your code"""
+# Example usage for  teams
+async def example_intelligence_usage():
+    """Example of how to use  intelligence in your code"""
 
     # Initialize intelligence manager
-    intelligence = PWMIntelligenceManager()
+    intelligence = IntelligenceManager()
     await intelligence.initialize()
 
-    # Optimize PWM parameters
-    current_pwm_params = {
+    # Optimize  parameters
+    current_params = {
         "frequency": 1000,  # Hz
         "duty_cycle": 0.5,  # 50%
-        "switching_pattern": "SPWM",
+        "switching_pattern": "S",
     }
 
     target_performance = {
@@ -313,11 +313,11 @@ async def example_pwm_intelligence_usage():
         "ripple": 0.02,  # 2% ripple target
     }
 
-    optimization_result = await intelligence.optimize_pwm_parameters(
-        current_pwm_params, target_performance
+    optimization_result = await intelligence.optimize_parameters(
+        current_params, target_performance
     )
 
-    print("🎯 PWM Optimization Results:")
+    print("🎯  Optimization Results:")
     print(f"Optimized Parameters: {optimization_result['optimized_parameters']}")
     print(f"Confidence: {optimization_result['optimization_confidence']:.2f}")
     print(f"Safety Validated: {optimization_result['safety_validated']}")
@@ -326,4 +326,4 @@ async def example_pwm_intelligence_usage():
 
 if __name__ == "__main__":
     # Run example
-    asyncio.run(example_pwm_intelligence_usage())
+    asyncio.run(example_intelligence_usage())

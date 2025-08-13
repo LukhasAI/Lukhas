@@ -397,13 +397,13 @@ class LayerOptimizer:
 
 ### Related Systems
 - **NIΛS Emotional Filtering**: `/lambda_ecosystem/NIΛS/emotional_filter.py` (legacy: `/lambda-products/NIΛS/emotional_filter.py`)
-- **Voice Personality**: `/organized/ai-core/lukhas-pwm-advanced/consciousness/creativity/personality/voice/voice_personality.py`
+- **Voice Personality**: `/organized/ai-core/lukhas--advanced/consciousness/creativity/personality/voice/voice_personality.py`
 - **Dream Engine**: `/organized/web-interfaces/lambda-web-ecosystem/web-id/dream_engine/lukhas_assistant.py`
 - **POETICΛ System**: `/lambda_ecosystem/POETICΛ/` (legacy: `/lambda-products/POETICΛ/`)
 
 ### Documentation Links
 - **NIΛS Communication**: `lambda_ecosystem/NIΛS/README.md` (legacy: `lambda-products/NIΛS/README.md`)
-- **Voice Integration**: `organized/ai-core/lukhas-pwm-advanced/consciousness/`
+- **Voice Integration**: `organized/ai-core/lukhas--advanced/consciousness/`
 - **Product Portfolio**: `lambda_ecosystem/README.md` (legacy: `lambda-products/README.md`)
 - **CLAUDE.md Guidelines**: `CLAUDE.md`
 

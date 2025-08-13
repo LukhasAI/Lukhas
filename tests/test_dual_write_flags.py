@@ -1,6 +1,6 @@
-from lukhas_pwm.dna.memory_inmem import InMemoryHelix
-from lukhas_pwm.migration.dual_write import write_memory_dual
-from lukhas_pwm.migration.legacy_jsonl import LegacyJSONL
+from lukhas.dna.memory_inmem import InMemoryHelix
+from lukhas.migration.dual_write import write_memory_dual
+from lukhas.migration.legacy_jsonl import LegacyJSONL
 
 
 def test_dual_write_toggle(monkeypatch, tmp_path):

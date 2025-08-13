@@ -187,7 +187,7 @@ This extension is part of the LUKHAS AI ecosystem and follows the Trinity Framew
 
 ## 📄 License
 
-This extension is part of the LUKHAS PWM project and follows the project's licensing terms.
+This extension is part of the LUKHAS  project and follows the project's licensing terms.
 
 ## 🐛 Issues & Contributions
 

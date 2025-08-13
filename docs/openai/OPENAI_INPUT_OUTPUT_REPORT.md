@@ -1,10 +1,10 @@
 # 📊 OpenAI Input/Output Analysis Report
 **Date**: August 9, 2025  
-**System**: LUKHAS PWM with Tool Governance
+**System**: LUKHAS  with Tool Governance
 
 ## Executive Summary
 
-This report shows exactly what LUKHAS PWM sends to OpenAI and what responses we receive back, including tool governance enforcement.
+This report shows exactly what LUKHAS  sends to OpenAI and what responses we receive back, including tool governance enforcement.
 
 ---
 
@@ -225,7 +225,7 @@ if allowlist_name not in params.tool_allowlist:
 
 ## Summary
 
-The LUKHAS PWM system successfully:
+The LUKHAS  system successfully:
 - ✅ Connects to OpenAI API with all credentials
 - ✅ Sends properly formatted requests
 - ✅ Receives and processes responses

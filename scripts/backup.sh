@@ -2,7 +2,7 @@
 set -euo pipefail
 
 : "${BACKUP_S3_BUCKET:?Set BACKUP_S3_BUCKET (e.g., s3://bucket)}"
-BACKUP_PREFIX="${BACKUP_PREFIX:-pwm}"
+BACKUP_PREFIX="${BACKUP_PREFIX:-}"
 OUTDIR="${OUTDIR:-out}"
 INCLUDE=${BACKUP_INCLUDE:-".lukhas_feedback .lukhas_audit .lukhas_analytics .lukhas_migration .lukhas_legacy"}
 EXCLUDE=${BACKUP_EXCLUDE:-"*.tmp *.log .cache node_modules __pycache__"}

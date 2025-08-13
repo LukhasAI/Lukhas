@@ -1,8 +1,8 @@
 """
-🧪 LUKHAS PWM Testing Suite
+🧪 LUKHAS  Testing Suite
 ===========================
 
-Advanced testing capabilities for PWM workspace governance:
+Advanced testing capabilities for  workspace governance:
 - Guardian Reflector (ethical reflection testing)
 - Red Team Protocol integration
 - Multi-framework ethics validation
@@ -15,7 +15,7 @@ Superior testing infrastructure for enterprise-grade workspace protection.
 # from .guardian_reflector.src.guardian_reflector import GuardianReflector
 
 __version__ = "2.0.0"
-__all__ = ["PWMTestOrchestrator"]
+__all__ = ["TestOrchestrator"]
 
 
 # Try to import real GuardianReflector, fallback to mock
@@ -35,9 +35,9 @@ try:
             """Enhanced reflection using real Guardian when available"""
             try:
                 # Try to use real Guardian reflection
-                if hasattr(super(), 'reflect_ethical_decision'):
+                if hasattr(super(), "reflect_ethical_decision"):
                     return await super().reflect_ethical_decision(context)
-                elif hasattr(super(), 'reflect_on_decision'):
+                elif hasattr(super(), "reflect_on_decision"):
                     return await super().reflect_on_decision(context)
             except Exception:
                 pass
@@ -81,11 +81,11 @@ except ImportError:
             )
 
 
-class PWMTestOrchestrator:
+class TestOrchestrator:
     """
     🎯 Pack-What-Matters Test Orchestrator
 
-    Coordinates comprehensive testing of PWM governance systems.
+    Coordinates comprehensive testing of  governance systems.
     """
 
     def __init__(self):
@@ -97,7 +97,7 @@ class PWMTestOrchestrator:
         try:
             self.guardian_reflector = GuardianReflector(
                 {
-                    "ethics_model": "PWM-SEEDRA-v3",
+                    "ethics_model": "-SEEDRA-v3",
                     "reflection_depth": "deep",
                     "moral_framework": "virtue_ethics_hybrid",
                     "protection_level": "maximum",
@@ -111,10 +111,10 @@ class PWMTestOrchestrator:
             return False
 
     async def run_comprehensive_tests(self) -> dict:
-        """Run complete PWM governance testing suite."""
+        """Run complete  governance testing suite."""
         results = {
             "timestamp": "2025-08-01T06:00:00Z",
-            "test_suite": "PWM_COMPREHENSIVE",
+            "test_suite": "_COMPREHENSIVE",
             "guardian_reflector": await self._test_guardian_reflector(),
             "ethics_integration": await self._test_ethics_integration(),
             "workspace_protection": await self._test_workspace_protection(),
@@ -172,7 +172,7 @@ class PWMTestOrchestrator:
                 "care_ethics",
             ],
             "integration_status": "ACTIVE",
-            "pwm_specific_ethics": [
+            "_specific_ethics": [
                 "productivity_preservation",
                 "focus_protection",
                 "workspace_integrity",

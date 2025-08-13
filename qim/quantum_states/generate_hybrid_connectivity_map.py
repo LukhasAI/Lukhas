@@ -20,7 +20,7 @@ def generate_connectivity_json():
     """Generate the master connectivity index"""
 
     # Load the hybrid component mapping
-    with open("docs/reports/analysis/PWM_HYBRID_COMPONENT_MAPPING.json") as f:
+    with open("docs/reports/analysis/_HYBRID_COMPONENT_MAPPING.json") as f:
         hybrid_data = json.load(f)
 
     connectivity = {

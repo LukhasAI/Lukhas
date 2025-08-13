@@ -103,7 +103,7 @@ async def show_full_interaction(
 async def main():
     """Run comprehensive tests showing input/output"""
 
-    print(f"{GREEN}🔍 LUKHAS PWM - OpenAI Response Analysis{RESET}")
+    print(f"{GREEN}🔍 LUKHAS  - OpenAI Response Analysis{RESET}")
     print("Showing what we send to OpenAI and what we get back\n")
 
     # Test 1: Simple question (should work)

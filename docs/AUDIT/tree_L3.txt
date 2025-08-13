@@ -2495,7 +2495,7 @@
 │   │   ├── pytest
 │   │   ├── pytest-benchmark
 │   │   ├── python -> python3
-│   │   ├── python3 -> /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/.venv_test/bin/python3
+│   │   ├── python3 -> /Users/agi_dev/LOCAL-REPOS/Lukhas/.venv_test/bin/python3
 │   │   ├── python3.9 -> python3
 │   │   ├── ruff
 │   │   ├── safety
@@ -2613,7 +2613,7 @@
 ├── Dockerfile
 ├── LICENSE
 ├── LUKHAS_3_LAYER_TONE_SYSTEM.md
-├── Lukhas_PWM.code-workspace
+├── Lukhas.code-workspace
 ├── MODULE_INDEX.md
 ├── Makefile
 ├── NIAS_THEORY
@@ -3592,7 +3592,7 @@
 │   │   ├── nias_dream_bridge.py
 │   │   ├── pr_security_review_github_actions.py
 │   │   ├── pr_security_review_task.py
-│   │   ├── pwm_deep_analysis.py
+│   │   ├── _deep_analysis.py
 │   │   ├── security_pr_analyzer.py
 │   │   ├── service_discovery.py
 │   │   ├── symbolic_network.py
@@ -4357,7 +4357,7 @@
 │   ├── lukhas-ai-website.html
 │   ├── openai
 │   │   ├── FINAL_OPENAI_STATUS.md
-│   │   ├── GPT5_AUDITS_LUKHAS_PWM.md
+│   │   ├── GPT5_AUDITS_LUKHAS.md
 │   │   ├── IMPLEMENTATION_SUMMARY.md
 │   │   ├── INTEGRATION_TEST_CHECKLIST.md
 │   │   ├── OPENAI_INPUT_OUTPUT_REPORT.md
@@ -4385,8 +4385,8 @@
 │   │   ├── MULTIMODAL_PROCESSING_ARCHITECTURE.md
 │   │   ├── NEUROSCIENCE_MEMORY_SYSTEM.md
 │   │   ├── NEW_PROPOSED_ADDITIONS.md
-│   │   ├── PWM_AGGRESSIVE_CONSOLIDATION_PLAN.json
-│   │   ├── PWM_ROOT_REORGANIZATION_PLAN.json
+│   │   ├── _AGGRESSIVE_CONSOLIDATION_PLAN.json
+│   │   ├── _ROOT_REORGANIZATION_PLAN.json
 │   │   ├── QUANTUM_PROCESSING_SYSTEM.md
 │   │   ├── RADICAL_SIMPLIFICATION_PLAN.md
 │   │   ├── RECOVERY_PLAN.md
@@ -4421,9 +4421,9 @@
 │   │   ├── MODULE_COMMUNICATION_OPTIMIZATION_SUMMARY.md
 │   │   ├── NIAS_API_SPECIFICATION.md
 │   │   ├── NIAS_DREAM_COMMERCE_IMPLEMENTATION_REPORT.md
-│   │   ├── PWM_AGGRESSIVE_CONSOLIDATION_REPORT.json
-│   │   ├── PWM_CONSOLIDATION_REPORT.json
-│   │   ├── PWM_STREAMLINE_REPORT.json
+│   │   ├── _AGGRESSIVE_CONSOLIDATION_REPORT.json
+│   │   ├── _CONSOLIDATION_REPORT.json
+│   │   ├── _STREAMLINE_REPORT.json
 │   │   ├── REALISTIC_HARMONY_ASSESSMENT.md
 │   │   ├── REORGANIZATION_SUMMARY.json
 │   │   ├── REVOLUTIONARY_SYSTEM_TEST_REPORT.json
@@ -4709,7 +4709,7 @@
 │   │   ├── decision_node.py
 │   │   ├── dream_generator.py
 │   │   ├── edu_module.py
-│   │   ├── enhanced_pwm_guardian.py
+│   │   ├── enhanced_guardian.py
 │   │   ├── ethical_drift_detector.py
 │   │   ├── ethical_engine.py
 │   │   ├── ethical_evaluator.py
@@ -4800,7 +4800,7 @@
 │   │   ├── __init__.py
 │   │   ├── core.py
 │   │   ├── guardian.py
-│   │   └── pwm_workspace_guardian.py
+│   │   └── _workspace_guardian.py
 │   ├── guardian_sentinel.py
 │   ├── guardian_shadow_filter.py
 │   ├── guardian_system.py
@@ -4908,7 +4908,7 @@
 │   │   ├── policy_manager.py
 │   │   ├── risk_management_hooks.py
 │   │   └── session_logger.py
-│   ├── pwm_config.yaml
+│   ├── _config.yaml
 │   ├── security
 │   │   ├── secret_manager.py
 │   │   └── security_compliance_check.py
@@ -5026,7 +5026,7 @@
 │   ├── INTEGRATION_GUIDE.md
 │   ├── TEAM_REVIEW_NOTES.md
 │   ├── intelligence_engine.py
-│   ├── pwm_intelligence_adapter.py
+│   ├── _intelligence_adapter.py
 │   └── requirements.txt
 ├── lambda_products_pack
 │   ├── .github
@@ -5087,7 +5087,7 @@
 │   ├── integration_test_results.json
 │   ├── integrations
 │   │   ├── openai_agi_bridge.py
-│   │   └── pwm_adapter.py
+│   │   └── _adapter.py
 │   ├── lambda_core
 │   │   ├── .DS_Store
 │   │   ├── ABAS
@@ -5131,7 +5131,7 @@
 │   └── symbolic_healer_log.json
 ├── lukhas
 │   └── __init__.py
-├── lukhas_pwm
+├── lukhas
 │   ├── __init__.py
 │   ├── api
 │   │   ├── __init__.py
@@ -5181,7 +5181,7 @@
 │   │   └── tooling.py
 │   └── tools
 │       └── tool_executor.py
-├── lukhas_pwm_config.yaml
+├── lukhas_config.yaml
 ├── main.py
 ├── mcp_servers
 │   └── lukhas_mcp_server.py
@@ -6284,7 +6284,7 @@
 ├── replayer
 │   └── __init__.py
 ├── reports
-│   ├── latest -> /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/reports/test-runs/20250808_121241
+│   ├── latest -> /Users/agi_dev/LOCAL-REPOS/Lukhas/reports/test-runs/20250808_121241
 │   ├── test-runs
 │   │   ├── 20250808_085231
 │   │   ├── 20250808_090344
@@ -6462,7 +6462,7 @@
 ├── test_output.log
 ├── test_results
 │   ├── LATEST_COMPREHENSIVE_MONITORING_RESULTS.md
-│   ├── LUKHAS_PWM_COMPLETE_TEST_SUMMARY.md
+│   ├── LUKHAS_COMPLETE_TEST_SUMMARY.md
 │   ├── NIAS_COMPREHENSIVE_IMPLEMENTATION_REPORT.md
 │   ├── NIAS_TEST_RESULTS.json
 │   ├── STRESS_REPORT.html

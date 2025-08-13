@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🏁 PWM Final Import Cleanup
+🏁  Final Import Cleanup
 ===========================
 Final pass to clean up remaining import errors and syntax issues.
 """
@@ -34,7 +34,7 @@ class FinalImportCleanup:
             "core/orchestration/brain/brain_integration_enhanced.py",
             "core/orchestration/brain/enhanced_brain_integration.py",
             "core/orchestration/brain/integration/brain_integration.py",
-            "tools/analysis/PWM_ROOT_DIRECTORY_AUDIT.py",
+            "tools/analysis/_ROOT_DIRECTORY_AUDIT.py",
             "tools/scripts/enhance_all_modules.py",
         ]
 
@@ -299,7 +299,7 @@ class FinalImportCleanup:
 
 def main():
     """Main execution"""
-    print("🏁 PWM Final Import Cleanup")
+    print("🏁  Final Import Cleanup")
     print("=" * 50)
 
     cleanup = FinalImportCleanup()

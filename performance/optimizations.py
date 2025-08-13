@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Performance Optimizations
+LUKHAS  Performance Optimizations
 Production-ready optimizations for improved system performance
 """
 
@@ -19,7 +19,8 @@ from typing import Any, Callable, Dict, Optional, TypeVar, Union
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-T = TypeVar('T')
+T = TypeVar("T")
+
 
 class LRUCache:
     """High-performance LRU cache with TTL support"""
@@ -92,13 +93,19 @@ class LRUCache:
             "maxsize": self.maxsize,
             "hits": self.hits,
             "misses": self.misses,
-            "hit_rate": hit_rate
+            "hit_rate": hit_rate,
         }
+
 
 class ObjectPool:
     """Object pool for expensive-to-create objects"""
 
-    def __init__(self, factory: Callable[[], T], max_size: int = 100, reset_func: Optional[Callable[[T], None]] = None):
+    def __init__(
+        self,
+        factory: Callable[[], T],
+        max_size: int = 100,
+        reset_func: Optional[Callable[[T], None]] = None,
+    ):
         self.factory = factory
         self.max_size = max_size
         self.reset_func = reset_func
@@ -135,8 +142,10 @@ class ObjectPool:
             "max_size": self.max_size,
             "created": self.created_count,
             "reused": self.reused_count,
-            "reuse_rate": self.reused_count / max(1, self.created_count + self.reused_count)
+            "reuse_rate": self.reused_count
+            / max(1, self.created_count + self.reused_count),
         }
+
 
 class AsyncBatcher:
     """Batch async operations for improved throughput"""
@@ -172,11 +181,11 @@ class AsyncBatcher:
                 if not self.pending:
                     break
 
-                batch = self.pending[:self.batch_size]
-                batch_futures = self.futures[:self.batch_size]
+                batch = self.pending[: self.batch_size]
+                batch_futures = self.futures[: self.batch_size]
 
-                self.pending = self.pending[self.batch_size:]
-                self.futures = self.futures[self.batch_size:]
+                self.pending = self.pending[self.batch_size :]
+                self.futures = self.futures[self.batch_size :]
 
             # Process batch
             try:
@@ -191,6 +200,7 @@ class AsyncBatcher:
         """Override this method to define batch processing logic"""
         # Default: return batch as-is
         return batch
+
 
 class MemoryOptimizer:
     """Memory usage optimizer with automatic garbage collection"""
@@ -224,9 +234,12 @@ class MemoryOptimizer:
         # Check memory usage if limit set
         if self.memory_limit_mb:
             import psutil
+
             memory_mb = psutil.Process().memory_info().rss / (1024 * 1024)
             if memory_mb > self.memory_limit_mb:
-                logger.warning(f"Memory usage {memory_mb:.1f}MB exceeds limit {self.memory_limit_mb}MB")
+                logger.warning(
+                    f"Memory usage {memory_mb:.1f}MB exceeds limit {self.memory_limit_mb}MB"
+                )
 
     def get_stats(self) -> Dict[str, Any]:
         """Get memory optimizer statistics"""
@@ -235,13 +248,16 @@ class MemoryOptimizer:
             "operations_since_gc": self.operation_count,
             "gc_threshold": self.gc_threshold,
             "time_since_gc": time.time() - self._last_gc,
-            "gc_stats": gc.get_stats()
+            "gc_stats": gc.get_stats(),
         }
+
 
 class ConnectionPool:
     """Generic connection pool for database/HTTP connections"""
 
-    def __init__(self, factory: Callable, max_connections: int = 10, timeout: float = 30.0):
+    def __init__(
+        self, factory: Callable, max_connections: int = 10, timeout: float = 30.0
+    ):
         self.factory = factory
         self.max_connections = max_connections
         self.timeout = timeout
@@ -287,7 +303,7 @@ class ConnectionPool:
         async with self._lock:
             all_connections = list(self.in_use) + self.available
             for conn in all_connections:
-                if hasattr(conn, 'close'):
+                if hasattr(conn, "close"):
                     await conn.close()
             self.in_use.clear()
             self.available.clear()
@@ -298,11 +314,13 @@ class ConnectionPool:
             "available": len(self.available),
             "in_use": len(self.in_use),
             "total_created": self.created_count,
-            "max_connections": self.max_connections
+            "max_connections": self.max_connections,
         }
+
 
 def cache_with_ttl(maxsize: int = 128, ttl: float = 300):
     """Decorator for function caching with TTL"""
+
     def decorator(func: Callable) -> Callable:
         cache = LRUCache(maxsize=maxsize, ttl=ttl)
 
@@ -324,10 +342,13 @@ def cache_with_ttl(maxsize: int = 128, ttl: float = 300):
         # Expose cache stats
         wrapper.cache = cache
         return wrapper
+
     return decorator
+
 
 def async_cache_with_ttl(maxsize: int = 128, ttl: float = 300):
     """Decorator for async function caching with TTL"""
+
     def decorator(func: Callable) -> Callable:
         cache = LRUCache(maxsize=maxsize, ttl=ttl)
 
@@ -349,10 +370,13 @@ def async_cache_with_ttl(maxsize: int = 128, ttl: float = 300):
         # Expose cache stats
         wrapper.cache = cache
         return wrapper
+
     return decorator
+
 
 def batch_async_operations(batch_size: int = 10, timeout: float = 0.1):
     """Decorator to batch async operations"""
+
     def decorator(func: Callable) -> Callable:
         batcher = AsyncBatcher(batch_size=batch_size, timeout=timeout)
 
@@ -372,7 +396,9 @@ def batch_async_operations(batch_size: int = 10, timeout: float = 0.1):
             return await batcher.add((args, kwargs))
 
         return wrapper
+
     return decorator
+
 
 class PerformanceMonitor:
     """Monitor and report performance metrics"""
@@ -394,10 +420,7 @@ class PerformanceMonitor:
     def record_metric(self, metric_name: str, value: float):
         """Record a metric value"""
         with self._lock:
-            self.metrics[metric_name].append({
-                "value": value,
-                "timestamp": time.time()
-            })
+            self.metrics[metric_name].append({"value": value, "timestamp": time.time()})
 
             # Keep only recent metrics (last 1000)
             if len(self.metrics[metric_name]) > 1000:
@@ -410,13 +433,15 @@ class PerformanceMonitor:
 
             for metric_name, values in self.metrics.items():
                 if values:
-                    recent_values = [v["value"] for v in values[-100:]]  # Last 100 values
+                    recent_values = [
+                        v["value"] for v in values[-100:]
+                    ]  # Last 100 values
                     stats["metrics"][metric_name] = {
                         "count": len(values),
                         "average": sum(recent_values) / len(recent_values),
                         "min": min(recent_values),
                         "max": max(recent_values),
-                        "recent": recent_values[-10:]  # Last 10 values
+                        "recent": recent_values[-10:],  # Last 10 values
                     }
 
             return stats
@@ -439,6 +464,7 @@ class PerformanceMonitor:
             else:
                 self.monitor.increment_counter(f"{self.operation_name}_error")
 
+
 # Global instances
 global_cache = LRUCache(maxsize=1000, ttl=300)
 global_monitor = PerformanceMonitor()
@@ -448,15 +474,22 @@ global_memory_optimizer = MemoryOptimizer(gc_threshold=1000)
 cpu_executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="lukhas-cpu")
 io_executor = ThreadPoolExecutor(max_workers=10, thread_name_prefix="lukhas-io")
 
+
 async def run_in_cpu_executor(func: Callable, *args, **kwargs):
     """Run CPU-intensive function in thread pool"""
     loop = asyncio.get_event_loop()
-    return await loop.run_in_executor(cpu_executor, functools.partial(func, **kwargs), *args)
+    return await loop.run_in_executor(
+        cpu_executor, functools.partial(func, **kwargs), *args
+    )
+
 
 async def run_in_io_executor(func: Callable, *args, **kwargs):
     """Run I/O function in thread pool"""
     loop = asyncio.get_event_loop()
-    return await loop.run_in_executor(io_executor, functools.partial(func, **kwargs), *args)
+    return await loop.run_in_executor(
+        io_executor, functools.partial(func, **kwargs), *args
+    )
+
 
 def optimize_imports():
     """Optimize module imports for faster startup"""
@@ -465,8 +498,13 @@ def optimize_imports():
 
     # Cache frequently used modules
     common_modules = [
-        "json", "time", "asyncio", "logging",
-        "pathlib", "typing", "dataclasses"
+        "json",
+        "time",
+        "asyncio",
+        "logging",
+        "pathlib",
+        "typing",
+        "dataclasses",
     ]
 
     for module_name in common_modules:
@@ -476,15 +514,17 @@ def optimize_imports():
             except ImportError:
                 pass
 
+
 def setup_optimizations():
     """Setup all performance optimizations"""
-    logger.info("🚀 Setting up LUKHAS PWM performance optimizations...")
+    logger.info("🚀 Setting up LUKHAS  performance optimizations...")
 
     # Optimize imports
     optimize_imports()
 
     # Configure garbage collection
     import gc
+
     gc.set_threshold(1000, 15, 10)  # More aggressive GC
 
     # Enable cyclic GC debugging in development
@@ -492,6 +532,7 @@ def setup_optimizations():
         gc.set_debug(gc.DEBUG_STATS)
 
     logger.info("✅ Performance optimizations active")
+
 
 def get_optimization_stats() -> Dict[str, Any]:
     """Get statistics from all optimization components"""
@@ -502,14 +543,21 @@ def get_optimization_stats() -> Dict[str, Any]:
         "thread_pools": {
             "cpu_executor": {
                 "max_workers": cpu_executor._max_workers,
-                "threads": len(cpu_executor._threads) if hasattr(cpu_executor, '_threads') else 0
+                "threads": (
+                    len(cpu_executor._threads)
+                    if hasattr(cpu_executor, "_threads")
+                    else 0
+                ),
             },
             "io_executor": {
                 "max_workers": io_executor._max_workers,
-                "threads": len(io_executor._threads) if hasattr(io_executor, '_threads') else 0
-            }
-        }
+                "threads": (
+                    len(io_executor._threads) if hasattr(io_executor, "_threads") else 0
+                ),
+            },
+        },
     }
+
 
 # Example usage
 if __name__ == "__main__":
@@ -543,5 +591,6 @@ if __name__ == "__main__":
 
     # Print optimization stats
     import json
+
     print("\nOptimization Statistics:")
     print(json.dumps(get_optimization_stats(), indent=2))

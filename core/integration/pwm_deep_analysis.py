@@ -6,7 +6,7 @@
 #TAG:neuroplastic
 #TAG:colony
 
-LUKHAS PWM Deep Module Connectivity Analysis
+LUKHAS  Deep Module Connectivity Analysis
 Identifies critical files vs isolated orphans for aggressive archiving
 """
 
@@ -16,7 +16,7 @@ from collections import defaultdict
 from pathlib import Path
 
 
-class PWMConnectivityAnalyzer:
+class ConnectivityAnalyzer:
 
     def __init__(self, root_path="."):
         self.root_path = Path(root_path)
@@ -33,7 +33,7 @@ class PWMConnectivityAnalyzer:
         self.python_files = [
             f
             for f in self.python_files
-            if ".pwm_cleanup_archive" not in str(f) and ".git" not in str(f)
+            if "._cleanup_archive" not in str(f) and ".git" not in str(f)
         ]
         print(f"📊 Found {len(self.python_files)} Python files to analyze")
 
@@ -220,10 +220,10 @@ class PWMConnectivityAnalyzer:
 
 
 def main():
-    print("🚀 LUKHAS PWM Deep Connectivity Analysis")
+    print("🚀 LUKHAS  Deep Connectivity Analysis")
     print("=" * 50)
 
-    analyzer = PWMConnectivityAnalyzer()
+    analyzer = ConnectivityAnalyzer()
 
     # Run analysis
     analyzer.scan_python_files()
@@ -235,7 +235,7 @@ def main():
     report = analyzer.generate_report()
 
     # Save report
-    with open("PWM_CONNECTIVITY_ANALYSIS.json", "w") as f:
+    with open("_CONNECTIVITY_ANALYSIS.json", "w") as f:
         json.dump(report, f, indent=2)
 
     # Print summary
@@ -262,7 +262,7 @@ def main():
             f"     🔗 Connectivity: {metrics['connectivity_score']} | 📏 LOC: {metrics['lines_of_code']}"
         )
 
-    print("\n📄 Full report saved to: PWM_CONNECTIVITY_ANALYSIS.json")
+    print("\n📄 Full report saved to: _CONNECTIVITY_ANALYSIS.json")
 
 
 if __name__ == "__main__":

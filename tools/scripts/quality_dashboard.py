@@ -188,7 +188,7 @@ class QualityDashboard:
             [
                 "bandit",
                 "-r",
-                "lukhas_pwm",
+                "lukhas",
                 "bridge",
                 "core",
                 "serve",
@@ -286,7 +286,7 @@ class QualityDashboard:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUKHAS PWM - Code Quality Dashboard</title>
+    <title>LUKHAS - Code Quality Dashboard</title>
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
         body {{
@@ -382,7 +382,7 @@ class QualityDashboard:
 </head>
 <body>
     <div class="container">
-        <h1>🧠 LUKHAS PWM - Code Quality Dashboard</h1>
+        <h1>🧠 LUKHAS - Code Quality Dashboard</h1>
         <div class="timestamp">Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</div>
 
         <div class="health-score">
@@ -476,7 +476,7 @@ class QualityDashboard:
         </div>
 
         <div class="footer">
-            <p>🧠 LUKHAS PWM - Automated Code Quality Monitoring</p>
+            <p>🧠 LUKHAS - Automated Code Quality Monitoring</p>
             <p>Run <code>make monitor</code> to update metrics</p>
         </div>
     </div>

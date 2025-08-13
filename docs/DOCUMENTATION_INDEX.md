@@ -1,6 +1,6 @@
-# LUKHAS PWM Documentation Index
+# LUKHAS  Documentation Index
 
-Welcome to the LUKHAS PWM documentation. This index provides quick access to all major documentation resources.
+Welcome to the LUKHAS  documentation. This index provides quick access to all major documentation resources.
 
 ## 📚 Core Documentation
 
@@ -45,14 +45,14 @@ Mermaid-based visual representations:
 ## 📈 Reports and Analysis
 
 ### [Module Status Reports](./reports/status/)
-- [Operational Status Report](./reports/status/PWM_OPERATIONAL_STATUS_REPORT.md)
-- [Functional Analysis](./reports/status/PWM_FUNCTIONAL_STATUS_REPORT.md)
-- [Import Fix Status](./reports/status/PWM_IMPORT_FIX_STATUS_REPORT.md)
+- [Operational Status Report](./reports/status/_OPERATIONAL_STATUS_REPORT.md)
+- [Functional Analysis](./reports/status/_FUNCTIONAL_STATUS_REPORT.md)
+- [Import Fix Status](./reports/status/_IMPORT_FIX_STATUS_REPORT.md)
 
 ### [Analysis Reports](./reports/analysis/)
-- [System Connectivity Analysis](./reports/analysis/PWM_SYSTEM_CONNECTIVITY_REPORT.json)
-- [Import Analysis](./reports/analysis/PWM_ACTIVE_IMPORT_ANALYSIS_REPORT.json)
-- [Module Dependencies](./reports/analysis/PWM_MODULE_DEPENDENCIES_REPORT.json)
+- [System Connectivity Analysis](./reports/analysis/_SYSTEM_CONNECTIVITY_REPORT.json)
+- [Import Analysis](./reports/analysis/_ACTIVE_IMPORT_ANALYSIS_REPORT.json)
+- [Module Dependencies](./reports/analysis/_MODULE_DEPENDENCIES_REPORT.json)
 
 ## 🚀 Quick Start Guides
 
@@ -87,9 +87,9 @@ Each module contains its own README with specific details:
 ## 🛠 Tools and Scripts
 
 ### Analysis Tools
-- [Functional Analysis](../tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py)
-- [Import Analysis](../tools/analysis/PWM_ACTIVE_IMPORT_ANALYSIS.py)
-- [Connectivity Analysis](../tools/analysis/PWM_SYSTEM_CONNECTIVITY_ANALYSIS.py)
+- [Functional Analysis](../tools/analysis/_FUNCTIONAL_ANALYSIS.py)
+- [Import Analysis](../tools/analysis/_ACTIVE_IMPORT_ANALYSIS.py)
+- [Connectivity Analysis](../tools/analysis/_SYSTEM_CONNECTIVITY_ANALYSIS.py)
 
 ### Utility Scripts
 - [Import Fixer](../tools/scripts/fix_imports.py)
@@ -143,4 +143,4 @@ To contribute to documentation:
 
 ---
 
-*LUKHAS PWM - Pack What Matters*
+*LUKHAS  - Pack What Matters*

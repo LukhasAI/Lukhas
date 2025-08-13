@@ -10,7 +10,7 @@
 
 ### File Categories
 - **Archive/Backup Directories:** 2,796 files (97%)
-  - `.pwm_cleanup_archive/` - 2,603 files
+  - `._cleanup_archive/` - 2,603 files
   - `.hygiene_backup_*` - Various timestamped backups
   - `.event_bus_backup_*` - Event system backups  
   - `archive/20250802/` - Date-stamped archives
@@ -28,15 +28,15 @@
 ### ✅ Verified Safe Deletions
 
 1. **Archive Directories**
-   - All files in `.pwm_cleanup_archive/` are intentionally archived legacy code
+   - All files in `._cleanup_archive/` are intentionally archived legacy code
    - Timestamped backup directories (2025-08-07, 2025-08-02) are superseded by current code
    - Disaster recovery snapshots are redundant with active codebase
 
 2. **Active vs. Deleted Comparison**
    ```
    ACTIVE CODEBASE:           BEING DELETED:
-   ./api/                  ←→ dr_restore_*/lukhas_pwm/api/
-   ./core/                 ←→ dr_restore_*/lukhas_pwm/core/  
+   ./api/                  ←→ dr_restore_*/lukhas/api/
+   ./core/                 ←→ dr_restore_*/lukhas/core/  
    ./CLAUDE.md             ←→ CLAUDE_INSTRUCTIONS.md
    ```
 
@@ -51,7 +51,7 @@
 ### Pattern Analysis
 ```bash
 # Backup/Archive Patterns Found:
-.pwm_cleanup_archive/           # 2,603 files - Legacy cleanup archive
+._cleanup_archive/           # 2,603 files - Legacy cleanup archive
 .hygiene_backup_*/              # Hygiene system backups  
 .event_bus_backup_*/            # Event bus backups
 archive/20250802/               # Date-stamped archive

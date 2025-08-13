@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PWM Functional Analysis - Identify what actually WORKS vs what's just connected
+ Functional Analysis - Identify what actually WORKS vs what's just connected
 Analyzes functional capabilities, dependencies, and operational readiness
 """
 
@@ -291,7 +291,7 @@ class FunctionalAnalyzer:
 
 
 def main():
-    print("🔍 PWM Functional Analysis - Scanning for actual working capabilities...")
+    print("🔍  Functional Analysis - Scanning for actual working capabilities...")
 
     analyzer = FunctionalAnalyzer()
 
@@ -340,12 +340,12 @@ def main():
     }
 
     # Save detailed report
-    with open("PWM_FUNCTIONAL_ANALYSIS_REPORT.json", "w") as f:
+    with open("_FUNCTIONAL_ANALYSIS_REPORT.json", "w") as f:
         json.dump(report, f, indent=2)
 
     # Print summary
     print("\n" + "=" * 60)
-    print("🎯 PWM FUNCTIONAL CAPABILITY ANALYSIS")
+    print("🎯  FUNCTIONAL CAPABILITY ANALYSIS")
     print("=" * 60)
 
     print("\n📊 SYSTEM STATUS:")
@@ -371,7 +371,7 @@ def main():
         status_emoji = "✅" if data["functional"] else "❌"
         print(f"   {status_emoji} {path} ({data['type']})")
 
-    print("\n📋 Report saved to PWM_FUNCTIONAL_ANALYSIS_REPORT.json")
+    print("\n📋 Report saved to _FUNCTIONAL_ANALYSIS_REPORT.json")
 
 
 if __name__ == "__main__":

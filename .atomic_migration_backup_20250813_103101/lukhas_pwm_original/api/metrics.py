@@ -5,7 +5,7 @@ Prometheus-compatible metrics endpoint for monitoring.
 from fastapi import APIRouter
 from fastapi.responses import Response
 
-from lukhas_pwm.metrics import get_metrics_collector
+from lukhas.metrics import get_metrics_collector
 
 router = APIRouter(tags=["metrics"])
 

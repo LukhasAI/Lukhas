@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-PWM Module Communication Analyzer
-=================================
+LUKHAS Module Communication Analyzer
+=====================================
 Analyzes current module communication patterns to identify optimization opportunities.
 """
 
@@ -24,7 +24,7 @@ class ModuleCommunicationAnalyzer:
     """Analyzes communication patterns between LUKHAS modules"""
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas_PWM")
+        self.root_path = Path("/Users/agi_dev/Lukhas")
         self.communication_graph = nx.DiGraph()
         self.glyph_usage = defaultdict(list)
         self.direct_imports = defaultdict(set)
@@ -33,7 +33,7 @@ class ModuleCommunicationAnalyzer:
 
     def analyze(self) -> dict[str, Any]:
         """Run comprehensive communication analysis"""
-        logger.info("🔍 Analyzing LUKHAS PWM Module Communication Patterns...\n")
+        logger.info("🔍 Analyzing LUKHAS Module Communication Patterns...\n")
 
         # Analyze different communication methods
         self._analyze_import_patterns()

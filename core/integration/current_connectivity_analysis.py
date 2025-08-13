@@ -6,7 +6,7 @@
 #TAG:neuroplastic
 #TAG:colony
 
-LUKHAS PWM Current Connectivity Analysis
+LUKHAS  Current Connectivity Analysis
 Analyzes the current state of module connectivity and identifies isolated files
 """
 
@@ -291,7 +291,7 @@ def main():
     report = analyzer.analyze_directory()
 
     # Save report
-    output_path = Path("docs/reports/analysis/PWM_CURRENT_CONNECTIVITY_ANALYSIS.json")
+    output_path = Path("docs/reports/analysis/_CURRENT_CONNECTIVITY_ANALYSIS.json")
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(output_path, "w") as f:

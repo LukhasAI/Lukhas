@@ -174,7 +174,7 @@ MemoryManager = CoreMemoryManager
 
 ### **Immediate Namespace Fix**
 ```bash
-cd /Users/agi_dev/Lukhas_PWM
+cd /Users/agi_dev/Lukhas
 
 # Fix interface.py imports
 sed -i '' 's/from identity\.core\./from governance.identity.core./g' governance/identity/interface.py
@@ -198,7 +198,7 @@ EOF
 
 ### **Test Critical Imports**
 ```bash
-cd /Users/agi_dev/Lukhas_PWM
+cd /Users/agi_dev/Lukhas
 python3 -c "
 import governance.identity.interface
 import governance.identity.core.tier.tier_validator

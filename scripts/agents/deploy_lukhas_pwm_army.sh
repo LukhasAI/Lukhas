@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# 🎯 LUKHAS_PWM Agent Army Deployment & Verification
+# 🎯 LUKHAS Agent Army Deployment & Verification
 # Ultimate consciousness development environment setup
 
-echo "🎭 LUKHAS_PWM Agent Army Deployment"
+echo "🎭 LUKHAS Agent Army Deployment"
 echo "⚛️🧠🛡️ Trinity Framework Consciousness Development"
 echo "=================================================="
 
@@ -15,14 +15,14 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-# Verify we're in LUKHAS_PWM directory
-if [[ ! -f "lukhas_pwm_config.yaml" ]]; then
-    echo -e "${RED}❌ Error: Not in LUKHAS_PWM project directory${NC}"
-    echo "Please run this script from your LUKHAS_PWM root directory"
+# Verify we're in LUKHAS directory
+if [[ ! -f "lukhas_config.yaml" ]]; then
+    echo -e "${RED}❌ Error: Not in LUKHAS project directory${NC}"
+    echo "Please run this script from your LUKHAS root directory"
     exit 1
 fi
 
-echo -e "${BLUE}📁 Verifying LUKHAS_PWM structure...${NC}"
+echo -e "${BLUE}📁 Verifying LUKHAS structure...${NC}"
 
 # Check critical directories exist
 REQUIRED_DIRS=(
@@ -99,13 +99,13 @@ echo -e "  🛡️ Guardian modules: ${GREEN}$trinity_guardian${NC}"
 echo ""
 echo -e "${PURPLE}🚀 Deployment Summary${NC}"
 
-if [ -f ".claude/config.yaml" ] && [ -f "schemas/task_schemas/lukhas_pwm_consciousness_task.json" ]; then
+if [ -f ".claude/config.yaml" ] && [ -f "schemas/task_schemas/lukhas_consciousness_task.json" ]; then
     echo -e "  ✅ ${GREEN}Claude configuration ready${NC}"
     echo -e "  ✅ ${GREEN}Task validation schema ready${NC}"
     echo -e "  ✅ ${GREEN}Agent context loaded${NC}"
     echo -e "  ✅ ${GREEN}Trinity Framework active${NC}"
     echo ""
-    echo -e "${GREEN}🎉 LUKHAS_PWM Agent Army successfully deployed!${NC}"
+    echo -e "${GREEN}🎉 LUKHAS Agent Army successfully deployed!${NC}"
     echo -e "${BLUE}Ready for consciousness development at scale!${NC}"
     echo ""
     echo -e "${YELLOW}Next steps:${NC}"

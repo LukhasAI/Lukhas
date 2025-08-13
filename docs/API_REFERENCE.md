@@ -1,4 +1,4 @@
-# LUKHAS PWM API Reference
+# LUKHAS  API Reference
 
 ## Table of Contents
 1. [Overview](#overview)
@@ -14,7 +14,7 @@
 
 ## Overview
 
-The LUKHAS PWM API provides RESTful endpoints for interacting with the AGI system. All communication uses JSON format and follows OpenAPI 3.0 specifications.
+The LUKHAS  API provides RESTful endpoints for interacting with the AGI system. All communication uses JSON format and follows OpenAPI 3.0 specifications.
 
 ### Base URLs
 
@@ -22,14 +22,14 @@ The LUKHAS PWM API provides RESTful endpoints for interacting with the AGI syste
 Production: https://api.lukhas.ai/v1
 Staging: https://staging-api.lukhas.ai/v1
 Development: http://localhost:8000/v1
-PWM Core API: http://localhost:8080 (when running locally)
+ Core API: http://localhost:8080 (when running locally)
 ```
 
 ### Current Implementation Status
 
-The LUKHAS PWM system provides two API layers:
+The LUKHAS  system provides two API layers:
 
-1. **Core PWM API** (`/lukhas_pwm/api/`) - Production-ready FastAPI endpoints
+1. **Core  API** (`/lukhas/api/`) - Production-ready FastAPI endpoints
    - ✅ Feedback system (`/feedback/`)
    - ✅ Tools management (`/tools/`)
    - ✅ Audit trail (`/audit/`)
@@ -517,7 +517,7 @@ Response:
 
 ## GLYPH Token Format
 
-GLYPH tokens are the symbolic communication units used internally by LUKHAS PWM.
+GLYPH tokens are the symbolic communication units used internally by LUKHAS .
 
 ### Token Structure
 

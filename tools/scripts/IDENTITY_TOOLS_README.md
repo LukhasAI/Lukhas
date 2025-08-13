@@ -1,8 +1,8 @@
-# LUKHAS PWM Identity Integration Automation Tools
+# LUKHAS  Identity Integration Automation Tools
 
 ## Overview
 
-This suite of automation tools helps fix identity integration issues across the LUKHAS PWM codebase. The tools automatically add authentication, tier protection, and user ID tracking where needed.
+This suite of automation tools helps fix identity integration issues across the LUKHAS  codebase. The tools automatically add authentication, tier protection, and user ID tracking where needed.
 
 ## 🚀 Quick Start
 

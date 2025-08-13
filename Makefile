@@ -3,7 +3,7 @@
 
 # Default target
 help:
-	@echo "LUKHAS PWM Build System"
+	@echo "LUKHAS  Build System"
 	@echo "======================="
 	@echo ""
 	@echo "Setup & Installation:"
@@ -97,14 +97,14 @@ lint:
 	@echo "\nRunning MyPy..."
 	-mypy . --ignore-missing-imports
 	@echo "\nRunning Bandit (security)..."
-	-bandit -r lukhas_pwm bridge core serve -ll
+	-bandit -r lukhas bridge core serve -ll
 
 # Format code
 format:
 	@echo "🎨 Formatting code with Black..."
-	black --line-length 79 lukhas_pwm bridge core serve tests
+	black --line-length 79 lukhas bridge core serve tests
 	@echo "📦 Sorting imports with isort..."
-	isort --profile black --line-length 79 lukhas_pwm bridge core serve tests
+	isort --profile black --line-length 79 lukhas bridge core serve tests
 
 # Auto-fix all issues (smart mode - won't break code)
 fix:
@@ -142,7 +142,7 @@ test:
 # Run tests with coverage
 test-cov:
 	@echo "🧪 Running tests with coverage..."
-	pytest tests/ --cov=lukhas_pwm --cov=bridge --cov=core --cov=serve --cov-report=html --cov-report=term
+	pytest tests/ --cov=lukhas --cov=bridge --cov=core --cov=serve --cov-report=html --cov-report=term
 
 # Smoke test
 smoke:
@@ -150,7 +150,7 @@ smoke:
 
 # Run full CI pipeline locally
 ci-local:
-	pytest -q --maxfail=1 --disable-warnings --cov=lukhas_pwm --cov-report=term
+	pytest -q --maxfail=1 --disable-warnings --cov=lukhas --cov-report=term
 	python scripts/testing/smoke_check.py --json out/smoke.json || true
 	uvicorn lukhas.api.app:app --port 8000 & echo $$! > .pid; sleep 2; \
 	curl -s http://127.0.0.1:8000/openapi.json -o out/openapi.json; \
@@ -248,14 +248,14 @@ sdk-ts-test:
 backup-local:
 	@mkdir -p .lukhas_backup/out
 	@echo "Creating local backup..."
-	@python3 scripts/backup_create.py --include lukhas_pwm data \
+	@python3 scripts/backup_create.py --include lukhas data \
 		--exclude "*.tmp" "*.log" \
 		--outdir .lukhas_backup/out | tee .lukhas_backup/out/backup_create.out.json
 
 backup-s3:
 	@[ -n "$$BACKUP_S3_BUCKET" ] || (echo "BACKUP_S3_BUCKET is required" && exit 1)
 	@mkdir -p .lukhas_backup/out
-	@BACKUP_INCLUDE="lukhas_pwm data" BACKUP_PREFIX="s3" OUTDIR=".lukhas_backup/out" bash scripts/backup.sh
+	@BACKUP_INCLUDE="lukhas data" BACKUP_PREFIX="s3" OUTDIR=".lukhas_backup/out" bash scripts/backup.sh
 
 restore-local:
 	@[ -n "$$MANIFEST" ] || (echo "Usage: make restore-local MANIFEST=path/to.manifest.json [TARGET=_restore]" && exit 1)

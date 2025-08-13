@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # 🔄 LUKHAS Internal Namespace Migration Script
-# Safely rename lukhas_pwm → lukhas internally (before folder rename)
+# Safely rename lukhas → lukhas internally (before folder rename)
 # Trinity Framework compliant: ⚛️🧠🛡️
 
 set -e
 
 echo "══════════════════════════════════════════════════════════════════════════════════"
 echo "║ 🔄 LUKHAS INTERNAL NAMESPACE MIGRATION"
-echo "║ Phase 1: Internal references lukhas_pwm → lukhas"
+echo "║ Phase 1: Internal references lukhas → lukhas"
 echo "║ Trinity Framework: ⚛️🧠🛡️"
 echo "╚══════════════════════════════════════════════════════════════════════════════════"
 echo
@@ -33,16 +33,16 @@ safe_replace() {
     fi
 }
 
-echo "🎯 Phase 1: Import statements (from lukhas_pwm → from lukhas)"
+echo "🎯 Phase 1: Import statements (from lukhas → from lukhas)"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # Update Python imports
 find . -name "*.py" -type f -not -path "./.git/*" -not -path "./.venv/*" -not -path "./.*" | while read -r file; do
-    if grep -q "from lukhas_pwm" "$file" 2>/dev/null; then
-        safe_replace "$file" "from lukhas_pwm" "from lukhas" "Import statement"
+    if grep -q "from lukhas" "$file" 2>/dev/null; then
+        safe_replace "$file" "from lukhas" "from lukhas" "Import statement"
     fi
-    if grep -q "import lukhas_pwm" "$file" 2>/dev/null; then
-        safe_replace "$file" "import lukhas_pwm" "import lukhas" "Import statement"
+    if grep -q "import lukhas" "$file" 2>/dev/null; then
+        safe_replace "$file" "import lukhas" "import lukhas" "Import statement"
     fi
 done
 
@@ -51,16 +51,16 @@ echo "🎯 Phase 2: Configuration files"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # Update config files
-for config_file in lukhas_pwm_config.yaml pyproject.toml setup.py; do
+for config_file in lukhas_config.yaml pyproject.toml setup.py; do
     if [[ -f "$config_file" ]]; then
-        safe_replace "$config_file" "lukhas_pwm" "lukhas" "Config reference"
+        safe_replace "$config_file" "lukhas" "lukhas" "Config reference"
     fi
 done
 
 # Update Dockerfiles
 for dockerfile in Dockerfile* docker-compose.yml; do
     if [[ -f "$dockerfile" ]]; then
-        safe_replace "$dockerfile" "lukhas_pwm" "lukhas" "Docker reference"
+        safe_replace "$dockerfile" "lukhas" "lukhas" "Docker reference"
     fi
 done
 
@@ -70,9 +70,9 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 
 # Update markdown files (be more selective to avoid changing external URLs)
 find docs/ -name "*.md" -type f 2>/dev/null | while read -r file; do
-    if grep -q "from lukhas_pwm\|import lukhas_pwm" "$file" 2>/dev/null; then
-        safe_replace "$file" "from lukhas_pwm" "from lukhas" "Doc import"
-        safe_replace "$file" "import lukhas_pwm" "import lukhas" "Doc import"
+    if grep -q "from lukhas\|import lukhas" "$file" 2>/dev/null; then
+        safe_replace "$file" "from lukhas" "from lukhas" "Doc import"
+        safe_replace "$file" "import lukhas" "import lukhas" "Doc import"
     fi
 done
 
@@ -82,8 +82,8 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 
 # Update GitHub workflows
 find .github/ -name "*.yml" -type f 2>/dev/null | while read -r file; do
-    if grep -q "lukhas_pwm" "$file" 2>/dev/null; then
-        safe_replace "$file" "from lukhas_pwm" "from lukhas" "Workflow import"
+    if grep -q "lukhas" "$file" 2>/dev/null; then
+        safe_replace "$file" "from lukhas" "from lukhas" "Workflow import"
     fi
 done
 
@@ -93,8 +93,8 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 
 # Update .env.example
 if [[ -f ".env.example" ]]; then
-    safe_replace ".env.example" "LUKHAS_PWM" "LUKHAS" "Environment variable"
-    safe_replace ".env.example" "lukhas-pwm" "lukhas" "Path reference"
+    safe_replace ".env.example" "LUKHAS" "LUKHAS" "Environment variable"
+    safe_replace ".env.example" "lukhas-" "lukhas" "Path reference"
 fi
 
 echo
@@ -112,8 +112,8 @@ echo
 echo "🎯 Next steps:"
 echo "  1. Test imports: python -c 'import lukhas; print(\"✅ Import successful\")'"
 echo "  2. Run smoke tests: python -m pytest tests/ -k smoke"
-echo "  3. If all good, run: git add . && git commit -m 'chore: rename lukhas_pwm → lukhas'"
-echo "  4. Later: rename actual folder lukhas_pwm/ → lukhas/"
+echo "  3. If all good, run: git add . && git commit -m 'chore: rename lukhas → lukhas'"
+echo "  4. Later: rename actual folder lukhas/ → lukhas/"
 echo
 echo "🔄 To rollback: cp $backup_dir/* ./"
 echo

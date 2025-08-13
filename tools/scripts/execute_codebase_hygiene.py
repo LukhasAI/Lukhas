@@ -14,7 +14,7 @@ class CodebaseHygieneExecutor:
     """Execute comprehensive codebase naming cleanup"""
 
     def __init__(self):
-        self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
+        self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
         self.backup_dir = (
             self.workspace
             / f".hygiene_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -42,16 +42,16 @@ class CodebaseHygieneExecutor:
         }
 
         self.file_renames = {
-            "tools/analysis/PWM_OPERATIONAL_SUMMARY.py": "tools/analysis/operational_summary.py",
-            "tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py": "tools/analysis/functional_analysis.py",
-            "tools/analysis/PWM_WORKSPACE_STATUS_ANALYSIS.py": "tools/analysis/workspace_status.py",
-            "tools/analysis/PWM_SECURITY_COMPLIANCE_GAP_ANALYSIS.py": "tools/analysis/security_gap_analysis.py",
-            "tools/analysis/PWM_TARGETED_IMPORT_FIXER.py": "tools/analysis/import_fixer.py",
-            "tools/analysis/PWM_CIRCULAR_DEPENDENCY_ANALYSIS.py": "tools/analysis/circular_dependency_analysis.py",
-            "tools/analysis/PWM_ROOT_DIRECTORY_AUDIT.py": "tools/analysis/root_directory_audit.py",
-            "tools/analysis/PWM_IMPORT_SUCCESS_SUMMARY.py": "tools/analysis/import_success_summary.py",
-            "tools/analysis/PWM_STREAMLINE_ANALYZER.py": "tools/analysis/streamline_analyzer.py",
-            "tools/analysis/PWM_CURRENT_CONNECTIVITY_ANALYSIS.py": "tools/analysis/connectivity_analysis.py",
+            "tools/analysis/_OPERATIONAL_SUMMARY.py": "tools/analysis/operational_summary.py",
+            "tools/analysis/_FUNCTIONAL_ANALYSIS.py": "tools/analysis/functional_analysis.py",
+            "tools/analysis/_WORKSPACE_STATUS_ANALYSIS.py": "tools/analysis/workspace_status.py",
+            "tools/analysis/_SECURITY_COMPLIANCE_GAP_ANALYSIS.py": "tools/analysis/security_gap_analysis.py",
+            "tools/analysis/_TARGETED_IMPORT_FIXER.py": "tools/analysis/import_fixer.py",
+            "tools/analysis/_CIRCULAR_DEPENDENCY_ANALYSIS.py": "tools/analysis/circular_dependency_analysis.py",
+            "tools/analysis/_ROOT_DIRECTORY_AUDIT.py": "tools/analysis/root_directory_audit.py",
+            "tools/analysis/_IMPORT_SUCCESS_SUMMARY.py": "tools/analysis/import_success_summary.py",
+            "tools/analysis/_STREAMLINE_ANALYZER.py": "tools/analysis/streamline_analyzer.py",
+            "tools/analysis/_CURRENT_CONNECTIVITY_ANALYSIS.py": "tools/analysis/connectivity_analysis.py",
             "core/orchestration/lukhas_orchestrator.py": "core/orchestration/main_orchestrator.py",
             "tools/legacy_analysis": "tools/deprecated",
         }

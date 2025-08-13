@@ -143,7 +143,7 @@ def fix_all_line_continuations():
                 ".venv",
                 ".git",
                 "__pycache__",
-                ".pwm_cleanup_archive",
+                "._cleanup_archive",
             ]
         ):
             continue
@@ -203,7 +203,7 @@ def main():
                 ".venv",
                 ".git",
                 "__pycache__",
-                ".pwm_cleanup_archive",
+                "._cleanup_archive",
             ]
         ):
             continue

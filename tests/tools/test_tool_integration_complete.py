@@ -14,7 +14,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
-from lukhas_pwm.audit.tool_analytics import get_analytics
+from lukhas.audit.tool_analytics import get_analytics
 from orchestration.signals.homeostasis import ModulationParams
 
 load_dotenv()

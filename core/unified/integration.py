@@ -1,5 +1,5 @@
 """
-Unified integration layer for LUKHAS PWM
+Unified integration layer for LUKHAS
 ========================================
 Minimal implementation to support system component integration.
 """
@@ -54,7 +54,7 @@ class UnifiedIntegration:
         self.active = False
         # Stop all components
         for component_id, component in self.components.items():
-            if hasattr(component, 'stop'):
+            if hasattr(component, "stop"):
                 try:
                     await component.stop()
                 except Exception as e:
@@ -113,9 +113,9 @@ class UnifiedIntegration:
             "active": self.active,
             "registered_components": len(self.message_handlers),
             "data_stores": len(self.data_stores),
-            "components": list(self.message_handlers.keys())
+            "components": list(self.message_handlers.keys()),
         }
 
 
 # Export main classes
-__all__ = ['Integration', 'UnifiedIntegration']
+__all__ = ["Integration", "UnifiedIntegration"]

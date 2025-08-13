@@ -1,4 +1,4 @@
-# LUKHAS PWM Module Refinement Plan
+# LUKHAS  Module Refinement Plan
 
 **Date**: 2025-08-01
 **Phase**: Pre-Claude Code Automation
@@ -314,7 +314,7 @@ mkdir -p /Users/agi_dev/lukhas-archive/2025-08-01-module-refinement/{tools-proto
 mv <file> /Users/agi_dev/lukhas-archive/2025-08-01-module-refinement/<category>/
 
 # Test connectivity
-python3 tools/analysis/PWM_CURRENT_CONNECTIVITY_ANALYSIS.py
+python3 tools/analysis/_CURRENT_CONNECTIVITY_ANALYSIS.py
 
 # Run assessments
 python3 tools/analysis/ISOLATED_FILES_ASSESSMENT.py

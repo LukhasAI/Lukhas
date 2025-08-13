@@ -1,6 +1,6 @@
 """
 NIΛS Hub - Central coordination for NIAS system components
-Adapted from system-pwm-advanced for Lambda Products integration
+Adapted from system--advanced for Lambda Products integration
 """
 
 import logging

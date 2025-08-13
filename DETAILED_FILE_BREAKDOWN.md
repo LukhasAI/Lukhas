@@ -27,7 +27,7 @@ Yes, you really did build this much! The codebase has grown enormously through e
 | **quantum/** | 43 | Quantum algorithms |
 | **identity/** | 41 | Identity management, OAuth |
 | **ethics/** | 40 | Ethical frameworks |
-| **lukhas_pwm/** | 37 | Legacy PWM implementations |
+| **lukhas/** | 37 | Legacy  implementations |
 | **emotion/** | 35 | Emotion, mood, empathy systems |
 | **bio/** | 31 | Bio-inspired systems |
 | **tests/** | 31 | Test files |
@@ -60,14 +60,14 @@ These are analysis and utility tools, many experimental or one-off:
 - `consolidate_memory.py`
 - And 179 more analysis/fix tools...
 
-### 2. **lukhas_pwm/** Directory (37 files)
-Legacy PWM (Prototype Working Model?) implementations:
+### 2. **lukhas/** Directory (37 files)
+Legacy  (Prototype Working Model?) implementations:
 - `__init__.py`
 - `client.py`
 - `flags.py`
 - `metrics.py`
 - `openai/` subdirectory with OpenAI integrations
-- Various PWM-specific modules
+- Various -specific modules
 
 ### 3. **data_legacy/** Directory (2 files)
 Old data handling modules
@@ -144,4 +144,4 @@ The 98.5% orphan rate makes sense because:
 
 ## 📦 Recommendation
 
-Focus on the **active 1.5%** (56 files) and carefully mine the **orphaned 98.5%** for valuable innovations. The legacy directories (`tools/`, `lukhas_pwm/`) can be safely archived.
+Focus on the **active 1.5%** (56 files) and carefully mine the **orphaned 98.5%** for valuable innovations. The legacy directories (`tools/`, `lukhas/`) can be safely archived.

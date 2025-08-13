@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-🔍 PWM Duplicate Code Analysis
+🔍  Duplicate Code Analysis
 =============================
-Identifies duplicate functionality across LUKHAS PWM modules.
+Identifies duplicate functionality across LUKHAS  modules.
 """
 
 import ast
@@ -237,7 +237,7 @@ class DuplicateAnalyzer:
             "venv",
             ".venv",
             "archive",
-            ".pwm_cleanup_archive",
+            "._cleanup_archive",
         }
 
         for py_file in directory.rglob("*.py"):
@@ -317,7 +317,7 @@ def generate_consolidation_plan(duplicates: dict) -> list[dict]:
 
 def main():
     """Main analysis function"""
-    print("🔍 PWM Duplicate Code Analysis")
+    print("🔍  Duplicate Code Analysis")
     print("=" * 60)
 
     analyzer = DuplicateAnalyzer(PROJECT_ROOT)
@@ -396,7 +396,7 @@ def main():
         / "docs"
         / "reports"
         / "analysis"
-        / "PWM_DUPLICATE_ANALYSIS_REPORT.json"
+        / "_DUPLICATE_ANALYSIS_REPORT.json"
     )
     report_path.parent.mkdir(parents=True, exist_ok=True)
 

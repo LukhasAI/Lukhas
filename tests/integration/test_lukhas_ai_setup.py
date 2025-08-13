@@ -42,13 +42,13 @@ def test_lukhas_knowledge_server():
     try:
         import sys
 
-        sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
+        sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
         # Test import
         from ai_orchestration.lukhas_knowledge_server import LUKHASKnowledgeServer
 
         # Create instance
-        server = LUKHASKnowledgeServer("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
+        server = LUKHASKnowledgeServer("/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
         # Test basic functionality (sync methods)
         vocabulary = server.symbolic_vocabulary

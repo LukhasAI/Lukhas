@@ -42,7 +42,7 @@ bridge/README.md
 consciousness/README.md  
 core/README.md
 Multiple files in core/interfaces/
-Multiple files in .pwm_cleanup_archive/
+Multiple files in ._cleanup_archive/
 ```
 
 ## 🟢 NEW FILES (UNTRACKED)

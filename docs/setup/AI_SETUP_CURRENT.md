@@ -29,7 +29,7 @@ Copy the LUKHAS context configuration:
 {
   "customInstructions": "I am working on the LUKHAS AGI project. Always follow Trinity Framework documentation (🎭 Poetic, 🌈 Human, 🎓 Technical), preserve LUKHAS concepts (memory_fold, dream_resonance, quantum_consciousness), and use symbolic conventions (⚛️🧠🛡️). When generating code, ensure it follows LUKHAS naming patterns and consciousness-aware architecture.",
   "workspaceIntegration": {
-    "lukhasPath": "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM",
+    "lukhasPath": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
     "patterns": ["memory_fold", "dream_resonance", "quantum_consciousness", "guardian_protocol", "trinity_framework"]
   }
 }

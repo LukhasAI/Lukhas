@@ -128,7 +128,7 @@ Just need to:
 
 ### 📚 Academic
 ```python
-# Required changes in lukhas_pwm_adapter.py:
+# Required changes in lukhas_adapter.py:
 
 # Line 171 - Fix registration call:
 self.module_registry.register_module(

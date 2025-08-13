@@ -1,8 +1,8 @@
-# LUKHAS PWM Production Deployment Guide 🚀
+# LUKHAS  Production Deployment Guide 🚀
 
 ## Overview
 
-This guide provides comprehensive instructions for deploying LUKHAS PWM in a production environment. It covers infrastructure setup, security hardening, performance optimization, monitoring, and maintenance procedures.
+This guide provides comprehensive instructions for deploying LUKHAS  in a production environment. It covers infrastructure setup, security hardening, performance optimization, monitoring, and maintenance procedures.
 
 ## Prerequisites
 
@@ -50,16 +50,16 @@ sudo useradd -m -s /bin/bash lukhas
 sudo usermod -aG sudo lukhas
 
 # Setup directory structure
-sudo mkdir -p /opt/lukhas-pwm
-sudo chown lukhas:lukhas /opt/lukhas-pwm
+sudo mkdir -p /opt/lukhas-
+sudo chown lukhas:lukhas /opt/lukhas-
 
 # Switch to lukhas user
 sudo su - lukhas
-cd /opt/lukhas-pwm
+cd /opt/lukhas-
 
 # Clone repository
-git clone https://github.com/your-org/lukhas-pwm.git
-cd lukhas-pwm
+git clone https://github.com/your-org/lukhas-.git
+cd lukhas-
 ```
 
 ### 2. Environment Configuration
@@ -85,7 +85,7 @@ LUKHAS_API_PORT=8080
 LUKHAS_API_WORKERS=4
 
 # Database
-DATABASE_URL=postgresql://lukhas:password@localhost:5432/lukhas_pwm
+DATABASE_URL=postgresql://lukhas:password@localhost:5432/lukhas
 DATABASE_POOL_SIZE=20
 DATABASE_MAX_OVERFLOW=30
 
@@ -123,7 +123,7 @@ sudo apt install postgresql postgresql-contrib
 
 # Create database and user
 sudo -u postgres createuser lukhas
-sudo -u postgres createdb lukhas_pwm -O lukhas
+sudo -u postgres createdb lukhas -O lukhas
 sudo -u postgres psql -c "ALTER USER lukhas PASSWORD 'secure-password';"
 
 # Configure PostgreSQL for production
@@ -189,10 +189,10 @@ requirepass your-redis-password
 
 ```bash
 # Create virtual environment
-python3.9 -m venv /opt/lukhas-pwm/venv
+python3.9 -m venv /opt/lukhas-/venv
 
 # Activate and install dependencies
-source /opt/lukhas-pwm/venv/bin/activate
+source /opt/lukhas-/venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 pip install -r requirements-prod.txt
@@ -234,7 +234,7 @@ Create production configuration file:
 
 ```bash
 # Create production config
-nano lukhas_pwm_config.production.yaml
+nano lukhas_config.production.yaml
 ```
 
 **Production Configuration:**
@@ -290,7 +290,7 @@ monitoring:
   logging:
     level: "INFO"
     format: "json"
-    file: "/var/log/lukhas-pwm/app.log"
+    file: "/var/log/lukhas-/app.log"
     max_bytes: 10485760
     backup_count: 5
 
@@ -312,7 +312,7 @@ performance:
 sudo apt install nginx
 
 # Create Nginx configuration
-sudo nano /etc/nginx/sites-available/lukhas-pwm
+sudo nano /etc/nginx/sites-available/lukhas-
 ```
 
 **Nginx Configuration:**
@@ -349,8 +349,8 @@ server {
     add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
 
     # Logging
-    access_log /var/log/nginx/lukhas-pwm-access.log;
-    error_log /var/log/nginx/lukhas-pwm-error.log;
+    access_log /var/log/nginx/lukhas--access.log;
+    error_log /var/log/nginx/lukhas--error.log;
 
     # Rate Limiting
     limit_req_zone $binary_remote_addr zone=api:10m rate=100r/m;
@@ -380,7 +380,7 @@ server {
 
     # Static files
     location /static/ {
-        alias /opt/lukhas-pwm/static/;
+        alias /opt/lukhas-/static/;
         expires 30d;
         add_header Cache-Control "public, immutable";
     }
@@ -396,7 +396,7 @@ server {
 
 ```bash
 # Enable site
-sudo ln -s /etc/nginx/sites-available/lukhas-pwm /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/lukhas- /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
@@ -422,13 +422,13 @@ sudo crontab -e
 Create systemd service file:
 
 ```bash
-sudo nano /etc/systemd/system/lukhas-pwm.service
+sudo nano /etc/systemd/system/lukhas-.service
 ```
 
 **Systemd Service Configuration:**
 ```ini
 [Unit]
-Description=LUKHAS PWM Application
+Description=LUKHAS  Application
 After=network.target postgresql.service redis.service
 Wants=postgresql.service redis.service
 
@@ -436,10 +436,10 @@ Wants=postgresql.service redis.service
 Type=notify
 User=lukhas
 Group=lukhas
-WorkingDirectory=/opt/lukhas-pwm
-Environment=PATH=/opt/lukhas-pwm/venv/bin
-EnvironmentFile=/opt/lukhas-pwm/.env.production
-ExecStart=/opt/lukhas-pwm/venv/bin/gunicorn lukhas_pwm.main:app \
+WorkingDirectory=/opt/lukhas-
+Environment=PATH=/opt/lukhas-/venv/bin
+EnvironmentFile=/opt/lukhas-/.env.production
+ExecStart=/opt/lukhas-/venv/bin/gunicorn lukhas.main:app \
     --bind 0.0.0.0:8080 \
     --workers 4 \
     --worker-class uvicorn.workers.UvicornWorker \
@@ -447,8 +447,8 @@ ExecStart=/opt/lukhas-pwm/venv/bin/gunicorn lukhas_pwm.main:app \
     --max-requests-jitter 1000 \
     --timeout 30 \
     --keepalive 2 \
-    --access-logfile /var/log/lukhas-pwm/access.log \
-    --error-logfile /var/log/lukhas-pwm/error.log \
+    --access-logfile /var/log/lukhas-/access.log \
+    --error-logfile /var/log/lukhas-/error.log \
     --log-level info
 ExecReload=/bin/kill -s HUP $MAINPID
 Restart=always
@@ -463,23 +463,23 @@ WantedBy=multi-user.target
 ### 2. Monitoring Service
 
 ```bash
-sudo nano /etc/systemd/system/lukhas-pwm-monitoring.service
+sudo nano /etc/systemd/system/lukhas--monitoring.service
 ```
 
 ```ini
 [Unit]
-Description=LUKHAS PWM Monitoring Dashboard
-After=network.target lukhas-pwm.service
-Wants=lukhas-pwm.service
+Description=LUKHAS  Monitoring Dashboard
+After=network.target lukhas-.service
+Wants=lukhas-.service
 
 [Service]
 Type=simple
 User=lukhas
 Group=lukhas
-WorkingDirectory=/opt/lukhas-pwm/monitoring
-Environment=PATH=/opt/lukhas-pwm/venv/bin
-EnvironmentFile=/opt/lukhas-pwm/.env.production
-ExecStart=/opt/lukhas-pwm/venv/bin/python unified_dashboard.py
+WorkingDirectory=/opt/lukhas-/monitoring
+Environment=PATH=/opt/lukhas-/venv/bin
+EnvironmentFile=/opt/lukhas-/.env.production
+ExecStart=/opt/lukhas-/venv/bin/python unified_dashboard.py
 Restart=always
 RestartSec=5
 
@@ -491,19 +491,19 @@ WantedBy=multi-user.target
 
 ```bash
 # Create log directory
-sudo mkdir -p /var/log/lukhas-pwm
-sudo chown lukhas:lukhas /var/log/lukhas-pwm
+sudo mkdir -p /var/log/lukhas-
+sudo chown lukhas:lukhas /var/log/lukhas-
 
 # Enable and start services
 sudo systemctl daemon-reload
-sudo systemctl enable lukhas-pwm
-sudo systemctl enable lukhas-pwm-monitoring
-sudo systemctl start lukhas-pwm
-sudo systemctl start lukhas-pwm-monitoring
+sudo systemctl enable lukhas-
+sudo systemctl enable lukhas--monitoring
+sudo systemctl start lukhas-
+sudo systemctl start lukhas--monitoring
 
 # Check status
-sudo systemctl status lukhas-pwm
-sudo systemctl status lukhas-pwm-monitoring
+sudo systemctl status lukhas-
+sudo systemctl status lukhas--monitoring
 ```
 
 ## Monitoring & Observability
@@ -532,10 +532,10 @@ global:
   evaluation_interval: 15s
 
 rule_files:
-  - "lukhas_pwm_rules.yml"
+  - "lukhas_rules.yml"
 
 scrape_configs:
-  - job_name: 'lukhas-pwm'
+  - job_name: 'lukhas-'
     static_configs:
       - targets: ['localhost:8080']
     scrape_interval: 5s
@@ -575,11 +575,11 @@ sudo systemctl start grafana-server
 
 ```bash
 # Install log rotation
-sudo nano /etc/logrotate.d/lukhas-pwm
+sudo nano /etc/logrotate.d/lukhas-
 ```
 
 ```
-/var/log/lukhas-pwm/*.log {
+/var/log/lukhas-/*.log {
     daily
     missingok
     rotate 52
@@ -588,7 +588,7 @@ sudo nano /etc/logrotate.d/lukhas-pwm
     notifempty
     create 644 lukhas lukhas
     postrotate
-        systemctl reload lukhas-pwm
+        systemctl reload lukhas-
     endscript
 }
 ```
@@ -651,13 +651,13 @@ ClientAliveCountMax 2
 
 ```bash
 # Set proper file permissions
-sudo chmod 750 /opt/lukhas-pwm
-sudo chmod 640 /opt/lukhas-pwm/.env.production
-sudo chmod +x /opt/lukhas-pwm/venv/bin/*
+sudo chmod 750 /opt/lukhas-
+sudo chmod 640 /opt/lukhas-/.env.production
+sudo chmod +x /opt/lukhas-/venv/bin/*
 
 # Secure sensitive files
-sudo chown root:lukhas /opt/lukhas-pwm/.env.production
-sudo chmod 640 /opt/lukhas-pwm/.env.production
+sudo chown root:lukhas /opt/lukhas-/.env.production
+sudo chmod 640 /opt/lukhas-/.env.production
 ```
 
 ## Backup Strategy
@@ -666,14 +666,14 @@ sudo chmod 640 /opt/lukhas-pwm/.env.production
 
 ```bash
 # Create backup script
-sudo nano /opt/lukhas-pwm/scripts/backup_db.sh
+sudo nano /opt/lukhas-/scripts/backup_db.sh
 ```
 
 ```bash
 #!/bin/bash
-BACKUP_DIR="/opt/backups/lukhas-pwm"
+BACKUP_DIR="/opt/backups/lukhas-"
 DATE=$(date +%Y%m%d_%H%M%S)
-DB_NAME="lukhas_pwm"
+DB_NAME="lukhas"
 
 mkdir -p $BACKUP_DIR
 
@@ -693,14 +693,14 @@ echo "Backup completed: db_backup_$DATE.sql.gz"
 
 ```bash
 # Application backup script
-sudo nano /opt/lukhas-pwm/scripts/backup_app.sh
+sudo nano /opt/lukhas-/scripts/backup_app.sh
 ```
 
 ```bash
 #!/bin/bash
-BACKUP_DIR="/opt/backups/lukhas-pwm"
+BACKUP_DIR="/opt/backups/lukhas-"
 DATE=$(date +%Y%m%d_%H%M%S)
-APP_DIR="/opt/lukhas-pwm"
+APP_DIR="/opt/lukhas-"
 
 mkdir -p $BACKUP_DIR
 
@@ -727,10 +727,10 @@ crontab -e
 
 ```cron
 # Daily database backup at 2 AM
-0 2 * * * /opt/lukhas-pwm/scripts/backup_db.sh
+0 2 * * * /opt/lukhas-/scripts/backup_db.sh
 
 # Weekly application backup at 3 AM Sunday
-0 3 * * 0 /opt/lukhas-pwm/scripts/backup_app.sh
+0 3 * * 0 /opt/lukhas-/scripts/backup_app.sh
 ```
 
 ## Deployment Checklist
@@ -774,14 +774,14 @@ crontab -e
 1. **Health Monitoring**
    ```bash
    # Check service status
-   sudo systemctl status lukhas-pwm
-   sudo systemctl status lukhas-pwm-monitoring
+   sudo systemctl status lukhas-
+   sudo systemctl status lukhas--monitoring
    
    # Check application health
    curl https://api.your-domain.com/health
    
    # Monitor logs for errors
-   sudo tail -f /var/log/lukhas-pwm/error.log
+   sudo tail -f /var/log/lukhas-/error.log
    ```
 
 2. **Resource Monitoring**
@@ -803,10 +803,10 @@ crontab -e
 1. **Log Analysis**
    ```bash
    # Analyze error patterns
-   grep ERROR /var/log/lukhas-pwm/*.log | tail -100
+   grep ERROR /var/log/lukhas-/*.log | tail -100
    
    # Check performance metrics
-   grep "slow query" /var/log/lukhas-pwm/*.log
+   grep "slow query" /var/log/lukhas-/*.log
    ```
 
 2. **Security Updates**
@@ -883,7 +883,7 @@ crontab -e
    ps aux --sort=-%mem | head
    
    # Restart services if needed
-   sudo systemctl restart lukhas-pwm
+   sudo systemctl restart lukhas-
    ```
 
 2. **Database Connection Issues**
@@ -898,7 +898,7 @@ crontab -e
 3. **High Response Times**
    ```bash
    # Check application logs
-   grep "slow" /var/log/lukhas-pwm/*.log
+   grep "slow" /var/log/lukhas-/*.log
    
    # Monitor system resources
    iotop
@@ -910,8 +910,8 @@ crontab -e
 1. **Service Recovery**
    ```bash
    # Restart all services
-   sudo systemctl restart lukhas-pwm
-   sudo systemctl restart lukhas-pwm-monitoring
+   sudo systemctl restart lukhas-
+   sudo systemctl restart lukhas--monitoring
    sudo systemctl restart nginx
    ```
 
@@ -919,7 +919,7 @@ crontab -e
    ```bash
    # Restore from backup
    gunzip db_backup_YYYYMMDD_HHMMSS.sql.gz
-   sudo -u postgres psql lukhas_pwm < db_backup_YYYYMMDD_HHMMSS.sql
+   sudo -u postgres psql lukhas < db_backup_YYYYMMDD_HHMMSS.sql
    ```
 
 3. **Emergency Contacts**

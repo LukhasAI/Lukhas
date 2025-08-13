@@ -10,10 +10,10 @@ import time
 import uuid
 from pathlib import Path
 
-from lukhas_pwm.audit.store import audit_log_write
-from lukhas_pwm.audit.tool_analytics import get_analytics
-from lukhas_pwm.feedback.store import record_feedback
-from lukhas_pwm.openai.tooling import build_tools_from_allowlist
+from lukhas.audit.store import audit_log_write
+from lukhas.audit.tool_analytics import get_analytics
+from lukhas.feedback.store import record_feedback
+from lukhas.openai.tooling import build_tools_from_allowlist
 from orchestration.signals.homeostasis import ModulationParams
 
 # Add project root to path

@@ -23,12 +23,12 @@ def require_api_key(x_api_key: Optional[str] = Header(default=None)):
 
 
 app = FastAPI(
-    title="LUKHΛS PWM API",
+    title="LUKHΛS  API",
     version="1.0.0",
     description="Governed tool loop, auditability, feedback LUT, and safety modes.",
     contact={
         "name": "LUKHAS AI Team",
-        "url": "https://github.com/LukhasAI/Lukhas_PWM",
+        "url": "https://github.com/LukhasAI/Lukhas",
     },
     license_info={
         "name": "MIT",

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PWM Streamline Implementation
+ Streamline Implementation
 =============================
 Implements the streamlining recommendations from the analysis.
 """
@@ -20,7 +20,7 @@ class StreamlineImplementation:
     """Implements streamlining recommendations"""
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas_PWM")
+        self.root_path = Path("/Users/agi_dev/Lukhas")
         self.backup_dir = (
             self.root_path
             / ".streamline_backup"
@@ -34,7 +34,7 @@ class StreamlineImplementation:
         logger.info("=" * 60)
 
         # Load the streamline report
-        report_path = self.root_path / "docs" / "reports" / "PWM_STREAMLINE_REPORT.json"
+        report_path = self.root_path / "docs" / "reports" / "REAMLINE_REPORT.json"
         with open(report_path) as f:
             report = json.load(f)
 
@@ -75,7 +75,7 @@ class StreamlineImplementation:
 
         # Create standard utilities
         utils_content = '''"""
-Common utilities for LUKHAS PWM
+Common utilities for LUKHAS 
 ===============================
 Centralized utility functions to reduce code duplication.
 """
@@ -192,7 +192,7 @@ def merge_dicts(dict1: Dict[str, Any], dict2: Dict[str, Any]) -> Dict[str, Any]:
 
         # Create __init__.py
         init_path = common_utils_path.parent / "__init__.py"
-        init_content = '''"""Common utilities for LUKHAS PWM"""
+        init_content = '''"""Common utilities for LUKHAS 
 
 from .utils import (
     get_logger,
@@ -269,7 +269,7 @@ __all__ = [
         interfaces_path = self.root_path / "lukhas" / "common" / "interfaces.py"
 
         interfaces_content = '''"""
-Common interfaces for LUKHAS PWM
+Common interfaces for LUKHAS 
 ================================
 Consolidated interface definitions to reduce duplication.
 """
@@ -441,7 +441,7 @@ def update_imports_in_file(file_path: Path):
 
 def main():
     """Run migration"""
-    root = Path("/Users/agi_dev/Lukhas_PWM")
+    root = Path("/Users/agi_dev/Lukhas"
     updated_files = []
 
     for py_file in root.rglob("*.py"):
@@ -462,7 +462,7 @@ if __name__ == "__main__":
 
     def run(self):
         """Run all streamlining phases"""
-        logger.info("🚀 Starting LUKHAS PWM Streamlining Implementation")
+        logger.info("🚀 Starting LUKHAS reamlining Implementation")
         logger.info("=" * 80)
 
         # Create backup directory

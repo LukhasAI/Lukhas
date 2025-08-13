@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-�� PWM Governance Test Script
+��  Governance Test Script
 =============================
 
 Quick test to validate the governance integration.
@@ -18,7 +18,7 @@ try:
         0,
         os.path.join(os.path.dirname(__file__), "..", "..", "governance", "guardian"),
     )
-    from pwm_workspace_guardian import PWMWorkspaceGuardian
+    from _workspace_guardian import WorkspaceGuardian
 
     # protect_my_workspace is in the same guardian.core module
     print("✅ Governance modules imported successfully")
@@ -29,11 +29,11 @@ except ImportError as e:
 
 async def test_governance():
     """Test basic governance functionality."""
-    print("\n🛡️ Testing PWM Workspace Guardian...")
+    print("\n🛡️ Testing  Workspace Guardian...")
 
     try:
         # Initialize guardian
-        guardian = PWMWorkspaceGuardian()
+        guardian = WorkspaceGuardian()
         print("✅ Guardian initialized")
 
         # Test file protection (mock test - no actual deletion)
@@ -51,7 +51,7 @@ async def test_governance():
         cleanup = await guardian.suggest_cleanup()
         print(f"🧹 Cleanup suggestions: {len(cleanup['suggestions'])}")
 
-        print("\n🎯 PWM Governance system is working correctly!")
+        print("\n🎯  Governance system is working correctly!")
         return True
 
     except Exception as e:
@@ -62,7 +62,7 @@ async def test_governance():
 if __name__ == "__main__":
     success = asyncio.run(test_governance())
     if success:
-        print("\n🚀 Ready to protect your PWM workspace!")
+        print("\n🚀 Ready to protect your  workspace!")
     else:
         print("\n🔧 Governance system needs adjustment")
         sys.exit(1)

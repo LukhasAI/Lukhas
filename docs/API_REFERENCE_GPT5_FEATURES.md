@@ -553,5 +553,5 @@ audit.cleanup_old_entries()
 
 For issues or questions:
 - Check the [Implementation Summary](./GPT5_AUDIT_IMPLEMENTATION_SUMMARY.md)
-- Review the [GPT5 Audit Document](./openai/GPT5_AUDITS_LUKHAS_PWM.md)
+- Review the [GPT5 Audit Document](./openai/GPT5_AUDITS_LUKHAS.md)
 - Open an issue on GitHub

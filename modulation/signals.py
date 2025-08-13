@@ -1,5 +1,5 @@
 """
-🧠 Endocrine Signal System for LUKHAS_PWM
+🧠 Endocrine Signal System for LUKHAS
 
 Bio-inspired signals that modulate consciousness behavior across systems.
 Signals represent internal state (stress, novelty, alignment_risk, etc.) and

@@ -1,4 +1,4 @@
-# 🎯 LUKHAS_PWM Next Actions - Claude Code Strategy
+# 🎯 LUKHAS Next Actions - Claude Code Strategy
 
 ## 🚀 **IMMEDIATE PRIORITIES (Next 6-9 Hours to MVP)**
 
@@ -7,7 +7,7 @@
 
 ```bash
 # 1. Navigate to project
-cd ~/LOCAL-REPOS/Lukhas_PWM
+cd ~/LOCAL-REPOS/Lukhas
 
 # 2. Open in VS Code with Claude Code
 code .
@@ -123,7 +123,7 @@ Before starting each session, use:
 ### **Session 1: UI Dashboard (2-3 hours)**
 ```bash
 # Terminal Commands
-cd ~/LOCAL-REPOS/Lukhas_PWM
+cd ~/LOCAL-REPOS/Lukhas
 code serve/ui/
 
 # Claude Code Workflow
@@ -138,7 +138,7 @@ code serve/ui/
 ### **Session 2: Testing Suite (2-3 hours)**
 ```bash
 # Terminal Commands  
-cd ~/LOCAL-REPOS/Lukhas_PWM
+cd ~/LOCAL-REPOS/Lukhas
 code tests/integration/
 
 # Claude Code Workflow
@@ -153,7 +153,7 @@ code tests/integration/
 ### **Session 3: Security/KMS (2-3 hours)**
 ```bash
 # Terminal Commands
-cd ~/LOCAL-REPOS/Lukhas_PWM  
+cd ~/LOCAL-REPOS/Lukhas  
 code core/security/
 
 # Claude Code Workflow

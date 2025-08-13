@@ -1,5 +1,5 @@
 """
-Bio-orchestration system for LUKHAS PWM
+Bio-orchestration system for LUKHAS
 =======================================
 Minimal implementation to support dream and consciousness systems.
 """
@@ -29,7 +29,7 @@ class BioOrchestrator:
         self.active = False
         # Stop all processes
         for process_id, process in self.processes.items():
-            if hasattr(process, 'stop'):
+            if hasattr(process, "stop"):
                 await process.stop()
         self.processes.clear()
         logger.info("BioOrchestrator stopped")
@@ -43,21 +43,21 @@ class BioOrchestrator:
         """Unregister a bio-process"""
         if process_id in self.processes:
             process = self.processes.pop(process_id)
-            if hasattr(process, 'stop'):
+            if hasattr(process, "stop"):
                 await process.stop()
             logger.debug(f"Process unregistered: {process_id}")
 
     async def add_oscillator(self, oscillator: Any):
         """Add oscillator to the system"""
         self.oscillators.append(oscillator)
-        if hasattr(oscillator, 'start_oscillation'):
+        if hasattr(oscillator, "start_oscillation"):
             await oscillator.start_oscillation()
         logger.debug("Oscillator added")
 
     async def coordinate_oscillators(self, target_frequency: float):
         """Coordinate all oscillators to target frequency"""
         for oscillator in self.oscillators:
-            if hasattr(oscillator, 'modulate_frequency'):
+            if hasattr(oscillator, "modulate_frequency"):
                 await oscillator.modulate_frequency(target_frequency)
         logger.debug(f"Oscillators coordinated to {target_frequency}Hz")
 
@@ -79,9 +79,9 @@ class BioOrchestrator:
             "active": self.active,
             "processes": list(self.processes.keys()),
             "oscillator_count": len(self.oscillators),
-            "event_handlers": list(self.event_handlers.keys())
+            "event_handlers": list(self.event_handlers.keys()),
         }
 
 
 # Export main classes
-__all__ = ['BioOrchestrator']
+__all__ = ["BioOrchestrator"]

@@ -1,5 +1,5 @@
 """
-🔌 OpenAI Integration for LUKHAS_PWM Endocrine Modulation
+🔌 OpenAI Integration for LUKHAS Endocrine Modulation
 
 Applies signal-based modulation to OpenAI API calls, transforming consciousness
 signals into API parameters and prompt modifications.

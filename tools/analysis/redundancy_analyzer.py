@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-PWM Redundancy Analyzer
+ Redundancy Analyzer
 ======================
-Identifies and analyzes redundant code across the LUKHAS PWM codebase.
+Identifies and analyzes redundant code across the LUKHAS debase.
 """
 
 import ast
@@ -54,10 +54,10 @@ class RedundantClass:
 
 
 class RedundancyAnalyzer:
-    """Analyzes LUKHAS PWM codebase for redundancies"""
+    """Analyzes LUKHAS debase for redundancies"""
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas_PWM")
+        self.root_path = Path("/Users/agi_dev/Lukhas"
         self.functions_by_hash = defaultdict(list)
         self.classes_by_name = defaultdict(list)
         self.imports_by_statement = defaultdict(list)
@@ -66,7 +66,7 @@ class RedundancyAnalyzer:
 
     def analyze(self) -> dict[str, Any]:
         """Run comprehensive redundancy analysis"""
-        logger.info("🔍 Analyzing LUKHAS PWM for redundancies...\n")
+        logger.info("🔍 Analyzing LUKHAS r redundancies...\n")
 
         # Collect code elements
         self._collect_code_elements()
@@ -81,7 +81,7 @@ class RedundancyAnalyzer:
         report = self._generate_report()
 
         # Save report
-        report_path = self.root_path / "docs" / "reports" / "PWM_REDUNDANCY_REPORT.json"
+        report_path = self.root_path / "docs" / "reports" / "DUNDANCY_REPORT.json"
         report_path.parent.mkdir(parents=True, exist_ok=True)
         with open(report_path, "w") as f:
             json.dump(report, f, indent=2)
@@ -477,7 +477,7 @@ class RedundancyAnalyzer:
                     for ex in rec["examples"][:2]:
                         print(f"      - {ex}")
 
-        print("\n📁 Full report saved to: docs/reports/PWM_REDUNDANCY_REPORT.json")
+        print("\n📁 Full report saved to: docs/reports/DUNDANCY_REPORT.json")
         print("=" * 80)
 
 

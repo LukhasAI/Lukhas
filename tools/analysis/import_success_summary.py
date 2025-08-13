@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-📊 PWM Import Success Summary
+📊  Import Success Summary
 =============================
 Comprehensive summary of import error fixing progress.
 """
@@ -19,7 +19,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 def analyze_final_state():
     """Analyze the final state of import errors"""
 
-    print("📊 PWM Import Error Fixing - Final Summary")
+    print("📊  Import Error Fixing - Final Summary")
     print("=" * 60)
 
     # Count files by type
@@ -152,14 +152,14 @@ def analyze_final_state():
         e
         for e in syntax_errors:
         if not any(:
-            ignore in e for ignore in ["archive", ".pwm_cleanup", "BACKUP_", "ARCHIVE_"]
+            ignore in e for ignore in ["archive", "._cleanup", "BACKUP_", "ARCHIVE_"]
         )
     ]
     active_import_errors = [
         e
         for e in import_errors:
         if not any(:
-            ignore in e for ignore in ["archive", ".pwm_cleanup", "BACKUP_", "ARCHIVE_"]
+            ignore in e for ignore in ["archive", "._cleanup", "BACKUP_", "ARCHIVE_"]
         )
     ]
 
@@ -196,7 +196,7 @@ def analyze_final_state():
 
     # Save report
     report_path = (
-        PROJECT_ROOT / "docs/reports/analysis/PWM_IMPORT_SUCCESS_FINAL_REPORT.json"
+        PROJECT_ROOT / "docs/reports/analysis/_IMPORT_SUCCESS_FINAL_REPORT.json"
     )
     report_path.parent.mkdir(parents=True, exist_ok=True)
 

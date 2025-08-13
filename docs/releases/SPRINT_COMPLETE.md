@@ -1,8 +1,8 @@
-# 🚀 LUKHAS PWM Sprint Complete
+# 🚀 LUKHAS  Sprint Complete
 
 ## Sprint Summary (August 10, 2025)
 
-Successfully implemented critical production infrastructure for LUKHAS PWM, including tool governance, feature flags, CI/CD pipeline, and containerization.
+Successfully implemented critical production infrastructure for LUKHAS , including tool governance, feature flags, CI/CD pipeline, and containerization.
 
 ## ✅ Completed Items
 
@@ -13,7 +13,7 @@ Successfully implemented critical production infrastructure for LUKHAS PWM, incl
 - **Status**: ✅ Production Ready
 
 ### 2. **Feature Flags System**
-- Created `lukhas_pwm/flags/ff.py` module
+- Created `lukhas/flags/ff.py` module
 - Environment-based configuration (FF_* variables)
 - Support for runtime overrides
 - Decorator support (`@when_enabled`)
@@ -133,7 +133,7 @@ From the original roadmap, remaining items:
 
 ## 🎉 Summary
 
-The LUKHAS PWM system now has a **production-ready foundation** with:
+The LUKHAS  system now has a **production-ready foundation** with:
 - ✅ Governed tool execution
 - ✅ Feature flag control
 - ✅ Comprehensive CI/CD

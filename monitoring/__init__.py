@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Enhanced Monitoring System
+LUKHAS  Enhanced Monitoring System
 ====================================
 Advanced monitoring and observability with endocrine-triggered plasticity
 

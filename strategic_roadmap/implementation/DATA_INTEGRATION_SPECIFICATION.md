@@ -1,14 +1,14 @@
-# LUKHAS PWM Data Integration Specification
+# LUKHAS  Data Integration Specification
 
 ## Overview
 
-This document provides comprehensive specifications for how the Enhanced Monitoring System integrates with all LUKHAS PWM modules to collect real-time data for biological-inspired adaptations.
+This document provides comprehensive specifications for how the Enhanced Monitoring System integrates with all LUKHAS  modules to collect real-time data for biological-inspired adaptations.
 
 ## 📊 Module Integration Matrix
 
 ### Complete Data Source Mapping
 
-| LUKHAS PWM Module | Primary Data Methods | Feeds Into Components | Trigger Influence | Fallback Strategy |
+| LUKHAS  Module | Primary Data Methods | Feeds Into Components | Trigger Influence | Fallback Strategy |
 |-------------------|---------------------|----------------------|------------------|-------------------|
 | **consciousness/auto_consciousness.py** | `assess_awareness()`, `get_attention_targets()`, `make_decision()` | AdaptiveMetricsCollector, BioSymbolicCoherenceMonitor | Stress/Performance triggers | System activity analysis |
 | **consciousness/natural_language_interface.py** | `_analyze_emotion()`, `process_input()`, `get_status()` | EmotionalCoherence, CommunicationClarity | Emotional regulation triggers | Keyword-based emotion detection |
@@ -25,7 +25,7 @@ This document provides comprehensive specifications for how the Enhanced Monitor
 
 ```python
 class ComprehensiveDataPipeline:
-    """Complete data collection pipeline from all LUKHAS PWM modules"""
+    """Complete data collection pipeline from all LUKHAS  modules"""
     
     def __init__(self):
         self.module_connectors = {}
@@ -34,7 +34,7 @@ class ComprehensiveDataPipeline:
         self.collection_schedule = {}
     
     async def initialize_all_connections(self):
-        """Initialize connections to all available LUKHAS PWM modules"""
+        """Initialize connections to all available LUKHAS  modules"""
         
         connection_map = {
             # Consciousness modules
@@ -81,7 +81,7 @@ class ComprehensiveDataPipeline:
                 await self._setup_fallback_for_module(module_name)
     
     async def _connect_module(self, module_name: str, module_path: str):
-        """Connect to individual LUKHAS PWM module"""
+        """Connect to individual LUKHAS  module"""
         
         full_path = Path(self.lukhas_root) / module_path
         
@@ -705,4 +705,4 @@ class ComprehensiveFallbackSystem:
         return fallback_data
 ```
 
-This comprehensive data integration specification ensures robust, real-time data collection from all LUKHAS PWM modules with intelligent fallbacks and adaptive optimization strategies.
+This comprehensive data integration specification ensures robust, real-time data collection from all LUKHAS  modules with intelligent fallbacks and adaptive optimization strategies.

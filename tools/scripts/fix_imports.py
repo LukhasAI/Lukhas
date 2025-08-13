@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-🔧 PWM Import Fixer
+🔧  Import Fixer
 ==================
-Automatically fixes common import issues in the LUKHAS PWM codebase.
+Automatically fixes common import issues in the LUKHAS  codebase.
 """
 
 import ast
@@ -306,7 +306,7 @@ class ImportFixer:
 
 def main():
     """Main function"""
-    print("🔧 PWM Import Fixer")
+    print("🔧  Import Fixer")
     print("=" * 60)
 
     fixer = ImportFixer()

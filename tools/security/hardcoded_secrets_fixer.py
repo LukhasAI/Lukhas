@@ -34,7 +34,7 @@ class HardcodedSecretsFixer:
     """Automated fixer for hardcoded secrets"""
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas_PWM")
+        self.root_path = Path("/Users/agi_dev/Lukhas")
         self.issues_found = []
         self.fixes_applied = []
 
@@ -347,7 +347,7 @@ def main():
 
     # Save report
     report_path = Path(
-        "/Users/agi_dev/Lukhas_PWM/docs/reports/HARDCODED_SECRETS_AUDIT.md"
+        "/Users/agi_dev/Lukhas/docs/reports/HARDCODED_SECRETS_AUDIT.md"
     )
     report_path.parent.mkdir(parents=True, exist_ok=True)
     with open(report_path, "w") as f:

@@ -320,7 +320,7 @@ async def main():
         print("  naming <purpose> <type> [domain] - Suggest names")
         return
 
-    workspace = "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM"
+    workspace = "/Users/agi_dev/LOCAL-REPOS/Lukhas"
     orchestrator = LUKHASAIOrchestrator(workspace)
 
     command = sys.argv[1]

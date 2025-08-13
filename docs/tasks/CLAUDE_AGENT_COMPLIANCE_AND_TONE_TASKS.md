@@ -423,7 +423,7 @@ find identity/ api/ orchestration/ -name "*.md" -exec python tools/tone/lukhas_t
 ### **Agent 4 Validation Commands:**
 ```bash
 # Organization validation
-ls -la /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/ | wc -l  # Should be <15 files
+ls -la /Users/agi_dev/LOCAL-REPOS/Lukhas/ | wc -l  # Should be <15 files
 python tools/organization/validate_file_structure.py
 
 # Tone enforcement validation

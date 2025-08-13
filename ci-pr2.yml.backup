@@ -34,7 +34,7 @@ jobs:
         run: |
           mkdir -p out
           pytest -q --maxfail=1 --disable-warnings \
-            --cov=lukhas_pwm --cov-report=xml:out/coverage.xml
+            --cov=lukhas --cov-report=xml:out/coverage.xml
 
       - name: Smoke check
         run: |
@@ -73,7 +73,7 @@ jobs:
 
       - name: Job summary
         run: |
-          echo "## LUKHΛS PWM CI Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## LUKHΛS  CI Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           jq -r '
             . as $r
@@ -91,6 +91,6 @@ jobs:
         with:
           recreate: true
           message: |
-            ### LUKHΛS PWM CI
+            ### LUKHΛS  CI
             - Artifacts: **smoke.json**, **openapi.json**, **coverage.xml**
             - Thresholds: import ≤ 1500ms; /feedback/health ≤ 50ms; blocked-incidents=1; auto-tighten ✅

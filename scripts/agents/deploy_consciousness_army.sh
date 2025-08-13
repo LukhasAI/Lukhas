@@ -53,7 +53,7 @@ if [ -f "./data/meta_metrics.json" ]; then
     echo "✅ Meta metrics system ready"
 fi
 
-if [ -f "./lukhas_pwm_config.yaml" ]; then
+if [ -f "./lukhas_config.yaml" ]; then
     echo "✅ LUKHAS configuration loaded"
 fi
 

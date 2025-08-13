@@ -233,7 +233,7 @@ class LUKHAS2030Consolidator:
         for root, _dirs, files in os.walk("."):
             # Skip archives
             if any(:
-                skip in root for skip in [".pwm_cleanup_archive", "__pycache__", ".git"]
+                skip in root for skip in ["._cleanup_archive", "__pycache__", ".git"]
             ):
                 continue
 

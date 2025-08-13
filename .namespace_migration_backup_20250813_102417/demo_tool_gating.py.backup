@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM OpenAI Integration Demo ⚛️🧠🛡️
+LUKHAS  OpenAI Integration Demo ⚛️🧠🛡️
 Demonstrates tool gating and audit logging with OpenAI completions.
 """
 
@@ -46,8 +46,8 @@ def lukhas_completion_with_gating(
     Returns:
         Completion response with audit bundle ID
     """
-    from lukhas_pwm.audit.store import audit_log_write
-    from lukhas_pwm.openai.tooling import build_tools_from_allowlist
+    from lukhas.audit.store import audit_log_write
+    from lukhas.openai.tooling import build_tools_from_allowlist
 
     # Extract tool allowlist and build gated tools
     tool_allowlist = params.get("tool_allowlist", [])

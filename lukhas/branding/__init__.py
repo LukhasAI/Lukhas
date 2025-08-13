@@ -1,8 +1,8 @@
 """
-LUKHAS PWM Branding Module
+LUKHAS  Branding Module
 =========================
 
-This module provides branding constants and utilities for the LUKHAS PWM system.
+This module provides branding constants and utilities for the LUKHAS  system.
 Created to resolve import dependencies in the test suite.
 
 Trinity Framework Integration: ⚛️🧠🛡️
@@ -102,7 +102,7 @@ def validate_branding_compliance(text):
 
 def normalize_output(text: Optional[str]) -> Optional[str]:
     """Apply terminology normalization to plain text.
-    
+
     Returns the original text if None or not a str.
     """
     if not isinstance(text, str):
@@ -118,7 +118,7 @@ def normalize_output(text: Optional[str]) -> Optional[str]:
 
 def normalize_chunk(chunk: str) -> str:
     """Chunk-safe normalization for streaming; best-effort per chunk.
-    
+
     Note: boundary-spanning phrases might escape normalization.
     """
     return normalize_output(chunk) or ""

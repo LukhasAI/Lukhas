@@ -500,10 +500,10 @@ class APIDocumentationGenerator:
 
         # Create API documentation
         documentation = APIDocumentation(
-            title="LUKHAS PWM API",
+            title="LUKHAS  API",
             version="1.0.0",
-            description="Comprehensive API for LUKHAS PWM AI platform",
-            base_url="https://api.lukhas-pwm.com",
+            description="Comprehensive API for LUKHAS  AI platform",
+            base_url="https://api.lukhas-.com",
             endpoints=endpoints,
             authentication=await self._generate_auth_documentation(),
             schemas=await self._generate_schemas(endpoints),
@@ -538,8 +538,8 @@ class APIDocumentationGenerator:
                 "type": "oauth2",
                 "flows": {
                     "authorizationCode": {
-                        "authorizationUrl": "https://auth.lukhas-pwm.com/oauth/authorize",
-                        "tokenUrl": "https://auth.lukhas-pwm.com/oauth/token",
+                        "authorizationUrl": "https://auth.lukhas-.com/oauth/authorize",
+                        "tokenUrl": "https://auth.lukhas-.com/oauth/token",
                         "scopes": {
                             "read": "Read access",
                             "write": "Write access",

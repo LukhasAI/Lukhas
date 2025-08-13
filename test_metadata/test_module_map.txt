@@ -1,9 +1,9 @@
 [1m============================= test session starts ==============================[0m
-platform darwin -- Python 3.9.6, pytest-8.4.1, pluggy-1.6.0 -- /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/.venv/bin/python
+platform darwin -- Python 3.9.6, pytest-8.4.1, pluggy-1.6.0 -- /Users/agi_dev/LOCAL-REPOS/Lukhas/.venv/bin/python
 cachedir: .pytest_cache
 metadata: {'Python': '3.9.6', 'Platform': 'macOS-26.0-arm64-arm-64bit', 'Packages': {'pytest': '8.4.1', 'pluggy': '1.6.0'}, 'Plugins': {'Faker': '37.5.3', 'html': '4.1.1', 'asyncio': '1.1.0', 'json-report': '1.5.0', 'metadata': '3.1.1', 'anyio': '4.10.0', 'cov': '6.2.1', 'mock': '3.14.1', 'benchmark': '5.1.0'}}
 benchmark: 5.1.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
-rootdir: /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM
+rootdir: /Users/agi_dev/LOCAL-REPOS/Lukhas
 configfile: pytest.ini
 testpaths: tests
 plugins: Faker-37.5.3, html-4.1.1, asyncio-1.1.0, json-report-1.5.0, metadata-3.1.1, anyio-4.10.0, cov-6.2.1, mock-3.14.1, benchmark-5.1.0
@@ -12,7 +12,7 @@ asyncio: mode=auto, asyncio_default_fixture_loop_scope=None, asyncio_default_tes
 
 ==================================== ERRORS ====================================
 [31m[1m______________ ERROR collecting tests/api/test_commercial_api.py _______________[0m
-[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/tests/api/test_commercial_api.py'.
+[31mImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/api/test_commercial_api.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
@@ -24,8 +24,8 @@ serve/main.py:10: in <module>
 serve/openai_routes.py:8: in <module>
     from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 bridge/llm_wrappers/openai_modulated_service.py:26: in <module>
-    from lukhas_pwm.branding.terminology import normalize_chunk, normalize_output
-E   ModuleNotFoundError: No module named 'lukhas_pwm.branding'[0m
+    from lukhas.branding.terminology import normalize_chunk, normalize_output
+E   ModuleNotFoundError: No module named 'lukhas.branding'[0m
 [36m[1m=========================== short test summary info ============================[0m
 [31mERROR[0m tests/api/test_commercial_api.py
 [31m!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!![0m

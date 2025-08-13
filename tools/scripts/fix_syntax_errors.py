@@ -25,10 +25,11 @@ files_to_fix = [
     "tools/scripts/system_status_comprehensive_report.py",
     "tools/scripts/research_report_generator.py",
     "tools/scripts/system_diagnostic.py",
-    "tools/scripts/consolidate_modules.py"
+    "tools/scripts/consolidate_modules.py",
 ]
 
-base_dir = Path(os.getenv("LUKHAS_PWM_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM"))
+base_dir = Path(os.getenv("LUKHAS_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas"))
+
 
 def find_syntax_error_line(file_path):
     """Find the line with syntax error"""
@@ -39,6 +40,7 @@ def find_syntax_error_line(file_path):
         return None
     except SyntaxError as e:
         return e.lineno, e.msg
+
 
 def fix_eol_string_literal(file_path):
     """Fix EOL string literal errors in a file"""
@@ -67,17 +69,22 @@ def fix_eol_string_literal(file_path):
                 if line_no < len(lines):
                     next_line = lines[line_no]
                     # If next line is a continuation, merge it
-                    if not next_line.strip().startswith('"') and not next_line.strip().startswith('}'):
-                        lines[line_no - 1] = problem_line.rstrip() + ' ' + next_line.strip() + '",\n'
-                        lines[line_no] = ''
+                    if not next_line.strip().startswith(
+                        '"'
+                    ) and not next_line.strip().startswith("}"):
+                        lines[line_no - 1] = (
+                            problem_line.rstrip() + " " + next_line.strip() + '",\n'
+                        )
+                        lines[line_no] = ""
 
         # Write fixed content back
-        with open(file_path, 'w') as f:
+        with open(file_path, "w") as f:
             f.writelines(lines)
 
         return True
 
     return False
+
 
 def main():
     fixed_count = 0
@@ -93,10 +100,15 @@ def main():
             else:
                 error_info = find_syntax_error_line(full_path)
                 if error_info:
-                    print(f"  ✗ Error in {file_path} at line {error_info[0]}: {error_info[1]}")
+                    print(
+                        f"  ✗ Error in {file_path} at line {error_info[0]}: {error_info[1]}"
+                    )
                     error_count += 1
 
-    print(f"\nSummary: Fixed {fixed_count} files, {error_count} files still have errors")
+    print(
+        f"\nSummary: Fixed {fixed_count} files, {error_count} files still have errors"
+    )
+
 
 if __name__ == "__main__":
     main()

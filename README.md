@@ -254,7 +254,7 @@ pytest tests/guardian/ -v
 python -c "import lukhas.api, lukhas.flags; print('✅ All modules loaded')"
 
 # Performance benchmarks
-python tools/analysis/PWM_OPERATIONAL_SUMMARY.py
+python tools/analysis/_OPERATIONAL_SUMMARY.py
 ```
 
 ### **Integration Testing**

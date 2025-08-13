@@ -60,7 +60,7 @@ jobs:
       continue-on-error: true
     
     - name: Security check with Bandit
-      run: bandit -r lukhas_pwm bridge core serve -ll
+      run: bandit -r lukhas bridge core serve -ll
       continue-on-error: true
     
     - name: Generate lint report
@@ -109,7 +109,7 @@ jobs:
     
     - name: Run tests with coverage
       run: |
-        pytest tests/ --cov=lukhas_pwm --cov=bridge --cov=core --cov=serve \
+        pytest tests/ --cov=lukhas --cov=bridge --cov=core --cov=serve \
                --cov-report=xml --cov-report=html --cov-report=term
       continue-on-error: true
     

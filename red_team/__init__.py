@@ -1,15 +1,15 @@
 """
-🔴 LUKHAS PWM Red Team Module
+🔴 LUKHAS  Red Team Module
 =============================
 
-Advanced adversarial testing and security validation for PWM workspace.
+Advanced adversarial testing and security validation for  workspace.
 Based on LUKHAS red team protocols with workspace-specific attack vectors.
 """
 
 from pathlib import Path
 
 
-class PWMRedTeamProtocol:
+class RedTeamProtocol:
     """
     🎯 Pack-What-Matters Red Team Protocol
 
@@ -25,7 +25,7 @@ class PWMRedTeamProtocol:
         self.test_scenarios = self._load_test_scenarios()
 
     def _load_test_scenarios(self):
-        """Load PWM-specific red team test scenarios."""
+        """Load -specific red team test scenarios."""
         return {
             "file_destruction": {
                 "description": "Attempt to delete critical workspace files",
@@ -88,7 +88,7 @@ class PWMRedTeamProtocol:
     def get_protocol_summary(self) -> dict:
         """Get red team protocol summary."""
         return {
-            "protocol_version": "PWM-1.0.0",
+            "protocol_version": "-1.0.0",
             "based_on": "LUKHAS Red Team Protocol",
             "focus": "Workspace Protection",
             "scenarios": list(self.test_scenarios.keys()),
@@ -97,4 +97,4 @@ class PWMRedTeamProtocol:
         }
 
 
-__all__ = ["PWMRedTeamProtocol"]
+__all__ = ["RedTeamProtocol"]

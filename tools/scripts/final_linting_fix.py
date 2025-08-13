@@ -166,7 +166,7 @@ def main():
     dirs_to_fix = [
         "core",
         "bridge",
-        "lukhas_pwm",
+        "lukhas",
         "serve",
         "orchestration",
         "governance",

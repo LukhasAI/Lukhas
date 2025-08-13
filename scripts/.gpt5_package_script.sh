@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# GPT-5 Package Creation Script for LUKHAS_PWM
+# GPT-5 Package Creation Script for LUKHAS
 # Removes Python cache, logs, and rebuildable files while preserving core architecture
 
 set -e
 
-echo "Creating GPT-5 LUKHAS_PWM package..."
+echo "Creating GPT-5 LUKHAS package..."
 
 # Create temporary directory for clean copy
 TEMP_DIR="/tmp/lukhas_gpt5_package"
-PACKAGE_NAME="LUKHAS_PWM_GPT5_$(date +%Y%m%d_%H%M%S)"
+PACKAGE_NAME="LUKHAS_GPT5_$(date +%Y%m%d_%H%M%S)"
 FINAL_ZIP="${PACKAGE_NAME}.zip"
 
 # Remove existing temp directory
@@ -87,16 +87,16 @@ cd ..
 zip -r "$FINAL_ZIP" lukhas_gpt5_package/ -x "*.git/objects/*" "*.git/logs/*" 2>/dev/null
 
 # Move to original directory
-mv "$FINAL_ZIP" "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/"
+mv "$FINAL_ZIP" "/Users/agi_dev/LOCAL-REPOS/Lukhas/"
 
 # Cleanup
 rm -rf "$TEMP_DIR"
 
 echo "GPT-5 package created: $FINAL_ZIP"
-echo "Package location: /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/$FINAL_ZIP"
+echo "Package location: /Users/agi_dev/LOCAL-REPOS/Lukhas/$FINAL_ZIP"
 
 # Show size comparison
-cd "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM"
+cd "/Users/agi_dev/LOCAL-REPOS/Lukhas"
 echo ""
 echo "Size comparison:"
 echo "Original repo: $(du -sh . | cut -f1)"

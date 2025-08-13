@@ -121,7 +121,7 @@ Some test modules have import errors due to missing dependencies:
 ### Warnings
 - Pydantic V1 validators deprecated (migration to V2 needed)
 - FastAPI `on_event` deprecated (use lifespan handlers)
-- Namespace migration from `lukhas_pwm` to `lukhas`
+- Namespace migration from `lukhas` to `lukhas`
 
 ## 🎯 Next Steps
 

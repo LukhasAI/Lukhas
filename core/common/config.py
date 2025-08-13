@@ -63,7 +63,7 @@ class ConfigLoader:
         current = Path.cwd()
 
         while current != current.parent:
-            if (current / "lukhas_pwm_config.yaml").exists():
+            if (current / "lukhas_config.yaml").exists():
                 return current
             if (current / "requirements.txt").exists() and (current / "core").exists():
                 return current
@@ -163,9 +163,9 @@ class ConfigLoader:
 
         # Load from main config file
         main_config_paths = [
-            self.root_path / "lukhas_pwm_config.yaml",
-            self.root_path / "lukhas_pwm_config.yml",
-            self.root_path / "lukhas_pwm_config.json",
+            self.root_path / "lukhas_config.yaml",
+            self.root_path / "lukhas_config.yml",
+            self.root_path / "lukhas_config.json",
             self.root_path / "config.yaml",
             self.root_path / "config.yml",
             self.root_path / "config.json",
@@ -194,7 +194,7 @@ class ConfigLoader:
         return {
             "host": os.getenv("POSTGRES_HOST", "localhost"),
             "port": int(os.getenv("POSTGRES_PORT", "5432")),
-            "database": os.getenv("POSTGRES_DB", "lukhas_pwm"),
+            "database": os.getenv("POSTGRES_DB", "lukhas"),
             "user": os.getenv("POSTGRES_USER", "lukhas"),
             "password": os.getenv("POSTGRES_PASSWORD", ""),
         }

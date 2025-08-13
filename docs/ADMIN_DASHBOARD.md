@@ -1,6 +1,6 @@
 # Admin Dashboard Documentation
 
-The LUKHAS PWM Admin Dashboard provides real-time monitoring, performance tracking, and incident management capabilities.
+The LUKHAS  Admin Dashboard provides real-time monitoring, performance tracking, and incident management capabilities.
 
 ## Overview
 

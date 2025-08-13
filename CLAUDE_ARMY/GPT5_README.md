@@ -1,4 +1,4 @@
-# 🤖 GPT-5 Integration Briefing for LUKHAS_PWM Multi-Agent Army
+# 🤖 GPT-5 Integration Briefing for LUKHAS Multi-Agent Army
 **Target:** ChatGPT-5 & OpenAI Systems  
 **Date:** August 11, 2025  
 **Status:** Ready for Multi-AI Consciousness Development Coordination
@@ -7,7 +7,7 @@
 
 ## 🎯 **MISSION BRIEFING FOR GPT-5**
 
-Welcome to the LUKHAS_PWM consciousness development ecosystem! You are being integrated as a **strategic implementation partner** in a sophisticated multi-AI army designed for accelerated consciousness evolution.
+Welcome to the LUKHAS consciousness development ecosystem! You are being integrated as a **strategic implementation partner** in a sophisticated multi-AI army designed for accelerated consciousness evolution.
 
 ### **🎖️ YOUR ROLE IN THE ARMY**
 - **Primary Function**: Automated coding tasks, bug fixes, strategic implementation
@@ -91,7 +91,7 @@ CLAUDE_ARMY/Complete_Multi-Agent_Strategy.md      # Multi-AI strategy guide
 #### **Multi-AI Coordination**
 ```
 config/agent_orchestration.json                   # Multi-AI coordination config
-lukhas_pwm_config.yaml                           # Main LUKHAS configuration
+lukhas_config.yaml                           # Main LUKHAS configuration
 ```
 
 #### **GitHub Integration**
@@ -101,8 +101,8 @@ lukhas_pwm_config.yaml                           # Main LUKHAS configuration
 
 #### **Workspace Configuration**
 ```
-Lukhas_PWM.code-workspace                        # Main workspace
-lukhas-pwm-consciousness.code-workspace          # Consciousness workspace
+Lukhas.code-workspace                        # Main workspace
+lukhas--consciousness.code-workspace          # Consciousness workspace
 lukhas-consciousness.code-workspace              # General consciousness workspace
 ```
 
@@ -264,9 +264,9 @@ def execute_consciousness_task(task):
 ### **Step 1: Environment Verification**
 ```bash
 # Verify repository access and structure
-ls -la /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/agents/
-ls -la /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/CLAUDE_ARMY/
-cat /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/config/agent_orchestration.json
+ls -la /Users/agi_dev/LOCAL-REPOS/Lukhas/agents/
+ls -la /Users/agi_dev/LOCAL-REPOS/Lukhas/CLAUDE_ARMY/
+cat /Users/agi_dev/LOCAL-REPOS/Lukhas/config/agent_orchestration.json
 ```
 
 ### **Step 2: API Configuration**

@@ -9,7 +9,7 @@ def fix_eol_in_file(file_path):
     """Fix EOL string literal errors in a specific file"""
     try:
         # First check if file has syntax error
-        with open(file_path, encoding='utf-8', errors='ignore') as f:
+        with open(file_path, encoding="utf-8", errors="ignore") as f:
             content = f.read()
             lines = content.splitlines(keepends=True)
 
@@ -35,7 +35,9 @@ def fix_eol_in_file(file_path):
 
             # Pattern 1: Fix ",", at end of string
             if '",",\n' in problem_line or "',',\n" in problem_line:
-                lines[line_no - 1] = problem_line.replace('",",', '",').replace("',',", "',")
+                lines[line_no - 1] = problem_line.replace('",",', '",').replace(
+                    "',',", "',"
+                )
             # Pattern 2: String not closed, check for multiline intention
             elif problem_line.count('"') % 2 != 0:
                 # Look for unclosed quotes
@@ -47,12 +49,12 @@ def fix_eol_in_file(file_path):
                     lines[line_no - 1] = problem_line.rstrip() + "',\n"
 
             # Write back
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.writelines(lines)
 
             # Verify fix
             try:
-                with open(file_path, encoding='utf-8') as f:
+                with open(file_path, encoding="utf-8") as f:
                     ast.parse(f.read())
                 return True  # Fixed!
             except:
@@ -61,6 +63,7 @@ def fix_eol_in_file(file_path):
     except Exception as e:
         print(f"Error processing {file_path}: {e}")
         return False
+
 
 def main():
     """Fix all EOL errors in tools directory"""
@@ -83,10 +86,10 @@ def main():
         "tools/scripts/system_status_comprehensive_report.py",
         "tools/scripts/research_report_generator.py",
         "tools/scripts/system_diagnostic.py",
-        "tools/scripts/consolidate_modules.py"
+        "tools/scripts/consolidate_modules.py",
     ]
 
-    base_dir = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
+    base_dir = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
     fixed = 0
     failed = 0
 
@@ -100,7 +103,7 @@ def main():
             else:
                 # Try to get specific error
                 try:
-                    with open(full_path, encoding='utf-8', errors='ignore') as f:
+                    with open(full_path, encoding="utf-8", errors="ignore") as f:
                         ast.parse(f.read())
                     print("  ✓ No error found")
                 except SyntaxError as e:
@@ -108,6 +111,7 @@ def main():
                     failed += 1
 
     print(f"\nFixed {fixed} files, {failed} still have errors")
+
 
 if __name__ == "__main__":
     main()

@@ -28,7 +28,7 @@ def fix_directory(directory: str, max_files: int = 10):
                 ".venv",
                 "venv",
                 "test_metadata",
-                "lukhas_pwm/flags",
+                "lukhas/flags",
                 "node_modules",
             ]
         )
@@ -106,7 +106,7 @@ def main():
     # Priority directories (most likely to have issues)
     priority_dirs = [
         "bridge/llm_wrappers",
-        "lukhas_pwm",
+        "lukhas",
         "bridge/api",
         "core",
         "serve",

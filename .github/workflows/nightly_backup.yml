@@ -2,7 +2,7 @@ name: Nightly Backup
 
 on:
   schedule:
-    - cron: '17 3 * * *'
+    - cron: "17 3 * * *"
   workflow_dispatch: {}
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
       - name: Install deps
         run: |
           pip install -r requirements.txt || true
@@ -24,7 +24,7 @@ jobs:
         run: |
           mkdir -p .lukhas_backup/out
           python3 scripts/backup_create.py \
-            --include lukhas_pwm data \
+            --include lukhas data \
             --exclude "*.tmp" "*.log" \
             --outdir .lukhas_backup/out | tee .lukhas_backup/out/backup_create.out.json
       - name: KPI digest (optional)

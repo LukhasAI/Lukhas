@@ -1,4 +1,4 @@
-# 🚀 LUKHAS_PWM Comprehensive Stress Test Report
+# 🚀 LUKHAS Comprehensive Stress Test Report
 
 **Test Run ID:** 20250807_174740  
 **Date:** 2025-08-07T17:47:38.660370  

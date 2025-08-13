@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LUKHAS PWM Monitoring Configuration Loader
+LUKHAS  Monitoring Configuration Loader
 ==========================================
 Loads monitoring configuration with environment variable overrides
 """
@@ -388,7 +388,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--validate":
         config, validation = load_validated_config()
 
-        print("LUKHAS PWM Monitoring Configuration Validation")
+        print("LUKHAS  Monitoring Configuration Validation")
         print("=" * 50)
 
         if validation["valid"]:

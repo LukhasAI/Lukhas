@@ -1,8 +1,8 @@
-# 💼 LUKHAS PWM - Executive & Investor Overview
+# 💼 LUKHAS  - Executive & Investor Overview
 
 ## 🎯 Executive Summary
 
-**LUKHAS PWM** (Pack What Matters) is a production-ready AGI platform achieving **99%+ reliability** with modular, consciousness-aware AI systems. Our platform combines emotional intelligence, ethical governance, and commercial-ready products in a unified ecosystem.
+**LUKHAS ** (Pack What Matters) is a production-ready AGI platform achieving **99%+ reliability** with modular, consciousness-aware AI systems. Our platform combines emotional intelligence, ethical governance, and commercial-ready products in a unified ecosystem.
 
 ## 📊 Key Metrics
 
@@ -182,7 +182,7 @@
 
 **Technical Inquiries**
 - Email: tech@lukhas.ai
-- GitHub: github.com/LukhasAI/Lukhas_PWM
+- GitHub: github.com/LukhasAI/Lukhas
 
 **Investment Relations**
 - Email: investors@lukhas.ai
@@ -190,6 +190,6 @@
 
 ---
 
-**LUKHAS PWM** - Where consciousness meets commerce. Production-ready AGI, available today.
+**LUKHAS ** - Where consciousness meets commerce. Production-ready AGI, available today.
 
 *"We don't just process data - we understand, feel, and protect."*

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🧪 Enhanced PWM Governance Test Suite
+🧪 Enhanced  Governance Test Suite
 =====================================
 
 Tests the superior ethics and red team integrated governance system.
@@ -13,10 +13,10 @@ import sys
 # Add paths
 sys.path.insert(0, os.path.dirname(__file__))
 
-print("🧪 Testing Enhanced PWM Governance with Superior Ethics...")
+print("🧪 Testing Enhanced  Governance with Superior Ethics...")
 
 try:
-    from governance.enhanced_pwm_guardian import EnhancedPWMWorkspaceGuardian
+    from governance.enhanced_guardian import EnhancedWorkspaceGuardian
 
     print("✅ Enhanced governance modules imported successfully")
     enhanced_available = True
@@ -26,7 +26,7 @@ except ImportError as e:
     enhanced_available = False
 
     try:
-        from governance.pwm_workspace_guardian import PWMWorkspaceGuardian
+        from governance._workspace_guardian import WorkspaceGuardian
 
         print("✅ Basic governance available as fallback")
         basic_available = True
@@ -43,10 +43,10 @@ async def test_enhanced_governance():
         return False
 
     try:
-        print("\n🌟 Testing Enhanced PWM Workspace Guardian...")
+        print("\n🌟 Testing Enhanced  Workspace Guardian...")
 
         # Initialize enhanced guardian
-        guardian = EnhancedPWMWorkspaceGuardian()
+        guardian = EnhancedWorkspaceGuardian()
         await guardian.initialize()
         print("✅ Enhanced guardian initialized")
 
@@ -78,7 +78,7 @@ async def test_enhanced_governance():
             rt_status = security["red_team_validation"].get("overall_status", "UNKNOWN")
             print(f"🔴 Red team validation: {rt_status}")
 
-        print("\n🎯 Enhanced PWM Governance system is working correctly!")
+        print("\n🎯 Enhanced  Governance system is working correctly!")
         return True
 
     except Exception as e:
@@ -97,9 +97,9 @@ async def test_basic_governance():
         return False
 
     try:
-        print("\n🛡️ Testing Basic PWM Workspace Guardian...")
+        print("\n🛡️ Testing Basic  Workspace Guardian...")
 
-        guardian = PWMWorkspaceGuardian()
+        guardian = WorkspaceGuardian()
         await guardian.initialize()
         print("✅ Basic guardian initialized")
 
@@ -111,7 +111,7 @@ async def test_basic_governance():
         health = await guardian.analyze_workspace_health()
         print(f"🏥 Basic workspace health: {health['symbolic']}")
 
-        print("\n🎯 Basic PWM Governance system is working!")
+        print("\n🎯 Basic  Governance system is working!")
         return True
 
     except Exception as e:
@@ -122,7 +122,7 @@ async def test_basic_governance():
 async def main():
     """Run comprehensive governance tests."""
 
-    print("🚀 Starting PWM Governance Test Suite...\n")
+    print("🚀 Starting  Governance Test Suite...\n")
 
     # Test enhanced system first
     enhanced_success = False
@@ -145,7 +145,7 @@ async def main():
         print("   - Red team protocols available")
         print("   - Multi-framework ethics engine")
         print("   - Tier-based consent system")
-        print("\n🚀 Your PWM workspace has ENHANCED protection!")
+        print("\n🚀 Your  workspace has ENHANCED protection!")
 
     elif basic_success:
         print("🛡️ BASIC GOVERNANCE: ✅ SUCCESS")
@@ -170,7 +170,7 @@ async def main():
 if __name__ == "__main__":
     success = asyncio.run(main())
     if success:
-        print("\n🎯 PWM governance is ready to protect your workspace!")
+        print("\n🎯  governance is ready to protect your workspace!")
         sys.exit(0)
     else:
         print("\n🔧 Governance system requires attention")

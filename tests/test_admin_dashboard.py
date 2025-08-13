@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-from lukhas_pwm.api.app import app
+from lukhas.api.app import app
 
 
 def _enable(monkeypatch):

@@ -301,7 +301,7 @@ cat > .vscode/tasks.json << 'EOF'
       "label": "🧠 Consciousness Health Check",
       "type": "shell",
       "command": "python",
-      "args": ["tools/analysis/PWM_OPERATIONAL_SUMMARY.py", "--consciousness-focus"],
+      "args": ["tools/analysis/_OPERATIONAL_SUMMARY.py", "--consciousness-focus"],
       "group": "test"
     },
     {

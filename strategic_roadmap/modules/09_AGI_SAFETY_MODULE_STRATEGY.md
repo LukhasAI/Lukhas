@@ -10,7 +10,7 @@
 
 ## Executive Summary
 
-The AGI Safety Module represents a comprehensive approach to AI safety, implementing Constitutional AI principles, neuroscience-inspired memory systems, and advanced compositional capabilities. This module ensures that LUKHAS PWM operates within ethical boundaries while maintaining high performance and innovative capabilities.
+The AGI Safety Module represents a comprehensive approach to AI safety, implementing Constitutional AI principles, neuroscience-inspired memory systems, and advanced compositional capabilities. This module ensures that LUKHAS  operates within ethical boundaries while maintaining high performance and innovative capabilities.
 
 ### Key Achievements
 - ✅ **Constitutional AI Implementation**: 8 core ethical principles with validation

@@ -115,7 +115,7 @@ async def test_with_helper():
 async def main():
     """Run final integration test"""
 
-    print(f"{GREEN}🎯 LUKHAS PWM - Final Integration Test{RESET}")
+    print(f"{GREEN}🎯 LUKHAS  - Final Integration Test{RESET}")
     print("Testing complete flow with new helpers")
 
     # Check API key

@@ -1,7 +1,7 @@
 from typing import Optional
 
-from lukhas_pwm.dna.interfaces import HelixMemory
-from lukhas_pwm.migration.legacy_store import LegacyStore
+from lukhas.dna.interfaces import HelixMemory
+from lukhas.migration.legacy_store import LegacyStore
 
 
 def read_memory(*, legacy: LegacyStore, dna: HelixMemory, key: str) -> Optional[dict]:

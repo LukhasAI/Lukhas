@@ -8,7 +8,7 @@ import os
 import sys
 from pathlib import Path
 
-from lukhas_pwm.flags import get_flags, require_feature, when_enabled
+from lukhas.flags import get_flags, require_feature, when_enabled
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -48,7 +48,7 @@ def test_env_override():
     os.environ["FF_QUANTUM_PROCESSING"] = "true"
 
     # Create new instance to pick up env
-    from lukhas_pwm.flags.ff import FeatureFlags
+    from lukhas.flags.ff import FeatureFlags
 
     flags = FeatureFlags()
 

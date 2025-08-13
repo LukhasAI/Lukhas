@@ -740,7 +740,7 @@ async def test_full_integration():
 async def main():
     """Run all tests"""
     print(f"\n{TestColors.BOLD}{'='*60}")
-    print("LUKHAS PWM - Comprehensive Test Suite")
+    print("LUKHAS  - Comprehensive Test Suite")
     print("Testing All New Implementations")
     print(f"{'='*60}{TestColors.RESET}\n")
 

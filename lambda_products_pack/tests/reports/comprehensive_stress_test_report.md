@@ -44,7 +44,7 @@
   - plugin_system.lambda_products_adapter
   - agents.autonomous_agent_framework
   - agents.lambda_workforce_agents
-  - integration.lukhas_pwm_adapter
+  - integration.lukhas_adapter
 
 ### 2. Stress Load Tests ✅
 

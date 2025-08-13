@@ -387,7 +387,7 @@ class SyntaxFixerBot:
 
 def main():
     """Main entry point for the lukhasI Syntax Fixer Bot."""
-    workspace = Path("/Users/agi_dev/Lukhas_PWM")
+    workspace = Path("/Users/agi_dev/Lukhas")
 
     # Initialize the bot
     bot = SyntaxFixerBot(workspace)

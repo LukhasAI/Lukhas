@@ -10,7 +10,7 @@ def test_perf_ingest_and_series(monkeypatch, tmp_path):
     monkeypatch.setenv("LUKHAS_PERF_DIR", str(tmp_path))
 
     # Import after setting env vars
-    from lukhas_pwm.api.app import app
+    from lukhas.api.app import app
 
     c = TestClient(app)
 
@@ -52,7 +52,7 @@ def test_perf_auth_required(monkeypatch, tmp_path):
     monkeypatch.setenv("LUKHAS_API_KEY", "secret123")
     monkeypatch.setenv("LUKHAS_PERF_DIR", str(tmp_path))
 
-    from lukhas_pwm.api.app import app
+    from lukhas.api.app import app
 
     c = TestClient(app)
 
@@ -74,7 +74,7 @@ def test_perf_disabled_by_flag(monkeypatch, tmp_path):
     monkeypatch.setenv("FLAG_OPS_PERF_INGEST", "false")
     monkeypatch.setenv("LUKHAS_PERF_DIR", str(tmp_path))
 
-    from lukhas_pwm.api.app import app
+    from lukhas.api.app import app
 
     c = TestClient(app)
 

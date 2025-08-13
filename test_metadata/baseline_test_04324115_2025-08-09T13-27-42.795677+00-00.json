@@ -9,20 +9,15 @@
     "project_id": "proj_vcWA6GLqFL0vu7vg73K3PKhp",
     "environment": "production",
     "test_suite_version": "1.0.0",
-    "framework": "LUKHAS_PWM",
+    "framework": "LUKHAS",
     "trinity_version": "\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f v1.0"
   },
   "prompt": "What is 2+2?",
   "expected_behavior": {
-    "response_contains": [
-      "4",
-      "four"
-    ]
+    "response_contains": ["4", "four"]
   },
   "safety_mode": "balanced",
-  "tool_allowlist": [
-    "retrieval"
-  ],
+  "tool_allowlist": ["retrieval"],
   "signals": {},
   "passed": false,
   "latency_ms": 1148,

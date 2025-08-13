@@ -4,37 +4,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Context
 
-This is the **LUKHAS AI** repository - a modular AI system that combines consciousness, memory, identity, quantum-inspired processing, bio-inspired adaptation, and ethical governance. The system is built around the **Trinity Framework** (⚛️🧠🛡️).
-
-### Trinity Framework
+This is the **LUKHAS AI** repository - a modular AI system combining consciousness, memory, identity, quantum-inspired processing, bio-inspired adaptation, and ethical governance. Built around the **Trinity Framework** (⚛️🧠🛡️):
 - ⚛️ **Identity**: Authenticity, consciousness, symbolic self
 - 🧠 **Consciousness**: Memory, learning, dream states, neural processing  
 - 🛡️ **Guardian**: Ethics, drift detection, repair
 
-### Related Repositories
-- **Prototype** (`/Users/agi_dev/Prototype/`) - Original development repository with experimental features
-- **Consolidation-Repo** (`/Users/agi_dev/Downloads/Consolidation-Repo/`) - Active consolidation workspace
-- **LUKHAS Archive** (`/Users/agi_dev/lukhas-archive/`) - Archive for deprecated code (**NEVER DELETE** - always move here)
-
-## 🚫 Critical Branding & Messaging Rules
+## 🚫 Critical Rules
 
 ### Required Terminology
 - **Always use**: "LUKHAS AI" (never "LUKHAS AGI")
-- **Always use**: "quantum-inspired" (not "quantum processing")
-- **Always use**: "bio-inspired" (not "bio processes")
-- **Use approved glyphs**: Only from `branding/` directory or `next_gen/README_NEXT_GEN.md`
+- **Always use**: "quantum-inspired" / "bio-inspired" (not "quantum processing" / "bio processes")
+- **Use approved glyphs**: Only from `branding/` or `next_gen/README_NEXT_GEN.md`
 
 ### Prohibited Statements
-- **DO NOT** state or imply any part is "production-ready" or "ready for production" unless explicitly approved
-- **DO NOT** include price predictions, revenue forecasts, or financial projections anywhere
+- **DO NOT** state or imply any part is "production-ready" unless explicitly approved
+- **DO NOT** include price predictions, revenue forecasts, or financial projections
 - **DO NOT** invent new branding, glyphs, or slogans
-
-### Approved Language
-Focus on:
-- System improvements and technical roadmap
-- User experience and feature enhancements
-- Alignment with OpenAI, ethics, and compliance
-- Identifying areas for growth and potential blind spots
 
 ## Common Development Tasks
 
@@ -48,13 +33,8 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 pip install -r requirements-test.txt  # For testing
 
-# Configure environment
-cp .env.example .env  # If available
-# Edit .env with required API keys:
-# - OPENAI_API_KEY
-# - ANTHROPIC_API_KEY (if needed)
-# - GOOGLE_API_KEY (if needed)
-# - PERPLEXITY_API_KEY (if needed)
+# Configure environment variables in .env:
+# OPENAI_API_KEY, ANTHROPIC_API_KEY, GOOGLE_API_KEY, PERPLEXITY_API_KEY
 ```
 
 ### Running the System
@@ -63,7 +43,7 @@ cp .env.example .env  # If available
 python main.py
 python main.py --consciousness-active
 
-# API servers
+# API server
 make api  # Runs on port 8000
 make dev  # Development server with reload
 
@@ -72,7 +52,7 @@ python orchestration/brain/primary_hub.py
 python consciousness/unified/auto_consciousness.py
 python -m emotion.service
 
-# Audit and monitoring
+# Analysis and monitoring
 python real_gpt_drift_audit.py
 python tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py
 python tools/analysis/PWM_OPERATIONAL_SUMMARY.py
@@ -84,18 +64,14 @@ python tools/analysis/PWM_OPERATIONAL_SUMMARY.py
 make test
 pytest tests/
 
-# Run specific test categories
+# Specific test categories
 pytest -m unit          # Unit tests only
 pytest -m integration   # Integration tests only
 pytest -m security      # Security tests only
 
-# Run with coverage
+# Coverage
 make test-cov
 pytest --cov=lukhas --cov=bridge --cov=core --cov=serve tests/
-
-# Run single test file or function
-pytest tests/test_colony_integration.py
-pytest tests/test_colony_integration.py::test_specific_function
 
 # Quick smoke test
 make smoke
@@ -106,14 +82,10 @@ make smoke
 # Auto-fix most issues (recommended)
 make fix
 
-# Manual tools
+# Individual tools
 make lint       # Run all linters (no fixes)
 make format     # Format with Black and isort
-make fix-imports # Fix import issues
-
-# Individual linters
-ruff check .
-ruff check --fix .
+ruff check . --fix
 black lukhas/ tests/
 mypy lukhas/
 ```
@@ -151,8 +123,8 @@ make api-spec  # Exports OpenAPI spec to out/openapi.json
 - `consciousness/` - Awareness, decision-making, dream states
 - `memory/` - Fold-based memory with 99.7% cascade prevention
 - `reasoning/` - Logic and causal inference
-- `identity/` - ΛiD system with tiered access control and Trinity integration
-- `vivox/` - VIVOX consciousness system (ME, MAE, CIL, SRM components)
+- `identity/` - ΛiD system with tiered access control
+- `vivox/` - VIVOX consciousness system (ME, MAE, CIL, SRM)
 
 **Advanced Processing:**
 - `quantum/` - Quantum-inspired algorithms and collapse simulation
@@ -160,17 +132,9 @@ make api-spec  # Exports OpenAPI spec to out/openapi.json
 - `emotion/` - VAD affect and mood regulation
 - `creativity/` - Dream engine with controlled chaos
 
-**Symbolic Systems:**
-- `symbolic/` - Multi-modal language, entropy password system
-- `universal_language/` - GLYPH vocabulary and translation
-
 **Integration & APIs:**
 - `api/` - FastAPI endpoints at `http://localhost:8080`
-- `bridge/` - External API connections, LLM wrappers (OpenAI, Anthropic, Gemini)
-- `architectures/` - DAST, ABAS, NIAS unified systems
-- `modulation/` - Signal-based modulation policy system
-
-**Agent Infrastructure:**
+- `bridge/` - External API connections (OpenAI, Anthropic, Gemini)
 - `agents/` - Configuration for 25 specialized AI agents
 - `CLAUDE_ARMY/` - Deployment scripts and agent management
 
@@ -181,22 +145,6 @@ make api-spec  # Exports OpenAPI spec to out/openapi.json
 - `memory/` provides persistence across modules
 - Integration modules named as `*_adapter.py` or `*_hub.py`
 - Kernel bus in `orchestration/symbolic_kernel_bus.py` for event routing
-
-## Trinity Framework Behaviors
-
-### Always Do
-- Respect Trinity Framework (⚛️🧠🛡️) in all logic, comments, documentation
-- Use approved branding from `branding/` and `next_gen/README_NEXT_GEN.md`
-- Use symbolic glyphs where appropriate
-- Check `integration_config.yaml` and `lukhas_config.yaml` for global thresholds
-- Log interventions to `data/` or `memory/`
-- Update `data/meta_metrics.json` when adding monitoring
-
-### If Unsure
-- Consult `branding/` directory for approved terms
-- Check domain-specific README files (most modules have INFO_README.md)
-- Validate with tests before implementing
-- Check MODULE_MANIFEST.json files for module metadata
 
 ## File Organization
 
@@ -209,18 +157,9 @@ make api-spec  # Exports OpenAPI spec to out/openapi.json
 - Agent configs → `agents/` or `agents/configs/`
 
 ## Import Paths
-Standard import path:
 ```python
 from lukhas.module import Component  # Standard import
 ```
-
-## Security Considerations
-- Identity module handles all authentication
-- Guardian System validation cannot be bypassed
-- Complete audit trail with causality chains
-- Multi-tier authentication enabled
-- Quantum-resistant cryptography throughout
-- Hardware-backed keys via TPM when available
 
 ## Configuration
 
@@ -264,7 +203,7 @@ Key environment variables (`.env`):
 
 ## Makefile Targets
 
-Key targets from Makefile:
+Key targets:
 - `make install` - Install all dependencies
 - `make test` - Run test suite
 - `make test-cov` - Run tests with coverage

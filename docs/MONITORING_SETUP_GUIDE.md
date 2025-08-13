@@ -1,8 +1,8 @@
-# LUKHAS PWM Monitoring Setup Guide 📊
+# LUKHAS  Monitoring Setup Guide 📊
 
 ## Overview
 
-The LUKHAS PWM monitoring system provides comprehensive real-time monitoring for all system components including consciousness, memory, ethics, APIs, and system resources. The monitoring infrastructure is built around the Trinity Framework (⚛️🧠🛡️) and provides both technical metrics and high-level insights.
+The LUKHAS  monitoring system provides comprehensive real-time monitoring for all system components including consciousness, memory, ethics, APIs, and system resources. The monitoring infrastructure is built around the Trinity Framework (⚛️🧠🛡️) and provides both technical metrics and high-level insights.
 
 ## Architecture
 
@@ -48,7 +48,7 @@ pip install prometheus-client grafana-api
 
 1. **Navigate to monitoring directory:**
    ```bash
-   cd /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/monitoring
+   cd /Users/agi_dev/LOCAL-REPOS/Lukhas/monitoring
    ```
 
 2. **Run automated setup:**
@@ -162,7 +162,7 @@ The monitoring system collects data from:
    - Error rates and status codes
    - Endpoint-specific performance
 
-3. **Application Metrics** (via PWM modules)
+3. **Application Metrics** (via  modules)
    - Consciousness awareness levels
    - Memory fold counts and drift scores
    - Ethics decisions and scores
@@ -262,8 +262,8 @@ Create systemd services for production:
 python3 setup_monitoring.py --create-systemd
 sudo cp systemd/*.service /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable lukhas-pwm-dashboard
-sudo systemctl start lukhas-pwm-dashboard
+sudo systemctl enable lukhas--dashboard
+sudo systemctl start lukhas--dashboard
 ```
 
 ### Docker Deployment

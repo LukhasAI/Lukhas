@@ -259,7 +259,7 @@ Each Trinity layer requires comprehensive testing:
 
 ## Configuration
 
-Trinity Framework configuration in `lukhas_pwm_config.yaml`:
+Trinity Framework configuration in `lukhas_config.yaml`:
 
 ```yaml
 trinity:

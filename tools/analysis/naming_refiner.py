@@ -76,7 +76,7 @@ class LukhasNamingRefiner:
             "moral_compass",
             # Special LUKHAS terms
             "lukhas",
-            "pwm",
+            "",
             "sgi",
             "agi",
         }
@@ -131,10 +131,10 @@ class LukhasNamingRefiner:
         name = name.replace("Λ", "Lambda").replace("λ", "Lambda")
 
         # Preserve LUKHAS special terms in class names
-        if any(term in name.lower() for term in ["lukhas", "pwm", "sgi", "agi"]):
+        if any(term in name.lower() for term in ["lukhas", "", "sgi", "agi"]):
             # Keep uppercase for acronyms
             name = re.sub(r"\blukhas\b", "LUKHAS", name, flags=re.IGNORECASE)
-            name = re.sub(r"\bpwm\b", "PWM", name, flags=re.IGNORECASE)
+            name = re.sub(r"\b\b", "", name, flags=re.IGNORECASE)
             name = re.sub(r"\bsgi\b", "SGI", name, flags=re.IGNORECASE)
             name = re.sub(r"\bagi\b", "AGI", name, flags=re.IGNORECASE)
 
@@ -147,7 +147,7 @@ class LukhasNamingRefiner:
                 # Preserve concept parts
                 if part.lower() in self.lukhas_concepts:
                     # For class names, capitalize concepts appropriately
-                    if part.lower() in ["pwm", "sgi", "agi"]:
+                    if part.lower() in ["", "sgi", "agi"]:
                         refined_parts.append(part.upper())
                     else:
                         refined_parts.append(part.capitalize())
@@ -219,7 +219,7 @@ class LukhasNamingRefiner:
             # Skip archive directories
             if any(
                 skip in str(file_path)
-                for skip in [".pwm_cleanup_archive", "__pycache__", ".git"]
+                for skip in ["._cleanup_archive", "__pycache__", ".git"]
             ):
                 continue
 
@@ -311,10 +311,10 @@ class LukhasNamingRefiner:
                     "DreamEngine",
                     "QuantumState",
                     "LUKHASCore",
-                    "PWMGuardian",
+                    "Guardian",
                     "SGIProcessor",
                 ],
-                "preserve": ["LUKHAS", "PWM", "SGI", "AGI as uppercase"],
+                "preserve": ["LUKHAS", "", "SGI", "AGI as uppercase"],
             },
             "functions": {
                 "pattern": "snake_case",

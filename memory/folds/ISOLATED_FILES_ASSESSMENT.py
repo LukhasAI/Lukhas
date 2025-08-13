@@ -7,7 +7,7 @@
 #TAG:colony
 
 
-LUKHAS PWM Isolated Files Assessment
+LUKHAS  Isolated Files Assessment
 Analyzes isolated files to identify valuable prototypes vs archive candidates
 """
 
@@ -88,7 +88,7 @@ class IsolatedFilesAssessor:
             file_path = Path(file_info["file"])
 
             # Skip archive and backup directories
-            if ".pwm_cleanup_archive" in str(file_path) or "BACKUP" in str(file_path):
+            if "._cleanup_archive" in str(file_path) or "BACKUP" in str(file_path):
                 continue
 
             category = self._categorize_file(file_path, file_info)
@@ -169,7 +169,7 @@ def main():
     assessor = IsolatedFilesAssessor()
 
     # Use the current connectivity analysis
-    report_path = "docs/reports/analysis/PWM_CURRENT_CONNECTIVITY_ANALYSIS.json"
+    report_path = "docs/reports/analysis/_CURRENT_CONNECTIVITY_ANALYSIS.json"
 
     assessment = assessor.assess_files(report_path)
 
