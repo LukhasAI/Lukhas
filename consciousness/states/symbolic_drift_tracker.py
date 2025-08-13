@@ -28,6 +28,10 @@ Core Capabilities:
 - Enterprise logging with ΛTRACE integration
 """
 
+# Add logging
+from core.common import get_logger
+logger = get_logger(__name__)
+
 import hashlib
 import json
 import math
@@ -121,10 +125,7 @@ class SymbolicDriftTracker:
         self.last_cache_cleanup = datetime.now()
 
         logger.info(
-            "SymbolicDriftTracker initialized with enterprise configuration",
-            config=self.config,
-            thresholds=self.drift_thresholds,
-            tag="ΛTRACE",
+            f"SymbolicDriftTracker initialized with enterprise configuration - config: {self.config}, thresholds: {self.drift_thresholds}"
         )
 
     def calculate_symbolic_drift(

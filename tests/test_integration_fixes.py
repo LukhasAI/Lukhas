@@ -17,19 +17,19 @@ class TestFeatureFlags(unittest.TestCase):
 
     def test_import(self):
         """Test that flags module imports correctly"""
-        from lukhas_pwm import flags
+        from lukhas import flags
         self.assertIsNotNone(flags)
 
     def test_get_flags(self):
         """Test getting all flags"""
-        from lukhas_pwm.flags import get_flags
+        from lukhas.flags import get_flags
         all_flags = get_flags()
         self.assertIsInstance(all_flags, dict)
         self.assertIn("adaptive_ai", all_flags)
 
     def test_require_feature(self):
         """Test requiring a feature"""
-        from lukhas_pwm.flags import FeatureFlagContext, require_feature
+        from lukhas.flags import FeatureFlagContext, require_feature
 
         # Should work for enabled feature
         with FeatureFlagContext(test_feature=True):
@@ -42,7 +42,7 @@ class TestFeatureFlags(unittest.TestCase):
 
     def test_when_enabled_decorator(self):
         """Test conditional execution decorator"""
-        from lukhas_pwm.flags import FeatureFlagContext, when_enabled
+        from lukhas.flags import FeatureFlagContext, when_enabled
 
         call_count = 0
 
@@ -66,7 +66,7 @@ class TestFeatureFlags(unittest.TestCase):
 
     def test_context_manager(self):
         """Test feature flag context manager"""
-        from lukhas_pwm.flags import FeatureFlagContext, is_enabled
+        from lukhas.flags import FeatureFlagContext, is_enabled
 
         # Original state
         original = is_enabled("test_flag")
@@ -299,7 +299,7 @@ class TestIntegrationFlow(unittest.TestCase):
 
     def test_signal_with_feature_flag(self):
         """Test signals gated by feature flags"""
-        from lukhas_pwm.flags import FeatureFlagContext, when_enabled
+        from lukhas.flags import FeatureFlagContext, when_enabled
         from orchestration.signals import Signal, SignalType
 
         @when_enabled("adaptive_signals")

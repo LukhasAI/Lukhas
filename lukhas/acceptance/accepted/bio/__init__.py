@@ -8,10 +8,7 @@ __version__ = "1.0.0"
 __trinity__ = "⚛️🧠🛡️"
 
 # Core components
-from . import oscillator
-from . import symbolic
-from . import awareness
-from . import adapters
+from . import adapters, awareness, oscillator, symbolic
 
 # Optional quantum features (feature-flagged)
 try:
@@ -25,29 +22,25 @@ try:
 except ImportError:
     voice = None
 
-__all__ = [
-    'oscillator',
-    'symbolic', 
-    'awareness',
-    'adapters',
-    'quantum',
-    'voice'
-]
+__all__ = ["oscillator", "symbolic", "awareness", "adapters", "quantum", "voice"]
 
 # Bio engine singleton
 _engine = None
 
+
 def get_bio_engine():
     """Get or create bio engine instance"""
     from .core import get_bio_engine as _get_engine
+
     return _get_engine()
+
 
 # Trinity integration
 def trinity_sync():
     """Synchronize with Trinity Framework"""
     return {
-        'identity': '⚛️',
-        'consciousness': '🧠', 
-        'guardian': '🛡️',
-        'status': 'synchronized'
+        "identity": "⚛️",
+        "consciousness": "🧠",
+        "guardian": "🛡️",
+        "status": "synchronized",
     }

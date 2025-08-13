@@ -51,6 +51,10 @@ from enum import Enum
 from typing import Any, Optional
 from uuid import uuid4
 
+# Add logging
+from core.common import get_logger
+logger = get_logger(__name__)
+
 # Import LUKHAS components
 try:
     from core.symbolism.tags import TagScope
@@ -162,7 +166,7 @@ class MerkleTree:
         self.algorithm = algorithm
         self.node_map: dict[str, MerkleNode] = {}  # For quick access
 
-        logger.info("MerkleTree initialized", algorithm=algorithm.value)
+        logger.info(f"MerkleTree initialized - algorithm: {algorithm.value}")
 
     def add_memory(self, memory_data: Any, memory_id: str) -> str:
         """Add a memory to the tree"""
@@ -347,10 +351,7 @@ class CollapseHash:
         self.integrity_tags: dict[str, tuple[str, TagScope, IntegrityStatus]] = {}
 
         logger.info(
-            "CollapseHash initialized",
-            algorithm=algorithm.value,
-            auto_checkpoint=enable_auto_checkpoint,
-            checkpoint_interval=checkpoint_interval,
+            f"CollapseHash initialized - algorithm: {algorithm.value}, auto_checkpoint: {enable_auto_checkpoint}, checkpoint_interval: {checkpoint_interval}"
         )
 
     async def add_memory(
@@ -554,7 +555,7 @@ class CollapseHash:
             }
 
         except Exception as e:
-            logger.error("Rollback failed", checkpoint_id=checkpoint_id, error=str(e))
+            logger.error(f"Rollback failed - checkpoint_id: {checkpoint_id}, error: {str(e)}")
             return {"success": False, "reason": f"Rollback failed: {str(e)}"}
 
     async def audit_integrity(self) -> dict[str, Any]:

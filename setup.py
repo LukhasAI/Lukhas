@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Lukhas PWM Setup Configuration
+Lukhas Setup Configuration
 """
 
 from pathlib import Path

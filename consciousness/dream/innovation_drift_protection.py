@@ -122,7 +122,8 @@ class InnovationDriftProtection(CoreInterface):
         # Integrity and rollback
         self.collapse_hash = CollapseHash(
             algorithm=HashAlgorithm.SHA3_256,
-            enable_rollback=self.config.enable_auto_rollback
+            enable_auto_checkpoint=self.config.enable_auto_rollback,
+            checkpoint_interval=self.config.checkpoint_interval
         )
         
         # Emotional regulation

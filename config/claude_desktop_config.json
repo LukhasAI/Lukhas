@@ -2,9 +2,9 @@
   "mcpServers": {
     "lukhas-knowledge": {
       "command": "python",
-      "args": ["/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM/ai_orchestration/lukhas_knowledge_server.py"],
+      "args": ["/Users/agi_dev/LOCAL-REPOS/Lukhas/ai_orchestration/lukhas_knowledge_server.py"],
       "env": {
-        "LUKHAS_ROOT": "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM",
+        "LUKHAS_ROOT": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
         "LUKHAS_MODE": "development"
       }
     }

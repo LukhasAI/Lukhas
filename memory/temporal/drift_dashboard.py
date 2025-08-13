@@ -63,6 +63,10 @@ from typing import Any, Optional
 
 import numpy as np
 
+# Add logging
+from core.common import get_logger
+logger = get_logger(__name__)
+
 
 class DriftSeverity(Enum):
     """Drift severity levels."""
@@ -190,9 +194,7 @@ class DriftDashboard:
         }
 
         logger.info(
-            "ΛDASH Drift Dashboard initialized",
-            history_window=history_window,
-            alert_retention=alert_retention,
+            f"ΛDASH Drift Dashboard initialized - history_window: {history_window}, alert_retention: {alert_retention}"
         )
 
     def update(self, drift_data: dict[str, Any]) -> DriftSnapshot:

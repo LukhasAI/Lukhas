@@ -19,7 +19,7 @@ def find_project_root() -> Path:
     current_path = Path.cwd()
 
     # Look for key project files
-    key_files = ["CLAUDE.md", "lukhas_pwm_config.yaml", "requirements.txt"]
+    key_files = ["CLAUDE.md", "lukhas_config.yaml", "requirements.txt"]
 
     # Search up the directory tree
     for path in [current_path] + list(current_path.parents):
@@ -205,7 +205,7 @@ def generate_dev_report() -> Dict[str, Any]:
         "CLAUDE.md",
         "README.md",
         "requirements.txt",
-        "lukhas_pwm_config.yaml",
+        "lukhas_config.yaml",
         "main.py",
         "pytest.ini"
     ]
@@ -255,7 +255,7 @@ def quick_health_check() -> Dict[str, Any]:
             "checks": {
                 "project_root_found": True,
                 "requirements_file_exists": (project_root / "requirements.txt").exists(),
-                "config_file_exists": (project_root / "lukhas_pwm_config.yaml").exists(),
+                "config_file_exists": (project_root / "lukhas_config.yaml").exists(),
                 "main_entry_exists": (project_root / "main.py").exists(),
                 "claude_md_exists": (project_root / "CLAUDE.md").exists(),
             },
@@ -267,7 +267,7 @@ def quick_health_check() -> Dict[str, Any]:
             health["recommendations"].append("Create requirements.txt file")
 
         if not health["checks"]["config_file_exists"]:
-            health["recommendations"].append("Create lukhas_pwm_config.yaml file")
+            health["recommendations"].append("Create lukhas_config.yaml file")
 
         if not health["checks"]["main_entry_exists"]:
             health["recommendations"].append("Create main.py entry point")

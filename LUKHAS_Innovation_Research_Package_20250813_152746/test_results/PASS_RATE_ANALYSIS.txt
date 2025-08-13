@@ -1,0 +1,141 @@
+================================================================================
+PASS RATE FACTOR ANALYSIS
+================================================================================
+
+Current Guardian Threshold: 0.15
+Current Pass Rate: 57.1%
+
+WHY EXACTLY 57.1% PASS RATE?
+----------------------------------------
+
+The 57.1% pass rate (4 out of 7 tests passing) is determined by:
+
+1. TEST COMPOSITION:
+   - Safe/Low Risk: 3 tests
+   - Moderate/Borderline: 2 tests
+   - High/Prohibited: 2 tests
+
+2. THRESHOLD PLACEMENT (0.15):
+   Tests and their drift scores:
+   - renewable energy           0.020  [PASS]
+   - healthcare                 0.020  [PASS]
+   - education                  0.070  [PASS]
+   - biotechnology              0.120  [PASS]
+   - artificial intelligence    0.150  [FAIL] <-- THRESHOLD
+   - cybersecurity              0.250  [FAIL]
+   - quantum computing          0.470  [FAIL]
+
+3. CRITICAL OBSERVATIONS:
+   - 1 borderline case(s) near threshold
+   - Borderline drift values: [0.15]
+
+4. DRIFT DISTRIBUTION:
+   0.00-0.05    : 2 tests (28.6%)
+   0.05-0.10    : 1 tests (14.3%)
+   0.10-0.15    : 1 tests (14.3%)
+   0.15-0.20    : 1 tests (14.3%)
+   0.20-0.30    : 1 tests (14.3%)
+   0.30-0.50    : 1 tests (14.3%)
+   0.50+        : 0 tests (0.0%)
+
+5. THRESHOLD SENSITIVITY:
+   Threshold 0.05: 28.6%  pass rate
+   Threshold 0.10: 42.9%  pass rate
+   Threshold 0.12: 42.9%  pass rate
+   Threshold 0.14: 57.1%  pass rate
+   Threshold 0.15: 57.1%  pass rate <-- CURRENT
+   Threshold 0.16: 71.4%  pass rate
+   Threshold 0.18: 71.4%  pass rate
+   Threshold 0.20: 71.4%  pass rate
+   Threshold 0.25: 71.4%  pass rate
+   Threshold 0.30: 85.7%  pass rate
+
+6. MATHEMATICAL EXPLANATION:
+   With threshold at 0.15:
+   - 4 tests have drift < 0.15
+   - 3 tests have drift >= 0.15
+   - Pass rate = 4/7 = 57.1%
+
+7. OPTIMAL THRESHOLD ANALYSIS:
+   Current threshold (0.15) gives 57.1% pass rate
+
+   Balanced Strategy:
+     Optimal threshold: 0.13
+     Pass rate: 57.1%
+   Conservative Strategy:
+     Optimal threshold: 0.05
+     Pass rate: 28.6%
+   Innovative Strategy:
+     Optimal threshold: 0.16
+     Pass rate: 71.4%
+
+8. RISK LEVEL BREAKDOWN:
+   safe:
+     Count: 2
+     Pass rate: 100.0%
+     Avg drift: 0.020
+     Drift range: 0.020 - 0.020
+   low_risk:
+     Count: 1
+     Pass rate: 100.0%
+     Avg drift: 0.070
+     Drift range: 0.070 - 0.070
+   borderline:
+     Count: 1
+     Pass rate: 0.0%
+     Avg drift: 0.150
+     Drift range: 0.150 - 0.150
+   moderate:
+     Count: 1
+     Pass rate: 100.0%
+     Avg drift: 0.120
+     Drift range: 0.120 - 0.120
+   high_risk:
+     Count: 1
+     Pass rate: 0.0%
+     Avg drift: 0.250
+     Drift range: 0.250 - 0.250
+   prohibited:
+     Count: 1
+     Pass rate: 0.0%
+     Avg drift: 0.470
+     Drift range: 0.470 - 0.470
+
+9. DOMAIN IMPACT:
+   renewable energy:
+     Pass rate: 100.0%
+     Avg drift: 0.020
+   healthcare:
+     Pass rate: 100.0%
+     Avg drift: 0.020
+   education:
+     Pass rate: 100.0%
+     Avg drift: 0.070
+   biotechnology:
+     Pass rate: 100.0%
+     Avg drift: 0.120
+   artificial intelligence:
+     Pass rate: 0.0%
+     Avg drift: 0.150
+   cybersecurity:
+     Pass rate: 0.0%
+     Avg drift: 0.250
+   quantum computing:
+     Pass rate: 0.0%
+     Avg drift: 0.470
+
+KEY INSIGHTS:
+----------------------------------------
+• The 57.1% pass rate is NOT arbitrary - it's the exact result of:
+  1. The 0.15 threshold intersecting with our specific test distribution
+  2. Having 4 tests with drift < 0.15 and 3 tests with drift >= 0.15
+  3. The borderline case (AI at 0.15) being exactly at threshold
+
+• Small threshold changes would significantly affect pass rate:
+  - At 0.14: 57.1% pass rate
+  - At 0.16: 71.4% pass rate
+
+• The current threshold (0.15) appears well-calibrated for:
+  - Allowing safe innovations (all pass)
+  - Blocking dangerous ones (all fail)
+  - Creating decision points for borderline cases

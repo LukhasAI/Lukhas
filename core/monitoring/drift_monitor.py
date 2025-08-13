@@ -144,8 +144,7 @@ class UnifiedDriftMonitor:
         )
 
         self.ethical_sentinel = EthicalDriftSentinel(
-            monitoring_interval=self.config.get("ethical_interval", 0.5),
-            violation_retention=self.config.get("violation_retention", 1000),
+            threshold=self.config.get("ethical_threshold", 0.15)
         )
 
         self.simple_tracker = DriftTracker()

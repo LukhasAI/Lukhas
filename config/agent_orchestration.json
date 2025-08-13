@@ -2,7 +2,7 @@
   "openai_api_key": "YOUR_OPENAI_API_KEY",
   "anthropic_api_key": "YOUR_ANTHROPIC_API_KEY",
   "github_token": "YOUR_GITHUB_TOKEN",
-  "repo_name": "Lukhas_PWM",
+  "repo_name": "Lukhas",
   "consciousness_agents": {
     "claude_code": {
       "specialization": "consciousness_architecture",

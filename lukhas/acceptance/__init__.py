@@ -7,7 +7,6 @@ __version__ = "1.0.0"
 __trinity__ = "⚛️🧠🛡️"
 
 # Lane exports
-from . import accepted
-from . import candidate
+from . import accepted, candidate
 
 # Note: quarantine and archive are not exported by default

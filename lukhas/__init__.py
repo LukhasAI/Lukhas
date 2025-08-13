@@ -2,14 +2,14 @@
 LUKHAS AI - Main Package
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
-Complete namespace migration from lukhas_pwm → lukhas
+Complete namespace: lukhas
 Acceptance system available at lukhas.acceptance
 """
 
 __version__ = "1.0.0"
 __trinity__ = "⚛️🧠🛡️"
 
-# Main package exports (from old lukhas_pwm)
+# Main package exports
 from . import (
     api,
     audit,
@@ -27,10 +27,10 @@ from . import (
 
 # Legacy client for backwards compatibility
 try:
-    from .client import LukhasPWM
+    from .client import LukhasAI
 
-    # Alias for new namespace
-    LukhasAI = LukhasPWM
+    # Legacy alias for backwards compatibility
+    LukhasPWM = LukhasAI
 except ImportError:
     pass
 
@@ -52,7 +52,7 @@ def get_trinity_status():
         "consciousness": "🧠",
         "guardian": "🛡️",
         "version": __version__,
-        "status": "🚀 Namespace migration complete",
+        "status": "🚀 Active",
     }
 
 
@@ -79,7 +79,8 @@ __all__ = [
     "get_metrics_collector",
     # Trinity helpers
     "get_trinity_status",
-    # Legacy compatibility
-    "LukhasPWM",
+    # Main client
+    "LukhasAI",
+    "LukhasPWM",  # Legacy alias
     "LukhasAI",
 ]
