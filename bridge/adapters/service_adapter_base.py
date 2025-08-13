@@ -19,7 +19,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from functools import wraps
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 # Add paths for LUKHAS AI module imports
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
