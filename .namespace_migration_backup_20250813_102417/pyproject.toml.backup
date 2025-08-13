@@ -1,0 +1,132 @@
+[tool.black]
+line-length = 88  # More reasonable, matches flake8
+target-version = ['py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # Directories
+  \.git
+  | \.venv
+  | venv
+  | build
+  | dist
+  | __pycache__
+  | \.mypy_cache
+  | \.pytest_cache
+  | \.tox
+  | test_metadata
+  | lukhas_pwm/flags
+)/
+'''
+
+[tool.ruff]
+line-length = 88  # Match Black and flake8
+target-version = "py39"
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "test_metadata",
+    "lukhas_pwm/flags",
+    "*backup*",
+    ".event_bus_backup*",
+    ".hygiene_backup*",
+    ".identity_backup*",
+    ".pwm_cleanup_archive",
+    "archive",
+    "*_archive",
+    "*_ARCHIVE*",
+    "*.bak",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+    "ARG",  # flake8-unused-arguments
+    "SIM",  # flake8-simplify
+]
+ignore = [
+    "E501",  # Line too long - handled by formatter
+    "B008",  # Do not perform function calls in argument defaults
+    "W191",  # Indentation contains tabs
+    "B904",  # Raise without from inside except
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "F403"]  # Allow unused imports in __init__ files
+"tests/*" = ["ARG", "S101"]       # Allow unused arguments and asserts in tests
+
+[tool.isort]
+profile = "black"
+line_length = 88  # Match other tools
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+skip = [".venv", "venv", "__pycache__", "test_metadata"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+check_untyped_defs = true
+exclude = [
+    "venv/",
+    ".venv/",
+    "test_metadata/",
+    "lukhas_pwm/flags/",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-q -n auto --maxfail=1 --disable-warnings --strict-markers --strict-config --cov=lukhas --cov-report=term-missing"
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "security: Security tests",
+    "slow: Slow tests",
+    "live: requires live capability tokens",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["lukhas/accepted", "core", "bridge", "governance", "orchestration"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/.venv/*",
+]
+
+[tool.coverage.report]
+fail_under = 15
+precision = 2
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]

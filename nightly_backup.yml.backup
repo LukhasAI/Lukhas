@@ -1,0 +1,47 @@
+name: Nightly Backup
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          pip install -r requirements.txt || true
+          pip install zstandard
+      - name: Run local backup (no S3)
+        run: |
+          mkdir -p .lukhas_backup/out
+          python3 scripts/backup_create.py \
+            --include lukhas_pwm data \
+            --exclude "*.tmp" "*.log" \
+            --outdir .lukhas_backup/out | tee .lukhas_backup/out/backup_create.out.json
+      - name: KPI digest (optional)
+        run: |
+          mkdir -p out
+          python3 scripts/report_kpi_backup.py \
+            --weekly out/dr_dryrun_weekly.json \
+            --monthly out/dr_dryrun_result.json \
+            --quarterly out/dr_fullrestore_summary.json \
+            | tee out/backup_kpi.json || true
+      - name: Upload KPI
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup-kpi
+          path: out/backup_kpi.json
+      - name: Upload manifest artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup-manifest
+          path: .lukhas_backup/out/*.manifest.json

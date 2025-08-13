@@ -1,0 +1,46 @@
+# Context Orchestrator Contract
+name: context-orchestrator-service
+version: 1.0.0
+provider: context-orchestrator-specialist
+consumers:
+  - ux-feedback-specialist
+  - all-agents
+
+endpoints:
+  execute_workflow:
+    method: POST
+    path: /workflow/execute
+    input:
+      - lid: string
+      - pipeline: array
+      - context: object
+    output:
+      - result: object
+      - narrative: array
+      - trace_id: string
+  
+  get_context:
+    method: GET
+    path: /context/{lid}
+    output:
+      - context: object
+      - state: string
+  
+  publish_event:
+    method: POST
+    path: /bus/publish
+    input:
+      - event_type: string
+      - payload: object
+    output:
+      - success: boolean
+      - subscribers_notified: number
+
+performance_requirements:
+  - context_handoff: <250ms
+  - state_preservation: true
+  
+policy_integration:
+  - invoke_every_step: true
+  - default_deny_on_conflict: true
+  - surface_step_up_requirements: true

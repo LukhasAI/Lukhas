@@ -1,0 +1,3 @@
+"""
+Oscillator Module
+"""
