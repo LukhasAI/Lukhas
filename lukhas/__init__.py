@@ -10,22 +10,25 @@ __version__ = "3.0.0"
 __trinity__ = "⚛️🧠🛡️"
 
 # Main package exports (from old lukhas_pwm)
-from . import api
-from . import audit
-from . import branding
-from . import colony
-from . import dna
-from . import feedback
-from . import flags
-from . import metrics
-from . import migration
-from . import modulation
-from . import openai
-from . import tools
+from . import (
+    api,
+    audit,
+    branding,
+    colony,
+    dna,
+    feedback,
+    flags,
+    metrics,
+    migration,
+    modulation,
+    openai,
+    tools,
+)
 
 # Legacy client for backwards compatibility
 try:
     from .client import LukhasPWM
+
     # Alias for new namespace
     LukhasAI = LukhasPWM
 except ImportError:
@@ -49,20 +52,34 @@ def get_trinity_status():
         "consciousness": "🧠",
         "guardian": "🛡️",
         "version": __version__,
-        "status": "🚀 Namespace migration complete"
+        "status": "🚀 Namespace migration complete",
     }
 
 
 __all__ = [
     # Core modules
-    'flags', 'api', 'audit', 'branding', 'colony', 'dna',
-    'feedback', 'metrics', 'migration', 'modulation', 'openai', 'tools',
+    "flags",
+    "api",
+    "audit",
+    "branding",
+    "colony",
+    "dna",
+    "feedback",
+    "metrics",
+    "migration",
+    "modulation",
+    "openai",
+    "tools",
     # Acceptance system
-    'acceptance',
+    "acceptance",
     # Common functions
-    'get_flags', 'require_feature', 'when_enabled', 'get_metrics_collector',
+    "get_flags",
+    "require_feature",
+    "when_enabled",
+    "get_metrics_collector",
     # Trinity helpers
-    'get_trinity_status',
+    "get_trinity_status",
     # Legacy compatibility
-    'LukhasPWM', 'LukhasAI'
+    "LukhasPWM",
+    "LukhasAI",
 ]

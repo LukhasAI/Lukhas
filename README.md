@@ -117,8 +117,8 @@ Daily development specialists: consciousness-architect, consciousness-dev, devop
 ### **Environment Setup**
 ```bash
 # Clone repository
-git clone https://github.com/LukhasAI/Lukhas_PWM.git
-cd Lukhas_PWM
+git clone https://github.com/LukhasAI/Lukhas.git
+cd Lukhas
 
 # Setup Python environment
 python -m venv .venv
@@ -233,12 +233,12 @@ python api/main.py --dev-mode
 ## 🔧 **DEVELOPMENT**
 
 ### **Key Development Files**
-- **Main Configuration**: `lukhas_pwm_config.yaml`
+- **Main Configuration**: `lukhas_config.yaml`
 - **Agent Orchestration**: `config/agent_orchestration.json`
 - **Claude Code Config**: `.claude/config.yaml`
 - **Task Management**: `docs/tasks/ACTIVE.md`
 - **Package Entry Point**: `lukhas/__init__.py` (new namespace)
-- **Legacy Compatibility**: `lukhas_pwm.py` (backwards compatibility)
+- **Legacy Compatibility**: `lukhas_pwm.py` (backwards compatibility for migration)
 
 ### **Testing Framework**
 ```bash

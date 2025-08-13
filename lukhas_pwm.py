@@ -15,7 +15,7 @@ import lukhas
 warnings.warn(
     "The 'lukhas_pwm' namespace is deprecated. Please use 'import lukhas' instead.",
     DeprecationWarning,
-    stacklevel=2
+    stacklevel=2,
 )
 
 # Make all lukhas attributes available through lukhas_pwm

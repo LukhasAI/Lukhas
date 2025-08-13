@@ -18,7 +18,7 @@ setup(
     description="Production-ready consciousness-aware AI platform with Trinity Framework (⚛️🧠🛡️) - Complete namespace migration",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/LukhasAI/Lukhas_PWM",
+    url="https://github.com/LukhasAI/Lukhas",
     packages=find_packages(exclude=["tests*", "docs*", "examples*"]),
     classifiers=[
         "Development Status :: 4 - Beta",
