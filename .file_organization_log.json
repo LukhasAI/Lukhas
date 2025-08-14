@@ -1,0 +1,681 @@
+[
+  {
+    "file": "test_client.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_client.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.106536"
+  },
+  {
+    "file": "tool_executor.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/tool_executor.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.106639"
+  },
+  {
+    "file": "code-quality.yml.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/code-quality.yml.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.106730"
+  },
+  {
+    "file": "ci-enhanced.yml.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/ci-enhanced.yml.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.106819"
+  },
+  {
+    "file": "TECHNICAL_DEBT_TRIAGE_REPORT.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/completion_reports/TECHNICAL_DEBT_TRIAGE_REPORT.md",
+    "description": "Completion and status reports",
+    "timestamp": "2025-08-14T01:56:28.106909"
+  },
+  {
+    "file": "EXPANDED_MODULE_SELECTION.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/modules/EXPANDED_MODULE_SELECTION.md",
+    "description": "Module-specific documentation",
+    "timestamp": "2025-08-14T01:56:28.107409"
+  },
+  {
+    "file": "PHASE_5_MIGRATION_REPORT.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/completion_reports/PHASE_5_MIGRATION_REPORT.md",
+    "description": "Completion and status reports",
+    "timestamp": "2025-08-14T01:56:28.107505"
+  },
+  {
+    "file": "test_ops_backup_health.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_ops_backup_health.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.107594"
+  },
+  {
+    "file": "dual_write.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/dual_write.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.107675"
+  },
+  {
+    "file": "test_run_modulated_completion.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_run_modulated_completion.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.107764"
+  },
+  {
+    "file": "MODULE_INDEX.md.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/MODULE_INDEX.md.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.107860"
+  },
+  {
+    "file": "test_tool_analytics.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_tool_analytics.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.107943"
+  },
+  {
+    "file": "perf.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/perf.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.108028"
+  },
+  {
+    "file": "memory_inmem.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/memory_inmem.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.108111"
+  },
+  {
+    "file": "IMPLEMENTATION_STATUS.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/completion_reports/IMPLEMENTATION_STATUS.md",
+    "description": "Completion and status reports",
+    "timestamp": "2025-08-14T01:56:28.108196"
+  },
+  {
+    "file": "tools.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/tools.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.108276"
+  },
+  {
+    "file": "SECURITY_AUTOMATION_SUMMARY.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/security/SECURITY_AUTOMATION_SUMMARY.md",
+    "description": "Security-related documentation",
+    "timestamp": "2025-08-14T01:56:28.108363"
+  },
+  {
+    "file": "gemini_wrapper.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/gemini_wrapper.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.108445"
+  },
+  {
+    "file": "mock_integration_demo.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/mock_integration_demo.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.108526"
+  },
+  {
+    "file": "MANUAL_MODULE_SELECTION.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/modules/MANUAL_MODULE_SELECTION.md",
+    "description": "Module-specific documentation",
+    "timestamp": "2025-08-14T01:56:28.108607"
+  },
+  {
+    "file": "MODULATION_IMPLEMENTATION_COMPLETE.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/completion_reports/MODULATION_IMPLEMENTATION_COMPLETE.md",
+    "description": "Completion and status reports",
+    "timestamp": "2025-08-14T01:56:28.108702"
+  },
+  {
+    "file": "SYSTEM_STATUS_CLARITY.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/completion_reports/SYSTEM_STATUS_CLARITY.md",
+    "description": "Completion and status reports",
+    "timestamp": "2025-08-14T01:56:28.108790"
+  },
+  {
+    "file": "demo_tool_governance.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/demo_tool_governance.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.108872"
+  },
+  {
+    "file": "live_integration_test.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/live_integration_test.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.108954"
+  },
+  {
+    "file": "README_ORIGINAL_BACKUP.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/archive/legacy/README_ORIGINAL_BACKUP.md",
+    "description": "Legacy and deprecated files",
+    "timestamp": "2025-08-14T01:56:28.109053"
+  },
+  {
+    "file": "MODULE_STATUS_REPORT.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/completion_reports/MODULE_STATUS_REPORT.md",
+    "description": "Completion and status reports",
+    "timestamp": "2025-08-14T01:56:28.109134"
+  },
+  {
+    "file": "TEMPORARY_STUBS_AUDIT.md.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/TEMPORARY_STUBS_AUDIT.md.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.109215"
+  },
+  {
+    "file": "PHASE4_COMPLETION_REPORT.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/completion_reports/PHASE4_COMPLETION_REPORT.md",
+    "description": "Completion and status reports",
+    "timestamp": "2025-08-14T01:56:28.109296"
+  },
+  {
+    "file": "consensus_to_dna.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/consensus_to_dna.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.109376"
+  },
+  {
+    "file": "lukhas_pwm_config.yaml.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/lukhas_pwm_config.yaml.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.109687"
+  },
+  {
+    "file": "test_tool_integration_complete.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_tool_integration_complete.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.109789"
+  },
+  {
+    "file": "INTEGRATION_SUCCESS_SUMMARY.md.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/INTEGRATION_SUCCESS_SUMMARY.md.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.109892"
+  },
+  {
+    "file": "app.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/app.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.110001"
+  },
+  {
+    "file": "test_integration_fixes.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_integration_fixes.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.110128"
+  },
+  {
+    "file": "docker-compose.yml.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/docker-compose.yml.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.110250"
+  },
+  {
+    "file": "pyproject.toml.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/pyproject.toml.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.110362"
+  },
+  {
+    "file": "README.md.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/README.md.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.110469"
+  },
+  {
+    "file": "test_dual_write_flags.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_dual_write_flags.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.110570"
+  },
+  {
+    "file": "admin.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/admin.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.110665"
+  },
+  {
+    "file": "MCP_INTEGRATION_ANALYSIS.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/implementation/MCP_INTEGRATION_ANALYSIS.md",
+    "description": "Implementation and integration documentation",
+    "timestamp": "2025-08-14T01:56:28.110766"
+  },
+  {
+    "file": "nightly_backup.yml.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/nightly_backup.yml.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.110877"
+  },
+  {
+    "file": "AGENT_IMPLEMENTATION_FINAL_STATUS.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/agent_reports/AGENT_IMPLEMENTATION_FINAL_STATUS.md",
+    "description": "Agent implementation and status reports",
+    "timestamp": "2025-08-14T01:56:28.110992"
+  },
+  {
+    "file": "TEST_SPECIALIST_REPORT.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/completion_reports/TEST_SPECIALIST_REPORT.md",
+    "description": "Completion and status reports",
+    "timestamp": "2025-08-14T01:56:28.111089"
+  },
+  {
+    "file": "setup.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/setup.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.111195"
+  },
+  {
+    "file": "test_feature_flags.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_feature_flags.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.111316"
+  },
+  {
+    "file": "optimization_analysis.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/optimization_analysis.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.111433"
+  },
+  {
+    "file": "azure_openai_wrapper.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/azure_openai_wrapper.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.111541"
+  },
+  {
+    "file": "SECURITY_VULNERABILITY_ANALYSIS.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/analysis/SECURITY_VULNERABILITY_ANALYSIS.md",
+    "description": "Analysis and assessment documents",
+    "timestamp": "2025-08-14T01:56:28.111639"
+  },
+  {
+    "file": "production_test_mock.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/production_test_mock.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.111730"
+  },
+  {
+    "file": "RECONCILIATION_ANALYSIS.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/analysis/RECONCILIATION_ANALYSIS.md",
+    "description": "Analysis and assessment documents",
+    "timestamp": "2025-08-14T01:56:28.111823"
+  },
+  {
+    "file": "metrics.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/metrics.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.111919"
+  },
+  {
+    "file": "audit.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/audit.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.112011"
+  },
+  {
+    "file": "openai_modulated_service.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/openai_modulated_service.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.112108"
+  },
+  {
+    "file": "test_monitoring.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_monitoring.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.112207"
+  },
+  {
+    "file": "INTEGRATION_ROADMAP_V1.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/implementation/INTEGRATION_ROADMAP_V1.md",
+    "description": "Implementation and integration documentation",
+    "timestamp": "2025-08-14T01:56:28.112643"
+  },
+  {
+    "file": "legacy_jsonl.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/legacy_jsonl.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.112757"
+  },
+  {
+    "file": "LUKHAS_CONSOLIDATION_PLAN.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/planning/LUKHAS_CONSOLIDATION_PLAN.md",
+    "description": "Planning and roadmap documents",
+    "timestamp": "2025-08-14T01:56:28.112864"
+  },
+  {
+    "file": "perplexity_wrapper.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/perplexity_wrapper.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.112963"
+  },
+  {
+    "file": "dispatcher.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/dispatcher.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.113065"
+  },
+  {
+    "file": "anthropic_wrapper.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/anthropic_wrapper.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.113167"
+  },
+  {
+    "file": "CRITICAL_DIAGNOSIS.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/analysis/CRITICAL_DIAGNOSIS.md",
+    "description": "Analysis and assessment documents",
+    "timestamp": "2025-08-14T01:56:28.113265"
+  },
+  {
+    "file": "FINAL_IMPLEMENTATION_REPORT.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/completion_reports/FINAL_IMPLEMENTATION_REPORT.md",
+    "description": "Completion and status reports",
+    "timestamp": "2025-08-14T01:56:28.113373"
+  },
+  {
+    "file": "unified_dashboard.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/unified_dashboard.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.113472"
+  },
+  {
+    "file": "test_tool_executor.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_tool_executor.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.113570"
+  },
+  {
+    "file": "Dockerfile.mcp.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/Dockerfile.mcp.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.113819"
+  },
+  {
+    "file": "demo_tool_gating.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/demo_tool_gating.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.113923"
+  },
+  {
+    "file": "live_openai_smoke_test.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/live_openai_smoke_test.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.114024"
+  },
+  {
+    "file": "colony_dna_smoke.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/colony_dna_smoke.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.114121"
+  },
+  {
+    "file": "Lukhas.code-workspace",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/.vscode/workspaces/Lukhas.code-workspace",
+    "description": "VSCode workspace files",
+    "timestamp": "2025-08-14T01:56:28.114225"
+  },
+  {
+    "file": "test_colony_dna_integration.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_colony_dna_integration.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.114342"
+  },
+  {
+    "file": "CLAUDE_CRASH_RECOVERY.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/recovery/CLAUDE_CRASH_RECOVERY.md",
+    "description": "Crash recovery documentation",
+    "timestamp": "2025-08-14T01:56:28.114447"
+  },
+  {
+    "file": "Lukhas_PWM.code-workspace",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/.vscode/workspaces/Lukhas_PWM.code-workspace",
+    "description": "VSCode workspace files",
+    "timestamp": "2025-08-14T01:56:28.114546"
+  },
+  {
+    "file": "tool_analytics.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/tool_analytics.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.114656"
+  },
+  {
+    "file": "test_tool_integration.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_tool_integration.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.114757"
+  },
+  {
+    "file": "AGENTS.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/agent_reports/AGENTS.md",
+    "description": "Agent implementation and status reports",
+    "timestamp": "2025-08-14T01:56:28.114869"
+  },
+  {
+    "file": "ci-pr2.yml.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/ci-pr2.yml.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.114967"
+  },
+  {
+    "file": "dna.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/dna.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.115059"
+  },
+  {
+    "file": "test_admin_dashboard.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_admin_dashboard.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.115163"
+  },
+  {
+    "file": "COMPREHENSIVE_CODEBASE_ASSESSMENT.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/analysis/COMPREHENSIVE_CODEBASE_ASSESSMENT.md",
+    "description": "Analysis and assessment documents",
+    "timestamp": "2025-08-14T01:56:28.115276"
+  },
+  {
+    "file": "MODULE_CLEANUP_SUMMARY.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/modules/MODULE_CLEANUP_SUMMARY.md",
+    "description": "Module-specific documentation",
+    "timestamp": "2025-08-14T01:56:28.115388"
+  },
+  {
+    "file": "CLAUDE_CODE_SESSION_PLAN.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/planning/CLAUDE_CODE_SESSION_PLAN.md",
+    "description": "Planning and roadmap documents",
+    "timestamp": "2025-08-14T01:56:28.115502"
+  },
+  {
+    "file": "read_strategy.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/read_strategy.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.115612"
+  },
+  {
+    "file": "feedback.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/feedback.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.115737"
+  },
+  {
+    "file": "test_read_shadow.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_read_shadow.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.115831"
+  },
+  {
+    "file": "test_perf_ingest_series.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_perf_ingest_series.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.115934"
+  },
+  {
+    "file": "IDENTITY_MODULE_TRANSFORMATION_REPORT.md",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/completion_reports/IDENTITY_MODULE_TRANSFORMATION_REPORT.md",
+    "description": "Completion and status reports",
+    "timestamp": "2025-08-14T01:56:28.116048"
+  },
+  {
+    "file": "test_openapi_spec.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_openapi_spec.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.116152"
+  },
+  {
+    "file": "COMPREHENSIVE_CODEBASE_ASSESSMENT.md.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/COMPREHENSIVE_CODEBASE_ASSESSMENT.md.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.116276"
+  },
+  {
+    "file": "Dockerfile.mcp.light.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/Dockerfile.mcp.light.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.116393"
+  },
+  {
+    "file": "CLAUDE.md.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/CLAUDE.md.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.116505"
+  },
+  {
+    "file": "incidents.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/incidents.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.116590"
+  },
+  {
+    "file": "lut_adapter.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/lut_adapter.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.116675"
+  },
+  {
+    "file": "test_terminology.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_terminology.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.116775"
+  },
+  {
+    "file": "test_flags_integration.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/test_flags_integration.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.116863"
+  },
+  {
+    "file": "production_test_suite.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/production_test_suite.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.116953"
+  },
+  {
+    "file": "setup_performance.py.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/setup_performance.py.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.117050"
+  },
+  {
+    "file": "Dockerfile.backup",
+    "from": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+    "to": "/Users/agi_dev/LOCAL-REPOS/Lukhas/backups/Dockerfile.backup",
+    "description": "Backup files",
+    "timestamp": "2025-08-14T01:56:28.117133"
+  }
+]
