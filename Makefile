@@ -275,6 +275,19 @@ security-audit:
 security-fix: security-scan security-update test
 	@echo "✅ Security issues fixed and tested!"
 
+# Advanced security automation
+security-autopilot:
+	@echo "🚀 Running Security Autopilot..."
+	@python3 scripts/security-autopilot.py fix
+
+security-monitor:
+	@echo "👁️ Starting continuous security monitoring..."
+	@python3 scripts/security-autopilot.py monitor --continuous --interval 3600
+
+security-status:
+	@echo "📊 Security Status:"
+	@python3 scripts/security-autopilot.py status
+
 # SDK helpers
 sdk-py-install:
 	cd sdk/python && pip install -e .

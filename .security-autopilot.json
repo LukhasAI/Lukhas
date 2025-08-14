@@ -1,0 +1,17 @@
+{
+  "auto_fix": true,
+  "auto_commit": false,
+  "auto_push": false,
+  "create_pr": true,
+  "run_tests": true,
+  "backup_before_fix": true,
+  "max_retries": 3,
+  "scanners": [
+    "safety",
+    "pip-audit"
+  ],
+  "severity_threshold": "medium",
+  "excluded_packages": [],
+  "notification_webhook": null,
+  "test_command": "pytest tests/ -v --tb=short --maxfail=5"
+}

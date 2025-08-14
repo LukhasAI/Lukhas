@@ -1,0 +1,10 @@
+{
+  "timestamp": "2025-08-14T01:47:07.546192",
+  "vulnerabilities": [],
+  "scan_duration": 9.275951862335205,
+  "scanners_used": [
+    "safety",
+    "pip-audit"
+  ],
+  "total_packages_scanned": 190
+}

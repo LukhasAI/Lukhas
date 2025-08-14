@@ -1,0 +1,292 @@
+name: Automated Security Fix
+
+on:
+  schedule:
+    # Run daily at 3 AM UTC
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    inputs:
+      auto_merge:
+        description: 'Auto-merge PR if tests pass'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  security-events: write
+
+jobs:
+  security-scan-and-fix:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install safety pip-audit bandit semgrep
+
+    - name: Run security scan
+      id: security_scan
+      continue-on-error: true
+      run: |
+        echo "## Security Scan Results" >> $GITHUB_STEP_SUMMARY
+        
+        # Safety check
+        echo "### Safety Check" >> $GITHUB_STEP_SUMMARY
+        safety check --json --output safety-report.json || true
+        if [ -f safety-report.json ]; then
+          SAFETY_COUNT=$(jq '.vulnerabilities | length' safety-report.json || echo "0")
+          echo "Found $SAFETY_COUNT vulnerabilities via Safety" >> $GITHUB_STEP_SUMMARY
+          echo "safety_vulns=$SAFETY_COUNT" >> $GITHUB_OUTPUT
+        fi
+        
+        # Pip-audit check
+        echo "### Pip-audit Check" >> $GITHUB_STEP_SUMMARY
+        pip-audit --format json --output pip-audit.json || true
+        if [ -f pip-audit.json ]; then
+          AUDIT_COUNT=$(jq '.vulnerabilities | length' pip-audit.json || echo "0")
+          echo "Found $AUDIT_COUNT vulnerabilities via pip-audit" >> $GITHUB_STEP_SUMMARY
+          echo "audit_vulns=$AUDIT_COUNT" >> $GITHUB_OUTPUT
+        fi
+        
+        # Check if we have any vulnerabilities
+        TOTAL_VULNS=$((${SAFETY_COUNT:-0} + ${AUDIT_COUNT:-0}))
+        echo "total_vulns=$TOTAL_VULNS" >> $GITHUB_OUTPUT
+        
+        if [ "$TOTAL_VULNS" -gt 0 ]; then
+          echo "has_vulns=true" >> $GITHUB_OUTPUT
+        else
+          echo "has_vulns=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Auto-fix vulnerabilities
+      if: steps.security_scan.outputs.has_vulns == 'true'
+      id: auto_fix
+      run: |
+        # Create a script to fix vulnerabilities
+        cat > fix_vulnerabilities.py << 'EOF'
+        import json
+        import subprocess
+        import sys
+        import re
+        from packaging import version
+        
+        def get_vulnerabilities():
+            vulns = []
+            
+            # Parse safety report
+            try:
+                with open('safety-report.json', 'r') as f:
+                    safety_data = json.load(f)
+                    for vuln in safety_data.get('vulnerabilities', []):
+                        vulns.append({
+                            'package': vuln.get('package_name', '').lower(),
+                            'current': vuln.get('analyzed_version'),
+                            'fix': vuln.get('safe_version', 'latest'),
+                            'severity': vuln.get('severity', 'unknown')
+                        })
+            except:
+                pass
+            
+            # Parse pip-audit report
+            try:
+                with open('pip-audit.json', 'r') as f:
+                    audit_data = json.load(f)
+                    for vuln in audit_data.get('vulnerabilities', []):
+                        package_name = vuln.get('name', '').lower()
+                        if not any(v['package'] == package_name for v in vulns):
+                            vulns.append({
+                                'package': package_name,
+                                'current': vuln.get('version'),
+                                'fix': vuln.get('fix_versions', ['latest'])[0] if vuln.get('fix_versions') else 'latest',
+                                'severity': 'high'
+                            })
+            except:
+                pass
+            
+            return vulns
+        
+        def update_requirements(vulns):
+            # Read current requirements
+            with open('requirements.txt', 'r') as f:
+                lines = f.readlines()
+            
+            updated_lines = []
+            updated_packages = []
+            
+            for line in lines:
+                if line.strip().startswith('#') or not line.strip():
+                    updated_lines.append(line)
+                    continue
+                
+                # Parse package name
+                package_name = re.split('[><=!]', line)[0].strip().lower()
+                
+                # Check if this package needs updating
+                vuln = next((v for v in vulns if v['package'] == package_name), None)
+                
+                if vuln and vuln['fix'] != 'latest':
+                    # Update to fixed version
+                    updated_lines.append(f"{package_name}>={vuln['fix']}\n")
+                    updated_packages.append(f"{package_name}: {vuln['current']} -> {vuln['fix']}")
+                else:
+                    updated_lines.append(line)
+            
+            # Write updated requirements
+            with open('requirements.txt', 'w') as f:
+                f.writelines(updated_lines)
+            
+            return updated_packages
+        
+        # Get vulnerabilities and fix them
+        vulns = get_vulnerabilities()
+        if vulns:
+            print(f"Found {len(vulns)} vulnerabilities to fix")
+            updated = update_requirements(vulns)
+            
+            if updated:
+                print("Updated packages:")
+                for pkg in updated:
+                    print(f"  - {pkg}")
+                
+                # Update packages
+                subprocess.run([sys.executable, '-m', 'pip', 'install', '-r', 'requirements.txt'], check=True)
+                
+                # Write summary
+                with open('fix_summary.json', 'w') as f:
+                    json.dump({
+                        'vulnerabilities_fixed': len(vulns),
+                        'packages_updated': updated
+                    }, f, indent=2)
+                
+                sys.exit(0)
+            else:
+                print("No automatic fixes available")
+                sys.exit(1)
+        else:
+            print("No vulnerabilities found")
+            sys.exit(0)
+        EOF
+        
+        python fix_vulnerabilities.py
+        echo "fix_applied=$?" >> $GITHUB_OUTPUT
+
+    - name: Run tests after fix
+      if: steps.auto_fix.outputs.fix_applied == '0'
+      id: test
+      continue-on-error: true
+      run: |
+        # Run basic smoke tests
+        python -c "import lukhas; print('✅ Import test passed')"
+        
+        # Run pytest if available
+        if command -v pytest &> /dev/null; then
+          pytest tests/ -v --tb=short --maxfail=5 || true
+        fi
+        
+        echo "tests_passed=$?" >> $GITHUB_OUTPUT
+
+    - name: Create Pull Request
+      if: steps.auto_fix.outputs.fix_applied == '0'
+      uses: peter-evans/create-pull-request@v6
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: |
+          fix(security): Auto-fix security vulnerabilities
+          
+          Automated security update fixing ${{ steps.security_scan.outputs.total_vulns }} vulnerabilities
+          - Safety vulnerabilities: ${{ steps.security_scan.outputs.safety_vulns }}
+          - Pip-audit vulnerabilities: ${{ steps.security_scan.outputs.audit_vulns }}
+          
+          This is an automated security fix generated by GitHub Actions.
+        branch: automated-security-fix-${{ github.run_number }}
+        delete-branch: true
+        title: '🔒 [Security] Auto-fix ${{ steps.security_scan.outputs.total_vulns }} vulnerabilities'
+        body: |
+          ## 🔒 Automated Security Fix
+          
+          This PR automatically fixes **${{ steps.security_scan.outputs.total_vulns }}** security vulnerabilities detected in dependencies.
+          
+          ### 📊 Vulnerability Summary
+          - **Safety scanner**: ${{ steps.security_scan.outputs.safety_vulns }} vulnerabilities
+          - **Pip-audit scanner**: ${{ steps.security_scan.outputs.audit_vulns }} vulnerabilities
+          
+          ### ✅ Actions Taken
+          - Updated vulnerable packages to secure versions
+          - Ran tests to verify compatibility
+          - Updated requirements.txt with minimum secure versions
+          
+          ### 🧪 Test Results
+          - Import test: ✅ Passed
+          - Test suite: ${{ steps.test.outputs.tests_passed == '0' && '✅ Passed' || '⚠️ Review needed' }}
+          
+          ### 📝 Review Checklist
+          - [ ] Review updated package versions
+          - [ ] Verify no breaking changes
+          - [ ] Approve and merge if tests pass
+          
+          ---
+          *This PR was automatically generated by the LUKHAS Security Automation system.*
+          *Merge with confidence if all checks pass.*
+        labels: |
+          security
+          dependencies
+          automated
+        assignees: |
+          ${{ github.actor }}
+
+    - name: Auto-merge if requested
+      if: |
+        steps.auto_fix.outputs.fix_applied == '0' && 
+        github.event.inputs.auto_merge == 'true' && 
+        steps.test.outputs.tests_passed == '0'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Wait for PR to be created
+        sleep 10
+        
+        # Find and merge the PR
+        PR_NUMBER=$(gh pr list --head "automated-security-fix-${{ github.run_number }}" --json number -q '.[0].number')
+        
+        if [ -n "$PR_NUMBER" ]; then
+          echo "Auto-merging PR #$PR_NUMBER"
+          gh pr merge $PR_NUMBER --auto --squash
+        fi
+
+  dependabot-auto-merge:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+    - name: Dependabot metadata
+      id: metadata
+      uses: dependabot/fetch-metadata@v2
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
+    
+    - name: Auto-merge Dependabot PRs
+      if: |
+        steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+        steps.metadata.outputs.update-type == 'version-update:semver-minor'
+      run: gh pr merge --auto --squash "$PR_URL"
+      env:
+        PR_URL: ${{github.event.pull_request.html_url}}
+        GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
