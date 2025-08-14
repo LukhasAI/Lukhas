@@ -51,6 +51,7 @@ try:
         NeuroplasticityModulator,
         QuantumSynapticGate,
     )
+
     from .enhanced_qi_engine import EnhancedQIEngine
 
     LUKHAS_BQ_SUBMODULES_IMPORTED = True

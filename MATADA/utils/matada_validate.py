@@ -158,11 +158,16 @@ Usage:
   cat nodes.json | python -m MATADA.utils.matada_validate
 """
 from __future__ import annotations
-import json, sys, pathlib
-from typing import Iterable, List
+
+import json
+import pathlib
+import sys
+from collections.abc import Iterable
+from typing import List
+
 try:
     from jsonschema import Draft202012Validator
-except Exception as e:
+except Exception:
     raise SystemExit("jsonschema is required. pip install jsonschema>=4.0")
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]

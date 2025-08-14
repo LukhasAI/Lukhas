@@ -30,6 +30,7 @@ Core Capabilities:
 
 # Add logging
 from core.common import get_logger
+
 logger = get_logger(__name__)
 
 import hashlib

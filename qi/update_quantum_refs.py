@@ -7,11 +7,11 @@ for root, dirs, files in os.walk('.'):
     for file in files:
         if file.endswith('.py'):
             filepath = os.path.join(root, file)
-            with open(filepath, 'r') as f:
+            with open(filepath) as f:
                 content = f.read()
-            
+
             original = content
-            
+
             # Update import statements and references
             content = re.sub(r'from qi_', 'from qi_', content)
             content = re.sub(r'import qi_', 'import qi_', content)
@@ -25,10 +25,10 @@ for root, dirs, files in os.walk('.'):
             content = re.sub(r'QIHub', 'QIHub', content)
             content = re.sub(r'QIBio', 'QIBio', content)
             content = re.sub(r'QIState', 'QIState', content)
-            
+
             # But keep "post_quantum_crypto" as is
             content = re.sub(r'post_quantum_crypto', 'post_quantum_crypto', content)
-            
+
             if content != original:
                 with open(filepath, 'w') as f:
                     f.write(content)

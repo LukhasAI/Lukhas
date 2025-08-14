@@ -2,6 +2,7 @@
 Trauma Repair Wrapper
 Integration wrapper for advanced trauma repair system
 """
+
 import logging
 from datetime import datetime
 from typing import Any, Optional

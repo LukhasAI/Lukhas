@@ -2,12 +2,12 @@
 Audit Router - Comprehensive code quality and system health monitoring
 """
 
-from fastapi import APIRouter, HTTPException, BackgroundTasks
-from typing import Dict, Any, List, Optional
-from datetime import datetime
 import json
-import os
+from datetime import datetime
 from pathlib import Path
+from typing import Any, Dict
+
+from fastapi import APIRouter, BackgroundTasks, HTTPException
 
 router = APIRouter()
 
@@ -19,18 +19,18 @@ async def get_audit_status() -> Dict[str, Any]:
     try:
         # Check for existing audit reports
         audit_files = list(REPORTS_DIR.glob("*.txt")) + list(REPORTS_DIR.glob("*.json"))
-        
+
         if not audit_files:
             return {
                 "status": "no_audits_found",
                 "message": "No audit reports found. Run an audit first.",
                 "last_run": None
             }
-        
+
         # Get the most recent audit
         latest_file = max(audit_files, key=lambda f: f.stat().st_mtime)
         last_run = datetime.fromtimestamp(latest_file.stat().st_mtime)
-        
+
         return {
             "status": "ready",
             "last_run": last_run.isoformat(),
@@ -46,7 +46,7 @@ async def trigger_audit(background_tasks: BackgroundTasks) -> Dict[str, Any]:
     try:
         # Add audit to background tasks
         background_tasks.add_task(run_audit_task)
-        
+
         return {
             "status": "triggered",
             "message": "Audit has been triggered and will run in the background",
@@ -66,31 +66,31 @@ async def get_audit_summary() -> Dict[str, Any]:
             "tests": {},
             "architecture": {}
         }
-        
+
         # Read ruff results
         ruff_file = REPORTS_DIR / "ruff.txt"
         if ruff_file.exists():
             with open(ruff_file) as f:
                 lines = f.readlines()
                 metrics["code_quality"]["ruff_issues"] = len(lines)
-        
+
         # Read git status
         git_status_file = REPORTS_DIR / "git_status.txt"
         if git_status_file.exists():
             with open(git_status_file) as f:
                 lines = f.readlines()
                 metrics["code_quality"]["uncommitted_files"] = len(lines)
-        
+
         # Read gitleaks results
         gitleaks_file = REPORTS_DIR / "gitleaks.json"
         if gitleaks_file.exists():
             with open(gitleaks_file) as f:
                 data = json.load(f)
                 metrics["security"]["secrets_found"] = len(data) if isinstance(data, list) else 0
-        
+
         # Calculate overall health score (0-100)
         health_score = calculate_health_score(metrics)
-        
+
         return {
             "health_score": health_score,
             "metrics": metrics,
@@ -104,10 +104,10 @@ async def get_specific_report(report_name: str) -> Dict[str, Any]:
     """Get a specific audit report by name"""
     try:
         report_path = REPORTS_DIR / report_name
-        
+
         if not report_path.exists():
             raise HTTPException(status_code=404, detail=f"Report {report_name} not found")
-        
+
         # Handle different file types
         if report_name.endswith('.json'):
             with open(report_path) as f:
@@ -115,7 +115,7 @@ async def get_specific_report(report_name: str) -> Dict[str, Any]:
         else:
             with open(report_path) as f:
                 content = f.read()
-        
+
         return {
             "report_name": report_name,
             "content": content,
@@ -164,21 +164,21 @@ async def get_dead_code_analysis() -> Dict[str, Any]:
             "unused_imports": [],
             "potential_savings_kb": 0
         }
-        
+
         # Read vulture results if available
         vulture_file = REPORTS_DIR / "vulture.txt"
         if vulture_file.exists():
             with open(vulture_file) as f:
                 lines = f.readlines()
                 dead_code["unused_functions"] = [line.strip() for line in lines[:10]]  # First 10
-        
+
         # Read zero coverage files
         zero_cov_file = REPORTS_DIR / "zero_coverage_files.txt"
         if zero_cov_file.exists():
             with open(zero_cov_file) as f:
                 lines = f.readlines()
                 dead_code["unused_files"] = [line.strip() for line in lines[:10]]  # First 10
-        
+
         return dead_code
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -187,16 +187,16 @@ async def get_dead_code_analysis() -> Dict[str, Any]:
 def calculate_health_score(metrics: Dict) -> int:
     """Calculate overall health score from metrics"""
     score = 100
-    
+
     # Deduct points for issues
     if "code_quality" in metrics:
         issues = metrics["code_quality"].get("ruff_issues", 0)
         score -= min(issues // 10, 30)  # Max 30 point deduction
-    
+
     if "security" in metrics:
         secrets = metrics["security"].get("secrets_found", 0)
         score -= secrets * 5  # 5 points per secret
-    
+
     return max(score, 0)
 
 async def run_audit_task():

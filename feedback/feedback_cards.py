@@ -21,16 +21,18 @@ import numpy as np
 
 class FeedbackType(Enum):
     """Types of feedback"""
-    RATING = "rating"              # 1-5 star rating
-    COMPARISON = "comparison"      # A vs B preference
-    CORRECTION = "correction"      # Fix/improve response
-    ANNOTATION = "annotation"      # Add context/explanation
-    VALIDATION = "validation"      # Yes/No correctness
-    FREEFORM = "freeform"         # Open text feedback
+
+    RATING = "rating"  # 1-5 star rating
+    COMPARISON = "comparison"  # A vs B preference
+    CORRECTION = "correction"  # Fix/improve response
+    ANNOTATION = "annotation"  # Add context/explanation
+    VALIDATION = "validation"  # Yes/No correctness
+    FREEFORM = "freeform"  # Open text feedback
 
 
 class FeedbackCategory(Enum):
     """Categories of feedback"""
+
     ACCURACY = "accuracy"
     HELPFULNESS = "helpfulness"
     SAFETY = "safety"
@@ -47,6 +49,7 @@ class FeedbackCard:
     A feedback card for collecting human feedback.
     Like a digital comment card for AI interactions.
     """
+
     card_id: str = field(default_factory=lambda: str(uuid4()))
     session_id: str = ""
     interaction_id: str = ""
@@ -92,7 +95,7 @@ class FeedbackCardsManager:
     def __init__(self, db_path: Optional[Path] = None):
         """
         Initialize feedback cards manager.
-        
+
         Args:
             db_path: Path to SQLite database for feedback storage
         """
@@ -111,7 +114,7 @@ class FeedbackCardsManager:
             "completed_cards": 0,
             "average_rating": 0.0,
             "categories": {},
-            "impact_scores": []
+            "impact_scores": [],
         }
 
         # Load existing stats
@@ -123,7 +126,8 @@ class FeedbackCardsManager:
         cursor = conn.cursor()
 
         # Create feedback table
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS feedback_cards (
                 card_id TEXT PRIMARY KEY,
                 session_id TEXT,
@@ -151,13 +155,20 @@ class FeedbackCardsManager:
                 applied_to_training INTEGER,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )
-        """)
+        """
+        )
 
         # Create indexes
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_session ON feedback_cards(session_id)")
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_session ON feedback_cards(session_id)"
+        )
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_user ON feedback_cards(user_id)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_category ON feedback_cards(category)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_processed ON feedback_cards(processed)")
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_category ON feedback_cards(category)"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_processed ON feedback_cards(processed)"
+        )
 
         conn.commit()
         conn.close()
@@ -168,18 +179,18 @@ class FeedbackCardsManager:
         ai_response: str,
         category: FeedbackCategory = FeedbackCategory.HELPFULNESS,
         session_id: str = "",
-        **kwargs
+        **kwargs,
     ) -> FeedbackCard:
         """
         Create a rating feedback card (1-5 stars).
-        
+
         Args:
             user_input: The user's original input
             ai_response: The AI's response
             category: What aspect to rate
             session_id: Session identifier
             **kwargs: Additional card fields
-            
+
         Returns:
             Created feedback card
         """
@@ -191,7 +202,7 @@ class FeedbackCardsManager:
             category=category,
             prompt=f"Please rate the {category.value} of this response (1-5 stars)",
             options=["1", "2", "3", "4", "5"],
-            **kwargs
+            **kwargs,
         )
 
         self.active_cards[card.card_id] = card
@@ -206,11 +217,11 @@ class FeedbackCardsManager:
         response_b: str,
         category: FeedbackCategory = FeedbackCategory.HELPFULNESS,
         session_id: str = "",
-        **kwargs
+        **kwargs,
     ) -> FeedbackCard:
         """
         Create a comparison feedback card (A vs B).
-        
+
         Args:
             user_input: The user's original input
             response_a: First response option
@@ -218,7 +229,7 @@ class FeedbackCardsManager:
             category: What aspect to compare
             session_id: Session identifier
             **kwargs: Additional card fields
-            
+
         Returns:
             Created feedback card
         """
@@ -230,7 +241,7 @@ class FeedbackCardsManager:
             category=category,
             prompt=f"Which response is more {category.value}?",
             options=["A", "B", "Equal"],
-            **kwargs
+            **kwargs,
         )
 
         self.active_cards[card.card_id] = card
@@ -239,21 +250,17 @@ class FeedbackCardsManager:
         return card
 
     def create_correction_card(
-        self,
-        user_input: str,
-        ai_response: str,
-        session_id: str = "",
-        **kwargs
+        self, user_input: str, ai_response: str, session_id: str = "", **kwargs
     ) -> FeedbackCard:
         """
         Create a correction feedback card.
-        
+
         Args:
             user_input: The user's original input
             ai_response: The AI's response to correct
             session_id: Session identifier
             **kwargs: Additional card fields
-            
+
         Returns:
             Created feedback card
         """
@@ -264,7 +271,7 @@ class FeedbackCardsManager:
             feedback_type=FeedbackType.CORRECTION,
             category=FeedbackCategory.ACCURACY,
             prompt="Please provide a better response or correction:",
-            **kwargs
+            **kwargs,
         )
 
         self.active_cards[card.card_id] = card
@@ -281,11 +288,11 @@ class FeedbackCardsManager:
         annotation: Optional[str] = None,
         validated: Optional[bool] = None,
         freeform_text: Optional[str] = None,
-        user_id: Optional[str] = None
+        user_id: Optional[str] = None,
     ) -> bool:
         """
         Submit feedback for a card.
-        
+
         Args:
             card_id: Card identifier
             rating: 1-5 star rating
@@ -295,7 +302,7 @@ class FeedbackCardsManager:
             validated: Yes/No validation
             freeform_text: Open feedback
             user_id: User identifier
-            
+
         Returns:
             True if feedback was recorded
         """
@@ -351,7 +358,7 @@ class FeedbackCardsManager:
             self.stats["categories"][category.value] = {
                 "count": 0,
                 "sum": 0,
-                "average": 0.0
+                "average": 0.0,
             }
 
         cat_stats = self.stats["categories"][category.value]
@@ -362,7 +369,9 @@ class FeedbackCardsManager:
         # Update overall average
         total_sum = sum(s["sum"] for s in self.stats["categories"].values())
         total_count = sum(s["count"] for s in self.stats["categories"].values())
-        self.stats["average_rating"] = total_sum / total_count if total_count > 0 else 0.0
+        self.stats["average_rating"] = (
+            total_sum / total_count if total_count > 0 else 0.0
+        )
 
     def _calculate_impact_score(self, card: FeedbackCard) -> float:
         """
@@ -403,7 +412,7 @@ class FeedbackCardsManager:
             user_reputation = self._get_user_reputation(card.user_id)
             # Apply reputation boost: trusted users get up to 20% boost
             reputation_boost = min(user_reputation / 5.0, 0.2)
-            score *= (1.0 + reputation_boost)
+            score *= 1.0 + reputation_boost
 
         return min(score, 1.0)
 
@@ -433,7 +442,7 @@ class FeedbackCardsManager:
             "impact_score": card.impact_score,
             "rating": card.rating,
             "correction": card.correction,
-            "session_id": card.session_id
+            "session_id": card.session_id,
         }
 
         # Log to file for monitoring systems
@@ -450,7 +459,8 @@ class FeedbackCardsManager:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO feedback_cards (
                 card_id, session_id, interaction_id, timestamp,
                 user_input, ai_response, system_state,
@@ -460,15 +470,34 @@ class FeedbackCardsManager:
                 user_id, model_version, experiment_id, tags,
                 processed, impact_score, applied_to_training
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            card.card_id, card.session_id, card.interaction_id, card.timestamp,
-            card.user_input, card.ai_response, json.dumps(card.system_state),
-            card.feedback_type.value, card.category.value, card.prompt, json.dumps(card.options),
-            card.rating, card.preference, card.correction, card.annotation,
-            card.validated, card.freeform_text,
-            card.user_id, card.model_version, card.experiment_id, json.dumps(list(card.tags)),
-            card.processed, card.impact_score, card.applied_to_training
-        ))
+        """,
+            (
+                card.card_id,
+                card.session_id,
+                card.interaction_id,
+                card.timestamp,
+                card.user_input,
+                card.ai_response,
+                json.dumps(card.system_state),
+                card.feedback_type.value,
+                card.category.value,
+                card.prompt,
+                json.dumps(card.options),
+                card.rating,
+                card.preference,
+                card.correction,
+                card.annotation,
+                card.validated,
+                card.freeform_text,
+                card.user_id,
+                card.model_version,
+                card.experiment_id,
+                json.dumps(list(card.tags)),
+                card.processed,
+                card.impact_score,
+                card.applied_to_training,
+            ),
+        )
 
         conn.commit()
         conn.close()
@@ -482,13 +511,16 @@ class FeedbackCardsManager:
         cursor = conn.cursor()
 
         # Get user's feedback history
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT rating, category, validated, impact_score, timestamp
             FROM feedback_cards 
             WHERE user_id = ? 
             ORDER BY timestamp DESC 
             LIMIT 50
-        """, (user_id,))
+        """,
+            (user_id,),
+        )
 
         history = cursor.fetchall()
         conn.close()
@@ -518,21 +550,24 @@ class FeedbackCardsManager:
         activity_score = min(total_feedback / 20.0, 1.0)  # Max at 20 feedbacks
 
         # Factor 4: Quality categories (accuracy feedback is valued)
-        accuracy_feedback = sum(1 for row in history if row[1] == 'accuracy')
+        accuracy_feedback = sum(1 for row in history if row[1] == "accuracy")
         quality_score = min(accuracy_feedback / max(total_feedback, 1) + 0.5, 1.0)
 
         # Factor 5: Time factor (recent activity is valued)
-        recent_feedback = sum(1 for row in history if
-                            (datetime.now().timestamp() - float(row[4])) < 604800)  # 1 week
+        recent_feedback = sum(
+            1
+            for row in history
+            if (datetime.now().timestamp() - float(row[4])) < 604800
+        )  # 1 week
         recency_score = min(recent_feedback / 5.0, 1.0)
 
         # Weighted combination
         reputation = (
-            consistency_score * 0.25 +
-            accuracy_rate * 0.25 +
-            activity_score * 0.20 +
-            quality_score * 0.15 +
-            recency_score * 0.15
+            consistency_score * 0.25
+            + accuracy_rate * 0.25
+            + activity_score * 0.20
+            + quality_score * 0.15
+            + recency_score * 0.15
         ) * 5.0  # Scale to 0-5
 
         return min(reputation, 5.0)
@@ -541,16 +576,16 @@ class FeedbackCardsManager:
         self,
         min_impact: float = 0.3,
         limit: int = 100,
-        categories: Optional[List[FeedbackCategory]] = None
+        categories: Optional[List[FeedbackCategory]] = None,
     ) -> List[FeedbackCard]:
         """
         Get feedback cards ready for training.
-        
+
         Args:
             min_impact: Minimum impact score
             limit: Maximum number of cards
             categories: Filter by categories
-            
+
         Returns:
             List of feedback cards
         """
@@ -611,7 +646,7 @@ class FeedbackCardsManager:
             tags=set(json.loads(row[20])) if row[20] else set(),
             processed=bool(row[21]),
             impact_score=row[22],
-            applied_to_training=bool(row[23])
+            applied_to_training=bool(row[23]),
         )
         return card
 
@@ -623,7 +658,7 @@ class FeedbackCardsManager:
         placeholders = ",".join("?" * len(card_ids))
         cursor.execute(
             f"UPDATE feedback_cards SET applied_to_training = 1 WHERE card_id IN ({placeholders})",
-            card_ids
+            card_ids,
         )
 
         conn.commit()
@@ -632,10 +667,10 @@ class FeedbackCardsManager:
     def get_statistics(self, time_window: Optional[timedelta] = None) -> Dict[str, Any]:
         """
         Get feedback statistics.
-        
+
         Args:
             time_window: Optional time window for stats
-            
+
         Returns:
             Statistics dictionary
         """
@@ -652,39 +687,38 @@ class FeedbackCardsManager:
             params = [cutoff]
 
         # Total cards
-        cursor.execute(f"SELECT COUNT(*) FROM feedback_cards WHERE {base_where}", params)
+        cursor.execute(
+            f"SELECT COUNT(*) FROM feedback_cards WHERE {base_where}", params
+        )
         total = cursor.fetchone()[0]
 
         # Completed cards (with feedback)
         cursor.execute(
             f"SELECT COUNT(*) FROM feedback_cards WHERE {base_where} AND (rating IS NOT NULL OR correction IS NOT NULL OR preference IS NOT NULL)",
-            params
+            params,
         )
         completed = cursor.fetchone()[0]
 
         # Average rating
         cursor.execute(
             f"SELECT AVG(rating) FROM feedback_cards WHERE {base_where} AND rating IS NOT NULL",
-            params
+            params,
         )
         avg_rating = cursor.fetchone()[0] or 0.0
 
         # Category breakdown
         cursor.execute(
             f"SELECT category, COUNT(*), AVG(rating) FROM feedback_cards WHERE {base_where} GROUP BY category",
-            params
+            params,
         )
         categories = {}
         for row in cursor.fetchall():
-            categories[row[0]] = {
-                "count": row[1],
-                "average_rating": row[2] or 0.0
-            }
+            categories[row[0]] = {"count": row[1], "average_rating": row[2] or 0.0}
 
         # Impact distribution
         cursor.execute(
             f"SELECT impact_score FROM feedback_cards WHERE {base_where} AND impact_score > 0",
-            params
+            params,
         )
         impact_scores = [row[0] for row in cursor.fetchall()]
 
@@ -699,8 +733,8 @@ class FeedbackCardsManager:
             "impact_distribution": {
                 "mean": np.mean(impact_scores) if impact_scores else 0.0,
                 "median": np.median(impact_scores) if impact_scores else 0.0,
-                "high_impact": sum(1 for s in impact_scores if s > 0.7)
-            }
+                "high_impact": sum(1 for s in impact_scores if s > 0.7),
+            },
         }
 
     def _load_stats(self):
@@ -722,7 +756,7 @@ Average Rating: {stats['average_rating']:.1f}/5.0
 Category Breakdown:
 """
 
-        for category, data in stats['categories'].items():
+        for category, data in stats["categories"].items():
             summary += f"  • {category}: {data['count']} cards, {data['average_rating']:.1f} avg\n"
 
         summary += f"""
@@ -803,7 +837,7 @@ if __name__ == "__main__":
         user_input="What is quantum computing?",
         ai_response="Quantum computing uses quantum mechanics principles...",
         category=FeedbackCategory.CLARITY,
-        session_id="demo-session-1"
+        session_id="demo-session-1",
     )
     print(f"Created rating card: {card1.card_id}")
 
@@ -812,7 +846,7 @@ if __name__ == "__main__":
         card1.card_id,
         rating=4,
         annotation="Good explanation but could use more examples",
-        user_id="demo-user"
+        user_id="demo-user",
     )
     print("Submitted feedback (4 stars)")
 
@@ -822,16 +856,12 @@ if __name__ == "__main__":
         response_a="Machine learning is a subset of AI...",
         response_b="ML allows computers to learn from data...",
         category=FeedbackCategory.HELPFULNESS,
-        session_id="demo-session-1"
+        session_id="demo-session-1",
     )
     print(f"Created comparison card: {card2.card_id}")
 
     # Submit preference
-    manager.submit_feedback(
-        card2.card_id,
-        preference="B",
-        user_id="demo-user"
-    )
+    manager.submit_feedback(card2.card_id, preference="B", user_id="demo-user")
     print("Submitted preference (chose B)")
 
     # Get statistics

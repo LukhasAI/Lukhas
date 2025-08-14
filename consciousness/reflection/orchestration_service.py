@@ -61,28 +61,17 @@ import asyncio
 import os
 import sys
 import time
-import unittest
 from datetime import datetime
-from enum import Enum
 from typing import Any, Optional
 
-from base import BaseOrchestrator, OrchestratorConfig
 from integrations.elevenlabs import *
 from integrations.openai import *
 from interfaces.voice_interface import *
-from module_orchestrator import ModuleOrchestrator
 from safety.voice_safety_guard import *
 from systems.synthesis import *
 from systems.voice_synthesis import *
 
-from core.bridges.orchestration_core_bridge import OrchestrationCoreBridge
 from governance.identity.interface import IdentityClient
-from orchestration.migrate_orchestrators import OrchestratorMigrator
-from orchestration.module_orchestrator import ModuleOrchestratorConfig
-from orchestration.resonance_orchestrator import (
-    ResonanceOrchestrator,
-    ResonanceOrchestratorConfig,
-)
 
 # === PRIMARY ORCHESTRATION SERVICE CONTENT ===
 
@@ -1795,16 +1784,16 @@ if __name__ == "__main__":
 
 # NOTE: Consolidated stub classes have been archived to tech_debt_archive/orchestration_stubs/
 # These included 70+ empty class stubs with TODO comments that were blocking maintainability.
-# If any of these classes are needed in the future, they can be re-implemented based on 
+# If any of these classes are needed in the future, they can be re-implemented based on
 # actual requirements rather than as consolidated stubs.
-# 
+#
 # Archived on: 2025-08-12
 # Archived classes: VisionaryMode, ConsciousnessLevel, VisionaryMetrics, AdaptiveOrchestrator,
 # and 60+ other stub classes with TODO: Implement consolidated functionality
 
 
 # === END OF FUNCTIONAL ORCHESTRATION SERVICE ===
-# 
+#
 # For archived stub classes and consolidation documentation,
 # see: tech_debt_archive/orchestration_stubs/consolidated_orchestration_stubs.py
 

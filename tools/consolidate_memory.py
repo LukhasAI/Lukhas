@@ -6,47 +6,48 @@ Merges 19+ memory variants into unified structure
 
 import shutil
 import sqlite3
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+
 
 class MemoryConsolidator:
     """Consolidate memory module variants"""
-    
+
     def __init__(self):
         self.root = Path(".")
         self.target_dir = Path("lukhas/accepted/memory")
         self.archive_dir = Path("lukhas/archive/memory_variants")
         self.conn = sqlite3.connect("tools/code_index.sqlite")
-        
+
     def create_memory_modules(self):
         """Create consolidated memory modules"""
-        
+
         # Create target directory
         self.target_dir.mkdir(parents=True, exist_ok=True)
-        
+
         # Create fold module
         self.create_fold_module()
-        
+
         # Create causal module
         self.create_causal_module()
-        
+
         # Create episodic module
         self.create_episodic_module()
-        
+
         # Create consolidation module
         self.create_consolidation_module()
-        
+
         # Create colonies module
         self.create_colonies_module()
-        
+
         # Create main init
         self.create_memory_init()
-        
+
         # Create canary tests
         self.create_canary_tests()
-        
+
         print("✅ Memory consolidation complete!")
-    
+
     def create_fold_module(self):
         """Create fold-based memory system"""
         content = '''"""
@@ -152,11 +153,11 @@ def get_fold_manager() -> FoldManager:
         _fold_manager = FoldManager()
     return _fold_manager
 '''
-        
+
         path = self.target_dir / "fold.py"
         path.write_text(content)
         print(f"  ✓ Created {path}")
-    
+
     def create_causal_module(self):
         """Create causal memory system"""
         content = '''"""
@@ -260,11 +261,11 @@ def get_causal_memory() -> CausalMemory:
         _causal_memory = CausalMemory()
     return _causal_memory
 '''
-        
+
         path = self.target_dir / "causal.py"
         path.write_text(content)
         print(f"  ✓ Created {path}")
-    
+
     def create_episodic_module(self):
         """Create episodic memory system"""
         content = '''"""
@@ -395,11 +396,11 @@ def get_episodic_memory() -> EpisodicMemory:
         _episodic_memory = EpisodicMemory()
     return _episodic_memory
 '''
-        
+
         path = self.target_dir / "episodic.py"
         path.write_text(content)
         print(f"  ✓ Created {path}")
-    
+
     def create_consolidation_module(self):
         """Create memory consolidation system"""
         content = '''"""
@@ -531,11 +532,11 @@ def get_consolidator() -> MemoryConsolidator:
         _consolidator = MemoryConsolidator()
     return _consolidator
 '''
-        
+
         path = self.target_dir / "consolidation.py"
         path.write_text(content)
         print(f"  ✓ Created {path}")
-    
+
     def create_colonies_module(self):
         """Create colony-based distributed memory"""
         content = '''"""
@@ -694,11 +695,11 @@ def get_memory_colony() -> MemoryColony:
         _colony = MemoryColony()
     return _colony
 '''
-        
+
         path = self.target_dir / "colonies.py"
         path.write_text(content)
         print(f"  ✓ Created {path}")
-    
+
     def create_memory_init(self):
         """Create main memory __init__.py"""
         content = '''"""
@@ -803,11 +804,11 @@ def trinity_sync():
         'memory_status': 'synchronized'
     }
 '''
-        
+
         path = self.target_dir / "__init__.py"
         path.write_text(content)
         print(f"  ✓ Created {path}")
-    
+
     def create_canary_tests(self):
         """Create canary tests for memory consolidation"""
         content = '''"""
@@ -909,19 +910,19 @@ def test_trinity_integration():
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
 '''
-        
+
         path = Path("tests/canary/test_memory_consolidation.py")
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content)
         print(f"  ✓ Created canary tests: {path}")
-    
+
     def run(self):
         """Execute memory consolidation"""
         print("🧠 Starting Memory Module Consolidation...")
-        
+
         # Create all modules
         self.create_memory_modules()
-        
+
         # Archive original files
         cursor = self.conn.cursor()
         cursor.execute("""
@@ -929,7 +930,7 @@ if __name__ == "__main__":
             FROM duplicates 
             WHERE module_type = 'memory'
         """)
-        
+
         archived = 0
         for row in cursor.fetchall():
             src = Path(row[0])
@@ -938,9 +939,9 @@ if __name__ == "__main__":
                 dst.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(src, dst)
                 archived += 1
-        
+
         print(f"  ✓ Archived {archived} original memory files")
-        
+
         # Generate report
         report_path = Path("docs/AUDIT/MEMORY_CONSOLIDATION.md")
         report = f"""# Memory Module Consolidation Report
@@ -966,7 +967,7 @@ Generated: {datetime.now().isoformat()}
 3. Implement actual consolidation algorithms
 4. Add vector embeddings for similarity search
 """
-        
+
         report_path.parent.mkdir(parents=True, exist_ok=True)
         report_path.write_text(report)
         print(f"  ✓ Report saved to: {report_path}")

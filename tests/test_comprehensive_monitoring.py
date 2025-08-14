@@ -21,7 +21,6 @@ from adaptive_metrics_collector import (  # noqa: E402
     AdaptiveMetricsCollector,
     OperationalContext,
 )
-from bio_symbolic_coherence_monitor import BioSymbolicCoherenceMonitor  # noqa: E402
 from endocrine_observability_engine import (  # noqa: E402
     EndocrineObservabilityEngine,
     EndocrineSnapshot,
@@ -36,6 +35,8 @@ from neuroplastic_learning_orchestrator import (  # noqa: E402
 )
 from plasticity_trigger_manager import PlasticityTriggerManager  # noqa: E402
 from real_data_collector import LukhasRealDataCollector  # noqa: E402
+
+from bio_symbolic_coherence_monitor import BioSymbolicCoherenceMonitor  # noqa: E402
 
 logger = structlog.get_logger(__name__)
 

@@ -628,13 +628,19 @@ class MemoryHelix:
         should_repair = self.helix_core.should_repair()
 
         return {
-            "status": "healthy" if drift_score < 0.1 else "degraded" if drift_score < 0.3 else "critical",
+            "status": (
+                "healthy"
+                if drift_score < 0.1
+                else "degraded" if drift_score < 0.3 else "critical"
+            ),
             "drift_score": drift_score,
             "should_repair": should_repair,
-            "last_accessed": self.last_accessed.isoformat() if self.last_accessed else None,
+            "last_accessed": (
+                self.last_accessed.isoformat() if self.last_accessed else None
+            ),
             "access_count": self.access_count,
             "repair_count": len(self.helix_core.repair_history),
-            "locked": self.locked
+            "locked": self.locked,
         }
 
     @classmethod

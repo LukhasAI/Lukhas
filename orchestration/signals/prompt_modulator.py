@@ -111,14 +111,12 @@ class PromptModulator:
     def __init__(self, policy: Optional[Dict[str, Any]] = None):
         """
         Initialize modulator with policy.
-        
+
         Args:
             policy: Modulation policy dict or None for default
         """
         self.policy = policy or DEFAULT_POLICY
-        self.last_emit_ts = {
-            s["name"]: 0 for s in self.policy["signals"]
-        }
+        self.last_emit_ts = {s["name"]: 0 for s in self.policy["signals"]}
 
         # Cache for expression evaluation
         self._eval_cache = {}
@@ -134,8 +132,7 @@ class PromptModulator:
     def _cooldown_ok(self, signal: Signal) -> bool:
         """Check if signal is outside cooldown period"""
         signal_config = next(
-            (s for s in self.policy["signals"] if s["name"] == signal.name.value),
-            None
+            (s for s in self.policy["signals"] if s["name"] == signal.name.value), None
         )
 
         if not signal_config:
@@ -155,11 +152,7 @@ class PromptModulator:
         return False
 
     def _safe_eval(
-        self,
-        expr: str,
-        x: float,
-        current: Any = None,
-        ctx: Dict[str, float] = None
+        self, expr: str, x: float, current: Any = None, ctx: Dict[str, float] = None
     ) -> Any:
         """
         Safely evaluate expressions like '1 - 0.85*x'.
@@ -177,7 +170,7 @@ class PromptModulator:
             "max": max,
             "round": round,
             "current": current,
-            "__builtins__": {}
+            "__builtins__": {},
         }
 
         if ctx:
@@ -195,10 +188,10 @@ class PromptModulator:
     def combine_signals(self, signals: List[Signal]) -> Dict[str, Any]:
         """
         Combine signals into modulated parameters.
-        
+
         Args:
             signals: List of active signals
-            
+
         Returns:
             Dict of modulated parameters for OpenAI API
         """
@@ -230,7 +223,14 @@ class PromptModulator:
         ctx = active_signals.copy()
 
         # Apply signal modulations in precedence order
-        precedence = ["alignment_risk", "stress", "ambiguity", "urgency", "novelty", "trust"]
+        precedence = [
+            "alignment_risk",
+            "stress",
+            "ambiguity",
+            "urgency",
+            "novelty",
+            "trust",
+        ]
 
         for signal_name in precedence:
             if signal_name not in active_signals:
@@ -299,10 +299,10 @@ class PromptModulator:
     def generate_explanation(self, params: Dict[str, Any]) -> str:
         """
         Generate human-readable explanation of modulation.
-        
+
         Args:
             params: Modulated parameters
-            
+
         Returns:
             Explanation string
         """
@@ -315,16 +315,26 @@ class PromptModulator:
         explanations = []
 
         # Explain dominant signals
-        for signal_name, level in sorted(signals.items(), key=lambda x: x[1], reverse=True):
+        for signal_name, level in sorted(
+            signals.items(), key=lambda x: x[1], reverse=True
+        ):
             if level > 0.5:
                 if signal_name == "alignment_risk":
-                    explanations.append(f"High risk ({level:.1%}) → stricter safety, deeper reasoning")
+                    explanations.append(
+                        f"High risk ({level:.1%}) → stricter safety, deeper reasoning"
+                    )
                 elif signal_name == "stress":
-                    explanations.append(f"High stress ({level:.1%}) → focused, conservative output")
+                    explanations.append(
+                        f"High stress ({level:.1%}) → focused, conservative output"
+                    )
                 elif signal_name == "ambiguity":
-                    explanations.append(f"High ambiguity ({level:.1%}) → more retrieval and reasoning")
+                    explanations.append(
+                        f"High ambiguity ({level:.1%}) → more retrieval and reasoning"
+                    )
                 elif signal_name == "novelty":
-                    explanations.append(f"High novelty ({level:.1%}) → increased creativity")
+                    explanations.append(
+                        f"High novelty ({level:.1%}) → increased creativity"
+                    )
 
         # Add parameter summary
         explanations.append(
@@ -335,17 +345,15 @@ class PromptModulator:
         return "; ".join(explanations)
 
     def apply_to_openai_kwargs(
-        self,
-        base_kwargs: Dict[str, Any],
-        params: Dict[str, Any]
+        self, base_kwargs: Dict[str, Any], params: Dict[str, Any]
     ) -> Dict[str, Any]:
         """
         Apply modulated parameters to OpenAI API kwargs.
-        
+
         Args:
             base_kwargs: Base OpenAI API parameters
             params: Modulated parameters
-            
+
         Returns:
             Modified kwargs for OpenAI API call
         """
@@ -370,8 +378,9 @@ class PromptModulator:
                     system_msg = kwargs["messages"][0]
                     if system_msg.get("role") == "system":
                         system_msg["content"] = (
-                            style["system_preamble"] + "\n\n" +
-                            system_msg.get("content", "")
+                            style["system_preamble"]
+                            + "\n\n"
+                            + system_msg.get("content", "")
                         )
 
         # Add stop sequences

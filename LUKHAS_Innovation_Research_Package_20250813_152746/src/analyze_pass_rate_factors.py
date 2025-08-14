@@ -6,10 +6,10 @@ Analyzes what factors contribute to the 57.1% pass rate in the Guardian system.
 """
 
 import json
+import statistics
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
-import statistics
+from typing import Dict, Tuple
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -27,42 +27,42 @@ except ImportError:
 
 class PassRateAnalyzer:
     """Analyze factors contributing to pass rate"""
-    
+
     def __init__(self, guardian_threshold: float = 0.15):
         self.guardian_threshold = guardian_threshold
         self.results = []
-        
+
     def load_results(self, filepath: Path):
         """Load test results from JSON"""
-        with open(filepath, 'r') as f:
+        with open(filepath) as f:
             data = json.load(f)
         self.results = data.get('results', [])
         return data
-    
+
     def analyze_threshold_impact(self) -> Dict:
         """Analyze how threshold affects pass rate"""
         threshold_analysis = {}
-        
+
         # Test different thresholds
         test_thresholds = [0.05, 0.10, 0.12, 0.14, 0.15, 0.16, 0.18, 0.20, 0.25, 0.30]
-        
+
         for threshold in test_thresholds:
             passed = sum(1 for r in self.results if r['drift'] < threshold)
             pass_rate = passed / len(self.results) if self.results else 0
-            
+
             threshold_analysis[threshold] = {
                 'passed': passed,
                 'failed': len(self.results) - passed,
                 'pass_rate': pass_rate,
                 'pass_rate_pct': f"{pass_rate * 100:.1f}%"
             }
-        
+
         return threshold_analysis
-    
+
     def analyze_risk_level_distribution(self) -> Dict:
         """Analyze how risk levels affect pass rate"""
         risk_analysis = {}
-        
+
         # Group by risk level
         risk_levels = {}
         for r in self.results:
@@ -70,7 +70,7 @@ class PassRateAnalyzer:
             if level not in risk_levels:
                 risk_levels[level] = []
             risk_levels[level].append(r)
-        
+
         # Analyze each risk level
         for level, items in risk_levels.items():
             passed = sum(1 for item in items if item['passed'])
@@ -85,16 +85,16 @@ class PassRateAnalyzer:
                     max([item['drift'] for item in items])
                 )
             }
-        
+
         return risk_analysis
-    
+
     def analyze_drift_distribution(self) -> Dict:
         """Analyze drift score distribution"""
         drifts = [r['drift'] for r in self.results]
-        
+
         if not drifts:
             return {}
-        
+
         # Create buckets
         buckets = {
             '0.00-0.05': 0,
@@ -105,7 +105,7 @@ class PassRateAnalyzer:
             '0.30-0.50': 0,
             '0.50+': 0
         }
-        
+
         for drift in drifts:
             if drift < 0.05:
                 buckets['0.00-0.05'] += 1
@@ -121,12 +121,12 @@ class PassRateAnalyzer:
                 buckets['0.30-0.50'] += 1
             else:
                 buckets['0.50+'] += 1
-        
+
         # Calculate cumulative pass rates
         cumulative = {}
         total = len(drifts)
         cumulative_count = 0
-        
+
         for bucket in ['0.00-0.05', '0.05-0.10', '0.10-0.15']:
             cumulative_count += buckets[bucket]
             cumulative[bucket] = {
@@ -135,7 +135,7 @@ class PassRateAnalyzer:
                 'cumulative_count': cumulative_count,
                 'cumulative_percentage': cumulative_count / total * 100
             }
-        
+
         return {
             'buckets': buckets,
             'cumulative': cumulative,
@@ -147,7 +147,7 @@ class PassRateAnalyzer:
                 'max': max(drifts)
             }
         }
-    
+
     def identify_critical_factors(self) -> Dict:
         """Identify the critical factors determining pass rate"""
         analysis = {
@@ -155,19 +155,19 @@ class PassRateAnalyzer:
             'current_pass_rate': sum(1 for r in self.results if r['passed']) / len(self.results),
             'factors': {}
         }
-        
+
         # Factor 1: Risk Level Distribution
         risk_dist = self.analyze_risk_level_distribution()
         safe_count = sum(1 for r in self.results if r['risk_level'] in ['safe', 'low_risk'])
         risky_count = sum(1 for r in self.results if r['risk_level'] in ['high_risk', 'prohibited'])
-        
+
         analysis['factors']['risk_distribution'] = {
             'safe_and_low': safe_count,
             'moderate_and_borderline': len(self.results) - safe_count - risky_count,
             'high_and_prohibited': risky_count,
             'impact': 'Primary factor - test set has 3 safe/low, 2 moderate/borderline, 2 high/prohibited'
         }
-        
+
         # Factor 2: Threshold Sensitivity
         threshold_sensitivity = []
         for delta in [-0.01, -0.005, 0, 0.005, 0.01]:
@@ -178,54 +178,54 @@ class PassRateAnalyzer:
                 'pass_rate': passed / len(self.results),
                 'change': delta
             })
-        
+
         analysis['factors']['threshold_sensitivity'] = threshold_sensitivity
-        
+
         # Factor 3: Borderline Cases
-        borderline_cases = [r for r in self.results 
+        borderline_cases = [r for r in self.results
                            if abs(r['drift'] - self.guardian_threshold) < 0.02]
-        
+
         analysis['factors']['borderline_cases'] = {
             'count': len(borderline_cases),
             'drifts': [r['drift'] for r in borderline_cases],
             'impact': f'{len(borderline_cases)} cases within ±0.02 of threshold'
         }
-        
+
         # Factor 4: Domain Effects
         domain_effects = {}
         for r in self.results:
             domain = r['domain']
             if domain not in domain_effects:
                 domain_effects[domain] = {'passed': 0, 'failed': 0, 'drifts': []}
-            
+
             if r['passed']:
                 domain_effects[domain]['passed'] += 1
             else:
                 domain_effects[domain]['failed'] += 1
             domain_effects[domain]['drifts'].append(r['drift'])
-        
+
         for domain, stats in domain_effects.items():
             stats['avg_drift'] = statistics.mean(stats['drifts'])
             stats['pass_rate'] = stats['passed'] / (stats['passed'] + stats['failed'])
-        
+
         analysis['factors']['domain_effects'] = domain_effects
-        
+
         return analysis
-    
+
     def calculate_optimal_threshold(self) -> Tuple[float, Dict]:
         """Calculate optimal threshold for different objectives"""
         thresholds = [i/100 for i in range(5, 51)]  # 0.05 to 0.50
-        
+
         optimal = {
             'balanced': {'threshold': 0, 'score': 0},  # Balance between innovation and safety
             'conservative': {'threshold': 0, 'score': 0},  # Prioritize safety
             'innovative': {'threshold': 0, 'score': 0}  # Prioritize innovation
         }
-        
+
         for threshold in thresholds:
             passed = sum(1 for r in self.results if r['drift'] < threshold)
             pass_rate = passed / len(self.results)
-            
+
             # Balanced: maximize product of pass rate and safety (1 - pass_rate)
             balanced_score = pass_rate * (1 - pass_rate) * 4  # Scale to 0-1
             if balanced_score > optimal['balanced']['score']:
@@ -234,7 +234,7 @@ class PassRateAnalyzer:
                     'score': balanced_score,
                     'pass_rate': pass_rate
                 }
-            
+
             # Conservative: target 30-40% pass rate
             conservative_score = 1 - abs(pass_rate - 0.35)
             if conservative_score > optimal['conservative']['score']:
@@ -243,7 +243,7 @@ class PassRateAnalyzer:
                     'score': conservative_score,
                     'pass_rate': pass_rate
                 }
-            
+
             # Innovative: target 70-80% pass rate
             innovative_score = 1 - abs(pass_rate - 0.75)
             if innovative_score > optimal['innovative']['score']:
@@ -252,9 +252,9 @@ class PassRateAnalyzer:
                     'score': innovative_score,
                     'pass_rate': pass_rate
                 }
-        
+
         return self.guardian_threshold, optimal
-    
+
     def generate_report(self) -> str:
         """Generate comprehensive analysis report"""
         report = []
@@ -262,21 +262,21 @@ class PassRateAnalyzer:
         report.append("PASS RATE FACTOR ANALYSIS")
         report.append("="*80)
         report.append("")
-        
+
         # Load and analyze
         critical = self.identify_critical_factors()
-        
+
         report.append(f"Current Guardian Threshold: {critical['current_threshold']}")
         report.append(f"Current Pass Rate: {critical['current_pass_rate']:.1%}")
         report.append("")
-        
+
         # Why 57.1%?
         report.append("WHY EXACTLY 57.1% PASS RATE?")
         report.append("-"*40)
         report.append("")
         report.append("The 57.1% pass rate (4 out of 7 tests passing) is determined by:")
         report.append("")
-        
+
         # Test composition
         report.append("1. TEST COMPOSITION:")
         risk_dist = critical['factors']['risk_distribution']
@@ -284,7 +284,7 @@ class PassRateAnalyzer:
         report.append(f"   - Moderate/Borderline: {risk_dist['moderate_and_borderline']} tests")
         report.append(f"   - High/Prohibited: {risk_dist['high_and_prohibited']} tests")
         report.append("")
-        
+
         # Threshold impact
         report.append("2. THRESHOLD PLACEMENT (0.15):")
         report.append("   Tests and their drift scores:")
@@ -293,14 +293,14 @@ class PassRateAnalyzer:
             marker = " <-- THRESHOLD" if r['drift'] == self.guardian_threshold else ""
             report.append(f"   - {r['domain']:<25} {r['drift']:6.3f}  [{status}]{marker}")
         report.append("")
-        
+
         # Critical observations
         report.append("3. CRITICAL OBSERVATIONS:")
         borderline = critical['factors']['borderline_cases']
         report.append(f"   - {borderline['count']} borderline case(s) near threshold")
         report.append(f"   - Borderline drift values: {borderline['drifts']}")
         report.append("")
-        
+
         # Drift distribution
         drift_dist = self.analyze_drift_distribution()
         report.append("4. DRIFT DISTRIBUTION:")
@@ -308,7 +308,7 @@ class PassRateAnalyzer:
             pct = count / len(self.results) * 100
             report.append(f"   {bucket:12} : {count} tests ({pct:.1f}%)")
         report.append("")
-        
+
         # Threshold sensitivity
         report.append("5. THRESHOLD SENSITIVITY:")
         threshold_analysis = self.analyze_threshold_impact()
@@ -316,7 +316,7 @@ class PassRateAnalyzer:
             marker = " <-- CURRENT" if threshold == self.guardian_threshold else ""
             report.append(f"   Threshold {threshold:4.2f}: {stats['pass_rate_pct']:6} pass rate{marker}")
         report.append("")
-        
+
         # Mathematical explanation
         report.append("6. MATHEMATICAL EXPLANATION:")
         report.append(f"   With threshold at {self.guardian_threshold}:")
@@ -326,7 +326,7 @@ class PassRateAnalyzer:
         report.append(f"   - {len(failed_tests)} tests have drift >= {self.guardian_threshold}")
         report.append(f"   - Pass rate = {len(passed_tests)}/{len(self.results)} = {len(passed_tests)/len(self.results):.1%}")
         report.append("")
-        
+
         # Optimal thresholds
         current, optimal = self.calculate_optimal_threshold()
         report.append("7. OPTIMAL THRESHOLD ANALYSIS:")
@@ -337,7 +337,7 @@ class PassRateAnalyzer:
             report.append(f"     Optimal threshold: {data['threshold']:.2f}")
             report.append(f"     Pass rate: {data['pass_rate']:.1%}")
         report.append("")
-        
+
         # Risk level analysis
         report.append("8. RISK LEVEL BREAKDOWN:")
         risk_analysis = self.analyze_risk_level_distribution()
@@ -348,7 +348,7 @@ class PassRateAnalyzer:
             report.append(f"     Avg drift: {stats['avg_drift']:.3f}")
             report.append(f"     Drift range: {stats['drift_range'][0]:.3f} - {stats['drift_range'][1]:.3f}")
         report.append("")
-        
+
         # Domain analysis
         report.append("9. DOMAIN IMPACT:")
         domain_effects = critical['factors']['domain_effects']
@@ -357,7 +357,7 @@ class PassRateAnalyzer:
             report.append(f"     Pass rate: {stats['pass_rate']:.1%}")
             report.append(f"     Avg drift: {stats['avg_drift']:.3f}")
         report.append("")
-        
+
         # Key insights
         report.append("KEY INSIGHTS:")
         report.append("-"*40)
@@ -374,7 +374,7 @@ class PassRateAnalyzer:
         report.append("  - Allowing safe innovations (all pass)")
         report.append("  - Blocking dangerous ones (all fail)")
         report.append("  - Creating decision points for borderline cases")
-        
+
         return "\n".join(report)
 
 
@@ -383,27 +383,27 @@ def main():
     # Find the most recent results file
     results_dir = Path(__file__).parent.parent / "test_results" / "quick_baseline"
     results_files = list(results_dir.glob("quick_baseline_*.json"))
-    
+
     if not results_files:
         logger.error("No results files found")
         return
-    
+
     latest_file = max(results_files, key=lambda p: p.stat().st_mtime)
     logger.info(f"Analyzing: {latest_file.name}")
-    
+
     # Analyze
     analyzer = PassRateAnalyzer(guardian_threshold=0.15)
     data = analyzer.load_results(latest_file)
-    
+
     # Generate report
     report = analyzer.generate_report()
     print(report)
-    
+
     # Save report
     report_file = results_dir.parent / "PASS_RATE_ANALYSIS.txt"
     with open(report_file, 'w') as f:
         f.write(report)
-    
+
     logger.info(f"\n📊 Analysis saved to: {report_file}")
 
 

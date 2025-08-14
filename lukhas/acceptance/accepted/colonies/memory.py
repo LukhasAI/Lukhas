@@ -4,34 +4,39 @@ Distributed memory processing and retrieval
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from typing import List, Any, Dict
-from .base import BaseColony, ColonyTask
 from datetime import datetime
+from typing import Any, List
+
+from .base import BaseColony, ColonyTask
+
 
 class MemoryColony(BaseColony):
     """Colony for memory operations and retrieval"""
-    
+
     def __init__(self, max_agents: int = 12):
         self.memory_store = {}
         self.retrieval_cache = {}
         super().__init__("memory", max_agents)
-    
+
     def get_default_capabilities(self) -> List[str]:
         return [
             "memory_storage",
             "memory_retrieval",
             "memory_consolidation",
             "pattern_matching",
-            "episodic_recall"
+            "episodic_recall",
         ]
-    
+
     def process_task(self, task: ColonyTask) -> Any:
         task_type = task.task_type
         payload = task.payload
-        
+
         if task_type == "store_memory":
             memory_id = f"mem_{datetime.now().timestamp()}"
-            self.memory_store[memory_id] = {"content": payload, "stored_at": datetime.now()}
+            self.memory_store[memory_id] = {
+                "content": payload,
+                "stored_at": datetime.now(),
+            }
             return {"stored": True, "memory_id": memory_id}
         elif task_type == "retrieve_memory":
             memory_id = payload.get("memory_id")
@@ -47,13 +52,16 @@ class MemoryColony(BaseColony):
         else:
             return {"status": "unknown_task_type", "task_type": task_type}
 
+
 _memory_colony = None
+
 
 def get_memory_colony() -> MemoryColony:
     global _memory_colony
     if _memory_colony is None:
         _memory_colony = MemoryColony()
         from .base import get_colony_registry
+
         registry = get_colony_registry()
         registry.register_colony(_memory_colony)
         registry.add_task_route("store_memory", "memory")

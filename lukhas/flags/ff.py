@@ -5,11 +5,11 @@ Provides Flags class used by analytics and other modules.
 
 from __future__ import annotations
 
-import os
 import json
+import os
+from collections.abc import Iterator
 from contextlib import contextmanager
-from typing import Dict, Iterator
-
+from typing import Dict
 
 # Default flags (safe, conservative defaults)
 _DEFAULT_FLAGS: Dict[str, bool] = {

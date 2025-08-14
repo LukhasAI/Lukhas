@@ -5,20 +5,20 @@ Enterprise-grade dashboard for AGI safety, governance, and innovation monitoring
 Standards: OpenAI, Anthropic, DeepMind leadership-level quality
 """
 
+import asyncio
+import logging
+from contextlib import asynccontextmanager
+from datetime import datetime
+from typing import Any, Dict
+
+import uvicorn
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from contextlib import asynccontextmanager
-import uvicorn
-import logging
-from datetime import datetime
-from typing import Dict, Any
-
-import asyncio
-from api.routers import audit, safety, governance, analytics, realtime
-from services.audit_engine import AuditEngine
-from infrastructure.database.connection import init_db
 from infrastructure.cache.redis_client import init_redis
+from infrastructure.database.connection import init_db
+
+from api.routers import analytics, audit, governance, realtime, safety
 
 # Configure logging
 logging.basicConfig(
@@ -36,9 +36,9 @@ async def lifespan(app: FastAPI):
     await init_db()
     await init_redis()
     logger.info("✅ All systems initialized successfully")
-    
+
     yield
-    
+
     # Shutdown
     logger.info("🛑 Shutting down LUKHAS AGI Dashboard Backend...")
     # Cleanup connections here

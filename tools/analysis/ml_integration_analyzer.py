@@ -34,9 +34,9 @@ import re
 import subprocess
 import sys
 import textwrap
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 try:
     import numpy as np
@@ -182,7 +182,7 @@ class EmbeddingAdapter:
             try:
                 from openai import OpenAI  # type: ignore
                 self._client = OpenAI()
-            except Exception as e:  # pragma: no cover
+            except Exception:  # pragma: no cover
                 self._client = None
 
     def encode(self, text: str) -> List[float]:
@@ -264,7 +264,7 @@ class ReasonerAdapter:
                 return resp.choices[0].message.content or ""
             except Exception as e:  # pragma: no cover
                 return f"[error] OpenAI call failed: {e}"
-    
+
     def analyze_on_model(self, model: str, system_prompt: str, user_prompt: str, max_output_tokens: int = 1200) -> str:
         if self._client is None:
             return "[offline] Heuristic analysis only. No OpenAI output available."
@@ -427,11 +427,11 @@ class IntegrationAnalyzer:
     def security_scan(self, code: str) -> Dict[str, Any]:
         def idx_to_line(i: int) -> int:
             return code.count("\n", 0, i) + 1
-        
+
         issues: List[str] = []
         critical: List[str] = []
         snippets: List[Dict[str, Any]] = []
-        
+
         # SQL-like patterns
         for p in SQL_PATTERNS:
             for m in re.finditer(p, code, flags=re.IGNORECASE):
@@ -442,7 +442,7 @@ class IntegrationAnalyzer:
                 lines = code.splitlines()
                 snippet = "\n".join(lines[max(0, start-2): min(len(lines), end+1)])
                 snippets.append({"issue": "SQL injection potential", "start_line": start, "end_line": end, "snippet": snippet})
-        
+
         # Dangerous calls
         for call in DANGEROUS_CALLS:
             for m in re.finditer(re.escape(call), code):
@@ -450,7 +450,7 @@ class IntegrationAnalyzer:
                 start = idx_to_line(m.start())
                 line = code.splitlines()[start-1] if 0 <= start-1 < len(code.splitlines()) else ""
                 snippets.append({"issue": f"Dangerous call: {call}", "start_line": start, "end_line": start, "snippet": line.strip()})
-        
+
         # Semgrep (optional)
         semgrep_available = shutil_which("semgrep") is not None
         semgrep_findings = []
@@ -469,7 +469,7 @@ class IntegrationAnalyzer:
                         snippets.append({"issue": f"semgrep:{r.get('check_id')}", "start_line": start, "end_line": end, "snippet": snippet})
             except Exception:
                 pass
-        
+
         return {
             "vulnerabilities_found": len(issues) + len(semgrep_findings),
             "critical_issues": list(set(critical)),
@@ -587,10 +587,10 @@ class IntegrationAnalyzer:
         target_view = next((v for v in target_views if v.path == best_path), None)
         if not target_view:
             return result
-        
+
         orphan_lines = orphan_view.code.splitlines()
         target_lines = target_view.code.splitlines()
-        
+
         for f in orphan_view.functions:
             best = None
             for g in target_view.functions:
@@ -606,22 +606,22 @@ class IntegrationAnalyzer:
             suggested_sig = self._suggest_signature(f)
             adaptations = self._required_adaptations(f)
             conf = (best[0] if best else 0.4)  # type: ignore
-            
+
             # Source context around function header
             s = f.lineno
             src_before = orphan_lines[max(0, s-1-context_lines): s-1]
             src_after = orphan_lines[s-1: min(len(orphan_lines), s-1+context_lines)]
-            
+
             # Target context around insertion line
             tgt_before = target_lines[max(0, target_line-1-context_lines): target_line-1]
             tgt_after = target_lines[target_line-1: min(len(target_lines), target_line-1+context_lines)]
-            
+
             # Param rename mapping
             param_map: Dict[str, str] = {}
             for a in f.args:
                 a_new = camel_to_snake(a) if self.style_prefs.get("naming") == "snake_case" else a
                 param_map[a] = a_new
-            
+
             result.append(LineMapping(
                 source_line=f.lineno,
                 source_code=f.source.splitlines()[0][:200],
@@ -654,7 +654,7 @@ class IntegrationAnalyzer:
         if re.search(r"print\(", f.source):
             reqs.append("Replace prints with structured logging")
         return reqs
-    
+
     def function_summaries(self, view: ModuleView) -> List[Dict[str, Any]]:
         summaries: List[Dict[str, Any]] = []
         for f in view.functions:
@@ -669,7 +669,7 @@ class IntegrationAnalyzer:
                 "doc_chars": len(f.docstring or ""),
             })
         return summaries
-    
+
     def generate_naming_map(self, orphan_view: ModuleView, lukhas_funcs: List[str]) -> Dict[str, Any]:
         forward: Dict[str, str] = {}
         for f in orphan_view.functions:
@@ -679,7 +679,7 @@ class IntegrationAnalyzer:
         for k, v in forward.items():
             inverse.setdefault(v, []).append(k)
         return {"forward": forward, "inverse": inverse}
-    
+
     def generate_patch(self, orphan_view: ModuleView, mappings: List[LineMapping]) -> str:
         lines: List[str] = []
         lines.append(f"# Simulated patch for {orphan_view.path.name}")
@@ -690,7 +690,7 @@ class IntegrationAnalyzer:
             lines.append(f"- # insert near line {m.target_line}")
             lines.append(f"+ {m.suggested_merge}  # confidence={m.confidence}")
         return "\n".join(lines)
-    
+
     def generate_test_scaffolding(self, orphan_view: ModuleView, naming_map: Dict[str, Any]) -> List[Dict[str, str]]:
         tests: List[Dict[str, str]] = []
         fwd = naming_map.get("forward", {})
@@ -711,7 +711,7 @@ class IntegrationAnalyzer:
             )
             tests.append({"name": test_name, "stub": stub})
         return tests
-    
+
     def github_action_yaml(self) -> str:
         return """name: Lukhas Integration Analyzer
 
@@ -931,14 +931,14 @@ jobs:
             "opportunities": [],
             "threats": [],
         }
-        
+
         cascade_audit: List[Dict[str, Any]] = []
         final_model = getattr(self.reasoner, "model", None)
         if use_openai and cheap_first:
             models = cascade_models or os.getenv("LUKHAS_CASCADE_MODELS", "gpt-5-nano,gpt-5-mini,gpt-5").split(",")
             for mdl in [m.strip() for m in models if m.strip()]:
                 swot_llm = self.llm_enhance_swot(orphan_view, lukhas_context, model_override=mdl)
-                for k in swot.keys():
+                for k in swot:
                     seen = {s.description for s in swot[k]}
                     for item in swot_llm[k]:
                         if item.description not in seen:
@@ -952,7 +952,7 @@ jobs:
                     break
         elif use_openai:
             swot_llm = self.llm_enhance_swot(orphan_view, lukhas_context)
-            for k in swot.keys():
+            for k in swot:
                 seen = {s.description for s in swot[k]}
                 for item in swot_llm[k]:
                     if item.description not in seen:
@@ -1039,7 +1039,7 @@ jobs:
             "system_metadata": sysmeta,
             "audit_trail": self.audit.to_list(),
         }
-        
+
         if extra_info:
             report["module_analysis"]["extras"] = {
                 "orphan_function_summaries": self.function_summaries(orphan_view),
@@ -1047,7 +1047,7 @@ jobs:
                 "top_match_candidates": [{"path": p, "function": fn, "similarity": round(s, 3)} for p, fn, s in all_matches[:10]],
                 "style": style,
             }
-        
+
         # simulate patch
         if simulate_out is not None:
             try:
@@ -1056,7 +1056,7 @@ jobs:
                 report["module_analysis"]["simulation_patch"] = str(simulate_out)
             except Exception as e:
                 self.audit.log("simulate_write_error", error=str(e))
-        
+
         # naming map + tests
         if naming_map_out is not None:
             try:
@@ -1163,7 +1163,7 @@ def _cli(argv: List[str]) -> int:
         "type_hints": not args.no_type_hints,
     }
     analyzer = IntegrationAnalyzer(embedder=embedder, style_prefs=style_prefs)
-    
+
     # Optionally emit GitHub Action and exit
     if args.emit_github_action:
         out_path = Path(args.emit_github_action)
@@ -1171,13 +1171,13 @@ def _cli(argv: List[str]) -> int:
         out_path.write_text(analyzer.github_action_yaml(), encoding="utf-8")
         print(f"[ok] GitHub Action written: {out_path}")
         return 0
-    
+
     sim_path = None
     if args.simulate:
         sim_path = Path(args.simulate_out) if args.simulate_out else Path(f"{orphan.stem}_integration.patch")
-    
+
     map_path = Path(args.export_naming_map) if args.export_naming_map else None
-    
+
     report = analyzer.analyze(
         orphan,
         lukhas,

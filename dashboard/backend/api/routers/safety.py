@@ -3,10 +3,10 @@ Safety Router - AGI safety and alignment monitoring
 Following Anthropic's Constitutional AI principles
 """
 
-from fastapi import APIRouter, HTTPException
-from typing import Dict, Any, List
 from datetime import datetime, timedelta
-import random
+from typing import Any, Dict
+
+from fastapi import APIRouter
 
 router = APIRouter()
 

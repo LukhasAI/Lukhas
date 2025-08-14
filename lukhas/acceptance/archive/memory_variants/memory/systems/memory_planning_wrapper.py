@@ -2,6 +2,7 @@
 Memory Planning Wrapper
 Provides integration layer for memory planning components
 """
+
 import logging
 from typing import Any, Optional
 

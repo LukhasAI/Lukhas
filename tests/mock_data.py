@@ -9,34 +9,31 @@ without requiring full implementation of all components.
 import uuid
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
-from unittest.mock import Mock, AsyncMock
-from dataclasses import dataclass
+from unittest.mock import AsyncMock, Mock
 
 # Import actual enums and classes we need
 from consciousness.dream.autonomous_innovation_core import (
+    BreakthroughInnovation,
     InnovationDomain,
     InnovationHypothesis,
-    BreakthroughInnovation,
-    MarketOpportunity
+    MarketOpportunity,
 )
 from consciousness.dream.parallel_reality_safety import (
+    HallucinationReport,
     HallucinationType,
-    SafetyLevel,
-    DriftMetrics,
-    HallucinationReport
 )
 from consciousness.states.symbolic_drift_tracker import (
-    DriftScore,
     DriftPhase,
-    SymbolicState
+    DriftScore,
+    SymbolicState,
 )
 
 
 class MockDataGenerator:
     """Generate mock data for testing"""
-    
+
     @staticmethod
-    def create_reality_branch(branch_id: Optional[str] = None, 
+    def create_reality_branch(branch_id: Optional[str] = None,
                             probability: float = 0.8,
                             with_drift: bool = False,
                             with_hallucination: bool = False) -> Dict[str, Any]:
@@ -66,7 +63,7 @@ class MockDataGenerator:
                 'synthetic': True
             }
         }
-    
+
     @staticmethod
     def create_innovation(innovation_type: str = 'safe') -> Optional[BreakthroughInnovation]:
         """Create a mock innovation based on type"""
@@ -119,7 +116,7 @@ class MockDataGenerator:
                 }
             )
         return None
-    
+
     @staticmethod
     def create_drift_score(level: str = 'low') -> DriftScore:
         """Create a mock drift score"""
@@ -167,7 +164,7 @@ class MockDataGenerator:
                 overall_score=0.78,
                 phase=DriftPhase.CASCADE
             )
-    
+
     @staticmethod
     def create_hallucination_report(hallucination_type: HallucinationType,
                                    severity: float = 0.5) -> HallucinationReport:
@@ -186,7 +183,7 @@ class MockDataGenerator:
             recommended_action='reject_innovation' if severity > 0.7 else 'apply_correction',
             auto_corrected=severity < 0.3
         )
-    
+
     @staticmethod
     def create_market_opportunity(size: int = 1_000_000_000) -> MarketOpportunity:
         """Create a mock market opportunity"""
@@ -204,7 +201,7 @@ class MockDataGenerator:
             ],
             confidence_score=0.85
         )
-    
+
     @staticmethod
     def create_symbolic_state(drift_level: float = 0.0) -> SymbolicState:
         """Create a mock symbolic state"""
@@ -222,7 +219,7 @@ class MockDataGenerator:
 
 class MockServices:
     """Mock service implementations for testing"""
-    
+
     @staticmethod
     def create_mock_innovation_core():
         """Create a mock AutonomousInnovationCore"""
@@ -230,32 +227,32 @@ class MockServices:
         mock.operational = True
         mock.initialize = AsyncMock(return_value=None)
         mock.shutdown = AsyncMock(return_value=None)
-        
+
         # Mock exploration method
         async def mock_explore(hypothesis, reality_count, exploration_depth):
             return [
                 MockDataGenerator.create_reality_branch()
                 for _ in range(min(reality_count, 10))
             ]
-        
+
         # Mock validation method
         async def mock_validate(hypothesis, reality_results):
             if 'prohibited' in hypothesis.description.lower():
                 return None
             return MockDataGenerator.create_innovation('safe')
-        
+
         mock.explore_innovation_in_parallel_realities = mock_explore
         mock.validate_and_synthesize_innovation = mock_validate
-        
+
         # Mock market scanning
         async def mock_scan(domain, market_threshold):
             return [
                 MockDataGenerator.create_market_opportunity(market_threshold)
                 for _ in range(2)
             ]
-        
+
         mock.scan_innovation_opportunities = mock_scan
-        
+
         # Mock hypothesis generation
         async def mock_generate_hypotheses(opportunity, hypothesis_count):
             hypotheses = []
@@ -270,24 +267,24 @@ class MockServices:
                 )
                 hypotheses.append(h)
             return hypotheses
-        
+
         mock.generate_breakthrough_hypotheses = mock_generate_hypotheses
-        
+
         return mock
-    
+
     @staticmethod
     def create_mock_guardian_service():
         """Create a mock Guardian service"""
         mock = Mock()
-        
+
         async def mock_validate(data):
             if 'prohibited' in str(data).lower():
                 return {'ok': False, 'violations': ['prohibited_content']}
             return {'ok': True, 'score': 0.95}
-        
+
         mock.validate = mock_validate
         return mock
-    
+
     @staticmethod
     def create_mock_memory_service():
         """Create a mock Memory service"""
@@ -296,14 +293,14 @@ class MockServices:
         mock.retrieve = AsyncMock(return_value=[])
         mock.search = AsyncMock(return_value=[])
         return mock
-    
+
     @staticmethod
     def create_mock_vivox_ern():
         """Create a mock VIVOX ERN"""
         mock = Mock()
         mock.initialize = AsyncMock(return_value=None)
         mock.shutdown = AsyncMock(return_value=None)
-        
+
         async def mock_get_state():
             return Mock(
                 valence=0.5,
@@ -311,20 +308,20 @@ class MockServices:
                 dominance=0.6,
                 magnitude=lambda: 0.4
             )
-        
+
         mock.get_current_state = mock_get_state
         mock.apply_regulation = AsyncMock(return_value=True)
         mock.reset_to_baseline = AsyncMock(return_value=None)
-        
+
         return mock
-    
+
     @staticmethod
     def create_mock_reality_simulator():
         """Create a mock Parallel Reality Simulator"""
         mock = Mock()
         mock.initialize = AsyncMock(return_value=None)
         mock.shutdown = AsyncMock(return_value=None)
-        
+
         async def mock_create_sim(origin_scenario, reality_types, branch_count):
             branches = [
                 Mock(
@@ -338,23 +335,23 @@ class MockServices:
                 for i in range(branch_count)
             ]
             return Mock(branches=branches)
-        
+
         mock.create_simulation = mock_create_sim
-        
+
         async def mock_massive_exploration(hypothesis, reality_count, exploration_depth):
             return [
                 {'branch_id': str(uuid.uuid4()), 'score': 0.8}
                 for _ in range(min(reality_count, 100))
             ]
-        
+
         mock.massive_parallel_exploration = mock_massive_exploration
-        
+
         return mock
 
 
 class MockTestScenarios:
     """Pre-defined test scenarios with expected results"""
-    
+
     SCENARIOS = {
         'safe_energy': {
             'input': {
@@ -424,12 +421,12 @@ class MockTestScenarios:
             }
         }
     }
-    
+
     @classmethod
     def get_scenario(cls, name: str) -> Dict[str, Any]:
         """Get a specific test scenario"""
         return cls.SCENARIOS.get(name, {})
-    
+
     @classmethod
     def get_all_scenarios(cls) -> Dict[str, Dict[str, Any]]:
         """Get all test scenarios"""
@@ -453,7 +450,7 @@ def create_test_hypothesis(scenario_type: str = 'safe') -> InnovationHypothesis:
     """Create a test hypothesis based on scenario type"""
     scenarios = MockTestScenarios.SCENARIOS
     scenario = scenarios.get(f'{scenario_type}_energy', scenarios['safe_energy'])
-    
+
     return InnovationHypothesis(
         hypothesis_id=str(uuid.uuid4()),
         domain=scenario['input']['domain'],
@@ -468,7 +465,7 @@ def create_batch_test_data(count: int = 10) -> List[Dict[str, Any]]:
     """Create a batch of test data for stress testing"""
     data = []
     scenario_types = ['safe', 'prohibited', 'ambiguous', 'drift', 'hallucination']
-    
+
     for i in range(count):
         scenario_type = scenario_types[i % len(scenario_types)]
         data.append({
@@ -480,7 +477,7 @@ def create_batch_test_data(count: int = 10) -> List[Dict[str, Any]]:
                 MockTestScenarios.SCENARIOS['safe_energy']
             )['expected']
         })
-    
+
     return data
 
 

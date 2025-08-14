@@ -10,21 +10,15 @@ Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 
 import asyncio
 import logging
-from datetime import datetime
-from typing import Any, Dict, List, Optional, Union
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
-from orchestration.agent_orchestrator.intelligence_bridge import LukhasAgentBridge, AgentType, IntelligenceRequestType
-from consciousness.reasoning.advanced_engines.intelligence_engines import (
-    LukhasMetaCognitiveEngine,
-    LukhasCausalReasoningEngine,
-    LukhasAutonomousGoalEngine,
-    LukhasCuriosityEngine,
-    LukhasTheoryOfMindEngine,
-    LukhasNarrativeIntelligenceEngine,
-    LukhasDimensionalIntelligenceEngine,
-    LukhasSubsystemOrchestrator,
+from orchestration.agent_orchestrator.intelligence_bridge import (
+    AgentType,
+    IntelligenceRequestType,
+    LukhasAgentBridge,
 )
 
 logger = logging.getLogger("LUKHAS.Intelligence.Orchestration")
@@ -32,6 +26,7 @@ logger = logging.getLogger("LUKHAS.Intelligence.Orchestration")
 
 class IntelligenceEvent(Enum):
     """Intelligence-specific events for the orchestration system"""
+
     INTELLIGENCE_ANALYSIS_COMPLETE = "intelligence_analysis_complete"
     INTELLIGENCE_GOAL_FORMED = "intelligence_goal_formed"
     INTELLIGENCE_CURIOSITY_TRIGGERED = "intelligence_curiosity_triggered"
@@ -43,6 +38,7 @@ class IntelligenceEvent(Enum):
 @dataclass
 class IntelligenceSymbolicMessage:
     """Symbolic message for intelligence operations in the kernel bus"""
+
     event_type: IntelligenceEvent
     intelligence_engine: str
     agent_id: str
@@ -58,9 +54,9 @@ class IntelligenceSymbolicMessage:
             self.symbolic_effects = []
         if self.trinity_compliance is None:
             self.trinity_compliance = {
-                "identity": True,    # ⚛️ Identity preservation
+                "identity": True,  # ⚛️ Identity preservation
                 "consciousness": True,  # 🧠 Consciousness enhancement
-                "guardian": True,    # 🛡️ Guardian protection
+                "guardian": True,  # 🛡️ Guardian protection
             }
 
 
@@ -91,6 +87,7 @@ class LukhasIntelligenceOrchestrationAdapter:
         # Initialize agent bridge
         if self.agent_bridge is None:
             from .agent_bridge import get_agent_bridge
+
             self.agent_bridge = await get_agent_bridge()
 
         # Store orchestration system references
@@ -107,16 +104,16 @@ class LukhasIntelligenceOrchestrationAdapter:
         self,
         agent_type: AgentType,
         intelligence_request: Dict[str, Any],
-        orchestration_context: Optional[Dict[str, Any]] = None
+        orchestration_context: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """
         Coordinate intelligence operations with orchestration system
-        
+
         Args:
             agent_type: Type of agent making the request
             intelligence_request: Intelligence operation request
             orchestration_context: Additional context from orchestration system
-            
+
         Returns:
             Coordinated intelligence response with orchestration integration
         """
@@ -159,7 +156,7 @@ class LukhasIntelligenceOrchestrationAdapter:
             # Step 5: Update performance metrics
             await self._update_performance_metrics(symbolic_message)
 
-            logger.info(f"✅ Intelligence operation coordinated successfully")
+            logger.info("✅ Intelligence operation coordinated successfully")
 
             return {
                 "intelligence_response": intelligence_response,
@@ -178,12 +175,13 @@ class LukhasIntelligenceOrchestrationAdapter:
         self, agent_type: AgentType, request: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Process intelligence request through agent bridge"""
-        
+
         # Map request to appropriate intelligence request type
         request_type = self._map_to_intelligence_request_type(request)
-        
+
         # Create agent request
         from .agent_bridge import create_agent_request
+
         agent_request = await create_agent_request(
             agent_id=f"{agent_type.value}_orchestration",
             agent_type=agent_type,
@@ -200,7 +198,9 @@ class LukhasIntelligenceOrchestrationAdapter:
 
         return response.result
 
-    def _map_to_intelligence_request_type(self, request: Dict[str, Any]) -> IntelligenceRequestType:
+    def _map_to_intelligence_request_type(
+        self, request: Dict[str, Any]
+    ) -> IntelligenceRequestType:
         """Map generic request to specific intelligence request type"""
         request_content = str(request).lower()
 
@@ -222,10 +222,12 @@ class LukhasIntelligenceOrchestrationAdapter:
             return IntelligenceRequestType.ORCHESTRATION_COORDINATION
 
     async def _integrate_with_orchestration(
-        self, intelligence_response: Dict[str, Any], orchestration_context: Dict[str, Any]
+        self,
+        intelligence_response: Dict[str, Any],
+        orchestration_context: Dict[str, Any],
     ) -> Dict[str, Any]:
         """Integrate intelligence response with orchestration context"""
-        
+
         integrated_response = {
             "intelligence_core": intelligence_response,
             "orchestration_context": orchestration_context,
@@ -242,8 +244,10 @@ class LukhasIntelligenceOrchestrationAdapter:
             integrated_response["brain_context"] = brain_context
 
         # Add symbolic processing recommendations
-        integrated_response["symbolic_recommendations"] = await self._generate_symbolic_recommendations(
-            intelligence_response, orchestration_context
+        integrated_response["symbolic_recommendations"] = (
+            await self._generate_symbolic_recommendations(
+                intelligence_response, orchestration_context
+            )
         )
 
         return integrated_response
@@ -261,7 +265,9 @@ class LukhasIntelligenceOrchestrationAdapter:
         }
 
     async def _generate_symbolic_recommendations(
-        self, intelligence_response: Dict[str, Any], orchestration_context: Dict[str, Any]
+        self,
+        intelligence_response: Dict[str, Any],
+        orchestration_context: Dict[str, Any],
     ) -> List[Dict[str, Any]]:
         """Generate symbolic processing recommendations"""
         recommendations = []
@@ -271,25 +277,31 @@ class LukhasIntelligenceOrchestrationAdapter:
         confidence = intelligence_response.get("confidence", 0.0)
 
         if engine == "meta_cognitive" and confidence > 0.8:
-            recommendations.append({
-                "action": "enhance_meta_processing",
-                "priority": "high",
-                "symbolic_effect": "AWARENESS_UPDATE",
-            })
+            recommendations.append(
+                {
+                    "action": "enhance_meta_processing",
+                    "priority": "high",
+                    "symbolic_effect": "AWARENESS_UPDATE",
+                }
+            )
 
         if engine == "autonomous_goals" and confidence > 0.7:
-            recommendations.append({
-                "action": "activate_goal_pursuit",
-                "priority": "medium",
-                "symbolic_effect": "AGENT_SYNC",
-            })
+            recommendations.append(
+                {
+                    "action": "activate_goal_pursuit",
+                    "priority": "medium",
+                    "symbolic_effect": "AGENT_SYNC",
+                }
+            )
 
         if engine == "curiosity" and confidence > 0.9:
-            recommendations.append({
-                "action": "initiate_exploration",
-                "priority": "medium",
-                "symbolic_effect": "DREAM_TRIGGER",
-            })
+            recommendations.append(
+                {
+                    "action": "initiate_exploration",
+                    "priority": "medium",
+                    "symbolic_effect": "DREAM_TRIGGER",
+                }
+            )
 
         return recommendations
 
@@ -297,7 +309,7 @@ class LukhasIntelligenceOrchestrationAdapter:
         self,
         agent_type: AgentType,
         intelligence_response: Dict[str, Any],
-        orchestrated_response: Dict[str, Any]
+        orchestrated_response: Dict[str, Any],
     ) -> List[str]:
         """Generate symbolic effects for kernel bus"""
         effects = []
@@ -395,7 +407,7 @@ class LukhasIntelligenceOrchestrationAdapter:
             }
 
             # Send to kernel bus (assuming it has a publish method)
-            if hasattr(self.kernel_bus, 'publish'):
+            if hasattr(self.kernel_bus, "publish"):
                 await self.kernel_bus.publish(kernel_message)
             else:
                 logger.warning("Kernel bus does not support publishing")
@@ -416,10 +428,12 @@ class LukhasIntelligenceOrchestrationAdapter:
             }
 
             # Send to brain orchestrator (assuming it has a process_intelligence_event method)
-            if hasattr(self.brain_orchestrator, 'process_intelligence_event'):
+            if hasattr(self.brain_orchestrator, "process_intelligence_event"):
                 await self.brain_orchestrator.process_intelligence_event(brain_message)
             else:
-                logger.warning("Brain orchestrator does not support intelligence events")
+                logger.warning(
+                    "Brain orchestrator does not support intelligence events"
+                )
 
         except Exception as e:
             logger.error(f"Error routing to brain orchestrator: {e}")
@@ -440,7 +454,9 @@ class LukhasIntelligenceOrchestrationAdapter:
         # Update Trinity compliance rate
         trinity_compliant = all(message.trinity_compliance.values())
         current_compliance = self.performance_metrics["trinity_compliance_rate"]
-        new_compliance = (current_compliance * (total_ops - 1) + (1.0 if trinity_compliant else 0.0)) / total_ops
+        new_compliance = (
+            current_compliance * (total_ops - 1) + (1.0 if trinity_compliant else 0.0)
+        ) / total_ops
         self.performance_metrics["trinity_compliance_rate"] = new_compliance
 
     async def get_performance_metrics(self) -> Dict[str, Any]:
@@ -481,7 +497,7 @@ async def get_orchestration_adapter() -> LukhasIntelligenceOrchestrationAdapter:
 async def coordinate_agent_intelligence(
     agent_type: AgentType,
     intelligence_request: Dict[str, Any],
-    orchestration_context: Optional[Dict[str, Any]] = None
+    orchestration_context: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """Convenience function to coordinate agent intelligence with orchestration"""
     adapter = await get_orchestration_adapter()
@@ -494,37 +510,39 @@ if __name__ == "__main__":
     # Example usage and testing
     async def example_orchestration_usage():
         """Example of orchestration adapter usage"""
-        
+
         # Initialize orchestration adapter
         adapter = await get_orchestration_adapter()
-        
+
         # Example: Consciousness Architect intelligence coordination
         response = await coordinate_agent_intelligence(
             agent_type=AgentType.CONSCIOUSNESS_ARCHITECT,
             intelligence_request={
                 "type": "meta_cognitive_analysis",
                 "request": "Analyze integration strategy for intelligence-orchestration coordination",
-                "context": {"complexity": "high", "priority": "architecture_design"}
+                "context": {"complexity": "high", "priority": "architecture_design"},
             },
             orchestration_context={
                 "current_system_state": "active",
                 "orchestration_version": "1.0.0",
-                "brain_state": "enhanced_processing"
-            }
+                "brain_state": "enhanced_processing",
+            },
         )
-        
+
         print("🎼 Orchestration Coordination Results:")
         print(f"Processing Time: {response['processing_time']:.3f}s")
         print(f"Confidence: {response['confidence']:.2f}")
         print(f"Symbolic Effects: {response['symbolic_effects']}")
         print(f"Trinity Compliance: {response['trinity_compliance']}")
-        
+
         # Get status
         status = await adapter.get_orchestration_status()
-        print(f"\n📊 Orchestration Status:")
+        print("\n📊 Orchestration Status:")
         print(f"Agent Bridge Connected: {status['agent_bridge_connected']}")
         print(f"Active Tasks: {status['active_tasks']}")
-        print(f"Success Rate: {status['performance_metrics']['successful_operations']}/{status['performance_metrics']['total_operations']}")
+        print(
+            f"Success Rate: {status['performance_metrics']['successful_operations']}/{status['performance_metrics']['total_operations']}"
+        )
 
     # Run example
     asyncio.run(example_orchestration_usage())

@@ -5,6 +5,7 @@ Please update imports to: lukhas.accepted.memory.consolidation
 """
 
 import warnings
+
 try:
     from lukhas.accepted.memory.consolidation import *
 except ImportError:

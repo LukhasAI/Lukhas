@@ -209,7 +209,9 @@ class UnifiedMemoryOrchestrator:
         self.enable_distributed = enable_distributed
 
         # Core memory systems with memory limits
-        self.hippocampal_buffer: deque[MemoryTrace] = deque(maxlen=min(hippocampal_capacity, 1000))  # Limit to 1000
+        self.hippocampal_buffer: deque[MemoryTrace] = deque(
+            maxlen=min(hippocampal_capacity, 1000)
+        )  # Limit to 1000
         self.neocortical_network: dict[str, MemoryTrace] = {}
         self.working_memory: dict[str, MemoryTrace] = {}
 
@@ -228,7 +230,9 @@ class UnifiedMemoryOrchestrator:
         # Bio-inspired components
         self.oscillations = OscillationPattern()
         self.sleep_stage = SleepStage.AWAKE
-        self.consolidation_queue: deque[str] = deque(maxlen=self.max_consolidation_queue_size)
+        self.consolidation_queue: deque[str] = deque(
+            maxlen=self.max_consolidation_queue_size
+        )
         self.replay_buffer: list[MemoryTrace] = []
 
         # Background task management
@@ -524,7 +528,7 @@ class UnifiedMemoryOrchestrator:
                 loop.create_task(self._consolidation_loop()),
                 loop.create_task(self._oscillation_generator()),
                 loop.create_task(self._memory_replay_loop()),
-                loop.create_task(self._health_maintenance_loop())
+                loop.create_task(self._health_maintenance_loop()),
             ]
 
             logger.info(f"Background tasks started: {len(self.background_tasks)} tasks")
@@ -1513,7 +1517,9 @@ class UnifiedMemoryOrchestrator:
 
                 # Periodic memory cleanup
                 current_time = datetime.now(timezone.utc)
-                if (current_time - self.last_cleanup).total_seconds() > self.cleanup_interval:
+                if (
+                    current_time - self.last_cleanup
+                ).total_seconds() > self.cleanup_interval:
                     await self._aggressive_memory_cleanup()
                     self.last_cleanup = current_time
 
@@ -1543,8 +1549,10 @@ class UnifiedMemoryOrchestrator:
         """Add memory to working memory with size management"""
         if len(self.working_memory) >= self.max_working_memory_size:
             # Remove least recently accessed memory
-            oldest_id = min(self.working_memory.keys(),
-                          key=lambda x: self.working_memory[x].last_accessed)
+            oldest_id = min(
+                self.working_memory.keys(),
+                key=lambda x: self.working_memory[x].last_accessed,
+            )
             del self.working_memory[oldest_id]
 
         self.working_memory[memory_id] = memory_trace
@@ -1557,32 +1565,40 @@ class UnifiedMemoryOrchestrator:
         # Remove oldest 10% of memories
         target_size = int(self.max_neocortical_size * 0.9)
         sorted_memories = sorted(
-            self.neocortical_network.items(),
-            key=lambda x: x[1].last_accessed
+            self.neocortical_network.items(), key=lambda x: x[1].last_accessed
         )
 
         # Remove oldest memories
         for memory_id, _ in sorted_memories[:-target_size]:
             del self.neocortical_network[memory_id]
 
-        logger.info(f"Cleaned up neocortical memories: {len(self.neocortical_network)} remaining")
+        logger.info(
+            f"Cleaned up neocortical memories: {len(self.neocortical_network)} remaining"
+        )
 
     async def _aggressive_memory_cleanup(self):
         """Perform aggressive memory cleanup to prevent leaks"""
         logger.info("Performing aggressive memory cleanup...")
 
         # Clean up indices
-        for index_dict in [self.semantic_index, self.temporal_index, self.emotional_index]:
+        for index_dict in [
+            self.semantic_index,
+            self.temporal_index,
+            self.emotional_index,
+        ]:
             if len(index_dict) > self.max_index_entries:
                 # Remove least frequently used entries
-                sorted_keys = sorted(index_dict.keys(),
-                                   key=lambda x: len(index_dict[x]))
-                for key in sorted_keys[:len(index_dict) - self.max_index_entries]:
+                sorted_keys = sorted(
+                    index_dict.keys(), key=lambda x: len(index_dict[x])
+                )
+                for key in sorted_keys[: len(index_dict) - self.max_index_entries]:
                     del index_dict[key]
 
         # Limit replay buffer size aggressively
         if len(self.replay_buffer) > self.max_replay_buffer_size // 2:
-            self.replay_buffer = self.replay_buffer[-(self.max_replay_buffer_size // 2):]
+            self.replay_buffer = self.replay_buffer[
+                -(self.max_replay_buffer_size // 2) :
+            ]
 
         # Cancel and recreate background tasks if they're consuming too much memory
         if len(self.background_tasks) > 10:  # Should only be 4

@@ -36,9 +36,8 @@ from typing import Any, Optional
 from code_crypto import Classic_McEliece
 from hash_crypto import SPHINCS_Plus
 from lattice_crypto import CRYSTALS_Dilithium, CRYSTALS_Kyber
-from zkp_crypto import IdentityProof, ZKProof
-
 from qi_timestamp import QuantumVerifiableTimestamp
+from zkp_crypto import IdentityProof, ZKProof
 
 
 class SecurityLevel(Enum):

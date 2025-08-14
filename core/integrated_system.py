@@ -23,9 +23,6 @@ except ImportError:
 
 # Use the new, working colony system from lukhas.accepted
 from lukhas.accepted.colonies.base import BaseColony
-from lukhas.accepted.colonies.creativity import get_creativity_colony
-from lukhas.accepted.colonies.memory import get_memory_colony
-from lukhas.accepted.colonies.reasoning import get_reasoning_colony
 
 # Import our core components
 

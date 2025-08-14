@@ -23,7 +23,11 @@ from universal_language import (
     parse_composition,
     requires_ul_entropy,
 )
-from universal_language.service import LocalSymbolStore, ULChallengeService, UniversalLanguageService
+from universal_language.service import (
+    LocalSymbolStore,
+    ULChallengeService,
+    UniversalLanguageService,
+)
 
 
 class TestSymbolEncoding:

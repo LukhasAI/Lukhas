@@ -4,8 +4,8 @@ Global Deployment Orchestrator
 Orchestrates AI system deployment across global markets.
 """
 
-from typing import Dict, List, Any
 import logging
+from typing import Any, Dict
 
 from core.interfaces import CoreInterface
 
@@ -14,34 +14,34 @@ logger = logging.getLogger(__name__)
 
 class GlobalDeploymentOrchestrator(CoreInterface):
     """Manages global deployment strategies and execution"""
-    
+
     def __init__(self):
         super().__init__()
         self.deployment_regions = {}
         self._initialized = False
-        
+
     async def initialize(self) -> None:
         """Initialize the deployment orchestrator"""
         if self._initialized:
             return
-        
+
         await self._initialize_deployment_regions()
         self._initialized = True
         logger.info("Global Deployment Orchestrator initialized")
-    
+
     async def plan_global_deployment(
         self,
         compliance_status: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Plan deployment based on compliance status"""
-        
+
         deployment_plan = {
             'phases': [],
             'timeline_months': 12,
             'priority_markets': [],
             'blocked_markets': []
         }
-        
+
         # Phase 1: Deploy to fully compliant regions
         deployment_plan['phases'].append({
             'phase': 1,
@@ -49,7 +49,7 @@ class GlobalDeploymentOrchestrator(CoreInterface):
             'requirements': 'full_compliance',
             'timeline_months': 3
         })
-        
+
         # Phase 2: Expand to partially compliant regions
         deployment_plan['phases'].append({
             'phase': 2,
@@ -57,12 +57,12 @@ class GlobalDeploymentOrchestrator(CoreInterface):
             'requirements': 'partial_compliance',
             'timeline_months': 6
         })
-        
+
         return deployment_plan
-    
+
     async def _initialize_deployment_regions(self) -> None:
         """Initialize deployment region configurations"""
-        
+
         self.deployment_regions = {
             'Europe': {
                 'regulatory_framework': 'EU_AI_ACT',
@@ -80,7 +80,7 @@ class GlobalDeploymentOrchestrator(CoreInterface):
                 'complexity': 'high'
             }
         }
-    
+
     async def shutdown(self) -> None:
         """Cleanup resources"""
         self.deployment_regions.clear()

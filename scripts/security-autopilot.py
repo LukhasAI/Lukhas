@@ -10,17 +10,13 @@ import argparse
 import asyncio
 import json
 import logging
-import os
-import subprocess
-import sys
-import time
-from dataclasses import dataclass, asdict
-from datetime import datetime, timedelta
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
-import hashlib
-import tempfile
 import shutil
+import subprocess
+import time
+from dataclasses import asdict, dataclass
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 
 # Configure logging
 logging.basicConfig(
@@ -50,7 +46,7 @@ class SecurityReport:
     scan_duration: float
     scanners_used: List[str]
     total_packages_scanned: int
-    
+
     def to_json(self) -> str:
         data = asdict(self)
         data['timestamp'] = self.timestamp.isoformat()
@@ -59,7 +55,7 @@ class SecurityReport:
 
 class SecurityAutopilot:
     """Automated security management system"""
-    
+
     def __init__(self, project_root: Path = None):
         self.project_root = project_root or Path.cwd()
         self.requirements_file = self.project_root / "requirements.txt"
@@ -67,14 +63,14 @@ class SecurityAutopilot:
         self.reports_dir = self.project_root / "security-reports"
         self.backup_dir = self.project_root / ".security-backups"
         self.config_file = self.project_root / ".security-autopilot.json"
-        
+
         # Create necessary directories
         self.reports_dir.mkdir(exist_ok=True)
         self.backup_dir.mkdir(exist_ok=True)
-        
+
         # Load configuration
         self.config = self.load_config()
-        
+
         # Available scanners
         self.scanners = {
             'safety': self.scan_with_safety,
@@ -82,7 +78,7 @@ class SecurityAutopilot:
             'bandit': self.scan_with_bandit,
             'semgrep': self.scan_with_semgrep,
         }
-    
+
     def load_config(self) -> Dict[str, Any]:
         """Load or create configuration"""
         default_config = {
@@ -99,18 +95,18 @@ class SecurityAutopilot:
             'notification_webhook': None,
             'test_command': 'pytest tests/ -v --tb=short --maxfail=5',
         }
-        
+
         if self.config_file.exists():
-            with open(self.config_file, 'r') as f:
+            with open(self.config_file) as f:
                 user_config = json.load(f)
                 default_config.update(user_config)
         else:
             # Save default config
             with open(self.config_file, 'w') as f:
                 json.dump(default_config, f, indent=2)
-        
+
         return default_config
-    
+
     def run_command(self, cmd: List[str], capture: bool = True) -> Tuple[int, str, str]:
         """Run a shell command"""
         try:
@@ -128,13 +124,13 @@ class SecurityAutopilot:
         except Exception as e:
             logger.error(f"Command failed: {e}")
             return 1, "", str(e)
-    
+
     async def scan_with_safety(self) -> List[Vulnerability]:
         """Scan with safety"""
         logger.info("🔍 Scanning with Safety...")
-        
+
         code, stdout, _ = self.run_command(['python3', '-m', 'safety', 'check', '--json'])
-        
+
         vulnerabilities = []
         if stdout:
             try:
@@ -151,15 +147,15 @@ class SecurityAutopilot:
                     ))
             except json.JSONDecodeError:
                 logger.warning("Failed to parse Safety output")
-        
+
         return vulnerabilities
-    
+
     async def scan_with_pip_audit(self) -> List[Vulnerability]:
         """Scan with pip-audit"""
         logger.info("🔍 Scanning with pip-audit...")
-        
+
         code, stdout, _ = self.run_command(['python3', '-m', 'pip_audit', '--format', 'json'])
-        
+
         vulnerabilities = []
         if stdout:
             try:
@@ -176,15 +172,15 @@ class SecurityAutopilot:
                     ))
             except json.JSONDecodeError:
                 logger.warning("Failed to parse pip-audit output")
-        
+
         return vulnerabilities
-    
+
     async def scan_with_bandit(self) -> List[Vulnerability]:
         """Scan code with Bandit for security issues"""
         logger.info("🔍 Scanning code with Bandit...")
-        
+
         code, stdout, _ = self.run_command(['bandit', '-r', '.', '-f', 'json'])
-        
+
         # Bandit finds code issues, not package vulnerabilities
         # We'll just log the results
         if stdout:
@@ -195,15 +191,15 @@ class SecurityAutopilot:
                     logger.warning(f"⚠️ Bandit found {high_issues} high-severity code issues")
             except:
                 pass
-        
+
         return []  # Bandit doesn't report package vulnerabilities
-    
+
     async def scan_with_semgrep(self) -> List[Vulnerability]:
         """Scan with Semgrep for security patterns"""
         logger.info("🔍 Scanning with Semgrep...")
-        
+
         code, stdout, _ = self.run_command(['semgrep', '--config=auto', '--json', '.'])
-        
+
         # Semgrep finds code patterns, not package vulnerabilities
         if stdout:
             try:
@@ -213,19 +209,19 @@ class SecurityAutopilot:
                     logger.warning(f"⚠️ Semgrep found {len(results)} security patterns")
             except:
                 pass
-        
+
         return []
-    
+
     async def scan_all(self) -> SecurityReport:
         """Run all configured scanners"""
         start_time = time.time()
         all_vulnerabilities = []
         scanners_used = []
-        
+
         # Install/update scanners
         logger.info("📦 Ensuring security scanners are installed...")
         self.run_command(['python3', '-m', 'pip', 'install', '-q', '--upgrade', 'safety', 'pip-audit', 'bandit'])
-        
+
         # Run each configured scanner
         for scanner_name in self.config['scanners']:
             if scanner_name in self.scanners:
@@ -235,18 +231,18 @@ class SecurityAutopilot:
                     scanners_used.append(scanner_name)
                 except Exception as e:
                     logger.error(f"Scanner {scanner_name} failed: {e}")
-        
+
         # Deduplicate vulnerabilities
         unique_vulns = {}
         for vuln in all_vulnerabilities:
             key = f"{vuln.package}:{vuln.current_version}"
             if key not in unique_vulns or vuln.severity == 'critical':
                 unique_vulns[key] = vuln
-        
+
         # Count total packages
         code, stdout, _ = self.run_command(['python3', '-m', 'pip', 'list', '--format', 'json'])
         total_packages = len(json.loads(stdout)) if stdout else 0
-        
+
         report = SecurityReport(
             timestamp=datetime.now(),
             vulnerabilities=list(unique_vulns.values()),
@@ -254,62 +250,62 @@ class SecurityAutopilot:
             scanners_used=scanners_used,
             total_packages_scanned=total_packages
         )
-        
+
         # Save report
         report_file = self.reports_dir / f"security-report-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
         with open(report_file, 'w') as f:
             f.write(report.to_json())
-        
+
         logger.info(f"📊 Scan complete: {len(report.vulnerabilities)} vulnerabilities found")
-        
+
         return report
-    
+
     def backup_requirements(self) -> Path:
         """Backup current requirements.txt"""
         if not self.config['backup_before_fix']:
             return None
-        
+
         timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
         backup_file = self.backup_dir / f"requirements-{timestamp}.txt"
-        
+
         if self.requirements_file.exists():
             shutil.copy2(self.requirements_file, backup_file)
             logger.info(f"📦 Backed up requirements to {backup_file}")
             return backup_file
-        
+
         return None
-    
+
     def fix_vulnerabilities(self, report: SecurityReport) -> Tuple[bool, List[str]]:
         """Attempt to fix vulnerabilities"""
         if not report.vulnerabilities:
             logger.info("✅ No vulnerabilities to fix")
             return True, []
-        
+
         # Backup first
         backup_file = self.backup_requirements()
-        
+
         # Read current requirements
         if not self.requirements_file.exists():
             logger.error("❌ requirements.txt not found")
             return False, []
-        
-        with open(self.requirements_file, 'r') as f:
+
+        with open(self.requirements_file) as f:
             lines = f.readlines()
-        
+
         updated_lines = []
         fixed_packages = []
-        
+
         # Create a map of vulnerable packages
         vuln_map = {v.package.lower(): v for v in report.vulnerabilities}
-        
+
         for line in lines:
             if line.strip().startswith('#') or not line.strip():
                 updated_lines.append(line)
                 continue
-            
+
             # Parse package name
             package_name = line.split('>=')[0].split('==')[0].split('[')[0].strip().lower()
-            
+
             if package_name in vuln_map:
                 vuln = vuln_map[package_name]
                 if vuln.fixed_version and vuln.fixed_version != 'latest':
@@ -324,15 +320,15 @@ class SecurityAutopilot:
                     logger.info(f"  ✅ Updated {package_name} to latest")
             else:
                 updated_lines.append(line)
-        
+
         # Write updated requirements
         with open(self.requirements_file, 'w') as f:
             f.writelines(updated_lines)
-        
+
         # Install updated packages
         logger.info("📦 Installing updated packages...")
         code, _, stderr = self.run_command(['python3', '-m', 'pip', 'install', '-r', 'requirements.txt'])
-        
+
         if code != 0:
             logger.error(f"❌ Failed to install updated packages: {stderr}")
             # Restore backup
@@ -340,26 +336,26 @@ class SecurityAutopilot:
                 shutil.copy2(backup_file, self.requirements_file)
                 logger.info("🔄 Restored backup due to installation failure")
             return False, []
-        
+
         return True, fixed_packages
-    
+
     def run_tests(self) -> bool:
         """Run project tests"""
         if not self.config['run_tests']:
             return True
-        
+
         logger.info("🧪 Running tests...")
-        
+
         # First try a simple import test
         code, _, _ = self.run_command(['python3', '-c', 'import lukhas; print("✅ Import test passed")'])
         if code != 0:
             logger.error("❌ Import test failed")
             return False
-        
+
         # Run configured test command
         test_cmd = self.config['test_command'].split()
         code, stdout, stderr = self.run_command(test_cmd)
-        
+
         if code == 0:
             logger.info("✅ All tests passed")
             return True
@@ -367,17 +363,17 @@ class SecurityAutopilot:
             logger.warning(f"⚠️ Some tests failed (exit code: {code})")
             # Don't fail completely if some tests fail
             return True
-    
+
     def create_commit(self, fixed_packages: List[str]) -> bool:
         """Create a git commit with fixes"""
         if not self.config['auto_commit']:
             return False
-        
+
         logger.info("📝 Creating git commit...")
-        
+
         # Add changes
         self.run_command(['git', 'add', 'requirements.txt'])
-        
+
         # Create commit message
         commit_message = f"""fix(security): Auto-fix {len(fixed_packages)} security vulnerabilities
 
@@ -386,55 +382,55 @@ Fixed packages:
 
 Automated security fix by LUKHAS Security Autopilot
 """
-        
+
         # Commit
         code, _, _ = self.run_command(['git', 'commit', '-m', commit_message])
-        
+
         if code == 0:
             logger.info("✅ Changes committed")
-            
+
             if self.config['auto_push']:
                 code, _, _ = self.run_command(['git', 'push'])
                 if code == 0:
                     logger.info("✅ Changes pushed to remote")
                 else:
                     logger.warning("⚠️ Failed to push changes")
-            
+
             return True
-        
+
         return False
-    
+
     def send_notification(self, report: SecurityReport, fixed: bool, fixed_packages: List[str]):
         """Send notification about security status"""
         if not self.config['notification_webhook']:
             return
-        
+
         # This would send to Slack, Discord, etc.
         # Implementation depends on webhook type
         pass
-    
+
     async def run(self, continuous: bool = False, interval: int = 3600):
         """Main execution flow"""
         logger.info("🚀 LUKHAS Security Autopilot starting...")
-        
+
         while True:
             try:
                 # Scan for vulnerabilities
                 report = await self.scan_all()
-                
+
                 if report.vulnerabilities:
                     severity_order = {'critical': 0, 'high': 1, 'medium': 2, 'low': 3, 'unknown': 4}
                     threshold = severity_order.get(self.config['severity_threshold'], 2)
-                    
+
                     # Filter by severity threshold
                     vulns_to_fix = [
-                        v for v in report.vulnerabilities 
+                        v for v in report.vulnerabilities
                         if severity_order.get(v.severity, 4) <= threshold
                     ]
-                    
+
                     if vulns_to_fix and self.config['auto_fix']:
                         logger.info(f"🔧 Attempting to fix {len(vulns_to_fix)} vulnerabilities...")
-                        
+
                         # Create filtered report
                         fix_report = SecurityReport(
                             timestamp=report.timestamp,
@@ -443,35 +439,35 @@ Automated security fix by LUKHAS Security Autopilot
                             scanners_used=report.scanners_used,
                             total_packages_scanned=report.total_packages_scanned
                         )
-                        
+
                         # Fix vulnerabilities
                         success, fixed_packages = self.fix_vulnerabilities(fix_report)
-                        
+
                         if success and fixed_packages:
                             # Run tests
                             tests_passed = self.run_tests()
-                            
+
                             if tests_passed:
                                 # Create commit
                                 self.create_commit(fixed_packages)
-                                
+
                                 logger.info(f"✅ Successfully fixed {len(fixed_packages)} vulnerabilities")
                             else:
                                 logger.warning("⚠️ Tests failed after fixes, manual review needed")
-                        
+
                         # Send notification
                         self.send_notification(report, success, fixed_packages)
                     else:
                         logger.info(f"ℹ️ {len(vulns_to_fix)} vulnerabilities found but auto-fix is disabled")
                 else:
                     logger.info("✅ No vulnerabilities found - system is secure!")
-                
+
                 if not continuous:
                     break
-                
+
                 logger.info(f"💤 Sleeping for {interval} seconds...")
                 await asyncio.sleep(interval)
-                
+
             except KeyboardInterrupt:
                 logger.info("⏹️ Autopilot stopped by user")
                 break
@@ -480,18 +476,18 @@ Automated security fix by LUKHAS Security Autopilot
                 if not continuous:
                     break
                 await asyncio.sleep(60)  # Wait a minute before retry
-    
+
     def status(self) -> Dict[str, Any]:
         """Get current security status"""
         # Find latest report
         reports = sorted(self.reports_dir.glob("security-report-*.json"))
-        
+
         if not reports:
             return {"status": "no_reports", "message": "No security scans performed yet"}
-        
-        with open(reports[-1], 'r') as f:
+
+        with open(reports[-1]) as f:
             latest_report = json.load(f)
-        
+
         return {
             "status": "secure" if not latest_report['vulnerabilities'] else "vulnerable",
             "last_scan": latest_report['timestamp'],
@@ -532,37 +528,37 @@ def main():
         action='store_true',
         help='Skip running tests after fixes'
     )
-    
+
     args = parser.parse_args()
-    
+
     # Initialize autopilot
     autopilot = SecurityAutopilot()
-    
+
     # Override config with CLI args
     if args.auto_fix:
         autopilot.config['auto_fix'] = True
     if args.no_tests:
         autopilot.config['run_tests'] = False
-    
+
     if args.command == 'scan':
         # Just scan and report
         autopilot.config['auto_fix'] = False
         asyncio.run(autopilot.run(continuous=False))
-    
+
     elif args.command == 'fix':
         # Scan and fix
         autopilot.config['auto_fix'] = True
         asyncio.run(autopilot.run(continuous=False))
-    
+
     elif args.command == 'monitor':
         # Continuous monitoring
         asyncio.run(autopilot.run(continuous=args.continuous, interval=args.interval))
-    
+
     elif args.command == 'status':
         # Show current status
         status = autopilot.status()
         print(json.dumps(status, indent=2))
-    
+
     elif args.command == 'config':
         # Show current configuration
         print(json.dumps(autopilot.config, indent=2))

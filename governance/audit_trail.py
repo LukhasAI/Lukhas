@@ -22,22 +22,24 @@ import numpy as np
 
 class AuditLevel(Enum):
     """Audit detail levels"""
-    MINIMAL = "minimal"          # Basic tracking
-    STANDARD = "standard"        # Normal operations
-    DETAILED = "detailed"        # Include reasoning
-    FORENSIC = "forensic"        # Full reconstruction capability
+
+    MINIMAL = "minimal"  # Basic tracking
+    STANDARD = "standard"  # Normal operations
+    DETAILED = "detailed"  # Include reasoning
+    FORENSIC = "forensic"  # Full reconstruction capability
 
 
 class DecisionType(Enum):
     """Types of decisions being audited"""
-    RESPONSE = "response"              # AI response generation
-    MODERATION = "moderation"          # Content filtering
-    ROUTING = "routing"                # Request routing
-    CACHING = "caching"                # Cache decisions
-    SAFETY = "safety"                  # Safety interventions
-    LEARNING = "learning"              # Learning updates
-    CONFIGURATION = "configuration"    # Config changes
-    SYSTEM = "system"                  # System operations
+
+    RESPONSE = "response"  # AI response generation
+    MODERATION = "moderation"  # Content filtering
+    ROUTING = "routing"  # Request routing
+    CACHING = "caching"  # Cache decisions
+    SAFETY = "safety"  # Safety interventions
+    LEARNING = "learning"  # Learning updates
+    CONFIGURATION = "configuration"  # Config changes
+    SYSTEM = "system"  # System operations
 
 
 @dataclass
@@ -46,6 +48,7 @@ class AuditEntry:
     Single audit trail entry capturing a decision or action.
     Immutable once created for forensic integrity.
     """
+
     # Identifiers
     audit_id: str = field(default_factory=lambda: str(uuid4()))
     timestamp: float = field(default_factory=time.time)
@@ -89,7 +92,7 @@ class AuditEntry:
         # Handle both enum and string types for decision_type
         decision_type_value = (
             self.decision_type.value
-            if hasattr(self.decision_type, 'value')
+            if hasattr(self.decision_type, "value")
             else self.decision_type
         )
         data = {
@@ -98,7 +101,7 @@ class AuditEntry:
             "decision_type": decision_type_value,
             "decision": self.decision,
             "input_data": json.dumps(self.input_data, sort_keys=True),
-            "output_data": json.dumps(self.output_data, sort_keys=True)
+            "output_data": json.dumps(self.output_data, sort_keys=True),
         }
 
         checksum_str = json.dumps(data, sort_keys=True)
@@ -120,11 +123,11 @@ class AuditTrail:
         db_path: Optional[Path] = None,
         audit_level: AuditLevel = AuditLevel.STANDARD,
         retention_days: int = 90,
-        enable_explanations: bool = True
+        enable_explanations: bool = True,
     ):
         """
         Initialize audit trail system.
-        
+
         Args:
             db_path: Path to audit database
             audit_level: Level of audit detail
@@ -148,7 +151,7 @@ class AuditTrail:
             "total_entries": 0,
             "decisions_by_type": {},
             "average_confidence": 0.0,
-            "interventions": 0
+            "interventions": 0,
         }
 
         # Load stats
@@ -160,7 +163,8 @@ class AuditTrail:
         cursor = conn.cursor()
 
         # Main audit table
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS audit_entries (
                 audit_id TEXT PRIMARY KEY,
                 timestamp REAL,
@@ -189,17 +193,27 @@ class AuditTrail:
                 
                 FOREIGN KEY (parent_id) REFERENCES audit_entries(audit_id)
             )
-        """)
+        """
+        )
 
         # Create indexes for efficient queries
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_timestamp ON audit_entries(timestamp)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_session ON audit_entries(session_id)")
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_timestamp ON audit_entries(timestamp)"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_session ON audit_entries(session_id)"
+        )
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_user ON audit_entries(user_id)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_type ON audit_entries(decision_type)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_parent ON audit_entries(parent_id)")
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_type ON audit_entries(decision_type)"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_parent ON audit_entries(parent_id)"
+        )
 
         # Explanations table
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS explanations (
                 audit_id TEXT PRIMARY KEY,
                 human_explanation TEXT,
@@ -210,7 +224,8 @@ class AuditTrail:
                 
                 FOREIGN KEY (audit_id) REFERENCES audit_entries(audit_id)
             )
-        """)
+        """
+        )
 
         conn.commit()
         conn.close()
@@ -225,11 +240,11 @@ class AuditTrail:
         output_data: Optional[Dict[str, Any]] = None,
         session_id: str = "",
         parent_id: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> AuditEntry:
         """
         Log a decision to the audit trail.
-        
+
         Args:
             decision_type: Type of decision
             decision: The decision made
@@ -240,7 +255,7 @@ class AuditTrail:
             session_id: Session identifier
             parent_id: Parent decision ID
             **kwargs: Additional fields
-            
+
         Returns:
             Created audit entry
         """
@@ -254,7 +269,7 @@ class AuditTrail:
             output_data=output_data or {},
             session_id=session_id,
             parent_id=parent_id,
-            **kwargs
+            **kwargs,
         )
 
         # Add checksum
@@ -265,7 +280,10 @@ class AuditTrail:
         self._save_entry(entry)
 
         # Generate explanation if enabled
-        if self.enable_explanations and self.audit_level in [AuditLevel.DETAILED, AuditLevel.FORENSIC]:
+        if self.enable_explanations and self.audit_level in [
+            AuditLevel.DETAILED,
+            AuditLevel.FORENSIC,
+        ]:
             self._generate_explanation(entry)
 
         # Track in session
@@ -287,7 +305,8 @@ class AuditTrail:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO audit_entries (
                 audit_id, timestamp, session_id, interaction_id,
                 decision_type, decision, reasoning, confidence,
@@ -297,15 +316,33 @@ class AuditTrail:
                 model_version, component, user_id, tags,
                 checksum, verified
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            entry.audit_id, entry.timestamp, entry.session_id, entry.interaction_id,
-            entry.decision_type.value, entry.decision, entry.reasoning, entry.confidence,
-            json.dumps(entry.input_data), json.dumps(entry.output_data), json.dumps(entry.system_state),
-            json.dumps(entry.signals), json.dumps(entry.policies), json.dumps(entry.overrides),
-            entry.parent_id, json.dumps(entry.child_ids), json.dumps(entry.related_ids),
-            entry.model_version, entry.component, entry.user_id, json.dumps(list(entry.tags)),
-            entry.checksum, entry.verified
-        ))
+        """,
+            (
+                entry.audit_id,
+                entry.timestamp,
+                entry.session_id,
+                entry.interaction_id,
+                entry.decision_type.value,
+                entry.decision,
+                entry.reasoning,
+                entry.confidence,
+                json.dumps(entry.input_data),
+                json.dumps(entry.output_data),
+                json.dumps(entry.system_state),
+                json.dumps(entry.signals),
+                json.dumps(entry.policies),
+                json.dumps(entry.overrides),
+                entry.parent_id,
+                json.dumps(entry.child_ids),
+                json.dumps(entry.related_ids),
+                entry.model_version,
+                entry.component,
+                entry.user_id,
+                json.dumps(list(entry.tags)),
+                entry.checksum,
+                entry.verified,
+            ),
+        )
 
         conn.commit()
         conn.close()
@@ -316,16 +353,22 @@ class AuditTrail:
             "human": "",
             "technical": "",
             "confidence_factors": [],
-            "alternatives": []
+            "alternatives": [],
         }
 
         # Human explanation
         if entry.decision_type == DecisionType.RESPONSE:
-            explanations["human"] = f"Generated response based on user input with {entry.confidence:.0%} confidence."
+            explanations["human"] = (
+                f"Generated response based on user input with {entry.confidence:.0%} confidence."
+            )
             if entry.signals:
-                active_signals = [f"{k}: {v:.1f}" for k, v in entry.signals.items() if v > 0.3]
+                active_signals = [
+                    f"{k}: {v:.1f}" for k, v in entry.signals.items() if v > 0.3
+                ]
                 if active_signals:
-                    explanations["human"] += f" System state: {', '.join(active_signals)}."
+                    explanations[
+                        "human"
+                    ] += f" System state: {', '.join(active_signals)}."
 
         elif entry.decision_type == DecisionType.SAFETY:
             explanations["human"] = f"Safety intervention: {entry.decision}"
@@ -367,18 +410,21 @@ class AuditTrail:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO explanations (
                 audit_id, human_explanation, technical_explanation,
                 confidence_factors, alternative_decisions
             ) VALUES (?, ?, ?, ?, ?)
-        """, (
-            audit_id,
-            explanations["human"],
-            explanations["technical"],
-            json.dumps(explanations["confidence_factors"]),
-            json.dumps(explanations["alternatives"])
-        ))
+        """,
+            (
+                audit_id,
+                explanations["human"],
+                explanations["technical"],
+                json.dumps(explanations["confidence_factors"]),
+                json.dumps(explanations["alternatives"]),
+            ),
+        )
 
         conn.commit()
         conn.close()
@@ -403,7 +449,7 @@ class AuditTrail:
 
         cursor.execute(
             "SELECT * FROM audit_entries WHERE session_id = ? ORDER BY timestamp",
-            (session_id,)
+            (session_id,),
         )
         rows = cursor.fetchall()
         conn.close()
@@ -463,7 +509,7 @@ class AuditTrail:
             user_id=row[19],
             tags=set(json.loads(row[20])) if row[20] else set(),
             checksum=row[21],
-            verified=bool(row[22])
+            verified=bool(row[22]),
         )
         return entry
 
@@ -473,10 +519,7 @@ class AuditTrail:
         cursor = conn.cursor()
 
         # Get explanation
-        cursor.execute(
-            "SELECT * FROM explanations WHERE audit_id = ?",
-            (audit_id,)
-        )
+        cursor.execute("SELECT * FROM explanations WHERE audit_id = ?", (audit_id,))
         row = cursor.fetchone()
 
         if row:
@@ -484,7 +527,7 @@ class AuditTrail:
                 "human": row[1],
                 "technical": row[2],
                 "confidence_factors": json.loads(row[3]) if row[3] else [],
-                "alternatives": json.loads(row[4]) if row[4] else []
+                "alternatives": json.loads(row[4]) if row[4] else [],
             }
         else:
             # Generate on-demand if not exists
@@ -493,8 +536,7 @@ class AuditTrail:
                 self._generate_explanation(entry)
                 # Retry
                 cursor.execute(
-                    "SELECT * FROM explanations WHERE audit_id = ?",
-                    (audit_id,)
+                    "SELECT * FROM explanations WHERE audit_id = ?", (audit_id,)
                 )
                 row = cursor.fetchone()
                 if row:
@@ -502,7 +544,7 @@ class AuditTrail:
                         "human": row[1],
                         "technical": row[2],
                         "confidence_factors": json.loads(row[3]) if row[3] else [],
-                        "alternatives": json.loads(row[4]) if row[4] else []
+                        "alternatives": json.loads(row[4]) if row[4] else [],
                     }
                 else:
                     explanation = {"error": "Could not generate explanation"}
@@ -520,11 +562,11 @@ class AuditTrail:
         user_id: Optional[str] = None,
         min_confidence: Optional[float] = None,
         component: Optional[str] = None,
-        limit: int = 100
+        limit: int = 100,
     ) -> List[AuditEntry]:
         """
         Search audit trail with filters.
-        
+
         Args:
             decision_type: Filter by decision type
             start_time: Start timestamp
@@ -533,7 +575,7 @@ class AuditTrail:
             min_confidence: Minimum confidence level
             component: Filter by component
             limit: Maximum results
-            
+
         Returns:
             List of matching audit entries
         """
@@ -598,10 +640,12 @@ class AuditTrail:
         deleted = cursor.rowcount
 
         # Delete orphaned explanations
-        cursor.execute("""
+        cursor.execute(
+            """
             DELETE FROM explanations 
             WHERE audit_id NOT IN (SELECT audit_id FROM audit_entries)
-        """)
+        """
+        )
 
         conn.commit()
         conn.close()
@@ -629,18 +673,20 @@ class AuditTrail:
         # By type
         cursor.execute(
             f"SELECT decision_type, COUNT(*) FROM audit_entries WHERE {where} GROUP BY decision_type",
-            params
+            params,
         )
         by_type = {row[0]: row[1] for row in cursor.fetchall()}
 
         # Average confidence
-        cursor.execute(f"SELECT AVG(confidence) FROM audit_entries WHERE {where}", params)
+        cursor.execute(
+            f"SELECT AVG(confidence) FROM audit_entries WHERE {where}", params
+        )
         avg_conf = cursor.fetchone()[0] or 0.0
 
         # Safety interventions
         cursor.execute(
             f"SELECT COUNT(*) FROM audit_entries WHERE {where} AND decision_type = 'safety'",
-            params
+            params,
         )
         interventions = cursor.fetchone()[0]
 
@@ -651,7 +697,7 @@ class AuditTrail:
             "by_type": by_type,
             "average_confidence": avg_conf,
             "safety_interventions": interventions,
-            "active_sessions": len(self.active_sessions)
+            "active_sessions": len(self.active_sessions),
         }
 
     def _load_statistics(self):
@@ -715,7 +761,7 @@ if __name__ == "__main__":
         output_data={"response": "Python is a programming language..."},
         session_id="demo-session",
         signals={"stress": 0.2, "trust": 0.8},
-        component="response_generator"
+        component="response_generator",
     )
     print(f"Logged response decision: {entry1.audit_id}")
 
@@ -727,7 +773,7 @@ if __name__ == "__main__":
         confidence=0.95,
         session_id="demo-session",
         parent_id=entry1.audit_id,
-        component="safety_filter"
+        component="safety_filter",
     )
     print(f"Logged safety decision: {entry2.audit_id}")
 

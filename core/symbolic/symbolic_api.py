@@ -18,10 +18,11 @@ import yaml
 from embedding import LukhasEmbedding
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
-from memory_chain import SymbolicMemoryManager
-from memory_fold_tracker import MemoryFoldTracker
 from pydantic import BaseModel, Field
 from symbolic_healer import SymbolicHealer
+
+from memory_chain import SymbolicMemoryManager
+from memory_fold_tracker import MemoryFoldTracker
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

@@ -434,18 +434,35 @@ class LambdaSSOEngine:
         try:
             # Define tier-based scope requirements
             tier_scope_limits = {
-                0: ['basic', 'identity:read'],
-                1: ['basic', 'identity:read', 'identity:limited'],
-                2: ['basic', 'identity:read', 'identity:write', 'profile', 'email'],
-                3: ['basic', 'identity:read', 'identity:write', 'profile', 'email', 'premium', 'biometric'],
-                4: ['basic', 'identity:read', 'identity:write', 'profile', 'email', 'premium', 'biometric', 'enterprise'],
-                5: ['*']  # Admin tier - all scopes
+                0: ["basic", "identity:read"],
+                1: ["basic", "identity:read", "identity:limited"],
+                2: ["basic", "identity:read", "identity:write", "profile", "email"],
+                3: [
+                    "basic",
+                    "identity:read",
+                    "identity:write",
+                    "profile",
+                    "email",
+                    "premium",
+                    "biometric",
+                ],
+                4: [
+                    "basic",
+                    "identity:read",
+                    "identity:write",
+                    "profile",
+                    "email",
+                    "premium",
+                    "biometric",
+                    "enterprise",
+                ],
+                5: ["*"],  # Admin tier - all scopes
             }
 
-            allowed_scopes = tier_scope_limits.get(user_tier, ['basic'])
+            allowed_scopes = tier_scope_limits.get(user_tier, ["basic"])
 
             # Admin tier has access to all scopes
-            if '*' in allowed_scopes:
+            if "*" in allowed_scopes:
                 return True
 
             # Check if all requested scopes are allowed for user's tier
@@ -566,14 +583,14 @@ class LambdaSSOEngine:
             import json
 
             # Handle different QR-G data formats
-            if qr_glyph_data.startswith('QRG_'):
+            if qr_glyph_data.startswith("QRG_"):
                 # Custom QR-G format: QRG_<version>_<base64_data>
-                parts = qr_glyph_data.split('_', 2)
+                parts = qr_glyph_data.split("_", 2)
                 if len(parts) != 3:
                     raise ValueError("Invalid QR-G format")
 
                 version, encoded_data = parts[1], parts[2]
-                decoded_data = base64.b64decode(encoded_data).decode('utf-8')
+                decoded_data = base64.b64decode(encoded_data).decode("utf-8")
                 glyph_payload = json.loads(decoded_data)
 
             else:
@@ -581,32 +598,38 @@ class LambdaSSOEngine:
                 glyph_payload = json.loads(qr_glyph_data)
 
             # Validate required fields
-            required_fields = ['user_id', 'symbolic_challenge', 'expires_at', 'glyph_id']
+            required_fields = [
+                "user_id",
+                "symbolic_challenge",
+                "expires_at",
+                "glyph_id",
+            ]
             for field in required_fields:
                 if field not in glyph_payload:
                     raise ValueError(f"Missing required field: {field}")
 
             # Validate expiration
             from datetime import datetime
-            expires_at = datetime.fromisoformat(glyph_payload['expires_at'])
+
+            expires_at = datetime.fromisoformat(glyph_payload["expires_at"])
             if datetime.utcnow() > expires_at:
                 raise ValueError("QR-G code has expired")
 
             # Validate glyph ID format
-            if not glyph_payload['glyph_id'].startswith('QRG_'):
+            if not glyph_payload["glyph_id"].startswith("QRG_"):
                 raise ValueError("Invalid glyph ID format")
 
             # Sanitize and validate user_id
-            user_id = glyph_payload['user_id']
+            user_id = glyph_payload["user_id"]
             if not user_id or len(user_id) < 8 or len(user_id) > 100:
                 raise ValueError("Invalid user ID in QR-G")
 
             return glyph_payload
 
         except (json.JSONDecodeError, ValueError, KeyError) as e:
-            return {'error': f'QR-G parsing failed: {str(e)}'}
+            return {"error": f"QR-G parsing failed: {str(e)}"}
         except Exception as e:
-            return {'error': f'Unexpected error parsing QR-G: {str(e)}'}
+            return {"error": f"Unexpected error parsing QR-G: {str(e)}"}
 
     def _validate_qr_glyph_signature(self, glyph_payload: dict) -> bool:
         """Validate QR-G cryptographic signature with HMAC verification"""
@@ -615,36 +638,42 @@ class LambdaSSOEngine:
             import hmac
 
             # Check if signature exists
-            if 'signature' not in glyph_payload:
+            if "signature" not in glyph_payload:
                 return False
 
-            provided_signature = glyph_payload.pop('signature')  # Remove for verification
+            provided_signature = glyph_payload.pop(
+                "signature"
+            )  # Remove for verification
 
             # Create canonical string for signing
             canonical_data = {
-                'user_id': glyph_payload.get('user_id', ''),
-                'symbolic_challenge': glyph_payload.get('symbolic_challenge', ''),
-                'expires_at': glyph_payload.get('expires_at', ''),
-                'glyph_id': glyph_payload.get('glyph_id', ''),
-                'service_scope': glyph_payload.get('service_scope', [])
+                "user_id": glyph_payload.get("user_id", ""),
+                "symbolic_challenge": glyph_payload.get("symbolic_challenge", ""),
+                "expires_at": glyph_payload.get("expires_at", ""),
+                "glyph_id": glyph_payload.get("glyph_id", ""),
+                "service_scope": glyph_payload.get("service_scope", []),
             }
 
             # Sort keys for consistent signing
-            canonical_string = json.dumps(canonical_data, sort_keys=True, separators=(',', ':'))
+            canonical_string = json.dumps(
+                canonical_data, sort_keys=True, separators=(",", ":")
+            )
 
             # Generate HMAC signature (in production, use secure key management)
-            signing_key = self.config.get('qr_glyph_signing_key', 'LUKHAS_QRG_SECRET_2024').encode()
+            signing_key = self.config.get(
+                "qr_glyph_signing_key", "LUKHAS_QRG_SECRET_2024"
+            ).encode()
             expected_signature = hmac.new(
-                signing_key,
-                canonical_string.encode(),
-                hashlib.sha256
+                signing_key, canonical_string.encode(), hashlib.sha256
             ).hexdigest()
 
             # Constant-time comparison to prevent timing attacks
-            signature_valid = hmac.compare_digest(provided_signature, expected_signature)
+            signature_valid = hmac.compare_digest(
+                provided_signature, expected_signature
+            )
 
             # Restore signature to payload
-            glyph_payload['signature'] = provided_signature
+            glyph_payload["signature"] = provided_signature
 
             return signature_valid
 

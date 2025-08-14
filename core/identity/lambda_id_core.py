@@ -10,10 +10,9 @@ import hashlib
 import logging
 import secrets
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional, Union, Tuple
-import weakref
+from typing import Any, Dict, List, Optional, Union
 
 import jwt
 
@@ -90,12 +89,12 @@ class LukhasIDGenerator:
     def generate_lid(self, namespace: str, metadata: Dict[str, Any]) -> str:
         """Generate unique ΛID with namespace validation"""
         start = time.perf_counter()
-        
+
         try:
             # Input validation
             if not isinstance(namespace, str) or not namespace.strip():
                 raise InvalidNamespaceError("Namespace must be a non-empty string")
-            
+
             if not isinstance(metadata, dict):
                 raise ΛIDError("Metadata must be a dictionary")
 
@@ -109,7 +108,7 @@ class LukhasIDGenerator:
             missing = [f for f in ns_config["required_fields"] if f not in metadata or not metadata[f]]
             if missing:
                 raise ΛIDError(f"Missing or empty required fields for {namespace}: {missing}")
-                
+
             # Validate field contents
             for field, value in metadata.items():
                 if not isinstance(value, (str, int, float, bool)):
@@ -134,10 +133,10 @@ class LukhasIDGenerator:
             if elapsed_ms > MAX_AUTH_LATENCY_MS:
                 logger.warning(f"⚠️ ΛID generation exceeded {MAX_AUTH_LATENCY_MS}ms: {elapsed_ms:.2f}ms")
                 # Don't raise exception, but log for monitoring
-            
+
             logger.debug(f"⚛️ Generated ΛID {lid} in {elapsed_ms:.2f}ms")
             return lid
-            
+
         except Exception as e:
             elapsed_ms = (time.perf_counter() - start) * 1000
             logger.error(f"❌ ΛID generation failed after {elapsed_ms:.2f}ms: {str(e)}")
@@ -148,18 +147,18 @@ class LukhasIDGenerator:
         try:
             if not isinstance(lid, str) or not lid:
                 raise ΛIDError("ΛID must be a non-empty string")
-                
+
             parts = lid.split('-')
             if len(parts) != 4:
                 raise ΛIDError(f"Invalid ΛID format. Expected 4 parts, got {len(parts)}")
-                
+
             prefix = parts[0]
             for ns_name in ['USER', 'AGENT', 'SERVICE', 'SYSTEM']:
                 if getattr(ΛIDNamespace, ns_name)['prefix'] == prefix:
                     return ns_name.lower()
-                    
+
             raise ΛIDError(f"Unknown namespace prefix: {prefix}")
-            
+
         except Exception as e:
             logger.error(f"❌ Failed to extract namespace from ΛID {lid}: {str(e)}")
             raise ΛIDError(f"Invalid ΛID format: {str(e)}") from e
@@ -175,11 +174,11 @@ class OIDCProvider:
         # Input validation
         if not isinstance(issuer, str) or not issuer.startswith(('https://', 'http://')):
             raise ΛIDError("Issuer must be a valid URL")
-            
+
         self.issuer = issuer
         self.signing_key = secrets.token_urlsafe(32)
         self.id_generator = LukhasIDGenerator()
-        
+
         # Trinity Framework validation
         logger.info(f"⚛️ OIDC Provider initialized with issuer: {issuer}")
 
@@ -192,7 +191,7 @@ class OIDCProvider:
                 raise InvalidTokenError("ΛID must be a non-empty string")
             if not client_id or not isinstance(client_id, str):
                 raise InvalidTokenError("client_id must be a non-empty string")
-            
+
             # Validate ΛID format
             try:
                 namespace = self.id_generator.extract_namespace(lid)
@@ -222,7 +221,7 @@ class OIDCProvider:
             token = jwt.encode(claims, self.signing_key, algorithm="HS256")
             logger.debug(f"⚛️ Issued ID token for ΛID: {lid}")
             return token
-            
+
         except Exception as e:
             logger.error(f"❌ Failed to issue ID token for ΛID {lid}: {str(e)}")
             raise InvalidTokenError(f"Token issuance failed: {str(e)}") from e
@@ -238,13 +237,13 @@ class OIDCProvider:
                 raise InvalidTokenError("Scope must be a non-empty list")
             if not client_id or not isinstance(client_id, str):
                 raise InvalidTokenError("client_id must be a non-empty string")
-                
+
             # Validate scope values
             valid_scopes = ['openid', 'profile', 'email', 'offline_access']
             invalid_scopes = [s for s in scope if s not in valid_scopes]
             if invalid_scopes:
                 raise InvalidTokenError(f"Invalid scopes: {invalid_scopes}. Valid: {valid_scopes}")
-                
+
             token = secrets.token_urlsafe(32)
 
             # Store token metadata (in production, use Redis/database)
@@ -258,7 +257,7 @@ class OIDCProvider:
 
             logger.debug(f"⚛️ Issued access token for ΛID: {lid}, scopes: {scope}")
             return token_data
-            
+
         except Exception as e:
             logger.error(f"❌ Failed to issue access token for ΛID {lid}: {str(e)}")
             raise InvalidTokenError(f"Access token issuance failed: {str(e)}") from e
@@ -297,11 +296,11 @@ class WebAuthnPasskeyManager:
         # 🛡️ Security: In-memory storage for challenges (Production: Use Redis with TTL)
         self.challenges = {}  # Use regular dict since WeakValueDictionary needs objects
         self.credentials = {}  # Production: Use encrypted database
-        
+
         # Security monitoring
         self._failed_attempts = {}  # Rate limiting
         self._security_events = []  # Audit trail
-        
+
         logger.info("🛡️ WebAuthn Passkey Manager initialized with security monitoring")
 
     def initiate_registration(self, lid: str, user_email: str) -> Dict[str, Any]:
@@ -312,10 +311,10 @@ class WebAuthnPasskeyManager:
                 raise AuthenticationError("ΛID must be a non-empty string")
             if not user_email or '@' not in user_email:
                 raise AuthenticationError("Valid email address required")
-                
+
             # Rate limiting check
             self._check_rate_limit(lid, 'registration')
-            
+
             challenge = base64.urlsafe_b64encode(secrets.token_bytes(32)).decode()
 
             self.challenges[lid] = {
@@ -323,12 +322,12 @@ class WebAuthnPasskeyManager:
                 "timestamp": time.time(),
                 "type": "registration"
             }
-            
+
             self._log_security_event(lid, 'registration_initiated', {
                 'email': user_email,
                 'challenge_id': challenge
             })
-            
+
             return {
                 "publicKey": {
                     "challenge": challenge,
@@ -354,7 +353,7 @@ class WebAuthnPasskeyManager:
                     "attestation": "direct"
                 }
             }
-        
+
         except Exception as e:
             self._log_security_event(lid, 'registration_failed', {'error': str(e)})
             logger.error(f"❌ WebAuthn registration failed for {lid}: {str(e)}")
@@ -416,28 +415,28 @@ class WebAuthnPasskeyManager:
         # In production: Verify signature with stored public key
         # For MVP: Simplified validation
         del self.challenges[lid]
-        
+
         self._log_security_event(lid, 'authentication_success', {})
         logger.info(f"⚛️ Passkey authentication successful for {lid}")
         return True
-    
+
     def _check_rate_limit(self, lid: str, operation: str, max_attempts: int = 5) -> None:
         """🛡️ Rate limiting to prevent abuse"""
         current_time = time.time()
         key = f"{lid}:{operation}"
-        
+
         if key not in self._failed_attempts:
             self._failed_attempts[key] = []
-        
+
         # Clean old attempts (1 hour window)
         self._failed_attempts[key] = [
             timestamp for timestamp in self._failed_attempts[key]
             if current_time - timestamp < 3600
         ]
-        
+
         if len(self._failed_attempts[key]) >= max_attempts:
             raise AuthenticationError(f"Rate limit exceeded for {operation}")
-    
+
     def _log_security_event(self, lid: str, event_type: str, details: Dict[str, Any]) -> None:
         """🛡️ Log security events for audit trail"""
         event = {
@@ -447,13 +446,13 @@ class WebAuthnPasskeyManager:
             'details': details,
             'trinity_guardian': True  # 🛡️ Guardian validation
         }
-        
+
         self._security_events.append(event)
-        
+
         # Keep only last 1000 events in memory
         if len(self._security_events) > 1000:
             self._security_events = self._security_events[-1000:]
-        
+
         logger.info(f"🛡️ Security event: {event_type} for {lid}")
 
 
@@ -510,14 +509,14 @@ class LukhasIdentityService:
             "failed_operations": 0,
             "security_events": 0
         }
-        
+
         # Trinity Framework status tracking
         self._trinity_framework_active = {
             "identity": True,      # ⚛️ Core identity system
-            "consciousness": True, # 🧠 Performance awareness  
+            "consciousness": True, # 🧠 Performance awareness
             "guardian": True       # 🛡️ Security monitoring
         }
-        
+
         logger.info("⚛️🧠🛡️ LUKHAS Identity Service initialized with Trinity Framework integration")
 
     def register_user(self, email: str, display_name: str,
@@ -607,7 +606,7 @@ class LukhasIdentityService:
         🛡️ Guardian: Security validation and audit trail
         """
         return self._trinity_framework_active.copy()
-    
+
     @property
     def performance_metrics(self) -> Dict[str, Union[float, int, bool]]:
         """
@@ -616,7 +615,7 @@ class LukhasIdentityService:
         """
         current_p95 = self.metrics["p95_latency"]
         operations = self.metrics["operations_count"]
-        
+
         return {
             "p95_latency_ms": round(current_p95, 2),
             "target_met": current_p95 < MAX_AUTH_LATENCY_MS,
@@ -630,7 +629,7 @@ class LukhasIdentityService:
         """Track performance metrics with Trinity Framework consciousness"""
         self.metrics["auth_latencies"].append(latency_ms)
         self.metrics["operations_count"] += 1
-        
+
         if not success:
             self.metrics["failed_operations"] += 1
 
@@ -644,38 +643,38 @@ class LukhasIdentityService:
             p95_index = int(len(sorted_latencies) * 0.95)
             self.metrics["p95_latency"] = sorted_latencies[p95_index]
             self.metrics["average_latency"] = sum(sorted_latencies) / len(sorted_latencies)
-            
+
             # 🧠 Consciousness: Log performance awareness
             if self.metrics["p95_latency"] > MAX_AUTH_LATENCY_MS:
                 logger.warning(f"🧠 Performance target exceeded: {self.metrics['p95_latency']:.2f}ms > {MAX_AUTH_LATENCY_MS}ms")
             elif latency_ms > MAX_AUTH_LATENCY_MS:
                 logger.debug(f"🧠 Single operation exceeded target: {latency_ms:.2f}ms")
-    
+
     def _validate_registration_request(self, email: str) -> None:
         """🛡️ Validate registration request for security"""
         # Rate limiting for registration attempts
         # In production: check against database/Redis
         logger.debug(f"🛡️ Validating registration request for {email}")
         pass
-    
+
     def _check_authentication_rate_limit(self, lid: str) -> None:
         """🛡️ Check authentication rate limiting"""
         # In production: implement Redis-based rate limiting
         logger.debug(f"🛡️ Checking rate limit for {lid}")
         pass
-    
+
     def _verify_otp(self, lid: str, credential: Optional[Dict]) -> bool:
         """🛡️ Verify OTP credential"""
         # Placeholder for OTP verification implementation
         logger.debug(f"🛡️ OTP verification for {lid}")
         return False  # Not implemented yet
-    
+
     def _verify_backup_code(self, lid: str, credential: Optional[Dict]) -> bool:
         """🛡️ Verify backup code credential"""
         # Placeholder for backup code verification implementation
         logger.debug(f"🛡️ Backup code verification for {lid}")
         return False  # Not implemented yet
-    
+
     def get_performance_metrics(self) -> Dict[str, Any]:
         """🧠 Get current performance and security metrics (Legacy method)"""
         return {
@@ -699,7 +698,7 @@ def integrate_with_consent_ledger(lid: str, action: str) -> str:
     """
     try:
         trace_id = f"LT-{secrets.token_hex(16)}"
-        
+
         # Create audit record with Trinity Framework context
         audit_record = {
             'trace_id': trace_id,
@@ -713,12 +712,12 @@ def integrate_with_consent_ledger(lid: str, action: str) -> str:
             },
             'system': 'lambda_id_core'
         }
-        
+
         # In production, this would call the actual consent ledger
         logger.info(f"🛡️ Generated Λ-trace {trace_id} for {action} on {lid}")
-        
+
         return trace_id
-        
+
     except Exception as e:
         logger.error(f"❌ Failed to create Λ-trace for {lid}: {str(e)}")
         # Return a fallback trace ID even on error
@@ -742,11 +741,11 @@ if __name__ == "__main__":
     print("🔑 Testing LUKHAS ΛID Core Identity System")
     print("⚛️🧠🛡️ Trinity Framework Integration")
     print("-" * 60)
-    
+
     try:
         # Initialize service
         service = LukhasIdentityService()
-        
+
         # Validate Trinity Framework
         trinity_status = validate_trinity_framework()
         print(f"⚛️ Identity: {trinity_status['identity']}")
@@ -775,7 +774,7 @@ if __name__ == "__main__":
         print(f"⚡ Latency: {auth['performance']['latency_ms']:.2f}ms")
         print(f"📊 P95 Latency: {auth['performance']['p95_latency']:.2f}ms")
         print(f"⚛️ Trinity Status: {auth['trinity_status']}")
-            
+
         # Test Trinity Framework properties after operations
         print("\n📊 Trinity Framework Metrics After Operations:")
         print(f"🔑 Trinity Status: {service.trinity_status}")
@@ -784,29 +783,29 @@ if __name__ == "__main__":
         print(f"🎯 Target Met: {perf_metrics['target_met']}")
         print(f"🏃 Operations Count: {perf_metrics['operations_count']}")
         print(f"📈 Success Rate: {perf_metrics['success_rate']:.1f}%")
-        
+
         # Test legacy performance metrics method
         print("\n📊 Legacy Performance & Security Metrics:")
         legacy_metrics = service.get_performance_metrics()
         print(f"🏃 Operations: {legacy_metrics['performance']['operations_count']}")
         print(f"🎯 Average Latency: {legacy_metrics['performance'].get('average_latency', 0):.2f}ms")
         print(f"⚛️ Trinity Integration: {legacy_metrics['trinity_status']}")
-        
+
         # Test error handling
         print("\n🚨 Testing error handling...")
         try:
             service.register_user("", "")
         except ΛIDError as e:
             print(f"✅ Caught expected error: {str(e)[:50]}...")
-            
+
         try:
             service.authenticate("INVALID-ID", "passkey")
         except AuthenticationError as e:
             print(f"✅ Caught expected auth error: {str(e)[:50]}...")
-        
+
         print("\n✅ All tests completed successfully!")
         print("🛡️ LUKHAS ΛID Core Identity System validated")
-        
+
     except Exception as e:
         print(f"\n❌ Test failed: {str(e)}")
         raise

@@ -8,9 +8,9 @@ Part of the LUKHAS Trinity Framework (⚛️🧠🛡️)
 """
 
 from .autonomous_innovation_orchestrator import AutonomousInnovationOrchestrator
-from .resource_allocation_optimizer import ResourceAllocationOptimizer
-from .innovation_prioritization_engine import InnovationPrioritizationEngine
 from .breakthrough_synthesis_engine import BreakthroughSynthesisEngine
+from .innovation_prioritization_engine import InnovationPrioritizationEngine
+from .resource_allocation_optimizer import ResourceAllocationOptimizer
 
 __all__ = [
     "AutonomousInnovationOrchestrator",

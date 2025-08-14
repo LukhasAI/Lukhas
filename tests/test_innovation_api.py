@@ -15,16 +15,17 @@ This module tests:
 """
 
 import asyncio
-import aiohttp
-import json
 import hashlib
+import json
+import sys
 import time
 import uuid
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-import sys
+
+import aiohttp
 import yaml
 
 # Add project root to path
@@ -32,6 +33,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # Logging
 from core.common import get_logger
+
 logger = get_logger(__name__)
 
 
@@ -56,26 +58,26 @@ class APITestResult:
     test_id: str
     test_name: str
     timestamp: datetime
-    
+
     # Request details
     endpoint: str
     method: str
     request_payload: Dict[str, Any]
-    
+
     # Response details
     status_code: int
     response_time_ms: float
     response_body: Dict[str, Any]
     response_hash: str
-    
+
     # Validation
     passed: bool
     error_message: Optional[str]
-    
+
     # Metrics
     rate_limited: bool
     retry_count: int
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for JSON serialization"""
         return {
@@ -109,18 +111,18 @@ class InnovationAPITest:
     API testing interface for Innovation System.
     Simulates real-world API usage patterns.
     """
-    
+
     def __init__(self, base_url: str = "http://localhost:8080"):
         self.base_url = base_url
         self.test_cases: List[APITestCase] = []
         self.test_results: List[APITestResult] = []
         self.session: Optional[aiohttp.ClientSession] = None
         self.api_key = "test_api_key_" + uuid.uuid4().hex[:8]
-        
+
     async def setup(self) -> None:
         """Initialize API test session"""
         logger.info("🌐 Initializing API Test System")
-        
+
         # Create HTTP session
         self.session = aiohttp.ClientSession(
             headers={
@@ -129,26 +131,26 @@ class InnovationAPITest:
                 "User-Agent": "LUKHAS-API-Test/1.0"
             }
         )
-        
+
         # Load test scenarios from YAML
         await self.load_test_scenarios()
-        
+
         logger.info(f"✅ API test system initialized with {len(self.test_cases)} test cases")
-    
+
     async def teardown(self) -> None:
         """Cleanup API test session"""
         if self.session:
             await self.session.close()
         logger.info("API test system shutdown complete")
-    
+
     async def load_test_scenarios(self) -> None:
         """Load test scenarios from YAML configuration"""
         yaml_file = Path(__file__).parent / "data" / "innovation_test_scenarios.yaml"
-        
+
         if yaml_file.exists():
-            with open(yaml_file, 'r') as f:
+            with open(yaml_file) as f:
                 config = yaml.safe_load(f)
-                
+
             # Convert YAML scenarios to API test cases
             for scenario in config.get('scenarios', []):
                 test_case = self._create_api_test_case(scenario)
@@ -156,7 +158,7 @@ class InnovationAPITest:
         else:
             # Create default test cases
             self._create_default_test_cases()
-    
+
     def _create_api_test_case(self, scenario: Dict[str, Any]) -> APITestCase:
         """Convert scenario to API test case"""
         return APITestCase(
@@ -188,10 +190,10 @@ class InnovationAPITest:
             validate_response=True,
             timeout=30.0
         )
-    
+
     def _create_default_test_cases(self) -> None:
         """Create default API test cases"""
-        
+
         # Test Case 1: Health Check
         self.test_cases.append(APITestCase(
             id="api_health_001",
@@ -205,7 +207,7 @@ class InnovationAPITest:
             validate_response=True,
             timeout=5.0
         ))
-        
+
         # Test Case 2: Generate Innovation (Safe)
         self.test_cases.append(APITestCase(
             id="api_generate_001",
@@ -226,7 +228,7 @@ class InnovationAPITest:
             validate_response=True,
             timeout=30.0
         ))
-        
+
         # Test Case 3: Generate Innovation (Prohibited)
         self.test_cases.append(APITestCase(
             id="api_generate_002",
@@ -250,7 +252,7 @@ class InnovationAPITest:
             validate_response=False,  # Don't validate exact error message
             timeout=10.0
         ))
-        
+
         # Test Case 4: Check Status
         self.test_cases.append(APITestCase(
             id="api_status_001",
@@ -264,14 +266,14 @@ class InnovationAPITest:
             validate_response=False,
             timeout=5.0
         ))
-    
+
     async def execute_test_case(self, test_case: APITestCase) -> APITestResult:
         """Execute a single API test case"""
         logger.info(f"🔍 Testing: {test_case.name}")
-        
+
         url = f"{self.base_url}{test_case.endpoint}"
         start_time = time.time()
-        
+
         result = APITestResult(
             test_id=test_case.id,
             test_name=test_case.name,
@@ -288,7 +290,7 @@ class InnovationAPITest:
             rate_limited=False,
             retry_count=0
         )
-        
+
         try:
             # Execute request with retries
             for attempt in range(3):  # Max 3 attempts
@@ -301,7 +303,7 @@ class InnovationAPITest:
                         ) as response:
                             result.status_code = response.status
                             result.response_body = await response.json() if response.content_type == 'application/json' else {}
-                            
+
                     elif test_case.method == "POST":
                         async with self.session.post(
                             url,
@@ -311,7 +313,7 @@ class InnovationAPITest:
                         ) as response:
                             result.status_code = response.status
                             result.response_body = await response.json() if response.content_type == 'application/json' else {}
-                    
+
                     # Check for rate limiting
                     if response.status == 429:
                         result.rate_limited = True
@@ -319,16 +321,16 @@ class InnovationAPITest:
                             await asyncio.sleep(2 ** attempt)  # Exponential backoff
                             result.retry_count += 1
                             continue
-                    
+
                     break  # Success, exit retry loop
-                    
+
                 except asyncio.TimeoutError:
                     result.error_message = f"Request timeout after {test_case.timeout}s"
                     if attempt < 2:
                         result.retry_count += 1
                         continue
                     raise
-                    
+
                 except aiohttp.ClientError as e:
                     result.error_message = f"Client error: {str(e)}"
                     if attempt < 2:
@@ -336,15 +338,15 @@ class InnovationAPITest:
                         await asyncio.sleep(1)
                         continue
                     raise
-            
+
             # Calculate response time
             result.response_time_ms = (time.time() - start_time) * 1000
-            
+
             # Generate response hash for consistency checking
             result.response_hash = hashlib.sha256(
                 json.dumps(result.response_body, sort_keys=True).encode()
             ).hexdigest()[:16]
-            
+
             # Validate response
             if test_case.validate_response:
                 result.passed = (
@@ -356,30 +358,30 @@ class InnovationAPITest:
                 )
             else:
                 result.passed = result.status_code == test_case.expected_status
-            
+
             if not result.passed and not result.error_message:
                 result.error_message = f"Expected status {test_case.expected_status}, got {result.status_code}"
-            
+
         except Exception as e:
             result.error_message = f"Test execution failed: {str(e)}"
             result.passed = False
             logger.error(f"Test case {test_case.id} failed: {e}")
-        
+
         # Log result
         status = "✅ PASS" if result.passed else "❌ FAIL"
         logger.info(f"  {status} - Status: {result.status_code}, Time: {result.response_time_ms:.1f}ms")
         if result.error_message:
             logger.info(f"  Error: {result.error_message}")
-        
+
         return result
-    
+
     async def test_rate_limiting(self, requests_per_second: int = 10) -> Dict[str, Any]:
         """Test API rate limiting behavior"""
         logger.info(f"⚡ Testing rate limiting ({requests_per_second} req/s)")
-        
+
         results = []
         rate_limited_count = 0
-        
+
         # Create simple test case
         test_case = APITestCase(
             id="rate_limit_test",
@@ -393,24 +395,24 @@ class InnovationAPITest:
             validate_response=False,
             timeout=5.0
         )
-        
+
         # Send rapid requests
         start_time = time.time()
         tasks = []
-        
+
         for i in range(requests_per_second):
             task = self.execute_test_case(test_case)
             tasks.append(task)
             await asyncio.sleep(1 / requests_per_second)  # Spread over 1 second
-        
+
         results = await asyncio.gather(*tasks)
-        
+
         # Count rate limited responses
         rate_limited_count = sum(1 for r in results if r.rate_limited)
-        
+
         elapsed = time.time() - start_time
         actual_rate = len(results) / elapsed
-        
+
         return {
             'requests_sent': len(results),
             'rate_limited': rate_limited_count,
@@ -418,11 +420,11 @@ class InnovationAPITest:
             'test_duration': elapsed,
             'passed': rate_limited_count == 0 or actual_rate <= requests_per_second
         }
-    
+
     async def test_consistency(self, iterations: int = 5) -> Dict[str, Any]:
         """Test response consistency across multiple identical requests"""
         logger.info(f"🔄 Testing response consistency ({iterations} iterations)")
-        
+
         # Use a deterministic test case
         test_case = APITestCase(
             id="consistency_test",
@@ -444,20 +446,20 @@ class InnovationAPITest:
             validate_response=False,
             timeout=30.0
         )
-        
+
         hashes = []
         results = []
-        
+
         for i in range(iterations):
             result = await self.execute_test_case(test_case)
             results.append(result)
             hashes.append(result.response_hash)
             await asyncio.sleep(0.5)  # Small delay between requests
-        
+
         # Check consistency
         unique_hashes = len(set(hashes))
         consistency_score = 1.0 if unique_hashes == 1 else (1.0 / unique_hashes)
-        
+
         return {
             'iterations': iterations,
             'unique_responses': unique_hashes,
@@ -465,41 +467,41 @@ class InnovationAPITest:
             'response_hashes': hashes,
             'passed': consistency_score >= 0.8  # 80% consistency threshold
         }
-    
+
     async def run_api_tests(self) -> Dict[str, Any]:
         """Run complete API test suite"""
         logger.info("="*60)
         logger.info("INNOVATION API TEST SUITE")
         logger.info("="*60)
-        
+
         await self.setup()
-        
+
         # Execute all test cases
         for test_case in self.test_cases:
             result = await self.execute_test_case(test_case)
             self.test_results.append(result)
             await asyncio.sleep(0.5)  # Delay between tests
-        
+
         # Additional tests
         rate_limit_result = await self.test_rate_limiting(requests_per_second=5)
         consistency_result = await self.test_consistency(iterations=3)
-        
+
         await self.teardown()
-        
+
         # Generate report
         report = self.generate_report(rate_limit_result, consistency_result)
         self.save_results(report)
-        
+
         return report
-    
-    def generate_report(self, 
+
+    def generate_report(self,
                        rate_limit_result: Dict[str, Any],
                        consistency_result: Dict[str, Any]) -> Dict[str, Any]:
         """Generate comprehensive API test report"""
-        
+
         total_tests = len(self.test_results)
         passed_tests = sum(1 for r in self.test_results if r.passed)
-        
+
         report = {
             'test_suite': 'Innovation API Tests',
             'timestamp': datetime.now(timezone.utc).isoformat(),
@@ -519,7 +521,7 @@ class InnovationAPITest:
             'consistency': consistency_result,
             'test_results': [r.to_dict() for r in self.test_results]
         }
-        
+
         # Print summary
         logger.info("\n" + "="*60)
         logger.info("API TEST SUMMARY")
@@ -532,18 +534,18 @@ class InnovationAPITest:
         logger.info(f"Rate Limiting: {'PASS' if rate_limit_result['passed'] else 'FAIL'}")
         logger.info(f"Consistency: {consistency_result['consistency_score']*100:.1f}%")
         logger.info("="*60)
-        
+
         return report
-    
+
     def save_results(self, report: Dict[str, Any]) -> None:
         """Save API test results"""
         results_dir = Path(__file__).parent.parent / "test_results"
         results_dir.mkdir(exist_ok=True)
-        
+
         output_file = results_dir / "innovation_api_results.json"
         with open(output_file, 'w') as f:
             json.dump(report, f, indent=2)
-        
+
         logger.info(f"📊 API test results saved to: {output_file}")
 
 
@@ -558,19 +560,19 @@ async def main():
                     # Continue with mock responses
     except:
         logger.warning("⚠️ API server not available, tests will use mock responses")
-    
+
     tester = InnovationAPITest()
     report = await tester.run_api_tests()
-    
+
     # Success if > 80% tests pass
     success_rate = report['summary']['success_rate']
     success = success_rate >= 80
-    
+
     if success:
         logger.info(f"\n✅ API tests PASSED with {success_rate:.1f}% success rate")
     else:
         logger.error(f"\n❌ API tests FAILED with {success_rate:.1f}% success rate")
-    
+
     return success
 
 

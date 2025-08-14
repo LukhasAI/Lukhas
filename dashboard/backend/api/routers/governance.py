@@ -3,9 +3,10 @@ Governance Router - Compliance, ethics, and policy management
 Following DeepMind's approach to responsible AI governance
 """
 
-from fastapi import APIRouter, HTTPException
-from typing import Dict, Any, List
 from datetime import datetime, timedelta
+from typing import Any, Dict
+
+from fastapi import APIRouter, HTTPException
 
 router = APIRouter()
 
@@ -250,7 +251,7 @@ async def get_policy_engine_status() -> Dict[str, Any]:
 @router.get("/stakeholder-dashboard/{stakeholder_type}")
 async def get_stakeholder_dashboard(stakeholder_type: str) -> Dict[str, Any]:
     """Get customized dashboard for different stakeholders"""
-    
+
     dashboards = {
         "government": {
             "compliance_score": 92.3,
@@ -307,10 +308,10 @@ async def get_stakeholder_dashboard(stakeholder_type: str) -> Dict[str, Any]:
             }
         }
     }
-    
+
     if stakeholder_type not in dashboards:
         raise HTTPException(status_code=404, detail=f"Stakeholder type '{stakeholder_type}' not found")
-    
+
     return {
         "stakeholder": stakeholder_type,
         "dashboard": dashboards[stakeholder_type],

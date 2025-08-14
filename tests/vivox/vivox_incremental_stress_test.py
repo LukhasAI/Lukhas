@@ -12,9 +12,9 @@ import time
 from datetime import datetime
 
 import psutil
-from vivox_stress_test import VIVOXStressTest
 
 from vivox import ActionProposal, PotentialState
+from vivox_stress_test import VIVOXStressTest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 

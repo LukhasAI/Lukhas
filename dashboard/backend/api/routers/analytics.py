@@ -3,10 +3,11 @@ Analytics Router - Data analysis and insights
 Following OpenAI's approach to metrics and performance monitoring
 """
 
-from fastapi import APIRouter, HTTPException, Query
-from typing import Dict, Any, List, Optional
-from datetime import datetime, timedelta
 import random
+from datetime import datetime, timedelta
+from typing import Any, Dict, Optional
+
+from fastapi import APIRouter, Query
 
 router = APIRouter()
 

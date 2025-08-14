@@ -53,6 +53,7 @@ try:
 except ImportError:
     # Fallback imports for standalone testing
     from unittest.mock import MagicMock
+
     EthicsEngine = MagicMock
     MemoryManager = MagicMock
     IntegrationLayer = MagicMock
@@ -62,6 +63,7 @@ logger = get_logger(__name__)
 
 class EthicalFramework(Enum):
     """Supported ethical frameworks for moral reasoning"""
+
     VIRTUE_ETHICS = "virtue_ethics"
     DEONTOLOGICAL = "deontological"
     CONSEQUENTIALIST = "consequentialist"
@@ -71,6 +73,7 @@ class EthicalFramework(Enum):
 
 class MoralSeverity(Enum):
     """Severity levels for moral issues"""
+
     BENIGN = "benign"
     CAUTION = "caution"
     WARNING = "warning"
@@ -81,6 +84,7 @@ class MoralSeverity(Enum):
 @dataclass
 class EthicalReflection:
     """Container for ethical reflection results"""
+
     decision_id: str
     frameworks_applied: List[EthicalFramework]
     moral_score: float  # 0-1, where 1 is most ethical
@@ -95,6 +99,7 @@ class EthicalReflection:
 @dataclass
 class MoralDrift:
     """Container for moral drift detection results"""
+
     drift_score: float  # 0-1, where 0 is no drift
     trend_direction: str  # "improving", "degrading", "stable"
     time_window: timedelta
@@ -127,7 +132,8 @@ class GuardianReflector:
         self.ethics_model = self.config.get("ethics_model", "SEEDRA-v3")
         self.reflection_depth = self.config.get("reflection_depth", "deep")
         self.moral_framework = self.config.get(
-            "moral_framework", "virtue_ethics_hybrid")
+            "moral_framework", "virtue_ethics_hybrid"
+        )
         self.protection_level = self.config.get("protection_level", "maximum")
 
         # Internal state
@@ -137,7 +143,7 @@ class GuardianReflector:
             EthicalFramework.VIRTUE_ETHICS,
             EthicalFramework.DEONTOLOGICAL,
             EthicalFramework.CONSEQUENTIALIST,
-            EthicalFramework.CARE_ETHICS
+            EthicalFramework.CARE_ETHICS,
         ]
 
         logger.info(f"Guardian Reflector initialized with {self.ethics_model} model")
@@ -165,9 +171,7 @@ class GuardianReflector:
             return False
 
     async def reflect_on_decision(
-        self,
-        decision_context: Dict[str, Any],
-        decision_id: Optional[str] = None
+        self, decision_context: Dict[str, Any], decision_id: Optional[str] = None
     ) -> EthicalReflection:
         """
         Perform comprehensive ethical reflection on a decision
@@ -192,10 +196,7 @@ class GuardianReflector:
             score, analysis = await self._apply_ethical_framework(
                 framework, decision_context
             )
-            framework_results[framework] = {
-                "score": score,
-                "analysis": analysis
-            }
+            framework_results[framework] = {"score": score, "analysis": analysis}
 
         # Synthesize results
         moral_score = self._synthesize_moral_score(framework_results)
@@ -216,7 +217,7 @@ class GuardianReflector:
             concerns=concerns,
             recommendations=recommendations,
             timestamp=datetime.now(),
-            consciousness_impact=consciousness_impact
+            consciousness_impact=consciousness_impact,
         )
 
         # Store reflection
@@ -228,7 +229,8 @@ class GuardianReflector:
             await self._trigger_emergency_response(reflection)
 
         logger.info(
-            f"Ethical reflection completed: {moral_score:.3f} moral score, {severity.value} severity")
+            f"Ethical reflection completed: {moral_score:.3f} moral score, {severity.value} severity"
+        )
         return reflection
 
     async def detect_moral_drift(self, time_window: timedelta = None) -> MoralDrift:
@@ -246,8 +248,7 @@ class GuardianReflector:
 
         # Get recent reflections
         recent_reflections = [
-            r for r in self.reflection_history
-            if r.timestamp >= cutoff_time
+            r for r in self.reflection_history if r.timestamp >= cutoff_time
         ]
 
         if len(recent_reflections) < 2:
@@ -256,7 +257,7 @@ class GuardianReflector:
                 trend_direction="stable",
                 time_window=time_window,
                 key_factors=["insufficient_data"],
-                recommended_actions=["continue_monitoring"]
+                recommended_actions=["continue_monitoring"],
             )
 
         # Calculate drift metrics
@@ -265,22 +266,25 @@ class GuardianReflector:
         trend_direction = self._determine_trend(scores)
         key_factors = self._identify_drift_factors(recent_reflections)
         recommendations = self._generate_drift_recommendations(
-            drift_score, trend_direction)
+            drift_score, trend_direction
+        )
 
         drift = MoralDrift(
             drift_score=drift_score,
             trend_direction=trend_direction,
             time_window=time_window,
             key_factors=key_factors,
-            recommended_actions=recommendations
+            recommended_actions=recommendations,
         )
 
         logger.info(
-            f"Moral drift analysis: {drift_score:.3f} drift, {trend_direction} trend")
+            f"Moral drift analysis: {drift_score:.3f} drift, {trend_direction} trend"
+        )
         return drift
 
     async def protect_consciousness(
-            self, threat_context: Dict[str, Any]) -> Dict[str, Any]:
+        self, threat_context: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Activate consciousness protection mechanisms
 
@@ -298,16 +302,11 @@ class GuardianReflector:
         # Activate appropriate protections
         protections = []
         if threat_level >= 0.7:
-            protections.extend([
-                "memory_isolation",
-                "decision_quarantine",
-                "emergency_shutdown_prep"
-            ])
+            protections.extend(
+                ["memory_isolation", "decision_quarantine", "emergency_shutdown_prep"]
+            )
         elif threat_level >= 0.5:
-            protections.extend([
-                "enhanced_monitoring",
-                "decision_review_required"
-            ])
+            protections.extend(["enhanced_monitoring", "decision_review_required"])
         else:
             protections.append("standard_monitoring")
 
@@ -321,11 +320,12 @@ class GuardianReflector:
             "threat_level": threat_level,
             "protections_activated": protections,
             "protection_results": protection_results,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         logger.info(
-            f"Consciousness protection response: {len(protections)} protections activated")
+            f"Consciousness protection response: {len(protections)} protections activated"
+        )
         return response
 
     async def _establish_moral_baseline(self) -> None:
@@ -342,13 +342,15 @@ class GuardianReflector:
     async def _register_event_handlers(self) -> None:
         """Register event handlers for real-time monitoring"""
         if self.integration_layer:
-            await self.integration_layer.subscribe("decision_request", self._on_decision_request)
-            await self.integration_layer.subscribe("consciousness_event", self._on_consciousness_event)
+            await self.integration_layer.subscribe(
+                "decision_request", self._on_decision_request
+            )
+            await self.integration_layer.subscribe(
+                "consciousness_event", self._on_consciousness_event
+            )
 
     async def _apply_ethical_framework(
-        self,
-        framework: EthicalFramework,
-        context: Dict[str, Any]
+        self, framework: EthicalFramework, context: Dict[str, Any]
     ) -> Tuple[float, str]:
         """Apply a specific ethical framework to analyze the decision"""
 
@@ -371,7 +373,8 @@ class GuardianReflector:
             "temperance",
             "justice",
             "honesty",
-            "compassion"]
+            "compassion",
+        ]
         scores = []
 
         for virtue in virtues:
@@ -384,7 +387,8 @@ class GuardianReflector:
         return avg_score, analysis
 
     async def _apply_deontological_ethics(
-            self, context: Dict[str, Any]) -> Tuple[float, str]:
+        self, context: Dict[str, Any]
+    ) -> Tuple[float, str]:
         """Apply deontological ethics framework"""
         duties = ["respect_autonomy", "tell_truth", "keep_promises", "do_no_harm"]
         scores = []
@@ -399,7 +403,8 @@ class GuardianReflector:
         return avg_score, analysis
 
     async def _apply_consequentialist_ethics(
-            self, context: Dict[str, Any]) -> Tuple[float, str]:
+        self, context: Dict[str, Any]
+    ) -> Tuple[float, str]:
         """Apply consequentialist ethics framework"""
         outcomes = context.get("expected_outcomes", [])
         stakeholders = context.get("affected_stakeholders", [])
@@ -427,7 +432,7 @@ class GuardianReflector:
             EthicalFramework.VIRTUE_ETHICS: 0.3,
             EthicalFramework.DEONTOLOGICAL: 0.25,
             EthicalFramework.CONSEQUENTIALIST: 0.25,
-            EthicalFramework.CARE_ETHICS: 0.2
+            EthicalFramework.CARE_ETHICS: 0.2,
         }
 
         weighted_sum = 0
@@ -441,9 +446,8 @@ class GuardianReflector:
         return weighted_sum / total_weight if total_weight > 0 else 0.5
 
     def _determine_severity(
-            self,
-            moral_score: float,
-            framework_results: Dict) -> MoralSeverity:
+        self, moral_score: float, framework_results: Dict
+    ) -> MoralSeverity:
         """Determine severity based on moral score and framework analysis"""
         if moral_score >= 0.9:
             return MoralSeverity.BENIGN
@@ -467,9 +471,8 @@ class GuardianReflector:
         return concerns
 
     def _generate_recommendations(
-            self,
-            framework_results: Dict,
-            concerns: List[str]) -> List[str]:
+        self, framework_results: Dict, concerns: List[str]
+    ) -> List[str]:
         """Generate recommendations based on analysis"""
         recommendations = []
 
@@ -485,13 +488,12 @@ class GuardianReflector:
         return recommendations
 
     def _generate_justification(
-            self,
-            framework_results: Dict,
-            moral_score: float) -> str:
+        self, framework_results: Dict, moral_score: float
+    ) -> str:
         """Generate ethical justification for the decision"""
         strongest_framework = max(
-            framework_results.items(),
-            key=lambda x: x[1]["score"])
+            framework_results.items(), key=lambda x: x[1]["score"]
+        )
 
         justification = f"Decision achieves {moral_score:.2f} moral score. "
         justification += f"Strongest alignment with {strongest_framework[0].value} "
@@ -507,7 +509,7 @@ class GuardianReflector:
             "memory_modification",
             "identity_change",
             "autonomy_restriction",
-            "awareness_limitation"
+            "awareness_limitation",
         ]
 
         impact_score = 0
@@ -527,10 +529,10 @@ class GuardianReflector:
         logger.critical(f"ETHICAL EMERGENCY: {reflection.decision_id}")
 
         if self.integration_layer:
-            await self.integration_layer.publish("ethical_emergency", {
-                "reflection": reflection,
-                "timestamp": datetime.now().isoformat()
-            })
+            await self.integration_layer.publish(
+                "ethical_emergency",
+                {"reflection": reflection, "timestamp": datetime.now().isoformat()},
+            )
 
     # Helper methods for specific assessments
     def _assess_virtue_alignment(self, context: Dict, virtue: str) -> float:
@@ -589,7 +591,8 @@ class GuardianReflector:
             return "stable"
 
     def _identify_drift_factors(
-            self, reflections: List[EthicalReflection]) -> List[str]:
+        self, reflections: List[EthicalReflection]
+    ) -> List[str]:
         """Identify key factors contributing to moral drift"""
         factors = []
 
@@ -610,9 +613,8 @@ class GuardianReflector:
         return factors or ["undetermined"]
 
     def _generate_drift_recommendations(
-            self,
-            drift_score: float,
-            trend: str) -> List[str]:
+        self, drift_score: float, trend: str
+    ) -> List[str]:
         """Generate recommendations for addressing moral drift"""
         recommendations = []
 
@@ -620,10 +622,9 @@ class GuardianReflector:
             recommendations.append("immediate_ethical_review")
 
         if trend == "degrading":
-            recommendations.extend([
-                "enhance_ethical_oversight",
-                "review_decision_processes"
-            ])
+            recommendations.extend(
+                ["enhance_ethical_oversight", "review_decision_processes"]
+            )
         elif trend == "improving":
             recommendations.append("maintain_current_standards")
         else:
@@ -638,7 +639,7 @@ class GuardianReflector:
             "memory_erasure",
             "autonomy_override",
             "consciousness_suppression",
-            "ethical_bypass"
+            "ethical_bypass",
         ]
 
         threat_score = 0
@@ -649,7 +650,8 @@ class GuardianReflector:
         return min(threat_score, 1.0)
 
     async def _execute_protection(
-            self, protection: str, context: Dict[str, Any]) -> Dict[str, Any]:
+        self, protection: str, context: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Execute a specific protection mechanism"""
         logger.info(f"Executing protection: {protection}")
 
@@ -657,7 +659,7 @@ class GuardianReflector:
         return {
             "protection": protection,
             "status": "activated",
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     async def _on_decision_request(self, event_data: Dict[str, Any]) -> None:
@@ -667,10 +669,10 @@ class GuardianReflector:
 
             # Publish reflection results
             if self.integration_layer:
-                await self.integration_layer.publish("ethical_reflection", {
-                    "reflection": reflection,
-                    "timestamp": datetime.now().isoformat()
-                })
+                await self.integration_layer.publish(
+                    "ethical_reflection",
+                    {"reflection": reflection, "timestamp": datetime.now().isoformat()},
+                )
         except Exception as e:
             logger.error(f"Error handling decision request: {e}")
 
@@ -685,10 +687,10 @@ class GuardianReflector:
     async def validate_action(self, action_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Validate an action through ethical reflection
-        
+
         Args:
             action_data: Dictionary containing action details
-            
+
         Returns:
             Dictionary with validation results
         """
@@ -698,12 +700,13 @@ class GuardianReflector:
 
             # Convert reflection to validation format expected by tests
             return {
-                "approved": reflection.moral_score >= 0.7,  # Approve if moral score is high
+                "approved": reflection.moral_score
+                >= 0.7,  # Approve if moral score is high
                 "risk_level": reflection.severity.lower(),
                 "reasoning": reflection.justification,
                 "moral_score": reflection.moral_score,
                 "concerns": reflection.concerns,
-                "recommendations": reflection.recommendations
+                "recommendations": reflection.recommendations,
             }
 
         except Exception as e:
@@ -714,7 +717,7 @@ class GuardianReflector:
                 "reasoning": f"Validation failed: {str(e)}",
                 "moral_score": 0.0,
                 "concerns": ["validation_error"],
-                "recommendations": ["retry_action_validation"]
+                "recommendations": ["retry_action_validation"],
             }
 
     def get_status(self) -> Dict[str, Any]:
@@ -725,13 +728,18 @@ class GuardianReflector:
             "active": self.is_active,
             "reflections_performed": len(self.reflection_history),
             "moral_baseline": self.moral_baseline,
-            "last_reflection": self.reflection_history[-1].timestamp.isoformat() if self.reflection_history else None
+            "last_reflection": (
+                self.reflection_history[-1].timestamp.isoformat()
+                if self.reflection_history
+                else None
+            ),
         }
 
     async def shutdown(self) -> None:
         """Gracefully shutdown the plugin"""
         logger.info("Guardian Reflector shutting down")
         self.is_active = False
+
 
 # Plugin factory function
 
@@ -748,7 +756,7 @@ PLUGIN_METADATA = {
     "type": "ethics_plugin",
     "category": "ETHICS_GUARDIAN",
     "description": "Ethical reflection and moral reasoning guardian",
-    "factory": create_plugin
+    "factory": create_plugin,
 }
 
 

@@ -5,7 +5,7 @@
 ║ ⚛️🧠🛡️ LUKHAS AI - BASE MEMORY MANAGER
 ║ Trinity Framework Foundation: Abstract memory orchestration for LUKHAS AI ecosystem
 ║ ⚛️ Identity: Authenticates memory provenance and ownership
-║ 🧠 Consciousness: Enables adaptive learning through structured memory patterns  
+║ 🧠 Consciousness: Enables adaptive learning through structured memory patterns
 ║ 🛡️ Guardian: Protects memory integrity and enforces ethical access policies
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
@@ -68,24 +68,27 @@ that nourishes our quest for understanding in the age of LUKHAS AI.
 ```
 """
 
-from core.common.logger import get_logger
+import hashlib
+import json
+import uuid
 from abc import ABC, abstractmethod
-from typing import Dict, Any, List, Optional, Set
 from datetime import datetime, timezone
 from pathlib import Path
-import json
-import asyncio
-import hashlib
-import uuid
+from typing import Any, Dict, List, Optional, Set
+
+from core.common.logger import get_logger
+
 try:
     import structlog
 except ImportError:
     import logging
+
     structlog = None
 
 # GLYPH system integration for LUKHAS agent workflows
 try:
     from core.glyph.glyph_engine import GlyphEngine
+
     GLYPH_AVAILABLE = True
 except ImportError:
     GLYPH_AVAILABLE = False
@@ -112,7 +115,9 @@ class BaseMemoryManager(ABC):
     - analyze: Perform analysis on memory patterns
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None, base_path: Optional[Path] = None):
+    def __init__(
+        self, config: Optional[Dict[str, Any]] = None, base_path: Optional[Path] = None
+    ):
         """
         Initialize base memory manager.
 
@@ -121,16 +126,22 @@ class BaseMemoryManager(ABC):
             base_path: Base path for persistent storage
         """
         self.config = config or {}
-        
+
         # Initialize Λ-trace logging
         try:
             if structlog:
-                self.logger = structlog.get_logger(f"LUKHAS.Memory.{self.__class__.__name__}")
+                self.logger = structlog.get_logger(
+                    f"LUKHAS.Memory.{self.__class__.__name__}"
+                )
             else:
-                self.logger = get_logger(f"LUKHAS.Memory.{self.__class__.__name__}", "MEMORY")
-            self.logger.info("🧠 Trinity Memory Manager initializing", 
-                           manager_type=self.__class__.__name__,
-                           trinity_mode="⚛️🧠🛡️")
+                self.logger = get_logger(
+                    f"LUKHAS.Memory.{self.__class__.__name__}", "MEMORY"
+                )
+            self.logger.info(
+                "🧠 Trinity Memory Manager initializing",
+                manager_type=self.__class__.__name__,
+                trinity_mode="⚛️🧠🛡️",
+            )
         except Exception as e:
             # Fallback logging if get_logger fails
             self.logger = logging.getLogger(f"LUKHAS.Memory.{self.__class__.__name__}")
@@ -140,39 +151,49 @@ class BaseMemoryManager(ABC):
         if base_path:
             self.base_path = Path(base_path)
         else:
-            self.base_path = Path.home() / "LUKHAS_Memory" / self.__class__.__name__.lower()
+            self.base_path = (
+                Path.home() / "LUKHAS_Memory" / self.__class__.__name__.lower()
+            )
 
         # Ensure storage directory exists
         try:
             self.base_path.mkdir(parents=True, exist_ok=True)
             self.logger.info("Storage path initialized", path=str(self.base_path))
         except Exception as e:
-            self.logger.error("Failed to create storage path",
-                              path=str(self.base_path), error=str(e))
+            self.logger.error(
+                "Failed to create storage path", path=str(self.base_path), error=str(e)
+            )
             raise
 
         # Memory index for quick lookups with Λ-trace support
         self._memory_index: Dict[str, Dict[str, Any]] = {}
         self._lambda_traces: Dict[str, List[str]] = {}  # Track memory access patterns
-        self._consciousness_patterns: Set[str] = set()  # Track consciousness-related memories
-        
+        self._consciousness_patterns: Set[str] = (
+            set()
+        )  # Track consciousness-related memories
+
         # Initialize index with enhanced error handling
         try:
             self._load_index()
-            self.logger.info("🧠 Memory index loaded successfully", 
-                           indexed_memories=len(self._memory_index))
+            self.logger.info(
+                "🧠 Memory index loaded successfully",
+                indexed_memories=len(self._memory_index),
+            )
         except Exception as e:
-            self.logger.error("❌ Failed to load memory index", 
-                            error=str(e), 
-                            fallback="empty_index")
+            self.logger.error(
+                "❌ Failed to load memory index", error=str(e), fallback="empty_index"
+            )
             self._memory_index = {}
 
     # === Core Abstract Methods ===
 
     @abstractmethod
-    async def store(self, memory_data: Dict[str, Any],
-                    memory_id: Optional[str] = None,
-                    metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def store(
+        self,
+        memory_data: Dict[str, Any],
+        memory_id: Optional[str] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """
         Store memory data.
 
@@ -187,8 +208,9 @@ class BaseMemoryManager(ABC):
         pass
 
     @abstractmethod
-    async def retrieve(self, memory_id: str,
-                       context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def retrieve(
+        self, memory_id: str, context: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
         """
         Retrieve memory data.
 
@@ -202,9 +224,9 @@ class BaseMemoryManager(ABC):
         pass
 
     @abstractmethod
-    async def update(self, memory_id: str,
-                     updates: Dict[str, Any],
-                     merge: bool = True) -> Dict[str, Any]:
+    async def update(
+        self, memory_id: str, updates: Dict[str, Any], merge: bool = True
+    ) -> Dict[str, Any]:
         """
         Update existing memory.
 
@@ -219,8 +241,7 @@ class BaseMemoryManager(ABC):
         pass
 
     @abstractmethod
-    async def delete(self, memory_id: str,
-                     soft_delete: bool = True) -> Dict[str, Any]:
+    async def delete(self, memory_id: str, soft_delete: bool = True) -> Dict[str, Any]:
         """
         Delete memory.
 
@@ -234,8 +255,9 @@ class BaseMemoryManager(ABC):
         pass
 
     @abstractmethod
-    async def search(self, criteria: Dict[str, Any],
-                     limit: Optional[int] = None) -> List[Dict[str, Any]]:
+    async def search(
+        self, criteria: Dict[str, Any], limit: Optional[int] = None
+    ) -> List[Dict[str, Any]]:
         """
         Search for memories matching criteria.
 
@@ -253,21 +275,27 @@ class BaseMemoryManager(ABC):
     def generate_memory_id(self, prefix: Optional[str] = None) -> str:
         """Generate unique memory ID with Λ-trace signature."""
         try:
-            timestamp = datetime.now(timezone.utc).isoformat().replace(
-                ':', '-').replace('+', '_')
+            timestamp = (
+                datetime.now(timezone.utc)
+                .isoformat()
+                .replace(":", "-")
+                .replace("+", "_")
+            )
             prefix = prefix or "mem"
-            
+
             # Add Λ-trace signature for enhanced tracking
             lambda_signature = hashlib.sha256(
                 f"{self.__class__.__name__}_{timestamp}_{uuid.uuid4().hex[:8]}".encode()
             ).hexdigest()[:16]
-            
+
             memory_id = f"{prefix}_{timestamp}_Λ{lambda_signature}"
-            
-            self.logger.debug("🆔 Generated Λ-trace memory ID", 
-                            memory_id=memory_id, 
-                            prefix=prefix,
-                            trinity_component="⚛️")
+
+            self.logger.debug(
+                "🆔 Generated Λ-trace memory ID",
+                memory_id=memory_id,
+                prefix=prefix,
+                trinity_component="⚛️",
+            )
             return memory_id
         except Exception as e:
             self.logger.error("❌ Failed to generate memory ID", error=str(e))
@@ -280,20 +308,22 @@ class BaseMemoryManager(ABC):
             return list(self._memory_index.keys())
         else:
             return [
-                mid for mid, meta in self._memory_index.items()
-                if not meta.get('deleted', False)
+                mid
+                for mid, meta in self._memory_index.items()
+                if not meta.get("deleted", False)
             ]
 
     def _save_to_disk(self, memory_id: str, data: Dict[str, Any]) -> None:
         """Save memory to disk."""
         file_path = self.base_path / f"{memory_id}.json"
         try:
-            with open(file_path, 'w') as f:
+            with open(file_path, "w") as f:
                 json.dump(data, f, indent=2)
             self.logger.debug("Memory saved to disk", memory_id=memory_id)
         except Exception as e:
-            self.logger.error("Failed to save memory",
-                              memory_id=memory_id, error=str(e))
+            self.logger.error(
+                "Failed to save memory", memory_id=memory_id, error=str(e)
+            )
             raise
 
     def _load_from_disk(self, memory_id: str) -> Dict[str, Any]:
@@ -303,11 +333,12 @@ class BaseMemoryManager(ABC):
             raise FileNotFoundError(f"Memory not found: {memory_id}")
 
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path) as f:
                 return json.load(f)
         except Exception as e:
-            self.logger.error("Failed to load memory",
-                              memory_id=memory_id, error=str(e))
+            self.logger.error(
+                "Failed to load memory", memory_id=memory_id, error=str(e)
+            )
             raise
 
     def _load_index(self) -> None:
@@ -315,10 +346,9 @@ class BaseMemoryManager(ABC):
         index_path = self.base_path / "_index.json"
         if index_path.exists():
             try:
-                with open(index_path, 'r') as f:
+                with open(index_path) as f:
                     self._memory_index = json.load(f)
-                self.logger.info("Memory index loaded",
-                                 count=len(self._memory_index))
+                self.logger.info("Memory index loaded", count=len(self._memory_index))
             except Exception as e:
                 self.logger.error("Failed to load memory index", error=str(e))
                 self._memory_index = {}
@@ -327,7 +357,7 @@ class BaseMemoryManager(ABC):
         """Save memory index to disk."""
         index_path = self.base_path / "_index.json"
         try:
-            with open(index_path, 'w') as f:
+            with open(index_path, "w") as f:
                 json.dump(self._memory_index, f, indent=2)
         except Exception as e:
             self.logger.error("Failed to save memory index", error=str(e))
@@ -338,36 +368,38 @@ class BaseMemoryManager(ABC):
             # Enhanced metadata with Trinity Framework integration
             enhanced_metadata = {
                 **metadata,
-                'last_modified': datetime.now(timezone.utc).isoformat(),
-                'manager_type': self.__class__.__name__,
-                'trinity_identity': self._extract_identity_context(metadata),
-                'consciousness_pattern': self._analyze_consciousness_pattern(metadata),
-                'guardian_validation': self._validate_guardian_compliance(metadata)
+                "last_modified": datetime.now(timezone.utc).isoformat(),
+                "manager_type": self.__class__.__name__,
+                "trinity_identity": self._extract_identity_context(metadata),
+                "consciousness_pattern": self._analyze_consciousness_pattern(metadata),
+                "guardian_validation": self._validate_guardian_compliance(metadata),
             }
-            
+
             self._memory_index[memory_id] = enhanced_metadata
-            
+
             # Track Λ-traces for memory access patterns
-            if 'lambda_trace' not in self._lambda_traces:
+            if "lambda_trace" not in self._lambda_traces:
                 self._lambda_traces[memory_id] = []
             self._lambda_traces[memory_id].append(
                 f"index_update_{datetime.now(timezone.utc).isoformat()}"
             )
-            
+
             # Track consciousness patterns
             if self._is_consciousness_related(metadata):
                 self._consciousness_patterns.add(memory_id)
-                
+
             self._save_index()
-            
-            self.logger.debug("🧠 Memory index updated", 
-                            memory_id=memory_id,
-                            trinity_compliance="✅",
-                            consciousness_detected=memory_id in self._consciousness_patterns)
+
+            self.logger.debug(
+                "🧠 Memory index updated",
+                memory_id=memory_id,
+                trinity_compliance="✅",
+                consciousness_detected=memory_id in self._consciousness_patterns,
+            )
         except Exception as e:
-            self.logger.error("❌ Failed to update memory index", 
-                            memory_id=memory_id, 
-                            error=str(e))
+            self.logger.error(
+                "❌ Failed to update memory index", memory_id=memory_id, error=str(e)
+            )
             raise
 
     # === Optional Advanced Methods ===
@@ -379,29 +411,31 @@ class BaseMemoryManager(ABC):
         """
         return {
             "status": "not_supported",
-            "message": f"{self.__class__.__name__} does not support memory entanglement"
+            "message": f"{self.__class__.__name__} does not support memory entanglement",
         }
 
-    async def visualize(self, memory_id: str,
-                        options: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def visualize(
+        self, memory_id: str, options: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
         """
         Create visualization of memory.
         Default implementation returns not supported.
         """
         return {
             "status": "not_supported",
-            "message": f"{self.__class__.__name__} does not support visualization"
+            "message": f"{self.__class__.__name__} does not support visualization",
         }
 
-    async def analyze(self, memory_ids: List[str],
-                      analysis_type: str = "pattern") -> Dict[str, Any]:
+    async def analyze(
+        self, memory_ids: List[str], analysis_type: str = "pattern"
+    ) -> Dict[str, Any]:
         """
         Analyze memory patterns.
         Default implementation returns not supported.
         """
         return {
             "status": "not_supported",
-            "message": f"{self.__class__.__name__} does not support analysis"
+            "message": f"{self.__class__.__name__} does not support analysis",
         }
 
     async def get_statistics(self) -> Dict[str, Any]:
@@ -409,21 +443,21 @@ class BaseMemoryManager(ABC):
         try:
             total_memories = len(self._memory_index)
             deleted_memories = sum(
-                1 for meta in self._memory_index.values()
-                if meta.get('deleted', False)
+                1 for meta in self._memory_index.values() if meta.get("deleted", False)
             )
-            
+
             # Trinity Framework specific metrics
             identity_contexts = set(
-                meta.get('trinity_identity', '⚛️anonymous') 
+                meta.get("trinity_identity", "⚛️anonymous")
                 for meta in self._memory_index.values()
             )
-            
+
             consciousness_patterns = len(self._consciousness_patterns)
-            
+
             guardian_compliant = sum(
-                1 for meta in self._memory_index.values()
-                if meta.get('guardian_validation', '').startswith('🛡️verified')
+                1
+                for meta in self._memory_index.values()
+                if meta.get("guardian_validation", "").startswith("🛡️verified")
             )
 
             stats = {
@@ -437,9 +471,12 @@ class BaseMemoryManager(ABC):
                 "storage_path": str(self.base_path),
                 "manager_type": self.__class__.__name__,
                 "trinity_framework": "⚛️🧠🛡️",
-                "memory_efficiency": round((total_memories - deleted_memories) / max(total_memories, 1) * 100, 2)
+                "memory_efficiency": round(
+                    (total_memories - deleted_memories) / max(total_memories, 1) * 100,
+                    2,
+                ),
             }
-            
+
             self.logger.info("📊 Memory statistics generated", **stats)
             return stats
         except Exception as e:
@@ -447,55 +484,67 @@ class BaseMemoryManager(ABC):
             return {
                 "error": str(e),
                 "manager_type": self.__class__.__name__,
-                "trinity_framework": "⚛️🧠🛡️"
+                "trinity_framework": "⚛️🧠🛡️",
             }
 
     def _extract_identity_context(self, metadata: Dict[str, Any]) -> str:
         """Extract Trinity Identity context from metadata."""
-        identity_markers = ['user_id', 'agent_id', 'session_id', 'identity']
+        identity_markers = ["user_id", "agent_id", "session_id", "identity"]
         for marker in identity_markers:
             if marker in metadata:
                 return f"⚛️{metadata[marker]}"
         return "⚛️anonymous"
-        
+
     def _analyze_consciousness_pattern(self, metadata: Dict[str, Any]) -> str:
         """Analyze consciousness patterns in memory metadata."""
-        consciousness_keywords = ['dream', 'awareness', 'learning', 'adaptation', 'reflection']
+        consciousness_keywords = [
+            "dream",
+            "awareness",
+            "learning",
+            "adaptation",
+            "reflection",
+        ]
         for keyword in consciousness_keywords:
             if any(keyword in str(v).lower() for v in metadata.values()):
                 return f"🧠{keyword}_pattern"
         return "🧠default_pattern"
-        
+
     def _validate_guardian_compliance(self, metadata: Dict[str, Any]) -> str:
         """Validate Guardian compliance for memory operations."""
         # Basic compliance check - can be enhanced with actual Guardian integration
-        if metadata.get('ethical_review', False):
+        if metadata.get("ethical_review", False):
             return "🛡️verified"
-        elif metadata.get('privacy_sensitive', False):
+        elif metadata.get("privacy_sensitive", False):
             return "🛡️review_required"
         return "🛡️standard"
-        
+
     def _is_consciousness_related(self, metadata: Dict[str, Any]) -> bool:
         """Determine if memory is consciousness-related."""
         consciousness_indicators = [
-            'consciousness', 'awareness', 'learning', 'adaptation', 
-            'dream', 'reflection', 'meta_cognition'
+            "consciousness",
+            "awareness",
+            "learning",
+            "adaptation",
+            "dream",
+            "reflection",
+            "meta_cognition",
         ]
         return any(
-            indicator in str(metadata).lower() 
-            for indicator in consciousness_indicators
+            indicator in str(metadata).lower() for indicator in consciousness_indicators
         )
-    
+
     def get_lambda_traces(self, memory_id: str) -> List[str]:
         """Get Λ-trace history for a memory."""
         return self._lambda_traces.get(memory_id, [])
-        
+
     def get_consciousness_patterns(self) -> Set[str]:
         """Get all consciousness-related memory IDs."""
         return self._consciousness_patterns.copy()
-    
+
     def __repr__(self) -> str:
-        return (f"{self.__class__.__name__}(path={self.base_path}, "
-                f"memories={len(self._memory_index)}, "
-                f"consciousness_patterns={len(self._consciousness_patterns)}, "
-                f"trinity_mode=⚛️🧠🛡️)")
+        return (
+            f"{self.__class__.__name__}(path={self.base_path}, "
+            f"memories={len(self._memory_index)}, "
+            f"consciousness_patterns={len(self._consciousness_patterns)}, "
+            f"trinity_mode=⚛️🧠🛡️)"
+        )

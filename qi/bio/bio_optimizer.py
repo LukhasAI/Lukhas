@@ -80,14 +80,14 @@ try:
         QuantumConfig,
         QuantumLikeState,
     )
-    from qi.quantum_awareness_system import (
-        QuantumAwarenessSystem,  # type: ignore
-    )
 
     # AIMPORT_TODO: Review this path for QIBioCoordinator. If it's part
     # of lukhas.core, update path.
     from qi.qi_bio_coordinator import (
         QIBioCoordinator,  # type: ignore
+    )
+    from qi.quantum_awareness_system import (
+        QuantumAwarenessSystem,  # type: ignore
     )
     from qi.quantum_dream_adapter import (
         QuantumDreamAdapter,  # type: ignore

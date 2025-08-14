@@ -6,14 +6,14 @@ Provides advanced cognitive capabilities for reasoning and analysis.
 """
 
 from .intelligence_engines import (
-    LukhasMetaCognitiveEngine,
-    LukhasCausalReasoningEngine,
     LukhasAutonomousGoalEngine,
+    LukhasCausalReasoningEngine,
     LukhasCuriosityEngine,
-    LukhasTheoryOfMindEngine,
-    LukhasNarrativeIntelligenceEngine,
     LukhasDimensionalIntelligenceEngine,
+    LukhasMetaCognitiveEngine,
+    LukhasNarrativeIntelligenceEngine,
     LukhasSubsystemOrchestrator,
+    LukhasTheoryOfMindEngine,
 )
 
 __all__ = [

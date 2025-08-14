@@ -34,6 +34,7 @@
 ║ Symbolic Tags: {ΛCOMPRESS}, {ΛDELTA}, {ΛLOOP}, {ΛENTROPY}
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+
 # Module imports
 import hashlib
 import json

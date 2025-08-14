@@ -19,12 +19,13 @@ from pathlib import Path
 from typing import Any, Optional
 
 from qrg_core import ConsciousnessContext, QuantumResonanceGlyph
-from quantum_entropy import EntropyProfile, TrueQuantumRandomness
 from system_bridge import (
     LambdaIdIntegration,
     LukhasAccessTier,
     SymbolicIdentity,
 )
+
+from quantum_entropy import EntropyProfile, TrueQuantumRandomness
 
 # Add current directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))

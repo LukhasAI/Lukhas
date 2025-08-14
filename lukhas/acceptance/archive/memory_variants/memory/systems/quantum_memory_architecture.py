@@ -17,6 +17,7 @@
 │   3. Retrieve memories using quantum associative recall
 └────────────────────────────────────────────────────────────────────────────
 """
+
 from typing import Dict, Optional
 
 import numpy as np

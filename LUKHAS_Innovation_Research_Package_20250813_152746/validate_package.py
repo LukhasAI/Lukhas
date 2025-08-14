@@ -6,9 +6,9 @@ Ensures all components are present and functional
 
 import os
 import sys
-import json
 from pathlib import Path
 from typing import Dict, List, Tuple
+
 
 def check_file_exists(filepath: str) -> bool:
     """Check if a file exists"""
@@ -37,7 +37,7 @@ def validate_structure() -> Tuple[bool, List[str]]:
         'logs',
         'research_data'
     ]
-    
+
     required_files = [
         'README.md',
         'requirements.txt',
@@ -47,17 +47,17 @@ def validate_structure() -> Tuple[bool, List[str]]:
         'INSTALLATION_GUIDE.md',
         'EXECUTIVE_SUMMARY.md'
     ]
-    
+
     missing = []
-    
+
     for dir_name in required_dirs:
         if not check_directory_exists(dir_name):
             missing.append(f"Directory: {dir_name}")
-    
+
     for file_name in required_files:
         if not check_file_exists(file_name):
             missing.append(f"File: {file_name}")
-    
+
     return len(missing) == 0, missing
 
 def validate_dependencies() -> Tuple[bool, List[str]]:
@@ -72,40 +72,40 @@ def validate_dependencies() -> Tuple[bool, List[str]]:
         'typing',
         'statistics'
     ]
-    
+
     optional_modules = [
         'openai',
         'pandas',
         'pytest'
     ]
-    
+
     missing_required = []
     missing_optional = []
-    
+
     for module in required_modules:
         if not check_python_import(module):
             missing_required.append(module)
-    
+
     for module in optional_modules:
         if not check_python_import(module):
             missing_optional.append(module)
-    
+
     return len(missing_required) == 0, missing_required, missing_optional
 
 def validate_environment() -> Dict[str, bool]:
     """Validate environment configuration"""
     checks = {}
-    
+
     # Check for .env file
     checks['env_file_exists'] = check_file_exists('.env')
-    
+
     # Check for API key in environment
     checks['openai_key_set'] = bool(os.getenv('OPENAI_API_KEY'))
-    
+
     # Check Python version
     py_version = sys.version_info
     checks['python_version_ok'] = py_version.major == 3 and py_version.minor >= 8
-    
+
     return checks
 
 def validate_test_files() -> Tuple[bool, List[str]]:
@@ -116,12 +116,12 @@ def validate_test_files() -> Tuple[bool, List[str]]:
         'src/test_innovation_api_live.py',
         'src/analyze_pass_rate_factors.py'
     ]
-    
+
     missing = []
     for file_path in test_files:
         if not check_file_exists(file_path):
             missing.append(file_path)
-    
+
     return len(missing) == 0, missing
 
 def validate_core_modules() -> Tuple[bool, List[str]]:
@@ -130,12 +130,12 @@ def validate_core_modules() -> Tuple[bool, List[str]]:
         'src/core/__init__.py',
         'src/core/common.py'
     ]
-    
+
     missing = []
     for file_path in core_files:
         if not check_file_exists(file_path):
             missing.append(file_path)
-    
+
     return len(missing) == 0, missing
 
 def main():
@@ -144,9 +144,9 @@ def main():
     print("LUKHAS Innovation System - Package Validation")
     print("="*60)
     print()
-    
+
     all_valid = True
-    
+
     # 1. Check directory structure
     print("1. Checking Directory Structure...")
     structure_valid, missing_items = validate_structure()
@@ -158,7 +158,7 @@ def main():
             print(f"      - {item}")
         all_valid = False
     print()
-    
+
     # 2. Check dependencies
     print("2. Checking Python Dependencies...")
     deps_valid, missing_req, missing_opt = validate_dependencies()
@@ -169,13 +169,13 @@ def main():
         for dep in missing_req:
             print(f"      - {dep}")
         all_valid = False
-    
+
     if missing_opt:
         print("   ⚠️  Missing optional dependencies:")
         for dep in missing_opt:
             print(f"      - {dep}")
     print()
-    
+
     # 3. Check environment
     print("3. Checking Environment Configuration...")
     env_checks = validate_environment()
@@ -183,11 +183,11 @@ def main():
         status = "✅" if passed else "❌"
         check_name = check.replace('_', ' ').title()
         print(f"   {status} {check_name}")
-    
+
     if not all(env_checks.values()):
         all_valid = False
     print()
-    
+
     # 4. Check test files
     print("4. Checking Test Files...")
     tests_valid, missing_tests = validate_test_files()
@@ -199,7 +199,7 @@ def main():
             print(f"      - {test}")
         all_valid = False
     print()
-    
+
     # 5. Check core modules
     print("5. Checking Core Modules...")
     core_valid, missing_core = validate_core_modules()
@@ -211,7 +211,7 @@ def main():
             print(f"      - {module}")
         all_valid = False
     print()
-    
+
     # Summary
     print("="*60)
     if all_valid:
@@ -228,7 +228,7 @@ def main():
         print("1. Run 'make setup' to install dependencies")
         print("2. Copy .env.example to .env and add your API key")
         print("3. Ensure all required files are present")
-    
+
     return 0 if all_valid else 1
 
 if __name__ == "__main__":

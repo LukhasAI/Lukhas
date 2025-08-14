@@ -6,8 +6,8 @@ Verifies the enhanced Service Adapter Base with Trinity Framework integration.
 """
 
 import asyncio
-import sys
 import os
+import sys
 
 # Add path for imports
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
@@ -15,17 +15,17 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
 def test_imports():
     """Test that all critical imports work correctly"""
     print("🔍 Testing imports...")
-    
+
     try:
         from bridge.adapters.service_adapter_base import (
-            BaseServiceAdapter,
-            ServiceAdapterBase,  # Critical alias
             AdapterState,
+            BaseServiceAdapter,
             CapabilityToken,
-            ResilienceManager,
-            TelemetryCollector,
             DryRunPlanner,
-            with_resilience
+            ResilienceManager,
+            ServiceAdapterBase,  # Critical alias
+            TelemetryCollector,
+            with_resilience,
         )
         print("✅ All imports successful")
         print(f"   ServiceAdapterBase is BaseServiceAdapter: {ServiceAdapterBase is BaseServiceAdapter}")
@@ -37,22 +37,22 @@ def test_imports():
 def test_adapter_creation():
     """Test creating an adapter instance"""
     print("\n🏗️  Testing adapter creation...")
-    
+
     try:
         from bridge.adapters.service_adapter_base import BaseServiceAdapter
-        
+
         # Create a simple test adapter
         class TestAdapter(BaseServiceAdapter):
             async def authenticate(self, credentials):
                 return {"status": "authenticated", "mode": "test"}
-            
+
             async def fetch_resource(self, lid, resource_id, capability_token):
                 return {"resource": resource_id, "data": "test_data"}
-        
+
         adapter = TestAdapter("test_service")
         print("✅ Adapter created successfully")
         print(f"   Service name: {adapter.service_name}")
-        print(f"   Trinity Framework integrations:")
+        print("   Trinity Framework integrations:")
         print(f"     - Identity: {'Active' if adapter.identity_core else 'Not available'}")
         print(f"     - Consciousness: {'Active' if adapter.consciousness_active else 'Not connected'}")
         print(f"     - Guardian: {'Active' if adapter.guardian else 'Not available'}")
@@ -66,20 +66,20 @@ def test_adapter_creation():
 def test_health_status():
     """Test health status with Trinity Framework info"""
     print("\n🏥 Testing health status...")
-    
+
     try:
         from bridge.adapters.service_adapter_base import BaseServiceAdapter
-        
+
         class TestAdapter(BaseServiceAdapter):
             async def authenticate(self, credentials):
                 return {"status": "authenticated"}
-            
+
             async def fetch_resource(self, lid, resource_id, capability_token):
                 return {"resource": resource_id}
-        
+
         adapter = TestAdapter("health_test_service")
         status = adapter.get_health_status()
-        
+
         print("✅ Health status retrieved successfully")
         print(f"   Service: {status['service']}")
         print(f"   Circuit State: {status['circuit_state']}")
@@ -92,22 +92,22 @@ def test_health_status():
 async def test_consciousness_integration():
     """Test consciousness system integration"""
     print("\n🧠 Testing consciousness integration...")
-    
+
     try:
         from bridge.adapters.service_adapter_base import BaseServiceAdapter
-        
+
         class TestAdapter(BaseServiceAdapter):
             async def authenticate(self, credentials):
                 return {"status": "authenticated"}
-            
+
             async def fetch_resource(self, lid, resource_id, capability_token):
                 return {"resource": resource_id}
-        
+
         adapter = TestAdapter("consciousness_test")
-        
+
         # Test notification (should gracefully handle if consciousness not available)
         await adapter.notify_consciousness("test_event", {"test": "data"})
-        
+
         print("✅ Consciousness integration test completed")
         print("   (Gracefully handles unavailable consciousness system)")
         return True
@@ -119,32 +119,32 @@ async def main():
     """Main verification routine"""
     print("⚛️🧠🛡️ LUKHAS AI Service Adapter Base Verification")
     print("=" * 60)
-    
+
     tests = [
         ("Import Test", test_imports),
         ("Adapter Creation", test_adapter_creation),
         ("Health Status", test_health_status),
         ("Consciousness Integration", test_consciousness_integration)
     ]
-    
+
     passed = 0
     total = len(tests)
-    
+
     for name, test_func in tests:
         try:
             if asyncio.iscoroutinefunction(test_func):
                 result = await test_func()
             else:
                 result = test_func()
-            
+
             if result:
                 passed += 1
         except Exception as e:
             print(f"❌ {name} failed with exception: {e}")
-    
+
     print("\n" + "=" * 60)
     print(f"📊 Verification Results: {passed}/{total} tests passed")
-    
+
     if passed == total:
         print("🎉 All tests passed! Service Adapter Base is working correctly.")
         print("\n🔧 Key enhancements implemented:")
@@ -158,7 +158,7 @@ async def main():
         print("   • Improved error handling and resilience")
     else:
         print("⚠️  Some tests failed. Check logs for details.")
-    
+
     return passed == total
 
 if __name__ == "__main__":

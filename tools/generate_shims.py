@@ -5,9 +5,8 @@ Creates backward-compatible imports with deprecation warnings
 """
 
 import sqlite3
-import sys
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 SHIM_TEMPLATE = '''"""
 Compatibility shim for {old_module}
@@ -31,57 +30,57 @@ __all__ = dir()
 
 class ShimGenerator:
     """Generate compatibility shims for migration"""
-    
+
     def __init__(self, db_path="tools/code_index.sqlite"):
         self.conn = sqlite3.connect(db_path)
         self.root = Path(".")
         self.shims_created = []
-    
+
     def generate_shims(self):
         """Generate all compatibility shims"""
         cursor = self.conn.cursor()
-        
+
         # Get all migration mappings that need shims
         cursor.execute("""
             SELECT old_import, new_import, deprecation_date
             FROM migrations
             WHERE shim_required = 1
         """)
-        
+
         for old_import, new_import, deprecation_date in cursor.fetchall():
             self.create_shim(old_import, new_import, deprecation_date)
-    
+
     def create_shim(self, old_module, new_module, deprecation_date):
         """Create a single compatibility shim"""
         # Convert module path to file path
         old_path = Path(old_module.replace('.', '/'))
-        
+
         # Handle different import styles
         if old_path.suffix != '.py':
             old_path = old_path / '__init__.py'
-        
+
         # Skip if shim already exists
         if old_path.exists():
             content = old_path.read_text()
             if "Compatibility shim" in content:
                 print(f"  ✓ Shim already exists: {old_path}")
                 return
-        
+
         # Create shim content
         shim_content = SHIM_TEMPLATE.format(
             old_module=old_module,
             new_module=new_module,
             deprecation_date=deprecation_date
         )
-        
+
         # Create parent directories
         old_path.parent.mkdir(parents=True, exist_ok=True)
-        
+
         # Write shim
         old_path.write_text(shim_content)
         self.shims_created.append(str(old_path))
         print(f"  ✓ Created shim: {old_path}")
-    
+
     def create_bio_shims(self):
         """Create shims for bio module consolidation"""
         bio_shims = {
@@ -95,7 +94,7 @@ class ShimGenerator:
             "bio/bio_engine/__init__.py": "lukhas.accepted.bio.engine",
             "bio/bio_utilities/__init__.py": "lukhas.accepted.bio.utils",
         }
-        
+
         for old_path, new_module in bio_shims.items():
             path = Path(old_path)
             if not path.exists() or not self.is_real_module(path):
@@ -108,7 +107,7 @@ class ShimGenerator:
                 path.write_text(shim_content)
                 self.shims_created.append(str(path))
                 print(f"  ✓ Created bio shim: {path}")
-    
+
     def create_memory_shims(self):
         """Create shims for memory module consolidation"""
         memory_shims = {
@@ -122,7 +121,7 @@ class ShimGenerator:
             "memory/fold_system.py": "lukhas.accepted.memory.fold",
             "memory/colonies.py": "lukhas.accepted.memory.colonies",
         }
-        
+
         for old_path, new_module in memory_shims.items():
             path = Path(old_path)
             if not path.exists() or not self.is_real_module(path):
@@ -151,7 +150,7 @@ warnings.warn(
                 path.write_text(shim_content)
                 self.shims_created.append(str(path))
                 print(f"  ✓ Created memory shim: {path}")
-    
+
     def create_core_shims(self):
         """Create shims for core module migrations"""
         core_shims = {
@@ -161,7 +160,7 @@ warnings.warn(
             "orchestration/brain.py": "lukhas.accepted.orchestrator.brain",
             "bridge/adapter.py": "lukhas.accepted.adapters.base",
         }
-        
+
         for old_path, new_module in core_shims.items():
             path = Path(old_path)
             if not path.exists() or not self.is_real_module(path):
@@ -175,7 +174,7 @@ warnings.warn(
                 path.write_text(shim_content)
                 self.shims_created.append(str(path))
                 print(f"  ✓ Created core shim: {path}")
-    
+
     def create_candidate_shims(self):
         """Create shims for candidate modules"""
         candidate_shims = {
@@ -183,7 +182,7 @@ warnings.warn(
             "vivox/__init__.py": "lukhas.candidate.vivox",
             "qim/__init__.py": "lukhas.candidate.qim",
         }
-        
+
         for old_path, new_module in candidate_shims.items():
             path = Path(old_path)
             if path.exists() and self.is_real_module(path):
@@ -221,41 +220,41 @@ if os.getenv(flag_name, "false").lower() == "true":
                 path.write_text(shim_content)
                 self.shims_created.append(str(path))
                 print(f"  ✓ Created candidate shim: {path}")
-    
+
     def is_real_module(self, path):
         """Check if path contains real module code (not just shim)"""
         if not path.exists():
             return False
-        
+
         content = path.read_text(errors='ignore')
-        
+
         # Check if it's already a shim
         if "Compatibility shim" in content:
             return False
-        
+
         # Check for real code indicators
         real_code_indicators = [
             "class ", "def ", "async def",
             "import ", "from ",
         ]
-        
+
         for indicator in real_code_indicators:
             if indicator in content and len(content) > 100:
                 return True
-        
+
         return False
-    
+
     def report(self):
         """Generate shim report"""
-        print(f"\n📋 Shim Generation Complete!")
+        print("\n📋 Shim Generation Complete!")
         print(f"   Created {len(self.shims_created)} compatibility shims")
-        print(f"   Deprecation date: 2025-11-01")
-        print(f"\n   Shims will provide backward compatibility during migration")
-        
+        print("   Deprecation date: 2025-11-01")
+        print("\n   Shims will provide backward compatibility during migration")
+
         # Save shim list
         shim_list_path = Path("docs/AUDIT/SHIMS.md")
         shim_list_path.parent.mkdir(parents=True, exist_ok=True)
-        
+
         content = f"""# LUKHAS AI Compatibility Shims
 Generated: {datetime.now().isoformat()}
 
@@ -266,7 +265,7 @@ These files provide backward compatibility during migration:
 """
         for shim in sorted(self.shims_created):
             content += f"- `{shim}`\n"
-        
+
         content += """
 ## Deprecation Schedule
 
@@ -291,10 +290,10 @@ Run tests with deprecation warnings visible:
 python -W default::DeprecationWarning -m pytest
 ```
 """
-        
+
         shim_list_path.write_text(content)
         print(f"   Report saved to: {shim_list_path}")
-    
+
     def close(self):
         """Close database connection"""
         self.conn.close()
@@ -303,29 +302,29 @@ python -W default::DeprecationWarning -m pytest
 def main():
     """Main entry point"""
     generator = ShimGenerator()
-    
+
     try:
         print("🔄 Generating compatibility shims...")
-        
+
         # Generate shims from database
         generator.generate_shims()
-        
+
         # Generate specific module shims
         print("\n📦 Creating Bio module shims...")
         generator.create_bio_shims()
-        
+
         print("\n🧠 Creating Memory module shims...")
         generator.create_memory_shims()
-        
+
         print("\n⚙️ Creating Core module shims...")
         generator.create_core_shims()
-        
+
         print("\n🔬 Creating Candidate module shims...")
         generator.create_candidate_shims()
-        
+
         # Generate report
         generator.report()
-        
+
     finally:
         generator.close()
 

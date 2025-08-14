@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import os
-import re
 
 # First, rename all files
 for root, dirs, files in os.walk('.'):
@@ -13,7 +12,7 @@ for root, dirs, files in os.walk('.'):
             new_name = new_name.replace('_quantum.', '_qi.')
             # Special cases
             new_name = new_name.replace('post_quantum_crypto', 'post_quantum_crypto')  # Keep this one
-            
+
             if new_name != file:
                 new_path = os.path.join(root, new_name)
                 print(f"Renaming: {file} -> {new_name}")
@@ -30,7 +29,7 @@ for root, dirs, files in os.walk('.', topdown=False):
             # Special case
             if new_name == 'post_quantum_crypto' or new_name == 'post_quantum_crypto_enhanced':
                 new_name = dir_name  # Keep post_quantum_crypto as is
-            
+
             if new_name != dir_name:
                 new_path = os.path.join(root, new_name)
                 print(f"Renaming dir: {dir_name} -> {new_name}")

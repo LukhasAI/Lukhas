@@ -8,42 +8,39 @@ __version__ = "3.0.0"
 __trinity__ = "⚛️🧠🛡️"
 
 # Core memory systems
-from . import fold
-from . import causal
-from . import episodic
-from . import consolidation
-from . import colonies
+from . import causal, colonies, consolidation, episodic, fold
+from .causal import get_causal_memory
+from .colonies import get_memory_colony
+from .consolidation import get_consolidator
+from .episodic import get_episodic_memory
 
 # Convenience imports
 from .fold import get_fold_manager
-from .causal import get_causal_memory
-from .episodic import get_episodic_memory
-from .consolidation import get_consolidator
-from .colonies import get_memory_colony
 
 __all__ = [
-    'fold',
-    'causal',
-    'episodic',
-    'consolidation',
-    'colonies',
-    'get_fold_manager',
-    'get_causal_memory',
-    'get_episodic_memory',
-    'get_consolidator',
-    'get_memory_colony'
+    "fold",
+    "causal",
+    "episodic",
+    "consolidation",
+    "colonies",
+    "get_fold_manager",
+    "get_causal_memory",
+    "get_episodic_memory",
+    "get_consolidator",
+    "get_memory_colony",
 ]
+
 
 class UnifiedMemory:
     """Unified interface to all memory systems"""
-    
+
     def __init__(self):
         self.fold_manager = get_fold_manager()
         self.causal = get_causal_memory()
         self.episodic = get_episodic_memory()
         self.consolidator = get_consolidator()
         self.colony = get_memory_colony()
-    
+
     def store(self, content, memory_type="episodic", **kwargs):
         """Store memory in appropriate system"""
         if memory_type == "fold":
@@ -55,10 +52,11 @@ class UnifiedMemory:
         else:
             # Default to colony storage
             import uuid
+
             memory_id = str(uuid.uuid4())
             self.colony.store_memory(memory_id, content)
             return memory_id
-    
+
     def retrieve(self, query, memory_type="episodic"):
         """Retrieve memory from appropriate system"""
         if memory_type == "fold":
@@ -69,7 +67,7 @@ class UnifiedMemory:
             return self.causal.get_effects(query)
         else:
             return self.colony.retrieve_memory(query)
-    
+
     def get_status(self):
         """Get overall memory system status"""
         return {
@@ -77,11 +75,13 @@ class UnifiedMemory:
             "episodes": len(self.episodic.episodes),
             "causal_links": len(self.causal.causal_graph),
             "colony": self.colony.get_colony_status(),
-            "trinity": "synchronized"
+            "trinity": "synchronized",
         }
+
 
 # Singleton instance
 _unified_memory = None
+
 
 def get_unified_memory() -> UnifiedMemory:
     """Get or create unified memory instance"""
@@ -90,12 +90,13 @@ def get_unified_memory() -> UnifiedMemory:
         _unified_memory = UnifiedMemory()
     return _unified_memory
 
+
 # Trinity integration
 def trinity_sync():
     """Synchronize with Trinity Framework"""
     return {
-        'identity': '⚛️',
-        'consciousness': '🧠',
-        'guardian': '🛡️',
-        'memory_status': 'synchronized'
+        "identity": "⚛️",
+        "consciousness": "🧠",
+        "guardian": "🛡️",
+        "memory_status": "synchronized",
     }

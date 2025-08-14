@@ -1,0 +1,4 @@
+"""
+Research Pack Template Module
+"""
+

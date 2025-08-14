@@ -368,7 +368,9 @@ class LambdaIDValidator:
 
             # Calculate checksum using SHA-256 based algorithm
             checksum_input = f"{tier}{timestamp_hash}{symbolic_char}{entropy_hash}LUKHAS_CHECKSUM_SALT"
-            calculated_checksum = hashlib.sha256(checksum_input.encode()).hexdigest()[:4]
+            calculated_checksum = hashlib.sha256(checksum_input.encode()).hexdigest()[
+                :4
+            ]
 
             # For existing ΛiDs, checksum would be stored separately or encoded
             # For now, validate format consistency and entropy distribution
@@ -456,7 +458,7 @@ class LambdaIDValidator:
             2: ["🌀", "✨", "🔮", "◊", "⟐"],
             3: ["🌀", "✨", "🔮", "⟐", "◈", "⬟"],
             4: ["⟐", "◈", "⬟", "⬢", "⟁", "◐"],
-            5: ["⟐", "◈", "⬟", "⬢", "⟁", "◐", "◑", "⬧"]
+            5: ["⟐", "◈", "⬟", "⬢", "⟁", "◐", "◑", "⬧"],
         }
         return tier_symbol_map.get(tier, ["○"])
 

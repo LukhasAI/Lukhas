@@ -10,6 +10,8 @@ Part of the Trinity Framework (⚛️🧠🛡️)
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .market_intelligence.economic_reality_manipulator import EconomicRealityManipulator
+    from .market_intelligence.economic_reality_manipulator import (
+        EconomicRealityManipulator,
+    )
 
 __all__ = ["EconomicRealityManipulator"]

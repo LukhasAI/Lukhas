@@ -19,7 +19,6 @@ logger = logging.getLogger("Lambda.NIΛS.DreamOrchestrator.Enhanced")
 # Handle imports for both module and standalone execution
 if __name__ == "__main__":
     # Standalone execution - use absolute imports
-    from api_validator import APIValidator, ValidationError
     from consent_manager import ConsentManager
     from dependency_container import DependencyContainer, ServiceLifecycle
     from dream_generator import (
@@ -27,11 +26,13 @@ if __name__ == "__main__":
         DreamContext,
         DreamGenerator,
     )
-    from emotional_filter import EmotionalFilter
     from user_data_integrator import UserDataIntegrator
     from vendor_portal import (
         VendorPortal,
     )
+
+    from api_validator import APIValidator, ValidationError
+    from emotional_filter import EmotionalFilter
 else:
     # Module execution - use relative imports
     from .api_validator import APIValidator, ValidationError

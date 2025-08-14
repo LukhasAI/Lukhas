@@ -1,0 +1,4 @@
+"""
+Quantum_Entropy Module
+"""
+

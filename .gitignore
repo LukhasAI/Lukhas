@@ -186,3 +186,25 @@ __pycache__/
 
 # Agent configuration backups
 .git-agent-backups/
+
+# Secrets and sensitive files
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.p12
+*.pfx
+*_secret*
+*_token*
+*_credential*
+
+# Test metadata with potential secrets
+test_metadata/
+
+# Demos with tokens
+demos/openai/Tier5_token.lukhas
+
+# QR schemas with potential keys
+identity/qrg_schemas/*.json
+

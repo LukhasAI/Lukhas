@@ -4,32 +4,33 @@ Creative processing and ideation
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from typing import List, Any, Dict
-from .base import BaseColony, ColonyTask
-from datetime import datetime
 import random
+from typing import Any, List
+
+from .base import BaseColony, ColonyTask
+
 
 class CreativityColony(BaseColony):
     """Colony for creative and innovative processing"""
-    
+
     def __init__(self, max_agents: int = 8):
         self.idea_bank = []
         self.creative_patterns = []
         super().__init__("creativity", max_agents)
-    
+
     def get_default_capabilities(self) -> List[str]:
         return [
             "ideation",
             "creative_synthesis",
             "innovation",
             "artistic_generation",
-            "novel_combinations"
+            "novel_combinations",
         ]
-    
+
     def process_task(self, task: ColonyTask) -> Any:
         task_type = task.task_type
         payload = task.payload
-        
+
         if task_type == "generate_ideas":
             topic = payload.get("topic", "general")
             ideas = [f"Creative idea about {topic} #{i}" for i in range(1, 4)]
@@ -39,7 +40,10 @@ class CreativityColony(BaseColony):
             elements = payload.get("elements", [])
             if len(elements) >= 2:
                 synthesis = f"Creative combination of {' and '.join(elements)}"
-                return {"synthesis": synthesis, "originality_score": random.uniform(0.6, 0.9)}
+                return {
+                    "synthesis": synthesis,
+                    "originality_score": random.uniform(0.6, 0.9),
+                }
             return {"synthesis": None, "error": "Need at least 2 elements"}
         elif task_type == "innovation_assessment":
             concept = payload.get("concept", "")
@@ -49,13 +53,16 @@ class CreativityColony(BaseColony):
         else:
             return {"status": "unknown_task_type", "task_type": task_type}
 
+
 _creativity_colony = None
+
 
 def get_creativity_colony() -> CreativityColony:
     global _creativity_colony
     if _creativity_colony is None:
         _creativity_colony = CreativityColony()
         from .base import get_colony_registry
+
         registry = get_colony_registry()
         registry.register_colony(_creativity_colony)
         registry.add_task_route("generate_ideas", "creativity")

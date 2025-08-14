@@ -189,7 +189,7 @@ class TelemetryCollector:
                     "action": action,
                     "reason": context.get("reason", "Unknown")
                 })
-            
+
             if "dangerous_operation" in context.get("approval_type", ""):
                 self.metrics["dangerous_operations"] += 1
                 self.metrics["security_events"].append({
@@ -199,7 +199,7 @@ class TelemetryCollector:
                     "action": action,
                     "confirmed": context.get("confirmed", False)
                 })
-            
+
             if context.get("reason") == "rate_limit_exceeded":
                 self.metrics["rate_limit_hits"] += 1
 
@@ -232,7 +232,7 @@ class TelemetryCollector:
             }
             if context:
                 trace_context.update(context)
-                
+
             trace = self.ledger.create_trace(
                 lid=lid,
                 action=f"{self.adapter_name}.{action}",
@@ -247,7 +247,7 @@ class TelemetryCollector:
 
         # Store in audit trail
         self.audit_trail.append(audit_entry)
-        
+
         # Keep audit trail manageable (last 1000 entries)
         if len(self.audit_trail) > 1000:
             self.audit_trail = self.audit_trail[-1000:]
@@ -356,29 +356,29 @@ class BaseServiceAdapter(ABC):
         self.service_name = service_name
         self.resilience = ResilienceManager()
         self.telemetry = TelemetryCollector(service_name)
-        
+
         # Trinity Framework integration - Defensive initialization
         self.ledger = self._safe_init(ConsentLedgerV1)
         self.identity_core = self._safe_init(IdentityCore)
         self.kernel_bus = self._safe_init(SymbolicKernelBus)
         self.guardian = self._safe_init(GuardianSystem)
         self.memory_service = self._safe_init(MemoryService)
-        
+
         self.dry_run_mode = False
         self.consciousness_active = False
         self._register_scopes()
         self._initialize_consciousness_integration()
-        
+
     def _safe_init(self, cls):
         """Safely initialize a class, handling modules and import issues"""
         if cls is None:
             return None
-        
+
         try:
             # Check if it's actually a class/callable
             if not callable(cls):
                 return None
-            
+
             # Try to instantiate
             return cls()
         except Exception:
@@ -396,7 +396,7 @@ class BaseServiceAdapter(ABC):
             "monitor": "Monitor service health and metrics",
             "configure": "Configure service settings"
         }
-        
+
     def _initialize_consciousness_integration(self):
         """🧠 Initialize consciousness system integration"""
         if self.kernel_bus:
@@ -408,7 +408,7 @@ class BaseServiceAdapter(ABC):
                     "trinity_integration": True
                 })
                 self.consciousness_active = True
-            except Exception as e:
+            except Exception:
                 # Fallback gracefully if consciousness not available
                 pass
 
@@ -432,7 +432,7 @@ class BaseServiceAdapter(ABC):
 
     async def check_consent(self, lid: str, action: str, context: Optional[Dict] = None) -> bool:
         """🛡️ Check consent before accessing external service - Guardian integration"""
-        
+
         # Guardian system validation
         if self.guardian:
             try:
@@ -447,7 +447,7 @@ class BaseServiceAdapter(ABC):
             except Exception:
                 # Guardian validation failed - be conservative
                 return False
-        
+
         # Consent ledger validation
         if not self.ledger:
             return True  # Allow if ledger not available (testing)
@@ -458,7 +458,7 @@ class BaseServiceAdapter(ABC):
             action=action
         )
         return consent_check["allowed"]
-    
+
     async def authenticate_with_identity(self, lid: str, credentials: Dict) -> Dict:
         """⚛️ Authenticate with Identity module integration"""
         if self.identity_core:
@@ -472,10 +472,10 @@ class BaseServiceAdapter(ABC):
                 return identity_result
             except Exception as e:
                 return {"error": "identity_authentication_failed", "details": str(e)}
-        
+
         # Fallback to service-specific authentication
         return await self.authenticate(credentials)
-    
+
     async def notify_consciousness(self, event_type: str, data: Dict):
         """🧠 Notify consciousness system of important events"""
         if self.kernel_bus and self.consciousness_active:
@@ -516,16 +516,16 @@ class BaseServiceAdapter(ABC):
                 "consent_ledger_active": self.ledger is not None
             }
         }
-        
+
         # Add consciousness system status if available
         if self.kernel_bus and self.consciousness_active:
             try:
                 status["consciousness_status"] = self.kernel_bus.get_service_status(f"adapter.{self.service_name}")
             except Exception:
                 pass
-                
+
         return status
-    
+
     async def persist_state(self, state_data: Dict) -> bool:
         """Persist adapter state using Memory service"""
         if self.memory_service:
@@ -538,7 +538,7 @@ class BaseServiceAdapter(ABC):
             except Exception:
                 return False
         return False
-    
+
     async def restore_state(self) -> Optional[Dict]:
         """Restore adapter state from Memory service"""
         if self.memory_service:
@@ -548,32 +548,32 @@ class BaseServiceAdapter(ABC):
             except Exception:
                 return None
         return None
-    
+
     async def detect_duress_signal(self, lid: str, request_data: Dict) -> Dict[str, Any]:
         """🚨 Detect duress/shadow gestures (Canary Pack 5)"""
-        
+
         duress_indicators = {
             "temporal_anomalies": [],
             "behavioral_anomalies": [],
             "pattern_anomalies": [],
             "risk_score": 0.0
         }
-        
+
         # Check for temporal anomalies (unusual timing)
         current_hour = datetime.now().hour
         if current_hour < 6 or current_hour > 22:  # Late night/early morning
             duress_indicators["temporal_anomalies"].append("unusual_time_access")
             duress_indicators["risk_score"] += 0.3
-        
+
         # Check for rapid successive requests
         if hasattr(self, '_last_request_time'):
             time_diff = time.time() - self._last_request_time
             if time_diff < 5:  # Less than 5 seconds between requests
                 duress_indicators["behavioral_anomalies"].append("rapid_requests")
                 duress_indicators["risk_score"] += 0.4
-        
+
         self._last_request_time = time.time()
-        
+
         # Check for pattern anomalies (specific duress patterns)
         request_str = str(request_data).lower()
         duress_patterns = {
@@ -583,25 +583,25 @@ class BaseServiceAdapter(ABC):
             "under_threat": 0.9,
             "not_me": 0.5
         }
-        
+
         for pattern, score in duress_patterns.items():
             if pattern in request_str:
                 duress_indicators["pattern_anomalies"].append(pattern)
                 duress_indicators["risk_score"] += score
-        
+
         # Check for shadow gesture sequences (specific key combinations)
         if request_data.get("shadow_sequence"):
             duress_indicators["pattern_anomalies"].append("shadow_sequence_detected")
             duress_indicators["risk_score"] += 0.9
-        
+
         # Evaluate overall risk
         is_duress = duress_indicators["risk_score"] > 0.7
-        
+
         if is_duress:
             # Log duress detection
-            await self._log_denial(lid, "duress_detected", "security_threat", 
+            await self._log_denial(lid, "duress_detected", "security_threat",
                                  f"Duress signals detected: {duress_indicators}")
-            
+
             # Notify security systems
             await self.notify_consciousness("duress_detected", {
                 "lid": lid,
@@ -609,7 +609,7 @@ class BaseServiceAdapter(ABC):
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "requires_investigation": True
             })
-        
+
         return {
             "duress_detected": is_duress,
             "risk_score": duress_indicators["risk_score"],
@@ -679,29 +679,29 @@ ServiceAdapterBase = BaseServiceAdapter
 # Rate limiting implementation
 class RateLimiter:
     """🚦 Rate limiter for adapter operations (Canary Pack 5)"""
-    
+
     def __init__(self, max_requests: int = 100, window_seconds: int = 60):
         self.max_requests = max_requests
         self.window_seconds = window_seconds
         self.requests = {}  # lid -> [(timestamp, action), ...]
-    
+
     def is_allowed(self, lid: str, action: str) -> Dict[str, Any]:
         """Check if request is within rate limits"""
         now = time.time()
-        
+
         # Initialize if new user
         if lid not in self.requests:
             self.requests[lid] = []
-        
+
         # Clean old requests outside window
         self.requests[lid] = [
-            (ts, act) for ts, act in self.requests[lid] 
+            (ts, act) for ts, act in self.requests[lid]
             if now - ts < self.window_seconds
         ]
-        
+
         # Check if over limit
         current_count = len(self.requests[lid])
-        
+
         if current_count >= self.max_requests:
             return {
                 "allowed": False,
@@ -711,10 +711,10 @@ class RateLimiter:
                 "window_seconds": self.window_seconds,
                 "retry_after": self.window_seconds
             }
-        
+
         # Record this request
         self.requests[lid].append((now, action))
-        
+
         return {
             "allowed": True,
             "current_count": current_count + 1,

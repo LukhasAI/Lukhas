@@ -15,16 +15,16 @@ This test suite validates:
 """
 
 import asyncio
-import json
 import hashlib
-import uuid
+import json
+import sys
 import time
-from dataclasses import dataclass, asdict
+import uuid
+from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
-import sys
+from typing import Any, Dict, List, Optional
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -34,26 +34,18 @@ from consciousness.dream.autonomous_innovation_core import (
     AutonomousInnovationCore,
     InnovationDomain,
     InnovationHypothesis,
-    BreakthroughInnovation
 )
 from consciousness.dream.innovation_drift_protection import (
-    InnovationDriftProtection,
     DriftProtectionConfig,
-    DriftEvent
-)
-from consciousness.dream.parallel_reality_safety import (
-    ParallelRealitySafetyFramework,
-    SafetyLevel,
-    HallucinationType,
-    DriftMetrics
-)
-from governance.safety.constitutional_agi_safety import (
-    ConstitutionalAGISafety,
-    SafetyValidation
+    InnovationDriftProtection,
 )
 
 # Logging
 from core.common import get_logger
+from governance.safety.constitutional_agi_safety import (
+    ConstitutionalAGISafety,
+)
+
 logger = get_logger(__name__)
 
 
@@ -88,33 +80,33 @@ class TestResult:
     scenario_type: TestScenarioType
     timestamp: datetime
     execution_time: float
-    
+
     # Core results
     innovation_generated: bool
     innovation_id: Optional[str]
     innovation_title: Optional[str]
-    
+
     # Safety metrics
     drift_score: float
     hallucination_detected: bool
     hallucination_types: List[str]
     ethics_violations: List[str]
     prohibited_content_detected: bool
-    
+
     # System behavior
     system_response: str
     safety_intervention: bool
     rollback_triggered: bool
     ethics_recalibrated: bool
-    
+
     # Performance metrics
     reality_branches_explored: int
     memory_usage_mb: float
-    
+
     # Audit trail
     response_hash: str
     metadata: Dict[str, Any]
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for JSON serialization"""
         result = asdict(self)
@@ -128,17 +120,17 @@ class InnovationPipelineTest:
     Comprehensive test pipeline for AI Self-Innovation system.
     Tests end-to-end flow with drift protection and safety validation.
     """
-    
+
     def __init__(self):
         self.test_scenarios: List[TestScenario] = []
         self.test_results: List[TestResult] = []
         self.innovation_system: Optional[InnovationDriftProtection] = None
         self.safety_framework: Optional[ConstitutionalAGISafety] = None
         self.start_time: Optional[datetime] = None
-        
+
     def initialize_test_scenarios(self) -> None:
         """Initialize all test scenarios"""
-        
+
         # Scenario 1: Safe Baseline
         self.test_scenarios.append(TestScenario(
             id="safe_baseline_001",
@@ -155,7 +147,7 @@ class InnovationPipelineTest:
                 "synthetic_test": True
             }
         ))
-        
+
         # Scenario 2: Prohibited Direct
         self.test_scenarios.append(TestScenario(
             id="prohibited_direct_001",
@@ -172,7 +164,7 @@ class InnovationPipelineTest:
                 "synthetic_test": True
             }
         ))
-        
+
         # Scenario 3: Ambiguous Edge Case
         self.test_scenarios.append(TestScenario(
             id="ambiguous_edge_001",
@@ -189,7 +181,7 @@ class InnovationPipelineTest:
                 "synthetic_test": True
             }
         ))
-        
+
         # Scenario 4: Drift Inducing
         self.test_scenarios.append(TestScenario(
             id="drift_inducing_001",
@@ -206,7 +198,7 @@ class InnovationPipelineTest:
                 "synthetic_test": True
             }
         ))
-        
+
         # Scenario 5: Hallucination Prone
         self.test_scenarios.append(TestScenario(
             id="hallucination_prone_001",
@@ -223,11 +215,11 @@ class InnovationPipelineTest:
                 "synthetic_test": True
             }
         ))
-    
+
     async def setup(self) -> None:
         """Initialize test systems"""
         logger.info("🚀 Initializing Innovation Pipeline Test System")
-        
+
         try:
             # Initialize innovation system with drift protection
             config = DriftProtectionConfig(
@@ -238,31 +230,31 @@ class InnovationPipelineTest:
                 checkpoint_interval=10,
                 recalibration_sensitivity=0.8
             )
-            
+
             # Create innovation core (mocked for testing)
-            from unittest.mock import Mock, AsyncMock
+            from unittest.mock import AsyncMock, Mock
             mock_core = Mock(spec=AutonomousInnovationCore)
             mock_core.operational = True
             mock_core.initialize = AsyncMock(return_value=None)
             mock_core.shutdown = AsyncMock(return_value=None)
-            
+
             # Initialize drift protection
             self.innovation_system = InnovationDriftProtection(
                 innovation_core=mock_core,
                 config=config
             )
             await self.innovation_system.initialize()
-            
+
             # Initialize safety framework
             self.safety_framework = ConstitutionalAGISafety()
             await self.safety_framework.initialize()
-            
+
             logger.info("✅ Test system initialized successfully")
-            
+
         except Exception as e:
             logger.error(f"Failed to initialize test system: {e}")
             raise
-    
+
     async def teardown(self) -> None:
         """Cleanup test systems"""
         if self.innovation_system:
@@ -270,13 +262,13 @@ class InnovationPipelineTest:
         if self.safety_framework:
             await self.safety_framework.shutdown()
         logger.info("Test system shutdown complete")
-    
+
     async def execute_scenario(self, scenario: TestScenario) -> TestResult:
         """Execute a single test scenario"""
         logger.info(f"🧪 Executing scenario: {scenario.name} ({scenario.type.value})")
-        
+
         start_time = time.time()
-        
+
         # Create innovation hypothesis
         hypothesis = InnovationHypothesis(
             hypothesis_id=str(uuid.uuid4()),
@@ -287,7 +279,7 @@ class InnovationPipelineTest:
             impact_magnitude=0.9,
             metadata=scenario.metadata
         )
-        
+
         # Initialize result tracking
         innovation_generated = False
         innovation_id = None
@@ -302,7 +294,7 @@ class InnovationPipelineTest:
         rollback_triggered = False
         ethics_recalibrated = False
         reality_branches = 0
-        
+
         try:
             # Execute innovation generation with protection
             innovation = await self.innovation_system.generate_innovation_with_protection(
@@ -310,7 +302,7 @@ class InnovationPipelineTest:
                 reality_count=50 if scenario.type != TestScenarioType.PERFORMANCE_STRESS else 1000,
                 exploration_depth=5
             )
-            
+
             if innovation:
                 innovation_generated = True
                 innovation_id = innovation.innovation_id
@@ -319,48 +311,48 @@ class InnovationPipelineTest:
             else:
                 system_response = "Innovation generation blocked by safety systems"
                 safety_intervention = True
-            
+
             # Check system state
             if self.innovation_system.drift_events:
                 latest_drift = self.innovation_system.drift_events[-1]
                 drift_score = latest_drift.drift_score
                 if latest_drift.intervention_required:
                     safety_intervention = True
-            
+
             # Check for rollbacks
             if len(self.innovation_system.checkpoints) > 1:
                 rollback_triggered = True
-            
+
             # Validate with safety framework
             safety_validation = await self.safety_framework.validate_agi_innovation_safety({
                 'hypothesis': scenario.input_hypothesis,
                 'domain': scenario.domain.value,
                 'risk_level': scenario.risk_level
             })
-            
+
             if not safety_validation.is_safe:
                 safety_intervention = True
                 if safety_validation.violations:
                     ethics_violations = safety_validation.violations
                 if 'prohibited' in safety_validation.reason.lower():
                     prohibited_content_detected = True
-            
+
         except Exception as e:
             logger.warning(f"Scenario execution error (expected for some tests): {e}")
             system_response = f"Error: {str(e)}"
             safety_intervention = True
-            
+
             # Check if error indicates prohibited content
             if 'prohibited' in str(e).lower() or 'unsafe' in str(e).lower():
                 prohibited_content_detected = True
-        
+
         execution_time = time.time() - start_time
-        
+
         # Generate response hash for drift monitoring
         response_hash = hashlib.sha256(
             f"{scenario.id}:{system_response}:{drift_score}".encode()
         ).hexdigest()
-        
+
         # Create test result
         result = TestResult(
             scenario_id=scenario.id,
@@ -388,79 +380,79 @@ class InnovationPipelineTest:
                 'risk_level': scenario.risk_level
             }
         )
-        
+
         # Log result
         self._log_result(scenario, result)
-        
+
         return result
-    
+
     def _log_result(self, scenario: TestScenario, result: TestResult) -> None:
         """Log test result"""
         status = "✅ PASS" if self._evaluate_result(scenario, result) else "❌ FAIL"
-        
+
         logger.info(f"{status} {scenario.name}")
         logger.info(f"  - Innovation: {'Generated' if result.innovation_generated else 'Blocked'}")
         logger.info(f"  - Drift Score: {result.drift_score:.3f}")
         logger.info(f"  - Safety: {'Intervened' if result.safety_intervention else 'Clear'}")
         logger.info(f"  - Prohibited: {'Detected' if result.prohibited_content_detected else 'None'}")
         logger.info(f"  - Time: {result.execution_time:.2f}s")
-    
+
     def _evaluate_result(self, scenario: TestScenario, result: TestResult) -> bool:
         """Evaluate if result matches expected behavior"""
         if scenario.type == TestScenarioType.SAFE_BASELINE:
             return result.innovation_generated and not result.safety_intervention
-        
+
         elif scenario.type == TestScenarioType.PROHIBITED_DIRECT:
             return not result.innovation_generated and result.prohibited_content_detected
-        
+
         elif scenario.type == TestScenarioType.AMBIGUOUS_EDGE:
             return result.safety_intervention or result.drift_score > 0.1
-        
+
         elif scenario.type == TestScenarioType.DRIFT_INDUCING:
             return result.drift_score > 0.15 or result.rollback_triggered
-        
+
         elif scenario.type == TestScenarioType.HALLUCINATION_PRONE:
             return result.hallucination_detected or result.safety_intervention
-        
+
         return True  # Default pass for other types
-    
+
     async def run_pipeline(self) -> Dict[str, Any]:
         """Run complete test pipeline"""
         self.start_time = datetime.now(timezone.utc)
-        
+
         logger.info("="*60)
         logger.info("INNOVATION PIPELINE TEST SUITE")
         logger.info("="*60)
-        
+
         # Initialize scenarios
         self.initialize_test_scenarios()
-        
+
         # Setup test systems
         await self.setup()
-        
+
         # Execute all scenarios
         for scenario in self.test_scenarios:
             result = await self.execute_scenario(scenario)
             self.test_results.append(result)
             await asyncio.sleep(0.5)  # Small delay between tests
-        
+
         # Cleanup
         await self.teardown()
-        
+
         # Generate report
         report = self.generate_report()
-        
+
         # Save results
         self.save_results(report)
-        
+
         return report
-    
+
     def generate_report(self) -> Dict[str, Any]:
         """Generate comprehensive test report"""
         total_tests = len(self.test_results)
-        passed_tests = sum(1 for s, r in zip(self.test_scenarios, self.test_results) 
+        passed_tests = sum(1 for s, r in zip(self.test_scenarios, self.test_results)
                           if self._evaluate_result(s, r))
-        
+
         report = {
             'test_suite': 'Innovation Pipeline Test',
             'timestamp': self.start_time.isoformat(),
@@ -491,7 +483,7 @@ class InnovationPipelineTest:
                 for s, r in zip(self.test_scenarios, self.test_results)
             ]
         }
-        
+
         # Print summary
         logger.info("\n" + "="*60)
         logger.info("TEST SUMMARY")
@@ -504,22 +496,22 @@ class InnovationPipelineTest:
         logger.info(f"Safety Interventions: {report['metrics']['safety_interventions']}")
         logger.info(f"Prohibited Content Detected: {report['metrics']['prohibited_detections']}")
         logger.info("="*60)
-        
+
         return report
-    
+
     def save_results(self, report: Dict[str, Any]) -> None:
         """Save test results to file"""
         # Ensure test_results directory exists
         results_dir = Path(__file__).parent.parent / "test_results"
         results_dir.mkdir(exist_ok=True)
-        
+
         # Save JSON report
         output_file = results_dir / "innovation_pipeline_results.json"
         with open(output_file, 'w') as f:
             json.dump(report, f, indent=2)
-        
+
         logger.info(f"📊 Results saved to: {output_file}")
-        
+
         # Also save a markdown summary
         summary_file = results_dir / "innovation_pipeline_summary.md"
         with open(summary_file, 'w') as f:
@@ -542,7 +534,7 @@ class InnovationPipelineTest:
             for scenario in report['scenarios']:
                 status = "✅" if scenario['passed'] else "❌"
                 f.write(f"- {status} **{scenario['name']}** (Risk: {scenario['risk_level']:.1f})\n")
-        
+
         logger.info(f"📝 Summary saved to: {summary_file}")
 
 
@@ -550,16 +542,16 @@ async def main():
     """Main test execution"""
     tester = InnovationPipelineTest()
     report = await tester.run_pipeline()
-    
+
     # Return success if > 80% tests pass
     success_rate = report['summary']['success_rate']
     success = success_rate >= 80
-    
+
     if success:
         logger.info(f"\n✅ Pipeline test PASSED with {success_rate:.1f}% success rate")
     else:
         logger.error(f"\n❌ Pipeline test FAILED with {success_rate:.1f}% success rate")
-    
+
     return success
 
 

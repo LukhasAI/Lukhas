@@ -4,7 +4,7 @@ Trinity Framework: ⚛️🧠🛡️
 """
 
 import logging
-from typing import Any, Optional, Dict
+from typing import Any, Dict
 
 from core.container.service_container import ServiceLifetime, injectable
 from core.interfaces.services import IQuantumService
@@ -15,37 +15,39 @@ logger = logging.getLogger(__name__)
 @injectable(ServiceLifetime.SINGLETON)
 class QuantumServiceAdapter(IQuantumService):
     """Adapts QIM quantum module to IQuantumService interface"""
-    
+
     def __init__(self):
         self._initialized = False
         self._quantum_coordinator = None
         self._quantum_engine = None
         self._quantum_processor = None
-        
+
     async def initialize(self) -> None:
         """Initialize quantum components"""
         if not self._initialized:
             try:
                 # Try to import QIM components
-                from qi.processing.quantum_bio_coordinator import MockQuantumBioCoordinator
-                from qi.quantum_states.processor import QuantumProcessor
                 from qi.engines.consciousness.engine import QuantumEngine
-                
+                from qi.processing.quantum_bio_coordinator import (
+                    MockQuantumBioCoordinator,
+                )
+                from qi.quantum_states.processor import QuantumProcessor
+
                 self._quantum_coordinator = MockQuantumBioCoordinator()
                 logger.info("QIM Quantum Bio Coordinator initialized")
-                
+
             except ImportError as e:
                 logger.warning(f"Some QIM components not available: {e}")
                 # QIM can still function with reduced capability
-                
+
             self._initialized = True
             logger.info("Quantum service adapter initialized")
-    
+
     async def shutdown(self) -> None:
         """Cleanup quantum resources"""
         if self._quantum_coordinator and hasattr(self._quantum_coordinator, 'cleanup'):
             await self._quantum_coordinator.cleanup()
-    
+
     def get_health(self) -> dict[str, Any]:
         """Get quantum service health"""
         return {
@@ -58,11 +60,11 @@ class QuantumServiceAdapter(IQuantumService):
             },
             "module": "QIM (Quantum Inspire Module)"
         }
-    
+
     async def process_quantum_state(self, state: Any) -> Dict[str, Any]:
         """Process a quantum state"""
         await self.initialize()
-        
+
         if self._quantum_coordinator:
             try:
                 result = await self._quantum_coordinator.process_state(state)
@@ -70,14 +72,14 @@ class QuantumServiceAdapter(IQuantumService):
             except Exception as e:
                 logger.error(f"Quantum processing error: {e}")
                 return {"status": "error", "error": str(e)}
-        
+
         # Fallback if no coordinator
         return {
             "status": "fallback",
             "result": "Quantum processing unavailable",
             "state": str(state)
         }
-    
+
     async def get_quantum_entanglement(self) -> float:
         """Get current quantum entanglement level"""
         if self._quantum_coordinator:
@@ -89,7 +91,7 @@ class QuantumServiceAdapter(IQuantumService):
 def register_quantum_service(container) -> None:
     """Register quantum service with container"""
     from core.interfaces.services import IQuantumService
-    
+
     container.register(
         IQuantumService,
         QuantumServiceAdapter,

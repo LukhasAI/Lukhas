@@ -27,11 +27,10 @@ governance_path = os.path.join(os.path.dirname(__file__), '..', '..', 'governanc
 sys.path.extend([identity_path, governance_path])
 
 try:
-    from identity_core import AccessTier, IdentityCore
-
     from governance.identity.auth_backend.qr_entropy_generator import QREntropyGenerator
     from governance.identity.core.auth.oauth2_oidc_provider import OAuth2OIDCProvider
     from governance.identity.core.auth.webauthn_manager import WebAuthnManager
+    from identity_core import AccessTier, IdentityCore
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
     COMPONENTS_AVAILABLE = False

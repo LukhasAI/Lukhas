@@ -2,11 +2,7 @@
 API Routers for LUKHAS AGI Dashboard
 """
 
-from . import audit
-from . import safety
-from . import governance
-from . import analytics
-from . import realtime
+from . import analytics, audit, governance, realtime, safety
 
 __all__ = [
     "audit",

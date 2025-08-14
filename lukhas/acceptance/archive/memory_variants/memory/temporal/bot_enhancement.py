@@ -12,6 +12,7 @@ Brain-side cognitive enhancement capabilities for external bot systems.
 This module provides the brain's cognitive capabilities as services
 that can enhance external bot systems through the bridge layer.
 """
+
 import asyncio
 import logging
 from dataclasses import dataclass

@@ -14,7 +14,6 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional
-from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -99,7 +98,7 @@ def metadata_only(monkeypatch, request):
     """
     if 'live' not in request.keywords:
         monkeypatch.setenv('METADATA_ONLY', '1')
-        
+
         # Mock responses for metadata-only mode
         metadata_responses = {
             'gmail': {
@@ -135,40 +134,40 @@ def perf_tracker():
     class PerfTracker:
         def __init__(self):
             self.measurements = {}
-            
+
         def start(self, operation: str) -> float:
             start_time = time.perf_counter()
             return start_time
-            
+
         def end(self, operation: str, start_time: float) -> float:
             elapsed_ms = (time.perf_counter() - start_time) * 1000
             if operation not in self.measurements:
                 self.measurements[operation] = []
             self.measurements[operation].append(elapsed_ms)
             return elapsed_ms
-            
+
         def get_p50_p95(self, operation: str) -> Dict[str, float]:
             if operation not in self.measurements or not self.measurements[operation]:
                 return {'p50': 0.0, 'p95': 0.0}
-                
+
             sorted_times = sorted(self.measurements[operation])
             n = len(sorted_times)
             p50_idx = int(n * 0.5)
             p95_idx = int(n * 0.95)
-            
+
             return {
                 'p50': sorted_times[p50_idx] if p50_idx < n else sorted_times[-1],
                 'p95': sorted_times[p95_idx] if p95_idx < n else sorted_times[-1],
                 'mean': sum(sorted_times) / n,
                 'count': n
             }
-            
+
         def assert_budget(self, operation: str, p95_budget_ms: float):
             """Assert that p95 latency is within budget"""
             stats = self.get_p50_p95(operation)
             assert stats['p95'] <= p95_budget_ms, \
                 f"{operation} p95 ({stats['p95']:.2f}ms) exceeds budget ({p95_budget_ms}ms)"
-    
+
     return PerfTracker()
 
 
@@ -178,7 +177,7 @@ def trace_collector():
     class TraceCollector:
         def __init__(self):
             self.traces = []
-            
+
         def add_trace(self, action: str, rationale: str, tags: Dict[str, Any] = None):
             trace = {
                 'trace_id': f'λ_{uuid.uuid4().hex[:8]}',
@@ -190,16 +189,16 @@ def trace_collector():
             }
             self.traces.append(trace)
             return trace
-            
+
         def get_privileged_actions(self):
             return [t for t in self.traces if t['privileged']]
-            
+
         def assert_rationale_exists(self, action: str):
             matching = [t for t in self.traces if t['action'] == action]
             assert matching, f"No Λ-trace found for action: {action}"
             assert all(t['rationale'] for t in matching), \
                 f"Missing rationale for action: {action}"
-    
+
     return TraceCollector()
 
 

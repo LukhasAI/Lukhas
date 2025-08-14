@@ -2,12 +2,12 @@
 Realtime Router - WebSocket and real-time data streaming
 """
 
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect
-from typing import Dict, Any, List
 import asyncio
-import json
 import random
 from datetime import datetime
+from typing import Any, Dict, List
+
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
 router = APIRouter()
 
@@ -86,7 +86,7 @@ async def websocket_alerts(websocket: WebSocket):
                 "Performance optimization applied"
             ]
         }
-        
+
         while True:
             # Randomly generate alerts (in production, these would be real events)
             if random.random() < 0.1:  # 10% chance of alert per cycle
@@ -123,7 +123,7 @@ async def websocket_audit_progress(websocket: WebSocket):
             "Generating reports",
             "Finalizing audit"
         ]
-        
+
         for i, step in enumerate(audit_steps):
             progress = {
                 "type": "audit_progress",
@@ -138,7 +138,7 @@ async def websocket_audit_progress(websocket: WebSocket):
             }
             await websocket.send_json(progress)
             await asyncio.sleep(10)  # Each step takes 10 seconds
-        
+
         # Send completion message
         await websocket.send_json({
             "type": "audit_complete",
@@ -159,7 +159,7 @@ async def websocket_logs(websocket: WebSocket):
     try:
         log_levels = ["DEBUG", "INFO", "WARNING", "ERROR"]
         log_sources = ["api", "model", "database", "cache", "security", "governance"]
-        
+
         while True:
             log_entry = {
                 "type": "log",
