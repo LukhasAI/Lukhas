@@ -1,5 +1,6 @@
 .PHONY: help test smoke api-spec clean install dev api audit-tail audit
 .PHONY: lint format fix fix-imports setup-hooks ci-local monitor test-cov deep-clean quick bootstrap
+.PHONY: security security-scan security-update security-audit security-fix
 
 # Default target
 help:
@@ -36,6 +37,13 @@ help:
 	@echo "  clean        - Clean cache and temp files"
 	@echo "  deep-clean   - Deep clean including venv"
 	@echo "  api-spec     - Export OpenAPI specification"
+	@echo ""
+	@echo "Security:"
+	@echo "  security     - Run full security check suite"
+	@echo "  security-scan- Quick vulnerability scan"
+	@echo "  security-update - Auto-update vulnerable packages"
+	@echo "  security-audit - Deep security audit with reports"
+	@echo "  security-fix - Fix all security issues (scan + update)"
 	@echo ""
 	@echo "Backup & DR:"
 	@echo "  backup-local - Create local backup into .lukhas_backup/out"
@@ -230,6 +238,42 @@ quick: fix test
 # Install and setup everything
 bootstrap: install setup-hooks
 	@echo "🚀 Bootstrap complete! Run 'make fix' to clean up existing issues."
+
+# Security operations
+security: security-audit security-scan
+	@echo "✅ Full security check complete!"
+
+security-scan:
+	@echo "🔍 Running quick security scan..."
+	@pip install -q safety pip-audit 2>/dev/null || true
+	@echo "Checking with safety..."
+	@safety check --short-report 2>/dev/null || echo "⚠️ Some vulnerabilities found"
+	@echo "\nChecking with pip-audit..."
+	@pip-audit --desc 2>/dev/null || echo "⚠️ Some vulnerabilities found"
+	@echo "✅ Security scan complete!"
+
+security-update:
+	@echo "🔧 Running automated security updates..."
+	@pip install -q safety pip-audit 2>/dev/null || true
+	@python scripts/security-update.py --auto --no-test
+	@echo "✅ Security updates complete!"
+
+security-audit:
+	@echo "🔒 Running deep security audit..."
+	@pip install -q safety pip-audit bandit 2>/dev/null || true
+	@mkdir -p security-reports
+	@echo "Running safety check..."
+	@safety check --json --output security-reports/safety-report.json 2>/dev/null || true
+	@safety check --short-report || true
+	@echo "\nRunning pip-audit..."
+	@pip-audit --desc --format json --output security-reports/pip-audit.json 2>/dev/null || true
+	@echo "\nRunning bandit..."
+	@bandit -r . -f json -o security-reports/bandit-report.json 2>/dev/null || true
+	@echo "\n📊 Security reports saved to security-reports/"
+	@echo "✅ Security audit complete!"
+
+security-fix: security-scan security-update test
+	@echo "✅ Security issues fixed and tested!"
 
 # SDK helpers
 sdk-py-install:

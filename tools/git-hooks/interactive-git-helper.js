@@ -22,7 +22,7 @@ const readline = require('readline');
 // LUKHAS Trinity Framework symbols
 const TRINITY_SYMBOLS = {
     IDENTITY: '⚛️',
-    CONSCIOUSNESS: '🧠', 
+    CONSCIOUSNESS: '🧠',
     GUARDIAN: '🛡️'
 };
 
@@ -36,7 +36,7 @@ const APPROVED_TERMS = {
     'PWM': 'LUKHAS',
     '_PWM': '',
     'Lukhas_PWM': 'LUKHAS',
-    'LUKHAS_PWM': 'LUKHAS', 
+    'LUKHAS_PWM': 'LUKHAS',
     'lukhas_pwm': 'lukhas',
     'pwm_': 'lukhas_',
     'PWM_': 'LUKHAS_',
@@ -66,12 +66,12 @@ class InteractiveGitHelper {
         try {
             console.log(`\n${TRINITY_SYMBOLS.CONSCIOUSNESS} Showing diff for: ${filePath}`);
             console.log('─'.repeat(60));
-            
-            const diff = execSync(`git diff --cached --color=always "${filePath}"`, { 
+
+            const diff = execSync(`git diff --cached --color=always "${filePath}"`, {
                 encoding: 'utf8',
                 stdio: ['pipe', 'pipe', 'ignore']
             });
-            
+
             console.log(diff);
             console.log('─'.repeat(60));
         } catch (error) {
@@ -83,7 +83,7 @@ class InteractiveGitHelper {
         try {
             const content = fs.readFileSync(filePath, 'utf8');
             const issues = [];
-            
+
             // Check for deprecated PWM terms
             DEPRECATED_TERMS.forEach(term => {
                 if (content.includes(term)) {
@@ -98,11 +98,11 @@ class InteractiveGitHelper {
             });
 
             // Check for Trinity Framework compliance
-            const hasTrinitySyobols = Object.values(TRINITY_SYMBOLS).some(symbol => 
+            const hasTrinitySyobols = Object.values(TRINITY_SYMBOLS).some(symbol =>
                 content.includes(symbol)
             );
-            
-            if (filePath.includes('consciousness') || filePath.includes('identity') || 
+
+            if (filePath.includes('consciousness') || filePath.includes('identity') ||
                 filePath.includes('guardian') || filePath.includes('trinity')) {
                 if (!hasTrinitySyobols) {
                     issues.push({
@@ -156,13 +156,13 @@ class InteractiveGitHelper {
 
     async processFile(filePath) {
         console.log(`\n${TRINITY_SYMBOLS.IDENTITY} Processing: ${filePath}`);
-        
+
         // Show diff
         await this.showFileDiff(filePath);
-        
+
         // Validate content
         const validation = await this.validateFileContent(filePath);
-        
+
         if (validation.hasIssues) {
             console.log(`\n${TRINITY_SYMBOLS.GUARDIAN} Issues found:`);
             validation.issues.forEach((issue, idx) => {
@@ -219,7 +219,7 @@ class InteractiveGitHelper {
         console.log('═'.repeat(60));
 
         const stagedFiles = await this.getStagedFiles();
-        
+
         if (stagedFiles.length === 0) {
             console.log('No staged files found. Stage some files first with: git add <files>');
             this.rl.close();
@@ -232,7 +232,7 @@ class InteractiveGitHelper {
         });
 
         const processAll = await this.askUser('\nProcess all files for Trinity Framework compliance?');
-        
+
         if (processAll === 'y' || processAll === 'yes') {
             for (const file of stagedFiles) {
                 await this.processFile(file);
@@ -240,13 +240,13 @@ class InteractiveGitHelper {
         }
 
         console.log(`\n${TRINITY_SYMBOLS.CONSCIOUSNESS} All files processed!`);
-        
+
         const commitNow = await this.askUser('Proceed with commit?');
         if (commitNow === 'y' || commitNow === 'yes') {
             const message = await new Promise((resolve) => {
                 this.rl.question('Enter commit message: ', resolve);
             });
-            
+
             try {
                 execSync(`git commit -m "${message}"`, { stdio: 'inherit' });
                 console.log(`\n${TRINITY_SYMBOLS.GUARDIAN} Commit successful! Trinity Framework compliance maintained.`);
@@ -260,7 +260,7 @@ class InteractiveGitHelper {
 
     async runQuickFix() {
         console.log(`\n${TRINITY_SYMBOLS.GUARDIAN} LUKHAS Quick Fix - PWM Terminology Cleanup`);
-        
+
         const stagedFiles = await this.getStagedFiles();
         let totalFixed = 0;
 

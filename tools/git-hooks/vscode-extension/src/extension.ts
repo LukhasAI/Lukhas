@@ -1,122 +1,152 @@
-import * as vscode from 'vscode';
-import { InteractiveHooksProvider } from './providers/InteractiveHooksProvider';
-import { DiffEditorProvider } from './providers/DiffEditorProvider';
-import { HookBuilder } from './builders/HookBuilder';
-import { GitHookManager } from './managers/GitHookManager';
-import { ConfigurationManager } from './managers/ConfigurationManager';
+import * as vscode from "vscode";
+import { HookBuilder } from "./builders/HookBuilder";
+import { ConfigurationManager } from "./managers/ConfigurationManager";
+import { GitHookManager } from "./managers/GitHookManager";
+import { DiffEditorProvider } from "./providers/DiffEditorProvider";
+import { InteractiveHooksProvider } from "./providers/InteractiveHooksProvider";
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log('🚀 Interactive Git Hooks extension is now active!');
+  console.log("🚀 Interactive Git Hooks extension is now active!");
 
-    // Initialize managers
-    const configManager = new ConfigurationManager();
-    const gitHookManager = new GitHookManager(configManager);
-    const hookBuilder = new HookBuilder(configManager);
+  // Initialize managers
+  const configManager = new ConfigurationManager();
+  const gitHookManager = new GitHookManager(configManager);
+  const hookBuilder = new HookBuilder(configManager);
 
-    // Initialize providers
-    const hooksProvider = new InteractiveHooksProvider(gitHookManager, configManager);
-    const diffEditorProvider = new DiffEditorProvider();
+  // Initialize providers
+  const hooksProvider = new InteractiveHooksProvider(
+    gitHookManager,
+    configManager
+  );
+  const diffEditorProvider = new DiffEditorProvider();
 
-    // Register views
-    const hooksView = vscode.window.createTreeView('interactiveGitHooks', {
-        treeDataProvider: hooksProvider,
-        showCollapseAll: true,
-        canSelectMany: true
-    });
+  // Register views
+  const hooksView = vscode.window.createTreeView("interactiveGitHooks", {
+    treeDataProvider: hooksProvider,
+    showCollapseAll: true,
+    canSelectMany: true,
+  });
 
-    // Register custom editors
-    context.subscriptions.push(
-        vscode.window.registerCustomEditorProvider(
-            'interactiveGitHooks.diffEditor',
-            diffEditorProvider,
-            {
-                webviewOptions: {
-                    retainContextWhenHidden: true,
-                    enableCommandUris: true
-                }
-            }
-        )
-    );
+  // Register custom editors
+  context.subscriptions.push(
+    vscode.window.registerCustomEditorProvider(
+      "interactiveGitHooks.diffEditor",
+      diffEditorProvider,
+      {
+        webviewOptions: {
+          retainContextWhenHidden: true,
+          enableCommandUris: true,
+        },
+      }
+    )
+  );
 
-    // Register commands
-    context.subscriptions.push(
-        // Main panel command
-        vscode.commands.registerCommand('interactiveGitHooks.openPanel', async () => {
-            await openInteractivePanel(gitHookManager, configManager);
-        }),
+  // Register commands
+  context.subscriptions.push(
+    // Main panel command
+    vscode.commands.registerCommand(
+      "interactiveGitHooks.openPanel",
+      async () => {
+        await openInteractivePanel(gitHookManager, configManager);
+      }
+    ),
 
-        // Run hooks command
-        vscode.commands.registerCommand('interactiveGitHooks.runHooks', async () => {
-            await runInteractiveHooks(gitHookManager, hooksProvider);
-        }),
+    // Run hooks command
+    vscode.commands.registerCommand(
+      "interactiveGitHooks.runHooks",
+      async () => {
+        await runInteractiveHooks(gitHookManager, hooksProvider);
+      }
+    ),
 
-        // Create hook command
-        vscode.commands.registerCommand('interactiveGitHooks.createHook', async () => {
-            await openHookBuilder(hookBuilder);
-        }),
+    // Create hook command
+    vscode.commands.registerCommand(
+      "interactiveGitHooks.createHook",
+      async () => {
+        await openHookBuilder(hookBuilder);
+      }
+    ),
 
-        // Configuration command
-        vscode.commands.registerCommand('interactiveGitHooks.configureHooks', async () => {
-            await openConfigurationEditor(configManager);
-        }),
+    // Configuration command
+    vscode.commands.registerCommand(
+      "interactiveGitHooks.configureHooks",
+      async () => {
+        await openConfigurationEditor(configManager);
+      }
+    ),
 
-        // Diff commands
-        vscode.commands.registerCommand('interactiveGitHooks.showDiff', async (item) => {
-            await showEnhancementDiff(item, diffEditorProvider);
-        }),
+    // Diff commands
+    vscode.commands.registerCommand(
+      "interactiveGitHooks.showDiff",
+      async (item) => {
+        await showEnhancementDiff(item, diffEditorProvider);
+      }
+    ),
 
-        vscode.commands.registerCommand('interactiveGitHooks.acceptAll', async (item) => {
-            await acceptAllChanges(item, hooksProvider);
-        }),
+    vscode.commands.registerCommand(
+      "interactiveGitHooks.acceptAll",
+      async (item) => {
+        await acceptAllChanges(item, hooksProvider);
+      }
+    ),
 
-        vscode.commands.registerCommand('interactiveGitHooks.acceptPartial', async (item) => {
-            await acceptPartialChanges(item, hooksProvider);
-        }),
+    vscode.commands.registerCommand(
+      "interactiveGitHooks.acceptPartial",
+      async (item) => {
+        await acceptPartialChanges(item, hooksProvider);
+      }
+    ),
 
-        vscode.commands.registerCommand('interactiveGitHooks.decline', async (item) => {
-            await declineChanges(item, hooksProvider);
-        }),
+    vscode.commands.registerCommand(
+      "interactiveGitHooks.decline",
+      async (item) => {
+        await declineChanges(item, hooksProvider);
+      }
+    ),
 
-        vscode.commands.registerCommand('interactiveGitHooks.editManually', async (item) => {
-            await editManually(item);
-        })
-    );
+    vscode.commands.registerCommand(
+      "interactiveGitHooks.editManually",
+      async (item) => {
+        await editManually(item);
+      }
+    )
+  );
 
-    // Watch for git changes
-    const gitExtension = vscode.extensions.getExtension('vscode.git');
-    if (gitExtension) {
-        gitExtension.activate().then(git => {
-            const repos = git.exports.getAPI(1).repositories;
-            repos.forEach((repo: any) => {
-                repo.state.onDidChange(() => {
-                    hooksProvider.refresh();
-                });
-            });
+  // Watch for git changes
+  const gitExtension = vscode.extensions.getExtension("vscode.git");
+  if (gitExtension) {
+    gitExtension.activate().then((git) => {
+      const repos = git.exports.getAPI(1).repositories;
+      repos.forEach((repo: any) => {
+        repo.state.onDidChange(() => {
+          hooksProvider.refresh();
         });
-    }
+      });
+    });
+  }
 
-    // Auto-run hooks on commit (if enabled)
-    context.subscriptions.push(
-        vscode.workspace.onDidSaveTextDocument(async (document) => {
-            const config = configManager.getConfiguration();
-            if (config.autoRunOnSave) {
-                await runHooksForDocument(document, gitHookManager);
-            }
-        })
-    );
+  // Auto-run hooks on commit (if enabled)
+  context.subscriptions.push(
+    vscode.workspace.onDidSaveTextDocument(async (document) => {
+      const config = configManager.getConfiguration();
+      if (config.autoRunOnSave) {
+        await runHooksForDocument(document, gitHookManager);
+      }
+    })
+  );
 
-    // Status bar
-    const statusBarItem = vscode.window.createStatusBarItem(
-        vscode.StatusBarAlignment.Left,
-        100
-    );
-    statusBarItem.command = 'interactiveGitHooks.openPanel';
-    statusBarItem.text = '$(git-commit) Git Hooks';
-    statusBarItem.tooltip = 'Open Interactive Git Hooks';
-    statusBarItem.show();
-    context.subscriptions.push(statusBarItem);
+  // Status bar
+  const statusBarItem = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Left,
+    100
+  );
+  statusBarItem.command = "interactiveGitHooks.openPanel";
+  statusBarItem.text = "$(git-commit) Git Hooks";
+  statusBarItem.tooltip = "Open Interactive Git Hooks";
+  statusBarItem.show();
+  context.subscriptions.push(statusBarItem);
 
-    console.log('✅ Interactive Git Hooks extension fully initialized');
+  console.log("✅ Interactive Git Hooks extension fully initialized");
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════════
@@ -124,285 +154,351 @@ export function activate(context: vscode.ExtensionContext) {
 // ═══════════════════════════════════════════════════════════════════════════════════
 
 async function openInteractivePanel(
-    gitHookManager: GitHookManager,
-    configManager: ConfigurationManager
+  gitHookManager: GitHookManager,
+  configManager: ConfigurationManager
 ) {
-    const panel = vscode.window.createWebviewPanel(
-        'interactiveGitHooks',
-        '🚀 Interactive Git Hooks',
-        vscode.ViewColumn.One,
-        {
-            enableScripts: true,
-            retainContextWhenHidden: true,
-            localResourceRoots: [
-                vscode.Uri.joinPath(vscode.extensions.getExtension('LukhasAI.interactive-git-hooks')!.extensionUri, 'resources')
-            ]
-        }
-    );
+  const panel = vscode.window.createWebviewPanel(
+    "interactiveGitHooks",
+    "🚀 Interactive Git Hooks",
+    vscode.ViewColumn.One,
+    {
+      enableScripts: true,
+      retainContextWhenHidden: true,
+      localResourceRoots: [
+        vscode.Uri.joinPath(
+          vscode.extensions.getExtension("LukhasAI.interactive-git-hooks")!
+            .extensionUri,
+          "resources"
+        ),
+      ],
+    }
+  );
 
-    panel.webview.html = await getMainPanelHtml(panel.webview, gitHookManager);
+  panel.webview.html = await getMainPanelHtml(panel.webview, gitHookManager);
 
-    panel.webview.onDidReceiveMessage(async (message) => {
-        switch (message.command) {
-            case 'runHooks':
-                await gitHookManager.runHooks(message.files || []);
-                break;
-            case 'acceptChanges':
-                await gitHookManager.acceptChanges(message.fileId, message.changes);
-                break;
-            case 'declineChanges':
-                await gitHookManager.declineChanges(message.fileId);
-                break;
-            case 'editManually':
-                await openFileForEditing(message.filePath);
-                break;
-            case 'saveConfiguration':
-                await configManager.saveConfiguration(message.config);
-                break;
-        }
-    });
+  panel.webview.onDidReceiveMessage(async (message) => {
+    switch (message.command) {
+      case "runHooks":
+        await gitHookManager.runHooks(message.files || []);
+        break;
+      case "acceptChanges":
+        await gitHookManager.acceptChanges(message.fileId, message.changes);
+        break;
+      case "declineChanges":
+        await gitHookManager.declineChanges(message.fileId);
+        break;
+      case "editManually":
+        await openFileForEditing(message.filePath);
+        break;
+      case "saveConfiguration":
+        await configManager.saveConfiguration(message.config);
+        break;
+    }
+  });
 }
 
 async function runInteractiveHooks(
-    gitHookManager: GitHookManager,
-    hooksProvider: InteractiveHooksProvider
+  gitHookManager: GitHookManager,
+  hooksProvider: InteractiveHooksProvider
 ) {
-    try {
-        vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-            title: '🔍 Analyzing files...',
-            cancellable: true
-        }, async (progress, token) => {
-            const stagedFiles = await gitHookManager.getStagedFiles();
-            
-            if (stagedFiles.length === 0) {
-                vscode.window.showInformationMessage('No staged files to analyze');
-                return;
-            }
+  try {
+    vscode.window.withProgress(
+      {
+        location: vscode.ProgressLocation.Notification,
+        title: "🔍 Analyzing files...",
+        cancellable: true,
+      },
+      async (progress, token) => {
+        const stagedFiles = await gitHookManager.getStagedFiles();
 
-            progress.report({ increment: 20, message: `Found ${stagedFiles.length} staged files` });
+        if (stagedFiles.length === 0) {
+          vscode.window.showInformationMessage("No staged files to analyze");
+          return;
+        }
 
-            const results = await gitHookManager.analyzeFiles(stagedFiles, (current, total) => {
-                progress.report({ 
-                    increment: (current / total) * 60,
-                    message: `Analyzing file ${current}/${total}`
-                });
-            });
-
-            progress.report({ increment: 20, message: 'Opening interactive interface...' });
-
-            if (results.length > 0) {
-                await openEnhancementInterface(results);
-                hooksProvider.refresh();
-            } else {
-                vscode.window.showInformationMessage('✅ All files look good! No enhancements needed.');
-            }
+        progress.report({
+          increment: 20,
+          message: `Found ${stagedFiles.length} staged files`,
         });
-    } catch (error) {
-        vscode.window.showErrorMessage(`Error running hooks: ${error}`);
-    }
+
+        const results = await gitHookManager.analyzeFiles(
+          stagedFiles,
+          (current, total) => {
+            progress.report({
+              increment: (current / total) * 60,
+              message: `Analyzing file ${current}/${total}`,
+            });
+          }
+        );
+
+        progress.report({
+          increment: 20,
+          message: "Opening interactive interface...",
+        });
+
+        if (results.length > 0) {
+          await openEnhancementInterface(results);
+          hooksProvider.refresh();
+        } else {
+          vscode.window.showInformationMessage(
+            "✅ All files look good! No enhancements needed."
+          );
+        }
+      }
+    );
+  } catch (error) {
+    vscode.window.showErrorMessage(`Error running hooks: ${error}`);
+  }
 }
 
 async function openHookBuilder(hookBuilder: HookBuilder) {
-    const panel = vscode.window.createWebviewPanel(
-        'hookBuilder',
-        '🛠️ Hook Builder',
-        vscode.ViewColumn.One,
-        {
-            enableScripts: true,
-            retainContextWhenHidden: true
-        }
-    );
+  const panel = vscode.window.createWebviewPanel(
+    "hookBuilder",
+    "🛠️ Hook Builder",
+    vscode.ViewColumn.One,
+    {
+      enableScripts: true,
+      retainContextWhenHidden: true,
+    }
+  );
 
-    panel.webview.html = await getHookBuilderHtml(panel.webview, hookBuilder);
+  panel.webview.html = await getHookBuilderHtml(panel.webview, hookBuilder);
 
-    panel.webview.onDidReceiveMessage(async (message) => {
-        switch (message.command) {
-            case 'previewHook':
-                const preview = await hookBuilder.generatePreview(message.config);
-                panel.webview.postMessage({ command: 'showPreview', preview });
-                break;
-            case 'saveHook':
-                await hookBuilder.saveHook(message.config);
-                vscode.window.showInformationMessage('✅ Hook saved successfully!');
-                break;
-            case 'testHook':
-                const testResult = await hookBuilder.testHook(message.config);
-                panel.webview.postMessage({ command: 'testResult', result: testResult });
-                break;
-        }
-    });
+  panel.webview.onDidReceiveMessage(async (message) => {
+    switch (message.command) {
+      case "previewHook":
+        const preview = await hookBuilder.generatePreview(message.config);
+        panel.webview.postMessage({ command: "showPreview", preview });
+        break;
+      case "saveHook":
+        await hookBuilder.saveHook(message.config);
+        vscode.window.showInformationMessage("✅ Hook saved successfully!");
+        break;
+      case "testHook":
+        const testResult = await hookBuilder.testHook(message.config);
+        panel.webview.postMessage({
+          command: "testResult",
+          result: testResult,
+        });
+        break;
+    }
+  });
 }
 
 async function openConfigurationEditor(configManager: ConfigurationManager) {
-    const document = await vscode.workspace.openTextDocument({
-        content: JSON.stringify(configManager.getConfiguration(), null, 2),
-        language: 'json'
-    });
-    
-    const editor = await vscode.window.showTextDocument(document);
-    
-    // Add save listener for this document
-    const disposable = vscode.workspace.onDidSaveTextDocument(async (savedDoc) => {
-        if (savedDoc === document) {
-            try {
-                const config = JSON.parse(savedDoc.getText());
-                await configManager.saveConfiguration(config);
-                vscode.window.showInformationMessage('✅ Configuration saved!');
-                disposable.dispose();
-            } catch (error) {
-                vscode.window.showErrorMessage(`Invalid JSON: ${error}`);
-            }
+  const document = await vscode.workspace.openTextDocument({
+    content: JSON.stringify(configManager.getConfiguration(), null, 2),
+    language: "json",
+  });
+
+  const editor = await vscode.window.showTextDocument(document);
+
+  // Add save listener for this document
+  const disposable = vscode.workspace.onDidSaveTextDocument(
+    async (savedDoc) => {
+      if (savedDoc === document) {
+        try {
+          const config = JSON.parse(savedDoc.getText());
+          await configManager.saveConfiguration(config);
+          vscode.window.showInformationMessage("✅ Configuration saved!");
+          disposable.dispose();
+        } catch (error) {
+          vscode.window.showErrorMessage(`Invalid JSON: ${error}`);
         }
-    });
+      }
+    }
+  );
 }
 
-async function showEnhancementDiff(item: any, diffEditorProvider: DiffEditorProvider) {
-    const uri = vscode.Uri.parse(`interactive-git-hooks:${item.filePath}?enhancement=${item.id}`);
-    await vscode.commands.executeCommand('vscode.openWith', uri, 'interactiveGitHooks.diffEditor');
+async function showEnhancementDiff(
+  item: any,
+  diffEditorProvider: DiffEditorProvider
+) {
+  const uri = vscode.Uri.parse(
+    `interactive-git-hooks:${item.filePath}?enhancement=${item.id}`
+  );
+  await vscode.commands.executeCommand(
+    "vscode.openWith",
+    uri,
+    "interactiveGitHooks.diffEditor"
+  );
 }
 
-async function acceptAllChanges(item: any, hooksProvider: InteractiveHooksProvider) {
-    const result = await vscode.window.showInformationMessage(
-        `Accept all enhancements for ${item.label}?`,
-        { modal: true },
-        'Accept All',
-        'Cancel'
+async function acceptAllChanges(
+  item: any,
+  hooksProvider: InteractiveHooksProvider
+) {
+  const result = await vscode.window.showInformationMessage(
+    `Accept all enhancements for ${item.label}?`,
+    { modal: true },
+    "Accept All",
+    "Cancel"
+  );
+
+  if (result === "Accept All") {
+    // Apply all changes
+    await item.applyAllChanges();
+    vscode.window.showInformationMessage(
+      `✅ Applied all enhancements to ${item.label}`
     );
-
-    if (result === 'Accept All') {
-        // Apply all changes
-        await item.applyAllChanges();
-        vscode.window.showInformationMessage(`✅ Applied all enhancements to ${item.label}`);
-        hooksProvider.refresh();
-    }
+    hooksProvider.refresh();
+  }
 }
 
-async function acceptPartialChanges(item: any, hooksProvider: InteractiveHooksProvider) {
-    const changes = item.getSelectableChanges();
-    const selected = await vscode.window.showQuickPick(changes, {
-        canPickMany: true,
-        placeHolder: 'Select changes to apply'
-    });
+async function acceptPartialChanges(
+  item: any,
+  hooksProvider: InteractiveHooksProvider
+) {
+  const changes = item.getSelectableChanges();
+  const selected = await vscode.window.showQuickPick(changes, {
+    canPickMany: true,
+    placeHolder: "Select changes to apply",
+  });
 
-    if (selected && selected.length > 0) {
-        await item.applyPartialChanges(selected);
-        vscode.window.showInformationMessage(`✅ Applied ${selected.length} enhancement(s) to ${item.label}`);
-        hooksProvider.refresh();
-    }
-}
-
-async function declineChanges(item: any, hooksProvider: InteractiveHooksProvider) {
-    const result = await vscode.window.showWarningMessage(
-        `Decline all enhancements for ${item.label}?`,
-        { modal: true },
-        'Decline',
-        'Cancel'
+  if (selected && selected.length > 0) {
+    await item.applyPartialChanges(selected);
+    vscode.window.showInformationMessage(
+      `✅ Applied ${selected.length} enhancement(s) to ${item.label}`
     );
+    hooksProvider.refresh();
+  }
+}
 
-    if (result === 'Decline') {
-        await item.decline();
-        vscode.window.showInformationMessage(`❌ Declined enhancements for ${item.label}`);
-        hooksProvider.refresh();
-    }
+async function declineChanges(
+  item: any,
+  hooksProvider: InteractiveHooksProvider
+) {
+  const result = await vscode.window.showWarningMessage(
+    `Decline all enhancements for ${item.label}?`,
+    { modal: true },
+    "Decline",
+    "Cancel"
+  );
+
+  if (result === "Decline") {
+    await item.decline();
+    vscode.window.showInformationMessage(
+      `❌ Declined enhancements for ${item.label}`
+    );
+    hooksProvider.refresh();
+  }
 }
 
 async function editManually(item: any) {
-    const document = await vscode.workspace.openTextDocument(item.filePath);
-    const editor = await vscode.window.showTextDocument(document, vscode.ViewColumn.Beside);
-    
-    // Highlight suggested changes
-    const decorationType = vscode.window.createTextEditorDecorationType({
-        backgroundColor: 'rgba(255, 255, 0, 0.2)',
-        border: '1px solid yellow'
-    });
+  const document = await vscode.workspace.openTextDocument(item.filePath);
+  const editor = await vscode.window.showTextDocument(
+    document,
+    vscode.ViewColumn.Beside
+  );
 
-    const ranges = item.getChangeRanges();
-    editor.setDecorations(decorationType, ranges);
+  // Highlight suggested changes
+  const decorationType = vscode.window.createTextEditorDecorationType({
+    backgroundColor: "rgba(255, 255, 0, 0.2)",
+    border: "1px solid yellow",
+  });
 
-    // Show information message
-    vscode.window.showInformationMessage(
-        'Manual edit mode: Highlighted areas show suggested changes',
-        'Show Suggestions',
-        'Done'
-    ).then(selection => {
-        if (selection === 'Show Suggestions') {
-            // Show suggestions in hover or quick pick
-            showManualEditSuggestions(item, editor);
-        } else if (selection === 'Done') {
-            decorationType.dispose();
-        }
+  const ranges = item.getChangeRanges();
+  editor.setDecorations(decorationType, ranges);
+
+  // Show information message
+  vscode.window
+    .showInformationMessage(
+      "Manual edit mode: Highlighted areas show suggested changes",
+      "Show Suggestions",
+      "Done"
+    )
+    .then((selection) => {
+      if (selection === "Show Suggestions") {
+        // Show suggestions in hover or quick pick
+        showManualEditSuggestions(item, editor);
+      } else if (selection === "Done") {
+        decorationType.dispose();
+      }
     });
 }
 
 async function openEnhancementInterface(results: any[]) {
-    // Open each file in diff view
-    for (const result of results) {
-        const originalUri = vscode.Uri.file(result.filePath);
-        const enhancedUri = vscode.Uri.parse(`interactive-git-hooks:${result.filePath}?enhanced=true`);
-        
-        await vscode.commands.executeCommand(
-            'vscode.diff',
-            originalUri,
-            enhancedUri,
-            `${result.fileName} (Enhanced)`,
-            { preview: true }
-        );
-    }
+  // Open each file in diff view
+  for (const result of results) {
+    const originalUri = vscode.Uri.file(result.filePath);
+    const enhancedUri = vscode.Uri.parse(
+      `interactive-git-hooks:${result.filePath}?enhanced=true`
+    );
+
+    await vscode.commands.executeCommand(
+      "vscode.diff",
+      originalUri,
+      enhancedUri,
+      `${result.fileName} (Enhanced)`,
+      { preview: true }
+    );
+  }
 }
 
 async function openFileForEditing(filePath: string) {
-    const document = await vscode.workspace.openTextDocument(filePath);
-    await vscode.window.showTextDocument(document);
+  const document = await vscode.workspace.openTextDocument(filePath);
+  await vscode.window.showTextDocument(document);
 }
 
-async function runHooksForDocument(document: vscode.TextDocument, gitHookManager: GitHookManager) {
-    if (document.uri.scheme === 'file') {
-        const results = await gitHookManager.analyzeFiles([document.fileName]);
-        if (results.length > 0) {
-            vscode.window.showInformationMessage(
-                `Found ${results.length} potential enhancement(s)`,
-                'Review',
-                'Ignore'
-            ).then(selection => {
-                if (selection === 'Review') {
-                    openEnhancementInterface(results);
-                }
-            });
-        }
+async function runHooksForDocument(
+  document: vscode.TextDocument,
+  gitHookManager: GitHookManager
+) {
+  if (document.uri.scheme === "file") {
+    const results = await gitHookManager.analyzeFiles([document.fileName]);
+    if (results.length > 0) {
+      vscode.window
+        .showInformationMessage(
+          `Found ${results.length} potential enhancement(s)`,
+          "Review",
+          "Ignore"
+        )
+        .then((selection) => {
+          if (selection === "Review") {
+            openEnhancementInterface(results);
+          }
+        });
     }
+  }
 }
 
 async function showManualEditSuggestions(item: any, editor: vscode.TextEditor) {
-    const suggestions = item.getSuggestions();
-    const quickPick = vscode.window.createQuickPick();
-    quickPick.items = suggestions.map((suggestion: any) => ({
-        label: suggestion.title,
-        description: suggestion.description,
-        detail: suggestion.preview,
-        suggestion: suggestion
-    }));
-    quickPick.placeholder = 'Select a suggestion to apply';
-    quickPick.onDidChangeSelection(([item]) => {
-        if (item) {
-            // Apply suggestion to editor
-            const edit = new vscode.WorkspaceEdit();
-            edit.replace(editor.document.uri, item.suggestion.range, item.suggestion.newText);
-            vscode.workspace.applyEdit(edit);
-        }
-    });
-    quickPick.onDidHide(() => quickPick.dispose());
-    quickPick.show();
+  const suggestions = item.getSuggestions();
+  const quickPick = vscode.window.createQuickPick();
+  quickPick.items = suggestions.map((suggestion: any) => ({
+    label: suggestion.title,
+    description: suggestion.description,
+    detail: suggestion.preview,
+    suggestion: suggestion,
+  }));
+  quickPick.placeholder = "Select a suggestion to apply";
+  quickPick.onDidChangeSelection(([item]) => {
+    if (item) {
+      // Apply suggestion to editor
+      const edit = new vscode.WorkspaceEdit();
+      edit.replace(
+        editor.document.uri,
+        item.suggestion.range,
+        item.suggestion.newText
+      );
+      vscode.workspace.applyEdit(edit);
+    }
+  });
+  quickPick.onDidHide(() => quickPick.dispose());
+  quickPick.show();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════════
 // HTML Generation Functions
 // ═══════════════════════════════════════════════════════════════════════════════════
 
-async function getMainPanelHtml(webview: vscode.Webview, gitHookManager: GitHookManager): Promise<string> {
-    const stagedFiles = await gitHookManager.getStagedFiles();
-    
-    return `
+async function getMainPanelHtml(
+  webview: vscode.Webview,
+  gitHookManager: GitHookManager
+): Promise<string> {
+  const stagedFiles = await gitHookManager.getStagedFiles();
+
+  return `
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -517,10 +613,14 @@ async function getMainPanelHtml(webview: vscode.Webview, gitHookManager: GitHook
                 </button>
             </div>
 
-            ${stagedFiles.length > 0 ? `
+            ${
+              stagedFiles.length > 0
+                ? `
                 <h3>Staged Files (${stagedFiles.length})</h3>
                 <div class="file-list">
-                    ${stagedFiles.map(file => `
+                    ${stagedFiles
+                      .map(
+                        (file) => `
                         <div class="file-item">
                             <div class="file-info">
                                 <div class="file-path">
@@ -538,14 +638,18 @@ async function getMainPanelHtml(webview: vscode.Webview, gitHookManager: GitHook
                                 </button>
                             </div>
                         </div>
-                    `).join('')}
+                    `
+                      )
+                      .join("")}
                 </div>
-            ` : `
+            `
+                : `
                 <div class="empty-state">
                     <h3>No staged files</h3>
                     <p>Stage some files to see enhancement options here.</p>
                 </div>
-            `}
+            `
+            }
 
             <script>
                 const vscode = acquireVsCodeApi();
@@ -575,8 +679,11 @@ async function getMainPanelHtml(webview: vscode.Webview, gitHookManager: GitHook
     `;
 }
 
-async function getHookBuilderHtml(webview: vscode.Webview, hookBuilder: HookBuilder): Promise<string> {
-    return `
+async function getHookBuilderHtml(
+  webview: vscode.Webview,
+  hookBuilder: HookBuilder
+): Promise<string> {
+  return `
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -853,5 +960,5 @@ async function getHookBuilderHtml(webview: vscode.Webview, hookBuilder: HookBuil
 }
 
 export function deactivate() {
-    console.log('👋 Interactive Git Hooks extension deactivated');
+  console.log("👋 Interactive Git Hooks extension deactivated");
 }

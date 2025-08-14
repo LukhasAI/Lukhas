@@ -1,49 +1,30 @@
+# Dependabot configuration for automated dependency updates
+# Automatically creates PRs for security vulnerabilities and updates
+
 version: 2
 updates:
+  # Python dependencies
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "sunday"
+      interval: "daily"
+      time: "04:00"
     open-pull-requests-limit: 10
-    reviewers:
-      - "LukhasAI"
     labels:
       - "dependencies"
       - "security"
-      - "🔧 auto-fix"
-    commit-message:
-      prefix: "deps"
-      include: "scope"
-
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "sunday"
-    open-pull-requests-limit: 10
-    reviewers:
-      - "LukhasAI"
-    labels:
-      - "dependencies"
-      - "security"
-      - "🔧 auto-fix"
-    commit-message:
-      prefix: "deps"
-      include: "scope"
-
+      - "automated"
+    # Allow both direct and indirect updates
+    allow:
+      - dependency-type: "all"
+    # Auto-merge minor and patch updates
+    versioning-strategy: "increase"
+    
+  # GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "sunday"
-    open-pull-requests-limit: 10
-    reviewers:
-      - "LukhasAI"
     labels:
-      - "dependencies"
-      - "security"
-      - "🔧 auto-fix"
-    commit-message:
-      prefix: "deps"
-      include: "scope"
+      - "ci/cd"
+      - "automated"
