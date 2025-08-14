@@ -51,7 +51,7 @@ jobs:
         
         # Safety check
         echo "### Safety Check" >> $GITHUB_STEP_SUMMARY
-        safety check --json --output safety-report.json || true
+        safety check --json > safety-report.json || true
         if [ -f safety-report.json ]; then
           SAFETY_COUNT=$(jq '.vulnerabilities | length' safety-report.json || echo "0")
           echo "Found $SAFETY_COUNT vulnerabilities via Safety" >> $GITHUB_STEP_SUMMARY
@@ -208,7 +208,7 @@ jobs:
       if: steps.auto_fix.outputs.fix_applied == '0'
       uses: peter-evans/create-pull-request@v6
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         commit-message: |
           fix(security): Auto-fix security vulnerabilities
           
