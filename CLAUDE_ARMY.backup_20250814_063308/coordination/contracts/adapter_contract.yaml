@@ -1,0 +1,53 @@
+# Service Adapter Contract
+name: adapter-service
+version: 1.0.0
+provider: adapter-integration-specialist
+consumers:
+  - context-orchestrator-specialist
+  - ux-feedback-specialist
+
+endpoints:
+  gmail_fetch:
+    method: POST
+    path: /adapters/gmail/fetch
+    input:
+      - lid: string
+      - capability_token: object
+      - query: string
+    output:
+      - emails: array
+      - trace_id: string
+  
+  drive_list:
+    method: POST
+    path: /adapters/drive/list
+    input:
+      - lid: string
+      - capability_token: object
+      - folder_id: string
+    output:
+      - files: array
+      - trace_id: string
+  
+  dropbox_retrieve:
+    method: POST
+    path: /adapters/dropbox/retrieve
+    input:
+      - lid: string
+      - capability_token: object
+      - path: string
+    output:
+      - content: string
+      - metadata: object
+      - trace_id: string
+
+resilience_features:
+  - circuit_breakers: true
+  - degraded_mode: true
+  - idempotent_retries: true
+  - dry_run_planner: true
+
+telemetry:
+  - emit_lambda_trace: true
+  - track_metrics: true
+  - monitor_health: true

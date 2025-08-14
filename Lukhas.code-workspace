@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../PrototypeLibrary/organized/web-interfaces"
 		}
 	],
 	"settings": {
