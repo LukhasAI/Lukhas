@@ -46,7 +46,7 @@ from core.glyph.universal_symbol_protocol import (
     UniversalSymbol,
 )
 from memory.folds.optimized_fold_engine import OptimizedFoldEngine
-from quantum.core.quantum_processor_enhanced import QuantumProcessor, QuantumState
+from qi.engines.consciousness.quantum_processor_enhanced import QuantumProcessor, QuantumState
 
 logger = logging.getLogger(__name__)
 

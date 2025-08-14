@@ -1,3 +1,0 @@
-"""
-Quantum_Flux Module
-"""

@@ -19,7 +19,7 @@ from typing import Any, Optional
 
 from bio.core import BioProcessor
 from consciousness.bridge import ConsciousnessBridge
-from quantum.core import QuantumProcessor
+from qi.engines.consciousness import QuantumProcessor
 
 # These imports form an intentional cycle for symbolic grounding
 from symbolic.core import SymbolicProcessor

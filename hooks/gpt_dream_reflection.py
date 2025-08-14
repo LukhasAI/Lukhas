@@ -339,7 +339,7 @@ def get_gpt_style_for_glyph(glyph: str) -> str:
 def create_gpt_context(
     collapsed_glyphs: List[str], entropy: float = 0.5, coherence: float = 0.8
 ) -> str:
-    """Create GPT context from quantum state"""
+    """Create GPT context from qi state"""
     return GPTSymbolicBridge.create_gpt_prompt_context(
         collapsed_glyphs, entropy, coherence
     )

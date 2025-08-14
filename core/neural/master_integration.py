@@ -38,7 +38,7 @@ class LUKHASNeuralNetwork:
             from emotion.neuroplastic_connector import EmotionConnector
             from governance.neuroplastic_connector import GovernanceConnector
             from memory.neuroplastic_connector import MemoryConnector
-            from qim.neuroplastic_connector import QimConnector
+            from qi.neuroplastic_connector import QimConnector
 
             # Register all modules with neural bridge
             self.modules = {

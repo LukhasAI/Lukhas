@@ -176,7 +176,7 @@ from voice import something
 
 # NEW
 from bridge.api_legacy import something
-from qim.bio_legacy import something
+from qi.bio_legacy import something
 from governance.ethics_legacy import something
 from governance.identity import something
 from memory.learning import something

@@ -5,7 +5,7 @@ from typing import Any, Optional
 
 # Enhanced dependency: quantum_mind with better fallback
 try:
-    from quantum_mind import (
+    from qi.mind import (
         ConsciousnessPhase,
         QuantumMindInterface,
         get_current_phase,

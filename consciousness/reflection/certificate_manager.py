@@ -543,7 +543,7 @@ class QuantumCertificateManager:
 
     @lukhas_tier_required(3)
     async def _get_quantum_entropy(self) -> bytes:
-        self.log.info("🌌 Generating entropy from quantum source (simulated).")
+        self.log.info("🌌 Generating entropy from qi source (simulated).")
         await asyncio.sleep(0.005)  # Simulate quantum process
         return secrets.token_bytes(64)  # High-quality classical entropy as placeholder
 

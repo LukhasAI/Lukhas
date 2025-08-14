@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 class QuantumInspiredAttention:
     """
     Implements quantum-inspired attention mechanisms for enhanced context understanding.
-    This leverages concepts from quantum computing to improve attention allocation.
+    This leverages concepts from qi computing to improve attention allocation.
 
     Integrates with LUKHAS_ID for access control and audit logging.
     """

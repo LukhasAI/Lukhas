@@ -37,7 +37,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 try:
-    from quantum.quantum_dream_adapter import (
+    from qi.quantum_dream_adapter import (
         DreamQuantumConfig,
         QuantumDreamAdapter,
     )
@@ -357,7 +357,7 @@ class EnhancedDreamEngine:
     def _extract_dream_insights(
         self, quantum_like_state: dict[str, Any]
     ) -> list[dict[str, Any]]:
-        """Extract insights from quantum dream state
+        """Extract insights from qi dream state
 
         Args:
             quantum_like_state: Current quantum-like state

@@ -77,7 +77,7 @@ import torch.nn.functional as F
 
 # Import core components
 try:
-    from quantum.systems.quantum_inspired_processor import (
+    from qi.systems.quantum_inspired_processor import (
         QuantumInspiredProcessor,
     )
 

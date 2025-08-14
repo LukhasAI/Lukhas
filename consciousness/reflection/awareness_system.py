@@ -58,7 +58,7 @@ from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
 from consciousness.awareness.awareness_engine import AwarenessEngine
 from core.unified.integration import UnifiedIntegration
 from ethics.engine import EthicalFramework, EthicalRiskLevel, QuantumEthics
-from quantum.processing_core import QuantumProcessingCore
+from qi.processing_core import QuantumProcessingCore
 
 
 @dataclass

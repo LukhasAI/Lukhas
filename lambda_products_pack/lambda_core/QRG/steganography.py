@@ -860,7 +860,7 @@ class QuantumSteganographyEngine:
 
         🎨 Poetic Layer:
         "Revealing the invisible, extracting essence from shadow,
-        where hidden truths emerge from quantum silence."
+        where hidden truths emerge from qi silence."
 
         💬 User Friendly Layer:
         "Get your hidden data back from any image! Just provide

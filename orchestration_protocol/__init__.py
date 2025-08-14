@@ -1,3 +1,0 @@
-"""
-Orchestration_Protocol Module
-"""

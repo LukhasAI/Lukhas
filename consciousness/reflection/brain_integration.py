@@ -97,7 +97,7 @@ except ImportError:
 try:
 #     from BIO_SYMBOLIC.quantum_attention import QuantumAttention  # TODO: Install or implement BIO_SYMBOLIC
 except ImportError:
-    logger.warning("Could not import quantum attention. Cognitive integration will be limited.")
+    logger.warning("Could not import qi attention. Cognitive integration will be limited.")
     QuantumAttention = None
 
 try:

@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from ul import (
+from universal_language import (
     CompositionChallenge,
     CompositionProof,
     MeaningType,
@@ -23,7 +23,7 @@ from ul import (
     parse_composition,
     requires_ul_entropy,
 )
-from ul.service import LocalSymbolStore, ULChallengeService, UniversalLanguageService
+from universal_language.service import LocalSymbolStore, ULChallengeService, UniversalLanguageService
 
 
 class TestSymbolEncoding:
@@ -31,7 +31,7 @@ class TestSymbolEncoding:
 
     def test_emoji_encoding(self):
         """Test emoji symbol encoding"""
-        from ul import EmojiEncoder
+        from universal_language import EmojiEncoder
 
         encoder = EmojiEncoder()
 
@@ -52,7 +52,7 @@ class TestSymbolEncoding:
 
     def test_word_encoding(self):
         """Test word/phrase symbol encoding"""
-        from ul import WordEncoder
+        from universal_language import WordEncoder
 
         encoder = WordEncoder()
 
@@ -592,7 +592,7 @@ class TestULRequirements:
 
     def test_composition_requirements(self):
         """Test which actions require composition"""
-        from ul import requires_composition
+        from universal_language import requires_composition
 
         assert requires_composition("grant_admin_scope") is True
         assert requires_composition("delete_all_data") is True

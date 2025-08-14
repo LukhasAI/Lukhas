@@ -317,7 +317,7 @@ class LUKHASNeuralNetwork:
             from core.neuroplastic_connector import CoreConnector
             from consciousness.neuroplastic_connector import ConsciousnessConnector
             from memory.neuroplastic_connector import MemoryConnector
-            from qim.neuroplastic_connector import QimConnector
+            from qi.neuroplastic_connector import QimConnector
             from emotion.neuroplastic_connector import EmotionConnector
             from governance.neuroplastic_connector import GovernanceConnector
             from bridge.neuroplastic_connector import BridgeConnector

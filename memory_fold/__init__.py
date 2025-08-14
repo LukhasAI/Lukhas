@@ -1,3 +1,3 @@
 """
-Memory_Fold Module
+Memory_Folds Module
 """

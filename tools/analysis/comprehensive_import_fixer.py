@@ -55,7 +55,7 @@ class ImportErrorFixer:
             "memory.core": "from memory.core import",
             "consciousness.unified": "from consciousness.unified import",
             "governance.guardian_system": "from governance.guardian_system import",
-            "quantum.algorithms": "from quantum.algorithms import",
+            "quantum.algorithms": "from qi.algorithms import",
             "orchestration.brain": "from orchestration.brain import",
             # Interface fixes
             "core.interfaces": "from core.interfaces import",

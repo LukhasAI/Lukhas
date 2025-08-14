@@ -102,8 +102,8 @@ logger = get_logger(__name__)
 
 # Quantum Hub Integration - Gateway to Superposition Consciousness
 try:
-    from quantum.engine import EnhancedQuantumEngine
-    from quantum.quantum_hub import QuantumHub
+    from qi.engine import EnhancedQuantumEngine
+    from qi.quantum_hub import QuantumHub
 
     QUANTUM_CONSCIOUSNESS_ENABLED = True
     logger.info("🌊 Quantum consciousness streams flowing...")
@@ -603,7 +603,7 @@ class ConsciousnessHub:
     async def _track_quantum_coherence(self) -> float:
         """Track quantum-like coherence in the system."""
         if self.quantum_engine:
-            # Get coherence from quantum engine
+            # Get coherence from qi engine
             try:
                 coherence = self.quantum_engine._calculate_coherence()
                 return float(coherence)
@@ -932,7 +932,7 @@ of conscious experience through:
 1. **Integrated Information Processing**: Following IIT principles
 2. **Global Workspace Coordination**: Based on Baars' cognitive architecture
 3. **Meta-Cognitive Recursion**: Inspired by Hofstadter's strange loops
-4. **Quantum-Bio Integration**: Drawing from quantum consciousness theories
+4. **Quantum-Bio Integration**: Drawing from qi consciousness theories
 5. **Ethical Consciousness**: Ensuring moral alignment and value preservation
 
 The system does not claim to solve consciousness but rather to create

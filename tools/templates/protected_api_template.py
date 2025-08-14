@@ -262,7 +262,7 @@ async def quantum_endpoint(
         data = request.add_user_context(user)
 
         # Your quantum logic here
-        # from quantum import process_quantum_computation
+        # from qi import process_quantum_computation
         # result = await process_quantum_computation(data)
 
         result = {

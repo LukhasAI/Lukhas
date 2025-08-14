@@ -198,7 +198,7 @@ class TrueQuantumRandomness:
         return hashlib.blake2b(combined, digest_size=num_bytes).digest()
 
     def _extract_quantum_api_entropy(self, num_bytes: int) -> bytes:
-        """Extract entropy from quantum API sources (simulated)"""
+        """Extract entropy from qi API sources (simulated)"""
         # In production, would connect to:
         # - IBM Quantum Network
         # - IonQ quantum computers

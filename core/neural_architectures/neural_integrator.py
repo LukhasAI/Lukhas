@@ -50,7 +50,7 @@ import torch.nn.functional as F
 
 # Import core components
 try:
-    from quantum.systems.quantum_inspired_processor import QuantumInspiredProcessor
+    from qi.systems.quantum_inspired_processor import QuantumInspiredProcessor
 
     from ..consciousness.consciousness_integrator import (
         ConsciousnessEvent,

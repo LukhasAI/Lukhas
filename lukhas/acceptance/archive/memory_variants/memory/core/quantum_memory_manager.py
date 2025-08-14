@@ -58,7 +58,7 @@ try:
     # Alias for compatibility
     EnhancedMemoryFold = MemoryFoldSystem
 
-    from quantum.systems.quantum_engine import (
+    from qi.systems.quantum_engine import (
         Quantumoscillator as QuantumOscillator,
     )
 

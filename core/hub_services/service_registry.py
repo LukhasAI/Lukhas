@@ -323,7 +323,7 @@ class QuantumBioOptimizerProvider:
         """Register quantum bio-optimization adapter"""
 
         def create_bio_optimizer():
-            from quantum.bio_optimization_adapter import (
+            from qi.bio.bio_optimizer import (
                 MockBioOrchestrator,
                 QuantumBioOptimizationAdapter,
             )

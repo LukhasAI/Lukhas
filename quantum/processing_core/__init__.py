@@ -1,3 +1,0 @@
-"""
-Processing_Core Module
-"""

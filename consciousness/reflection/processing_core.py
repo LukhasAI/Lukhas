@@ -45,7 +45,7 @@ from typing import Any, Optional
 import numpy as np
 
 from core.common import get_logger
-from quantum.bio.awareness.advanced_quantum_bio import (
+from qi.bio.awareness.advanced_quantum_bio import (
     MitochondrialQuantumBridge,
     NeuroplasticityModulator,
     QuantumSynapticGate,

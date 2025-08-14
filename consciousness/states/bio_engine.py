@@ -35,7 +35,7 @@ from core.common import get_logger
 
 # Quantum bio integration
 try:
-    from quantum.bio_system import MitochondrialQuantumBridge
+    from qi.bio_system import MitochondrialQuantumBridge
 except ImportError:
     MitochondrialQuantumBridge = None
 

@@ -76,7 +76,7 @@ try:
     from memory.memory_service import MemoryService
 
     # Learning service is now obtained through the service registry
-    from quantum.quantum_service import QuantumService
+    from qi.quantum_service import QuantumService
 
     logger.info("ΛTRACE: Successfully imported AGI module services and IdentityClient.")
 except ImportError as e:

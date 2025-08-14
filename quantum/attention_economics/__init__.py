@@ -1,3 +1,0 @@
-"""
-Attention_Economics Module
-"""

@@ -1,3 +1,0 @@
-"""
-Bio_Signals Module
-"""

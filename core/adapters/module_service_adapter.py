@@ -351,7 +351,7 @@ class QuantumServiceAdapter(IQuantumService):
         """Lazy load quantum components"""
         if not self._initialized:
             try:
-                from qim.systems.quantum_engine import QuantumOscillator
+                from qi.systems.quantum_engine import QuantumOscillator
 
                 self._oscillator = QuantumOscillator()
                 self._initialized = True

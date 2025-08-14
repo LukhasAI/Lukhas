@@ -330,7 +330,7 @@ class DreamDataCollector:
 
     async def collect_quantum_symbolic_data(self) -> dict[str, Any]:
         """
-        Collect data from quantum and symbolic systems.
+        Collect data from qi and symbolic systems.
 
         Provides:
         - Quantum state coherence
@@ -341,7 +341,7 @@ class DreamDataCollector:
         logger.info("Collecting quantum/symbolic data for dreams")
 
         try:
-            from quantum.systems.quantum_engine import QuantumOscillator
+            from qi.systems.quantum_engine import QuantumOscillator
             from symbolic.glyphs.glyph import ActiveGlyphs
 
             quantum_engine = QuantumOscillator()

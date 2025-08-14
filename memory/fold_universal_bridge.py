@@ -60,7 +60,7 @@ except ImportError:
 
 # Quantum engine
 try:
-    from quantum.systems.quantum_engine import QuantumEngine
+    from qi.systems.quantum_engine import QuantumEngine
 
     quantum_available = True
 except ImportError:

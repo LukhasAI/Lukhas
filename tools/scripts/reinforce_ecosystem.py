@@ -39,7 +39,7 @@ class EcosystemReinforcer:
         import_mappings = {
             "from api import": "from bridge.api_legacy import",
             "from architectures import": "from core.architectures import",
-            "from bio import": "from qim.bio_legacy import",
+            "from bio import": "from qi.bio_legacy import",
             "from creativity import": "from consciousness.creativity import",
             "from dream import": "from consciousness.dream import",
             "from ethics import": "from governance.ethics_legacy import",
@@ -51,7 +51,7 @@ class EcosystemReinforcer:
             "from voice import": "from bridge.voice import",
             "import api": "import bridge.api_legacy as api",
             "import architectures": "import core.architectures as architectures",
-            "import bio": "import qim.bio_legacy as bio",
+            "import bio": "import qi.bio_legacy as bio",
             "import creativity": "import consciousness.creativity as creativity",
             "import dream": "import consciousness.dream as dream",
             "import ethics": "import governance.ethics_legacy as ethics",

@@ -50,9 +50,9 @@ from identity.identity_hub import IdentityHub
 from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 
 # Oscillator and mito patterns
-from quantum.oscillator import BaseOscillator
-from quantum.quantum_hub import QuantumHub
-from quantum.system_orchestrator import QuantumAGISystem
+from qi.oscillator import BaseOscillator
+from qi.quantum_hub import QuantumHub
+# from qi.system_orchestrator import QuantumAGISystem  # TODO: Implement quantum AGI system
 
 logger = logging.getLogger(__name__)
 

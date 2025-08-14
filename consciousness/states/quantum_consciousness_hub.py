@@ -24,7 +24,7 @@ from openai import AsyncOpenAI
 
 from core.common import get_logger
 from orchestration.brain.consciousness_core import ConsciousnessCore
-from quantum.attention_economics import QuantumAttentionEconomics
+from qi.attention_economics import QuantumAttentionEconomics
 
 logger = get_logger(__name__)
 

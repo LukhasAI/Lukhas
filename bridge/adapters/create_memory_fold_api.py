@@ -352,7 +352,7 @@ class QuantumMemoryEngine:
             memory_resonance = self._calculate_emotional_similarity(
                 current_emotions, memory.emotional_vector
             )
-            # Weight by memory importance (from quantum state)
+            # Weight by memory importance (from qi state)
             importance = memory.quantum_state.get("coherence", 0.5)
             total_resonance += memory_resonance * importance
 
@@ -468,7 +468,7 @@ class QuantumMemoryEngine:
         age_days = (datetime.now() - fold.timestamp).total_seconds() / 86400
         recency_score = np.exp(-age_days / 30)  # 30-day half-life
 
-        # Importance from quantum coherence
+        # Importance from qi coherence
         importance = fold.quantum_state.get("coherence", 0.5)
 
         return text_score * 0.5 + recency_score * 0.3 + importance * 0.2

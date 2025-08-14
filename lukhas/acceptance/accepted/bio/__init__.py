@@ -12,7 +12,7 @@ from . import adapters, awareness, oscillator, symbolic
 
 # Optional quantum features (feature-flagged)
 try:
-    from . import quantum
+    from . import qi
 except ImportError:
     quantum = None
 
