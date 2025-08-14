@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+"""
+Post-commit hook to organize files automatically
+"""
+
+import subprocess
+import sys
+from pathlib import Path
+
+def main():
+    """Run file organization after commit"""
+    
+    # Check if organization is needed
+    root_path = Path.cwd()
+    root_files = [f for f in root_path.iterdir() if f.is_file()]
+    
+    # Count files that look like they should be organized
+    report_files = [f for f in root_files if any(x in f.name for x in ['_REPORT', '_STATUS', '_COMPLETE', '_IMPLEMENTATION'])]
+    
+    if len(report_files) > 5:  # Threshold for auto-organization
+        print("\n🧹 Organizing root directory...")
+        
+        # Run organizer
+        result = subprocess.run(
+            ['python3', 'scripts/file-organizer.py', 'organize'],
+            capture_output=True,
+            text=True
+        )
+        
+        if result.returncode == 0:
+            print("✅ Files organized successfully")
+            
+            # Check if any files were moved
+            if "Moved:" in result.stdout:
+                print("\n💡 Files were moved. You may want to commit these changes:")
+                print("   git add -A && git commit -m 'chore: Auto-organize root directory'")
+        else:
+            print("⚠️ File organization skipped")
+    
+    sys.exit(0)
+
+if __name__ == "__main__":
+    main()

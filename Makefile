@@ -235,6 +235,24 @@ deep-clean: clean
 quick: fix test
 	@echo "✅ Quick fix and test complete!"
 
+# File organization
+organize:
+	@echo "🧹 Organizing root directory..."
+	@python3 scripts/file-organizer.py organize
+	@echo "✅ Organization complete!"
+
+organize-dry:
+	@echo "🔍 Dry run - checking what would be organized..."
+	@python3 scripts/file-organizer.py organize --dry-run
+
+organize-suggest:
+	@echo "💡 Suggesting new organization rules..."
+	@python3 scripts/file-organizer.py suggest
+
+organize-watch:
+	@echo "👁️ Starting file organization watch mode..."
+	@python3 scripts/file-organizer.py watch --interval 300
+
 # Install and setup everything
 bootstrap: install setup-hooks
 	@echo "🚀 Bootstrap complete! Run 'make fix' to clean up existing issues."
