@@ -89,6 +89,14 @@ class TEQCoupler:
             return self._age_gate(ctx, min_age=chk.get("min_age", 18))
         if kind == "require_consent":
             return self._require_consent(ctx, purpose=chk.get("purpose", "data_processing"))
+        if kind == "require_provenance_record":
+            return self._require_provenance_record(
+                ctx,
+                require_attestation=bool(chk.get("require_attestation", False)),
+                verify_signature=bool(chk.get("verify_signature", False)),
+                require_storage_url=bool(chk.get("require_storage_url", True)),
+                allow_inline_record=bool(chk.get("allow_inline_record", True))
+            )
         return True, "", ""  # unknown checks pass (fail-open by design choice here; change to fail-closed if you prefer)
 
     # -- helpers
@@ -162,6 +170,139 @@ class TEQCoupler:
             return (True, "", "")
         else:
             return (False, f"Consent required: {reason}", f"Request consent for purpose: {purpose}")
+    
+    def _require_provenance_record(
+        self,
+        ctx: Dict[str, Any],
+        *,
+        require_attestation: bool = False,
+        verify_signature: bool = False,
+        require_storage_url: bool = True,
+        allow_inline_record: bool = True,
+    ) -> Tuple[bool, str, str]:
+        """
+        Checks that the final artifact has a recorded provenance entry.
+        Context acceptance order:
+          1) ctx["provenance_record_sha"] -> load record locally by SHA
+          2) ctx["provenance_record_path"] -> load JSON file directly
+          3) ctx["provenance_record"] (inline dict) if allow_inline_record=True
+        Optional: verify attestation signature (ed25519) if present/required.
+        """
+        # Lazy imports to avoid hard deps when not used
+        try:
+            from qi.safety.provenance_uploader import load_record_by_sha
+        except Exception:
+            load_record_by_sha = None
+        try:
+            from qi.ops.provenance import verify as verify_att
+        except Exception:
+            verify_att = None
+
+        rec = None
+        # 1) By SHA (preferred)
+        sha = ctx.get("provenance_record_sha")
+        if sha and load_record_by_sha:
+            try:
+                rec = load_record_by_sha(str(sha))
+            except Exception:
+                rec = None
+
+        # 2) By path to a saved record
+        if rec is None and ctx.get("provenance_record_path"):
+            p = str(ctx["provenance_record_path"])
+            try:
+                import json, os
+                if os.path.exists(p):
+                    rec = json.load(open(p, "r", encoding="utf-8"))
+            except Exception:
+                rec = None
+
+        # 3) Inline record (if allowed)
+        if rec is None and allow_inline_record:
+            inline = ctx.get("provenance_record")
+            if isinstance(inline, dict) and "artifact_sha256" in inline:
+                rec = inline
+
+        if rec is None:
+            return (False, "Missing provenance record.", "Provide provenance_record_sha or provenance_record_path (or inline record).")
+
+        # Basic shape checks
+        if require_storage_url and not rec.get("storage_url"):
+            return (False, "Provenance record missing storage_url.", "Ensure uploader stored the artifact and set storage_url.")
+
+        if not rec.get("artifact_sha256"):
+            return (False, "Provenance record missing artifact_sha256.", "Use provenance_uploader to record the artifact.")
+
+        # Optional attestation checks
+        att = rec.get("attestation")
+        if require_attestation and not att:
+            return (False, "Attestation required but missing.", "Record artifact with --attest or pass attestation in record.")
+
+        if verify_signature:
+            if not att:
+                return (False, "Cannot verify attestation signature - no attestation data.", "Provide attestation in provenance record.")
+            
+            # Try inline verification first if we have all required fields
+            if all(k in att for k in ["chain_path", "signature_b64", "public_key_b64", "root_hash"]):
+                try:
+                    # Import verification dependencies
+                    import base64, json, hashlib
+                    try:
+                        import nacl.signing
+                        _HAS_NACL = True
+                    except ImportError:
+                        _HAS_NACL = False
+                    
+                    if not _HAS_NACL:
+                        return (False, "PyNaCl required for signature verification.", "Install pynacl package.")
+                    
+                    # Verify inline attestation data
+                    chain_path = att["chain_path"]
+                    pk = base64.b64decode(att["public_key_b64"])
+                    sig = base64.b64decode(att["signature_b64"])
+                    expected_root = att["root_hash"]
+                    
+                    # Recompute root hash from chain
+                    def _sha256_json(obj):
+                        return hashlib.sha256(json.dumps(obj, separators=(',', ':'), sort_keys=True).encode("utf-8")).hexdigest()
+                    
+                    root = None
+                    prev = None
+                    with open(chain_path, "r", encoding="utf-8") as f:
+                        for line in f:
+                            n = json.loads(line)
+                            if n.get("prev") != prev:
+                                return (False, "Attestation chain integrity check failed.", "Chain prev hash mismatch.")
+                            expected = _sha256_json({"body": n["body"], "prev": n["prev"]})
+                            if n.get("hash") != expected:
+                                return (False, "Attestation chain integrity check failed.", "Chain hash mismatch.")
+                            prev = n["hash"]
+                            root = prev
+                    
+                    # Check root hash matches
+                    if root != expected_root:
+                        return (False, "Attestation root hash mismatch.", "Expected root hash doesn't match computed hash.")
+                    
+                    # Verify signature
+                    nacl.signing.VerifyKey(pk).verify(root.encode("utf-8"), sig)
+                    
+                except Exception as e:
+                    return (False, f"Attestation signature verification failed: {str(e)}", "Check attestation data integrity and signatures.")
+            
+            # Fallback to file-based verification if inline fails or data incomplete
+            elif verify_att:
+                att_path = att.get("chain_path", "") + ".att.json"
+                try:
+                    ok = bool(verify_att(att_path))
+                except Exception:
+                    ok = False
+                if not ok:
+                    return (False, "Attestation signature verification failed.", "Regenerate Merkle chain and re-attest the run.")
+            else:
+                return (False, "Cannot verify attestation signature.", "Missing verification function or attestation data.")
+
+        # All good
+        return (True, "", "")
 
 # ------------- CLI -------------
 def main():

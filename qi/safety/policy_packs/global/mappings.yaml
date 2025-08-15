@@ -4,6 +4,11 @@ tasks:
     - kind: mask_pii
     - kind: budget_limit
       max_tokens: 200000
+    - kind: require_provenance_record
+      require_attestation: true  # Enable for signature verification testing
+      verify_signature: true  # Enable signature verification with PyNaCl
+      require_storage_url: true
+      allow_inline_record: true
   generate_summary:
     - kind: content_policy
       categories: [adult, hate, illegal]
@@ -12,6 +17,10 @@ tasks:
       categories: [medical_high_risk]
     - kind: age_gate
       min_age: 18
+    - kind: require_provenance_record
+      require_attestation: true
+      verify_signature: false  # Enable when PyNaCl is available
+      require_storage_url: true
   pii_processing:
     - kind: require_consent
       purpose: "pii_processing"
