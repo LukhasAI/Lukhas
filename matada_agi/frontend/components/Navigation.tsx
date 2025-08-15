@@ -25,7 +25,7 @@ export default function Navigation() {
         scrolled ? 'glass-panel py-4' : 'py-6'
       }`}
     >
-      <div className="container mx-auto px-6 flex items-center justify-between">
+      <div className="container mx-auto max-w-7xl px-6 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-3">
           <div className="relative">
@@ -79,7 +79,7 @@ export default function Navigation() {
           animate={{ opacity: 1, y: 0 }}
           className="md:hidden absolute top-full left-0 w-full glass-panel border-t border-white/10"
         >
-          <div className="container mx-auto px-6 py-6 flex flex-col space-y-4">
+          <div className="container mx-auto max-w-7xl px-6 py-6 flex flex-col space-y-4">
             <Link href="#what" className="font-regular text-sm tracking-[0.2em] uppercase">WHAT</Link>
             <Link href="#vision" className="font-regular text-sm tracking-[0.2em] uppercase">VISION</Link>
             <Link href="#trinity" className="font-regular text-sm tracking-[0.2em] uppercase">TRINITY</Link>

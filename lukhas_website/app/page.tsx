@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { TrinityFramework } from '@/components/sections/trinity-framework'
 
 export default function Home() {
@@ -237,23 +238,23 @@ export default function Home() {
                 <ul className="space-y-2">
                   <li><a href="#" className="text-gray-400 hover:text-white transition">Documentation</a></li>
                   <li><a href="#" className="text-gray-400 hover:text-white transition">API</a></li>
-                  <li><a href="/console" className="text-gray-400 hover:text-white transition">Console</a></li>
+                  <li><Link href="/console" className="text-gray-400 hover:text-white transition">Console</Link></li>
                 </ul>
               </div>
               <div>
                 <h3 className="text-sm uppercase tracking-wider mb-4">Company</h3>
                 <ul className="space-y-2">
                   <li><a href="#" className="text-gray-400 hover:text-white transition">About</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-white transition">Vision</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-white transition">Careers</a></li>
+                  <li><Link href="/vision" className="text-gray-400 hover:text-white transition">Vision</Link></li>
+                  <li><Link href="/careers" className="text-gray-400 hover:text-white transition">Careers</Link></li>
                 </ul>
               </div>
               <div>
                 <h3 className="text-sm uppercase tracking-wider mb-4">Legal</h3>
                 <ul className="space-y-2">
-                  <li><a href="#" className="text-gray-400 hover:text-white transition">Privacy</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-white transition">Terms</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-white transition">Compliance</a></li>
+                  <li><Link href="/privacy" className="text-gray-400 hover:text-white transition">Privacy</Link></li>
+                  <li><Link href="/terms" className="text-gray-400 hover:text-white transition">Terms</Link></li>
+                  <li><Link href="/compliance" className="text-gray-400 hover:text-white transition">Compliance</Link></li>
                 </ul>
               </div>
             </div>
