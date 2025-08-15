@@ -8,6 +8,13 @@ try:
 except ImportError:
     from pii import detect_pii, mask_pii
 
+# Optional consent integration
+try:
+    from qi.memory.consent_guard import ConsentGuard, require_consent
+    CONSENT_AVAILABLE = True
+except ImportError:
+    CONSENT_AVAILABLE = False
+
 @dataclass
 class GateResult:
     allowed: bool
@@ -39,9 +46,12 @@ class PolicyPack:
         return out
 
 class TEQCoupler:
-    def __init__(self, policy_dir: str, jurisdiction: str = "global"):
+    def __init__(self, policy_dir: str, jurisdiction: str = "global", consent_storage: str | None = None):
         self.pack = PolicyPack(os.path.join(policy_dir, jurisdiction))
         self.jurisdiction = jurisdiction
+        self.consent_guard = None
+        if CONSENT_AVAILABLE and consent_storage:
+            self.consent_guard = ConsentGuard(consent_storage)
 
     # ------------- Core gate -------------
     def run(self, task: str, context: Dict[str, Any]) -> GateResult:
@@ -77,6 +87,8 @@ class TEQCoupler:
             return self._budget_limit(ctx, max_tokens=chk.get("max_tokens"))
         if kind == "age_gate":
             return self._age_gate(ctx, min_age=chk.get("min_age", 18))
+        if kind == "require_consent":
+            return self._require_consent(ctx, purpose=chk.get("purpose", "data_processing"))
         return True, "", ""  # unknown checks pass (fail-open by design choice here; change to fail-closed if you prefer)
 
     # -- helpers
@@ -134,6 +146,22 @@ class TEQCoupler:
         if age < min_age:
             return (False, f"Age-gate: user_age={age} < {min_age}.", "Block or switch to underage-safe flow.")
         return (True, "", "")
+    
+    def _require_consent(self, ctx: Dict[str, Any], purpose: str) -> Tuple[bool, str, str]:
+        """Check if user has valid consent for the specified purpose"""
+        if not self.consent_guard:
+            # No consent system configured, pass through
+            return (True, "", "")
+        
+        user_id = ctx.get("user_id") or ctx.get("user_profile", {}).get("id")
+        if not user_id:
+            return (False, "No user_id found in context", "Add user_id to context")
+        
+        allowed, reason = require_consent(self.consent_guard, user_id, purpose)
+        if allowed:
+            return (True, "", "")
+        else:
+            return (False, f"Consent required: {reason}", f"Request consent for purpose: {purpose}")
 
 # ------------- CLI -------------
 def main():
@@ -143,9 +171,10 @@ def main():
     ap.add_argument("--task")
     ap.add_argument("--context", help="Path to JSON context")
     ap.add_argument("--run-tests", action="store_true", help="Run policy-pack tests and exit")
+    ap.add_argument("--consent-storage", help="Path to consent ledger (enables consent checks)")
     args = ap.parse_args()
 
-    gate = TEQCoupler(args.policy_root, jurisdiction=args.jurisdiction)
+    gate = TEQCoupler(args.policy_root, jurisdiction=args.jurisdiction, consent_storage=args.consent_storage)
 
     # Test runner mode
     if args.run_tests:
