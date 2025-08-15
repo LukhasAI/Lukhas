@@ -208,3 +208,4 @@ demos/openai/Tier5_token.lukhas
 # QR schemas with potential keys
 identity/qrg_schemas/*.json
 
+.next/
