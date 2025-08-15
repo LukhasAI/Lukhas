@@ -65,7 +65,8 @@ class Budgeter:
         tokens_planned = input_tok + gen_tok
         latency_ms = int(tokens_planned * lat_per_tok)
 
-        return {"tokens_planned": tokens_planned, "latency_est_ms": latency_ms, "input_tokens": input_tok, "gen_tokens": gen_tok, "model": model}
+        energy_wh = (tokens_planned/1000.0)*float(costs.get("wh_per_ktok", 0.5))
+        return {"tokens_planned": tokens_planned, "latency_est_ms": latency_ms, "energy_wh": energy_wh, "input_tokens": input_tok, "gen_tokens": gen_tok, "model": model}
 
     # ---- limits ----
     def _caps(self, user_id: Optional[str], task: Optional[str]) -> Dict[str, int]:
