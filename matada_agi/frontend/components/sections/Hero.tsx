@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei'
+import { Atom, Brain, Shield } from 'lucide-react'
 
 function AnimatedSphere() {
   return (
@@ -90,15 +91,21 @@ export default function Hero() {
             className="flex justify-center space-x-12 mb-12"
           >
             <div className="text-center">
-              <div className="text-4xl mb-2 trinity-identity-glow rounded-full p-4">⚛️</div>
+              <div className="trinity-identity-glow rounded-full p-4 flex justify-center mb-2">
+                <Atom className="w-10 h-10 text-white" />
+              </div>
               <p className="font-regular text-xs tracking-[0.2em] uppercase">IDENTITY</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl mb-2 trinity-consciousness-glow rounded-full p-4">🧠</div>
+              <div className="trinity-consciousness-glow rounded-full p-4 flex justify-center mb-2">
+                <Brain className="w-10 h-10 text-white" />
+              </div>
               <p className="font-regular text-xs tracking-[0.2em] uppercase">CONSCIOUSNESS</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl mb-2 trinity-guardian-glow rounded-full p-4">🛡️</div>
+              <div className="trinity-guardian-glow rounded-full p-4 flex justify-center mb-2">
+                <Shield className="w-10 h-10 text-white" />
+              </div>
               <p className="font-regular text-xs tracking-[0.2em] uppercase">GUARDIAN</p>
             </div>
           </motion.div>

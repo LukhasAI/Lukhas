@@ -4,14 +4,14 @@ import { useRef, useEffect, useState } from 'react'
 import { motion, useAnimation, AnimatePresence } from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Sphere, MeshDistortMaterial, Float } from '@react-three/drei'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Atom, Brain, Shield } from 'lucide-react'
 import SplitType from 'split-type'
 import { gsap } from 'gsap'
 
 const taglines = [
   'Building Consciousness You Can Trust',
   'Where AI Meets Ethics',
-  'Trinity Framework ⚛️🧠🛡️',
+  'Trinity Framework: Identity • Consciousness • Guardian',
   'Powered by MATADA',
 ]
 
@@ -143,19 +143,19 @@ export function Hero() {
             className="flex justify-center space-x-8 md:space-x-16 mb-12"
           >
             <TrinitySymbol
-              emoji="⚛️"
+              icon={Atom}
               label="IDENTITY"
               color="trinity-identity"
               delay={0.7}
             />
             <TrinitySymbol
-              emoji="🧠"
+              icon={Brain}
               label="CONSCIOUSNESS"
               color="trinity-consciousness"
               delay={0.8}
             />
             <TrinitySymbol
-              emoji="🛡️"
+              icon={Shield}
               label="GUARDIAN"
               color="trinity-guardian"
               delay={0.9}
@@ -216,12 +216,12 @@ export function Hero() {
 }
 
 function TrinitySymbol({
-  emoji,
+  icon: Icon,
   label,
   color,
   delay,
 }: {
-  emoji: string
+  icon: any
   label: string
   color: string
   delay: number
@@ -236,9 +236,9 @@ function TrinitySymbol({
       <motion.div
         whileHover={{ scale: 1.1, rotate: 360 }}
         transition={{ duration: 0.5 }}
-        className={`text-5xl md:text-6xl mb-3 inline-block p-4 rounded-full bg-${color}/10 group-hover:glow-${color.split('-')[1]}`}
+        className={`mb-3 inline-block p-4 rounded-full bg-${color}/10 group-hover:glow-${color.split('-')[1]}`}
       >
-        {emoji}
+        <Icon className="w-12 h-12 md:w-16 md:h-16 text-white" />
       </motion.div>
       <p className="font-regular text-xs tracking-[0.2em] uppercase text-text-tertiary group-hover:text-text-primary transition-colors">
         {label}

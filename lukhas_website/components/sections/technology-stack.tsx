@@ -2,10 +2,11 @@
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import { Brain, Atom, Shield } from 'lucide-react'
 
 interface LayerContent {
   title: string
-  icon: string
+  icon: any
   description: string
   components: string[]
   capabilities: string[]
@@ -18,7 +19,7 @@ export function TechnologyStack() {
   const layers: LayerContent[] = [
     {
       title: 'Consciousness Layer',
-      icon: '🧠',
+      icon: Brain,
       description: 'Advanced awareness systems that enable dynamic decision-making, contextual understanding, and self-reflective processing through bio-inspired neural architectures and quantum-inspired attention mechanisms.',
       components: [
         'Awareness Engine with attention monitoring',
@@ -43,7 +44,7 @@ export function TechnologyStack() {
     },
     {
       title: 'Identity Layer',
-      icon: '⚛️',
+      icon: Atom,
       description: 'Sophisticated identity management combining ΛiD (Lambda Identity) systems with tiered access control, biometric fusion, and symbolic self-representation for authentic digital presence.',
       components: [
         'ΛiD Core with entropy-based generation',
@@ -68,7 +69,7 @@ export function TechnologyStack() {
     },
     {
       title: 'Guardian Layer',
-      icon: '🛡️',
+      icon: Shield,
       description: 'Comprehensive ethical oversight and safety systems with constitutional AI principles, drift detection, and real-time compliance monitoring to ensure responsible AI behavior.',
       components: [
         'Ethics Engine with constitutional AI framework',
@@ -154,7 +155,9 @@ export function TechnologyStack() {
               }`}
               onClick={() => setSelectedLayer(selectedLayer === i ? null : i)}
             >
-              <div className="text-3xl mb-4">{layer.icon}</div>
+              <div className="mb-4">
+                <layer.icon className="w-8 h-8 text-white" />
+              </div>
               <h3 className="font-regular text-sm uppercase tracking-wider mb-2">{layer.title}</h3>
               <p className="text-white/60 text-sm">
                 Click to explore this layer's capabilities and architecture

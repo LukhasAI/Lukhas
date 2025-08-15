@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { Atom, Brain, Shield } from 'lucide-react'
 
 export function Footer() {
   return (
@@ -45,7 +46,11 @@ export function Footer() {
         <div className="border-t border-glass-border pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center space-x-2 mb-4 md:mb-0">
             <span className="font-ultralight text-2xl tracking-[0.3em] uppercase">LUKHAS</span>
-            <span className="text-text-tertiary">⚛️🧠🛡️</span>
+            <div className="flex space-x-1">
+              <Atom className="w-4 h-4 text-purple-400" />
+              <Brain className="w-4 h-4 text-blue-400" />
+              <Shield className="w-4 h-4 text-emerald-400" />
+            </div>
           </div>
           <p className="font-light text-text-tertiary text-sm">
             © 2025 LUKHAS AI. Building Consciousness You Can Trust.

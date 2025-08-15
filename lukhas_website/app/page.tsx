@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { Atom, Brain, Shield, Settings } from 'lucide-react'
 import { TrinityFramework } from '@/components/sections/trinity-framework'
 
 export default function Home() {
@@ -55,15 +56,21 @@ export default function Home() {
             {/* Trinity Symbols */}
             <div className="flex justify-center space-x-12 mb-12">
               <div className="text-center">
-                <div className="text-4xl mb-2">⚛️</div>
+                <div className="flex justify-center mb-2">
+                  <Atom className="w-10 h-10 text-purple-400" />
+                </div>
                 <p className="text-xs uppercase tracking-wider">Identity</p>
               </div>
               <div className="text-center">
-                <div className="text-4xl mb-2">🧠</div>
+                <div className="flex justify-center mb-2">
+                  <Brain className="w-10 h-10 text-blue-400" />
+                </div>
                 <p className="text-xs uppercase tracking-wider">Consciousness</p>
               </div>
               <div className="text-center">
-                <div className="text-4xl mb-2">🛡️</div>
+                <div className="flex justify-center mb-2">
+                  <Shield className="w-10 h-10 text-emerald-400" />
+                </div>
                 <p className="text-xs uppercase tracking-wider">Guardian</p>
               </div>
             </div>
@@ -157,13 +164,16 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                '🧠 Consciousness Layer',
-                '⚛️ Identity Layer',
-                '🛡️ Guardian Layer',
-                '🔧 Infrastructure'
+                { icon: Brain, name: 'Consciousness Layer', color: 'text-blue-400' },
+                { icon: Atom, name: 'Identity Layer', color: 'text-purple-400' },
+                { icon: Shield, name: 'Guardian Layer', color: 'text-emerald-400' },
+                { icon: Settings, name: 'Infrastructure', color: 'text-gray-400' }
               ].map((layer, i) => (
                 <div key={i} className="bg-white/5 backdrop-blur rounded-xl p-6 border border-white/10">
-                  <p className="text-lg">{layer}</p>
+                  <div className="flex items-center space-x-3">
+                    <layer.icon className={`w-5 h-5 ${layer.color}`} />
+                    <p className="text-lg">{layer.name}</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -262,7 +272,11 @@ export default function Home() {
             <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
               <div className="flex items-center space-x-4 mb-4 md:mb-0">
                 <span className="text-2xl font-thin tracking-[0.3em]">LUKHAS</span>
-                <span className="text-gray-400">⚛️🧠🛡️</span>
+                <div className="flex space-x-1">
+                  <Atom className="w-5 h-5 text-purple-400" />
+                  <Brain className="w-5 h-5 text-blue-400" />
+                  <Shield className="w-5 h-5 text-emerald-400" />
+                </div>
               </div>
               <p className="text-gray-400 text-sm">
                 © 2025 LUKHAS AI. Building Consciousness You Can Trust.

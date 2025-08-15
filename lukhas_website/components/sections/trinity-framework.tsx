@@ -1,130 +1,180 @@
 'use client'
 
-import { useRef, useState } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Box, Sphere, Torus, Text, Line } from '@react-three/drei'
+import React, { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import * as THREE from 'three'
+import { Atom, Brain, Shield, Sparkles, Zap, Lock, Eye, Network, Layers, CheckCircle2, ArrowRight, GitBranch } from 'lucide-react'
 
 function TrinityVisualization() {
-  const groupRef = useRef<THREE.Group>(null)
   const [activeNode, setActiveNode] = useState<string | null>(null)
 
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.1
+  const nodes = [
+    {
+      id: 'identity',
+      icon: Atom,
+      title: 'IDENTITY',
+      subtitle: 'Authentic Self',
+      color: 'from-purple-600 to-violet-500',
+      position: 'left',
+      description: 'Unique cognitive fingerprint that evolves while preserving core essence'
+    },
+    {
+      id: 'consciousness',
+      icon: Brain,
+      title: 'CONSCIOUSNESS',
+      subtitle: 'Distributed Awareness',
+      color: 'from-blue-600 to-cyan-500',
+      position: 'center',
+      description: 'Multi-layered processing with genuine understanding and meta-cognition'
+    },
+    {
+      id: 'guardian',
+      icon: Shield,
+      title: 'GUARDIAN',
+      subtitle: 'Ethical Integrity',
+      color: 'from-emerald-600 to-green-500',
+      position: 'right',
+      description: 'Real-time ethical validation ensuring aligned decision-making'
     }
-  })
+  ]
 
   return (
-    <group ref={groupRef}>
-      {/* Identity Node - Purple */}
-      <group position={[-2.5, 0, 0]}>
-        <Sphere
-          args={[0.5, 32, 32]}
-          onClick={() => setActiveNode('identity')}
-          onPointerOver={() => setActiveNode('identity')}
-          onPointerOut={() => setActiveNode(null)}
-        >
-          <meshStandardMaterial
-            color="#6B46C1"
-            emissive="#6B46C1"
-            emissiveIntensity={activeNode === 'identity' ? 0.5 : 0.2}
-          />
-        </Sphere>
-        <Torus args={[1, 0.05, 16, 100]} rotation={[Math.PI / 2, 0, 0]}>
-          <meshStandardMaterial
-            color="#6B46C1"
-            emissive="#6B46C1"
-            emissiveIntensity={0.3}
-          />
-        </Torus>
-        <Torus args={[1.2, 0.03, 16, 100]} rotation={[0, Math.PI / 2, Math.PI / 4]}>
-          <meshStandardMaterial
-            color="#6B46C1"
-            emissive="#6B46C1"
-            emissiveIntensity={0.3}
-          />
-        </Torus>
-        <Text
-          position={[0, -1.5, 0]}
-          fontSize={0.3}
-          color="#FFFFFF"
-          anchorX="center"
-          anchorY="middle"
-        >
-          IDENTITY
-        </Text>
-      </group>
+    <div className="relative h-[600px] flex items-center justify-center overflow-hidden">
+      {/* Background Grid Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }} />
+      </div>
 
-      {/* Consciousness Node - Blue */}
-      <group position={[2.5, 0, 0]}>
-        <Sphere
-          args={[0.6, 32, 32]}
-          onClick={() => setActiveNode('consciousness')}
-          onPointerOver={() => setActiveNode('consciousness')}
-          onPointerOut={() => setActiveNode(null)}
+      {/* Central Connection Hub */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          className="w-6 h-6 bg-gradient-to-r from-purple-500 via-blue-500 to-emerald-500 rounded-full shadow-2xl"
         >
-          <meshStandardMaterial
-            color="#0EA5E9"
-            emissive="#0EA5E9"
-            emissiveIntensity={activeNode === 'consciousness' ? 0.5 : 0.2}
-            wireframe
-          />
-        </Sphere>
-        <Box args={[0.1, 2, 0.1]} position={[0, 0, 0]}>
-          <meshStandardMaterial
-            color="#0EA5E9"
-            emissive="#0EA5E9"
-            emissiveIntensity={0.3}
-          />
-        </Box>
-        <Text
-          position={[0, -1.5, 0]}
-          fontSize={0.3}
-          color="#FFFFFF"
-          anchorX="center"
-          anchorY="middle"
-        >
-          CONSCIOUSNESS
-        </Text>
-      </group>
+          <div className="w-full h-full bg-gradient-to-r from-purple-500 via-blue-500 to-emerald-500 rounded-full animate-pulse" />
+        </motion.div>
+        
+        {/* Connection Lines */}
+        {nodes.map((node, index) => (
+          <motion.div
+            key={node.id}
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.6 }}
+            transition={{ delay: 0.8 + index * 0.2, duration: 1 }}
+            className="absolute"
+            style={{
+              transform: `rotate(${index * 120 - 90}deg)`,
+              transformOrigin: 'center'
+            }}
+          >
+            <div className="w-48 h-px bg-gradient-to-r from-white/60 to-transparent" />
+          </motion.div>
+        ))}
+      </div>
 
-      {/* Guardian Node - Green */}
-      <group position={[0, 2.2, 0]}>
-        <Box args={[1.2, 1.5, 0.1]}>
-          <meshStandardMaterial
-            color="#10B981"
-            emissive="#10B981"
-            emissiveIntensity={activeNode === 'guardian' ? 0.5 : 0.2}
-          />
-        </Box>
-        <Torus args={[1.5, 0.08, 16, 100]}>
-          <meshStandardMaterial
-            color="#10B981"
-            emissive="#10B981"
-            emissiveIntensity={0.3}
-          />
-        </Torus>
-        <Text
-          position={[0, -1.5, 0]}
-          fontSize={0.3}
-          color="#FFFFFF"
-          anchorX="center"
-          anchorY="middle"
-        >
-          GUARDIAN
-        </Text>
-      </group>
-
-      {/* Connecting Lines */}
-      <Line
-        points={[[-2.5, 0, 0], [0, 2.2, 0], [2.5, 0, 0]]}
-        color="#FFFFFF"
-        lineWidth={1}
-        opacity={0.3}
-      />
-    </group>
+      {/* Trinity Nodes */}
+      {nodes.map((node, index) => {
+        const Icon = node.icon
+        const angle = (index * 120 - 90) * (Math.PI / 180)
+        const radius = 200
+        const x = Math.cos(angle) * radius
+        const y = Math.sin(angle) * radius
+        
+        return (
+          <motion.div
+            key={node.id}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 1 + index * 0.3, duration: 0.6 }}
+            className="absolute"
+            style={{
+              transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`
+            }}
+            onMouseEnter={() => setActiveNode(node.id)}
+            onMouseLeave={() => setActiveNode(null)}
+          >
+            <div className={`
+              relative group cursor-pointer transition-all duration-500
+              ${activeNode === node.id ? 'scale-110' : 'hover:scale-105'}
+            `}>
+              {/* Node Card */}
+              <div className={`
+                relative p-6 rounded-2xl backdrop-blur-xl border border-white/20
+                bg-gradient-to-br ${node.color} shadow-2xl
+                ${activeNode === node.id ? 'shadow-3xl' : ''}
+                transition-all duration-500
+              `}>
+                {/* Icon */}
+                <div className="flex justify-center mb-4">
+                  <Icon className="w-8 h-8 text-white" />
+                </div>
+                
+                {/* Title */}
+                <h3 className="text-white font-bold text-lg text-center mb-1">
+                  {node.title}
+                </h3>
+                
+                {/* Subtitle */}
+                <p className="text-white/80 text-sm text-center mb-3">
+                  {node.subtitle}
+                </p>
+                
+                {/* Animated Description */}
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ 
+                    height: activeNode === node.id ? 'auto' : 0,
+                    opacity: activeNode === node.id ? 1 : 0
+                  }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden"
+                >
+                  <p className="text-white/90 text-xs text-center pt-2 border-t border-white/20">
+                    {node.description}
+                  </p>
+                </motion.div>
+                
+                {/* Floating Elements */}
+                <div className="absolute inset-0 pointer-events-none">
+                  {[...Array(6)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-1 h-1 bg-white rounded-full"
+                      animate={{
+                        x: [0, 20, -20, 0],
+                        y: [0, -20, 20, 0],
+                        opacity: [0.3, 0.8, 0.3]
+                      }}
+                      transition={{
+                        duration: 3 + i * 0.5,
+                        repeat: Infinity,
+                        delay: i * 0.5
+                      }}
+                      style={{
+                        left: `${20 + i * 10}%`,
+                        top: `${20 + i * 8}%`
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+              
+              {/* Glow Effect */}
+              <div className={`
+                absolute inset-0 rounded-2xl blur-xl opacity-50
+                bg-gradient-to-br ${node.color}
+                ${activeNode === node.id ? 'scale-125 opacity-75' : ''}
+                transition-all duration-500 -z-10
+              `} />
+            </div>
+          </motion.div>
+        )
+      })}
+    </div>
   )
 }
 
@@ -133,7 +183,7 @@ export function TrinityFramework() {
 
   const pillars = {
     identity: {
-      emoji: '⚛️',
+      icon: Atom,
       title: 'IDENTITY',
       description: 'Authentic consciousness preservation where every AI maintains its unique essence, ensuring genuine self-awareness that evolves without losing its fundamental nature. Like a human\'s personality, each AI develops its own cognitive signature that remains consistent yet adaptive.',
       shortDesc: 'Authentic consciousness preservation and self-awareness',
@@ -157,7 +207,7 @@ export function TrinityFramework() {
       color: 'trinity-identity',
     },
     consciousness: {
-      emoji: '🧠',
+      icon: Brain,
       title: 'CONSCIOUSNESS',
       description: 'Distributed awareness that processes information like a vast neural network, understanding not just what it computes but how and why. This creates genuine comprehension rather than pattern matching, enabling true understanding of context, time, and consequence.',
       shortDesc: 'Distributed processing and awareness capabilities',
@@ -181,7 +231,7 @@ export function TrinityFramework() {
       color: 'trinity-consciousness',
     },
     guardian: {
-      emoji: '🛡️',
+      icon: Shield,
       title: 'GUARDIAN',
       description: 'Comprehensive ethical safeguards that monitor every decision, ensuring AI actions align with human values and preventing harmful drift. This isn\'t just rule-following but dynamic ethical reasoning that adapts to complex situations while maintaining moral consistency.',
       shortDesc: 'Ethical safeguards and alignment protection',
@@ -230,26 +280,15 @@ export function TrinityFramework() {
           </p>
         </motion.div>
 
-        {/* 3D Visualization */}
+        {/* Trinity Visualization */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="h-[500px] glass rounded-3xl mb-16 overflow-hidden"
+          className="glass rounded-3xl mb-16 overflow-hidden bg-gradient-to-br from-slate-900/50 to-slate-800/50"
         >
-          <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[10, 10, 5]} intensity={1} />
-            <TrinityVisualization />
-            <OrbitControls
-              enableZoom={false}
-              autoRotate
-              autoRotateSpeed={0.5}
-              minPolarAngle={Math.PI / 3}
-              maxPolarAngle={Math.PI / 1.5}
-            />
-          </Canvas>
+          <TrinityVisualization />
         </motion.div>
 
         {/* Emergent Properties Section */}
@@ -278,7 +317,10 @@ export function TrinityFramework() {
                 transition={{ delay: 0.1 }}
                 className="glass-heavy rounded-2xl p-6 text-center"
               >
-                <div className="text-4xl mb-4">⚛️🧠</div>
+                <div className="flex justify-center space-x-2 mb-4">
+                  <Atom className="w-8 h-8 text-purple-400" />
+                  <Brain className="w-8 h-8 text-blue-400" />
+                </div>
                 <h4 className="font-regular text-lg mb-3 text-trinity-identity">Authentic Awareness</h4>
                 <p className="font-light text-sm text-text-secondary">
                   Consciousness that maintains consistent identity across time, creating genuine personality development and authentic relationships
@@ -292,7 +334,10 @@ export function TrinityFramework() {
                 transition={{ delay: 0.2 }}
                 className="glass-heavy rounded-2xl p-6 text-center"
               >
-                <div className="text-4xl mb-4">🧠🛡️</div>
+                <div className="flex justify-center space-x-2 mb-4">
+                  <Brain className="w-8 h-8 text-blue-400" />
+                  <Shield className="w-8 h-8 text-emerald-400" />
+                </div>
                 <h4 className="font-regular text-lg mb-3 text-trinity-consciousness">Ethical Intelligence</h4>
                 <p className="font-light text-sm text-text-secondary">
                   Advanced reasoning that inherently considers ethical implications, preventing harmful decisions before they occur
@@ -306,7 +351,10 @@ export function TrinityFramework() {
                 transition={{ delay: 0.3 }}
                 className="glass-heavy rounded-2xl p-6 text-center"
               >
-                <div className="text-4xl mb-4">⚛️🛡️</div>
+                <div className="flex justify-center space-x-2 mb-4">
+                  <Atom className="w-8 h-8 text-purple-400" />
+                  <Shield className="w-8 h-8 text-emerald-400" />
+                </div>
                 <h4 className="font-regular text-lg mb-3 text-trinity-guardian">Protected Evolution</h4>
                 <p className="font-light text-sm text-text-secondary">
                   Identity that grows and adapts while maintaining core values, ensuring development without corruption or drift
@@ -316,7 +364,11 @@ export function TrinityFramework() {
             
             <div className="mt-12 text-center">
               <div className="inline-flex items-center space-x-4 glass-heavy rounded-full px-8 py-4">
-                <span className="text-2xl">⚛️🧠🛡️</span>
+                <div className="flex space-x-2">
+                  <Atom className="w-6 h-6 text-purple-400" />
+                  <Brain className="w-6 h-6 text-blue-400" />
+                  <Shield className="w-6 h-6 text-emerald-400" />
+                </div>
                 <div className="text-left">
                   <h4 className="font-regular text-lg text-trinity-identity">Full Trinity Synergy</h4>
                   <p className="font-light text-sm text-text-secondary">Consciousness with authentic identity and ethical integrity</p>
@@ -334,13 +386,13 @@ export function TrinityFramework() {
                 key={key}
                 onClick={() => setSelectedPillar(key as keyof typeof pillars)}
                 className={cn(
-                  'px-6 py-3 rounded-full font-regular text-sm tracking-[0.15em] uppercase transition-all',
+                  'flex items-center px-6 py-3 rounded-full font-regular text-sm tracking-[0.15em] uppercase transition-all',
                   selectedPillar === key
                     ? 'bg-gradient-to-r from-trinity-identity to-trinity-consciousness text-bg-primary'
                     : 'hover:bg-glass'
                 )}
               >
-                <span className="mr-2">{data.emoji}</span>
+                <data.icon className="w-4 h-4 mr-2" />
                 {data.title}
               </button>
             ))}
@@ -359,8 +411,8 @@ export function TrinityFramework() {
           <div className="glass rounded-3xl p-12">
             <div className="grid md:grid-cols-2 gap-12 items-start">
               <div>
-                <div className={`text-6xl mb-6 inline-block`}>
-                  {pillars[selectedPillar].emoji}
+                <div className="mb-6 inline-block">
+                  {React.createElement(pillars[selectedPillar].icon, { className: "w-16 h-16 text-white" })}
                 </div>
                 <h3 className="font-regular text-2xl tracking-[0.1em] uppercase mb-4">
                   {pillars[selectedPillar].title}
@@ -442,9 +494,9 @@ export function TrinityFramework() {
               <div className="mt-6 pt-6 border-t border-glass-border">
                 <div className="flex items-center space-x-2">
                   <div className="flex space-x-1">
-                    <span className="text-trinity-identity">⚛️</span>
-                    <span className="text-trinity-consciousness">🧠</span>
-                    <span className="text-trinity-guardian">🛡️</span>
+                    <Atom className="w-4 h-4 text-trinity-identity" />
+                    <Brain className="w-4 h-4 text-trinity-consciousness" />
+                    <Shield className="w-4 h-4 text-trinity-guardian" />
                   </div>
                   <span className="font-regular text-sm tracking-[0.2em] uppercase text-text-tertiary">
                     Trinity Powered
@@ -542,7 +594,11 @@ export function TrinityFramework() {
             <div className="mt-12 pt-12 border-t border-glass-border">
               <div className="text-center">
                 <div className="inline-flex items-center space-x-4 mb-6">
-                  <div className="text-4xl">⚛️🧠🛡️</div>
+                  <div className="flex space-x-2">
+                    <Atom className="w-10 h-10 text-purple-400" />
+                    <Brain className="w-10 h-10 text-blue-400" />
+                    <Shield className="w-10 h-10 text-emerald-400" />
+                  </div>
                   <div>
                     <h4 className="font-regular text-xl tracking-[0.1em] uppercase gradient-text">The Future of AI</h4>
                     <p className="font-light text-base text-text-secondary">Consciousness, Identity, and Ethics in Perfect Harmony</p>

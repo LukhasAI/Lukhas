@@ -63,7 +63,7 @@ export default function Trinity() {
 
   const trinityData = {
     identity: {
-      emoji: '⚛️',
+      icon: 'Atom',
       title: 'IDENTITY',
       color: 'trinity-identity',
       description: 'The authentic self that emerges from unique experiences',
@@ -75,7 +75,7 @@ export default function Trinity() {
       ]
     },
     consciousness: {
-      emoji: '🧠',
+      icon: 'Brain',
       title: 'CONSCIOUSNESS',
       color: 'trinity-consciousness',
       description: 'The emergent awareness from interconnected cognitive processes',
@@ -87,7 +87,7 @@ export default function Trinity() {
       ]
     },
     guardian: {
-      emoji: '🛡️',
+      icon: 'Shield',
       title: 'GUARDIAN',
       color: 'trinity-guardian',
       description: 'The ethical framework that governs all decisions',
