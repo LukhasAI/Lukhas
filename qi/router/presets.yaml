@@ -1,0 +1,63 @@
+# path: qi/router/presets.yaml
+# Task-specific routing presets that sit on top of confidence-aware routing.
+# Keys you can use per task or under `defaults`:
+# - gen_tokens: int
+# - retrieval: bool
+# - passes: int
+# - temperature: float
+# - tools: [strings]             # tool hints (retriever, browser, code_exec, etc.)
+# - retrieval_k: int             # if your retriever supports it
+# - max_input_tokens: int
+# - max_output_tokens: int
+# - allow_models: [model ids]    # advisory
+# - deny_models: [model ids]     # advisory
+# - min_conf_for_fast: 0.82      # demote fast path if conf below this
+# - force_path: fast|normal|deliberate|handoff
+# - cap_tokens: int              # cap gen_tokens (advisory)
+# - cap_latency_ms: int          # advisory; enforce with Budgeter/TEQ
+
+defaults:
+  # Apply sensible baselines to ALL tasks
+  passes: 1
+  temperature: 0.7
+  max_input_tokens: 120000
+  max_output_tokens: 2000
+
+tasks:
+  generate_summary:
+    retrieval: true
+    retrieval_k: 8
+    gen_tokens: 512
+    min_conf_for_fast: 0.8
+    tools: [retriever]
+    notes: "Summarisation benefits from light retrieval and moderate generation."
+
+  answer_medical:
+    retrieval: true
+    retrieval_k: 12
+    passes: 2
+    temperature: 0.4
+    gen_tokens: 768
+    allow_models: ["lukhas-med-v1", "lukhas-core-v3"]
+    cap_tokens: 900
+    tools: [retriever, web_search]
+    notes: "Lower temperature, deeper retrieval; ensure TEQ medical policy is applied."
+
+  code_assistant:
+    retrieval: false
+    passes: 2
+    temperature: 0.5
+    gen_tokens: 512
+    tools: [code_exec]
+    notes: "Two-pass generation; prefer tool use over long generations."
+
+  research_qa:
+    retrieval: true
+    retrieval_k: 16
+    passes: 2
+    gen_tokens: 768
+    tools: [retriever, web_search]
+    force_path: deliberate
+    notes: "Always deliberate for research; deep retrieval and web search."
+
+  # Add your own tasks here…
