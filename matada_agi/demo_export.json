@@ -1,0 +1,177 @@
+{
+  "graph": {
+    "directed": true,
+    "multigraph": false,
+    "graph": {},
+    "nodes": [
+      {
+        "type": "COMPUTATION",
+        "confidence": 0.95,
+        "salience": 0.8,
+        "valence": 0.7,
+        "arousal": null,
+        "created_ts": 1755262272091,
+        "label": "COMPUTATION\nnode_001...\nConf: 0.95",
+        "size": 30.250000000000004,
+        "color": "#74B9FF",
+        "shape": "circle",
+        "x": -0.1745890290406207,
+        "y": 1.0,
+        "id": "node_001"
+      },
+      {
+        "type": "VALIDATION",
+        "confidence": 0.88,
+        "salience": 0.6,
+        "valence": 0.5,
+        "arousal": null,
+        "created_ts": 1755262273091,
+        "label": "VALIDATION\nnode_002...\nConf: 0.88",
+        "size": 27.280000000000005,
+        "color": "#00B4D8",
+        "shape": "hexagon",
+        "x": 0.9795654689803796,
+        "y": -0.8600284686866786,
+        "id": "node_002"
+      },
+      {
+        "type": "EMOTION",
+        "confidence": 0.75,
+        "salience": 0.9,
+        "valence": 0.8,
+        "arousal": 0.6,
+        "created_ts": 1755262274091,
+        "label": "EMOTION\nnode_003...\nConf: 0.75",
+        "size": 34.45,
+        "color": "#FFEAA7",
+        "shape": "star",
+        "x": -0.8049764399397589,
+        "y": -0.13997153131332146,
+        "id": "node_003"
+      }
+    ],
+    "links": [
+      {
+        "link_type": "emotional",
+        "weight": 0.7,
+        "explanation": "",
+        "direction": "unidirectional",
+        "color": "#FFEAA7",
+        "style": "dashdot",
+        "source": "node_003",
+        "target": "node_001"
+      }
+    ]
+  },
+  "matada_nodes": {
+    "node_001": {
+      "version": 1,
+      "id": "node_001",
+      "type": "COMPUTATION",
+      "state": {
+        "confidence": 0.95,
+        "salience": 0.8,
+        "valence": 0.7,
+        "expression": "2 + 3 * 4",
+        "result": 14
+      },
+      "timestamps": {
+        "created_ts": 1755262272091
+      },
+      "provenance": {
+        "producer": "MathNode",
+        "capabilities": [
+          "arithmetic_evaluation"
+        ],
+        "tenant": "test",
+        "trace_id": "trace_001",
+        "consent_scopes": [
+          "cognitive_processing"
+        ]
+      },
+      "links": [
+        {
+          "target_node_id": "node_002",
+          "link_type": "causal",
+          "direction": "unidirectional",
+          "weight": 0.9
+        }
+      ],
+      "evolves_to": [],
+      "triggers": [],
+      "reflections": []
+    },
+    "node_002": {
+      "version": 1,
+      "id": "node_002",
+      "type": "VALIDATION",
+      "state": {
+        "confidence": 0.88,
+        "salience": 0.6,
+        "valence": 0.5,
+        "validation_result": true
+      },
+      "timestamps": {
+        "created_ts": 1755262273091
+      },
+      "provenance": {
+        "producer": "ValidatorNode",
+        "capabilities": [
+          "result_validation"
+        ],
+        "tenant": "test",
+        "trace_id": "trace_002",
+        "consent_scopes": [
+          "cognitive_processing"
+        ]
+      },
+      "links": [],
+      "evolves_to": [],
+      "triggers": [],
+      "reflections": []
+    },
+    "node_003": {
+      "version": 1,
+      "id": "node_003",
+      "type": "EMOTION",
+      "state": {
+        "confidence": 0.75,
+        "salience": 0.9,
+        "valence": 0.8,
+        "arousal": 0.6,
+        "emotion_type": "satisfaction"
+      },
+      "timestamps": {
+        "created_ts": 1755262274091
+      },
+      "provenance": {
+        "producer": "EmotionNode",
+        "capabilities": [
+          "emotion_processing"
+        ],
+        "tenant": "test",
+        "trace_id": "trace_003",
+        "consent_scopes": [
+          "cognitive_processing"
+        ]
+      },
+      "links": [
+        {
+          "target_node_id": "node_001",
+          "link_type": "emotional",
+          "direction": "unidirectional",
+          "weight": 0.7
+        }
+      ],
+      "evolves_to": [],
+      "triggers": [],
+      "reflections": []
+    }
+  },
+  "metadata": {
+    "created_at": "2025-08-15T13:51:12.136446",
+    "node_count": 3,
+    "edge_count": 1,
+    "layout_type": "force_directed"
+  }
+}

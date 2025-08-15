@@ -1,0 +1,272 @@
+{
+  "graph": {
+    "directed": true,
+    "multigraph": false,
+    "graph": {},
+    "nodes": [
+      {
+        "type": "SENSORY_IMG",
+        "confidence": 0.9,
+        "salience": 0.8,
+        "valence": 0.5,
+        "arousal": 0.4,
+        "created_ts": 1755262313393,
+        "label": "SENSORY_IMG\nsensory_...\nConf: 0.90",
+        "size": 27.0,
+        "color": "#FF6B6B",
+        "shape": "square",
+        "x": 0.41509392871144374,
+        "y": 1.0,
+        "id": "sensory_001"
+      },
+      {
+        "type": "MEMORY",
+        "confidence": 0.85,
+        "salience": 0.7,
+        "valence": 0.5,
+        "arousal": 0.4,
+        "created_ts": 1755262313393,
+        "label": "MEMORY\nmemory_0...\nConf: 0.85",
+        "size": 30.599999999999998,
+        "color": "#FD79A8",
+        "shape": "circle",
+        "x": -0.9614057843716824,
+        "y": 0.24906011802562114,
+        "id": "memory_001"
+      },
+      {
+        "type": "EMOTION",
+        "confidence": 0.75,
+        "salience": 0.9,
+        "valence": 0.5,
+        "arousal": 0.4,
+        "created_ts": 1755262313393,
+        "label": "EMOTION\nemotion_...\nConf: 0.75",
+        "size": 34.45,
+        "color": "#FFEAA7",
+        "shape": "star",
+        "x": 0.7902404622093886,
+        "y": -0.4866381880016131,
+        "id": "emotion_001"
+      },
+      {
+        "type": "DECISION",
+        "confidence": 0.88,
+        "salience": 0.95,
+        "valence": 0.5,
+        "arousal": 0.4,
+        "created_ts": 1755262313393,
+        "label": "DECISION\ndecision...\nConf: 0.88",
+        "size": 42.45,
+        "color": "#FF7675",
+        "shape": "octagon",
+        "x": -0.24392860654914966,
+        "y": -0.7624219300240083,
+        "id": "decision_001"
+      }
+    ],
+    "links": [
+      {
+        "link_type": "semantic",
+        "weight": 0.8,
+        "explanation": "",
+        "direction": "unidirectional",
+        "color": "#00B894",
+        "style": "dot",
+        "source": "memory_001",
+        "target": "sensory_001"
+      },
+      {
+        "link_type": "emotional",
+        "weight": 0.7,
+        "explanation": "",
+        "direction": "unidirectional",
+        "color": "#FFEAA7",
+        "style": "dashdot",
+        "source": "emotion_001",
+        "target": "sensory_001"
+      },
+      {
+        "link_type": "causal",
+        "weight": 0.6,
+        "explanation": "",
+        "direction": "unidirectional",
+        "color": "#E17055",
+        "style": "dash",
+        "source": "decision_001",
+        "target": "memory_001"
+      },
+      {
+        "link_type": "causal",
+        "weight": 0.9,
+        "explanation": "",
+        "direction": "unidirectional",
+        "color": "#E17055",
+        "style": "dash",
+        "source": "decision_001",
+        "target": "emotion_001"
+      }
+    ]
+  },
+  "matada_nodes": {
+    "sensory_001": {
+      "version": 1,
+      "id": "sensory_001",
+      "type": "SENSORY_IMG",
+      "state": {
+        "confidence": 0.9,
+        "salience": 0.8,
+        "valence": 0.5,
+        "arousal": 0.4,
+        "image_classification": "cat",
+        "certainty": 0.92
+      },
+      "timestamps": {
+        "created_ts": 1755262313393
+      },
+      "provenance": {
+        "producer": "SENSORY_IMGNode",
+        "capabilities": [
+          "sensory_img_processing"
+        ],
+        "tenant": "demo",
+        "trace_id": "trace_sensory_001",
+        "consent_scopes": [
+          "cognitive_processing"
+        ]
+      },
+      "links": [],
+      "evolves_to": [],
+      "triggers": [],
+      "reflections": []
+    },
+    "memory_001": {
+      "version": 1,
+      "id": "memory_001",
+      "type": "MEMORY",
+      "state": {
+        "confidence": 0.85,
+        "salience": 0.7,
+        "valence": 0.5,
+        "arousal": 0.4,
+        "retrieved_facts": [
+          "cats are mammals",
+          "cats have whiskers"
+        ]
+      },
+      "timestamps": {
+        "created_ts": 1755262313393
+      },
+      "provenance": {
+        "producer": "MEMORYNode",
+        "capabilities": [
+          "memory_processing"
+        ],
+        "tenant": "demo",
+        "trace_id": "trace_memory_001",
+        "consent_scopes": [
+          "cognitive_processing"
+        ]
+      },
+      "links": [
+        {
+          "target_node_id": "sensory_001",
+          "link_type": "semantic",
+          "direction": "unidirectional",
+          "weight": 0.8
+        }
+      ],
+      "evolves_to": [],
+      "triggers": [],
+      "reflections": []
+    },
+    "emotion_001": {
+      "version": 1,
+      "id": "emotion_001",
+      "type": "EMOTION",
+      "state": {
+        "confidence": 0.75,
+        "salience": 0.9,
+        "valence": 0.5,
+        "arousal": 0.4,
+        "emotion_type": "joy",
+        "intensity": 0.6
+      },
+      "timestamps": {
+        "created_ts": 1755262313393
+      },
+      "provenance": {
+        "producer": "EMOTIONNode",
+        "capabilities": [
+          "emotion_processing"
+        ],
+        "tenant": "demo",
+        "trace_id": "trace_emotion_001",
+        "consent_scopes": [
+          "cognitive_processing"
+        ]
+      },
+      "links": [
+        {
+          "target_node_id": "sensory_001",
+          "link_type": "emotional",
+          "direction": "unidirectional",
+          "weight": 0.7
+        }
+      ],
+      "evolves_to": [],
+      "triggers": [],
+      "reflections": []
+    },
+    "decision_001": {
+      "version": 1,
+      "id": "decision_001",
+      "type": "DECISION",
+      "state": {
+        "confidence": 0.88,
+        "salience": 0.95,
+        "valence": 0.5,
+        "arousal": 0.4,
+        "decision": "approach the cat",
+        "rationale": "positive emotional response"
+      },
+      "timestamps": {
+        "created_ts": 1755262313393
+      },
+      "provenance": {
+        "producer": "DECISIONNode",
+        "capabilities": [
+          "decision_processing"
+        ],
+        "tenant": "demo",
+        "trace_id": "trace_decision_001",
+        "consent_scopes": [
+          "cognitive_processing"
+        ]
+      },
+      "links": [
+        {
+          "target_node_id": "memory_001",
+          "link_type": "causal",
+          "direction": "unidirectional",
+          "weight": 0.6
+        },
+        {
+          "target_node_id": "emotion_001",
+          "link_type": "causal",
+          "direction": "unidirectional",
+          "weight": 0.9
+        }
+      ],
+      "evolves_to": [],
+      "triggers": [],
+      "reflections": []
+    }
+  },
+  "metadata": {
+    "created_at": "2025-08-15T13:51:53.467544",
+    "node_count": 4,
+    "edge_count": 4,
+    "layout_type": "force_directed"
+  }
+}
