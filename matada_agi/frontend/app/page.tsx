@@ -36,13 +36,15 @@ export default function Home() {
     <>
       <Navigation />
       <main className="relative overflow-hidden">
-        <Hero />
-        <WhatIsMatada />
-        <Vision />
-        <Trinity />
-        <Ethos />
-        <HowItWorks />
-        <InteractiveDemo />
+        <div className="w-full">
+          <Hero />
+          <WhatIsMatada />
+          <Vision />
+          <Trinity />
+          <Ethos />
+          <HowItWorks />
+          <InteractiveDemo />
+        </div>
       </main>
     </>
   )

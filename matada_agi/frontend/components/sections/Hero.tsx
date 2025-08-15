@@ -21,7 +21,7 @@ function AnimatedSphere() {
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
+    <section className="relative min-h-screen flex items-center justify-center pt-20">
       {/* 3D Background with error boundary */}
       <div className="absolute inset-0 -z-10">
         <Canvas 
@@ -34,12 +34,18 @@ export default function Hero() {
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 5]} intensity={1} />
           <AnimatedSphere />
-          <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
+          <OrbitControls 
+            enableZoom={false} 
+            enablePan={false}
+            enableRotate={false}
+            autoRotate 
+            autoRotateSpeed={0.5} 
+          />
         </Canvas>
       </div>
 
       {/* Content */}
-      <div className="container mx-auto max-w-6xl relative z-10">
+      <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

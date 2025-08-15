@@ -32,8 +32,8 @@ export default function WhatIsMatada() {
   ]
 
   return (
-    <section id="what" className="relative py-32 px-6" ref={ref}>
-      <div className="container mx-auto max-w-6xl">
+    <section id="what" className="relative py-32" ref={ref}>
+      <div className="w-full max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

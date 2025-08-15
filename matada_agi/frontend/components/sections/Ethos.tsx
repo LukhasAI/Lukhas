@@ -54,11 +54,11 @@ export default function Ethos() {
   ]
 
   return (
-    <section id="ethos" className="relative py-32 px-6" ref={ref}>
+    <section id="ethos" className="relative py-32" ref={ref}>
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-trinity-guardian/5 via-transparent to-accent-gold/5" />
       
-      <div className="container mx-auto max-w-6xl relative z-10">
+      <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
         {/* Section Header - Layer 1: Impact (UltraLight) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -9,11 +9,11 @@ export default function Vision() {
   const isInView = useInView(ref, { once: true })
 
   return (
-    <section id="vision" className="relative py-32 px-6 overflow-hidden" ref={ref}>
+    <section id="vision" className="relative py-32 overflow-hidden" ref={ref}>
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-trinity-identity/5 via-transparent to-trinity-consciousness/5" />
       
-      <div className="container mx-auto max-w-6xl relative z-10">
+      <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

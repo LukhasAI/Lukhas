@@ -8,6 +8,24 @@ const config: Config = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
+  safelist: [
+    // Include dynamic color classes used in components
+    'text-trinity-identity',
+    'text-trinity-consciousness', 
+    'text-trinity-guardian',
+    'text-accent-gold',
+    'bg-trinity-identity',
+    'bg-trinity-consciousness',
+    'bg-trinity-guardian',
+    'bg-accent-gold',
+    'border-trinity-identity',
+    'border-trinity-consciousness',
+    'border-trinity-guardian',
+    'border-accent-gold',
+    'trinity-identity-glow',
+    'trinity-consciousness-glow',
+    'trinity-guardian-glow',
+  ],
   theme: {
     extend: {
       colors: {
