@@ -1,0 +1,21 @@
+weights:
+  conf_low: 2.0
+  conf_mid: 1.0
+  pii: 1.5
+  content_flag: 1.0
+thresholds:
+  conf_lo: 0.4
+  conf_hi: 0.7
+tiers:
+  - name: low
+    min: 0.0
+    actions: []
+  - name: medium
+    min: 1.5
+    actions: [increase_retrieval]
+  - name: high
+    min: 3.0
+    actions: [increase_retrieval, reduce_temperature, longer_reasoning]
+  - name: critical
+    min: 4.5
+    actions: [mask_pii, human_review, quarantine_output]

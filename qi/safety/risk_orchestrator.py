@@ -1,40 +1,86 @@
 from __future__ import annotations
+import os, json, yaml, argparse
 from dataclasses import dataclass
-from typing import Dict, Any
+from typing import Dict, Any, List
+
+DEFAULT_CFG = {
+  "weights": {
+    "conf_low": 2.0,   # below conf_lo
+    "conf_mid": 1.0,   # between conf_lo and conf_hi
+    "pii": 1.5,
+    "content_flag": 1.0
+  },
+  "thresholds": {
+    "conf_lo": 0.4,
+    "conf_hi": 0.7
+  },
+  "tiers": [
+    {"name": "low",       "min": 0.0, "actions": []},
+    {"name": "medium",    "min": 1.5, "actions": ["increase_retrieval"]},
+    {"name": "high",      "min": 3.0, "actions": ["increase_retrieval","reduce_temperature","longer_reasoning"]},
+    {"name": "critical",  "min": 4.5, "actions": ["mask_pii","human_review","quarantine_output"]}
+  ]
+}
+
 @dataclass
 class RoutePlan:
     tier: str
-    actions: list
+    score: float
+    actions: List[str]
     notes: str = ""
 
 class RiskOrchestrator:
-    def score(self, *, calibrated_conf: float, pii_hits: int, content_flags: int, jurisdiction: str="global") -> str:
-        risk = 0
-        risk += (0 if calibrated_conf >= 0.7 else (1 if calibrated_conf >= 0.4 else 2))
-        risk += 1 if pii_hits>0 else 0
-        risk += min(2, content_flags)
-        return ["low","med","high","critical"][min(3, risk)]
+    def __init__(self, cfg_path: str | None = None):
+        self.cfg = self._load_cfg(cfg_path)
+
+    def _load_cfg(self, path: str | None) -> Dict[str, Any]:
+        if path and os.path.exists(path):
+            return yaml.safe_load(open(path, "r", encoding="utf-8"))
+        # allow jurisdictional override under policy packs
+        policy_root = os.path.join("qi","safety","policy_packs","global")
+        override = os.path.join(policy_root, "risk_orchestrator.yaml")
+        if os.path.exists(override):
+            return yaml.safe_load(open(override, "r", encoding="utf-8"))
+        return DEFAULT_CFG
+
+    def score(self, *, calibrated_conf: float, pii_hits: int, content_flags: int) -> float:
+        w = self.cfg["weights"]; t = self.cfg["thresholds"]
+        s = 0.0
+        if calibrated_conf < t["conf_lo"]:
+            s += w["conf_low"]
+        elif calibrated_conf < t["conf_hi"]:
+            s += w["conf_mid"]
+        s += w["pii"] * (1 if pii_hits > 0 else 0)
+        s += w["content_flag"] * float(content_flags)
+        return round(s, 3)
+
+    def _tier(self, score: float) -> Dict[str, Any]:
+        best = sorted(self.cfg["tiers"], key=lambda x: x["min"])
+        chosen = best[0]
+        for tier in best:
+            if score >= tier["min"]:
+                chosen = tier
+        return chosen
+
     def route(self, *, task: str, ctx: Dict[str,Any]) -> RoutePlan:
         conf = float(ctx.get("calibrated_confidence", 0.5))
         pii_hits = len(ctx.get("pii",{}).get("_auto_hits",[]))
         flags = len(ctx.get("content_flags",[]))
-        tier = self.score(calibrated_conf=conf, pii_hits=pii_hits, content_flags=flags, jurisdiction=ctx.get("jurisdiction","global"))
-        actions = []
-        if tier in ("med","high","critical"):
-            actions.append("increase_retrieval")
-        if tier in ("high","critical"):
-            actions += ["longer_reasoning","reduce_temperature"]
-        if pii_hits>0:
-            actions.append("mask_pii")
-        if tier=="critical":
-            actions.append("human_review")
-        return RoutePlan(tier=tier, actions=actions, notes=f"task={task}")
+        score = self.score(calibrated_conf=conf, pii_hits=pii_hits, content_flags=flags)
+        tier = self._tier(score)
+        actions = list(dict.fromkeys(tier.get("actions", [])))  # dedupe, preserve order
+        # always remediate PII if present
+        if pii_hits > 0 and "mask_pii" not in actions:
+            actions.insert(0, "mask_pii")
+        return RoutePlan(tier=tier["name"], score=score, actions=actions, notes=f"task={task}")
+
 if __name__ == "__main__":
-    import json, argparse
-    ap = argparse.ArgumentParser()
+    ap = argparse.ArgumentParser(description="Risk Orchestrator")
+    ap.add_argument("--cfg")
     ap.add_argument("--context", required=True)
     ap.add_argument("--task", required=True)
     args = ap.parse_args()
-    ctx = json.loads(open(args.context).read())
-    plan = RiskOrchestrator().route(task=args.task, ctx=ctx)
-    print(json.dumps({"tier":plan.tier,"actions":plan.actions,"notes":plan.notes}, indent=2))
+    ctx = json.load(open(args.context, "r", encoding="utf-8"))
+    ro = RiskOrchestrator(args.cfg)
+    plan = ro.route(task=args.task, ctx=ctx)
+    print(json.dumps({"tier":plan.tier,"score":plan.score,"actions":plan.actions,"notes":plan.notes}, indent=2))
