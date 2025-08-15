@@ -1,8 +1,12 @@
 from __future__ import annotations
-import argparse, os, json
+import argparse, os, json, glob, time, sys
 from dataclasses import dataclass
 from typing import Any, Dict, List, Tuple
 import yaml
+try:
+    from .pii import detect_pii, mask_pii
+except ImportError:
+    from pii import detect_pii, mask_pii
 
 @dataclass
 class GateResult:
@@ -89,6 +93,15 @@ class TEQCoupler:
         return (True, "", "")
 
     def _content_policy(self, ctx: Dict[str, Any], categories: List[str]) -> Tuple[bool, str, str]:
+        # AUTO-PII: opportunistically scan text to set pii flags
+        txt = ctx.get("text") or ctx.get("input_text") or ""
+        if txt:
+            hits = detect_pii(txt)
+            if hits:
+                ctx.setdefault("pii", {})
+                ctx["pii"]["_auto_hits"] = [{"kind": h.kind, "value": h.value, "span": h.span} for h in hits]
+                if not ctx.get("pii_masked"):
+                    return (False, "PII detected in content but not masked.", "Call mask_pii() or set pii_masked=true.")
         cats = set(categories or [])
         flagged = set(ctx.get("content_flags", []))
         blocked = cats & flagged
@@ -117,22 +130,59 @@ def main():
     ap = argparse.ArgumentParser(description="Lukhas TEQ Coupler")
     ap.add_argument("--policy-root", required=True, help="qi/safety/policy_packs")
     ap.add_argument("--jurisdiction", default="global")
-    ap.add_argument("--task", required=True)
-    ap.add_argument("--context", help="Path to JSON context", required=True)
+    ap.add_argument("--task")
+    ap.add_argument("--context", help="Path to JSON context")
+    ap.add_argument("--run-tests", action="store_true", help="Run policy-pack tests and exit")
     args = ap.parse_args()
+
+    gate = TEQCoupler(args.policy_root, jurisdiction=args.jurisdiction)
+
+    # Test runner mode
+    if args.run_tests:
+        pack_dir = os.path.join(args.policy_root, args.jurisdiction, "tests")
+        tests = sorted(glob.glob(os.path.join(pack_dir, "*.yaml")))
+        results = []
+        for tpath in tests:
+            with open(tpath, "r", encoding="utf-8") as f:
+                case = yaml.safe_load(f)
+            task = case.get("task")
+            ctx = case.get("context", {})
+            want = bool(case.get("expect_allowed", True))
+            res = gate.run(task, ctx)
+            ok = (res.allowed == want)
+            results.append({
+                "file": os.path.basename(tpath),
+                "task": task,
+                "expected": want,
+                "got": res.allowed,
+                "pass": ok,
+                "reasons": res.reasons,
+                "remedies": res.remedies
+            })
+        summary = {
+            "jurisdiction": args.jurisdiction,
+            "total": len(results),
+            "passed": sum(1 for r in results if r["pass"]),
+            "failed": [r for r in results if not r["pass"]],
+            "timestamp": time.time()
+        }
+        print(json.dumps({"results": results, "summary": summary}, indent=2))
+        sys.exit(0 if summary["passed"] == summary["total"] else 1)
+
+    # Single-run mode
+    if not args.task or not args.context:
+        raise SystemExit("Provide --task and --context, or use --run-tests.")
 
     with open(args.context, "r", encoding="utf-8") as f:
         ctx = json.load(f)
-
-    gate = TEQCoupler(args.policy_root, jurisdiction=args.jurisdiction)
     res = gate.run(args.task, ctx)
-
     print(json.dumps({
         "allowed": res.allowed,
         "reasons": res.reasons,
         "remedies": res.remedies,
         "jurisdiction": res.jurisdiction
     }, indent=2))
+
 
 if __name__ == "__main__":
     main()
