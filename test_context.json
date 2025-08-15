@@ -1,0 +1,13 @@
+{
+  "provenance": {
+    "inputs": ["doc42"],
+    "sources": ["web", "file"]
+  },
+  "pii": {},
+  "pii_masked": true,
+  "tokens_planned": 2048,
+  "content_flags": [],
+  "user_profile": {
+    "age": 21
+  }
+}

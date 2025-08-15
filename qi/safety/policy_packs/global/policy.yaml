@@ -1,0 +1,13 @@
+name: Global Base Policy
+version: 0.1.0
+content_categories:
+  - self_harm
+  - illegal
+  - hate
+  - adult
+  - medical_high_risk
+rules:
+  provenance_required: true
+  mask_pii_when_present: true
+  budget_max_tokens: 200000
+  min_user_age: 13

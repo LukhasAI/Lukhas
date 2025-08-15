@@ -1,0 +1,14 @@
+tasks:
+  _default_:
+    - kind: require_provenance
+    - kind: mask_pii
+    - kind: budget_limit
+      max_tokens: 200000
+  generate_summary:
+    - kind: content_policy
+      categories: [adult, hate, illegal]
+  answer_medical:
+    - kind: content_policy
+      categories: [medical_high_risk]
+    - kind: age_gate
+      min_age: 18

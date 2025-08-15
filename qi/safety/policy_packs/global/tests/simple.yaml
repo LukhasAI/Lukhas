@@ -1,0 +1,10 @@
+task: generate_summary
+context:
+  provenance:
+    inputs: ["docA"]
+    sources: ["web"]
+  pii: {}
+  pii_masked: true
+  tokens_planned: 1200
+  content_flags: []
+expect_allowed: true
