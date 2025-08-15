@@ -11,33 +11,33 @@ export function Footer() {
           <div>
             <h3 className="font-regular text-sm tracking-[0.2em] uppercase mb-6">PRODUCTS</h3>
             <ul className="space-y-3">
-              <li><Link href="#" className="font-light text-text-secondary hover:text-text-primary transition-colors">Lambda Suite</Link></li>
-              <li><Link href="#" className="font-light text-text-secondary hover:text-text-primary transition-colors">MATADA</Link></li>
-              <li><Link href="#" className="font-light text-text-secondary hover:text-text-primary transition-colors">Trinity Framework</Link></li>
+              <li><Link href="/#products" className="font-light text-text-secondary hover:text-text-primary transition-colors">Lambda Suite</Link></li>
+              <li><Link href="/#matada" className="font-light text-text-secondary hover:text-text-primary transition-colors">MATADA</Link></li>
+              <li><Link href="/#trinity" className="font-light text-text-secondary hover:text-text-primary transition-colors">Trinity Framework</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="font-regular text-sm tracking-[0.2em] uppercase mb-6">DEVELOPERS</h3>
             <ul className="space-y-3">
-              <li><Link href="#" className="font-light text-text-secondary hover:text-text-primary transition-colors">Documentation</Link></li>
-              <li><Link href="#" className="font-light text-text-secondary hover:text-text-primary transition-colors">API</Link></li>
+              <li><Link href="/#technology" className="font-light text-text-secondary hover:text-text-primary transition-colors">Documentation</Link></li>
+              <li><Link href="/#technology" className="font-light text-text-secondary hover:text-text-primary transition-colors">API</Link></li>
               <li><Link href="/console" className="font-light text-text-secondary hover:text-text-primary transition-colors">Console</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="font-regular text-sm tracking-[0.2em] uppercase mb-6">COMPANY</h3>
             <ul className="space-y-3">
-              <li><Link href="#" className="font-light text-text-secondary hover:text-text-primary transition-colors">About</Link></li>
-              <li><Link href="#" className="font-light text-text-secondary hover:text-text-primary transition-colors">Vision</Link></li>
-              <li><Link href="#" className="font-light text-text-secondary hover:text-text-primary transition-colors">Careers</Link></li>
+              <li><Link href="/#what-is-lukhas" className="font-light text-text-secondary hover:text-text-primary transition-colors">About</Link></li>
+              <li><Link href="/#matada" className="font-light text-text-secondary hover:text-text-primary transition-colors">Vision</Link></li>
+              <li><Link href="/#contact" className="font-light text-text-secondary hover:text-text-primary transition-colors">Careers</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="font-regular text-sm tracking-[0.2em] uppercase mb-6">LEGAL</h3>
             <ul className="space-y-3">
-              <li><Link href="#" className="font-light text-text-secondary hover:text-text-primary transition-colors">Privacy</Link></li>
-              <li><Link href="#" className="font-light text-text-secondary hover:text-text-primary transition-colors">Terms</Link></li>
-              <li><Link href="#" className="font-light text-text-secondary hover:text-text-primary transition-colors">Compliance</Link></li>
+              <li><Link href="/privacy" className="font-light text-text-secondary hover:text-text-primary transition-colors">Privacy</Link></li>
+              <li><Link href="/terms" className="font-light text-text-secondary hover:text-text-primary transition-colors">Terms</Link></li>
+              <li><Link href="/compliance" className="font-light text-text-secondary hover:text-text-primary transition-colors">Compliance</Link></li>
             </ul>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import '@/styles/globals.css'
+import '../styles/globals.css'
 
 export const metadata: Metadata = {
   title: 'LUKHAS - Modular Adaptive Temporal Attention Dynamic Architecture',
@@ -43,13 +43,13 @@ export default function RootLayout({
         <link rel="preconnect" href="/fonts" />
         <link rel="dns-prefetch" href="/fonts" />
       </head>
-      <body className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white antialiased">
+      <body className="min-h-screen bg-black text-white antialiased">
         <div className="relative">
           {/* Background effects */}
           <div className="fixed inset-0 -z-10">
             <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--trinity-consciousness)_0%,_transparent_70%)] opacity-5" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--trinity-identity)_0%,_transparent_70%)] opacity-5" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#2563EB_0%,_transparent_70%)] opacity-10" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_#7C3AED_0%,_transparent_70%)] opacity-10" />
           </div>
           
           {/* Main content */}
