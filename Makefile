@@ -89,11 +89,11 @@ openapi:
 
 # Live integration test
 live:
-	python scripts/testing/live_integration_test.py
+	python3 scripts/testing/live_integration_test.py
 
 # Colony↔DNA demo
 colony-dna-smoke:
-	python scripts/colony_dna_smoke.py
+	python3 scripts/colony_dna_smoke.py
 
 # Linting (no fixes)
 lint:
@@ -159,7 +159,7 @@ smoke:
 # Run full CI pipeline locally
 ci-local:
 	pytest -q --maxfail=1 --disable-warnings --cov=lukhas --cov-report=term
-	python scripts/testing/smoke_check.py --json out/smoke.json || true
+	python3 scripts/testing/smoke_check.py --json out/smoke.json || true
 	uvicorn lukhas.api.app:app --port 8000 & echo $$! > .pid; sleep 2; \
 	curl -s http://127.0.0.1:8000/openapi.json -o out/openapi.json; \
 	kill `cat .pid` || true; rm -f .pid
@@ -179,10 +179,10 @@ perf:
 
 # DNA migration helpers
 migrate-dry:
-	python scripts/migrate_memory_to_dna.py --limit 50
+	python3 scripts/migrate_memory_to_dna.py --limit 50
 
 migrate-run:
-	python scripts/migrate_memory_to_dna.py
+	python3 scripts/migrate_memory_to_dna.py
 
 dna-health:
 	curl -s http://127.0.0.1:8000/dna/health | jq
@@ -273,7 +273,7 @@ security-scan:
 security-update:
 	@echo "🔧 Running automated security updates..."
 	@pip install -q safety pip-audit 2>/dev/null || true
-	@python scripts/security-update.py --auto --no-test
+	@python3 scripts/security-update.py --auto --no-test
 	@echo "✅ Security updates complete!"
 
 security-audit:
