@@ -97,6 +97,13 @@ class TEQCoupler:
                 require_storage_url=bool(chk.get("require_storage_url", True)),
                 allow_inline_record=bool(chk.get("allow_inline_record", True))
             )
+        if kind == "require_recent_receipt":
+            return self._require_recent_receipt(
+                ctx,
+                within_sec=int(chk.get("within_sec", 300)),
+                accepted_events=chk.get("accepted_events", ["link_issued","download_stream","download_redirect","view_ack"]),
+                require_same_user=bool(chk.get("require_same_user", True))
+            )
         return True, "", ""  # unknown checks pass (fail-open by design choice here; change to fail-closed if you prefer)
 
     # -- helpers
