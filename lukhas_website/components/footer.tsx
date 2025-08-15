@@ -28,8 +28,8 @@ export function Footer() {
             <h3 className="font-regular text-sm tracking-[0.2em] uppercase mb-6">COMPANY</h3>
             <ul className="space-y-3">
               <li><Link href="/#what-is-lukhas" className="font-light text-text-secondary hover:text-text-primary transition-colors">About</Link></li>
-              <li><Link href="/#matada" className="font-light text-text-secondary hover:text-text-primary transition-colors">Vision</Link></li>
-              <li><Link href="/#contact" className="font-light text-text-secondary hover:text-text-primary transition-colors">Careers</Link></li>
+              <li><Link href="/vision" className="font-light text-text-secondary hover:text-text-primary transition-colors">Vision</Link></li>
+              <li><Link href="/careers" className="font-light text-text-secondary hover:text-text-primary transition-colors">Careers</Link></li>
             </ul>
           </div>
           <div>
