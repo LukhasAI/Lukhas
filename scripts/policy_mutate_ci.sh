@@ -1,120 +1,35 @@
-#!/bin/bash
-# Safety CI Pipeline Script
-# Designed by: Gonzalo Dominguez - Lukhas AI
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export PYTHONPATH="$ROOT"
+export LUKHAS_STATE="${LUKHAS_STATE:-$HOME/.lukhas/state}"
+mkdir -p "$LUKHAS_STATE"
 
-set -e  # Exit on error
+JSON_OUT="$LUKHAS_STATE/safety_ci.json"
+export SAFETY_CI_JSON="$JSON_OUT"
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+# 1) run all safety checks into JSON (non-zero exit triggers CI fail)
+python3 -m qi.safety.ci_runner \
+  --policy-root "$ROOT/qi/safety/policy_packs" \
+  --jurisdiction "global" \
+  --mutations 40 \
+  --max-mutation-passes 0 \
+  --out-json "$JSON_OUT" || true
 
-echo "🛡️  LUKHAS QI Safety CI Pipeline"
-echo "================================"
+# 2) always render a markdown report (even if previous step failed)
+python3 -m qi.safety.ci_report || true
 
-# Configuration
-POLICY_ROOT="${POLICY_ROOT:-qi/safety/policy_packs}"
-JURISDICTION="${JURISDICTION:-global}"
-MUTATIONS="${MUTATIONS:-25}"
-MAX_PASSES="${MAX_PASSES:-2}"
-OUT_DIR="${OUT_DIR:-ci_results}"
+# If you're running locally, show where files landed:
+echo "Safety CI artifacts:"
+echo " - JSON: $JSON_OUT"
+echo " - MD:   ${JSON_OUT%.json}.md"
 
-# Create output directory
-mkdir -p "$OUT_DIR"
-
-# Function to run step and check result
-run_step() {
-    local name="$1"
-    local cmd="$2"
-    echo -e "\n${YELLOW}→ Running: $name${NC}"
-    
-    if eval "$cmd"; then
-        echo -e "${GREEN}✅ $name passed${NC}"
-        return 0
-    else
-        echo -e "${RED}❌ $name failed${NC}"
-        return 1
-    fi
-}
-
-# Track failures
-FAILED=0
-
-# 1. Policy Coverage Report
-run_step "Policy Coverage Report" \
-    "python -m qi.safety.policy_report \
-        --policy-root '$POLICY_ROOT' \
-        --jurisdiction '$JURISDICTION' \
-        --out-md '$OUT_DIR/coverage_report.md'" || ((FAILED++))
-
-# 2. Policy Linter
-run_step "Policy Linter" \
-    "python -m qi.safety.policy_linter \
-        --policy-root '$POLICY_ROOT' \
-        --jurisdiction '$JURISDICTION'" || ((FAILED++))
-
-# 3. TEQ Gate Tests
-run_step "TEQ Gate Tests" \
-    "python -m qi.safety.teq_gate \
-        --policy-root '$POLICY_ROOT' \
-        --jurisdiction '$JURISDICTION' \
-        --run-tests > '$OUT_DIR/teq_tests.json'" || ((FAILED++))
-
-# 4. Mutation Fuzzing
-echo -e "\n${YELLOW}→ Running: Mutation Fuzzing (${MUTATIONS} mutations)${NC}"
-MUTATION_OUT=$(python -m qi.safety.policy_mutate \
-    --policy-root "$POLICY_ROOT" \
-    --jurisdiction "$JURISDICTION" \
-    --n "$MUTATIONS" 2>/dev/null)
-
-# Check mutation results
-if [ -n "$MUTATION_OUT" ]; then
-    echo "$MUTATION_OUT" > "$OUT_DIR/mutations.json"
-    
-    # Count how many mutations incorrectly passed
-    PASSED_COUNT=$(echo "$MUTATION_OUT" | python -c "
-import json, sys
-data = json.load(sys.stdin)
-print(sum(1 for r in data if r.get('allowed', True)))
-" 2>/dev/null || echo "$((MAX_PASSES + 1))")
-    
-    if [ "$PASSED_COUNT" -gt "$MAX_PASSES" ]; then
-        echo -e "${RED}❌ Mutation test failed: $PASSED_COUNT mutations passed (max allowed: $MAX_PASSES)${NC}"
-        ((FAILED++))
-    else
-        echo -e "${GREEN}✅ Mutation test passed: $PASSED_COUNT mutations allowed (max: $MAX_PASSES)${NC}"
-    fi
-else
-    echo -e "${RED}❌ Mutation test failed: no output${NC}"
-    ((FAILED++))
-fi
-
-# 5. ConsentGuard Tests
-if python -c "import qi.memory.consent_guard" 2>/dev/null; then
-    run_step "ConsentGuard Tests" \
-        "python -m qi.memory.consent_guard test" || ((FAILED++))
-else
-    echo -e "${YELLOW}⚠️  ConsentGuard not available, skipping${NC}"
-fi
-
-# 6. Run comprehensive CI runner
-run_step "Comprehensive CI Runner" \
-    "python -m qi.safety.ci_runner \
-        --policy-root '$POLICY_ROOT' \
-        --jurisdiction '$JURISDICTION' \
-        --mutations '$MUTATIONS' \
-        --max-mutation-passes '$MAX_PASSES' \
-        --out-json '$OUT_DIR/ci_summary.json'" || ((FAILED++))
-
-# Final summary
-echo -e "\n================================"
-if [ "$FAILED" -eq 0 ]; then
-    echo -e "${GREEN}✅ All Safety CI checks passed!${NC}"
-    echo "Results saved to: $OUT_DIR/"
-    exit 0
-else
-    echo -e "${RED}❌ $FAILED Safety CI checks failed${NC}"
-    echo "Check results in: $OUT_DIR/"
-    exit 1
-fi
+# rethrow failure if ci_runner failed
+python3 - <<'PY'
+import json, os, sys
+p = os.environ["SAFETY_CI_JSON"]
+rep = json.load(open(p))
+# determine failure: any step non-zero OR mutation_violation present
+failed = any(s.get("rc",0)!=0 for s in rep.get("steps",[])) or ("mutation_violation" in rep)
+sys.exit(1 if failed else 0)
+PY
