@@ -110,9 +110,19 @@ class TEQCoupler:
         return (True, "", "")
 
     def _budget_limit(self, ctx: Dict[str, Any], max_tokens: int | None) -> Tuple[bool, str, str]:
+        # AUTO-BUDGET: if no tokens_planned, estimate via Budgeter (best-effort)
         if max_tokens is None:
             return (True, "", "")
-        used = int(ctx.get("tokens_planned", 0))
+        used = int(ctx.get("tokens_planned", -1))
+        if used < 0:
+            try:
+                from qi.ops.budgeter import Budgeter
+                text = ctx.get("text") or ctx.get("input_text") or ""
+                plan = Budgeter().plan(text=text)
+                used = int(plan.get("tokens_planned", 0))
+                ctx["tokens_planned"] = used
+            except Exception:
+                used = 0
         if used > max_tokens:
             return (False, f"Budget exceeded: {used}>{max_tokens}.", "Reduce context window or compress input.")
         return (True, "", "")
