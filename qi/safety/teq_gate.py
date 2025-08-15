@@ -310,6 +310,82 @@ class TEQCoupler:
 
         # All good
         return (True, "", "")
+    
+    def _require_recent_receipt(
+        self,
+        ctx: Dict[str, Any],
+        *,
+        within_sec: int = 300,
+        accepted_events: list[str] = None,
+        require_same_user: bool = True
+    ) -> Tuple[bool, str, str]:
+        """
+        Checks ~/.lukhas/state/provenance/receipts/*.jsonl for a *recent* signed receipt
+        for the artifact specified by ctx['provenance_record_sha'].
+        """
+        import os, json, time, glob
+        try:
+            from qi.ops.provenance import verify as verify_att  # signature verify
+        except ImportError:
+            verify_att = None
+
+        sha = ctx.get("provenance_record_sha")
+        if not sha:
+            # Try to get SHA from inline provenance record
+            prov_rec = ctx.get("provenance_record")
+            if isinstance(prov_rec, dict):
+                sha = prov_rec.get("artifact_sha256")
+            
+            if not sha:
+                return (False, "Recent receipt check requires provenance_record_sha.", "Include the recorded artifact SHA in context.")
+
+        user_id = ctx.get("user_id") or (ctx.get("user_profile") or {}).get("user_id")
+        now = time.time()
+        receipts_dir = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
+        receipts_dir = os.path.join(receipts_dir, "provenance", "receipts")
+
+        if not os.path.exists(receipts_dir):
+            return (False, "No receipts directory found.", "Ensure provenance proxy is running and receipts are being recorded.")
+
+        paths = sorted(glob.glob(os.path.join(receipts_dir, f"{sha[:2]}_*.jsonl")), reverse=True)
+        if not paths:
+            return (False, "No receipts found for artifact.", "Obtain a presigned link or stream via the proxy first.")
+
+        accepted = set(accepted_events or ["link_issued","download_stream","download_redirect","view_ack"])
+        
+        for p in paths[:50]:  # scan a few recent shards
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    lines = f.readlines()
+                    for line in reversed(lines[-200:] if len(lines) > 200 else lines):  # only tail to keep it cheap
+                        try:
+                            rec = json.loads(line.strip())
+                        except json.JSONDecodeError:
+                            continue
+                            
+                        if rec.get("artifact_sha") != sha:
+                            continue
+                        if rec.get("event") not in accepted:
+                            continue
+                        ts = float(rec.get("ts", 0))
+                        if now - ts > within_sec:
+                            continue
+                            
+                        # Optionally verify signature and user match
+                        if require_same_user and user_id and rec.get("attestation") and verify_att:
+                            att_path = rec["attestation"]["chain_path"] + ".att.json"
+                            try:
+                                if not verify_att(att_path):
+                                    continue
+                            except Exception:
+                                continue
+                        
+                        # Found a valid recent receipt
+                        return (True, "", "")
+            except Exception:
+                continue
+
+        return (False, f"No recent receipt (<= {within_sec}s) for artifact.", "Re-request a link or stream the artifact to generate a fresh receipt.")
 
 # ------------- CLI -------------
 def main():

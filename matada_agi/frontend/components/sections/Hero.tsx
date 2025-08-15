@@ -6,13 +6,14 @@ import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei'
 
 function AnimatedSphere() {
   return (
-    <Sphere args={[1, 100, 200]} scale={2.5}>
+    <Sphere args={[1, 60, 60]} scale={2.5}>
       <MeshDistortMaterial
         color="#6B46C1"
         attach="material"
         distort={0.3}
         speed={2}
-        roughness={0}
+        roughness={0.2}
+        metalness={0.1}
       />
     </Sphere>
   )
@@ -21,9 +22,15 @@ function AnimatedSphere() {
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
-      {/* 3D Background */}
+      {/* 3D Background with error boundary */}
       <div className="absolute inset-0 -z-10">
-        <Canvas camera={{ position: [0, 0, 5] }}>
+        <Canvas 
+          camera={{ position: [0, 0, 5] }}
+          gl={{ antialias: true, alpha: true }}
+          onCreated={({ gl }) => {
+            gl.setClearColor('#000000', 0)
+          }}
+        >
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 5]} intensity={1} />
           <AnimatedSphere />

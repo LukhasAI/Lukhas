@@ -32,6 +32,18 @@ app = FastAPI(title="Lukhas Provenance Streamer", version="1.0.0")
 app.add_middleware(PrometheusMiddleware)
 app.add_api_route("/metrics", metrics_endpoint(), methods=["GET"])
 
+# Add rate limiting
+from qi.ops.rate_limit import RateLimiter, BucketConfig
+def is_prov(req):
+    p = req.url.path
+    return p.startswith("/provenance/") and any(seg in p for seg in ("/stream", "/download", "/link"))
+
+buckets = {
+    "prov": BucketConfig(capacity=60, refill_per_sec=1.0)  # 60 requests per minute
+}
+rules = [(is_prov, "prov")]
+app.add_middleware(RateLimiter, buckets=buckets, rules=rules)
+
 def _client_ip(req: Request) -> str:
     xff = req.headers.get("x-forwarded-for")
     if xff:
