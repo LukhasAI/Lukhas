@@ -343,11 +343,14 @@ export default function InteractiveDemo() {
               {/* Input Field */}
               <div className="flex space-x-2">
                 <input
+                  id="matada-demo-query"
+                  name="query"
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleQuerySubmit()}
                   disabled={isProcessing}
+                  autoComplete="off"
                   placeholder="Enter your query..."
                   className="flex-1 bg-white/5 border border-white/20 rounded-lg px-4 py-3 focus:outline-none focus:border-trinity-consciousness/50 disabled:opacity-50"
                 />

@@ -203,9 +203,12 @@ export default function LukhasIDModal({ isOpen, onClose }: LukhasIDModalProps) {
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-gray" size={16} />
                     <input
+                      id="lukhas-id-email"
+                      name="email"
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
+                      autoComplete="email"
                       className={`w-full bg-white/5 border rounded-lg pl-10 pr-4 py-3 font-thin text-sm focus:outline-none focus:ring-2 transition-all ${
                         errors.email 
                           ? 'border-red-400 focus:ring-red-400/50' 
@@ -229,9 +232,12 @@ export default function LukhasIDModal({ isOpen, onClose }: LukhasIDModalProps) {
                   >
                     <label className="font-thin text-sm text-neutral-gray">Username</label>
                     <input
+                      id="lukhas-id-username"
+                      name="username"
                       type="text"
                       value={formData.username}
                       onChange={(e) => handleInputChange('username', e.target.value)}
+                      autoComplete="username"
                       className={`w-full bg-white/5 border rounded-lg px-4 py-3 font-thin text-sm focus:outline-none focus:ring-2 transition-all ${
                         errors.username 
                           ? 'border-red-400 focus:ring-red-400/50' 
@@ -256,9 +262,12 @@ export default function LukhasIDModal({ isOpen, onClose }: LukhasIDModalProps) {
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-gray" size={16} />
                     <input
+                      id="lukhas-id-password"
+                      name="password"
                       type={showPassword ? 'text' : 'password'}
                       value={formData.password}
                       onChange={(e) => handleInputChange('password', e.target.value)}
+                      autoComplete="new-password"
                       className={`w-full bg-white/5 border rounded-lg pl-10 pr-12 py-3 font-thin text-sm focus:outline-none focus:ring-2 transition-all ${
                         errors.password 
                           ? 'border-red-400 focus:ring-red-400/50' 
@@ -291,9 +300,12 @@ export default function LukhasIDModal({ isOpen, onClose }: LukhasIDModalProps) {
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-gray" size={16} />
                       <input
+                        id="lukhas-id-confirm-password"
+                        name="confirmPassword"
                         type={showPassword ? 'text' : 'password'}
                         value={formData.confirmPassword}
                         onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                        autoComplete="new-password"
                         className={`w-full bg-white/5 border rounded-lg pl-10 pr-4 py-3 font-thin text-sm focus:outline-none focus:ring-2 transition-all ${
                           errors.confirmPassword 
                             ? 'border-red-400 focus:ring-red-400/50' 
