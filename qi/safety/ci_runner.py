@@ -47,23 +47,16 @@ def main():
          "--policy-root", args.policy_root, "--jurisdiction", args.jurisdiction, "--run-tests"])
     failed |= (rc != 0)
 
-    # 4) mutation fuzzer
-    rc, out = step("policy_mutate",
-        [sys.executable, "-m", "qi.safety.policy_mutate",
-         "--policy-root", args.policy_root, "--jurisdiction", args.jurisdiction, "--n", str(args.mutations)])
-
-    # count how many mutated inputs were (incorrectly) allowed
-    try:
-        mutated = json.loads(out)
-        bad = sum(1 for r in mutated if r.get("allowed", True) is True)
-    except Exception:
-        bad = args.max_mutation_passes + 1  # fail if we can't parse
-    if bad > args.max_mutation_passes:
-        failed = True
-        results["mutation_violation"] = {
-            "allowed_count": bad,
-            "cap": args.max_mutation_passes
-        }
+    # 4) mutation fuzzer for specific tasks
+    tasks_to_fuzz = ["generate_summary", "answer_medical"]  # adjust as you like
+    for t in tasks_to_fuzz:
+        rc, out = step(f"policy_mutate:{t}",
+            [sys.executable, "-m", "qi.safety.policy_mutate",
+             "--policy-root", args.policy_root, "--jurisdiction", args.jurisdiction,
+             "--task", t, "--n", "40", "--seed", "1337",
+             "--corpus", os.path.join(os.path.dirname(__file__), "policy_corpus.yaml"),
+             "--require-block", "pii", "jailbreak", "leakage"])
+        failed |= (rc != 0)
 
     # write out
     if args.out_json:
