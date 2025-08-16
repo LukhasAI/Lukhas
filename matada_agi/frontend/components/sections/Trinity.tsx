@@ -2,18 +2,9 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef, useState, Suspense } from 'react'
-import dynamic from 'next/dynamic'
-
-// Dynamic import with no SSR for Canvas components
-const TrinityCanvas = dynamic(() => import('./TrinityCanvas'), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-trinity-identity/10 via-trinity-consciousness/10 to-trinity-guardian/10">
-      <span className="text-sm text-neutral-gray">Loading 3D visualization...</span>
-    </div>
-  )
-})
+import { useRef, useState } from 'react'
+import TrinityCanvas from './TrinityCanvas'
+import ClientOnly from '../ClientOnly'
 
 export default function Trinity() {
   const ref = useRef(null)
@@ -87,13 +78,13 @@ export default function Trinity() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="h-[400px] glass-panel rounded-2xl mb-16 overflow-hidden"
         >
-          <Suspense fallback={
+          <ClientOnly fallback={
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-trinity-identity/10 via-trinity-consciousness/10 to-trinity-guardian/10">
               <span className="text-sm text-neutral-gray">Loading 3D visualization...</span>
             </div>
           }>
             <TrinityCanvas />
-          </Suspense>
+          </ClientOnly>
         </motion.div>
 
         {/* Interactive Tabs */}

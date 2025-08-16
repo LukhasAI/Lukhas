@@ -2,27 +2,19 @@
 
 import { motion } from 'framer-motion'
 import { Atom, Brain, Shield } from 'lucide-react'
-import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
-
-// Dynamic import with no SSR for Canvas components
-const HeroCanvas = dynamic(() => import('./HeroCanvas'), {
-  ssr: false,
-  loading: () => (
-    <div className="absolute inset-0 bg-gradient-to-br from-trinity-identity/10 to-trinity-consciousness/10" />
-  )
-})
+import HeroCanvas from './HeroCanvas'
+import ClientOnly from '../ClientOnly'
 
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20">
       {/* 3D Background with error boundary and fallback */}
       <div className="absolute inset-0 -z-10">
-        <Suspense fallback={
+        <ClientOnly fallback={
           <div className="absolute inset-0 bg-gradient-to-br from-trinity-identity/10 to-trinity-consciousness/10" />
         }>
           <HeroCanvas />
-        </Suspense>
+        </ClientOnly>
       </div>
 
       {/* Content */}

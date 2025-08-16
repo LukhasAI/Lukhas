@@ -9,11 +9,12 @@ import HowItWorks from '@/components/sections/HowItWorks'
 import InteractiveDemo from '@/components/sections/InteractiveDemo'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import ClientOnly from '@/components/ClientOnly'
 
 export default function Home() {
 
   return (
-    <>
+    <ClientOnly>
       <Navigation />
       <main className="relative overflow-hidden">
         <div className="w-full">
@@ -27,6 +28,6 @@ export default function Home() {
         </div>
       </main>
       <Footer />
-    </>
+    </ClientOnly>
   )
 }
