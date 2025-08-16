@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { Search, Sprout, Scale, Heart, Unlock, Bot } from 'lucide-react'
+import { Search, Sprout, Scale, Heart, Unlock, Bot, Atom, Brain, Shield, Users, Globe } from 'lucide-react'
 
 export default function Ethos() {
   const ref = useRef(null)
@@ -147,25 +147,25 @@ export default function Ethos() {
               </h3>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <span className="text-trinity-consciousness text-2xl">⚛️</span>
+                  <Atom className="w-8 h-8 text-trinity-consciousness flex-shrink-0" strokeWidth={1.5} />
                   <p className="font-regular text-sm uppercase tracking-wider leading-relaxed">
                     EVERY COGNITIVE PROCESS REMAINS TRANSPARENT AND AUDITABLE
                   </p>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <span className="text-trinity-identity text-2xl">🧠</span>
+                  <Brain className="w-8 h-8 text-trinity-identity flex-shrink-0" strokeWidth={1.5} />
                   <p className="font-regular text-sm uppercase tracking-wider leading-relaxed">
                     CONSCIOUSNESS EMERGES FROM ETHICAL FOUNDATIONS
                   </p>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <span className="text-trinity-guardian text-2xl">🛡️</span>
+                  <Shield className="w-8 h-8 text-trinity-guardian flex-shrink-0" strokeWidth={1.5} />
                   <p className="font-regular text-sm uppercase tracking-wider leading-relaxed">
                     HUMAN VALUES GUIDE EVERY ALGORITHMIC DECISION
                   </p>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <span className="text-accent-gold text-2xl">🤝</span>
+                  <Users className="w-8 h-8 text-accent-gold flex-shrink-0" strokeWidth={1.5} />
                   <p className="font-regular text-sm uppercase tracking-wider leading-relaxed">
                     OPEN COLLABORATION ACCELERATES RESPONSIBLE AI
                   </p>
@@ -174,7 +174,7 @@ export default function Ethos() {
             </div>
             <div className="relative">
               <div className="aspect-square rounded-2xl overflow-hidden glass-panel">
-                <div className="absolute inset-0 bg-gradient-to-br from-trinity-guardian/20 via-accent-gold/20 to-trinity-consciousness/20" />
+                <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
                     <motion.div
@@ -186,14 +186,14 @@ export default function Ethos() {
                         repeat: Infinity,
                         ease: "linear"
                       }}
-                      className="mb-6 inline-block p-8 rounded-full bg-gradient-to-r from-trinity-guardian via-accent-gold to-trinity-consciousness"
+                      className="mb-6 inline-block p-6 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
                     >
-                      <span className="text-4xl text-primary-dark">🌐</span>
+                      <Globe className="w-12 h-12 text-white" strokeWidth={1} />
                     </motion.div>
-                    <p className="font-ultralight text-2xl mb-2 gradient-text">Open</p>
-                    <p className="font-ultralight text-2xl mb-2 gradient-text">Ethical</p>
-                    <p className="font-ultralight text-2xl gradient-text">Conscious</p>
-                    <p className="font-regular text-xs tracking-[0.3em] uppercase mt-4 text-primary-light/60">
+                    <p className="font-ultralight text-2xl mb-2 text-white">Open</p>
+                    <p className="font-ultralight text-2xl mb-2 text-white">Ethical</p>
+                    <p className="font-ultralight text-2xl text-white">Conscious</p>
+                    <p className="font-regular text-xs tracking-[0.3em] uppercase mt-4 text-white/80">
                       AI FOR HUMANITY
                     </p>
                   </div>
