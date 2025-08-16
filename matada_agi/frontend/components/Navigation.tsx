@@ -44,11 +44,11 @@ export default function Navigation() {
           <Link href="/docs" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
             DOCS
           </Link>
-          <Link href="#trinity" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
-            TRINITY
+          <Link href="/careers" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
+            CAREERS
           </Link>
-          <Link href="#demo" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
-            DEMO
+          <Link href="/partners" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
+            PARTNERS
           </Link>
           <Link href="/console" className="font-regular text-sm tracking-[0.2em] uppercase px-6 py-2 border border-trinity-consciousness text-trinity-consciousness hover:bg-trinity-consciousness hover:text-primary-dark transition-all">
             CONSOLE
@@ -79,8 +79,8 @@ export default function Navigation() {
           <div className="container mx-auto max-w-7xl px-6 py-6 flex flex-col space-y-4">
             <Link href="/about" className="font-regular text-sm tracking-[0.2em] uppercase">ABOUT</Link>
             <Link href="/docs" className="font-regular text-sm tracking-[0.2em] uppercase">DOCS</Link>
-            <Link href="#trinity" className="font-regular text-sm tracking-[0.2em] uppercase">TRINITY</Link>
-            <Link href="#demo" className="font-regular text-sm tracking-[0.2em] uppercase">DEMO</Link>
+            <Link href="/careers" className="font-regular text-sm tracking-[0.2em] uppercase">CAREERS</Link>
+            <Link href="/partners" className="font-regular text-sm tracking-[0.2em] uppercase">PARTNERS</Link>
             <Link href="/console" className="font-regular text-sm tracking-[0.2em] uppercase">CONSOLE</Link>
             <button className="font-regular text-sm tracking-[0.2em] uppercase text-left">LUKHAS ID</button>
           </div>

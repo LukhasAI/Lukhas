@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>LUKHΛS • Trace Drill-down</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #161a22;
+    --muted: #9aa5b1;
+    --text: #e7eaf0;
+    --accent: #8ab4f8;
+    --ok: #3ddc97;
+    --bad: #ff8370;
+    --border: #232a36;
+    --mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.35}
+  header{display:flex;gap:.75rem;align-items:center;padding:.6rem .8rem;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#141924,#0f1115)}
+  header input, header select{background:#0d1016;color:var(--text);border:1px solid var(--border);padding:.4rem .5rem;border-radius:.35rem;font-family:var(--mono)}
+  header button{background:#1b2331;color:var(--text);border:1px solid var(--border);padding:.45rem .7rem;border-radius:.35rem;cursor:pointer}
+  header button:hover{background:#202a3b}
+  header .title{font-weight:700;margin-right:.4rem}
+  header .sep{opacity:.4}
+  main{display:grid;grid-template-columns: 1fr 1fr; height: calc(100% - 52px);}
+  #left{border-right:1px solid var(--border);display:flex;flex-direction:column;min-width:30vw}
+  #right{display:flex;flex-direction:column;min-width:30vw}
+  #svgWrap{flex:1;overflow:auto;background:#0b0e13}
+  #svgWrap svg{width:100%;height:auto}
+  #meta{display:flex;gap:.6rem;padding:.5rem .7rem;border-top:1px solid var(--border);color:var(--muted);font-size:.86rem;background:#101420}
+  .pill{border:1px solid var(--border);padding:.1rem .4rem;border-radius:.4rem}
+  .pill.ok{color:var(--ok);border-color:#254e3b;background:#112318}
+  .pill.bad{color:var(--bad);border-color:#5c2d28;background:#1a1110}
+  nav#tabs{display:flex;border-bottom:1px solid var(--border);background:#121722}
+  nav#tabs button{all:unset;padding:.6rem .8rem;cursor:pointer;border-right:1px solid var(--border);color:var(--muted)}
+  nav#tabs button.active{color:var(--text);background:#151b28}
+  .panel{display:none;flex:1;overflow:auto}
+  .panel.active{display:block}
+  pre{margin:0;padding:.75rem;font-family:var(--mono);font-size:.88rem;white-space:pre-wrap;word-break:break-word}
+  .row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+  .grow{flex:1}
+  a{color:var(--accent);text-decoration:none}
+  footer{position:fixed;bottom:.5rem;right:.6rem;color:var(--muted);font-size:.8rem}
+  .hint{opacity:.75}
+</style>
+</head>
+<body>
+<header>
+  <span class="title">Trace Drill-down</span>
+  <span class="sep">|</span>
+  <label>API base <input id="apiBase" size="26" placeholder="http://127.0.0.1:8095" /></label>
+  <label>Receipt ID <input id="rid" size="28" placeholder="(paste id)" /></label>
+  <label>policy_root <input id="policyRoot" size="22" value="qi/safety/policy_packs"/></label>
+  <label>overlays <input id="overlays" size="18" value="qi/risk"/></label>
+  <label><input type="checkbox" id="publicRedact"/> public</label>
+  <button id="btnLoad">Load</button>
+  <button id="btnRefresh" title="r">Refresh</button>
+  <button id="btnSaveSvg" title="download SVG">Save SVG</button>
+  <button id="btnSaveJson" title="download JSON bundle">Save bundle</button>
+</header>
+<main>
+  <section id="left">
+    <div id="svgWrap"><div class="hint" style="padding:1rem">Load a receipt to render the clickable trace.</div></div>
+    <div id="meta">
+      <span id="verdict" class="pill">—</span>
+      <span id="tokens" class="pill">tokens: —</span>
+      <span id="lat" class="pill">latency: —</span>
+      <span id="jurctx" class="pill">jur: — | ctx: —</span>
+      <span id="flags" class="pill">risk: —</span>
+    </div>
+  </section>
+  <section id="right">
+    <nav id="tabs">
+      <button data-tab="rec" class="active">Receipt</button>
+      <button data-tab="rep">Replay</button>
+      <button data-tab="prov">Provenance</button>
+    </nav>
+    <div id="rec" class="panel active"><pre id="recJson">—</pre></div>
+    <div id="rep" class="panel"><pre id="repJson">—</pre></div>
+    <div id="prov" class="panel"><pre id="provJson">—</pre></div>
+  </section>
+</main>
+<footer>⌘/Ctrl+L load • R refresh • S save SVG • J save bundle</footer>
+
+<script>
+const $ = sel => document.querySelector(sel);
+const apiBase = $("#apiBase");
+const rid = $("#rid");
+const policyRoot = $("#policyRoot");
+const overlays = $("#overlays");
+const publicRedact = $("#publicRedact");
+
+const svgWrap = $("#svgWrap");
+const recJson = $("#recJson");
+const repJson = $("#repJson");
+const provJson = $("#provJson");
+
+const verdict = $("#verdict"), tokens = $("#tokens"), lat = $("#lat"), jurctx = $("#jurctx"), flags = $("#flags");
+
+// Tab switching
+for (const btn of document.querySelectorAll('#tabs button')) {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+}
+
+function mask(str) {
+  if (!str) return str;
+  if (!publicRedact.checked) return str;
+  // conservative redactions: SHA, emails, URLs, user ids within our agent ids, gs/s3 paths
+  return String(str)
+    .replace(/[a-f0-9]{16,64}/gi, m => m.slice(0,6) + "…"+ m.slice(-4))
+    .replace(/\b[\w.+-]+@[\w.-]+\.[a-z]{2,}\b/gi, "▮▮@▮▮.▮▮")
+    .replace(/\b(s3|gs|file):\/\/[^\s"']+/gi, "$1://…")
+    .replace(/\bagent:user:[\w.\-]+/gi, "agent:user:▮▮");
+}
+
+function redact(obj) {
+  if (!publicRedact.checked) return obj;
+  const clone = JSON.parse(JSON.stringify(obj));
+  function walk(o) {
+    if (o && typeof o === 'object') {
+      for (const k of Object.keys(o)) {
+        if (o[k] && typeof o[k] === 'object') walk(o[k]);
+        else if (typeof o[k] === 'string') o[k] = mask(o[k]);
+      }
+    }
+  }
+  walk(clone);
+  // scrub sensitive paths explicitly
+  if (clone.entity) {
+    clone.entity.storage_url = mask(clone.entity.storage_url);
+    clone.entity.digest_sha256 = mask(clone.entity.digest_sha256);
+  }
+  return clone;
+}
+
+async function fetchJson(url, etagCache) {
+  const headers = {};
+  if (etagCache[url]) headers['If-None-Match'] = etagCache[url];
+  const r = await fetch(url, { headers });
+  if (r.status === 304) return { notModified: true };
+  const et = r.headers.get('etag');
+  const data = await r.json();
+  return { data, etag: et };
+}
+
+async function loadAll() {
+  const base = apiBase.value.replace(/\/+$/,'');
+  const id = rid.value.trim();
+  if (!base || !id) { alert("Set API base and Receipt ID"); return; }
+
+  const pr = encodeURIComponent(policyRoot.value.trim());
+  const ov = overlays.value.trim() ? encodeURIComponent(overlays.value.trim()) : "";
+  const q = `policy_root=${pr}${ov ? `&overlays=${ov}` : ""}`;
+
+  const etags = {};
+  // 1) receipt
+  const recUrl = `${base}/receipts/${id}`;
+  const rec = await fetchJson(recUrl, etags);
+  if (!rec.data && rec.notModified) {/* keep */}
+  else if (!rec.data) { throw new Error("failed to load receipt"); }
+  const receipt = rec.data || JSON.parse(recJson.dataset.raw || "{}");
+
+  // 2) replay
+  const repUrl = `${base}/receipts/${id}/replay.json?${q}`;
+  const rep = await fetchJson(repUrl, etags);
+  let replay = rep.data || JSON.parse(repJson.dataset.raw || "{}");
+
+  // 3) trace SVG
+  const svgUrl = `${base}/receipts/${id}/trace.svg?${q}&link_base=${encodeURIComponent(base)}&prov_base=${encodeURIComponent(base.replace(':8095', ':8088'))}`;
+  const svgResp = await fetch(svgUrl);
+  const svgText = await svgResp.text();
+
+  // 4) provenance (optional best-effort: not served by API; pull from link in receipt if present)
+  let prov = null;
+  try {
+    const sha = receipt?.entity?.digest_sha256;
+    // If your app exposes a provenance record API, wire it here. We default to showing nothing.
+    prov = { note: "provenance record not fetched by the HTML client (served server-side in trace.svg)."};
+  } catch (e) { prov = null; }
+
+  // Redact as requested
+  const recShow = redact(receipt);
+  const repShow = redact(replay);
+  const provShow = redact(prov);
+
+  // Fill right panels
+  recJson.textContent = JSON.stringify(recShow, null, 2);
+  recJson.dataset.raw = JSON.stringify(receipt);
+  repJson.textContent = JSON.stringify(repShow, null, 2);
+  repJson.dataset.raw = JSON.stringify(replay);
+  provJson.textContent = JSON.stringify(provShow, null, 2);
+
+  // Fill left meta
+  verdict.textContent = (replay?.replay?.allowed ? "ALLOWED" : "BLOCKED");
+  verdict.className = "pill " + (replay?.replay?.allowed ? "ok" : "bad");
+  tokens.textContent = `tokens: ${(receipt.tokens_in||0)}→${(receipt.tokens_out||0)}`;
+  lat.textContent = `latency: ${(receipt.latency_ms ?? "—")} ms`;
+  jurctx.textContent = `jur: ${receipt.activity?.jurisdiction || "global"} | ctx: ${receipt.activity?.context || "-"}`;
+  flags.textContent = `risk: ${(receipt.risk_flags||[]).slice(0,5).join(", ") || "—"}`;
+
+  // Render SVG
+  svgWrap.innerHTML = svgText;
+}
+
+function saveAs(filename, data, type="application/octet-stream") {
+  const blob = new Blob([data], {type});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+}
+
+$("#btnLoad").addEventListener("click", loadAll);
+$("#btnRefresh").addEventListener("click", loadAll);
+$("#btnSaveSvg").addEventListener("click", () => {
+  const svg = svgWrap.querySelector("svg");
+  if (!svg) return;
+  const xml = new XMLSerializer().serializeToString(svg);
+  saveAs(`trace_${rid.value||'receipt'}.svg`, xml, "image/svg+xml");
+});
+$("#btnSaveJson").addEventListener("click", () => {
+  const bundle = {
+    receipt: JSON.parse(recJson.dataset.raw || "{}"),
+    replay: JSON.parse(repJson.dataset.raw || "{}"),
+    // provenance intentionally omitted (server-side)
+  };
+  saveAs(`bundle_${rid.value||'receipt'}.json`, JSON.stringify(bundle, null, 2), "application/json");
+});
+
+// Keyboard shortcuts
+window.addEventListener("keydown", (e) => {
+  const mod = e.metaKey || e.ctrlKey;
+  if (mod && e.key.toLowerCase() === "l") { e.preventDefault(); loadAll(); }
+  if (e.key.toLowerCase() === "r") { e.preventDefault(); loadAll(); }
+  if (e.key.toLowerCase() === "s") { e.preventDefault(); $("#btnSaveSvg").click(); }
+  if (e.key.toLowerCase() === "j") { e.preventDefault(); $("#btnSaveJson").click(); }
+});
+
+// Remember last API base & paths
+(function restore(){
+  apiBase.value = localStorage.getItem("apiBase") || "http://127.0.0.1:8095";
+  policyRoot.value = localStorage.getItem("policyRoot") || policyRoot.value;
+  overlays.value = localStorage.getItem("overlays") || overlays.value;
+})();
+["apiBase","policyRoot","overlays"].forEach(id=>{
+  document.getElementById(id).addEventListener("change", e => {
+    localStorage.setItem(id, e.target.value);
+  });
+});
+</script>
+</body>
+</html>

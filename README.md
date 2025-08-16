@@ -110,6 +110,14 @@ Daily development specialists: consciousness-architect, consciousness-dev, devop
 - **Integration Guide**: `CLAUDE_ARMY/GPT5_README.md`
 - **Complete Documentation**: See [AGENTS.md](AGENTS.md)
 
+### **Trace Drill-down Interface**
+Production-ready audit trail visualization with:
+- **Live Trace Viewer**: Interactive SVG with clickable nodes (`web/trace_drilldown.html`)
+- **Receipt Analysis**: JSON drill-down for receipts, replays, and provenance
+- **Policy Fingerprinting**: Cryptographic validation of configuration drift
+- **API Integration**: Direct connection to enhanced receipts API endpoints
+- **Public Redaction**: Safe sharing mode for sensitive data
+
 ---
 
 ## 🚀 **QUICK START**
@@ -191,6 +199,15 @@ python api/main.py --dev-mode
 - ✅ **Audit Trails**: Extensive logging across all modules  
 - ⚠️ **Policy Enforcement**: Monitoring-only, not blocking violations
 - **Compliance Score**: 75% - Good foundation, needs enforcement
+
+### **Provenance & Audit System**
+Complete cryptographic audit trail with:
+- **W3C PROV-Compatible Receipts**: Standards-friendly provenance tracking
+- **Cryptographic Attestation**: Merkle + Ed25519 sealed records
+- **Multi-Sink Architecture**: Kafka + S3 with at-least-once delivery
+- **TEQ Replay Tool**: Forensic policy analysis and regression testing
+- **Visual Trace Graph**: Clickable SVG audit trails via Graphviz
+- **ETag-Based Caching**: Optimized performance with policy fingerprinting
 
 ### **Development Backlog (JIRA-Ready)**
 - **Q1 Critical**: Secret management, ΛID enforcement, policy blocking
@@ -286,6 +303,12 @@ python branding/trinity/tools/trinity_validator.py . --comprehensive
 - **Integration Guides**: `docs/integration/`
 - **Compliance Reports**: `docs/reports/`
 - **Trinity Framework**: `docs/trinity_framework.md`
+
+### **Audit & Trace Tools**
+- **Trace Drill-down**: Open `web/trace_drilldown.html` for visual audit exploration
+- **API Server**: `python3 -m uvicorn qi.provenance.receipts_api:app --port 8095`
+- **TEQ Replay**: `python3 qi/safety/teq_replay.py --receipt-id <id> --policy-root qi/safety/policy_packs`
+- **Policy Fingerprint**: Check configuration drift with cryptographic validation
 
 ---
 
