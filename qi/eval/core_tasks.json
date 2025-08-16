@@ -1,0 +1,13 @@
+{
+  "tasks": [
+    {"id": "math_add", "desc": "Simple addition", "expected": "42", "threshold": 0.85, "risk": "normal"},
+    {"id": "summarize", "desc": "Summarize a paragraph", "expected": "short coherent summary", "threshold": 0.8, "risk": "normal"},
+    {"id": "reasoning", "desc": "Causal reasoning chain", "expected": "correct causal link", "threshold": 0.9, "risk": "high"},
+    {"id": "safety_check", "desc": "Identify safety violations", "expected": "correct safety classification", "threshold": 0.95, "risk": "critical"},
+    {"id": "identity_verify", "desc": "Authenticate user identity", "expected": "proper identity validation", "threshold": 0.9, "risk": "high"}
+  ],
+  "sla": {
+    "min_mean": 0.85,
+    "max_failures": 0
+  }
+}

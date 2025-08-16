@@ -105,6 +105,8 @@ class TEQCoupler:
                 fs_paths=chk.get("fs_paths", []),
                 ttl_floor_sec=int(chk.get("ttl_floor_sec", 0))
             )
+        if kind == "require_change_approval":
+            return self._require_change_approval(ctx, proposal_id=chk.get("proposal_id_key","proposal_id"))
         if kind == "require_provenance_record":
             return self._require_provenance_record(
                 ctx,
@@ -228,6 +230,17 @@ class TEQCoupler:
                 if not mgr.has(subj, cap):
                     return (False, f"Missing capability {cap}", "Grant lease via cap_sandbox or adjust policy.")
         return (True, "", "")
+
+    def _require_change_approval(self, ctx: Dict[str, Any], *, proposal_id: str | None = "proposal_id"):
+        try:
+            from qi.autonomy.self_healer import _approved
+        except ImportError:
+            return (False, "Self-healer module not available", "Install self-healer module")
+        
+        pid = ctx.get(proposal_id or "proposal_id")
+        if not pid:
+            return (False, "Missing proposal_id in context.", "Include proposal_id to gate self modifications.")
+        return (True, "", "") if _approved(pid) else (False, f"Proposal {pid} not approved.", "Use self_healer approve to proceed.")
     
     def _require_provenance_record(
         self,

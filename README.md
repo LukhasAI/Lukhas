@@ -310,6 +310,15 @@ python branding/trinity/tools/trinity_validator.py . --comprehensive
 - **TEQ Replay**: `python3 qi/safety/teq_replay.py --receipt-id <id> --policy-root qi/safety/policy_packs`
 - **Policy Fingerprint**: Check configuration drift with cryptographic validation
 
+### **C-EVAL Production Evaluation System**
+Continuous evaluation loop with self-healing capabilities:
+- **Evaluation Runner**: `python3 qi/eval/ceval_runner.py run-suite --suite qi/eval/core_tasks.json --enforce-sla`
+- **Self-Healing**: `python3 qi/autonomy/self_healer.py observe|plan|approve|apply`
+- **Weighted Risk Scoring**: Critical tasks weighted 3x, high-risk 2x, normal 1x
+- **CI/CD Gates**: Exit code 2 on SLA violation for automated pipeline control
+- **Human-in-the-Loop**: All config changes require explicit approval before application
+- **Prometheus Metrics**: Export evaluation metrics on port 9109 with `--metrics` flag
+
 ---
 
 ## 🤝 **MULTI-AI INTEGRATION**

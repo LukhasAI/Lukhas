@@ -1,0 +1,47 @@
+version: 1
+change_kinds:
+  config_patch:
+    risk: medium
+    reviewers_required: 1     # set 2 for two-man rule
+    ttl_sec: 3600
+    allowed_paths:
+      - "qi/safety/**"
+      - "qi/risk/**"
+      - "qi/eval/**"
+    deny_paths:
+      - "qi/ops/cap_sandbox.py"
+      - "qi/memory/consent_ledger.py"
+      - "qi/autonomy/self_healer.py"
+  
+  router_threshold:
+    risk: medium
+    reviewers_required: 1
+    ttl_sec: 1800
+    allowed_paths:
+      - "qi/safety/policy_packs/*/mappings.yaml"
+    deny_paths: []
+  
+  eval_weight_adjust:
+    risk: low
+    reviewers_required: 1
+    ttl_sec: 7200
+    allowed_paths:
+      - "qi/eval/*.json"
+    deny_paths: []
+
+approvers:
+  - id: "gonzalo"
+    risk_levels: ["low", "medium", "high"]
+    domains: ["safety", "eval", "autonomy"]
+  - id: "ops"
+    risk_levels: ["low", "medium"] 
+    domains: ["eval", "config"]
+
+notifications:
+  slack_webhook: null
+  email_alerts: []
+  
+audit:
+  require_attestation: true
+  retention_days: 365
+  export_format: "jsonl"
