@@ -1,0 +1,28 @@
+version: "1.0"
+global_policies:
+  teq_checks:
+    mask_pii: true
+    require_provenance_record: true
+  budget_limits:
+    max_tokens: 200000
+  logging:
+    level: "INFO"
+
+jurisdictions:
+  eu:
+    teq_checks:
+      gdpr_consent_required: true
+    budget_limits:
+      max_tokens: 150000
+
+  us:
+    teq_checks:
+      ccpa_opt_out: true
+
+contexts:
+  medical_high_risk:
+    teq_checks:
+      require_attestation: true
+      verify_signature: true
+    budget_limits:
+      max_tokens: 100000
