@@ -56,11 +56,13 @@
   <label>Receipt ID <input id="rid" size="28" placeholder="(paste id)" /></label>
   <label>policy_root <input id="policyRoot" size="22" value="qi/safety/policy_packs"/></label>
   <label>overlays <input id="overlays" size="18" value="qi/risk"/></label>
+  <label>task <input id="taskFilter" size="16" placeholder="(optional)"/></label>
   <label><input type="checkbox" id="publicRedact"/> public</label>
   <button id="btnLoad">Load</button>
   <button id="btnRefresh" title="r">Refresh</button>
   <button id="btnPrev" title="←">Prev</button>
   <button id="btnNext" title="→">Next</button>
+  <button id="btnRandom" title="random sample">Random</button>
   <button id="btnSaveSvg" title="download SVG">Save SVG</button>
   <button id="btnSaveJson" title="download JSON bundle">Save bundle</button>
 </header>
@@ -86,7 +88,7 @@
     <div id="prov" class="panel"><pre id="provJson">—</pre></div>
   </section>
 </main>
-<footer>⌘/Ctrl+L load • R refresh • ← prev • → next • S save SVG • J save bundle</footer>
+<footer>⌘/Ctrl+L load • R refresh • ← prev • → next • ⌘/Ctrl+G random • S save SVG • J save bundle</footer>
 
 <script>
 const $ = sel => document.querySelector(sel);
@@ -94,6 +96,7 @@ const apiBase = $("#apiBase");
 const rid = $("#rid");
 const policyRoot = $("#policyRoot");
 const overlays = $("#overlays");
+const taskFilter = $("#taskFilter");
 const publicRedact = $("#publicRedact");
 
 const svgWrap = $("#svgWrap");
@@ -241,7 +244,9 @@ $("#btnSaveJson").addEventListener("click", () => {
 
 async function fetchNeighbors(id) {
   const base = apiBase.value.replace(/\/+$/,'');
-  const res = await fetch(`${base}/receipts/${encodeURIComponent(id)}/neighbors`);
+  const t = taskFilter.value.trim();
+  const q = t ? `?task=${encodeURIComponent(t)}` : "";
+  const res = await fetch(`${base}/receipts/${encodeURIComponent(id)}/neighbors${q}`);
   if (!res.ok) return {prev:null,next:null};
   return await res.json();
 }
@@ -260,6 +265,17 @@ $("#btnNext").addEventListener("click", async () => {
   if (n.next) { rid.value = n.next; await loadAll(); }
 });
 
+$("#btnRandom").addEventListener("click", async () => {
+  const base = apiBase.value.replace(/\/+$/,'');
+  const t = taskFilter.value.trim();
+  const q = t ? `?task=${encodeURIComponent(t)}` : "";
+  const res = await fetch(`${base}/receipts/sample${q}`);
+  if (!res.ok) { alert("no sample available"); return; }
+  const j = await res.json();
+  rid.value = j.id;
+  await loadAll();
+});
+
 // Keyboard shortcuts
 window.addEventListener("keydown", async (e) => {
   const mod = e.metaKey || e.ctrlKey;
@@ -269,6 +285,7 @@ window.addEventListener("keydown", async (e) => {
   if (e.key.toLowerCase() === "r") { e.preventDefault(); loadAll(); }
   if (e.key.toLowerCase() === "s") { e.preventDefault(); $("#btnSaveSvg").click(); }
   if (e.key.toLowerCase() === "j") { e.preventDefault(); $("#btnSaveJson").click(); }
+  if (mod && e.key.toLowerCase() === "g") { e.preventDefault(); $("#btnRandom").click(); }
   
   // Optional keyboard shortcuts for prev/next
   if (id) {
@@ -282,8 +299,9 @@ window.addEventListener("keydown", async (e) => {
   apiBase.value = localStorage.getItem("apiBase") || "http://127.0.0.1:8095";
   policyRoot.value = localStorage.getItem("policyRoot") || policyRoot.value;
   overlays.value = localStorage.getItem("overlays") || overlays.value;
+  taskFilter.value = localStorage.getItem("taskFilter") || "";
 })();
-["apiBase","policyRoot","overlays"].forEach(id=>{
+["apiBase","policyRoot","overlays","taskFilter"].forEach(id=>{
   document.getElementById(id).addEventListener("change", e => {
     localStorage.setItem(id, e.target.value);
   });
@@ -295,6 +313,7 @@ window.addEventListener("keydown", async (e) => {
   if (d.apiBase) apiBase.value = d.apiBase;
   if (d.policyRoot) policyRoot.value = d.policyRoot;
   if (d.overlays) overlays.value = d.overlays;
+  if (d.task) taskFilter.value = d.task;
   if (typeof d.publicRedact === "boolean") publicRedact.checked = d.publicRedact;
   if (d.rid) { rid.value = d.rid; loadAll(); }
 })();

@@ -1,7 +1,7 @@
 # path: qi/provenance/receipts_api.py
 from __future__ import annotations
-import os, json, glob, hashlib, time
-from typing import Optional
+import os, json, glob, hashlib, time, random
+from typing import Optional, List
 from fastapi import FastAPI, HTTPException, Query, Response
 from fastapi.responses import JSONResponse, HTMLResponse
 
@@ -66,6 +66,20 @@ def _policy_fingerprint(policy_root: str, overlays_dir: Optional[str]) -> str:
 @app.get("/healthz")
 def healthz(): 
     return {"ok": True}
+
+@app.get("/receipts/sample")
+def receipt_sample(
+    task: Optional[str] = Query(None, description="Optional task filter"),
+    window: int = Query(500, ge=1, le=5000, description="Sample among N newest receipts")
+):
+    items = _load_all_receipts_meta()
+    if task:
+        items = [x for x in items if (x.get("task") == task)]
+    items = items[:window]
+    if not items:
+        raise HTTPException(404, "no receipts available")
+    pick = random.choice(items)
+    return {"id": pick["id"], "task": pick["task"], "created_at": pick["created_at"]}
 
 @app.get("/receipts/{rid}")
 def get_receipt(rid: str):
@@ -170,16 +184,21 @@ def _load_all_receipts_meta() -> list[dict]:
     return items
 
 @app.get("/receipts/{rid}/neighbors")
-def receipt_neighbors(rid: str):
+def receipt_neighbors(
+    rid: str,
+    task: Optional[str] = Query(None, description="If set, restrict prev/next to this task")
+):
     items = _load_all_receipts_meta()
+    if task:
+        items = [x for x in items if (x.get("task") == task)]
     ids = [x["id"] for x in items if x.get("id")]
     try:
         idx = ids.index(rid)
     except ValueError:
-        raise HTTPException(404, "receipt not found")
+        raise HTTPException(404, "receipt not found in current slice")
     prev_id = ids[idx-1] if idx-1 >= 0 else None
     next_id = ids[idx+1] if idx+1 < len(ids) else None
-    return {"prev": prev_id, "next": next_id, "count": len(ids), "index": idx}
+    return {"prev": prev_id, "next": next_id, "count": len(ids), "index": idx, "task": task or None}
 
 # --- UI: single-file drilldown served by the API ---
 _UI_DEFAULT = {
