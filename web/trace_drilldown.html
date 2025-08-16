@@ -59,6 +59,8 @@
   <label><input type="checkbox" id="publicRedact"/> public</label>
   <button id="btnLoad">Load</button>
   <button id="btnRefresh" title="r">Refresh</button>
+  <button id="btnPrev" title="←">Prev</button>
+  <button id="btnNext" title="→">Next</button>
   <button id="btnSaveSvg" title="download SVG">Save SVG</button>
   <button id="btnSaveJson" title="download JSON bundle">Save bundle</button>
 </header>
@@ -84,7 +86,7 @@
     <div id="prov" class="panel"><pre id="provJson">—</pre></div>
   </section>
 </main>
-<footer>⌘/Ctrl+L load • R refresh • S save SVG • J save bundle</footer>
+<footer>⌘/Ctrl+L load • R refresh • ← prev • → next • S save SVG • J save bundle</footer>
 
 <script>
 const $ = sel => document.querySelector(sel);
@@ -237,13 +239,42 @@ $("#btnSaveJson").addEventListener("click", () => {
   saveAs(`bundle_${rid.value||'receipt'}.json`, JSON.stringify(bundle, null, 2), "application/json");
 });
 
+async function fetchNeighbors(id) {
+  const base = apiBase.value.replace(/\/+$/,'');
+  const res = await fetch(`${base}/receipts/${encodeURIComponent(id)}/neighbors`);
+  if (!res.ok) return {prev:null,next:null};
+  return await res.json();
+}
+
+$("#btnPrev").addEventListener("click", async () => {
+  const id = rid.value.trim();
+  if (!id) return;
+  const n = await fetchNeighbors(id);
+  if (n.prev) { rid.value = n.prev; await loadAll(); }
+});
+
+$("#btnNext").addEventListener("click", async () => {
+  const id = rid.value.trim();
+  if (!id) return;
+  const n = await fetchNeighbors(id);
+  if (n.next) { rid.value = n.next; await loadAll(); }
+});
+
 // Keyboard shortcuts
-window.addEventListener("keydown", (e) => {
+window.addEventListener("keydown", async (e) => {
   const mod = e.metaKey || e.ctrlKey;
+  const id = rid.value.trim();
+  
   if (mod && e.key.toLowerCase() === "l") { e.preventDefault(); loadAll(); }
   if (e.key.toLowerCase() === "r") { e.preventDefault(); loadAll(); }
   if (e.key.toLowerCase() === "s") { e.preventDefault(); $("#btnSaveSvg").click(); }
   if (e.key.toLowerCase() === "j") { e.preventDefault(); $("#btnSaveJson").click(); }
+  
+  // Optional keyboard shortcuts for prev/next
+  if (id) {
+    if (e.key === "ArrowLeft") { e.preventDefault(); const n = await fetchNeighbors(id); if (n.prev) { rid.value=n.prev; loadAll(); } }
+    if (e.key === "ArrowRight") { e.preventDefault(); const n = await fetchNeighbors(id); if (n.next) { rid.value=n.next; loadAll(); } }
+  }
 });
 
 // Remember last API base & paths
@@ -257,6 +288,16 @@ window.addEventListener("keydown", (e) => {
     localStorage.setItem(id, e.target.value);
   });
 });
+
+// Boot with defaults injected by the API route (if present)
+(function bootWithDefaults(){
+  const d = window.LUKHAS_TRACE_DEFAULTS || {};
+  if (d.apiBase) apiBase.value = d.apiBase;
+  if (d.policyRoot) policyRoot.value = d.policyRoot;
+  if (d.overlays) overlays.value = d.overlays;
+  if (typeof d.publicRedact === "boolean") publicRedact.checked = d.publicRedact;
+  if (d.rid) { rid.value = d.rid; loadAll(); }
+})();
 </script>
 </body>
 </html>

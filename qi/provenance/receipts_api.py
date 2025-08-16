@@ -3,7 +3,7 @@ from __future__ import annotations
 import os, json, glob, hashlib, time
 from typing import Optional
 from fastapi import FastAPI, HTTPException, Query, Response
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse
 
 # NEW: optional CORS (uncomment if you want browser embedding from other origins)
 try:
@@ -152,3 +152,81 @@ def receipt_trace_svg(
 @app.get("/policy/fingerprint")
 def policy_fp(policy_root: str = Query(...), overlays: Optional[str] = Query(None)):
     return {"fingerprint": _policy_fingerprint(policy_root, overlays)}
+
+def _load_all_receipts_meta() -> list[dict]:
+    items = []
+    for p in glob.glob(os.path.join(RECDIR, "*.json")):
+        try:
+            r = _read_json(p)
+            items.append({
+                "id": r.get("id"),
+                "created_at": float(r.get("created_at", os.path.getmtime(p))),
+                "task": (r.get("activity") or {}).get("type"),
+            })
+        except Exception:
+            continue
+    # newest first
+    items.sort(key=lambda x: x["created_at"], reverse=True)
+    return items
+
+@app.get("/receipts/{rid}/neighbors")
+def receipt_neighbors(rid: str):
+    items = _load_all_receipts_meta()
+    ids = [x["id"] for x in items if x.get("id")]
+    try:
+        idx = ids.index(rid)
+    except ValueError:
+        raise HTTPException(404, "receipt not found")
+    prev_id = ids[idx-1] if idx-1 >= 0 else None
+    next_id = ids[idx+1] if idx+1 < len(ids) else None
+    return {"prev": prev_id, "next": next_id, "count": len(ids), "index": idx}
+
+# --- UI: single-file drilldown served by the API ---
+_UI_DEFAULT = {
+    "api_base": os.environ.get("RECEIPTS_API_BASE", "http://127.0.0.1:8095"),
+    "policy_root": os.environ.get("RECEIPTS_POLICY_ROOT", "qi/safety/policy_packs"),
+    "overlays": os.environ.get("RECEIPTS_OVERLAYS", "qi/risk"),
+}
+
+# Optional: serve from a file if you prefer (set RECEIPTS_UI_PATH to /absolute/path/to/trace_drilldown.html)
+_UI_PATH = os.environ.get("RECEIPTS_UI_PATH")
+
+@app.get("/ui/trace", response_class=HTMLResponse)
+def ui_trace(
+    rid: Optional[str] = Query(None),
+    api_base: str = Query(_UI_DEFAULT["api_base"]),
+    policy_root: str = Query(_UI_DEFAULT["policy_root"]),
+    overlays: str = Query(_UI_DEFAULT["overlays"]),
+    public: bool = Query(False),
+):
+    # load HTML from file or fallback to embedded minimal loader that pulls the full page from disk
+    if _UI_PATH and os.path.exists(_UI_PATH):
+        html = _ORIG_OPEN(_UI_PATH, "r", encoding="utf-8").read()
+    else:
+        # Minimal bootstrap if file not provided: instructs user where to place the HTML
+        html = f"""<!doctype html><html><head><meta charset='utf-8'><title>LUKHΛS • Trace Drill-down</title></head>
+<body style="font-family: system-ui, sans-serif; padding: 24px; color:#e7eaf0; background:#0f1115">
+  <h2>Trace Drill-down</h2>
+  <p>Static UI file not found. Put your <code>web/trace_drilldown.html</code> on disk and set
+     <code>RECEIPTS_UI_PATH</code> to its absolute path, or keep using the file directly.</p>
+  <p>Query defaults are still passed to the page:</p>
+  <pre>rid={rid or ''}\napi_base={api_base}\npolicy_root={policy_root}\noverlays={overlays}\npublic={public}</pre>
+</body></html>"""
+    # Inject defaults via a tiny script so the page picks them up
+    inject = f"""
+<script>
+  window.LUKHAS_TRACE_DEFAULTS = {{
+    rid: {json.dumps(rid)},
+    apiBase: {json.dumps(api_base)},
+    policyRoot: {json.dumps(policy_root)},
+    overlays: {json.dumps(overlays)},
+    publicRedact: {str(public).lower()}
+  }};
+</script>
+"""
+    # If the HTML already has </body>, inject before; else append
+    if "</body>" in html:
+        html = html.replace("</body>", inject + "</body>")
+    else:
+        html += inject
+    return HTMLResponse(content=html)
