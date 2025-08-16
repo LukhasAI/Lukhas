@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Dream Backgrounds</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Base container for all backgrounds */
+        .dream-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+        }
+
+        /* 1. AURORA BOREALIS - Flowing Northern Lights */
+        .aurora-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #000428 0%, #004e92 100%);
+            overflow: hidden;
+        }
+
+        .aurora {
+            position: absolute;
+            width: 200%;
+            height: 60%;
+            top: 20%;
+            left: -50%;
+        }
+
+        .aurora-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            filter: blur(60px);
+            mix-blend-mode: screen;
+            opacity: 0;
+            animation: auroraFlow 15s ease-in-out infinite;
+        }
+
+        .aurora-layer:nth-child(1) {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(0, 255, 170, 0.3) 20%, 
+                rgba(0, 170, 255, 0.5) 40%, 
+                rgba(170, 0, 255, 0.3) 60%, 
+                transparent 100%);
+            animation-delay: 0s;
+        }
+
+        .aurora-layer:nth-child(2) {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 0, 170, 0.3) 30%, 
+                rgba(0, 255, 255, 0.4) 50%, 
+                rgba(255, 170, 0, 0.3) 70%, 
+                transparent 100%);
+            animation-delay: 5s;
+            animation-duration: 18s;
+        }
+
+        .aurora-layer:nth-child(3) {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(120, 0, 255, 0.4) 25%, 
+                rgba(0, 255, 120, 0.5) 50%, 
+                rgba(255, 0, 120, 0.3) 75%, 
+                transparent 100%);
+            animation-delay: 10s;
+            animation-duration: 20s;
+        }
+
+        @keyframes auroraFlow {
+            0%, 100% {
+                opacity: 0;
+                transform: translateX(-10%) skewX(0deg);
+            }
+            20% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateX(10%) skewX(-5deg);
+            }
+            80% {
+                opacity: 0.3;
+            }
+        }
+
+        /* 2. SLEEP WAVES - Gentle Breathing Animation */
+        .sleep-waves {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 50%, #2d1b69 100%);
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to top, rgba(99, 88, 238, 0.4), transparent);
+            animation: wave 8s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+        }
+
+        .wave:nth-child(2) {
+            animation-delay: -2s;
+            opacity: 0.6;
+            background: linear-gradient(to top, rgba(138, 43, 226, 0.3), transparent);
+        }
+
+        .wave:nth-child(3) {
+            animation-delay: -4s;
+            opacity: 0.4;
+            background: linear-gradient(to top, rgba(75, 0, 130, 0.2), transparent);
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: translateY(0) scaleY(1);
+            }
+            50% {
+                transform: translateY(-30px) scaleY(1.5);
+            }
+        }
+
+        /* 3. REM STAGE - Rapid Eye Movement Visualization */
+        .rem-stage {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #1e3c72 0%, #2a5298 50%, #0e1a34 100%);
+        }
+
+        .rem-eye {
+            position: absolute;
+            width: 300px;
+            height: 150px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.1;
+        }
+
+        .rem-movement {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent);
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: remMovement 3s ease-in-out infinite;
+        }
+
+        @keyframes remMovement {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.6;
+            }
+            25% {
+                transform: translate(50px, -10px);
+            }
+            50% {
+                transform: translate(-40px, 15px);
+                opacity: 0.8;
+            }
+            75% {
+                transform: translate(30px, -20px);
+            }
+            90% {
+                opacity: 0.3;
+            }
+        }
+
+        /* 4. NEURAL CONSTELLATION - Particle Network */
+        .neural-constellation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #000011, #000033, #000044);
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+        }
+
+        .star.small {
+            width: 2px;
+            height: 2px;
+            animation-duration: 3s;
+        }
+
+        .star.medium {
+            width: 3px;
+            height: 3px;
+            animation-duration: 4s;
+        }
+
+        .star.large {
+            width: 4px;
+            height: 4px;
+            animation-duration: 5s;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .neural-link {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(100, 200, 255, 0.5), transparent);
+            height: 1px;
+            transform-origin: left center;
+            animation: neuralPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes neuralPulse {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        /* 5. DREAM PARTICLES - Floating Elements */
+        .dream-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .particle.floating {
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            50% {
+                transform: translateY(-50vh) translateX(100px) scale(1);
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.4;
+            }
+        }
+
+        /* 6. MYSTICAL FOG - Ethereal Mist Effect */
+        .mystical-fog {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #2d1b69, #0f3460);
+            overflow: hidden;
+        }
+
+        .fog-layer {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, 
+                rgba(147, 112, 219, 0.3) 0%, 
+                transparent 50%);
+            animation: fogDrift 30s infinite ease-in-out;
+            filter: blur(40px);
+        }
+
+        .fog-layer:nth-child(2) {
+            animation-delay: -10s;
+            animation-duration: 35s;
+            opacity: 0.6;
+        }
+
+        .fog-layer:nth-child(3) {
+            animation-delay: -20s;
+            animation-duration: 40s;
+            opacity: 0.4;
+        }
+
+        @keyframes fogDrift {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            33% {
+                transform: translate(-30%, -60%) scale(1.1);
+            }
+            66% {
+                transform: translate(-70%, -40%) scale(0.9);
+            }
+        }
+
+        /* Demo Controls */
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .controls h3 {
+            margin-bottom: 15px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .controls button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .controls button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .controls button.active {
+            background: rgba(100, 200, 255, 0.3);
+            border-color: rgba(100, 200, 255, 0.5);
+        }
+
+        /* Sample content overlay */
+        .content-overlay {
+            position: relative;
+            z-index: 10;
+            padding: 50px;
+            color: white;
+            text-align: center;
+            margin-top: 20vh;
+        }
+
+        .content-overlay h1 {
+            font-size: 4em;
+            font-weight: 100;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .content-overlay p {
+            font-size: 1.2em;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Container -->
+    <div class="dream-background" id="backgroundContainer"></div>
+
+    <!-- Sample Content Overlay -->
+    <div class="content-overlay">
+        <h1>Dream Weaver</h1>
+        <p>Mystical backgrounds that respond to consciousness</p>
+    </div>
+
+    <!-- Demo Controls -->
+    <div class="controls">
+        <h3>Select Background Effect:</h3>
+        <button onclick="showBackground('aurora')" class="active">Aurora Borealis</button>
+        <button onclick="showBackground('sleep')">Sleep Waves</button>
+        <button onclick="showBackground('rem')">REM Stage</button>
+        <button onclick="showBackground('neural')">Neural Constellation</button>
+        <button onclick="showBackground('particles')">Dream Particles</button>
+        <button onclick="showBackground('fog')">Mystical Fog</button>
+    </div>
+
+    <script>
+        // Initialize with Aurora background
+        let currentBackground = 'aurora';
+        
+        function createAurora() {
+            return `
+                <div class="aurora-container">
+                    <div class="aurora">
+                        <div class="aurora-layer"></div>
+                        <div class="aurora-layer"></div>
+                        <div class="aurora-layer"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createSleepWaves() {
+            return `
+                <div class="sleep-waves">
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                </div>
+            `;
+        }
+
+        function createREMStage() {
+            let html = '<div class="rem-stage">';
+            for (let i = 0; i < 5; i++) {
+                html += `<div class="rem-eye"><div class="rem-movement" style="animation-delay: ${i * 0.6}s"></div></div>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function createNeuralConstellation() {
+            let html = '<div class="neural-constellation">';
+            
+            // Create random stars
+            for (let i = 0; i < 100; i++) {
+                const size = ['small', 'medium', 'large'][Math.floor(Math.random() * 3)];
+                const top = Math.random() * 100;
+                const left = Math.random() * 100;
+                const delay = Math.random() * 4;
+                html += `<div class="star ${size}" style="top: ${top}%; left: ${left}%; animation-delay: ${delay}s"></div>`;
+            }
+            
+            // Create neural links
+            for (let i = 0; i < 20; i++) {
+                const top = Math.random() * 100;
+                const left = Math.random() * 100;
+                const width = 50 + Math.random() * 150;
+                const rotation = Math.random() * 360;
+                const delay = Math.random() * 3;
+                html += `<div class="neural-link" style="top: ${top}%; left: ${left}%; width: ${width}px; transform: rotate(${rotation}deg); animation-delay: ${delay}s"></div>`;
+            }
+            
+            html += '</div>';
+            return html;
+        }
+
+        function createDreamParticles() {
+            let html = '<div class="dream-particles">';
+            
+            for (let i = 0; i < 30; i++) {
+                const size = 5 + Math.random() * 25;
+                const left = Math.random() * 100;
+                const delay = Math.random() * 20;
+                const duration = 15 + Math.random() * 10;
+                html += `<div class="particle floating" style="width: ${size}px; height: ${size}px; left: ${left}%; animation-delay: ${delay}s; animation-duration: ${duration}s"></div>`;
+            }
+            
+            html += '</div>';
+            return html;
+        }
+
+        function createMysticalFog() {
+            return `
+                <div class="mystical-fog">
+                    <div class="fog-layer"></div>
+                    <div class="fog-layer"></div>
+                    <div class="fog-layer"></div>
+                </div>
+            `;
+        }
+
+        function showBackground(type) {
+            const container = document.getElementById('backgroundContainer');
+            let html = '';
+            
+            switch(type) {
+                case 'aurora':
+                    html = createAurora();
+                    break;
+                case 'sleep':
+                    html = createSleepWaves();
+                    break;
+                case 'rem':
+                    html = createREMStage();
+                    break;
+                case 'neural':
+                    html = createNeuralConstellation();
+                    break;
+                case 'particles':
+                    html = createDreamParticles();
+                    break;
+                case 'fog':
+                    html = createMysticalFog();
+                    break;
+            }
+            
+            container.innerHTML = html;
+            
+            // Update active button
+            document.querySelectorAll('.controls button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Initialize with Aurora
+        showBackground('aurora');
+    </script>
+</body>
+</html>

@@ -53,7 +53,7 @@ export default function ConsolePage() {
       description: 'SDKs, libraries, and development resources',
       icon: Code,
       status: 'active',
-      link: 'https://github.com/lukhas',
+      link: 'https://github.com/LukhasAI',
       external: true,
       color: 'text-blue-500',
       bgColor: 'bg-blue-500/10',
@@ -77,7 +77,7 @@ export default function ConsolePage() {
   ]
 
   const resources = [
-    { name: 'GitHub Repository', url: 'https://github.com/lukhas', icon: Github },
+    { name: 'GitHub Repository', url: 'https://github.com/LukhasAI', icon: Github },
     { name: 'API Documentation', url: '/api/docs', icon: Book },
     { name: 'Wiki & Guides', url: '#', icon: Globe },
     { name: 'Community Forum', url: '#', icon: Users },

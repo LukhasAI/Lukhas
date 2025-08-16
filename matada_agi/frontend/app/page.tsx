@@ -6,6 +6,7 @@ import Vision from '@/components/sections/Vision'
 import Trinity from '@/components/sections/Trinity'
 import Ethos from '@/components/sections/Ethos'
 import HowItWorks from '@/components/sections/HowItWorks'
+import DreamWeaverShowcase from '@/components/sections/DreamWeaverShowcase'
 import InteractiveDemo from '@/components/sections/InteractiveDemo'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -24,6 +25,7 @@ export default function Home() {
           <Trinity />
           <Ethos />
           <HowItWorks />
+          <DreamWeaverShowcase />
           <InteractiveDemo />
         </div>
       </main>

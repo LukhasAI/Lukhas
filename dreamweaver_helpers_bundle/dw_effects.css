@@ -1,0 +1,11 @@
+:root{ --dw-focus-pulse: 0; }
+.dw-vignette-overlay::before{
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,1) 100%);
+  opacity: var(--dw-vignette, .10);
+  transition: opacity .25s ease;
+}
+.dw-focus-pulse{
+  box-shadow: 0 0 calc(20px * var(--dw-focus-pulse)) rgba(255,255,255,0.6);
+  transition: box-shadow .25s ease;
+}

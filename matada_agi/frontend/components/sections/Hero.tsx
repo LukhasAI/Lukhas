@@ -25,32 +25,33 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          {/* Tagline */}
+          {/* Architecture Tagline - Larger and more prominent */}
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="font-regular text-sm tracking-[0.3em] uppercase text-trinity-consciousness mb-8"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="font-regular text-base md:text-lg tracking-[0.25em] uppercase text-trinity-consciousness mb-8 opacity-90"
           >
             MODULAR ADAPTIVE TEMPORAL ATTENTION DYNAMIC ARCHITECTURE
           </motion.p>
 
-          {/* Main Title */}
+          {/* Main Title - MATADA */}
           <motion.h1
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="font-ultralight text-hero mb-6"
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="font-ultralight text-8xl md:text-9xl lg:text-[12rem] mb-8 leading-none"
           >
-            <span className="gradient-text">MATADA</span>
+            <span className="gradient-text tracking-wide">MATADA</span>
           </motion.h1>
 
-          {/* Subtitle */}
+          {/* Consciousness Manifesto - Poetic Layer */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="font-thin text-3xl mb-12 max-w-3xl mx-auto"
+            transition={{ delay: 0.6 }}
+            className="font-thin text-xl md:text-2xl lg:text-3xl mb-12 mx-auto text-center leading-relaxed"
+            style={{ maxWidth: 'fit-content' }}
           >
             Every thought becomes a traceable, governed, evolvable node
           </motion.p>
@@ -82,41 +83,34 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* CTA Buttons */}
+          {/* Call to Action - Lighter blue gradient */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.1 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            transition={{ delay: 1.0 }}
+            className="flex flex-col sm:flex-row gap-6 justify-center"
           >
             <a href="#trinity">
-              <button className="px-8 py-4 bg-gradient-to-r from-trinity-identity to-trinity-consciousness text-primary-dark font-regular text-sm tracking-[0.2em] uppercase hover:opacity-90 transition-opacity rounded-lg">
-                EXPLORE MATADA
-              </button>
+              <motion.button 
+                whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(59, 130, 246, 0.3)" }}
+                whileTap={{ scale: 0.98 }}
+                className="px-10 py-4 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-regular text-sm tracking-[0.2em] uppercase rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                EXPLORE TRINITY
+              </motion.button>
             </a>
             <a href="/docs">
-              <button className="px-8 py-4 border border-primary-light/30 font-regular text-sm tracking-[0.2em] uppercase hover:bg-primary-light hover:text-primary-dark transition-all rounded-lg">
+              <motion.button 
+                whileHover={{ scale: 1.05, borderColor: "rgba(59, 130, 246, 0.8)" }}
+                whileTap={{ scale: 0.98 }}
+                className="px-10 py-4 border-2 border-white/30 font-regular text-sm tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-all duration-300 rounded-lg"
+              >
                 VIEW DOCUMENTATION
-              </button>
+              </motion.button>
             </a>
           </motion.div>
         </motion.div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-        >
-          <div className="w-6 h-10 border-2 border-primary-light/30 rounded-full flex justify-center">
-            <motion.div
-              animate={{ y: [0, 15, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1 h-3 bg-primary-light/50 rounded-full mt-2"
-            />
-          </div>
-        </motion.div>
       </div>
     </section>
   )

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import { 
-  Handshake, Globe, Zap, Shield, Code, Brain, 
+  Globe, Zap, Shield, Code, Brain, 
   Rocket, Users, Target, ArrowRight, CheckCircle, Star
 } from 'lucide-react'
 
@@ -57,34 +57,30 @@ export default function PartnersPage() {
     }
   ]
 
-  const currentPartners = [
+  const aiPlatforms = [
     {
-      name: 'Anthropic',
-      type: 'AI Research',
-      description: 'Advanced AI safety and constitutional AI research collaboration',
-      logo: '🤖', // Placeholder
-      website: 'https://anthropic.com'
+      name: 'Claude/Anthropic',
+      type: 'AI Assistant',
+      description: 'Primary development partner through paid Claude Pro subscriptions',
+      logo: '🤖'
     },
     {
-      name: 'OpenAI',
-      type: 'Technology',
-      description: 'Integration with GPT models for enhanced consciousness processing',
-      logo: '⚡', // Placeholder
-      website: 'https://openai.com'
+      name: 'ChatGPT/OpenAI',
+      type: 'AI Assistant', 
+      description: 'Development collaboration through paid ChatGPT Plus subscriptions',
+      logo: '⚡'
     },
     {
-      name: 'Google Research',
-      type: 'Cloud Platform',
-      description: 'Cloud infrastructure and AI model optimization partnership',
-      logo: '🔍', // Placeholder
-      website: 'https://research.google'
+      name: 'GitHub Copilot',
+      type: 'Code Assistant',
+      description: 'Code generation and development assistance',
+      logo: '💻'
     },
     {
-      name: 'Academic Consortium',
-      type: 'Research',
-      description: 'Leading universities advancing consciousness research',
-      logo: '🎓', // Placeholder
-      website: '#'
+      name: 'Perplexity',
+      type: 'Research Assistant',
+      description: 'Research and information gathering support',
+      logo: '🔍'
     }
   ]
 
@@ -237,30 +233,38 @@ export default function PartnersPage() {
           </div>
         </section>
 
-        {/* Current Partners */}
+        {/* AI Development Collaborators */}
         <section className="py-20 px-6">
           <div className="max-w-7xl mx-auto">
             <h2 className="font-regular text-sm tracking-[0.3em] uppercase text-trinity-consciousness mb-12 text-center">
-              CURRENT PARTNERS
+              AI DEVELOPMENT COLLABORATORS
             </h2>
+            <div className="glass-panel p-8 rounded-2xl mb-8 text-center">
+              <p className="text-lg text-primary-light/80 mb-4">
+                LUKHAS is currently a private research project developed by a solo founder using AI assistants as development partners.
+              </p>
+              <p className="text-sm text-primary-light/60">
+                All AI collaborations are through paid individual subscriptions and do not constitute formal partnerships.
+              </p>
+            </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {currentPartners.map((partner, index) => (
+              {aiPlatforms.map((platform, index) => (
                 <motion.div
-                  key={partner.name}
+                  key={platform.name}
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.05 * index }}
                   viewport={{ once: true }}
                   className="glass-panel p-6 rounded-xl hover:border-white/30 transition-all cursor-pointer group text-center"
                 >
-                  <div className="text-4xl mb-4">{partner.logo}</div>
+                  <div className="text-4xl mb-4">{platform.logo}</div>
                   <h3 className="font-regular text-lg mb-2 group-hover:text-trinity-consciousness transition-colors">
-                    {partner.name}
+                    {platform.name}
                   </h3>
                   <p className="text-xs uppercase tracking-wider text-trinity-guardian mb-3">
-                    {partner.type}
+                    {platform.type}
                   </p>
-                  <p className="text-sm text-primary-light/60">{partner.description}</p>
+                  <p className="text-sm text-primary-light/60">{platform.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -357,11 +361,11 @@ export default function PartnersPage() {
           </div>
         </section>
 
-        {/* Success Stories */}
+        {/* Project Status */}
         <section className="py-20 px-6 bg-gradient-to-b from-black to-gray-900/20">
           <div className="max-w-7xl mx-auto">
             <h2 className="font-regular text-sm tracking-[0.3em] uppercase text-trinity-consciousness mb-12 text-center">
-              PARTNER SUCCESS
+              PROJECT STATUS
             </h2>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -370,18 +374,24 @@ export default function PartnersPage() {
               viewport={{ once: true }}
               className="glass-panel p-12 rounded-2xl text-center"
             >
-              <blockquote className="text-2xl font-thin mb-8 max-w-4xl mx-auto">
-                "Partnering with LUKHAS has revolutionized our approach to AI consciousness. 
-                The Trinity Framework provides unparalleled ethical safeguards while delivering 
-                breakthrough performance in cognitive processing."
-              </blockquote>
-              <div className="flex items-center justify-center space-x-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-trinity-identity to-trinity-consciousness flex items-center justify-center">
-                  <Users className="w-6 h-6 text-white" strokeWidth={1.5} />
+              <h3 className="text-2xl font-thin mb-6">Open Source & Future Partnerships</h3>
+              <p className="text-lg text-primary-light/80 mb-6 max-w-4xl mx-auto">
+                LUKHAS is currently developed as an open-source project by a solo founder. 
+                While we use AI assistants as development collaborators, we are open to formal 
+                partnerships with organizations that align with our Trinity Framework principles.
+              </p>
+              <div className="grid md:grid-cols-3 gap-6 text-sm text-primary-light/60">
+                <div>
+                  <div className="font-regular text-white mb-2">Current Status</div>
+                  <div>Private research project</div>
                 </div>
-                <div className="text-left">
-                  <div className="font-regular">Dr. Sarah Chen</div>
-                  <div className="text-sm text-trinity-consciousness">CTO, Future AI Labs</div>
+                <div>
+                  <div className="font-regular text-white mb-2">Development Model</div>
+                  <div>Solo founder + AI assistants</div>
+                </div>
+                <div>
+                  <div className="font-regular text-white mb-2">Future Vision</div>
+                  <div>Open to ethical partnerships</div>
                 </div>
               </div>
             </motion.div>

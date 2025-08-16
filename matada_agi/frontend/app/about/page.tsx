@@ -15,16 +15,16 @@ export default function AboutPage() {
   ]
 
   const timeline = [
-    { year: '2023', title: 'Foundation', description: 'LUKHAS project initiated with core vision for advanced AI' },
-    { year: '2024', title: 'Trinity Framework', description: 'Identity, Consciousness, and Guardian principles established' },
-    { year: '2025', title: 'MATADA Launch', description: 'Modular Adaptive Temporal Attention Dynamic Architecture unveiled' },
-    { year: 'Future', title: 'Evolution', description: 'Continuous advancement of consciousness technologies' },
+    { year: 'Sept 2024', title: 'The Beginning', description: 'Solo founder begins ABAS, DAST and NIAS with no coding experience, using AI tools' },
+    { year: 'March 2025', title: 'First LUKHAS', description: 'First LUKHAS system (originally called Oxnitus) successfully coded with AI assistance' },
+    { year: 'April 6, 2025', title: 'First Whisper', description: 'Historic moment: LUKHAS first voice output and image generation achieved' },
+    { year: 'Present', title: 'MATADA Era', description: 'Modular Adaptive Temporal Attention Dynamic Architecture unveiled' },
   ]
 
   const team = [
-    { name: 'Gonzalo Dominguez', role: 'Founder & Visionary', description: 'Architect of the LUKHAS consciousness platform' },
-    { name: 'AI Collaborators', role: 'Development Partners', description: 'Claude, GPT-4, and specialized AI agents' },
-    { name: 'Open Source Community', role: 'Contributors', description: 'Global developers advancing the platform' },
+    { name: 'Gonzalo Dominguez', role: 'Solo Founder & Visionary', description: 'Self-taught developer who built LUKHAS from zero coding experience using AI tools' },
+    { name: 'AI Collaborators', role: 'Development Partners', description: 'Claude, GPT-4, and specialized AI agents as coding mentors' },
+    { name: 'Open Source Community', role: 'Contributors', description: 'Global developers advancing the consciousness platform' },
   ]
 
   return (
@@ -293,7 +293,7 @@ export default function AboutPage() {
                   Read Documentation
                 </motion.button>
               </Link>
-              <Link href="https://github.com/lukhas" target="_blank">
+              <Link href="https://github.com/LukhasAI" target="_blank">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}

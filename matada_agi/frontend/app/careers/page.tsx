@@ -235,13 +235,15 @@ export default function CareersPage() {
                         </div>
                       </div>
                     </div>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="mt-4 lg:mt-0 px-6 py-3 bg-gradient-to-r from-trinity-identity to-trinity-consciousness text-primary-dark font-regular text-sm tracking-wider uppercase rounded-lg"
-                    >
-                      Apply Now
-                    </motion.button>
+                    <Link href="/careers/apply">
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="mt-4 lg:mt-0 px-6 py-3 bg-gradient-to-r from-trinity-identity to-trinity-consciousness text-primary-dark font-regular text-sm tracking-wider uppercase rounded-lg"
+                      >
+                        Apply Now
+                      </motion.button>
+                    </Link>
                   </div>
                   <p className="text-primary-light/80 mb-6">{job.description}</p>
                   <div>
@@ -321,13 +323,13 @@ export default function CareersPage() {
               We're always looking for exceptional talent. Send us your resume and tell us how you can contribute to the future of conscious AI.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="mailto:careers@lukhas.ai">
+              <Link href="/careers/apply">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="px-8 py-4 bg-gradient-to-r from-trinity-identity to-trinity-consciousness text-primary-dark font-regular tracking-wider uppercase rounded-lg"
                 >
-                  Send Your Resume
+                  Apply Now
                 </motion.button>
               </Link>
               <Link href="/about">

@@ -14,6 +14,7 @@ from qi.learning.adaptive_engine import AdaptiveLearningEngine
 from qi.learning.human_adapt_engine import HumanAdaptEngine
 from qi.autonomy.self_healer import list_proposals, approve, apply
 from qi.provenance.receipts_api import receipt_neighbors, receipt_sample
+from qi.metrics.calibration import reliability_svg, fit_and_save, load_params
 
 # ---- UI serving (single-file cockpit + friends) ----
 COCKPIT_UI_PATH = os.environ.get("COCKPIT_UI_PATH")     # /abs/path/to/web/cockpit.html
@@ -129,6 +130,35 @@ def get_safety_card_pdf(
         raise HTTPException(status_code=404, detail="PDF generation requires weasyprint installation")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"PDF generation failed: {str(e)}")
+
+@app.get("/cockpit/calibration.svg", response_class=HTMLResponse)
+def calibration_svg(
+    task: Optional[str] = Query(None), 
+    width: int = Query(640), 
+    height: int = Query(320), 
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    return HTMLResponse(reliability_svg(task=task, width=width, height=height), media_type="image/svg+xml")
+
+@app.post("/cockpit/calibration/refit")
+def calibration_refit(
+    source: str = Query("eval"),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        p = fit_and_save(source_preference=source)
+        return JSONResponse({
+            "ok": True, 
+            "source": p.source, 
+            "temperature": p.temperature, 
+            "ece": p.ece, 
+            "per_task_temperature": p.per_task_temperature or {},
+            "per_task_ece": p.per_task_ece or {}
+        })
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Calibration refit failed: {str(e)}")
 
 @app.get("/cockpit/nightly-report")
 def get_nightly_report(

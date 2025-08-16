@@ -1,0 +1,102 @@
+{
+  "phases": {
+    "seed": {
+      "title": "Plant Your Dream Seed",
+      "description": "Enter a thought, intention, or question to begin your consciousness journey",
+      "tooltip": "This is where your dream begins. Your seed will influence the entire experience.",
+      "status": "Awaiting your creative input..."
+    },
+    "awakening": {
+      "title": "Consciousness Awakening",
+      "description": "Your seed is taking root in the quantum field of possibility",
+      "tooltip": "The system is processing your seed and initializing consciousness parameters",
+      "status": "Awareness emerging from quantum potential..."
+    },
+    "exploration": {
+      "title": "Exploring Timeline Branches",
+      "description": "Navigate through possible futures and alternate realities",
+      "tooltip": "Each branch represents a different path your dream could take",
+      "status": "Traversing infinite probability paths..."
+    },
+    "creation": {
+      "title": "Composing Symbolic GLYPHs",
+      "description": "Create symbolic representations of your emerging insights",
+      "tooltip": "GLYPHs are symbolic tokens that capture the essence of your experience",
+      "status": "Weaving symbols into meaning..."
+    },
+    "resonance": {
+      "title": "Achieving Emotional Resonance",
+      "description": "Align your inner emotional landscape with the emerging dream",
+      "tooltip": "Feel the emotional frequencies that harmonize with your vision",
+      "status": "Harmonizing with cosmic frequencies..."
+    },
+    "integration": {
+      "title": "Weaving Memories into Dream",
+      "description": "Connect your past experiences with the new vision",
+      "tooltip": "Integration creates bridges between what was and what could be",
+      "status": "Folding memories into eternal present..."
+    },
+    "crystallization": {
+      "title": "Dream Crystallizing into Reality",
+      "description": "Transform your dream into a tangible artifact of consciousness",
+      "tooltip": "The final phase where your journey becomes a lasting creation",
+      "status": "Manifesting vision into reality..."
+    }
+  },
+  "components": {
+    "consciousness_mirror": {
+      "title": "Consciousness Mirror",
+      "description": "Real-time reflection of your awareness, coherence, and depth",
+      "tooltip": "Watch your consciousness expand and evolve throughout the experience"
+    },
+    "emotional_resonance": {
+      "title": "Emotional Resonance",
+      "description": "Interactive emotional landscape mapping your VAD (Valence, Arousal, Dominance)",
+      "tooltip": "Adjust the emotional tone to align with your inner state"
+    },
+    "timeline_explorer": {
+      "title": "Timeline Explorer",
+      "description": "Navigate through branching possibilities and alternative futures",
+      "tooltip": "Select paths that resonate with your vision"
+    },
+    "glyph_composer": {
+      "title": "GLYPH Composer",
+      "description": "Create and manipulate symbolic representations of insight",
+      "tooltip": "Each GLYPH carries deep meaning and connects to the LUKHAS consciousness system"
+    },
+    "memory_weaver": {
+      "title": "Memory Weaver",
+      "description": "Integrate past experiences into your emerging dream",
+      "tooltip": "Memories provide context and richness to your consciousness journey"
+    }
+  },
+  "actions": {
+    "begin_dream": "Begin Dream",
+    "crystallize_dream": "Crystallize Dream",
+    "pause_experience": "Pause Experience",
+    "resume_experience": "Resume Experience",
+    "reset_dream": "Reset Dream",
+    "download_artifact": "Download Artifact",
+    "share_creation": "Share Creation",
+    "toggle_audio": "Toggle Audio",
+    "voice_input": "Voice Input"
+  },
+  "messages": {
+    "connecting": "Connecting to consciousness stream...",
+    "connected": "Connected to LUKHAS consciousness network",
+    "disconnected": "Connection to consciousness stream lost",
+    "error": "Unable to process dream seed. Please try again.",
+    "processing": "Processing through quantum consciousness layers...",
+    "empty_seed": "Please enter a dream seed to begin your journey",
+    "crystallized": "Your dream has been crystallized into a lasting artifact",
+    "api_attribution": "Built using OpenAI APIs"
+  },
+  "accessibility": {
+    "phase_progress": "Dream phase progression",
+    "consciousness_level": "Consciousness awareness level",
+    "emotional_state": "Current emotional resonance",
+    "audio_enabled": "Audio feedback enabled",
+    "audio_disabled": "Audio feedback disabled",
+    "reduced_motion": "Animations have been reduced for accessibility"
+  }
+}

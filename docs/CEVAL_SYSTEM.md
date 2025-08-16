@@ -512,6 +512,8 @@ open web/cockpit.html
 
 **Web UI Features:**
 - **Safety Card Panel**: Generate JSON/Markdown model safety cards with jurisdiction diffs
+  - **Calibration Viewer**: Interactive reliability SVG diagrams with per-task filtering
+  - **Parameter Refit**: One-click calibration parameter refitting from latest eval data
 - **Adaptive Candidates Panel**: View and promote parameter optimization proposals
 - **Human Adaptation Panel**: Monitor satisfaction patterns and promote tone adjustments  
 - **Approvals Panel**: Centralized proposal management with approve/reject/apply actions
@@ -563,6 +565,8 @@ open http://127.0.0.1:8098/ui
 - `GET /cockpit/safety-card` - Generate model safety card
 - `GET /cockpit/nightly-report` - Generate safety report
 - `POST /cockpit/generate-report` - Full report with Slack integration
+- `GET /cockpit/calibration.svg` - Reliability diagram SVG (supports ?task=name filter)
+- `POST /cockpit/calibration/refit` - Refit calibration parameters from latest eval data
 
 #### Panel 2: Adaptive Learning
 - `GET /cockpit/adaptive/analyze` - Performance pattern analysis
@@ -654,24 +658,25 @@ tasks:
 
 ## Uncertainty & Calibration Engine
 
-Advanced confidence calibration system for improved reliability assessment:
+Advanced confidence calibration system with per-task temperature scaling for improved reliability assessment:
 
 ### Overview
 
 The Uncertainty & Calibration Engine (`qi/metrics/calibration.py`) analyzes model confidence scores and applies temperature scaling to improve calibration:
 
-1. **Data Collection**: Gathers confidence/correctness pairs from eval runs or receipts
-2. **Reliability Analysis**: Builds reliability diagrams and computes Expected Calibration Error (ECE)
-3. **Temperature Fitting**: Uses Newton optimization to fit temperature scaling parameter
-4. **Parameter Persistence**: Saves calibration parameters to `~/.lukhas/state/calibration/`
+1. **Data Collection**: Gathers confidence/correctness pairs from eval runs or receipts with task information
+2. **Reliability Analysis**: Builds reliability diagrams and computes Expected Calibration Error (ECE) globally and per-task
+3. **Temperature Fitting**: Uses Newton optimization to fit temperature scaling parameters globally and per-task
+4. **Parameter Persistence**: Saves calibration parameters to `~/.lukhas/state/calibration/` with per-task support
+5. **SVG Visualization**: Zero-dependency SVG reliability diagram rendering for web dashboards
 
 ### Usage
 
 ```bash
-# Fit calibration parameters from eval runs
+# Fit calibration parameters from eval runs (supports per-task)
 python -m qi.metrics.calibration --fit --source eval
 
-# Show current parameters
+# Show current parameters (includes per-task data)
 python -m qi.metrics.calibration --show
 
 # Demo: fit and print ECE
@@ -681,16 +686,44 @@ python -m qi.metrics.calibration --demo
 ### Programmatic API
 
 ```python
-from qi.metrics.calibration import fit_and_save, apply_calibration, load_params
+from qi.metrics.calibration import fit_and_save, apply_calibration, load_params, reliability_svg
 
 # Fit parameters from latest eval data
 params = fit_and_save(source_preference="eval")
-print(f"ECE: {params.ece}, Temperature: {params.temperature}")
+print(f"Global ECE: {params.ece}, Temperature: {params.temperature}")
+print(f"Per-task temperatures: {params.per_task_temperature}")
+print(f"Per-task ECEs: {params.per_task_ece}")
 
 # Apply calibration to raw confidence
 raw_confidence = 0.75
 calibrated = apply_calibration(raw_confidence)
 print(f"Calibrated: {raw_confidence} → {calibrated}")
+
+# Generate reliability diagram SVG
+svg_global = reliability_svg()  # Global diagram
+svg_task = reliability_svg(task="generate_summary")  # Task-specific
+```
+
+### Per-Task Calibration
+
+The engine automatically learns separate temperature parameters for different tasks when sufficient data is available (≥20 samples per task):
+
+```python
+# CalibParams structure with per-task support
+{
+  "temperature": 1.15,               # Global temperature
+  "ece": 0.042,                     # Global ECE
+  "per_task_temperature": {          # Task-specific temperatures
+    "generate_summary": 1.12,
+    "classify_content": 0.98,
+    "math_reasoning": 1.28
+  },
+  "per_task_ece": {                 # Task-specific ECEs
+    "generate_summary": 0.038,
+    "classify_content": 0.025,
+    "math_reasoning": 0.051
+  }
+}
 ```
 
 ### Output Structure
@@ -712,51 +745,98 @@ print(f"Calibrated: {raw_confidence} → {calibrated}")
 
 ## TEQ Coupler
 
-Calibration-aware policy gate integration:
+Calibration-aware policy gate integration with per-task support and receipt emission:
 
 ### Overview
 
 The TEQ Coupler (`qi/safety/teq_coupler.py`) applies calibrated confidence scores to policy decisions with bounded threshold adjustments:
 
-1. **Calibration Application**: Uses temperature scaling on raw confidence scores
-2. **Threshold Adjustment**: Dynamically adjusts thresholds based on model calibration state
+1. **Per-Task Calibration**: Uses task-specific temperature scaling when available, falls back to global
+2. **Threshold Adjustment**: Dynamically adjusts thresholds based on model calibration state  
 3. **Decision Generation**: Returns allow/block decisions with full audit metadata
-4. **Safe Boundaries**: Limits threshold shifts to prevent policy drift
+4. **Receipt Integration**: Emits receipts with calibration metadata for audit trails
+5. **Safe Boundaries**: Limits threshold shifts to prevent policy drift
 
 ### Usage
 
 ```bash
-# Preview calibrated gate decision
+# Preview calibrated gate decision (global calibration)
 python -m qi.safety.teq_coupler --conf 0.72 --base-threshold 0.75 --max-shift 0.1
+
+# Preview with task-specific calibration
+python -m qi.safety.teq_coupler --conf 0.72 --base-threshold 0.75 --task generate_summary
 ```
 
 ### Programmatic Integration
 
 ```python
-from qi.safety.teq_coupler import calibrated_gate
+from qi.safety.teq_coupler import calibrated_gate, emit_calibrated_receipt
+import time
 
-# Apply calibrated gate with threshold adjustment
+# Apply calibrated gate with task-specific adjustment
 result = calibrated_gate(
     confidence=0.72,
     base_threshold=0.75,
-    max_shift=0.1  # ±10% maximum threshold adjustment
+    max_shift=0.1,  # ±10% maximum threshold adjustment
+    task="generate_summary"  # Uses per-task calibration if available
 )
 
 print(f"Decision: {result['decision']}")
+print(f"Task: {result['task']}")
 print(f"Calibrated confidence: {result['calibrated_conf']}")
 print(f"Effective threshold: {result['threshold_eff']}")
+print(f"Temperature used: {result['temperature']}")
+
+# Emit receipt with calibration metadata
+receipt = emit_calibrated_receipt(
+    artifact_sha="abc123def456",
+    run_id="operation_001",
+    task="generate_summary",
+    started_at=time.time()-2,
+    ended_at=time.time(),
+    user_id="user123",
+    calibration_result=result  # Includes all calibration metadata
+)
+
+print(f"Receipt ID: {receipt['id']}")
+print(f"Metrics: {receipt['metrics']}")
+print(f"Risk flags: {receipt['risk_flags']}")
 ```
 
 ### Output Structure
 
 ```json
 {
+  "raw_conf": 0.72,
   "calibrated_conf": 0.68,
   "decision": "block",
   "threshold_base": 0.75,
   "threshold_shift": -0.02,
   "threshold_eff": 0.73,
-  "temperature": 1.15
+  "temperature": 1.15,
+  "task": "generate_summary",
+  "source": "eval"
+}
+```
+
+### Receipt Metadata Integration
+
+When using `emit_calibrated_receipt()`, the following calibration metadata is included in the receipt:
+
+```json
+{
+  "id": "receipt_sha256_hash",
+  "metrics": {
+    "confidence": 0.72,
+    "calibrated_confidence": 0.68,
+    "temperature": 1.15,
+    "decision": "block",
+    "threshold_eff": 0.73,
+    "calibration_source": "eval"
+  },
+  "risk_flags": ["calibration_blocked"],
+  "activity": {"type": "generate_summary"},
+  "schema_version": "prov-1.0.0"
 }
 ```
 

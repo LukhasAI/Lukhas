@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Github, Twitter, Linkedin, Mail, ExternalLink } from 'lucide-react'
+import { Github, Twitter, Linkedin, Mail, ExternalLink, Atom, Brain, Shield } from 'lucide-react'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -15,7 +15,7 @@ export default function Footer() {
     ],
     resources: [
       { label: 'Documentation', href: '/docs' },
-      { label: 'GitHub', href: 'https://github.com/lukhas', external: true },
+      { label: 'GitHub', href: 'https://github.com/LukhasAI', external: true },
       { label: 'Blog', href: '/blog' },
       { label: 'Research', href: '/research' }
     ],
@@ -34,7 +34,7 @@ export default function Footer() {
   }
 
   const socialLinks = [
-    { icon: <Github className="w-5 h-5" />, href: 'https://github.com/lukhas', label: 'GitHub' },
+    { icon: <Github className="w-5 h-5" />, href: 'https://github.com/LukhasAI', label: 'GitHub' },
     { icon: <Twitter className="w-5 h-5" />, href: 'https://twitter.com/lukhas_ai', label: 'Twitter' },
     { icon: <Linkedin className="w-5 h-5" />, href: 'https://linkedin.com/company/lukhas', label: 'LinkedIn' },
     { icon: <Mail className="w-5 h-5" />, href: 'mailto:hello@lukhas.ai', label: 'Email' }
@@ -59,9 +59,15 @@ export default function Footer() {
               </p>
             </div>
             <div className="flex items-center space-x-3 mb-6">
-              <span className="text-2xl">⚛️</span>
-              <span className="text-2xl">🧠</span>
-              <span className="text-2xl">🛡️</span>
+              <div className="p-2 rounded-lg bg-trinity-identity/10">
+                <Atom className="w-6 h-6 text-trinity-identity" strokeWidth={1.5} />
+              </div>
+              <div className="p-2 rounded-lg bg-trinity-consciousness/10">
+                <Brain className="w-6 h-6 text-trinity-consciousness" strokeWidth={1.5} />
+              </div>
+              <div className="p-2 rounded-lg bg-trinity-guardian/10">
+                <Shield className="w-6 h-6 text-trinity-guardian" strokeWidth={1.5} />
+              </div>
             </div>
             <p className="text-sm text-primary-light/60">
               Trinity Framework for ethical, transparent AI development

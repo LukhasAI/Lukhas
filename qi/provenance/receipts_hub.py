@@ -50,6 +50,9 @@ def emit_receipt(**kwargs) -> Dict[str, Any]:
     """
     Build, persist locally, and push to configured sinks.
     Returns the JSON dict.
+    
+    Supports all build_receipt parameters including:
+    - metrics: Dict with calibration data (raw_conf, calibrated_conf, temperature, etc.)
     """
     r = build_receipt(**kwargs)
     data = to_json(r)
@@ -146,7 +149,16 @@ def main():
     e.add_argument("--risk-flag", action="append")
     e.add_argument("--tokens-in", type=int)
     e.add_argument("--tokens-out", type=int)
+    e.add_argument("--metrics-json", help="JSON string with calibration metrics")
     def _run_emit(a):
+        metrics = None
+        if a.metrics_json:
+            try:
+                metrics = json.loads(a.metrics_json)
+            except json.JSONDecodeError as e:
+                print(f"Error parsing metrics JSON: {e}", file=sys.stderr)
+                return
+        
         data = emit_receipt(
             artifact_sha=a.artifact_sha,
             artifact_mime=a.artifact_mime,
@@ -164,6 +176,7 @@ def main():
             capability_lease_ids=a.lease_id or [],
             risk_flags=a.risk_flag or [],
             tokens_in=a.tokens_in, tokens_out=a.tokens_out,
+            metrics=metrics,
         )
         print(json.dumps(data, indent=2))
     e.set_defaults(func=_run_emit)

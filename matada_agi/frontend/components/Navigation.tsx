@@ -41,8 +41,20 @@ export default function Navigation() {
           <Link href="/about" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
             ABOUT
           </Link>
+          <Link href="/discoveries" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
+            DISCOVERIES
+          </Link>
+          <Link href="/lambda" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
+            Λ-SUITE
+          </Link>
           <Link href="/docs" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
             DOCS
+          </Link>
+          <Link href="/drift" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
+            DRIFT
+          </Link>
+          <Link href="/glyph" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
+            GLYPH
           </Link>
           <Link href="/careers" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
             CAREERS
@@ -78,7 +90,11 @@ export default function Navigation() {
         >
           <div className="container mx-auto max-w-7xl px-6 py-6 flex flex-col space-y-4">
             <Link href="/about" className="font-regular text-sm tracking-[0.2em] uppercase">ABOUT</Link>
+            <Link href="/discoveries" className="font-regular text-sm tracking-[0.2em] uppercase">DISCOVERIES</Link>
+            <Link href="/lambda" className="font-regular text-sm tracking-[0.2em] uppercase">Λ-SUITE</Link>
             <Link href="/docs" className="font-regular text-sm tracking-[0.2em] uppercase">DOCS</Link>
+            <Link href="/drift" className="font-regular text-sm tracking-[0.2em] uppercase">DRIFT</Link>
+            <Link href="/glyph" className="font-regular text-sm tracking-[0.2em] uppercase">GLYPH</Link>
             <Link href="/careers" className="font-regular text-sm tracking-[0.2em] uppercase">CAREERS</Link>
             <Link href="/partners" className="font-regular text-sm tracking-[0.2em] uppercase">PARTNERS</Link>
             <Link href="/console" className="font-regular text-sm tracking-[0.2em] uppercase">CONSOLE</Link>

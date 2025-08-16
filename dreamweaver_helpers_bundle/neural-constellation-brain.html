@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Constellation & Brain Waves</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        /* Main Canvas Container */
+        #neuralCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(0, 0, 17, 1) 0%, 
+                rgba(0, 10, 40, 1) 50%, 
+                rgba(15, 0, 30, 1) 100%);
+        }
+
+        /* Brain Wave Visualizer */
+        .brain-waves {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 150px;
+            opacity: 0.6;
+        }
+
+        .wave-line {
+            stroke: #00ffcc;
+            stroke-width: 2;
+            fill: none;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 204, 0.8));
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .wave-line.delta {
+            stroke: #6366f1;
+            animation: wavePulse 4s ease-in-out infinite;
+        }
+
+        .wave-line.theta {
+            stroke: #a855f7;
+            animation: wavePulse 2s ease-in-out infinite;
+        }
+
+        .wave-line.alpha {
+            stroke: #ec4899;
+            animation: wavePulse 1s ease-in-out infinite;
+        }
+
+        .wave-line.beta {
+            stroke: #f59e0b;
+            animation: wavePulse 0.5s ease-in-out infinite;
+        }
+
+        .wave-line.gamma {
+            stroke: #10b981;
+            animation: wavePulse 0.2s ease-in-out infinite;
+        }
+
+        @keyframes wavePulse {
+            0%, 100% {
+                opacity: 0.3;
+                stroke-width: 1;
+            }
+            50% {
+                opacity: 0.8;
+                stroke-width: 2;
+            }
+        }
+
+        /* Sleep Stage Indicator */
+        .sleep-stage {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 100;
+        }
+
+        .stage-name {
+            font-size: 24px;
+            font-weight: 100;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #00ffcc, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stage-progress {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-top: 15px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .stage-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffcc, #7c3aed);
+            width: 0%;
+            animation: stageProgress 10s ease-in-out infinite;
+        }
+
+        @keyframes stageProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        /* Thought Particles */
+        .thought-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 1), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: thoughtFloat 8s infinite ease-in-out;
+        }
+
+        @keyframes thoughtFloat {
+            0% {
+                transform: translateY(0) translateX(0) scale(0);
+                opacity: 0;
+            }
+            20% {
+                transform: translateY(-50px) translateX(20px) scale(1);
+                opacity: 1;
+            }
+            80% {
+                transform: translateY(-200px) translateX(-20px) scale(0.5);
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-300px) translateX(0) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Dream Orbs */
+        .dream-orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(255, 255, 255, 0.3), 
+                rgba(147, 51, 234, 0.2),
+                transparent);
+            filter: blur(2px);
+            animation: orbDrift 20s infinite ease-in-out;
+        }
+
+        @keyframes orbDrift {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(100px, -50px) scale(1.2);
+            }
+            50% {
+                transform: translate(-50px, -100px) scale(0.8);
+            }
+            75% {
+                transform: translate(-100px, 50px) scale(1.1);
+            }
+        }
+
+        /* Synaptic Flash */
+        .synaptic-flash {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: synapticFire 0.5s ease-out;
+        }
+
+        @keyframes synapticFire {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+                box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.8);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(20);
+                box-shadow: 0 0 30px 15px rgba(255, 255, 255, 0);
+            }
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .controls h3 {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .control-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.active {
+            background: linear-gradient(90deg, #00ffcc, #7c3aed);
+            border-color: transparent;
+        }
+
+        /* Poetry Overlay */
+        .poetry-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 18px;
+            font-weight: 100;
+            max-width: 600px;
+            pointer-events: none;
+            animation: poetryFade 8s ease-in-out infinite;
+        }
+
+        @keyframes poetryFade {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .poetry-text {
+            line-height: 1.8;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Neural Canvas -->
+    <canvas id="neuralCanvas"></canvas>
+
+    <!-- Sleep Stage Indicator -->
+    <div class="sleep-stage">
+        <div>Current Stage</div>
+        <div class="stage-name" id="stageName">REM Sleep</div>
+        <div class="stage-progress">
+            <div class="stage-progress-bar"></div>
+        </div>
+    </div>
+
+    <!-- Brain Waves SVG -->
+    <svg class="brain-waves" id="brainWaves">
+        <path class="wave-line delta" id="deltaWave"></path>
+        <path class="wave-line theta" id="thetaWave"></path>
+        <path class="wave-line alpha" id="alphaWave"></path>
+        <path class="wave-line beta" id="betaWave"></path>
+        <path class="wave-line gamma" id="gammaWave"></path>
+    </svg>
+
+    <!-- Poetry Overlay -->
+    <div class="poetry-overlay">
+        <div class="poetry-text" id="poetryText">
+            Neural pathways illuminate like stars<br>
+            in the constellation of consciousness
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <h3>Sleep Stages</h3>
+        <button class="control-btn" onclick="setSleepStage('awake')">Awake</button>
+        <button class="control-btn" onclick="setSleepStage('n1')">N1</button>
+        <button class="control-btn" onclick="setSleepStage('n2')">N2</button>
+        <button class="control-btn" onclick="setSleepStage('n3')">N3</button>
+        <button class="control-btn active" onclick="setSleepStage('rem')">REM</button>
+    </div>
+
+    <script>
+        // Canvas setup
+        const canvas = document.getElementById('neuralCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Neural nodes
+        class NeuralNode {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1;
+                this.connections = [];
+                this.pulsePhase = Math.random() * Math.PI * 2;
+                this.active = false;
+            }
+
+            update() {
+                // Gentle floating motion
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off edges
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                // Keep within bounds
+                this.x = Math.max(0, Math.min(canvas.width, this.x));
+                this.y = Math.max(0, Math.min(canvas.height, this.y));
+
+                // Pulse animation
+                this.pulsePhase += 0.02;
+            }
+
+            draw() {
+                const pulse = Math.sin(this.pulsePhase) * 0.5 + 1;
+                const opacity = this.active ? 0.9 : 0.3;
+                
+                // Glow effect
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius * 5);
+                gradient.addColorStop(0, `rgba(100, 200, 255, ${opacity})`);
+                gradient.addColorStop(0.5, `rgba(147, 51, 234, ${opacity * 0.5})`);
+                gradient.addColorStop(1, 'transparent');
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius * pulse * 5, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Core node
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius * pulse, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            distanceTo(node) {
+                const dx = this.x - node.x;
+                const dy = this.y - node.y;
+                return Math.sqrt(dx * dx + dy * dy);
+            }
+        }
+
+        // Create neural network
+        const nodes = [];
+        const nodeCount = 50;
+
+        for (let i = 0; i < nodeCount; i++) {
+            nodes.push(new NeuralNode(
+                Math.random() * canvas.width,
+                Math.random() * canvas.height
+            ));
+        }
+
+        // Draw connections between nearby nodes
+        function drawConnections() {
+            const maxDistance = 150;
+            
+            ctx.strokeStyle = 'rgba(100, 200, 255, 0.1)';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const distance = nodes[i].distanceTo(nodes[j]);
+                    
+                    if (distance < maxDistance) {
+                        const opacity = 1 - (distance / maxDistance);
+                        ctx.strokeStyle = `rgba(100, 200, 255, ${opacity * 0.2})`;
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Generate brain waves
+        function generateWave(frequency, amplitude, phase) {
+            const width = window.innerWidth * 0.8;
+            const points = [];
+            const samples = 200;
+            
+            for (let i = 0; i <= samples; i++) {
+                const x = (i / samples) * width;
+                const y = 75 + amplitude * Math.sin((i / samples) * frequency * Math.PI * 2 + phase);
+                points.push(`${x},${y}`);
+            }
+            
+            return `M ${points.join(' L ')}`;
+        }
+
+        let wavePhase = 0;
+        function updateWaves() {
+            wavePhase += 0.05;
+            
+            document.getElementById('deltaWave').setAttribute('d', generateWave(2, 30, wavePhase));
+            document.getElementById('thetaWave').setAttribute('d', generateWave(4, 25, wavePhase * 1.5));
+            document.getElementById('alphaWave').setAttribute('d', generateWave(8, 20, wavePhase * 2));
+            document.getElementById('betaWave').setAttribute('d', generateWave(16, 15, wavePhase * 3));
+            document.getElementById('gammaWave').setAttribute('d', generateWave(32, 10, wavePhase * 4));
+        }
+
+        // Mouse interaction
+        let mouseX = 0;
+        let mouseY = 0;
+
+        canvas.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Activate nearby nodes
+            nodes.forEach(node => {
+                const dx = node.x - mouseX;
+                const dy = node.y - mouseY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                node.active = distance < 100;
+            });
+        });
+
+        // Click to create synaptic flash
+        canvas.addEventListener('click', (e) => {
+            createSynapticFlash(e.clientX, e.clientY);
+            createThoughtParticles(e.clientX, e.clientY);
+        });
+
+        function createSynapticFlash(x, y) {
+            const flash = document.createElement('div');
+            flash.className = 'synaptic-flash';
+            flash.style.left = x + 'px';
+            flash.style.top = y + 'px';
+            document.body.appendChild(flash);
+            
+            setTimeout(() => flash.remove(), 500);
+        }
+
+        function createThoughtParticles(x, y) {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'thought-particle';
+                    particle.style.left = (x + (Math.random() - 0.5) * 50) + 'px';
+                    particle.style.top = y + 'px';
+                    particle.style.animationDelay = (Math.random() * 0.5) + 's';
+                    document.body.appendChild(particle);
+                    
+                    setTimeout(() => particle.remove(), 8000);
+                }, i * 100);
+            }
+        }
+
+        // Create dream orbs
+        function createDreamOrbs() {
+            for (let i = 0; i < 5; i++) {
+                const orb = document.createElement('div');
+                orb.className = 'dream-orb';
+                orb.style.width = (50 + Math.random() * 100) + 'px';
+                orb.style.height = orb.style.width;
+                orb.style.left = Math.random() * window.innerWidth + 'px';
+                orb.style.top = Math.random() * window.innerHeight + 'px';
+                orb.style.animationDelay = (Math.random() * 20) + 's';
+                orb.style.animationDuration = (15 + Math.random() * 10) + 's';
+                document.body.appendChild(orb);
+            }
+        }
+
+        // Sleep stage management
+        const sleepStages = {
+            awake: { name: 'Awake', poetry: 'Consciousness dances on the edge of dreams' },
+            n1: { name: 'N1 - Light Sleep', poetry: 'Thoughts dissolve into the twilight of awareness' },
+            n2: { name: 'N2 - Sleep', poetry: 'Neural waves synchronize in peaceful harmony' },
+            n3: { name: 'N3 - Deep Sleep', poetry: 'The mind repairs itself in profound stillness' },
+            rem: { name: 'REM Sleep', poetry: 'Dreams weave stories from fragments of memory' }
+        };
+
+        function setSleepStage(stage) {
+            const stageData = sleepStages[stage];
+            document.getElementById('stageName').textContent = stageData.name;
+            document.getElementById('poetryText').innerHTML = stageData.poetry;
+            
+            // Update active button
+            document.querySelectorAll('.control-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Adjust animation speeds based on stage
+            const speedMultiplier = {
+                awake: 2,
+                n1: 1.5,
+                n2: 1,
+                n3: 0.5,
+                rem: 3
+            }[stage];
+            
+            nodes.forEach(node => {
+                node.vx = (Math.random() - 0.5) * 0.5 * speedMultiplier;
+                node.vy = (Math.random() - 0.5) * 0.5 * speedMultiplier;
+            });
+        }
+
+        // Poetry rotation
+        const poetryLines = [
+            'Neural pathways illuminate like stars<br>in the constellation of consciousness',
+            'Synapses fire in symphonic harmony<br>composing the music of thought',
+            'Dreams flow through silicon valleys<br>where digital rivers meet organic shores',
+            'In the quantum foam of possibility<br>consciousness finds its form',
+            'Memory folds into infinite dimensions<br>preserving moments in crystalline clarity'
+        ];
+
+        let poetryIndex = 0;
+        setInterval(() => {
+            poetryIndex = (poetryIndex + 1) % poetryLines.length;
+            document.getElementById('poetryText').innerHTML = poetryLines[poetryIndex];
+        }, 8000);
+
+        // Animation loop
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            drawConnections();
+            
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+            
+            updateWaves();
+            
+            requestAnimationFrame(animate);
+        }
+
+        // Initialize
+        createDreamOrbs();
+        animate();
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>

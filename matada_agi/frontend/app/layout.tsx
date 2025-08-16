@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
 import '../styles/globals.css'
+import '../styles/dw_effects.css'
+import { DreamProvider } from '../contexts/DreamContext'
+import ContextualVignetteOverlay from '../components/ContextualVignetteOverlay'
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'),
@@ -45,17 +48,22 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="/fonts" />
       </head>
       <body className="min-h-screen bg-black text-white antialiased">
-        <div className="relative">
-          {/* Background effects */}
-          <div className="fixed inset-0 -z-10">
-            <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#2563EB_0%,_transparent_70%)] opacity-10" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_#7C3AED_0%,_transparent_70%)] opacity-10" />
+        <DreamProvider>
+          <div className="relative">
+            {/* Background effects */}
+            <div className="fixed inset-0 -z-10">
+              <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#2563EB_0%,_transparent_70%)] opacity-10" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_#7C3AED_0%,_transparent_70%)] opacity-10" />
+            </div>
+            
+            {/* VignetteOverlay for Dream Weaver effects */}
+            <ContextualVignetteOverlay />
+            
+            {/* Main content */}
+            {children}
           </div>
-          
-          {/* Main content */}
-          {children}
-        </div>
+        </DreamProvider>
       </body>
     </html>
   )

@@ -18,12 +18,16 @@ RECDIR = os.path.join(STATE, "provenance", "exec_receipts")
 @dataclass
 class CalibParams:
     fitted_at: float
-    source: str           # "eval"|"receipts"
-    bins: List[Dict[str, float]]  # reliability diagram
-    ece: float
-    temperature: float    # temperature scaling for logits/confidence
+    source: str                 # "eval"|"receipts"
+    bins: List[Dict[str, float]]          # global reliability
+    ece: float                               # global ECE
+    temperature: float                       # global temperature
     min_conf_clip: float
     max_conf_clip: float
+    # NEW:
+    per_task_temperature: Dict[str, float] = None   # e.g. {"generate_summary": 1.12, ...}
+    per_task_ece: Dict[str, float] = None           # e.g. {"generate_summary": 0.041, ...}
+    per_task_bins: Dict[str, List[Dict[str, float]]] = None  # (optional; keep last fitted)
 
 def _read_json(p: str) -> dict:
     with _ORIG_OPEN(p, "r", encoding="utf-8") as f: return json.load(f)
@@ -33,8 +37,8 @@ def _write_json(p: str, obj: Any):
     with _ORIG_OPEN(tmp, "w", encoding="utf-8") as f: json.dump(obj, f, indent=2)
     os.replace(tmp, p)
 
-def _collect_eval() -> List[Tuple[float, int]]:
-    """Return list of (confidence, correct) from eval runs if available.
+def _collect_eval() -> List[Tuple[float, int, str]]:
+    """Return list of (confidence, correct, task) from eval runs if available.
        For now assumes each task has 'score' in [0,1] and pass/fail."""
     files = sorted(glob.glob(os.path.join(EVALDIR, "eval_*.json")))
     out=[]
@@ -43,13 +47,14 @@ def _collect_eval() -> List[Tuple[float, int]]:
             ev = _read_json(fp)
             for r in ev.get("results", []):
                 conf = float(r.get("score", 0.0))
-                correct = 1 if bool(r.get("pass", False)) else 0
-                out.append((conf, correct))
+                corr = 1 if bool(r.get("pass", False)) else 0
+                task = str(r.get("task_id") or r.get("desc") or "unknown")
+                out.append((conf, corr, task))
         except Exception:
             continue
     return out
 
-def _collect_receipts() -> List[Tuple[float, int]]:
+def _collect_receipts() -> List[Tuple[float, int, str]]:
     """Fallback: infer confidence from runtime metadata; requires your pipeline to log a 'confidence' field & correctness."""
     paths = sorted(glob.glob(os.path.join(RECDIR, "*.json")))
     out=[]
@@ -59,21 +64,20 @@ def _collect_receipts() -> List[Tuple[float, int]]:
             conf = float((r.get("metrics") or {}).get("confidence", 0.0))
             corr = (r.get("metrics") or {}).get("correct", None)
             if corr is None: continue
-            out.append((conf, 1 if corr else 0))
+            task = ((r.get("activity") or {}).get("type")) or "unknown"
+            out.append((conf, 1 if corr else 0, str(task)))
         except Exception:
             continue
     return out
 
-def reliability_diagram(samples: List[Tuple[float,int]], bins: int = 10):
+def reliability_diagram(samples: List[Tuple[float,int,str]], bins: int = 10, task: Optional[str]=None):
+    if task is not None:
+        samples = [s for s in samples if s[2] == task]
     buckets = [ {"lower":i/bins, "upper":(i+1)/bins, "count":0, "acc":0.0, "conf":0.0 } for i in range(bins) ]
-    for conf, corr in samples:
+    for conf, corr, _t in samples:
         c = min(max(conf, 0.0), 1.0)
         idx = min(int(c * bins), bins-1)
-        b = buckets[idx]
-        b["count"] += 1
-        b["acc"] += corr
-        b["conf"] += c
-    # finalize
+        b = buckets[idx]; b["count"] += 1; b["acc"] += corr; b["conf"] += c
     diag=[]
     for b in buckets:
         if b["count"] == 0:
@@ -92,27 +96,24 @@ def expected_calibration_error(diag) -> float:
         e += (b["count"]/total) * gap
     return float(round(e, 6))
 
-def fit_temperature(samples: List[Tuple[float,int]]) -> float:
+def fit_temperature(samples: List[Tuple[float,int,str]]) -> float:
     """Simple 1D temperature on confidence → minimize logloss (Newton steps)."""
     if not samples: return 1.0
+    # reuse old algorithm but ignore task element
+    pairs = [(c, y) for (c, y, _t) in samples]
     T = 1.0
     for _ in range(50):
-        grad = 0.0
-        hess = 0.0
-        for conf, corr in samples:
+        grad = 0.0; hess = 0.0
+        for conf, corr in pairs:
             c = min(max(conf, 1e-6), 1-1e-6)
-            # inverse link approx: z = logit(c) = ln(c/(1-c))
             z = math.log(c/(1.0-c))
             zT = z / T
             p = 1.0/(1.0+math.exp(-zT))
-            # dL/dT = (p - y)*(-z)/T^2
             grad += (p - corr) * (-z) / (T*T)
-            # crude hessian approx
             hess += p*(1-p) * (z*z) / (T**4)
         if abs(hess) < 1e-9: break
         step = grad / hess
-        T -= step
-        T = max(0.2, min(5.0, T))
+        T = max(0.2, min(5.0, T - step))
         if abs(step) < 1e-6: break
     return float(round(T, 6))
 
@@ -125,12 +126,30 @@ def fit_and_save(source_preference: str = "eval") -> CalibParams:
     else:
         src = source_preference
 
+    # global
     diag = reliability_diagram(samples)
     ece = expected_calibration_error(diag)
-    T = fit_temperature(samples)
+    T_global = fit_temperature(samples)
+
+    # per-task
+    per_task_temperature = {}
+    per_task_ece = {}
+    per_task_bins = {}
+    tasks = sorted({t for _c,_y,t in samples})
+    for t in tasks:
+        d = reliability_diagram(samples, task=t)
+        if sum(b["count"] for b in d) < 20:   # skip tiny data
+            continue
+        per_task_bins[t] = d
+        per_task_ece[t] = expected_calibration_error(d)
+        per_task_temperature[t] = fit_temperature([s for s in samples if s[2]==t])
+
     params = CalibParams(
         fitted_at=time.time(), source=src, bins=diag, ece=ece,
-        temperature=T, min_conf_clip=0.02, max_conf_clip=0.98
+        temperature=T_global, min_conf_clip=0.02, max_conf_clip=0.98,
+        per_task_temperature=per_task_temperature or {},
+        per_task_ece=per_task_ece or {},
+        per_task_bins=per_task_bins or {}
     )
     _write_json(PARAMS_PATH, asdict(params))
     return params
@@ -149,6 +168,56 @@ def apply_calibration(conf: float, params: Optional[CalibParams] = None) -> floa
     zT = z / (p.temperature if p.temperature else 1.0)
     out = 1.0/(1.0+math.exp(-zT))
     return float(max(0.0, min(1.0, out)))
+
+def reliability_svg(task: Optional[str]=None, width=640, height=320) -> str:
+    """Render reliability diagram + ECE/Temp as SVG using current params (or latest fit)."""
+    p = load_params()
+    if not p:
+        return f"<svg width='{width}' height='{height}' xmlns='http://www.w3.org/2000/svg'><text x='12' y='24' fill='#e7eaf0' font-family='monospace'>No calibration params found.</text></svg>"
+    # choose bins & stats
+    bins = (p.per_task_bins or {}).get(task) if task else p.bins
+    ece = (p.per_task_ece or {}).get(task) if task else p.ece
+    T = (p.per_task_temperature or {}).get(task) if task else p.temperature
+    if not bins:
+        bins = p.bins; ece = p.ece; T = p.temperature
+
+    pad = 40; W=width; H=height
+    # axes
+    lines = [f"<rect width='{W}' height='{H}' fill='#0f1115'/>",
+             f"<line x1='{pad}' y1='{H-pad}' x2='{W-pad}' y2='{H-pad}' stroke='#444'/>",
+             f"<line x1='{pad}' y1='{H-pad}' x2='{pad}' y2='{pad}' stroke='#444'/>",
+             f"<text x='{pad}' y='{pad-12}' fill='#9aa5b1' font-size='12' font-family='monospace'>ECE={ece:.4f}  T={T:.3f}  {('task='+task) if task else 'global'}</text>"]
+    # y-scale 0..1
+    # draw ideal diagonal
+    lines.append(f"<line x1='{pad}' y1='{H-pad}' x2='{W-pad}' y2='{pad}' stroke='#2a74ff' stroke-dasharray='4 3' opacity='0.6'/>")
+
+    # draw bars: predicted conf vs empirical acc for each bin
+    n = len(bins)
+    innerW = (W - 2*pad)
+    barW = innerW / n
+    for i,b in enumerate(bins):
+        if b["count"] == 0: continue
+        cx = pad + i*barW + barW/2
+        # predicted confidence as x position (midpoint) vs y height? We'll render two lines per bin:
+        # vertical tick at bin center up to predicted acc and empirical acc.
+        conf = b["conf"] or 0.0
+        acc = b["acc"] or 0.0
+        # convert to y
+        def Y(v): return H - pad - v*(H-2*pad)
+        x = cx
+        # conf marker
+        lines.append(f"<circle cx='{x-6}' cy='{Y(conf)}' r='3' fill='#9aa5b1'/>")
+        # acc marker
+        lines.append(f"<circle cx='{x+6}' cy='{Y(acc)}' r='3' fill='#3ddc97'/>")
+        # bin boundary
+        if i>0:
+            xb = pad + i*barW
+            lines.append(f"<line x1='{xb}' y1='{H-pad}' x2='{xb}' y2='{H-pad+4}' stroke='#555'/>")
+        # label each 2 bins
+        if i%2==0:
+            pct = int(b["upper"]*100)
+            lines.append(f"<text x='{cx-8}' y='{H-pad+14}' fill='#777' font-size='10' font-family='monospace'>{pct}%</text>")
+    return f"<svg width='{W}' height='{H}' viewBox='0 0 {W} {H}' xmlns='http://www.w3.org/2000/svg'>{''.join(lines)}</svg>"
 
 # ------------- CLI -------------
 def main():

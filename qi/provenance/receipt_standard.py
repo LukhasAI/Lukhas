@@ -63,6 +63,9 @@ class Receipt:
     tokens_in: Optional[int] = None
     tokens_out: Optional[int] = None
 
+    # Calibration & confidence metadata
+    metrics: Optional[Dict[str, Any]] = None  # raw_conf, calibrated_conf, temperature, etc.
+
     # Integrity
     attestation: Optional[Dict[str, Any]] = None
     schema_version: str = "prov-1.0.0"
@@ -90,6 +93,7 @@ def build_receipt(
     tokens_in: Optional[int] = None,
     tokens_out: Optional[int] = None,
     embedding_vector: Optional[List[float]] = None,
+    metrics: Optional[Dict[str, Any]] = None,
     extra_steps: Optional[List[Dict[str, Any]]] = None,
 ) -> Receipt:
     created = time.time()
@@ -151,6 +155,7 @@ def build_receipt(
         embedding_hash=_semantic_hash(embedding_vector),
         latency_ms=int((ended_at - started_at) * 1000) if ended_at and started_at else None,
         tokens_in=tokens_in, tokens_out=tokens_out,
+        metrics=metrics,
         attestation=att,
         schema_version="prov-1.0.0",
         created_at=created,

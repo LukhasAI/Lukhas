@@ -32,7 +32,7 @@ export default function DocsPage() {
   }
 
   const getContentByTone = (section: string, tone: 'poetic' | 'user-friendly' | 'academic') => {
-    const allContent = { ...contentByTone, ...additionalContent }
+    const allContent = { ...contentByTone, ...additionalContent } as Record<string, any>
     const content = allContent[section]?.[tone] || allContent[section]?.['user-friendly'] || ''
     return content
   }

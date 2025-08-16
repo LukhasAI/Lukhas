@@ -60,9 +60,18 @@ small.hint{color:var(--muted)}
           <button id="btnCardMd">Load MD</button>
           <button id="btnCardPdf">PDF</button>
         </div>
+        <div class="controls">
+          <span class="label">calibration</span><input id="calTask" size="16" placeholder="task name (optional)"/>
+          <button id="btnCalSvg">Reliability SVG</button>
+          <button id="btnCalRefit">Refit Params</button>
+        </div>
         <pre id="cardJson">—</pre>
       </div>
       <div class="col">
+        <div id="calViewer" style="margin-bottom:0.8rem;border:1px solid var(--border);border-radius:0.4rem;padding:0.4rem;background:#0b0e13;">
+          <div style="color:var(--muted);font-size:0.85rem;margin-bottom:0.4rem;">Calibration Reliability</div>
+          <div id="calSvgContainer">Click "Reliability SVG" to load</div>
+        </div>
         <pre id="cardMd">—</pre>
       </div>
     </div>
@@ -187,6 +196,27 @@ $("#btnCardMd").onclick=async ()=>{
   try{ const t=await (await get(`/cockpit/safety_card.md?${qs({policy_root:policyRoot.value,overlays:overlays.value,jurisdictions:juris.value})}`)).text();
        cardMd.textContent=t; }catch(e){ cardMd.textContent="error: "+e.message; }
 };
+// Calibration handlers
+const calTask=$("#calTask"), calSvgContainer=$("#calSvgContainer");
+$("#btnCalSvg").onclick=async ()=>{
+  try{
+    const params=new URLSearchParams();
+    if(calTask.value.trim()) params.set("task",calTask.value.trim());
+    params.set("width","600"); params.set("height","280");
+    const svgText=await (await get(`/cockpit/calibration.svg?${params}`)).text();
+    calSvgContainer.innerHTML=svgText;
+  }catch(e){ calSvgContainer.innerHTML=`<div style="color:var(--bad)">Error: ${e.message}</div>`; }
+};
+$("#btnCalRefit").onclick=async ()=>{
+  try{
+    calSvgContainer.innerHTML='<div style="color:var(--muted)">Refitting calibration parameters...</div>';
+    const result=await postJSON("/cockpit/calibration/refit?source=eval");
+    calSvgContainer.innerHTML=`<div style="color:var(--ok)">✓ Refit complete</div><pre style="font-size:0.8rem;margin-top:0.4rem;">${JSON.stringify(result,null,2)}</pre>`;
+    // Auto-refresh SVG after refit
+    setTimeout(()=>$("#btnCalSvg").click(),800);
+  }catch(e){ calSvgContainer.innerHTML=`<div style="color:var(--bad)">Refit failed: ${e.message}</div>`; }
+};
+
 $("#btnCardPdf").onclick=async ()=>{
   try{
     const r=await get(`/cockpit/safety_card.pdf?${qs({policy_root:policyRoot.value,overlays:overlays.value})}`);
