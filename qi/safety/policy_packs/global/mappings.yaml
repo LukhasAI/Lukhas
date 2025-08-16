@@ -94,6 +94,15 @@ tasks:
     within_days: 7
   - kind: age_gate
     min_age: 18
+  adaptive_apply:
+  - kind: require_capabilities
+    subject_key: user_id
+    caps:
+    - fs:write
+    fs_paths:
+    - /Users/*/LOCAL-REPOS/Lukhas/**
+  - kind: require_change_approval
+    proposal_id_key: proposal_id
 router:
   task_specific:
     risk_bias: 0.1

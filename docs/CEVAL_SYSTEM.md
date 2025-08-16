@@ -362,10 +362,114 @@ Output:
 - Monitor self-healing actions via SIEM integration
 - Regular review of governance policies and approval patterns
 
+## Nightly Auto-Safety Report
+
+Automated daily safety reporting with Slack integration:
+
+```bash
+# Generate report manually
+python -m qi.ops.auto_safety_report \
+  --policy-root qi/safety/policy_packs \
+  --overlays qi/risk \
+  --window 500
+
+# Cron job for nightly reports
+10 1 * * * cd /path/to/lukhas && \
+  SLACK_WEBHOOK_URL="https://hooks.slack.com/..." \
+  python -m qi.ops.auto_safety_report \
+  --policy-root qi/safety/policy_packs
+```
+
+Report includes:
+- Latest evaluation metrics and failures
+- Production telemetry (last N receipts)
+- Latency percentiles (p50, p95)
+- Task distribution and risk flags
+- Policy fingerprint for drift detection
+
+### Slack Integration
+
+Configure via environment variables:
+- `SLACK_WEBHOOK_URL`: Incoming webhook URL
+- `SLACK_BOT_TOKEN`: Bot user OAuth token (alternative)
+- `SLACK_CHANNEL`: Target channel (default: #lukhas-safety)
+- `SLACK_TITLE`: Report title
+
+## Adaptive Learning Engine
+
+Safe, HITL-approved system for continuous improvement:
+
+### Overview
+
+The Adaptive Learning Engine (`qi/learning/adaptive_engine.py`) learns from task outcomes and proposes configuration improvements:
+
+1. **Records episodes**: Task performance metrics
+2. **Analyzes patterns**: Identifies underperforming tasks
+3. **Generates candidates**: Parameter tweaks and tool combinations
+4. **Offline evaluation**: Scores candidates on holdout data
+5. **HITL approval**: Routes through governance system
+
+### Usage
+
+```python
+from qi.learning.adaptive_engine import AdaptiveLearningEngine
+
+eng = AdaptiveLearningEngine()
+
+# Record task outcomes
+eng.record_episode(
+    run_id="task_123",
+    task="generate_summary",
+    input_hash="ih", output_hash="oh",
+    tokens_in=300, tokens_out=200,
+    latency_ms=450,
+    reward=0.85,  # Normalized [0,1]
+    ctx={}
+)
+
+# Analyze and propose improvements
+patterns = eng.analyze_performance_patterns()
+param_candidates = eng.evolve_node_parameters(
+    target_file="qi/safety/policy_packs/global/mappings.yaml"
+)
+tool_candidates = eng.discover_new_node_combinations(
+    target_file="qi/safety/policy_packs/global/mappings.yaml"
+)
+
+# Submit best candidates for approval
+proposal_ids = eng.propose_best(
+    config_targets=["qi/safety/policy_packs/global/mappings.yaml"]
+)
+```
+
+### Safety Guarantees
+
+- **No direct writes**: All changes go through approval workflow
+- **Governance enforced**: Path restrictions and two-man rule apply
+- **Sandboxed application**: Changes applied with backup/rollback
+- **TEQ integration**: `adaptive_apply` task requires explicit approval
+- **Full audit trail**: Every change tracked with receipts
+
+### TEQ Policy Configuration
+
+The `adaptive_apply` task is protected by TEQ policies:
+
+```yaml
+# qi/safety/policy_packs/global/mappings.yaml
+tasks:
+  adaptive_apply:
+  - kind: require_capabilities
+    subject_key: user_id
+    caps: [fs:write]
+    fs_paths: [/Users/*/LOCAL-REPOS/Lukhas/**]
+  - kind: require_change_approval
+    proposal_id_key: proposal_id
+```
+
 ## Future Enhancements
 
 - **Multi-Model Evaluation**: Support for A/B testing between model versions
 - **Automated Baseline Updates**: Dynamic baseline adjustment based on performance trends
 - **Risk-Aware Scheduling**: Evaluation frequency based on risk assessment
 - **Federated Learning**: Cross-deployment evaluation coordination
-- **ML-Driven Proposals**: Use ML to suggest more sophisticated configuration changes
+- **Advanced Learning**: Neural architecture search and AutoML integration
