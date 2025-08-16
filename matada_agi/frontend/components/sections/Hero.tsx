@@ -89,12 +89,16 @@ export default function Hero() {
             transition={{ delay: 1.1 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <button className="px-8 py-4 bg-gradient-to-r from-trinity-identity to-trinity-consciousness text-primary-dark font-regular text-sm tracking-[0.2em] uppercase hover:opacity-90 transition-opacity">
-              EXPLORE MATADA
-            </button>
-            <button className="px-8 py-4 border border-primary-light/30 font-regular text-sm tracking-[0.2em] uppercase hover:bg-primary-light hover:text-primary-dark transition-all">
-              VIEW DOCUMENTATION
-            </button>
+            <a href="#trinity">
+              <button className="px-8 py-4 bg-gradient-to-r from-trinity-identity to-trinity-consciousness text-primary-dark font-regular text-sm tracking-[0.2em] uppercase hover:opacity-90 transition-opacity rounded-lg">
+                EXPLORE MATADA
+              </button>
+            </a>
+            <a href="/docs">
+              <button className="px-8 py-4 border border-primary-light/30 font-regular text-sm tracking-[0.2em] uppercase hover:bg-primary-light hover:text-primary-dark transition-all rounded-lg">
+                VIEW DOCUMENTATION
+              </button>
+            </a>
           </motion.div>
         </motion.div>
 

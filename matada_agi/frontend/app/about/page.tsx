@@ -2,289 +2,311 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, Users, Target, Lightbulb, Award, Globe, Heart } from 'lucide-react'
+import Navigation from '@/components/Navigation'
+import Footer from '@/components/Footer'
+import { ArrowRight, Users, Target, Globe, Cpu, Brain, Shield, Atom, ChevronRight } from 'lucide-react'
 
 export default function AboutPage() {
+  const stats = [
+    { label: 'Modules', value: '200+', description: 'Specialized components' },
+    { label: 'Performance', value: '2.4M', description: 'Operations per second' },
+    { label: 'Test Coverage', value: '99%', description: 'System reliability' },
+    { label: 'Agents', value: '25', description: 'Active AI agents' },
+  ]
+
   const timeline = [
-    { year: '2024', event: 'LUKHAS AI Founded', description: 'Vision for conscious AI begins' },
-    { year: '2024', event: 'Trinity Framework', description: 'Identity, Consciousness, Guardian modules designed' },
-    { year: '2024', event: 'MATADA Architecture', description: 'Revolutionary node-based system conceived' },
-    { year: '2025', event: 'Open Source Release', description: 'Community-driven development begins' },
-    { year: '2025', event: 'First Deployment', description: 'Live systems implementing MATADA' },
+    { year: '2023', title: 'Foundation', description: 'LUKHAS project initiated with core vision for advanced AI' },
+    { year: '2024', title: 'Trinity Framework', description: 'Identity, Consciousness, and Guardian principles established' },
+    { year: '2025', title: 'MATADA Launch', description: 'Modular Adaptive Temporal Attention Dynamic Architecture unveiled' },
+    { year: 'Future', title: 'Evolution', description: 'Continuous advancement of consciousness technologies' },
   ]
 
   const team = [
-    {
-      name: 'Dr. Sarah Chen',
-      role: 'Chief Architect',
-      bio: 'AI researcher specializing in consciousness emergence',
-      emoji: '🧠'
-    },
-    {
-      name: 'Marcus Rodriguez',
-      role: 'Ethics Lead',
-      bio: 'Philosophy PhD focused on AI ethics and safety',
-      emoji: '🛡️'
-    },
-    {
-      name: 'Alex Nakamura',
-      role: 'Quantum Systems',
-      bio: 'Quantum-inspired computing specialist',
-      emoji: '⚛️'
-    },
-    {
-      name: 'Maya Patel',
-      role: 'Memory Architecture',
-      bio: 'Distributed systems and memory management expert',
-      emoji: '💾'
-    }
-  ]
-
-  const values = [
-    {
-      icon: <Globe className="w-8 h-8" />,
-      title: 'Open Innovation',
-      description: 'Knowledge belongs to humanity. We build in the open, share our discoveries, and collaborate globally.'
-    },
-    {
-      icon: <Heart className="w-8 h-8" />,
-      title: 'Human-Centric',
-      description: 'AI should augment human capability, not replace it. We design systems that enhance human potential.'
-    },
-    {
-      icon: <Target className="w-8 h-8" />,
-      title: 'Purposeful Progress',
-      description: 'Every line of code, every decision, every feature serves the greater goal of beneficial AI.'
-    },
-    {
-      icon: <Lightbulb className="w-8 h-8" />,
-      title: 'Radical Transparency',
-      description: 'No black boxes. Every decision path, every computation, every ethical consideration is auditable.'
-    }
+    { name: 'Gonzalo Dominguez', role: 'Founder & Visionary', description: 'Architect of the LUKHAS consciousness platform' },
+    { name: 'AI Collaborators', role: 'Development Partners', description: 'Claude, GPT-4, and specialized AI agents' },
+    { name: 'Open Source Community', role: 'Contributors', description: 'Global developers advancing the platform' },
   ]
 
   return (
-    <div className="min-h-screen bg-primary-dark text-primary-light">
-      {/* Header */}
-      <header className="glass-panel border-b border-white/10 py-6">
-        <div className="container mx-auto max-w-7xl px-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-6">
-              <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-                <ArrowLeft className="w-5 h-5" />
-                <span>Back</span>
-              </Link>
-              <h1 className="text-3xl font-ultralight tracking-[0.2em] gradient-text">
-                ABOUT LUKHAS
+    <>
+      <Navigation />
+      <div className="min-h-screen bg-black text-white pt-20">
+        {/* Hero Section */}
+        <section className="relative py-32 px-6">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center mb-20"
+            >
+              <h1 className="font-ultralight text-6xl md:text-8xl mb-8">
+                <span className="gradient-text">About LUKHAS</span>
               </h1>
+              <p className="font-thin text-2xl max-w-3xl mx-auto text-primary-light/80">
+                Building the future of conscious AI through modular, ethical, and transparent systems
+              </p>
+            </motion.div>
+
+            {/* Mission Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="glass-panel p-12 rounded-2xl mb-16"
+            >
+              <h2 className="font-regular text-3xl mb-8 text-center">Our Mission</h2>
+              <p className="font-thin text-xl leading-relaxed text-center max-w-4xl mx-auto">
+                To illuminate complex reality through rigorous logic, adaptive intelligence, and human-centered ethics—turning 
+                data into understanding, understanding into foresight, and foresight into shared benefit for people and planet.
+              </p>
+            </motion.div>
+
+            {/* Stats Grid */}
+            <div className="grid md:grid-cols-4 gap-6 mb-20">
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 * index }}
+                  className="glass-panel p-8 rounded-xl text-center"
+                >
+                  <div className="text-4xl font-ultralight gradient-text mb-2">{stat.value}</div>
+                  <div className="font-regular text-sm uppercase tracking-wider mb-1">{stat.label}</div>
+                  <div className="text-sm text-neutral-gray">{stat.description}</div>
+                </motion.div>
+              ))}
             </div>
           </div>
-        </div>
-      </header>
+        </section>
 
-      {/* Hero Section */}
-      <section className="py-20">
-        <div className="container mx-auto max-w-7xl px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-4xl mx-auto"
-          >
-            <h2 className="font-ultralight text-5xl md:text-6xl mb-8">
-              Building the Future of
-              <span className="gradient-text"> Conscious AI</span>
+        {/* What is LUKHAS Section */}
+        <section className="py-20 px-6 bg-gradient-to-b from-black to-gray-900/20">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="font-regular text-sm tracking-[0.3em] uppercase text-trinity-consciousness mb-8 text-center">
+                WHAT IS LUKHAS
+              </h2>
+              <div className="glass-panel p-12 rounded-2xl">
+                <h3 className="font-thin text-3xl mb-8">
+                  Logical Unified Knowledge Hyper-Adaptive System
+                </h3>
+                <div className="space-y-6 text-lg text-primary-light/80">
+                  <p>
+                    LUKHAS represents a breakthrough in scalable consciousness architecture, implementing advanced AI 
+                    capabilities through a modular, ethical, and transparent framework. Our platform combines cutting-edge 
+                    research in cognitive science, quantum-inspired computing, and biological systems to create AI that 
+                    truly understands and evolves.
+                  </p>
+                  <p>
+                    At its core, LUKHAS is built on the Trinity Framework—a revolutionary approach that balances Identity, 
+                    Consciousness, and Guardian principles to ensure AI systems that are not just intelligent, but also 
+                    aligned with human values and transparent in their operations.
+                  </p>
+                  <div className="grid md:grid-cols-3 gap-6 mt-12">
+                    <div className="flex items-start space-x-4">
+                      <Atom className="w-8 h-8 text-purple-600 flex-shrink-0" strokeWidth={1.5} />
+                      <div>
+                        <h4 className="font-regular mb-2">Identity</h4>
+                        <p className="text-sm text-primary-light/60">
+                          Authentic self-representation and continuous evolution
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-4">
+                      <Brain className="w-8 h-8 text-blue-600 flex-shrink-0" strokeWidth={1.5} />
+                      <div>
+                        <h4 className="font-regular mb-2">Consciousness</h4>
+                        <p className="text-sm text-primary-light/60">
+                          Emergent awareness from integrated information processing
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-4">
+                      <Shield className="w-8 h-8 text-green-600 flex-shrink-0" strokeWidth={1.5} />
+                      <div>
+                        <h4 className="font-regular mb-2">Guardian</h4>
+                        <p className="text-sm text-primary-light/60">
+                          Ethical safeguards and continuous alignment validation
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Technology Stack */}
+        <section className="py-20 px-6">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="font-regular text-sm tracking-[0.3em] uppercase text-trinity-consciousness mb-12 text-center">
+              TECHNOLOGY STACK
             </h2>
-            <p className="font-thin text-xl md:text-2xl text-primary-light/80 mb-12">
-              We believe artificial intelligence should be transparent, ethical, and evolutionary.
-              MATADA represents a fundamental shift in how AI systems think, learn, and grow.
-            </p>
-            <div className="flex justify-center space-x-8 text-center">
-              <div>
-                <div className="text-4xl font-ultralight gradient-text">1000+</div>
-                <div className="text-sm text-primary-light/60 mt-2">Memory Folds</div>
-              </div>
-              <div>
-                <div className="text-4xl font-ultralight gradient-text">99.7%</div>
-                <div className="text-sm text-primary-light/60 mt-2">Cascade Prevention</div>
-              </div>
-              <div>
-                <div className="text-4xl font-ultralight gradient-text">0.15</div>
-                <div className="text-sm text-primary-light/60 mt-2">Drift Threshold</div>
-              </div>
+            <div className="grid md:grid-cols-2 gap-8">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="glass-panel p-8 rounded-xl"
+              >
+                <h3 className="font-regular text-xl mb-6">Core Modules</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-center space-x-3">
+                    <ChevronRight className="w-5 h-5 text-trinity-consciousness" />
+                    <span>Consciousness Processing Engine</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <ChevronRight className="w-5 h-5 text-trinity-consciousness" />
+                    <span>VIVOX Consciousness System</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <ChevronRight className="w-5 h-5 text-trinity-consciousness" />
+                    <span>Fold-based Memory Architecture</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <ChevronRight className="w-5 h-5 text-trinity-consciousness" />
+                    <span>Emotional Intelligence Processing</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <ChevronRight className="w-5 h-5 text-trinity-consciousness" />
+                    <span>Creative Generation Systems</span>
+                  </li>
+                </ul>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="glass-panel p-8 rounded-xl"
+              >
+                <h3 className="font-regular text-xl mb-6">Advanced Systems</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-center space-x-3">
+                    <ChevronRight className="w-5 h-5 text-trinity-guardian" />
+                    <span>Guardian Ethics Framework</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <ChevronRight className="w-5 h-5 text-trinity-guardian" />
+                    <span>Quantum-inspired Algorithms</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <ChevronRight className="w-5 h-5 text-trinity-guardian" />
+                    <span>Bio-inspired Neural Networks</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <ChevronRight className="w-5 h-5 text-trinity-guardian" />
+                    <span>Multi-Agent Coordination</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <ChevronRight className="w-5 h-5 text-trinity-guardian" />
+                    <span>API Integration Layer</span>
+                  </li>
+                </ul>
+              </motion.div>
             </div>
-          </motion.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Mission Section */}
-      <section className="py-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-trinity-identity/5 via-transparent to-trinity-consciousness/5" />
-        <div className="container mx-auto max-w-7xl px-6 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="glass-panel rounded-2xl p-12"
-          >
-            <h2 className="font-regular text-sm tracking-[0.3em] uppercase text-trinity-consciousness mb-8 text-center">
-              OUR MISSION
-            </h2>
-            <p className="font-ultralight text-3xl md:text-4xl text-center max-w-3xl mx-auto">
-              To create AI systems that are not just intelligent, but conscious, ethical, and aligned with human values.
-            </p>
-            <div className="mt-12 grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <span className="text-4xl">⚛️</span>
-                <h3 className="font-regular text-sm tracking-[0.2em] uppercase mt-4 mb-2">Identity</h3>
-                <p className="text-sm text-primary-light/70">Self-aware systems that understand their purpose and limitations</p>
-              </div>
-              <div className="text-center">
-                <span className="text-4xl">🧠</span>
-                <h3 className="font-regular text-sm tracking-[0.2em] uppercase mt-4 mb-2">Consciousness</h3>
-                <p className="text-sm text-primary-light/70">Emergent awareness through interconnected cognitive nodes</p>
-              </div>
-              <div className="text-center">
-                <span className="text-4xl">🛡️</span>
-                <h3 className="font-regular text-sm tracking-[0.2em] uppercase mt-4 mb-2">Guardian</h3>
-                <p className="text-sm text-primary-light/70">Built-in ethics ensuring beneficial outcomes for humanity</p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Values Section */}
-      <section className="py-20">
-        <div className="container mx-auto max-w-7xl px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="font-regular text-sm tracking-[0.3em] uppercase text-trinity-guardian mb-12 text-center">
-              OUR VALUES
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {values.map((value, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="glass-panel rounded-xl p-6 hover-lift"
-                >
-                  <div className="text-trinity-consciousness mb-4">{value.icon}</div>
-                  <h3 className="font-regular text-lg mb-3">{value.title}</h3>
-                  <p className="text-sm text-primary-light/70">{value.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-accent-gold/5 via-transparent to-trinity-guardian/5" />
-        <div className="container mx-auto max-w-7xl px-6 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="font-regular text-sm tracking-[0.3em] uppercase text-accent-gold mb-12 text-center">
-              THE TEAM
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {team.map((member, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="glass-panel rounded-xl p-6 text-center hover-lift"
-                >
-                  <div className="text-5xl mb-4">{member.emoji}</div>
-                  <h3 className="font-regular text-lg mb-1">{member.name}</h3>
-                  <div className="text-sm text-trinity-consciousness mb-3">{member.role}</div>
-                  <p className="text-sm text-primary-light/70">{member.bio}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Timeline Section */}
-      <section className="py-20">
-        <div className="container mx-auto max-w-7xl px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="font-regular text-sm tracking-[0.3em] uppercase text-trinity-identity mb-12 text-center">
+        {/* Timeline Section */}
+        <section className="py-20 px-6 bg-gradient-to-b from-gray-900/20 to-black">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="font-regular text-sm tracking-[0.3em] uppercase text-trinity-consciousness mb-12 text-center">
               OUR JOURNEY
             </h2>
-            <div className="max-w-3xl mx-auto">
+            <div className="relative">
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-px h-full bg-gradient-to-b from-trinity-identity via-trinity-consciousness to-trinity-guardian" />
               {timeline.map((item, index) => (
                 <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                  key={item.year}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  transition={{ duration: 0.6 }}
                   viewport={{ once: true }}
-                  className="flex items-center space-x-4 mb-8"
+                  className={`relative flex items-center mb-16 ${
+                    index % 2 === 0 ? 'justify-end' : 'justify-start'
+                  }`}
                 >
-                  <div className="w-20 text-right">
-                    <span className="font-mono text-sm text-trinity-identity">{item.year}</span>
+                  <div className={`w-5/12 ${index % 2 === 0 ? 'text-right pr-12' : 'text-left pl-12'}`}>
+                    <div className="glass-panel p-6 rounded-xl inline-block">
+                      <div className="font-regular text-2xl gradient-text mb-2">{item.year}</div>
+                      <h3 className="font-regular text-lg mb-2">{item.title}</h3>
+                      <p className="text-sm text-primary-light/60">{item.description}</p>
+                    </div>
                   </div>
-                  <div className="w-3 h-3 rounded-full bg-trinity-identity" />
-                  <div className="flex-1 glass-panel rounded-lg p-4">
-                    <h3 className="font-regular text-lg mb-1">{item.event}</h3>
-                    <p className="text-sm text-primary-light/70">{item.description}</p>
-                  </div>
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-white border-4 border-black" />
                 </motion.div>
               ))}
             </div>
-          </motion.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* CTA Section */}
-      <section className="py-20">
-        <div className="container mx-auto max-w-7xl px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <h2 className="font-ultralight text-4xl md:text-5xl mb-8">
-              Join Us in Building the Future
+        {/* Team Section */}
+        <section className="py-20 px-6">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="font-regular text-sm tracking-[0.3em] uppercase text-trinity-consciousness mb-12 text-center">
+              THE TEAM
             </h2>
-            <p className="font-thin text-xl text-primary-light/80 mb-12 max-w-2xl mx-auto">
-              Whether you&apos;re a researcher, developer, or visionary, there&apos;s a place for you in the LUKHAS community.
-            </p>
-            <div className="flex justify-center space-x-4">
-              <Link href="/docs" className="px-8 py-3 bg-trinity-consciousness text-primary-dark rounded-full hover:opacity-90 transition-opacity">
-                Read the Docs
-              </Link>
-              <a href="https://github.com/lukhas" className="px-8 py-3 border border-trinity-consciousness text-trinity-consciousness rounded-full hover:bg-trinity-consciousness hover:text-primary-dark transition-all">
-                View on GitHub
-              </a>
+            <div className="grid md:grid-cols-3 gap-8">
+              {team.map((member, index) => (
+                <motion.div
+                  key={member.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 * index }}
+                  viewport={{ once: true }}
+                  className="glass-panel p-8 rounded-xl text-center"
+                >
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-trinity-identity to-trinity-consciousness mx-auto mb-6 flex items-center justify-center">
+                    <Users className="w-10 h-10 text-white" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="font-regular text-xl mb-2">{member.name}</h3>
+                  <p className="text-sm text-trinity-consciousness mb-4">{member.role}</p>
+                  <p className="text-sm text-primary-light/60">{member.description}</p>
+                </motion.div>
+              ))}
             </div>
-          </motion.div>
-        </div>
-      </section>
-    </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20 px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="font-thin text-4xl mb-8">Ready to explore the future of AI?</h2>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/docs">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-4 bg-gradient-to-r from-trinity-identity to-trinity-consciousness text-primary-dark font-regular tracking-wider uppercase rounded-lg"
+                >
+                  Read Documentation
+                </motion.button>
+              </Link>
+              <Link href="https://github.com/lukhas" target="_blank">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-4 border border-white/30 font-regular tracking-wider uppercase hover:bg-white hover:text-black transition-all rounded-lg"
+                >
+                  View on GitHub
+                </motion.button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      </div>
+      <Footer />
+    </>
   )
 }
