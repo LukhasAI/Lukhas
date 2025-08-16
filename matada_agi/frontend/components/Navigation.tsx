@@ -38,17 +38,14 @@ export default function Navigation() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-8">
-          <Link href="#what" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
-            WHAT
+          <Link href="/about" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
+            ABOUT
           </Link>
-          <Link href="#vision" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
-            VISION
+          <Link href="/docs" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
+            DOCS
           </Link>
           <Link href="#trinity" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
             TRINITY
-          </Link>
-          <Link href="#ethos" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
-            ETHOS
           </Link>
           <Link href="#demo" className="font-regular text-sm tracking-[0.2em] uppercase hover:text-trinity-consciousness transition-colors">
             DEMO
@@ -80,10 +77,9 @@ export default function Navigation() {
           className="md:hidden absolute top-full left-0 w-full glass-panel border-t border-white/10"
         >
           <div className="container mx-auto max-w-7xl px-6 py-6 flex flex-col space-y-4">
-            <Link href="#what" className="font-regular text-sm tracking-[0.2em] uppercase">WHAT</Link>
-            <Link href="#vision" className="font-regular text-sm tracking-[0.2em] uppercase">VISION</Link>
+            <Link href="/about" className="font-regular text-sm tracking-[0.2em] uppercase">ABOUT</Link>
+            <Link href="/docs" className="font-regular text-sm tracking-[0.2em] uppercase">DOCS</Link>
             <Link href="#trinity" className="font-regular text-sm tracking-[0.2em] uppercase">TRINITY</Link>
-            <Link href="#ethos" className="font-regular text-sm tracking-[0.2em] uppercase">ETHOS</Link>
             <Link href="#demo" className="font-regular text-sm tracking-[0.2em] uppercase">DEMO</Link>
             <Link href="/console" className="font-regular text-sm tracking-[0.2em] uppercase">CONSOLE</Link>
             <button className="font-regular text-sm tracking-[0.2em] uppercase text-left">LUKHAS ID</button>

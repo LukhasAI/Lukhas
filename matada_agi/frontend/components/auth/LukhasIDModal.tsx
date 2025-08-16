@@ -87,9 +87,9 @@ export default function LukhasIDModal({ isOpen, onClose }: LukhasIDModalProps) {
 
     try {
       if (isSignUp) {
-        await register(formData.email, formData.password, formData.username)
+        await register({ email: formData.email, password: formData.password, username: formData.username })
       } else {
-        await login(formData.email, formData.password, rememberMe)
+        await login({ email: formData.email, password: formData.password, rememberMe })
       }
       onClose()
     } catch (error) {

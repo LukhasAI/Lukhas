@@ -505,6 +505,90 @@ def rebuild_index():
     _write_index(index)
 ```
 
+## 5. Capability Sandbox
+
+### Overview
+The Capability Sandbox provides deny-by-default isolation for tools and plugins with TTL-based leases.
+
+### Architecture
+```python
+# Capability types
+- "net"                    # Network access
+- "api:<name>"            # Named API access
+- "fs:read:<glob>"        # File read permission
+- "fs:write:<glob>"       # File write permission
+```
+
+### Key Components
+
+**CapManager**: Lease management with TTL
+- Grant/revoke capabilities per subject
+- Persistent or ephemeral leases
+- Glob pattern matching for filesystem
+
+**FileGuard**: In-process Python enforcement
+- Monkey-patches builtins.open, os.remove, etc.
+- Deny-by-default with explicit allowlists
+- Audit trail for all operations
+
+**Sandbox**: Activation context manager
+- Validates required capabilities
+- Enforces FS and ENV restrictions
+- Logs enter/exit/denied events
+
+### Important Implementation Notes
+
+**Recursion Prevention**:
+The sandbox captures original filesystem functions at import time to prevent recursion when FileGuard is active:
+```python
+# Captured at module load
+_ORIG_OPEN = builtins.open
+_ORIG_MAKEDIRS = os.makedirs
+
+# Audit writes bypass FileGuard
+def _audit_write(kind, rec):
+    with _ORIG_OPEN(path, "a") as f:  # Uses original
+        f.write(json.dumps(rec))
+```
+
+**Limitations**:
+- **In-process only**: This sandbox works for Python tools/plugins. For untrusted binaries, combine with OS-level sandboxes (Docker/Firejail)
+- **Glob patterns**: FS checks use fnmatch against absolute paths. Be explicit: `/tmp/**`, `/Users/*/LOCAL-REPOS/**`
+- **ENV allowlist**: Prevents accidental secret leakage. Expand per task as needed
+
+### Integration Example
+
+```python
+from qi.ops.cap_sandbox import CapManager, Sandbox, SandboxPlan, EnvSpec, FsSpec
+
+mgr = CapManager()
+plan = SandboxPlan(
+    subject=f"user:{user_id}",
+    env=EnvSpec(
+        allow=["PATH", "HOME"],
+        inject={"NO_PROXY": "*"}
+    ),
+    fs=FsSpec(
+        read=["/Users/*/LOCAL-REPOS/**", "/tmp/**"],
+        write=["/tmp/**"]
+    ),
+    require=["net", "api:search", f"fs:read:/Users/{user_id}/LOCAL-REPOS/**"],
+    meta={"task": task_name}
+)
+
+with sb.activate(plan):
+    # All file operations enforced
+    # Child processes get filtered env
+    result = run_tool()
+```
+
+### Audit Trail
+All operations logged to `~/.lukhas/state/audit/caps.jsonl`:
+- lease_grant/revoke
+- sandbox_enter/exit
+- fs_denied events
+- sandbox_run commands
+
 ## Future Enhancements
 
 ### Planned Features

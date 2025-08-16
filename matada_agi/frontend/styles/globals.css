@@ -239,3 +239,15 @@ p {
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
+
+/* Scroll animations for intersection observer */
+.scroll-fade-up {
+  opacity: 0;
+  transform: translateY(20px) translateZ(0);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-fade-up.visible {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+}

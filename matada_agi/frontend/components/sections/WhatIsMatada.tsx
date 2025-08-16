@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
+import { Dna, RotateCcw, Target, Zap } from 'lucide-react'
 
 export default function WhatIsMatada() {
   const ref = useRef(null)
@@ -10,26 +11,41 @@ export default function WhatIsMatada() {
 
   const features = [
     {
-      icon: '🧬',
+      icon: 'dna',
       title: 'COGNITIVE DNA',
       description: 'Every thought and decision becomes a permanent, traceable node in the system\'s cognitive history'
     },
     {
-      icon: '🔄',
+      icon: 'rotateCcw',
       title: 'EVOLUTIONARY ARCHITECTURE',
       description: 'Nodes evolve and adapt based on outcomes, creating a self-improving cognitive system'
     },
     {
-      icon: '🎯',
+      icon: 'target',
       title: 'DETERMINISTIC REASONING',
       description: 'Each decision follows a clear, auditable path through the cognitive node network'
     },
     {
-      icon: '⚡',
+      icon: 'zap',
       title: 'QUANTUM-INSPIRED PROCESSING',
       description: 'Leverages superposition principles for parallel cognitive exploration'
     }
   ]
+
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'dna':
+        return <Dna className="w-10 h-10 text-trinity-consciousness" />
+      case 'rotateCcw':
+        return <RotateCcw className="w-10 h-10 text-trinity-consciousness" />
+      case 'target':
+        return <Target className="w-10 h-10 text-trinity-consciousness" />
+      case 'zap':
+        return <Zap className="w-10 h-10 text-trinity-consciousness" />
+      default:
+        return <Dna className="w-10 h-10 text-trinity-consciousness" />
+    }
+  }
 
   return (
     <section id="what" className="relative py-32" ref={ref}>
@@ -108,7 +124,9 @@ export default function WhatIsMatada() {
               transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
               className="glass-panel p-8 rounded-xl hover-lift"
             >
-              <div className="text-4xl mb-4">{feature.icon}</div>
+              <div className="mb-4">
+                {getIcon(feature.icon)}
+              </div>
               <h4 className="font-regular text-sm tracking-[0.2em] uppercase mb-3">
                 {feature.title}
               </h4>

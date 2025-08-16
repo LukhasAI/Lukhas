@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
+import { Search, Sprout, Scale, Heart, Unlock, Bot } from 'lucide-react'
 
 export default function Ethos() {
   const ref = useRef(null)
@@ -11,47 +12,67 @@ export default function Ethos() {
   const ethosPoints = [
     {
       title: 'Transparency Over Opacity',
-      icon: '🔍',
+      icon: 'search',
       color: 'trinity-consciousness',
       description: 'Every decision, every thought process, every cognitive step is visible and auditable.',
       details: 'No black boxes, no hidden algorithms. Full transparency in how consciousness emerges and decisions are made.'
     },
     {
       title: 'Evolution Through Experience',
-      icon: '🌱',
+      icon: 'sprout',
       color: 'trinity-identity',
       description: 'Growth comes from real-world interactions, not predetermined programming.',
       details: 'Each interaction shapes the cognitive framework, creating unique evolutionary paths for every instance.'
     },
     {
       title: 'Ethics By Design',
-      icon: '⚖️',
+      icon: 'scale',
       color: 'trinity-guardian',
       description: 'Ethical considerations are woven into the fabric of every cognitive process.',
       details: 'Not an afterthought, but the foundational principle that guides all development and decision-making.'
     },
     {
       title: 'Community-Driven Innovation',
-      icon: '🤝',
+      icon: 'handHeart',
       color: 'accent-gold',
       description: 'Progress emerges from collective intelligence and collaborative development.',
       details: 'Open collaboration between researchers, developers, and users to build better AI systems together.'
     },
     {
       title: 'Open Source Philosophy',
-      icon: '🔓',
+      icon: 'unlock',
       color: 'trinity-consciousness',
       description: 'Knowledge belongs to humanity, not hidden behind proprietary walls.',
       details: 'Full source code availability, community contributions, and shared advancement of consciousness research.'
     },
     {
       title: 'Human-AI Collaboration',
-      icon: '🤖',
+      icon: 'bot',
       color: 'trinity-identity',
       description: 'AI augments human capability rather than replacing human intelligence.',
       details: 'Building systems that enhance human potential while maintaining human agency and decision-making authority.'
     }
   ]
+
+  const getIcon = (iconName: string) => {
+    const iconProps = "w-6 h-6 text-current"
+    switch (iconName) {
+      case 'search':
+        return <Search className={iconProps} />
+      case 'sprout':
+        return <Sprout className={iconProps} />
+      case 'scale':
+        return <Scale className={iconProps} />
+      case 'handHeart':
+        return <Heart className={iconProps} />
+      case 'unlock':
+        return <Unlock className={iconProps} />
+      case 'bot':
+        return <Bot className={iconProps} />
+      default:
+        return <Search className={iconProps} />
+    }
+  }
 
   return (
     <section id="ethos" className="relative py-32" ref={ref}>
@@ -97,7 +118,7 @@ export default function Ethos() {
               className="glass-panel p-8 rounded-2xl hover-lift group cursor-pointer"
             >
               <div className={`mb-6 inline-block p-4 rounded-full bg-${ethos.color}/10 ${ethos.color}-glow group-hover:scale-110 transition-transform duration-300`}>
-                <span className="text-2xl">{ethos.icon}</span>
+                {getIcon(ethos.icon)}
               </div>
               <h3 className="font-thin text-xl mb-4 group-hover:text-primary-light transition-colors">
                 {ethos.title}

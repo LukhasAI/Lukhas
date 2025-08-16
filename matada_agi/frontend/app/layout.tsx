@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import '../styles/globals.css'
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'),
   title: 'LUKHAS - Modular Adaptive Temporal Attention Dynamic Architecture',
   description: 'Building consciousness you can trust. MATADA - Every thought becomes a traceable, governed, evolvable node.',
   keywords: 'AGI, MATADA, LUKHAS, artificial intelligence, cognitive architecture, consciousness',

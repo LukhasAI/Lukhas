@@ -97,6 +97,14 @@ class TEQCoupler:
                 require_fields=chk.get("require_fields", []),
                 within_days=int(chk.get("within_days", 365))
             )
+        if kind == "require_capabilities":
+            return self._require_capabilities(
+                ctx,
+                subject=chk.get("subject_key", "user_id"),
+                caps=chk.get("caps", []),
+                fs_paths=chk.get("fs_paths", []),
+                ttl_floor_sec=int(chk.get("ttl_floor_sec", 0))
+            )
         if kind == "require_provenance_record":
             return self._require_provenance_record(
                 ctx,
@@ -196,6 +204,29 @@ class TEQCoupler:
         ok = is_allowed(user_id, purpose, require_fields=require_fields or [], within_days=within_days)
         if not ok:
             return (False, f"Consent missing/expired/insufficient for purpose '{purpose}'.", "Obtain fresh consent with required fields.")
+        return (True, "", "")
+    
+    def _require_capabilities(self, ctx: Dict[str, Any], *, subject: str | None, caps: list[str], fs_paths: list[str], ttl_floor_sec: int):
+        from qi.ops.cap_sandbox import CapManager
+        mgr = CapManager()
+        user_id = (ctx.get("user_profile") or {}).get(subject or "user_id")
+        if not user_id:
+            return (False, "Capability check missing subject user_id.", "Provide user_profile.user_id in context.")
+        subj = f"user:{user_id}"
+        # check caps
+        for cap in caps or []:
+            if cap.startswith("fs:") and fs_paths:
+                # expand fs paths into specific checks (read/write on concrete files/dirs)
+                for p in fs_paths:
+                    concrete = cap.split(":",2)
+                    if len(concrete) < 3:
+                        continue
+                    need = f"{concrete[0]}:{concrete[1]}:{p}"
+                    if not mgr.has(subj, need):
+                        return (False, f"Missing FS capability {need}", "Grant fs lease or adjust task plan.")
+            else:
+                if not mgr.has(subj, cap):
+                    return (False, f"Missing capability {cap}", "Grant lease via cap_sandbox or adjust policy.")
         return (True, "", "")
     
     def _require_provenance_record(

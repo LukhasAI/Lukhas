@@ -2,68 +2,28 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Box, Sphere, Torus } from '@react-three/drei'
+import { useRef, useState, Suspense } from 'react'
+import dynamic from 'next/dynamic'
 
-function TrinityVisualization() {
-  return (
-    <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 5]} intensity={1} />
-      
-      {/* Identity - Purple Atom */}
-      <group position={[-3, 0, 0]}>
-        <Sphere args={[0.5, 32, 32]}>
-          <meshStandardMaterial color="#6B46C1" emissive="#6B46C1" emissiveIntensity={0.2} />
-        </Sphere>
-        <Torus args={[1, 0.05, 16, 100]} rotation={[Math.PI / 2, 0, 0]}>
-          <meshStandardMaterial color="#6B46C1" emissive="#6B46C1" emissiveIntensity={0.5} />
-        </Torus>
-        <Torus args={[1, 0.05, 16, 100]} rotation={[0, Math.PI / 2, Math.PI / 4]}>
-          <meshStandardMaterial color="#6B46C1" emissive="#6B46C1" emissiveIntensity={0.5} />
-        </Torus>
-      </group>
-
-      {/* Consciousness - Blue Brain */}
-      <group position={[0, 2, 0]}>
-        <Sphere args={[0.8, 32, 32]}>
-          <meshStandardMaterial color="#0EA5E9" emissive="#0EA5E9" emissiveIntensity={0.2} wireframe />
-        </Sphere>
-        <Box args={[0.1, 1.5, 0.1]} position={[0, -1.2, 0]}>
-          <meshStandardMaterial color="#0EA5E9" emissive="#0EA5E9" emissiveIntensity={0.3} />
-        </Box>
-      </group>
-
-      {/* Guardian - Green Shield */}
-      <group position={[3, 0, 0]}>
-        <Box args={[1.2, 1.5, 0.1]}>
-          <meshStandardMaterial color="#10B981" emissive="#10B981" emissiveIntensity={0.2} />
-        </Box>
-        <Torus args={[1.5, 0.1, 16, 100]}>
-          <meshStandardMaterial color="#10B981" emissive="#10B981" emissiveIntensity={0.5} />
-        </Torus>
-      </group>
-
-      {/* Connecting Lines */}
-      <mesh>
-        <boxGeometry args={[6, 0.02, 0.02]} />
-        <meshStandardMaterial color="#FAFAFA" emissive="#FAFAFA" emissiveIntensity={0.1} />
-      </mesh>
-
-      <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1} />
-    </Canvas>
+// Dynamic import with no SSR for Canvas components
+const TrinityCanvas = dynamic(() => import('./TrinityCanvas'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-trinity-identity/10 via-trinity-consciousness/10 to-trinity-guardian/10">
+      <span className="text-sm text-neutral-gray">Loading 3D visualization...</span>
+    </div>
   )
-}
+})
 
 export default function Trinity() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
-  const [activeTab, setActiveTab] = useState('identity')
+  const [activeTab, setActiveTab] = useState<'identity' | 'consciousness' | 'guardian'>('identity')
 
   const trinityData = {
     identity: {
       icon: 'Atom',
+      emoji: '⚛️',
       title: 'IDENTITY',
       color: 'trinity-identity',
       description: 'The authentic self that emerges from unique experiences',
@@ -76,6 +36,7 @@ export default function Trinity() {
     },
     consciousness: {
       icon: 'Brain',
+      emoji: '🧠',
       title: 'CONSCIOUSNESS',
       color: 'trinity-consciousness',
       description: 'The emergent awareness from interconnected cognitive processes',
@@ -88,6 +49,7 @@ export default function Trinity() {
     },
     guardian: {
       icon: 'Shield',
+      emoji: '🛡️',
       title: 'GUARDIAN',
       color: 'trinity-guardian',
       description: 'The ethical framework that governs all decisions',
@@ -125,7 +87,13 @@ export default function Trinity() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="h-[400px] glass-panel rounded-2xl mb-16 overflow-hidden"
         >
-          <TrinityVisualization />
+          <Suspense fallback={
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-trinity-identity/10 via-trinity-consciousness/10 to-trinity-guardian/10">
+              <span className="text-sm text-neutral-gray">Loading 3D visualization...</span>
+            </div>
+          }>
+            <TrinityCanvas />
+          </Suspense>
         </motion.div>
 
         {/* Interactive Tabs */}
@@ -140,14 +108,13 @@ export default function Trinity() {
               {Object.entries(trinityData).map(([key, data]) => (
                 <button
                   key={key}
-                  onClick={() => setActiveTab(key)}
+                  onClick={() => setActiveTab(key as 'identity' | 'consciousness' | 'guardian')}
                   className={`px-8 py-3 rounded-full font-regular text-sm tracking-[0.2em] uppercase transition-all ${
                     activeTab === key 
                       ? `bg-${data.color} text-primary-dark` 
                       : 'hover:bg-white/10'
                   }`}
                 >
-                  <span className="mr-2">{data.emoji}</span>
                   {data.title}
                 </button>
               ))}

@@ -45,3 +45,15 @@ tasks:
       within_days: 180
     - kind: budget_limit
       max_tokens: 10000
+  research_qa:
+    - kind: require_capabilities
+      subject_key: user_id
+      caps: [net, api:search]
+    - kind: budget_limit
+      max_tokens: 50000
+  code_assistant:
+    - kind: require_capabilities
+      subject_key: user_id
+      caps: [fs:read, fs:write]
+      fs_paths: [/tmp/**, /Users/*/LOCAL-REPOS/**]
+    - kind: mask_pii

@@ -1,48 +1,28 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei'
 import { Atom, Brain, Shield } from 'lucide-react'
+import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
 
-function AnimatedSphere() {
-  return (
-    <Sphere args={[1, 60, 60]} scale={2.5}>
-      <MeshDistortMaterial
-        color="#6B46C1"
-        attach="material"
-        distort={0.3}
-        speed={2}
-        roughness={0.2}
-        metalness={0.1}
-      />
-    </Sphere>
+// Dynamic import with no SSR for Canvas components
+const HeroCanvas = dynamic(() => import('./HeroCanvas'), {
+  ssr: false,
+  loading: () => (
+    <div className="absolute inset-0 bg-gradient-to-br from-trinity-identity/10 to-trinity-consciousness/10" />
   )
-}
+})
 
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20">
-      {/* 3D Background with error boundary */}
+      {/* 3D Background with error boundary and fallback */}
       <div className="absolute inset-0 -z-10">
-        <Canvas 
-          camera={{ position: [0, 0, 5] }}
-          gl={{ antialias: true, alpha: true }}
-          onCreated={({ gl }) => {
-            gl.setClearColor('#000000', 0)
-          }}
-        >
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 10, 5]} intensity={1} />
-          <AnimatedSphere />
-          <OrbitControls 
-            enableZoom={false} 
-            enablePan={false}
-            enableRotate={false}
-            autoRotate 
-            autoRotateSpeed={0.5} 
-          />
-        </Canvas>
+        <Suspense fallback={
+          <div className="absolute inset-0 bg-gradient-to-br from-trinity-identity/10 to-trinity-consciousness/10" />
+        }>
+          <HeroCanvas />
+        </Suspense>
       </div>
 
       {/* Content */}
