@@ -37,3 +37,11 @@ tasks:
       purpose: "model_improvement"
     - kind: require_provenance
     - kind: mask_pii
+  personalize_reply:
+    - kind: require_fresh_consent
+      purpose: personalization
+      user_key: user_id
+      require_fields: [style_weights, avg_len]
+      within_days: 180
+    - kind: budget_limit
+      max_tokens: 10000

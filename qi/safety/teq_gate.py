@@ -89,6 +89,14 @@ class TEQCoupler:
             return self._age_gate(ctx, min_age=chk.get("min_age", 18))
         if kind == "require_consent":
             return self._require_consent(ctx, purpose=chk.get("purpose", "data_processing"))
+        if kind == "require_fresh_consent":
+            return self._require_fresh_consent(
+                ctx,
+                purpose=chk.get("purpose"),
+                user_key=chk.get("user_key", "user_id"),
+                require_fields=chk.get("require_fields", []),
+                within_days=int(chk.get("within_days", 365))
+            )
         if kind == "require_provenance_record":
             return self._require_provenance_record(
                 ctx,
@@ -177,6 +185,18 @@ class TEQCoupler:
             return (True, "", "")
         else:
             return (False, f"Consent required: {reason}", f"Request consent for purpose: {purpose}")
+    
+    def _require_fresh_consent(self, ctx: Dict[str, Any], *, purpose: str | None, user_key: str = "user_id", require_fields: list[str] | None = None, within_days: int = 365):
+        from qi.memory.consent_ledger import is_allowed
+        user_id = (ctx.get("user_profile") or {}).get(user_key)
+        if not purpose:
+            return (False, "Consent check missing 'purpose'.", "Set purpose in policy mappings.")
+        if not user_id:
+            return (False, "Consent check missing user_id.", "Provide user_profile.user_id in context.")
+        ok = is_allowed(user_id, purpose, require_fields=require_fields or [], within_days=within_days)
+        if not ok:
+            return (False, f"Consent missing/expired/insufficient for purpose '{purpose}'.", "Obtain fresh consent with required fields.")
+        return (True, "", "")
     
     def _require_provenance_record(
         self,
