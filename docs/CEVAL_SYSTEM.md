@@ -409,6 +409,127 @@ The Adaptive Learning Engine (`qi/learning/adaptive_engine.py`) learns from task
 4. **Offline evaluation**: Scores candidates on holdout data
 5. **HITL approval**: Routes through governance system
 
+## Human Adaptation Engine
+
+Learns from human feedback to improve interaction quality:
+
+### Overview
+
+The Human Adaptation Engine (`qi/learning/human_adapt_engine.py`) analyzes user satisfaction and proposes tone/style improvements:
+
+1. **Records interactions**: User corrections, ratings, preferences
+2. **Analyzes satisfaction**: Patterns by user, task type, and tone
+3. **Proposes adaptations**: Tone shifts, conciseness adjustments, technical level changes
+4. **HITL approval**: All changes require human approval through governance system
+
+### Usage
+
+```python
+from qi.learning.human_adapt_engine import HumanAdaptEngine
+
+engine = HumanAdaptEngine()
+
+# Record user interaction
+engine.record_interaction(
+    run_id="interaction_001",
+    user_id="user123",
+    task_type="generate_summary",
+    interaction_kind="satisfaction_rating",
+    original_output="Original AI response text",
+    user_feedback="Too verbose, please be more concise",
+    satisfaction_score=3.0,  # 1-5 scale
+    tone_tags=["formal", "verbose"],
+    ctx={"session_id": "abc123"}
+)
+
+# Analyze satisfaction patterns
+patterns = engine.analyze_satisfaction_patterns(window=1000)
+
+# Generate tone adaptation proposals
+proposals = engine.propose_tone_adaptations(
+    target_file="qi/safety/policy_packs/global/mappings.yaml",
+    user_focus="user123"
+)
+
+# Submit for approval
+proposal_ids = engine.submit_for_approval(
+    config_targets=["qi/safety/policy_packs/global/mappings.yaml"]
+)
+```
+
+### Adaptation Types
+
+- **Conciseness**: Reduces response length for users who find outputs too verbose
+- **Simplification**: Lowers technical level for users who find responses too complex
+- **Empathy Enhancement**: Increases empathy and formality for low-satisfaction tasks
+- **Tone Optimization**: Promotes high-scoring tones and avoids low-scoring ones
+
+## Unified Ops Cockpit
+
+Centralized API for managing all C-EVAL components:
+
+### Overview
+
+The Unified Ops Cockpit (`qi/ui/cockpit_api.py`) provides a comprehensive FastAPI interface for:
+
+1. **Safety Card & Reports**: Generate model safety cards and nightly reports
+2. **Adaptive Learning**: Monitor performance patterns and propose optimizations
+3. **Human Adaptation**: Track satisfaction and propose tone improvements
+4. **Centralized Approvals**: Unified approval workflow for all proposal types
+5. **Receipts & Provenance**: Access execution receipts and trace navigation
+
+### Quick Start
+
+```bash
+# Start the unified cockpit API
+export COCKPIT_API_TOKEN="your-secure-token"  # Optional authentication
+uvicorn qi.ui.cockpit_api:app --host 127.0.0.1 --port 8099
+
+# Access dashboard
+curl http://localhost:8099/cockpit/dashboard
+
+# View API documentation
+open http://localhost:8099/docs
+```
+
+### API Panels
+
+#### Panel 1: Safety Card & Reports
+- `GET /cockpit/safety-card` - Generate model safety card
+- `GET /cockpit/nightly-report` - Generate safety report
+- `POST /cockpit/generate-report` - Full report with Slack integration
+
+#### Panel 2: Adaptive Learning
+- `GET /cockpit/adaptive/analyze` - Performance pattern analysis
+- `POST /cockpit/adaptive/evolve-params` - Parameter optimization proposals
+- `POST /cockpit/adaptive/discover-tools` - Tool combination discovery
+- `POST /cockpit/adaptive/propose-best` - Submit best candidates for approval
+
+#### Panel 3: Human Adaptation
+- `GET /cockpit/human-adapt/analyze` - Satisfaction pattern analysis
+- `POST /cockpit/human-adapt/propose-tone` - Tone adaptation proposals
+- `POST /cockpit/human-adapt/submit` - Submit adaptations for approval
+
+#### Panel 4: Centralized Approvals
+- `GET /cockpit/approvals/list` - List all proposals with filtering
+- `POST /cockpit/approvals/{id}/approve` - Approve proposal
+- `POST /cockpit/approvals/{id}/apply` - Apply approved proposal
+- `GET /cockpit/approvals/stats` - Approval statistics and trends
+
+#### Panel 5: Receipts & Provenance
+- `GET /cockpit/receipts/recent` - Recent execution receipts
+- `GET /cockpit/receipts/{id}/neighbors` - Related receipts
+- `GET /cockpit/receipts/sample` - Random receipt sample
+
+### Authentication
+
+Optional token-based authentication via `X-Auth-Token` header:
+
+```bash
+export COCKPIT_API_TOKEN="your-secure-token"
+curl -H "X-Auth-Token: your-secure-token" http://localhost:8099/cockpit/dashboard
+```
+
 ### Usage
 
 ```python
