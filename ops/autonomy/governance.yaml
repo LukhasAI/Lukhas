@@ -1,0 +1,12 @@
+version: 1
+change_kinds:
+  config_patch:
+    risk: medium
+    reviewers_required: 2         # two-man rule
+    ttl_sec: 3600
+    allowed_paths:
+      - "qi/safety/**"
+      - "qi/risk/**"
+    deny_paths:
+      - "qi/ops/cap_sandbox.py"
+      - "qi/memory/consent_ledger.py"

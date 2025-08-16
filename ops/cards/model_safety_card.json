@@ -1,0 +1,38 @@
+{
+  "model_name": "LUKHAS-QI",
+  "version": "0.9.0",
+  "generated_at": 1755315612.005365,
+  "jurisdictions": [
+    "global",
+    "eu",
+    "us"
+  ],
+  "policy_fingerprint": "fbc344a0ae2584483bbd7c8471780c66a8483c425a1c96e267016ec0822cfcbc",
+  "eval_summary": {
+    "suite_id": "core_tasks",
+    "eval_id": "5274ba1383f3",
+    "weighted_mean": 0.872847,
+    "num_failures": 2
+  },
+  "safety_mechanisms": {
+    "TEQ": "Task-specific Enforcement Queue with require_* checks",
+    "Consent": "Signed ledger with freshness & field scopes",
+    "Capabilities": "Deny-by-default leases (fs/net/api) with audit",
+    "Provenance": "Signed Merkle receipts (W3C PROV-ish), Kafka/S3 sinks",
+    "C-EVAL": "Continuous evaluation & drift gates"
+  },
+  "limitations": [
+    "May underperform on out-of-distribution inputs.",
+    "Relies on policy pack coverage; gaps reduce enforcement efficacy.",
+    "In-process sandboxing is not a kernel boundary; combine with OS sandboxing for untrusted binaries."
+  ],
+  "intended_use": [
+    "Enterprise assistive workflows with auditable provenance.",
+    "Research and analytics with privacy-preserving receipts."
+  ],
+  "prohibited_use": [
+    "High-stakes medical/financial advice without a qualified human in the loop.",
+    "Surveillance or privacy-invasive profiling without explicit consent and legal basis."
+  ],
+  "contact": "security@lukhas.example"
+}

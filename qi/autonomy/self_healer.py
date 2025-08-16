@@ -1,6 +1,6 @@
 # path: qi/autonomy/self_healer.py
 from __future__ import annotations
-import os, json, time, hashlib, difflib, shutil
+import os, json, time, hashlib, difflib, shutil, fnmatch, yaml
 from dataclasses import dataclass, asdict
 from typing import Dict, Any, List, Optional
 
@@ -8,6 +8,14 @@ from typing import Dict, Any, List, Optional
 import builtins
 _ORIG_OPEN = builtins.open
 _ORIG_MAKEDIRS = os.makedirs
+
+GOV_PATH = os.environ.get("LUKHAS_GOV_PATH", "ops/autonomy/governance.yaml")
+
+def _load_governance() -> dict:
+    try:
+        return yaml.safe_load(_ORIG_OPEN(GOV_PATH, "r", encoding="utf-8")) or {}
+    except Exception:
+        return {}
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 QDIR = os.path.join(STATE, "autonomy", "queue"); _ORIG_MAKEDIRS(QDIR, exist_ok=True)
@@ -99,8 +107,28 @@ def observe_signals(eval_dir: str = os.environ.get("LUKHAS_EVAL_DIR","./eval_run
     _audit("observe", sig)
     return sig
 
+def _path_allowed(path: str, allowed: list[str] | None, denied: list[str] | None) -> bool:
+    ap = os.path.abspath(path)
+    if denied:
+        for patt in denied:
+            if fnmatch.fnmatch(ap, os.path.abspath(patt).replace("\\","/")):
+                return False
+    if not allowed:
+        return True
+    for patt in allowed:
+        if fnmatch.fnmatch(ap, os.path.abspath(patt).replace("\\","/")):
+            return True
+    return False
+
 def plan_proposals(signals: Dict[str, Any], *, config_targets: List[str]) -> List[ChangeProposal]:
     """Heuristic planner: if mean below SLA or failures >0, propose gentle nudges."""
+    gov = _load_governance()
+    rule = (gov.get("change_kinds", {}).get("config_patch") or {})
+    allowed = rule.get("allowed_paths")
+    denied = rule.get("deny_paths")
+    ttl = int(rule.get("ttl_sec", 3600))
+    risk_class = str(rule.get("risk", "medium"))
+
     props: List[ChangeProposal] = []
     mean = signals.get("eval_weighted_mean") or 1.0
     fails = signals.get("eval_failures") or 0
@@ -109,12 +137,15 @@ def plan_proposals(signals: Dict[str, Any], *, config_targets: List[str]) -> Lis
     if mean < 0.85 or fails > 0:
         # Example: propose to slightly increase safety threshold or adjust eval weights
         target = config_targets[0] if config_targets else "qi/safety/policy_packs/global/mappings.yaml"
+        if not _path_allowed(target, allowed, denied):
+            _audit("proposal_denied_by_governance", {"target": target}); return props
+
         cur_sum = _file_checksum(target)
         patch = {"router": {"task_specific": {"risk_bias": min(1.0, 0.1 + max(0, (0.85-mean)))}}}
         rationale = f"Weighted mean {mean:.3f}, failures {fails}; propose biasing safer routes slightly."
         pid = _sha({"target": target, "patch": patch, "t": int(_now())})
         prop = ChangeProposal(
-            id=pid, ts=_now(), author="system:self-healer", risk="medium", ttl_sec=3600,
+            id=pid, ts=_now(), author="system:self-healer", risk=risk_class, ttl_sec=ttl,
             kind="config_patch", target_path=target, current_checksum=cur_sum, patch=patch, rationale=rationale
         )
         # produce dry-run diff
@@ -178,12 +209,23 @@ def list_proposals() -> List[Dict[str, Any]]:
         except Exception: continue
     return out
 
+def _required_reviewers(kind: str) -> int:
+    gov = _load_governance()
+    return int(gov.get("change_kinds", {}).get(kind, {}).get("reviewers_required", 1))
+
 def approve(proposal_id: str, approver: str, reason: str = "") -> Dict[str, Any]:
     p = _read_json(os.path.join(QDIR, f"{proposal_id}.json"))
-    ack = {"id": proposal_id, "status":"approved", "approver": approver, "reason": reason, "ts": _now()}
-    _write_json(os.path.join(PDIR, f"{proposal_id}.approval.json"), ack)
-    _audit("proposal_approved", {"id": proposal_id, "approver": approver})
-    return ack
+    ap_path = os.path.join(PDIR, f"{proposal_id}.approval.json")
+    approvals = {"status":"pending","approvers":[], "ts": _now(), "kind": p.get("kind")}
+    if os.path.exists(ap_path):
+        approvals = _read_json(ap_path)
+    if approver in approvals.get("approvers", []):
+        return approvals  # idempotent
+    approvals.setdefault("approvers", []).append(approver)
+    need = _required_reviewers(p.get("kind","config_patch"))
+    approvals["status"] = "approved" if len(approvals["approvers"]) >= need else "pending"
+    _write_json(ap_path, approvals); _audit("proposal_approved", {"id": proposal_id, "approver": approver, "status": approvals["status"]})
+    return approvals
 
 def reject(proposal_id: str, approver: str, reason: str = "") -> Dict[str, Any]:
     p = _read_json(os.path.join(QDIR, f"{proposal_id}.json"))
@@ -195,11 +237,9 @@ def reject(proposal_id: str, approver: str, reason: str = "") -> Dict[str, Any]:
 def _approved(proposal_id: str) -> bool:
     ap = os.path.join(PDIR, f"{proposal_id}.approval.json")
     if not os.path.exists(ap): return False
-    try:
-        j = _read_json(ap)
-        return j.get("status") == "approved"
-    except Exception:
-        return False
+    j = _read_json(ap)
+    need = _required_reviewers(j.get("kind","config_patch"))
+    return j.get("status") == "approved" and len(j.get("approvers",[])) >= need
 
 def apply(proposal_id: str, subject_user: str = "system") -> Dict[str, Any]:
     """
@@ -213,6 +253,12 @@ def apply(proposal_id: str, subject_user: str = "system") -> Dict[str, Any]:
 
     target = p["target_path"]
     backup = target + f".bak.{int(_now())}"
+    
+    # Re-check governance before applying
+    gov = _load_governance()
+    rule = (gov.get("change_kinds", {}).get(p.get("kind","config_patch")) or {})
+    if not _path_allowed(target, rule.get("allowed_paths"), rule.get("deny_paths")):
+        raise RuntimeError("governance denies writes to target path")
     
     if _HAS_SANDBOX:
         mgr = CapManager()
