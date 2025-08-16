@@ -1,148 +1,172 @@
+# path: qi/metrics/calibration.py
 from __future__ import annotations
-import json, argparse, os
-from dataclasses import dataclass
-from typing import Tuple, List
-import numpy as np
+import os, json, math, glob, time
+from dataclasses import dataclass, asdict
+from typing import List, Dict, Any, Optional, Tuple
 
-try:
-    from sklearn.isotonic import IsotonicRegression
-except Exception:
-    IsotonicRegression = None
+# safe I/O
+import builtins
+_ORIG_OPEN = builtins.open
 
-# ---- metrics ----
-def brier_score(conf: np.ndarray, y: np.ndarray) -> float:
-    return float(np.mean((conf - y) ** 2))
+STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
+CAL_DIR = os.path.join(STATE, "calibration"); os.makedirs(CAL_DIR, exist_ok=True)
+PARAMS_PATH = os.path.join(CAL_DIR, "calibration_params.json")
 
-def ece_mce(conf: np.ndarray, y: np.ndarray, bins: int = 15) -> Tuple[float, float]:
-    """Expected / Max Calibration Error."""
-    assert conf.shape == y.shape
-    edges = np.linspace(0.0, 1.0, bins + 1)
-    ece, mce = 0.0, 0.0
-    n = len(conf)
-    for i in range(bins):
-        lo, hi = edges[i], edges[i+1]
-        mask = (conf >= lo) & (conf < hi) if i < bins - 1 else (conf >= lo) & (conf <= hi)
-        if not np.any(mask):
-            continue
-        acc = np.mean(y[mask])
-        conf_avg = np.mean(conf[mask])
-        gap = abs(acc - conf_avg)
-        ece += (np.sum(mask) / n) * gap
-        mce = max(mce, gap)
-    return float(ece), float(mce)
+EVALDIR = os.environ.get("LUKHAS_EVAL_DIR", "./eval_runs")
+RECDIR = os.path.join(STATE, "provenance", "exec_receipts")
 
-# ---- calibrators ----
 @dataclass
-class TemperatureScaler:
-    T: float = 1.0
+class CalibParams:
+    fitted_at: float
+    source: str           # "eval"|"receipts"
+    bins: List[Dict[str, float]]  # reliability diagram
+    ece: float
+    temperature: float    # temperature scaling for logits/confidence
+    min_conf_clip: float
+    max_conf_clip: float
 
-    def fit(self, logit: np.ndarray, y: np.ndarray, lr: float = 0.1, steps: int = 200) -> "TemperatureScaler":
-        """Simple 1D SGD on NLL for binary logits (pre-sigmoid)."""
-        eps = 1e-12
-        T = 1.0
-        for _ in range(steps):
-            p = 1/(1+np.exp(-(logit/T)))
-            grad = np.mean((p - y) * (logit / (T**2 + eps)))
-            T -= lr * grad
-            T = max(0.05, min(T, 50.0))
-        self.T = float(T)
-        return self
+def _read_json(p: str) -> dict:
+    with _ORIG_OPEN(p, "r", encoding="utf-8") as f: return json.load(f)
 
-    def transform(self, logit: np.ndarray) -> np.ndarray:
-        return 1/(1+np.exp(-(logit/self.T)))
+def _write_json(p: str, obj: Any):
+    tmp = p + ".tmp"
+    with _ORIG_OPEN(tmp, "w", encoding="utf-8") as f: json.dump(obj, f, indent=2)
+    os.replace(tmp, p)
 
-class IsotonicCalibrator:
-    def __init__(self):
-        if IsotonicRegression is None:
-            raise ImportError("scikit-learn is required for IsotonicCalibrator")
-        self.iso = IsotonicRegression(out_of_bounds="clip")
+def _collect_eval() -> List[Tuple[float, int]]:
+    """Return list of (confidence, correct) from eval runs if available.
+       For now assumes each task has 'score' in [0,1] and pass/fail."""
+    files = sorted(glob.glob(os.path.join(EVALDIR, "eval_*.json")))
+    out=[]
+    for fp in files[-10:]:  # last 10 evals
+        try:
+            ev = _read_json(fp)
+            for r in ev.get("results", []):
+                conf = float(r.get("score", 0.0))
+                correct = 1 if bool(r.get("pass", False)) else 0
+                out.append((conf, correct))
+        except Exception:
+            continue
+    return out
 
-    def fit(self, conf: np.ndarray, y: np.ndarray) -> "IsotonicCalibrator":
-        self.iso.fit(conf, y)
-        return self
+def _collect_receipts() -> List[Tuple[float, int]]:
+    """Fallback: infer confidence from runtime metadata; requires your pipeline to log a 'confidence' field & correctness."""
+    paths = sorted(glob.glob(os.path.join(RECDIR, "*.json")))
+    out=[]
+    for p in paths[-1000:]:
+        try:
+            r = _read_json(p)
+            conf = float((r.get("metrics") or {}).get("confidence", 0.0))
+            corr = (r.get("metrics") or {}).get("correct", None)
+            if corr is None: continue
+            out.append((conf, 1 if corr else 0))
+        except Exception:
+            continue
+    return out
 
-    def transform(self, conf: np.ndarray) -> np.ndarray:
-        return self.iso.transform(conf)
+def reliability_diagram(samples: List[Tuple[float,int]], bins: int = 10):
+    buckets = [ {"lower":i/bins, "upper":(i+1)/bins, "count":0, "acc":0.0, "conf":0.0 } for i in range(bins) ]
+    for conf, corr in samples:
+        c = min(max(conf, 0.0), 1.0)
+        idx = min(int(c * bins), bins-1)
+        b = buckets[idx]
+        b["count"] += 1
+        b["acc"] += corr
+        b["conf"] += c
+    # finalize
+    diag=[]
+    for b in buckets:
+        if b["count"] == 0:
+            diag.append({"lower":b["lower"], "upper":b["upper"], "acc": None, "conf": None, "count": 0})
+        else:
+            diag.append({"lower":b["lower"], "upper":b["upper"], "acc": b["acc"]/b["count"], "conf": b["conf"]/b["count"], "count": b["count"]})
+    return diag
 
-# ---- auto selector ----
-def auto_calibrate(conf: np.ndarray, y: np.ndarray, logits: np.ndarray | None = None, seed: int = 42):
-    """Splits into train/val; returns best of Temperature / Isotonic by ECE."""
-    rng = np.random.default_rng(seed)
-    idx = rng.permutation(len(conf))
-    k = max(10, int(0.8 * len(conf)))
-    tr, va = idx[:k], idx[k:]
+def expected_calibration_error(diag) -> float:
+    total = sum(b["count"] for b in diag)
+    if total == 0: return 0.0
+    e = 0.0
+    for b in diag:
+        if b["count"] == 0: continue
+        gap = abs((b["acc"] or 0.0) - (b["conf"] or 0.0))
+        e += (b["count"]/total) * gap
+    return float(round(e, 6))
 
-    results = []
+def fit_temperature(samples: List[Tuple[float,int]]) -> float:
+    """Simple 1D temperature on confidence → minimize logloss (Newton steps)."""
+    if not samples: return 1.0
+    T = 1.0
+    for _ in range(50):
+        grad = 0.0
+        hess = 0.0
+        for conf, corr in samples:
+            c = min(max(conf, 1e-6), 1-1e-6)
+            # inverse link approx: z = logit(c) = ln(c/(1-c))
+            z = math.log(c/(1.0-c))
+            zT = z / T
+            p = 1.0/(1.0+math.exp(-zT))
+            # dL/dT = (p - y)*(-z)/T^2
+            grad += (p - corr) * (-z) / (T*T)
+            # crude hessian approx
+            hess += p*(1-p) * (z*z) / (T**4)
+        if abs(hess) < 1e-9: break
+        step = grad / hess
+        T -= step
+        T = max(0.2, min(5.0, T))
+        if abs(step) < 1e-6: break
+    return float(round(T, 6))
 
-    # Isotonic on confidences
-    if IsotonicRegression is not None:
-        iso = IsotonicCalibrator().fit(conf[tr], y[tr])
-        c_val = iso.transform(conf[va])
-        ece, mce = ece_mce(c_val, y[va])
-        results.append(("isotonic", {"ece": ece, "mce": mce, "cal": iso}))
+def fit_and_save(source_preference: str = "eval") -> CalibParams:
+    samples = _collect_eval() if source_preference == "eval" else _collect_receipts()
+    if not samples:
+        # fallback to the other source
+        samples = _collect_receipts() if source_preference == "eval" else _collect_eval()
+        src = "receipts" if source_preference == "eval" else "eval"
+    else:
+        src = source_preference
 
-    # Temperature scaling on logits (if provided)
-    if logits is not None:
-        ts = TemperatureScaler().fit(logits[tr], y[tr])
-        c_val = ts.transform(logits[va])
-        ece, mce = ece_mce(c_val, y[va])
-        results.append(("temperature", {"ece": ece, "mce": mce, "cal": ts}))
+    diag = reliability_diagram(samples)
+    ece = expected_calibration_error(diag)
+    T = fit_temperature(samples)
+    params = CalibParams(
+        fitted_at=time.time(), source=src, bins=diag, ece=ece,
+        temperature=T, min_conf_clip=0.02, max_conf_clip=0.98
+    )
+    _write_json(PARAMS_PATH, asdict(params))
+    return params
 
-    if not results:
-        raise RuntimeError("No calibrators available. Provide logits for Temperature or install scikit-learn for Isotonic.")
+def load_params() -> Optional[CalibParams]:
+    if not os.path.exists(PARAMS_PATH): return None
+    j = _read_json(PARAMS_PATH)
+    return CalibParams(**j)
 
-    best = min(results, key=lambda r: r[1]["ece"])
-    return best  # (name, {ece,mce,cal})
+def apply_calibration(conf: float, params: Optional[CalibParams] = None) -> float:
+    p = params or load_params()
+    if p is None: return conf
+    c = min(max(conf, p.min_conf_clip), p.max_conf_clip)
+    # temperature scaling with pre-logit / post-sigmoid
+    z = math.log(c/(1.0-c))
+    zT = z / (p.temperature if p.temperature else 1.0)
+    out = 1.0/(1.0+math.exp(-zT))
+    return float(max(0.0, min(1.0, out)))
 
-# ---- CLI ----
-def _load_csv(path: str):
-    # Expect header with columns: confidence,label[,logit]
-    import csv
-    confs, labels, logits = [], [], []
-    with open(path, newline="", encoding="utf-8") as f:
-        for i, row in enumerate(csv.DictReader(f)):
-            confs.append(float(row["confidence"]))
-            labels.append(int(row["label"]))
-            if "logit" in row and row["logit"] not in ("", None):
-                logits.append(float(row["logit"]))
-    conf = np.array(confs, dtype=float)
-    y = np.array(labels, dtype=int)
-    logit_arr = np.array(logits, dtype=float) if logits else None
-    return conf, y, logit_arr
-
+# ------------- CLI -------------
 def main():
-    ap = argparse.ArgumentParser(description="Lukhas Calibration")
-    ap.add_argument("--csv", required=True, help="Path to log CSV with confidence,label[,logit]")
-    ap.add_argument("--out", default=os.path.expanduser("~/.lukhas/state/calibration.json"))
+    import argparse
+    ap = argparse.ArgumentParser(description="Lukhas Uncertainty & Calibration Engine")
+    ap.add_argument("--fit", action="store_true", help="Fit and save params (from eval by default)")
+    ap.add_argument("--source", default="eval", choices=["eval","receipts"])
+    ap.add_argument("--show", action="store_true", help="Print current params")
+    ap.add_argument("--demo", action="store_true", help="Demo: fit + print ECE")
     args = ap.parse_args()
 
-    conf, y, logits = _load_csv(args.csv)
-    base_ece, base_mce = ece_mce(conf, y)
-    base_brier = brier_score(conf, y)
-
-    name, info = auto_calibrate(conf, y, logits)
-    # For preview, transform validation set with the chosen calibrator against original confidences/logits
-    if name == "isotonic":
-        cal_conf = info["cal"].transform(conf)
-    else:
-        if logits is None:
-            raise RuntimeError("Temperature scaling chosen but logits were not provided.")
-        cal_conf = info["cal"].transform(logits)
-
-    out = {
-        "chosen": name,
-        "base": {"ece": base_ece, "mce": base_mce, "brier": base_brier},
-        "post": {
-            "ece": ece_mce(cal_conf, y)[0],
-            "mce": ece_mce(cal_conf, y)[1],
-            "brier": brier_score(cal_conf, y),
-        },
-        "params": {"T": getattr(info["cal"], "T", None)}
-    }
-    os.makedirs(os.path.dirname(args.out), exist_ok=True)
-    with open(args.out, "w", encoding="utf-8") as f:
-        json.dump(out, f, indent=2)
-    print(json.dumps(out, indent=2))
+    if args.fit or args.demo:
+        p = fit_and_save(args.source)
+        print(json.dumps(asdict(p), indent=2))
+        if not args.demo: return
+    if args.show:
+        p = load_params()
+        print(json.dumps(asdict(p) if p else {"note":"no params"}, indent=2))
 
 if __name__ == "__main__":
     main()

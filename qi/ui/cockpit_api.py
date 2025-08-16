@@ -15,6 +15,15 @@ from qi.learning.human_adapt_engine import HumanAdaptEngine
 from qi.autonomy.self_healer import list_proposals, approve, apply
 from qi.provenance.receipts_api import receipt_neighbors, receipt_sample
 
+# ---- UI serving (single-file cockpit + friends) ----
+COCKPIT_UI_PATH = os.environ.get("COCKPIT_UI_PATH")     # /abs/path/to/web/cockpit.html
+RECEIPTS_UI_PATH = os.environ.get("RECEIPTS_UI_PATH")   # /abs/path/to/web/trace_drilldown.html
+APPROVER_UI_PATH = os.environ.get("APPROVER_UI_PATH")   # /abs/path/to/web/approver_ui.html
+
+# Safe I/O for UI files
+import builtins
+_ORIG_OPEN = builtins.open
+
 # Auth
 def _check_auth(token: Optional[str] = Header(None, alias="X-Auth-Token")):
     expected = os.environ.get("COCKPIT_API_TOKEN")
@@ -758,10 +767,143 @@ def get_dashboard_summary(
 if os.path.exists("web"):
     app.mount("/static", StaticFiles(directory="web"), name="static")
 
+# ------------- UI Hub Routes -------------
+
+@app.get("/ui", response_class=HTMLResponse)
+def ui_index():
+    return """
+    <html><body style="font-family: ui-sans-serif; padding:20px; background:#0f1115; color:#e7eaf0">
+      <h2>LUKHΛS • UI Hub</h2>
+      <ul>
+        <li><a href="/ui/cockpit" style="color:#8ab4f8">Ops Cockpit</a></li>
+        <li><a href="/ui/trace" style="color:#8ab4f8">Trace Drill-down</a></li>
+        <li><a href="/ui/approver" style="color:#8ab4f8">Approver UI</a></li>
+      </ul>
+      <p style="opacity:.7">Tip: set <code>COCKPIT_UI_PATH</code>, <code>RECEIPTS_UI_PATH</code>, <code>APPROVER_UI_PATH</code> to serve your local HTML files.</p>
+    </body></html>
+    """
+
+@app.get("/ui/cockpit", response_class=HTMLResponse)
+def ui_cockpit(
+    # defaults for the page fields (can be overridden via query)
+    api_base: str = Query(os.environ.get("COCKPIT_UI_API_BASE", "http://127.0.0.1:8098")),
+    token: Optional[str] = Query(os.environ.get("COCKPIT_UI_TOKEN", "")),
+    policy_root: str = Query(os.environ.get("RECEIPTS_POLICY_ROOT", "qi/safety/policy_packs")),
+    overlays: str = Query(os.environ.get("RECEIPTS_OVERLAYS", "qi/risk")),
+):
+    # Try to load the on-disk cockpit HTML; fall back to a tiny stub if not set
+    if COCKPIT_UI_PATH and os.path.exists(COCKPIT_UI_PATH):
+        html = _ORIG_OPEN(COCKPIT_UI_PATH, "r", encoding="utf-8").read()
+    else:
+        html = """<!doctype html><html><head><meta charset="utf-8">
+<title>LUKHΛS • Ops Cockpit</title></head>
+<body style="font-family: system-ui; background:#0f1115; color:#e7eaf0; padding:24px">
+  <h2>Ops Cockpit</h2>
+  <p>Static UI file not found. Put your <code>web/cockpit.html</code> on disk and set
+     <code>COCKPIT_UI_PATH</code> to its absolute path, or open the file directly.</p>
+  <p>Defaults passed to the page:</p>
+  <pre id="defs"></pre>
+  <script>
+    document.getElementById('defs').textContent = JSON.stringify(window.LUKHAS_COCKPIT_DEFAULTS||{}, null, 2);
+  </script>
+</body></html>"""
+
+    # Inject defaults so the page bootstraps without manual typing
+    inject = f"""
+<script>
+  // Injected by /ui/cockpit
+  window.LUKHAS_COCKPIT_DEFAULTS = {{
+    apiBase: {json.dumps(api_base)},
+    token: {json.dumps(token or "")},
+    policyRoot: {json.dumps(policy_root)},
+    overlays: {json.dumps(overlays)}
+  }};
+  // Auto-apply into the known input fields if they exist (works with the provided cockpit.html)
+  (function applyDefaults() {{
+    function setVal(id, v) {{
+      try {{
+        var el = document.getElementById(id);
+        if (el && (el.value === "" || el.value === el.getAttribute("value"))) el.value = v || el.value;
+      }} catch (e) {{}}
+    }}
+    setVal("api", window.LUKHAS_COCKPIT_DEFAULTS.apiBase);
+    setVal("tok", window.LUKHAS_COCKPIT_DEFAULTS.token);
+    setVal("policyRoot", window.LUKHAS_COCKPIT_DEFAULTS.policyRoot);
+    setVal("overlays", window.LUKHAS_COCKPIT_DEFAULTS.overlays);
+    // If the page exposes a global refresh button, click it to auto-load everything.
+    var btn = document.getElementById("refreshAll");
+    if (btn) setTimeout(function(){{ btn.click(); }}, 150);
+  }})();
+</script>
+"""
+    # Inject just before </body>; if not found, append
+    if "</body>" in html:
+        html = html.replace("</body>", inject + "</body>")
+    else:
+        html += inject
+    return HTMLResponse(content=html)
+
+@app.get("/ui/trace", response_class=HTMLResponse)
+def ui_trace(
+    rid: Optional[str] = Query(None),
+    api_base: str = Query(os.environ.get("RECEIPTS_API_BASE", "http://127.0.0.1:8095")),
+    policy_root: str = Query(os.environ.get("RECEIPTS_POLICY_ROOT", "qi/safety/policy_packs")),
+    overlays: str = Query(os.environ.get("RECEIPTS_OVERLAYS", "qi/risk")),
+    public: bool = Query(False),
+):
+    # prefer on-disk static if provided
+    if RECEIPTS_UI_PATH and os.path.exists(RECEIPTS_UI_PATH):
+        html = _ORIG_OPEN(RECEIPTS_UI_PATH, "r", encoding="utf-8").read()
+    else:
+        html = "<html><body style='font-family:ui-sans-serif;padding:24px;color:#e7eaf0;background:#0f1115'>Missing trace_drilldown.html. Set RECEIPTS_UI_PATH.</body></html>"
+    inject = f"""
+<script>
+  window.LUKHAS_TRACE_DEFAULTS = {{
+    rid: {json.dumps(rid)},
+    apiBase: {json.dumps(api_base)},
+    policyRoot: {json.dumps(policy_root)},
+    overlays: {json.dumps(overlays)},
+    publicRedact: {str(public).lower()}
+  }};
+  // auto-apply & autoload
+  (function(){{
+    function set(id,v){{var e=document.getElementById(id); if(e && (e.value===''||e.value===e.getAttribute('value'))) e.value=v;}}
+    set('apiBase', window.LUKHAS_TRACE_DEFAULTS.apiBase);
+    set('policyRoot', window.LUKHAS_TRACE_DEFAULTS.policyRoot);
+    set('overlays', window.LUKHAS_TRACE_DEFAULTS.overlays);
+    var btn = document.getElementById('btnLoad')||document.getElementById('refreshAll');
+    if(btn) setTimeout(function(){{btn.click();}},150);
+  }})();
+</script>
+"""
+    return HTMLResponse(content=html.replace("</body>", inject + "</body>") if "</body>" in html else html+inject)
+
+@app.get("/ui/approver", response_class=HTMLResponse)
+def ui_approver(
+    api_base: str = Query(os.environ.get("APPROVER_API_BASE", "http://127.0.0.1:8097")),
+    token: Optional[str] = Query(os.environ.get("AUTONOMY_API_TOKEN", "")),
+):
+    if APPROVER_UI_PATH and os.path.exists(APPROVER_UI_PATH):
+        html = _ORIG_OPEN(APPROVER_UI_PATH, "r", encoding="utf-8").read()
+    else:
+        html = "<html><body style='font-family:ui-sans-serif;padding:24px;color:#e7eaf0;background:#0f1115'>Missing approver_ui.html. Set APPROVER_UI_PATH.</body></html>"
+    inject = f"""
+<script>
+  (function(){{
+    var api={json.dumps(api_base)}, tok={json.dumps(token or "")};
+    function set(id,v){{var e=document.getElementById(id); if(e && (e.value===''||e.value===e.getAttribute('value'))) e.value=v;}}
+    set('api', api); set('tok', tok);
+    var btn = document.getElementById('refresh');
+    if(btn) setTimeout(function(){{btn.click();}},150);
+  }})();
+</script>
+"""
+    return HTMLResponse(content=html.replace("</body>", inject + "</body>") if "</body>" in html else html+inject)
+
 # Root redirect
 @app.get("/")
 def root():
-    return {"message": "LUKHAS Unified Ops Cockpit API", "version": "1.0.0", "docs": "/docs"}
+    return {"message": "LUKHAS Unified Ops Cockpit API", "version": "1.0.0", "docs": "/docs", "ui": "/ui"}
 
 if __name__ == "__main__":
     import uvicorn

@@ -522,6 +522,41 @@ open web/cockpit.html
 - JavaScript enabled for API communication
 - Local storage for preference persistence
 
+### UI Hub
+
+The C-EVAL system includes a unified UI Hub accessible at `/ui` that serves multiple interfaces:
+
+```bash
+# Set environment variables for UI file paths
+export COCKPIT_UI_PATH="/Users/agi_dev/LOCAL-REPOS/Lukhas/web/cockpit.html"
+export RECEIPTS_UI_PATH="/Users/agi_dev/LOCAL-REPOS/Lukhas/web/trace_drilldown.html"
+export APPROVER_UI_PATH="/Users/agi_dev/LOCAL-REPOS/Lukhas/web/approver_ui.html"
+
+# Optional convenience defaults
+export COCKPIT_UI_API_BASE="http://127.0.0.1:8098"
+export COCKPIT_UI_TOKEN="supersecret"
+export RECEIPTS_POLICY_ROOT="qi/safety/policy_packs"
+export RECEIPTS_OVERLAYS="qi/risk"
+
+# Start the API
+uvicorn qi.ui.cockpit_api:app --host 127.0.0.1 --port 8098 --reload
+
+# Access UI Hub
+open http://127.0.0.1:8098/ui
+```
+
+**Available UI Routes:**
+- `/ui` - UI Hub index with links to all interfaces
+- `/ui/cockpit` - Ops Cockpit with injected defaults
+- `/ui/trace` - Trace Drill-down with auto-configuration
+- `/ui/approver` - Approver UI with token injection
+
+**Features:**
+- **Automatic Default Injection**: UI fields pre-filled from environment variables
+- **Auto-refresh**: Pages automatically load data on startup
+- **Fallback Stubs**: Missing UI files show helpful setup instructions
+- **Query Parameter Overrides**: Customize defaults via URL parameters
+
 ### API Panels
 
 #### Panel 1: Safety Card & Reports
@@ -617,6 +652,154 @@ tasks:
     proposal_id_key: proposal_id
 ```
 
+## Uncertainty & Calibration Engine
+
+Advanced confidence calibration system for improved reliability assessment:
+
+### Overview
+
+The Uncertainty & Calibration Engine (`qi/metrics/calibration.py`) analyzes model confidence scores and applies temperature scaling to improve calibration:
+
+1. **Data Collection**: Gathers confidence/correctness pairs from eval runs or receipts
+2. **Reliability Analysis**: Builds reliability diagrams and computes Expected Calibration Error (ECE)
+3. **Temperature Fitting**: Uses Newton optimization to fit temperature scaling parameter
+4. **Parameter Persistence**: Saves calibration parameters to `~/.lukhas/state/calibration/`
+
+### Usage
+
+```bash
+# Fit calibration parameters from eval runs
+python -m qi.metrics.calibration --fit --source eval
+
+# Show current parameters
+python -m qi.metrics.calibration --show
+
+# Demo: fit and print ECE
+python -m qi.metrics.calibration --demo
+```
+
+### Programmatic API
+
+```python
+from qi.metrics.calibration import fit_and_save, apply_calibration, load_params
+
+# Fit parameters from latest eval data
+params = fit_and_save(source_preference="eval")
+print(f"ECE: {params.ece}, Temperature: {params.temperature}")
+
+# Apply calibration to raw confidence
+raw_confidence = 0.75
+calibrated = apply_calibration(raw_confidence)
+print(f"Calibrated: {raw_confidence} → {calibrated}")
+```
+
+### Output Structure
+
+```json
+{
+  "fitted_at": 1692123456.789,
+  "source": "eval",
+  "bins": [
+    {"lower": 0.0, "upper": 0.1, "acc": 0.05, "conf": 0.08, "count": 25},
+    {"lower": 0.1, "upper": 0.2, "acc": 0.15, "conf": 0.18, "count": 30}
+  ],
+  "ece": 0.024,
+  "temperature": 1.15,
+  "min_conf_clip": 0.02,
+  "max_conf_clip": 0.98
+}
+```
+
+## TEQ Coupler
+
+Calibration-aware policy gate integration:
+
+### Overview
+
+The TEQ Coupler (`qi/safety/teq_coupler.py`) applies calibrated confidence scores to policy decisions with bounded threshold adjustments:
+
+1. **Calibration Application**: Uses temperature scaling on raw confidence scores
+2. **Threshold Adjustment**: Dynamically adjusts thresholds based on model calibration state
+3. **Decision Generation**: Returns allow/block decisions with full audit metadata
+4. **Safe Boundaries**: Limits threshold shifts to prevent policy drift
+
+### Usage
+
+```bash
+# Preview calibrated gate decision
+python -m qi.safety.teq_coupler --conf 0.72 --base-threshold 0.75 --max-shift 0.1
+```
+
+### Programmatic Integration
+
+```python
+from qi.safety.teq_coupler import calibrated_gate
+
+# Apply calibrated gate with threshold adjustment
+result = calibrated_gate(
+    confidence=0.72,
+    base_threshold=0.75,
+    max_shift=0.1  # ±10% maximum threshold adjustment
+)
+
+print(f"Decision: {result['decision']}")
+print(f"Calibrated confidence: {result['calibrated_conf']}")
+print(f"Effective threshold: {result['threshold_eff']}")
+```
+
+### Output Structure
+
+```json
+{
+  "calibrated_conf": 0.68,
+  "decision": "block",
+  "threshold_base": 0.75,
+  "threshold_shift": -0.02,
+  "threshold_eff": 0.73,
+  "temperature": 1.15
+}
+```
+
+### Threshold Adjustment Logic
+
+- **Under-confident models** (T > 1.0): Lower thresholds slightly to compensate
+- **Over-confident models** (T < 1.0): Raise thresholds slightly for caution
+- **Bounded shifts**: Maximum adjustment limited by `max_shift` parameter
+- **State persistence**: Threshold decisions saved to `~/.lukhas/state/teq_coupler.json`
+
+### Production Integration
+
+Add to existing TEQ gates in `qi/safety/teq_gate.py`:
+
+```python
+from qi.safety.teq_coupler import calibrated_gate
+
+# Replace raw confidence decision with calibrated gate
+gate = calibrated_gate(
+    confidence=raw_confidence,
+    base_threshold=policy.get("threshold", 0.75),
+    max_shift=0.08
+)
+allowed = (gate["decision"] == "allow")
+
+# Include calibration metadata in decision audit
+decision_meta.update({
+    "calibrated_conf": gate["calibrated_conf"],
+    "threshold_eff": gate["threshold_eff"],
+    "temperature": gate["temperature"]
+})
+```
+
+### Automated Recalibration
+
+Set up nightly parameter refitting:
+
+```bash
+# Add to crontab for nightly recalibration at 01:20
+20 1 * * * cd /Users/agi_dev/LOCAL-REPOS/Lukhas && PYTHONPATH=. \
+  python -m qi.metrics.calibration --fit --source eval
+```
+
 ## Future Enhancements
 
 - **Multi-Model Evaluation**: Support for A/B testing between model versions
@@ -624,3 +807,6 @@ tasks:
 - **Risk-Aware Scheduling**: Evaluation frequency based on risk assessment
 - **Federated Learning**: Cross-deployment evaluation coordination
 - **Advanced Learning**: Neural architecture search and AutoML integration
+- **Ensemble Calibration**: Calibration across multiple model predictions
+- **Uncertainty Quantification**: Confidence intervals and prediction regions
+- **Adaptive Threshold Learning**: Dynamic threshold optimization based on outcomes
