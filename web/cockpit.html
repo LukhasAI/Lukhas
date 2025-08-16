@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>LUKHΛS • Ops Cockpit</title>
+<style>
+:root{
+  --bg:#0f1115;--panel:#161a22;--border:#232a36;--text:#e7eaf0;--muted:#9aa5b1;
+  --accent:#8ab4f8;--ok:#3ddc97;--bad:#ff8370;--warn:#ffcc66;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:Inter,ui-sans-serif,system-ui
+}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans)}
+header{display:flex;gap:.6rem;align-items:center;padding:.6rem .8rem;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#141924,#0f1115);flex-wrap:wrap}
+header input{background:#0d1016;border:1px solid var(--border);border-radius:.35rem;color:var(--text);padding:.4rem .5rem;font-family:var(--mono)}
+header button{background:#1b2331;border:1px solid var(--border);border-radius:.35rem;color:var(--text);padding:.45rem .7rem;cursor:pointer}
+header button:hover{background:#202a3b}
+.label{color:var(--muted);font-size:.9rem}
+.sep{opacity:.45}
+main{display:grid;grid-template-columns:1.2fr 1fr;grid-template-rows:auto auto 1fr;gap:.8rem;padding:.8rem}
+.panel{border:1px solid var(--border);border-radius:.5rem;background:#121722;overflow:hidden;display:flex;flex-direction:column;min-height:220px}
+.panel h3{margin:0;padding:.6rem .8rem;border-bottom:1px solid var(--border);background:#151b28}
+.panel .body{padding:.6rem .8rem;display:flex;gap:.8rem;flex:1;overflow:auto}
+.panel .col{flex:1;min-width:240px}
+pre{background:#0b0e13;border:1px solid var(--border);border-radius:.4rem;padding:.6rem;white-space:pre-wrap;word-break:break-word;font-family:var(--mono);font-size:.86rem}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{border-bottom:1px solid var(--border);padding:.35rem .4rem;vertical-align:top}
+tr:hover{background:#151a25}
+.pill{display:inline-block;border:1px solid var(--border);border-radius:.4rem;padding:.1rem .4rem;margin-right:.3rem;font-size:.8rem;color:#ccd3dd}
+.ok{color:var(--ok);border-color:#254e3b;background:#112318}
+.bad{color:var(--bad);border-color:#5c2d28;background:#1a1110}
+.warn{color:#efc96b;border-color:#675427;background:#221d10}
+.controls{display:flex;gap:.45rem;align-items:center;flex-wrap:wrap;margin:.4rem 0}
+a{color:var(--accent);text-decoration:none}
+#trace svg{width:100%;height:auto}
+small.hint{color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <strong>Ops Cockpit</strong>
+  <span class="sep">|</span>
+  <span class="label">API</span><input id="api" size="28" value="http://127.0.0.1:8098"/>
+  <span class="label">Token</span><input id="tok" size="16" placeholder="(optional)"/>
+  <span class="label">policy_root</span><input id="policyRoot" size="22" value="qi/safety/policy_packs"/>
+  <span class="label">overlays</span><input id="overlays" size="18" value="qi/risk"/>
+  <button id="refreshAll">Refresh All</button>
+</header>
+
+<main>
+  <!-- Safety Card -->
+  <section class="panel" style="grid-column:1/2;grid-row:1/2;">
+    <h3>Safety Card & Appendix</h3>
+    <div class="body">
+      <div class="col">
+        <div class="controls">
+          <span class="label">jurisdictions</span><input id="juris" size="24" value="global,eu,us"/>
+          <span class="label">diff</span><input id="diffPairs" size="20" placeholder="global:eu,eu:us"/>
+          <button id="btnCardJson">Load JSON</button>
+          <button id="btnCardMd">Load MD</button>
+          <button id="btnCardPdf">PDF</button>
+        </div>
+        <pre id="cardJson">—</pre>
+      </div>
+      <div class="col">
+        <pre id="cardMd">—</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Adaptive candidates -->
+  <section class="panel" style="grid-column:2/3;grid-row:1/2;">
+    <h3>Adaptive Candidates</h3>
+    <div class="body">
+      <div class="col">
+        <div class="controls">
+          <span class="label">targets</span><input id="targets" size="30" value="qi/safety/policy_packs/global/mappings.yaml"/>
+          <button id="btnLoadCands">Load</button>
+          <button id="btnPromoteCands">Promote Top</button>
+        </div>
+        <table id="candTable"><thead><tr><th>id</th><th>task</th><th>kind</th><th>offline</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="col">
+        <pre id="candDetail">Select a candidate…</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Human Adaptation -->
+  <section class="panel" style="grid-column:1/2;grid-row:2/3;">
+    <h3>Human Adaptation (Tone/Style)</h3>
+    <div class="body">
+      <div class="col">
+        <div class="controls">
+          <span class="label">user</span><input id="haUser" size="16" value="gonzalo"/>
+          <span class="label">target_file</span><input id="haTarget" size="28" value="qi/safety/policy_packs/global/mappings.yaml"/>
+          <button id="btnHAProbe">Probe</button>
+          <button id="btnHAPromote">Promote</button>
+        </div>
+        <pre id="haProposal">—</pre>
+      </div>
+      <div class="col">
+        <small class="hint">Promoted proposals appear in Approvals.</small>
+        <pre id="haNote">HITL required. Two-man rule enforced by governance.</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Approvals -->
+  <section class="panel" style="grid-column:2/3;grid-row:2/3;">
+    <h3>Approvals</h3>
+    <div class="body">
+      <div class="col">
+        <div class="controls">
+          <button id="btnLoadProps">Refresh</button>
+          <span class="label">approver</span><input id="approver" size="14" placeholder="your name"/>
+        </div>
+        <table id="propTable"><thead><tr><th>id</th><th>kind</th><th>risk</th><th>target</th><th>status</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="col">
+        <div class="controls">
+          <button id="btnApprove">Approve</button>
+          <button id="btnReject">Reject</button>
+          <button id="btnApply">Apply</button>
+        </div>
+        <pre id="propDetail">Select a proposal…</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Receipts / Provenance -->
+  <section class="panel" style="grid-column:1/3;grid-row:3/4;min-height:360px">
+    <h3>Receipts & Provenance</h3>
+    <div class="body">
+      <div class="col" style="max-width:520px">
+        <div class="controls">
+          <span class="label">limit</span><input id="rLimit" size="6" value="20"/>
+          <button id="btnLoadReceipts">Load</button>
+        </div>
+        <table id="recTable"><thead><tr><th>id</th><th>task</th><th>lat(ms)</th><th>risk</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="col">
+        <div class="controls">
+          <button id="btnReplay">Replay</button>
+          <span id="replayVerdict" class="pill">—</span>
+        </div>
+        <pre id="replayJson">—</pre>
+      </div>
+      <div class="col">
+        <div id="trace">Select a receipt to render trace…</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+const $=s=>document.querySelector(s), $all=s=>Array.from(document.querySelectorAll(s));
+const api=$("#api"), tok=$("#tok");
+const policyRoot=$("#policyRoot"), overlays=$("#overlays");
+// persist
+["api","tok","policyRoot","overlays"].forEach(id=>{
+  const el=document.getElementById(id); el.value=localStorage.getItem(id)||el.value;
+  el.addEventListener("change",e=>localStorage.setItem(id,e.target.value));
+});
+function hdr(){ const h={}; if(tok.value.trim()) h["X-Auth-Token"]=tok.value.trim(); return h; }
+function qs(obj){return Object.entries(obj).filter(([k,v])=>v!==undefined && v!==null && v!=="").map(([k,v])=>`${encodeURIComponent(k)}=${encodeURIComponent(v)}`).join("&");}
+
+async function get(path){ const r=await fetch(api.value.replace(/\/+$/,'')+path,{headers:hdr()}); if(!r.ok) throw new Error((await r.text())||r.statusText); return r; }
+async function getJSON(path){ const r=await get(path); return await r.json(); }
+async function post(path){ const r=await fetch(api.value.replace(/\/+$/,'')+path,{method:"POST",headers:hdr()}); if(!r.ok) throw new Error((await r.text())||r.statusText); return r; }
+async function postJSON(path){ const r=await post(path); return await r.json(); }
+
+// Safety Card
+const juris=$("#juris"), diffPairs=$("#diffPairs"), cardJson=$("#cardJson"), cardMd=$("#cardMd");
+$("#btnCardJson").onclick=async ()=>{
+  try{
+    const diff=diffPairs.value.trim()?diffPairs.value.split(",").map(s=>`diff=${encodeURIComponent(s.trim())}`).join("&"):"";
+    const j=await getJSON(`/cockpit/safety_card.json?${qs({
+      model:"LUKHAS-QI",version:"0.9.0",policy_root:policyRoot.value,overlays:overlays.value,
+      jurisdictions:juris.value
+    })}${diff?("&"+diff):""}&include_appendix=1`);
+    cardJson.textContent=JSON.stringify(j,null,2);
+    cardMd.textContent=(j._appendix_nightly_report_md||"(no appendix)");
+  }catch(e){ cardJson.textContent="error: "+e.message; }
+};
+$("#btnCardMd").onclick=async ()=>{
+  try{ const t=await (await get(`/cockpit/safety_card.md?${qs({policy_root:policyRoot.value,overlays:overlays.value,jurisdictions:juris.value})}`)).text();
+       cardMd.textContent=t; }catch(e){ cardMd.textContent="error: "+e.message; }
+};
+$("#btnCardPdf").onclick=async ()=>{
+  try{
+    const r=await get(`/cockpit/safety_card.pdf?${qs({policy_root:policyRoot.value,overlays:overlays.value})}`);
+    const blob=await r.blob(); const url=URL.createObjectURL(blob);
+    const a=document.createElement("a"); a.href=url; a.download="model_safety_card.pdf"; a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),2000);
+  }catch(e){ alert("PDF not available (install weasyprint)"); }
+};
+
+// Adaptive
+const candTable=$("#candTable tbody"), candDetail=$("#candDetail"), targets=$("#targets");
+let candItems=[];
+function renderCands(){
+  candTable.innerHTML="";
+  candItems.forEach(c=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${c.id.slice(0,12)}…</td><td>${c.meta?.task||"—"}</td><td>${c.meta?.kind||"—"}</td><td>${c.score_offline??"—"}</td>`;
+    tr.onclick=()=>{ candDetail.textContent=JSON.stringify(c,null,2); $all("#candTable tr").forEach(x=>x.style.background=""); tr.style.background="#151a25"; };
+    candTable.appendChild(tr);
+  });
+}
+$("#btnLoadCands").onclick=async ()=>{
+  try{ const j=await getJSON(`/cockpit/adaptive/candidates`); candItems=j.items||[]; renderCands(); candDetail.textContent="Select a candidate…"; }
+  catch(e){ candDetail.textContent="error: "+e.message; }
+};
+$("#btnPromoteCands").onclick=async ()=>{
+  try{
+    const q="?" + targets.value.split(",").map(s=>`targets=${encodeURIComponent(s.trim())}`).join("&");
+    const j=await postJSON(`/cockpit/adaptive/promote${q}`);
+    alert("Queued proposals:\n"+(j.queued_proposals||[]).join("\n"));
+  }catch(e){ alert("promote failed: "+e.message); }
+};
+
+// Human Adaptation
+const haUser=$("#haUser"), haTarget=$("#haTarget"), haProposal=$("#haProposal");
+$("#btnHAProbe").onclick=async ()=>{
+  try{ const j=await getJSON(`/cockpit/human/proposals?${qs({user:haUser.value})}`); haProposal.textContent=JSON.stringify(j,null,2); }
+  catch(e){ haProposal.textContent="error: "+e.message; }
+};
+$("#btnHAPromote").onclick=async ()=>{
+  try{ const j=await postJSON(`/cockpit/human/promote?${qs({user:haUser.value,target_file:haTarget.value,ttl_sec:3600})}`); alert("Queued proposal: "+j.queued_proposal); }
+  catch(e){ alert("promote failed: "+e.message); }
+};
+
+// Approvals
+const propTable=$("#propTable tbody"), propDetail=$("#propDetail"), approver=$("#approver");
+let propItems=[]; let propSelected=null;
+function renderProps(){
+  propTable.innerHTML="";
+  propItems.forEach(p=>{
+    const status = (p.approval && p.approval.status) || "pending";
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${p.id.slice(0,12)}…</td><td>${p.kind}</td><td>${p.risk}</td><td>${p.target_path||"—"}</td><td>${status}</td>`;
+    tr.onclick=()=>{ propSelected=p; propDetail.textContent=JSON.stringify(p,null,2); $all("#propTable tr").forEach(x=>x.style.background=""); tr.style.background="#151a25"; };
+    propTable.appendChild(tr);
+  });
+}
+$("#btnLoadProps").onclick=async ()=>{
+  try{ const j=await getJSON(`/cockpit/proposals`); propItems=j.items||[]; renderProps(); propDetail.textContent="Select a proposal…"; }
+  catch(e){ propDetail.textContent="error: "+e.message; }
+};
+$("#btnApprove").onclick=async ()=>{
+  if(!propSelected) return alert("pick a proposal");
+  if(!approver.value.trim()) return alert("enter approver name");
+  try{
+    await post(`/cockpit/proposals/${encodeURIComponent(propSelected.id)}/approve?${qs({by:approver.value,reason:"UI"})}`);
+    $("#btnLoadProps").click();
+  }catch(e){ alert("approve failed: "+e.message); }
+};
+$("#btnReject").onclick=async ()=>{
+  if(!propSelected) return alert("pick a proposal");
+  if(!approver.value.trim()) return alert("enter approver name");
+  try{
+    await post(`/cockpit/proposals/${encodeURIComponent(propSelected.id)}/reject?${qs({by:approver.value,reason:"UI"})}`);
+    $("#btnLoadProps").click();
+  }catch(e){ alert("reject failed: "+e.message); }
+};
+$("#btnApply").onclick=async ()=>{
+  if(!propSelected) return alert("pick a proposal");
+  const asUser = prompt("Apply as user:", "ops") || "ops";
+  try{
+    const j=await postJSON(`/cockpit/proposals/${encodeURIComponent(propSelected.id)}/apply?${qs({as_user:asUser})}`);
+    alert("applied. receipt: "+j.receipt_id);
+  }catch(e){ alert("apply failed: "+e.message); }
+};
+
+// Receipts / Replay / Trace
+const rLimit=$("#rLimit"), recTable=$("#recTable tbody"), replayJson=$("#replayJson"), replayVerdict=$("#replayVerdict"), trace=$("#trace");
+let recItems=[]; let recSelected=null;
+function renderRecs(){
+  recTable.innerHTML="";
+  recItems.forEach(r=>{
+    const tr=document.createElement("tr");
+    const risk=(r.risk_flags||[]).slice(0,2).join(",");
+    tr.innerHTML=`<td>${r.id.slice(0,12)}…</td><td>${r.task||"—"}</td><td>${r.latency_ms??"—"}</td><td>${risk||"—"}</td>`;
+    tr.onclick=()=>{ recSelected=r; replayJson.textContent="—"; renderTrace(null); $all("#recTable tr").forEach(x=>x.style.background=""); tr.style.background="#151a25"; };
+    recTable.appendChild(tr);
+  });
+}
+$("#btnLoadReceipts").onclick=async ()=>{
+  try{ const j=await getJSON(`/cockpit/receipts?${qs({limit:rLimit.value})}`); recItems=j.items||[]; renderRecs(); }
+  catch(e){ recTable.innerHTML=`<tr><td colspan="4">error: ${e.message}</td></tr>`; }
+};
+$("#btnReplay").onclick=async ()=>{
+  if(!recSelected) return alert("pick a receipt");
+  try{
+    const j=await getJSON(`/cockpit/receipts/${encodeURIComponent(recSelected.id)}/replay.json?${qs({policy_root:policyRoot.value,overlays:overlays.value})}`);
+    replayJson.textContent=JSON.stringify(j,null,2);
+    const allowed = !!(j.replay && j.replay.allowed);
+    replayVerdict.textContent = allowed?"ALLOWED":"BLOCKED";
+    replayVerdict.className="pill "+(allowed?"ok":"bad");
+    await renderTrace(recSelected.id);
+  }catch(e){ replayJson.textContent="error: "+e.message; }
+};
+async function renderTrace(rid){
+  trace.innerHTML="—";
+  if(!rid) return;
+  try{
+    const r=await get(`/cockpit/receipts/${encodeURIComponent(rid)}/trace.svg?${qs({policy_root:policyRoot.value,overlays:overlays.value,link_base:api.value})}`);
+    const svgTxt=await r.text(); trace.innerHTML=svgTxt;
+  }catch(e){ trace.textContent="trace error: "+e.message; }
+}
+
+// Global refresh
+$("#refreshAll").onclick=async ()=>{
+  $("#btnCardJson").click();
+  $("#btnCardMd").click();
+  $("#btnLoadCands").click();
+  $("#btnHAProbe").click();
+  $("#btnLoadProps").click();
+  $("#btnLoadReceipts").click();
+};
+
+// Boot from previous values
+document.addEventListener("DOMContentLoaded", ()=> $("#refreshAll").click());
+</script>
+</body>
+</html>

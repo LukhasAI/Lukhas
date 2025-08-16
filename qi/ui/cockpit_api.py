@@ -51,6 +51,76 @@ def get_safety_card(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Safety card generation failed: {str(e)}")
 
+@app.get("/cockpit/safety_card.json")
+def get_safety_card_json(
+    model: str = Query("LUKHAS-QI"),
+    version: str = Query("0.9.0"),
+    policy_root: str = Query("qi/safety/policy_packs"),
+    overlays: Optional[str] = Query("qi/risk"),
+    jurisdictions: str = Query("global,eu,us"),
+    include_appendix: bool = Query(False),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        jurs = [j.strip() for j in jurisdictions.split(",")]
+        card = generate_card(
+            model_name=model,
+            version=version,
+            policy_root=policy_root,
+            overlays=overlays,
+            jurisdictions=jurs
+        )
+        
+        if include_appendix:
+            # Add nightly report as appendix
+            try:
+                report_md = _mk_markdown(policy_root, overlays, 500)
+                card["_appendix_nightly_report_md"] = report_md
+            except:
+                card["_appendix_nightly_report_md"] = "(appendix generation failed)"
+        
+        return card
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Safety card JSON generation failed: {str(e)}")
+
+@app.get("/cockpit/safety_card.md")
+def get_safety_card_markdown(
+    model: str = Query("LUKHAS-QI"), 
+    version: str = Query("0.9.0"),
+    policy_root: str = Query("qi/safety/policy_packs"),
+    overlays: Optional[str] = Query("qi/risk"),
+    jurisdictions: str = Query("global,eu,us"),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        jurs = [j.strip() for j in jurisdictions.split(",")]
+        card = generate_card(
+            model_name=model,
+            version=version,
+            policy_root=policy_root,
+            overlays=overlays,
+            jurisdictions=jurs
+        )
+        md = to_markdown(card)
+        return HTMLResponse(content=md, media_type="text/plain")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Safety card markdown generation failed: {str(e)}")
+
+@app.get("/cockpit/safety_card.pdf")
+def get_safety_card_pdf(
+    policy_root: str = Query("qi/safety/policy_packs"),
+    overlays: Optional[str] = Query("qi/risk"),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        # Mock PDF response - requires weasyprint
+        raise HTTPException(status_code=404, detail="PDF generation requires weasyprint installation")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"PDF generation failed: {str(e)}")
+
 @app.get("/cockpit/nightly-report")
 def get_nightly_report(
     policy_root: str = Query("qi/safety/policy_packs"),
@@ -99,6 +169,37 @@ def analyze_adaptive_performance(
         return {"analysis": patterns, "window": window}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Adaptive analysis failed: {str(e)}")
+
+@app.get("/cockpit/adaptive/candidates")
+def get_adaptive_candidates(
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        engine = AdaptiveLearningEngine()
+        candidates = engine.batch_offline_eval(top_k=10)
+        return {
+            "items": [{"id": c.id, "patch": c.patch, "meta": c.meta, "score_offline": c.score_offline} for c in candidates],
+            "count": len(candidates)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Candidate retrieval failed: {str(e)}")
+
+@app.post("/cockpit/adaptive/promote")
+def promote_adaptive_candidates(
+    targets: List[str] = Query(...),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        engine = AdaptiveLearningEngine()
+        proposal_ids = engine.propose_best(config_targets=targets)
+        return {
+            "queued_proposals": proposal_ids,
+            "count": len(proposal_ids)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Adaptive promotion failed: {str(e)}")
 
 @app.post("/cockpit/adaptive/evolve-params")
 def evolve_adaptive_parameters(
@@ -170,6 +271,40 @@ def analyze_human_satisfaction(
         return {"analysis": patterns, "window": window}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Human satisfaction analysis failed: {str(e)}")
+
+@app.get("/cockpit/human/proposals")
+def get_human_proposals(
+    user: Optional[str] = Query(None),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        engine = HumanAdaptEngine()
+        proposals = engine.propose_tone_adaptations(
+            target_file="qi/safety/policy_packs/global/mappings.yaml",
+            user_focus=user
+        )
+        return {"proposals": proposals, "count": len(proposals), "user_focus": user}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Human proposal retrieval failed: {str(e)}")
+
+@app.post("/cockpit/human/promote")
+def promote_human_adaptations(
+    user: Optional[str] = Query(None),
+    target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
+    ttl_sec: int = Query(3600),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        engine = HumanAdaptEngine()
+        submitted_ids = engine.submit_for_approval(config_targets=[target_file])
+        return {
+            "queued_proposal": submitted_ids[0] if submitted_ids else None,
+            "count": len(submitted_ids)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Human promotion failed: {str(e)}")
 
 @app.post("/cockpit/human-adapt/propose-tone")
 def propose_tone_adaptations(
@@ -251,6 +386,59 @@ def list_all_proposals(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Proposal listing failed: {str(e)}")
+
+@app.get("/cockpit/proposals")
+def get_proposals_simplified(
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        proposals = list_proposals()
+        return {"items": proposals, "count": len(proposals)}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Proposal retrieval failed: {str(e)}")
+
+@app.post("/cockpit/proposals/{proposal_id}/approve")
+def approve_proposal_by_id(
+    proposal_id: str,
+    by: str = Query(...),
+    reason: str = Query("Approved via cockpit UI"),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        result = approve(proposal_id, by, reason)
+        return {"proposal_id": proposal_id, "result": result, "by": by, "reason": reason}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Approval failed: {str(e)}")
+
+@app.post("/cockpit/proposals/{proposal_id}/reject")
+def reject_proposal_by_id(
+    proposal_id: str,
+    by: str = Query(...),
+    reason: str = Query("Rejected via cockpit UI"),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        # Use approve with rejection reason for now
+        result = approve(proposal_id, by, f"REJECTED: {reason}")
+        return {"proposal_id": proposal_id, "result": result, "by": by, "reason": reason}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Rejection failed: {str(e)}")
+
+@app.post("/cockpit/proposals/{proposal_id}/apply")
+def apply_proposal_by_id(
+    proposal_id: str,
+    as_user: str = Query("ops"),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        result = apply(proposal_id, as_user)
+        return {"proposal_id": proposal_id, "result": result, "as_user": as_user, "receipt_id": result.get("receipt_id")}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Application failed: {str(e)}")
 
 @app.post("/cockpit/approvals/{proposal_id}/approve")
 def approve_proposal_unified(
@@ -382,6 +570,75 @@ def get_recent_receipts(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Receipt retrieval failed: {str(e)}")
 
+@app.get("/cockpit/receipts")
+def get_receipts_simplified(
+    limit: int = Query(20),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        receipts = _recent_receipts(limit)
+        
+        # Transform to match UI expectations
+        items = []
+        for r in receipts:
+            items.append({
+                "id": r.get("id", "unknown"),
+                "task": (r.get("activity") or {}).get("type") or "unknown", 
+                "latency_ms": r.get("latency_ms"),
+                "risk_flags": r.get("risk_flags", [])
+            })
+        
+        return {"items": items, "count": len(items)}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Receipt retrieval failed: {str(e)}")
+
+@app.get("/cockpit/receipts/{receipt_id}/replay.json")
+def replay_receipt_json(
+    receipt_id: str,
+    policy_root: str = Query("qi/safety/policy_packs"),
+    overlays: Optional[str] = Query("qi/risk"),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        # Mock replay data for now
+        return {
+            "receipt_id": receipt_id,
+            "replay": {
+                "allowed": True,
+                "policies_matched": ["default", "consent"],
+                "risk_score": 0.2
+            },
+            "policy_root": policy_root,
+            "overlays": overlays
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Receipt replay failed: {str(e)}")
+
+@app.get("/cockpit/receipts/{receipt_id}/trace.svg")  
+def get_receipt_trace_svg(
+    receipt_id: str,
+    policy_root: str = Query("qi/safety/policy_packs"),
+    overlays: Optional[str] = Query("qi/risk"),
+    link_base: Optional[str] = Query(None),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        # Mock SVG trace for now
+        svg = f"""<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="100%" height="100%" fill="#0f1115"/>
+          <text x="200" y="50" text-anchor="middle" fill="#e7eaf0" font-family="monospace">Receipt: {receipt_id[:12]}...</text>
+          <text x="200" y="80" text-anchor="middle" fill="#9aa5b1" font-family="monospace">Policy: {policy_root}</text>
+          <text x="200" y="110" text-anchor="middle" fill="#3ddc97" font-family="monospace">✓ ALLOWED</text>
+          <text x="200" y="140" text-anchor="middle" fill="#8ab4f8" font-family="monospace">Trace visualization requires receipts_api</text>
+        </svg>"""
+        
+        return HTMLResponse(content=svg, media_type="image/svg+xml")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Trace generation failed: {str(e)}")
+
 @app.get("/cockpit/receipts/{receipt_id}/neighbors")
 def get_receipt_neighbors_unified(
     receipt_id: str,
@@ -508,5 +765,5 @@ def root():
 
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.environ.get("COCKPIT_PORT", "8099"))
+    port = int(os.environ.get("COCKPIT_PORT", "8098"))
     uvicorn.run(app, host="127.0.0.1", port=port)

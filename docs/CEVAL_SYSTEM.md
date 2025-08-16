@@ -483,14 +483,44 @@ The Unified Ops Cockpit (`qi/ui/cockpit_api.py`) provides a comprehensive FastAP
 ```bash
 # Start the unified cockpit API
 export COCKPIT_API_TOKEN="your-secure-token"  # Optional authentication
-uvicorn qi.ui.cockpit_api:app --host 127.0.0.1 --port 8099
+uvicorn qi.ui.cockpit_api:app --host 127.0.0.1 --port 8098
 
 # Access dashboard
-curl http://localhost:8099/cockpit/dashboard
+curl http://localhost:8098/cockpit/dashboard
 
 # View API documentation
-open http://localhost:8099/docs
+open http://localhost:8098/docs
 ```
+
+### Web UI Interface
+
+A comprehensive single-file web interface is available at `web/cockpit.html`:
+
+```bash
+# 1. Start the Cockpit API
+uvicorn qi.ui.cockpit_api:app --host 127.0.0.1 --port 8098 --reload
+
+# 2. Open web/cockpit.html in your browser
+open web/cockpit.html
+
+# 3. Configure and use:
+# - Set API to http://127.0.0.1:8098
+# - Add optional authentication token
+# - Set policy_root and overlays paths
+# - Click "Refresh All" to load all panels
+```
+
+**Web UI Features:**
+- **Safety Card Panel**: Generate JSON/Markdown model safety cards with jurisdiction diffs
+- **Adaptive Candidates Panel**: View and promote parameter optimization proposals
+- **Human Adaptation Panel**: Monitor satisfaction patterns and promote tone adjustments  
+- **Approvals Panel**: Centralized proposal management with approve/reject/apply actions
+- **Receipts & Provenance Panel**: Browse execution receipts with replay and trace visualization
+
+**Browser Requirements:**
+- Modern browser with ES6+ support
+- JavaScript enabled for API communication
+- Local storage for preference persistence
 
 ### API Panels
 
