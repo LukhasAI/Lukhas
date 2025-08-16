@@ -11,6 +11,9 @@ The C-EVAL system provides:
 - **Self-Healing Loop**: Automated detection, human-approved proposals, sandbox application with rollback
 - **Prometheus Metrics**: Real-time monitoring with task-level granularity
 - **Human-in-the-Loop**: All configuration changes require explicit approval before application
+- **Web UI Interface**: Single-file approver UI and trace drill-down with inline HITL controls
+- **Jurisdiction Diffs**: Model safety cards with policy diff computation across jurisdictions
+- **Multi-Reviewer Governance**: Configurable two-man rule with path-based access controls
 
 ## Architecture
 
@@ -33,10 +36,22 @@ The C-EVAL system provides:
    - Proposal validation against governance policies
    - Capability-based access control for config changes
 
-4. **Governance Framework** (`qi/autonomy/governance.yaml`)
+4. **Governance Framework** (`qi/autonomy/governance.yaml`, `ops/autonomy/governance.yaml`)
    - Risk-based approval requirements
-   - Path-based access controls
+   - Path-based access controls with fnmatch patterns
    - Reviewer authorization matrix
+   - Two-man rule enforcement for critical changes
+
+5. **Web UI Components**
+   - **Approver UI** (`web/approver_ui.html`): Standalone web interface for proposal management
+   - **Trace Drill-down** (`web/trace_drilldown.html`): Enhanced with inline HITL approver controls
+   - **API Backend** (`qi/autonomy/approver_api.py`): FastAPI REST interface with token auth
+
+6. **Model Safety Card** (`qi/docs/model_safety_card.py`)
+   - Automated model card generation with evaluation metrics
+   - Policy fingerprinting for drift detection
+   - Jurisdiction diff computation (`qi/docs/jurisdiction_diff.py`)
+   - JSON and Markdown output formats
 
 ## Quick Start
 
@@ -261,6 +276,74 @@ python3 qi/eval/ceval_runner.py run-suite --suite qi/eval/core_tasks.json | jq
 # Self-healer audit trail
 tail -f ~/.lukhas/state/audit/selfheal.jsonl
 ```
+
+## Web UI Usage
+
+### Approver Web UI
+
+Single-file web interface for proposal management:
+
+```bash
+# Start the API backend
+export AUTONOMY_API_TOKEN="changeme"  # Optional authentication
+uvicorn qi.autonomy.approver_api:API --host 127.0.0.1 --port 8097
+
+# Open web/approver_ui.html in browser
+# Set API to http://127.0.0.1:8097 and optional token
+```
+
+Features:
+- List all proposals with status indicators
+- View proposal details including dry-run diffs
+- Approve/reject with reviewer tracking
+- Apply approved changes in sandbox
+- Automatic two-man rule enforcement
+
+### Trace Drill-down with HITL
+
+Enhanced trace viewer with inline approver controls:
+
+```bash
+# Start both APIs
+uvicorn qi.provenance.receipts_api:app --port 8095 &
+uvicorn qi.autonomy.approver_api:API --port 8097 &
+
+# Open web/trace_drilldown.html
+# Auto-detects proposal_id from selfheal-* receipts
+```
+
+Features:
+- Automatic proposal_id detection from receipt run_id
+- Inline approve/reject/apply buttons
+- Integrated with trace visualization
+- Token authentication support
+
+## Model Safety Card with Jurisdiction Diffs
+
+Generate comprehensive safety cards with policy differences:
+
+```bash
+# Basic card generation
+python -m qi.docs.model_safety_card \
+  --model LUKHAS-QI --version 1.0.0 \
+  --policy-root qi/safety/policy_packs \
+  --overlays qi/risk \
+  --jurisdictions global eu us
+
+# With jurisdiction diff computation
+python -m qi.docs.model_safety_card \
+  --model LUKHAS-QI --version 1.0.0 \
+  --policy-root qi/safety/policy_packs \
+  --overlays qi/risk \
+  --jurisdictions global eu us \
+  --diff-jurisdictions global:eu eu:us \
+  --context medical_high_risk
+```
+
+Output:
+- `ops/cards/model_safety_card.json`: Machine-readable card
+- `ops/cards/model_safety_card.md`: Human-readable documentation
+- Jurisdiction diffs showing policy variations
 
 ## Production Deployment
 

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>LUKHΛS • Approver UI</title>
+<style>
+  :root{--bg:#0f1115;--panel:#161a22;--border:#232a36;--text:#e7eaf0;--muted:#9aa5b1;--ok:#3ddc97;--bad:#ff8370;--warn:#ffcc66;--mono:ui-monospace,Menlo,Consolas,monospace;--sans:Inter,ui-sans-serif,system-ui}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans)}
+  header{display:flex;gap:.6rem;align-items:center;padding:.6rem .8rem;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#141924,#0f1115)}
+  header input{background:#0d1016;border:1px solid var(--border);border-radius:.35rem;color:var(--text);padding:.4rem .5rem;font-family:var(--mono)}
+  header button{background:#1b2331;border:1px solid var(--border);border-radius:.35rem;color:var(--text);padding:.45rem .7rem;cursor:pointer}
+  header button:hover{background:#202a3b}
+  main{display:grid;grid-template-columns: 320px 1fr;min-height:calc(100vh - 52px)}
+  aside{border-right:1px solid var(--border);padding:.6rem;overflow:auto}
+  section{padding:.6rem;overflow:auto}
+  .item{padding:.5rem;border:1px solid var(--border);border-radius:.4rem;margin-bottom:.5rem;background:#121722;cursor:pointer}
+  .id{font-family:var(--mono);font-size:.8rem;color:#b9c1cc}
+  .pill{display:inline-block;border:1px solid var(--border);border-radius:.4rem;padding:.1rem .4rem;margin-right:.3rem;font-size:.8rem;color:#ccd3dd}
+  .ok{color:var(--ok);border-color:#254e3b;background:#112318}
+  .bad{color:var(--bad);border-color:#5c2d28;background:#1a1110}
+  .warn{color:#efc96b;border-color:#665528;background:#211d10}
+  h2{margin:.4rem 0 .6rem}
+  pre{background:#0b0e13;border:1px solid var(--border);border-radius:.4rem;padding:.6rem;white-space:pre-wrap;word-break:break-word;font-family:var(--mono);font-size:.86rem}
+  .row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:.4rem 0}
+  label{color:#9aa5b1}
+  .grow{flex:1}
+</style>
+</head>
+<body>
+<header>
+  <strong>Approver UI</strong>
+  <label>API <input id="api" size="30" value="http://127.0.0.1:8097"/></label>
+  <label>Token <input id="tok" size="18" placeholder="(optional)"/></label>
+  <button id="refresh">Refresh</button>
+  <button id="plan">Plan</button>
+</header>
+<main>
+  <aside>
+    <div id="list"></div>
+  </aside>
+  <section>
+    <h2 id="title">Select a proposal</h2>
+    <div class="row">
+      <span id="status" class="pill">—</span>
+      <span id="risk" class="pill warn">risk: —</span>
+      <span id="ttl" class="pill">ttl: —</span>
+    </div>
+    <div class="row">
+      <label>Approver <input id="approver" size="16" placeholder="your name"/></label>
+      <label>Reason <input id="reason" class="grow" size="40" placeholder="why? (optional)"/></label>
+      <button id="btnApprove">Approve</button>
+      <button id="btnReject">Reject</button>
+      <button id="btnApply">Apply (sandboxed)</button>
+    </div>
+    <h3>Target</h3>
+    <pre id="target">—</pre>
+    <h3>Rationale</h3>
+    <pre id="rationale">—</pre>
+    <h3>Dry-run Diff</h3>
+    <pre id="diff">—</pre>
+    <h3>Patch</h3>
+    <pre id="patch">—</pre>
+    <h3>Attestation</h3>
+    <pre id="att">—</pre>
+  </section>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+const api=$("#api"), tok=$("#tok"), list=$("#list");
+const approver=$("#approver"), reason=$("#reason");
+let current=null;
+
+function hdr(){ const h={}; if(tok.value.trim()) h["X-Auth-Token"]=tok.value.trim(); return h; }
+
+async function loadList(){
+  list.innerHTML="loading…";
+  const r=await fetch(api.value.replace(/\/+$/,'')+"/proposals",{headers:hdr()});
+  if(!r.ok){ list.textContent="failed to load"; return; }
+  const j=await r.json();
+  list.innerHTML="";
+  (j.items||[]).forEach(p=>{
+    const div=document.createElement("div"); div.className="item";
+    div.innerHTML=`<div class="id">${p.id}</div>
+    <div><span class="pill">kind: ${p.kind}</span>
+         <span class="pill">file: ${p.target_path||"—"}</span></div>`;
+    div.onclick=()=>show(p);
+    list.appendChild(div);
+  });
+}
+
+function show(p){
+  current=p;
+  $("#title").textContent=p.id;
+  $("#status").textContent="pending";
+  $("#risk").textContent="risk: "+(p.risk||"—");
+  $("#ttl").textContent="ttl: "+(p.ttl_sec||"—")+"s";
+  $("#target").textContent=p.target_path||"—";
+  $("#rationale").textContent=p.rationale||"—";
+  $("#diff").textContent=p.dry_run_diff || "(no diff)";
+  $("#patch").textContent=JSON.stringify(p.patch,null,2);
+  $("#att").textContent=JSON.stringify(p.attestation||{},null,2);
+}
+
+async function approve(){
+  if(!current) return alert("pick a proposal");
+  if(!approver.value.trim()) return alert("enter approver name");
+  const u=api.value.replace(/\/+$/,'')+`/proposals/${encodeURIComponent(current.id)}/approve?by=${encodeURIComponent(approver.value)}&reason=${encodeURIComponent(reason.value||"")}`;
+  const r=await fetch(u,{method:"POST",headers:hdr()});
+  const j=await r.json();
+  $("#status").textContent=j.status||"pending";
+  $("#status").className="pill "+(j.status==="approved"?"ok":"warn");
+}
+
+async function reject(){
+  if(!current) return alert("pick a proposal");
+  if(!approver.value.trim()) return alert("enter approver name");
+  const u=api.value.replace(/\/+$/,'')+`/proposals/${encodeURIComponent(current.id)}/reject?by=${encodeURIComponent(approver.value)}&reason=${encodeURIComponent(reason.value||"")}`;
+  const r=await fetch(u,{method:"POST",headers:hdr()}); if(!r.ok) return alert("reject failed");
+  $("#status").textContent="rejected"; $("#status").className="pill bad";
+}
+
+async function applyNow(){
+  if(!current) return alert("pick a proposal");
+  const u=api.value.replace(/\/+$/,'')+`/proposals/${encodeURIComponent(current.id)}/apply?as_user=${encodeURIComponent(approver.value||"ops")}`;
+  const r=await fetch(u,{method:"POST",headers:hdr()});
+  const j=await r.json();
+  if(r.ok) alert("applied. receipt: "+j.receipt_id);
+  else alert("apply failed: "+(j.detail||JSON.stringify(j)));
+}
+
+async function plan(){
+  const u=api.value.replace(/\/+$/,'')+`/proposals/plan`;
+  const r=await fetch(u,{method:"POST",headers:hdr()});
+  if(!r.ok){ alert("plan failed"); return; }
+  await loadList();
+}
+
+$("#refresh").onclick=loadList;
+$("#plan").onclick=plan;
+$("#btnApprove").onclick=approve;
+$("#btnReject").onclick=reject;
+$("#btnApply").onclick=applyNow;
+
+loadList();
+</script>
+</body>
+</html>

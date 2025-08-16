@@ -8,6 +8,14 @@ from typing import Any, Dict, List, Optional
 import builtins
 _ORIG_OPEN = builtins.open
 
+# Jurisdiction diff support
+try:
+    from qi.risk.orchestrator_overlays import RiskOverlayManager
+    from qi.docs.jurisdiction_diff import compute_overlay_diff
+    _HAS_OVERLAYS = True
+except ImportError:
+    _HAS_OVERLAYS = False
+
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 RECDIR = os.path.join(STATE, "provenance", "exec_receipts")
 EVALDIR = os.environ.get("LUKHAS_EVAL_DIR", "./eval_runs")
@@ -138,6 +146,8 @@ def main():
     ap.add_argument("--policy-root", required=True)
     ap.add_argument("--overlays")
     ap.add_argument("--jurisdictions", nargs="+", default=["global","eu","us"])
+    ap.add_argument("--diff-jurisdictions", nargs="*", default=[], help="Pairs like j1:j2 (repeatable)")
+    ap.add_argument("--context", default=None, help="Optional context when diffing overlays")
     ap.add_argument("--out-json", default="ops/cards/model_safety_card.json")
     ap.add_argument("--out-md", default="ops/cards/model_safety_card.md")
     args = ap.parse_args()
@@ -147,8 +157,19 @@ def main():
     card = generate_card(model_name=args.model, version=args.version, policy_root=args.policy_root, overlays=args.overlays, jurisdictions=args.jurisdictions)
     with _ORIG_OPEN(args.out_json, "w", encoding="utf-8") as f: json.dump(card, f, indent=2)
 
-    # Optional: load jurisdiction diffs (if you compute them elsewhere)
+    # Compute jurisdiction diffs if requested
     jdiff = None
+    if args.diff_jurisdictions and _HAS_OVERLAYS:
+        try:
+            mgr = RiskOverlayManager(args.overlays or "qi/risk")
+            jdiff = {}
+            for pair in args.diff_jurisdictions:
+                if ":" not in pair: continue
+                j1,j2 = pair.split(":",1)
+                jdiff[f"{j1}→{j2}"] = compute_overlay_diff(mgr, j1, j2, context=args.context)
+        except Exception as e:
+            jdiff = {"error": str(e)}
+    
     md = to_markdown(card, jurisdiction_diffs=jdiff)
     with _ORIG_OPEN(args.out_md, "w", encoding="utf-8") as f: f.write(md)
 
