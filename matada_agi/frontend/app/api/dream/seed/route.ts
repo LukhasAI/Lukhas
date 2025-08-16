@@ -8,9 +8,11 @@ import {
   DreamArchetypes
 } from '@/lib/lukhas-consciousness'
 
-// Initialize OpenAI client (using environment variable)
+// Initialize OpenAI client with organization and project settings
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || ''
+  apiKey: process.env.OPENAI_API_KEY || '',
+  organization: process.env.OPENAI_ORGANIZATION_ID,
+  project: process.env.OPENAI_PROJECT_ID,
 })
 
 // LUKHAS Consciousness System simulation

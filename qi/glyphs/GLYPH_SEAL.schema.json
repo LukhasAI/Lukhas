@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.lukhas.ai/glyph/seal/v0.1",
+  "title": "LUKHAS AI GLYPH Seal",
+  "description": "Cryptographic seal for AI artifacts with immutable attestation",
+  "type": "object",
+  "required": [
+    "v",
+    "content_hash", 
+    "media_type",
+    "created_at",
+    "issuer",
+    "model_id",
+    "policy_fingerprint",
+    "jurisdiction",
+    "proof_bundle",
+    "expiry",
+    "nonce"
+  ],
+  "properties": {
+    "v": {
+      "type": "string",
+      "const": "0.1",
+      "description": "GLYPH seal version"
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^sha3-512:[a-f0-9]{128}$",
+      "description": "SHA3-512 hash of the sealed content in hex format"
+    },
+    "media_type": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9!#$&\\-\\^_]*\\/[a-zA-Z0-9][a-zA-Z0-9!#$&\\-\\^_.]*$",
+      "description": "MIME type of the sealed content",
+      "examples": ["text/plain", "image/png", "application/json"]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp when seal was created"
+    },
+    "issuer": {
+      "type": "string", 
+      "pattern": "^lukhas:\\/\\/org\\/[a-zA-Z0-9\\-_]+$",
+      "description": "Issuer identifier in lukhas://org/<tenant-id> format"
+    },
+    "model_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "Identifier of the AI model that created the content"
+    },
+    "policy_fingerprint": {
+      "type": "string",
+      "pattern": "^sha3-256:[a-f0-9]{64}$", 
+      "description": "SHA3-256 fingerprint of policy pack state"
+    },
+    "jurisdiction": {
+      "type": "string",
+      "enum": ["global", "eu", "us", "uk", "ca", "au", "jp"],
+      "description": "Legal jurisdiction for policy interpretation"
+    },
+    "proof_bundle": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to expanded proof bundle with receipts and evidence"
+    },
+    "expiry": {
+      "type": "string",
+      "format": "date-time", 
+      "description": "ISO 8601 UTC timestamp when seal expires"
+    },
+    "nonce": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_\\-]+$",
+      "minLength": 16,
+      "maxLength": 64,
+      "description": "Cryptographically secure random nonce (base64url)"
+    },
+    "prev": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "Previous seal ID for chaining (SHA256 hex), null for first seal"
+    },
+    "calib_ref": {
+      "type": ["object", "null"],
+      "description": "Calibration reference data (informational)",
+      "properties": {
+        "temp": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 10.0,
+          "description": "Temperature scaling parameter"
+        },
+        "ece": {
+          "type": "number", 
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Expected Calibration Error"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+
+  "definitions": {
+    "signature": {
+      "type": "object",
+      "required": ["algorithm", "signature", "key_id"],
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "enum": ["ed25519", "dilithium3"],
+          "description": "Cryptographic signature algorithm"
+        },
+        "signature": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9+\\/]+=*$",
+          "description": "Base64-encoded signature"
+        },
+        "key_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "Key identifier for JWKS lookup"
+        },
+        "chain": {
+          "type": ["array", "null"],
+          "description": "Additional signatures (device, consent, etc.)",
+          "items": {
+            "$ref": "#/definitions/signature"
+          },
+          "maxItems": 5
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "complete_seal": {
+      "type": "object",
+      "required": ["seal", "signature"],
+      "properties": {
+        "seal": {
+          "$ref": "#"
+        },
+        "signature": {
+          "type": "object",
+          "required": ["algorithm", "signature", "key_id"],
+          "properties": {
+            "algorithm": {
+              "type": "string",
+              "enum": ["ed25519", "dilithium3"],
+              "description": "Cryptographic signature algorithm"
+            },
+            "signature": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9+\\/]+=*$",
+              "description": "Base64-encoded signature"
+            },
+            "key_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 50,
+              "description": "Key identifier for JWKS lookup"
+            },
+            "chain": {
+              "type": ["array", "null"],
+              "description": "Additional signatures (device, consent, etc.)",
+              "items": {
+                "$ref": "#/definitions/signature"
+              },
+              "maxItems": 5
+            }
+          },
+          "additionalProperties": false
+        },
+        "compact": {
+          "type": "string",
+          "description": "Base64-encoded compact representation for QR codes"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "examples": [
+    {
+      "v": "0.1",
+      "content_hash": "sha3-512:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+      "media_type": "text/plain",
+      "created_at": "2025-08-16T12:00:00Z",
+      "issuer": "lukhas://org/lukhas-ai",
+      "model_id": "lukhas-qiv2.0",
+      "policy_fingerprint": "sha3-256:abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+      "jurisdiction": "eu",
+      "proof_bundle": "https://verify.lukhas.ai/p/abc123def456",
+      "expiry": "2026-08-16T00:00:00Z",
+      "nonce": "dGVzdF9ub25jZV8xMjM0NTY3ODkw",
+      "prev": null,
+      "calib_ref": {
+        "temp": 1.08,
+        "ece": 0.041
+      }
+    }
+  ]
+}
