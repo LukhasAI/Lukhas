@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGI Self-Healing System - Advanced Dashboard</title>
+    
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <!-- D3.js for network graph -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    
+    <!-- Prism for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--white);
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.75rem 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--white);
+            transform: translateX(4px);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* System Health Overview */
+        .system-health {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .health-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .health-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-indicator {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .status-indicator.optimal {
+            background: var(--success);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+            animation: pulse-success 2s infinite;
+        }
+
+        .status-indicator.healthy {
+            background: var(--primary);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+            animation: pulse-primary 2s infinite;
+        }
+
+        .status-indicator.warning {
+            background: var(--warning);
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+            animation: pulse-warning 2s infinite;
+        }
+
+        .status-indicator.critical {
+            background: var(--danger);
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+            animation: pulse-danger 2s infinite;
+        }
+
+        @keyframes pulse-success {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+
+        @keyframes pulse-primary {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+
+        @keyframes pulse-warning {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+
+        @keyframes pulse-danger {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+
+        .health-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .metric-change.positive {
+            color: var(--success);
+        }
+
+        .metric-change.negative {
+            color: var(--danger);
+        }
+
+        /* Charts Section */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .chart-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .chart-subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
+        }
+
+        /* Network Graph */
+        .network-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            height: 500px;
+        }
+
+        #dependency-graph {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Obsolete Files Section */
+        .files-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .files-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .files-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .file-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(4px);
+        }
+
+        .file-path {
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Terminal/Console */
+        .console-container {
+            background: #0d1117;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .console-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .console-output {
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: #010409;
+            border-radius: 8px;
+        }
+
+        .console-line {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .console-time {
+            color: rgba(255, 255, 255, 0.4);
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .console-success {
+            color: var(--success);
+        }
+
+        .console-error {
+            color: var(--danger);
+        }
+
+        .console-warning {
+            color: var(--warning);
+        }
+
+        .console-info {
+            color: var(--primary);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--white);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">🧬</div>
+                <div class="logo-text">AGI Healer</div>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#overview" class="nav-link active">
+                            <span>📊</span> Overview
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#tests" class="nav-link">
+                            <span>🧪</span> Test Suites
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#healing" class="nav-link">
+                            <span>🔧</span> Self-Healing
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#dependencies" class="nav-link">
+                            <span>🕸️</span> Dependencies
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#cleanup" class="nav-link">
+                            <span>🗑️</span> Cleanup
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#llm" class="nav-link">
+                            <span>🤖</span> LLM Config
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#console" class="nav-link">
+                            <span>💻</span> Console
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <h1 class="page-title">System Health Dashboard</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="runFullAnalysis()">
+                        <span>🔄</span> Full Analysis
+                    </button>
+                    <button class="btn btn-primary" onclick="connectLLM()">
+                        <span>🤖</span> Connect LLM
+                    </button>
+                </div>
+            </div>
+
+            <!-- System Health Overview -->
+            <div class="system-health">
+                <div class="health-header">
+                    <div class="health-status">
+                        <div class="status-indicator optimal" id="healthIndicator">
+                            ✓
+                        </div>
+                        <div>
+                            <h2>System Status: <span id="systemStatus">Optimal</span></h2>
+                            <p style="color: rgba(255, 255, 255, 0.6);">Last updated: <span id="lastUpdated">Just now</span></p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 2rem;" id="overallScore">92%</h3>
+                        <p style="color: rgba(255, 255, 255, 0.6);">Overall Health</p>
+                    </div>
+                </div>
+
+                <div class="health-metrics">
+                    <div class="metric-card">
+                        <div class="metric-value" id="activeModules">0</div>
+                        <div class="metric-label">Active Modules</div>
+                        <div class="metric-change positive">
+                            <span>↑</span> 5% from last week
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="testCoverage">0%</div>
+                        <div class="metric-label">Test Coverage</div>
+                        <div class="metric-change positive">
+                            <span>↑</span> 3% improvement
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="moduleConnectivity">0%</div>
+                        <div class="metric-label">Module Connectivity</div>
+                        <div class="metric-change negative">
+                            <span>↓</span> 2% decrease
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="obsoleteCount">0</div>
+                        <div class="metric-label">Obsolete Files</div>
+                        <div class="metric-change positive">
+                            <span>↓</span> 10 removed
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="healingRate">0%</div>
+                        <div class="metric-label">Auto-Heal Success</div>
+                        <div class="metric-change positive">
+                            <span>↑</span> 8% increase
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="technicalDebt">0</div>
+                        <div class="metric-label">Technical Debt Score</div>
+                        <div class="metric-change positive">
+                            <span>↓</span> Improving
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3 class="chart-title">System Performance Trend</h3>
+                        <p class="chart-subtitle">Last 7 days</p>
+                    </div>
+                    <canvas id="performanceChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Module Health Distribution</h3>
+                        <p class="chart-subtitle">Current state</p>
+                    </div>
+                    <canvas id="healthChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Dependency Network Graph -->
+            <div class="network-container">
+                <div class="chart-header">
+                    <h3 class="chart-title">Module Dependency Network</h3>
+                    <p class="chart-subtitle">Interactive visualization of module connections</p>
+                </div>
+                <div id="dependency-graph"></div>
+            </div>
+
+            <!-- Obsolete Files -->
+            <div class="files-section">
+                <div class="files-header">
+                    <div>
+                        <h3 class="chart-title">Obsolete Files Detection</h3>
+                        <p class="chart-subtitle">Files marked for cleanup</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="cleanupSelected()">
+                        Clean Selected
+                    </button>
+                </div>
+                <div class="files-list" id="obsoleteFilesList">
+                    <!-- Files will be populated here -->
+                </div>
+            </div>
+
+            <!-- Console -->
+            <div class="console-container">
+                <div class="console-header">
+                    <h3 class="chart-title">System Console</h3>
+                    <button class="btn btn-primary" onclick="clearConsole()">Clear</button>
+                </div>
+                <div class="console-output" id="console">
+                    <!-- Console messages will appear here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- LLM Configuration Modal -->
+    <div class="modal" id="llmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>LLM Configuration</h2>
+                <button class="modal-close" onclick="closeLLMModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Select LLM Provider:</label>
+                    <select id="llmProvider" style="width: 100%; padding: 0.75rem; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: white;">
+                        <option value="ollama">Ollama (Local)</option>
+                        <option value="openai">OpenAI GPT-4</option>
+                        <option value="claude">Anthropic Claude</option>
+                        <option value="custom">Custom Model</option>
+                    </select>
+                </div>
+                
+                <div id="ollamaConfig">
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem;">Ollama Model:</label>
+                        <input type="text" id="ollamaModel" value="llama3.2" style="width: 100%; padding: 0.75rem; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: white;">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem;">Ollama URL:</label>
+                        <input type="text" id="ollamaUrl" value="http://localhost:11434" style="width: 100%; padding: 0.75rem; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: white;">
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveLLMConfig()" style="width: 100%; margin-top: 1rem;">
+                    Save Configuration
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // WebSocket connection
+        let ws = null;
+        let charts = {};
+
+        // Initialize dashboard
+        async function initDashboard() {
+            connectWebSocket();
+            await fetchMetrics();
+            initCharts();
+            initDependencyGraph();
+            addConsoleMessage('System initialized successfully', 'success');
+        }
+
+        // Connect to WebSocket
+        function connectWebSocket() {
+            ws = new WebSocket('ws://localhost:8000/ws');
+            
+            ws.onopen = () => {
+                addConsoleMessage('Connected to self-healing system', 'success');
+            };
+            
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                updateDashboard(data);
+            };
+            
+            ws.onerror = (error) => {
+                addConsoleMessage('WebSocket error: ' + error, 'error');
+            };
+            
+            ws.onclose = () => {
+                addConsoleMessage('Disconnected from system', 'warning');
+                setTimeout(connectWebSocket, 5000); // Reconnect
+            };
+        }
+
+        // Fetch metrics from API
+        async function fetchMetrics() {
+            try {
+                const response = await fetch('/api/metrics');
+                const data = await response.json();
+                updateDashboard(data);
+            } catch (error) {
+                addConsoleMessage('Failed to fetch metrics: ' + error, 'error');
+            }
+        }
+
+        // Update dashboard with new data
+        function updateDashboard(data) {
+            const metrics = data.metrics;
+            
+            // Update metric values
+            document.getElementById('activeModules').textContent = metrics.active_files || 0;
+            document.getElementById('testCoverage').textContent = (metrics.test_coverage || 0).toFixed(1) + '%';
+            document.getElementById('moduleConnectivity').textContent = (metrics.modules_connected || 0).toFixed(1) + '%';
+            document.getElementById('obsoleteCount').textContent = metrics.obsolete_files || 0;
+            document.getElementById('technicalDebt').textContent = (metrics.technical_debt || 0).toFixed(1);
+            
+            // Update system health
+            const healthScore = metrics.performance_score || 0;
+            document.getElementById('overallScore').textContent = healthScore.toFixed(1) + '%';
+            
+            // Update health indicator
+            const indicator = document.getElementById('healthIndicator');
+            const status = document.getElementById('systemStatus');
+            
+            indicator.className = 'status-indicator';
+            if (healthScore >= 85) {
+                indicator.classList.add('optimal');
+                status.textContent = 'Optimal';
+            } else if (healthScore >= 70) {
+                indicator.classList.add('healthy');
+                status.textContent = 'Healthy';
+            } else if (healthScore >= 50) {
+                indicator.classList.add('warning');
+                status.textContent = 'Warning';
+            } else {
+                indicator.classList.add('critical');
+                status.textContent = 'Critical';
+            }
+            
+            // Update obsolete files list
+            if (data.obsolete_files) {
+                updateObsoleteFilesList(data.obsolete_files);
+            }
+            
+            // Update charts
+            updateCharts(metrics);
+            
+            // Update last updated time
+            document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
+        }
+
+        // Initialize charts
+        function initCharts() {
+            // Performance trend chart
+            const perfCtx = document.getElementById('performanceChart').getContext('2d');
+            charts.performance = new Chart(perfCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'System Health',
+                        data: [85, 87, 86, 88, 90, 89, 92],
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Test Coverage',
+                        data: [75, 76, 78, 79, 80, 82, 85],
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#ffffff' }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#ffffff' }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#ffffff' }
+                        }
+                    }
+                }
+            });
+            
+            // Module health distribution
+            const healthCtx = document.getElementById('healthChart').getContext('2d');
+            charts.health = new Chart(healthCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Optimal', 'Healthy', 'Warning', 'Critical'],
+                    datasets: [{
+                        data: [45, 30, 20, 5],
+                        backgroundColor: ['#10b981', '#6366f1', '#f59e0b', '#ef4444']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#ffffff' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update charts with new data
+        function updateCharts(metrics) {
+            // Update performance chart with real data
+            if (charts.performance) {
+                // Add new data point
+                const newData = metrics.performance_score || 0;
+                charts.performance.data.datasets[0].data.push(newData);
+                charts.performance.data.datasets[0].data.shift();
+                
+                const coverageData = metrics.test_coverage || 0;
+                charts.performance.data.datasets[1].data.push(coverageData);
+                charts.performance.data.datasets[1].data.shift();
+                
+                charts.performance.update();
+            }
+        }
+
+        // Initialize dependency graph using D3
+        function initDependencyGraph() {
+            const width = document.getElementById('dependency-graph').clientWidth;
+            const height = 450;
+            
+            const svg = d3.select('#dependency-graph')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+            
+            // Sample data - would be replaced with real dependency data
+            const nodes = [
+                { id: 'core', label: 'Core', group: 1 },
+                { id: 'consciousness', label: 'Consciousness', group: 2 },
+                { id: 'quantum', label: 'Quantum', group: 3 },
+                { id: 'bio', label: 'Bio', group: 4 },
+                { id: 'api', label: 'API', group: 5 }
+            ];
+            
+            const links = [
+                { source: 'core', target: 'consciousness', value: 1 },
+                { source: 'core', target: 'quantum', value: 1 },
+                { source: 'consciousness', target: 'bio', value: 1 },
+                { source: 'quantum', target: 'bio', value: 1 },
+                { source: 'api', target: 'core', value: 1 }
+            ];
+            
+            const simulation = d3.forceSimulation(nodes)
+                .force('link', d3.forceLink(links).id(d => d.id))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2));
+            
+            const link = svg.append('g')
+                .selectAll('line')
+                .data(links)
+                .enter().append('line')
+                .style('stroke', '#999')
+                .style('stroke-opacity', 0.6)
+                .style('stroke-width', d => Math.sqrt(d.value));
+            
+            const node = svg.append('g')
+                .selectAll('circle')
+                .data(nodes)
+                .enter().append('circle')
+                .attr('r', 20)
+                .style('fill', d => d3.schemeCategory10[d.group])
+                .call(d3.drag()
+                    .on('start', dragstarted)
+                    .on('drag', dragged)
+                    .on('end', dragended));
+            
+            const label = svg.append('g')
+                .selectAll('text')
+                .data(nodes)
+                .enter().append('text')
+                .text(d => d.label)
+                .style('fill', '#fff')
+                .style('font-size', '12px')
+                .attr('text-anchor', 'middle');
+            
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+                
+                node
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y);
+                
+                label
+                    .attr('x', d => d.x)
+                    .attr('y', d => d.y);
+            });
+            
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+            
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+            
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+        }
+
+        // Update obsolete files list
+        function updateObsoleteFilesList(files) {
+            const container = document.getElementById('obsoleteFilesList');
+            container.innerHTML = '';
+            
+            files.forEach(file => {
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                item.innerHTML = `
+                    <div>
+                        <input type="checkbox" id="file-${file}" style="margin-right: 1rem;">
+                        <label for="file-${file}" class="file-path">${file}</label>
+                    </div>
+                    <div class="file-actions">
+                        <button class="btn btn-primary" style="padding: 0.5rem 1rem;" onclick="archiveFile('${file}')">
+                            Archive
+                        </button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Console functions
+        function addConsoleMessage(message, type = 'info') {
+            const console = document.getElementById('console');
+            const line = document.createElement('div');
+            line.className = 'console-line';
+            
+            const time = new Date().toLocaleTimeString();
+            const icon = type === 'success' ? '✓' : 
+                        type === 'error' ? '✗' : 
+                        type === 'warning' ? '⚠' : 
+                        '→';
+            
+            line.innerHTML = `
+                <span class="console-time">[${time}]</span>
+                <span class="console-${type}">${icon} ${message}</span>
+            `;
+            
+            console.appendChild(line);
+            console.scrollTop = console.scrollHeight;
+        }
+
+        function clearConsole() {
+            document.getElementById('console').innerHTML = '';
+            addConsoleMessage('Console cleared', 'info');
+        }
+
+        // Action functions
+        async function runFullAnalysis() {
+            addConsoleMessage('Starting full system analysis...', 'info');
+            
+            try {
+                const response = await fetch('/api/analyze', { method: 'POST' });
+                const result = await response.json();
+                
+                addConsoleMessage('Analysis complete', 'success');
+                await fetchMetrics();
+            } catch (error) {
+                addConsoleMessage('Analysis failed: ' + error, 'error');
+            }
+        }
+
+        function connectLLM() {
+            document.getElementById('llmModal').style.display = 'flex';
+        }
+
+        function closeLLMModal() {
+            document.getElementById('llmModal').style.display = 'none';
+        }
+
+        async function saveLLMConfig() {
+            const provider = document.getElementById('llmProvider').value;
+            const config = {
+                provider: provider
+            };
+            
+            if (provider === 'ollama') {
+                config.model = document.getElementById('ollamaModel').value;
+                config.url = document.getElementById('ollamaUrl').value;
+            }
+            
+            addConsoleMessage(`Configuring ${provider} LLM...`, 'info');
+            
+            // Send config to backend
+            try {
+                const response = await fetch('/api/llm-config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(config)
+                });
+                
+                if (response.ok) {
+                    addConsoleMessage(`${provider} LLM configured successfully`, 'success');
+                    closeLLMModal();
+                } else {
+                    throw new Error('Configuration failed');
+                }
+            } catch (error) {
+                addConsoleMessage(`Failed to configure LLM: ${error}`, 'error');
+            }
+        }
+
+        async function cleanupSelected() {
+            const checkboxes = document.querySelectorAll('#obsoleteFilesList input[type="checkbox"]:checked');
+            const filesToRemove = Array.from(checkboxes).map(cb => cb.id.replace('file-', ''));
+            
+            if (filesToRemove.length === 0) {
+                addConsoleMessage('No files selected for cleanup', 'warning');
+                return;
+            }
+            
+            addConsoleMessage(`Cleaning up ${filesToRemove.length} files...`, 'info');
+            
+            try {
+                const response = await fetch('/api/cleanup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ files_to_remove: filesToRemove })
+                });
+                
+                const result = await response.json();
+                
+                if (result.removed.length > 0) {
+                    addConsoleMessage(`Successfully archived ${result.removed.length} files`, 'success');
+                }
+                
+                if (result.errors.length > 0) {
+                    result.errors.forEach(error => {
+                        addConsoleMessage(`Error: ${error}`, 'error');
+                    });
+                }
+                
+                await fetchMetrics();
+            } catch (error) {
+                addConsoleMessage(`Cleanup failed: ${error}`, 'error');
+            }
+        }
+
+        async function archiveFile(file) {
+            addConsoleMessage(`Archiving ${file}...`, 'info');
+            
+            try {
+                const response = await fetch('/api/cleanup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ files_to_remove: [file] })
+                });
+                
+                const result = await response.json();
+                
+                if (result.removed.length > 0) {
+                    addConsoleMessage(`Successfully archived ${file}`, 'success');
+                    await fetchMetrics();
+                } else if (result.errors.length > 0) {
+                    addConsoleMessage(`Failed to archive: ${result.errors[0]}`, 'error');
+                }
+            } catch (error) {
+                addConsoleMessage(`Archive failed: ${error}`, 'error');
+            }
+        }
+
+        // Navigation handling
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                const section = link.getAttribute('href').substring(1);
+                handleNavigation(section);
+            });
+        });
+
+        function handleNavigation(section) {
+            addConsoleMessage(`Navigating to ${section}`, 'info');
+            
+            // Here you would implement section-specific views
+            switch(section) {
+                case 'tests':
+                    loadTestSuites();
+                    break;
+                case 'healing':
+                    loadHealingHistory();
+                    break;
+                case 'dependencies':
+                    updateDependencyGraph();
+                    break;
+                case 'cleanup':
+                    loadObsoleteFiles();
+                    break;
+                case 'llm':
+                    connectLLM();
+                    break;
+                case 'console':
+                    document.getElementById('console').scrollIntoView();
+                    break;
+                default:
+                    fetchMetrics();
+            }
+        }
+
+        async function loadTestSuites() {
+            addConsoleMessage('Loading test suites...', 'info');
+            
+            try {
+                const response = await fetch('/api/test-suites');
+                const suites = await response.json();
+                
+                // Update view with test suites
+                addConsoleMessage(`Loaded ${suites.length} test suites`, 'success');
+            } catch (error) {
+                addConsoleMessage(`Failed to load test suites: ${error}`, 'error');
+            }
+        }
+
+        async function loadHealingHistory() {
+            addConsoleMessage('Loading healing history...', 'info');
+            
+            try {
+                const response = await fetch('/api/healing-history');
+                const history = await response.json();
+                
+                addConsoleMessage(`Loaded ${history.length} healing records`, 'success');
+            } catch (error) {
+                addConsoleMessage(`Failed to load healing history: ${error}`, 'error');
+            }
+        }
+
+        async function updateDependencyGraph() {
+            addConsoleMessage('Updating dependency graph...', 'info');
+            
+            try {
+                const response = await fetch('/api/dependency-graph');
+                const data = await response.json();
+                
+                // Update D3 graph with new data
+                addConsoleMessage('Dependency graph updated', 'success');
+            } catch (error) {
+                addConsoleMessage(`Failed to update graph: ${error}`, 'error');
+            }
+        }
+
+        async function loadObsoleteFiles() {
+            addConsoleMessage('Loading obsolete files...', 'info');
+            
+            try {
+                const response = await fetch('/api/obsolete-files');
+                const data = await response.json();
+                
+                updateObsoleteFilesList(data.obsolete_files.map(f => f.path));
+                addConsoleMessage(`Found ${data.obsolete_files.length} obsolete files`, 'warning');
+            } catch (error) {
+                addConsoleMessage(`Failed to load obsolete files: ${error}`, 'error');
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initDashboard);
+
+        // Auto-refresh metrics every 30 seconds
+        setInterval(fetchMetrics, 30000);
+    </script>
+</body>
+</html>
