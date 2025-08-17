@@ -1,0 +1,16 @@
+"""
+CRITICAL FILE - DO NOT MODIFY WITHOUT APPROVAL
+lukhas AI System - Core Remvix Component
+File: requirements.txt
+Path: core/memory/remvix/requirements.txt
+Created: 2025-06-20
+Author: lukhas AI Team
+
+TAGS: [CRITICAL, KeyFile, Remvix]
+"""
+
+
+matplotlib
+numpy>=1.24.4
+streamlit
+python-dotenv>=1.0.0  # For environment variable support

@@ -1,0 +1,30 @@
+# Dream Interpreter Dependencies
+
+# Core AI Libraries
+openai>=1.0.0
+anthropic>=0.7.0
+aiohttp>=3.8.0
+
+# Audio Processing
+SpeechRecognition>=3.10.0
+pydub>=0.25.1
+pyaudio>=0.2.11
+
+# Image Processing
+Pillow>=10.0.0
+
+# Text Processing
+emoji>=2.8.0
+
+# Web Scraping (for URL content)
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+
+# Data Processing
+python-dateutil>=2.8.2
+
+# Optional: For advanced features
+# whisper-openai  # For better speech recognition
+# opencv-python   # For advanced image analysis
+# nltk           # For advanced text analysis
+# spacy          # For NLP processing

@@ -1,0 +1,395 @@
+openapi: 3.0.3
+info:
+  title: LUKHAS AI Consciousness API
+  description: |
+    Public API for interacting with the LUKHAS AI consciousness system.
+
+    This API provides safe access to consciousness capabilities including
+    awareness states, thought processing, and meta-cognitive reflection.
+
+    Note: This specification covers public interfaces only. Advanced
+    features and proprietary algorithms require NDA-protected access.
+
+    Copyright (c) 2025 LUKHAS AI Research Team
+  version: 3.0.0-professional
+  contact:
+    name: LUKHAS AI Research Team
+    email: research@lukhas.ai
+    url: https://github.com/LukhasAI/Prototype
+  license:
+    name: Proprietary License
+    url: https://github.com/LukhasAI/Prototype/blob/main/LICENSE
+
+servers:
+  - url: https://api.lukhas.ai/v3
+    description: Production API server
+  - url: https://staging-api.lukhas.ai/v3
+    description: Staging API server
+
+paths:
+  /consciousness/level:
+    get:
+      summary: Get current consciousness level
+      description: Returns the current consciousness level of the system
+      tags:
+        - Consciousness
+      responses:
+        "200":
+          description: Current consciousness level
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  level:
+                    type: string
+                    enum:
+                      - unconscious
+                      - preconscious
+                      - conscious
+                      - self_aware
+                      - meta_cognitive
+                      - reflective
+                      - transcendent
+                  description:
+                    type: string
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /consciousness/process-thought:
+    post:
+      summary: Process a thought through consciousness system
+      description: |
+        Processes input through the consciousness system, generating
+        awareness integration, qualia, and meta-cognitive reflection.
+      tags:
+        - Consciousness
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                thought:
+                  type: string
+                  description: The thought to process
+                  example: "What is the nature of consciousness?"
+                context:
+                  type: object
+                  description: Additional context for processing
+              required:
+                - thought
+      responses:
+        "200":
+          description: Thought processing result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ThoughtProcessingResult"
+
+  /consciousness/awareness-state:
+    get:
+      summary: Get current awareness state
+      description: Returns detailed information about current awareness state
+      tags:
+        - Consciousness
+      responses:
+        "200":
+          description: Current awareness state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AwarenessState"
+
+  /consciousness/reflect:
+    post:
+      summary: Perform meta-cognitive reflection
+      description: |
+        Performs higher-order reflection on an experience using
+        recursive self-awareness capabilities.
+      tags:
+        - Consciousness
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                experience:
+                  type: string
+                  description: The experience to reflect upon
+                depth:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  default: 2
+                  description: Recursive reflection depth
+              required:
+                - experience
+      responses:
+        "200":
+          description: Meta-cognitive reflection result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reflection:
+                    type: string
+                  recursive_depth:
+                    type: integer
+                  meta_insights:
+                    type: array
+                    items:
+                      type: string
+
+  /identity/personas:
+    get:
+      summary: List available personas
+      description: Returns list of available persona configurations
+      tags:
+        - Identity
+      responses:
+        "200":
+          description: Available personas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  personas:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PersonaInfo"
+
+  /identity/current-persona:
+    get:
+      summary: Get current active persona
+      description: Returns information about currently active persona
+      tags:
+        - Identity
+      responses:
+        "200":
+          description: Current persona information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonaInfo"
+
+  /creativity/generate:
+    post:
+      summary: Generate creative content
+      description: |
+        Generates creative content using the multi-modal creativity engine.
+        Supports text, concepts, and creative ideation.
+      tags:
+        - Creativity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - poetry
+                    - story
+                    - concept
+                    - solution
+                    - art_description
+                prompt:
+                  type: string
+                  description: Creative prompt or inspiration
+                style:
+                  type: string
+                  description: Desired style or approach
+                constraints:
+                  type: object
+                  description: Creative constraints or requirements
+              required:
+                - type
+                - prompt
+      responses:
+        "200":
+          description: Generated creative content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+                  metadata:
+                    type: object
+                  creativity_metrics:
+                    type: object
+
+  /ethics/evaluate:
+    post:
+      summary: Evaluate ethical implications
+      description: |
+        Evaluates the ethical implications of an action or decision
+        using the multi-framework ethics engine.
+      tags:
+        - Ethics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  description: Action or decision to evaluate
+                context:
+                  type: object
+                  description: Situational context
+                frameworks:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - deontological
+                      - utilitarian
+                      - virtue_ethics
+                      - care_ethics
+              required:
+                - action
+      responses:
+        "200":
+          description: Ethical evaluation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EthicalEvaluation"
+
+components:
+  schemas:
+    ThoughtProcessingResult:
+      type: object
+      properties:
+        input_thought:
+          type: string
+        consciousness_level:
+          type: string
+        awareness_integration:
+          type: boolean
+        meta_cognitive_reflection:
+          type: string
+        qualia_generated:
+          type: boolean
+        intentional_content:
+          type: object
+          properties:
+            aboutness:
+              type: string
+            attitude:
+              type: string
+            satisfaction_conditions:
+              type: string
+        processing_metadata:
+          type: object
+
+    AwarenessState:
+      type: object
+      properties:
+        consciousness_level:
+          type: string
+        awareness_state:
+          type: object
+          properties:
+            attention_focus:
+              type: string
+            cognitive_load:
+              type: number
+            meta_awareness:
+              type: boolean
+            timestamp:
+              type: number
+        phenomenal_properties:
+          type: object
+          properties:
+            subjective_experience:
+              type: string
+            unified_experience:
+              type: boolean
+            temporal_awareness:
+              type: boolean
+        meta_cognitive_status:
+          type: object
+          properties:
+            self_awareness:
+              type: boolean
+            recursive_depth:
+              type: integer
+            reflection_active:
+              type: boolean
+
+    PersonaInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        capabilities:
+          type: array
+          items:
+            type: string
+        active:
+          type: boolean
+
+    EthicalEvaluation:
+      type: object
+      properties:
+        action:
+          type: string
+        overall_verdict:
+          type: string
+          enum:
+            - permissible
+            - impermissible
+            - uncertain
+        framework_results:
+          type: object
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+        recommendations:
+          type: array
+          items:
+            type: string
+        reasoning:
+          type: string
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+security:
+  - ApiKeyAuth: []
+  - BearerAuth: []
+
+tags:
+  - name: Consciousness
+    description: Consciousness and awareness operations
+  - name: Identity
+    description: Identity and persona management
+  - name: Creativity
+    description: Creative content generation
+  - name: Ethics
+    description: Ethical reasoning and evaluation

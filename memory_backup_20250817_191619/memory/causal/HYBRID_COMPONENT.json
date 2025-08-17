@@ -1,0 +1,10 @@
+{
+  "component": "causal",
+  "type": "hybrid",
+  "primary_module": "memory",
+  "also_exists_in": [
+    "governance"
+  ],
+  "quantum_state": "superposition",
+  "description": "This component exists in multiple modules simultaneously"
+}

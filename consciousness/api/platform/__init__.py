@@ -1,0 +1,3 @@
+"""
+Consciousness_Platform Module
+"""

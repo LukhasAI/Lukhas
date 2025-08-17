@@ -1,0 +1,25 @@
+{
+  "entry_id": "entropy_001",
+  "content": {
+    "entry_id": "entropy_001",
+    "timestamp": "2025-07-22T10:01:00Z",
+    "type": "drift_event",
+    "content": {
+      "description": "Chaotic system state detected with unstable patterns",
+      "error_cascade": true,
+      "volatile_state": "maximum",
+      "contradiction_level": 0.85
+    },
+    "entropy": 0.92,
+    "symbol_ids": [
+      "symbol_chaos_beta",
+      "symbol_unstable_gamma"
+    ],
+    "\u039bTAG": [
+      "\u039bENTROPY",
+      "\u039bCHAOS"
+    ]
+  },
+  "content_hash": "46cccd4516b21e4c1a5e54dad34cca3fed4ddc67bba3ad4a151f21aeb30ed3f7",
+  "created_timestamp": "2025-07-22T13:44:56.838714+00:00"
+}
