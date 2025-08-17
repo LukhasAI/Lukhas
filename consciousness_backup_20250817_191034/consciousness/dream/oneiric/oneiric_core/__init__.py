@@ -1,3 +1,0 @@
-"""
-Oneiric Core Module
-"""

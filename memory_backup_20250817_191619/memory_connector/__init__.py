@@ -1,4 +1,0 @@
-"""
-Memory_Connector Module
-"""
-

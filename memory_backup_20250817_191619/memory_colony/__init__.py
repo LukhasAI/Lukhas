@@ -1,4 +1,0 @@
-"""
-Memory_Colony Module
-"""
-
