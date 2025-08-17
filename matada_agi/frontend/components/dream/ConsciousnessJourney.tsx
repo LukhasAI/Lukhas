@@ -93,11 +93,11 @@ export default function ConsciousnessJourney({
           consciousness: dreamState.consciousness,
           emotion: dreamState.emotion,
           glyphs: dreamState.glyphs,
-          selectedBranches: dreamState.timeline.selectedPath.map(i => `branch-${i}`),
+          selectedBranches: (dreamState.timeline?.selectedPath || []).map(i => `branch-${i}`),
           memories: dreamState.memories,
           interactions: {
             glyphManipulations: dreamState.glyphs.length,
-            timelineExplorations: dreamState.timeline.selectedPath.length,
+            timelineExplorations: (dreamState.timeline?.selectedPath || []).length,
             emotionalResonances: 10,
             memoryIntegrations: dreamState.memories.length
           }

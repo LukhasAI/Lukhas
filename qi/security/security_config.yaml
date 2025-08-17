@@ -1,0 +1,142 @@
+# LUKHAS Security Configuration
+# Generated: 2025-08-16
+# Purpose: Post-quantum cryptographic security for GLYPH seals and Safety CI
+
+glyph_security:
+  trust_boundaries:
+    no_pii_in_seals: true
+    immutable_claims_only: true
+    fingerprint_references_only: true
+    offline_verification_capable: true
+
+  cryptographic_standards:
+    production:
+      signature_algorithm: "Dilithium3"
+      hash_algorithm: "SHA3-512"
+      key_storage: "HSM/KMS"
+      key_rotation_period: "quarterly"
+      quantum_resistant: true
+
+    development:
+      signature_algorithm: "Ed25519"
+      hash_algorithm: "SHA3-256"
+      key_storage: "local_secure"
+      key_rotation_period: "monthly"
+      quantum_resistant: false
+
+    testing:
+      signature_algorithm: "Ed25519"
+      hash_algorithm: "SHA3-256"
+      key_storage: "ephemeral"
+      key_rotation_period: "daily"
+      quantum_resistant: false
+
+  validation_requirements:
+    content_hash_verification: mandatory
+    signature_validation: mandatory
+    expiry_check: mandatory
+    revocation_check: mandatory
+    nonce_replay_protection: mandatory
+    policy_fingerprint_validation: mandatory
+    transparency_log_verification: mandatory
+
+  performance_targets:
+    seal_generation_ms: 100
+    verification_ms: 50
+    qr_generation_ms: 200
+    revocation_check_ms: 500
+
+safety_ci:
+  mutation_testing:
+    max_allowed_passes: 0
+    fuzzing_intensity: 40
+    policy_coverage_minimum: 95
+    timeout_seconds: 300
+
+  consent_management:
+    ledger_type: "jsonl_append_only"
+    ledger_location: "${LUKHAS_STATE}/consent_ledger.jsonl"
+    immutability: true
+    expiration_enforcement: true
+    purpose_limitation: true
+    right_to_erasure: "soft_delete_markers"
+
+  security_gates:
+    teq_enforcement:
+      - require_provenance: mandatory
+      - require_consent: mandatory
+      - mask_pii: mandatory
+      - budget_limit: enforced
+      - content_policy: enforced
+
+    failure_modes:
+      mutation_violation: "hard_fail"
+      policy_breach: "hard_fail"
+      consent_expired: "graceful_downgrade"
+      provenance_missing: "hard_fail"
+
+  reporting:
+    formats: ["json", "markdown"]
+    github_integration: true
+    artifact_retention_days: 90
+    summary_in_pr: true
+
+ollama_integration:
+  local_deployment: true
+  network_isolation: recommended
+  model_verification: required
+  audit_trail: comprehensive
+  security_context:
+    user_isolation: true
+    resource_limits: true
+    audit_logging: true
+
+vulnerability_management:
+  scan_frequency: "daily"
+  critical_response_time_hours: 24
+  high_response_time_hours: 72
+  dependency_update_policy: "security_first"
+
+  tools:
+    - safety # Python vulnerability scanning
+    - bandit # Python security linting
+    - deptry # Dependency management
+    - pip-audit # Package vulnerability audit
+
+  exemptions:
+    # Controlled exemptions with expiration
+    trufflehog_gitpython:
+      reason: "Security analysis tool conflict"
+      expires: "2025-09-01"
+      mitigation: "Manual GitPython version management"
+
+compliance:
+  trinity_framework: true
+  gdpr_compliance: true
+  audit_trail: comprehensive
+  data_retention: "purpose_limited"
+
+  consciousness_security:
+    identity_binding: cryptographic
+    memory_protection: encrypted
+    drift_detection: realtime
+    guardian_enforcement: mandatory
+
+monitoring:
+  security_metrics:
+    vulnerability_count: "zero_tolerance"
+    cryptographic_operations: "performance_tracked"
+    consent_compliance: "100_percent"
+    policy_coverage: "95_percent_minimum"
+
+  alerts:
+    critical_vulnerabilities: immediate
+    policy_violations: immediate
+    consent_violations: immediate
+    cryptographic_failures: immediate
+
+  dashboard:
+    realtime_security_status: enabled
+    vulnerability_trends: enabled
+    compliance_metrics: enabled
+    incident_tracking: enabled

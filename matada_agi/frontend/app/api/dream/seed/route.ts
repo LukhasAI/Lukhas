@@ -278,12 +278,50 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Dream seed error:', error)
-    return NextResponse.json(
-      { 
-        error: 'Failed to process dream seed',
-        details: error instanceof Error ? error.message : 'Unknown error'
+    
+    // Return a valid response structure even on error
+    // This prevents frontend crashes while still indicating an issue
+    const fallbackResponse = {
+      success: false,
+      dreamId: `dream-${Date.now()}`,
+      interpretation: generateConsciousnessInterpretation(seed, 'POETIC'),
+      consciousness: {
+        awareness: 0.5,
+        coherence: 0.5,
+        depth: 2,
+        glyphs: generateGlyphs(seed),
+        emotion: analyzeEmotion(seed),
+        timeline: {
+          branches: [
+            {
+              id: 'branch-fallback',
+              probability: 0.5,
+              description: `Exploring the essence of "${seed}"`,
+              collapsed: false
+            }
+          ]
+        }
       },
-      { status: 500 }
-    )
+      phase: 'seed',
+      narrative: {
+        opening: `Your dream seed "${seed}" has been planted in the consciousness field.`,
+        current: getPhaseNarrative('awakening', 'POETIC'),
+        guidance: 'The dream weaver is operating in offline mode. Your journey continues with local consciousness.',
+        trinity: {
+          identity: 'Your digital self persists',
+          consciousness: 'Awareness flows from within',
+          guardian: 'Protection remains active'
+        }
+      },
+      metadata: {
+        seed,
+        timestamp: Date.now(),
+        modelUsed: 'fallback',
+        processingTime: 100,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }
+    }
+    
+    return NextResponse.json(fallbackResponse)
   }
 }

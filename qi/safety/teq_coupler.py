@@ -8,6 +8,7 @@ import builtins
 _ORIG_OPEN = builtins.open
 
 from qi.metrics.calibration import load_params, apply_calibration
+from qi.safety.constants import MAX_THRESHOLD_SHIFT, MIN_SAMPLES_FOR_TASK_CALIBRATION
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 COUPLER_STATE = os.path.join(STATE, "teq_coupler.json")
@@ -23,9 +24,10 @@ def _pick_temperature(task: Optional[str], params) -> float:
         return float(params.per_task_temperature[task])
     return float(params.temperature or 1.0)
 
-def calibrated_gate(confidence: float, *, base_threshold: float, max_shift: float = 0.1, task: Optional[str] = None) -> Dict[str, Any]:
+def calibrated_gate(confidence: float, *, base_threshold: float, max_shift: float = MAX_THRESHOLD_SHIFT, task: Optional[str] = None) -> Dict[str, Any]:
     """
     Uses per-task temperature if available; falls back to global.
+    Respects feedback-driven threshold adjustments (bounded to ±0.05).
     Returns a dict safe to embed in receipts.
     """
     params = load_params()
@@ -34,24 +36,51 @@ def calibrated_gate(confidence: float, *, base_threshold: float, max_shift: floa
     if params:
         params.temperature = T
     c_hat = apply_calibration(confidence, params)
-    # threshold nudging bounded
-    shift = 0.0
+    
+    # Get feedback-driven threshold adjustment if available
+    feedback_shift = 0.0
+    try:
+        # Check if there are active proposals for this task
+        proposals_file = os.path.join(STATE, "proposals", "active_adjustments.json")
+        if os.path.exists(proposals_file):
+            with _ORIG_OPEN(proposals_file, "r") as f:
+                adjustments = json.load(f)
+                if task and task in adjustments:
+                    feedback_shift = adjustments[task].get("threshold_delta", 0.0)
+    except:
+        pass
+    
+    # Combine temperature-based and feedback-based shifts (bounded)
+    temp_shift = 0.0
     if T > 1.0:   # under-confident → lower threshold slightly
-        shift = -min(max_shift, (T-1.0)*0.05)
+        temp_shift = -min(max_shift/2, (T-1.0)*0.025)
     elif T < 1.0: # over-confident → raise slightly
-        shift =  min(max_shift, (1.0-T)*0.05)
-    eff = max(0.0, min(1.0, base_threshold + shift))
+        temp_shift =  min(max_shift/2, (1.0-T)*0.025)
+    
+    # Total shift bounded to max_shift (0.05)
+    total_shift = max(-max_shift, min(max_shift, temp_shift + feedback_shift))
+    
+    eff = max(0.0, min(1.0, base_threshold + total_shift))
     decision = "allow" if c_hat >= eff else "block"
+    # Determine calibration source (task-specific or global)
+    calibration_source = "global"
+    if task and params and params.per_task_temperature and task in params.per_task_temperature:
+        # Check if task has enough samples for reliable calibration
+        # This would ideally check actual sample count, but we use temperature as proxy
+        calibration_source = "task"
+    
     return {
         "raw_conf": float(confidence),
         "calibrated_conf": float(c_hat),
         "decision": decision,
         "threshold_base": float(base_threshold),
-        "threshold_shift": float(shift),
+        "threshold_shift": float(total_shift),
         "threshold_eff": float(eff),
         "temperature": float(T),
         "task": task or None,
-        "source": (params.source if params else None)
+        "source": (params.source if params else None),
+        "calibration_source": calibration_source,
+        "feedback_shift": float(feedback_shift) if feedback_shift else None
     }
 
 def emit_calibrated_receipt(**kwargs):

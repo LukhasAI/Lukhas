@@ -188,6 +188,10 @@ class LUKHASBootstrap:
 
             logger.info("  ✓ Event subscriptions configured")
 
+    async def check_system_health(self) -> dict[str, Any]:
+        """Public method to check health of all services"""
+        return await self._check_system_health()
+
     async def _check_system_health(self) -> dict[str, Any]:
         """Check health of all services"""
         health_report = {
@@ -239,7 +243,7 @@ class LUKHASBootstrap:
             "Remember the importance of ethical decision-making",
             "Dream about innovative solutions to complex problems",
             "Analyze the quantum entanglement of consciousness",
-            "Feel the emotional resonance of our decisions"
+            "Feel the emotional resonance of our decisions",
         ]
 
         for thought in test_thoughts:
@@ -253,11 +257,17 @@ class LUKHASBootstrap:
         status = await self.unified_orchestrator.get_system_status()
 
         logger.info("\n📊 SYSTEM STATUS:")
-        logger.info(f"   • Active Symbols: {status['cognitive_state']['active_symbols']}")
+        logger.info(
+            f"   • Active Symbols: {status['cognitive_state']['active_symbols']}"
+        )
         logger.info(f"   • Memory Folds: {status['memory']['total_folds']}")
         logger.info(f"   • Cache Hit Rate: {status['memory']['cache_hit_rate']:.1%}")
-        logger.info(f"   • Quantum Coherence: {status['cognitive_state']['quantum_coherence']:.3f}")
-        logger.info(f"   • Thoughts Processed: {status['metrics']['thoughts_processed']}")
+        logger.info(
+            f"   • Quantum Coherence: {status['cognitive_state']['quantum_coherence']:.3f}"
+        )
+        logger.info(
+            f"   • Thoughts Processed: {status['metrics']['thoughts_processed']}"
+        )
 
         logger.info("\n✅ Integration demonstration complete!")
 

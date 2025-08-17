@@ -34,6 +34,7 @@ logging.basicConfig(
     handlers=[logging.FileHandler("lukhas.log"), logging.StreamHandler()],
 )
 
+
 logger = logging.getLogger("LUKHAS")
 
 
@@ -53,13 +54,13 @@ class LUKHAS:
         health_status = self.health_monitor.check_vital_signs()
 
         if health_status["overall"] in ["CRITICAL", "SEVERE"]:
-            logger.error(f"❌ System health is {health_status['overall']}")
+            logger.error("❌ System health is %s", health_status["overall"])
             logger.error("Please run healing procedures first:")
             logger.error("  python healing/conflict_healer.py")
             logger.error("  python healing/syntax_doctor.py")
             return False
 
-        logger.info(f"✅ System health: {health_status['overall']}")
+        logger.info("✅ System health: %s", health_status["overall"])
         return True
 
     async def initialize_professional_architecture(self):
@@ -81,12 +82,12 @@ class LUKHAS:
                 return True
             else:
                 logger.error(
-                    f"❌ Architecture initialization failed: {result.get('error')}"
+                    "❌ Architecture initialization failed: %s", result.get("error")
                 )
                 return False
 
-        except Exception as e:
-            logger.error(f"❌ Failed to initialize architecture: {e}")
+        except (ImportError, AttributeError, RuntimeError) as e:
+            logger.error("❌ Failed to initialize architecture: %s", e)
             return False
 
     async def start(self):
@@ -116,18 +117,22 @@ class LUKHAS:
 
         # Get health report from bootstrap
         if self.bootstrap:
-            health_report = await self.bootstrap._check_system_health()
+            health_report = (
+                await self.bootstrap.check_system_health()
+            )  # Remove protected member access
 
             logger.info("\n📊 Startup Summary:")
-            logger.info(f"  - Services loaded: {len(self.bootstrap.services)}")
+            logger.info("  - Services loaded: %d", len(self.bootstrap.services))
             logger.info(
-                f"  - Healthy services: {health_report['overall']['healthy_services']}"
+                "  - Healthy services: %s", health_report["overall"]["healthy_services"]
             )
             logger.info(
-                f"  - Health percentage: {health_report['overall']['health_percentage']:.1f}%"
+                "  - Health percentage: %.1f%%",
+                health_report["overall"]["health_percentage"],
             )
             logger.info(
-                f"  - Startup time: {(datetime.now() - self.startup_time).total_seconds():.2f}s"
+                "  - Startup time: %.2fs",
+                (datetime.now() - self.startup_time).total_seconds(),
             )
 
         self.is_running = True
@@ -169,8 +174,8 @@ class LUKHAS:
 
             except KeyboardInterrupt:
                 print("\nUse 'exit' to quit properly")
-            except Exception as e:
-                logger.error(f"Error: {e}")
+            except (RuntimeError, ValueError, AttributeError) as e:
+                logger.error("Error: %s", e)
 
     def show_help(self):
         """Show help information"""
@@ -193,7 +198,9 @@ Available commands:
         print(f"Uptime: {(datetime.now() - self.startup_time).total_seconds():.1f}s")
 
         if self.bootstrap:
-            health = await self.bootstrap._check_system_health()
+            health = (
+                await self.bootstrap.check_system_health()
+            )  # Remove protected member access
             print("\nServices:")
             for name, health_info in health["services"].items():
                 status = health_info.get("status", "unknown")
@@ -209,7 +216,9 @@ Available commands:
 
         if self.bootstrap:
             print("\n📊 Service Health Details:")
-            health = await self.bootstrap._check_system_health()
+            health = (
+                await self.bootstrap.check_system_health()
+            )  # Remove protected member access
             for name, info in health["services"].items():
                 print(f"\n{name}:")
                 for key, value in info.items():

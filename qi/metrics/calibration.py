@@ -96,28 +96,34 @@ def expected_calibration_error(diag) -> float:
         e += (b["count"]/total) * gap
     return float(round(e, 6))
 
-def fit_temperature(samples: List[Tuple[float,int,str]]) -> float:
-    """Simple 1D temperature on confidence → minimize logloss (Newton steps)."""
+def fit_temperature(samples: List[Tuple[float,int,str]], weights: Optional[Dict[str, float]] = None) -> float:
+    """Simple 1D temperature on confidence → minimize logloss (Newton steps) with optional per-task weights."""
     if not samples: return 1.0
-    # reuse old algorithm but ignore task element
-    pairs = [(c, y) for (c, y, _t) in samples]
+    # Apply weights if provided
+    weighted_pairs = []
+    for (c, y, t) in samples:
+        w = 1.0
+        if weights and t in weights:
+            w = weights[t]
+        weighted_pairs.append((c, y, w))
+    
     T = 1.0
     for _ in range(50):
         grad = 0.0; hess = 0.0
-        for conf, corr in pairs:
+        for conf, corr, weight in weighted_pairs:
             c = min(max(conf, 1e-6), 1-1e-6)
             z = math.log(c/(1.0-c))
             zT = z / T
             p = 1.0/(1.0+math.exp(-zT))
-            grad += (p - corr) * (-z) / (T*T)
-            hess += p*(1-p) * (z*z) / (T**4)
+            grad += weight * (p - corr) * (-z) / (T*T)
+            hess += weight * p*(1-p) * (z*z) / (T**4)
         if abs(hess) < 1e-9: break
         step = grad / hess
         T = max(0.2, min(5.0, T - step))
         if abs(step) < 1e-6: break
     return float(round(T, 6))
 
-def fit_and_save(source_preference: str = "eval") -> CalibParams:
+def fit_and_save(source_preference: str = "eval", feedback_weights: Optional[Dict[str, float]] = None) -> CalibParams:
     samples = _collect_eval() if source_preference == "eval" else _collect_receipts()
     if not samples:
         # fallback to the other source
@@ -125,11 +131,21 @@ def fit_and_save(source_preference: str = "eval") -> CalibParams:
         src = "receipts" if source_preference == "eval" else "eval"
     else:
         src = source_preference
+    
+    # Get feedback weights if not provided
+    if feedback_weights is None:
+        try:
+            from qi.feedback.triage import get_triage
+            triage = get_triage()
+            clusters = triage.store.read_clusters()
+            feedback_weights = triage.compute_task_weights(clusters)
+        except:
+            feedback_weights = {}
 
-    # global
+    # global (with weights)
     diag = reliability_diagram(samples)
     ece = expected_calibration_error(diag)
-    T_global = fit_temperature(samples)
+    T_global = fit_temperature(samples, weights=feedback_weights)
 
     # per-task
     per_task_temperature = {}
@@ -138,11 +154,19 @@ def fit_and_save(source_preference: str = "eval") -> CalibParams:
     tasks = sorted({t for _c,_y,t in samples})
     for t in tasks:
         d = reliability_diagram(samples, task=t)
-        if sum(b["count"] for b in d) < 20:   # skip tiny data
+        n_samples = sum(b["count"] for b in d)
+        
+        # Cold-start: if samples < N_min (e.g., 50) → ignore weight
+        if n_samples < 50:
+            task_weights = None
+        else:
+            task_weights = {t: feedback_weights.get(t, 1.0)} if feedback_weights else None
+        
+        if n_samples < 20:   # skip tiny data
             continue
         per_task_bins[t] = d
         per_task_ece[t] = expected_calibration_error(d)
-        per_task_temperature[t] = fit_temperature([s for s in samples if s[2]==t])
+        per_task_temperature[t] = fit_temperature([s for s in samples if s[2]==t], weights=task_weights)
 
     params = CalibParams(
         fitted_at=time.time(), source=src, bins=diag, ece=ece,

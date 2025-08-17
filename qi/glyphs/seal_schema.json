@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Lukhas GLYPH Seal v0.1",
+  "type": "object",
+  "required": [
+    "v",
+    "content_hash",
+    "media_type",
+    "created_at",
+    "issuer",
+    "model_id",
+    "policy_fingerprint",
+    "jurisdiction",
+    "proof_bundle",
+    "expiry",
+    "nonce"
+  ],
+  "properties": {
+    "v": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^sha3-512:[0-9a-f]{128}$"
+    },
+    "media_type": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "issuer": {
+      "type": "string",
+      "pattern": "^lukhas://org/.+"
+    },
+    "model_id": {
+      "type": "string"
+    },
+    "policy_fingerprint": {
+      "type": "string",
+      "pattern": "^sha3-256:[0-9a-f]{64}$"
+    },
+    "jurisdiction": {
+      "type": "string"
+    },
+    "proof_bundle": {
+      "type": "string",
+      "description": "URL to proof bundle (https:// or ipfs://)"
+    },
+    "expiry": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "nonce": {
+      "type": "string"
+    },
+    "prev": {
+      "type": ["string", "null"],
+      "description": "Previous seal hash for chain"
+    },
+    "calib_ref": {
+      "type": ["object", "null"],
+      "properties": {
+        "temp": {
+          "type": "number"
+        },
+        "ece": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

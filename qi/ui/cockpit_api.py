@@ -705,6 +705,123 @@ def get_receipt_sample_unified(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Sample retrieval failed: {str(e)}")
 
+# ------------- Panel 6: Feedback System -------------
+
+@app.get("/cockpit/feedback")
+def get_feedback_list(
+    task: Optional[str] = Query(None),
+    jurisdiction: Optional[str] = Query(None),
+    limit: int = Query(100),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        from qi.feedback.store import get_store
+        store = get_store()
+        feedback = store.read_feedback(
+            limit=limit,
+            task_filter=task,
+            jurisdiction_filter=jurisdiction
+        )
+        
+        # Compute summary
+        if feedback:
+            satisfactions = [fc.get("feedback", {}).get("satisfaction", 0.5) for fc in feedback]
+            avg_sat = sum(satisfactions) / len(satisfactions)
+            
+            issue_counts = {}
+            for fc in feedback:
+                for issue in fc.get("feedback", {}).get("issues", []):
+                    issue_counts[issue] = issue_counts.get(issue, 0) + 1
+        else:
+            avg_sat = None
+            issue_counts = {}
+        
+        return {
+            "feedback": feedback,
+            "count": len(feedback),
+            "filters": {"task": task, "jurisdiction": jurisdiction},
+            "summary": {
+                "avg_satisfaction": avg_sat,
+                "issue_distribution": issue_counts
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Feedback retrieval failed: {str(e)}")
+
+@app.get("/cockpit/feedback/clusters")
+def get_feedback_clusters(
+    task: Optional[str] = Query(None),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        from qi.feedback.store import get_store
+        store = get_store()
+        clusters = store.read_clusters()
+        
+        if task:
+            clusters = [c for c in clusters if c.get("task") == task]
+        
+        return {
+            "clusters": clusters,
+            "count": len(clusters),
+            "filter": {"task": task}
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Cluster retrieval failed: {str(e)}")
+
+@app.post("/cockpit/feedback/cluster")
+def run_feedback_clustering(
+    limit: int = Query(1000),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        from qi.feedback.triage import get_triage
+        triage = get_triage()
+        stats = triage.run_triage(limit=limit)
+        
+        return {
+            "status": "completed",
+            "stats": stats,
+            "timestamp": time.time()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Clustering failed: {str(e)}")
+
+@app.post("/cockpit/feedback/promote")
+def promote_feedback_to_proposal(
+    fc_id: Optional[str] = Query(None),
+    cluster_id: Optional[str] = Query(None),
+    target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
+    token: Optional[str] = Header(None, alias="X-Auth-Token")
+):
+    _check_auth(token)
+    try:
+        if not fc_id and not cluster_id:
+            raise HTTPException(status_code=400, detail="Either fc_id or cluster_id required")
+        
+        from qi.feedback.proposals import ProposalMapper
+        mapper = ProposalMapper()
+        
+        if cluster_id:
+            proposal_id = mapper.promote_cluster(cluster_id, target_file)
+        else:
+            proposal_id = mapper.promote_feedback_card(fc_id, target_file)
+        
+        if not proposal_id:
+            raise HTTPException(status_code=400, detail="Could not create proposal from feedback")
+        
+        return {
+            "proposal_id": proposal_id,
+            "status": "queued",
+            "source": "cluster" if cluster_id else "feedback_card",
+            "timestamp": time.time()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Promotion failed: {str(e)}")
+
 # ------------- Dashboard & Health -------------
 
 @app.get("/cockpit/health")
@@ -720,7 +837,8 @@ def health_check():
             "adaptive_learning": "available",
             "human_adaptation": "available",
             "approvals": "available",
-            "receipts": "available"
+            "receipts": "available",
+            "feedback": "available"
         }
     }
 

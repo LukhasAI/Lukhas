@@ -53,6 +53,8 @@ def emit_receipt(**kwargs) -> Dict[str, Any]:
     
     Supports all build_receipt parameters including:
     - metrics: Dict with calibration data (raw_conf, calibrated_conf, temperature, etc.)
+    - feedback_ref: Optional reference to feedback card ID
+    - proposal_id: Optional reference to change proposal ID
     """
     r = build_receipt(**kwargs)
     data = to_json(r)

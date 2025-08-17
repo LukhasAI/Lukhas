@@ -105,19 +105,19 @@ function BranchNode({
 
             {/* Emotional Tone Indicator */}
             <div className="mt-2 flex gap-1">
-              {[...Array(5)].map((_, i) => (
+              {Array.from({ length: 5 }, (_, i) => (
                 <div
                   key={i}
                   className="h-1 w-8 rounded-full"
                   style={{
                     backgroundColor: `rgba(${
-                      branch.emotionalTone.valence * 255
+                      (branch.emotionalTone?.valence || 0.5) * 255
                     }, ${
-                      branch.emotionalTone.arousal * 128
+                      (branch.emotionalTone?.arousal || 0.5) * 128
                     }, ${
-                      (1 - branch.emotionalTone.valence) * 255
+                      (1 - (branch.emotionalTone?.valence || 0.5)) * 255
                     }, ${
-                      i < Math.floor(branch.emotionalTone.arousal * 5) ? 0.8 : 0.2
+                      i < Math.floor((branch.emotionalTone?.arousal || 0.5) * 5) ? 0.8 : 0.2
                     })`
                   }}
                 />
@@ -152,10 +152,10 @@ function BranchNode({
                 <div>
                   <span className="text-white/50">Emotional Impact:</span>
                   <div className="mt-1">
-                    Valence: {(branch.emotionalTone.valence * 100).toFixed(0)}%
+                    Valence: {((branch.emotionalTone?.valence || 0.5) * 100).toFixed(0)}%
                   </div>
                   <div>
-                    Arousal: {(branch.emotionalTone.arousal * 100).toFixed(0)}%
+                    Arousal: {((branch.emotionalTone?.arousal || 0.5) * 100).toFixed(0)}%
                   </div>
                 </div>
                 <div>
@@ -182,7 +182,7 @@ function BranchNode({
             exit={{ opacity: 0, height: 0 }}
             className="relative"
           >
-            {branch.children.map((child, index) => (
+            {branch.children && branch.children.map((child, index) => (
               <BranchNode
                 key={child.id}
                 branch={child}
@@ -200,11 +200,13 @@ function BranchNode({
 }
 
 export default function TimelineExplorer({ timeline, onBranchSelect }: TimelineExplorerProps) {
-  const [selectedPath, setSelectedPath] = useState<number[]>(timeline.selectedPath)
+  const [selectedPath, setSelectedPath] = useState<number[]>(timeline?.selectedPath || [])
   const [collapseAnimation, setCollapseAnimation] = useState(false)
 
-  // Mock timeline data if not provided
-  const branches = timeline.branches.length > 0 ? timeline.branches : [
+  // Mock timeline data if not provided or invalid
+  const branches = (timeline?.branches && Array.isArray(timeline.branches) && timeline.branches.length > 0) 
+    ? timeline.branches 
+    : [
     {
       id: 'root',
       probability: 1.0,
@@ -297,7 +299,7 @@ export default function TimelineExplorer({ timeline, onBranchSelect }: TimelineE
 
       {/* Timeline Tree */}
       <div className="space-y-2">
-        {branches.map((branch, index) => (
+        {branches && branches.length > 0 ? branches.map((branch, index) => (
           <BranchNode
             key={branch.id}
             branch={branch}
@@ -306,7 +308,12 @@ export default function TimelineExplorer({ timeline, onBranchSelect }: TimelineE
             selected={selectedPath[0] === index}
             onSelect={handleBranchSelect}
           />
-        ))}
+        )) : (
+          <div className="p-4 text-center text-white/50">
+            <p>No timeline branches available yet.</p>
+            <p className="text-sm mt-2">Initiate a dream to explore possible paths.</p>
+          </div>
+        )}
       </div>
 
       {/* Timeline Statistics */}
@@ -337,9 +344,10 @@ export default function TimelineExplorer({ timeline, onBranchSelect }: TimelineE
 }
 
 function countBranches(branches: TimelineBranch[]): number {
+  if (!branches || !Array.isArray(branches)) return 0
   let count = branches.length
   branches.forEach(branch => {
-    if (branch.children) {
+    if (branch?.children && Array.isArray(branch.children)) {
       count += countBranches(branch.children)
     }
   })

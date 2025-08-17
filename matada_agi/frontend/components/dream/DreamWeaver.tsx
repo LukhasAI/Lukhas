@@ -171,14 +171,14 @@ export default function DreamWeaver() {
       setDreamState(prev => ({
         ...prev,
         isProcessing: false,
-        consciousness: data.consciousness || prev.consciousness,
-        emotion: data.consciousness?.emotion || prev.emotion,
-        glyphs: data.consciousness?.glyphs || prev.glyphs,
+        consciousness: data?.consciousness || prev.consciousness,
+        emotion: data?.consciousness?.emotion || prev.emotion,
+        glyphs: data?.consciousness?.glyphs || prev.glyphs,
         timeline: {
-          branches: data.consciousness?.timeline?.branches || [],
-          selectedPath: []
+          branches: data?.consciousness?.timeline?.branches || data?.timeline?.branches || [],
+          selectedPath: prev.timeline.selectedPath || []
         },
-        narrative: data.interpretation || prev.narrative
+        narrative: data?.interpretation || prev.narrative
       }))
       
       // SSE stream is automatically handled by useSSE hook
@@ -237,11 +237,11 @@ export default function DreamWeaver() {
           consciousness: dreamState.consciousness,
           emotion: dreamState.emotion,
           glyphs: dreamState.glyphs,
-          selectedBranches: dreamState.timeline.selectedPath.map(i => `branch-${i}`),
+          selectedBranches: (dreamState.timeline?.selectedPath || []).map(i => `branch-${i}`),
           memories: dreamState.memories,
           interactions: {
             glyphManipulations: dreamState.glyphs.length,
-            timelineExplorations: dreamState.timeline.selectedPath.length,
+            timelineExplorations: (dreamState.timeline?.selectedPath || []).length,
             emotionalResonances: 10,
             memoryIntegrations: dreamState.memories.length
           }
@@ -462,7 +462,7 @@ export default function DreamWeaver() {
               {/* Right Column - Interactive Elements */}
               <div className="space-y-6">
                 {/* Timeline Explorer */}
-                {dreamState.phase === 'exploration' && (
+                {(dreamState.phase === 'exploration' || dreamState.phase === 'awakening') && (
                   <div className="glass-panel p-6 rounded-2xl">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-lg font-medium flex items-center gap-2">
@@ -471,7 +471,7 @@ export default function DreamWeaver() {
                       </h3>
                     </div>
                     <TimelineExplorer
-                      timeline={dreamState.timeline}
+                      timeline={dreamState.timeline || { branches: [], selectedPath: [] }}
                       onBranchSelect={handleTimelineBranch}
                     />
                   </div>
