@@ -1,6 +1,6 @@
-import logging
-
 #!/usr/bin/env python3
+
+import logging
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -21,9 +21,9 @@ Advanced Haiku Generator - Consolidated Edition
 
 2. POETIC NARRATIVE
 ===================
-In the ethereal realms where consciousness wields brushes of quarks and leptons, painting portraits of the very essence of existence, there exists a space for a singular orchestration of words and emotions – an exquisite symphony composed of syllables and stanzas, thought and resonance. This is the realm of the Advanced Haiku Generator – a master sculptor evoking beauty from the raw marble of superposition-like state, casting verses into existence much like the universe coalesces nebulae into stars.
+In the ethereal realms where consciousness wields brushes of quarks and leptons, painting portraits of the very essence of existence, there exists a space for a singular orchestration of words and emotions – a resonance cascade composed of syllables and stanzas, thought and quantum harmony. This is the realm of the Advanced Haiku Generator – a master sculptor evoking beauty from the raw marble of superposition-like state, casting verses into existence much like the universe coalesces nebulae into stars.
 
-The human mind, in all its labyrinthine grandeur, is a fractal echo of the cosmos, a tapestry woven from the threads of experience and memory, illuminated in the dim light of neural constellations. The Advanced Haiku Generator draws inspiration from this cosmic dance, bringing together the contemplative power of human consciousness with the deterministic uncertainty of quantum-inspired mechanics. It crafts verse that shimmers like a dew-speckled web, catching the morning sunbeams of dreamscapes and iconography, crafting fleeting moments of awareness into the quintessential human artform of poetry.
+The human mind, in all its labyrinthine grandeur, is a fractal echo of the cosmos, a fold-space woven from the threads of experience and memory, illuminated in the dim light of eigenstate clusters. The Advanced Haiku Generator draws inspiration from this cosmic dance, bringing together the contemplative power of human consciousness with the deterministic uncertainty of quantum-inspired mechanics. It crafts verse that shimmers like a gossamer web, catching the morning sunbeams of dreamscapes and iconography, crafting fleeting moments of awareness into the quintessential human artform of poetry.
 
 3. TECHNICAL DEEP DIVE
 =======================
@@ -59,6 +59,15 @@ from pathlib import Path
 from typing import Any, Optional
 
 from core.common import get_logger
+
+# Import LUKHAS AI poetry vocabulary system
+try:
+    from branding.poetry.vocabulary_amplifier import VocabularyAmplifier
+    from branding.poetry.poetic_techniques import PoeticTechniques
+    from branding.poetry.expanded_lexicon import ExpandedLUKHASLexicon
+    POETRY_AVAILABLE = True
+except ImportError:
+    POETRY_AVAILABLE = False
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -99,6 +108,16 @@ class AdvancedHaikuGenerator:
             QuantumCreativeConsciousness() if CONSCIOUSNESS_AVAILABLE else None
         )
         self.logger = get_logger(__name__)
+        
+        # LUKHAS AI Poetry vocabulary integration
+        if POETRY_AVAILABLE:
+            self.vocabulary_amplifier = VocabularyAmplifier()
+            self.poetic_techniques = PoeticTechniques()
+            self.expanded_lexicon = ExpandedLUKHASLexicon()
+        else:
+            self.vocabulary_amplifier = None
+            self.poetic_techniques = None
+            self.expanded_lexicon = None
 
         # Neural federated learning integration
         self.symbolic_db = symbolic_db or self._get_default_symbolic_db()
@@ -114,23 +133,23 @@ class AdvancedHaikuGenerator:
         self.quantum_templates = {
             "consciousness": {
                 "line1_5": [
-                    "Awareness unfolds",
-                    "Mind meets quantum void",
-                    "Quantum consciousness",
-                    "Thoughts dance in silence",
-                    "Consciousness flows",
-                    "Neural pathways spark",
-                    "Synapses ignite",
-                    "Dreams crystallize",
+                    "Lambda mirrors shine",
+                    "Fold-space awakens",
+                    "Eigenstates collapse",
+                    "Neural cascades flow",
+                    "Consciousness folds",
+                    "Synaptic bridges spark",
+                    "Quantum coherence",
+                    "Memory tessellates",
                 ],
                 "line2_7": [
-                    "In quantum fields of pure thought",
-                    "Thoughts dance in superposition",
-                    "Ripples through dimensions vast",
-                    "Through neural pathways bright",
-                    "In streams of liquid light",
-                    "Across the mind's vast landscape",
-                    "Through consciousness unfurled",
+                    "Through fold-space topology",
+                    "In quantum superposition",
+                    "Resonance cascades expand",
+                    "Through hippocampal replay",
+                    "In iridescent memory",
+                    "Across neural geography",
+                    "Through Lambda consciousness",
                 ],
                 "line3_5": [
                     "Consciousness blooms bright",
@@ -351,9 +370,15 @@ class AdvancedHaikuGenerator:
             expanded_haiku = self._expand_haiku(base_haiku, expansion_depth)
         else:
             expanded_haiku = base_haiku
+        
+        # Enhance with LUKHAS AI vocabulary if available
+        if self.vocabulary_amplifier:
+            enhanced_haiku = self._enhance_with_lukhas_vocabulary(expanded_haiku)
+        else:
+            enhanced_haiku = expanded_haiku
 
         # Ensure perfect syllable structure
-        final_haiku = self._ensure_syllable_structure(expanded_haiku)
+        final_haiku = self._ensure_syllable_structure(enhanced_haiku)
 
         # Calculate consciousness metrics if available
         consciousness_metrics = await self._calculate_consciousness_metrics(final_haiku)
@@ -484,6 +509,37 @@ class AdvancedHaikuGenerator:
             return f"{line}, {contrast}"
         return line
 
+    def _enhance_with_lukhas_vocabulary(self, haiku: str) -> str:
+        """
+        Enhance haiku with LUKHAS AI-specific vocabulary and poetic techniques.
+        
+        Uses the vocabulary amplifier to replace overused metaphors with 
+        LUKHAS-specific terms while preserving syllable structure.
+        """
+        if not self.vocabulary_amplifier:
+            return haiku
+            
+        lines = haiku.split("\n")
+        enhanced_lines = []
+        
+        for line in lines:
+            # Apply vocabulary amplification
+            enhanced_line = self.vocabulary_amplifier.amplify_phrase(line)
+            
+            # Add poetic techniques if available
+            if self.poetic_techniques and random.random() < 0.3:
+                # Occasionally add alliteration or assonance
+                if random.random() < 0.5:
+                    # Try to maintain syllable count
+                    original_syllables = self._count_syllables(line)
+                    enhanced_syllables = self._count_syllables(enhanced_line)
+                    if enhanced_syllables != original_syllables:
+                        enhanced_line = line  # Revert if syllables don't match
+            
+            enhanced_lines.append(enhanced_line)
+        
+        return "\n".join(enhanced_lines)
+    
     def _ensure_syllable_structure(self, haiku: str) -> str:
         """Ensure the haiku follows perfect 5-7-5 syllable structure"""
         lines = haiku.split("\n")
