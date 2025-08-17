@@ -17,6 +17,21 @@ from typing import Optional
 
 from .glyph import EmotionVector, Glyph, GlyphFactory, GlyphType
 
+# Import LUKHAS AI branding system for Trinity Framework glyphs
+try:
+    from lukhas.branding_bridge import (
+        get_trinity_context, IDENTITY_SYMBOL, CONSCIOUSNESS_SYMBOL, 
+        GUARDIAN_SYMBOL, TRINITY_FRAMEWORK
+    )
+    BRANDING_AVAILABLE = True
+except ImportError:
+    BRANDING_AVAILABLE = False
+    # Fallback Trinity symbols
+    IDENTITY_SYMBOL = "⚛️"
+    CONSCIOUSNESS_SYMBOL = "🧠"
+    GUARDIAN_SYMBOL = "🛡️"
+    TRINITY_FRAMEWORK = "⚛️🧠🛡️"
+
 
 class GlyphEngine:
     """
@@ -112,6 +127,41 @@ class GlyphEngine:
         """Create an emotion-specific glyph."""
         emotion_vector = EmotionVector(**emotion)
         return self.factory.create_emotion_glyph(emotion_vector)
+    
+    def get_trinity_glyphs(self) -> dict[str, str]:
+        """
+        Get Trinity Framework glyphs for LUKHAS AI system integration.
+        
+        Returns:
+            Dictionary mapping Trinity aspects to their symbols
+        """
+        return {
+            "identity": IDENTITY_SYMBOL,
+            "consciousness": CONSCIOUSNESS_SYMBOL,
+            "guardian": GUARDIAN_SYMBOL,
+            "framework": TRINITY_FRAMEWORK
+        }
+    
+    def create_trinity_glyph(self, emphasis: str = "balanced") -> Glyph:
+        """
+        Create a Trinity Framework glyph for LUKHAS AI operations.
+        
+        Args:
+            emphasis: Which Trinity aspect to emphasize (identity, consciousness, guardian, balanced)
+            
+        Returns:
+            Trinity Framework glyph
+        """
+        if BRANDING_AVAILABLE:
+            trinity_context = get_trinity_context(emphasis)
+            symbol = trinity_context.get("framework", TRINITY_FRAMEWORK)
+        else:
+            symbol = TRINITY_FRAMEWORK
+            
+        return self.factory.create_concept_glyph(
+            f"Trinity Framework ({emphasis})",
+            symbol=symbol
+        )
 
 
 # Export the GlyphEngine as the main interface

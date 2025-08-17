@@ -18,6 +18,16 @@ from enum import Enum
 from threading import Lock
 from typing import Any, Callable, Optional
 
+# Import LUKHAS AI branding system for orchestration compliance
+try:
+    from lukhas.branding_bridge import (
+        get_brand_voice, validate_output, get_trinity_context,
+        BrandContext, normalize_output_text
+    )
+    BRANDING_AVAILABLE = True
+except ImportError:
+    BRANDING_AVAILABLE = False
+
 logger = logging.getLogger(__name__)
 
 
@@ -157,6 +167,20 @@ class SymbolicKernelBus:
         # Auto-connect symbolic handlers on init
         self._auto_connect_handlers()
 
+        # Initialize branding context for orchestration
+        if BRANDING_AVAILABLE:
+            self._brand_context = BrandContext(
+                voice_profile="identity",  # Orchestration uses identity profile
+                trinity_emphasis="balanced",  # All Trinity components
+                compliance_level="standard",
+                creative_mode=False,
+                terminology_enforcement=True
+            )
+            logger.info("🎨 Branding integrated with Symbolic Kernel Bus")
+        else:
+            self._brand_context = None
+            logger.warning("⚠️ Branding not available for Kernel Bus")
+
         logger.info("🌀 Symbolic Kernel Bus initialized")
 
     def emit(
@@ -215,6 +239,10 @@ class SymbolicKernelBus:
                 self._metrics["events_failed"] += 1
 
         logger.debug(f"📤 Emitted: {event} from {source} with effects {effects}")
+
+        # Apply branding to event content if available
+        if BRANDING_AVAILABLE and self._brand_context:
+            self._apply_event_branding(symbolic_event)
 
         return symbolic_event.event_id
 
@@ -408,6 +436,38 @@ class SymbolicKernelBus:
         self.subscribe("safety.boundary.approached", self._handle_safety_boundary)
 
         logger.info("🔗 Auto-connected core symbolic handlers")
+
+    def _apply_event_branding(self, event: SymbolicEvent):
+        """Apply LUKHAS AI branding to event content"""
+        try:
+            # Apply branding to text content in payload
+            for key, value in event.payload.items():
+                if isinstance(value, str) and len(value) > 10:  # Only brand substantial text
+                    # Normalize terminology
+                    branded_value = normalize_output_text(value, self._brand_context)
+                    
+                    # Validate compliance
+                    validation = validate_output(branded_value, self._brand_context)
+                    if not validation["valid"]:
+                        logger.debug(f"Event payload branding issue in {key}: {validation['issues']}")
+                    
+                    event.payload[key] = branded_value
+            
+            # Add Trinity Framework context for consciousness and guardian events
+            if any(effect in [SymbolicEffect.AWARENESS_UPDATE, SymbolicEffect.DREAM_TRIGGER, 
+                             SymbolicEffect.ETHICS_CHECK, SymbolicEffect.SAFETY_GATE] 
+                   for effect in event.effects):
+                trinity_context = get_trinity_context("balanced")
+                event.payload["trinity_framework"] = trinity_context["framework"]
+                
+            # Add system signature for external events
+            if event.source.startswith("external.") or "api" in event.source:
+                event.payload["system_signature"] = get_brand_voice(
+                    f"Event from {event.source}", self._brand_context
+                ).replace(f"Event from {event.source}", f"LUKHAS AI ⚛️🧠🛡️ event from {event.source}")
+
+        except Exception as e:
+            logger.warning(f"Event branding failed for {event.event_type}: {e}")
 
     # Core event handlers with symbolic annotations
 

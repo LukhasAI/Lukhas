@@ -43,6 +43,15 @@ try:
 except ImportError:
     pass
 
+# Import LUKHAS AI branding system for consciousness outputs
+try:
+    from lukhas.branding_bridge import (
+        get_brand_voice, get_trinity_context, BrandContext
+    )
+    CONSCIOUSNESS_BRANDING_AVAILABLE = True
+except ImportError:
+    CONSCIOUSNESS_BRANDING_AVAILABLE = False
+
 __all__ = [
     "ConsciousnessCore",
     "ConsciousnessAPI",
@@ -50,4 +59,9 @@ __all__ = [
     "CoreConsciousnessBridge",
     "QuantumConsciousnessBridge",
     "ExpansionEngine",
+    # Branding integration
+    "get_brand_voice",
+    "get_trinity_context",
+    "BrandContext",
+    "CONSCIOUSNESS_BRANDING_AVAILABLE",
 ]

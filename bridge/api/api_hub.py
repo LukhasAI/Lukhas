@@ -26,6 +26,16 @@ Agent 10 Advanced Systems Implementation
 import asyncio
 from typing import Any, Optional
 
+# Import LUKHAS AI branding system for API response compliance
+try:
+    from lukhas.branding_bridge import (
+        get_brand_voice, validate_output, normalize_output_text,
+        BrandContext
+    )
+    BRANDING_AVAILABLE = True
+except ImportError:
+    BRANDING_AVAILABLE = False
+
 # Import priority API components
 from .services import ConsciousnessAPIService, EmotionAPIService, MemoryAPIService
 

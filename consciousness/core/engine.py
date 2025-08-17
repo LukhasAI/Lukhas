@@ -25,6 +25,16 @@ from typing import Any, Optional, Union  # Added Any
 
 import numpy as np
 
+# Import LUKHAS AI branding system for consciousness-aware outputs
+try:
+    from lukhas.branding_bridge import (
+        get_brand_voice, validate_output, get_trinity_context,
+        BrandContext, normalize_output_text
+    )
+    BRANDING_AVAILABLE = True
+except ImportError:
+    BRANDING_AVAILABLE = False
+
 # Initialize logger for ΛTRACE
 logger = logging.getLogger(
     "ΛTRACE.consciousness.core_consciousness.agi_consciousness_engine"

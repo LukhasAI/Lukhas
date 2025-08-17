@@ -25,6 +25,9 @@ from core.common.exceptions import LukhasError
 from core.interfaces import CoreInterface
 from core.interfaces.dependency_injection import get_service, register_service
 
+# LUKHAS Branding Integration
+from lukhas.branding_bridge import get_bridge, BrandContext, initialize_branding
+
 logger = get_logger(__name__)
 
 
@@ -113,6 +116,16 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         self.emotion_service = None
         self.dream_engine = None
         self.reality_simulator = None
+
+        # Branding integration
+        self.branding_bridge = get_bridge()
+        self.brand_context = BrandContext(
+            voice_profile="consciousness",
+            trinity_emphasis="consciousness",
+            compliance_level="standard",
+            creative_mode=self.config.get("creative_mode", False),
+            terminology_enforcement=True
+        )
 
         # Conversation management
         self.active_sessions: dict[str, ConversationContext] = {}
@@ -237,6 +250,10 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         """Initialize the natural language interface"""
         try:
             logger.info("Initializing Natural Language Consciousness Interface...")
+
+            # Initialize branding system
+            await initialize_branding()
+            logger.info(f"🎨 Branding integrated: {self.branding_bridge.get_system_signature()}")
 
             # Get required services
             self.consciousness_service = get_service("consciousness_service")
@@ -843,6 +860,9 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         # Apply tone adjustments
         response = self._apply_tone(response, tone)
 
+        # Apply LUKHAS branding and voice
+        response = self._apply_brand_voice(response, intent)
+
         # Ensure appropriate length
         if len(response) > self.max_response_length:
             response = response[: self.max_response_length - 3] + "..."
@@ -887,6 +907,46 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                 response += " How else can I help?"
 
         return response
+
+    def _apply_brand_voice(self, response: str, intent: ConversationIntent) -> str:
+        """Apply LUKHAS AI brand voice to response"""
+        try:
+            # Adjust brand context based on intent
+            brand_context = self.brand_context
+            if intent in [ConversationIntent.DREAM_REQUEST, ConversationIntent.REALITY_EXPLORATION]:
+                # Enable creative mode for creative intents
+                brand_context = BrandContext(
+                    voice_profile="consciousness",
+                    trinity_emphasis="consciousness",
+                    compliance_level="standard",
+                    creative_mode=True,
+                    terminology_enforcement=True
+                )
+
+            # Apply brand voice through the bridge
+            branded_response = self.branding_bridge.get_brand_voice(response, brand_context)
+            
+            # Add Trinity Framework context for consciousness responses
+            if intent == ConversationIntent.QUERY_AWARENESS:
+                trinity_context = self.branding_bridge.get_trinity_context("consciousness")
+                consciousness_desc = trinity_context["consciousness"]["description"]
+                # Enhance with consciousness symbol if not already present
+                if "🧠" not in branded_response:
+                    branded_response = f"🧠 {branded_response}"
+
+            # Validate brand compliance
+            validation = self.branding_bridge.validate_output(branded_response, brand_context)
+            if not validation["valid"]:
+                logger.warning(f"Brand compliance issues: {validation['issues']}")
+                # Apply corrections if needed
+                branded_response = self.branding_bridge.normalize_output(branded_response, brand_context)
+
+            return branded_response
+
+        except Exception as e:
+            logger.warning(f"Brand voice application failed: {e}")
+            # Fallback to basic brand normalization
+            return self.branding_bridge.normalize_output(response, self.brand_context)
 
     # Required interface methods
 
@@ -938,6 +998,13 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                 "dream": self.dream_engine is not None,
                 "reality": self.reality_simulator is not None,
             },
+            "branding": {
+                "integrated": True,
+                "system_signature": self.branding_bridge.get_system_signature(),
+                "voice_profile": self.brand_context.voice_profile,
+                "trinity_emphasis": self.brand_context.trinity_emphasis,
+                "brand_status": self.branding_bridge.get_brand_status()
+            }
         }
 
 

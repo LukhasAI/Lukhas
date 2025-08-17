@@ -15,6 +15,13 @@ from core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
 # Add project root to Python path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+# Import LUKHAS AI branding system for system initialization
+try:
+    from lukhas.branding_bridge import initialize_branding, get_system_signature
+    BRANDING_AVAILABLE = True
+except ImportError:
+    BRANDING_AVAILABLE = False
+
 # Import bootstrap
 
 
@@ -68,6 +75,18 @@ class LUKHAS:
         logger.info("🏗️  Initializing professional architecture...")
 
         try:
+            # Initialize LUKHAS AI branding system first
+            if BRANDING_AVAILABLE:
+                branding_success = await initialize_branding()
+                if branding_success:
+                    logger.info("🎨 LUKHAS AI branding system initialized")
+                    signature = get_system_signature()
+                    logger.info(f"📝 System signature: {signature}")
+                else:
+                    logger.warning("⚠️ Branding system initialization failed")
+            else:
+                logger.warning("⚠️ Branding system not available")
+
             # Initialize bootstrap and all services
             result = await initialize_lukhas()
 

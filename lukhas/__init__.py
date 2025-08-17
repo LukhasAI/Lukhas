@@ -44,6 +44,16 @@ try:
 except ImportError:
     pass
 
+# Branding bridge for easy access
+try:
+    from .branding_bridge import (
+        get_system_signature, get_trinity_context, get_brand_voice,
+        validate_output, normalize_output_text, initialize_branding
+    )
+    BRANDING_BRIDGE_AVAILABLE = True
+except ImportError:
+    BRANDING_BRIDGE_AVAILABLE = False
+
 
 def get_trinity_status():
     """Get Trinity Framework status: ⚛️🧠🛡️"""
@@ -79,8 +89,14 @@ __all__ = [
     "get_metrics_collector",
     # Trinity helpers
     "get_trinity_status",
+    # Branding bridge functions
+    "get_system_signature",
+    "get_trinity_context", 
+    "get_brand_voice",
+    "validate_output",
+    "normalize_output_text",
+    "initialize_branding",
     # Main client
     "LukhasAI",
     "Lukhas",  # Legacy alias
-    "LukhasAI",
 ]

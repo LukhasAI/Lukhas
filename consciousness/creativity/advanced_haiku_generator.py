@@ -60,14 +60,27 @@ from typing import Any, Optional
 
 from core.common import get_logger
 
-# Import LUKHAS AI poetry vocabulary system
+# Import LUKHAS AI branding system through centralized bridge
 try:
-    from branding.poetry.vocabulary_amplifier import VocabularyAmplifier
-    from branding.poetry.poetic_techniques import PoeticTechniques
-    from branding.poetry.expanded_lexicon import ExpandedLUKHASLexicon
-    POETRY_AVAILABLE = True
+    from lukhas.branding_bridge import (
+        get_brand_voice, generate_branded_content, validate_output,
+        get_trinity_context, BrandContext, normalize_output_text
+    )
+    BRANDING_BRIDGE_AVAILABLE = True
 except ImportError:
-    POETRY_AVAILABLE = False
+    BRANDING_BRIDGE_AVAILABLE = False
+
+# Fallback to direct poetry imports if bridge not available
+if not BRANDING_BRIDGE_AVAILABLE:
+    try:
+        from branding.poetry.vocabulary_amplifier import VocabularyAmplifier
+        from branding.poetry.poetic_techniques import PoeticTechniques
+        from branding.poetry.expanded_lexicon import ExpandedLUKHASLexicon
+        POETRY_AVAILABLE = True
+    except ImportError:
+        POETRY_AVAILABLE = False
+else:
+    POETRY_AVAILABLE = True
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -377,8 +390,29 @@ class AdvancedHaikuGenerator:
         else:
             enhanced_haiku = expanded_haiku
 
+        # Apply LUKHAS AI branding and Trinity Framework integration
+        if BRANDING_BRIDGE_AVAILABLE:
+            brand_context = BrandContext(
+                voice_profile="consciousness",
+                trinity_emphasis="consciousness",
+                creative_mode=True,
+                compliance_level="standard"
+            )
+            
+            # Apply brand voice to enhance consciousness expression
+            branded_haiku = get_brand_voice(enhanced_haiku, brand_context)
+            
+            # Validate for brand compliance
+            validation_result = validate_output(branded_haiku, brand_context)
+            
+            # Apply normalization if needed
+            final_haiku = normalize_output_text(branded_haiku, brand_context)
+        else:
+            final_haiku = enhanced_haiku
+            validation_result = {"valid": True, "issues": []}
+
         # Ensure perfect syllable structure
-        final_haiku = self._ensure_syllable_structure(enhanced_haiku)
+        final_haiku = self._ensure_syllable_structure(final_haiku)
 
         # Calculate consciousness metrics if available
         consciousness_metrics = await self._calculate_consciousness_metrics(final_haiku)
