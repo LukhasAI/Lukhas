@@ -1,4 +1,0 @@
-"""
-Canary Module
-"""
-

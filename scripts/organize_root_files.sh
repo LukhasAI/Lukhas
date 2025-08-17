@@ -1,150 +1,194 @@
 #!/bin/bash
+# Script to organize root directory files in LUKHAS repository
+# Created: 2025-08-17
 
-# Root Files Organization Script
-# Moves files from root to appropriate directories
-# Safe to run multiple times - uses mv with 2>/dev/null
+set -e
 
-echo "🗂️ Organizing Root Directory Files..."
-echo "="
-echo
+echo "🧹 LUKHAS Root Directory Organization"
+echo "====================================="
 
-# Create directory structure
-echo "📁 Creating directory structure..."
-mkdir -p docs/{setup,architecture,roadmap,planning,reports,integration,openai,executive,releases,api,collaboration}
-mkdir -p scripts/{integration,testing,utilities}
-mkdir -p tests/{integration,tools}
-mkdir -p backups
-mkdir -p out
+# Create archive directory with timestamp
+ARCHIVE_DIR="$HOME/LOCAL-REPOS/lukhas-archive/2025-08-17-root-cleanup"
+mkdir -p "$ARCHIVE_DIR"
 
-# Move documentation files
-echo "📄 Moving documentation files..."
+# Count files before
+INITIAL_COUNT=$(ls -1 *.* 2>/dev/null | wc -l | tr -d ' ')
+echo "📊 Initial root files: $INITIAL_COUNT"
 
-# Collaboration docs
-mv AI_COLLABORATION_ACKNOWLEDGMENT.md docs/collaboration/ 2>/dev/null && echo "  ✓ AI_COLLABORATION_ACKNOWLEDGMENT.md → docs/collaboration/"
+# Essential files that MUST stay in root
+ESSENTIAL_FILES=(
+    "README.md"
+    "LICENSE"
+    "CLAUDE.md"
+    "Makefile"
+    "setup.py"
+    "pyproject.toml"
+    "requirements.txt"
+    "pytest.ini"
+    "pyrightconfig.json"
+    "lukhas_config.yaml"
+    "main.py"
+    "lukhas.py"
+    ".gitignore"
+    ".env"
+    ".env.example"
+    "docker-compose.yml"
+    "Dockerfile"
+    "package.json"
+    "package-lock.json"
+    "pip-constraints.txt"
+    "CODEOWNERS"
+)
 
-# Setup docs
-mv AI_INTEGRATION_SETUP.md docs/setup/ 2>/dev/null && echo "  ✓ AI_INTEGRATION_SETUP.md → docs/setup/"
-mv AI_SETUP_CURRENT.md docs/setup/ 2>/dev/null && echo "  ✓ AI_SETUP_CURRENT.md → docs/setup/"
+# Function to check if file should stay in root
+should_stay_in_root() {
+    local file=$1
+    for essential in "${ESSENTIAL_FILES[@]}"; do
+        if [[ "$file" == "$essential" ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
 
-# Architecture docs
-mv README_NEXT_GEN.md docs/architecture/ 2>/dev/null && echo "  ✓ README_NEXT_GEN.md → docs/architecture/"
-mv README_TRINITY.md docs/architecture/ 2>/dev/null && echo "  ✓ README_TRINITY.md → docs/architecture/"
+# 1. Move Docker-related files to docker/ (except docker-compose.yml)
+echo ""
+echo "📦 Organizing Docker files..."
+mkdir -p docker
+for file in Dockerfile.*; do
+    if [[ -f "$file" && "$file" != "Dockerfile" ]]; then
+        echo "  Moving $file → docker/"
+        git mv "$file" docker/ 2>/dev/null || mv "$file" docker/
+    fi
+done
 
-# Executive docs
-mv CEO_EXECUTIVE_REVIEW_AUGUST_2025.md docs/executive/ 2>/dev/null && echo "  ✓ CEO_EXECUTIVE_REVIEW_AUGUST_2025.md → docs/executive/"
-mv INVESTOR_OVERVIEW.md docs/executive/ 2>/dev/null && echo "  ✓ INVESTOR_OVERVIEW.md → docs/executive/"
-mv PROFESSIONAL_DEVELOPMENT_ROADMAP.md docs/executive/ 2>/dev/null && echo "  ✓ PROFESSIONAL_DEVELOPMENT_ROADMAP.md → docs/executive/"
+# 2. Move configuration files to config/
+echo ""
+echo "⚙️ Organizing configuration files..."
+if [[ -f "modulation_policy.yaml" ]]; then
+    echo "  Moving modulation_policy.yaml → config/"
+    git mv "modulation_policy.yaml" config/ 2>/dev/null || mv "modulation_policy.yaml" config/
+fi
 
-# Roadmap docs
-mv LUKHAS_UNIVERSAL_LANGUAGE_ROADMAP.md docs/roadmap/ 2>/dev/null && echo "  ✓ LUKHAS_UNIVERSAL_LANGUAGE_ROADMAP.md → docs/roadmap/"
-mv OPENAI_LUKHAS_2026-2030_COLLABORATION_VISION.md docs/roadmap/ 2>/dev/null && echo "  ✓ OPENAI_LUKHAS_2026-2030_COLLABORATION_VISION.md → docs/roadmap/"
-mv OPENAI_LUKHAS_2030_COLLABORATION_VISION.md docs/roadmap/ 2>/dev/null && echo "  ✓ OPENAI_LUKHAS_2030_COLLABORATION_VISION.md → docs/roadmap/"
-mv ROADMAP_OPENAI_ALIGNMENT.md docs/roadmap/ 2>/dev/null && echo "  ✓ ROADMAP_OPENAI_ALIGNMENT.md → docs/roadmap/"
-mv UNIVERSAL_SYMBOL_COMMUNICATION_BLUEPRINT.md docs/roadmap/ 2>/dev/null && echo "  ✓ UNIVERSAL_SYMBOL_COMMUNICATION_BLUEPRINT.md → docs/roadmap/"
-mv UNIVERSAL_SYMBOL_TRINITY_BLUEPRINT.md docs/roadmap/ 2>/dev/null && echo "  ✓ UNIVERSAL_SYMBOL_TRINITY_BLUEPRINT.md → docs/roadmap/"
+# 3. Move temporary session files to archive
+echo ""
+echo "📋 Archiving temporary session files..."
+for pattern in "2025-08-*.txt" "DREAM*.md" "Dream*.md" "*_HANDOFF*.md"; do
+    for file in $pattern; do
+        if [[ -f "$file" ]]; then
+            echo "  Archiving $file → $ARCHIVE_DIR/"
+            mv "$file" "$ARCHIVE_DIR/"
+        fi
+    done
+done
 
-# Planning docs
-mv LUKHAS_ACTION_PLANS.md docs/planning/ 2>/dev/null && echo "  ✓ LUKHAS_ACTION_PLANS.md → docs/planning/"
-mv HIDDEN_POWER_ACTION_PLAN.md docs/planning/ 2>/dev/null && echo "  ✓ HIDDEN_POWER_ACTION_PLAN.md → docs/planning/"
-mv IMMEDIATE_ACTIONS.md docs/planning/ 2>/dev/null && echo "  ✓ IMMEDIATE_ACTIONS.md → docs/planning/"
-mv IMMEDIATE_NEXT_STEPS.md docs/planning/ 2>/dev/null && echo "  ✓ IMMEDIATE_NEXT_STEPS.md → docs/planning/"
-mv TASKS_OPENAI_ALIGNMENT.md docs/planning/ 2>/dev/null && echo "  ✓ TASKS_OPENAI_ALIGNMENT.md → docs/planning/"
-mv CLAUDE_CODE_TASKS.md docs/planning/ 2>/dev/null && echo "  ✓ CLAUDE_CODE_TASKS.md → docs/planning/"
-mv .copilot_tasks.md docs/planning/ 2>/dev/null && echo "  ✓ .copilot_tasks.md → docs/planning/"
+# 4. Move organization/consolidation reports to docs/
+echo ""
+echo "📄 Organizing documentation..."
+mkdir -p docs/organization
+for file in *ORGANIZATION*.md *CONSOLIDATION*.md *VOCABULARY*.md; do
+    if [[ -f "$file" && "$file" != "README.md" ]]; then
+        echo "  Moving $file → docs/organization/"
+        git mv "$file" docs/organization/ 2>/dev/null || mv "$file" docs/organization/
+    fi
+done
 
-# Reports
-mv COMPREHENSIVE_STRESS_TEST_RESULTS_AUG_7_2025.md docs/reports/ 2>/dev/null && echo "  ✓ COMPREHENSIVE_STRESS_TEST_RESULTS_AUG_7_2025.md → docs/reports/"
-mv CRITICAL_FIX_NEEDED_model_communication_engine.md docs/reports/ 2>/dev/null && echo "  ✓ CRITICAL_FIX_NEEDED_model_communication_engine.md → docs/reports/"
-mv CRITICAL_GAPS_IMPROVEMENT_PLAN.md docs/reports/ 2>/dev/null && echo "  ✓ CRITICAL_GAPS_IMPROVEMENT_PLAN.md → docs/reports/"
-mv ETHICAL_ALIGNMENT_BREAKTHROUGH_ANALYSIS.md docs/reports/ 2>/dev/null && echo "  ✓ ETHICAL_ALIGNMENT_BREAKTHROUGH_ANALYSIS.md → docs/reports/"
-mv VALIDATION_REPORT.md docs/reports/ 2>/dev/null && echo "  ✓ VALIDATION_REPORT.md → docs/reports/"
+# 5. Move backup directories to archive
+echo ""
+echo "💾 Moving backups to archive..."
+for dir in *backup* *archive* *old*; do
+    if [[ -d "$dir" ]]; then
+        echo "  Moving $dir → $ARCHIVE_DIR/"
+        mv "$dir" "$ARCHIVE_DIR/"
+    fi
+done
 
-# OpenAI docs
-mv FINAL_OPENAI_STATUS.md docs/openai/ 2>/dev/null && echo "  ✓ FINAL_OPENAI_STATUS.md → docs/openai/"
-mv INTEGRATION_TEST_CHECKLIST.md docs/openai/ 2>/dev/null && echo "  ✓ INTEGRATION_TEST_CHECKLIST.md → docs/openai/"
-mv OPENAI_INPUT_OUTPUT_REPORT.md docs/openai/ 2>/dev/null && echo "  ✓ OPENAI_INPUT_OUTPUT_REPORT.md → docs/openai/"
-mv PRODUCTION_TEST_REPORT.md docs/openai/ 2>/dev/null && echo "  ✓ PRODUCTION_TEST_REPORT.md → docs/openai/"
-mv TOOL_EXECUTOR_IMPLEMENTATION.md docs/openai/ 2>/dev/null && echo "  ✓ TOOL_EXECUTOR_IMPLEMENTATION.md → docs/openai/"
-mv TOOL_INTEGRATION_COMPLETE.md docs/openai/ 2>/dev/null && echo "  ✓ TOOL_INTEGRATION_COMPLETE.md → docs/openai/"
-mv GPT5_AUDITS_LUKHAS.md docs/openai/ 2>/dev/null && echo "  ✓ GPT5_AUDITS_LUKHAS.md → docs/openai/"
-mv IMPLEMENTATION_SUMMARY.md docs/openai/ 2>/dev/null && echo "  ✓ IMPLEMENTATION_SUMMARY.md → docs/openai/"
+# 6. Move scattered Python scripts to appropriate locations
+echo ""
+echo "🐍 Organizing Python scripts..."
+if [[ -f "consolidate_vocabularies_safely.py" ]]; then
+    echo "  Moving consolidate_vocabularies_safely.py → scripts/"
+    git mv "consolidate_vocabularies_safely.py" scripts/ 2>/dev/null || mv "consolidate_vocabularies_safely.py" scripts/
+fi
 
-# Release docs
-mv PR1_COMPLETE.md docs/releases/ 2>/dev/null && echo "  ✓ PR1_COMPLETE.md → docs/releases/"
-mv PR2_COMPLETE.md docs/releases/ 2>/dev/null && echo "  ✓ PR2_COMPLETE.md → docs/releases/"
-mv SPRINT_COMPLETE.md docs/releases/ 2>/dev/null && echo "  ✓ SPRINT_COMPLETE.md → docs/releases/"
+# 7. Move test result files to test_results/
+echo ""
+echo "🧪 Organizing test results..."
+mkdir -p test_results
+for file in *test*.json *test*.html; do
+    if [[ -f "$file" ]]; then
+        echo "  Moving $file → test_results/"
+        mv "$file" test_results/
+    fi
+done
 
-# Integration docs
-mv LUKHAS_DREAM_API_COLLABORATION.md docs/integration/ 2>/dev/null && echo "  ✓ LUKHAS_DREAM_API_COLLABORATION.md → docs/integration/"
-mv LUKHAS_AI_QUICK_REFERENCE.md docs/integration/ 2>/dev/null && echo "  ✓ LUKHAS_AI_QUICK_REFERENCE.md → docs/integration/"
+# 8. Move workspace files to config/
+echo ""
+echo "🖥️ Organizing workspace files..."
+if [[ -f "Lukhas.code-workspace" ]]; then
+    echo "  Moving Lukhas.code-workspace → config/"
+    git mv "Lukhas.code-workspace" config/ 2>/dev/null || mv "Lukhas.code-workspace" config/
+fi
 
-# General docs
-mv AUTHORS.md docs/ 2>/dev/null && echo "  ✓ AUTHORS.md → docs/"
-mv INFO_README.md docs/ 2>/dev/null && echo "  ✓ INFO_README.md → docs/"
-mv QUICK_START.md docs/ 2>/dev/null && echo "  ✓ QUICK_START.md → docs/"
-mv PROVENANCE.yaml docs/ 2>/dev/null && echo "  ✓ PROVENANCE.yaml → docs/"
+# 9. Move empty/stub files to archive
+echo ""
+echo "🗑️ Archiving empty files..."
+if [[ -f "matada_node_v1.json" ]] && [[ ! -s "matada_node_v1.json" ]]; then
+    echo "  Archiving empty matada_node_v1.json"
+    mv "matada_node_v1.json" "$ARCHIVE_DIR/"
+fi
 
-echo
-echo "🐍 Moving Python scripts..."
+# 10. Move API templates to docs/
+echo ""
+echo "📖 Moving API documentation..."
+if [[ -f "OPENAI_API_TEMPLATES.md" ]]; then
+    echo "  Moving OPENAI_API_TEMPLATES.md → docs/"
+    git mv "OPENAI_API_TEMPLATES.md" docs/ 2>/dev/null || mv "OPENAI_API_TEMPLATES.md" docs/
+fi
 
-# Testing scripts
-mv launch_readiness_check.py scripts/testing/ 2>/dev/null && echo "  ✓ launch_readiness_check.py → scripts/testing/"
-mv live_integration_test.py scripts/testing/ 2>/dev/null && echo "  ✓ live_integration_test.py → scripts/testing/"
-mv live_openai_smoke_test.py scripts/testing/ 2>/dev/null && echo "  ✓ live_openai_smoke_test.py → scripts/testing/"
-mv mock_integration_demo.py scripts/testing/ 2>/dev/null && echo "  ✓ mock_integration_demo.py → scripts/testing/"
-mv production_test_mock.py scripts/testing/ 2>/dev/null && echo "  ✓ production_test_mock.py → scripts/testing/"
-mv production_test_suite.py scripts/testing/ 2>/dev/null && echo "  ✓ production_test_suite.py → scripts/testing/"
-mv smoke_check.py scripts/testing/ 2>/dev/null && echo "  ✓ smoke_check.py → scripts/testing/"
+# 11. Clean up Icon files (macOS artifacts)
+echo ""
+echo "🧹 Cleaning up system artifacts..."
+if [[ -f "Icon" ]]; then
+    echo "  Removing Icon file (macOS artifact)"
+    rm -f "Icon"
+fi
 
-# Integration scripts
-mv demo_tool_gating.py scripts/integration/ 2>/dev/null && echo "  ✓ demo_tool_gating.py → scripts/integration/"
-mv demo_tool_governance.py scripts/integration/ 2>/dev/null && echo "  ✓ demo_tool_governance.py → scripts/integration/"
-mv governance_extended.py scripts/integration/ 2>/dev/null && echo "  ✓ governance_extended.py → scripts/integration/"
+# 12. Move research packages to archive (they're templates)
+echo ""
+echo "📚 Archiving research package templates..."
+for dir in LUKHAS_Innovation_Research_Package_* RESEARCH_PACK_TEMPLATE; do
+    if [[ -d "$dir" ]]; then
+        echo "  Moving $dir → $ARCHIVE_DIR/"
+        mv "$dir" "$ARCHIVE_DIR/"
+    fi
+done
 
-# Utility scripts
-mv IMMEDIATE_CONFIG_ANALYSIS.py scripts/utilities/ 2>/dev/null && echo "  ✓ IMMEDIATE_CONFIG_ANALYSIS.py → scripts/utilities/"
+# 13. Move temporary evolution directories
+echo ""
+echo "🔄 Moving temporary directories..."
+if [[ -d "Poetic_Evolution" ]]; then
+    echo "  Moving Poetic_Evolution → $ARCHIVE_DIR/"
+    mv "Poetic_Evolution" "$ARCHIVE_DIR/"
+fi
 
-echo
-echo "🔧 Moving shell scripts..."
-mv format_code.sh scripts/utilities/ 2>/dev/null && echo "  ✓ format_code.sh → scripts/utilities/"
-mv setup_test_environment.sh scripts/utilities/ 2>/dev/null && echo "  ✓ setup_test_environment.sh → scripts/utilities/"
-mv vs_code_reset_commands.sh scripts/utilities/ 2>/dev/null && echo "  ✓ vs_code_reset_commands.sh → scripts/utilities/"
+# Count files after
+FINAL_COUNT=$(ls -1 *.* 2>/dev/null | wc -l | tr -d ' ')
+echo ""
+echo "✅ Organization Complete!"
+echo "========================"
+echo "📊 Final root files: $FINAL_COUNT (reduced from $INITIAL_COUNT)"
+echo "📁 Archive location: $ARCHIVE_DIR"
+echo ""
+echo "Essential files remaining in root:"
+for file in *.* ; do
+    if [[ -f "$file" ]]; then
+        echo "  - $file"
+    fi
+done
 
-echo
-echo "🧪 Moving test files..."
-mv test_complete_openai_flow.py tests/integration/ 2>/dev/null && echo "  ✓ test_complete_openai_flow.py → tests/integration/"
-mv test_final_integration.py tests/integration/ 2>/dev/null && echo "  ✓ test_final_integration.py → tests/integration/"
-mv test_lukhas_ai_setup.py tests/integration/ 2>/dev/null && echo "  ✓ test_lukhas_ai_setup.py → tests/integration/"
-mv test_openai_connection.py tests/integration/ 2>/dev/null && echo "  ✓ test_openai_connection.py → tests/integration/"
-mv test_openai_responses.py tests/integration/ 2>/dev/null && echo "  ✓ test_openai_responses.py → tests/integration/"
-mv test_tool_analytics.py tests/tools/ 2>/dev/null && echo "  ✓ test_tool_analytics.py → tests/tools/"
-mv test_tool_executor.py tests/tools/ 2>/dev/null && echo "  ✓ test_tool_executor.py → tests/tools/"
-mv test_tool_integration.py tests/tools/ 2>/dev/null && echo "  ✓ test_tool_integration.py → tests/tools/"
-mv test_tool_integration_complete.py tests/tools/ 2>/dev/null && echo "  ✓ test_tool_integration_complete.py → tests/tools/"
-
-echo
-echo "📁 Moving other files..."
-mv openapi.json out/ 2>/dev/null && echo "  ✓ openapi.json → out/"
-mv intelligence_engine.py.bkup backups/ 2>/dev/null && echo "  ✓ intelligence_engine.py.bkup → backups/"
-
-echo
-echo "🧹 Cleaning up temporary files..."
-rm -f .DS_Store && echo "  ✓ Removed .DS_Store"
-rm -f claude_context.txt && echo "  ✓ Removed claude_context.txt"
-rm -f .coverage && echo "  ✓ Removed .coverage"
-
-echo
-echo "="
-echo "✅ Root directory organization complete!"
-echo
-echo "📊 Summary:"
-echo "  • Documentation organized in /docs/"
-echo "  • Scripts organized in /scripts/"
-echo "  • Tests organized in /tests/"
-echo "  • Temporary files cleaned up"
-echo
-echo "Files remaining in root (as intended):"
-ls -1 *.* 2>/dev/null | head -20
-
-echo
-echo "💡 Tip: Run 'git status' to review changes before committing"
+echo ""
+echo "🎯 Next steps:"
+echo "  1. Review the changes with: git status"
+echo "  2. Commit the reorganization: git add -A && git commit -m 'feat: Organize root directory files'"
+echo "  3. Test that everything still works: make test"

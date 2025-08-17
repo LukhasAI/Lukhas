@@ -1,0 +1,42 @@
+{
+  "unit": {
+    "description": "Fast, isolated unit tests",
+    "modules": {
+      "core": [],
+      "consciousness": [],
+      "memory": [],
+      "governance": [],
+      "identity": [],
+      "bridge": [],
+      "emotion": [],
+      "qi": [],
+      "api": []
+    }
+  },
+  "integration": {
+    "description": "Module interaction tests",
+    "modules": {
+      "core": [],
+      "consciousness": [],
+      "memory": [],
+      "governance": [],
+      "identity": [],
+      "bridge": [],
+      "emotion": [],
+      "qi": [],
+      "api": []
+    }
+  },
+  "e2e": {
+    "description": "End-to-end system tests",
+    "modules": {}
+  },
+  "performance": {
+    "description": "Performance and load tests",
+    "modules": {}
+  },
+  "security": {
+    "description": "Security and vulnerability tests",
+    "modules": {}
+  }
+}

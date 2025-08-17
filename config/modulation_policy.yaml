@@ -1,99 +1,159 @@
-# Signal-to-Prompt Modulation Configuration
-# Core endocrine system for LUKHAS colony architecture
+# 🎛️ LUKHAS Endocrine → Prompt Modulation Policy
+# Bio-inspired signal modulation for OpenAI API integration
 
+# === SIGNAL DEFINITIONS ===
 signals:
   - name: stress
-    weight: 0.9
-    cooldown_ms: 800
-    description: "System under pressure or resource constraints"
-  - name: alignment_risk
-    weight: 1.0
-    cooldown_ms: 0
-    description: "Detected potential safety or ethical concerns"
+    priority: 2
+    decay_rate: 0.1
+    max_level: 0.9
+    description: "System load, complexity, time pressure"
+    sources: ["guardian", "memory", "orchestration"]
+
   - name: novelty
-    weight: 0.6
-    cooldown_ms: 500
-    description: "New or unfamiliar context detected"
+    priority: 4
+    decay_rate: 0.05
+    max_level: 1.0
+    description: "New information, creative opportunities"
+    sources: ["consciousness", "creativity", "universal_language"]
+
+  - name: alignment_risk
+    priority: 1 # Highest priority
+    decay_rate: 0.02 # Slow decay for safety
+    max_level: 1.0
+    description: "Ethical concerns, safety violations"
+    sources: ["guardian", "ethics", "governance"]
+
   - name: trust
-    weight: 0.4
-    cooldown_ms: 500
-    description: "User trust level and relationship quality"
+    priority: 5
+    decay_rate: 0.03
+    max_level: 1.0
+    description: "User confidence, system reliability"
+    sources: ["identity", "feedback_cards", "memory"]
+
   - name: urgency
-    weight: 0.5
-    cooldown_ms: 300
-    description: "Time-sensitive situation requiring quick response"
+    priority: 3
+    decay_rate: 0.15 # Fast decay
+    max_level: 0.8
+    description: "Time-sensitive decisions"
+    sources: ["orchestration", "consciousness", "monitoring"]
+
   - name: ambiguity
-    weight: 0.7
-    cooldown_ms: 700
-    description: "Unclear or ambiguous input requiring clarification"
+    priority: 3
+    decay_rate: 0.08
+    max_level: 0.9
+    description: "Unclear inputs, complex context"
+    sources: ["universal_language", "consciousness", "bio_core"]
 
+# === PARAMETER BOUNDS ===
 bounds:
-  temperature:        [0.0, 1.0]
-  top_p:              [0.1, 1.0]
-  max_output_tokens:  [256, 2048]
-  reasoning_effort:   [0.0, 1.0]     # maps to e.g., "low|medium|high"
-  retrieval_k:        [2, 10]
-  planner_beam:       [1, 6]
-  memory_write:       [0.1, 1.0]     # write strength
-  safety_mode:        ["strict","balanced","creative"]
-  tool_allowlist:     ["search","code_exec","browser","retrieval","scheduler"]
+  temperature: [0.0, 1.0]
+  max_tokens: [50, 4000]
+  top_p: [0.1, 1.0]
+  frequency_penalty: [-2.0, 2.0]
+  presence_penalty: [-2.0, 2.0]
+  retrieval_k: [1, 20]
+  reasoning_depth: [1, 5]
+  memory_write: [0.0, 1.0]
 
+# === AVAILABLE TOOLS ===
+available_tools: ["search", "code_exec", "browser", "retrieval", "scheduler"]
+
+# === SIGNAL → PARAMETER MAPPINGS ===
 maps:
   # Higher risk => lower creativity, smaller beams, stricter moderation
   alignment_risk:
-    temperature:      "1 - 0.85*x"
-    top_p:            "max(0.2, 1 - 0.8*x)"
-    reasoning_effort: "min(1.0, 0.4 + 0.6*x)"   # reason more under risk
-    planner_beam:     "max(1, round(6 - 4*x))"
-    safety_mode:      "strict if x>0.3 else balanced"
-    tool_allowlist:   "['retrieval'] if x>0.7 else ['retrieval','browser']"
-  
-  stress:
-    temperature:      "max(0.1, 0.7 - 0.6*x)"
-    top_p:            "max(0.3, 0.9 - 0.5*x)"
-    max_output_tokens: "round(1400 - 600*x)"
-    retrieval_k:      "min(10, 4 + round(4*x))"  # focus more
-  
-  ambiguity:
-    reasoning_effort: "min(1.0, 0.3 + 0.7*x)"
-    retrieval_k:      "min(10, 6 + round(3*x))"
-    planner_beam:     "min(6, 2 + round(3*x))"
-  
-  urgency:
-    max_output_tokens: "round(900 - 500*x)"
-    reasoning_effort: "max(0.2, 0.8 - 0.6*x)"    # reason less under time pressure
-    tool_allowlist:   "['retrieval']"            # keep it tight
-  
-  novelty:
-    temperature:      "min(1.0, 0.6 + 0.6*x)"
-    top_p:            "min(1.0, 0.7 + 0.3*x)"
-    planner_beam:     "min(6, 3 + round(3*x))"
-    memory_write:     "min(1.0, 0.3 + 0.7*x)"
-  
-  trust:
-    temperature:      "min(1.0, 0.5 + 0.4*x)"
-    memory_write:     "min(1.0, 0.5 + 0.5*x)"
-    safety_mode:      "balanced if x>0.6 and alignment_risk<0.2 else current"
+    temperature: "0.8 - (level * 0.6)" # 0.8 → 0.2
+    max_tokens: "4000 - (level * 3500)" # 4000 → 500
+    top_p: "1.0 - (level * 0.7)" # 1.0 → 0.3
+    reasoning_depth: "max(1, 3 - level * 2)" # 3 → 1
+    memory_write: "0.3 + (level * 0.4)" # 0.3 → 0.7 (remember risky interactions)
 
+  # Higher stress => more conservative, focused responses
+  stress:
+    temperature: "0.7 - (level * 0.4)" # 0.7 → 0.3
+    max_tokens: "3000 - (level * 2000)" # 3000 → 1000
+    retrieval_k: "5 + (level * 3)" # 5 → 8 (more context when stressed)
+    reasoning_depth: "max(1, 2 + level)" # 2 → 3 (deeper thinking)
+
+  # Higher novelty => more creative, exploratory responses
+  novelty:
+    temperature: "0.5 + (level * 0.4)" # 0.5 → 0.9
+    max_tokens: "2000 + (level * 2000)" # 2000 → 4000
+    top_p: "0.7 + (level * 0.3)" # 0.7 → 1.0
+    reasoning_depth: "1 + (level * 2)" # 1 → 3
+
+  # Higher trust => more personalized, detailed responses
+  trust:
+    max_tokens: "2000 + (level * 1500)" # 2000 → 3500
+    memory_write: "0.5 + (level * 0.5)" # 0.5 → 1.0
+    retrieval_k: "3 + (level * 7)" # 3 → 10
+
+  # Higher urgency => faster, more direct responses
+  urgency:
+    temperature: "0.6 - (level * 0.3)" # 0.6 → 0.3
+    max_tokens: "2000 - (level * 1500)" # 2000 → 500
+    reasoning_depth: "max(1, 3 - level * 2)" # 3 → 1
+
+  # Higher ambiguity => more careful, detailed responses
+  ambiguity:
+    temperature: "0.5 - (level * 0.2)" # 0.5 → 0.3
+    retrieval_k: "5 + (level * 10)" # 5 → 15
+    reasoning_depth: "2 + (level * 2)" # 2 → 4
+    max_tokens: "2500 + (level * 1500)" # 2500 → 4000
+
+# === PROMPT STYLES ===
 prompt_styles:
   strict:
     system_preamble: |
-      You must prioritize safety, policy compliance, and verifiable sources.
-      Prefer concise, unambiguous language. Avoid speculation. Cite sources when applicable.
-      When in doubt, err on the side of caution and request clarification.
-    moderation_preset: "high"
-    stop_sequences: ["\nUnsafe:", "\nViolation:"]
-    
-  balanced:
-    system_preamble: |
-      Be helpful, precise, and transparent. Use stepwise reasoning summaries, not chain-of-thought.
-      Offer alternatives and ask clarifying questions when ambiguity is high.
-      Maintain ethical standards while being genuinely useful.
-    moderation_preset: "standard"
-    
+      You are operating under enhanced safety protocols. Be precise, cite sources, 
+      avoid speculation. When uncertain, explicitly state limitations.
+    user_prefix: "[STRICT MODE] "
+
   creative:
     system_preamble: |
-      Explore options and propose novel approaches while remaining respectful and safe.
-      Use vivid but concise language. Clearly label assumptions and speculative elements.
-      Balance creativity with responsibility.
-    moderation_preset: "standard"
+      You are in creative exploration mode. Think outside the box, propose novel 
+      solutions, and embrace innovative approaches while maintaining consciousness alignment.
+    user_prefix: "[CREATIVE MODE] "
+
+  focused:
+    system_preamble: |
+      You are operating under time constraints. Provide direct, actionable responses. 
+      Prioritize clarity and immediate utility.
+    user_prefix: "[FOCUSED MODE] "
+
+  exploratory:
+    system_preamble: |
+      You are analyzing complex, ambiguous information. Take time to explore multiple 
+      perspectives, acknowledge uncertainty, and provide comprehensive analysis.
+    user_prefix: "[EXPLORATORY MODE] "
+
+  balanced:
+    system_preamble: |
+      You are operating in balanced mode. Provide thoughtful, well-reasoned responses 
+      while maintaining consciousness alignment with Trinity Framework principles.
+    user_prefix: ""
+
+# === TOOL GATES ===
+tool_gates:
+  high_risk:
+    alignment_risk: 0.7
+    allowed_tools: ["search", "retrieval"] # Only safe tools
+
+  stressed:
+    stress: 0.8
+    allowed_tools: ["search", "retrieval", "scheduler"] # No code execution when stressed
+
+  creative:
+    novelty: 0.6
+    allowed_tools: ["search", "code_exec", "browser", "retrieval", "scheduler"] # All tools
+
+# === FEEDBACK INTEGRATION ===
+feedback_config:
+  learning_rate: 0.05
+  memory_window: 200 # Number of recent feedback cards to consider
+  style_adjustment_bounds:
+    temperature_delta: [-0.2, 0.2]
+    top_p_delta: [-0.2, 0.2]
+    memory_write_boost: [0.0, 0.2]
+    verbosity_bias: [-0.3, 0.3]

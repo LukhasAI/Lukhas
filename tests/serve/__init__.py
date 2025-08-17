@@ -1,4 +1,0 @@
-"""
-Serve Module
-"""
-
