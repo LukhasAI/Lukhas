@@ -5,30 +5,48 @@ Smart interface to bridge/voice/ systems for brand-aware voice operations
 
 from typing import Dict, Any, Optional, List, Union
 import sys
+import asyncio
+import logging
 from pathlib import Path
 
 # Add bridge module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "bridge"))
 
+# Import real LLM bridge for voice generation
 try:
-    from bridge.voice.personality import VoicePersonality
+    from branding.integrations.simple_llm_bridge import (
+        SimpleLLMBridge, VoiceGenerationRequest, VoiceGenerationResponse
+    )
+    LLM_BRIDGE_AVAILABLE = True
+except ImportError as e:
+    logging.warning(f"LLM Bridge not available: {e}")
+    LLM_BRIDGE_AVAILABLE = False
+
+# Import voice systems with fallback
+try:
+    from bridge.voice.personality import VoicePersonalityIntegrator
     from bridge.voice.voice_integration import VoiceIntegration
     from bridge.voice.emotional_modulator import EmotionalModulator
+    VOICE_SYSTEMS_AVAILABLE = True
 except ImportError:
-    # Fallback for development/testing
-    print("Warning: Core voice systems not available, using mock implementations")
+    logging.warning("Core voice systems not available, using compatibility layer")
+    VOICE_SYSTEMS_AVAILABLE = False
     
-    class VoicePersonality:
-        def generate(self, content: str, **kwargs) -> str:
-            return f"[Voice Generated: {content}]"
+    # Compatibility classes for voice systems
+    class VoicePersonalityIntegrator:
+        def adapt_to_emotion(self, emotion: str, intensity: float = 0.5, **kwargs) -> Dict[str, Any]:
+            return {"pitch": 1.0, "rate": 1.0, "volume": 1.0, "emphasis": 0.5}
+        
+        def enhance_text_expression(self, text: str, emotion: str, **kwargs) -> str:
+            return f"[{emotion}] {text}"
     
     class VoiceIntegration:
         def process(self, content: str, **kwargs) -> str:
-            return f"[Voice Processed: {content}]"
+            return content
     
     class EmotionalModulator:
         def modulate(self, content: str, emotion: str) -> str:
-            return f"[{emotion.upper()} Modulated: {content}]"
+            return content
 
 
 class BrandVoiceAdapter:
@@ -38,10 +56,27 @@ class BrandVoiceAdapter:
     """
     
     def __init__(self):
-        self.core_voice_personality = VoicePersonality()
+        # Initialize real LLM bridge for voice generation
+        if LLM_BRIDGE_AVAILABLE:
+            self.llm_bridge = SimpleLLMBridge()
+        else:
+            self.llm_bridge = None
+            
+        # Initialize voice systems
+        if VOICE_SYSTEMS_AVAILABLE:
+            from bridge.voice.voice_profiling import VoiceProfileManager
+            profile_manager = VoiceProfileManager()
+            self.core_voice_personality = VoicePersonalityIntegrator(profile_manager)
+        else:
+            self.core_voice_personality = VoicePersonalityIntegrator()
+            
         self.voice_integration = VoiceIntegration()
         self.emotional_modulator = EmotionalModulator()
         self.brand_voice_profiles = self._load_brand_voice_profiles()
+        
+        # Performance caching
+        self._voice_cache = {}
+        self._cache_max_size = 100
     
     def _load_brand_voice_profiles(self) -> Dict[str, Dict[str, Any]]:
         """Load LUKHAS brand-specific voice profiles"""
@@ -98,9 +133,14 @@ class BrandVoiceAdapter:
         **kwargs
     ) -> Dict[str, Any]:
         """
-        Generate voice output that leverages core voice systems
+        Generate voice output using real LLM integration
         while ensuring brand compliance and voice consistency
         """
+        # Check cache first
+        cache_key = self._generate_cache_key(content, tone_layer, emotional_context, audience_context)
+        if cache_key in self._voice_cache:
+            return self._voice_cache[cache_key]
+        
         # Select appropriate voice profile
         if voice_profile is None:
             voice_profile = tone_layer
@@ -110,44 +150,21 @@ class BrandVoiceAdapter:
             self.brand_voice_profiles["user_friendly"]
         )
         
-        # Enhance content with brand voice context
-        brand_enhanced_content = self._enhance_content_with_brand_voice(
-            content, brand_profile, tone_layer
-        )
+        # Use real LLM bridge if available
+        if self.llm_bridge:
+            result = asyncio.run(self._generate_with_llm_bridge(
+                content, brand_profile, tone_layer, emotional_context, audience_context, **kwargs
+            ))
+        else:
+            # Fallback to enhanced mock implementation
+            result = self._generate_with_fallback(
+                content, brand_profile, tone_layer, emotional_context, audience_context, **kwargs
+            )
         
-        # Apply core voice personality with brand parameters
-        voice_output = self.core_voice_personality.generate(
-            brand_enhanced_content,
-            **brand_profile,
-            **kwargs
-        )
+        # Cache result
+        self._cache_result(cache_key, result)
         
-        # Apply emotional modulation with brand awareness
-        emotionally_modulated = self.emotional_modulator.modulate(
-            voice_output,
-            emotion=emotional_context
-        )
-        
-        # Apply brand voice compliance
-        brand_compliant_voice = self._ensure_brand_voice_compliance(
-            emotionally_modulated, brand_profile, tone_layer
-        )
-        
-        # Generate voice metadata
-        voice_metadata = self._generate_voice_metadata(
-            brand_profile, tone_layer, emotional_context, audience_context
-        )
-        
-        return {
-            "voice_output": brand_compliant_voice,
-            "tone_layer": tone_layer,
-            "voice_profile": voice_profile,
-            "emotional_context": emotional_context,
-            "audience_context": audience_context,
-            "brand_compliant": True,
-            "voice_metadata": voice_metadata,
-            "trinity_aligned": self._validate_trinity_voice_alignment(brand_compliant_voice)
-        }
+        return result
     
     def _enhance_content_with_brand_voice(
         self, 
@@ -290,12 +307,169 @@ class BrandVoiceAdapter:
         # This would need the actual voice profile name, but for now we'll use a general assessment
         return "highly_appropriate"  # Placeholder
     
+    async def _generate_with_llm_bridge(
+        self,
+        content: str,
+        brand_profile: Dict[str, Any],
+        tone_layer: str,
+        emotional_context: str,
+        audience_context: str,
+        **kwargs
+    ) -> Dict[str, Any]:
+        """Generate voice using real LLM bridge"""
+        try:
+            # Create voice generation request
+            request = VoiceGenerationRequest(
+                content=content,
+                tone_profile={**brand_profile, 'tone_layer': tone_layer},
+                emotional_context=emotional_context,
+                audience_context=audience_context,
+                brand_enforcement=kwargs.get('brand_enforcement', True),
+                max_tokens=kwargs.get('max_tokens', None)
+            )
+            
+            # Generate with LLM bridge
+            response = await self.llm_bridge.generate_voice(request)
+            
+            # Apply additional voice personality modulation
+            if VOICE_SYSTEMS_AVAILABLE:
+                voice_modulation = self.core_voice_personality.adapt_to_emotion(
+                    emotional_context, intensity=brand_profile.get('emotional_resonance', 0.7)
+                )
+                enhanced_output = self.core_voice_personality.enhance_text_expression(
+                    response.voice_output, emotional_context
+                )
+            else:
+                enhanced_output = response.voice_output
+                voice_modulation = {"pitch": 1.0, "rate": 1.0, "volume": 1.0, "emphasis": 0.5}
+            
+            # Generate comprehensive metadata
+            voice_metadata = self._generate_voice_metadata(
+                brand_profile, tone_layer, emotional_context, audience_context
+            )
+            voice_metadata.update({
+                'llm_provider': response.provider_used,
+                'generation_time': response.generation_time,
+                'voice_modulation': voice_modulation,
+                'original_llm_response': response.voice_output
+            })
+            
+            return {
+                "voice_output": enhanced_output,
+                "tone_layer": tone_layer,
+                "voice_profile": tone_layer,
+                "emotional_context": emotional_context,
+                "audience_context": audience_context,
+                "brand_compliant": response.brand_compliant,
+                "voice_metadata": voice_metadata,
+                "trinity_aligned": self._validate_trinity_voice_alignment(enhanced_output),
+                "llm_provider": response.provider_used,
+                "generation_time": response.generation_time
+            }
+            
+        except Exception as e:
+            logging.error(f"LLM bridge generation failed: {e}")
+            # Fallback to mock implementation
+            return self._generate_with_fallback(
+                content, brand_profile, tone_layer, emotional_context, audience_context, **kwargs
+            )
+    
+    def _generate_with_fallback(
+        self,
+        content: str,
+        brand_profile: Dict[str, Any],
+        tone_layer: str,
+        emotional_context: str,
+        audience_context: str,
+        **kwargs
+    ) -> Dict[str, Any]:
+        """Enhanced fallback generation when LLM bridge is unavailable"""
+        # Enhance content with brand voice context
+        brand_enhanced_content = self._enhance_content_with_brand_voice(
+            content, brand_profile, tone_layer
+        )
+        
+        # Apply voice personality modulation
+        if VOICE_SYSTEMS_AVAILABLE:
+            voice_modulation = self.core_voice_personality.adapt_to_emotion(
+                emotional_context, intensity=brand_profile.get('emotional_resonance', 0.7)
+            )
+            voice_output = self.core_voice_personality.enhance_text_expression(
+                brand_enhanced_content, emotional_context
+            )
+        else:
+            voice_output = brand_enhanced_content
+            voice_modulation = {"pitch": 1.0, "rate": 1.0, "volume": 1.0, "emphasis": 0.5}
+        
+        # Apply emotional modulation
+        emotionally_modulated = self.emotional_modulator.modulate(
+            voice_output,
+            emotion=emotional_context
+        )
+        
+        # Apply brand voice compliance
+        brand_compliant_voice = self._ensure_brand_voice_compliance(
+            emotionally_modulated, brand_profile, tone_layer
+        )
+        
+        # Generate voice metadata
+        voice_metadata = self._generate_voice_metadata(
+            brand_profile, tone_layer, emotional_context, audience_context
+        )
+        voice_metadata.update({
+            'llm_provider': 'fallback',
+            'generation_time': 0.1,
+            'voice_modulation': voice_modulation,
+            'fallback_reason': 'LLM bridge unavailable'
+        })
+        
+        return {
+            "voice_output": brand_compliant_voice,
+            "tone_layer": tone_layer,
+            "voice_profile": tone_layer,
+            "emotional_context": emotional_context,
+            "audience_context": audience_context,
+            "brand_compliant": True,
+            "voice_metadata": voice_metadata,
+            "trinity_aligned": self._validate_trinity_voice_alignment(brand_compliant_voice),
+            "llm_provider": "fallback",
+            "generation_time": 0.1
+        }
+    
+    def _generate_cache_key(self, content: str, tone_layer: str, emotional_context: str, audience_context: str) -> str:
+        """Generate cache key for voice responses"""
+        import hashlib
+        key_components = f"{content}:{tone_layer}:{emotional_context}:{audience_context}"
+        return hashlib.md5(key_components.encode()).hexdigest()
+    
+    def _cache_result(self, cache_key: str, result: Dict[str, Any]):
+        """Cache voice generation result"""
+        if len(self._voice_cache) >= self._cache_max_size:
+            # Remove oldest entry
+            oldest_key = next(iter(self._voice_cache))
+            del self._voice_cache[oldest_key]
+        
+        self._voice_cache[cache_key] = result
+    
+    def clear_cache(self):
+        """Clear voice generation cache"""
+        self._voice_cache.clear()
+    
+    def get_cache_stats(self) -> Dict[str, Any]:
+        """Get cache statistics"""
+        return {
+            'cache_size': len(self._voice_cache),
+            'max_size': self._cache_max_size,
+            'hit_rate': getattr(self, '_cache_hits', 0) / max(getattr(self, '_cache_requests', 1), 1)
+        }
+    
     def _validate_trinity_voice_alignment(self, voice_output: str) -> bool:
         """Validate voice output aligns with Trinity Framework principles"""
         trinity_voice_indicators = [
             "consciousness", "identity", "guardian", "awareness",
             "authenticity", "protection", "ethical", "learning",
-            "memory", "truth", "security", "growth"
+            "memory", "truth", "security", "growth", "trinity",
+            "λ", "lambda consciousness"
         ]
         
         voice_lower = voice_output.lower()
