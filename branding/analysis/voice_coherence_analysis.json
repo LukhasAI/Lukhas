@@ -1,0 +1,1258 @@
+[
+  {
+    "system_name": "\u039bUCTOR Content Engine",
+    "system_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor",
+    "content_analyses": [
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/__init__.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 4,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.204856"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/auctor_content_engine.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.1111111111111111, trinity_framework_score=0.2, consciousness_tech_score=0.08399832003359933, tone_consistency_score=0.8777777777777778, founder_authority_score=0.125, premium_positioning_score=0.1)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 2381,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 23.443855289560872,
+        "analysis_timestamp": "2025-08-18T01:45:47.208375"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/COMMERCIALIZATION_STRATEGY.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.1111111111111111, trinity_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.6777777777777777, founder_authority_score=0.25, premium_positioning_score=0.2)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1407,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 22.13888888888889,
+        "analysis_timestamp": "2025-08-18T01:45:47.209677"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/generated_content/landing_page_lambda_ai.html",
+        "content_type": "ContentType.LANDING_PAGE",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.05555555555555555, trinity_framework_score=0.4, consciousness_tech_score=0.0, tone_consistency_score=0.2222222222222222, founder_authority_score=0.125, premium_positioning_score=0.2)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 988,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 15.319444444444446,
+        "analysis_timestamp": "2025-08-18T01:45:47.211354"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/generated_content/blog_post_roi_of_ai_agents.md",
+        "content_type": "ContentType.BLOG_POST",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.05555555555555555, trinity_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.3444444444444445, founder_authority_score=0.375, premium_positioning_score=0.1)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1238,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 16.40277777777778,
+        "analysis_timestamp": "2025-08-18T01:45:47.212392"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor/app_specifications/lambda_studio_app.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.05555555555555555, trinity_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.3666666666666667, founder_authority_score=0.0, premium_positioning_score=0.2)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1107,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 12.611111111111112,
+        "analysis_timestamp": "2025-08-18T01:45:47.213558"
+      }
+    ],
+    "system_metrics": {
+      "average_coherence": 16.21326693836494,
+      "max_coherence": 24.964786815374804,
+      "min_coherence": 0.0,
+      "total_content_pieces": 6,
+      "elite_ready_percentage": 0.0
+    },
+    "readiness_assessment": {
+      "current_level": "poor",
+      "elite_gap": 68.78673306163506,
+      "deployment_ready": false,
+      "priority_level": "high"
+    },
+    "analysis_timestamp": "2025-08-18T01:45:47.204522"
+  },
+  {
+    "system_name": "\u039bBot System",
+    "system_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo",
+    "content_analyses": [
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/memory_fold_analysis.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.320794"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/commercial_archive_cleanup.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.320833"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/bio_symbolic_scaffold_analysis.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.320856"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/SPECIALIST_RESTORE_SUMMARY.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.320886"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/naming_conflict_checker.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.320906"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/requirements.txt",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.320923"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/.codex_tasks.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.05555555555555555, trinity_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.3666666666666667, founder_authority_score=0.0, premium_positioning_score=0.3)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 589,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 14.111111111111112,
+        "analysis_timestamp": "2025-08-18T01:45:47.322029"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/lucas_bio_symbolic_integration_analysis.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.322053"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/cleanup_remaining_1_files.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.322077"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/jules_codex_cleanup_analysis.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.322096"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/start_agi_system.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 24,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.322423"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/research_cleanup.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.322496"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/memory_fold_consolidation.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.322525"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/priority_cleanup.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.322548"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/LUKHAS_NAMING_PHILOSOPHY.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.12222222222222223, founder_authority_score=0.0, premium_positioning_score=0.6)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 446,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements"
+        ],
+        "elite_brand_readiness": 10.833333333333334,
+        "analysis_timestamp": "2025-08-18T01:45:47.323136"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/README.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.1111111111111111, trinity_framework_score=0.6, consciousness_tech_score=0.0, tone_consistency_score=0.4222222222222222, founder_authority_score=0.125, premium_positioning_score=0.1)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1115,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 20.930555555555554,
+        "analysis_timestamp": "2025-08-18T01:45:47.324286"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/bio_symbolic_analysis.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.324310"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/\u039b_dependency_connectivity_test.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 81,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.324621"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/.jules_tasks.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.05555555555555555, trinity_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.3444444444444445, founder_authority_score=0.0, premium_positioning_score=0.3)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 730,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 13.777777777777779,
+        "analysis_timestamp": "2025-08-18T01:45:47.325406"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo/setup.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.325427"
+      }
+    ],
+    "system_metrics": {
+      "average_coherence": 3.2523148148148144,
+      "max_coherence": 22.63888888888889,
+      "min_coherence": 0.0,
+      "total_content_pieces": 20,
+      "elite_ready_percentage": 0.0
+    },
+    "readiness_assessment": {
+      "current_level": "poor",
+      "elite_gap": 81.74768518518519,
+      "deployment_ready": false,
+      "priority_level": "high"
+    },
+    "analysis_timestamp": "2025-08-18T01:45:47.213573"
+  },
+  {
+    "system_name": "Lucas Knowledge Base",
+    "system_path": "/Users/agi_dev/LOCAL-REPOS/auctor",
+    "content_analyses": [
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/LUKHAS_INTEGRATION_PLAN.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.05555555555555555, trinity_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.43333333333333335, founder_authority_score=0.125, premium_positioning_score=0.4)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 771,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 18.48611111111111,
+        "analysis_timestamp": "2025-08-18T01:45:47.332095"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/ -\u039b- lucas_foundation_query_db.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.18888888888888888, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 700,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 2.833333333333333,
+        "analysis_timestamp": "2025-08-18T01:45:47.332609"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/requirements.txt",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.12222222222222223, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 80,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 1.8333333333333333,
+        "analysis_timestamp": "2025-08-18T01:45:47.332871"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/APP_DEVELOPMENT_SPECIFICATION.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.05555555555555555, trinity_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.6888888888888888, founder_authority_score=0.375, premium_positioning_score=0.3)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 3252,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 24.569444444444443,
+        "analysis_timestamp": "2025-08-18T01:45:47.335654"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/PROJECT_OVERVIEW.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.4, consciousness_tech_score=0.0, tone_consistency_score=0.19999999999999998, founder_authority_score=0.125, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 284,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 10.875,
+        "analysis_timestamp": "2025-08-18T01:45:47.336081"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/SETUP.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.1111111111111111, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 333,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 1.6666666666666667,
+        "analysis_timestamp": "2025-08-18T01:45:47.336480"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/workspace_organizer.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.4, consciousness_tech_score=0.0, tone_consistency_score=0.3666666666666667, founder_authority_score=0.375, premium_positioning_score=0.1)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1354,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 18.624999999999996,
+        "analysis_timestamp": "2025-08-18T01:45:47.338475"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/navigation_guide.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.1111111111111111, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 397,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 4.666666666666666,
+        "analysis_timestamp": "2025-08-18T01:45:47.339152"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/ 11_12_24__nias_ai_gen_ads_coding_brainstorm_gpt4o.txt",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.05555555555555555, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.6666666666666666, founder_authority_score=0.125, premium_positioning_score=0.4)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 20729,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 18.98611111111111,
+        "analysis_timestamp": "2025-08-18T01:45:47.355098"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/research_organizer.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.05555555555555555, trinity_framework_score=0.4, consciousness_tech_score=0.05235602094240837, tone_consistency_score=0.5666666666666667, founder_authority_score=0.25, premium_positioning_score=0.3)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1910,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 24.90823152995928,
+        "analysis_timestamp": "2025-08-18T01:45:47.357622"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/README.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.4222222222222222, founder_authority_score=0.0, premium_positioning_score=0.4)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1283,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 12.333333333333332,
+        "analysis_timestamp": "2025-08-18T01:45:47.358747"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/macos-keybinding-test.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.1111111111111111, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 159,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 1.6666666666666667,
+        "analysis_timestamp": "2025-08-18T01:45:47.359045"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/ 11_12_24__nias_ai_gen_ads_coding_brainstorm_gpt4o copy.txt",
+        "content_type": "ContentType.MARKETING_COPY",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.05555555555555555, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.6666666666666666, founder_authority_score=0.125, premium_positioning_score=0.4)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 20729,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 18.98611111111111,
+        "analysis_timestamp": "2025-08-18T01:45:47.373521"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/document_manager.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.3666666666666667, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 906,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 5.5,
+        "analysis_timestamp": "2025-08-18T01:45:47.375146"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/ -\u039b- LUCAS AI - NotebookLM.html",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.16666666666666666, founder_authority_score=0.25, premium_positioning_score=0.2)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 3360,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 9.25,
+        "analysis_timestamp": "2025-08-18T01:45:47.394509"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/migrate_database.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 134,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.394865"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/LUKHAS_WORKSPACE_SETUP.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.2222222222222222, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 440,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 3.3333333333333335,
+        "analysis_timestamp": "2025-08-18T01:45:47.395393"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/lucas_dashboard.html",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.2333333333333333, founder_authority_score=0.0, premium_positioning_score=0.1)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1060,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 8.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.397387"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/research/README.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.2, consciousness_tech_score=0.0, tone_consistency_score=0.06666666666666667, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 32,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 4.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.397572"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/auctor/research/chatgpt_sessions/README.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.5666666666666667, founder_authority_score=0.25, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 229,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 12.25,
+        "analysis_timestamp": "2025-08-18T01:45:47.397957"
+      }
+    ],
+    "system_metrics": {
+      "average_coherence": 11.173259647081636,
+      "max_coherence": 27.076304052743843,
+      "min_coherence": 0.0,
+      "total_content_pieces": 20,
+      "elite_ready_percentage": 0.0
+    },
+    "readiness_assessment": {
+      "current_level": "poor",
+      "elite_gap": 73.82674035291836,
+      "deployment_ready": false,
+      "priority_level": "high"
+    },
+    "analysis_timestamp": "2025-08-18T01:45:47.325442"
+  },
+  {
+    "system_name": "LUKHAS Core Branding",
+    "system_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding",
+    "content_analyses": [
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LAMBDA_SYMBOL_GUIDELINES.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.2222222222222222, trinity_framework_score=0.4, consciousness_tech_score=0.13351134846461948, tone_consistency_score=0.5555555555555556, founder_authority_score=0.0, premium_positioning_score=0.4)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 749,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 27.448004747070165,
+        "analysis_timestamp": "2025-08-18T01:45:47.399792"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_TRINITY_FRAMEWORK.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.2777777777777778, trinity_framework_score=1.0, consciousness_tech_score=0.23551577955723033, tone_consistency_score=0.6222222222222222, founder_authority_score=0.0, premium_positioning_score=0.3)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 2123,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 39.09920448003349,
+        "analysis_timestamp": "2025-08-18T01:45:47.401943"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/__init__.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 4,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.402102"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_BRANDING_GUIDE.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.4444444444444444, trinity_framework_score=1.0, consciousness_tech_score=1.0, tone_consistency_score=0.5, founder_authority_score=0.125, premium_positioning_score=0.6)",
+        "coherence_level": "VoiceCoherenceLevel.FAIR",
+        "word_count": 1097,
+        "brand_violations": [
+          "Prohibited term used: 'LUKHAS AGI'",
+          "Prohibited term used: 'production-ready'",
+          "Prohibited term used: 'revenue forecast'",
+          "Use 'LUKHAS AI' instead of 'LUKHAS AGI'"
+        ],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements"
+        ],
+        "elite_brand_readiness": 62.263888888888886,
+        "analysis_timestamp": "2025-08-18T01:45:47.403153"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/README.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.3888888888888889, trinity_framework_score=1.0, consciousness_tech_score=0.6591337099811676, tone_consistency_score=0.6888888888888888, founder_authority_score=0.125, premium_positioning_score=0.4)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1062,
+        "brand_violations": [
+          "Prohibited term used: 'LUKHAS AGI'",
+          "Prohibited term used: 'revenue forecast'",
+          "Use 'LUKHAS AI' instead of 'LUKHAS AGI'"
+        ],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 54.16878531073446,
+        "analysis_timestamp": "2025-08-18T01:45:47.404231"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_BRAND_API_REFERENCE.md",
+        "content_type": "ContentType.API_DOCUMENTATION",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.3333333333333333, trinity_framework_score=1.0, consciousness_tech_score=0.11383039271485486, tone_consistency_score=0.5, founder_authority_score=0.0, premium_positioning_score=0.2)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1757,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 34.44327452096376,
+        "analysis_timestamp": "2025-08-18T01:45:47.406531"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_TONE_GUIDE.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.2222222222222222, trinity_framework_score=1.0, consciousness_tech_score=0.1004016064257028, tone_consistency_score=0.6777777777777777, founder_authority_score=0.125, premium_positioning_score=0.3)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1992,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 37.99414323962517,
+        "analysis_timestamp": "2025-08-18T01:45:47.408620"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_STRATEGIC_IMPROVEMENT_PLAN.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.5555555555555556, trinity_framework_score=1.0, consciousness_tech_score=0.70298769771529, tone_consistency_score=0.45555555555555555, founder_authority_score=0.625, premium_positioning_score=0.6)",
+        "coherence_level": "VoiceCoherenceLevel.FAIR",
+        "word_count": 1707,
+        "brand_violations": [
+          "Prohibited term used: 'production-ready'"
+        ],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic"
+        ],
+        "elite_brand_readiness": 65.37919839875025,
+        "analysis_timestamp": "2025-08-18T01:45:47.410048"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/LUKHAS_LOCAL_LLM_SETUP.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.3333333333333333, trinity_framework_score=1.0, consciousness_tech_score=0.07689350249903883, tone_consistency_score=0.5555555555555555, founder_authority_score=0.375, premium_positioning_score=0.1)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 2601,
+        "brand_violations": [
+          "Prohibited term used: 'production-ready'"
+        ],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 38.66287004998078,
+        "analysis_timestamp": "2025-08-18T01:45:47.413129"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/test_elite_brand_system.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.3888888888888889, trinity_framework_score=1.0, consciousness_tech_score=0.42134831460674155, tone_consistency_score=0.3111111111111111, founder_authority_score=0.0, premium_positioning_score=0.1)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 712,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 37.37141073657928,
+        "analysis_timestamp": "2025-08-18T01:45:47.414364"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/__init__.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 4,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.414540"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/LUKHAS_3_LAYER_TONE_SYSTEM.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.1111111111111111, trinity_framework_score=0.4, consciousness_tech_score=0.0, tone_consistency_score=0.6111111111111112, founder_authority_score=0.125, premium_positioning_score=0.5)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1945,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 26.763888888888886,
+        "analysis_timestamp": "2025-08-18T01:45:47.416382"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/lukhas_tone_fixer.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.16666666666666666, trinity_framework_score=1.0, consciousness_tech_score=0.11976047904191617, tone_consistency_score=0.6222222222222222, founder_authority_score=0.25, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1670,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 33.81187624750498,
+        "analysis_timestamp": "2025-08-18T01:45:47.418375"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/enhanced_consciousness_wordsmith.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.16666666666666666, trinity_framework_score=1.0, consciousness_tech_score=0.0, tone_consistency_score=0.5, founder_authority_score=0.375, premium_positioning_score=0.1)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1887,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 32.958333333333336,
+        "analysis_timestamp": "2025-08-18T01:45:47.420496"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/__init__.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 4,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.420613"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/advanced_vocabulary_engine.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.1111111111111111, trinity_framework_score=1.0, consciousness_tech_score=0.0, tone_consistency_score=0.24444444444444446, founder_authority_score=0.0, premium_positioning_score=0.1)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1026,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 22.388888888888893,
+        "analysis_timestamp": "2025-08-18T01:45:47.422021"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/consciousness_wordsmith.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.16666666666666666, trinity_framework_score=1.0, consciousness_tech_score=0.1263902932254803, tone_consistency_score=0.5555555555555555, founder_authority_score=0.0, premium_positioning_score=0.2)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 3956,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 32.19447253117627,
+        "analysis_timestamp": "2025-08-18T01:45:47.426746"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/tone/tools/lukhas_tone_validator.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.16666666666666666, trinity_framework_score=1.0, consciousness_tech_score=0.0, tone_consistency_score=0.7333333333333334, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1435,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Emphasize consciousness technology focus and benefits",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 29.333333333333332,
+        "analysis_timestamp": "2025-08-18T01:45:47.428624"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/design/trinity_visual_system.py",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.3333333333333333, trinity_framework_score=1.0, consciousness_tech_score=1.0, tone_consistency_score=0.6111111111111112, founder_authority_score=0.0, premium_positioning_score=0.5)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 1717,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 58.33333333333333,
+        "analysis_timestamp": "2025-08-18T01:45:47.431467"
+      },
+      {
+        "content_path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/trinity/TRINITY_BRANDING_GUIDELINES.md",
+        "content_type": "ContentType.TECHNICAL_DOC",
+        "coherence_metrics": "CoherenceMetrics(brand_terminology_score=0.0, trinity_framework_score=0.0, consciousness_tech_score=0.0, tone_consistency_score=0.0, founder_authority_score=0.0, premium_positioning_score=0.0)",
+        "coherence_level": "VoiceCoherenceLevel.POOR",
+        "word_count": 0,
+        "brand_violations": [],
+        "improvement_suggestions": [
+          "Increase use of approved LUKHAS AI brand terminology",
+          "Integrate Trinity Framework (\u269b\ufe0f\ud83e\udde0\ud83d\udee1\ufe0f) concepts and symbols",
+          "Emphasize consciousness technology focus and benefits",
+          "Balance 3-Layer Tone System: poetic, user-friendly, academic",
+          "Include founder-led positioning and thought leadership elements",
+          "Enhance premium/elite brand positioning language"
+        ],
+        "elite_brand_readiness": 0.0,
+        "analysis_timestamp": "2025-08-18T01:45:47.431487"
+      }
+    ],
+    "system_metrics": {
+      "average_coherence": 32.62342204797115,
+      "max_coherence": 65.65164681377335,
+      "min_coherence": 0.0,
+      "total_content_pieces": 20,
+      "elite_ready_percentage": 0.0
+    },
+    "readiness_assessment": {
+      "current_level": "poor",
+      "elite_gap": 52.37657795202885,
+      "deployment_ready": false,
+      "priority_level": "high"
+    },
+    "analysis_timestamp": "2025-08-18T01:45:47.397978"
+  }
+]

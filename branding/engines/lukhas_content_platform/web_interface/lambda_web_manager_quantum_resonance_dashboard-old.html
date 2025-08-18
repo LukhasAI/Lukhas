@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ΛWebManager LUKHAS - Quantum Resonance Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <style>
+        :root {
+            --lukhas-primary: #2563eb;
+            --lukhas-secondary: #06b6d4;
+            --lukhas-accent: #8b5cf6;
+            --lukhas-quantum: #f59e0b;
+            --lukhas-success: #10b981;
+            --lukhas-warning: #f59e0b;
+            --lukhas-danger: #ef4444;
+            --lukhas-dark: #0f172a;
+            --lukhas-light: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-elite consciousness (🧠 Trinity) technology system powered by Trinity Framework (⚛️🧠🛡️), BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, var(--lukhas-dark) 0%, #1e293b 100%);
+            color: var(--lukhas-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--lukhas-primary), var(--lukhas-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--lukhas-success);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--lukhas-primary), var(--lukhas-secondary), var(--lukhas-accent));
+            opacity: 0.8;
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--lukhas-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 1rem 0;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .metric:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: scale(1.05);
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--lukhas-secondary);
+            display: block;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--lukhas-light);
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        .quantum-signature {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        .entanglement-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin: 1rem 0;
+        }
+
+        .entanglement-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--lukhas-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .entanglement-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateX(4px);
+        }
+
+        .entanglement-strength {
+            background: var(--lukhas-quantum);
+            color: var(--lukhas-dark);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .real-time-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--lukhas-success);
+            color: var(--lukhas-dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .live-pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--lukhas-dark);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* iPad Pro Responsiveness */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌌 Quantum Resonance Dashboard</h1>
+        <div class="status-indicator">
+            <div class="status-dot"></div>
+            <span>Real-time Quantum Analysis Active</span>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- Quantum Resonance Chart -->
+        <div class="card">
+            <div class="real-time-indicator">
+                <div class="live-pulse"></div>
+                LIVE
+            </div>
+            <h3>⚛️ Quantum Resonance Levels</h3>
+            <div class="chart-container">
+                <canvas id="resonanceChart"></canvas>
+            </div>
+            <div class="metrics-grid">
+                <div class="metric">
+                    <span class="metric-value" id="currentResonance">87.3%</span>
+                    <span class="metric-label">Current Resonance</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-value" id="peakResonance">94.7%</span>
+                    <span class="metric-label">Peak Today</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-value" id="avgResonance">82.1%</span>
+                    <span class="metric-label">24h Average</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-value" id="coherenceLevel">91.2%</span>
+                    <span class="metric-label">Coherence</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Symbolic (⚛️ Trinity) (⚛️ Trinity) (⚛️ Trinity) Dimensions Radar -->
+        <div class="card">
+            <h3>🔮 Symbolic Dimensions</h3>
+            <div class="chart-container">
+                <canvas id="dimensionsChart"></canvas>
+            </div>
+            <div class="quantum-signature">
+                <strong>Current Quantum Signature:</strong><br>
+                <span id="quantumSignature">ΛQ-7f3a2b9c-8d1e-4f2g-9h5i-6j7k8l9m0n1o</span>
+            </div>
+        </div>
+
+        <!-- Entanglement Network -->
+        <div class="card">
+            <h3>🔗 Quantum Entanglements</h3>
+            <div class="chart-container">
+                <canvas id="entanglementChart"></canvas>
+            </div>
+            <div class="entanglement-list" id="entanglementList">
+                <div class="entanglement-item">
+                    <span>LUKHAS Core Memory (🧠 Trinity)</span>
+                    <span class="entanglement-strength">98%</span>
+                </div>
+                <div class="entanglement-item">
+                    <span>Agent Orchestration</span>
+                    <span class="entanglement-strength">85%</span>
+                </div>
+                <div class="entanglement-item">
+                    <span>Research Findings</span>
+                    <span class="entanglement-strength">73%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quantum State Evolution -->
+        <div class="card">
+            <h3>⏱️ Quantum State Evolution</h3>
+            <div class="chart-container">
+                <canvas id="evolutionChart"></canvas>
+            </div>
+            <div class="metrics-grid">
+                <div class="metric">
+                    <span class="metric-value" id="stateChanges">142</span>
+                    <span class="metric-label">State Changes (24h)</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-value" id="stability">96.4%</span>
+                    <span class="metric-label">Stability Index</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js Configuration
+        Chart.defaults.color = '#f8fafc';
+        Chart.defaults.backgroundColor = 'rgba(59, 130, 246, 0.1)';
+        Chart.defaults.borderColor = 'rgba(59, 130, 246, 0.3)';
+
+        // Real-time data simulation
+        let quantumData = {
+            resonance: [],
+            dimensions: {
+                Knowledge: 0.85,
+                Creativity: 0.78,
+                Ethics: 0.92,
+                Technical: 0.87,
+                Social: 0.73,
+                Philosophical: 0.81,
+                Practical: 0.89,
+                Research: 0.94
+            },
+            entanglements: [],
+            evolution: []
+        };
+
+        // Initialize charts
+        let resonanceChart, dimensionsChart, entanglementChart, evolutionChart;
+
+        function initializeCharts() {
+            // Quantum Resonance Chart
+            const resonanceCtx = document.getElementById('resonanceChart').getContext('2d');
+            resonanceChart = new Chart(resonanceCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Quantum Resonance',
+                        data: [],
+                        borderColor: '#06b6d4',
+                        backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#06b6d4',
+                        pointBorderColor: '#0891b2',
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'minute',
+                                displayFormats: {
+                                    minute: 'HH:mm'
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(59, 130, 246, 0.1)'
+                            }
+                        },
+                        y: {
+                            beginAtZero: false,
+                            min: 0,
+                            max: 100,
+                            grid: {
+                                color: 'rgba(59, 130, 246, 0.1)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 750,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+
+            // Symbolic Dimensions Radar Chart
+            const dimensionsCtx = document.getElementById('dimensionsChart').getContext('2d');
+            dimensionsChart = new Chart(dimensionsCtx, {
+                type: 'radar',
+                data: {
+                    labels: Object.keys(quantumData.dimensions),
+                    datasets: [{
+                        label: 'Symbolic Strength',
+                        data: Object.values(quantumData.dimensions),
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.2)',
+                        pointBackgroundColor: '#8b5cf6',
+                        pointBorderColor: '#7c3aed',
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            min: 0,
+                            max: 1,
+                            grid: {
+                                color: 'rgba(139, 92, 246, 0.2)'
+                            },
+                            angleLines: {
+                                color: 'rgba(139, 92, 246, 0.2)'
+                            },
+                            ticks: {
+                                display: false
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+
+            // Entanglement Network Chart
+            const entanglementCtx = document.getElementById('entanglementChart').getContext('2d');
+            entanglementChart = new Chart(entanglementCtx, {
+                type: 'bubble',
+                data: {
+                    datasets: [{
+                        label: 'Entanglement Strength',
+                        data: [
+                            {x: 10, y: 20, r: 15},
+                            {x: 15, y: 10, r: 10},
+                            {x: 25, y: 15, r: 12},
+                            {x: 20, y: 25, r: 8},
+                            {x: 30, y: 20, r: 14}
+                        ],
+                        backgroundColor: 'rgba(245, 158, 11, 0.6)',
+                        borderColor: '#f59e0b',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(245, 158, 11, 0.1)'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(245, 158, 11, 0.1)'
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1200,
+                        easing: 'easeInOutBounce'
+                    }
+                }
+            });
+
+            // Quantum State Evolution Chart
+            const evolutionCtx = document.getElementById('evolutionChart').getContext('2d');
+            evolutionChart = new Chart(evolutionCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Coherent', 'Superposition', 'Entangled', 'Collapsed', 'Stabilized'],
+                    datasets: [{
+                        label: 'State Frequency',
+                        data: [45, 32, 28, 15, 38],
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(139, 92, 246, 0.8)'
+                        ],
+                        borderColor: [
+                            '#10b981',
+                            '#3b82f6',
+                            '#f59e0b',
+                            '#ef4444',
+                            '#8b5cf6'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(59, 130, 246, 0.1)'
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+        }
+
+        // WebSocket connection for real-time updates
+        let ws = null;
+
+        function connectWebSocket() {
+            try {
+                ws = new WebSocket('ws://localhost:8765/quantum-resonance');
+                
+                ws.onopen = function() {
+                    console.log('Connected to Quantum Resonance Dashboard');
+                    updateConnectionStatus('connected');
+                };
+
+                ws.onmessage = function(event) {
+                    const data = JSON.parse(event.data);
+                    updateQuantumData(data);
+                };
+
+                ws.onclose = function() {
+                    console.log('WebSocket connection closed, reconnecting...');
+                    updateConnectionStatus('reconnecting');
+                    setTimeout(connectWebSocket, 5000);
+                };
+
+                ws.onerror = function(error) {
+                    console.error('WebSocket error:', error);
+                    updateConnectionStatus('error');
+                };
+            } catch (error) {
+                console.error('Failed to connect:', error);
+                setTimeout(connectWebSocket, 5000);
+            }
+        }
+
+        function updateQuantumData(data) {
+            if (data.type === 'quantum_resonance') {
+                updateResonanceChart(data.data);
+                updateMetrics(data.data);
+            } else if (data.type === 'symbolic_dimensions') {
+                updateDimensionsChart(data.data);
+            } else if (data.type === 'quantum_signature') {
+                updateQuantumSignature(data.data.signature);
+            }
+        }
+
+        function updateResonanceChart(data) {
+            const chart = resonanceChart;
+            const now = new Date();
+            
+            chart.data.labels.push(now);
+            chart.data.datasets[0].data.push(data.resonance_score * 100);
+            
+            // Keep only last 20 data points
+            if (chart.data.labels.length > 20) {
+                chart.data.labels.shift();
+                chart.data.datasets[0].data.shift();
+            }
+            
+            chart.update('none');
+        }
+
+        function updateDimensionsChart(data) {
+            if (data.symbolic_dimensions) {
+                dimensionsChart.data.datasets[0].data = Object.values(data.symbolic_dimensions);
+                dimensionsChart.update('none');
+            }
+        }
+
+        function updateMetrics(data) {
+            if (data.resonance_score) {
+                document.getElementById('currentResonance').textContent = 
+                    (data.resonance_score * 100).toFixed(1) + '%';
+            }
+            if (data.quantum_coherence) {
+                document.getElementById('coherenceLevel').textContent = 
+                    (data.quantum_coherence * 100).toFixed(1) + '%';
+            }
+        }
+
+        function updateQuantumSignature(signature) {
+            document.getElementById('quantumSignature').textContent = signature;
+        }
+
+        function updateConnectionStatus(status) {
+            const indicator = document.querySelector('.status-indicator span');
+            const dot = document.querySelector('.status-dot');
+            
+            switch (status) {
+                case 'connected':
+                    indicator.textContent = 'Real-time Quantum Analysis Active';
+                    dot.style.background = '#10b981';
+                    break;
+                case 'reconnecting':
+                    indicator.textContent = 'Reconnecting to Quantum Stream...';
+                    dot.style.background = '#f59e0b';
+                    break;
+                case 'error':
+                    indicator.textContent = 'Connection Error - Retrying...';
+                    dot.style.background = '#ef4444';
+                    break;
+            }
+        }
+
+        // Simulate real-time data updates
+        function simulateRealtimeData() {
+            const fakeData = {
+                type: 'quantum_resonance',
+                data: {
+                    resonance_score: 0.7 + Math.random() * 0.3,
+                    quantum_coherence: 0.8 + Math.random() * 0.2,
+                    timestamp: new Date().toISOString()
+                }
+            };
+            updateQuantumData(fakeData);
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            connectWebSocket();
+            
+            // Simulate data updates every 3 seconds if WebSocket is not available
+            setInterval(simulateRealtimeData, 3000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ΛWebManager LUKHAS - Symbolic (⚛️ Trinity) Engagement Analytics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <style>
+        :root {
+            --lukhas-primary: #2563eb;
+            --lukhas-secondary: #06b6d4;
+            --lukhas-accent: #8b5cf6;
+            --lukhas-quantum: #f59e0b;
+            --lukhas-success: #10b981;
+            --lukhas-warning: #f59e0b;
+            --lukhas-danger: #ef4444;
+            --lukhas-dark: #0f172a;
+            --lukhas-light: #f8fafc;
+            --lukhas-symbolic (⚛️ Trinity) (⚛️ Trinity): #ec4899;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-elite consciousness (🧠 Trinity) (🧠 Trinity) technology system powered by Trinity Framework (⚛️🧠🛡️), BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, var(--lukhas-dark) 0%, #1e293b 100%);
+            color: var(--lukhas-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(236, 72, 153, 0.3);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--lukhas-symbolic), var(--lukhas-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .engagement-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .time-filter {
+            background: rgba(236, 72, 153, 0.1);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: var(--lukhas-light);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .time-filter:hover {
+            background: rgba(236, 72, 153, 0.2);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.15);
+            border-color: rgba(236, 72, 153, 0.4);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--lukhas-symbolic), var(--lukhas-accent), var(--lukhas-primary));
+            opacity: 0.8;
+        }
+
+        .card.featured {
+            grid-column: span 2;
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--lukhas-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 1rem 0;
+        }
+
+        .large-chart {
+            height: 400px;
+        }
+
+        .engagement-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(236, 72, 153, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .metric:hover {
+            background: rgba(236, 72, 153, 0.2);
+            transform: scale(1.05);
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--lukhas-symbolic);
+            display: block;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--lukhas-light);
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        .trend-indicator {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        .trend-up {
+            color: var(--lukhas-success);
+        }
+
+        .trend-down {
+            color: var(--lukhas-danger);
+        }
+
+        .trend-stable {
+            color: var(--lukhas-warning);
+        }
+
+        .premium consciousness technology platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .premium consciousness technology platform-card {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .premium consciousness technology platform-card:hover {
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .premium consciousness technology platform-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .premium consciousness technology platform-icon {
+            font-size: 1.5rem;
+        }
+
+        .premium consciousness technology platform-name {
+            font-weight: 600;
+            color: var(--lukhas-light);
+        }
+
+        .premium consciousness technology platform-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .premium consciousness technology platform-metric {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+        }
+
+        .symbolic-timeline {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 1rem 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: rgba(139, 92, 246, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--lukhas-accent);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            background: rgba(139, 92, 246, 0.1);
+            transform: translateX(4px);
+        }
+
+        .timeline-time {
+            font-size: 0.75rem;
+            color: var(--lukhas-accent);
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: var(--lukhas-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-description {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        .engagement-score {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .score-value {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--lukhas-symbolic), var(--lukhas-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-label {
+            font-size: 1rem;
+            color: var(--lukhas-light);
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        .real-time-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--lukhas-symbolic);
+            color: var(--lukhas-light);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .live-pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--lukhas-light);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .card.featured {
+                grid-column: span 1;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .engagement-controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .engagement-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .premium consciousness technology platform-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* iPad Pro Responsiveness */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .card.featured {
+                grid-column: span 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔮 Symbolic Engagement Analytics</h1>
+        <div class="engagement-controls">
+            <select class="time-filter" id="timeFilter">
+                <option value="24h">Last 24 Hours</option>
+                <option value="7d">Last 7 Days</option>
+                <option value="30d">Last 30 Days</option>
+                <option value="90d">Last 90 Days</option>
+            </select>
+            <button class="time-filter" onclick="refreshData()">Refresh Data</button>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- Overall Engagement Score -->
+        <div class="card">
+            <h3>📊 Overall Symbolic Engagement</h3>
+            <div class="engagement-score">
+                <div class="score-value" id="overallScore">87.3</div>
+                <div class="score-label">Engagement Score (0-100)</div>
+            </div>
+            <div class="engagement-metrics">
+                <div class="metric">
+                    <span class="metric-value" id="totalInteractions">12.4K</span>
+                    <span class="metric-label">Total Interactions</span>
+                    <span class="trend-indicator trend-up">↗ +15.2%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-value" id="uniqueUsers">3.2K</span>
+                    <span class="metric-label">Unique Users</span>
+                    <span class="trend-indicator trend-up">↗ +8.7%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Engagement Timeline -->
+        <div class="card featured">
+            <div class="real-time-indicator">
+                <div class="live-pulse"></div>
+                LIVE
+            </div>
+            <h3>📈 Engagement Timeline</h3>
+            <div class="chart-container large-chart">
+                <canvas id="engagementTimelineChart"></canvas>
+            </div>
+        </div>
+
+        <!-- premium consciousness technology platform Breakdown -->
+        <div class="card">
+            <h3>🌐 premium consciousness technology platform Engagement</h3>
+            <div class="premium consciousness technology platform-grid">
+                <div class="premium consciousness technology platform-card">
+                    <div class="premium consciousness technology platform-header">
+                        <span class="premium consciousness technology platform-icon">📸</span>
+                        <span class="premium consciousness technology platform-name">Instagram</span>
+                    </div>
+                    <div class="premium consciousness technology platform-metrics">
+                        <div class="premium consciousness technology platform-metric">
+                            <span>Engagement Rate:</span>
+                            <span style="color: var(--lukhas-success)">8.4%</span>
+                        </div>
+                        <div class="premium consciousness technology platform-metric">
+                            <span>Reach:</span>
+                            <span>45.2K</span>
+                        </div>
+                        <div class="premium consciousness technology platform-metric">
+                            <span>Comments:</span>
+                            <span>1.2K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="premium consciousness technology platform-card">
+                    <div class="premium consciousness technology platform-header">
+                        <span class="premium consciousness technology platform-icon">🐦</span>
+                        <span class="premium consciousness technology platform-name">X (Twitter)</span>
+                    </div>
+                    <div class="premium consciousness technology platform-metrics">
+                        <div class="premium consciousness technology platform-metric">
+                            <span>Engagement Rate:</span>
+                            <span style="color: var(--lukhas-success)">12.1%</span>
+                        </div>
+                        <div class="premium consciousness technology platform-metric">
+                            <span>Impressions:</span>
+                            <span>128.7K</span>
+                        </div>
+                        <div class="premium consciousness technology platform-metric">
+                            <span>Retweets:</span>
+                            <span>2.8K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="premium consciousness technology platform-card">
+                    <div class="premium consciousness technology platform-header">
+                        <span class="premium consciousness technology platform-icon">💬</span>
+                        <span class="premium consciousness technology platform-name">Discord</span>
+                    </div>
+                    <div class="premium consciousness technology platform-metrics">
+                        <div class="premium consciousness technology platform-metric">
+                            <span>Messages:</span>
+                            <span>3.4K</span>
+                        </div>
+                        <div class="premium consciousness technology platform-metric">
+                            <span>Active Users:</span>
+                            <span>892</span>
+                        </div>
+                        <div class="premium consciousness technology platform-metric">
+                            <span>Reactions:</span>
+                            <span>8.1K</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Symbolic Dimensions Engagement -->
+        <div class="card">
+            <h3>🔮 Symbolic Dimension Performance</h3>
+            <div class="chart-container">
+                <canvas id="symbolicDimensionsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Content Categories -->
+        <div class="card">
+            <h3>📝 Content Category Performance</h3>
+            <div class="chart-container">
+                <canvas id="contentCategoriesChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Recent Symbolic Events -->
+        <div class="card">
+            <h3>⚡ Recent Symbolic Events</h3>
+            <div class="symbolic-timeline" id="symbolicTimeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">2:34 PM</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">High-Resonance Post Published</div>
+                        <div class="timeline-description">"AGI Ethics Framework powered by Trinity Framework (⚛️🧠🛡️)" achieved 94% symbolic resonance</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">1:22 PM</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Quantum Entanglement Detected</div>
+                        <div class="timeline-description">Strong correlation with research community discussions</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">12:15 PM</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Engagement Spike</div>
+                        <div class="timeline-description">Multi-agent orchestration demo viral across platforms</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">11:45 AM</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Symbolic Tag Trend</div>
+                        <div class="timeline-description">#QuantumIntelligence trending with 78% engagement</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Engagement Heatmap -->
+        <div class="card">
+            <h3>🔥 Engagement Heatmap</h3>
+            <div class="chart-container">
+                <canvas id="engagementHeatmapChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js Configuration
+        Chart.defaults.color = '#f8fafc';
+        Chart.defaults.backgroundColor = 'rgba(236, 72, 153, 0.1)';
+        Chart.defaults.borderColor = 'rgba(236, 72, 153, 0.3)';
+
+        // Global chart variables
+        let engagementTimelineChart, symbolicDimensionsChart, contentCategoriesChart, engagementHeatmapChart;
+
+        // Engagement data
+        let engagementData = {
+            timeline: {
+                labels: [],
+                datasets: []
+            },
+            dimensions: {
+                Knowledge: 0.87,
+                Creativity: 0.91,
+                Ethics: 0.94,
+                Technical: 0.82,
+                Social: 0.89,
+                Philosophical: 0.85,
+                Practical: 0.79,
+                Research: 0.93
+            },
+            categories: {
+                'consciousness technology Research': 35,
+                'Technical Demos': 28,
+                'Community': 22,
+                'Philosophy': 15
+            }
+        };
+
+        function initializeCharts() {
+            // Engagement Timeline Chart
+            const timelineCtx = document.getElementById('engagementTimelineChart').getContext('2d');
+            engagementTimelineChart = new Chart(timelineCtx, {
+                type: 'line',
+                data: {
+                    labels: generateTimeLabels(),
+                    datasets: [
+                        {
+                            label: 'Instagram Engagement',
+                            data: generateEngagementData(),
+                            borderColor: '#ec4899',
+                            backgroundColor: 'rgba(236, 72, 153, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'X (Twitter) Engagement',
+                            data: generateEngagementData(),
+                            borderColor: '#06b6d4',
+                            backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Discord Activity',
+                            data: generateEngagementData(),
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(236, 72, 153, 0.1)'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(236, 72, 153, 0.1)'
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+
+            // Symbolic Dimensions Chart
+            const dimensionsCtx = document.getElementById('symbolicDimensionsChart').getContext('2d');
+            symbolicDimensionsChart = new Chart(dimensionsCtx, {
+                type: 'radar',
+                data: {
+                    labels: Object.keys(engagementData.dimensions),
+                    datasets: [{
+                        label: 'Engagement Level',
+                        data: Object.values(engagementData.dimensions),
+                        borderColor: '#ec4899',
+                        backgroundColor: 'rgba(236, 72, 153, 0.2)',
+                        pointBackgroundColor: '#ec4899',
+                        pointBorderColor: '#db2777',
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            min: 0,
+                            max: 1,
+                            grid: {
+                                color: 'rgba(236, 72, 153, 0.2)'
+                            },
+                            angleLines: {
+                                color: 'rgba(236, 72, 153, 0.2)'
+                            },
+                            ticks: {
+                                display: false
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1200,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+
+            // Content Categories Chart
+            const categoriesCtx = document.getElementById('contentCategoriesChart').getContext('2d');
+            contentCategoriesChart = new Chart(categoriesCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(engagementData.categories),
+                    datasets: [{
+                        data: Object.values(engagementData.categories),
+                        backgroundColor: [
+                            'rgba(236, 72, 153, 0.8)',
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(6, 182, 212, 0.8)',
+                            'rgba(245, 158, 11, 0.8)'
+                        ],
+                        borderColor: [
+                            '#ec4899',
+                            '#8b5cf6',
+                            '#06b6d4',
+                            '#f59e0b'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeInOutBounce'
+                    }
+                }
+            });
+
+            // Engagement Heatmap Chart
+            const heatmapCtx = document.getElementById('engagementHeatmapChart').getContext('2d');
+            engagementHeatmapChart = new Chart(heatmapCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Hour vs Day Engagement',
+                        data: generateHeatmapData(),
+                        backgroundColor: function(context) {
+                            const value = context.parsed.y;
+                            const alpha = value / 100;
+                            return `rgba(236, 72, 153, ${alpha})`;
+                        },
+                        pointRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            min: 0,
+                            max: 23,
+                            title: {
+                                display: true,
+                                text: 'Hour of Day'
+                            },
+                            grid: {
+                                color: 'rgba(236, 72, 153, 0.1)'
+                            }
+                        },
+                        y: {
+                            min: 0,
+                            max: 6,
+                            title: {
+                                display: true,
+                                text: 'Day of Week'
+                            },
+                            grid: {
+                                color: 'rgba(236, 72, 153, 0.1)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                                    return days[value] || '';
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+        }
+
+        function generateTimeLabels() {
+            const labels = [];
+            const now = new Date();
+            for (let i = 23; i >= 0; i--) {
+                const time = new Date(now.getTime() - i * 60 * 60 * 1000);
+                labels.push(time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }));
+            }
+            return labels;
+        }
+
+        function generateEngagementData() {
+            return Array.from({ length: 24 }, () => Math.floor(Math.random() * 1000) + 200);
+        }
+
+        function generateHeatmapData() {
+            const data = [];
+            for (let hour = 0; hour < 24; hour++) {
+                for (let day = 0; day < 7; day++) {
+                    data.push({
+                        x: hour,
+                        y: day,
+                        engagement: Math.random() * 100
+                    });
+                }
+            }
+            return data;
+        }
+
+        // WebSocket connection for real-time updates
+        let ws = null;
+
+        function connectWebSocket() {
+            try {
+                ws = new WebSocket('ws://localhost:8765/symbolic-engagement');
+                
+                ws.onopen = function() {
+                    console.log('Connected to Symbolic Engagement Dashboard');
+                };
+
+                ws.onmessage = function(event) {
+                    const data = JSON.parse(event.data);
+                    updateEngagementData(data);
+                };
+
+                ws.onclose = function() {
+                    console.log('WebSocket connection closed, reconnecting...');
+                    setTimeout(connectWebSocket, 5000);
+                };
+
+                ws.onerror = function(error) {
+                    console.error('WebSocket error:', error);
+                };
+            } catch (error) {
+                console.error('Failed to connect:', error);
+                setTimeout(connectWebSocket, 5000);
+            }
+        }
+
+        function updateEngagementData(data) {
+            if (data.type === 'engagement_update') {
+                updateMetrics(data.data);
+            } else if (data.type === 'symbolic_event') {
+                addTimelineEvent(data.data);
+            } else if (data.type === 'platform_stats') {
+                updatePlatformStats(data.data);
+            }
+        }
+
+        function updateMetrics(data) {
+            if (data.overall_score) {
+                document.getElementById('overallScore').textContent = data.overall_score.toFixed(1);
+            }
+            if (data.total_interactions) {
+                document.getElementById('totalInteractions').textContent = formatNumber(data.total_interactions);
+            }
+            if (data.unique_users) {
+                document.getElementById('uniqueUsers').textContent = formatNumber(data.unique_users);
+            }
+        }
+
+        function addTimelineEvent(event) {
+            const timeline = document.getElementById('symbolicTimeline');
+            const eventElement = document.createElement('div');
+            eventElement.className = 'timeline-item';
+            eventElement.innerHTML = `
+                <div class="timeline-time">${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</div>
+                <div class="timeline-content">
+                    <div class="timeline-title">${event.title}</div>
+                    <div class="timeline-description">${event.description}</div>
+                </div>
+            `;
+            timeline.insertBefore(eventElement, timeline.firstChild);
+            
+            // Keep only last 10 events
+            while (timeline.children.length > 10) {
+                timeline.removeChild(timeline.lastChild);
+            }
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+
+        function refreshData() {
+            // Simulate data refresh
+            const newData = {
+                type: 'engagement_update',
+                data: {
+                    overall_score: 80 + Math.random() * 20,
+                    total_interactions: Math.floor(10000 + Math.random() * 5000),
+                    unique_users: Math.floor(2000 + Math.random() * 2000)
+                }
+            };
+            updateEngagementData(newData);
+            
+            // Update charts with new data
+            engagementTimelineChart.data.datasets.forEach(dataset => {
+                dataset.data = generateEngagementData();
+            });
+            engagementTimelineChart.update('none');
+        }
+
+        // Time filter handling
+        document.getElementById('timeFilter').addEventListener('change', function(e) {
+            const period = e.target.value;
+            console.log('Time filter changed to:', period);
+            // In real implementation, this would trigger new data fetch
+            refreshData();
+        });
+
+        // Simulate real-time engagement updates
+        function simulateRealtimeUpdates() {
+            const events = [
+                { title: "High Engagement Post", description: "Quantum computing post reached 95% resonance" },
+                { title: "Viral Content Detected", description: "Multi-agent demo shared 500+ times" },
+                { title: "Community Discussion", description: "Ethics framework powered by Trinity Framework (⚛️🧠🛡️) discussion trending" },
+                { title: "Research Breakthrough", description: "New paper citations spike detected" }
+            ];
+            
+            const randomEvent = events[Math.floor(Math.random() * events.length)];
+            addTimelineEvent(randomEvent);
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            connectWebSocket();
+            
+            // Simulate real-time updates every 10 seconds
+            setInterval(simulateRealtimeUpdates, 10000);
+            
+            // Simulate metric updates every 5 seconds
+            setInterval(() => {
+                const newData = {
+                    type: 'engagement_update',
+                    data: {
+                        overall_score: 80 + Math.random() * 20,
+                        total_interactions: Math.floor(10000 + Math.random() * 5000),
+                        unique_users: Math.floor(2000 + Math.random() * 2000)
+                    }
+                };
+                updateEngagementData(newData);
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
