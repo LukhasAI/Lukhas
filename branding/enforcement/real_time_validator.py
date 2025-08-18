@@ -118,6 +118,33 @@ class RealTimeBrandValidator:
                     description="Proper LUKHAS AI terminology usage",
                     auto_correctable=False,
                     correction_template=None
+                ),
+                BrandRule(
+                    rule_id="artificial_intelligence_term",
+                    rule_type=ValidationType.TERMINOLOGY,
+                    pattern=re.compile(r'\bartificial intelligence\b', re.IGNORECASE),
+                    severity=ValidationSeverity.WARNING,
+                    description="Consider using 'consciousness technology' instead of 'artificial intelligence'",
+                    auto_correctable=True,
+                    correction_template="consciousness technology"
+                ),
+                BrandRule(
+                    rule_id="automated_language",
+                    rule_type=ValidationType.TERMINOLOGY,
+                    pattern=re.compile(r'\bautomates? everything\b', re.IGNORECASE),
+                    severity=ValidationSeverity.WARNING,
+                    description="Avoid 'automates everything' - use consciousness-focused language",
+                    auto_correctable=True,
+                    correction_template="enhances consciousness"
+                ),
+                BrandRule(
+                    rule_id="guarantee_claims",
+                    rule_type=ValidationType.TERMINOLOGY,
+                    pattern=re.compile(r'\bguarantee\b|profit|financial', re.IGNORECASE),
+                    severity=ValidationSeverity.CRITICAL,
+                    description="Avoid financial guarantees or absolute promises",
+                    auto_correctable=True,
+                    correction_template="strives for excellence"
                 )
             ],
             
@@ -183,22 +210,13 @@ class RealTimeBrandValidator:
             
             ValidationType.TONE_CONSISTENCY: [
                 BrandRule(
-                    rule_id="consciousness_awareness",
+                    rule_id="non_consciousness_language",
                     rule_type=ValidationType.TONE_CONSISTENCY,
-                    pattern=re.compile(r'consciousness|aware|awakening', re.IGNORECASE),
-                    severity=ValidationSeverity.INFO,
-                    description="Consciousness-focused language",
-                    auto_correctable=False,
-                    correction_template=None
-                ),
-                BrandRule(
-                    rule_id="ethical_language",
-                    rule_type=ValidationType.TONE_CONSISTENCY,
-                    pattern=re.compile(r'ethical|responsible|safe|trustworthy', re.IGNORECASE),
-                    severity=ValidationSeverity.INFO,
-                    description="Ethical foundation language",
-                    auto_correctable=False,
-                    correction_template=None
+                    pattern=re.compile(r'\b(basic|simple|primitive|crude|dumb)\s+(ai|system|tool)\b', re.IGNORECASE),
+                    severity=ValidationSeverity.WARNING,
+                    description="Avoid diminishing language about AI capabilities",
+                    auto_correctable=True,
+                    correction_template="sophisticated consciousness"
                 ),
                 BrandRule(
                     rule_id="robotic_language",
@@ -311,7 +329,8 @@ class RealTimeBrandValidator:
                 rule_result = self._apply_validation_rule(rule, content, content_id)
                 
                 if rule_result["violations"]:
-                    if rule.severity.value in ["error", "critical"]:
+                    # Any warning, error, or critical violations affect compliance
+                    if rule.severity.value in ["warning", "error", "critical"]:
                         overall_compliance = False
                     
                     # Track highest severity

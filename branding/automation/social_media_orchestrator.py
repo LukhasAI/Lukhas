@@ -449,20 +449,52 @@ class SocialMediaOrchestrator:
             try:
                 post = await generator()
                 if post:
-                    # Validate content quality before adding to queue
-                    quality_score = self.quality_validator.validate_content(
-                        post.content, 
-                        post.platform, 
-                        post.content_type
-                    )
+                    # Enhanced content quality validation with auto-improvement
+                    try:
+                        # Import enhanced quality system
+                        from automation.enhanced_content_quality_system import get_enhanced_quality_system
+                        enhanced_system = get_enhanced_quality_system()
+                        
+                        # Analyze content quality
+                        quality_result = await enhanced_system.analyze_content_quality(
+                            post.content, 
+                            post.post_id,
+                            post.platform,
+                            post.content_type
+                        )
+                        
+                        # Auto-improve if quality is below 90% but above 70%
+                        if 0.70 <= quality_result.overall_quality < 0.90:
+                            self.logger.info(f"🔧 Auto-improving content: {post.title}")
+                            improved_content, improved_result = await enhanced_system.improve_content_automatically(
+                                post.content, post.post_id, target_quality=0.85
+                            )
+                            post.content = improved_content
+                            quality_result = improved_result
+                        
+                        # Approve content based on enhanced quality
+                        if quality_result.approved and quality_result.overall_quality >= 0.80:
+                            daily_posts.append(post)
+                            self.logger.info(f"✅ Enhanced quality approved: {post.title} (Score: {quality_result.overall_quality*100:.1f}%, Grade: {quality_result.quality_grade})")
+                        else:
+                            self.logger.warning(f"❌ Enhanced quality rejected: {post.title} (Score: {quality_result.overall_quality*100:.1f}%, Grade: {quality_result.quality_grade})")
+                            if quality_result.improvement_suggestions:
+                                self.logger.warning(f"Suggestions: {quality_result.improvement_suggestions[:2]}")
                     
-                    if quality_score.approved:
-                        daily_posts.append(post)
-                        self.logger.info(f"✅ Quality approved: {post.title} (Score: {quality_score.overall_score:.1f})")
-                    else:
-                        self.logger.warning(f"❌ Quality rejected: {post.title} (Score: {quality_score.overall_score:.1f})")
-                        self.logger.warning(f"Issues: {quality_score.issues}")
-                        # Could implement auto-improvement here in future
+                    except Exception as quality_error:
+                        # Fallback to original quality validation
+                        self.logger.warning(f"Enhanced quality system failed, using fallback: {quality_error}")
+                        quality_score = self.quality_validator.validate_content(
+                            post.content, 
+                            post.platform, 
+                            post.content_type
+                        )
+                        
+                        if quality_score.approved:
+                            daily_posts.append(post)
+                            self.logger.info(f"✅ Fallback quality approved: {post.title} (Score: {quality_score.overall_score:.1f})")
+                        else:
+                            self.logger.warning(f"❌ Fallback quality rejected: {post.title} (Score: {quality_score.overall_score:.1f})")
             except Exception as e:
                 self.logger.error(f"Failed to generate content with {generator.__name__}: {e}")
         
