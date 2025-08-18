@@ -14,9 +14,13 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, asdict
-# import requests  # For API calls in production
-# import feedparser  # Optional dependency for news feeds  
-# from PIL import Image  # For image processing
+# Live API integration imports
+try:
+    from apis.platform_integrations import get_api_manager, PostResult
+    LIVE_API_AVAILABLE = True
+except ImportError:
+    LIVE_API_AVAILABLE = False
+    PostResult = None
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -47,6 +51,7 @@ class PlatformConfig:
     supports_images: bool
     supports_threads: bool
     api_configured: bool = False
+    live_posting: bool = False
     posting_frequency: str = "daily"  # hourly, daily, weekly
 
 class SocialMediaOrchestrator:
@@ -91,6 +96,20 @@ class SocialMediaOrchestrator:
         self.logger = self._setup_logging()
         self._load_configuration()
         
+        # Initialize live API manager if available
+        self.api_manager = None
+        self.live_posting_enabled = False
+        if LIVE_API_AVAILABLE:
+            try:
+                self.api_manager = get_api_manager()
+                self.live_posting_enabled = True
+                self._update_platform_api_status()
+                self.logger.info("✅ Live API integration enabled")
+            except Exception as e:
+                self.logger.warning(f"⚠️ Live API integration failed: {e}")
+        else:
+            self.logger.info("ℹ️ Live API integration not available - running in simulation mode")
+        
         # Initialize orchestrator
         db.log_system_activity("social_orchestrator", "system_init", "Social media orchestrator initialized", 1.0)
     
@@ -124,6 +143,30 @@ class SocialMediaOrchestrator:
                 self.logger.info(f"Loaded {len(self.content_queue)} posts from queue")
             except Exception as e:
                 self.logger.error(f"Failed to load content queue: {e}")
+    
+    def _update_platform_api_status(self):
+        """Update platform configurations based on API availability"""
+        if self.api_manager:
+            api_status = self.api_manager.get_platform_status()
+            
+            for platform_name, platform_config in self.platforms.items():
+                if platform_name in api_status:
+                    status = api_status[platform_name]
+                    platform_config.api_configured = (
+                        status["credentials_configured"] and 
+                        status["library_available"]
+                    )
+                    platform_config.live_posting = (
+                        platform_config.api_configured and
+                        status.get("client_initialized", False)
+                    )
+                    
+                    if platform_config.live_posting:
+                        self.logger.info(f"✅ {platform_name} ready for live posting")
+                    elif platform_config.api_configured:
+                        self.logger.info(f"⚠️ {platform_name} configured but client not initialized")
+                    else:
+                        self.logger.info(f"❌ {platform_name} not configured for live posting")
     
     def _save_configuration(self):
         """Save content queue configuration"""
@@ -535,36 +578,109 @@ class SocialMediaOrchestrator:
                               f"Post rejected: {post_id} - {reason}", 0.0)
         return True
     
-    async def publish_approved_posts(self) -> Dict[str, Any]:
-        """Publish approved posts (simulation - would integrate with real APIs)"""
+    async def publish_approved_posts(self, live_mode: bool = None) -> Dict[str, Any]:
+        """Publish approved posts with live API integration or simulation"""
         approved_posts = [post for post in self.content_queue if post.approved and not post.published]
+        
+        # Determine publishing mode
+        use_live_apis = live_mode if live_mode is not None else self.live_posting_enabled
+        mode_text = "🚀 LIVE POSTING" if use_live_apis else "🎭 SIMULATION"
+        
+        self.logger.info(f"{mode_text} - Publishing {len(approved_posts)} approved posts")
         
         published_count = 0
         failed_count = 0
+        results = {}
         
         for post in approved_posts:
             try:
-                # Simulate publishing (in production, would use real APIs)
-                self.logger.info(f"📤 Publishing to {post.platform}: {post.title}")
+                platform_config = self.platforms.get(post.platform)
                 
-                # Mark as published
-                post.published = True
-                published_count += 1
+                if use_live_apis and self.api_manager and platform_config and platform_config.live_posting:
+                    # Live API posting
+                    self.logger.info(f"🚀 Live posting to {post.platform}: {post.title}")
+                    
+                    # Prepare media paths
+                    media_paths = [post.media_path] if post.media_path and Path(post.media_path).exists() else None
+                    
+                    # Post using live API
+                    post_result = await self.api_manager.post_content(
+                        platform=post.platform,
+                        content=post.content,
+                        title=post.title,
+                        media_paths=media_paths,
+                        subreddit="ConsciousnessTechnology" if post.platform == "reddit" else None
+                    )
+                    
+                    if post_result.success:
+                        post.published = True
+                        published_count += 1
+                        
+                        # Store live posting results
+                        results[post.post_id] = {
+                            "success": True,
+                            "platform": post.platform,
+                            "post_id": post_result.post_id,
+                            "url": post_result.url,
+                            "live_posting": True
+                        }
+                        
+                        self.logger.info(f"✅ Live posted to {post.platform}: {post_result.url or post_result.post_id}")
+                        
+                        # Log live publishing
+                        db.log_system_activity("social_orchestrator", "post_published_live", 
+                                              f"Live published to {post.platform}: {post.title}", 1.0)
+                    else:
+                        failed_count += 1
+                        results[post.post_id] = {
+                            "success": False,
+                            "platform": post.platform,
+                            "error": post_result.error,
+                            "live_posting": True
+                        }
+                        
+                        self.logger.error(f"❌ Live posting failed for {post.platform}: {post_result.error}")
+                        
+                        # Log live publishing failure
+                        db.log_system_activity("social_orchestrator", "post_failed_live", 
+                                              f"Live publishing failed for {post.platform}: {post_result.error}", 0.0)
                 
-                # Log publishing
-                db.log_system_activity("social_orchestrator", "post_published", 
-                                      f"Published to {post.platform}: {post.title}", 1.0)
+                else:
+                    # Simulation mode
+                    self.logger.info(f"🎭 Simulating publish to {post.platform}: {post.title}")
+                    
+                    post.published = True
+                    published_count += 1
+                    
+                    results[post.post_id] = {
+                        "success": True,
+                        "platform": post.platform,
+                        "simulation": True,
+                        "reason": "Live API not available" if not use_live_apis else "Platform not configured"
+                    }
+                    
+                    # Log simulation
+                    db.log_system_activity("social_orchestrator", "post_published_sim", 
+                                          f"Simulated publish to {post.platform}: {post.title}", 1.0)
                 
             except Exception as e:
                 self.logger.error(f"Failed to publish {post.post_id}: {e}")
                 failed_count += 1
+                results[post.post_id] = {
+                    "success": False,
+                    "platform": post.platform,
+                    "error": str(e)
+                }
         
         self._save_configuration()
         
         return {
             "published": published_count,
             "failed": failed_count,
-            "total_approved": len(approved_posts)
+            "total_approved": len(approved_posts),
+            "live_posting_used": use_live_apis,
+            "posting_results": results,
+            "platforms_configured": sum(1 for p in self.platforms.values() if p.live_posting) if use_live_apis else 0
         }
     
     def get_content_analytics(self) -> Dict[str, Any]:
@@ -584,6 +700,9 @@ class SocialMediaOrchestrator:
         for post in self.content_queue:
             content_type_counts[post.content_type] = content_type_counts.get(post.content_type, 0) + 1
         
+        # Live posting capabilities
+        live_platforms = sum(1 for p in self.platforms.values() if p.live_posting) if self.live_posting_enabled else 0
+        
         return {
             "total_content_generated": total_posts,
             "approved_content": approved_posts,
@@ -593,7 +712,45 @@ class SocialMediaOrchestrator:
             "publish_rate": (published_posts / approved_posts * 100) if approved_posts > 0 else 0,
             "platform_distribution": platform_counts,
             "content_type_distribution": content_type_counts,
-            "trinity_integration": "⚛️🧠🛡️ Active"
+            "trinity_integration": "⚛️🧠🛡️ Active",
+            "live_posting_enabled": self.live_posting_enabled,
+            "platforms_configured_for_live": live_platforms,
+            "api_integration_status": "🚀 LIVE" if self.live_posting_enabled else "🎭 SIMULATION"
+        }
+    
+    def get_api_status(self) -> Dict[str, Any]:
+        """Get detailed API integration status"""
+        if not self.api_manager:
+            return {
+                "api_manager_available": False,
+                "live_posting_enabled": False,
+                "platforms": {},
+                "message": "Live API integration not available"
+            }
+        
+        api_status = self.api_manager.get_platform_status()
+        platform_details = {}
+        
+        for platform_name, platform_config in self.platforms.items():
+            platform_details[platform_name] = {
+                "enabled": platform_config.enabled,
+                "api_configured": platform_config.api_configured,
+                "live_posting": platform_config.live_posting,
+                "character_limit": platform_config.character_limit,
+                "supports_images": platform_config.supports_images,
+                "supports_threads": platform_config.supports_threads,
+                "posting_frequency": platform_config.posting_frequency
+            }
+            
+            if platform_name in api_status:
+                platform_details[platform_name].update(api_status[platform_name])
+        
+        return {
+            "api_manager_available": True,
+            "live_posting_enabled": self.live_posting_enabled,
+            "platforms": platform_details,
+            "platforms_ready_for_live": sum(1 for p in self.platforms.values() if p.live_posting),
+            "total_platforms": len(self.platforms)
         }
 
 async def main():
