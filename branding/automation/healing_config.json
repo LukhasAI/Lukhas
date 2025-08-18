@@ -1,0 +1,35 @@
+{
+  "last_updated": "2025-08-18T03:35:16.833569",
+  "healing_history": [
+    {
+      "action_id": "empty_dir_20250818_033516",
+      "action_type": "empty_directory",
+      "target": "mobile",
+      "description": "Created README.md placeholder",
+      "applied_at": "2025-08-18T03:35:16.833132",
+      "success": true,
+      "backup_created": false,
+      "rollback_available": false
+    },
+    {
+      "action_id": "empty_dir_20250818_033516",
+      "action_type": "empty_directory",
+      "target": "engines/lukhas_content_platform/mobile_app",
+      "description": "Created README.md placeholder",
+      "applied_at": "2025-08-18T03:35:16.833335",
+      "success": true,
+      "backup_created": false,
+      "rollback_available": false
+    },
+    {
+      "action_id": "empty_dir_20250818_033516",
+      "action_type": "empty_directory",
+      "target": "engines/lukhas_content_platform/social_automation",
+      "description": "Created README.md placeholder",
+      "applied_at": "2025-08-18T03:35:16.833518",
+      "success": true,
+      "backup_created": false,
+      "rollback_available": false
+    }
+  ]
+}
