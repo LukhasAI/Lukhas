@@ -1,0 +1,78 @@
+# LUKHAS AI - Azure Container Apps Configuration
+# GitHub Student Pack Production Deployment
+# ========================================
+
+properties:
+  managedEnvironmentId: /subscriptions/655855d4-df7b-44af-aedc-8169e7e34144/resourceGroups/Lukhas/providers/Microsoft.App/managedEnvironments/lukhas-dev-apps-env
+  configuration:
+    activeRevisionsMode: single
+    ingress:
+      external: true
+      targetPort: 8080
+      transport: http
+      allowInsecure: false
+      traffic:
+      - weight: 100
+        latestRevision: true
+    secrets:
+    - name: openai-api-key
+      value: "" # Set via Azure CLI or portal
+    - name: azure-openai-key
+      value: "2p6GG9edEDWo0G07UOAcuQX5H311Jqh3P6FUEldpdJt5ZqCOwIjLJQQJ99BFACmepeSXJ3w3AAABACOGp0v2"
+    - name: lukhas-api-key
+      value: "lukhas-production-key-2024-secure"
+  template:
+    containers:
+    - name: lukhas-ai
+      image: lukhasai.azurecr.io/lukhas-ai:latest
+      resources:
+        cpu: 1.0
+        memory: 2Gi
+      env:
+      - name: LUKHAS_PRODUCTION
+        value: "true"
+      - name: LUKHAS_API_HOST
+        value: "0.0.0.0"
+      - name: LUKHAS_API_PORT
+        value: "8080"
+      - name: LUKHAS_LOG_LEVEL
+        value: "INFO"
+      - name: AZURE_OPENAI_ENDPOINT
+        value: "https://lukhas.openai.azure.com/"
+      - name: AZURE_OPENAI_API_KEY
+        secretRef: azure-openai-key
+      - name: AZURE_OPENAI_API_VERSION
+        value: "2024-02-15-preview"
+      - name: OPENAI_API_KEY
+        secretRef: openai-api-key
+      - name: LUKHAS_API_KEY
+        secretRef: lukhas-api-key
+      - name: LUKHAS_ENABLE_CONSCIOUSNESS
+        value: "true"
+      - name: LUKHAS_ENABLE_MEMORY
+        value: "true"
+      - name: LUKHAS_ENABLE_DREAMS
+        value: "true"
+      - name: LUKHAS_ENABLE_GOVERNANCE
+        value: "true"
+      probes:
+      - type: liveness
+        httpGet:
+          path: /health
+          port: 8080
+        initialDelaySeconds: 30
+        periodSeconds: 30
+      - type: readiness
+        httpGet:
+          path: /health
+          port: 8080
+        initialDelaySeconds: 10
+        periodSeconds: 10
+    scale:
+      minReplicas: 1
+      maxReplicas: 10
+      rules:
+      - name: http-requests
+        http:
+          metadata:
+            concurrentRequests: "100"

@@ -1,0 +1,19 @@
+Collecting newrelic
+  Downloading newrelic-10.16.0.tar.gz (1.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 7.1 MB/s  0:00:00
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Installing backend dependencies: started
+  Installing backend dependencies: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: newrelic
+  Building wheel for newrelic (pyproject.toml): started
+  Building wheel for newrelic (pyproject.toml): finished with status 'done'
+  Created wheel for newrelic: filename=newrelic-10.16.0-cp311-cp311-macosx_15_0_arm64.whl size=788684 sha256=a3112445e61dee2198b2748d947b297ef67a7508aceb9f2c2849da29686e619e
+  Stored in directory: /Users/agi_dev/Library/Caches/pip/wheels/20/05/ec/974a9d1434353b541b08e02dd1348c00d19a9816357c8bb552
+Successfully built newrelic
+Installing collected packages: newrelic
+Successfully installed newrelic-10.16.0

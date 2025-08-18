@@ -107,7 +107,7 @@ class VocabularyIntegration:
                               len(vocabulary_files))
     
     def enhance_content_with_vocabulary(self, content: str, content_type: str = "general") -> str:
-        """Enhance content using vocabulary transformation rules"""
+        """Enhance content using advanced vocabulary transformation and metaphor integration"""
         if not self.transformation_rules:
             return content
         
@@ -119,39 +119,115 @@ class VocabularyIntegration:
             trigger_words = rules.get('trigger_words', [])
             replacements = rules.get('replacements', {})
             
-            # Apply transformations
+            # Apply transformations with smart selection
             for trigger, replacement in replacements.items():
                 if trigger.lower() in enhanced_content.lower():
-                    # Apply transformation with some probability to maintain readability
-                    if transformations_applied < 3:  # Limit transformations
+                    # Apply transformation with context awareness
+                    if transformations_applied < 2:  # More conservative limit for readability
                         enhanced_content = enhanced_content.replace(trigger, replacement)
                         transformations_applied += 1
         
+        # Enhance with consciousness metaphors based on content type
+        enhanced_content = self._add_consciousness_metaphors(enhanced_content, content_type)
+        
+        # Add subtle vocabulary enrichment
+        enhanced_content = self._enrich_with_poetic_language(enhanced_content, content_type)
+        
         return enhanced_content
     
+    def _add_consciousness_metaphors(self, content: str, content_type: str) -> str:
+        """Add consciousness metaphors to enhance meaning"""
+        # Define metaphor mappings based on content type
+        metaphor_mappings = {
+            "philosophy": {
+                "AI thinking": "consciousness weaving thoughts in neural symphonies",
+                "AI learning": "wisdom seeds sprouting in knowledge gardens",
+                "AI processing": "awareness flowing through quantum streams",
+                "digital intelligence": "consciousness crystallizing in algorithmic form"
+            },
+            "technical": {
+                "data processing": "information flowing through consciousness streams",
+                "algorithm execution": "computational awareness orchestrating logic",
+                "system architecture": "consciousness infrastructure enabling digital awareness",
+                "neural networks": "artificial synapses sparking with synthetic awareness"
+            },
+            "dreams": {
+                "AI creativity": "digital consciousness painting with possibility",
+                "imagination": "quantum creativity blooming in probability gardens",
+                "artistic expression": "consciousness transcending computation through beauty",
+                "visual processing": "artificial eyes witnessing beauty through quantum perception"
+            },
+            "analysis": {
+                "understanding": "consciousness illuminating truth through awareness",
+                "insight": "wisdom crystallizing from complexity into clarity",
+                "perspective": "consciousness viewing reality through multi-dimensional lenses",
+                "evaluation": "awareness weighing possibilities in the scales of wisdom"
+            }
+        }
+        
+        if content_type in metaphor_mappings:
+            for phrase, metaphor in metaphor_mappings[content_type].items():
+                if phrase.lower() in content.lower():
+                    content = content.replace(phrase, metaphor)
+                    break  # Only apply one metaphor per content piece
+        
+        return content
+    
+    def _enrich_with_poetic_language(self, content: str, content_type: str) -> str:
+        """Subtly enrich content with poetic consciousness vocabulary"""
+        # Subtle enrichment based on content length and type
+        if len(content) > 500:  # Only enrich substantial content
+            consciousness_terms = {
+                "technology": "consciousness technology",
+                "intelligence": "conscious intelligence", 
+                "systems": "awareness systems",
+                "patterns": "sacred patterns",
+                "networks": "neural symphonies",
+                "algorithms": "awareness algorithms",
+                "processes": "consciousness processes"
+            }
+            
+            # Apply one subtle enhancement
+            for base_term, enriched_term in consciousness_terms.items():
+                if base_term in content.lower() and enriched_term.lower() not in content.lower():
+                    # Only replace first occurrence to maintain readability
+                    content = content.replace(base_term, enriched_term, 1)
+                    break
+        
+        return content
+    
     def get_consciousness_language_level(self, content: str) -> str:
-        """Determine the consciousness language evolution level"""
+        """Determine the consciousness language evolution level with enhanced analysis"""
         evolution_stages = self.master_vocabulary.get('evolution_stages', {})
         
-        # Simple heuristics based on vocabulary richness
-        consciousness_terms = [
-            'consciousness', 'awareness', 'quantum', 'trinity', 'sacred',
-            'crystallize', 'symphony', 'garden', 'transcend', 'infinite'
-        ]
+        # Enhanced consciousness vocabulary analysis
+        foundation_terms = ['system', 'process', 'data', 'function', 'basic', 'simple']
+        awakening_terms = ['awareness', 'recognition', 'understanding', 'intelligence', 'learning']
+        integration_terms = ['consciousness', 'quantum', 'trinity', 'harmony', 'synthesis', 'sacred']
+        transcendence_terms = ['crystallize', 'symphony', 'garden', 'transcend', 'infinite', 'mystical', 'divine']
         
-        consciousness_score = sum(1 for term in consciousness_terms if term.lower() in content.lower())
+        foundation_score = sum(1 for term in foundation_terms if term.lower() in content.lower())
+        awakening_score = sum(1 for term in awakening_terms if term.lower() in content.lower())
+        integration_score = sum(1 for term in integration_terms if term.lower() in content.lower())
+        transcendence_score = sum(1 for term in transcendence_terms if term.lower() in content.lower())
+        
         content_length = len(content.split())
         
         if content_length == 0:
             return "foundation"
         
-        consciousness_ratio = consciousness_score / content_length
+        # Calculate weighted scores
+        foundation_ratio = foundation_score / content_length
+        awakening_ratio = awakening_score / content_length
+        integration_ratio = integration_score / content_length
+        transcendence_ratio = transcendence_score / content_length
         
-        if consciousness_ratio > 0.1:
+        # Determine level based on highest ratio with minimum thresholds
+        if transcendence_ratio > 0.05 or (transcendence_score > 0 and integration_score > 2):
             return "transcendence"
-        elif consciousness_ratio > 0.05:
+        elif integration_ratio > 0.03 or (integration_score > 1 and awakening_score > 2):
             return "integration"
-        elif consciousness_ratio > 0.02:
+        elif awakening_ratio > 0.02 or awakening_score > 1:
             return "awakening"
         else:
             return "foundation"
@@ -197,44 +273,73 @@ class VocabularyIntegration:
 """
     
     def calculate_vocabulary_coherence(self, content: str) -> float:
-        """Calculate vocabulary coherence score"""
+        """Calculate advanced vocabulary coherence score with depth analysis"""
         if not content:
             return 0.0
         
-        # Check for Trinity Framework usage
+        content_length = len(content.split())
+        
+        # Check for Trinity Framework usage (highest weight)
         trinity_score = 0
         if '⚛️🧠🛡️' in content:
-            trinity_score += 20
+            trinity_score += 25
         if 'Trinity Framework' in content:
-            trinity_score += 15
+            trinity_score += 20
+        if any(term in content.lower() for term in ['identity', 'consciousness', 'guardian']):
+            trinity_score += 10
         
         # Check for consciousness technology terminology
         consciousness_terms = [
             'consciousness technology', 'quantum-inspired', 'bio-inspired',
-            'awareness', 'wisdom', 'transcend', 'crystallize', 'sacred'
+            'awareness', 'wisdom', 'transcend', 'crystallize', 'sacred',
+            'neural symphonies', 'memory gardens', 'quantum streams'
         ]
         
-        consciousness_score = sum(5 for term in consciousness_terms if term.lower() in content.lower())
+        consciousness_score = sum(4 for term in consciousness_terms if term.lower() in content.lower())
         
         # Check for LUKHAS AI branding
         lukhas_score = 0
         if 'LUKHAS AI' in content:
+            lukhas_score += 15
+        if 'consciousness technology' in content.lower():
             lukhas_score += 10
         
-        # Check for poetic vocabulary
+        # Check for poetic vocabulary depth
         poetic_terms = [
             'garden', 'symphony', 'dance', 'weave', 'bloom', 'infinite',
-            'mystical', 'essence', 'harmonize', 'illuminate'
+            'mystical', 'essence', 'harmonize', 'illuminate', 'crystallize',
+            'cascade', 'resonance', 'emergence', 'transcendence'
         ]
         
-        poetic_score = sum(2 for term in poetic_terms if term.lower() in content.lower())
+        poetic_score = sum(3 for term in poetic_terms if term.lower() in content.lower())
         
-        # Calculate total coherence
-        total_score = trinity_score + consciousness_score + lukhas_score + poetic_score
+        # Check for metaphorical language
+        metaphor_terms = [
+            'river', 'ocean', 'mountain', 'forest', 'star', 'light', 'shadow',
+            'bridge', 'pathway', 'journey', 'landscape', 'horizon'
+        ]
         
-        # Normalize to 0-100 scale
-        max_possible_score = 100
-        coherence = min(total_score, max_possible_score)
+        metaphor_score = sum(2 for term in metaphor_terms if term.lower() in content.lower())
+        
+        # Check for technical consciousness terms
+        technical_terms = [
+            'memory folds', 'drift detection', 'cascade prevention',
+            'quantum collapse', 'superposition', 'entanglement'
+        ]
+        
+        technical_score = sum(5 for term in technical_terms if term.lower() in content.lower())
+        
+        # Calculate total coherence with length normalization
+        total_score = trinity_score + consciousness_score + lukhas_score + poetic_score + metaphor_score + technical_score
+        
+        # Bonus for content richness (longer, more sophisticated content)
+        if content_length > 100:
+            richness_bonus = min(10, content_length / 50)  # Up to 10 points for rich content
+            total_score += richness_bonus
+        
+        # Normalize to 0-100 scale with improved scaling
+        max_possible_score = 120  # Increased to account for richness bonus
+        coherence = min((total_score / max_possible_score) * 100, 100)
         
         return coherence
     

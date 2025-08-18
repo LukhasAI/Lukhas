@@ -1,0 +1,86 @@
+# LUKHAS AI Production Deployment Configuration
+# Fresh Azure Container Apps Environment
+# GitHub Student Pack Optimized
+# ============================================
+
+# Environment Configuration
+environment:
+  name: "lukhas-ai-production-v2"
+  location: "uksouth"  # UK South for best latency
+  resource_group: "Lukhas"
+
+# Container App Configuration
+container_app:
+  name: "lukhas-ai"
+  image: "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"  # Temporary, will update
+  
+  # Resource Allocation (Azure for Students optimized)
+  resources:
+    cpu: 1.0
+    memory: "2Gi"
+  
+  # Scaling (cost-optimized for Student Pack)
+  scaling:
+    min_replicas: 1
+    max_replicas: 3
+    
+  # Networking
+  ingress:
+    external: true
+    target_port: 8080
+    allow_insecure: false
+
+# Environment Variables for LUKHAS AI
+environment_variables:
+  # Production Settings
+  LUKHAS_PRODUCTION: "true"
+  LUKHAS_API_HOST: "0.0.0.0"
+  LUKHAS_API_PORT: "8080"
+  LUKHAS_LOG_LEVEL: "INFO"
+  
+  # Trinity Framework Features
+  LUKHAS_ENABLE_CONSCIOUSNESS: "true"
+  LUKHAS_ENABLE_MEMORY: "true"
+  LUKHAS_ENABLE_DREAMS: "true"
+  LUKHAS_ENABLE_GOVERNANCE: "true"
+  
+  # Azure Integration
+  AZURE_OPENAI_ENDPOINT: "https://lukhas.openai.azure.com/"
+  AZURE_OPENAI_API_VERSION: "2024-02-15-preview"
+  
+  # Branding & Framework
+  LUKHAS_TRINITY_FRAMEWORK: "⚛️🧠🛡️"
+  LUKHAS_SYSTEM_NAME: "LUKHAS AI"
+
+# Secrets (to be set via Azure CLI or Portal)
+secrets:
+  - name: "azure-openai-key"
+    value: "2p6GG9edEDWo0G07UOAcuQX5H311Jqh3P6FUEldpdJt5ZqCOwIjLJQQJ99BFACmepeSXJ3w3AAABACOGp0v2"
+  - name: "openai-api-key"
+    value: "your-openai-key-here"  # User to provide
+  - name: "lukhas-api-key"
+    value: "lukhas-production-key-2024-secure"
+
+# Health Checks
+health_checks:
+  liveness:
+    path: "/health"
+    port: 8080
+    initial_delay: 30
+    period: 30
+  readiness:
+    path: "/health"
+    port: 8080
+    initial_delay: 10
+    period: 10
+
+# Monitoring Integration
+monitoring:
+  application_insights: true
+  log_analytics_workspace: "lukhas-dev-logs"
+  
+# GitHub Student Pack Features
+student_pack_features:
+  newrelic_monitoring: true  # $300/month value
+  azure_credits: "Active"
+  container_registry: "lukhasai.azurecr.io"

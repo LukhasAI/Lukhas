@@ -1,1 +1,0 @@
-"""LUKHAS Core Branding Module"""
