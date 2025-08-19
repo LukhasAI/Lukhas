@@ -5,6 +5,35 @@ import TextareaAutosize from 'react-textarea-autosize'
 import { Send, Paperclip, Sparkles, Bot, User, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
+// Three-layer tone system from Plan1
+function threeLayerTone(base: string, hint?: string) {
+  const poetic = `${base}`
+  const friendly = hint ? `${hint}` : 'Say the word — I\'ll shape the field to match.'
+  const academic = 'Legibility and convergence are prioritized; complex silhouettes are approximated before true assets are added.'
+  return `• Poetic: ${poetic}\n• Friendly: ${friendly}\n• Insight: ${academic}`
+}
+
+function generateLocalReply(txt: string): string {
+  const t = txt.toLowerCase()
+  // Known shapes
+  if (t.match(/\btorus|donut\b/)) return threeLayerTone('A ring awakens; particles settle into an endless loop.', 'Switching to a torus now.')
+  if (t.match(/\bcube|box\b/)) return threeLayerTone('Structure condenses into six quiet planes.', 'Forming a cube.')
+  if (t.match(/\bsphere|orb|ball\b/)) return threeLayerTone('Symmetry blooms into a calm orb.', 'Centering into a sphere.')
+  if (t.match(/\bhelix|spiral\b/)) return threeLayerTone('A spiral climbs; pitch matches your intent.', 'Evolving into a spiral.')
+  if (t.match(/\bheart\b/)) return threeLayerTone('Warmth collects into a soft heartfield.', 'Shaping into a heart-like flow.')
+  // Text
+  if (t.match(/"([^"]+)"/) || t.includes('text:')) return threeLayerTone('Your words crystallize as a glyph.', 'Rendering your text and holding for legibility.')
+  // Honest fallback for unknown shapes
+  const asksShape = /\b(make|turn|render|form|shape)\b/.test(t)
+  const mentionsNoun = /\b([a-z]{3,})\b/.test(t)
+  const known = /(torus|donut|cube|box|sphere|orb|ball|helix|spiral|heart|conscious)/
+  if (asksShape && mentionsNoun && !known.test(t)) {
+    return threeLayerTone('I don\'t have that silhouette yet.', 'Shall I render the word as a glyph first, or would you like a simple approximation?')
+  }
+  // General personality
+  return threeLayerTone('Understood. The field is listening.', 'Ask for a shape or say a word in quotes to see it drawn in particles.')
+}
+
 interface Message {
   id: string
   content: string
@@ -68,7 +97,7 @@ export default function ChatInterface({
     setTimeout(() => {
       const assistantMessage: Message = {
         id: `msg-${Date.now() + 1}`,
-        content: 'I am processing your request through the LUKHAS consciousness engine. The morphing visualization will adapt to reflect our conversation.',
+        content: generateLocalReply(input.trim()),
         role: 'assistant',
         timestamp: new Date(),
         model: selectedModel

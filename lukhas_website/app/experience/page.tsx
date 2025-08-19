@@ -2,9 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Sparkles, Cpu, Layers, Activity } from 'lucide-react'
+import { ArrowLeft, Sparkles, Cpu, Layers, Activity, Shield, Zap, Eye } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
+
+// Plan1 integration - imports with fallbacks
+import { sentimentScore, mapKeywordsToColorTempo } from '@/lib/toneSystem'
+import { isViolent, calmDefaults } from '@/lib/safety'
+import { estimateTokensAndCost } from '@/lib/tokenEstimator'
+import { callAI, validateApiKey, detectProviderFromModel, type ApiResponse } from '@/lib/api/aiProviders'
 
 // Dynamic imports for better performance
 const ExperienceSidebar = dynamic(() => import('@/components/experience-sidebar'), { 
@@ -26,8 +32,29 @@ const MorphingVisualizer = dynamic(() => import('@/components/morphing-visualize
   loading: () => <div className="w-full h-full bg-black/20 animate-pulse rounded-2xl" />
 })
 
+// TEMP fallbacks: remove once lib modules are present
+const _fallbackSent = (s: string) => 0;
+const _fallbackMap = (s: string) => ({} as { color?: string; tempo?: number });
+const _fallbackIsViolent = (s: string) => false;
+const _fallbackCalm = { accentColor: '#38bdf8', tempo: 0.75, morphSpeed: 0.018 };
+const _fallbackEstimate = (text: string, model: string) => ({ 
+  tokens: Math.max(60, Math.ceil(text.length / 4) + 80), 
+  costUSD: 0 
+});
+
+// Resolve to real if available
+const SENT = (typeof sentimentScore === 'function' ? sentimentScore : _fallbackSent);
+const MAP = (typeof mapKeywordsToColorTempo === 'function' ? mapKeywordsToColorTempo : _fallbackMap);
+const VIOL = (typeof isViolent === 'function' ? isViolent : _fallbackIsViolent);
+const CALM = (typeof calmDefaults === 'object' ? calmDefaults : _fallbackCalm);
+const EST = (typeof estimateTokensAndCost === 'function' ? estimateTokensAndCost : _fallbackEstimate);
+
 // --- Keyword → Shape heuristic + Sentiment + Color/Tempo + MorphScript hook ---
 type Intent = { shape?: string; text?: string }
+type QueuedShape = { noun: string; ts: number }
+
+// Supported shapes the runtime can render directly
+const SUPPORTED_SHAPES = new Set(['sphere', 'torus', 'cube', 'consciousness'])
 
 const SHAPE_KEYWORDS: { re: RegExp; shape: string }[] = [
   { re: /\btorus|donut\b/i, shape: 'torus' },
@@ -43,29 +70,32 @@ const SHAPE_KEYWORDS: { re: RegExp; shape: string }[] = [
   { re: /\bfish|shark|whale\b/i, shape: 'torus' }
 ]
 
-const POSITIVE_WORDS = /(love|great|awesome|amazing|calm|peace|serene|happy|nice|cool|excited|fast|energetic|bright|beautiful|wonderful|fantastic|excellent|perfect|joy|bliss)/i
-const NEGATIVE_WORDS = /(sad|angry|slow|dark|bad|worse|worst|tired|heavy|cold|gloom|dull|boring|hate|ugly|terrible|awful|horrible)/i
-
-function sentimentScore(msg: string): number {
-  const pos = msg.match(new RegExp(POSITIVE_WORDS, 'gi'))?.length || 0
-  const neg = msg.match(new RegExp(NEGATIVE_WORDS, 'gi'))?.length || 0
-  return Math.tanh((pos - neg) * 0.8) // clamp to [-1,1]
+// Detect a likely noun request (single word, 3+ letters)
+function detectUnknownNoun(msg: string): string | null {
+  // Try quoted first: "cat" → cat
+  const q = /"([a-zA-Z][a-zA-Z\s\-]{2,})"/.exec(msg)
+  if (q?.[1]) {
+    const word = q[1].trim()
+    return SUPPORTED_SHAPES.has(word.toLowerCase()) ? null : word
+  }
+  // Then any noun-ish token after an action verb
+  const m = /(make|turn|render|form|shape|draw)\s+([a-zA-Z][a-zA-Z\-]{2,})/i.exec(msg)
+  if (m?.[2]) {
+    const word = m[2].toLowerCase()
+    return SUPPORTED_SHAPES.has(word) ? null : m[2]
+  }
+  return null
 }
 
-function mapKeywordsToColorTempo(msg: string): { color?: string; tempo?: number } {
-  const m = msg.toLowerCase()
-  if (/love|heart|romance|passion/.test(m)) return { color: '#ec4899', tempo: 1.15 }
-  if (/calm|serene|breathe|meditat/.test(m)) return { color: '#38bdf8', tempo: 0.75 }
-  if (/focus|clarity|clean|minimal/.test(m)) return { color: '#e5e7eb', tempo: 0.9 }
-  if (/energy|hype|party|neon|glow|excited|fast/.test(m)) return { color: '#a78bfa', tempo: 1.25 }
-  if (/nature|grow|heal|guardian|safe|trust/.test(m)) return { color: '#22c55e', tempo: 0.95 }
-  if (/cat|kitten|feline/.test(m)) return { color: '#f97316', tempo: 1.1 } // Orange for cats
-  if (/dog|puppy/.test(m)) return { color: '#84cc16', tempo: 1.2 } // Lime for dogs
-  if (/torus|donut/.test(m)) return { color: '#60a5fa', tempo: 1.05 }
-  if (/cube|box/.test(m)) return { color: '#93c5fd', tempo: 0.9 }
-  if (/sphere|orb|ball/.test(m)) return { color: '#e5e7eb', tempo: 1.0 }
-  if (/helix|spiral|conscious/.test(m)) return { color: '#8b5cf6', tempo: 1.1 }
-  return {}
+// Morph progress estimation
+function estimatePlanDuration(plan: any) {
+  const tl = plan?.timeline || []
+  let total = 0
+  for (const step of tl) {
+    if (step.text || step.svg) total += (step.constraints?.holdMs || 900) + 1200
+    else total += 800
+  }
+  return Math.max(total, 1200)
 }
 
 function extractIntentFromMessage(msg: string): Intent {
@@ -82,6 +112,23 @@ function extractIntentFromMessage(msg: string): Intent {
   // Shape keywords
   for (const k of SHAPE_KEYWORDS) {
     if (k.re.test(msg)) { intent.shape = k.shape; break }
+  }
+
+  // Truthful fallback for unsupported shapes: render glyph text first and queue noun
+  if (!intent.shape && !intent.text) {
+    const noun = detectUnknownNoun(msg)
+    if (noun) {
+      intent.text = noun.toUpperCase()
+      // Inform ExperiencePage via window event for queueing
+      try { 
+        window.dispatchEvent(new CustomEvent('lukhas-queue-shape', { detail: { noun } })) 
+      } catch { }
+    }
+  }
+
+  // Special-case: cat stays nice :)
+  if (!intent.shape && !intent.text && /\bcat(s)?\b/i.test(msg)) {
+    intent.text = 'CAT'
   }
 
   if (!intent.shape && !intent.text) intent.shape = 'sphere'
@@ -142,6 +189,19 @@ export default function ExperiencePage() {
   const [messages, setMessages] = useState<{ id: string; role: 'user'|'assistant'; content: string; timestamp: Date; model?: string }[]>([])
   const [usage, setUsage] = useState({ tokens: 0, costUSD: 0, creditsRemaining: 1000 })
   const [lastPlan, setLastPlan] = useState<any | null>(null)
+  
+  // Plan1 features state
+  const [modStats, setModStats] = useState<{ sentiment: number; tempo: number; speed: number }>({ 
+    sentiment: 0, tempo: 1, speed: 0.02 
+  })
+  const [morphBar, setMorphBar] = useState<{ active: boolean; value: number; label: string }>({ 
+    active: false, value: 0, label: 'Morphing…' 
+  })
+  const [queuedShapes, setQueuedShapes] = useState<QueuedShape[]>([])
+  const [showQueue, setShowQueue] = useState(false)
+  const [truthNotice, setTruthNotice] = useState<{ active: boolean; noun?: string }>({ active: false })
+  const [safetyActive, setSafetyActive] = useState(false)
+  const [replyEst, setReplyEst] = useState<{ tokens: number; costUSD: number } | null>(null)
 
   // Configuration state
   const [config, setConfig] = useState({
@@ -155,7 +215,9 @@ export default function ExperiencePage() {
     trinityIdentity: true,
     trinityConsciousness: true,
     trinityGuardian: true,
-    activeModel: 'lukhas'
+    activeModel: 'lukhas',
+    tempo: 1.0,
+    accentColor: '#8b5cf6'
   })
 
   // API Keys state
@@ -188,7 +250,31 @@ export default function ExperiencePage() {
     setApiKeys(prev => ({ ...prev, [provider]: key }))
   }
 
-  // Handle message sending
+  // Guardian calm function
+  const activateGuardianCalm = () => {
+    setSafetyActive(true)
+    // calm palette + tempo
+    handleConfigChange('accentColor', CALM.accentColor)
+    handleConfigChange('tempo', CALM.tempo)
+    handleConfigChange('morphSpeed', CALM.morphSpeed)
+    setTimeout(() => setSafetyActive(false), 2000)
+  }
+
+  // Morph progress animation
+  const playMorphProgress = (plan: any) => {
+    const total = estimatePlanDuration(plan)
+    const start = performance.now()
+    setMorphBar({ active: true, value: 0, label: 'Morphing…' })
+    function tick() {
+      const v = Math.min(1, (performance.now() - start) / total)
+      setMorphBar({ active: true, value: v, label: v < 1 ? 'Morphing…' : 'Complete' })
+      if (v < 1) requestAnimationFrame(tick)
+      else setTimeout(() => setMorphBar({ active: false, value: 1, label: 'Complete' }), 600)
+    }
+    requestAnimationFrame(tick)
+  }
+
+  // Handle message sending with Plan1 enhancements
   const handleSendMessage = async (message: string) => {
     setIsProcessing(true)
     
@@ -199,16 +285,37 @@ export default function ExperiencePage() {
     // Heuristic: msg → intent (shape/text)
     const intent = extractIntentFromMessage(message)
 
-    // Sentiment → morphSpeed (positive = faster, negative = slower)
-    const s = sentimentScore(message) // [-1, 1]
+    // Safety by design: cap energy if very negative or violent language
+    const violent = VIOL(message)
+    const sent = SENT(message)
+    const danger = violent || sent < -0.6
+    if (danger) {
+      activateGuardianCalm()
+    }
+
+    // Estimate tokens & soft cost (for UI)
+    try { 
+      setReplyEst(EST(message, config?.activeModel || 'lukhas')) 
+    } catch { }
+
+    // Sentiment → morph speed (safety-capped)
+    const s = SENT(message)
     const baseSpeed = config.morphSpeed ?? 0.02
-    const effectiveSpeed = Math.min(0.1, Math.max(0.005, baseSpeed * (1 + s * 0.5)))
+    let effectiveSpeed = Math.min(0.1, Math.max(0.005, baseSpeed * (1 + s * 0.5)))
+    if (danger) effectiveSpeed = Math.min(effectiveSpeed, CALM.morphSpeed)
     handleConfigChange('morphSpeed', effectiveSpeed)
 
     // Keyword → color/tempo
-    const kt = mapKeywordsToColorTempo(message)
-    if (kt.color) handleConfigChange('accentColor', kt.color)
+    const kt = MAP(message)
+    if (kt.color && !danger) handleConfigChange('accentColor', kt.color)
     if (kt.tempo) handleConfigChange('tempo', kt.tempo)
+
+    if (danger) {
+      handleConfigChange('accentColor', CALM.accentColor)
+      handleConfigChange('tempo', Math.min(CALM.tempo, (kt.tempo ?? 1)))
+    }
+
+    setModStats({ sentiment: s, tempo: kt.tempo ?? (config.tempo ?? 1), speed: effectiveSpeed })
 
     // Immediate visible response
     if (intent.shape) handleConfigChange('shape', intent.shape)
@@ -217,38 +324,90 @@ export default function ExperiencePage() {
     try {
       const plan = buildMorphScriptPlan(intent, config, effectiveSpeed)
       setLastPlan(plan)
+      playMorphProgress(plan)
       runMorphScriptPlan(plan)
     } catch (e) {
       console.warn('Failed to run MorphScript plan:', e)
     }
     
-    // Simulate processing and voice data update
-    setTimeout(() => {
+    // Add user message to chat history
+    const userMessage = {
+      id: `msg-${Date.now()}-user`,
+      role: 'user' as const,
+      content: message,
+      timestamp: new Date(),
+      model: selectedModel
+    }
+    setMessages(prev => [...prev, userMessage])
+
+    // Real API integration
+    try {
+      let response: ApiResponse | null = null
+      
+      if (config.activeModel === 'gpt-4o' && apiKeys.openai) {
+        response = await callAI(message, 'openai', 'gpt-4o', apiKeys.openai)
+      } else if (config.activeModel === 'gpt-4o-mini' && apiKeys.openai) {
+        response = await callAI(message, 'openai', 'gpt-4o-mini', apiKeys.openai)
+      } else if (config.activeModel === 'claude-3-sonnet' && apiKeys.anthropic) {
+        response = await callAI(message, 'anthropic', 'claude-3-sonnet-20240229', apiKeys.anthropic)
+      } else if (config.activeModel === 'claude-3-haiku' && apiKeys.anthropic) {
+        response = await callAI(message, 'anthropic', 'claude-3-haiku-20240307', apiKeys.anthropic)
+      } else if (config.activeModel === 'gemini-1.5-pro' && apiKeys.google) {
+        response = await callAI(message, 'google', 'gemini-1.5-pro', apiKeys.google)
+      } else if (config.activeModel === 'gemini-1.5-flash' && apiKeys.google) {
+        response = await callAI(message, 'google', 'gemini-1.5-flash', apiKeys.google)
+      } else if (config.activeModel === 'pplx-7b-online' && apiKeys.perplexity) {
+        response = await callAI(message, 'perplexity', 'pplx-7b-online', apiKeys.perplexity)
+      } else if (config.activeModel === 'pplx-70b-online' && apiKeys.perplexity) {
+        response = await callAI(message, 'perplexity', 'pplx-70b-online', apiKeys.perplexity)
+      }
+      
+      // Update voice data and processing state
       setVoiceData({
         intensity: Math.random() * 0.8 + 0.2,
         frequency: Math.random() * 1000 + 200
       })
-      setIsProcessing(false)
       
-      // Update usage tracking
+      // Update usage tracking with real data if available
+      if (response) {
+        setUsage(prev => ({
+          tokens: prev.tokens + response.usage.tokens,
+          costUSD: +(prev.costUSD + response.usage.costUSD).toFixed(6),
+          creditsRemaining: Math.max(0, prev.creditsRemaining - response.usage.tokens)
+        }))
+        
+        // Add response message to chat
+        const assistantMessage = {
+          id: `msg-${Date.now()}`,
+          role: 'assistant' as const,
+          content: response.content,
+          timestamp: new Date(),
+          model: response.model
+        }
+        setMessages(prev => [...prev, assistantMessage])
+        
+        if (response.error) {
+          console.warn('API Error:', response.error)
+        }
+      } else {
+        // Fallback: Use LUKHAS local responses
+        setUsage(prev => ({
+          tokens: prev.tokens + 120,
+          costUSD: +(prev.costUSD + 0.002).toFixed(4),
+          creditsRemaining: Math.max(0, prev.creditsRemaining - 120)
+        }))
+      }
+      
+    } catch (error) {
+      console.error('API call failed:', error)
+      // Fallback to local processing
       setUsage(prev => ({
-        tokens: prev.tokens + 120, // placeholder until wired to real APIs
+        tokens: prev.tokens + 120,
         costUSD: +(prev.costUSD + 0.002).toFixed(4),
-        creditsRemaining: Math.max(0, (prev.creditsRemaining || 1000) - 120)
+        creditsRemaining: Math.max(0, prev.creditsRemaining - 120)
       }))
-    }, 2000)
-
-    // Here you would integrate with actual AI APIs
-    if (config.activeModel === 'gpt-4' && apiKeys.openai) {
-      // Call OpenAI API
-    } else if (config.activeModel === 'claude-3' && apiKeys.anthropic) {
-      // Call Anthropic API
-    } else if (config.activeModel === 'gemini-pro' && apiKeys.google) {
-      // Call Google API
-    } else if (config.activeModel === 'perplexity' && apiKeys.perplexity) {
-      // Call Perplexity API
-    } else {
-      // Use LUKHAS AI system
+    } finally {
+      setIsProcessing(false)
     }
   }
 
@@ -266,6 +425,19 @@ export default function ExperiencePage() {
       setVoiceData({ intensity: 0, frequency: 0 })
     }
   }, [config.micEnabled])
+
+  // Queue system event listener
+  useEffect(() => {
+    function onQueue(e: any) {
+      const noun = e?.detail?.noun
+      if (!noun) return
+      setQueuedShapes(prev => [{ noun, ts: Date.now() }, ...prev].slice(0, 20))
+      // show truthful prompt once per noun
+      setTruthNotice({ active: true, noun })
+    }
+    window.addEventListener('lukhas-queue-shape', onQueue)
+    return () => window.removeEventListener('lukhas-queue-shape', onQueue)
+  }, [])
 
   // Optional: Load legibility harness
   useEffect(() => {
@@ -381,16 +553,55 @@ export default function ExperiencePage() {
               </button>
             </div>
             
-            {/* Dev: Replay last MorphScript plan */}
-            {lastPlan && (
-              <button
-                onClick={() => { if (lastPlan) runMorphScriptPlan(lastPlan) }}
-                className="ml-3 px-3 py-2 rounded-md text-xs font-medium bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
-                title="Replay last plan"
+            {/* Plan1 Controls */}
+            <div className="flex items-center gap-2 ml-4">
+              {/* Instant Calm Button */}
+              <button 
+                onClick={activateGuardianCalm} 
+                className={`px-3 py-2 text-xs rounded-md border transition-colors ${
+                  safetyActive 
+                    ? 'bg-cyan-600/30 border-cyan-400/30 text-cyan-200' 
+                    : 'bg-white/5 border-white/10 hover:bg-white/10 text-white/70'
+                }`}
+                aria-label="Activate instant calm mode"
+                title="Apply calm aesthetics and slower tempo"
               >
-                Play Plan
+                <Shield className="w-4 h-4 inline mr-1" />
+                Instant Calm
               </button>
-            )}
+              
+              {/* Queued Shapes */}
+              <button 
+                onClick={() => setShowQueue(v => !v)} 
+                className="px-3 py-2 text-xs rounded-md bg-white/5 border border-white/10 hover:bg-white/10 text-white/70 transition-colors"
+                aria-label={`Toggle queue display, ${queuedShapes.length} shapes queued`}
+              >
+                <Eye className="w-4 h-4 inline mr-1" />
+                Queued shapes
+                <span className="ml-1 px-1.5 py-0.5 text-[10px] rounded bg-white/10">
+                  {queuedShapes.length}
+                </span>
+              </button>
+              
+              {/* Dev: Replay last MorphScript plan */}
+              {lastPlan && (
+                <button
+                  onClick={() => { if (lastPlan) runMorphScriptPlan(lastPlan) }}
+                  className="px-3 py-2 rounded-md text-xs font-medium bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+                  title="Replay last plan"
+                >
+                  <Zap className="w-4 h-4 inline mr-1" />
+                  Play Plan
+                </button>
+              )}
+              
+              {/* Status Chip */}
+              <div className="px-3 py-2 rounded-md text-xs bg-white/5 border border-white/10 text-white/70">
+                <span className="mr-3">Sent {modStats.sentiment >= 0 ? '+' : ''}{modStats.sentiment.toFixed(2)}</span>
+                <span className="mr-3">Tempo {modStats.tempo.toFixed(2)}x</span>
+                <span>Speed {modStats.speed.toFixed(3)}</span>
+              </div>
+            </div>
           </div>
         </div>
       </header>
@@ -547,6 +758,73 @@ export default function ExperiencePage() {
           </motion.aside>
         )}
       </AnimatePresence>
+
+      {/* Morph Progress Bar */}
+      {morphBar.active && (
+        <div className="fixed left-1/2 -translate-x-1/2 bottom-6 z-50 w-[min(560px,90vw)]">
+          <div className="mb-1 text-center text-[11px] text-white/70">
+            {morphBar.label} {Math.round(morphBar.value * 100)}%
+            {replyEst && (
+              <span className="ml-2 text-white/50">· est ${replyEst.costUSD.toFixed(3)} / {replyEst.tokens} tok</span>
+            )}
+          </div>
+          <div className="h-2 rounded-full bg-white/10 overflow-hidden border border-white/15">
+            <div 
+              className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-400 transition-all duration-100" 
+              style={{ width: `${Math.round(morphBar.value * 100)}%` }} 
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Queue Popover */}
+      {showQueue && (
+        <div className="fixed right-3 top-20 z-40 w-64 rounded-lg bg-black/70 backdrop-blur-xl border border-white/10 p-3">
+          <div className="text-xs text-white/60 mb-2">Queued Shapes</div>
+          <ul className="space-y-1 max-h-56 overflow-y-auto">
+            {queuedShapes.map((q, i) => (
+              <li key={q.ts + ':' + i} className="text-[11px] text-white/70 flex items-center justify-between">
+                <span>{q.noun}</span>
+                <span className="text-white/30">{new Date(q.ts).toLocaleTimeString()}</span>
+              </li>
+            ))}
+            {queuedShapes.length === 0 && (
+              <li className="text-[11px] text-white/40">Nothing queued yet.</li>
+            )}
+          </ul>
+        </div>
+      )}
+
+      {/* Truth Notice Banner */}
+      {truthNotice.active && (
+        <div className="fixed left-1/2 -translate-x-1/2 bottom-24 z-50 w-[min(640px,92vw)] p-3 rounded-xl bg-black/70 backdrop-blur-xl border border-white/10">
+          <div className="text-sm text-white/90">That shape isn't in my library yet.</div>
+          <div className="mt-1 text-[11px] text-white/60">Choose how to proceed for "{truthNotice.noun}":</div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button 
+              className="px-3 py-1.5 text-xs rounded-md bg-white/10 border border-white/15 hover:bg-white/15 transition-colors" 
+              onClick={() => setTruthNotice({ active: false })}
+            >
+              Render as GLYPH
+            </button>
+            <button 
+              className="px-3 py-1.5 text-xs rounded-md bg-white/10 border border-white/15 hover:bg-white/15 transition-colors" 
+              onClick={() => { 
+                handleConfigChange('shape', 'sphere'); 
+                setTruthNotice({ active: false });
+              }}
+            >
+              Approximate (simple form)
+            </button>
+            <button 
+              className="px-3 py-1.5 text-xs rounded-md bg-white/10 border border-white/15 hover:bg-white/15 transition-colors" 
+              onClick={() => setTruthNotice({ active: false })}
+            >
+              Queue it (keep motion)
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

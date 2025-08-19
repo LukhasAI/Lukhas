@@ -70,6 +70,30 @@ export default function ExperienceSidebar({
   }
   const [activeSection, setActiveSection] = useState<string | null>('visualization')
 
+  // Build model options based on available keys
+  const availableModels: { value: string; label: string }[] = [{ value: 'lukhas', label: 'LUKHAS AI' }]
+
+  if (apiKeys.openai) availableModels.push(
+    { value: 'gpt-4o', label: 'OpenAI · GPT-4o' },
+    { value: 'gpt-4o-mini', label: 'OpenAI · GPT-4o mini' },
+    { value: 'gpt-4-turbo', label: 'OpenAI · GPT-4 Turbo' },
+  )
+
+  if (apiKeys.anthropic) availableModels.push(
+    { value: 'claude-3-sonnet', label: 'Anthropic · Claude 3 Sonnet' },
+    { value: 'claude-3-opus', label: 'Anthropic · Claude 3 Opus' },
+  )
+
+  if (apiKeys.google) availableModels.push(
+    { value: 'gemini-1.5-pro', label: 'Google · Gemini 1.5 Pro' },
+    { value: 'gemini-1.5-flash', label: 'Google · Gemini 1.5 Flash' },
+  )
+
+  if (apiKeys.perplexity) availableModels.push(
+    { value: 'pplx-7b-online', label: 'Perplexity · 7B Online' },
+    { value: 'pplx-70b-online', label: 'Perplexity · 70B Online' },
+  )
+
   const sections = [
     {
       id: 'visualization',
@@ -299,6 +323,57 @@ export default function ExperienceSidebar({
           <p className="text-xs text-white/40">
             Connect AI providers to enhance the consciousness experience
           </p>
+
+          {/* Provider Badges */}
+          <div className="mb-3 flex items-center gap-2">
+            {['openai', 'anthropic', 'google', 'perplexity'].map((p) => {
+              const active = !!apiKeys[p as keyof typeof apiKeys]
+              return (
+                <span 
+                  key={p} 
+                  className={`px-2 py-1 text-[10px] rounded-md border ${
+                    active 
+                      ? 'bg-white/10 border-white/20 text-white/80' 
+                      : 'bg-white/[0.02] border-white/10 text-white/30'
+                  }`}
+                >
+                  {p}
+                </span>
+              )
+            })}
+          </div>
+
+          {/* Universal Key (Auto-detect) */}
+          <div className="mb-4 p-3 rounded-lg bg-white/5 border border-white/10">
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider">Paste Any API Key</label>
+            <div className="mt-2 flex gap-2">
+              <input 
+                id="universal-key" 
+                type="password" 
+                placeholder="Paste key (OpenAI, Anthropic, Google, Perplexity)" 
+                className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/20 focus:bg-white/10" 
+              />
+              <button
+                type="button"
+                className="px-3 py-2 text-xs rounded-md bg-white/10 hover:bg-white/20 border border-white/10 transition-colors"
+                onClick={() => {
+                  const el = document.getElementById('universal-key') as HTMLInputElement | null
+                  if (!el || !el.value) return
+                  const k = el.value.trim()
+                  let provider: keyof typeof apiKeys | null = null
+                  if (/^sk-/.test(k)) provider = 'openai'
+                  else if (/^sk-ant-/.test(k)) provider = 'anthropic'
+                  else if (/^AIza/.test(k) || /^AI[a-zA-Z]/.test(k)) provider = 'google'
+                  else if (/^pplx-/.test(k)) provider = 'perplexity'
+                  if (provider) { onApiKeyChange(provider, k); el.value = '' }
+                  else alert('Could not detect provider. Please paste the key into the correct field below.')
+                }}
+              >
+                Detect → Assign
+              </button>
+            </div>
+            <p className="mt-2 text-[10px] text-white/40">Keys stay on your device. Encrypt to a GLYPH to reuse safely.</p>
+          </div>
           
           {/* API Key Inputs */}
           {Object.entries(apiKeys).map(([provider, key]) => (
@@ -347,11 +422,9 @@ export default function ExperienceSidebar({
                        text-xs text-white focus:outline-none focus:border-white/20 
                        focus:bg-white/10 transition-all"
             >
-              <option value="lukhas">LUKHAS AI</option>
-              <option value="gpt-4">GPT-4</option>
-              <option value="claude-3">Claude 3</option>
-              <option value="gemini-pro">Gemini Pro</option>
-              <option value="perplexity">Perplexity</option>
+              {availableModels.map(m => (
+                <option key={m.value} value={m.value}>{m.label}</option>
+              ))}
             </select>
           </div>
 
@@ -369,6 +442,7 @@ export default function ExperienceSidebar({
             <div className="mt-2 h-1 bg-white/10 rounded-full overflow-hidden">
               <div className="h-full bg-gradient-to-r from-purple-600 to-blue-600" style={{ width: `${Math.min(100, (usage?.tokens ?? 0) % 100)}%` }} />
             </div>
+            <p className="mt-2 text-[10px] text-white/40">Costs shown are estimates; actual pricing depends on the selected model.</p>
           </div>
         </div>
       )
