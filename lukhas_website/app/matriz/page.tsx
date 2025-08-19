@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import { MatrizTransparencyBox } from '../../components/transparency-box'
 import CalmModeToggle from '../../components/calm-mode-toggle'
+import PoeticText from '../../components/poetic-text'
 
 // JSON-LD Schema for MATRIZ product
 const matrizJsonLD = {
@@ -90,11 +91,14 @@ export default function MatrizPage() {
               M<span className="text-purple-400 font-extralight">Λ</span>TRIZ
             </h1>
             
-            {/* Poetic Layer (≤40 words) */}
-            <div data-tone="poetic" className="mb-8">
-              <p className="text-xl text-purple-200 font-light leading-relaxed max-w-2xl mx-auto">
+            {/* Poetic Layer (≤40 words) - Protected by runtime validation */}
+            <div className="mb-8">
+              <PoeticText 
+                className="text-xl text-purple-200 font-light leading-relaxed max-w-2xl mx-auto"
+                showWordCount={process.env.NODE_ENV === 'development'}
+              >
                 Where every decision becomes traceable light, flowing through the fabric of conscious architecture.
-              </p>
+              </PoeticText>
             </div>
 
             {/* Plain Layer */}

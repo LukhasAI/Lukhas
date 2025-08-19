@@ -89,7 +89,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="px-8 py-4 border border-white/20 rounded-lg hover:bg-white/10 transition inline-block"
               >
-                Explore MΛTRIZ
+                <span aria-label="Explore Matriz">Explore MΛTRIZ</span>
               </a>
               <button 
                 onClick={() => scrollToSection('products')}
@@ -169,7 +169,7 @@ export default function Home() {
         <section className="py-32 px-4 bg-gradient-to-b from-transparent to-purple-900/20">
           <div className="max-w-7xl mx-auto text-center">
             <p className="text-sm uppercase tracking-[0.3em] text-blue-400 mb-4">
-              Powered by MΛTRIZ
+              <span aria-label="Powered by Matriz">Powered by MΛTRIZ</span>
             </p>
             <h2 className="text-4xl md:text-5xl font-thin mb-8 text-white">
               Cognitive Architecture Revolution
@@ -183,7 +183,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:opacity-90 transition"
             >
-              Explore MΛTRIZ →
+              <span aria-label="Explore Matriz">Explore MΛTRIZ →</span>
             </a>
           </div>
         </section>
@@ -307,7 +307,7 @@ export default function Home() {
                 <h3 className="text-sm uppercase tracking-wider mb-4 text-white">Products</h3>
                 <ul className="space-y-2">
                   <li><a href="#" className="text-white/70 hover:text-white transition">Lambda Suite</a></li>
-                  <li><a href="#" className="text-white/70 hover:text-white transition">MΛTRIZ</a></li>
+                  <li><a href="#" className="text-white/70 hover:text-white transition" aria-label="Matriz">MΛTRIZ</a></li>
                   <li><a href="#" className="text-white/70 hover:text-white transition">Trinity Framework</a></li>
                 </ul>
               </div>

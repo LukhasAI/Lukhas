@@ -49,6 +49,24 @@ const VIOL = (typeof isViolent === 'function' ? isViolent : _fallbackIsViolent);
 const CALM = (typeof calmDefaults === 'object' ? calmDefaults : _fallbackCalm);
 const EST = (typeof estimateTokensAndCost === 'function' ? estimateTokensAndCost : _fallbackEstimate);
 
+// Hook to detect prefers-reduced-motion
+function useReducedMotion() {
+  const [reducedMotion, setReducedMotion] = useState(false)
+  
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReducedMotion(mediaQuery.matches)
+    
+    const handler = () => setReducedMotion(mediaQuery.matches)
+    mediaQuery.addEventListener('change', handler)
+    return () => mediaQuery.removeEventListener('change', handler)
+  }, [])
+  
+  return reducedMotion
+}
+
 // --- Keyword → Shape heuristic + Sentiment + Color/Tempo + MorphScript hook ---
 type Intent = { shape?: string; text?: string }
 type QueuedShape = { noun: string; ts: number }
@@ -175,6 +193,9 @@ type VisualizationMode = 'morphing' | 'trinity' | 'hybrid'
 export default function ExperiencePage() {
   // Constants for layout
   const RIGHT_PANEL_WIDTH = 360 // px
+  
+  // Motion preferences
+  const prefersReducedMotion = useReducedMotion()
   
   const [visualizationMode, setVisualizationMode] = useState<VisualizationMode>('morphing')
   const [isProcessing, setIsProcessing] = useState(false)
@@ -612,9 +633,9 @@ export default function ExperiencePage() {
       >
         <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14 h-full py-8">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={prefersReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.5 }}
             className="w-full h-full relative"
           >
             {/* Visualization Container */}
@@ -623,9 +644,10 @@ export default function ExperiencePage() {
                 {visualizationMode === 'morphing' && (
                   <motion.div
                     key="morphing"
-                    initial={{ opacity: 0 }}
+                    initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    exit={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+                    transition={prefersReducedMotion ? { duration: 0 } : undefined}
                     className="w-full h-full"
                   >
                     <MorphingVisualizer 
@@ -638,9 +660,10 @@ export default function ExperiencePage() {
                 {visualizationMode === 'trinity' && (
                   <motion.div
                     key="trinity"
-                    initial={{ opacity: 0 }}
+                    initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    exit={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+                    transition={prefersReducedMotion ? { duration: 0 } : undefined}
                     className="w-full h-full"
                   >
                     <TrinityInteractive />
@@ -650,9 +673,10 @@ export default function ExperiencePage() {
                 {visualizationMode === 'hybrid' && (
                   <motion.div
                     key="hybrid"
-                    initial={{ opacity: 0 }}
+                    initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    exit={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+                    transition={prefersReducedMotion ? { duration: 0 } : undefined}
                     className="w-full h-full grid grid-cols-2 gap-4 p-4"
                   >
                     <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">

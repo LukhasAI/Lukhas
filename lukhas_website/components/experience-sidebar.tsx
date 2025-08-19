@@ -24,7 +24,7 @@ function toast(title: string, desc?: string) {
   setTimeout(() => t.remove(), 2600)
 }
 
-// GLYPH encryption helper
+// GLYPH encoding helper (local encoding, not a substitute for rotating provider keys)
 async function encryptToGlyph(provider: string, apiKey: string): Promise<string> {
   const enc = new TextEncoder()
   const iv = crypto.getRandomValues(new Uint8Array(12))
@@ -452,10 +452,10 @@ export default function ExperienceSidebar({
                           if (!key) return
                           const glyph = await encryptToGlyph(provider, key)
                           onEncryptKey?.(provider, glyph)
-                          toast('Encrypted to GLYPH', `${provider} key stored locally`)
+                          toast('Encoded to GLYPH', `${provider} key stored locally`)
                         }}
                       >
-                        Encrypt → GLYPH
+                        Encode → GLYPH
                       </button>
                     </div>
                   </div>
@@ -636,7 +636,7 @@ export default function ExperienceSidebar({
             <div className="text-sm text-white/90 font-medium">Manage Keys & GLYPHs</div>
             <div className="mt-2 text-[11px] text-white/70 leading-5">
               • <b>Storage</b>: <b>this device</b> (<code>IndexedDB</code> if available, otherwise <code>localStorage</code>).<br/>
-              • <b>Encryption</b>: <b>AES-GCM</b> via WebCrypto; GLYPH is an encrypted, local token.<br/>
+              • <b>Encoding</b>: <b>AES-GCM</b> via WebCrypto; GLYPH is a locally encoded token (not a substitute for rotating provider keys).<br/>
               • We <b>never</b> send raw keys to our servers.<br/>
               • <b>Revoke</b>: delete the GLYPH here and rotate your provider key if needed.
             </div>
