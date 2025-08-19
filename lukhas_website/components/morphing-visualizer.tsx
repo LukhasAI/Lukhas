@@ -5,7 +5,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, Environment, Float, MeshDistortMaterial } from '@react-three/drei'
 import * as THREE from 'three'
 
-interface MorphingMeshProps {
+interface ParticleCloudProps {
   shape: string
   voiceData: { intensity: number; frequency: number }
   particleCount: number
@@ -17,139 +17,327 @@ interface MorphingMeshProps {
   }
   accentColor?: string
   tempo?: number
+  voiceSensitivity?: number
+  renderMode?: 'particles' | 'mesh' | 'auto'
 }
 
-function MorphingMesh({
+function ParticleCloud({
   shape,
   voiceData,
   particleCount,
   morphSpeed,
   trinityState,
   accentColor,
-  tempo = 1
-}: MorphingMeshProps) {
-  const meshRef = useRef<THREE.Mesh>(null)
+  tempo = 1,
+  voiceSensitivity = 0.5,
+  renderMode = 'particles'
+}: ParticleCloudProps) {
   const particlesRef = useRef<THREE.Points>(null)
+  const meshRef = useRef<THREE.Mesh>(null)
   const [morphProgress, setMorphProgress] = useState(0)
+  const [currentPositions, setCurrentPositions] = useState<Float32Array>()
+  const [targetPositions, setTargetPositions] = useState<Float32Array>()
 
-  // Generate particle positions around the mesh
-  const particlePositions = React.useMemo(() => {
-    const positions = new Float32Array(particleCount * 3)
-    for (let i = 0; i < particleCount * 3; i += 3) {
-      const theta = Math.random() * Math.PI * 2
-      const phi = Math.random() * Math.PI
-      const radius = 3 + Math.random() * 2
+  // Advanced shape generation system based on reference implementation
+  const generateShapePositions = (shapeName: string, count: number): Float32Array => {
+    const positions = new Float32Array(count * 3)
+    const baseRadius = 3.0 // Consistent base radius
+    
+    for (let i = 0; i < count * 3; i += 3) {
+      let x, y, z
+      const particleIndex = i / 3
+      const normalizedIndex = particleIndex / count
       
-      positions[i] = radius * Math.sin(phi) * Math.cos(theta)
-      positions[i + 1] = radius * Math.sin(phi) * Math.sin(theta)
-      positions[i + 2] = radius * Math.cos(phi)
+      switch (shapeName) {
+        case 'cube':
+          // Distribute particles in cube volume
+          x = (Math.random() - 0.5) * baseRadius * 2
+          y = (Math.random() - 0.5) * baseRadius * 2
+          z = (Math.random() - 0.5) * baseRadius * 2
+          break
+          
+        case 'torus':
+          // Proper torus distribution
+          const u = Math.random() * Math.PI * 2
+          const v = Math.random() * Math.PI * 2
+          const R = baseRadius * 0.8 // Major radius
+          const r = baseRadius * 0.3 // Minor radius
+          x = (R + r * Math.cos(v)) * Math.cos(u)
+          y = r * Math.sin(v)
+          z = (R + r * Math.cos(v)) * Math.sin(u)
+          break
+          
+        case 'consciousness':
+          // Complex icosahedral pattern with golden ratio
+          const phi = (1 + Math.sqrt(5)) / 2
+          const theta = normalizedIndex * Math.PI * 2 * phi
+          const cosTheta = 1 - 2 * normalizedIndex
+          const sinTheta = Math.sqrt(1 - cosTheta * cosTheta)
+          const radius = baseRadius * (0.8 + Math.random() * 0.4)
+          
+          x = radius * sinTheta * Math.cos(theta)
+          y = radius * cosTheta
+          z = radius * sinTheta * Math.sin(theta)
+          
+          // Add consciousness spiraling
+          const spiralPhase = normalizedIndex * Math.PI * 8
+          x += Math.sin(spiralPhase + theta) * 0.3
+          z += Math.cos(spiralPhase + theta) * 0.3
+          y += Math.sin(normalizedIndex * Math.PI * 4) * 0.2
+          break
+          
+        case 'cat':
+          // More accurate cat shape distribution
+          if (normalizedIndex < 0.15) {
+            // Head - sphere
+            const headTheta = Math.random() * Math.PI * 2
+            const headPhi = Math.random() * Math.PI
+            const headRadius = baseRadius * 0.4
+            x = headRadius * Math.sin(headPhi) * Math.cos(headTheta)
+            y = baseRadius * 0.7 + headRadius * Math.cos(headPhi)
+            z = headRadius * Math.sin(headPhi) * Math.sin(headTheta)
+          } else if (normalizedIndex < 0.25) {
+            // Ears - triangular points
+            const earSide = Math.random() > 0.5 ? 1 : -1
+            x = earSide * baseRadius * (0.3 + Math.random() * 0.15)
+            y = baseRadius * (0.9 + Math.random() * 0.3)
+            z = (Math.random() - 0.5) * baseRadius * 0.2
+          } else if (normalizedIndex < 0.75) {
+            // Body - elongated ellipsoid
+            const bodyTheta = Math.random() * Math.PI * 2
+            const bodyPhi = Math.random() * Math.PI
+            const bodyRadiusX = baseRadius * 0.6
+            const bodyRadiusY = baseRadius * 0.8
+            const bodyRadiusZ = baseRadius * 0.4
+            x = bodyRadiusX * Math.sin(bodyPhi) * Math.cos(bodyTheta)
+            y = bodyRadiusY * Math.cos(bodyPhi) * 0.3
+            z = bodyRadiusZ * Math.sin(bodyPhi) * Math.sin(bodyTheta)
+          } else {
+            // Tail - curved parametric
+            const tailT = (normalizedIndex - 0.75) / 0.25
+            const tailAngle = tailT * Math.PI * 2
+            x = -baseRadius * (0.8 + tailT * 0.5) + Math.sin(tailAngle) * baseRadius * 0.3
+            y = -baseRadius * 0.3 + Math.cos(tailAngle * 2) * baseRadius * 0.2
+            z = Math.sin(tailAngle * 3) * baseRadius * 0.25
+          }
+          break
+          
+        case 'heart':
+          // Parametric heart equation
+          const heartT = normalizedIndex * Math.PI * 2
+          const heartScale = baseRadius * 0.15
+          x = heartScale * 16 * Math.pow(Math.sin(heartT), 3)
+          y = heartScale * (13 * Math.cos(heartT) - 5 * Math.cos(2 * heartT) - 2 * Math.cos(3 * heartT) - Math.cos(4 * heartT))
+          z = (Math.random() - 0.5) * baseRadius * 0.3
+          break
+          
+        case 'spiral':
+        case 'helix':
+          // DNA double helix
+          const spiralT = normalizedIndex * Math.PI * 12
+          const spiralRadius = baseRadius * 0.8
+          const helixStrand = Math.floor(particleIndex) % 2
+          const strandOffset = helixStrand * Math.PI
+          
+          x = spiralRadius * Math.cos(spiralT + strandOffset)
+          z = spiralRadius * Math.sin(spiralT + strandOffset)
+          y = (normalizedIndex - 0.5) * baseRadius * 3
+          break
+          
+        default: // sphere
+          // Uniform sphere distribution using Marsaglia method
+          const u1 = Math.random()
+          const u2 = Math.random()
+          const theta = 2 * Math.PI * u1
+          const phi = Math.acos(2 * u2 - 1)
+          const radius = baseRadius * Math.cbrt(Math.random()) // Uniform volume distribution
+          
+          x = radius * Math.sin(phi) * Math.cos(theta)
+          y = radius * Math.sin(phi) * Math.sin(theta)
+          z = radius * Math.cos(phi)
+      }
+      
+      positions[i] = x
+      positions[i + 1] = y
+      positions[i + 2] = z
     }
     return positions
-  }, [particleCount])
+  }
 
+  // Initialize particle positions and create morphing system
+  React.useEffect(() => {
+    const current = generateShapePositions(shape, particleCount)
+    setCurrentPositions(current)
+    setTargetPositions(current.slice()) // Copy for morphing
+  }, [shape, particleCount])
+
+  // Generate new target positions when shape changes
+  React.useEffect(() => {
+    if (currentPositions) {
+      const target = generateShapePositions(shape, particleCount)
+      setTargetPositions(target)
+      setMorphProgress(0) // Reset morphing
+    }
+  }, [shape, particleCount])
+
+  // Main animation loop - particles only, no mesh
   useFrame((state) => {
-    if (meshRef.current) {
-      // Voice-reactive morphing
-      const intensity = voiceData.intensity || 0
-      const frequency = voiceData.frequency || 0
-      
-      // Base rotation (multiplied by tempo)
-      meshRef.current.rotation.x += (0.005 + intensity * 0.01) * tempo
-      meshRef.current.rotation.y += (0.01 + frequency * 0.0001) * tempo
-      
-      // Scale pulsing with voice
-      const scale = 1 + intensity * 0.2 + Math.sin(state.clock.elapsedTime * 2) * 0.05
-      meshRef.current.scale.setScalar(scale)
-      
-      // Morph progress animation
-      setMorphProgress((prev) => {
-        const target = intensity > 0.5 ? 1 : 0
-        return prev + (target - prev) * morphSpeed
-      })
+    if (!particlesRef.current || !currentPositions || !targetPositions) return
+
+    // Voice-reactive parameters
+    const voiceIntensity = (voiceData.intensity || 0) * voiceSensitivity
+    const voiceFrequency = (voiceData.frequency || 0) * voiceSensitivity
+    
+    // Slow, controlled rotation
+    const rotationSpeed = morphSpeed * 0.1
+    particlesRef.current.rotation.y += (rotationSpeed + voiceIntensity * 0.001) * tempo
+    particlesRef.current.rotation.x += (rotationSpeed * 0.5 + voiceFrequency * 0.0001) * tempo
+    
+    // Dynamic particle scaling based on voice
+    const baseScale = 1 + Math.sin(state.clock.elapsedTime * 1.5 * tempo) * 0.05
+    const voiceScale = voiceIntensity * 0.2
+    particlesRef.current.scale.setScalar(baseScale + voiceScale)
+    
+    // Shape morphing progress
+    if (morphProgress < 1) {
+      setMorphProgress((prev) => Math.min(1, prev + morphSpeed * 2))
     }
     
-    if (particlesRef.current) {
-      // Animate particles (with tempo)
-      particlesRef.current.rotation.y = state.clock.elapsedTime * 0.1 * tempo
-      particlesRef.current.rotation.x = state.clock.elapsedTime * 0.05 * tempo
+    // Update particle positions in real-time
+    const geometry = particlesRef.current.geometry
+    const positions = geometry.attributes.position.array as Float32Array
+    
+    for (let i = 0; i < positions.length; i += 3) {
+      const particleIndex = i / 3
       
-      // Particles respond to voice
-      const scale = 1 + voiceData.intensity * 0.3
-      particlesRef.current.scale.setScalar(scale)
+      // Get current and target positions
+      const currentX = currentPositions[i]
+      const currentY = currentPositions[i + 1]
+      const currentZ = currentPositions[i + 2]
+      const targetX = targetPositions[i]
+      const targetY = targetPositions[i + 1]
+      const targetZ = targetPositions[i + 2]
+      
+      // Interpolate between current and target (morphing)
+      let x = currentX + (targetX - currentX) * morphProgress
+      let y = currentY + (targetY - currentY) * morphProgress
+      let z = currentZ + (targetZ - currentZ) * morphProgress
+      
+      // Voice-reactive particle movement
+      const time = state.clock.elapsedTime
+      const particlePhase = particleIndex * 0.01
+      const waveAmplitude = voiceIntensity * 0.1
+      
+      x += Math.sin(time * 1.2 + particlePhase) * waveAmplitude
+      y += Math.cos(time * 0.8 + particlePhase * 1.5) * waveAmplitude
+      z += Math.sin(time * 1.0 + particlePhase * 2) * waveAmplitude
+      
+      // Frequency-based particle dispersion
+      const dispersion = voiceFrequency * 0.0001
+      x += (Math.random() - 0.5) * dispersion
+      y += (Math.random() - 0.5) * dispersion
+      z += (Math.random() - 0.5) * dispersion
+      
+      positions[i] = x
+      positions[i + 1] = y
+      positions[i + 2] = z
     }
+    
+    // Update morph progress for continuous animation
+    if (morphProgress >= 1 && voiceIntensity > 0.1) {
+      setMorphProgress(0) // Reset for continuous morphing with voice
+    }
+    
+    geometry.attributes.position.needsUpdate = true
   })
 
-  // Get color based on Trinity state (prefer accentColor when present)
-  const getMeshColor = () => {
+  // Get dynamic color based on Trinity state and voice reactivity
+  const getParticleColor = () => {
     if (accentColor) return accentColor
     
     const activeStates = Object.entries(trinityState).filter(([_, active]) => active)
-    if (activeStates.length === 0) return '#666666'
-    if (activeStates.length === 3) return '#ffffff'
     
-    const colors: Record<string, string> = {
-      identity: '#8b5cf6',
-      consciousness: '#3b82f6',
-      guardian: '#22c55e'
+    // Voice-reactive color shifts
+    const voiceIntensity = (voiceData.intensity || 0) * voiceSensitivity
+    const voiceFrequency = (voiceData.frequency || 0) * voiceSensitivity
+    
+    let baseColor = '#ffffff'
+    if (activeStates.length === 0) baseColor = '#666666'
+    else if (activeStates.length === 3) baseColor = '#ffffff'
+    else {
+      const colors: Record<string, string> = {
+        identity: '#8b5cf6',
+        consciousness: '#3b82f6', 
+        guardian: '#22c55e'
+      }
+      baseColor = colors[activeStates[0][0]] || '#666666'
     }
     
-    return colors[activeStates[0][0]] || '#666666'
+    // Add subtle color variations based on voice
+    const color = new THREE.Color(baseColor)
+    if (voiceIntensity > 0.1) {
+      const hsl = { h: 0, s: 0, l: 0 }
+      color.getHSL(hsl)
+      
+      // Shift hue based on frequency
+      hsl.h = (hsl.h + voiceFrequency * 0.0001) % 1
+      // Increase saturation with intensity
+      hsl.s = Math.min(1, hsl.s + voiceIntensity * 0.3)
+      // Increase lightness with intensity
+      hsl.l = Math.min(1, hsl.l + voiceIntensity * 0.2)
+      
+      color.setHSL(hsl.h, hsl.s, hsl.l)
+    }
+    
+    return color
   }
 
-  // Shape geometry selection
-  const getGeometry = () => {
-    switch (shape) {
-      case 'cube':
-        return <boxGeometry args={[2, 2, 2]} />
-      case 'torus':
-        return <torusGeometry args={[1.5, 0.6, 16, 100]} />
-      case 'consciousness':
-        return <icosahedronGeometry args={[2, 4]} />
-      default:
-        return <sphereGeometry args={[2, 32, 32]} />
-    }
-  }
+  // Fallback mesh for performance mode
+  const renderMesh = renderMode === 'mesh' && (
+    <Float speed={0.5 * tempo} rotationIntensity={0.1} floatIntensity={0.2}>
+      <mesh ref={meshRef}>
+        <sphereGeometry args={[3, 32, 32]} />
+        <MeshDistortMaterial
+          color={getParticleColor()}
+          emissive={getParticleColor()}
+          emissiveIntensity={0.3 + (voiceData.intensity || 0) * voiceSensitivity * 0.5}
+          roughness={0.3}
+          metalness={0.7}
+          distort={0.2 + morphProgress * 0.3}
+          speed={1 + (voiceData.frequency || 0) * 0.001}
+          transparent
+          opacity={0.8}
+        />
+      </mesh>
+    </Float>
+  )
+
+  // Main particle cloud system
+  const renderParticles = (renderMode === 'particles' || renderMode === 'auto') && currentPositions && (
+    <points ref={particlesRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={particleCount}
+          array={currentPositions}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.08 + morphProgress * 0.04 + (voiceData.intensity || 0) * voiceSensitivity * 0.02}
+        color={getParticleColor()}
+        transparent
+        opacity={0.9}
+        sizeAttenuation
+        blending={THREE.AdditiveBlending}
+      />
+    </points>
+  )
 
   return (
     <>
-      {/* Main morphing mesh */}
-      <Float speed={2 * tempo} rotationIntensity={0.5} floatIntensity={0.5}>
-        <mesh ref={meshRef}>
-          {getGeometry()}
-          <MeshDistortMaterial
-            color={getMeshColor()}
-            emissive={getMeshColor()}
-            emissiveIntensity={(0.3 + voiceData.intensity * 0.5) * (0.9 + 0.2 * tempo)}
-            roughness={0.2}
-            metalness={0.8}
-            distort={0.3 + morphProgress * 0.7}
-            speed={2 + voiceData.frequency * 0.01}
-            transparent
-            opacity={0.9}
-            wireframe={morphProgress > 0.5}
-          />
-        </mesh>
-      </Float>
-      
-      {/* Particle cloud */}
-      <points ref={particlesRef}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={particleCount}
-            array={particlePositions}
-            itemSize={3}
-          />
-        </bufferGeometry>
-        <pointsMaterial
-          size={0.02}
-          color={getMeshColor()}
-          transparent
-          opacity={0.6}
-          sizeAttenuation
-          blending={THREE.AdditiveBlending}
-        />
-      </points>
+      {renderMesh}
+      {renderParticles}
     </>
   )
 }
@@ -202,14 +390,62 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
       // Initialize audio context for voice processing
       const ctx = new (window.AudioContext || (window as any).webkitAudioContext)()
       const analyserNode = ctx.createAnalyser()
-      analyserNode.fftSize = 256
+      analyserNode.fftSize = 512 // Increased for better frequency resolution
+      analyserNode.smoothingTimeConstant = 0.3
       
-      navigator.mediaDevices.getUserMedia({ audio: true })
+      navigator.mediaDevices.getUserMedia({ 
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true
+        }
+      })
         .then(stream => {
           const source = ctx.createMediaStreamSource(stream)
           source.connect(analyserNode)
           setAudioContext(ctx)
           setAnalyser(analyserNode)
+          
+          // Start real-time audio analysis
+          const analyzeAudio = () => {
+            if (!analyserNode) return
+            
+            const bufferLength = analyserNode.frequencyBinCount
+            const dataArray = new Uint8Array(bufferLength)
+            analyserNode.getByteFrequencyData(dataArray)
+            
+            // Calculate intensity (average amplitude)
+            let sum = 0
+            for (let i = 0; i < bufferLength; i++) {
+              sum += dataArray[i]
+            }
+            const intensity = sum / bufferLength / 255
+            
+            // Calculate dominant frequency
+            let maxAmplitude = 0
+            let dominantFrequency = 0
+            for (let i = 0; i < bufferLength; i++) {
+              if (dataArray[i] > maxAmplitude) {
+                maxAmplitude = dataArray[i]
+                dominantFrequency = i * (ctx.sampleRate / 2) / bufferLength
+              }
+            }
+            
+            // Update voice data with real audio analysis
+            window.dispatchEvent(new CustomEvent('audioUpdate', {
+              detail: {
+                intensity: intensity * (config.voiceSensitivity || 0.5),
+                frequency: dominantFrequency,
+                rawData: dataArray
+              }
+            }))
+            
+            if (config.micEnabled) {
+              animationRef.current = requestAnimationFrame(analyzeAudio)
+            }
+          }
+          
+          analyzeAudio()
         })
         .catch(err => {
           console.error('Microphone access denied:', err)
@@ -224,7 +460,21 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [config.micEnabled])
+  }, [config.micEnabled, config.voiceSensitivity])
+
+  // Listen for real-time audio updates
+  useEffect(() => {
+    const handleAudioUpdate = (event: CustomEvent) => {
+      const { intensity, frequency } = event.detail
+      // Update voice data state for immediate response
+      if (typeof window !== 'undefined') {
+        (window as any).currentVoiceData = { intensity, frequency }
+      }
+    }
+
+    window.addEventListener('audioUpdate', handleAudioUpdate as EventListener)
+    return () => window.removeEventListener('audioUpdate', handleAudioUpdate as EventListener)
+  }, [])
 
   const trinityState = {
     identity: config.trinityIdentity || false,
@@ -235,37 +485,40 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
   // Calculate motion scale based on preferences
   const motionScale = prefersReducedMotion || isCalmMode ? 0 : 1
   const adjustedTempo = (config.tempo || 1) * motionScale
-  const adjustedMorphSpeed = (config.morphSpeed || 0.02) * motionScale
+  const adjustedMorphSpeed = (config.morphSpeed || 0.005) * motionScale
 
   return (
     <div className="w-full h-full relative">
       <Canvas
-        camera={{ position: [0, 0, 10], fov: 50 }}
+        camera={{ position: [0, 0, 12], fov: 60 }}
         gl={{ antialias: true, alpha: true }}
       >
-        <ambientLight intensity={0.4} />
-        <pointLight position={[10, 10, 10]} intensity={0.8} />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} />
+        <ambientLight intensity={0.6} />
+        <pointLight position={[10, 10, 10]} intensity={1.0} />
+        <pointLight position={[-10, -10, -10]} intensity={0.7} />
+        <pointLight position={[0, 0, 15]} intensity={0.8} />
         <spotLight
           position={[0, 10, 0]}
-          angle={0.3}
+          angle={0.4}
           penumbra={1}
-          intensity={0.5}
+          intensity={0.7}
           color="#00d4ff"
         />
         
         {/* Environment for reflections */}
         <Environment preset="city" />
         
-        {/* Main morphing visualization */}
-        <MorphingMesh
+        {/* New particle cloud system */}
+        <ParticleCloud
           shape={config.shape || 'sphere'}
           voiceData={voiceData}
-          particleCount={config.particleCount || 1000}
+          particleCount={config.particleCount || 3000}
           morphSpeed={adjustedMorphSpeed}
           trinityState={trinityState}
           accentColor={config.accentColor}
           tempo={adjustedTempo}
+          voiceSensitivity={config.voiceSensitivity || 0.5}
+          renderMode={config.renderMode || 'particles'}
         />
         
         {/* Camera controls */}
@@ -273,9 +526,9 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
           enablePan={false}
           enableZoom={true}
           autoRotate={!config.micEnabled && motionScale > 0}
-          autoRotateSpeed={0.5 * motionScale}
-          maxDistance={20}
-          minDistance={5}
+          autoRotateSpeed={0.2 * motionScale}
+          maxDistance={25}
+          minDistance={8}
         />
       </Canvas>
       

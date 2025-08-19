@@ -33,6 +33,10 @@ const MorphingVisualizer = dynamic(() => import('@/components/morphing-visualize
   loading: () => <div className="w-full h-full bg-black/20 animate-pulse rounded-2xl" />
 })
 
+const VoiceMorphingBridge = dynamic(() => import('@/components/voice-morphing-bridge'), { 
+  ssr: false 
+})
+
 // TEMP fallbacks: remove once lib modules are present
 const _fallbackSent = (s: string) => 0;
 const _fallbackMap = (s: string) => ({} as { color?: string; tempo?: number });
@@ -73,20 +77,24 @@ type Intent = { shape?: string; text?: string }
 type QueuedShape = { noun: string; ts: number }
 
 // Supported shapes the runtime can render directly
-const SUPPORTED_SHAPES = new Set(['sphere', 'torus', 'cube', 'consciousness'])
+const SUPPORTED_SHAPES = new Set(['sphere', 'torus', 'cube', 'consciousness', 'cat', 'heart', 'spiral', 'helix'])
 
 const SHAPE_KEYWORDS: { re: RegExp; shape: string }[] = [
   { re: /\btorus|donut\b/i, shape: 'torus' },
-  { re: /\bcube|box\b/i, shape: 'cube' },
+  { re: /\bcube|box|square\b/i, shape: 'cube' },
   { re: /\bsphere|ball|orb\b/i, shape: 'sphere' },
-  { re: /\bhelix|spiral\b/i, shape: 'consciousness' },
-  { re: /\bheart\b/i, shape: 'consciousness' },
+  { re: /\bhelix|spiral|dna\b/i, shape: 'helix' },
+  { re: /\bheart|love\b/i, shape: 'heart' },
   { re: /\bconscious(ness)?\b/i, shape: 'consciousness' },
-  // Animal shapes (map to consciousness for now, can extend with custom geometries later)
-  { re: /\bcat|kitten|feline\b/i, shape: 'consciousness' },
+  // Animal shapes (now have dedicated implementations)
+  { re: /\bcat|kitten|feline\b/i, shape: 'cat' },
   { re: /\bdog|puppy|canine\b/i, shape: 'sphere' },
   { re: /\bbird|eagle|dove\b/i, shape: 'consciousness' },
-  { re: /\bfish|shark|whale\b/i, shape: 'torus' }
+  { re: /\bfish|shark|whale\b/i, shape: 'torus' },
+  // Add more shape keywords
+  { re: /\bstar|stellate\b/i, shape: 'consciousness' },
+  { re: /\bflower|bloom\b/i, shape: 'heart' },
+  { re: /\bwave|ocean\b/i, shape: 'helix' }
 ]
 
 // Detect a likely noun request (single word, 3+ letters)
@@ -349,9 +357,43 @@ export default function ExperiencePage() {
     if (danger) effectiveSpeed = Math.min(effectiveSpeed, CALM.morphSpeed)
     handleConfigChange('morphSpeed', effectiveSpeed)
 
-    // Keyword → color/tempo
+    // Enhanced color detection from voice input
+    const colorMatches = {
+      red: /#ff0000|#ff4444|#e74c3c/i.test(message) || /\bred|crimson|scarlet\b/i.test(message),
+      blue: /#0066cc|#3498db|#0080ff/i.test(message) || /\bblue|azure|cyan\b/i.test(message), 
+      green: /#00cc66|#27ae60|#00ff80/i.test(message) || /\bgreen|emerald|lime\b/i.test(message),
+      purple: /#8b5cf6|#9b59b6|#6a0dad/i.test(message) || /\bpurple|violet|magenta\b/i.test(message),
+      yellow: /#f1c40f|#ffeb3b|#ffd700/i.test(message) || /\byellow|gold|amber\b/i.test(message),
+      orange: /#ff8c00|#e67e22|#ff6b35/i.test(message) || /\borange|tangerine\b/i.test(message),
+      pink: /#ff6b9d|#e91e63|#ff69b4/i.test(message) || /\bpink|rose|coral\b/i.test(message),
+      white: /#ffffff|#f8f9fa/i.test(message) || /\bwhite|silver|platinum\b/i.test(message),
+      black: /#000000|#2c3e50/i.test(message) || /\bblack|dark|night\b/i.test(message)
+    }
+
+    // Apply detected colors
+    let detectedColor = null
+    for (const [colorName, isMatch] of Object.entries(colorMatches)) {
+      if (isMatch) {
+        const colorValues = {
+          red: '#ff4444',
+          blue: '#0080ff', 
+          green: '#00ff80',
+          purple: '#8b5cf6',
+          yellow: '#ffd700',
+          orange: '#ff8c00',
+          pink: '#ff6b9d',
+          white: '#ffffff',
+          black: '#2c3e50'
+        }
+        detectedColor = colorValues[colorName as keyof typeof colorValues]
+        break
+      }
+    }
+
+    // Keyword → color/tempo (keep existing MAP functionality as fallback)
     const kt = MAP(message)
-    if (kt.color && !danger) handleConfigChange('accentColor', kt.color)
+    const finalColor = detectedColor || kt.color
+    if (finalColor && !danger) handleConfigChange('accentColor', finalColor)
     if (kt.tempo) handleConfigChange('tempo', kt.tempo)
 
     if (danger) {
@@ -673,6 +715,10 @@ export default function ExperiencePage() {
                     <MorphingVisualizer 
                       config={config}
                       voiceData={voiceData}
+                    />
+                    <VoiceMorphingBridge 
+                      config={config}
+                      onVoiceDataUpdate={setVoiceData}
                     />
                   </motion.div>
                 )}

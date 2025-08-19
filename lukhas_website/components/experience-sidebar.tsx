@@ -176,7 +176,7 @@ export default function ExperienceSidebar({
               Active Shape
             </label>
             <div className="grid grid-cols-2 gap-2">
-              {['sphere', 'cube', 'torus', 'consciousness'].map((shape) => (
+              {['sphere', 'cube', 'torus', 'consciousness', 'cat', 'heart', 'helix'].map((shape) => (
                 <button
                   key={shape}
                   onClick={() => onConfigChange('shape', shape)}

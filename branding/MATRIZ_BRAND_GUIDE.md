@@ -39,7 +39,7 @@ All references to MATADA should be updated:
 
 ## Product Description
 
-MΛTRIZ is LUKHAS AI's governance-focused traceability layer that turns model decisions into auditable nodes across the stack. It transforms every thought, decision, and memory into traceable nodes with full provenance tracking. It represents the cognitive DNA of artificial consciousness.
+MΛTRIZ is LUKHAS AI's traceability and governance layer that turns model decisions into auditable nodes.
 
 ## Visual Identity
 
