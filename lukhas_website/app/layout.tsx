@@ -1,7 +1,7 @@
-import type { Metadata } from 'next'
-import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { TranslationProvider } from '@/components/translation-provider'
+import type { Metadata } from 'next'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: 'LUKHAS AI - Building Consciousness You Can Trust',

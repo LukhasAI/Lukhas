@@ -177,11 +177,12 @@ export async function callGoogle(message: string, apiKey: string, model = 'gemin
       usage: { tokens, costUSD }
     }
   } catch (error: any) {
+    // Don't put error in content field - that goes to chat
     return {
-      content: `Google Error: ${error.response?.data?.error?.message || error.message}`,
+      content: '',
       model: `Google ${model}`,
       usage: { tokens: 0, costUSD: 0 },
-      error: error.message
+      error: error.response?.data?.error?.message || error.message
     }
   }
 }
@@ -225,11 +226,12 @@ export async function callPerplexity(message: string, apiKey: string, model = 'p
       usage: { tokens, costUSD }
     }
   } catch (error: any) {
+    // Don't put error in content field - that goes to chat
     return {
-      content: `Perplexity Error: ${error.response?.data?.error?.message || error.message}`,
+      content: '',
       model: `Perplexity ${model}`,
       usage: { tokens: 0, costUSD: 0 },
-      error: error.message
+      error: error.response?.data?.error?.message || error.message
     }
   }
 }

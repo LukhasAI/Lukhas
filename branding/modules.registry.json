@@ -139,10 +139,7 @@
       "locales": ["en"],
       "dependencies": ["core"],
       "legacyAliases": [],
-      "sources": [
-        "memory/MODULE_MANIFEST.json",
-        "memory/README.md"
-      ],
+      "sources": ["memory/MODULE_MANIFEST.json", "memory/README.md"],
       "lastVerified": "2025-08-19T00:00:00Z",
       "scannerVersion": "v2"
     },
@@ -184,9 +181,7 @@
       "locales": ["en"],
       "dependencies": ["core"],
       "legacyAliases": [],
-      "sources": [
-        "emotion/MODULE_MANIFEST.json"
-      ],
+      "sources": ["emotion/MODULE_MANIFEST.json"],
       "lastVerified": "2025-08-19T00:00:00Z",
       "scannerVersion": "v2"
     },
@@ -205,10 +200,7 @@
       "locales": ["en"],
       "dependencies": ["core", "memory", "consciousness", "governance"],
       "legacyAliases": [],
-      "sources": [
-        "vivox/MODULE_MANIFEST.json",
-        "vivox/README.md"
-      ],
+      "sources": ["vivox/MODULE_MANIFEST.json", "vivox/README.md"],
       "lastVerified": "2025-08-19T00:00:00Z",
       "scannerVersion": "v2"
     },
@@ -227,10 +219,7 @@
       "locales": ["en"],
       "dependencies": ["core"],
       "legacyAliases": [],
-      "sources": [
-        "qi/MODULE_MANIFEST.json",
-        "qi/README.md"
-      ],
+      "sources": ["qi/MODULE_MANIFEST.json", "qi/README.md"],
       "lastVerified": "2025-08-19T00:00:00Z",
       "scannerVersion": "v2"
     },
@@ -249,9 +238,7 @@
       "locales": ["en"],
       "dependencies": ["core"],
       "legacyAliases": [],
-      "sources": [
-        "bridge/MODULE_MANIFEST.json"
-      ],
+      "sources": ["bridge/MODULE_MANIFEST.json"],
       "lastVerified": "2025-08-19T00:00:00Z",
       "scannerVersion": "v2"
     },
@@ -292,10 +279,7 @@
       "locales": ["en"],
       "dependencies": ["core"],
       "legacyAliases": [],
-      "sources": [
-        "orchestration/README.md",
-        "orchestration/brain/"
-      ],
+      "sources": ["orchestration/README.md", "orchestration/brain/"],
       "lastVerified": "2025-08-19T00:00:00Z",
       "scannerVersion": "v2"
     }

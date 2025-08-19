@@ -1,7 +1,43 @@
 {
-  "timestamp": "2025-08-19T18:24:51.524Z",
-  "totalFlags": 448,
+  "timestamp": "2025-08-19T20:04:31.181Z",
+  "totalFlags": 454,
   "items": [
+    {
+      "file": "branding/BRAND_POLICY.md",
+      "line": 47,
+      "claim": "guaranteed",
+      "context": "- \"guaranteed\", \"flawless\", \"perfect\""
+    },
+    {
+      "file": "branding/BRAND_POLICY.md",
+      "line": 48,
+      "claim": "zero-risk",
+      "context": "- \"zero-risk\", \"unbreakable\""
+    },
+    {
+      "file": "branding/BRAND_POLICY.md",
+      "line": 60,
+      "claim": "revolutionary",
+      "context": "- \"revolutionary\", \"groundbreaking\", \"game-changing\""
+    },
+    {
+      "file": "branding/BRAND_POLICY.md",
+      "line": 61,
+      "claim": "breakthrough",
+      "context": "- \"breakthrough\", \"cutting-edge\", \"world-class\""
+    },
+    {
+      "file": "branding/BRAND_POLICY.md",
+      "line": 62,
+      "claim": "industry-leading",
+      "context": "- \"industry-leading\", \"state-of-the-art\", \"unparalleled\""
+    },
+    {
+      "file": "branding/BRAND_POLICY.md",
+      "line": 70,
+      "claim": "unlimited",
+      "context": "- \"robust\", \"scalable\", \"unlimited\""
+    },
     {
       "file": "branding/CLEANUP_COMPLETE.md",
       "line": 56,
@@ -142,15 +178,9 @@
     },
     {
       "file": "branding/decisions/BDR-TEMPLATE.md",
-      "line": 45,
+      "line": 81,
       "claim": "guaranteed",
       "context": "- [ ] No banned words introduced (guaranteed, perfect, revolutionary, etc.)"
-    },
-    {
-      "file": "branding/engines/lukhas_content_platform/web_interface/auctor_commercial_landing_page_lambda_ai.html",
-      "line": 256,
-      "claim": "revolutionary",
-      "context": "<p class=\"section-subtitle\">Three revolutionary products that transform how consciousness technology"
     },
     {
       "file": "branding/engines/lukhas_content_platform/web_interface/auctor_commercial_landing_page_lambda_ai.html",
@@ -183,6 +213,18 @@
       "context": "{ title: \"Research Breakthrough\", description: \"New paper citations spike detected\" }"
     },
     {
+      "file": "branding/vocabularies/README.md",
+      "line": 64,
+      "claim": "revolutionary",
+      "context": "- Superlatives (revolutionary, groundbreaking, ultimate)"
+    },
+    {
+      "file": "branding/vocabularies/README.md",
+      "line": 194,
+      "claim": "Revolutionary",
+      "context": "❌ \"Revolutionary quantum AI brain\""
+    },
+    {
       "file": "branding/voice/VOICE_GUIDELINES.md",
       "line": 108,
       "claim": "Revolutionary",
@@ -195,16 +237,10 @@
       "context": "Work on cutting-edge consciousness technology"
     },
     {
-      "file": "lukhas_website/app/layout.tsx",
-      "line": 8,
-      "claim": "Revolutionary",
-      "context": "description: 'Logical Unified Knowledge Hyper-Adaptive Superior Systems. Revolutionary AI platform p"
-    },
-    {
-      "file": "lukhas_website/app/page.tsx",
-      "line": 178,
-      "claim": "revolutionary",
-      "context": "Every thought becomes a traceable, governed, evolvable node in our revolutionary cognitive architect"
+      "file": "lukhas_website/app/experience/page.tsx",
+      "line": 587,
+      "claim": "Perfect",
+      "context": "{/* Main Visualization Area with Perfect Centering */}"
     },
     {
       "file": "lukhas_website/app/privacy/page.tsx",

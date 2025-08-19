@@ -1,16 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { ArrowLeft, Sparkles, Cpu, Layers, Activity, Shield, Zap, Eye } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Activity, ArrowLeft, Cpu, Layers, Shield, Sparkles, Zap } from 'lucide-react'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 // Plan1 integration - imports with fallbacks
-import { sentimentScore, mapKeywordsToColorTempo } from '@/lib/toneSystem'
-import { isViolent, calmDefaults } from '@/lib/safety'
+import { callAI, type ApiResponse } from '@/lib/api/aiProviders'
+import { calmDefaults, isViolent } from '@/lib/safety'
 import { estimateTokensAndCost } from '@/lib/tokenEstimator'
-import { callAI, validateApiKey, detectProviderFromModel, type ApiResponse } from '@/lib/api/aiProviders'
+import { mapKeywordsToColorTempo, sentimentScore } from '@/lib/toneSystem'
 
 // Dynamic imports for better performance
 const ExperienceSidebar = dynamic(() => import('@/components/experience-sidebar'), { 
@@ -372,7 +372,8 @@ export default function ExperiencePage() {
       })
       
       // Update usage tracking with real data if available
-      if (response) {
+      if (response && !response.error) {
+        // Only use response if there's no error
         setUsage(prev => ({
           tokens: prev.tokens + response.usage.tokens,
           costUSD: +(prev.costUSD + response.usage.costUSD).toFixed(6),
@@ -388,12 +389,28 @@ export default function ExperiencePage() {
           model: response.model
         }
         setMessages(prev => [...prev, assistantMessage])
-        
-        if (response.error) {
-          console.warn('API Error:', response.error)
-        }
       } else {
-        // Fallback: Use LUKHAS local responses
+        // Fallback: Use LUKHAS local responses when error or no response
+        if (response?.error) {
+          console.warn('API Error (using fallback):', response.error)
+        }
+        
+        // Generate appropriate LUKHAS fallback response
+        const fallbackResponses = [
+          '• Poetic: Understood. The field is listening.\n• Friendly: Ask for a shape or say a word in quotes to see it drawn in particles.\n• Insight: Legibility and convergence are prioritized; complex silhouettes are approximated before true assets are added.',
+          'Morphing consciousness awaits your command. Speak a shape into being.',
+          'The particle field responds to your intention. What form shall we manifest?'
+        ]
+        
+        const fallbackMessage = {
+          id: `msg-${Date.now()}`,
+          role: 'assistant' as const,
+          content: fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)],
+          timestamp: new Date(),
+          model: 'LUKHAS'
+        }
+        setMessages(prev => [...prev, fallbackMessage])
+        
         setUsage(prev => ({
           tokens: prev.tokens + 120,
           costUSD: +(prev.costUSD + 0.002).toFixed(4),

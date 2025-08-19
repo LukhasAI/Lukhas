@@ -1,0 +1,574 @@
+{
+  "generated": "2025-08-19T19:32:50.752Z",
+  "summary": {
+    "technical": 20,
+    "plain": 15,
+    "poetic": 10,
+    "blocklist": 10
+  },
+  "suggestions": {
+    "plain": [
+      {
+        "term": "LUKHAS Architecture",
+        "frequency": 175,
+        "suggested_preferred": "lukhas architecture",
+        "files": [
+          "docs/GLOSSARY.md",
+          "docs/validation/README.md"
+        ]
+      },
+      {
+        "term": "memory fold",
+        "frequency": 153,
+        "suggested_preferred": "memory fold",
+        "files": [
+          "LUKHAS_DEV_DOMAIN_STRATEGY.md",
+          "LUKHAS_AI_DOMAIN_STRATEGY.md"
+        ]
+      },
+      {
+        "term": "consciousness state",
+        "frequency": 148,
+        "suggested_preferred": "awareness state",
+        "files": [
+          "web_projects/docs/LAMBDA_ECOSYSTEM_DEPLOYMENT_STRATEGY.md",
+          "vivox/README.md"
+        ]
+      },
+      {
+        "term": "glyphOrientationVertical",
+        "frequency": 133,
+        "suggested_preferred": "glyphorientationvertical",
+        "files": [
+          "tools/git-hooks/vscode-extension/node_modules/terser/tools/domprops.js",
+          "tools/git-hooks/vscode-extension/node_modules/terser/dist/bundle.min.js"
+        ]
+      },
+      {
+        "term": "glyphName",
+        "frequency": 132,
+        "suggested_preferred": "glyphname",
+        "files": [
+          "lukhas_website/node_modules/three-stdlib/libs/opentype.js",
+          "lukhas_website/node_modules/three/examples/jsm/libs/opentype.module.js"
+        ]
+      },
+      {
+        "term": "glyphOrientationHorizontal",
+        "frequency": 131,
+        "suggested_preferred": "glyphorientationhorizontal",
+        "files": [
+          "tools/git-hooks/vscode-extension/node_modules/terser/tools/domprops.js",
+          "tools/git-hooks/vscode-extension/node_modules/terser/dist/bundle.min.js"
+        ]
+      },
+      {
+        "term": "Memory fold",
+        "frequency": 89,
+        "suggested_preferred": "memory fold",
+        "files": [
+          "LUKHAS_DEV_DOMAIN_STRATEGY.md",
+          "LUKHAS_AI_DOMAIN_STRATEGY.md"
+        ]
+      },
+      {
+        "term": "LUKHAS DEVELOPMENT",
+        "frequency": 87,
+        "suggested_preferred": "lukhas development",
+        "files": [
+          "memory/learning/README_learning_trace.md",
+          "consciousness/dream/oneiric/header_footer_example.md"
+        ]
+      },
+      {
+        "term": "glyphRef",
+        "frequency": 87,
+        "suggested_preferred": "glyphref",
+        "files": [
+          "tools/git-hooks/vscode-extension/node_modules/terser/tools/domprops.js",
+          "tools/git-hooks/vscode-extension/node_modules/terser/dist/bundle.min.js"
+        ]
+      },
+      {
+        "term": "LUKHAS Core",
+        "frequency": 77,
+        "suggested_preferred": "lukhas core",
+        "files": [
+          "web_projects/docs/LUKHAS_AI_WEBSITE_ARCHITECTURE.md",
+          "visualization/unified/README.md"
+        ]
+      },
+      {
+        "term": "consciousness states",
+        "frequency": 72,
+        "suggested_preferred": "awareness states",
+        "files": [
+          "COMPLETE_LUKHAS_WEB_ECOSYSTEM.md",
+          "web_projects/docs/LUKHAS_PARTICLE_IMPLEMENTATION.md"
+        ]
+      },
+      {
+        "term": "Consciousness state",
+        "frequency": 66,
+        "suggested_preferred": "awareness state",
+        "files": [
+          "web_projects/docs/LUKHAS_ECOSYSTEM_WEBSITE_PLANS.md",
+          "web_projects/docs/LUKHAS_DESIGN_SYSTEM.md"
+        ]
+      },
+      {
+        "term": "LUKHAS SYSTEMS",
+        "frequency": 65,
+        "suggested_preferred": "lukhas systems",
+        "files": [
+          "governance/ethics_legacy/ethical_drift.md",
+          "governance/ethics_legacy/safety/accessibility_ethics_checklist.md"
+        ]
+      },
+      {
+        "term": "LUKHAS Enterprise",
+        "frequency": 58,
+        "suggested_preferred": "lukhas enterprise",
+        "files": [
+          "tools/enterprise/README.md",
+          "memory/systems/OPTIMIZED_MEMORY_ARCHITECTURE_DOCUMENTATION.md"
+        ]
+      },
+      {
+        "term": "lukhas Core",
+        "frequency": 56,
+        "suggested_preferred": "lukhas core",
+        "files": [
+          "memory/systems/README.md",
+          "consciousness/creativity/personality_engine.md"
+        ]
+      }
+    ],
+    "technical": [
+      {
+        "term": "system",
+        "frequency": 3950,
+        "files": [
+          "SOCIAL_MEDIA_DEPLOYMENT_COMPLETE.md",
+          "README.md",
+          "PROTEUS_INTEGRATION.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "memory",
+        "frequency": 3077,
+        "files": [
+          "README.md",
+          "LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md",
+          "LUKHAS_DEV_DOMAIN_STRATEGY.md"
+        ],
+        "suggested_definition": "Memory system component or process",
+        "suggested_contexts": [
+          "memory systems"
+        ]
+      },
+      {
+        "term": "identity",
+        "frequency": 2376,
+        "files": [
+          "README.md",
+          "PROTEUS_INTEGRATION.md",
+          "PHASE_2_SUCCESS_SUMMARY.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "identity management"
+        ]
+      },
+      {
+        "term": "integration",
+        "frequency": 2308,
+        "files": [
+          "SOCIAL_MEDIA_DEPLOYMENT_COMPLETE.md",
+          "README.md",
+          "PROTEUS_INTEGRATION.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "processing",
+        "frequency": 2105,
+        "files": [
+          "SOCIAL_MEDIA_DEPLOYMENT_COMPLETE.md",
+          "README.md",
+          "PHASE_2_SUCCESS_SUMMARY.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "validation",
+        "frequency": 1772,
+        "files": [
+          "SOCIAL_MEDIA_DEPLOYMENT_COMPLETE.md",
+          "README.md",
+          "PHASE_2_SUCCESS_SUMMARY.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "symbolic",
+        "frequency": 1698,
+        "files": [
+          "README.md",
+          "LUKHAS_WECOSYSTEM_FINAL_STRATEGY.md",
+          "LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "metrics",
+        "frequency": 1577,
+        "files": [
+          "SOCIAL_MEDIA_DEPLOYMENT_COMPLETE.md",
+          "README.md",
+          "PLAN.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "engine",
+        "frequency": 1361,
+        "files": [
+          "README.md",
+          "LUKHAS_WECOSYSTEM_FINAL_STRATEGY.md",
+          "LUKHAS_DEV_DOMAIN_STRATEGY.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "architecture",
+        "frequency": 1248,
+        "files": [
+          "SOCIAL_MEDIA_DEPLOYMENT_COMPLETE.md",
+          "README.md",
+          "PROTEUS_INTEGRATION.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "threshold",
+        "frequency": 1240,
+        "files": [
+          "CLAUDE.md",
+          "web_projects/docs/ADAPTIVE_LAMBDA_WECOSYSTEM_DEPLOYMENT_STRATEGY.md",
+          "tools/git-hooks/vscode-extension/node_modules/cockatiel/readme.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "optimization",
+        "frequency": 1208,
+        "files": [
+          "SOCIAL_MEDIA_DEPLOYMENT_COMPLETE.md",
+          "README.md",
+          "PHASE_2_SUCCESS_SUMMARY.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "framework",
+        "frequency": 1094,
+        "files": [
+          "SOCIAL_MEDIA_DEPLOYMENT_COMPLETE.md",
+          "README.md",
+          "PHASE_2_SUCCESS_SUMMARY.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "quantum",
+        "frequency": 1042,
+        "files": [
+          "the_plan.md",
+          "README.md",
+          "PHASE_2_SUCCESS_SUMMARY.md"
+        ],
+        "suggested_definition": "Quantum-inspired algorithm or processing method",
+        "suggested_contexts": [
+          "quantum-inspired algorithms"
+        ]
+      },
+      {
+        "term": "detection",
+        "frequency": 1034,
+        "files": [
+          "README.md",
+          "LUKHAS_DEV_DOMAIN_STRATEGY.md",
+          "LUKHAS_AI_DOMAIN_STRATEGY.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "alignment",
+        "frequency": 832,
+        "files": [
+          "README.md",
+          "LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md",
+          "CURRENT_INFRASTRUCTURE_STATUS.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "awareness",
+        "frequency": 736,
+        "files": [
+          "README.md",
+          "PHASE_2_SUCCESS_SUMMARY.md",
+          "LUKHAS_WECOSYSTEM_FINAL_STRATEGY.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "consciousness processing"
+        ]
+      },
+      {
+        "term": "orchestration",
+        "frequency": 716,
+        "files": [
+          "SOCIAL_MEDIA_DEPLOYMENT_COMPLETE.md",
+          "README.md",
+          "LUKHAS_DEV_DOMAIN_STRATEGY.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      },
+      {
+        "term": "guardian",
+        "frequency": 715,
+        "files": [
+          "SOCIAL_MEDIA_DEPLOYMENT_COMPLETE.md",
+          "README.md",
+          "PROTEUS_INTEGRATION.md"
+        ],
+        "suggested_definition": "Ethics and safety validation system",
+        "suggested_contexts": [
+          "safety systems"
+        ]
+      },
+      {
+        "term": "drift",
+        "frequency": 682,
+        "files": [
+          "README.md",
+          "LUKHAS_DEV_DOMAIN_STRATEGY.md",
+          "LUKHAS_AI_DOMAIN_STRATEGY.md"
+        ],
+        "suggested_definition": "Technical term requiring definition",
+        "suggested_contexts": [
+          "technical documentation"
+        ]
+      }
+    ],
+    "poetic": [
+      {
+        "phrase": "as the chunk in this",
+        "wordCount": 5,
+        "frequency": 32,
+        "suggested_module": "general"
+      },
+      {
+        "phrase": "as resettable in case we are prerendering and postpone in the Shell\n        renderState",
+        "wordCount": 13,
+        "frequency": 22,
+        "suggested_module": "general"
+      },
+      {
+        "phrase": "as elements to flush in the head",
+        "wordCount": 7,
+        "frequency": 22,
+        "suggested_module": "general"
+      },
+      {
+        "phrase": "as it was in the origin input",
+        "wordCount": 7,
+        "frequency": 20,
+        "suggested_module": "general"
+      },
+      {
+        "phrase": "as well as characters not valid in XML",
+        "wordCount": 8,
+        "frequency": 18,
+        "suggested_module": "general"
+      },
+      {
+        "phrase": "as well as characters not valid in HTML",
+        "wordCount": 8,
+        "frequency": 18,
+        "suggested_module": "general"
+      },
+      {
+        "phrase": "like we do for attributes that exist only in HTML",
+        "wordCount": 10,
+        "frequency": 16,
+        "suggested_module": "general"
+      },
+      {
+        "phrase": "as if an error happens in React internals",
+        "wordCount": 8,
+        "frequency": 16,
+        "suggested_module": "general"
+      },
+      {
+        "phrase": "as described in https",
+        "wordCount": 4,
+        "frequency": 14,
+        "suggested_module": "general"
+      },
+      {
+        "phrase": "like optionalDependencies in package",
+        "wordCount": 4,
+        "frequency": 12,
+        "suggested_module": "general"
+      }
+    ],
+    "blocklist": [
+      {
+        "term": "agi",
+        "frequency": 926,
+        "reason": "Found in content - review for brand compliance",
+        "files": [
+          "README.md",
+          "PHASE_2_SUCCESS_SUMMARY.md",
+          "LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md"
+        ]
+      },
+      {
+        "term": "perfect",
+        "frequency": 271,
+        "reason": "Found in content - review for brand compliance",
+        "files": [
+          "PHASE_2_SUCCESS_SUMMARY.md",
+          "LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md",
+          "LUKHAS_AI_DOMAIN_STRATEGY.md"
+        ]
+      },
+      {
+        "term": "revolutionary",
+        "frequency": 138,
+        "reason": "Found in content - review for brand compliance",
+        "files": [
+          "LUKHAS_AI_DOMAIN_STRATEGY.md",
+          "CLAUDE.md",
+          "tools/git-hooks/README.md"
+        ]
+      },
+      {
+        "term": "ultimate",
+        "frequency": 106,
+        "reason": "Found in content - review for brand compliance",
+        "files": [
+          "tools/git-hooks/vscode-extension/node_modules/parse-semver/README.md",
+          "tools/git-hooks/vscode-extension/node_modules/mime-types/README.md",
+          "strategic_roadmap/executive/AGI_STRATEGIC_VISION.md"
+        ]
+      },
+      {
+        "term": "quantum processing",
+        "frequency": 92,
+        "reason": "Found in content - review for brand compliance",
+        "files": [
+          "README.md",
+          "PHASE_2_SUCCESS_SUMMARY.md",
+          "LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md"
+        ]
+      },
+      {
+        "term": "quantum computing",
+        "frequency": 82,
+        "reason": "Found in content - review for brand compliance",
+        "files": [
+          "CRITICAL_ARCHITECTURE_ISSUES.md",
+          "vivox/IMPROVING_VIVOX.md",
+          "vivox/quantum_readiness/README.md"
+        ]
+      },
+      {
+        "term": "conscious ai",
+        "frequency": 48,
+        "reason": "Found in content - review for brand compliance",
+        "files": [
+          "LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md",
+          "LUKHAS_AI_DOMAIN_STRATEGY.md",
+          "web_projects/docs/LUKHAS_LAMBDA_WECOSYSTEM_STRATEGY.md"
+        ]
+      },
+      {
+        "term": "unprecedented",
+        "frequency": 35,
+        "reason": "Found in content - review for brand compliance",
+        "files": [
+          "symbolic/INFO_README.md",
+          "strategic_roadmap/modules/10_BIOLOGICAL_INTEGRATION_STRATEGY.md",
+          "strategic_roadmap/executive/EXECUTIVE_SUMMARY.md"
+        ]
+      },
+      {
+        "term": "genuine consciousness",
+        "frequency": 15,
+        "reason": "Found in content - review for brand compliance",
+        "files": [
+          "LUKHAS_AI_DOMAIN_STRATEGY.md",
+          "web_projects/docs/LUKHAS_AI_DOMAIN_STRATEGY.md",
+          "docs/archive/poetic_evolution/14_README.md"
+        ]
+      },
+      {
+        "term": "groundbreaking",
+        "frequency": 14,
+        "reason": "Found in content - review for brand compliance",
+        "files": [
+          "strategic_roadmap/modules/10_BIOLOGICAL_INTEGRATION_STRATEGY.md",
+          "memory/TAGGING_FOLDS.md",
+          "docs/website_content/careers_page.md"
+        ]
+      }
+    ]
+  }
+}

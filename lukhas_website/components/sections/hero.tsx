@@ -1,13 +1,13 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
-import { motion, useAnimation, AnimatePresence } from 'framer-motion'
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Sphere, MeshDistortMaterial, Float } from '@react-three/drei'
-import { ChevronDown, Atom, Brain, Shield, Sparkles, Layers3, BookOpen } from 'lucide-react'
-import SplitType from 'split-type'
-import { gsap } from 'gsap'
 import { useT } from '@/lib/i18n'
+import { Float, MeshDistortMaterial, OrbitControls, Sphere } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber'
+import { AnimatePresence, motion, useAnimation } from 'framer-motion'
+import { gsap } from 'gsap'
+import { Atom, BookOpen, Brain, Layers3, Shield, Sparkles } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import SplitType from 'split-type'
 
 // 3-Layer Tone System options for hero taglines
 type ToneLayer = 'poetic' | 'userFriendly' | 'academic'
