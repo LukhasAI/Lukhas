@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "required": ["version","sections"],
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key","slug","owner","sources"],
+        "properties": {
+          "key": { "type": "string", "pattern": "^[a-z0-9-_]+$" },
+          "slug": { "type": "string", "pattern": "^/[^\\s]*$" },
+          "owner": { "type": "string" },
+          "status": { "enum": ["public","candidate"] },
+          "sources": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

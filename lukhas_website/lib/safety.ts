@@ -1,14 +1,15 @@
 // LUKHAS AI Safety System
 // Violence detection and calm defaults
 
-const VIOLENT_WORDS = /(kill|murder|death|destroy|violence|attack|harm|hurt|weapon|gun|knife|bomb|war|fight|blood|pain)/i
+export const VIOLENCE_WORDS =
+  /(kill|hurt|attack|violence|explode|blood|murder|assault|shoot|stab|rage|torture|suicide)/i;
 
-export function isViolent(msg: string): boolean {
-  return VIOLENT_WORDS.test(msg.toLowerCase())
+export function isViolent(text: string): boolean {
+  return VIOLENCE_WORDS.test(text);
 }
 
 export const calmDefaults = {
-  accentColor: '#38bdf8', // Calm blue
-  tempo: 0.75,            // Slower tempo
-  morphSpeed: 0.018       // Gentle morphing
-}
+  accentColor: "#38bdf8",
+  tempo: 0.75,
+  morphSpeed: 0.018,
+};

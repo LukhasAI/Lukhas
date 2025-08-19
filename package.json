@@ -2,6 +2,7 @@
   "name": "lukhas-ai",
   "version": "1.0.0",
   "description": "LUKHAS AI - Modular AI system with consciousness, memory, identity, and ethical governance",
+  "type": "module",
   "private": true,
   "scripts": {
     "lint:brand": "node scripts/lint-brand.js",
@@ -9,13 +10,24 @@
     "lint:a11y": "node scripts/lint-a11y.js",
     "lint:vendors": "node scripts/vendor-reference-linter.js",
     "validate:svg": "node scripts/svg-freeze-validator.js",
+    "validate:registries": "node scripts/validate-registries.js",
     "lint:policy": "npm run lint:brand && npm run lint:tone && npm run lint:a11y",
-    "validate:all": "npm run lint:policy && npm run lint:vendors && npm run validate:svg"
+    "validate:all": "npm run lint:policy && npm run lint:vendors && npm run validate:svg && npm run validate:registries"
   },
   "dependencies": {
     "glob": "^11.0.3"
   },
-  "keywords": ["ai", "consciousness", "identity", "ethics", "memory"],
+  "keywords": [
+    "ai",
+    "consciousness",
+    "identity",
+    "ethics",
+    "memory"
+  ],
   "author": "LUKHAS AI",
-  "license": "PRIVATE"
+  "license": "PRIVATE",
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
 }
