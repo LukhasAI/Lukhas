@@ -159,7 +159,7 @@ class BrandSentimentEngine:
         """Build indicators for different brand dimensions"""
         return {
             BrandDimension.INNOVATION: {
-                "positive": ["innovative", "cutting-edge", "advanced", "revolutionary", "breakthrough", "novel"],
+                "positive": ["innovative", "cutting-edge", "advanced", "breakthrough", "novel"],
                 "negative": ["outdated", "old-fashioned", "behind", "primitive", "basic"]
             },
             BrandDimension.TRUSTWORTHINESS: {

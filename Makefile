@@ -45,6 +45,7 @@ help:
 	@echo "  policy-brand - Check brand compliance"
 	@echo "  policy-tone  - Validate 3-layer tone system"
 	@echo "  policy-registries - Validate module/site registries"
+	@echo "  policy-routes - Validate site sections have matching routes"
 	@echo ""
 	@echo "Security:"
 	@echo "  security     - Run full security check suite"
@@ -370,7 +371,7 @@ audit:
 	@bash -lc './scripts/audit.sh'
 
 # Policy & Brand Enforcement
-policy: policy-registries policy-brand policy-tone
+policy: policy-registries policy-brand policy-tone policy-routes
 	@echo "✅ All policy checks passed"
 
 policy-review:
@@ -388,3 +389,7 @@ policy-tone:
 policy-registries:
 	@echo "📋 Validating module/site registries..."
 	@npm run policy:registries
+
+policy-routes:
+	@echo "🗺️ Validating site sections have matching routes..."
+	@npm run policy:routes

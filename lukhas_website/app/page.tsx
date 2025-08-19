@@ -175,7 +175,7 @@ export default function Home() {
               Cognitive Architecture Revolution
             </h2>
             <p className="text-xl text-white/70 mb-12 max-w-3xl mx-auto">
-              Every thought becomes a traceable, governed, evolvable node in our revolutionary cognitive architecture
+              Every thought becomes a traceable, governed, evolvable node in our consciousness-aware cognitive architecture
             </p>
             <a 
               href="http://localhost:3001" 

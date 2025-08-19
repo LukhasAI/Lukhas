@@ -15,21 +15,48 @@ export interface ApiResponse {
   error?: string
 }
 
-// Validate API key format
+// Validate API key format with support for new formats
 export function validateApiKey(provider: string, key: string): boolean {
   if (!key || key.trim().length === 0) return false
   
+  // Clean up common issues (extra spaces, newlines)
+  const cleanKey = key.trim().replace(/\s+/g, '')
+  
   switch (provider.toLowerCase()) {
     case 'openai':
-      return /^sk-[A-Za-z0-9\-_]{43,}$/.test(key.trim())
+      // OpenAI now supports both formats:
+      // Classic: sk-[48+ chars] 
+      // Project: sk-proj-[variable length, typically 40+ chars]
+      // Also being flexible with length as OpenAI has changed this over time
+      return /^sk-[A-Za-z0-9\-_]{40,}$/.test(cleanKey) || 
+             /^sk-proj-[A-Za-z0-9\-_]{20,}$/.test(cleanKey)
     case 'anthropic':
-      return /^sk-ant-[A-Za-z0-9\-_]{95,}$/.test(key.trim())
+      // Anthropic keys start with 'sk-ant-' and have ~95 characters
+      return /^sk-ant-[A-Za-z0-9\-_]{90,}$/.test(cleanKey)
     case 'google':
-      return /^AIza[A-Za-z0-9_\-]{35}$/.test(key.trim()) || /^AI[a-zA-Z0-9_\-]{35,}$/.test(key.trim())
+      // Google/Gemini keys start with 'AIza' or 'AI' and have 35+ characters
+      return /^AIza[A-Za-z0-9_\-]{35}$/.test(cleanKey) || /^AI[a-zA-Z0-9_\-]{35,}$/.test(cleanKey)
     case 'perplexity':
-      return /^pplx-[A-Za-z0-9\-_]{32,}$/.test(key.trim())
+      // Perplexity keys start with 'pplx-' and have 32+ characters
+      return /^pplx-[A-Za-z0-9\-_]{32,}$/.test(cleanKey)
     default:
       return false
+  }
+}
+
+// Helper to provide user-friendly format hints
+export function getApiKeyFormatHint(provider: string): string {
+  switch (provider.toLowerCase()) {
+    case 'openai':
+      return 'Starts with sk- or sk-proj-, typically 40+ characters'
+    case 'anthropic':
+      return 'Starts with sk-ant-, around 95+ characters'
+    case 'google':
+      return 'Starts with AIza, exactly 39 characters'
+    case 'perplexity':
+      return 'Starts with pplx-, around 50 characters'
+    default:
+      return 'Check provider documentation for format'
   }
 }
 
@@ -37,7 +64,7 @@ export function validateApiKey(provider: string, key: string): boolean {
 export async function callOpenAI(message: string, apiKey: string, model = 'gpt-4o'): Promise<ApiResponse> {
   try {
     if (!validateApiKey('openai', apiKey)) {
-      throw new Error('Invalid OpenAI API key format')
+      throw new Error('Invalid OpenAI API key format. Expected sk-... or sk-proj-... (40+ chars)')
     }
 
     const openai = new OpenAI({ 

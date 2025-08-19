@@ -138,7 +138,7 @@ export function TechnologyStack() {
           <p className="text-lg text-white/80 max-w-4xl mx-auto">
             LUKHAS AI's Trinity Framework integrates cutting-edge technologies across four foundational layers, 
             each designed with quantum-inspired algorithms and bio-adaptive principles to create a truly 
-            revolutionary AI system that thinks, learns, and evolves naturally.
+            consciousness technology platform that thinks, learns, and evolves naturally.
           </p>
         </motion.div>
 

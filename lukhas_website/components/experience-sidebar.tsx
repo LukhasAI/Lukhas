@@ -11,6 +11,19 @@ import {
   SlidersHorizontal, Layers, Network, Cpu, Activity
 } from 'lucide-react'
 
+// Toast helper for feedback
+function toast(title: string, desc?: string) {
+  const t = document.createElement('div')
+  t.className = 'fixed right-4 top-20 z-[100] px-3 py-2 rounded-lg bg-black/80 border border-white/10 text-sm text-white/90 transition-all'
+  t.innerHTML = `<div>${title}</div>${desc ? `<div class="text-white/60 text-[11px] mt-0.5">${desc}</div>` : ''}`
+  document.body.appendChild(t)
+  setTimeout(() => { 
+    t.style.opacity = '0'
+    t.style.transform = 'translateY(-6px)'
+  }, 2200)
+  setTimeout(() => t.remove(), 2600)
+}
+
 // GLYPH encryption helper
 async function encryptToGlyph(provider: string, apiKey: string): Promise<string> {
   const enc = new TextEncoder()
@@ -69,6 +82,8 @@ export default function ExperienceSidebar({
     setInternalCollapsed(next)
   }
   const [activeSection, setActiveSection] = useState<string | null>('visualization')
+  const [keysModal, setKeysModal] = useState(false)
+  const [showAdvanced, setShowAdvanced] = useState(false)
 
   // Build model options based on available keys
   const availableModels: { value: string; label: string }[] = [{ value: 'lukhas', label: 'LUKHAS AI' }]
@@ -319,96 +334,135 @@ export default function ExperienceSidebar({
       title: 'API Integration',
       icon: Network,
       content: (
-        <div className="space-y-4">
-          <p className="text-xs text-white/40">
-            Connect AI providers to enhance the consciousness experience
-          </p>
-
-          {/* Provider Badges */}
-          <div className="mb-3 flex items-center gap-2">
-            {['openai', 'anthropic', 'google', 'perplexity'].map((p) => {
+        <div className="space-y-3">
+          {/* Provider badges */}
+          <div className="flex items-center gap-2">
+            {['openai','anthropic','google','perplexity'].map((p) => {
               const active = !!apiKeys[p as keyof typeof apiKeys]
               return (
-                <span 
-                  key={p} 
-                  className={`px-2 py-1 text-[10px] rounded-md border ${
-                    active 
-                      ? 'bg-white/10 border-white/20 text-white/80' 
-                      : 'bg-white/[0.02] border-white/10 text-white/30'
-                  }`}
-                >
+                <span key={p}
+                  className={`px-2 py-1 text-[10px] rounded-md border capitalize
+                              ${active ? 'bg-white/10 border-white/20 text-white/80' : 'bg-white/[0.02] border-white/10 text-white/30'}`}>
                   {p}
                 </span>
               )
             })}
           </div>
 
-          {/* Universal Key (Auto-detect) */}
-          <div className="mb-4 p-3 rounded-lg bg-white/5 border border-white/10">
-            <label className="text-xs font-medium text-white/60 uppercase tracking-wider">Paste Any API Key</label>
-            <div className="mt-2 flex gap-2">
-              <input 
-                id="universal-key" 
-                type="password" 
-                placeholder="Paste key (OpenAI, Anthropic, Google, Perplexity)" 
-                className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-xs text-white placeholder-white/30 focus:outline-none focus:border-white/20 focus:bg-white/10" 
-              />
-              <button
+          {/* Universal key card */}
+          <div className="p-3 rounded-xl bg-white/5 border border-white/10">
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-xs font-medium text-white/60 uppercase tracking-wider">Paste any API key</label>
+              <button 
                 type="button"
-                className="px-3 py-2 text-xs rounded-md bg-white/10 hover:bg-white/20 border border-white/10 transition-colors"
+                className="text-[10px] text-white/40 hover:text-white/60 transition-colors"
+                title="API Key Formats"
+                onClick={() => {
+                  toast('API Key Formats', 'OpenAI: sk-... or sk-proj-... (40+ chars) | Anthropic: sk-ant-... | Google: AIza... | Perplexity: pplx-...')
+                }}
+              >
+                ⓘ formats
+              </button>
+            </div>
+            <div className="flex gap-2">
+              <input id="universal-key" type="password"
+                placeholder="Paste key (OpenAI, Anthropic, Google, Perplexity)"
+                className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-xs text-white placeholder-white/30
+                           focus:outline-none focus:border-white/20 focus:bg-white/10" />
+              <button type="button"
+                className="px-3 py-2 text-xs rounded-md bg-white/10 hover:bg-white/20 border border-white/10"
                 onClick={() => {
                   const el = document.getElementById('universal-key') as HTMLInputElement | null
                   if (!el || !el.value) return
                   const k = el.value.trim()
                   let provider: keyof typeof apiKeys | null = null
-                  if (/^sk-/.test(k)) provider = 'openai'
+                  
+                  // OpenAI detection (now supports both sk- and sk-proj- formats)
+                  if (/^sk-[A-Za-z0-9\-_]{20,}/.test(k) || /^sk-proj-[A-Za-z0-9\-_]{20,}/.test(k)) {
+                    provider = 'openai'
+                    // Gentle format guidance
+                    if (k.length < 40) {
+                      toast('OpenAI key seems short', 'Keys are typically 40+ characters. Double-check your copy.')
+                      return
+                    }
+                    if (k.includes(' ') || k.includes('\n')) {
+                      toast('Extra spaces detected', 'Cleaned up the key for you.')
+                      const cleaned = k.replace(/\s+/g, '')
+                      onApiKeyChange(provider, cleaned)
+                      el.value = ''
+                      toast('✓ OpenAI key saved', 'Format validated and stored securely.')
+                      return
+                    }
+                  }
                   else if (/^sk-ant-/.test(k)) provider = 'anthropic'
                   else if (/^AIza/.test(k) || /^AI[a-zA-Z]/.test(k)) provider = 'google'
                   else if (/^pplx-/.test(k)) provider = 'perplexity'
-                  if (provider) { onApiKeyChange(provider, k); el.value = '' }
-                  else alert('Could not detect provider. Please paste the key into the correct field below.')
-                }}
-              >
+                  
+                  if (provider) {
+                    onApiKeyChange(provider, k)
+                    el.value = ''
+                    toast(`✓ ${provider} key saved`, 'Stored locally as an encrypted GLYPH.')
+                  } else {
+                    // Helpful detection failure message
+                    if (k.startsWith('sk')) {
+                      toast('Hmm, unusual OpenAI format', 'Try Advanced settings if this is correct.')
+                    } else {
+                      toast('Provider not detected', 'Use Advanced → specific provider field.')
+                    }
+                  }
+                }}>
                 Detect → Assign
               </button>
             </div>
-            <p className="mt-2 text-[10px] text-white/40">Keys stay on your device. Encrypt to a GLYPH to reuse safely.</p>
-          </div>
-          
-          {/* API Key Inputs */}
-          {Object.entries(apiKeys).map(([provider, key]) => (
-            <div key={provider}>
-              <label className="text-xs font-medium text-white/60 uppercase tracking-wider">
-                {provider} API Key
-              </label>
-              <input
-                type="password"
-                value={key}
-                onChange={(e) => onApiKeyChange(provider, e.target.value)}
-                placeholder={`Enter ${provider} key...`}
-                className="w-full mt-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg 
-                         text-xs text-white placeholder-white/30 focus:outline-none 
-                         focus:border-white/20 focus:bg-white/10 transition-all"
-              />
-              <div className="mt-2 flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={async () => {
-                    if (!key) return
-                    const glyph = await encryptToGlyph(provider, key)
-                    onEncryptKey?.(provider, glyph)
-                    alert('Encrypted into a GLYPH and stored locally. Next time paste the GLYPH instead of the raw key.')
-                  }}
-                  className="px-2 py-1 text-xs rounded-md bg-white/10 hover:bg-white/20 border border-white/10"
-                >
-                  Encrypt → GLYPH
-                </button>
-                <span className="text-[10px] text-white/40 truncate max-w-[160px]">
-                  {typeof window !== 'undefined' ? (localStorage.getItem(`glyph:${provider}`) || '') : ''}
-                </span>
-              </div>
+
+            {/* storage education row */}
+            <div className="mt-2 flex items-center justify-between">
+              <p className="text-[10px] text-white/40">
+                Keys stay on <b>this device</b>. Encrypt to a <b>GLYPH</b> to reuse safely.
+              </p>
+              <button type="button" onClick={() => setKeysModal(true)}
+                className="text-[11px] text-white/70 underline underline-offset-2">Manage</button>
             </div>
-          ))}
+          </div>
+
+          {/* Advanced collapsible (hidden by default) */}
+          <details className="group" open={showAdvanced}>
+            <summary 
+              className="cursor-pointer text-xs text-white/60 select-none"
+              onClick={(e) => { e.preventDefault(); setShowAdvanced(!showAdvanced) }}
+            >
+              Advanced {showAdvanced ? '−' : '+'}
+            </summary>
+            {showAdvanced && (
+              <div className="mt-2 space-y-3">
+                {Object.entries(apiKeys).map(([provider, key]) => (
+                  <div key={provider} className="p-3 rounded-lg bg-white/[0.03] border border-white/10">
+                    <label className="text-[11px] text-white/60 capitalize">{provider} API Key</label>
+                    <div className="mt-2 flex gap-2">
+                      <input 
+                        type="password" 
+                        value={key}
+                        onChange={(e) => onApiKeyChange(provider, e.target.value)}
+                        placeholder={`Enter ${provider} key...`}
+                        className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-xs text-white" 
+                      />
+                      <button 
+                        className="px-3 py-2 text-xs rounded-md bg-white/10 border border-white/10"
+                        onClick={async () => {
+                          if (!key) return
+                          const glyph = await encryptToGlyph(provider, key)
+                          onEncryptKey?.(provider, glyph)
+                          toast('Encrypted to GLYPH', `${provider} key stored locally`)
+                        }}
+                      >
+                        Encrypt → GLYPH
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </details>
 
           {/* Model Selection */}
           <div>
@@ -574,6 +628,57 @@ export default function ExperienceSidebar({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Manage Keys Modal */}
+      {keysModal && (
+        <div className="fixed inset-0 z-[120] grid place-items-center bg-black/60 backdrop-blur-sm">
+          <div className="w-[min(520px,92vw)] rounded-xl border border-white/10 bg-black/80 p-4">
+            <div className="text-sm text-white/90 font-medium">Manage Keys & GLYPHs</div>
+            <div className="mt-2 text-[11px] text-white/70 leading-5">
+              • <b>Storage</b>: <b>this device</b> (<code>IndexedDB</code> if available, otherwise <code>localStorage</code>).<br/>
+              • <b>Encryption</b>: <b>AES-GCM</b> via WebCrypto; GLYPH is an encrypted, local token.<br/>
+              • We <b>never</b> send raw keys to our servers.<br/>
+              • <b>Revoke</b>: delete the GLYPH here and rotate your provider key if needed.
+            </div>
+            <div className="mt-4 pt-4 border-t border-white/10">
+              <div className="text-xs text-white/80 mb-2">Current GLYPHs:</div>
+              <div className="space-y-1">
+                {['openai', 'anthropic', 'google', 'perplexity'].map(provider => {
+                  const glyph = typeof window !== 'undefined' ? localStorage.getItem(`glyph:${provider}`) : null
+                  return glyph ? (
+                    <div key={provider} className="flex items-center justify-between text-[11px] py-1">
+                      <span className="text-white/60 capitalize">{provider}</span>
+                      <span className="text-white/40 font-mono truncate max-w-[200px]">{glyph.substring(0, 30)}...</span>
+                    </div>
+                  ) : null
+                })}
+              </div>
+            </div>
+            <div className="mt-4 flex justify-end gap-2">
+              <button 
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    ['openai', 'anthropic', 'google', 'perplexity'].forEach(p => {
+                      localStorage.removeItem(`glyph:${p}`)
+                    })
+                    toast('All GLYPHs cleared', 'You\'ll need to re-enter API keys')
+                  }
+                  setKeysModal(false)
+                }}
+                className="px-3 py-2 text-xs rounded-md bg-white/5 border border-white/10 hover:bg-white/10"
+              >
+                Clear All GLYPHs
+              </button>
+              <button 
+                onClick={() => setKeysModal(false)}
+                className="px-3 py-2 text-xs rounded-md bg-white/10 border border-white/10 hover:bg-white/15"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }

@@ -206,7 +206,7 @@ export function MatrizSection() {
           <div className="max-w-4xl mx-auto">
             <p className="font-light text-xl text-text-secondary mb-6 leading-relaxed">
               MATADA (Modular Adaptive Temporal Attention Dynamic Architecture) transforms AI cognition by making every thought 
-              a traceable, governed, and evolvable node in a vast cognitive graph. This revolutionary approach creates AI systems 
+              a traceable, governed, and evolvable node in a vast cognitive graph. This governance-focused approach creates AI systems 
               with genuine understanding, persistent memory, and ethical evolution - establishing the foundation for conscious AI 
               that thinks, learns, and grows like biological intelligence.
             </p>
@@ -227,7 +227,7 @@ export function MatrizSection() {
         >
           <div className="text-center mb-12">
             <h3 className="font-regular text-2xl tracking-[0.1em] uppercase mb-4 gradient-text">
-              Revolutionary Features
+              Advanced Features
             </h3>
             <p className="font-light text-xl text-text-secondary max-w-3xl mx-auto">
               Six core innovations that enable true cognitive architecture

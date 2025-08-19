@@ -506,7 +506,7 @@ export function TrinityFramework() {
           </div>
         </motion.div>
 
-        {/* Revolutionary Approach Section */}
+        {/* Advanced Approach Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -517,7 +517,7 @@ export function TrinityFramework() {
           <div className="glass rounded-3xl p-12">
             <div className="text-center mb-12">
               <h3 className="font-regular text-2xl tracking-[0.1em] uppercase mb-4 gradient-text">
-                Why Trinity Framework is Revolutionary
+                Why Trinity Framework is Transformative
               </h3>
               <p className="font-light text-xl text-white/70 max-w-4xl mx-auto">
                 Moving beyond traditional AI limitations to create systems that truly understand, preserve authenticity, and maintain ethical integrity

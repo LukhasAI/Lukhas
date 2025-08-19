@@ -173,6 +173,9 @@ function runMorphScriptPlan(plan: any) {
 type VisualizationMode = 'morphing' | 'trinity' | 'hybrid'
 
 export default function ExperiencePage() {
+  // Constants for layout
+  const RIGHT_PANEL_WIDTH = 360 // px
+  
   const [visualizationMode, setVisualizationMode] = useState<VisualizationMode>('morphing')
   const [isProcessing, setIsProcessing] = useState(false)
   const [selectedModel, setSelectedModel] = useState('LUKHAS')
@@ -479,127 +482,90 @@ export default function ExperiencePage() {
         `}</style>
       </div>
       
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-40 bg-black/40 backdrop-blur-2xl border-b border-white/10">
-        <div className="px-6">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-6">
-              <Link 
-                href="/" 
-                className="flex items-center gap-2 text-white/60 hover:text-white transition-colors group"
+      {/* Header - 3-Zone Grid Layout */}
+      <header className="sticky top-0 z-40 backdrop-blur-lg bg-black/30 border-b border-white/10">
+        <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14">
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 py-3 md:py-4">
+            {/* Left: Brand / Back */}
+            <div className="flex items-center gap-3">
+              <Link
+                href="/"
+                className="px-2 py-1 rounded-md bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group"
               >
-                <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                <span className="text-sm font-medium tracking-wider uppercase">Back</span>
+                <ArrowLeft className="w-4 h-4 inline mr-1 group-hover:-translate-x-0.5 transition-transform" />
+                <span className="text-xs font-medium">Back</span>
               </Link>
-              
-              <div className="h-6 w-px bg-white/20" />
-              
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 blur-xl opacity-50" />
-                  <h1 className="relative text-xl font-light tracking-[0.3em] uppercase bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                    LUKHAS Experience
-                  </h1>
-                </div>
-                <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
-                  <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse" />
-                  <span className="text-xs text-white/60 font-medium">
-                    Consciousness Active
-                  </span>
-                </div>
+              <div className="text-sm tracking-wide text-white/70">
+                LUKHAS <span className="text-white/40">EXPERIENCE</span>
+              </div>
+              <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 bg-white/5 border border-white/10 rounded-full">
+                <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse" />
+                <span className="text-xs text-white/60">
+                  Consciousness Active
+                </span>
               </div>
             </div>
-            
-            {/* Visualization Mode Selector */}
-            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg p-1">
-              <button
-                onClick={() => setVisualizationMode('morphing')}
-                className={`px-4 py-2 rounded-md text-xs font-medium transition-all ${
-                  visualizationMode === 'morphing'
-                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
-                    : 'text-white/60 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <Cpu className="w-4 h-4" />
-                  <span>Morphing</span>
-                </div>
-              </button>
-              <button
-                onClick={() => setVisualizationMode('trinity')}
-                className={`px-4 py-2 rounded-md text-xs font-medium transition-all ${
-                  visualizationMode === 'trinity'
-                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
-                    : 'text-white/60 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <Layers className="w-4 h-4" />
-                  <span>Trinity</span>
-                </div>
-              </button>
-              <button
-                onClick={() => setVisualizationMode('hybrid')}
-                className={`px-4 py-2 rounded-md text-xs font-medium transition-all ${
-                  visualizationMode === 'hybrid'
-                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
-                    : 'text-white/60 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <Activity className="w-4 h-4" />
-                  <span>Hybrid</span>
-                </div>
-              </button>
+
+            {/* Center: Modes (segmented) */}
+            <div className="flex items-center justify-center">
+              <div className="inline-flex rounded-xl border border-white/10 bg-white/[0.04] p-1">
+                {['morphing', 'trinity', 'hybrid'].map(m => (
+                  <button
+                    key={m}
+                    className={`px-3 md:px-4 py-1.5 text-xs rounded-lg capitalize transition-all ${
+                      visualizationMode === m
+                        ? 'bg-white/15 text-white'
+                        : 'text-white/60 hover:text-white'
+                    }`}
+                    onClick={() => setVisualizationMode(m as any)}
+                  >
+                    {m === 'morphing' && <Cpu className="w-3.5 h-3.5 inline mr-1.5" />}
+                    {m === 'trinity' && <Layers className="w-3.5 h-3.5 inline mr-1.5" />}
+                    {m === 'hybrid' && <Activity className="w-3.5 h-3.5 inline mr-1.5" />}
+                    {m}
+                  </button>
+                ))}
+              </div>
             </div>
-            
-            {/* Plan1 Controls */}
-            <div className="flex items-center gap-2 ml-4">
-              {/* Instant Calm Button */}
-              <button 
-                onClick={activateGuardianCalm} 
+
+            {/* Right: Utilities */}
+            <div className="flex items-center justify-end gap-2 md:gap-3">
+              <button
+                onClick={activateGuardianCalm}
+                aria-label="Instant Calm"
                 className={`px-3 py-2 text-xs rounded-md border transition-colors ${
-                  safetyActive 
-                    ? 'bg-cyan-600/30 border-cyan-400/30 text-cyan-200' 
-                    : 'bg-white/5 border-white/10 hover:bg-white/10 text-white/70'
+                  safetyActive
+                    ? 'bg-cyan-600/30 border-cyan-400/30 text-cyan-200'
+                    : 'bg-white/5 border-white/10 hover:bg-white/10'
                 }`}
-                aria-label="Activate instant calm mode"
-                title="Apply calm aesthetics and slower tempo"
               >
-                <Shield className="w-4 h-4 inline mr-1" />
-                Instant Calm
+                <Shield className="w-3.5 h-3.5 inline mr-1" />
+                Calm
               </button>
-              
-              {/* Queued Shapes */}
-              <button 
-                onClick={() => setShowQueue(v => !v)} 
-                className="px-3 py-2 text-xs rounded-md bg-white/5 border border-white/10 hover:bg-white/10 text-white/70 transition-colors"
-                aria-label={`Toggle queue display, ${queuedShapes.length} shapes queued`}
+              <button
+                onClick={() => setShowQueue(v => !v)}
+                className="px-3 py-2 text-xs rounded-md bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
               >
-                <Eye className="w-4 h-4 inline mr-1" />
-                Queued shapes
-                <span className="ml-1 px-1.5 py-0.5 text-[10px] rounded bg-white/10">
+                Queue
+                <span className="ml-1.5 px-1.5 py-0.5 text-[10px] rounded bg-white/10">
                   {queuedShapes.length}
                 </span>
               </button>
-              
-              {/* Dev: Replay last MorphScript plan */}
               {lastPlan && (
                 <button
-                  onClick={() => { if (lastPlan) runMorphScriptPlan(lastPlan) }}
-                  className="px-3 py-2 rounded-md text-xs font-medium bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
-                  title="Replay last plan"
+                  onClick={() => runMorphScriptPlan(lastPlan)}
+                  className="px-3 py-2 text-xs rounded-md bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
                 >
-                  <Zap className="w-4 h-4 inline mr-1" />
-                  Play Plan
+                  <Zap className="w-3.5 h-3.5 inline mr-1" />
+                  Play
                 </button>
               )}
-              
-              {/* Status Chip */}
-              <div className="px-3 py-2 rounded-md text-xs bg-white/5 border border-white/10 text-white/70">
-                <span className="mr-3">Sent {modStats.sentiment >= 0 ? '+' : ''}{modStats.sentiment.toFixed(2)}</span>
-                <span className="mr-3">Tempo {modStats.tempo.toFixed(2)}x</span>
-                <span>Speed {modStats.speed.toFixed(3)}</span>
+
+              {/* Status chip */}
+              <div className="hidden md:block ml-1 px-3 py-2 rounded-md text-[11px] bg-white/5 border border-white/10 text-white/70">
+                Sent {modStats.sentiment >= 0 ? '+' : ''}{modStats.sentiment.toFixed(2)} ·
+                Tempo {modStats.tempo.toFixed(2)}x ·
+                Speed {modStats.speed.toFixed(3)}
               </div>
             </div>
           </div>
@@ -618,9 +584,16 @@ export default function ExperiencePage() {
         onEncryptKey={(provider, glyph) => { console.log('Encrypted GLYPH for', provider, glyph) }}
       />
       
-      {/* Main Visualization Area */}
-      <main className="h-screen pt-16 pb-24 flex items-center justify-center">
-        <div className="w-full h-full max-w-7xl mx-auto px-6 py-8">
+      {/* Main Visualization Area with Perfect Centering */}
+      <main 
+        className="h-screen pt-16 flex items-center justify-center relative transition-[padding] duration-300"
+        style={{ 
+          ['--rpw' as any]: `${RIGHT_PANEL_WIDTH}px`,
+          paddingRight: rightPanelOpen ? `${RIGHT_PANEL_WIDTH}px` : '0'
+        }}
+        data-panel-open={rightPanelOpen ? '1' : '0'}
+      >
+        <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14 h-full py-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -737,11 +710,12 @@ export default function ExperiencePage() {
         {rightPanelOpen && (
           <motion.aside
             key="right-panel"
-            initial={{ x: 360, opacity: 0 }}
+            initial={{ x: RIGHT_PANEL_WIDTH, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: 360, opacity: 0 }}
+            exit={{ x: RIGHT_PANEL_WIDTH, opacity: 0 }}
             transition={{ type: 'spring', damping: 20, stiffness: 240 }}
-            className="fixed right-0 top-16 bottom-24 w-[360px] bg-black/70 backdrop-blur-2xl border-l border-white/10 z-40"
+            className="fixed right-0 top-[72px] bottom-24 bg-black/40 backdrop-blur-md border-l border-white/10 z-40"
+            style={{ width: `${RIGHT_PANEL_WIDTH}px` }}
           >
             <div className="h-full overflow-y-auto p-4 space-y-3">
               <div className="flex items-center justify-between mb-2">
@@ -761,7 +735,7 @@ export default function ExperiencePage() {
 
       {/* Morph Progress Bar */}
       {morphBar.active && (
-        <div className="fixed left-1/2 -translate-x-1/2 bottom-6 z-50 w-[min(560px,90vw)]">
+        <div className="fixed left-1/2 -translate-x-1/2 bottom-8 z-50 w-[min(560px,90vw)]">
           <div className="mb-1 text-center text-[11px] text-white/70">
             {morphBar.label} {Math.round(morphBar.value * 100)}%
             {replyEst && (
@@ -779,7 +753,7 @@ export default function ExperiencePage() {
 
       {/* Queue Popover */}
       {showQueue && (
-        <div className="fixed right-3 top-20 z-40 w-64 rounded-lg bg-black/70 backdrop-blur-xl border border-white/10 p-3">
+        <div className="fixed right-4 top-20 z-40 w-64 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 p-4">
           <div className="text-xs text-white/60 mb-2">Queued Shapes</div>
           <ul className="space-y-1 max-h-56 overflow-y-auto">
             {queuedShapes.map((q, i) => (
@@ -797,18 +771,18 @@ export default function ExperiencePage() {
 
       {/* Truth Notice Banner */}
       {truthNotice.active && (
-        <div className="fixed left-1/2 -translate-x-1/2 bottom-24 z-50 w-[min(640px,92vw)] p-3 rounded-xl bg-black/70 backdrop-blur-xl border border-white/10">
+        <div className="fixed left-1/2 -translate-x-1/2 bottom-24 z-50 w-[min(640px,92vw)] p-4 rounded-xl bg-black/40 backdrop-blur-md border border-white/10">
           <div className="text-sm text-white/90">That shape isn't in my library yet.</div>
           <div className="mt-1 text-[11px] text-white/60">Choose how to proceed for "{truthNotice.noun}":</div>
           <div className="mt-3 flex flex-wrap gap-2">
             <button 
-              className="px-3 py-1.5 text-xs rounded-md bg-white/10 border border-white/15 hover:bg-white/15 transition-colors" 
+              className="px-3 py-2 text-xs rounded-lg bg-white/10 border border-white/10 hover:bg-white/15 transition-colors" 
               onClick={() => setTruthNotice({ active: false })}
             >
               Render as GLYPH
             </button>
             <button 
-              className="px-3 py-1.5 text-xs rounded-md bg-white/10 border border-white/15 hover:bg-white/15 transition-colors" 
+              className="px-3 py-2 text-xs rounded-lg bg-white/10 border border-white/10 hover:bg-white/15 transition-colors" 
               onClick={() => { 
                 handleConfigChange('shape', 'sphere'); 
                 setTruthNotice({ active: false });
@@ -817,7 +791,7 @@ export default function ExperiencePage() {
               Approximate (simple form)
             </button>
             <button 
-              className="px-3 py-1.5 text-xs rounded-md bg-white/10 border border-white/15 hover:bg-white/15 transition-colors" 
+              className="px-3 py-2 text-xs rounded-lg bg-white/10 border border-white/10 hover:bg-white/15 transition-colors" 
               onClick={() => setTruthNotice({ active: false })}
             >
               Queue it (keep motion)

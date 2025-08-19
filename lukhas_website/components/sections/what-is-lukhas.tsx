@@ -17,7 +17,7 @@ export function WhatIsLukhas() {
             WHAT IS LUKHAS
           </p>
           <h2 className="font-light text-display">
-            Revolutionary AI Platform
+            Consciousness Technology Platform
           </h2>
         </motion.div>
 
