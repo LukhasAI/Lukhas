@@ -21,21 +21,28 @@ Every significant content piece must implement all three layers or provide a Ton
   - Link to documentation and specifications
   - Show uncertainty when applicable
   - Cite sources and evidence
+  - Include system requirements
+  - List integration dependencies
+  - Specify performance constraints
 
 **Example:**
-> "MATRIZ provides telemetry and governance for AI decision processes. System requires integration with LUKHAS core modules (minimum v2.1). Expected latency: <100ms p95. Audit coverage: 85-95% depending on configuration. Does not guarantee outcome validity."
+> "MATRIZ provides telemetry and governance for AI decision processes. System requires integration with LUKHAS core modules (minimum v2.1). Expected latency: <100ms p95. Audit coverage: 85-95% depending on configuration. Does not guarantee outcome validity.
+>
+> **Dependencies**: LUKHAS Identity System v2.1+, Guardian System, Memory integration, minimum 4GB RAM.
+> **Limitations**: Cannot trace external AI decisions, requires network connectivity, real-time monitoring impacts latency.
+> **Sources**: Performance metrics validated through internal testing (n=1000+ decision traces)."
 
 ## Plain ("Mom test")
-- **Purpose**: Accessible explanation for general audience
-- **Requirements**:
-  - Short sentences (≤20 words average)
+- **Purpose**: Simple explanation for everyone
+- **Rules**:
+  - Short sentences (15 words or less)
   - Grade 6-8 reading level
-  - Everyday vocabulary
-  - Focus on outcomes, not technical details
-  - Action-oriented language
+  - Simple words only
+  - Focus on what users get
+  - Use action words
 
 **Example:**
-> "MATRIZ tracks how AI makes decisions. It creates records you can review later. This helps you understand and trust AI choices. It works with other LUKHAS tools."
+> "MATRIZ tracks AI choices. It makes records you can check. This helps you trust AI. It works with LUKHAS tools."
 
 ## Banned Words (CI Enforcement)
 The following terms trigger automatic build failures:
