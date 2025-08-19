@@ -10,6 +10,13 @@ const nextConfig = {
     optimizeCss: true,
     scrollRestoration: true,
   },
+  // HTTPS development configuration for WebAuthn support
+  server: {
+    https: process.env.NODE_ENV === 'development' && process.env.DEV_HTTPS_ENABLED === 'true' ? {
+      key: process.env.DEV_SSL_KEY || './certs/localhost.key',
+      cert: process.env.DEV_SSL_CERT || './certs/localhost.crt',
+    } : undefined,
+  },
   async headers() {
     return [
       {
@@ -22,6 +29,31 @@ const nextConfig = {
           {
             key: 'X-Frame-Options',
             value: 'SAMEORIGIN'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin'
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()'
+          },
+        ],
+      },
+      {
+        source: '/.well-known/jwks.json',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, must-revalidate',
+          },
+          {
+            key: 'Content-Type',
+            value: 'application/json'
           },
         ],
       },
