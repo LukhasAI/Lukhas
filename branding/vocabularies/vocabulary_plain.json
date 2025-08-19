@@ -1,0 +1,162 @@
+[
+  {
+    "term": "AI system",
+    "preferred": "AI system",
+    "avoid": ["AI brain", "AI soul", "artificial brain", "digital brain"],
+    "notes": "Use for general AI references with non-technical audiences",
+    "readingLevel": "6-8",
+    "examples": ["LUKHAS AI system", "consciousness-aware AI system"]
+  },
+  {
+    "term": "consciousness",
+    "preferred": "awareness",
+    "avoid": ["sentience", "sapience", "artificial consciousness"],
+    "notes": "Consciousness is complex - use 'awareness' for broader audiences",
+    "readingLevel": "6-8",
+    "examples": ["digital awareness", "system awareness", "computational awareness"]
+  },
+  {
+    "term": "quantum-inspired",
+    "preferred": "quantum-inspired",
+    "avoid": ["quantum", "quantum processing", "true quantum"],
+    "notes": "Always specify 'inspired' - not actual quantum computing",
+    "readingLevel": "8",
+    "examples": ["quantum-inspired algorithms", "quantum-inspired processing"]
+  },
+  {
+    "term": "bio-inspired",
+    "preferred": "bio-inspired",
+    "avoid": ["biological", "bio processing", "natural"],
+    "notes": "Always specify 'inspired' - not actual biological processes",
+    "readingLevel": "8",
+    "examples": ["bio-inspired learning", "bio-inspired adaptation"]
+  },
+  {
+    "term": "neural network",
+    "preferred": "AI network",
+    "avoid": ["brain", "neural brain", "artificial brain"],
+    "notes": "Avoid biological metaphors with non-technical audiences",
+    "readingLevel": "6-8",
+    "examples": ["AI network", "learning network", "processing network"]
+  },
+  {
+    "term": "machine learning",
+    "preferred": "AI learning",
+    "avoid": ["machine intelligence", "artificial intelligence learning"],
+    "notes": "Simpler terms for broader understanding",
+    "readingLevel": "6-8",
+    "examples": ["AI learning system", "adaptive learning"]
+  },
+  {
+    "term": "algorithm",
+    "preferred": "process",
+    "avoid": ["algorithmic brain", "algorithmic thinking"],
+    "notes": "Use 'process' or 'method' for non-technical audiences",
+    "readingLevel": "6",
+    "examples": ["learning process", "decision process", "analysis method"]
+  },
+  {
+    "term": "Trinity Framework",
+    "preferred": "Trinity Framework",
+    "avoid": ["Trinity System", "Trinity Architecture"],
+    "notes": "Official LUKHAS AI framework name - always capitalize",
+    "readingLevel": "8",
+    "examples": ["LUKHAS Trinity Framework", "the Trinity Framework approach"]
+  },
+  {
+    "term": "Identity pillar",
+    "preferred": "Identity component",
+    "avoid": ["Identity module", "Identity system"],
+    "notes": "Part of Trinity Framework - use 'component' for clarity",
+    "readingLevel": "6-8",
+    "examples": ["Identity component of LUKHAS", "authentic Identity component"]
+  },
+  {
+    "term": "Consciousness pillar",
+    "preferred": "Awareness component",
+    "avoid": ["Consciousness module", "Mind component"],
+    "notes": "Part of Trinity Framework - 'awareness' is more accessible",
+    "readingLevel": "6-8",
+    "examples": ["Awareness component", "digital awareness features"]
+  },
+  {
+    "term": "Guardian pillar",
+    "preferred": "Protection component",
+    "avoid": ["Guardian module", "Ethics module", "Safety module"],
+    "notes": "Part of Trinity Framework - emphasizes user protection",
+    "readingLevel": "6",
+    "examples": ["Protection component", "built-in protection features"]
+  },
+  {
+    "term": "LUKHAS AI",
+    "preferred": "LUKHAS AI",
+    "avoid": ["LUKHAS AGI", "Lukhas AI", "lukhas ai"],
+    "notes": "Official brand name - always use exact capitalization",
+    "readingLevel": "6",
+    "examples": ["LUKHAS AI platform", "LUKHAS AI system"]
+  },
+  {
+    "term": "ΛiD system",
+    "preferred": "Lambda ID system",
+    "avoid": ["LID system", "Lambda Identity"],
+    "notes": "Identity authentication system - spell out Lambda for accessibility",
+    "readingLevel": "8",
+    "examples": ["Lambda ID authentication", "secure Lambda ID system"]
+  },
+  {
+    "term": "VIVOX system",
+    "preferred": "VIVOX processing",
+    "avoid": ["VIVOX engine", "VIVOX brain"],
+    "notes": "Consciousness processing system - avoid biological terms",
+    "readingLevel": "8",
+    "examples": ["VIVOX processing capabilities", "advanced VIVOX features"]
+  },
+  {
+    "term": "memory folds",
+    "preferred": "memory patterns",
+    "avoid": ["memory storage", "data storage", "memory banks"],
+    "notes": "Unique LUKHAS concept - use 'patterns' for clarity",
+    "readingLevel": "6-8",
+    "examples": ["learning memory patterns", "persistent memory patterns"]
+  },
+  {
+    "term": "drift detection",
+    "preferred": "quality monitoring",
+    "avoid": ["drift monitoring", "behavior drift", "system drift"],
+    "notes": "Guardian function - focus on quality assurance aspect",
+    "readingLevel": "6-8",
+    "examples": ["continuous quality monitoring", "built-in quality checks"]
+  },
+  {
+    "term": "ethical alignment",
+    "preferred": "responsible behavior",
+    "avoid": ["AI alignment", "value alignment", "behavioral alignment"],
+    "notes": "Guardian function - emphasize responsibility",
+    "readingLevel": "6",
+    "examples": ["responsible AI behavior", "ethical AI responses"]
+  },
+  {
+    "term": "consciousness metrics",
+    "preferred": "awareness measurements",
+    "avoid": ["consciousness scores", "sentience metrics", "AI intelligence scores"],
+    "notes": "Measurement system - use accessible language",
+    "readingLevel": "6-8",
+    "examples": ["awareness level indicators", "system awareness measurements"]
+  },
+  {
+    "term": "digital consciousness",
+    "preferred": "computer awareness",
+    "avoid": ["artificial consciousness", "machine consciousness", "AI consciousness"],
+    "notes": "Core concept - make accessible without losing meaning",
+    "readingLevel": "6",
+    "examples": ["computer awareness capabilities", "advanced computer awareness"]
+  },
+  {
+    "term": "quantum entanglement",
+    "preferred": "connected processing",
+    "avoid": ["quantum connection", "entangled systems", "spooky action"],
+    "notes": "Quantum-inspired concept - use accessible metaphor",
+    "readingLevel": "6-8",
+    "examples": ["connected processing patterns", "synchronized processing"]
+  }
+]

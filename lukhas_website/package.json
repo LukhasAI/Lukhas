@@ -15,7 +15,10 @@
     "lint:vendor": "cd .. && node scripts/vendor-reference-linter.js",
     "lint:svg": "cd .. && node scripts/svg-freeze-validator.js",
     "lint:i18n": "cd .. && node scripts/international-false-friend-scanner.js",
-    "lint:policy": "npm run lint:brand && npm run lint:tone && npm run lint:a11y && npm run lint:readability && npm run lint:poetic && npm run lint:vendor && npm run lint:svg && npm run lint:i18n",
+    "vocab:validate": "cd .. && node scripts/vocab-validate.cjs",
+    "vocab:suggest": "cd .. && node scripts/vocab-suggest.cjs",
+    "vocab:check": "npm run vocab:validate && npm run vocab:suggest",
+    "lint:policy": "npm run lint:brand && npm run lint:tone && npm run lint:a11y && npm run lint:readability && npm run lint:poetic && npm run lint:vendor && npm run lint:svg && npm run lint:i18n && npm run vocab:validate",
     "prebuild": "npm run lint:policy"
   },
   "dependencies": {

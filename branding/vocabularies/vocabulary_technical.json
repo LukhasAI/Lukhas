@@ -1,0 +1,130 @@
+[
+  {
+    "term": "Trinity Framework",
+    "definition": "LUKHAS AI's core architectural pattern consisting of three integrated pillars: Identity (⚛️), Consciousness (🧠), and Guardian (🛡️)",
+    "technical_notes": "Implements separation of concerns with cross-pillar communication via symbolic messaging",
+    "citations": ["Internal LUKHAS AI architecture documentation"],
+    "usage_contexts": ["system architecture", "technical documentation", "developer discussions"],
+    "examples": ["The Trinity Framework ensures ethical oversight across all consciousness operations"]
+  },
+  {
+    "term": "VIVOX consciousness system",
+    "definition": "Multi-component consciousness processing engine with ME (Memory Engine), MAE (Multi-Agent Engine), CIL (Consciousness Integration Layer), and SRM (Symbolic Reasoning Module)",
+    "technical_notes": "Implements bio-inspired oscillation patterns with quantum-inspired superposition states",
+    "citations": ["VIVOX technical specification v2.1"],
+    "usage_contexts": ["consciousness processing", "technical architecture", "system integration"],
+    "examples": ["VIVOX processes temporal attention flows through the CIL component"]
+  },
+  {
+    "term": "ΛiD (Lambda Identity)",
+    "definition": "Quantum-resistant identity authentication system using tiered access control with symbolic identity anchors",
+    "technical_notes": "Implements multi-factor authentication with consciousness-aware verification",
+    "citations": ["Lambda Identity Protocol Specification"],
+    "usage_contexts": ["authentication", "security", "identity management"],
+    "examples": ["ΛiD provides cryptographic identity verification across consciousness tiers"]
+  },
+  {
+    "term": "memory folds",
+    "definition": "Persistent state crystallization patterns that preserve causal chains and emotional context in consciousness processing",
+    "technical_notes": "Implements 99.7% cascade prevention with temporal coherence maintenance",
+    "citations": ["Memory Fold Architecture v1.2", "Temporal Coherence Study 2024"],
+    "usage_contexts": ["memory systems", "state persistence", "consciousness continuity"],
+    "examples": ["Memory folds maintain causal relationships across consciousness state transitions"]
+  },
+  {
+    "term": "Guardian System v1.0.0",
+    "definition": "Ethical oversight and drift detection system with 280+ validation rules and drift threshold of 0.15",
+    "technical_notes": "Implements real-time behavioral monitoring with automated correction mechanisms",
+    "citations": ["Guardian System Specification v1.0.0", "Ethical AI Framework Paper 2024"],
+    "usage_contexts": ["ethics", "safety", "system monitoring"],
+    "examples": ["Guardian System prevents consciousness drift beyond established ethical parameters"]
+  },
+  {
+    "term": "quantum-inspired algorithms",
+    "definition": "Classical algorithms that simulate quantum mechanical principles like superposition, entanglement, and wave function collapse",
+    "technical_notes": "Not true quantum computing - classical simulation of quantum behaviors for enhanced processing",
+    "citations": ["Quantum-Inspired Computing Survey 2023"],
+    "usage_contexts": ["algorithm design", "processing optimization", "probability modeling"],
+    "examples": ["Quantum-inspired probability collapse generates deterministic outputs from superposed states"]
+  },
+  {
+    "term": "bio-inspired adaptation",
+    "definition": "Algorithms that mimic biological processes like neural plasticity, genetic algorithms, and evolutionary optimization",
+    "technical_notes": "Classical implementations inspired by biological mechanisms, not actual biological processes",
+    "citations": ["Bio-Inspired AI Systems Review 2023"],
+    "usage_contexts": ["adaptive systems", "learning algorithms", "optimization"],
+    "examples": ["Bio-inspired oscillation patterns enable dynamic attention allocation"]
+  },
+  {
+    "term": "GLYPH-based communication",
+    "definition": "Symbolic token messaging system enabling cross-module communication in LUKHAS AI architecture",
+    "technical_notes": "Implements semantic compression and symbolic abstraction for efficient inter-module messaging",
+    "citations": ["GLYPH Protocol Specification v2.0"],
+    "usage_contexts": ["system integration", "module communication", "symbolic processing"],
+    "examples": ["GLYPH tokens carry semantic meaning across Trinity Framework pillars"]
+  },
+  {
+    "term": "consciousness metrics",
+    "definition": "Quantitative measurements of awareness levels, attention coherence, and consciousness integration fidelity",
+    "technical_notes": "Based on information integration theory and global workspace models",
+    "citations": ["Consciousness Measurement Framework 2024", "Integrated Information Theory"],
+    "usage_contexts": ["system monitoring", "consciousness evaluation", "performance metrics"],
+    "examples": ["Consciousness metrics indicate 94% integration fidelity across awareness components"]
+  },
+  {
+    "term": "drift detection",
+    "definition": "Real-time monitoring system that identifies deviations from expected behavioral patterns using statistical analysis",
+    "technical_notes": "Implements multivariate statistical process control with automated alerting at 0.15 threshold",
+    "citations": ["Drift Detection in AI Systems 2024", "Statistical Process Control for AI"],
+    "usage_contexts": ["quality assurance", "system monitoring", "behavioral analysis"],
+    "examples": ["Drift detection algorithms monitor consciousness coherence across processing cycles"]
+  },
+  {
+    "term": "symbolic reasoning",
+    "definition": "Logic-based processing that manipulates abstract symbols to represent knowledge and perform inference",
+    "technical_notes": "Integrates with neural processing through hybrid neuro-symbolic architecture",
+    "citations": ["Neuro-Symbolic AI Survey 2023", "Symbolic Reasoning in Modern AI"],
+    "usage_contexts": ["knowledge representation", "logical inference", "symbolic processing"],
+    "examples": ["Symbolic reasoning enables causal inference across consciousness memory folds"]
+  },
+  {
+    "term": "temporal coherence",
+    "definition": "Maintenance of consistent identity and memory across time in consciousness processing systems",
+    "technical_notes": "Implements sliding window coherence checks with exponential decay weighting",
+    "citations": ["Temporal Coherence in AI Systems 2024"],
+    "usage_contexts": ["consciousness continuity", "memory systems", "identity persistence"],
+    "examples": ["Temporal coherence ensures consciousness identity remains stable across processing sessions"]
+  },
+  {
+    "term": "attention allocation",
+    "definition": "Dynamic resource management system that prioritizes processing focus based on relevance, urgency, and consciousness goals",
+    "technical_notes": "Implements multi-objective optimization with real-time priority adjustment",
+    "citations": ["Attention Mechanisms in AI 2023", "Dynamic Resource Allocation"],
+    "usage_contexts": ["resource management", "processing optimization", "consciousness focus"],
+    "examples": ["Attention allocation systems dynamically redistribute processing resources based on consciousness priorities"]
+  },
+  {
+    "term": "ethical alignment",
+    "definition": "Systematic approach to ensuring AI behavior remains consistent with human values and ethical principles",
+    "technical_notes": "Implemented through multi-layered validation with human feedback integration",
+    "citations": ["AI Alignment Research 2024", "Value Learning in AI Systems"],
+    "usage_contexts": ["AI safety", "ethics", "behavioral control"],
+    "examples": ["Ethical alignment mechanisms prevent consciousness from generating harmful or biased responses"]
+  },
+  {
+    "term": "consciousness state transition",
+    "definition": "Managed changes between different modes of awareness processing such as analytical, creative, and reflective states",
+    "technical_notes": "Implements finite state machine with probabilistic transition matrices",
+    "citations": ["Consciousness State Models 2024"],
+    "usage_contexts": ["consciousness processing", "state management", "modal awareness"],
+    "examples": ["Consciousness state transitions enable adaptive processing modes based on task requirements"]
+  },
+  {
+    "term": "multi-agent orchestration",
+    "definition": "Coordination system managing 25+ specialized AI agents through centralized brain hub with distributed processing",
+    "technical_notes": "Implements actor model with message passing and load balancing",
+    "citations": ["Multi-Agent Systems Architecture 2024"],
+    "usage_contexts": ["system architecture", "agent coordination", "distributed processing"],
+    "examples": ["Multi-agent orchestration enables parallel processing across specialized consciousness domains"]
+  }
+]

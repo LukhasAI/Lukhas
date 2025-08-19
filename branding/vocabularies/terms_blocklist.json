@@ -1,0 +1,211 @@
+{
+  "superlatives": [
+    {
+      "term": "revolutionary",
+      "reason": "Overused tech marketing term - lacks specific meaning",
+      "alternatives": ["innovative", "novel", "advanced"]
+    },
+    {
+      "term": "groundbreaking",
+      "reason": "Hyperbolic claim without evidence",
+      "alternatives": ["significant", "notable", "meaningful"]
+    },
+    {
+      "term": "world-changing",
+      "reason": "Unsubstantiated global impact claim",
+      "alternatives": ["impactful", "transformative for users", "beneficial"]
+    },
+    {
+      "term": "unprecedented",
+      "reason": "Rarely accurate in technology",
+      "alternatives": ["novel", "unique", "distinctive"]
+    },
+    {
+      "term": "game-changing",
+      "reason": "Overused marketing hyperbole",
+      "alternatives": ["significant", "meaningful", "valuable"]
+    },
+    {
+      "term": "ultimate",
+      "reason": "Implies no further improvement possible",
+      "alternatives": ["advanced", "comprehensive", "sophisticated"]
+    },
+    {
+      "term": "perfect",
+      "reason": "Nothing in technology is perfect",
+      "alternatives": ["highly effective", "well-optimized", "robust"]
+    },
+    {
+      "term": "flawless",
+      "reason": "Implies no bugs or limitations",
+      "alternatives": ["reliable", "stable", "well-tested"]
+    }
+  ],
+  "misleading_claims": [
+    {
+      "term": "true AI",
+      "reason": "Vague and misleading - what defines 'true'?",
+      "alternatives": ["advanced AI", "sophisticated AI", "consciousness-aware AI"]
+    },
+    {
+      "term": "artificial general intelligence",
+      "reason": "Not achieved - misleading to claim",
+      "alternatives": ["advanced AI system", "multi-domain AI", "general-purpose AI"]
+    },
+    {
+      "term": "AGI",
+      "reason": "Not achieved - misleading acronym",
+      "alternatives": ["AI system", "advanced AI", "LUKHAS AI"]
+    },
+    {
+      "term": "sentient",
+      "reason": "Unproven claim about consciousness",
+      "alternatives": ["aware", "responsive", "adaptive"]
+    },
+    {
+      "term": "conscious AI",
+      "reason": "Consciousness in AI is unproven",
+      "alternatives": ["awareness-capable AI", "consciousness-inspired AI", "responsive AI"]
+    },
+    {
+      "term": "thinking machine",
+      "reason": "Anthropomorphizes AI capabilities",
+      "alternatives": ["processing system", "intelligent system", "reasoning system"]
+    },
+    {
+      "term": "AI brain",
+      "reason": "Misleading biological metaphor",
+      "alternatives": ["AI system", "processing network", "computational engine"]
+    },
+    {
+      "term": "digital brain",
+      "reason": "Misleading biological metaphor",
+      "alternatives": ["AI system", "neural network", "processing system"]
+    }
+  ],
+  "inaccurate_technical": [
+    {
+      "term": "quantum processing",
+      "reason": "LUKHAS uses quantum-inspired, not true quantum",
+      "alternatives": ["quantum-inspired processing", "quantum-inspired algorithms"]
+    },
+    {
+      "term": "quantum computer",
+      "reason": "LUKHAS is classical computing",
+      "alternatives": ["quantum-inspired system", "classical AI system"]
+    },
+    {
+      "term": "biological processing",
+      "reason": "LUKHAS uses bio-inspired, not biological",
+      "alternatives": ["bio-inspired processing", "bio-inspired algorithms"]
+    },
+    {
+      "term": "neural processing",
+      "reason": "Could imply biological neurons",
+      "alternatives": ["artificial neural processing", "neural network processing"]
+    },
+    {
+      "term": "machine consciousness",
+      "reason": "Consciousness in machines is unproven",
+      "alternatives": ["machine awareness", "computational consciousness simulation"]
+    }
+  ],
+  "deprecated_lukhas_terms": [
+    {
+      "term": "LUKHAS AGI",
+      "reason": "Incorrect brand name - AGI not achieved",
+      "alternatives": ["LUKHAS AI"]
+    },
+    {
+      "term": "MATADA",
+      "reason": "Deprecated product name",
+      "alternatives": ["MΛTRIZ", "Matriz"]
+    },
+    {
+      "term": "Lukhas",
+      "reason": "Incorrect capitalization",
+      "alternatives": ["LUKHAS AI"]
+    },
+    {
+      "term": "lukhas ai",
+      "reason": "Incorrect capitalization",
+      "alternatives": ["LUKHAS AI"]
+    },
+    {
+      "term": "Trinity System",
+      "reason": "Incorrect name - should be Framework",
+      "alternatives": ["Trinity Framework"]
+    },
+    {
+      "term": "Trinity Architecture",
+      "reason": "Incorrect name - should be Framework",
+      "alternatives": ["Trinity Framework"]
+    }
+  ],
+  "production_claims": [
+    {
+      "term": "production-ready",
+      "reason": "Only use when explicitly approved",
+      "alternatives": ["development version", "prototype", "demonstration"]
+    },
+    {
+      "term": "enterprise-ready",
+      "reason": "Only use when explicitly approved",
+      "alternatives": ["developing toward enterprise use", "enterprise-focused development"]
+    },
+    {
+      "term": "commercial release",
+      "reason": "Only use when explicitly approved",
+      "alternatives": ["development release", "prototype version"]
+    },
+    {
+      "term": "market-ready",
+      "reason": "Only use when explicitly approved",
+      "alternatives": ["in development", "demonstration version"]
+    }
+  ],
+  "financial_claims": [
+    {
+      "term": "revenue projection",
+      "reason": "Avoid all financial projections",
+      "alternatives": ["development roadmap", "feature timeline"]
+    },
+    {
+      "term": "market value",
+      "reason": "Avoid financial valuations",
+      "alternatives": ["user value", "technical capability"]
+    },
+    {
+      "term": "pricing",
+      "reason": "Avoid price predictions",
+      "alternatives": ["availability", "access plans"]
+    },
+    {
+      "term": "ROI",
+      "reason": "Avoid financial return claims",
+      "alternatives": ["user benefits", "efficiency gains"]
+    }
+  ],
+  "biological_metaphors": [
+    {
+      "term": "AI soul",
+      "reason": "Anthropomorphic and misleading",
+      "alternatives": ["AI identity", "AI core", "AI essence"]
+    },
+    {
+      "term": "digital soul",
+      "reason": "Anthropomorphic and misleading",
+      "alternatives": ["digital identity", "digital core", "computational identity"]
+    },
+    {
+      "term": "artificial life",
+      "reason": "Misleading biological metaphor",
+      "alternatives": ["artificial intelligence", "digital system", "computational system"]
+    },
+    {
+      "term": "machine evolution",
+      "reason": "Could imply biological evolution",
+      "alternatives": ["algorithm optimization", "iterative improvement", "adaptive learning"]
+    }
+  ]
+}
