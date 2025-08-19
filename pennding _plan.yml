@@ -1,0 +1,496 @@
+
+⸻
+
+
+program:
+  name: Morphic Program Platform
+  premise: >
+    Text/Voice → Intent → Program → Morphic Scene @ 60fps across web/desktop/mobile/headless.
+    Ship a programmable visual medium, not a single effect. Language compiles to a morphic program
+    (shapes, fields, motions, constraints) rendered consistently across backends.
+
+okrs:
+  - id: O1
+    title: Legible-by-design morphs
+    key_results:
+      - KR1: 95% of five-letter words readable in ≤1.5s (OCR conf ≥0.92) on mid-tier laptop (WebGL2).
+      - KR2: Index-stable text mapping (no crawl) at ±25% particle count deltas.
+      - KR3: P95 prompt→first-readable-frame ≤900ms for cached glyphs, ≤1.8s cold.
+  - id: O2
+    title: Programmable plans, not params
+    key_results:
+      - KR1: AI returns a validated timeline + constraints (Plan v0).
+      - KR2: Runtime executes same plan on WebGL2 and WebGPU prototype with identical visual tests.
+      - KR3: 10 creator-ready presets (“Morph Packs”) packaged + shippable.
+  - id: O3
+    title: Feedback flywheel
+    key_results:
+      - KR1: CI harness enforces legibility/latency gates; merges blocked on failure.
+      - KR2: Telemetry pipeline live (privacy-safe) with daily planner tuning reports.
+      - KR3: Cost & latency surfaced in UI; token/$ per morph visible.
+
+product_contracts:
+  legibility:
+    target: "OCR confidence ≥ 0.92 on intended string"
+    time_to_read: "≤ 1.5s for five-letter word at default particle count"
+    lock_behavior: "Legibility Lock clamps motion when falling below threshold"
+  latency:
+    p95_prompt_to_first_readable_frame: "≤ 900ms warm (glyph cached); ≤ 1.8s cold"
+    budget_breakdown:
+      parsing: "≤ 150ms"
+      planning: "≤ 150ms"
+      render_ready: "≤ 250ms"
+      gpu_upload: "≤ 200ms"
+  portability:
+    fps: "≥ 60fps on 2021+ integrated GPUs; ≥ 30fps on mobile mid-range; headless parity"
+  safety:
+    symbol_logo_guardrails: "Block proscribed symbols + third-party marks unless authorized"
+    watermark: "Invisible spatial watermark in particle field on export"
+    privacy: "On-device voice features by default; only pitch/energy leave device unless opted-in"
+
+schemas:
+  morphscript_v0_json_schema: |
+    {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "MorphScript v0",
+      "type": "object",
+      "required": ["version", "timeline"],
+      "properties": {
+        "version": { "const": "0.0.1" },
+        "palette": { "type": "string" },
+        "musicSync": { "type": "boolean" },
+        "constraints": {
+          "type": "object",
+          "properties": {
+            "ocrMin": { "type": "number" },
+            "hold": { "type": "number" },
+            "maxJerk": { "type": "number" }
+          }
+        },
+        "timeline": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["t"],
+            "properties": {
+              "t": { "type": "number" },
+              "shape": { "type": "string" },
+              "text": { "type": "string" },
+              "asset": { "type": "string" },
+              "anim": { "type": "string" },
+              "shapeParams": { "type": "object" },
+              "constraints": {
+                "type": "object",
+                "properties": {
+                  "ocrMin": { "type": "number" },
+                  "hold": { "type": "number" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ai_plan_response_v0_json_schema: |
+    {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AI Plan Response v0",
+      "type": "object",
+      "required": ["timeline"],
+      "properties": {
+        "timeline": { "$ref": "MorphScript v0#/properties/timeline" },
+        "palette": { "type": "string" },
+        "musicSync": { "type": "boolean" },
+        "notes": { "type": "string" }
+      }
+    }
+  telemetry_event_schema: |
+    {
+      "type": "object",
+      "required": ["ts","event","anonDevice","runId"],
+      "properties": {
+        "ts": {"type":"string","format":"date-time"},
+        "event": {"type":"string"},
+        "runId": {"type":"string"},
+        "anonDevice": {"type":"string"},
+        "particleCount": {"type":"integer"},
+        "promptHash": {"type":"string"},
+        "ocrConfidence": {"type":"number"},
+        "timeToReadableMs": {"type":"integer"},
+        "fps": {"type":"number"},
+        "tokenCostUsd": {"type":"number"},
+        "backend": {"enum":["webgl2","webgpu","headless"]},
+        "packId": {"type":"string"},
+        "policyFlags": {"type":"array","items":{"type":"string"}}
+      }
+    }
+  morph_pack_manifest_v0: |
+    {
+      "version":"0.0.1",
+      "id":"pack.slug",
+      "name":"Techno Basics",
+      "assets":[{"id":"logoX","type":"svg","src":"assets/logoX.svg"}],
+      "presets":[{"id":"lowerThird1","script":"scripts/lowerThird1.json","thumb":"thumbs/lowerThird1.png"}],
+      "tags":["broadcast","lower-thirds","text"],
+      "license":"creator-owned",
+      "safety":{"allowedLogos":["brandA"],"blockedSymbols":["..."]}
+    }
+
+epics:
+  - id: E1
+    title: Index-aware morphing + deterministic text assignment
+    outcomes:
+      - No text crawl; consistent letters across particle count changes.
+    tasks:
+      - id: T1.1
+        title: Propagate vertex index to morph function
+        code_change: |
+          // morphing-system.js
+          // before:
+          // for (let i = 0; i < vertices.length; i += 3) {
+          //   const v = { x: vertices[i], y: vertices[i+1], z: vertices[i+2] };
+          //   const m = this.applyMorphing(v, time);
+          //   ...
+          // }
+          // after:
+          for (let i = 0, idx = 0; i < vertices.length; i += 3, idx++) {
+            const v = { x: vertices[i], y: vertices[i+1], z: vertices[i+2] };
+            const m = this.applyMorphing(v, time, idx);
+            // ...
+          }
+          // applyMorphing(vertex, time, index) becomes the new signature
+        acceptance:
+          - "Unit: applyMorphing receives stable index for N frames."
+          - "Visual test: letter edges do not 'swim' at rest."
+        deps: []
+        outputs: ["PR: index-aware morph loop", "API doc: morph function signature"]
+      - id: T1.2
+        title: Stable text/logo assignment via seeded sort
+        spec: |
+          - Compute glyph/shape samples → order points using Morton/Hilbert code in 2D glyph UV.
+          - Deterministically map particle index → ordered target point with seeded jitter(hash(text)).
+          - On particle count change, use modulo/round-robin to preserve topology.
+        acceptance:
+          - "A/B with ±25% particle count: OCR conf drop ≤ 0.02, no visible crawl."
+          - "Seed change (different text) leads to distinct but stable assignment."
+        deps: [T1.1]
+        outputs: ["TargetAssignment module", "Benchmarks"]
+      - id: T1.3
+        title: Legibility Lock toggle (UI + runtime clamp)
+        spec: "Clamp motion amplitude/velocity when live OCR < threshold; expose toggle in sidebar."
+        acceptance:
+          - "When enabled, OCR < 0.92 triggers damping within 100ms."
+          - "UI reflects current OCR and lock state."
+        deps: [T1.2, E3.T3.2]
+        outputs: ["UI toggle", "Runtime clamp hook"]
+
+  - id: E2
+    title: SDF-backed targets + WebGPU prototype
+    outcomes:
+      - Razor-sharp edges at any resolution; GPU path for assignment/motion.
+    tasks:
+      - id: T2.1
+        title: Field-first target (SDF) generator
+        spec: "Generate half-float SDF from text/SVG; expose gradient queries to particles."
+        acceptance:
+          - "Particles snap along ∇SDF near boundaries; chamfer distance ≤ 0.8px avg."
+        deps: [T1.2]
+        outputs: ["SDF module", "Docs"]
+      - id: T2.2
+        title: WebGPU backend skeleton
+        spec: "Mirror WebGL2 executor boundary; implement compute passes for SDF eval + motion."
+        acceptance:
+          - "Visual parity within Δchamfer ≤ 1.2px vs WebGL2 snapshot suite."
+          - "60fps on 2023 Mac/Win dGPU; graceful fallback to WebGL2."
+        deps: [T2.1]
+        outputs: ["webgpu/ executor", "Feature flag"]
+      - id: T2.3
+        title: Text shaper (HarfBuzz WASM) integration
+        spec: "Proper shaping for Arabic/Indic/CJK; fallback fonts; glyph metrics pipe to SDF."
+        acceptance:
+          - "Multilingual demo: Arabic + Devanagari + CJK pass OCR ≥ 0.88 (beta threshold)."
+        deps: [T2.1]
+        outputs: ["hb-wasm integration", "Font fallback table"]
+
+  - id: E3
+    title: Planner (MPoT) + AI plan contracts
+    outcomes:
+      - AI returns a timeline plan; runtime executes; closed-loop ready.
+    tasks:
+      - id: T3.1
+        title: Extend ai-voice-integration to emit Plan v0
+        spec: "From params→plan: assemble timeline + constraints per schema; keep provider fallback."
+        acceptance:
+          - "JSON validated against ai_plan_response_v0_json_schema."
+          - "Plan logged alongside cost/latency."
+        deps: []
+        outputs: ["PlanAssembler.ts", "Schema validator"]
+      - id: T3.2
+        title: Runtime Plan executor
+        spec: "Consume MorphScript v0; schedule base-shapes, text, motions, constraints & hooks."
+        acceptance:
+          - "Golden prompts produce identical sequences across backends."
+        deps: [T3.1]
+        outputs: ["PlanExecutor.ts", "Golden tests"]
+      - id: T3.3
+        title: Closed-loop hooks (evaluation in the loop)
+        spec: "Executor emits thumbnails + metrics; planner can retry with adjusted constraints."
+        acceptance:
+          - "Two-pass improve: avg OCR +0.03 with ≤150ms added."
+        deps: [T3.2, E4.T4.1]
+        outputs: ["EvalHook API", "Retry policy"]
+
+  - id: E4
+    title: Evaluation harness + CI gates + cost surfacing
+    outcomes:
+      - Regressions caught automatically; economics visible.
+    tasks:
+      - id: T4.1
+        title: OCR legibility test (Tesseract WASM)
+        spec: "Project particles→2D; run OCR; assert ≥0.92 within 1.5s; record confidence/time."
+        acceptance:
+          - "CLI exits non-zero on failure; stores artifacts (png,json)."
+        deps: [T1.2]
+        outputs: ["tools/legibility/", "sample artifacts"]
+      - id: T4.2
+        title: Geometry metrics
+        spec: "Chamfer distance & jerk metric; thresholds configurable per device profile."
+        acceptance:
+          - "Reports JSON added to CI summaries."
+        deps: [T2.1]
+        outputs: ["tools/metrics/"]
+      - id: T4.3
+        title: CI integration
+        spec: "GitHub Actions job with gates; upload artifacts; block merge on failures."
+        acceptance:
+          - "PRs blocked when any contract fails; downloadable snapshots attached."
+        deps: [T4.1, T4.2]
+        outputs: [".github/workflows/morph-ci.yml"]
+      - id: T4.4
+        title: Cost & perf surfacing in UI
+        spec: "Expose costTracker & performanceMetrics in sidebar; log per-run."
+        acceptance:
+          - "UI shows token/$ and ms; telemetry matches within ±3%."
+        deps: []
+        outputs: ["UI panels", "Docs"]
+
+  - id: E5
+    title: Safety, watermarking, and policy
+    outcomes:
+      - Day-zero guardrails with override paths.
+    tasks:
+      - id: T5.1
+        title: Symbol/logo detection
+        spec: "On-plan validation: match prompts/assets against deny/allow lists; heuristic image logo match for imports."
+        acceptance:
+          - "Blocked render emits clear policy error; audit log stored."
+        deps: [T3.1]
+        outputs: ["policy/validator.ts", "lists/*.json"]
+      - id: T5.2
+        title: Invisible watermark in particle sets
+        spec: "Embed pseudo-random low-amplitude displacement keyed to runId."
+        acceptance:
+          - "Detector recovers watermark with ≥0.95 AUC; imperceptible (Δchamfer ≤0.2px)."
+        deps: [T1.2]
+        outputs: ["watermark/{embed,detect}.ts"]
+      - id: T5.3
+        title: Consent plumbing for voice
+        spec: "Consent bit on requests; default on-device; export only pitch/energy unless opted-in."
+        acceptance:
+          - "Telemetry never carries raw audio without explicit consent."
+        deps: []
+        outputs: ["privacy.md", "runtime checks"]
+
+  - id: E6
+    title: Marketplace-ready Morph Packs
+    outcomes:
+      - Shareable packs run across web/desktop/headless.
+    tasks:
+      - id: T6.1
+        title: Pack format + loader
+        spec: "Implement manifest v0; load assets/scripts; validate on import."
+        acceptance:
+          - "Pack runs identically on web + headless; checksum verified."
+        deps: [T3.2]
+        outputs: ["pack/loader.ts", "examples/packs/"]
+
+milestones:
+  - id: M0
+    title: Now → 6 weeks
+    includes: [T1.1, T1.2, T3.1, T3.2, T4.1, T4.3, T4.4, T5.1, T1.3]
+    deliverables:
+      - "Creator Beta with 10 presets & Legibility Lock"
+      - "Plan v0 validated + executed on WebGL2"
+  - id: M1
+    title: Q4 (next)
+    includes: [T2.1, T2.2, T2.3, T6.1]
+    deliverables:
+      - "WebGPU prototype (SDF targets)"
+      - "SVG/glyph import; Morph Pack format; OBS/AE/Blender exporters (stubs)"
+  - id: M2
+    title: Q1 next year
+    includes: [T3.3, T5.2, T5.3]
+    deliverables:
+      - "Planner RLHF hooks live"
+      - "Watermarking; multilingual shaping hardening"
+      - "Headless render service with Pro exports"
+
+ci_and_harness:
+  github_actions_workflow: |
+    name: morph-ci
+    on: [pull_request]
+    jobs:
+      test:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v4
+          - uses: actions/setup-node@v4
+            with: { node-version: '20' }
+          - run: npm ci
+          - run: npm run build
+          - run: npm run test:unit
+          - run: npm run test:legibility -- --threshold=0.92 --time=1500
+          - run: npm run test:metrics
+  npm_scripts: |
+    {
+      "scripts": {
+        "test:legibility": "node tools/legibility/run.js",
+        "test:metrics": "node tools/metrics/run.js",
+        "pack:validate": "node tools/pack/validate.js",
+        "plan:validate": "node tools/schema/validate-plan.js",
+        "perf:smoke": "node tools/perf/smoke.js"
+      }
+    }
+  harness_requirements:
+    - "Tesseract WASM bundle; headless GL for CI snapshots"
+    - "Device profiles (desktop_integrated, desktop_dgpu, mobile_mid)"
+    - "Golden prompts: ['text:LUKHΛS','morph: torus→helix','logo: brandA']"
+    - "Artifacts: /artifacts/{runId}/{frame}.png + metrics.json"
+
+telemetry_pipeline:
+  privacy_model:
+    anon_device: "SHA-256 of (userAgent + gpu + coarseTime) with salt"
+    prompt_hash: "SHA-256 of normalized prompt/plan text"
+    audio_policy: "No raw audio unless consent=true; store only pitch/energy"
+  events:
+    - "plan_generated"
+    - "first_readable_frame"
+    - "ocr_sample"
+    - "render_complete"
+    - "policy_blocked"
+  storage: "local ring buffer → periodic POST (opt-in) or developer mode to localhost"
+  dashboards:
+    - "Daily OCR conf distribution"
+    - "Prompt→readable latency (p50/p95)"
+    - "Token cost per morph & per pack"
+
+ui_surface:
+  panels:
+    - "AI Plan (toggle + live JSON view)"
+    - "Performance (fps, prompt→readable ms)"
+    - "Economics (tokens, $)"
+    - "Legibility (OCR %, lock state)"
+    - "Backend (webgl2/webgpu) with fallback banner"
+
+safety_policy:
+  lists:
+    blocked_symbols: "policy/blocked-symbols.json"
+    allowed_logos: "policy/allowed-logos.json"
+  behavior:
+    on_violation: "Reject plan; show reason; offer neutral substitution (e.g., geometric shape)"
+  watermarking:
+    embed: "spread-spectrum micro-displacements keyed to runId"
+    detect: "correlator; threshold tuned for AUC ≥ 0.95"
+
+interfaces_and_abi:
+  stable_keys:
+    - "shapeParameters.* (backward compatible; versioned keys for deprecations)"
+    - "MorphScript v0"
+  executor_boundary:
+    fn: "window.processVertices(...) (legacy) → Backends own assignment+motion"
+    note: "Keep boundary stable; deprecate gradually behind feature flags"
+
+research_tracks:
+  - "Closed-loop planning with thumbnails+metrics"
+  - "Shape latent autoencoder for glyph/logos → SDF"
+  - "Device-adaptive scheduler for particle counts"
+
+this_week_quick_wins:
+  - "Add 'AI Plan' toggle; log timeline/constraints next to cost+latency"
+  - "Expose particle count to planner; text sampling density adapts"
+  - "Record golden prompts and wire into CI gates"
+  - "Surface performanceMetrics & costTracker in sidebar"
+
+risks_and_mitigations:
+  - risk: "Index stability regressions"
+    mitigation: "Golden snapshot diff + OCR gate in CI"
+  - risk: "WebGPU availability"
+    mitigation: "Runtime detect; parity tests; graceful fallback"
+  - risk: "Multilingual shaping complexity"
+    mitigation: "HarfBuzz WASM; staged thresholds; community fonts cache"
+
+definition_of_done_for_release:
+  - "All product contracts green in CI across device profiles"
+  - "10 Morph Packs validated"
+  - "Policy + watermark enabled by default"
+  - "Docs: API_SPECIFICATION.md updated; ABI notes; migration guide"
+
+
+⸻
+
+Optional patches & stubs (ready to paste)
+
+1) Index-aware mapping utilities (TypeScript stub)
+
+// src/runtime/assignment/StableAssign.ts
+import { morton2D } from './spacefill';
+
+export function stableAssign(points2D: Float32Array, particleCount: number, seed: number) {
+  // points2D: [x0,y0,x1,y1,...] normalized to [0,1]
+  const n = points2D.length / 2;
+  const order = new Uint32Array(n);
+  for (let i = 0; i < n; i++) {
+    const x = points2D[2*i], y = points2D[2*i+1];
+    order[i] = morton2D(x, y);
+  }
+  // sort indices by morton code
+  const idx = [...order.keys()].sort((a,b)=> order[a]-order[b]);
+  // jitter from seed
+  const rng = mulberry32(seed);
+  const assigned = new Uint32Array(particleCount);
+  for (let i = 0; i < particleCount; i++) {
+    const j = Math.floor((i / particleCount) * n);
+    const k = (j + Math.floor(rng()*7)) % n; // tiny seeded jitter
+    assigned[i] = idx[k];
+  }
+  return assigned;
+}
+
+function mulberry32(a:number){return function(){let t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;}}
+
+2) Plan validation (Node script)
+
+// tools/schema/validate-plan.ts
+import Ajv from 'ajv';
+import schema from '../../schemas/ai_plan_response_v0.json';
+import fs from 'fs';
+
+const ajv = new Ajv({allErrors:true});
+const validate = ajv.compile(schema);
+const plan = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+if (!validate(plan)) {
+  console.error('Plan invalid:', validate.errors);
+  process.exit(1);
+}
+console.log('Plan valid ✔');
+
+3) CI gate (legibility)
+
+// tools/legibility/run.js
+// Renders frames headlessly → runs Tesseract WASM → asserts OCR/time thresholds.
+// Exits non-zero on failure. Saves ./artifacts/<runId>/{0001.png,metrics.json}
+
+
+⸻
+
+If you want, I can also generate the initial pack skeleton, golden prompts file, or a ready-to-run CI workflow tailored to your repo layout—just say the word and I’ll drop them in the same format.

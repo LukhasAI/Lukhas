@@ -1,180 +1,78 @@
 {
-  "version": "1.0.0",
-  "lastUpdated": "2025-08-19",
-  "description": "Single source of truth for all LUKHAS AI brand policy enforcement",
-  
-  "brandUsage": {
-    "displayForm": {
-      "name": "MΛTRIZ",
-      "character": "Λ",
-      "unicode": "U+039B", 
-      "contexts": ["logos", "hero-sections", "wordmarks", "promotional-lockups"],
-      "ariaLabel": "Matriz",
-      "required": true
+  "brand": {
+    "display": ["LUKHΛS", "ΛI", "MΛTRIZ", "ΛiD"],
+    "plain": ["Lukhas", "AI", "Matriz", "Lukhas ID"],
+    "lambdaDisplayOnly": true,
+    "requireAriaForLambda": true
+  },
+  "tone": {
+    "poetic": {
+      "maxWords": 40,
+      "noClaims": true
     },
-    "plainForm": {
-      "name": "Matriz",
-      "contexts": ["body-copy", "seo", "metadata", "alt-text", "documentation", "paragraphs"],
-      "primary": true
-    },
-    "urlSlug": {
-      "format": "/matriz",
-      "forbidden": ["/mλtriz", "/matada", "/MATADA", "/m%CE%BBtriz"]
-    },
-    "legacy": {
-      "codename": "MATADA",
-      "allowedContexts": ["internal-documentation", "schema-files", "code-comments", "variable-names", "historical-records"]
+    "plain": {
+      "maxGradeLevel": 8.0
     }
   },
-
-  "lambdaUsage": {
-    "allowedContexts": ["svg-wordmarks", "display-headers", "logo-elements"],
-    "forbiddenContexts": ["urls", "alt-text", "body-copy", "metadata", "file-paths"],
-    "accessibility": {
-      "ariaLabelRequired": true,
-      "ariaLabelText": "Matriz",
-      "screenReaderFallback": "Matriz"
+  "bannedWords": [
+    "guaranteed",
+    "flawless",
+    "perfect",
+    "zero-risk",
+    "unbreakable",
+    "unlimited",
+    "revolutionary",
+    "groundbreaking",
+    "game-changing",
+    "magical",
+    "miracle"
+  ],
+  "vendorPhrases": [
+    {
+      "pattern": "partnered with (OpenAI|Anthropic|Google)",
+      "replace": "integrates with $1 APIs"
     },
-    "rendering": {
-      "svgAsPath": true,
-      "noInlineText": true,
-      "fontFallbackPrevention": true
+    {
+      "pattern": "powered by (OpenAI|Anthropic|Google)",
+      "replace": "uses $1 APIs"
+    },
+    {
+      "pattern": "endorsed by (OpenAI|Anthropic|Google)",
+      "replace": "compatible with $1 systems"
+    },
+    {
+      "pattern": "official (OpenAI|Anthropic|Google) integration",
+      "replace": "$1 API integration"
     }
+  ],
+  "a11y": {
+    "requireTransparencyBox": true,
+    "respectReducedMotion": true,
+    "minContrastRatio": 4.5,
+    "requireAltText": true
   },
-
-  "toneSystem": {
-    "poeticLayer": {
-      "wordLimit": 40,
-      "strictEnforcement": true,
-      "forbiddenElements": ["claims", "metrics", "guarantees", "promises"],
-      "style": "evocative-metaphorical",
-      "bannedPatterns": [
-        "\\b(guarantee[ds]?|perfect|flawless|zero[-\\s]?risk|unbreakable|unlimited|certified|endorsed)\\b"
-      ]
-    },
-    "technicalLayer": {
-      "requirements": ["quantified-benefits", "disclosed-limitations", "cited-sources", "uncertainty-indicators"],
-      "linkingRequired": true,
-      "assumptionsRequired": true
-    },
-    "plainLayer": {
-      "readabilityTarget": "grade-6-8",
-      "maxGradeLevel": 8.0,
-      "fleschKincaidRequired": true,
-      "sentenceLength": 20,
-      "vocabularyLevel": "everyday",
-      "outcomesFocus": true
-    }
+  "i18n": {
+    "forbidLambdaInBody": true,
+    "falseFriendsES": ["matada"],
+    "falseFriendsPT": ["matada"],
+    "falseFriendsFR": ["matrice"],
+    "falseFriendsIT": ["matrice"]
   },
-
-  "bannedWords": {
-    "buildFailures": [
-      "guaranteed", "flawless", "perfect", "zero-risk",
-      "unlimited", "unbreakable", "foolproof", "bulletproof", 
-      "revolutionary", "groundbreaking", "game-changing",
-      "ultimate", "supreme", "best-in-class"
-    ],
-    "vendorPhrasing": [
-      {
-        "forbidden": "powered by (OpenAI|Anthropic|Google)",
-        "replacement": "uses $1 APIs"
-      },
-      {
-        "forbidden": "partner(ed)? with (OpenAI|Anthropic|Google)",
-        "replacement": "integrates with $1 APIs"
-      },
-      {
-        "forbidden": "endorsed by",
-        "replacement": "integrates with"
-      }
-    ]
+  "visual": {
+    "svgTextForbidden": true,
+    "lambdaMustBePath": true,
+    "requireCSPCompliance": true,
+    "requireSRIHashes": true
   },
-
-  "accessibilityRequirements": {
-    "wcag": "2.1-AA",
-    "colorContrast": "4.5:1",
-    "lambdaElements": {
-      "ariaLabelRequired": true,
-      "altTextForbidden": true,
-      "screenReaderText": "Matriz"
-    },
-    "motion": {
-      "respectReducedMotion": true,
-      "calmModeToggle": true,
-      "fallbackStates": true
-    },
-    "headingStructure": "sequential",
-    "keyboardNavigation": true
+  "governance": {
+    "requireBDRForBrandingChanges": true,
+    "bdrTemplateVersion": "1.0.0",
+    "approvalThreshold": 2
   },
-
-  "internationalization": {
-    "falseFriends": {
-      "spanish": ["matada", "matadas", "matado", "matados"],
-      "portuguese": ["matada", "matadas"],
-      "french": [],
-      "action": "human-review-required"
-    },
-    "lambdaPolicy": {
-      "translatedContent": "forbidden",
-      "bodyText": "never",
-      "slugs": "never"
-    }
-  },
-
-  "securityPolicies": {
-    "contentSecurityPolicy": {
-      "svg": "no-inline-javascript",
-      "subresourceIntegrity": true
-    },
-    "svgValidation": {
-      "pathElements": true,
-      "textElementsForbidden": true,
-      "inlineScriptForbidden": true
-    }
-  },
-
-  "complianceRequirements": {
-    "transparencyBox": {
-      "required": true,
-      "productPages": ["/matriz"],
-      "elements": ["capabilities", "limitations", "dependencies", "data-handling"],
-      "testPresence": true
-    },
-    "brandDecisionRecord": {
-      "required": true,
-      "template": "branding/decisions/BDR-TEMPLATE.md",
-      "prRequirement": true
-    }
-  },
-
-  "enforcementLevels": {
-    "critical": {
-      "blockBuild": true,
-      "failCI": true,
-      "violations": ["public-matada-usage", "lambda-in-urls", "lambda-in-alt-text", "banned-words"]
-    },
-    "warning": {
-      "blockBuild": false,
-      "flagForReview": true,
-      "violations": ["lambda-without-aria", "vendor-phrasing", "agi-references"]
-    },
-    "info": {
-      "logOnly": true,
-      "violations": ["readability-suggestions", "style-improvements"]
-    }
-  },
-
-  "monitoring": {
-    "metrics": [
-      "violations-per-build",
-      "readability-scores",
-      "tone-usage-patterns", 
-      "accessibility-compliance-rate"
-    ],
-    "reporting": {
-      "executiveDashboard": true,
-      "weeklyDigest": true,
-      "trendAnalysis": true
-    }
+  "metrics": {
+    "maxPageLoadTime": 3000,
+    "maxLCPTime": 2500,
+    "minLighthouseScore": 90,
+    "maxBundleSize": 500000
   }
 }

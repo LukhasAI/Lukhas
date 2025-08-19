@@ -17,7 +17,7 @@ class VendorReferenceLinter {
     this.policyManifest = this.loadPolicyManifest();
     
     // Load vendor phrasing rules from policy manifest
-    this.vendorRules = this.policyManifest.bannedWords?.vendorPhrasing || this.getDefaultRules();
+    this.vendorRules = this.policyManifest.vendorPhrases || this.getDefaultRules();
     
     // Additional vendor neutrality rules
     this.neutralityRules = [
@@ -78,12 +78,12 @@ class VendorReferenceLinter {
   getDefaultRules() {
     return [
       {
-        forbidden: "powered by (OpenAI|Anthropic|Google)",
-        replacement: "uses $1 APIs"
+        pattern: "powered by (OpenAI|Anthropic|Google)",
+        replace: "uses $1 APIs"
       },
       {
-        forbidden: "partner(ed)? with (OpenAI|Anthropic|Google)",
-        replacement: "integrates with $1 APIs"
+        pattern: "partner(ed)? with (OpenAI|Anthropic|Google)",
+        replace: "integrates with $1 APIs"
       }
     ];
   }
@@ -137,14 +137,14 @@ class VendorReferenceLinter {
 
   checkPolicyVendorRules(content, filePath) {
     this.vendorRules.forEach(rule => {
-      const pattern = new RegExp(rule.forbidden, 'gi');
+      const pattern = new RegExp(rule.pattern, 'gi');
       const matches = [...content.matchAll(pattern)];
       
       for (const match of matches) {
         const lineNumber = this.getLineNumber(content, match.index);
         
         // Generate replacement suggestion
-        const suggestion = match[0].replace(pattern, rule.replacement);
+        const suggestion = match[0].replace(pattern, rule.replace);
         
         this.violations.push({
           file: filePath,
@@ -154,7 +154,7 @@ class VendorReferenceLinter {
           match: match[0],
           suggestion: suggestion,
           type: 'vendor-phrasing',
-          rule: rule.forbidden
+          rule: rule.pattern
         });
       }
     });
@@ -264,4 +264,16 @@ if (require.main === module) {
   });
 }
 
+// Export lintVendors function for use in other scripts
+function lintVendors(text, file) {
+  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '../branding/policy.manifest.json'), 'utf8'));
+  for (const r of manifest.vendorPhrases) {
+    const re = new RegExp(r.pattern, 'gi');
+    if (re.test(text)) {
+      throw new Error(`Vendor phrasing in ${file}. Use: "${r.replace}".`);
+    }
+  }
+}
+
 module.exports = VendorReferenceLinter;
+module.exports.lintVendors = lintVendors;

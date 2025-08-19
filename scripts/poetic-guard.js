@@ -12,12 +12,17 @@ const path = require('path');
 class PoeticGuard {
   constructor() {
     this.policyManifest = this.loadPolicyManifest();
-    this.bannedPatterns = this.policyManifest.toneSystem.poeticLayer.bannedPatterns || [];
+    this.maxWords = this.policyManifest.tone.poetic.maxWords;
+    this.bannedWords = this.policyManifest.bannedWords || [];
     this.violations = [];
     
-    // Claims detection patterns
+    // Claims detection pattern - using banned words from manifest
+    const bannedPattern = this.bannedWords.join('|');
+    this.CLAIM = new RegExp(`\\b(${bannedPattern}|certified|endorsed)\\b`, 'i');
+    
+    // Additional claim patterns
     this.claimyPatterns = [
-      /\b(guarantee[ds]?|perfect|flawless|zero[-\s]?risk|unbreakable|unlimited|certified|endorsed)\b/i,
+      this.CLAIM,
       /\b\d+%\s*(accurate|reliable|success|improvement)\b/i, // Metrics
       /\b(proven|validated|tested|verified)\s+(to|by)\b/i,   // Claims  
       /\b(always|never|every|all|none)\s+(works|fails|delivers)\b/i // Absolutes
@@ -37,7 +42,7 @@ class PoeticGuard {
       return JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
     } catch (error) {
       console.error('Failed to load policy manifest:', error.message);
-      return { toneSystem: { poeticLayer: { bannedPatterns: [] } } };
+      return { tone: { poetic: { maxWords: 40, noClaims: true } }, bannedWords: [] };
     }
   }
 
@@ -95,6 +100,17 @@ class PoeticGuard {
    */
   assertPoeticSafe(section) {
     const violations = [];
+
+    // Check word count
+    const wordCount = (section.content.match(/\b[\w''-]+\b/g) || []).length;
+    if (wordCount > this.maxWords) {
+      violations.push({
+        type: 'word-count',
+        count: wordCount,
+        max: this.maxWords,
+        message: `Poetic section exceeds ${this.maxWords} words (has ${wordCount} words)`
+      });
+    }
 
     // Check for direct claims
     this.claimyPatterns.forEach(pattern => {
@@ -268,4 +284,16 @@ if (require.main === module) {
   });
 }
 
+// Export simplified assertPoeticSafe function
+function assertPoeticSafe(html, file) {
+  const blocks = html.match(/data-tone=["']poetic["'][\s\S]*?<\/(section|div)>/gi) || [];
+  for (const b of blocks) {
+    const guard = new PoeticGuard();
+    if (guard.CLAIM.test(b)) {
+      throw new Error(`Claims in Poetic layer: ${file}`);
+    }
+  }
+}
+
 module.exports = PoeticGuard;
+module.exports.assertPoeticSafe = assertPoeticSafe;

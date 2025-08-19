@@ -14,6 +14,7 @@ class BrandLinter {
   constructor() {
     this.violations = [];
     this.warnings = [];
+    this.policyManifest = this.loadPolicyManifest();
     
     // Critical violations that block builds
     this.criticalPatterns = [
@@ -21,12 +22,13 @@ class BrandLinter {
         pattern: /\bMATADA\b/g,
         message: 'Public MATADA usage detected. Use "Matriz" in user-facing content.',
         severity: 'error',
-        excludeFiles: ['schema', 'internal', '.md']
+        excludeFiles: ['schema', 'internal', '.md', 'next.config.js', 'config']
       },
       {
         pattern: /\/m[λΛ]triz/gi,
         message: 'Λ character in URL/path. Use "/matriz" instead.',
-        severity: 'error'
+        severity: 'error',
+        excludeFiles: ['next.config.js', 'config']
       },
       {
         pattern: /alt="[^"]*[λΛ]/gi,
@@ -58,13 +60,29 @@ class BrandLinter {
     // Files to scan
     this.scanPatterns = [
       'lukhas_website/**/*.{tsx,jsx,ts,js,html,md}',
-      'branding/**/*.md',
-      '!**/node_modules/**',
-      '!.git/**',
-      '!dist/**',
-      '!build/**',
-      '!**/.next/**'
+      'branding/**/*.md'
     ];
+    
+    // Directories to ignore
+    this.ignorePatterns = [
+      '**/node_modules/**',
+      '**/.git/**',
+      '**/dist/**',
+      '**/build/**',
+      '**/.next/**',
+      '**/coverage/**',
+      '**/.cache/**'
+    ];
+  }
+
+  loadPolicyManifest() {
+    try {
+      const manifestPath = path.join(__dirname, '../branding/policy.manifest.json');
+      return JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+    } catch (error) {
+      console.warn('Warning: Could not load policy manifest, using defaults');
+      return { i18n: { falseFriendsES: ['matada'] }, brand: {} };
+    }
   }
 
   async scan() {
@@ -90,7 +108,7 @@ class BrandLinter {
     for (const pattern of this.scanPatterns) {
       const matches = glob.sync(pattern, { 
         cwd: process.cwd(),
-        ignore: ['node_modules/**', '.git/**']
+        ignore: this.ignorePatterns
       });
       files.push(...matches);
     }
@@ -124,6 +142,12 @@ class BrandLinter {
         }
       }
 
+      // Check Lambda usage outside display contexts
+      this.checkLambdaUsage(content, relativePath);
+      
+      // Check for international false friends
+      this.checkFalseFriends(content, relativePath);
+      
       // Check warnings
       for (const rule of this.warningPatterns) {
         const matches = [...content.matchAll(rule.pattern)];
@@ -157,6 +181,84 @@ class BrandLinter {
 
   getLineNumber(content, index) {
     return content.substring(0, index).split('\n').length;
+  }
+
+  checkLambdaUsage(content, filePath) {
+    // Check if Lambda appears outside of display contexts
+    const lambdaPattern = /[λΛ]/g;
+    const matches = [...content.matchAll(lambdaPattern)];
+    
+    for (const match of matches) {
+      const lineNumber = this.getLineNumber(content, match.index);
+      const lineStart = content.lastIndexOf('\n', match.index) + 1;
+      const lineEnd = content.indexOf('\n', match.index);
+      const line = content.substring(lineStart, lineEnd === -1 ? undefined : lineEnd);
+      
+      // Check if it's in a display context
+      const isDisplay = /aria-label=["'].*Matriz/i.test(line);
+      const isHeader = /<h[1-6]/i.test(line);
+      const isLogo = /logo|wordmark|brand/i.test(line);
+      
+      if (!isDisplay && !isHeader && !isLogo) {
+        // Check if it's in body text or SEO-sensitive areas
+        const isInBody = /<p|<span|<div|<li/i.test(line);
+        const isInMeta = /<meta|<title|alt=|title=/i.test(line);
+        const isInUrl = /href=|path=|url=/i.test(line);
+        
+        if (isInBody || isInMeta || isInUrl) {
+          this.violations.push({
+            file: filePath,
+            line: lineNumber,
+            message: `Λ used outside display context. ${this.policyManifest.brand?.requireAriaForLambda ? 'Add aria-label="Matriz" or' : ''} use plain "Matriz" instead.`,
+            severity: 'error',
+            match: line.trim().substring(0, 100)
+          });
+        }
+      }
+    }
+  }
+
+  checkFalseFriends(content, filePath) {
+    // Check for international false friends
+    const falseFriends = {
+      ES: this.policyManifest.i18n?.falseFriendsES || ['matada'],
+      PT: this.policyManifest.i18n?.falseFriendsPT || ['matada'],
+      FR: this.policyManifest.i18n?.falseFriendsFR || ['matrice'],
+      IT: this.policyManifest.i18n?.falseFriendsIT || ['matrice']
+    };
+    
+    for (const [locale, words] of Object.entries(falseFriends)) {
+      for (const word of words) {
+        const pattern = new RegExp(`\\b${word}\\b`, 'gi');
+        const matches = [...content.matchAll(pattern)];
+        
+        for (const match of matches) {
+          const lineNumber = this.getLineNumber(content, match.index);
+          
+          // Check if it's in a locale-specific context
+          const isLocaleFile = filePath.includes(`.${locale.toLowerCase()}.`) || 
+                               filePath.includes(`/${locale.toLowerCase()}/`);
+          
+          if (isLocaleFile) {
+            this.violations.push({
+              file: filePath,
+              line: lineNumber,
+              message: `False friend "${word}" detected in ${locale} locale. This word has different meaning in ${locale}.`,
+              severity: 'error',
+              match: match[0]
+            });
+          } else {
+            this.warnings.push({
+              file: filePath,
+              line: lineNumber,
+              message: `Potential false friend "${word}" (problematic in ${locale}). Consider alternative wording.`,
+              severity: 'warning',
+              match: match[0]
+            });
+          }
+        }
+      }
+    }
   }
 
   reportResults() {

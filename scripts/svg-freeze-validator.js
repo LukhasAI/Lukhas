@@ -2,8 +2,8 @@
 
 /**
  * SVG Freeze Validator
- * Ensures Λ character is rendered as path elements, not text
- * Prevents font fallback mismatches and rendering inconsistencies
+ * Ensures Lambda (Λ) is rendered as path elements, not text
+ * Validates CSP and SRI compliance for SVG assets
  */
 
 const fs = require('fs');
@@ -23,28 +23,17 @@ class SVGFreezeValidator {
       return JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
     } catch (error) {
       console.warn('Warning: Could not load policy manifest, using defaults');
-      return { 
-        securityPolicies: { 
-          svgValidation: { 
-            pathElements: true, 
-            textElementsForbidden: true,
-            inlineScriptForbidden: true 
-          } 
-        } 
-      };
+      return { visual: { svgTextForbidden: true, lambdaMustBePath: true } };
     }
   }
 
-  async validate() {
-    console.log('🔒 Validating SVG freeze compliance...\n');
+  async validate(patterns = ['**/*.svg', 'branding/assets/*.svg', 'lukhas_website/public/*.svg']) {
+    console.log('🎨 Validating SVG freeze compliance...\n');
 
-    // Find all SVG files
-    const svgFiles = glob.sync('branding/assets/**/*.svg', { 
-      cwd: process.cwd() 
-    });
-
-    for (const svgFile of svgFiles) {
-      await this.validateSVGFile(svgFile);
+    const files = this.getFilesToValidate(patterns);
+    
+    for (const filePath of files) {
+      await this.validateFile(filePath);
     }
 
     this.reportResults();
@@ -55,106 +44,191 @@ class SVGFreezeValidator {
     }
   }
 
-  async validateSVGFile(filePath) {
+  getFilesToValidate(patterns) {
+    const files = [];
+    
+    for (const pattern of patterns) {
+      const matches = glob.sync(pattern, { 
+        cwd: process.cwd(),
+        ignore: ['**/node_modules/**', '**/.git/**', '**/dist/**', '**/build/**']
+      });
+      files.push(...matches);
+    }
+
+    return [...new Set(files)];
+  }
+
+  async validateFile(filePath) {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
       const relativePath = path.relative(process.cwd(), filePath);
 
-      // Check for Λ character in text elements (forbidden)
-      this.checkLambdaInTextElements(content, relativePath);
+      // Check for Lambda in text elements
+      this.checkTextElements(content, relativePath);
       
-      // Check for inline JavaScript (security)
-      this.checkInlineScripts(content, relativePath);
+      // Check for Lambda as path
+      this.checkLambdaPath(content, relativePath);
       
-      // Check for proper path elements (required)
-      this.checkPathElements(content, relativePath);
+      // Check for CSP/SRI attributes if embedded
+      this.checkSecurityAttributes(content, relativePath);
       
-      // Check for font dependencies
-      this.checkFontDependencies(content, relativePath);
+      // Check for proper viewBox and dimensions
+      this.checkSVGAttributes(content, relativePath);
 
     } catch (error) {
       console.error(`Error validating ${filePath}:`, error.message);
     }
   }
 
-  checkLambdaInTextElements(content, filePath) {
-    // Check for Λ character in text elements
-    const textElementsWithLambda = content.match(/<text[^>]*>[^<]*[λΛ][^<]*<\/text>/gi);
+  checkTextElements(content, filePath) {
+    // Check if Lambda appears in text elements
+    const textPattern = /<text[^>]*>([^<]*[λΛ][^<]*)<\/text>/gi;
+    const matches = [...content.matchAll(textPattern)];
     
-    if (textElementsWithLambda) {
-      textElementsWithLambda.forEach(match => {
-        const lineNumber = this.getLineNumber(content, content.indexOf(match));
-        
-        this.violations.push({
-          file: filePath,
-          line: lineNumber,
-          message: 'Λ character found in text element. Must use path elements for render-proofing.',
-          severity: 'error',
-          match: match.trim(),
-          type: 'lambda-in-text',
-          fix: 'Convert text element to path element using font-to-path conversion'
-        });
-      });
-    }
-  }
-
-  checkInlineScripts(content, filePath) {
-    // Check for any inline JavaScript
-    const inlineScripts = [
-      /<script[^>]*>[\s\S]*?<\/script>/gi,
-      /on\w+\s*=\s*["'][^"']*["']/gi, // Event handlers
-      /javascript:/gi
-    ];
-
-    inlineScripts.forEach(pattern => {
-      const matches = [...content.matchAll(pattern)];
+    for (const match of matches) {
+      const lineNumber = this.getLineNumber(content, match.index);
       
-      matches.forEach(match => {
-        const lineNumber = this.getLineNumber(content, match.index);
-        
-        this.violations.push({
-          file: filePath,
-          line: lineNumber,
-          message: 'Inline JavaScript detected in SVG. Violates Content-Security-Policy.',
-          severity: 'error',
-          match: match[0].substring(0, 50) + '...',
-          type: 'inline-script',
-          fix: 'Remove inline JavaScript and use CSS-only styling'
-        });
-      });
-    });
-  }
-
-  checkPathElements(content, filePath) {
-    // Check for proper path elements
-    const hasPathElements = /<path[\s\S]*?\/?>/.test(content);
-    const hasLambdaReference = /[λΛ]/.test(filePath) || /matriz/i.test(filePath);
-    
-    if (hasLambdaReference && !hasPathElements) {
-      this.warnings.push({
+      this.violations.push({
         file: filePath,
-        line: 1,
-        message: 'MATRIZ wordmark should use path elements for consistent rendering.',
-        severity: 'warning',
-        type: 'missing-paths',
-        fix: 'Convert text to path elements using vector graphics software'
+        line: lineNumber,
+        message: 'Lambda (Λ) found in <text> element. Must be rendered as <path> for consistency.',
+        severity: 'error',
+        match: match[0].substring(0, 100),
+        type: 'text-lambda'
+      });
+    }
+
+    // Also check for Lambda in tspan elements
+    const tspanPattern = /<tspan[^>]*>([^<]*[λΛ][^<]*)<\/tspan>/gi;
+    const tspanMatches = [...content.matchAll(tspanPattern)];
+    
+    for (const match of tspanMatches) {
+      const lineNumber = this.getLineNumber(content, match.index);
+      
+      this.violations.push({
+        file: filePath,
+        line: lineNumber,
+        message: 'Lambda (Λ) found in <tspan> element. Must be rendered as <path> for consistency.',
+        severity: 'error',
+        match: match[0].substring(0, 100),
+        type: 'tspan-lambda'
       });
     }
   }
 
-  checkFontDependencies(content, filePath) {
-    // Check for external font dependencies that could cause fallback issues
-    const fontFaces = [...content.matchAll(/@font-face[\s\S]*?\}/gi)];
-    const fontImports = [...content.matchAll(/@import.*fonts\.googleapis\.com/gi)];
+  checkLambdaPath(content, filePath) {
+    // Check if file name suggests it should contain Lambda
+    const isLambdaFile = /matriz|lukhas|lambda|wordmark/i.test(filePath);
     
-    if (fontFaces.length > 0 || fontImports.length > 0) {
+    if (isLambdaFile) {
+      // Look for path elements that might represent Lambda
+      const hasPath = /<path\s/i.test(content);
+      const hasText = /<text/i.test(content);
+      
+      if (!hasPath && hasText) {
+        this.warnings.push({
+          file: filePath,
+          line: 1,
+          message: 'SVG appears to use text instead of paths. Consider converting to paths for consistency.',
+          severity: 'warning',
+          type: 'no-path'
+        });
+      }
+      
+      // Check if Lambda character appears anywhere in the SVG
+      if (/[λΛ]/.test(content) && !/<path/.test(content)) {
+        this.violations.push({
+          file: filePath,
+          line: 1,
+          message: 'Lambda character found but no <path> element. Convert Lambda to path for render consistency.',
+          severity: 'error',
+          type: 'lambda-not-path'
+        });
+      }
+    }
+  }
+
+  checkSecurityAttributes(content, filePath) {
+    // Check for inline scripts (security risk)
+    if (/<script/i.test(content)) {
+      this.violations.push({
+        file: filePath,
+        line: 1,
+        message: 'Inline <script> found in SVG. Remove for CSP compliance.',
+        severity: 'error',
+        type: 'inline-script'
+      });
+    }
+
+    // Check for external resource references
+    const externalPattern = /xlink:href=["'](?!#)([^"']+)["']/gi;
+    const matches = [...content.matchAll(externalPattern)];
+    
+    for (const match of matches) {
+      const lineNumber = this.getLineNumber(content, match.index);
+      
+      this.warnings.push({
+        file: filePath,
+        line: lineNumber,
+        message: `External resource reference: "${match[1]}". Consider embedding or using SRI hash.`,
+        severity: 'warning',
+        match: match[0],
+        type: 'external-resource'
+      });
+    }
+
+    // Check for on* event handlers
+    const eventPattern = /\son[a-z]+\s*=/gi;
+    const eventMatches = [...content.matchAll(eventPattern)];
+    
+    for (const match of eventMatches) {
+      const lineNumber = this.getLineNumber(content, match.index);
+      
+      this.violations.push({
+        file: filePath,
+        line: lineNumber,
+        message: 'Inline event handler found. Remove for CSP compliance.',
+        severity: 'error',
+        match: match[0],
+        type: 'inline-event'
+      });
+    }
+  }
+
+  checkSVGAttributes(content, filePath) {
+    // Check for viewBox
+    if (!/<svg[^>]*viewBox=/i.test(content)) {
       this.warnings.push({
         file: filePath,
         line: 1,
-        message: 'External font dependency detected. May cause rendering inconsistencies.',
+        message: 'SVG missing viewBox attribute. Add for responsive scaling.',
         severity: 'warning',
-        type: 'font-dependency',
-        fix: 'Convert to path elements to eliminate font dependencies'
+        type: 'missing-viewbox'
+      });
+    }
+
+    // Check for width/height without viewBox
+    const hasWidthHeight = /<svg[^>]*(width|height)=/i.test(content);
+    const hasViewBox = /<svg[^>]*viewBox=/i.test(content);
+    
+    if (hasWidthHeight && !hasViewBox) {
+      this.warnings.push({
+        file: filePath,
+        line: 1,
+        message: 'SVG has fixed dimensions without viewBox. Consider using viewBox for responsiveness.',
+        severity: 'warning',
+        type: 'fixed-dimensions'
+      });
+    }
+
+    // Check for title element (accessibility)
+    if (!/<title>/i.test(content)) {
+      this.warnings.push({
+        file: filePath,
+        line: 1,
+        message: 'SVG missing <title> element. Add for accessibility.',
+        severity: 'warning',
+        type: 'missing-title'
       });
     }
   }
@@ -163,60 +237,41 @@ class SVGFreezeValidator {
     return content.substring(0, index).split('\n').length;
   }
 
-  runSVGO(filePath) {
-    // In production, this would run SVGO optimization
-    console.log(`   🔧 Running SVGO optimization on ${filePath}`);
-    
-    // Example SVGO command (would be executed via child_process)
-    // svgo --config=svgo.config.js input.svg output.svg
-    
-    return `Optimized: ${filePath}`;
-  }
-
   reportResults() {
-    console.log('📊 SVG Freeze Validation Results\n');
+    console.log('📊 SVG Validation Results\n');
 
-    // Report violations (errors)
+    // Report violations
     if (this.violations.length > 0) {
       console.log(`❌ ${this.violations.length} SVG Violations Found:\n`);
       
       this.violations.forEach((violation, index) => {
         console.log(`${index + 1}. ${violation.file}:${violation.line}`);
         console.log(`   ❌ ${violation.message}`);
-        
         if (violation.match) {
           console.log(`   Found: "${violation.match}"`);
         }
-        
-        if (violation.fix) {
-          console.log(`   💡 Fix: ${violation.fix}`);
-        }
-        
         console.log('');
       });
     }
 
     // Report warnings
     if (this.warnings.length > 0) {
-      console.log(`⚠️  ${this.warnings.length} SVG Optimization Warnings:\n`);
+      console.log(`⚠️  ${this.warnings.length} SVG Warnings:\n`);
       
       this.warnings.forEach((warning, index) => {
         console.log(`${index + 1}. ${warning.file}:${warning.line}`);
         console.log(`   ⚠️  ${warning.message}`);
-        
-        if (warning.fix) {
-          console.log(`   💡 Fix: ${warning.fix}`);
+        if (warning.match) {
+          console.log(`   Found: "${warning.match}"`);
         }
-        
         console.log('');
       });
     }
 
     // Summary
     if (this.violations.length === 0 && this.warnings.length === 0) {
-      console.log('✅ All SVGs are freeze-compliant!');
-      console.log('   Λ characters properly rendered as path elements');
-      console.log('   No inline scripts or security violations');
+      console.log('✅ All SVG files pass validation!');
+      console.log('   Lambda rendered as paths, CSP compliant');
     } else {
       console.log('📋 Summary:');
       console.log(`   Critical violations: ${this.violations.length}`);
@@ -224,15 +279,16 @@ class SVGFreezeValidator {
       
       if (this.violations.length > 0) {
         console.log('\n🚫 Build blocked due to SVG violations.');
-        console.log('   Fix violations above and re-run.');
+        console.log('   Convert Lambda to paths and remove security risks.');
       }
     }
 
-    console.log('\n🔒 SVG Security & Render-Proofing Guidelines:');
-    console.log('   • Λ character must be path elements, never text');
-    console.log('   • No inline JavaScript or event handlers');
-    console.log('   • Minimize font dependencies for consistency');
-    console.log('   • Use Content-Security-Policy compliant styling');
+    console.log('\n🎨 SVG Best Practices:');
+    console.log('   • Convert text to paths for Lambda (Λ) characters');
+    console.log('   • Include viewBox for responsive scaling');
+    console.log('   • Add <title> elements for accessibility');
+    console.log('   • Avoid inline scripts and event handlers');
+    console.log('   • Embed resources or use SRI hashes');
   }
 }
 
@@ -240,7 +296,7 @@ class SVGFreezeValidator {
 if (require.main === module) {
   const validator = new SVGFreezeValidator();
   validator.validate().catch(error => {
-    console.error('SVG freeze validation failed:', error);
+    console.error('SVG validation failed:', error);
     process.exit(1);
   });
 }

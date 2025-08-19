@@ -12,7 +12,7 @@ const path = require('path');
 class ReadabilityScorer {
   constructor() {
     this.policyManifest = this.loadPolicyManifest();
-    this.maxGradeLevel = this.policyManifest.toneSystem.plainLayer.maxGradeLevel;
+    this.maxGradeLevel = this.policyManifest.tone.plain.maxGradeLevel;
     this.violations = [];
   }
 
@@ -45,6 +45,16 @@ class ReadabilityScorer {
     const gradeLevel = 0.39 * (words / sentences) + 11.8 * (syllables / words) - 15.59;
     
     return Math.max(0, gradeLevel);
+  }
+
+  /**
+   * Simplified FK Grade function for export
+   */
+  fkGrade(text) {
+    const s = Math.max(1, (text.match(/[.!?]+/g) || []).length);
+    const w = Math.max(1, (text.match(/\b[\w''-]+\b/g) || []).length);
+    const y = (text.toLowerCase().match(/[aeiouy]{1,2}/g) || []).length;
+    return 0.39 * (w / s) + 11.8 * (y / w) - 15.59;
   }
 
   /**
@@ -251,3 +261,4 @@ if (require.main === module) {
 }
 
 module.exports = ReadabilityScorer;
+module.exports.fkGrade = ReadabilityScorer.prototype.fkGrade;

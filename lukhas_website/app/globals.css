@@ -85,3 +85,79 @@
     color: rgb(128, 128, 128) !important;
   }
 }
+
+/* Motion Accessibility - Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all animations and transitions */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Specific animation classes to disable */
+  .star,
+  .animate-pulse,
+  .animate-spin,
+  .animate-bounce,
+  .animate-ping,
+  [data-anim],
+  .transition-all,
+  .transition,
+  .transition-colors,
+  .transition-opacity,
+  .transition-transform {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  /* Disable auto-rotating elements */
+  [data-auto-rotate="true"] {
+    animation: none !important;
+  }
+  
+  /* Simplify hover effects */
+  *:hover {
+    transition: none !important;
+  }
+  
+  /* Disable parallax effects */
+  .parallax {
+    transform: none !important;
+  }
+}
+
+/* Calm Mode Support - Additional motion reduction */
+body.calm-mode {
+  /* Reduce animation intensity */
+  --animation-speed: 0.5;
+  --animation-intensity: 0.3;
+}
+
+body.calm-mode *,
+body.calm-mode *::before,
+body.calm-mode *::after {
+  animation-duration: calc(var(--animation-duration, 1s) * 2) !important;
+  transition-duration: calc(var(--transition-duration, 0.3s) * 2) !important;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --glass: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Increase text contrast */
+  body {
+    font-weight: 500;
+  }
+  
+  /* Stronger borders */
+  .border {
+    border-width: 2px !important;
+  }
+}

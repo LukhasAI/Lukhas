@@ -2,6 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Test Commitment
+**Important**: Always run tests and linters after making changes. Aim for 100% test pass rate, with 85% as the minimum acceptable threshold. Fix all failures before committing. Run `npm run validate:all` to check all policies.
+
 ## Repository Context
 
 This is the **LUKHAS AI** repository - a modular AI system combining consciousness, memory, identity, quantum-inspired processing, bio-inspired adaptation, and ethical governance. Built around the **Trinity Framework** (⚛️🧠🛡️):

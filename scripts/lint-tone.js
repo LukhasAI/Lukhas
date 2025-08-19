@@ -9,6 +9,8 @@
 const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
+const { fkGrade } = require('./readability-scorer');
+const { assertPoeticSafe } = require('./poetic-guard');
 
 class ToneLinter {
   constructor() {
@@ -17,12 +19,16 @@ class ToneLinter {
     this.policyManifest = this.loadPolicyManifest();
     
     // Load banned words from policy manifest
-    this.bannedWords = this.policyManifest.bannedWords?.buildFailures || [
+    this.bannedWords = this.policyManifest.bannedWords || [
       'guaranteed', 'flawless', 'perfect', 'zero-risk',
       'unlimited', 'unbreakable', 'foolproof', 'bulletproof',
       'revolutionary', 'groundbreaking', 'game-changing',
       'ultimate', 'supreme', 'best-in-class'
     ];
+    
+    // Load tone limits from manifest
+    this.maxPoeticWords = this.policyManifest.tone?.poetic?.maxWords || 40;
+    this.maxPlainGrade = this.policyManifest.tone?.plain?.maxGradeLevel || 8.0;
 
     // Poetic section patterns
     this.poeticPatterns = [
@@ -89,8 +95,9 @@ class ToneLinter {
       // Check banned words
       this.checkBannedWords(content, relativePath);
       
-      // Check poetic sections for word count
+      // Check poetic sections for word count and claims
       this.checkPoeticWordCount(content, relativePath);
+      this.checkPoeticClaims(content, relativePath);
       
       // Check for missing tone layers
       this.checkToneCompleteness(content, relativePath);
@@ -124,7 +131,7 @@ class ToneLinter {
   }
 
   checkPoeticWordCount(content, filePath) {
-    const wordLimit = this.policyManifest.toneSystem?.poeticLayer?.wordLimit || 40;
+    const wordLimit = this.maxPoeticWords;
     
     for (const pattern of this.poeticPatterns) {
       const matches = [...content.matchAll(pattern)];
@@ -152,6 +159,23 @@ class ToneLinter {
     }
   }
 
+  checkPoeticClaims(content, filePath) {
+    try {
+      // Use the assertPoeticSafe function from poetic-guard
+      assertPoeticSafe(content, filePath);
+    } catch (error) {
+      // Parse the error to extract violation details
+      const lineNumber = 1; // Could be improved to find actual line
+      this.violations.push({
+        file: filePath,
+        line: lineNumber,
+        message: error.message,
+        severity: 'error',
+        type: 'poetic-claims'
+      });
+    }
+  }
+
   checkToneCompleteness(content, filePath) {
     const hasToneSwitch = /ToneSwitch|data-tone=/.test(content);
     const hasPoetic = this.poeticPatterns.some(pattern => pattern.test(content));
@@ -173,7 +197,7 @@ class ToneLinter {
   }
 
   async checkReadability(content, filePath) {
-    const maxGradeLevel = this.policyManifest.toneSystem?.plainLayer?.maxGradeLevel || 8.0;
+    const maxGradeLevel = this.maxPlainGrade;
     
     // Extract plain tone sections
     const plainPatterns = [
@@ -187,7 +211,7 @@ class ToneLinter {
       
       for (const match of matches) {
         const plainContent = this.extractPlainText(match[0]);
-        const gradeLevel = this.fleschKincaidGrade(plainContent);
+        const gradeLevel = fkGrade(plainContent);
         
         if (gradeLevel > maxGradeLevel) {
           const lineNumber = this.getLineNumber(content, match.index);
