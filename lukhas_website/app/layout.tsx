@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { ThemeProvider } from '@/components/theme-provider'
+import { TranslationProvider } from '@/components/translation-provider'
 
 export const metadata: Metadata = {
   title: 'LUKHAS AI - Building Consciousness You Can Trust',
@@ -12,9 +14,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className="bg-black text-white antialiased">
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-bg-primary text-text-primary antialiased">
+        <ThemeProvider defaultTheme="system" storageKey="lukhas-theme">
+          <TranslationProvider>
+            {children}
+          </TranslationProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

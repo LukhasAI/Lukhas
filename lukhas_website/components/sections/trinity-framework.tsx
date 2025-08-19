@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Atom, Brain, Shield, Sparkles, Zap, Lock, Eye, Network, Layers, CheckCircle2, ArrowRight, GitBranch } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 function TrinityVisualization() {
   const [activeNode, setActiveNode] = useState<string | null>(null)
@@ -38,7 +39,7 @@ function TrinityVisualization() {
   ]
 
   return (
-    <div className="relative h-[600px] flex items-center justify-center overflow-hidden">
+    <div className="relative h-[600px] w-full flex items-center justify-center overflow-hidden">
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
@@ -48,7 +49,7 @@ function TrinityVisualization() {
       </div>
 
       {/* Central Connection Hub */}
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute w-full h-full flex items-center justify-center">
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -77,26 +78,29 @@ function TrinityVisualization() {
       </div>
 
       {/* Trinity Nodes */}
-      {nodes.map((node, index) => {
-        const Icon = node.icon
-        const angle = (index * 120 - 90) * (Math.PI / 180)
-        const radius = 200
-        const x = Math.cos(angle) * radius
-        const y = Math.sin(angle) * radius
-        
-        return (
-          <motion.div
-            key={node.id}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 1 + index * 0.3, duration: 0.6 }}
-            className="absolute"
-            style={{
-              transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`
-            }}
-            onMouseEnter={() => setActiveNode(node.id)}
-            onMouseLeave={() => setActiveNode(null)}
-          >
+      <div className="absolute w-full h-full">
+        {nodes.map((node, index) => {
+          const Icon = node.icon
+          const angle = (index * 120 - 90) * (Math.PI / 180)
+          const radius = 200
+          const x = Math.cos(angle) * radius
+          const y = Math.sin(angle) * radius
+          
+          return (
+            <motion.div
+              key={node.id}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 1 + index * 0.3, duration: 0.6 }}
+              className="absolute"
+              style={{
+                left: `calc(50% + ${x}px)`,
+                top: `calc(50% + ${y}px)`,
+                transform: 'translate(-50%, -50%)'
+              }}
+              onMouseEnter={() => setActiveNode(node.id)}
+              onMouseLeave={() => setActiveNode(null)}
+            >
             <div className={`
               relative group cursor-pointer transition-all duration-500
               ${activeNode === node.id ? 'scale-110' : 'hover:scale-105'}
@@ -172,8 +176,9 @@ function TrinityVisualization() {
               `} />
             </div>
           </motion.div>
-        )
-      })}
+          )
+        })}
+      </div>
     </div>
   )
 }
@@ -280,16 +285,7 @@ export function TrinityFramework() {
           </p>
         </motion.div>
 
-        {/* Trinity Visualization */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="glass rounded-3xl mb-16 overflow-hidden bg-gradient-to-br from-slate-900/50 to-slate-800/50"
-        >
-          <TrinityVisualization />
-        </motion.div>
+        {/* Trinity Showcase - New Interactive Design */}
 
         {/* Emergent Properties Section */}
         <motion.div
@@ -615,8 +611,4 @@ export function TrinityFramework() {
       </div>
     </section>
   )
-}
-
-function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
 }

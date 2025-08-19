@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Atom, Brain, Shield, Settings } from 'lucide-react'
+import { Atom, Brain, Shield, Settings, Sparkles } from 'lucide-react'
 import { TrinityFramework } from '@/components/sections/trinity-framework'
+import { TrinityShowcase } from '@/components/trinity-showcase'
 
 export default function Home() {
   const [showLoginModal, setShowLoginModal] = useState(false)
@@ -23,12 +24,12 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
-                <span className="text-2xl font-thin tracking-[0.3em]">LUKHAS</span>
+                <span className="text-2xl font-thin tracking-[0.3em] text-white">LUKHAS</span>
               </div>
               <div className="hidden md:flex items-center space-x-8">
-                <a href="#products" className="text-sm uppercase tracking-wider hover:text-blue-400 transition">Products</a>
-                <a href="#technology" className="text-sm uppercase tracking-wider hover:text-blue-400 transition">Technology</a>
-                <a href="#pricing" className="text-sm uppercase tracking-wider hover:text-blue-400 transition">Pricing</a>
+                <a href="#products" className="text-sm uppercase tracking-wider text-white/90 hover:text-blue-400 transition">Products</a>
+                <a href="#technology" className="text-sm uppercase tracking-wider text-white/90 hover:text-blue-400 transition">Technology</a>
+                <a href="#pricing" className="text-sm uppercase tracking-wider text-white/90 hover:text-blue-400 transition">Pricing</a>
                 <button 
                   onClick={() => setShowLoginModal(true)}
                   className="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:opacity-90 transition"
@@ -76,11 +77,17 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link 
+                href="/experience"
+                className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:opacity-90 transition inline-block animate-pulse"
+              >
+                Try the Experience
+              </Link>
               <a 
                 href="http://localhost:3001"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:opacity-90 transition inline-block"
+                className="px-8 py-4 border border-white/20 rounded-lg hover:bg-white/10 transition inline-block"
               >
                 Explore MATADA
               </a>
@@ -94,8 +101,69 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Trinity Framework */}
+        {/* Trinity Framework Showcase - New Design */}
+        <TrinityShowcase />
+        
+        {/* Trinity Framework Details */}
         <TrinityFramework />
+
+        {/* PR0T3US Experience Section */}
+        <section className="py-32 px-4 bg-gradient-to-b from-transparent to-blue-900/20">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <p className="text-sm uppercase tracking-[0.3em] text-purple-400 mb-4">
+                  Voice-Reactive Visualization
+                </p>
+                <h2 className="text-4xl md:text-5xl font-thin mb-8">
+                  PR0T3US Experience
+                </h2>
+                <p className="text-xl text-gray-400 mb-6">
+                  Transform your voice and consciousness into living, breathing geometric forms. 
+                  Experience real-time AI-driven particle systems that respond to your emotions and thoughts.
+                </p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start">
+                    <span className="text-blue-400 mr-3">•</span>
+                    <span className="text-gray-300">Voice-controlled 3D morphing shapes</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-purple-400 mr-3">•</span>
+                    <span className="text-gray-300">Real-time consciousness visualization</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-green-400 mr-3">•</span>
+                    <span className="text-gray-300">AI-powered emotional expression</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-orange-400 mr-3">•</span>
+                    <span className="text-gray-300">Multi-provider AI integration</span>
+                  </li>
+                </ul>
+                <Link 
+                  href="/experience"
+                  className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:opacity-90 transition"
+                >
+                  Launch PR0T3US →
+                </Link>
+              </div>
+              <div className="relative">
+                <div className="aspect-square bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl border border-white/10 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="inline-block p-8 bg-gradient-to-br from-purple-600/20 to-blue-600/20 rounded-full mb-4">
+                      <Sparkles className="w-16 h-16 text-blue-400" />
+                    </div>
+                    <p className="text-sm uppercase tracking-wider text-gray-400">
+                      Interactive Consciousness
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute -top-4 -right-4 w-20 h-20 bg-purple-600/20 rounded-full blur-3xl" />
+                <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-blue-600/20 rounded-full blur-3xl" />
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* MATADA Section */}
         <section className="py-32 px-4 bg-gradient-to-b from-transparent to-purple-900/20">

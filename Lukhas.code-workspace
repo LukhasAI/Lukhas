@@ -2,6 +2,12 @@
     "folders": [
         {
             "path": "."
+        },
+        {
+            "path": "../../Downloads/voice_reactive_morphing"
+        },
+        {
+            "path": "../../Documents/ text‑to‑shape "
         }
     ]
 }

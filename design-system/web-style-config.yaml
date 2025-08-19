@@ -1,0 +1,445 @@
+# LUKHAS AI Web Style Configuration
+# Machine-readable design tokens for automated tooling
+# Version: 1.0.0
+
+metadata:
+  name: "LUKHAS AI Design System"
+  version: "1.0.0"
+  description: "Consciousness Technology Interface Design Tokens"
+  lastUpdated: "2025-08-19"
+  framework: "Trinity Framework (⚛️🧠🛡️)"
+
+# Color System
+colors:
+  # Trinity Framework Colors
+  trinity:
+    identity:
+      hex: "#6B46C1"
+      rgb: "107, 70, 193"
+      hsl: "258, 52%, 51%"
+      usage: "Primary brand color, authentication, identity elements"
+    consciousness:
+      hex: "#0EA5E9"
+      rgb: "14, 165, 233"
+      hsl: "199, 89%, 48%"
+      usage: "Interactive elements, links, consciousness visualization"
+    guardian:
+      hex: "#10B981"
+      rgb: "16, 185, 129"
+      hsl: "160, 84%, 39%"
+      usage: "Success states, ethical indicators, safety elements"
+  
+  # Accent Colors
+  accent:
+    gold:
+      hex: "#F59E0B"
+      rgb: "245, 158, 11"
+      hsl: "38, 91%, 50%"
+      usage: "Premium highlights, important CTAs"
+    gold-light:
+      hex: "#FBBF24"
+      rgb: "251, 191, 36"
+      hsl: "43, 96%, 56%"
+      usage: "Hover states for gold elements"
+  
+  # Semantic Colors
+  semantic:
+    success:
+      hex: "#10B981"
+      rgb: "16, 185, 129"
+    warning:
+      hex: "#F59E0B"
+      rgb: "245, 158, 11"
+    error:
+      hex: "#EF4444"
+      rgb: "239, 68, 68"
+    info:
+      hex: "#0EA5E9"
+      rgb: "14, 165, 233"
+  
+  # Text Colors
+  text:
+    primary:
+      hex: "#FFFFFF"
+      rgb: "255, 255, 255"
+      opacity: 1.0
+    secondary:
+      hex: "#A3A3A3"
+      rgb: "163, 163, 163"
+      opacity: 0.8
+    tertiary:
+      hex: "#737373"
+      rgb: "115, 115, 115"
+      opacity: 0.6
+    muted:
+      hex: "#525252"
+      rgb: "82, 82, 82"
+      opacity: 0.4
+  
+  # Background Colors
+  background:
+    primary:
+      hex: "#000000"
+      rgb: "0, 0, 0"
+    secondary:
+      hex: "#121212"
+      rgb: "18, 18, 18"
+    tertiary:
+      hex: "#262626"
+      rgb: "38, 38, 38"
+    elevated:
+      hex: "#1A1A1A"
+      rgb: "26, 26, 26"
+  
+  # Glass Morphism
+  glass:
+    light:
+      rgba: "rgba(255, 255, 255, 0.05)"
+      blur: "24px"
+    medium:
+      rgba: "rgba(255, 255, 255, 0.08)"
+      blur: "32px"
+    heavy:
+      rgba: "rgba(255, 255, 255, 0.1)"
+      blur: "40px"
+    border:
+      rgba: "rgba(255, 255, 255, 0.1)"
+
+# Typography System
+typography:
+  # Font Families
+  fonts:
+    primary:
+      - "Helvetica Neue"
+      - "-apple-system"
+      - "BlinkMacSystemFont"
+      - "system-ui"
+      - "sans-serif"
+    mono:
+      - "SF Mono"
+      - "Monaco"
+      - "Inconsolata"
+      - "Fira Code"
+      - "monospace"
+  
+  # Font Weights
+  weights:
+    ultralight: 100
+    light: 300
+    regular: 400
+    medium: 500
+    semibold: 600
+    bold: 700
+  
+  # Type Scale
+  scale:
+    display:
+      size: "3.5rem"
+      lineHeight: 1.1
+      letterSpacing: "-0.02em"
+      weight: 300
+    h1:
+      size: "2.5rem"
+      lineHeight: 1.2
+      letterSpacing: "-0.01em"
+      weight: 400
+    h2:
+      size: "2rem"
+      lineHeight: 1.3
+      letterSpacing: "-0.01em"
+      weight: 400
+    h3:
+      size: "1.5rem"
+      lineHeight: 1.4
+      letterSpacing: "0"
+      weight: 400
+    h4:
+      size: "1.25rem"
+      lineHeight: 1.5
+      letterSpacing: "0"
+      weight: 500
+    body:
+      size: "1rem"
+      lineHeight: 1.6
+      letterSpacing: "0"
+      weight: 300
+    small:
+      size: "0.875rem"
+      lineHeight: 1.5
+      letterSpacing: "0"
+      weight: 300
+    tiny:
+      size: "0.75rem"
+      lineHeight: 1.4
+      letterSpacing: "0.01em"
+      weight: 400
+
+# Spacing System
+spacing:
+  base: "4px"
+  scale:
+    0: "0"
+    1: "0.25rem"   # 4px
+    2: "0.5rem"    # 8px
+    3: "0.75rem"   # 12px
+    4: "1rem"      # 16px
+    5: "1.25rem"   # 20px
+    6: "1.5rem"    # 24px
+    8: "2rem"      # 32px
+    10: "2.5rem"   # 40px
+    12: "3rem"     # 48px
+    16: "4rem"     # 64px
+    20: "5rem"     # 80px
+    24: "6rem"     # 96px
+    32: "8rem"     # 128px
+    40: "10rem"    # 160px
+    48: "12rem"    # 192px
+    56: "14rem"    # 224px
+    64: "16rem"    # 256px
+
+# Layout System
+layout:
+  # Container Widths
+  containers:
+    xs: "20rem"    # 320px
+    sm: "24rem"    # 384px
+    md: "28rem"    # 448px
+    lg: "32rem"    # 512px
+    xl: "36rem"    # 576px
+    2xl: "42rem"   # 672px
+    3xl: "48rem"   # 768px
+    4xl: "56rem"   # 896px
+    5xl: "64rem"   # 1024px
+    6xl: "72rem"   # 1152px
+    7xl: "80rem"   # 1280px
+    full: "100%"
+  
+  # Breakpoints
+  breakpoints:
+    sm: "640px"
+    md: "768px"
+    lg: "1024px"
+    xl: "1280px"
+    2xl: "1536px"
+  
+  # Grid System
+  grid:
+    columns: 12
+    gap: "1rem"
+    maxWidth: "1280px"
+
+# Border System
+borders:
+  radius:
+    none: "0"
+    sm: "0.125rem"   # 2px
+    default: "0.25rem" # 4px
+    md: "0.375rem"   # 6px
+    lg: "0.5rem"     # 8px
+    xl: "0.75rem"    # 12px
+    2xl: "1rem"      # 16px
+    3xl: "1.5rem"    # 24px
+    full: "9999px"
+  
+  width:
+    none: "0"
+    thin: "1px"
+    default: "1px"
+    thick: "2px"
+
+# Shadow System
+shadows:
+  sm: "0 1px 2px 0 rgba(0, 0, 0, 0.05)"
+  default: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)"
+  md: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+  lg: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
+  xl: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+  2xl: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+  inner: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)"
+  # Trinity Glows
+  trinity:
+    identity: "0 0 40px rgba(107, 70, 193, 0.4), 0 0 80px rgba(107, 70, 193, 0.2)"
+    consciousness: "0 0 40px rgba(14, 165, 233, 0.4), 0 0 80px rgba(14, 165, 233, 0.2)"
+    guardian: "0 0 40px rgba(16, 185, 129, 0.4), 0 0 80px rgba(16, 185, 129, 0.2)"
+
+# Animation System
+animation:
+  # Timing Functions
+  easing:
+    linear: "linear"
+    ease: "ease"
+    easeIn: "cubic-bezier(0.4, 0, 1, 1)"
+    easeOut: "cubic-bezier(0, 0, 0.2, 1)"
+    easeInOut: "cubic-bezier(0.4, 0, 0.2, 1)"
+    bounce: "cubic-bezier(0.68, -0.55, 0.265, 1.55)"
+    smooth: "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+  
+  # Durations
+  duration:
+    instant: "100ms"
+    fast: "200ms"
+    normal: "300ms"
+    slow: "500ms"
+    slower: "700ms"
+    slowest: "1000ms"
+  
+  # Presets
+  presets:
+    fadeIn:
+      duration: "300ms"
+      easing: "easeOut"
+      properties: ["opacity", "transform"]
+    slideUp:
+      duration: "400ms"
+      easing: "easeOut"
+      transform: "translateY(20px)"
+    scaleIn:
+      duration: "200ms"
+      easing: "easeOut"
+      transform: "scale(0.95)"
+    rotate:
+      duration: "500ms"
+      easing: "easeInOut"
+      transform: "rotate(360deg)"
+
+# Z-Index System
+zIndex:
+  negative: -1
+  base: 0
+  dropdown: 10
+  sticky: 20
+  fixed: 30
+  modalBackdrop: 40
+  modal: 50
+  popover: 60
+  tooltip: 70
+  notification: 80
+  topmost: 90
+  trinity: 100
+
+# Component Specifications
+components:
+  # Button Variants
+  button:
+    primary:
+      background: "trinity.identity"
+      color: "text.primary"
+      borderRadius: "borders.radius.lg"
+      padding: "spacing.3 spacing.6"
+      fontSize: "typography.scale.body.size"
+      fontWeight: "typography.weights.medium"
+      transition: "animation.duration.normal"
+    secondary:
+      background: "glass.light"
+      color: "text.primary"
+      border: "1px solid glass.border"
+      borderRadius: "borders.radius.lg"
+      padding: "spacing.3 spacing.6"
+    glass:
+      background: "glass.medium"
+      backdropFilter: "blur(24px)"
+      border: "1px solid glass.border"
+      color: "text.primary"
+  
+  # Card Variants
+  card:
+    default:
+      background: "background.secondary"
+      borderRadius: "borders.radius.2xl"
+      padding: "spacing.6"
+      boxShadow: "shadows.lg"
+    glass:
+      background: "glass.light"
+      backdropFilter: "blur(24px)"
+      border: "1px solid glass.border"
+      borderRadius: "borders.radius.2xl"
+      padding: "spacing.6"
+    elevated:
+      background: "background.elevated"
+      borderRadius: "borders.radius.2xl"
+      padding: "spacing.6"
+      boxShadow: "shadows.xl"
+  
+  # Input Fields
+  input:
+    default:
+      background: "background.tertiary"
+      border: "1px solid transparent"
+      borderRadius: "borders.radius.lg"
+      padding: "spacing.3 spacing.4"
+      fontSize: "typography.scale.body.size"
+      color: "text.primary"
+    glass:
+      background: "glass.light"
+      border: "1px solid glass.border"
+      borderRadius: "borders.radius.lg"
+      padding: "spacing.3 spacing.4"
+      backdropFilter: "blur(16px)"
+
+# Accessibility Settings
+accessibility:
+  # Focus States
+  focus:
+    ring:
+      width: "2px"
+      color: "trinity.consciousness"
+      offset: "2px"
+    outline:
+      style: "solid"
+      width: "2px"
+      color: "trinity.consciousness"
+  
+  # Skip Links
+  skipLink:
+    background: "trinity.identity"
+    color: "text.primary"
+    padding: "spacing.2 spacing.4"
+    position: "absolute"
+    zIndex: 100
+  
+  # Screen Reader
+  srOnly:
+    position: "absolute"
+    width: "1px"
+    height: "1px"
+    padding: "0"
+    margin: "-1px"
+    overflow: "hidden"
+    clip: "rect(0, 0, 0, 0)"
+    whiteSpace: "nowrap"
+    borderWidth: "0"
+
+# Performance Budgets
+performance:
+  metrics:
+    lcp: "2.5s"      # Largest Contentful Paint
+    fid: "100ms"     # First Input Delay
+    cls: 0.1         # Cumulative Layout Shift
+    tti: "3.8s"      # Time to Interactive
+    fcp: "1.8s"      # First Contentful Paint
+  
+  budgets:
+    javascript: "200KB"
+    css: "50KB"
+    images: "500KB"
+    fonts: "100KB"
+    total: "1MB"
+
+# Trinity Framework Integration
+trinity:
+  identity:
+    symbol: "⚛️"
+    color: "trinity.identity"
+    description: "Authenticity, self-awareness, symbolic representation"
+  consciousness:
+    symbol: "🧠"
+    color: "trinity.consciousness"
+    description: "Awareness, learning, memory, decision-making"
+  guardian:
+    symbol: "🛡️"
+    color: "trinity.guardian"
+    description: "Ethics, safety, drift detection, protection"
+  lambda:
+    symbol: "Λ"
+    description: "LUKHAS consciousness representation"
+    usage: "Always represents consciousness, never computation"

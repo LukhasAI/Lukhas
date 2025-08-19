@@ -24,6 +24,9 @@ class ValidationType(Enum):
     LAMBDA_USAGE = "lambda_usage"
     BRAND_VOICE = "brand_voice"
     CONTENT_APPROPRIATENESS = "content_appropriateness"
+    CONSCIOUSNESS_LANGUAGE = "consciousness_language"
+    ETHICAL_COMPLIANCE = "ethical_compliance"
+    PLATFORM_OPTIMIZATION = "platform_optimization"
 
 @dataclass
 class ValidationResult:
@@ -268,6 +271,115 @@ class RealTimeBrandValidator:
                     description="Avoid production-ready claims without approval",
                     auto_correctable=True,
                     correction_template="in active development"
+                ),
+                BrandRule(
+                    rule_id="consciousness_technology_mention",
+                    rule_type=ValidationType.CONTENT_APPROPRIATENESS,
+                    pattern=re.compile(r'consciousness\s+technology', re.IGNORECASE),
+                    severity=ValidationSeverity.INFO,
+                    description="Proper consciousness technology reference",
+                    auto_correctable=False,
+                    correction_template=None
+                ),
+                BrandRule(
+                    rule_id="avoid_agi_claims",
+                    rule_type=ValidationType.CONTENT_APPROPRIATENESS,
+                    pattern=re.compile(r'\bAGI\b|\bartificial general intelligence\b', re.IGNORECASE),
+                    severity=ValidationSeverity.ERROR,
+                    description="Use 'consciousness technology' instead of AGI",
+                    auto_correctable=True,
+                    correction_template="consciousness technology"
+                )
+            ],
+            
+            # Additional validation types for better coverage
+            ValidationType.CONSCIOUSNESS_LANGUAGE: [
+                BrandRule(
+                    rule_id="consciousness_aware",
+                    rule_type=ValidationType.CONSCIOUSNESS_LANGUAGE,
+                    pattern=re.compile(r'\b(aware|awareness|conscious|consciousness)\b', re.IGNORECASE),
+                    severity=ValidationSeverity.INFO,
+                    description="Consciousness-aware language present",
+                    auto_correctable=False,
+                    correction_template=None
+                ),
+                BrandRule(
+                    rule_id="evolving_growing",
+                    rule_type=ValidationType.CONSCIOUSNESS_LANGUAGE,
+                    pattern=re.compile(r'\b(evolving|growing|learning|adapting|emerging)\b', re.IGNORECASE),
+                    severity=ValidationSeverity.INFO,
+                    description="Evolution and growth language",
+                    auto_correctable=False,
+                    correction_template=None
+                ),
+                BrandRule(
+                    rule_id="understanding_insight",
+                    rule_type=ValidationType.CONSCIOUSNESS_LANGUAGE,
+                    pattern=re.compile(r'\b(understanding|insight|wisdom|comprehension|perception)\b', re.IGNORECASE),
+                    severity=ValidationSeverity.INFO,
+                    description="Deep understanding language",
+                    auto_correctable=False,
+                    correction_template=None
+                )
+            ],
+            
+            ValidationType.ETHICAL_COMPLIANCE: [
+                BrandRule(
+                    rule_id="ethical_language",
+                    rule_type=ValidationType.ETHICAL_COMPLIANCE,
+                    pattern=re.compile(r'\b(ethical|responsible|principled|moral|values)\b', re.IGNORECASE),
+                    severity=ValidationSeverity.INFO,
+                    description="Ethical language present",
+                    auto_correctable=False,
+                    correction_template=None
+                ),
+                BrandRule(
+                    rule_id="avoid_harmful_language",
+                    rule_type=ValidationType.ETHICAL_COMPLIANCE,
+                    pattern=re.compile(r'\b(destroy|eliminate|kill|harm|damage)\b', re.IGNORECASE),
+                    severity=ValidationSeverity.WARNING,
+                    description="Avoid potentially harmful language",
+                    auto_correctable=True,
+                    correction_template="transform"
+                ),
+                BrandRule(
+                    rule_id="human_welfare",
+                    rule_type=ValidationType.ETHICAL_COMPLIANCE,
+                    pattern=re.compile(r'\b(human welfare|beneficial|helpful|supportive)\b', re.IGNORECASE),
+                    severity=ValidationSeverity.INFO,
+                    description="Human welfare focus present",
+                    auto_correctable=False,
+                    correction_template=None
+                )
+            ],
+            
+            ValidationType.PLATFORM_OPTIMIZATION: [
+                BrandRule(
+                    rule_id="hashtag_present",
+                    rule_type=ValidationType.PLATFORM_OPTIMIZATION,
+                    pattern=re.compile(r'#\w+'),
+                    severity=ValidationSeverity.INFO,
+                    description="Hashtags present for social media",
+                    auto_correctable=False,
+                    correction_template=None
+                ),
+                BrandRule(
+                    rule_id="consciousness_hashtags",
+                    rule_type=ValidationType.PLATFORM_OPTIMIZATION,
+                    pattern=re.compile(r'#ConsciousnessTechnology|#LUKHASIA|#TrinityFramework', re.IGNORECASE),
+                    severity=ValidationSeverity.INFO,
+                    description="Brand-specific hashtags present",
+                    auto_correctable=False,
+                    correction_template=None
+                ),
+                BrandRule(
+                    rule_id="engagement_language",
+                    rule_type=ValidationType.PLATFORM_OPTIMIZATION,
+                    pattern=re.compile(r'\?|what do you think|share your thoughts|let us know', re.IGNORECASE),
+                    severity=ValidationSeverity.INFO,
+                    description="Engagement-driving language present",
+                    auto_correctable=False,
+                    correction_template=None
                 )
             ]
         }

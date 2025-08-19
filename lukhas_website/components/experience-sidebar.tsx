@@ -1,0 +1,433 @@
+'use client'
+
+import React, { useState } from 'react'
+import * as Collapsible from '@radix-ui/react-collapsible'
+import * as Switch from '@radix-ui/react-switch'
+import * as Slider from '@radix-ui/react-slider'
+import { motion, AnimatePresence } from 'framer-motion'
+import { 
+  ChevronLeft, ChevronRight, Mic, Volume2, Sparkles, 
+  Palette, Shapes, Settings, Brain, Zap, Eye, 
+  SlidersHorizontal, Layers, Network, Cpu, Activity
+} from 'lucide-react'
+
+interface SidebarProps {
+  config: any
+  onConfigChange: (key: string, value: any) => void
+  apiKeys: {
+    openai: string
+    anthropic: string
+    google: string
+    perplexity: string
+  }
+  onApiKeyChange: (provider: string, key: string) => void
+}
+
+export default function ExperienceSidebar({ 
+  config, 
+  onConfigChange, 
+  apiKeys, 
+  onApiKeyChange 
+}: SidebarProps) {
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [activeSection, setActiveSection] = useState<string | null>('visualization')
+
+  const sections = [
+    {
+      id: 'visualization',
+      title: 'Visualization',
+      icon: Eye,
+      content: (
+        <div className="space-y-4">
+          {/* Particle Count */}
+          <div>
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider">
+              Particle Count
+            </label>
+            <div className="mt-2">
+              <Slider.Root
+                className="relative flex items-center w-full h-5"
+                value={[config.particleCount || 1000]}
+                onValueChange={([value]) => onConfigChange('particleCount', value)}
+                max={5000}
+                min={100}
+                step={100}
+              >
+                <Slider.Track className="bg-white/10 relative grow rounded-full h-1">
+                  <Slider.Range className="absolute bg-gradient-to-r from-purple-600 to-blue-600 rounded-full h-full" />
+                </Slider.Track>
+                <Slider.Thumb className="block w-4 h-4 bg-white rounded-full shadow-lg hover:scale-110 transition-transform" />
+              </Slider.Root>
+              <div className="flex justify-between mt-1">
+                <span className="text-xs text-white/40">100</span>
+                <span className="text-xs text-white/60">{config.particleCount || 1000}</span>
+                <span className="text-xs text-white/40">5000</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Morphing Speed */}
+          <div>
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider">
+              Morphing Speed
+            </label>
+            <div className="mt-2">
+              <Slider.Root
+                className="relative flex items-center w-full h-5"
+                value={[config.morphSpeed || 0.02]}
+                onValueChange={([value]) => onConfigChange('morphSpeed', value)}
+                max={0.1}
+                min={0.001}
+                step={0.001}
+              >
+                <Slider.Track className="bg-white/10 relative grow rounded-full h-1">
+                  <Slider.Range className="absolute bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full h-full" />
+                </Slider.Track>
+                <Slider.Thumb className="block w-4 h-4 bg-white rounded-full shadow-lg hover:scale-110 transition-transform" />
+              </Slider.Root>
+              <div className="flex justify-between mt-1">
+                <span className="text-xs text-white/40">Slow</span>
+                <span className="text-xs text-white/40">Fast</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Shape Selection */}
+          <div>
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2 block">
+              Active Shape
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              {['sphere', 'cube', 'torus', 'consciousness'].map((shape) => (
+                <button
+                  key={shape}
+                  onClick={() => onConfigChange('shape', shape)}
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                    config.shape === shape
+                      ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
+                      : 'bg-white/5 text-white/60 hover:bg-white/10'
+                  }`}
+                >
+                  {shape.charAt(0).toUpperCase() + shape.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'audio',
+      title: 'Audio & Voice',
+      icon: Mic,
+      content: (
+        <div className="space-y-4">
+          {/* Microphone Enable */}
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider">
+              Microphone
+            </label>
+            <Switch.Root
+              className="w-11 h-6 bg-white/10 rounded-full relative data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-purple-600 data-[state=checked]:to-blue-600"
+              checked={config.micEnabled}
+              onCheckedChange={(checked) => onConfigChange('micEnabled', checked)}
+            >
+              <Switch.Thumb className="block w-5 h-5 bg-white rounded-full transition-transform duration-200 translate-x-0.5 will-change-transform data-[state=checked]:translate-x-[22px]" />
+            </Switch.Root>
+          </div>
+
+          {/* Audio Enable */}
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider">
+              Audio Output
+            </label>
+            <Switch.Root
+              className="w-11 h-6 bg-white/10 rounded-full relative data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-blue-600 data-[state=checked]:to-cyan-500"
+              checked={config.audioEnabled}
+              onCheckedChange={(checked) => onConfigChange('audioEnabled', checked)}
+            >
+              <Switch.Thumb className="block w-5 h-5 bg-white rounded-full transition-transform duration-200 translate-x-0.5 will-change-transform data-[state=checked]:translate-x-[22px]" />
+            </Switch.Root>
+          </div>
+
+          {/* Voice Sensitivity */}
+          <div>
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider">
+              Voice Sensitivity
+            </label>
+            <div className="mt-2">
+              <Slider.Root
+                className="relative flex items-center w-full h-5"
+                value={[config.voiceSensitivity || 0.5]}
+                onValueChange={([value]) => onConfigChange('voiceSensitivity', value)}
+                max={1}
+                min={0}
+                step={0.01}
+              >
+                <Slider.Track className="bg-white/10 relative grow rounded-full h-1">
+                  <Slider.Range className="absolute bg-gradient-to-r from-emerald-600 to-green-500 rounded-full h-full" />
+                </Slider.Track>
+                <Slider.Thumb className="block w-4 h-4 bg-white rounded-full shadow-lg hover:scale-110 transition-transform" />
+              </Slider.Root>
+              <div className="flex justify-between mt-1">
+                <span className="text-xs text-white/40">Low</span>
+                <span className="text-xs text-white/40">High</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'consciousness',
+      title: 'Consciousness',
+      icon: Brain,
+      content: (
+        <div className="space-y-4">
+          {/* Consciousness Mode */}
+          <div>
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2 block">
+              Consciousness Mode
+            </label>
+            <div className="space-y-2">
+              {['aware', 'dreaming', 'focused', 'creative'].map((mode) => (
+                <button
+                  key={mode}
+                  onClick={() => onConfigChange('consciousnessMode', mode)}
+                  className={`w-full px-3 py-2 rounded-lg text-xs font-medium text-left transition-all ${
+                    config.consciousnessMode === mode
+                      ? 'bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-500/30 text-white'
+                      : 'bg-white/5 text-white/60 hover:bg-white/10 border border-transparent'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span>{mode.charAt(0).toUpperCase() + mode.slice(1)}</span>
+                    {config.consciousnessMode === mode && (
+                      <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse" />
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Trinity Integration */}
+          <div>
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2 block">
+              Trinity Integration
+            </label>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-white/60">Identity</span>
+                <Switch.Root
+                  className="w-11 h-6 bg-white/10 rounded-full relative data-[state=checked]:bg-purple-600"
+                  checked={config.trinityIdentity}
+                  onCheckedChange={(checked) => onConfigChange('trinityIdentity', checked)}
+                >
+                  <Switch.Thumb className="block w-5 h-5 bg-white rounded-full transition-transform duration-200 translate-x-0.5 will-change-transform data-[state=checked]:translate-x-[22px]" />
+                </Switch.Root>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-white/60">Consciousness</span>
+                <Switch.Root
+                  className="w-11 h-6 bg-white/10 rounded-full relative data-[state=checked]:bg-blue-600"
+                  checked={config.trinityConsciousness}
+                  onCheckedChange={(checked) => onConfigChange('trinityConsciousness', checked)}
+                >
+                  <Switch.Thumb className="block w-5 h-5 bg-white rounded-full transition-transform duration-200 translate-x-0.5 will-change-transform data-[state=checked]:translate-x-[22px]" />
+                </Switch.Root>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-white/60">Guardian</span>
+                <Switch.Root
+                  className="w-11 h-6 bg-white/10 rounded-full relative data-[state=checked]:bg-emerald-600"
+                  checked={config.trinityGuardian}
+                  onCheckedChange={(checked) => onConfigChange('trinityGuardian', checked)}
+                >
+                  <Switch.Thumb className="block w-5 h-5 bg-white rounded-full transition-transform duration-200 translate-x-0.5 will-change-transform data-[state=checked]:translate-x-[22px]" />
+                </Switch.Root>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'api',
+      title: 'API Integration',
+      icon: Network,
+      content: (
+        <div className="space-y-4">
+          <p className="text-xs text-white/40">
+            Connect AI providers to enhance the consciousness experience
+          </p>
+          
+          {/* API Key Inputs */}
+          {Object.entries(apiKeys).map(([provider, key]) => (
+            <div key={provider}>
+              <label className="text-xs font-medium text-white/60 uppercase tracking-wider">
+                {provider} API Key
+              </label>
+              <input
+                type="password"
+                value={key}
+                onChange={(e) => onApiKeyChange(provider, e.target.value)}
+                placeholder={`Enter ${provider} key...`}
+                className="w-full mt-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg 
+                         text-xs text-white placeholder-white/30 focus:outline-none 
+                         focus:border-white/20 focus:bg-white/10 transition-all"
+              />
+            </div>
+          ))}
+
+          {/* Model Selection */}
+          <div>
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2 block">
+              Active Model
+            </label>
+            <select
+              value={config.activeModel || 'lukhas'}
+              onChange={(e) => onConfigChange('activeModel', e.target.value)}
+              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg 
+                       text-xs text-white focus:outline-none focus:border-white/20 
+                       focus:bg-white/10 transition-all"
+            >
+              <option value="lukhas">LUKHAS AI</option>
+              <option value="gpt-4">GPT-4</option>
+              <option value="claude-3">Claude 3</option>
+              <option value="gemini-pro">Gemini Pro</option>
+              <option value="perplexity">Perplexity</option>
+            </select>
+          </div>
+        </div>
+      )
+    }
+  ]
+
+  return (
+    <>
+      {/* Sidebar */}
+      <motion.div
+        initial={{ x: -320 }}
+        animate={{ x: isCollapsed ? -280 : 0 }}
+        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+        className="fixed left-0 top-16 bottom-0 w-80 z-30 flex"
+      >
+        {/* Main Sidebar Content */}
+        <div className="flex-1 bg-black/60 backdrop-blur-2xl border-r border-white/10 overflow-y-auto">
+          <div className="p-4 space-y-4">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-sm font-medium text-white/80 tracking-wider uppercase">
+                Experience Controls
+              </h2>
+              <Activity className="w-4 h-4 text-white/40" />
+            </div>
+
+            {/* Sections */}
+            {sections.map((section) => {
+              const Icon = section.icon
+              return (
+                <Collapsible.Root
+                  key={section.id}
+                  open={activeSection === section.id}
+                  onOpenChange={(open) => setActiveSection(open ? section.id : null)}
+                >
+                  <Collapsible.Trigger className="w-full">
+                    <div className={`
+                      flex items-center justify-between px-3 py-2 rounded-lg transition-all
+                      ${activeSection === section.id 
+                        ? 'bg-white/10 text-white' 
+                        : 'hover:bg-white/5 text-white/60'}
+                    `}>
+                      <div className="flex items-center gap-3">
+                        <Icon className="w-4 h-4" />
+                        <span className="text-sm font-medium">{section.title}</span>
+                      </div>
+                      <ChevronRight className={`
+                        w-4 h-4 transition-transform
+                        ${activeSection === section.id ? 'rotate-90' : ''}
+                      `} />
+                    </div>
+                  </Collapsible.Trigger>
+                  
+                  <Collapsible.Content>
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="px-3 py-4"
+                    >
+                      {section.content}
+                    </motion.div>
+                  </Collapsible.Content>
+                </Collapsible.Root>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Collapse Toggle */}
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="absolute -right-10 top-1/2 -translate-y-1/2 w-10 h-20 
+                   bg-black/60 backdrop-blur-xl border border-white/10 
+                   border-l-0 rounded-r-xl flex items-center justify-center
+                   hover:bg-white/10 transition-colors"
+        >
+          {isCollapsed ? (
+            <ChevronRight className="w-4 h-4 text-white/60" />
+          ) : (
+            <ChevronLeft className="w-4 h-4 text-white/60" />
+          )}
+        </button>
+      </motion.div>
+
+      {/* Quick Access Floating Panel (when collapsed) */}
+      <AnimatePresence>
+        {isCollapsed && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="fixed left-4 top-24 z-20"
+          >
+            <div className="bg-black/60 backdrop-blur-2xl border border-white/10 rounded-xl p-3">
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => onConfigChange('micEnabled', !config.micEnabled)}
+                  className={`p-2 rounded-lg transition-all ${
+                    config.micEnabled
+                      ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
+                      : 'bg-white/10 text-white/60 hover:bg-white/20'
+                  }`}
+                  title="Toggle Microphone"
+                >
+                  <Mic className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => onConfigChange('audioEnabled', !config.audioEnabled)}
+                  className={`p-2 rounded-lg transition-all ${
+                    config.audioEnabled
+                      ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white'
+                      : 'bg-white/10 text-white/60 hover:bg-white/20'
+                  }`}
+                  title="Toggle Audio"
+                >
+                  <Volume2 className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setIsCollapsed(false)}
+                  className="p-2 rounded-lg bg-white/10 text-white/60 hover:bg-white/20 transition-all"
+                  title="Open Controls"
+                >
+                  <Settings className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  )
+}

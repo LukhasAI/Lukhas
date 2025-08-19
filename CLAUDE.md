@@ -100,6 +100,23 @@ docker-compose up
 
 # API documentation
 make api-spec  # Exports OpenAPI spec to out/openapi.json
+
+# Azure deployment (production)
+az containerapp update --name lukhas-ai --resource-group Lukhas
+```
+
+### Web Development (lukhas_website)
+```bash
+# Install dependencies
+cd lukhas_website
+npm install
+
+# Development server
+npm run dev  # Runs on port 3000
+
+# Build for production
+npm run build
+npm start
 ```
 
 ## High-Level Architecture
@@ -137,6 +154,11 @@ make api-spec  # Exports OpenAPI spec to out/openapi.json
 - `bridge/` - External API connections (OpenAI, Anthropic, Gemini)
 - `agents/` - Configuration for 25 specialized AI agents
 - `CLAUDE_ARMY/` - Deployment scripts and agent management
+
+**Web & Visualization:**
+- `lukhas_website/` - Next.js website with particle systems and 3D visualization
+- `visualization/` - Unity-based consciousness visualization systems
+- `voice_reactive_morphing/` - Audio-reactive visual morphing
 
 ### Module Communication Pattern
 - All modules depend on `core/` for GLYPH processing
@@ -190,6 +212,53 @@ Key environment variables (`.env`):
 6. **Audit Trail**: Check `data/drift_audit_summary.json`
 7. **Test Metadata**: Check `test_metadata/` for test execution details
 
+## MCP Server (Model Context Protocol)
+
+### Claude Desktop Integration
+The LUKHAS MCP server enables Claude Desktop to interact with the consciousness modules:
+
+```bash
+# Start MCP server (Docker)
+./scripts/start_mcp_server.sh
+
+# Or run directly (Python 3.11+)
+python scripts/lukhas_mcp_server_simple.py
+```
+
+**Configuration**: The MCP server config is in `config/claude_desktop_config.json`. This provides:
+- Consciousness module access
+- Trinity Framework context
+- LUKHAS vocabulary preservation
+- Real-time system status
+
+### MCP Server Locations
+- **Main Server**: `scripts/lukhas_mcp_server_simple.py` - Simplified version
+- **Full Server**: `mcp_servers/lukhas_mcp_server.py` - Complete integration
+- **Docker Config**: `docker/Dockerfile.mcp` - Containerized deployment
+
+## Azure Deployment
+
+LUKHAS AI is deployed on Azure Container Apps:
+
+**Production Environment:**
+- **Resource Group**: `Lukhas`
+- **Container App**: `lukhas-ai`
+- **Registry**: `lukhasai.azurecr.io`
+- **Endpoint**: Configured via Azure Container Apps ingress
+- **Config**: `azure-container-app.yaml`
+
+**Deployment Commands:**
+```bash
+# Build and push to Azure Container Registry
+az acr build --registry lukhasai --image lukhas-ai:latest .
+
+# Update container app
+az containerapp update --name lukhas-ai --resource-group Lukhas
+
+# View logs
+az containerapp logs show --name lukhas-ai --resource-group Lukhas
+```
+
 ## Important Resources
 
 - **Main Documentation**: `README.md` - System overview
@@ -200,6 +269,9 @@ Key environment variables (`.env`):
 - **Test Config**: `pytest.ini` and `pyproject.toml` - Test settings
 - **NIAS Theory**: `NIAS_THEORY/` - Advanced theoretical concepts
 - **Test Results**: `test_results/` - Latest test reports
+- **Copilot Instructions**: `.github/copilot-instructions.md` - GitHub Copilot integration
+- **MCP Documentation**: `docs/mcp/` - MCP integration details
+- **Azure Config**: `azure-container-app.yaml` - Azure deployment configuration
 
 ## Makefile Targets
 
@@ -216,3 +288,5 @@ Key targets:
 - `make clean` - Clean cache files
 - `make monitor` - Generate code quality report
 - `make quick` - Fix issues and run tests
+- `make security` - Run full security check suite
+- `make bootstrap` - Full setup (install + hooks)

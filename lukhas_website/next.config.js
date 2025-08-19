@@ -42,6 +42,14 @@ const nextConfig = {
         source: '/api/:path*',
         destination: 'http://localhost:8000/:path*', // LUKHAS backend
       },
+      {
+        source: '/proteus',
+        destination: 'http://localhost:8080', // PR0T3US visualizer (served separately)
+      },
+      {
+        source: '/proteus/:path*',
+        destination: 'http://localhost:8080/:path*', // PR0T3US assets
+      },
     ]
   },
   webpack: (config) => {

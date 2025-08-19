@@ -1,0 +1,30 @@
+{
+  "name": "proteus-voice-reactive-morphing",
+  "version": "1.0.0",
+  "description": "PR0T3US Voice-Reactive Morphing System for LUKHAS AI",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "serve": "http-server -p 8080 --cors"
+  },
+  "keywords": [
+    "webgl",
+    "voice",
+    "morphing",
+    "3d",
+    "visualization",
+    "lukhas",
+    "ai"
+  ],
+  "author": "LUKHAS AI",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "http-server": "^14.1.1"
+  }
+}

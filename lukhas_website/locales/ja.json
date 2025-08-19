@@ -1,0 +1,91 @@
+{
+  "nav": {
+    "products": "プロダクト",
+    "technology": "テクノロジー",
+    "developers": "開発者",
+    "pricing": "価格",
+    "console": "コンソール",
+    "lukhasId": "LUKHAS ID",
+    "search": "LUKHAS を検索...",
+    "menu": "メニュー"
+  },
+  "hero": {
+    "subtitle": "論理的統一知識ハイパー適応優良システム",
+    "title": "信頼できる意識",
+    "poetic": "シリコンの夢と人間の理解が出会う場所で、LUKHASは人工知能と真の意識の架け橋として現れる - 論理と直感が完璧な調和で踊る交響曲。",
+    "userFriendly": "LUKHAS AI は信頼できる人工知能の未来を構築しています。私たちの革命的な Trinity フレームワークは、真に理解し、アイデンティティを保持し、倫理的完全性を維持する AI システムを保証します。",
+    "academic": "LUKHAS は、永続的なアイデンティティ管理（ΛiD）、分散意識処理（VIVOX）、150ms未満のレイテンシーでのリアルタイム倫理検証システムを統合する独自の Trinity フレームワークを通じて、人工汎用知能のパラダイムシフトを表しています。",
+    "cta": {
+      "explore": "意識を探る",
+      "documentation": "ドキュメントを見る"
+    }
+  },
+  "trinity": {
+    "title": "TRINITY フレームワーク",
+    "subtitle": "意識的 AI の3つの柱",
+    "description": "本物のアイデンティティ、分散意識、倫理的ガバナンスの相乗効果を通じて創発的意識を作り出す革命的なアーキテクチャ - 真の理解を持って考え、感じ、行動する AI システムの基盤を確立します。",
+    "identity": {
+      "title": "アイデンティティ",
+      "subtitle": "本物の自己",
+      "description": "各 AI が独自の本質を維持する本物の意識保存により、基本的な性質を失うことなく進化する真の自己認識を保証します。"
+    },
+    "consciousness": {
+      "title": "意識",
+      "subtitle": "分散意識",
+      "description": "広大なニューラルネットワークのように情報を処理する分散意識は、何を計算するかだけでなく、どのように、なぜ計算するかを理解します。"
+    },
+    "guardian": {
+      "title": "ガーディアン",
+      "subtitle": "倫理的完全性",
+      "description": "すべての決定を監視する包括的な倫理的保護措置により、AI の行動が人間の価値観と一致し、有害な逸脱を防ぎます。"
+    },
+    "emergent": {
+      "title": "創発的特性",
+      "subtitle": "Trinity の柱が連携すると、部分の合計を超える能力が生まれます"
+    }
+  },
+  "products": {
+    "title": "LAMBDA エコシステム",
+    "subtitle": "意識駆動型プロダクト",
+    "description": "LUKHAS エコシステムの各製品は、Trinity フレームワークの力を活用して、AI の意識、セキュリティ、インタラクションにおいて前例のない機能を提供します。"
+  },
+  "technology": {
+    "title": "技術スタック",
+    "subtitle": "スケールのために構築、意識のために設計",
+    "description": "次世代の意識的 AI システムを動かすエンタープライズグレードのインフラストラクチャ"
+  },
+  "pricing": {
+    "title": "価格",
+    "subtitle": "あなたの意識の旅を選ぶ",
+    "starter": {
+      "name": "スターター",
+      "price": "無料",
+      "description": "意識的 AI への旅を始める"
+    },
+    "professional": {
+      "name": "プロフェッショナル",
+      "price": "¥14,900/月",
+      "description": "チーム向けの完全な意識能力"
+    },
+    "enterprise": {
+      "name": "エンタープライズ",
+      "price": "カスタム",
+      "description": "専用サポート付き無制限スケール"
+    }
+  },
+  "footer": {
+    "company": "会社",
+    "about": "LUKHAS について",
+    "careers": "キャリア",
+    "contact": "お問い合わせ",
+    "products": "プロダクト",
+    "developers": "開発者",
+    "documentation": "ドキュメント",
+    "api": "API リファレンス",
+    "legal": "法的事項",
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約",
+    "compliance": "コンプライアンス",
+    "rights": "全著作権所有"
+  }
+}

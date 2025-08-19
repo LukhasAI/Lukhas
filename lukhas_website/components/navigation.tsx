@@ -3,13 +3,19 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Search, Command } from 'lucide-react'
+import { Menu, X, Search, Command, Sun, Moon, Monitor, Globe } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useTheme } from './theme-provider'
+import { useTranslation, languages, type Language } from '@/lib/i18n'
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [langMenuOpen, setLangMenuOpen] = useState(false)
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false)
+  const { theme, setTheme, resolvedTheme } = useTheme()
+  const { language, setLanguage, t } = useTranslation()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,10 +75,10 @@ export function Navigation() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            <NavLink href="#products">PRODUCTS</NavLink>
-            <NavLink href="#technology">TECHNOLOGY</NavLink>
-            <NavLink href="#developers">DEVELOPERS</NavLink>
-            <NavLink href="#pricing">PRICING</NavLink>
+            <NavLink href="#products">{t('nav.products')}</NavLink>
+            <NavLink href="#technology">{t('nav.technology')}</NavLink>
+            <NavLink href="#developers">{t('nav.developers')}</NavLink>
+            <NavLink href="#pricing">{t('nav.pricing')}</NavLink>
             
             {/* Search Button */}
             <button
@@ -82,6 +88,115 @@ export function Navigation() {
             >
               <Search className="w-4 h-4 text-text-secondary group-hover:text-text-primary transition-colors" />
             </button>
+
+            {/* Language Switcher */}
+            <div className="relative">
+              <button
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                className="flex items-center space-x-2 p-2 hover:bg-glass rounded-lg transition-colors"
+                aria-label="Change language"
+              >
+                <Globe className="w-4 h-4 text-text-secondary" />
+                <span className="text-xs text-text-secondary">{languages[language]?.flag || '🌍'}</span>
+              </button>
+              
+              <AnimatePresence>
+                {langMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute right-0 mt-2 w-48 glass rounded-xl p-2 z-50"
+                  >
+                    {Object.entries(languages).map(([code, config]) => (
+                      <button
+                        key={code}
+                        onClick={() => {
+                          setLanguage(code as Language)
+                          setLangMenuOpen(false)
+                        }}
+                        className={cn(
+                          'w-full text-left px-3 py-2 rounded-lg flex items-center space-x-3 transition-colors',
+                          language === code ? 'bg-trinity-consciousness/20' : 'hover:bg-glass'
+                        )}
+                      >
+                        <span className="text-lg">{config?.flag || '🏳️'}</span>
+                        <div>
+                          <div className="text-sm">{config?.nativeName || code}</div>
+                          <div className="text-xs text-text-tertiary">{config?.name || code}</div>
+                        </div>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Theme Toggle */}
+            <div className="relative">
+              <button
+                onClick={() => setThemeMenuOpen(!themeMenuOpen)}
+                className="p-2 hover:bg-glass rounded-lg transition-colors"
+                aria-label="Change theme"
+              >
+                {resolvedTheme === 'dark' ? (
+                  <Moon className="w-4 h-4 text-text-secondary" />
+                ) : (
+                  <Sun className="w-4 h-4 text-text-secondary" />
+                )}
+              </button>
+              
+              <AnimatePresence>
+                {themeMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute right-0 mt-2 w-36 glass rounded-xl p-2 z-50"
+                  >
+                    <button
+                      onClick={() => {
+                        setTheme('light')
+                        setThemeMenuOpen(false)
+                      }}
+                      className={cn(
+                        'w-full text-left px-3 py-2 rounded-lg flex items-center space-x-2 transition-colors',
+                        theme === 'light' ? 'bg-trinity-consciousness/20' : 'hover:bg-glass'
+                      )}
+                    >
+                      <Sun className="w-4 h-4" />
+                      <span className="text-sm">Light</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setTheme('dark')
+                        setThemeMenuOpen(false)
+                      }}
+                      className={cn(
+                        'w-full text-left px-3 py-2 rounded-lg flex items-center space-x-2 transition-colors',
+                        theme === 'dark' ? 'bg-trinity-consciousness/20' : 'hover:bg-glass'
+                      )}
+                    >
+                      <Moon className="w-4 h-4" />
+                      <span className="text-sm">Dark</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setTheme('system')
+                        setThemeMenuOpen(false)
+                      }}
+                      className={cn(
+                        'w-full text-left px-3 py-2 rounded-lg flex items-center space-x-2 transition-colors',
+                        theme === 'system' ? 'bg-trinity-consciousness/20' : 'hover:bg-glass'
+                      )}
+                    >
+                      <Monitor className="w-4 h-4" />
+                      <span className="text-sm">System</span>
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* Command Palette Hint */}
             <div className="flex items-center space-x-1 text-text-tertiary text-xs">
@@ -94,10 +209,10 @@ export function Navigation() {
               href="/console"
               className="px-6 py-2 border border-trinity-consciousness text-trinity-consciousness hover:bg-trinity-consciousness hover:text-bg-primary transition-all duration-300 font-regular text-sm tracking-[0.15em] uppercase"
             >
-              CONSOLE
+              {t('nav.console')}
             </Link>
             <button className="px-6 py-2 bg-gradient-to-r from-trinity-identity to-trinity-consciousness text-bg-primary hover:opacity-90 transition-opacity font-regular text-sm tracking-[0.15em] uppercase">
-              LUKHAS ID
+              {t('nav.lukhasId')}
             </button>
           </div>
 
@@ -129,16 +244,16 @@ export function Navigation() {
             <div className="absolute inset-0 bg-bg-primary/95 backdrop-blur-2xl" />
             <div className="relative h-full flex flex-col items-center justify-center space-y-8">
               <MobileNavLink href="#products" onClick={() => setMobileMenuOpen(false)}>
-                PRODUCTS
+                {t('nav.products')}
               </MobileNavLink>
               <MobileNavLink href="#technology" onClick={() => setMobileMenuOpen(false)}>
-                TECHNOLOGY
+                {t('nav.technology')}
               </MobileNavLink>
               <MobileNavLink href="#developers" onClick={() => setMobileMenuOpen(false)}>
-                DEVELOPERS
+                {t('nav.developers')}
               </MobileNavLink>
               <MobileNavLink href="#pricing" onClick={() => setMobileMenuOpen(false)}>
-                PRICING
+                {t('nav.pricing')}
               </MobileNavLink>
               <div className="h-px w-32 bg-glass-border" />
               <Link
@@ -146,10 +261,10 @@ export function Navigation() {
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-8 py-3 border border-trinity-consciousness text-trinity-consciousness font-regular text-sm tracking-[0.15em] uppercase"
               >
-                CONSOLE
+                {t('nav.console')}
               </Link>
               <button className="px-8 py-3 bg-gradient-to-r from-trinity-identity to-trinity-consciousness text-bg-primary font-regular text-sm tracking-[0.15em] uppercase">
-                LUKHAS ID
+                {t('nav.lukhasId')}
               </button>
             </div>
           </motion.div>
@@ -176,7 +291,7 @@ export function Navigation() {
             >
               <input
                 type="text"
-                placeholder="Search LUKHAS..."
+                placeholder={t('nav.search')}
                 className="w-full bg-transparent text-2xl font-light outline-none placeholder:text-text-tertiary"
                 autoFocus
               />

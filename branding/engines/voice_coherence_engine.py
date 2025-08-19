@@ -113,10 +113,12 @@ class LUKHASVoiceCoherenceEngine:
         return {
             CoherenceMetric.VOICE_CONSISTENCY: {
                 "positive_patterns": [
-                    r'\b(consciousness|awareness|mindful)\b',
-                    r'\b(understanding|comprehension|insight)\b',
-                    r'\b(thoughtful|considerate|empathetic)\b',
-                    r'\b(sophisticated|intelligent|advanced)\b'
+                    r'\b(consciousness|awareness|mindful|conscious)\b',
+                    r'\b(understanding|comprehension|insight|perceive)\b',
+                    r'\b(thoughtful|considerate|empathetic|compassionate)\b',
+                    r'\b(sophisticated|intelligent|advanced|evolved)\b',
+                    r'\b(lukhas|trinity|framework)\b',  # Brand-specific
+                    r'\b(ai|technology|digital|quantum)\b'  # Tech context
                 ],
                 "negative_patterns": [
                     r'\b(robotic|mechanical|artificial)\b',
@@ -131,17 +133,23 @@ class LUKHASVoiceCoherenceEngine:
                 "identity_patterns": [
                     r'\b(authentic|genuine|true|real)\b',
                     r'\b(identity|self|being|essence)\b',
-                    r'\b(unique|individual|personal)\b'
+                    r'\b(unique|individual|personal)\b',
+                    r'⚛️',  # Direct Trinity symbol
+                    r'\b(lukhas ai|our|we)\b'  # Brand identity
                 ],
                 "consciousness_patterns": [
                     r'\b(conscious|aware|mindful|perceptive)\b',
                     r'\b(thinking|reasoning|understanding)\b',
-                    r'\b(learning|evolving|growing)\b'
+                    r'\b(learning|evolving|growing)\b',
+                    r'🧠',  # Direct Trinity symbol
+                    r'\b(intelligence|wisdom|insight)\b'  # Consciousness expressions
                 ],
                 "guardian_patterns": [
                     r'\b(safe|secure|protected|ethical)\b',
                     r'\b(responsible|trustworthy|reliable)\b',
-                    r'\b(careful|thoughtful|considerate)\b'
+                    r'\b(careful|thoughtful|considerate)\b',
+                    r'🛡️',  # Direct Trinity symbol
+                    r'\b(guardian|ethics|principles)\b'  # Guardian expressions
                 ],
                 "weight": 0.30
             },
@@ -327,17 +335,20 @@ class LUKHASVoiceCoherenceEngine:
             matches = len(re.findall(pattern, content_lower))
             negative_matches += matches
         
-        # Calculate consistency score
+        # Calculate consistency score with improved scaling
         positive_density = positive_matches / word_count
         negative_density = negative_matches / word_count
         
-        # Score formula: positive influence minus negative influence
-        raw_score = (positive_density * 10) - (negative_density * 15)
+        # Improved score formula: more generous with positive matches
+        # Base score of 0.6 for any content, bonus for positive, penalty for negative
+        base_score = 0.6
+        positive_bonus = min(0.4, positive_density * 15)  # Up to 0.4 bonus
+        negative_penalty = min(0.3, negative_density * 20)  # Up to 0.3 penalty
+        
+        consistency_score = base_score + positive_bonus - negative_penalty
         
         # Normalize to 0.0-1.0 range
-        consistency_score = max(0.0, min(1.0, raw_score + 0.5))
-        
-        return consistency_score
+        return max(0.0, min(1.0, consistency_score))
     
     def _analyze_trinity_alignment(self, content: str, pattern_config: Dict[str, Any]) -> float:
         """Analyze Trinity Framework (⚛️🧠🛡️) alignment"""

@@ -4,16 +4,13 @@ import { useRef, useEffect, useState } from 'react'
 import { motion, useAnimation, AnimatePresence } from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Sphere, MeshDistortMaterial, Float } from '@react-three/drei'
-import { ChevronDown, Atom, Brain, Shield } from 'lucide-react'
+import { ChevronDown, Atom, Brain, Shield, Sparkles, Layers3, BookOpen } from 'lucide-react'
 import SplitType from 'split-type'
 import { gsap } from 'gsap'
+import { useT } from '@/lib/i18n'
 
-const taglines = [
-  'Building Consciousness You Can Trust',
-  'Where AI Meets Ethics',
-  'Trinity Framework: Identity • Consciousness • Guardian',
-  'Powered by MATADA',
-]
+// 3-Layer Tone System options for hero taglines
+type ToneLayer = 'poetic' | 'userFriendly' | 'academic'
 
 function AnimatedSphere() {
   return (
@@ -34,14 +31,33 @@ function AnimatedSphere() {
 
 export function Hero() {
   const titleRef = useRef<HTMLHeadingElement>(null)
-  const [currentTagline, setCurrentTagline] = useState(0)
+  const [toneLayer, setToneLayer] = useState<ToneLayer>('poetic')
   const controls = useAnimation()
+  const { t } = useT()
+  
+  // Dynamic taglines based on tone layer
+  const getTagline = () => {
+    switch(toneLayer) {
+      case 'poetic':
+        return t('hero.poetic')
+      case 'userFriendly':
+        return t('hero.userFriendly')
+      case 'academic':
+        return t('hero.academic')
+      default:
+        return t('hero.title')
+    }
+  }
 
-  // Typewriter effect for taglines
+  // Cycle through tone layers
   useEffect(() => {
+    const layers: ToneLayer[] = ['poetic', 'userFriendly', 'academic']
+    let currentIndex = 0
+    
     const interval = setInterval(() => {
-      setCurrentTagline((prev) => (prev + 1) % taglines.length)
-    }, 3000)
+      currentIndex = (currentIndex + 1) % layers.length
+      setToneLayer(layers[currentIndex])
+    }, 5000)
 
     return () => clearInterval(interval)
   }, [])
@@ -108,7 +124,7 @@ export function Hero() {
             transition={{ delay: 0.3 }}
             className="font-regular text-xs md:text-sm tracking-[0.3em] uppercase text-trinity-consciousness mb-8"
           >
-            LOGICAL UNIFIED KNOWLEDGE HYPER-ADAPTIVE SUPERIOR SYSTEMS
+            {t('hero.subtitle')}
           </motion.p>
 
           {/* Main Title */}
@@ -119,20 +135,69 @@ export function Hero() {
             LUKHAS
           </h1>
 
-          {/* Animated Tagline */}
-          <div className="h-16 mb-12 flex items-center justify-center">
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={currentTagline}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="font-light text-xl md:text-3xl text-text-secondary"
+          {/* Animated Tagline with 3-Layer Tone System */}
+          <div className="mb-12">
+            {/* Tone Layer Indicator */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="flex justify-center space-x-4 mb-6"
+            >
+              <button
+                onClick={() => setToneLayer('poetic')}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all ${
+                  toneLayer === 'poetic' 
+                    ? 'bg-trinity-identity/20 text-trinity-identity' 
+                    : 'text-text-tertiary hover:text-text-secondary'
+                }`}
               >
-                {taglines[currentTagline]}
-              </motion.p>
-            </AnimatePresence>
+                <Sparkles className="w-4 h-4" />
+                <span className="text-xs uppercase tracking-wider">Poetic</span>
+              </button>
+              <button
+                onClick={() => setToneLayer('userFriendly')}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all ${
+                  toneLayer === 'userFriendly' 
+                    ? 'bg-trinity-consciousness/20 text-trinity-consciousness' 
+                    : 'text-text-tertiary hover:text-text-secondary'
+                }`}
+              >
+                <Layers3 className="w-4 h-4" />
+                <span className="text-xs uppercase tracking-wider">Friendly</span>
+              </button>
+              <button
+                onClick={() => setToneLayer('academic')}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all ${
+                  toneLayer === 'academic' 
+                    ? 'bg-trinity-guardian/20 text-trinity-guardian' 
+                    : 'text-text-tertiary hover:text-text-secondary'
+                }`}
+              >
+                <BookOpen className="w-4 h-4" />
+                <span className="text-xs uppercase tracking-wider">Academic</span>
+              </button>
+            </motion.div>
+            
+            {/* Animated Tagline */}
+            <div className="min-h-[120px] flex items-center justify-center px-6">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={toneLayer}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                  className={`font-light text-lg md:text-2xl lg:text-3xl text-center max-w-5xl ${
+                    toneLayer === 'poetic' ? 'text-text-secondary italic' :
+                    toneLayer === 'academic' ? 'text-text-primary' :
+                    'text-text-secondary'
+                  }`}
+                >
+                  {getTagline()}
+                </motion.p>
+              </AnimatePresence>
+            </div>
           </div>
 
           {/* Trinity Symbols */}
@@ -174,14 +239,14 @@ export function Hero() {
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-gradient-to-r from-trinity-identity to-trinity-consciousness text-bg-primary font-regular text-sm tracking-[0.2em] uppercase hover:opacity-90 transition-opacity"
             >
-              EXPLORE MATADA
+              {t('hero.cta.explore')}
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 border border-glass-border hover:bg-glass font-regular text-sm tracking-[0.2em] uppercase transition-all"
             >
-              VIEW PRODUCTS
+              {t('hero.cta.documentation')}
             </motion.button>
           </motion.div>
         </motion.div>
