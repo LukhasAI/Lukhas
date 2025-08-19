@@ -273,6 +273,25 @@ export default function ExperiencePage() {
   // Handle API key changes
   const handleApiKeyChange = (provider: string, key: string) => {
     setApiKeys(prev => ({ ...prev, [provider]: key }))
+    
+    // Auto-select first available model for the provider when key is added
+    if (key && key.trim()) {
+      let newModel = config.activeModel
+      if (provider === 'openai' && config.activeModel === 'lukhas') {
+        newModel = 'gpt-4o'
+      } else if (provider === 'anthropic' && config.activeModel === 'lukhas') {
+        newModel = 'claude-3-sonnet'
+      } else if (provider === 'google' && config.activeModel === 'lukhas') {
+        newModel = 'gemini-1.5-pro'
+      } else if (provider === 'perplexity' && config.activeModel === 'lukhas') {
+        newModel = 'pplx-7b-online'
+      }
+      
+      if (newModel !== config.activeModel) {
+        setConfig(prev => ({ ...prev, activeModel: newModel }))
+        setSelectedModel(`${provider.toUpperCase()} · ${newModel}`)
+      }
+    }
   }
 
   // Guardian calm function

@@ -96,7 +96,7 @@ export async function callOpenAI(message: string, apiKey: string, model = 'gpt-4
     }
   } catch (error: any) {
     return {
-      content: `OpenAI Error: ${error.message}`,
+      content: '',
       model: `OpenAI ${model}`,
       usage: { tokens: 0, costUSD: 0 },
       error: error.message
@@ -138,7 +138,7 @@ export async function callAnthropic(message: string, apiKey: string, model = 'cl
     }
   } catch (error: any) {
     return {
-      content: `Anthropic Error: ${error.message}`,
+      content: '',
       model: `Anthropic ${model}`,
       usage: { tokens: 0, costUSD: 0 },
       error: error.message
