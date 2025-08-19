@@ -251,40 +251,63 @@ function ParticleCloud({
     geometry.attributes.position.needsUpdate = true
   })
 
-  // Get dynamic color based on Trinity state and voice reactivity
+  // Advanced dynamic color system with voice reactivity and configuration
   const getParticleColor = () => {
     if (accentColor) return accentColor
     
     const activeStates = Object.entries(trinityState).filter(([_, active]) => active)
-    
-    // Voice-reactive color shifts
     const voiceIntensity = (voiceData.intensity || 0) * voiceSensitivity
     const voiceFrequency = (voiceData.frequency || 0) * voiceSensitivity
     
+    // Get base color from Trinity state
     let baseColor = '#ffffff'
     if (activeStates.length === 0) baseColor = '#666666'
     else if (activeStates.length === 3) baseColor = '#ffffff'
     else {
       const colors: Record<string, string> = {
-        identity: '#8b5cf6',
-        consciousness: '#3b82f6', 
-        guardian: '#22c55e'
+        identity: '#8b5cf6',     // Purple
+        consciousness: '#3b82f6', // Blue  
+        guardian: '#22c55e'      // Green
       }
       baseColor = colors[activeStates[0][0]] || '#666666'
     }
     
-    // Add subtle color variations based on voice
     const color = new THREE.Color(baseColor)
-    if (voiceIntensity > 0.1) {
+    
+    // Apply voice-reactive color changes if enabled
+    if ((window as any).config?.voiceColorReactive && voiceIntensity > 0.05) {
       const hsl = { h: 0, s: 0, l: 0 }
       color.getHSL(hsl)
       
-      // Shift hue based on frequency
-      hsl.h = (hsl.h + voiceFrequency * 0.0001) % 1
-      // Increase saturation with intensity
-      hsl.s = Math.min(1, hsl.s + voiceIntensity * 0.3)
-      // Increase lightness with intensity
-      hsl.l = Math.min(1, hsl.l + voiceIntensity * 0.2)
+      const colorIntensity = (window as any).config?.colorIntensity || 0.5
+      
+      // Advanced voice-reactive color transformations
+      switch ((window as any).config?.textureStyle || 'smooth') {
+        case 'neural':
+          // Neural: Rapid hue shifts with frequency
+          hsl.h = (hsl.h + Math.sin(voiceFrequency * 0.001) * colorIntensity * 0.3) % 1
+          hsl.s = Math.min(1, hsl.s + voiceIntensity * colorIntensity * 0.5)
+          break
+          
+        case 'geometric':
+          // Geometric: Stepped hue changes
+          const steps = Math.floor(voiceFrequency * 0.0001 * 8) * 0.125
+          hsl.h = (hsl.h + steps * colorIntensity) % 1
+          hsl.s = Math.min(1, hsl.s + (voiceIntensity > 0.5 ? colorIntensity * 0.4 : 0))
+          break
+          
+        case 'ethereal':
+          // Ethereal: Subtle, flowing color changes
+          hsl.h = (hsl.h + Math.sin(voiceFrequency * 0.0005) * colorIntensity * 0.15) % 1
+          hsl.l = Math.min(0.9, hsl.l + Math.cos(voiceIntensity * 5) * colorIntensity * 0.3)
+          break
+          
+        default: // smooth
+          // Smooth: Continuous hue rotation with voice
+          hsl.h = (hsl.h + voiceFrequency * 0.0002 * colorIntensity) % 1
+          hsl.s = Math.min(1, hsl.s + voiceIntensity * colorIntensity * 0.3)
+          hsl.l = Math.min(1, hsl.l + voiceIntensity * colorIntensity * 0.2)
+      }
       
       color.setHSL(hsl.h, hsl.s, hsl.l)
     }
@@ -312,7 +335,7 @@ function ParticleCloud({
     </Float>
   )
 
-  // Main particle cloud system
+  // Main particle cloud system with advanced effects
   const renderParticles = (renderMode === 'particles' || renderMode === 'auto') && currentPositions && (
     <points ref={particlesRef}>
       <bufferGeometry>
@@ -324,12 +347,39 @@ function ParticleCloud({
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.08 + morphProgress * 0.04 + (voiceData.intensity || 0) * voiceSensitivity * 0.02}
+        size={(() => {
+          const baseSize = 0.08
+          const morphSize = morphProgress * 0.04
+          const voiceSize = (voiceData.intensity || 0) * voiceSensitivity * 0.02
+          const glowBoost = ((window as any).config?.glowIntensity || 0.3) * 0.03
+          return baseSize + morphSize + voiceSize + glowBoost
+        })()}
         color={getParticleColor()}
         transparent
-        opacity={0.9}
+        opacity={(() => {
+          const baseOpacity = 0.9
+          const glowIntensity = (window as any).config?.glowIntensity || 0.3
+          const textureStyle = (window as any).config?.textureStyle || 'smooth'
+          
+          // Adjust opacity based on texture style
+          switch (textureStyle) {
+            case 'neural': return Math.min(1, baseOpacity + glowIntensity * 0.2)
+            case 'geometric': return baseOpacity * (0.8 + glowIntensity * 0.3)
+            case 'ethereal': return baseOpacity * (0.6 + glowIntensity * 0.5)
+            default: return baseOpacity + glowIntensity * 0.1
+          }
+        })()}
         sizeAttenuation
-        blending={THREE.AdditiveBlending}
+        blending={(() => {
+          const textureStyle = (window as any).config?.textureStyle || 'smooth'
+          // Use different blending modes for different texture styles
+          switch (textureStyle) {
+            case 'neural': return THREE.AdditiveBlending
+            case 'geometric': return THREE.NormalBlending
+            case 'ethereal': return THREE.AdditiveBlending
+            default: return THREE.AdditiveBlending
+          }
+        })()}
       />
     </points>
   )
@@ -487,6 +537,13 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
   const adjustedTempo = (config.tempo || 1) * motionScale
   const adjustedMorphSpeed = (config.morphSpeed || 0.005) * motionScale
 
+  // Expose config globally for particle system access
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      (window as any).config = config
+    }
+  }, [config])
+
   return (
     <div className="w-full h-full relative">
       <Canvas
@@ -505,8 +562,23 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
           color="#00d4ff"
         />
         
-        {/* Environment for reflections */}
-        <Environment preset="city" />
+        {/* Dynamic Environment with sync support */}
+        <Environment 
+          preset={(() => {
+            const environmentSync = config.environmentSync || 0.2
+            const textureStyle = config.textureStyle || 'smooth'
+            
+            if (environmentSync < 0.3) return "city"
+            
+            // Choose environment based on texture style and sync level
+            switch (textureStyle) {
+              case 'neural': return "dawn"
+              case 'geometric': return "warehouse"
+              case 'ethereal': return "night"
+              default: return "city"
+            }
+          })()} 
+        />
         
         {/* New particle cloud system */}
         <ParticleCloud

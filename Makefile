@@ -46,6 +46,7 @@ help:
 	@echo "  policy-tone  - Validate 3-layer tone system"
 	@echo "  policy-registries - Validate module/site registries"
 	@echo "  policy-routes - Validate site sections have matching routes"
+	@echo "  policy-vocab  - Validate vocabulary compliance"
 	@echo ""
 	@echo "Security:"
 	@echo "  security     - Run full security check suite"
@@ -371,7 +372,7 @@ audit:
 	@bash -lc './scripts/audit.sh'
 
 # Policy & Brand Enforcement
-policy: policy-registries policy-brand policy-tone policy-routes
+policy: policy-registries policy-brand policy-tone policy-routes policy-vocab
 	@echo "✅ All policy checks passed"
 
 policy-review:
@@ -393,3 +394,7 @@ policy-registries:
 policy-routes:
 	@echo "🗺️ Validating site sections have matching routes..."
 	@npm run policy:routes
+
+policy-vocab:
+	@echo "📚 Validating vocabulary compliance..."
+	@npm run vocab:validate

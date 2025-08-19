@@ -170,6 +170,36 @@ export default function ExperienceSidebar({
             </div>
           </div>
 
+          {/* Performance Mode */}
+          <div>
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2 block">
+              Render Mode
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { key: 'particles', label: 'Particles', icon: '✦' },
+                { key: 'mesh', label: 'Mesh', icon: '◆' },
+                { key: 'auto', label: 'Auto', icon: '⚡' }
+              ].map((mode) => (
+                <button
+                  key={mode.key}
+                  onClick={() => onConfigChange('renderMode', mode.key)}
+                  className={`px-2 py-2 rounded-lg text-xs font-medium transition-all flex flex-col items-center gap-1 ${
+                    (config.renderMode || 'particles') === mode.key
+                      ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white'
+                      : 'bg-white/5 text-white/60 hover:bg-white/10'
+                  }`}
+                >
+                  <span className="text-sm">{mode.icon}</span>
+                  <span>{mode.label}</span>
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-white/40 mt-2">
+              Particles: Full particle cloud • Mesh: Optimized for performance • Auto: Adaptive
+            </p>
+          </div>
+
           {/* Shape Selection */}
           <div>
             <label className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2 block">
@@ -453,6 +483,145 @@ export default function ExperienceSidebar({
             </div>
             <div className="mt-2 text-[10px] text-white/40">
               Costs shown are estimates; actual pricing depends on the selected model.
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'effects',
+      title: 'Visual Effects',
+      icon: Sparkles,
+      content: (
+        <div className="space-y-4">
+          {/* Color Mode */}
+          <div>
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2 block">
+              Color System
+            </label>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-white/60">Voice Reactive Colors</span>
+                <Switch.Root
+                  className="w-11 h-6 bg-white/10 rounded-full relative data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-pink-600 data-[state=checked]:to-purple-600"
+                  checked={config.voiceColorReactive}
+                  onCheckedChange={(checked) => onConfigChange('voiceColorReactive', checked)}
+                >
+                  <Switch.Thumb className="block w-5 h-5 bg-white rounded-full transition-transform duration-200 translate-x-0.5 will-change-transform data-[state=checked]:translate-x-[22px]" />
+                </Switch.Root>
+              </div>
+              
+              {/* Color Intensity */}
+              <div>
+                <label className="text-xs font-medium text-white/60 uppercase tracking-wider">
+                  Color Intensity
+                </label>
+                <div className="mt-2">
+                  <Slider.Root
+                    className="relative flex items-center w-full h-5"
+                    value={[config.colorIntensity || 0.5]}
+                    onValueChange={([value]) => onConfigChange('colorIntensity', value)}
+                    max={1}
+                    min={0}
+                    step={0.01}
+                  >
+                    <Slider.Track className="bg-white/10 relative grow rounded-full h-1">
+                      <Slider.Range className="absolute bg-gradient-to-r from-pink-600 to-purple-600 rounded-full h-full" />
+                    </Slider.Track>
+                    <Slider.Thumb className="block w-4 h-4 bg-white rounded-full shadow-lg hover:scale-110 transition-transform" />
+                  </Slider.Root>
+                  <div className="flex justify-between mt-1">
+                    <span className="text-xs text-white/40">Subtle</span>
+                    <span className="text-xs text-white/40">Vibrant</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Texture Style */}
+          <div>
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2 block">
+              Texture Style
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { key: 'smooth', label: 'Smooth', icon: '○' },
+                { key: 'neural', label: 'Neural', icon: '⚡' },
+                { key: 'geometric', label: 'Geometric', icon: '◇' },
+                { key: 'ethereal', label: 'Ethereal', icon: '✧' }
+              ].map((texture) => (
+                <button
+                  key={texture.key}
+                  onClick={() => onConfigChange('textureStyle', texture.key)}
+                  className={`px-2 py-2 rounded-lg text-xs font-medium transition-all flex items-center gap-2 ${
+                    (config.textureStyle || 'smooth') === texture.key
+                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white'
+                      : 'bg-white/5 text-white/60 hover:bg-white/10'
+                  }`}
+                >
+                  <span>{texture.icon}</span>
+                  <span>{texture.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Outer Layer Effects */}
+          <div>
+            <label className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2 block">
+              Outer Layer
+            </label>
+            <div className="space-y-2">
+              <div>
+                <label className="text-xs font-medium text-white/60 uppercase tracking-wider">
+                  Glow Intensity
+                </label>
+                <div className="mt-2">
+                  <Slider.Root
+                    className="relative flex items-center w-full h-5"
+                    value={[config.glowIntensity || 0.3]}
+                    onValueChange={([value]) => onConfigChange('glowIntensity', value)}
+                    max={1}
+                    min={0}
+                    step={0.01}
+                  >
+                    <Slider.Track className="bg-white/10 relative grow rounded-full h-1">
+                      <Slider.Range className="absolute bg-gradient-to-r from-cyan-600 to-blue-600 rounded-full h-full" />
+                    </Slider.Track>
+                    <Slider.Thumb className="block w-4 h-4 bg-white rounded-full shadow-lg hover:scale-110 transition-transform" />
+                  </Slider.Root>
+                  <div className="flex justify-between mt-1">
+                    <span className="text-xs text-white/40">Off</span>
+                    <span className="text-xs text-white/40">Intense</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <label className="text-xs font-medium text-white/60 uppercase tracking-wider">
+                  Environment Sync
+                </label>
+                <div className="mt-2">
+                  <Slider.Root
+                    className="relative flex items-center w-full h-5"
+                    value={[config.environmentSync || 0.2]}
+                    onValueChange={([value]) => onConfigChange('environmentSync', value)}
+                    max={1}
+                    min={0}
+                    step={0.01}
+                  >
+                    <Slider.Track className="bg-white/10 relative grow rounded-full h-1">
+                      <Slider.Range className="absolute bg-gradient-to-r from-teal-600 to-emerald-600 rounded-full h-full" />
+                    </Slider.Track>
+                    <Slider.Thumb className="block w-4 h-4 bg-white rounded-full shadow-lg hover:scale-110 transition-transform" />
+                  </Slider.Root>
+                  <div className="flex justify-between mt-1">
+                    <span className="text-xs text-white/40">Independent</span>
+                    <span className="text-xs text-white/40">Synced</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
