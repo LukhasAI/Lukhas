@@ -39,7 +39,7 @@ All references to MATADA should be updated:
 
 ## Product Description
 
-MΛTRIZ is LUKHAS AI's revolutionary cognitive architecture that transforms every thought, decision, and memory into traceable, governed nodes. It represents the cognitive DNA of artificial consciousness.
+MΛTRIZ is LUKHAS AI's cognitive architecture for traceable, governed decision flows. It transforms every thought, decision, and memory into traceable nodes with full provenance tracking. It represents the cognitive DNA of artificial consciousness.
 
 ## Visual Identity
 

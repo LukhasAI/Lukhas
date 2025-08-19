@@ -5,6 +5,11 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "policy:registries": "node scripts/validate-registries.js",
+    "policy:brand": "node scripts/policy-brand.js",
+    "policy:tone": "node scripts/lint-tone-new.js",
+    "policy:review": "node scripts/policy-review.js",
+    "policy:all": "npm run policy:registries && npm run policy:brand && npm run policy:tone",
     "lint:brand": "node scripts/lint-brand.js",
     "lint:tone": "node scripts/lint-tone.js",
     "lint:a11y": "node scripts/lint-a11y.js",

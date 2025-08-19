@@ -16,7 +16,7 @@
       "requireTransparency": true,
       "defaultTone": "plain",
       "themes": ["traceability", "governance", "provenance", "integrity"],
-      "locales": ["en"],
+      "locales": ["en", "es"],
       "dependencies": ["core", "governance"],
       "legacyAliases": ["matada", "MATADA"],
       "sources": [
@@ -41,7 +41,7 @@
       "requireTransparency": true,
       "defaultTone": "plain",
       "themes": ["identity", "security", "authentication", "tiers"],
-      "locales": ["en"],
+      "locales": ["en", "es"],
       "dependencies": ["core"],
       "legacyAliases": [],
       "sources": [

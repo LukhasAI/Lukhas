@@ -19,6 +19,13 @@ This is the **LUKHAS AI** repository - a modular AI system combining consciousne
 - **Always use**: "quantum-inspired" / "bio-inspired" (not "quantum processing" / "bio processes")
 - **Use approved glyphs**: Only from `branding/` or `next_gen/README_NEXT_GEN.md`
 - **Product naming**: "MΛTRIZ" (display) / "Matriz" (plain text) - replaces deprecated "MATADA"
+- **Company naming**: "LUKHΛS" (display) / "Lukhas" (plain text) - Λ only in wordmarks/logos
+
+### Claims & Language Review
+- **Flag for human review**: Any superlative claims (revolutionary, breakthrough, perfect, etc.)
+- **Run review check**: `npm run policy:review` to identify claims needing verification
+- **Document justification**: If keeping strong claims, create BDR with evidence
+- **Vendor neutrality**: Use "uses [Provider] APIs" not "powered by [Provider]"
 
 ### Prohibited Statements
 - **DO NOT** state or imply any part is "production-ready" unless explicitly approved
@@ -294,3 +301,31 @@ Key targets:
 - `make quick` - Fix issues and run tests
 - `make security` - Run full security check suite
 - `make bootstrap` - Full setup (install + hooks)
+
+## 📋 Brand & Policy Enforcement
+
+### Before Proposing Changes
+Always run policy checks to catch issues early:
+```bash
+npm run policy:all       # Run all policy checks
+npm run policy:review    # Flag claims for human review
+```
+
+### Key Policy Scripts
+- `policy:registries` - Validate module/site registries
+- `policy:review` - Flag superlative claims for review
+- `policy:brand` - Check key files for compliance
+- `policy:tone` - Validate 3-layer tone system
+
+### When Flagged
+1. Review flagged claims in `branding/claims-review.json`
+2. Either replace with factual language OR
+3. Keep with justification documented in BDR
+4. Never auto-reject - these need human judgment
+
+### Brand Compliance Checklist
+- [ ] Λ only in display contexts (logos, wordmarks)
+- [ ] Plain names (Lukhas, Matriz) in body text
+- [ ] Vendor-neutral language ("uses X APIs")
+- [ ] Claims are verifiable or flagged for review
+- [ ] Tone layers properly applied (poetic ≤40 words)

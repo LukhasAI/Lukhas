@@ -1,10 +1,18 @@
 # Brand Policy — Lukhas / MATRIZ
 
 ## Names
+
+### Product Name (MΛTRIZ)
 - **Display**: **MΛTRIZ** (Λ replaces first "A").
 - **Plain**: **Matriz** (paragraphs, SEO, a11y, alt).
 - **Slug**: **/matriz**
 - **Legacy codename**: **MATADA** — internal only (schema/file names may keep `matada`).
+
+### Company Name
+- **Display**: **LUKHΛS** (Λ replaces the first "A")
+- **Plain**: **Lukhas** (paragraphs, SEO, a11y, alt)
+- **Λ Usage**: Display-only (logos/hero/wordmarks). Not allowed in URLs, alt text, body, or metadata.
+- **A11y**: When Λ appears in display text, include aria-label="Lukhas".
 
 ## Λ Usage
 - **Allowed**: logos, hero H1, wordmarks, promo lockups (SVG preferred).

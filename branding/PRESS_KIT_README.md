@@ -54,6 +54,12 @@
   - Code comments and variable names
   - Historical records
 
+## Vendor Language (Neutral)
+- Use "uses [Provider] APIs" or "integrates with [Provider] services"
+- Avoid "powered by", "partnered with", or implied endorsements
+- Example: "MATRIZ uses OpenAI APIs for language processing" (not "powered by OpenAI")
+- Λ display is for wordmarks only; use plain "Lukhas" in body text/metadata
+
 ## Media Guidelines
 
 ### Press Release Language

@@ -28,7 +28,9 @@ LUKHAS AI represents a breakthrough in scalable consciousness architecture, impl
 - **Performance**: 2.4M+ operations/second combined throughput
 - **Agents**: 25 specialized AI agents (18 Supreme Army + 6 Claude Desktop + 1 Workflow)
 - **Modules**: 200+ consciousness and intelligence components
-- **Test Coverage**: 99%+ success rate across critical systems
+- **Test Coverage**: 99%+ success rate across critical systems*
+
+*Metrics are internal test results under controlled conditions; not guarantees. Public claims must cite methodology and scope.
 - **Commercial Value**: $890M+ market opportunity (11 integrated products)
 
 ---

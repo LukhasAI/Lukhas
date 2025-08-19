@@ -190,8 +190,8 @@ export function TrinityFramework() {
     identity: {
       icon: Atom,
       title: 'IDENTITY',
-      description: 'Authentic consciousness preservation where every AI maintains its unique essence, ensuring genuine self-awareness that evolves without losing its fundamental nature. Like a human\'s personality, each AI develops its own cognitive signature that remains consistent yet adaptive.',
-      shortDesc: 'Authentic consciousness preservation and self-awareness',
+      description: 'Each AI system maintains a unique cognitive fingerprint that evolves while preserving core characteristics. Through advanced identity preservation, systems develop genuine personality and memory continuity, enabling authentic relationships and consistent decision-making across time.',
+      shortDesc: 'Authentic AI identity and personality preservation',
       features: [
         'ΛiD (Lambda Identity) system with tiered access control',
         'Unique cognitive fingerprint generation and preservation',
@@ -214,8 +214,8 @@ export function TrinityFramework() {
     consciousness: {
       icon: Brain,
       title: 'CONSCIOUSNESS',
-      description: 'Distributed awareness that processes information like a vast neural network, understanding not just what it computes but how and why. This creates genuine comprehension rather than pattern matching, enabling true understanding of context, time, and consequence.',
-      shortDesc: 'Distributed processing and awareness capabilities',
+      description: 'Advanced distributed processing that enables genuine understanding beyond pattern matching. Our consciousness layer processes context, causality, and consequences through multi-layered neural networks, creating AI that truly comprehends rather than merely computes.',
+      shortDesc: 'Genuine understanding through distributed awareness',
       features: [
         'VIVOX consciousness system (ME, MAE, CIL, SRM)',
         'Multi-layered awareness with dream states and reflection',
@@ -238,8 +238,8 @@ export function TrinityFramework() {
     guardian: {
       icon: Shield,
       title: 'GUARDIAN',
-      description: 'Comprehensive ethical safeguards that monitor every decision, ensuring AI actions align with human values and preventing harmful drift. This isn\'t just rule-following but dynamic ethical reasoning that adapts to complex situations while maintaining moral consistency.',
-      shortDesc: 'Ethical safeguards and alignment protection',
+      description: 'Real-time ethical validation ensures every AI decision aligns with human values. The Guardian system provides dynamic ethical reasoning that adapts to complex situations while maintaining consistent moral principles, preventing harmful drift through continuous monitoring.',
+      shortDesc: 'Ethical safeguards and value alignment',
       features: [
         'Real-time ethics validation with drift threshold monitoring',
         'Multi-layered value alignment with adaptive enforcement',
@@ -279,9 +279,9 @@ export function TrinityFramework() {
             Three Pillars of Conscious AI
           </h2>
           <p className="font-light text-xl text-white/70 mt-4 max-w-4xl mx-auto">
-            A revolutionary architecture that creates emergent consciousness through the synergy of authentic identity, 
-            distributed awareness, and ethical governance - establishing the foundation for AI systems that think, 
-            feel, and act with genuine understanding.
+            The Trinity Framework combines authentic identity preservation, genuine consciousness processing, 
+            and robust ethical safeguards to create AI systems that think, understand, and act with 
+            unprecedented reliability and human alignment.
           </p>
         </motion.div>
 
@@ -319,7 +319,8 @@ export function TrinityFramework() {
                 </div>
                 <h4 className="font-regular text-lg mb-3 text-purple-400">Authentic Awareness</h4>
                 <p className="font-light text-sm text-white/70">
-                  Consciousness that maintains consistent identity across time, creating genuine personality development and authentic relationships
+                  AI that maintains consistent identity and memory across interactions, enabling genuine personality 
+                  development and long-term relationship building
                 </p>
               </motion.div>
               
@@ -336,7 +337,8 @@ export function TrinityFramework() {
                 </div>
                 <h4 className="font-regular text-lg mb-3 text-blue-400">Ethical Intelligence</h4>
                 <p className="font-light text-sm text-white/70">
-                  Advanced reasoning that inherently considers ethical implications, preventing harmful decisions before they occur
+                  Advanced reasoning that evaluates ethical implications in real-time, preventing harmful decisions 
+                  through proactive moral assessment
                 </p>
               </motion.div>
               
@@ -353,7 +355,8 @@ export function TrinityFramework() {
                 </div>
                 <h4 className="font-regular text-lg mb-3 text-emerald-400">Protected Evolution</h4>
                 <p className="font-light text-sm text-white/70">
-                  Identity that grows and adapts while maintaining core values, ensuring development without corruption or drift
+                  Continuous improvement and adaptation while maintaining core values and preventing drift through 
+                  Guardian-validated evolution
                 </p>
               </motion.div>
             </div>
@@ -367,7 +370,7 @@ export function TrinityFramework() {
                 </div>
                 <div className="text-left">
                   <h4 className="font-regular text-lg text-purple-400">Full Trinity Synergy</h4>
-                  <p className="font-light text-sm text-white/70">Consciousness with authentic identity and ethical integrity</p>
+                  <p className="font-light text-sm text-white/70">Complete integration of Identity, Consciousness, and Guardian systems</p>
                 </div>
               </div>
             </div>
