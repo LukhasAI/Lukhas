@@ -1,6 +1,7 @@
 .PHONY: help test smoke api-spec clean install dev api audit-tail audit
 .PHONY: lint format fix fix-imports setup-hooks ci-local monitor test-cov deep-clean quick bootstrap
 .PHONY: security security-scan security-update security-audit security-fix
+.PHONY: policy policy-review policy-brand policy-tone policy-registries
 
 # Default target
 help:
@@ -37,6 +38,13 @@ help:
 	@echo "  clean        - Clean cache and temp files"
 	@echo "  deep-clean   - Deep clean including venv"
 	@echo "  api-spec     - Export OpenAPI specification"
+	@echo ""
+	@echo "Policy & Brand:"
+	@echo "  policy       - Run all policy checks"
+	@echo "  policy-review- Flag claims for human review"
+	@echo "  policy-brand - Check brand compliance"
+	@echo "  policy-tone  - Validate 3-layer tone system"
+	@echo "  policy-registries - Validate module/site registries"
 	@echo ""
 	@echo "Security:"
 	@echo "  security     - Run full security check suite"
@@ -360,3 +368,23 @@ dr-monthly:
 # Gold Standard Audit
 audit:
 	@bash -lc './scripts/audit.sh'
+
+# Policy & Brand Enforcement
+policy: policy-registries policy-brand policy-tone
+	@echo "✅ All policy checks passed"
+
+policy-review:
+	@echo "🔍 Flagging claims for human review..."
+	@npm run policy:review
+
+policy-brand:
+	@echo "🎨 Checking brand compliance..."
+	@npm run policy:brand
+
+policy-tone:
+	@echo "📝 Validating tone layers..."
+	@npm run policy:tone
+
+policy-registries:
+	@echo "📋 Validating module/site registries..."
+	@npm run policy:registries
