@@ -1,0 +1,18 @@
+{
+  "name": "lukhas-ai",
+  "version": "1.0.0",
+  "description": "LUKHAS AI - Modular AI system with consciousness, memory, identity, and ethical governance",
+  "private": true,
+  "scripts": {
+    "lint:brand": "node scripts/lint-brand.js",
+    "lint:tone": "node scripts/lint-tone.js",
+    "lint:a11y": "node scripts/lint-a11y.js",
+    "lint:policy": "npm run lint:brand && npm run lint:tone && npm run lint:a11y"
+  },
+  "dependencies": {
+    "glob": "^11.0.3"
+  },
+  "keywords": ["ai", "consciousness", "identity", "ethics", "memory"],
+  "author": "LUKHAS AI",
+  "license": "PRIVATE"
+}

@@ -36,6 +36,42 @@ const nextConfig = {
       },
     ]
   },
+  async redirects() {
+    return [
+      // MATRIZ rebrand redirects
+      {
+        source: '/matada',
+        destination: '/matriz',
+        permanent: true,
+      },
+      {
+        source: '/matada/:path*',
+        destination: '/matriz/:path*',
+        permanent: true,
+      },
+      {
+        source: '/MATADA',
+        destination: '/matriz',
+        permanent: true,
+      },
+      {
+        source: '/MATADA/:path*',
+        destination: '/matriz/:path*',
+        permanent: true,
+      },
+      // Handle lambda character in URLs (should not happen but fallback)
+      {
+        source: '/m%CE%BBtriz',
+        destination: '/matriz',
+        permanent: true,
+      },
+      {
+        source: '/mλtriz',
+        destination: '/matriz',
+        permanent: true,
+      },
+    ]
+  },
   async rewrites() {
     return [
       {

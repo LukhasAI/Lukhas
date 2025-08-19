@@ -32,6 +32,9 @@ This is the **Elite Brand Intelligence System** that transforms branding from re
 #### **⚛️🧠🛡️ [LUKHAS_TRINITY_FRAMEWORK.md](LUKHAS_TRINITY_FRAMEWORK.md)**
 **Complete Trinity architecture** - Identity, Consciousness, Guardian integration
 
+#### **🧩 [MATRIZ_BRAND_GUIDE.md](MATRIZ_BRAND_GUIDE.md)**
+**MΛTRIZ product guidelines** - Naming conventions, migration from MATADA, accessibility requirements
+
 ### **🚀 Technical Implementation**
 
 #### **🛠️ [LUKHAS_BRAND_API_REFERENCE.md](LUKHAS_BRAND_API_REFERENCE.md)**

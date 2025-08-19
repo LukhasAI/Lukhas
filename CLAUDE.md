@@ -15,6 +15,7 @@ This is the **LUKHAS AI** repository - a modular AI system combining consciousne
 - **Always use**: "LUKHAS AI" (never "LUKHAS AGI")
 - **Always use**: "quantum-inspired" / "bio-inspired" (not "quantum processing" / "bio processes")
 - **Use approved glyphs**: Only from `branding/` or `next_gen/README_NEXT_GEN.md`
+- **Product naming**: "MΛTRIZ" (display) / "Matriz" (plain text) - replaces deprecated "MATADA"
 
 ### Prohibited Statements
 - **DO NOT** state or imply any part is "production-ready" unless explicitly approved

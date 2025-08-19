@@ -1,0 +1,260 @@
+/**
+ * A11y Motion Policy - Accessibility-First Animation Controls
+ * Respects prefers-reduced-motion and provides calm mode toggle
+ * Brand-consistent reduced motion states for all hero animations
+ */
+
+/* Default animations (full motion) */
+.star {
+  animation: twinkle 2s ease-in-out infinite alternate;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+[data-anim="float"] {
+  animation: float 3s ease-in-out infinite;
+}
+
+[data-anim="glow"] {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+[data-anim="morph"] {
+  animation: morph 4s ease-in-out infinite;
+}
+
+/* Define keyframes */
+@keyframes twinkle {
+  0% { opacity: 0.3; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
+  50% { transform: translateY(0); animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(139, 92, 246, 0.3); }
+  100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.8); }
+}
+
+@keyframes morph {
+  0%, 100% { border-radius: 50%; }
+  25% { border-radius: 25%; }
+  50% { border-radius: 10%; }
+  75% { border-radius: 35%; }
+}
+
+/* Reduced motion compliance - System preference */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all animations and transitions */
+  .star,
+  .animate-pulse,
+  .animate-spin,
+  .animate-bounce,
+  [data-anim],
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Maintain visual states without motion */
+  .star {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .animate-pulse {
+    opacity: 1;
+  }
+
+  .animate-spin {
+    transform: rotate(0deg);
+  }
+
+  .animate-bounce {
+    transform: translateY(0);
+  }
+
+  [data-anim="float"] {
+    transform: translateY(0);
+  }
+
+  [data-anim="glow"] {
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+  }
+
+  [data-anim="morph"] {
+    border-radius: 50%;
+  }
+
+  /* Reduced motion alternatives */
+  .motion-alternative {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Calm Mode - User toggle (brand-specific) */
+body.calm-mode .star,
+body.calm-mode .animate-pulse,
+body.calm-mode .animate-spin,
+body.calm-mode .animate-bounce,
+body.calm-mode [data-anim] {
+  animation: none !important;
+  transition: opacity 0.3s ease !important; /* Allow gentle fade transitions only */
+}
+
+/* Calm mode static states */
+body.calm-mode .star {
+  opacity: 0.8;
+  transform: scale(1);
+}
+
+body.calm-mode .animate-pulse {
+  opacity: 1;
+}
+
+body.calm-mode [data-anim="float"] {
+  transform: translateY(-5px); /* Subtle static elevation */
+}
+
+body.calm-mode [data-anim="glow"] {
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.4);
+}
+
+/* Three.js/React Three Fiber motion controls */
+body.calm-mode .r3f-canvas,
+body.calm-mode canvas[data-engine="three"] {
+  --motion-scale: 0; /* CSS variable for React components */
+  --rotation-speed: 0;
+  --float-speed: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .r3f-canvas,
+  canvas[data-engine="three"] {
+    --motion-scale: 0;
+    --rotation-speed: 0;
+    --float-speed: 0;
+  }
+}
+
+/* Focus management for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  /* Enhanced focus indicators when motion is reduced */
+  *:focus {
+    outline: 2px solid #8b5cf6 !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2) !important;
+  }
+}
+
+/* Calm mode toggle button styles */
+.calm-mode-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  padding: 12px 20px;
+  
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calm-mode-toggle:hover {
+  background: rgba(139, 92, 246, 0.8);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.calm-mode-toggle:focus {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 2px;
+}
+
+/* Disable hover effects in reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .calm-mode-toggle:hover {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Icon states for toggle */
+.calm-mode-toggle .icon-motion {
+  display: inline;
+}
+
+.calm-mode-toggle .icon-calm {
+  display: none;
+}
+
+body.calm-mode .calm-mode-toggle .icon-motion {
+  display: none;
+}
+
+body.calm-mode .calm-mode-toggle .icon-calm {
+  display: inline;
+}
+
+/* Brand-consistent alternatives */
+.reduced-motion-hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.reduced-motion-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 50%);
+  opacity: 0.8;
+}
+
+/* Respect user preferences in all contexts */
+@media (prefers-reduced-motion: reduce) {
+  .reduced-motion-hero::before {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%);
+    animation: none;
+  }
+}

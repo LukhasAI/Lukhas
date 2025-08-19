@@ -11,6 +11,31 @@ import {
   SlidersHorizontal, Layers, Network, Cpu, Activity
 } from 'lucide-react'
 
+// GLYPH encryption helper
+async function encryptToGlyph(provider: string, apiKey: string): Promise<string> {
+  const enc = new TextEncoder()
+  const iv = crypto.getRandomValues(new Uint8Array(12))
+  const salt = enc.encode(provider + '-lukhas-glyph-v1')
+
+  const baseKey = await crypto.subtle.importKey('raw', salt, 'PBKDF2', false, ['deriveKey'])
+  const key = await crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+    baseKey,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    ['encrypt', 'decrypt']
+  )
+
+  const cipher = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(apiKey))
+  const payload = new Uint8Array(iv.byteLength + cipher.byteLength)
+  payload.set(iv, 0); payload.set(new Uint8Array(cipher), iv.byteLength)
+
+  const b64 = btoa(String.fromCharCode(...payload)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')
+  const glyph = `Λ:${provider}:${b64}`
+  try { localStorage.setItem(`glyph:${provider}`, glyph) } catch {}
+  return glyph
+}
+
 interface SidebarProps {
   config: any
   onConfigChange: (key: string, value: any) => void
@@ -21,15 +46,28 @@ interface SidebarProps {
     perplexity: string
   }
   onApiKeyChange: (provider: string, key: string) => void
+  collapsed?: boolean
+  onCollapsedChange?: (value: boolean) => void
+  usage?: { tokens: number; costUSD: number; creditsRemaining?: number }
+  onEncryptKey?: (provider: string, glyph: string) => void
 }
 
 export default function ExperienceSidebar({ 
   config, 
   onConfigChange, 
   apiKeys, 
-  onApiKeyChange 
+  onApiKeyChange,
+  collapsed,
+  onCollapsedChange,
+  usage,
+  onEncryptKey
 }: SidebarProps) {
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [internalCollapsed, setInternalCollapsed] = useState(false)
+  const isCollapsed = (collapsed ?? internalCollapsed)
+  const setIsCollapsed = (next: boolean) => {
+    onCollapsedChange?.(next)
+    setInternalCollapsed(next)
+  }
   const [activeSection, setActiveSection] = useState<string | null>('visualization')
 
   const sections = [
@@ -277,6 +315,23 @@ export default function ExperienceSidebar({
                          text-xs text-white placeholder-white/30 focus:outline-none 
                          focus:border-white/20 focus:bg-white/10 transition-all"
               />
+              <div className="mt-2 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (!key) return
+                    const glyph = await encryptToGlyph(provider, key)
+                    onEncryptKey?.(provider, glyph)
+                    alert('Encrypted into a GLYPH and stored locally. Next time paste the GLYPH instead of the raw key.')
+                  }}
+                  className="px-2 py-1 text-xs rounded-md bg-white/10 hover:bg-white/20 border border-white/10"
+                >
+                  Encrypt → GLYPH
+                </button>
+                <span className="text-[10px] text-white/40 truncate max-w-[160px]">
+                  {typeof window !== 'undefined' ? (localStorage.getItem(`glyph:${provider}`) || '') : ''}
+                </span>
+              </div>
             </div>
           ))}
 
@@ -299,6 +354,22 @@ export default function ExperienceSidebar({
               <option value="perplexity">Perplexity</option>
             </select>
           </div>
+
+          {/* Usage Meter */}
+          <div className="mt-3 p-3 rounded-lg bg-white/5 border border-white/10">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-white/60 uppercase tracking-wider">Usage</span>
+              <span className="text-[10px] text-white/40">session</span>
+            </div>
+            <div className="mt-2 grid grid-cols-3 gap-2 text-center">
+              <div><div className="text-sm text-white/90">{usage?.tokens ?? 0}</div><div className="text-[10px] text-white/40">tokens</div></div>
+              <div><div className="text-sm text-white/90">{`$${(usage?.costUSD ?? 0).toFixed(4)}`}</div><div className="text-[10px] text-white/40">cost</div></div>
+              <div><div className="text-sm text-white/90">{usage?.creditsRemaining ?? '—'}</div><div className="text-[10px] text-white/40">credits</div></div>
+            </div>
+            <div className="mt-2 h-1 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-purple-600 to-blue-600" style={{ width: `${Math.min(100, (usage?.tokens ?? 0) % 100)}%` }} />
+            </div>
+          </div>
         </div>
       )
     }
@@ -308,13 +379,13 @@ export default function ExperienceSidebar({
     <>
       {/* Sidebar */}
       <motion.div
-        initial={{ x: -320 }}
-        animate={{ x: isCollapsed ? -280 : 0 }}
+        initial={{ width: 320 }}
+        animate={{ width: isCollapsed ? 10 : 320 }}
         transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-        className="fixed left-0 top-16 bottom-0 w-80 z-30 flex"
+        className="fixed left-0 top-16 bottom-0 z-30 flex"
       >
         {/* Main Sidebar Content */}
-        <div className="flex-1 bg-black/60 backdrop-blur-2xl border-r border-white/10 overflow-y-auto">
+        <div className={`flex-1 bg-black/60 backdrop-blur-2xl border-r border-white/10 overflow-y-auto ${isCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
           <div className="p-4 space-y-4">
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
@@ -370,10 +441,11 @@ export default function ExperienceSidebar({
         {/* Collapse Toggle */}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="absolute -right-10 top-1/2 -translate-y-1/2 w-10 h-20 
+          className="absolute left-full top-1/2 -translate-y-1/2 w-10 h-20 
                    bg-black/60 backdrop-blur-xl border border-white/10 
-                   border-l-0 rounded-r-xl flex items-center justify-center
+                   rounded-r-xl flex items-center justify-center
                    hover:bg-white/10 transition-colors"
+          aria-label={isCollapsed ? 'Expand controls' : 'Collapse controls'}
         >
           {isCollapsed ? (
             <ChevronRight className="w-4 h-4 text-white/60" />

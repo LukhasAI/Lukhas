@@ -15,9 +15,19 @@ interface MorphingMeshProps {
     consciousness: boolean
     guardian: boolean
   }
+  accentColor?: string
+  tempo?: number
 }
 
-function MorphingMesh({ shape, voiceData, particleCount, morphSpeed, trinityState }: MorphingMeshProps) {
+function MorphingMesh({
+  shape,
+  voiceData,
+  particleCount,
+  morphSpeed,
+  trinityState,
+  accentColor,
+  tempo = 1
+}: MorphingMeshProps) {
   const meshRef = useRef<THREE.Mesh>(null)
   const particlesRef = useRef<THREE.Points>(null)
   const [morphProgress, setMorphProgress] = useState(0)
@@ -43,9 +53,9 @@ function MorphingMesh({ shape, voiceData, particleCount, morphSpeed, trinityStat
       const intensity = voiceData.intensity || 0
       const frequency = voiceData.frequency || 0
       
-      // Base rotation
-      meshRef.current.rotation.x += 0.005 + intensity * 0.01
-      meshRef.current.rotation.y += 0.01 + frequency * 0.0001
+      // Base rotation (multiplied by tempo)
+      meshRef.current.rotation.x += (0.005 + intensity * 0.01) * tempo
+      meshRef.current.rotation.y += (0.01 + frequency * 0.0001) * tempo
       
       // Scale pulsing with voice
       const scale = 1 + intensity * 0.2 + Math.sin(state.clock.elapsedTime * 2) * 0.05
@@ -59,9 +69,9 @@ function MorphingMesh({ shape, voiceData, particleCount, morphSpeed, trinityStat
     }
     
     if (particlesRef.current) {
-      // Animate particles
-      particlesRef.current.rotation.y = state.clock.elapsedTime * 0.1
-      particlesRef.current.rotation.x = state.clock.elapsedTime * 0.05
+      // Animate particles (with tempo)
+      particlesRef.current.rotation.y = state.clock.elapsedTime * 0.1 * tempo
+      particlesRef.current.rotation.x = state.clock.elapsedTime * 0.05 * tempo
       
       // Particles respond to voice
       const scale = 1 + voiceData.intensity * 0.3
@@ -69,8 +79,10 @@ function MorphingMesh({ shape, voiceData, particleCount, morphSpeed, trinityStat
     }
   })
 
-  // Get color based on Trinity state
+  // Get color based on Trinity state (prefer accentColor when present)
   const getMeshColor = () => {
+    if (accentColor) return accentColor
+    
     const activeStates = Object.entries(trinityState).filter(([_, active]) => active)
     if (activeStates.length === 0) return '#666666'
     if (activeStates.length === 3) return '#ffffff'
@@ -101,13 +113,13 @@ function MorphingMesh({ shape, voiceData, particleCount, morphSpeed, trinityStat
   return (
     <>
       {/* Main morphing mesh */}
-      <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+      <Float speed={2 * tempo} rotationIntensity={0.5} floatIntensity={0.5}>
         <mesh ref={meshRef}>
           {getGeometry()}
           <MeshDistortMaterial
             color={getMeshColor()}
             emissive={getMeshColor()}
-            emissiveIntensity={0.3 + voiceData.intensity * 0.5}
+            emissiveIntensity={(0.3 + voiceData.intensity * 0.5) * (0.9 + 0.2 * tempo)}
             roughness={0.2}
             metalness={0.8}
             distort={0.3 + morphProgress * 0.7}
@@ -150,7 +162,40 @@ interface MorphingVisualizerProps {
 export default function MorphingVisualizer({ config, voiceData }: MorphingVisualizerProps) {
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null)
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const [isCalmMode, setIsCalmMode] = useState(false)
   const animationRef = useRef<number>()
+
+  useEffect(() => {
+    // Check system preference for reduced motion
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(mediaQuery.matches)
+    
+    const handleMediaChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches)
+    }
+    
+    mediaQuery.addEventListener('change', handleMediaChange)
+    
+    // Check for calm mode
+    const checkCalmMode = () => {
+      setIsCalmMode(document.body.classList.contains('calm-mode'))
+    }
+    
+    checkCalmMode()
+    
+    // Listen for calm mode changes
+    const handleCalmModeChange = (e: CustomEvent) => {
+      setIsCalmMode(e.detail.enabled)
+    }
+    
+    window.addEventListener('calmModeToggle', handleCalmModeChange as EventListener)
+    
+    return () => {
+      mediaQuery.removeEventListener('change', handleMediaChange)
+      window.removeEventListener('calmModeToggle', handleCalmModeChange as EventListener)
+    }
+  }, [])
 
   useEffect(() => {
     if (config.micEnabled && !audioContext) {
@@ -187,6 +232,11 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
     guardian: config.trinityGuardian || false
   }
 
+  // Calculate motion scale based on preferences
+  const motionScale = prefersReducedMotion || isCalmMode ? 0 : 1
+  const adjustedTempo = (config.tempo || 1) * motionScale
+  const adjustedMorphSpeed = (config.morphSpeed || 0.02) * motionScale
+
   return (
     <div className="w-full h-full relative">
       <Canvas
@@ -212,16 +262,18 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
           shape={config.shape || 'sphere'}
           voiceData={voiceData}
           particleCount={config.particleCount || 1000}
-          morphSpeed={config.morphSpeed || 0.02}
+          morphSpeed={adjustedMorphSpeed}
           trinityState={trinityState}
+          accentColor={config.accentColor}
+          tempo={adjustedTempo}
         />
         
         {/* Camera controls */}
         <OrbitControls
           enablePan={false}
           enableZoom={true}
-          autoRotate={!config.micEnabled}
-          autoRotateSpeed={0.5}
+          autoRotate={!config.micEnabled && motionScale > 0}
+          autoRotateSpeed={0.5 * motionScale}
           maxDistance={20}
           minDistance={5}
         />

@@ -4,9 +4,19 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build", 
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:brand": "cd .. && node scripts/lint-brand.js",
+    "lint:tone": "cd .. && node scripts/lint-tone.js",
+    "lint:a11y": "cd .. && node scripts/lint-a11y.js",
+    "lint:readability": "cd .. && node scripts/readability-scorer.js",
+    "lint:poetic": "cd .. && node scripts/poetic-guard.js",
+    "lint:vendor": "cd .. && node scripts/vendor-reference-linter.js",
+    "lint:svg": "cd .. && node scripts/svg-freeze-validator.js",
+    "lint:i18n": "cd .. && node scripts/international-false-friend-scanner.js",
+    "lint:policy": "npm run lint:brand && npm run lint:tone && npm run lint:a11y && npm run lint:readability && npm run lint:poetic && npm run lint:vendor && npm run lint:svg && npm run lint:i18n",
+    "prebuild": "npm run lint:policy"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.7",
@@ -25,6 +35,7 @@
     "clsx": "^2.1.0",
     "critters": "^0.0.23",
     "framer-motion": "^11.0.0",
+    "glob": "^11.0.3",
     "gsap": "^3.12.4",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.303.0",

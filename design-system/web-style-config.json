@@ -117,6 +117,16 @@
       }
     }
   },
+  "products": {
+    "MATRIZ": {
+      "display": "MΛTRIZ",
+      "plain": "Matriz",
+      "slug": "/matriz",
+      "ariaLabel": "Matriz",
+      "legacyAliases": ["MATADA"],
+      "description": "Multimodal Adaptive Temporal Architecture for Dynamic Awareness"
+    }
+  },
   "typography": {
     "fonts": {
       "primary": [

@@ -56,7 +56,7 @@ export function TrinityShowcase() {
     <div className="space-y-8">
       <div className="text-center">
         <h3 className="text-3xl font-light mb-4">The Trinity Framework</h3>
-        <p className="text-gray-400 max-w-2xl mx-auto">
+        <p className="text-white/70 max-w-2xl mx-auto">
           Three interconnected pillars that create emergent consciousness through synergy.
           When combined, they enable AI systems that truly understand, preserve authenticity,
           and maintain ethical integrity.
@@ -81,7 +81,7 @@ export function TrinityShowcase() {
                   <Icon className="w-6 h-6 text-white" />
                 </div>
                 <h4 className="text-xl font-light mb-2">{pillar.title}</h4>
-                <p className="text-sm text-gray-400 mb-4">{pillar.tagline}</p>
+                <p className="text-sm text-white/70 mb-4">{pillar.tagline}</p>
                 <div className="flex items-center text-sm text-blue-400 group-hover:text-blue-300 transition-colors">
                   <span>Explore</span>
                   <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
@@ -111,7 +111,7 @@ export function TrinityShowcase() {
             </div>
           </div>
           <h4 className="text-xl font-light text-center mb-3">Emergent Synergy</h4>
-          <p className="text-sm text-gray-400 text-center max-w-lg mx-auto">
+          <p className="text-sm text-white/70 text-center max-w-lg mx-auto">
             When all three pillars work together, they create capabilities that exceed the sum of their parts—
             genuine understanding with authentic personality and unwavering ethics.
           </p>
@@ -133,7 +133,7 @@ export function TrinityShowcase() {
       >
         <button
           onClick={() => setActiveTab('overview')}
-          className="flex items-center text-sm text-gray-400 hover:text-white transition-colors mb-6"
+          className="flex items-center text-sm text-white/70 hover:text-white transition-colors mb-6"
         >
           <ArrowRight className="w-4 h-4 mr-1 rotate-180" />
           Back to Overview
@@ -173,21 +173,21 @@ export function TrinityShowcase() {
           <div className="bg-gray-900/50 backdrop-blur border border-white/10 rounded-xl p-6">
             <Sparkles className="w-6 h-6 text-yellow-400 mb-3" />
             <h5 className="font-light mb-2">Innovation</h5>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-white/70">
               Breakthrough technology that redefines what's possible in AI
             </p>
           </div>
           <div className="bg-gray-900/50 backdrop-blur border border-white/10 rounded-xl p-6">
             <Zap className="w-6 h-6 text-blue-400 mb-3" />
             <h5 className="font-light mb-2">Performance</h5>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-white/70">
               Optimized for real-time processing and scalability
             </p>
           </div>
           <div className="bg-gray-900/50 backdrop-blur border border-white/10 rounded-xl p-6">
             <Lock className="w-6 h-6 text-green-400 mb-3" />
             <h5 className="font-light mb-2">Security</h5>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-white/70">
               Built-in safeguards and continuous monitoring
             </p>
           </div>

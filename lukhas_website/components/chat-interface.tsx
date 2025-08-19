@@ -17,12 +17,18 @@ interface ChatInterfaceProps {
   onSendMessage?: (message: string) => void
   selectedModel?: string
   isProcessing?: boolean
+  onTyping?: () => void
+  onMessage?: (message: Message) => void
+  showInlineHistory?: boolean
 }
 
 export default function ChatInterface({ 
   onSendMessage, 
   selectedModel = 'LUKHAS',
-  isProcessing = false 
+  isProcessing = false,
+  onTyping,
+  onMessage,
+  showInlineHistory = true
 }: ChatInterfaceProps) {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
@@ -56,6 +62,7 @@ export default function ChatInterface({
 
     // Send message to parent component
     onSendMessage?.(input.trim())
+    onMessage?.(userMessage)
 
     // Simulate response (in real app, this would come from API)
     setTimeout(() => {
@@ -68,6 +75,7 @@ export default function ChatInterface({
       }
       setMessages(prev => [...prev, assistantMessage])
       setIsTyping(false)
+      onMessage?.(assistantMessage)
     }, 2000)
   }
 
@@ -85,8 +93,9 @@ export default function ChatInterface({
   return (
     <>
       {/* Message History Overlay */}
-      <AnimatePresence>
-        {messages.length > 0 && (
+      {showInlineHistory && (
+        <AnimatePresence>
+          {messages.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -181,7 +190,8 @@ export default function ChatInterface({
             <div ref={messagesEndRef} />
           </motion.div>
         )}
-      </AnimatePresence>
+        </AnimatePresence>
+      )}
 
       {/* Chat Input Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-black via-black/95 to-transparent">
@@ -204,7 +214,7 @@ export default function ChatInterface({
                 <TextareaAutosize
                   ref={inputRef}
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={(e) => { setInput(e.target.value); onTyping?.() }}
                   onKeyDown={handleKeyDown}
                   placeholder={`Message ${selectedModel}...`}
                   className="w-full bg-transparent text-white placeholder-white/40 resize-none 

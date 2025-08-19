@@ -302,10 +302,16 @@ browsers:
 
 **Goal**: Prevent drift between stylized branding and accessible/plain usage.
 
-- **Display naming**: `LUKHΛS`, `ΛI`, `ΛiD` allowed in logos, headings, and promo.
-- **Plain naming**: *Lukhas*, *Lukhas AI*, *Lukhas ID* used in body, a11y, and SEO.
+- **Display naming**: `LUKHΛS`, `ΛI`, `ΛiD`, `MΛTRIZ` allowed in logos, headings, and promo.
+- **Plain naming**: *Lukhas*, *Lukhas AI*, *Lukhas ID*, *Matriz* used in body, a11y, and SEO.
 - **Approvals**: Any new stylized ligature or glyph requires brand committee sign-off.
 - **Linting**: Add a content-lint rule that flags `A` used where `Λ` is required in display contexts and vice versa in body copy.
+
+### Product Naming: MΛTRIZ
+- **Display form**: `MΛTRIZ` (Greek Lambda Λ replaces first A)
+- **Plain form**: **Matriz** (use in paragraphs, SEO, alt text)
+- **Slug/URL**: `/matriz` (never include Λ in URLs)
+- **Legacy aliases**: References to MATADA should be updated to MATRIZ
 
 ## 🗣️ Voice & Tone Modes (Three‑Layer)
 

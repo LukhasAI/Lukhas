@@ -58,6 +58,13 @@
    - Always use the **Greek Lambda** (U+039B) character, not a Latin "A".
    - Prefer an **SVG wordmark** to guarantee uniform weight of Λ across platforms. Provide a plain-text fallback.
 
+### Product Naming: MΛTRIZ
+- **Display form**: `MΛTRIZ` (Greek Lambda Λ replaces first A)
+- **Plain form**: **Matriz** (use in paragraphs, SEO, alt text)
+- **Slug/URL**: `/matriz` (never include Λ in URLs)
+- **Former name**: MATADA (deprecated - update all references)
+- **Usage context**: Multimodal Adaptive Temporal Architecture for Dynamic Awareness
+
 ### Examples
 ```html
 <!-- Header wordmark (display) -->
@@ -68,6 +75,9 @@
 
 <!-- Auth button (display with a11y) -->
 <button class="btn-primary" aria-label="Log in with Lukhas ID">Log in with ΛiD</button>
+
+<!-- MATRIZ product reference (display with a11y) -->
+<h2 class="product-name" aria-label="Matriz">MΛTRIZ</h2>
 ```
 
 ---

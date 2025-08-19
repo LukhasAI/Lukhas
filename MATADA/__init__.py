@@ -1,4 +1,0 @@
-"""
-Matada Module
-"""
-

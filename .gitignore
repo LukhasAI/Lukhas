@@ -209,3 +209,6 @@ demos/openai/Tier5_token.lukhas
 identity/qrg_schemas/*.json
 
 .next/
+
+# GPT-5 audit packages (external review)
+/Users/agi_dev/gpt5-audit-packages/

@@ -13,6 +13,15 @@
 - [ ] No vendor API calls outside adapters
 - [ ] PII linter clean
 
+## Brand Policy (for UI/content changes)
+- [ ] **No public "MATADA"** references in user-facing content
+- [ ] **"Matriz"** used in body text, SEO, alt text, metadata  
+- [ ] **"MΛTRIZ"** only in logos, hero sections, wordmarks
+- [ ] **All Λ usage** includes `aria-label="Matriz"`
+- [ ] **No banned words**: guaranteed, perfect, revolutionary, flawless, unlimited
+- [ ] **Poetic sections ≤40 words** (if applicable)
+- [ ] **Brand policy lints pass**: `npm run lint:policy` in lukhas_website/
+
 ## Tests & Perf
 - [ ] Unit tests added/updated
 - [ ] Canary pack for this domain passes

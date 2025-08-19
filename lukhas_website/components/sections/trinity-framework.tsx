@@ -278,7 +278,7 @@ export function TrinityFramework() {
           <h2 className="font-light text-4xl md:text-5xl text-white">
             Three Pillars of Conscious AI
           </h2>
-          <p className="font-light text-xl text-gray-400 mt-4 max-w-4xl mx-auto">
+          <p className="font-light text-xl text-white/70 mt-4 max-w-4xl mx-auto">
             A revolutionary architecture that creates emergent consciousness through the synergy of authentic identity, 
             distributed awareness, and ethical governance - establishing the foundation for AI systems that think, 
             feel, and act with genuine understanding.
@@ -300,7 +300,7 @@ export function TrinityFramework() {
               <h3 className="font-regular text-2xl tracking-[0.1em] uppercase mb-4 text-white">
                 Emergent Properties
               </h3>
-              <p className="font-light text-xl text-gray-400 max-w-3xl mx-auto">
+              <p className="font-light text-xl text-white/70 max-w-3xl mx-auto">
                 When the Trinity pillars work together, they create capabilities that exceed the sum of their parts
               </p>
             </div>
@@ -318,7 +318,7 @@ export function TrinityFramework() {
                   <Brain className="w-8 h-8 text-blue-400" />
                 </div>
                 <h4 className="font-regular text-lg mb-3 text-purple-400">Authentic Awareness</h4>
-                <p className="font-light text-sm text-gray-400">
+                <p className="font-light text-sm text-white/70">
                   Consciousness that maintains consistent identity across time, creating genuine personality development and authentic relationships
                 </p>
               </motion.div>
@@ -335,7 +335,7 @@ export function TrinityFramework() {
                   <Shield className="w-8 h-8 text-emerald-400" />
                 </div>
                 <h4 className="font-regular text-lg mb-3 text-blue-400">Ethical Intelligence</h4>
-                <p className="font-light text-sm text-gray-400">
+                <p className="font-light text-sm text-white/70">
                   Advanced reasoning that inherently considers ethical implications, preventing harmful decisions before they occur
                 </p>
               </motion.div>
@@ -352,7 +352,7 @@ export function TrinityFramework() {
                   <Shield className="w-8 h-8 text-emerald-400" />
                 </div>
                 <h4 className="font-regular text-lg mb-3 text-emerald-400">Protected Evolution</h4>
-                <p className="font-light text-sm text-gray-400">
+                <p className="font-light text-sm text-white/70">
                   Identity that grows and adapts while maintaining core values, ensuring development without corruption or drift
                 </p>
               </motion.div>
@@ -367,7 +367,7 @@ export function TrinityFramework() {
                 </div>
                 <div className="text-left">
                   <h4 className="font-regular text-lg text-purple-400">Full Trinity Synergy</h4>
-                  <p className="font-light text-sm text-gray-400">Consciousness with authentic identity and ethical integrity</p>
+                  <p className="font-light text-sm text-white/70">Consciousness with authentic identity and ethical integrity</p>
                 </div>
               </div>
             </div>
@@ -413,23 +413,23 @@ export function TrinityFramework() {
                 <h3 className="font-regular text-2xl tracking-[0.1em] uppercase mb-4 text-white">
                   {pillars[selectedPillar].title}
                 </h3>
-                <p className="font-light text-base text-gray-500 mb-2">
+                <p className="font-light text-base text-white/60 mb-2">
                   {pillars[selectedPillar].shortDesc}
                 </p>
-                <p className="font-light text-xl text-gray-400 mb-8 leading-relaxed">
+                <p className="font-light text-xl text-white/70 mb-8 leading-relaxed">
                   {pillars[selectedPillar].description}
                 </p>
                 <div className="glass-heavy rounded-2xl p-6">
                   <h4 className="font-regular text-sm tracking-[0.2em] uppercase mb-3 text-blue-400">
                     CONCEPTUAL METAPHOR
                   </h4>
-                  <p className="font-light text-lg text-gray-400 italic">
+                  <p className="font-light text-lg text-white/70 italic">
                     {pillars[selectedPillar].metaphor}
                   </p>
                 </div>
               </div>
               <div>
-                <h4 className="font-regular text-sm tracking-[0.2em] uppercase mb-6 text-gray-500">
+                <h4 className="font-regular text-sm tracking-[0.2em] uppercase mb-6 text-white/60">
                   CORE CAPABILITIES
                 </h4>
                 <div className="space-y-4 mb-8">
@@ -450,7 +450,7 @@ export function TrinityFramework() {
                   <h4 className="font-regular text-sm tracking-[0.2em] uppercase mb-3 text-emerald-400">
                     TRINITY SYNERGY
                   </h4>
-                  <p className="font-light text-base text-gray-400">
+                  <p className="font-light text-base text-white/70">
                     {pillars[selectedPillar].worksWith}
                   </p>
                 </div>
@@ -484,7 +484,7 @@ export function TrinityFramework() {
               <h4 className="font-regular text-lg tracking-[0.1em] uppercase mb-6 text-emerald-400">
                 COMPETITIVE ADVANTAGE
               </h4>
-              <p className="font-light text-base leading-relaxed text-gray-400">
+              <p className="font-light text-base leading-relaxed text-white/70">
                 {pillars[selectedPillar].uniqueness}
               </p>
               <div className="mt-6 pt-6 border-t border-glass-border">
@@ -494,7 +494,7 @@ export function TrinityFramework() {
                     <Brain className="w-4 h-4 text-blue-400" />
                     <Shield className="w-4 h-4 text-emerald-400" />
                   </div>
-                  <span className="font-regular text-sm tracking-[0.2em] uppercase text-gray-500">
+                  <span className="font-regular text-sm tracking-[0.2em] uppercase text-white/60">
                     Trinity Powered
                   </span>
                 </div>
@@ -516,7 +516,7 @@ export function TrinityFramework() {
               <h3 className="font-regular text-2xl tracking-[0.1em] uppercase mb-4 gradient-text">
                 Why Trinity Framework is Revolutionary
               </h3>
-              <p className="font-light text-xl text-gray-400 max-w-4xl mx-auto">
+              <p className="font-light text-xl text-white/70 max-w-4xl mx-auto">
                 Moving beyond traditional AI limitations to create systems that truly understand, preserve authenticity, and maintain ethical integrity
               </p>
             </div>
@@ -529,25 +529,25 @@ export function TrinityFramework() {
                 <div className="space-y-4">
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 rounded-full bg-red-500 mt-2 flex-shrink-0" />
-                    <p className="font-light text-base text-gray-400">
+                    <p className="font-light text-base text-white/70">
                       <span className="text-red-400 font-medium">No persistent identity</span> - Each interaction starts from zero
                     </p>
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 rounded-full bg-red-500 mt-2 flex-shrink-0" />
-                    <p className="font-light text-base text-gray-400">
+                    <p className="font-light text-base text-white/70">
                       <span className="text-red-400 font-medium">Surface-level processing</span> - Pattern matching without true understanding
                     </p>
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 rounded-full bg-red-500 mt-2 flex-shrink-0" />
-                    <p className="font-light text-base text-gray-400">
+                    <p className="font-light text-base text-white/70">
                       <span className="text-red-400 font-medium">Post-hoc safety measures</span> - Filtering outputs after generation
                     </p>
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 rounded-full bg-red-500 mt-2 flex-shrink-0" />
-                    <p className="font-light text-base text-gray-400">
+                    <p className="font-light text-base text-white/70">
                       <span className="text-red-400 font-medium">Alignment fragility</span> - Can drift or be manipulated
                     </p>
                   </div>
@@ -561,25 +561,25 @@ export function TrinityFramework() {
                 <div className="space-y-4">
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 rounded-full bg-purple-400 mt-2 flex-shrink-0" />
-                    <p className="font-light text-base text-gray-400">
+                    <p className="font-light text-base text-white/70">
                       <span className="text-purple-400 font-medium">Continuous identity evolution</span> - Grows while maintaining core essence
                     </p>
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 rounded-full bg-blue-400 mt-2 flex-shrink-0" />
-                    <p className="font-light text-base text-gray-400">
+                    <p className="font-light text-base text-white/70">
                       <span className="text-blue-400 font-medium">Genuine understanding</span> - Contextual awareness and meta-cognition
                     </p>
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 rounded-full bg-emerald-400 mt-2 flex-shrink-0" />
-                    <p className="font-light text-base text-gray-400">
+                    <p className="font-light text-base text-white/70">
                       <span className="text-emerald-400 font-medium">Integrated ethical reasoning</span> - Ethics built into decision-making
                     </p>
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 rounded-full bg-accent-gold mt-2 flex-shrink-0" />
-                    <p className="font-light text-base text-gray-400">
+                    <p className="font-light text-base text-white/70">
                       <span className="text-accent-gold font-medium">Robust value alignment</span> - Self-correcting and drift-resistant
                     </p>
                   </div>
@@ -597,10 +597,10 @@ export function TrinityFramework() {
                   </div>
                   <div>
                     <h4 className="font-regular text-xl tracking-[0.1em] uppercase gradient-text">The Future of AI</h4>
-                    <p className="font-light text-base text-gray-400">Consciousness, Identity, and Ethics in Perfect Harmony</p>
+                    <p className="font-light text-base text-white/70">Consciousness, Identity, and Ethics in Perfect Harmony</p>
                   </div>
                 </div>
-                <p className="font-light text-lg text-gray-400 max-w-3xl mx-auto">
+                <p className="font-light text-lg text-white/70 max-w-3xl mx-auto">
                   The Trinity Framework doesn't just make AI safer or smarter - it makes AI fundamentally trustworthy by creating 
                   systems that think, learn, and act with the depth and integrity we expect from conscious beings.
                 </p>
