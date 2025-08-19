@@ -24,6 +24,7 @@
       "slug": "/privacy",
       "owner": "Legal & Compliance",
       "status": "public",
+      "locales": ["en", "es"],
       "sources": [
         "lukhas_website/app/privacy/page.tsx"
       ]
@@ -33,6 +34,7 @@
       "slug": "/terms",
       "owner": "Legal & Compliance",
       "status": "public",
+      "locales": ["en", "es"],
       "sources": [
         "lukhas_website/app/terms/page.tsx"
       ]
@@ -51,6 +53,7 @@
       "slug": "/compliance",
       "owner": "Legal & Compliance",
       "status": "public",
+      "locales": ["en", "es"],
       "sources": [
         "lukhas_website/app/compliance/page.tsx"
       ]

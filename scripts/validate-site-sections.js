@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 /**
- * Validate that each entry in branding/site.sections.json maps to an existing Next.js route.
+ * Validate that each entry in branding/site.sections.json maps to an existing Next.js route
+ * and that all source files exist.
  * - Fails for missing routes on status:"public"
  * - Warns (non-blocking) for status:"candidate"
+ * - Validates that all files listed in sources[] array exist
+ * - Exits with code 1 for route validation failures
+ * - Exits with code 2 for missing source files
  *
  * Supported app roots (auto-detected if they exist):
  *   - lukhas_website/app
@@ -20,6 +24,13 @@ import fs from "node:fs";
 import path from "node:path";
 
 const SITE_SECTIONS_PATH = "branding/site.sections.json";
+
+// Files that are generated at build time and don't need to exist during validation
+const GENERATED_FILES_ALLOWLIST = [
+  "sitemap.xml",
+  "robots.txt",
+  "manifest.json"
+];
 if (!fs.existsSync(SITE_SECTIONS_PATH)) {
   console.error(`❌ Missing ${SITE_SECTIONS_PATH}`);
   process.exit(1);
@@ -66,10 +77,16 @@ for (const root of appRoots) {
 // Validate sections
 let hardErrors = 0;
 let warnings = 0;
+let sourceErrors = 0;
 
 function isPublic(section) {
   // default to public if status missing
   return (section.status || "public") === "public";
+}
+
+function isGeneratedFile(filePath) {
+  const filename = path.basename(filePath);
+  return GENERATED_FILES_ALLOWLIST.includes(filename);
 }
 
 for (const s of sections) {
@@ -95,8 +112,33 @@ for (const s of sections) {
   }
 }
 
+// Validate source files
+console.log("\n🔍 Validating source files...");
+for (const s of sections) {
+  if (!s.sources || !Array.isArray(s.sources)) {
+    continue; // Skip sections without sources array
+  }
+  
+  for (const source of s.sources) {
+    if (isGeneratedFile(source)) {
+      console.log(`⚡ ${source} → generated file (skipping)`);
+      continue;
+    }
+    
+    if (fs.existsSync(source)) {
+      console.log(`✅ ${source} → source found`);
+    } else {
+      console.error(`❌ Missing source file for section:${s.key} → ${source}`);
+      sourceErrors++;
+    }
+  }
+}
+
 // Summary + exit
-if (hardErrors > 0) {
+if (sourceErrors > 0) {
+  console.error(`\n❌ Source validation failed: ${sourceErrors} missing source files.`);
+  process.exit(2);
+} else if (hardErrors > 0) {
   console.error(`\n❌ Site sections check failed: ${hardErrors} missing public routes${warnings ? `, ${warnings} warnings` : ""}.`);
   process.exit(1);
 } else {
