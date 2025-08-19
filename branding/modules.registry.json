@@ -1,0 +1,502 @@
+{
+  "version": 1,
+  "generatedAt": "2025-08-19",
+  "modules": [
+    {
+      "key": "matriz",
+      "display": "MΛTRIZ",
+      "plain": "Matriz",
+      "slug": "/matriz",
+      "status": "public",
+      "owner": "Safety & Governance",
+      "allowLambdaInDisplay": true,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "plain",
+      "themes": ["traceability", "governance", "provenance", "integrity", "audit"],
+      "locales": ["en"],
+      "dependencies": ["core", "governance"],
+      "legacyAliases": ["matada", "MATADA"],
+      "sources": [
+        "MATRIZ/",
+        "MATRIZ/README.md",
+        "MATRIZ/frontend/package.json",
+        "lukhas_website/app/matriz/page.tsx"
+      ]
+    },
+    {
+      "key": "identity",
+      "display": "ΛiD",
+      "plain": "Lukhas Identity",
+      "slug": "/id",
+      "status": "public",
+      "owner": "Identity & Auth",
+      "allowLambdaInDisplay": true,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "plain",
+      "themes": ["authentication", "security", "access-control", "tiers"],
+      "locales": ["en"],
+      "dependencies": ["core"],
+      "sources": [
+        "identity/",
+        "identity/README.md",
+        "lukhas_id/",
+        "lukhas_lambda_id/"
+      ]
+    },
+    {
+      "key": "consciousness",
+      "display": "Consciousness",
+      "plain": "Consciousness",
+      "slug": null,
+      "status": "internal",
+      "owner": "Core AI",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["awareness", "reflection", "decision-making", "states"],
+      "locales": ["en"],
+      "dependencies": ["core", "memory"],
+      "sources": [
+        "consciousness/",
+        "consciousness/MODULE_MANIFEST.json",
+        "consciousness/unified/",
+        "api/consciousness_chat_api.py"
+      ]
+    },
+    {
+      "key": "memory",
+      "display": "Memory",
+      "plain": "Memory",
+      "slug": null,
+      "status": "internal",
+      "owner": "Core AI",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["fold-based", "causal-chains", "persistence"],
+      "locales": ["en"],
+      "dependencies": ["core"],
+      "sources": [
+        "memory/",
+        "memory/README.md",
+        "memory/MODULE_MANIFEST.json"
+      ]
+    },
+    {
+      "key": "governance",
+      "display": "Governance",
+      "plain": "Governance",
+      "slug": null,
+      "status": "internal",
+      "owner": "Safety & Governance",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "plain",
+      "themes": ["guardian", "ethics", "policy", "oversight", "safety"],
+      "locales": ["en"],
+      "dependencies": ["core"],
+      "sources": [
+        "governance/",
+        "governance/MODULE_MANIFEST.json",
+        "governance/guardian/",
+        "governance/ethics/"
+      ]
+    },
+    {
+      "key": "vivox",
+      "display": "VIVOX",
+      "plain": "Vivox",
+      "slug": null,
+      "status": "experimental",
+      "owner": "Core AI",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["voice", "conscience", "moral-alignment", "self-reflection"],
+      "locales": ["en"],
+      "dependencies": ["core", "memory", "consciousness", "governance"],
+      "sources": [
+        "vivox/",
+        "vivox/README.md",
+        "vivox/MODULE_MANIFEST.json"
+      ]
+    },
+    {
+      "key": "qi",
+      "display": "QI",
+      "plain": "Quantum Inspired",
+      "slug": null,
+      "status": "experimental",
+      "owner": "Research",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["quantum", "superposition", "entanglement", "bio-inspired"],
+      "locales": ["en"],
+      "dependencies": ["core"],
+      "sources": [
+        "qi/",
+        "qi/README.md",
+        "qi/MODULE_MANIFEST.json"
+      ]
+    },
+    {
+      "key": "emotion",
+      "display": "Emotion",
+      "plain": "Emotion",
+      "slug": null,
+      "status": "internal",
+      "owner": "Core AI",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["affect", "mood", "emotional-intelligence"],
+      "locales": ["en"],
+      "dependencies": ["core"],
+      "sources": [
+        "emotion/",
+        "emotion/MODULE_MANIFEST.json"
+      ]
+    },
+    {
+      "key": "core",
+      "display": "Core",
+      "plain": "Core",
+      "slug": null,
+      "status": "internal",
+      "owner": "Platform",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["glyph", "symbolic", "graph", "actor-model"],
+      "locales": ["en"],
+      "dependencies": [],
+      "sources": [
+        "core/",
+        "core/MODULE_MANIFEST.json",
+        "core/modules/",
+        "core/services/"
+      ]
+    },
+    {
+      "key": "bridge",
+      "display": "Bridge",
+      "plain": "Bridge",
+      "slug": null,
+      "status": "internal",
+      "owner": "Integration",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["api-integration", "external-services"],
+      "locales": ["en"],
+      "dependencies": ["core"],
+      "sources": [
+        "bridge/",
+        "bridge/MODULE_MANIFEST.json"
+      ]
+    },
+    {
+      "key": "oneiric",
+      "display": "Oneiric",
+      "plain": "Oneiric Dream Analysis",
+      "slug": null,
+      "status": "experimental",
+      "owner": "Research",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "plain",
+      "themes": ["dreams", "symbolic-analysis", "narrative", "multimodal"],
+      "locales": ["en"],
+      "dependencies": ["consciousness", "identity"],
+      "sources": [
+        "consciousness/dream/oneiric/",
+        "consciousness/dream/oneiric/README.md",
+        "consciousness/dream/oneiric/frontend/package.json"
+      ]
+    },
+    {
+      "key": "orchestration",
+      "display": "Orchestration",
+      "plain": "Orchestration",
+      "slug": null,
+      "status": "internal",
+      "owner": "Platform",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["coordination", "routing", "agent-handoff"],
+      "locales": ["en"],
+      "dependencies": ["core"],
+      "sources": [
+        "orchestration/",
+        "orchestration/README.md",
+        "orchestration/brain/"
+      ]
+    },
+    {
+      "key": "api",
+      "display": "API",
+      "plain": "API",
+      "slug": "/api",
+      "status": "public",
+      "owner": "Platform",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "WebAPI",
+      "defaultTone": "technical",
+      "themes": ["rest", "endpoints", "integration"],
+      "locales": ["en"],
+      "dependencies": ["core", "identity", "consciousness"],
+      "sources": [
+        "api/",
+        "api/consciousness_chat_api.py",
+        "api/integrated_consciousness_api.py",
+        "api/universal_language_api.py"
+      ]
+    },
+    {
+      "key": "quantum",
+      "display": "Quantum",
+      "plain": "Quantum Processing",
+      "slug": null,
+      "status": "experimental",
+      "owner": "Research",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["quantum-inspired", "processing", "algorithms"],
+      "locales": ["en"],
+      "dependencies": ["core"],
+      "sources": [
+        "quantum/",
+        "quantum_core/",
+        "quantum_processing/"
+      ]
+    },
+    {
+      "key": "bio",
+      "display": "Bio",
+      "plain": "Bio-Inspired Systems",
+      "slug": null,
+      "status": "experimental",
+      "owner": "Research",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["bio-inspired", "adaptation", "evolution"],
+      "locales": ["en"],
+      "dependencies": ["core"],
+      "sources": [
+        "bio/",
+        "bio_core/",
+        "bio_awareness/"
+      ]
+    },
+    {
+      "key": "proteus",
+      "display": "Proteus",
+      "plain": "Proteus Voice Morphing",
+      "slug": null,
+      "status": "experimental",
+      "owner": "Research",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "plain",
+      "themes": ["voice", "morphing", "visualization", "reactive"],
+      "locales": ["en"],
+      "dependencies": [],
+      "sources": [
+        "voice_reactive_morphing/",
+        "voice_reactive_morphing/package.json",
+        "lukhas_website/public/proteus/"
+      ]
+    },
+    {
+      "key": "visualization",
+      "display": "Visualization",
+      "plain": "Visualization",
+      "slug": null,
+      "status": "internal",
+      "owner": "UX",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["unity", "3d", "visual-representation"],
+      "locales": ["en"],
+      "dependencies": ["consciousness"],
+      "sources": [
+        "visualization/",
+        "visualization/unified/README.md"
+      ]
+    },
+    {
+      "key": "creativity",
+      "display": "Creativity",
+      "plain": "Creativity",
+      "slug": null,
+      "status": "experimental",
+      "owner": "Research",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "plain",
+      "themes": ["generation", "creative-ai", "innovation"],
+      "locales": ["en"],
+      "dependencies": ["core", "consciousness"],
+      "sources": [
+        "creativity/",
+        "creativity_colony/"
+      ]
+    },
+    {
+      "key": "dashboard",
+      "display": "Dashboard",
+      "plain": "Dashboard",
+      "slug": null,
+      "status": "internal",
+      "owner": "Platform",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "WebApplication",
+      "defaultTone": "plain",
+      "themes": ["monitoring", "metrics", "analytics"],
+      "locales": ["en"],
+      "dependencies": ["api"],
+      "sources": [
+        "dashboard/",
+        "dashboard/README.md"
+      ]
+    },
+    {
+      "key": "universal_language",
+      "display": "Universal Language",
+      "plain": "Universal Language",
+      "slug": null,
+      "status": "experimental",
+      "owner": "Research",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["language", "communication", "translation"],
+      "locales": ["en"],
+      "dependencies": ["core"],
+      "sources": [
+        "universal_language/",
+        "universal_language/README.md",
+        "api/universal_language_api.py"
+      ]
+    },
+    {
+      "key": "reasoning",
+      "display": "Reasoning",
+      "plain": "Reasoning",
+      "slug": null,
+      "status": "internal",
+      "owner": "Core AI",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["logic", "inference", "decision-making"],
+      "locales": ["en"],
+      "dependencies": ["core"],
+      "sources": [
+        "reasoning/",
+        "reasoning_colony/"
+      ]
+    },
+    {
+      "key": "trinity",
+      "display": "Trinity",
+      "plain": "Trinity Framework",
+      "slug": null,
+      "status": "internal",
+      "owner": "Architecture",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "technical",
+      "themes": ["identity", "consciousness", "guardian", "framework"],
+      "locales": ["en"],
+      "dependencies": ["identity", "consciousness", "governance"],
+      "sources": [
+        "trinity/"
+      ]
+    },
+    {
+      "key": "consent",
+      "display": "Consent",
+      "plain": "Consent Management",
+      "slug": null,
+      "status": "internal",
+      "owner": "Legal & Compliance",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "plain",
+      "themes": ["gdpr", "privacy", "consent-tracking"],
+      "locales": ["en"],
+      "dependencies": ["identity"],
+      "sources": [
+        "consent/"
+      ]
+    },
+    {
+      "key": "feedback",
+      "display": "Feedback",
+      "plain": "Feedback System",
+      "slug": null,
+      "status": "candidate",
+      "owner": "Product",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": true,
+      "schemaType": "SoftwareApplication",
+      "defaultTone": "plain",
+      "themes": ["user-feedback", "analytics"],
+      "locales": ["en"],
+      "dependencies": ["api"],
+      "sources": [
+        "feedback/",
+        "api/feedback_api.py"
+      ]
+    },
+    {
+      "key": "sdk",
+      "display": "SDK",
+      "plain": "Software Development Kit",
+      "slug": null,
+      "status": "public",
+      "owner": "Developer Relations",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "SoftwareSourceCode",
+      "defaultTone": "technical",
+      "themes": ["development", "integration", "libraries"],
+      "locales": ["en"],
+      "dependencies": [],
+      "sources": [
+        "sdk/",
+        "sdk/ts/",
+        "sdk/python/"
+      ]
+    }
+  ]
+}

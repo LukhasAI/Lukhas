@@ -1,0 +1,266 @@
+{
+  "version": 1,
+  "generatedAt": "2025-08-19",
+  "sections": [
+    {
+      "key": "privacy",
+      "display": "Privacy Policy",
+      "plain": "Privacy Policy",
+      "slug": "/privacy",
+      "status": "public",
+      "owner": "Legal & Compliance",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "WebPage",
+      "defaultTone": "plain",
+      "themes": ["legal", "data-protection", "gdpr", "ccpa"],
+      "locales": ["en"],
+      "lastUpdated": "2025-01-01",
+      "sources": [
+        "lukhas_website/app/privacy/page.tsx"
+      ]
+    },
+    {
+      "key": "terms",
+      "display": "Terms of Service",
+      "plain": "Terms of Service",
+      "slug": "/terms",
+      "status": "public",
+      "owner": "Legal & Compliance",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "WebPage",
+      "defaultTone": "plain",
+      "themes": ["legal", "usage-terms", "liability"],
+      "locales": ["en"],
+      "lastUpdated": "2025-01-01",
+      "sources": [
+        "lukhas_website/app/terms/page.tsx"
+      ]
+    },
+    {
+      "key": "careers",
+      "display": "Careers",
+      "plain": "Careers",
+      "slug": "/careers",
+      "status": "public",
+      "owner": "People & Culture",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "WebPage",
+      "defaultTone": "plain",
+      "themes": ["jobs", "hiring", "culture", "growth"],
+      "locales": ["en"],
+      "lastUpdated": "2025-08-15",
+      "sources": [
+        "lukhas_website/app/careers/page.tsx"
+      ]
+    },
+    {
+      "key": "vision",
+      "display": "Vision",
+      "plain": "Vision",
+      "slug": "/vision",
+      "status": "public",
+      "owner": "Leadership",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "WebPage",
+      "defaultTone": "poetic",
+      "themes": ["future", "mission", "consciousness", "ai-evolution"],
+      "locales": ["en"],
+      "sources": [
+        "lukhas_website/app/vision/page.tsx"
+      ]
+    },
+    {
+      "key": "experience",
+      "display": "Experience",
+      "plain": "Experience",
+      "slug": "/experience",
+      "status": "public",
+      "owner": "Product",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "WebPage",
+      "defaultTone": "plain",
+      "themes": ["user-experience", "journey", "interaction"],
+      "locales": ["en"],
+      "sources": [
+        "lukhas_website/app/experience/page.tsx"
+      ]
+    },
+    {
+      "key": "compliance",
+      "display": "Compliance",
+      "plain": "Compliance",
+      "slug": "/compliance",
+      "status": "public",
+      "owner": "Legal & Compliance",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "WebPage",
+      "defaultTone": "plain",
+      "themes": ["regulatory", "standards", "certifications", "audit"],
+      "locales": ["en"],
+      "sources": [
+        "lukhas_website/app/compliance/page.tsx"
+      ]
+    },
+    {
+      "key": "about",
+      "display": "About",
+      "plain": "About",
+      "slug": "/about",
+      "status": "public",
+      "owner": "Marketing",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "AboutPage",
+      "defaultTone": "plain",
+      "themes": ["company", "history", "team", "values"],
+      "locales": ["en"],
+      "sources": [
+        "lukhas_website/app/about/page.tsx"
+      ]
+    },
+    {
+      "key": "contact",
+      "display": "Contact",
+      "plain": "Contact",
+      "slug": "/contact",
+      "status": "public",
+      "owner": "Support",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "ContactPage",
+      "defaultTone": "plain",
+      "themes": ["support", "inquiry", "communication"],
+      "locales": ["en"],
+      "sources": [
+        "lukhas_website/app/contact/page.tsx"
+      ]
+    },
+    {
+      "key": "docs",
+      "display": "Documentation",
+      "plain": "Documentation",
+      "slug": "/docs",
+      "status": "public",
+      "owner": "Developer Relations",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "WebPage",
+      "defaultTone": "technical",
+      "themes": ["api", "guides", "reference", "tutorials"],
+      "locales": ["en"],
+      "sources": [
+        "lukhas_website/app/docs/page.tsx",
+        "docs/"
+      ]
+    },
+    {
+      "key": "blog",
+      "display": "Blog",
+      "plain": "Blog",
+      "slug": "/blog",
+      "status": "public",
+      "owner": "Marketing",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "Blog",
+      "defaultTone": "plain",
+      "themes": ["articles", "insights", "updates", "thought-leadership"],
+      "locales": ["en"],
+      "sources": [
+        "lukhas_website/app/blog/page.tsx"
+      ]
+    },
+    {
+      "key": "security",
+      "display": "Security",
+      "plain": "Security",
+      "slug": "/security",
+      "status": "public",
+      "owner": "Security",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "WebPage",
+      "defaultTone": "plain",
+      "themes": ["security-practices", "vulnerability-disclosure", "encryption"],
+      "locales": ["en"],
+      "sources": [
+        "lukhas_website/app/security/page.tsx"
+      ]
+    },
+    {
+      "key": "accessibility",
+      "display": "Accessibility",
+      "plain": "Accessibility",
+      "slug": "/accessibility",
+      "status": "public",
+      "owner": "UX",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "WebPage",
+      "defaultTone": "plain",
+      "themes": ["a11y", "wcag", "inclusive-design"],
+      "locales": ["en"],
+      "sources": [
+        "lukhas_website/app/accessibility/page.tsx"
+      ]
+    },
+    {
+      "key": "sitemap",
+      "display": "Sitemap",
+      "plain": "Sitemap",
+      "slug": "/sitemap",
+      "status": "public",
+      "owner": "Platform",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "SiteNavigationElement",
+      "defaultTone": "plain",
+      "themes": ["navigation", "structure", "seo"],
+      "locales": ["en"],
+      "sources": [
+        "lukhas_website/app/sitemap.xml",
+        "lukhas_website/app/sitemap/page.tsx"
+      ]
+    },
+    {
+      "key": "cookies",
+      "display": "Cookie Policy",
+      "plain": "Cookie Policy",
+      "slug": "/cookies",
+      "status": "public",
+      "owner": "Legal & Compliance",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "WebPage",
+      "defaultTone": "plain",
+      "themes": ["cookies", "tracking", "consent"],
+      "locales": ["en"],
+      "sources": [
+        "lukhas_website/app/cookies/page.tsx"
+      ]
+    },
+    {
+      "key": "status",
+      "display": "System Status",
+      "plain": "System Status",
+      "slug": "/status",
+      "status": "public",
+      "owner": "Operations",
+      "allowLambdaInDisplay": false,
+      "requireTransparency": false,
+      "schemaType": "WebPage",
+      "defaultTone": "plain",
+      "themes": ["uptime", "incidents", "monitoring"],
+      "locales": ["en"],
+      "sources": [
+        "lukhas_website/app/status/page.tsx"
+      ]
+    }
+  ]
+}
