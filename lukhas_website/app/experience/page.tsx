@@ -11,6 +11,7 @@ import { callAI, type ApiResponse } from '@/lib/api/aiProviders'
 import { calmDefaults, isViolent } from '@/lib/safety'
 import { estimateTokensAndCost } from '@/lib/tokenEstimator'
 import { mapKeywordsToColorTempo, sentimentScore } from '@/lib/toneSystem'
+import Footer from '@/components/footer'
 
 // Dynamic imports for better performance
 const ExperienceSidebar = dynamic(() => import('@/components/experience-sidebar'), { 
@@ -840,6 +841,8 @@ export default function ExperiencePage() {
           </div>
         </div>
       )}
+      
+      <Footer />
     </div>
   )
 }

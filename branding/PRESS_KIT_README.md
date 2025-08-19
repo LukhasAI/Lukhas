@@ -45,7 +45,7 @@
 - MATADA in public-facing content (internal schema/files excepted)
 - Λ character in URLs, file paths, or metadata
 - Λ character without corresponding aria-label
-- Hype words: "revolutionary", "perfect", "guaranteed"
+- Hype words: Avoid superlative or absolute claims
 
 ### Legacy References
 - MATADA remains acceptable in:

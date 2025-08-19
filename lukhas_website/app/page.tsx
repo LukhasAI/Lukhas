@@ -21,7 +21,7 @@ export default function Home() {
       <main className="min-h-screen bg-gradient-to-b from-gray-900 to-black">
         {/* Navigation */}
         <nav className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-xl border-b border-white/10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
                 <span className="text-2xl font-thin tracking-[0.3em] text-white">LUKHAS</span>
@@ -42,8 +42,9 @@ export default function Home() {
         </nav>
 
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center px-4">
-          <div className="text-center">
+        <section className="relative min-h-screen flex items-center justify-center">
+          <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14">
+            <div className="text-center max-w-prose mx-auto">
             <p className="text-sm uppercase tracking-[0.3em] text-blue-400 mb-8">
               Logical Unified Knowledge Hyper-Adaptive Superior Systems
             </p>
@@ -98,6 +99,7 @@ export default function Home() {
                 View Products
               </button>
             </div>
+            </div>
           </div>
         </section>
 
@@ -109,10 +111,10 @@ export default function Home() {
 
         {/* PR0T3US Experience Section */}
         <section className="py-32 px-4 bg-gradient-to-b from-transparent to-blue-900/20">
-          <div className="max-w-7xl mx-auto">
+          <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <p className="text-sm uppercase tracking-[0.3em] text-purple-400 mb-4">
+                <p className="text-[11px] tracking-[0.18em] text-white/50 uppercase mb-4">
                   Voice-Reactive Visualization
                 </p>
                 <h2 className="text-4xl md:text-5xl font-thin mb-8 text-white">
@@ -167,8 +169,8 @@ export default function Home() {
 
         {/* MATRIZ Section */}
         <section className="py-32 px-4 bg-gradient-to-b from-transparent to-purple-900/20">
-          <div className="max-w-7xl mx-auto text-center">
-            <p className="text-sm uppercase tracking-[0.3em] text-blue-400 mb-4">
+          <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14 text-center">
+            <p className="text-[11px] tracking-[0.18em] text-white/50 uppercase mb-4">
               <span aria-label="Powered by Matriz">Powered by MΛTRIZ</span>
             </p>
             <h2 className="text-4xl md:text-5xl font-thin mb-8 text-white">
@@ -190,9 +192,9 @@ export default function Home() {
 
         {/* Products Grid */}
         <section id="products" className="py-32 px-4">
-          <div className="max-w-7xl mx-auto">
+          <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14">
             <div className="text-center mb-20">
-              <p className="text-sm uppercase tracking-[0.3em] text-blue-400 mb-4">
+              <p className="text-[11px] tracking-[0.18em] text-white/50 uppercase mb-4">
                 Lambda Products Suite
               </p>
               <h2 className="text-4xl md:text-5xl font-thin text-white">
@@ -209,7 +211,7 @@ export default function Home() {
                 { name: 'DΛST', desc: 'Context Intelligence' },
                 { name: 'ΛTrace', desc: 'Quantum Metadata' },
               ].map((product, i) => (
-                <div key={i} className="bg-white/5 backdrop-blur rounded-2xl p-8 border border-white/10 hover:bg-white/10 transition cursor-pointer">
+                <div key={i} className="bg-white/5 backdrop-blur rounded-2xl p-8 border border-white/10 hover:bg-white/10 hover:shadow-[0_0_0_1px_rgba(255,255,255,.08)] transition cursor-pointer min-h-[152px]">
                   <h3 className="text-2xl font-light mb-2">{product.name}</h3>
                   <p className="text-white/70">{product.desc}</p>
                 </div>
@@ -220,9 +222,9 @@ export default function Home() {
 
         {/* Technology Stack */}
         <section id="technology" className="py-32 px-4 bg-gradient-to-b from-transparent to-blue-900/20">
-          <div className="max-w-7xl mx-auto">
+          <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14">
             <div className="text-center mb-20">
-              <p className="text-sm uppercase tracking-[0.3em] text-blue-400 mb-4">
+              <p className="text-[11px] tracking-[0.18em] text-white/50 uppercase mb-4">
                 Technology Stack
               </p>
               <h2 className="text-4xl md:text-5xl font-thin text-white">
@@ -237,9 +239,9 @@ export default function Home() {
                 { icon: Shield, name: 'Guardian Layer', color: 'text-emerald-400' },
                 { icon: Settings, name: 'Infrastructure', color: 'text-white/70' }
               ].map((layer, i) => (
-                <div key={i} className="bg-white/5 backdrop-blur rounded-xl p-6 border border-white/10">
+                <div key={i} className="bg-white/5 backdrop-blur rounded-xl p-6 border border-white/10 min-h-[152px] hover:shadow-[0_0_0_1px_rgba(255,255,255,.08)] transition-colors">
                   <div className="flex items-center space-x-3">
-                    <layer.icon className={`w-5 h-5 ${layer.color}`} />
+                    <layer.icon className={`w-6 h-6 md:w-7 md:h-7 ${layer.color}`} />
                     <p className="text-lg">{layer.name}</p>
                   </div>
                 </div>
@@ -265,9 +267,9 @@ export default function Home() {
 
         {/* Pricing */}
         <section id="pricing" className="py-32 px-4">
-          <div className="max-w-7xl mx-auto">
+          <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14">
             <div className="text-center mb-20">
-              <p className="text-sm uppercase tracking-[0.3em] text-blue-400 mb-4">
+              <p className="text-[11px] tracking-[0.18em] text-white/50 uppercase mb-4">
                 Pricing
               </p>
               <h2 className="text-4xl md:text-5xl font-thin text-white">
@@ -281,15 +283,17 @@ export default function Home() {
                 { name: 'Professional', features: ['Multiple products bundle', 'Advanced features', 'Priority support'], highlight: true },
                 { name: 'Enterprise', features: ['All products access', 'Custom integration', 'Dedicated support'] }
               ].map((tier, i) => (
-                <div key={i} className={`rounded-2xl p-8 border ${tier.highlight ? 'bg-gradient-to-b from-purple-900/20 to-blue-900/20 border-blue-500' : 'bg-white/5 border-white/10'}`}>
-                  <h3 className="text-2xl font-light mb-2">{tier.name}</h3>
-                  <p className="text-3xl font-thin mb-6 text-blue-400">TBC</p>
-                  <p className="text-sm text-white/70 mb-6">Pricing to be confirmed</p>
-                  <ul className="space-y-3 mb-8">
-                    {tier.features.map((feature, j) => (
-                      <li key={j} className="text-white/80">✓ {feature}</li>
-                    ))}
-                  </ul>
+                <div key={i} className={`rounded-2xl p-8 border flex flex-col justify-between min-h-[380px] ${tier.highlight ? 'bg-gradient-to-b from-purple-900/20 to-blue-900/20 border-blue-500' : 'bg-white/5 border-white/10'} hover:shadow-[0_0_0_1px_rgba(255,255,255,.08)] transition`}>
+                  <div>
+                    <h3 className="text-2xl font-light mb-2">{tier.name}</h3>
+                    <p className="text-3xl font-thin mb-6 text-blue-400">TBC</p>
+                    <p className="text-sm text-white/70 mb-6">Pricing to be confirmed</p>
+                    <ul className="space-y-3 mb-8">
+                      {tier.features.map((feature, j) => (
+                        <li key={j} className="text-white/80">✓ {feature}</li>
+                      ))}
+                    </ul>
+                  </div>
                   <button className={`w-full py-3 rounded-lg transition ${tier.highlight ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:opacity-90' : 'border border-white/20 hover:bg-white/10'}`}>
                     Contact Sales
                   </button>
@@ -299,56 +303,18 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="py-20 px-4 border-t border-white/10">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid md:grid-cols-4 gap-12 mb-12">
-              <div>
-                <h3 className="text-sm uppercase tracking-wider mb-4 text-white">Products</h3>
-                <ul className="space-y-2">
-                  <li><a href="#" className="text-white/70 hover:text-white transition">Lambda Suite</a></li>
-                  <li><a href="#" className="text-white/70 hover:text-white transition" aria-label="Matriz">MΛTRIZ</a></li>
-                  <li><a href="#" className="text-white/70 hover:text-white transition">Trinity Framework</a></li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-sm uppercase tracking-wider mb-4 text-white">Developers</h3>
-                <ul className="space-y-2">
-                  <li><a href="#" className="text-white/70 hover:text-white transition">Documentation</a></li>
-                  <li><a href="#" className="text-white/70 hover:text-white transition">API</a></li>
-                  <li><Link href="/console" className="text-white/70 hover:text-white transition">Console</Link></li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-sm uppercase tracking-wider mb-4 text-white">Company</h3>
-                <ul className="space-y-2">
-                  <li><a href="#" className="text-white/70 hover:text-white transition">About</a></li>
-                  <li><Link href="/vision" className="text-white/70 hover:text-white transition">Vision</Link></li>
-                  <li><Link href="/careers" className="text-white/70 hover:text-white transition">Careers</Link></li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-sm uppercase tracking-wider mb-4 text-white">Legal</h3>
-                <ul className="space-y-2">
-                  <li><Link href="/privacy" className="text-white/70 hover:text-white transition">Privacy</Link></li>
-                  <li><Link href="/terms" className="text-white/70 hover:text-white transition">Terms</Link></li>
-                  <li><Link href="/compliance" className="text-white/70 hover:text-white transition">Compliance</Link></li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
-              <div className="flex items-center space-x-4 mb-4 md:mb-0">
-                <span className="text-2xl font-thin tracking-[0.3em]">LUKHAS</span>
-                <div className="flex space-x-1">
-                  <Atom className="w-5 h-5 text-purple-400" />
-                  <Brain className="w-5 h-5 text-blue-400" />
-                  <Shield className="w-5 h-5 text-emerald-400" />
-                </div>
-              </div>
-              <p className="text-white/70 text-sm">
-                © 2025 LUKHAS AI. Building Consciousness You Can Trust.
-              </p>
+        {/* Footer - Centered Design */}
+        <footer className="mt-24 border-t border-white/10 bg-black/30">
+          <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14 py-10">
+            <div className="flex flex-col items-center gap-3 text-center">
+              <div className="text-[11px] tracking-[0.18em] text-white/50 uppercase">LUKHΛS</div>
+              <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[12px] text-white/60">
+                <a className="hover:text-white/80" href="/privacy">Privacy</a>
+                <a className="hover:text-white/80" href="/terms">Terms</a>
+                <a className="hover:text-white/80" href="/compliance">Compliance</a>
+                <a className="hover:text-white/80" href="/docs">Docs</a>
+              </nav>
+              <div className="text-[11px] text-white/40">© {new Date().getFullYear()} LUKHΛS AI. Building Consciousness You Can Trust.</div>
             </div>
           </div>
         </footer>
