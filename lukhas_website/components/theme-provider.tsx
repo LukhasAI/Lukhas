@@ -73,6 +73,10 @@ export function ThemeProvider({
       root.style.setProperty('--text-tertiary', '128, 128, 128')
       root.style.setProperty('--glass', 'rgba(0, 0, 0, 0.03)')
       root.style.setProperty('--glass-border', 'rgba(0, 0, 0, 0.08)')
+      root.style.setProperty('--trinity-identity', '107, 70, 193')
+      root.style.setProperty('--trinity-consciousness', '168, 85, 247')
+      root.style.setProperty('--trinity-guardian', '34, 197, 94')
+      root.style.setProperty('--accent-gold', '251, 191, 36')
     } else {
       root.style.setProperty('--bg-primary', '0, 0, 0')
       root.style.setProperty('--bg-secondary', '17, 17, 17')
@@ -82,6 +86,10 @@ export function ThemeProvider({
       root.style.setProperty('--text-tertiary', '128, 128, 128')
       root.style.setProperty('--glass', 'rgba(255, 255, 255, 0.05)')
       root.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.1)')
+      root.style.setProperty('--trinity-identity', '107, 70, 193')
+      root.style.setProperty('--trinity-consciousness', '168, 85, 247')
+      root.style.setProperty('--trinity-guardian', '34, 197, 94')
+      root.style.setProperty('--accent-gold', '251, 191, 36')
     }
 
     // Listen for system theme changes
