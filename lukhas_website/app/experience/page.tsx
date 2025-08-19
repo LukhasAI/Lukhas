@@ -13,6 +13,23 @@ import { estimateTokensAndCost } from '@/lib/tokenEstimator'
 import { mapKeywordsToColorTempo, sentimentScore } from '@/lib/toneSystem'
 import Footer from '@/components/footer'
 
+// Toast helper for API error notifications
+function showToast(title: string, desc?: string, type: 'error' | 'info' | 'success' = 'info') {
+  const t = document.createElement('div')
+  t.className = `fixed right-4 top-20 z-[100] px-4 py-3 rounded-lg border text-sm transition-all max-w-sm ${
+    type === 'error' ? 'bg-red-900/80 border-red-500/30 text-red-100' :
+    type === 'success' ? 'bg-green-900/80 border-green-500/30 text-green-100' :
+    'bg-black/80 border-white/10 text-white/90'
+  }`
+  t.innerHTML = `<div class="font-medium">${title}</div>${desc ? `<div class="text-xs opacity-80 mt-1">${desc}</div>` : ''}`
+  document.body.appendChild(t)
+  setTimeout(() => { 
+    t.style.opacity = '0'
+    t.style.transform = 'translateY(-6px)'
+  }, 3000)
+  setTimeout(() => t.remove(), 3400)
+}
+
 // Dynamic imports for better performance
 const ExperienceSidebar = dynamic(() => import('@/components/experience-sidebar'), { 
   ssr: false,
@@ -242,11 +259,11 @@ export default function ExperiencePage() {
     audioEnabled: true,
     particleCount: 1000,
     morphSpeed: 0.02,
-    shape: 'sphere',
     voiceSensitivity: 0.5,
     consciousnessMode: 'aware',
     trinityIdentity: true,
     trinityConsciousness: true,
+    glyphText: '', // for glyph rendering
     trinityGuardian: true,
     activeModel: 'lukhas',
     tempo: 1.0,
@@ -473,16 +490,27 @@ export default function ExperiencePage() {
         }
         setMessages(prev => [...prev, assistantMessage])
       } else {
-        // Fallback: Use LUKHAS local responses when error or no response
+        // Handle API errors with toast notifications
         if (response?.error) {
-          console.warn('API Error (using fallback):', response.error)
+          console.warn('API Error:', response.error)
+          showToast(
+            'API Connection Issue',
+            `${config.activeModel} unavailable. Using local fallback.`,
+            'error'
+          )
+        } else if (!response) {
+          showToast(
+            'No API Key',
+            `Configure ${config.activeModel} API key in settings.`,
+            'info'
+          )
         }
         
-        // Generate appropriate LUKHAS fallback response
+        // Generate appropriate LUKHAS fallback response (single concise response)
         const fallbackResponses = [
-          '• Poetic: Understood. The field is listening.\n• Friendly: Ask for a shape or say a word in quotes to see it drawn in particles.\n• Insight: Legibility and convergence are prioritized; complex silhouettes are approximated before true assets are added.',
-          'Morphing consciousness awaits your command. Speak a shape into being.',
-          'The particle field responds to your intention. What form shall we manifest?'
+          'Field is responsive. Try speaking or typing text in quotes.',
+          'Morphing consciousness awaits your command.',
+          'The particle field responds to your intention.'
         ]
         
         const fallbackMessage = {
@@ -540,6 +568,21 @@ export default function ExperiencePage() {
     }
     window.addEventListener('lukhas-queue-shape', onQueue)
     return () => window.removeEventListener('lukhas-queue-shape', onQueue)
+  }, [])
+
+  // Glyph request listener
+  useEffect(() => {
+    function onGlyphRequest(e: any) {
+      const text = e?.detail?.text
+      if (!text) return
+      setConfig(prev => ({ ...prev, glyphText: text }))
+      // Clear glyph after a delay to allow morphing back to sphere
+      setTimeout(() => {
+        setConfig(prev => ({ ...prev, glyphText: '' }))
+      }, 5000)
+    }
+    window.addEventListener('glyphRequest', onGlyphRequest)
+    return () => window.removeEventListener('glyphRequest', onGlyphRequest)
   }, [])
 
   // Optional: Load legibility harness

@@ -177,9 +177,8 @@ export default function ExperienceSidebar({
             </label>
             <div className="grid grid-cols-3 gap-2">
               {[
-                { key: 'particles', label: 'Particles', icon: '✦' },
-                { key: 'mesh', label: 'Mesh', icon: '◆' },
-                { key: 'auto', label: 'Auto', icon: '⚡' }
+                { key: 'particles', label: 'Particles Only', icon: '✦' },
+                { key: 'mesh+particles', label: 'Mesh + Particles', icon: '◆' }
               ].map((mode) => (
                 <button
                   key={mode.key}
@@ -196,29 +195,23 @@ export default function ExperienceSidebar({
               ))}
             </div>
             <p className="text-xs text-white/40 mt-2">
-              Particles: Full particle cloud • Mesh: Optimized for performance • Auto: Adaptive
+              Particles Only: Fast on low-end GPUs • Mesh + Particles: Full visual fidelity
             </p>
           </div>
 
-          {/* Shape Selection */}
+          {/* Form Field Information */}
           <div>
             <label className="text-xs font-medium text-white/60 uppercase tracking-wider mb-2 block">
-              Active Shape
+              Morphing Field
             </label>
-            <div className="grid grid-cols-2 gap-2">
-              {['sphere', 'cube', 'torus', 'consciousness', 'cat', 'heart', 'helix'].map((shape) => (
-                <button
-                  key={shape}
-                  onClick={() => onConfigChange('shape', shape)}
-                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
-                    config.shape === shape
-                      ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
-                      : 'bg-white/5 text-white/60 hover:bg-white/10'
-                  }`}
-                >
-                  {shape.charAt(0).toUpperCase() + shape.slice(1)}
-                </button>
-              ))}
+            <div className="bg-white/5 rounded-lg p-3">
+              <div className="text-xs text-white/80">
+                {config.glyphText ? (
+                  <span>Text Form: <span className="text-blue-400 font-medium">"{config.glyphText}"</span></span>
+                ) : (
+                  <span>Adaptive sphere field ready for voice-driven morphing</span>
+                )}
+              </div>
             </div>
           </div>
         </div>

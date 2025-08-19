@@ -5,33 +5,53 @@ import TextareaAutosize from 'react-textarea-autosize'
 import { Send, Paperclip, Sparkles, Bot, User, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-// Three-layer tone system from Plan1
-function threeLayerTone(base: string, hint?: string) {
-  const poetic = `${base}`
-  const friendly = hint ? `${hint}` : 'Say the word — I\'ll shape the field to match.'
-  const academic = 'Legibility and convergence are prioritized; complex silhouettes are approximated before true assets are added.'
-  return `• Poetic: ${poetic}\n• Friendly: ${friendly}\n• Insight: ${academic}`
+// Single concise response system with optional insights
+function generateResponse(base: string, includeInsight = false, insight?: string) {
+  if (includeInsight && insight) {
+    return `${base}\n\nInsight: ${insight}`
+  }
+  return base
 }
 
 function generateLocalReply(txt: string): string {
   const t = txt.toLowerCase()
-  // Known shapes
-  if (t.match(/\btorus|donut\b/)) return threeLayerTone('A ring awakens; particles settle into an endless loop.', 'Switching to a torus now.')
-  if (t.match(/\bcube|box\b/)) return threeLayerTone('Structure condenses into six quiet planes.', 'Forming a cube.')
-  if (t.match(/\bsphere|orb|ball\b/)) return threeLayerTone('Symmetry blooms into a calm orb.', 'Centering into a sphere.')
-  if (t.match(/\bhelix|spiral\b/)) return threeLayerTone('A spiral climbs; pitch matches your intent.', 'Evolving into a spiral.')
-  if (t.match(/\bheart\b/)) return threeLayerTone('Warmth collects into a soft heartfield.', 'Shaping into a heart-like flow.')
-  // Text
-  if (t.match(/"([^"]+)"/) || t.includes('text:')) return threeLayerTone('Your words crystallize as a glyph.', 'Rendering your text and holding for legibility.')
-  // Honest fallback for unknown shapes
-  const asksShape = /\b(make|turn|render|form|shape)\b/.test(t)
-  const mentionsNoun = /\b([a-z]{3,})\b/.test(t)
-  const known = /(torus|donut|cube|box|sphere|orb|ball|helix|spiral|heart|conscious)/
-  if (asksShape && mentionsNoun && !known.test(t)) {
-    return threeLayerTone('I don\'t have that silhouette yet.', 'Shall I render the word as a glyph first, or would you like a simple approximation?')
+  
+  // Text glyph detection
+  const quotedMatch = t.match(/"([^"]+)"/)
+  if (quotedMatch || t.includes('text:')) {
+    const text = quotedMatch ? quotedMatch[1] : txt.replace(/text:/, '').trim()
+    // Trigger glyph rendering
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('glyphRequest', { detail: { text } }))
+    }, 100)
+    return generateResponse('Rendering text as particle glyph', false)
   }
-  // General personality
-  return threeLayerTone('Understood. The field is listening.', 'Ask for a shape or say a word in quotes to see it drawn in particles.')
+  
+  // Color requests
+  if (t.match(/\b(red|blue|green|yellow|purple|orange|pink|cyan|magenta)\b/)) {
+    return generateResponse('Field colors adapted to match your request')
+  }
+  
+  // Documentation or detailed requests (include insight)
+  if (t.match(/\b(how|why|explain|documentation|docs|help)\b/)) {
+    return generateResponse(
+      'The field morphs based on voice input and text glyphs',
+      true,
+      'Voice reactivity adjusts particle movement and colors. Quoted text renders as deterministic glyph patterns using canvas sampling.'
+    )
+  }
+  
+  // Narrative or story requests (include insight)
+  if (t.match(/\b(story|narrative|tell me|describe)\b/)) {
+    return generateResponse(
+      'The particle field represents consciousness in motion',
+      true,
+      'Each particle carries potential meaning, forming and reforming as voice and intent guide the visualization of thought itself.'
+    )
+  }
+  
+  // General response
+  return generateResponse('Field is responsive. Try speaking or typing text in quotes.')
 }
 
 interface Message {
@@ -145,7 +165,7 @@ export default function ChatInterface({
               </button>
             </div>
             
-            <div className="space-y-3">
+            <div className="space-y-3" aria-live="polite" aria-label="Chat messages">
               {messages.map(message => (
                 <motion.div
                   key={message.id}
