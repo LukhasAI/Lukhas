@@ -1,4 +1,16 @@
 {
+  "enforcement": {
+    "blockingRules": {
+      "description": "Violations that fail builds and block deployments",
+      "severity": "error",
+      "exitCode": 1
+    },
+    "reviewRules": {
+      "description": "Violations that require human review but don't block builds",
+      "severity": "warning",
+      "exitCode": 0
+    }
+  },
   "brand": {
     "display": ["LUKHΛS", "ΛI", "MΛTRIZ", "ΛiD"],
     "plain": ["Lukhas", "AI", "Matriz", "Lukhas ID"],
@@ -14,19 +26,52 @@
       "maxGradeLevel": 8.0
     }
   },
-  "bannedWords": [
-    "guaranteed",
-    "flawless",
-    "perfect",
-    "zero-risk",
-    "unbreakable",
-    "unlimited",
-    "revolutionary",
-    "groundbreaking",
-    "game-changing",
-    "magical",
-    "miracle"
-  ],
+  "blockingViolations": {
+    "description": "Hard rules that fail builds",
+    "lambdaInUrls": true,
+    "lambdaInAltText": true,
+    "missingAriaForLambda": true,
+    "deprecatedMatada": true,
+    "criticalBannedWords": [
+      "guaranteed",
+      "flawless",
+      "perfect",
+      "zero-risk",
+      "unbreakable",
+      "magical",
+      "miracle"
+    ]
+  },
+  "reviewRequired": {
+    "description": "Claims that need human review but don't block builds",
+    "performanceClaims": [
+      "revolutionary",
+      "groundbreaking",
+      "game-changing",
+      "breakthrough",
+      "cutting-edge",
+      "world-class",
+      "industry-leading",
+      "state-of-the-art",
+      "unparalleled",
+      "unlimited"
+    ],
+    "marketPositioning": [
+      "first",
+      "only",
+      "best",
+      "leading",
+      "dominant",
+      "superior"
+    ],
+    "technicalAchievements": [
+      "advanced",
+      "sophisticated",
+      "powerful",
+      "robust",
+      "scalable"
+    ]
+  },
   "vendorPhrases": [
     {
       "pattern": "partnered with (OpenAI|Anthropic|Google)",
