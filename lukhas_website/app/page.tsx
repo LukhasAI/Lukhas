@@ -47,7 +47,7 @@ export default function Home() {
             <p className="text-sm uppercase tracking-[0.3em] text-blue-400 mb-8">
               Logical Unified Knowledge Hyper-Adaptive Superior Systems
             </p>
-            <h1 className="text-6xl md:text-8xl font-thin tracking-[0.3em] mb-8">
+            <h1 className="text-6xl md:text-8xl font-thin tracking-[0.3em] mb-8 text-white">
               LUKHAS
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 mb-12">
@@ -60,19 +60,19 @@ export default function Home() {
                 <div className="flex justify-center mb-2">
                   <Atom className="w-10 h-10 text-purple-400" />
                 </div>
-                <p className="text-xs uppercase tracking-wider">Identity</p>
+                <p className="text-xs uppercase tracking-wider text-white">Identity</p>
               </div>
               <div className="text-center">
                 <div className="flex justify-center mb-2">
                   <Brain className="w-10 h-10 text-blue-400" />
                 </div>
-                <p className="text-xs uppercase tracking-wider">Consciousness</p>
+                <p className="text-xs uppercase tracking-wider text-white">Consciousness</p>
               </div>
               <div className="text-center">
                 <div className="flex justify-center mb-2">
                   <Shield className="w-10 h-10 text-emerald-400" />
                 </div>
-                <p className="text-xs uppercase tracking-wider">Guardian</p>
+                <p className="text-xs uppercase tracking-wider text-white">Guardian</p>
               </div>
             </div>
 
@@ -115,7 +115,7 @@ export default function Home() {
                 <p className="text-sm uppercase tracking-[0.3em] text-purple-400 mb-4">
                   Voice-Reactive Visualization
                 </p>
-                <h2 className="text-4xl md:text-5xl font-thin mb-8">
+                <h2 className="text-4xl md:text-5xl font-thin mb-8 text-white">
                   PR0T3US Experience
                 </h2>
                 <p className="text-xl text-gray-400 mb-6">
@@ -171,7 +171,7 @@ export default function Home() {
             <p className="text-sm uppercase tracking-[0.3em] text-blue-400 mb-4">
               Powered by MATADA
             </p>
-            <h2 className="text-4xl md:text-5xl font-thin mb-8">
+            <h2 className="text-4xl md:text-5xl font-thin mb-8 text-white">
               Cognitive Architecture Revolution
             </h2>
             <p className="text-xl text-gray-400 mb-12 max-w-3xl mx-auto">
@@ -195,7 +195,7 @@ export default function Home() {
               <p className="text-sm uppercase tracking-[0.3em] text-blue-400 mb-4">
                 Lambda Products Suite
               </p>
-              <h2 className="text-4xl md:text-5xl font-thin">
+              <h2 className="text-4xl md:text-5xl font-thin text-white">
                 Enterprise-Ready AI Modules
               </h2>
             </div>
@@ -225,7 +225,7 @@ export default function Home() {
               <p className="text-sm uppercase tracking-[0.3em] text-blue-400 mb-4">
                 Technology Stack
               </p>
-              <h2 className="text-4xl md:text-5xl font-thin">
+              <h2 className="text-4xl md:text-5xl font-thin text-white">
                 Quantum-Inspired & Bio-Adaptive
               </h2>
             </div>
@@ -270,7 +270,7 @@ export default function Home() {
               <p className="text-sm uppercase tracking-[0.3em] text-blue-400 mb-4">
                 Pricing
               </p>
-              <h2 className="text-4xl md:text-5xl font-thin">
+              <h2 className="text-4xl md:text-5xl font-thin text-white">
                 Choose Your Tier
               </h2>
             </div>
@@ -304,7 +304,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-4 gap-12 mb-12">
               <div>
-                <h3 className="text-sm uppercase tracking-wider mb-4">Products</h3>
+                <h3 className="text-sm uppercase tracking-wider mb-4 text-white">Products</h3>
                 <ul className="space-y-2">
                   <li><a href="#" className="text-gray-400 hover:text-white transition">Lambda Suite</a></li>
                   <li><a href="#" className="text-gray-400 hover:text-white transition">MATADA</a></li>
@@ -312,7 +312,7 @@ export default function Home() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-sm uppercase tracking-wider mb-4">Developers</h3>
+                <h3 className="text-sm uppercase tracking-wider mb-4 text-white">Developers</h3>
                 <ul className="space-y-2">
                   <li><a href="#" className="text-gray-400 hover:text-white transition">Documentation</a></li>
                   <li><a href="#" className="text-gray-400 hover:text-white transition">API</a></li>
@@ -320,7 +320,7 @@ export default function Home() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-sm uppercase tracking-wider mb-4">Company</h3>
+                <h3 className="text-sm uppercase tracking-wider mb-4 text-white">Company</h3>
                 <ul className="space-y-2">
                   <li><a href="#" className="text-gray-400 hover:text-white transition">About</a></li>
                   <li><Link href="/vision" className="text-gray-400 hover:text-white transition">Vision</Link></li>
@@ -328,7 +328,7 @@ export default function Home() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-sm uppercase tracking-wider mb-4">Legal</h3>
+                <h3 className="text-sm uppercase tracking-wider mb-4 text-white">Legal</h3>
                 <ul className="space-y-2">
                   <li><Link href="/privacy" className="text-gray-400 hover:text-white transition">Privacy</Link></li>
                   <li><Link href="/terms" className="text-gray-400 hover:text-white transition">Terms</Link></li>
