@@ -14,6 +14,7 @@ export type GlyphSampleOpts = {
   jitter?: number;        // z jitter depth
   centerBias?: number;    // 0..1 stronger bias toward center pixels
   deterministic?: boolean; // use text-based seeding for stable renders
+  rng?: () => number;     // custom RNG function
 };
 
 // Mulberry32 PRNG for deterministic seeding
@@ -59,6 +60,7 @@ export function glyphToTargets(
     jitter = 0.02,
     centerBias = 0.35,
     deterministic = true,
+    rng = Math.random,  // default to Math.random
   } = opts;
 
   if (typeof window === 'undefined') return; // SSR guard
@@ -69,7 +71,7 @@ export function glyphToTargets(
     for (let i = 0; i < N; i++) {
       targets[i*3+0] = 0;
       targets[i*3+1] = 0;
-      targets[i*3+2] = (Math.random() - 0.5) * jitter;
+      targets[i*3+2] = (random() - 0.5) * jitter;
     }
     return;
   }
@@ -77,8 +79,8 @@ export function glyphToTargets(
   // Performance guardrail: skip re-sampling if same text
   if (t === _lastGlyph) return;
 
-  // Initialize deterministic RNG if enabled
-  const rng = deterministic ? mulberry32(hashString(t)) : Math.random;
+  // Use provided RNG or create deterministic one if enabled
+  const random = rng || (deterministic ? mulberry32(hashString(t)) : Math.random);
 
   // OffscreenCanvas if available, else regular canvas
   const cnv = (typeof (window as any).OffscreenCanvas !== 'undefined')
@@ -152,7 +154,7 @@ export function glyphToTargets(
     for (let i = 0; i < N; i++) {
       targets[i*3+0] = 0;
       targets[i*3+1] = 0;
-      targets[i*3+2] = (rng() - 0.5) * jitter;
+      targets[i*3+2] = (random() - 0.5) * jitter;
     }
     return;
   }
@@ -160,14 +162,14 @@ export function glyphToTargets(
   // Optional: bias selection toward the center for denser, cleaner glyphs
   const cx = canvasW / 2, cy = canvasH / 2;
   function pickIndex(i: number): number {
-    if (centerBias <= 0) return Math.floor(rng() * candidates.length);
+    if (centerBias <= 0) return Math.floor(random() * candidates.length);
     // mix uniform with distance-weighted
-    const r = rng();
-    if (r > centerBias) return Math.floor(rng() * candidates.length);
+    const r = random();
+    if (r > centerBias) return Math.floor(random() * candidates.length);
     // weighted by inverse distance to center
     let best = 0, bestScore = -1;
     for (let k = 0; k < 4; k++) { // 4 tries is enough
-      const j = Math.floor(rng() * candidates.length);
+      const j = Math.floor(random() * candidates.length);
       const dx = candidates[j][0] - cx;
       const dy = candidates[j][1] - cy;
       const score = 1 / (1 + dx*dx + dy*dy);
@@ -184,7 +186,7 @@ export function glyphToTargets(
     const [x, y] = candidates[j];
     const nx = ((x - cx) / maxDim) * 2 * worldScale;
     const ny = (-(y - cy) / maxDim) * 2 * worldScale;
-    const nz = (rng() - 0.5) * jitter;
+    const nz = (random() - 0.5) * jitter;
     targets[i*3+0] = nx;
     targets[i*3+1] = ny;
     targets[i*3+2] = nz;

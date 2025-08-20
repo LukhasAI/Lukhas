@@ -5,6 +5,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, Environment, Float, MeshDistortMaterial } from '@react-three/drei'
 import * as THREE from 'three'
 import { glyphToTargets, makeGlyphSamplerCache, getOptimalRenderMode } from '@/lib/glyphSampler'
+import { mulberry32, seedFromString } from '@/lib/prng'
 
 interface ParticleFormProps {
   voiceData: { intensity: number; frequency: number }
@@ -70,7 +71,11 @@ function ParticleForm({
     }
     
     try {
-      // Use cached glyph sampler for performance
+      // Create seeded RNG for this text
+      const seed = seedFromString(text.toUpperCase())
+      const rng = mulberry32(seed)
+      
+      // Use cached glyph sampler with seeded RNG
       return glyphCache.get(text, count, {
         canvasW: 768,
         canvasH: 384,
@@ -82,7 +87,8 @@ function ParticleForm({
         centerBias: 0.35,
         bold: true,
         uppercase: true,
-        deterministic: true
+        deterministic: true,
+        rng  // Pass seeded RNG
       })
     } catch (e) {
       console.warn('[ParticleForm] Glyph generation failed, falling back to sphere:', e)
