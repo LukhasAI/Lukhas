@@ -43,6 +43,7 @@
     "framer-motion": "^11.0.0",
     "glob": "^11.0.3",
     "gsap": "^3.12.4",
+    "jose": "^6.0.12",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.303.0",
     "next": "^14.2.0",

@@ -50,6 +50,11 @@ const MorphingVisualizer = dynamic(() => import('@/components/morphing-visualize
   loading: () => <div className="w-full h-full bg-black/20 animate-pulse rounded-2xl" />
 })
 
+const AdvancedMorphingVisualizer = dynamic(() => import('@/components/experience/advanced-morphing-visualizer'), { 
+  ssr: false,
+  loading: () => <div className="w-full h-full bg-black/20 animate-pulse rounded-2xl" />
+})
+
 const VoiceMorphingBridge = dynamic(() => import('@/components/voice-morphing-bridge'), { 
   ssr: false 
 })
@@ -232,6 +237,10 @@ export default function ExperiencePage() {
     intensity: 0,
     frequency: 0
   })
+  
+  // Advanced visualizer state
+  const [currentMode, setCurrentMode] = useState<'AI' | 'Human'>('AI')
+  const [quotedText, setQuotedText] = useState<string>('')
 
   // New state for enhanced features
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
@@ -755,9 +764,18 @@ export default function ExperiencePage() {
                     transition={prefersReducedMotion ? { duration: 0 } : undefined}
                     className="w-full h-full"
                   >
-                    <MorphingVisualizer 
-                      config={config}
-                      voiceData={voiceData}
+                    <AdvancedMorphingVisualizer 
+                      quotedText={quotedText}
+                      mode={currentMode}
+                      voiceIntensity={voiceData.intensity}
+                      showStats={false}
+                      config={{
+                        particleCount: config.particleCount || 12000,
+                        baseSize: 0.02,
+                        colorIntensity: config.colorIntensity || 0.8,
+                        morphSpeed: config.morphSpeed || 0.05,
+                        voiceSensitivity: config.voiceSensitivity || 1.0
+                      }}
                     />
                     <VoiceMorphingBridge 
                       config={config}
@@ -789,9 +807,18 @@ export default function ExperiencePage() {
                     className="w-full h-full grid grid-cols-2 gap-4 p-4"
                   >
                     <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
-                      <MorphingVisualizer 
-                        config={config}
-                        voiceData={voiceData}
+                      <AdvancedMorphingVisualizer 
+                        quotedText={quotedText}
+                        mode={currentMode}
+                        voiceIntensity={voiceData.intensity}
+                        showStats={true}
+                        config={{
+                          particleCount: config.particleCount || 12000,
+                          baseSize: 0.02,
+                          colorIntensity: config.colorIntensity || 0.8,
+                          morphSpeed: config.morphSpeed || 0.05,
+                          voiceSensitivity: config.voiceSensitivity || 1.0
+                        }}
                       />
                     </div>
                     <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
@@ -851,7 +878,19 @@ export default function ExperiencePage() {
         selectedModel={selectedModel}
         isProcessing={isProcessing}
         onTyping={() => { setSidebarCollapsed(true); setRightPanelOpen(true) }}
-        onMessage={(m) => setMessages(prev => [...prev, m])}
+        onMessage={(m) => {
+          setMessages(prev => [...prev, m])
+          // Extract quoted text from messages for visualization
+          if (m.role === 'assistant') {
+            const quoteMatch = m.content.match(/["'](.*?)["']/)
+            if (quoteMatch) {
+              setQuotedText(quoteMatch[1])
+              setCurrentMode('AI')
+            }
+          } else {
+            setCurrentMode('Human')
+          }
+        }}
         showInlineHistory={false}
       />
       

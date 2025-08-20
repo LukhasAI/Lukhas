@@ -664,10 +664,7 @@ export class ScopeUtils {
   }
 }
 
-/**
- * Legacy ScopeManager for compatibility
- */
-export { ScopeManager };
+// ScopeManager is already exported above
 
 /**
  * Primary export is ScopeGuard with enhanced security features

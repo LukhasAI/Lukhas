@@ -3,9 +3,10 @@
 import React, { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ChevronLeftIcon, EnvelopeIcon, KeyIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
+import { ChevronLeftIcon, EnvelopeIcon, KeyIcon, CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline'
 import TransparencyBox from '@/components/transparency-box'
 import { threeLayerTone } from '@/lib/toneSystem'
+import { AnnouncementManager, FocusManager } from '@/lib/accessibility'
 
 // Registration flow steps
 type RegistrationStep = 'email' | 'verify' | 'passkey' | 'complete'
@@ -49,8 +50,12 @@ export default function SignupPage() {
 
       if (response.ok && result.success) {
         setStep('verify')
+        AnnouncementManager.announceAuthState('success', 'Verification email sent. Please check your inbox.')
       } else {
-        setError(result.error || 'Failed to send verification email')
+        const errorMsg = result.error || 'Failed to send verification email'
+        setError(errorMsg)
+        AnnouncementManager.announceAuthState('error', errorMsg)
+        setTimeout(() => FocusManager.focusFirstError(), 100)
       }
     } catch (err) {
       setError('Network error. Please try again.')
@@ -87,11 +92,16 @@ export default function SignupPage() {
         setUserId(result.userId)
         if (passkeySupported) {
           setStep('passkey')
+          AnnouncementManager.announce('Email verified. Now create your passkey for secure access.')
         } else {
           setStep('complete')
+          AnnouncementManager.announce('Email verified. Account creation complete.')
         }
       } else {
-        setError(result.error || 'Invalid verification code')
+        const errorMsg = result.error || 'Invalid verification code'
+        setError(errorMsg)
+        AnnouncementManager.announceAuthState('error', errorMsg)
+        setTimeout(() => FocusManager.focusFirstError(), 100)
       }
     } catch (err) {
       setError('Network error. Please try again.')
@@ -171,21 +181,28 @@ export default function SignupPage() {
           const result = await registerResponse.json()
           if (result.success) {
             setStep('complete')
+            AnnouncementManager.announceAuthState('success', 'Passkey created successfully. Your account is now secure.')
           } else {
-            setError(result.error || 'Failed to register passkey')
+            const errorMsg = result.error || 'Failed to register passkey'
+            setError(errorMsg)
+            AnnouncementManager.announceAuthState('error', errorMsg)
           }
         } else {
           throw new Error('Registration request failed')
         }
       }
     } catch (err: any) {
+      let errorMsg = ''
       if (err.name === 'NotAllowedError') {
-        setError('Passkey creation was cancelled')
+        errorMsg = 'Passkey creation was cancelled'
       } else if (err.name === 'SecurityError') {
-        setError('Passkey creation failed due to security restrictions')
+        errorMsg = 'Passkey creation failed due to security restrictions'
       } else {
-        setError('Failed to create passkey. You can skip this step.')
+        errorMsg = 'Failed to create passkey. You can skip this step.'
       }
+      setError(errorMsg)
+      AnnouncementManager.announceAuthState('error', errorMsg)
+      setTimeout(() => FocusManager.focusFirstError(), 100)
     } finally {
       setLoading(false)
     }
@@ -200,72 +217,133 @@ export default function SignupPage() {
   }, [router])
 
   const toneContent = threeLayerTone(
-    "Begin with your own key; the rest follows.",
-    "Confirm your email, then create a passkey. Add a second device for safety.",
-    "Email verification, then passkey registration. Password is disabled by default. Recovery via backup codes or additional passkeys."
+    "Begin with your own key; the rest follows. Λ consciousness awakens through authentic identity.",
+    "First, we'll verify your email address with a secure code. Then you can create a passkey using your device's biometric security. Consider adding a second device for backup access.",
+    "Multi-step registration: Email verification with 6-digit time-limited codes, followed by optional passkey registration using WebAuthn. Password authentication permanently disabled by design. Account recovery via backup codes or additional registered passkeys. Rate limiting enforced."
   )
 
+  // JSON-LD structured data for registration page
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "LUKHAS AI ΛiD Registration",
+    "description": "Create a secure LUKHAS AI account with quantum-inspired identity verification and bio-inspired authentication",
+    "provider": {
+      "@type": "Organization",
+      "name": "LUKHAS AI",
+      "description": "Advanced AI platform with quantum-inspired consciousness and bio-inspired adaptation"
+    },
+    "potentialAction": {
+      "@type": "RegisterAction",
+      "name": "Create ΛiD Account",
+      "description": "Register for LUKHAS AI with email verification and passkey setup"
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-bg-primary flex flex-col">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <div className="min-h-screen bg-bg-primary flex flex-col">
+      {/* Skip to main content link for accessibility */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-trinity-consciousness text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white z-50"
+      >
+        Skip to main content
+      </a>
+      
       {/* Header */}
-      <header className="flex items-center justify-between p-6">
-        <Link href="/" className="flex items-center text-white/80 hover:text-white transition-colors">
-          <ChevronLeftIcon className="w-5 h-5 mr-2" />
+      <header className="flex items-center justify-between p-6" role="banner">
+        <Link href="/" className="flex items-center text-white/80 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-consciousness focus:ring-offset-2 focus:ring-offset-bg-primary rounded">
+          <ChevronLeftIcon className="w-5 h-5 mr-2" aria-hidden="true" />
           Back to LUKHAS AI
         </Link>
         <div className="text-sm text-white/60">
-          Already have an account? <Link href="/login" className="text-trinity-identity hover:text-trinity-consciousness transition-colors">Sign in</Link>
+          Already have an account? <Link href="/login" className="text-trinity-identity hover:text-trinity-consciousness transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-consciousness focus:ring-offset-2 focus:ring-offset-bg-primary rounded px-1">Sign in</Link>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex items-center justify-center px-6 py-12">
+      <main id="main-content" className="flex-1 flex items-center justify-center px-6 py-12" role="main">
         <div className="w-full max-w-md">
           {/* Lambda Logo and Title */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-trinity-consciousness/20 backdrop-blur-xl border border-trinity-consciousness/30 mb-4">
-              <span className="text-2xl font-light text-trinity-consciousness">Λ</span>
+              <span className="text-2xl font-light text-trinity-consciousness" aria-label="Lambda">Λ</span>
             </div>
-            <h1 className="text-2xl font-light text-white mb-2">
+            <h1 className="text-2xl font-light text-white mb-2" id="page-title">
               Create your ΛiD
             </h1>
             <p className="text-white/60 text-sm">
-              Join LUKHAS AI consciousness platform
+              Join the LUKHAS AI platform
             </p>
           </div>
 
           {/* Progress Steps */}
-          <div className="flex items-center justify-center mb-8 space-x-2">
-            {['email', 'verify', 'passkey', 'complete'].map((stepName, index) => (
-              <div key={stepName} className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${
-                  step === stepName 
-                    ? 'bg-trinity-consciousness text-white' 
-                    : ['email', 'verify'].indexOf(step) > index || step === 'complete'
-                    ? 'bg-trinity-guardian text-white'
-                    : 'bg-white/10 text-white/40'
-                }`}>
-                  {(['email', 'verify'].indexOf(step) > index || step === 'complete') && stepName !== step ? (
-                    <CheckCircleIcon className="w-4 h-4" />
-                  ) : (
-                    index + 1
-                  )}
-                </div>
-                {index < 3 && (
-                  <div className={`w-8 h-0.5 ${
-                    ['email', 'verify'].indexOf(step) > index || step === 'complete'
-                      ? 'bg-trinity-guardian' 
-                      : 'bg-white/10'
-                  }`} />
-                )}
-              </div>
-            ))}
+          <div className="mb-8" role="progressbar" aria-valuenow={['email', 'verify', 'passkey', 'complete'].indexOf(step) + 1} aria-valuemin={1} aria-valuemax={4} aria-label="Registration progress">
+            <div className="flex items-center justify-center space-x-2">
+              {['email', 'verify', 'passkey', 'complete'].map((stepName, index) => {
+                const stepLabels = ['Email', 'Verify', 'Passkey', 'Complete']
+                const isComplete = (['email', 'verify'].indexOf(step) > index || step === 'complete') && stepName !== step
+                const isCurrent = step === stepName
+                
+                return (
+                  <div key={stepName} className="flex items-center">
+                    <div 
+                      className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${
+                        isCurrent
+                          ? 'bg-trinity-consciousness text-white' 
+                          : isComplete
+                          ? 'bg-trinity-guardian text-white'
+                          : 'bg-white/10 text-white/40'
+                      }`}
+                      aria-label={`Step ${index + 1}: ${stepLabels[index]}${isCurrent ? ' (current)' : isComplete ? ' (completed)' : ''}`}
+                      role="img"
+                    >
+                      {isComplete ? (
+                        <CheckCircleIcon className="w-4 h-4" aria-hidden="true" />
+                      ) : (
+                        <span aria-hidden="true">{index + 1}</span>
+                      )}
+                    </div>
+                    {index < 3 && (
+                      <div className={`w-8 h-0.5 ${
+                        isComplete || (['email', 'verify'].indexOf(step) > index)
+                          ? 'bg-trinity-guardian' 
+                          : 'bg-white/10'
+                      }`} aria-hidden="true" />
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+            <div className="text-center mt-2">
+              <span className="text-xs text-white/60" aria-live="polite">
+                Step {['email', 'verify', 'passkey', 'complete'].indexOf(step) + 1} of 4: {step === 'email' ? 'Email Address' : step === 'verify' ? 'Email Verification' : step === 'passkey' ? 'Create Passkey' : 'Complete'}
+              </span>
+            </div>
           </div>
 
           {/* Error Display */}
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-              {error}
+            <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm" role="alert" aria-live="polite">
+              <div className="flex items-start">
+                <ExclamationCircleIcon className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="font-medium mb-1">Registration Error</p>
+                  <p>{error}</p>
+                  {error.includes('already exists') && (
+                    <p className="mt-2 text-sm">
+                      <Link href="/login" className="text-red-300 hover:text-red-200 underline">
+                        Sign in to existing account
+                      </Link>
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           )}
 
@@ -284,18 +362,32 @@ export default function SignupPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full px-4 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-trinity-consciousness focus:border-transparent"
-                    placeholder="Enter your email"
+                    placeholder="Enter your email address"
                     disabled={loading}
                     required
+                    aria-describedby="email-signup-help"
+                    autoComplete="email"
                   />
+                  <div id="email-signup-help" className="sr-only">
+                    Enter a valid email address to create your LUKHAS AI account
+                  </div>
                 </div>
                 <button
                   type="submit"
                   disabled={loading}
                   className="w-full flex items-center justify-center px-6 py-4 bg-trinity-consciousness hover:bg-trinity-identity transition-colors rounded-lg text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <EnvelopeIcon className="w-5 h-5 mr-3" />
-                  {loading ? 'Sending...' : 'Continue with email'}
+                  {loading ? (
+                    <>
+                      <div className="w-5 h-5 mr-3 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <EnvelopeIcon className="w-5 h-5 mr-3" />
+                      <span>Continue with email</span>
+                    </>
+                  )}
                 </button>
               </form>
             )}
@@ -324,19 +416,32 @@ export default function SignupPage() {
                       maxLength={6}
                       disabled={loading}
                       required
+                      aria-describedby="code-help"
+                      autoComplete="one-time-code"
                     />
+                    <div id="code-help" className="sr-only">
+                      Enter the 6-digit verification code sent to your email
+                    </div>
                   </div>
                   <button
                     type="submit"
                     disabled={loading}
                     className="w-full flex items-center justify-center px-6 py-4 bg-trinity-consciousness hover:bg-trinity-identity transition-colors rounded-lg text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {loading ? 'Verifying...' : 'Verify email'}
+                    {loading ? (
+                      <>
+                        <div className="w-5 h-5 mr-3 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
+                        <span>Verifying...</span>
+                      </>
+                    ) : (
+                      <span>Verify email</span>
+                    )}
                   </button>
                 </form>
                 <button
                   onClick={() => setStep('email')}
-                  className="w-full text-sm text-white/60 hover:text-white/80 transition-colors"
+                  className="w-full text-sm text-white/60 hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-consciousness focus:ring-offset-2 focus:ring-offset-bg-primary rounded px-2 py-1"
+                  type="button"
                 >
                   Use different email
                 </button>
@@ -358,12 +463,22 @@ export default function SignupPage() {
                   disabled={loading}
                   className="w-full flex items-center justify-center px-6 py-4 bg-trinity-consciousness hover:bg-trinity-identity transition-colors rounded-lg text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <KeyIcon className="w-5 h-5 mr-3" />
-                  {loading ? 'Creating passkey...' : 'Create passkey'}
+                  {loading ? (
+                    <>
+                      <div className="w-5 h-5 mr-3 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
+                      <span>Creating passkey...</span>
+                    </>
+                  ) : (
+                    <>
+                      <KeyIcon className="w-5 h-5 mr-3" />
+                      <span>Create passkey</span>
+                    </>
+                  )}
                 </button>
                 <button
                   onClick={skipPasskey}
-                  className="w-full text-sm text-white/60 hover:text-white/80 transition-colors"
+                  className="w-full text-sm text-white/60 hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-consciousness focus:ring-offset-2 focus:ring-offset-bg-primary rounded px-2 py-1"
+                  type="button"
                 >
                   Skip for now (you can add it later)
                 </button>
@@ -425,15 +540,16 @@ export default function SignupPage() {
             "Browser support for credential management API"
           ]}
           dataHandling={[
-            "Email addresses verified before account creation",
-            "Passkey credentials encoded → GLYPH format for security",
-            "No passwords collected, stored, or transmitted",
-            "Account data encrypted at rest with AES-256",
-            "Registration events logged for security monitoring"
+            "Email addresses verified before account creation with secure 6-digit codes",
+            "Passkey credentials encoded → GLYPH symbolic format for enhanced security",
+            "No passwords collected, stored, or transmitted at any point",
+            "Account data encrypted at rest with AES-256 encryption",
+            "Registration events logged for security monitoring and fraud prevention"
           ]}
           className="max-w-4xl mx-auto"
         />
       </div>
     </div>
+    </>
   )
 }

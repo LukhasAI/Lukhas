@@ -61,7 +61,7 @@ export default function TransparencyBox({
           {/* What It Does */}
           <section>
             <h4 className="text-xs font-semibold text-green-400 uppercase tracking-wide mb-2">
-              ✅ What MATRIZ Does
+              ✅ What This System Does
             </h4>
             <ul className="text-sm text-white/70 space-y-1">
               {capabilities.map((capability, index) => (
@@ -121,8 +121,8 @@ export default function TransparencyBox({
           {/* Footer Note */}
           <div className="pt-3 border-t border-white/10">
             <p className="text-xs text-white/50">
-              This transparency information is required on all LUKHAS AI product pages. 
-              Report issues via <a href="/support" className="text-purple-400 hover:text-purple-300">support</a>.
+              Transparency disclosure required on all LUKHAS AI interfaces. 
+              Report issues via <a href="/support" className="text-purple-400 hover:text-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 rounded">support</a>.
             </p>
           </div>
         </div>

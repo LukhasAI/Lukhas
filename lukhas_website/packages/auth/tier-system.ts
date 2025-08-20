@@ -677,6 +677,24 @@ export const TIER_SYSTEM: Record<TierLevel, TierConfiguration> = {
 };
 
 /**
+ * SSO/SCIM enforcement configuration
+ */
+export interface SSOSCIMEnforcement {
+  T5_REQUIRE_SSO: boolean;
+  T5_REQUIRE_SCIM: boolean;
+  DEVELOPMENT_MODE: boolean;
+}
+
+/**
+ * Environment configuration for SSO/SCIM enforcement
+ */
+export const getSSOSCIMConfig = (): SSOSCIMEnforcement => ({
+  T5_REQUIRE_SSO: process.env.T5_REQUIRE_SSO === 'true',
+  T5_REQUIRE_SCIM: process.env.T5_REQUIRE_SCIM === 'true',
+  DEVELOPMENT_MODE: process.env.NODE_ENV === 'development'
+});
+
+/**
  * Tier management utilities
  */
 export class TierManager {
@@ -830,6 +848,175 @@ export class TierManager {
       pricing: {
         difference: priceDifference,
         savings: yearlySavings > 0 ? yearlySavings : undefined
+      }
+    };
+  }
+
+  /**
+   * Check if user can authenticate based on tier and SSO/SCIM requirements
+   */
+  static canAuthenticate(
+    tier: TierLevel,
+    authMethod: AuthMethod,
+    tenantConfig?: { ssoEnabled?: boolean; scimEnabled?: boolean },
+    userProvisioningMethod?: 'jit' | 'pre-provisioned' | 'manual'
+  ): { allowed: boolean; reason?: string; fallbackOptions?: AuthMethod[] } {
+    const config = this.getTierConfig(tier);
+    const ssoScimConfig = getSSOSCIMConfig();
+
+    // Check if auth method is supported by tier
+    if (!config.authMethods.includes(authMethod)) {
+      return {
+        allowed: false,
+        reason: `Authentication method '${authMethod}' not supported for tier ${tier}`,
+        fallbackOptions: config.authMethods
+      };
+    }
+
+    // T5 tier SSO/SCIM enforcement
+    if (tier === 'T5') {
+      // Skip enforcement in development mode
+      if (ssoScimConfig.DEVELOPMENT_MODE) {
+        return { allowed: true };
+      }
+
+      // Enforce SSO requirement for T5
+      if (ssoScimConfig.T5_REQUIRE_SSO && authMethod !== 'sso') {
+        return {
+          allowed: false,
+          reason: 'T5 tier requires SSO authentication when T5_REQUIRE_SSO flag is enabled',
+          fallbackOptions: ['sso']
+        };
+      }
+
+      // Enforce SCIM provisioning requirement for T5
+      if (ssoScimConfig.T5_REQUIRE_SCIM) {
+        if (!tenantConfig?.scimEnabled) {
+          return {
+            allowed: false,
+            reason: 'T5 tier requires SCIM provisioning to be enabled for the tenant'
+          };
+        }
+
+        if (userProvisioningMethod === 'manual') {
+          return {
+            allowed: false,
+            reason: 'T5 tier users must be provisioned via SCIM when T5_REQUIRE_SCIM flag is enabled'
+          };
+        }
+      }
+    }
+
+    return { allowed: true };
+  }
+
+  /**
+   * Validate T5 tier access requirements
+   */
+  static validateT5Access(
+    tenantConfig?: { ssoEnabled?: boolean; scimEnabled?: boolean },
+    userProvisioningMethod?: 'jit' | 'pre-provisioned' | 'manual'
+  ): { valid: boolean; errors: string[]; warnings: string[] } {
+    const errors: string[] = [];
+    const warnings: string[] = [];
+    const ssoScimConfig = getSSOSCIMConfig();
+
+    // Skip validation in development mode
+    if (ssoScimConfig.DEVELOPMENT_MODE) {
+      warnings.push('Running in development mode - T5 SSO/SCIM requirements bypassed');
+      return { valid: true, errors, warnings };
+    }
+
+    // Check SSO requirement
+    if (ssoScimConfig.T5_REQUIRE_SSO && !tenantConfig?.ssoEnabled) {
+      errors.push('T5 tier requires SSO to be configured and enabled for the tenant');
+    }
+
+    // Check SCIM requirement
+    if (ssoScimConfig.T5_REQUIRE_SCIM) {
+      if (!tenantConfig?.scimEnabled) {
+        errors.push('T5 tier requires SCIM provisioning to be enabled for the tenant');
+      }
+
+      if (userProvisioningMethod === 'manual') {
+        errors.push('T5 tier users must be provisioned via SCIM, not manually created');
+      }
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors,
+      warnings
+    };
+  }
+
+  /**
+   * Check if tier upgrade is blocked by SSO/SCIM requirements
+   */
+  static canUpgradeToT5(
+    tenantConfig?: { ssoEnabled?: boolean; scimEnabled?: boolean }
+  ): { allowed: boolean; requirements: string[]; recommendations: string[] } {
+    const requirements: string[] = [];
+    const recommendations: string[] = [];
+    const ssoScimConfig = getSSOSCIMConfig();
+
+    if (ssoScimConfig.DEVELOPMENT_MODE) {
+      recommendations.push('Development mode - SSO/SCIM requirements will be enforced in production');
+      return { allowed: true, requirements, recommendations };
+    }
+
+    // Check SSO requirement
+    if (ssoScimConfig.T5_REQUIRE_SSO && !tenantConfig?.ssoEnabled) {
+      requirements.push('Configure and enable SSO (SAML 2.0 or OIDC) for your tenant');
+      recommendations.push('Contact your identity provider to set up SSO integration');
+    }
+
+    // Check SCIM requirement
+    if (ssoScimConfig.T5_REQUIRE_SCIM && !tenantConfig?.scimEnabled) {
+      requirements.push('Configure and enable SCIM v2.0 provisioning for your tenant');
+      recommendations.push('Set up SCIM endpoint in your identity provider to manage user lifecycle');
+    }
+
+    return {
+      allowed: requirements.length === 0,
+      requirements,
+      recommendations
+    };
+  }
+
+  /**
+   * Get T5 setup instructions
+   */
+  static getT5SetupInstructions(): {
+    sso: { steps: string[]; providers: string[] };
+    scim: { steps: string[]; endpoints: string[] };
+  } {
+    return {
+      sso: {
+        steps: [
+          'Choose your identity provider (Okta, Azure AD, Google Workspace)',
+          'Configure SAML 2.0 or OIDC application in your IdP',
+          'Upload LUKHAS metadata or configure endpoints manually',
+          'Test SSO login flow with a test user',
+          'Enable SSO requirement for your tenant'
+        ],
+        providers: ['Okta', 'Azure Active Directory', 'Google Workspace', 'Auth0', 'Custom SAML/OIDC']
+      },
+      scim: {
+        steps: [
+          'Enable SCIM provisioning in your identity provider',
+          'Configure SCIM endpoint: /scim/v2/',
+          'Set up authentication (Bearer token)',
+          'Map user attributes (email, name, groups)',
+          'Test user provisioning and deprovisioning',
+          'Enable automatic group synchronization'
+        ],
+        endpoints: [
+          '/scim/v2/Users - User lifecycle management',
+          '/scim/v2/Groups - Group membership sync',
+          '/scim/v2/Schemas - SCIM schema definitions',
+          '/scim/v2/ServiceProviderConfig - SCIM capabilities'
+        ]
       }
     };
   }
