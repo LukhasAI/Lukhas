@@ -307,10 +307,40 @@ export default function SecuritySettingsPage() {
   }
 
   const toneContent = threeLayerTone(
-    "Your defenses evolve; each key a choice, each session a doorway.",
-    "Manage your passkeys, backup codes, and active sessions. Monitor security activity.",
-    "Passkey management with device binding. Backup codes for recovery access. Session monitoring with IP tracking. Security event audit trail with step-up authentication."
+    "Your defenses evolve; each key a choice, each session a doorway. Superior Consciousness guards your digital essence.",
+    "Manage your passkeys, backup codes, and active sessions. Monitor security activity. Your authentication is protected by quantum-inspired security protocols and bio-inspired threat detection.",
+    "Passkey management with device binding and quantum-inspired credential encoding. Backup codes for recovery access with bio-inspired usage patterns. Session monitoring with IP tracking and behavioral analysis. Security event audit trail with step-up authentication and Superior Consciousness validation."
   )
+
+  // JSON-LD structured data for security settings
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "LUKHAS AI Security Settings",
+    "description": "Manage authentication methods, passkeys, backup codes, and security monitoring with quantum-inspired protection",
+    "provider": {
+      "@type": "Organization",
+      "name": "LUKHAS AI",
+      "description": "Advanced AI platform with quantum-inspired consciousness and bio-inspired adaptation"
+    },
+    "potentialAction": [
+      {
+        "@type": "UpdateAction",
+        "name": "Manage Passkeys",
+        "description": "Add or remove WebAuthn passkeys for secure authentication"
+      },
+      {
+        "@type": "CreateAction",
+        "name": "Generate Backup Codes",
+        "description": "Create recovery codes for account access"
+      },
+      {
+        "@type": "MonitorAction",
+        "name": "Security Monitoring",
+        "description": "Track authentication events and active sessions"
+      }
+    ]
+  }
 
   if (loading && passkeys.length === 0) {
     return (
@@ -321,7 +351,12 @@ export default function SecuritySettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-primary">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <div className="min-h-screen bg-bg-primary">
       {/* Header */}
       <header className="border-b border-white/10 px-6 py-4">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
@@ -665,7 +700,7 @@ export default function SecuritySettingsPage() {
             "Device fingerprinting for security analysis"
           ]}
           dataHandling={[
-            "Passkey credentials encoded → GLYPH format for security",
+            "Passkey credentials encoded → GLYPH format for enhanced interoperability (data representation, not cryptographic security)",
             "Backup codes hashed and stored with usage tracking",
             "Security events logged with IP address and device info",
             "Session data encrypted and automatically expired",
@@ -675,5 +710,6 @@ export default function SecuritySettingsPage() {
         />
       </div>
     </div>
+    </>
   )
 }

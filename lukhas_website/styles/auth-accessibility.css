@@ -1,0 +1,396 @@
+/* LUKHAS AI Authentication Accessibility Styles */
+/* Ensures WCAG 2.1 AA compliance and enhanced user experience */
+
+/* Skip links for keyboard navigation */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #8b5cf6;
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* High contrast mode support */
+.high-contrast {
+  --trinity-identity: #a855f7;
+  --trinity-consciousness: #0ea5e9;
+  --trinity-guardian: #059669;
+}
+
+.high-contrast .high-contrast-lambda {
+  filter: contrast(1.5) brightness(1.2);
+  text-shadow: 0 0 2px currentColor;
+}
+
+/* Reduced motion support */
+.reduce-motion * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+.reduce-motion .no-animation {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Enhanced focus styles for better visibility */
+.focus-enhanced:focus,
+.focus-enhanced:focus-visible {
+  outline: 3px solid #8b5cf6;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px white, 0 0 0 5px #8b5cf6;
+}
+
+/* High contrast focus for accessibility */
+@media (prefers-contrast: high) {
+  *:focus,
+  *:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 1px #000000, 0 0 0 4px #ffffff;
+  }
+}
+
+/* Enhanced button accessibility */
+.auth-button {
+  min-height: 44px; /* WCAG minimum touch target */
+  min-width: 44px;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-button:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+.auth-button:active {
+  transform: translateY(0);
+}
+
+.auth-button[aria-pressed="true"] {
+  background-color: rgba(139, 92, 246, 0.2);
+  border-color: #8b5cf6;
+}
+
+/* Loading state accessibility */
+.loading-button {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.loading-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Form field enhancements */
+.auth-input {
+  min-height: 44px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.auth-input:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.auth-input:invalid {
+  border-color: #ef4444;
+}
+
+.auth-input:invalid:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Error message accessibility */
+.error-message {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.error-message::before {
+  content: '⚠️';
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+
+/* Success message accessibility */
+.success-message {
+  color: #10b981;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.success-message::before {
+  content: '✅';
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+
+/* Progress indicator accessibility */
+.progress-step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.progress-step[aria-current="step"] {
+  background-color: #8b5cf6;
+  border-color: #8b5cf6;
+  color: white;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+}
+
+.progress-step[aria-label*="completed"] {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: white;
+}
+
+/* Lambda symbol accessibility */
+.lambda-symbol {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.lambda-symbol[aria-label] {
+  position: relative;
+}
+
+.lambda-symbol[aria-label]::after {
+  content: attr(aria-label);
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Passkey authentication visual feedback */
+.passkey-active {
+  animation: passkey-pulse 2s ease-in-out infinite;
+}
+
+@keyframes passkey-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+  }
+}
+
+/* Transparency box accessibility */
+.transparency-box {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+}
+
+.transparency-box[aria-expanded="true"] .transparency-toggle::after {
+  content: ' (expanded)';
+  position: absolute;
+  left: -9999px;
+}
+
+.transparency-box[aria-expanded="false"] .transparency-toggle::after {
+  content: ' (collapsed)';
+  position: absolute;
+  left: -9999px;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only:focus,
+.sr-only:active,
+.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Live region for announcements */
+.live-region {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Keyboard navigation enhancements */
+.keyboard-nav:focus-within {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 2px;
+}
+
+/* Voice control labels */
+[data-voice-label] {
+  position: relative;
+}
+
+[data-voice-label]::before {
+  content: attr(data-voice-label);
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Dark mode color contrast improvements */
+@media (prefers-color-scheme: dark) {
+  .contrast-enhanced {
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --text-tertiary: rgba(255, 255, 255, 0.6);
+    --bg-primary: #000000;
+    --bg-secondary: rgba(255, 255, 255, 0.05);
+    --border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Force high contrast for better accessibility */
+@media (prefers-contrast: high) {
+  * {
+    --text-primary: #ffffff !important;
+    --text-secondary: #ffffff !important;
+    --bg-primary: #000000 !important;
+    --trinity-identity: #a855f7 !important;
+    --trinity-consciousness: #0ea5e9 !important;
+    --trinity-guardian: #059669 !important;
+  }
+  
+  .lambda-symbol {
+    filter: contrast(2) brightness(1.5);
+    text-shadow: 0 0 4px currentColor;
+  }
+}
+
+/* Print styles for accessibility */
+@media print {
+  .skip-link,
+  .transparency-box,
+  .auth-button,
+  .progress-step {
+    display: none !important;
+  }
+  
+  .lambda-symbol {
+    font-weight: bold !important;
+    color: #000000 !important;
+  }
+  
+  .error-message,
+  .success-message {
+    color: #000000 !important;
+    font-weight: bold !important;
+  }
+}
+
+/* Custom properties for consistent theming */
+:root {
+  --focus-ring-color: #8b5cf6;
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --min-touch-target: 44px;
+  --animation-duration: 0.15s;
+  --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure all interactive elements meet minimum size */
+button,
+input,
+select,
+textarea,
+a,
+[role="button"],
+[tabindex]:not([tabindex="-1"]) {
+  min-height: var(--min-touch-target);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Input specific sizing */
+input,
+select,
+textarea {
+  padding: 0.75rem 1rem;
+  line-height: 1.5;
+}
+
+/* Ensure focus is always visible */
+*:focus {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Remove outline for mouse users but keep for keyboard */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}

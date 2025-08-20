@@ -120,8 +120,10 @@ export default function TransparencyBox({
 
           {/* Footer Note */}
           <div className="pt-3 border-t border-white/10">
-            <p className="text-xs text-white/50">
+            <p className="text-xs text-white/50 leading-relaxed">
               Transparency disclosure required on all LUKHAS AI interfaces. 
+              GLYPH encoding used for symbolic data representation and system interoperability, not for cryptographic security. 
+              Authentication security relies on industry-standard protocols. 
               Report issues via <a href="/support" className="text-purple-400 hover:text-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 rounded">support</a>.
             </p>
           </div>
@@ -157,12 +159,12 @@ export function MatrizTransparencyBox(props: { className?: string; defaultExpand
         "Minimum 4GB RAM and 10GB storage for local deployment"
       ]}
       dataHandling={[
-        "Decision metadata encrypted at rest (AES-256)",
+        "Decision metadata encrypted at rest (AES-256) and encoded → GLYPH for symbolic processing",
         "User consent required before any data collection",
         "Audit trails automatically purged after 90 days (configurable)",
-        "No personal data processed without explicit permission",
+        "No personal data processed without explicit user consent and transparency",
         "Full GDPR/CCPA compliance with data export/deletion rights",
-        "Third-party API calls logged but not stored permanently"
+        "Third-party API calls logged but not stored permanently, with GLYPH encoding for system interoperability"
       ]}
       {...props}
     />

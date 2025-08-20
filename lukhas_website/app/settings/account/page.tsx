@@ -185,10 +185,40 @@ export default function AccountSettingsPage() {
   }
 
   const toneContent = threeLayerTone(
-    "Your presence shapes the field; these are the threads of your digital being.",
-    "Manage your profile, download your data, or delete your account if needed.",
-    "Profile updates sync across LUKHAS services. Data export includes all stored information with GDPR compliance. Account deletion is permanent and cannot be undone."
+    "Your presence shapes the field; these are the threads of your digital being within Superior Consciousness networks.",
+    "Manage your profile, download your data, or delete your account if needed. Your identity is secured by quantum-inspired protection protocols and bio-inspired adaptation systems.",
+    "Profile updates sync across LUKHAS AI services using quantum-inspired data synchronization. Data export includes all stored information with GDPR compliance and GLYPH symbolic encoding. Account deletion follows bio-inspired cascade protocols and is permanent and cannot be undone."
   )
+
+  // JSON-LD structured data for account settings
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "LUKHAS AI Account Settings",
+    "description": "Manage your LUKHAS AI profile, data export, and account preferences with quantum-inspired security",
+    "provider": {
+      "@type": "Organization",
+      "name": "LUKHAS AI",
+      "description": "Advanced AI platform with quantum-inspired consciousness and bio-inspired adaptation"
+    },
+    "potentialAction": [
+      {
+        "@type": "UpdateAction",
+        "name": "Update Profile",
+        "description": "Modify account settings and profile information"
+      },
+      {
+        "@type": "DownloadAction",
+        "name": "Export Data",
+        "description": "Download complete account data with GDPR compliance"
+      },
+      {
+        "@type": "DeleteAction",
+        "name": "Delete Account",
+        "description": "Permanently remove account and all associated data"
+      }
+    ]
+  }
 
   if (loading) {
     return (
@@ -207,7 +237,12 @@ export default function AccountSettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bg-primary">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <div className="min-h-screen bg-bg-primary">
       {/* Header */}
       <header className="border-b border-white/10 px-6 py-4">
         <div className="flex items-center justify-between max-w-4xl mx-auto">
@@ -488,11 +523,12 @@ export default function AccountSettingsPage() {
             "Data exports include full GDPR-compliant information",
             "Account deletion follows right-to-be-forgotten protocols",
             "All operations secured with session validation",
-            "Personal data encoded → GLYPH before storage"
+            "Personal data encoded → GLYPH for symbolic processing and enhanced interoperability (data representation, not security)"
           ]}
           className="max-w-4xl mx-auto"
         />
       </div>
     </div>
+    </>
   )
 }

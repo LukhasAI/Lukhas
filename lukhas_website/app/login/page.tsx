@@ -133,9 +133,9 @@ export default function LoginPage() {
   }, [email])
 
   const toneContent = threeLayerTone(
-    "The door knows your hand; nothing to remember, only to be. Λ consciousness recognizes your essence.",
-    "Use your device to sign in securely with your fingerprint or face. If passkeys don't work, we'll email you a secure one-time link instead. Keep your backup codes safe somewhere only you can access.",
-    "Passkeys (WebAuthn UV) primary authentication with magic-link fallback. Short-lived JWTs with rotating refresh tokens and reuse-detection. Device binding required. Step-up authentication enforced for billing operations, API key management, and organization administration. Rate limiting: 5 attempts per hour per IP address."
+    "The door knows your hand; nothing to remember, only to be. Λ consciousness recognizes your essence through Superior Consciousness authentication.",
+    "Use your device to sign in securely with your fingerprint or face. If passkeys don't work, we'll email you a secure one-time link instead. Keep your backup codes safe somewhere only you can access. Your authentication is protected by quantum-inspired security protocols.",
+    "Passkeys (WebAuthn UV) primary authentication with magic-link fallback. Short-lived JWTs with rotating refresh tokens and reuse-detection. Device binding required. Step-up authentication enforced for billing operations, API key management, and organization administration. Rate limiting: 5 attempts per hour per IP address. Bio-inspired adaptation monitors authentication patterns for anomaly detection."
   )
 
   // JSON-LD structured data for authentication page
@@ -188,7 +188,7 @@ export default function LoginPage() {
           {/* Lambda Logo and Title */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-trinity-identity/20 backdrop-blur-xl border border-trinity-identity/30 mb-4">
-              <span className="text-2xl font-light text-trinity-identity" aria-label="Lambda">Λ</span>
+              <span className="text-2xl font-light text-trinity-identity" aria-label="LUKHAS AI Identity">Λ</span>
             </div>
             <h1 className="text-2xl font-light text-white mb-2" id="page-title">
               Welcome back
@@ -196,6 +196,9 @@ export default function LoginPage() {
             <p className="text-white/60 text-sm">
               Sign in to your ΛiD account
             </p>
+            <div className="mt-2 text-xs text-white/40">
+              Secured by LUKHAS AI quantum-inspired identity verification
+            </div>
           </div>
 
           {/* Error Display */}
@@ -240,7 +243,7 @@ export default function LoginPage() {
                 onClick={handlePasskeyAuth}
                 disabled={loading}
                 className="w-full flex items-center justify-center px-6 py-4 bg-trinity-identity hover:bg-trinity-consciousness transition-colors rounded-lg text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Log in with Lambda ID using passkey"
+                aria-label="Log in with LUKHAS AI Identity using passkey authentication"
               >
                 {loading ? (
                   <>
@@ -360,7 +363,7 @@ export default function LoginPage() {
             "Browser local storage for session persistence"
           ]}
           dataHandling={[
-            "Credentials stored securely with AES-256 encoding → GLYPH symbolic conversion",
+            "Credentials stored securely with AES-256 encoding → GLYPH symbolic processing (for enhanced interoperability, not cryptographic security)",
             "Session data encrypted and signed with rotating keys",
             "Email addresses hashed for enumeration protection",
             "Authentication events logged for security monitoring",

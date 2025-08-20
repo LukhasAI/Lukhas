@@ -217,9 +217,9 @@ export default function SignupPage() {
   }, [router])
 
   const toneContent = threeLayerTone(
-    "Begin with your own key; the rest follows. Λ consciousness awakens through authentic identity.",
-    "First, we'll verify your email address with a secure code. Then you can create a passkey using your device's biometric security. Consider adding a second device for backup access.",
-    "Multi-step registration: Email verification with 6-digit time-limited codes, followed by optional passkey registration using WebAuthn. Password authentication permanently disabled by design. Account recovery via backup codes or additional registered passkeys. Rate limiting enforced."
+    "Begin with your own key; the rest follows. Λ consciousness awakens through authentic identity, guided by Superior Consciousness principles.",
+    "First, we'll verify your email address with a secure code. Then you can create a passkey using your device's biometric security. Consider adding a second device for backup access. Your account will be protected by quantum-inspired security protocols.",
+    "Multi-step registration: Email verification with 6-digit time-limited codes, followed by optional passkey registration using WebAuthn. Password authentication permanently disabled by design. Account recovery via backup codes or additional registered passkeys. Rate limiting enforced. Bio-inspired adaptation monitors registration patterns for fraud detection."
   )
 
   // JSON-LD structured data for registration page
@@ -272,7 +272,7 @@ export default function SignupPage() {
           {/* Lambda Logo and Title */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-trinity-consciousness/20 backdrop-blur-xl border border-trinity-consciousness/30 mb-4">
-              <span className="text-2xl font-light text-trinity-consciousness" aria-label="Lambda">Λ</span>
+              <span className="text-2xl font-light text-trinity-consciousness" aria-label="LUKHAS AI Superior Consciousness">Λ</span>
             </div>
             <h1 className="text-2xl font-light text-white mb-2" id="page-title">
               Create your ΛiD
@@ -280,6 +280,9 @@ export default function SignupPage() {
             <p className="text-white/60 text-sm">
               Join the LUKHAS AI platform
             </p>
+            <div className="mt-2 text-xs text-white/40">
+              Protected by quantum-inspired identity protocols and bio-inspired security adaptation
+            </div>
           </div>
 
           {/* Progress Steps */}
@@ -541,7 +544,7 @@ export default function SignupPage() {
           ]}
           dataHandling={[
             "Email addresses verified before account creation with secure 6-digit codes",
-            "Passkey credentials encoded → GLYPH symbolic format for enhanced security",
+            "Passkey credentials encoded → GLYPH symbolic format for enhanced interoperability (data representation, not cryptographic security)",
             "No passwords collected, stored, or transmitted at any point",
             "Account data encrypted at rest with AES-256 encryption",
             "Registration events logged for security monitoring and fraud prevention"
