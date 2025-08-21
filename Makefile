@@ -55,6 +55,11 @@ help:
 	@echo "  security-audit - Deep security audit with reports"
 	@echo "  security-fix - Fix all security issues (scan + update)"
 	@echo ""
+	@echo "Ollama Security (AI-powered):"
+	@echo "  security-ollama      - AI-powered vulnerability analysis"
+	@echo "  security-ollama-fix  - Auto-fix with Ollama recommendations"
+	@echo "  security-ollama-setup- Setup Ollama for security analysis"
+	@echo ""
 	@echo "Backup & DR:"
 	@echo "  backup-local - Create local backup into .lukhas_backup/out"
 	@echo "  backup-s3    - Create backup and upload to S3 (env required)"
@@ -279,6 +284,26 @@ security-scan:
 	@echo "\nChecking with pip-audit..."
 	@pip-audit --desc 2>/dev/null || echo "⚠️ Some vulnerabilities found"
 	@echo "✅ Security scan complete!"
+
+# Ollama-powered security operations
+security-ollama:
+	@echo "🤖 Running Ollama-powered security analysis..."
+	@python3 scripts/ollama_security_analyzer.py scan
+	@echo "✅ Ollama security analysis complete!"
+
+security-ollama-fix:
+	@echo "🔧 Auto-fixing vulnerabilities with Ollama..."
+	@python3 scripts/ollama_security_analyzer.py fix
+	@echo "✅ Ollama fix complete!"
+
+security-ollama-setup:
+	@echo "🛠️ Setting up Ollama for security analysis..."
+	@command -v ollama >/dev/null 2>&1 || (echo "Installing Ollama..." && brew install ollama)
+	@pgrep -x "ollama" > /dev/null || (echo "Starting Ollama service..." && ollama serve > /dev/null 2>&1 &)
+	@sleep 2
+	@echo "Pulling security analysis model..."
+	@ollama pull deepseek-coder:6.7b || true
+	@echo "✅ Ollama setup complete!"
 
 security-update:
 	@echo "🔧 Running automated security updates..."

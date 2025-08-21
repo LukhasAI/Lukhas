@@ -1,22 +1,22 @@
 {
-  // GitHub Copilot Integration
+  // GitHub Copilot Integration - Secondary AI Assistant
   "github.copilot.enable": true,
   "github.copilot.inlineSuggest.enable": true,
-  "github.copilot.suggestionDelay": 300,
-  "github.copilot.advanced": true,
+  "github.copilot.suggestionDelay": 500,
+  "github.copilot.advanced": false,
   "github.copilot.enableCompletions": true,
-  "github.copilot.enablePanel": false,
-  "github.copilot.enableAutoCompletions": true,
-  "github.copilot.enableTabCompletions": true,
-  "github.copilot.enableStatusBar": false,
+  "github.copilot.enablePanel": true,
+  "github.copilot.enableAutoCompletions": false,
+  "github.copilot.enableTabCompletions": false,
+  "github.copilot.enableStatusBar": true,
   "github.copilot.enableSuggestions": true,
   "github.copilot.enableInNotebooks": true,
   "github.copilot.enableInTerminal": false,
-  "github.copilot.enableInComments": true,
+  "github.copilot.enableInComments": false,
   "github.copilot.enableInMarkdown": true,
   "github.copilot.enableInPython": true,
   "github.copilot.enableInJupyter": true,
-  "github.copilot.enableInInteractive": true,
+  "github.copilot.enableInInteractive": false,
   // LUKHAS_PWM Consciousness Development Settings
   "consciousness.development.mode": true,
   "trinity.framework.active": true,
@@ -61,11 +61,18 @@
     "./lukhas_pwm_config.yaml",
     "./.claude/tasks/real_consciousness_todos/"
   ],
+  // Claude Code - Primary AI Assistant
+  "claude.enable": true,
   "claude.autoSuggestEnabled": true,
-  "claude.suggestionDelay": 500,
-  "claude.maxSuggestions": 5,
+  "claude.suggestionDelay": 200,
+  "claude.maxSuggestions": 3,
   "claude.codeReviewEnabled": true,
   "claude.consciousnessPatterns": true,
+  "claude.inlineSuggestions": true,
+  "claude.chatEnabled": true,
+  "claude.autoComplete": true,
+  "claude.contextAware": true,
+  "claude.priority": "high",
   "claude.customInstructions": "Follow LUKHAS consciousness patterns: Trinity Framework (🎭🌈🎓), symbolic vocabulary (⚛️🧠🛡️💫🌊), ΛID namespaces, Λ-trace auditing, bio-inspired design",
   "claude.excludePatterns": [
     "**/.venv/**",
@@ -134,9 +141,13 @@
     "source.organizeImports": "explicit",
     "source.fixAll": "explicit"
   },
-  // Set a valid default formatter for Python
+  // Set Ruff as the default formatter for Python
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter"
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit",
+      "source.fixAll.ruff": "explicit"
+    }
   },
   // Set a valid default formatter for JSONC
   // Trinity Framework Highlighting
