@@ -73,3 +73,23 @@ The following terms trigger automatic build failures:
 - **Automated checks**: Word count, banned terms, reading level
 - **Manual review**: Metaphor appropriateness, technical accuracy
 - **User testing**: Plain language comprehension validation
+
+## Authentication & Security Messaging
+
+### Biometric Communications
+- **Never say**: "We scan your face/fingerprint", "Biometric data is processed"
+- **Always say**: "Device biometrics via your OS", "Platform-provided authentication"
+- **Emphasize**: Privacy preservation, device-bound security, cryptographic proofs
+- **Required disclosure**: "We never receive your biometric data—only a cryptographic proof"
+
+### Payment Security Language
+- **SPC messaging**: "Secure Payment Confirmation" for enterprise, "Payment approval" for consumer
+- **Transaction clarity**: Always show amount, currency, and payee in user-facing text
+- **Fallback explanation**: "Using secure authentication" when SPC unavailable
+- **Trust signals**: Lock icons, "cryptographically bound", "transaction-specific approval"
+
+### Adaptive Security Framing
+- **Context-aware**: "Challenge types vary with context to protect you"
+- **Never imply randomness**: Avoid "random challenge", "arbitrary verification"
+- **Accessibility-forward**: Mention keyboard support, screen reader compatibility
+- **Risk transparency**: "Additional verification required" not "suspicious activity detected"

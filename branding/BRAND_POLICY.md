@@ -96,3 +96,25 @@ make policy-review   # Claims requiring human review
 - **PR Requirements**: Brand checklist must be completed
 - **Weekly Scans**: Automated compliance monitoring
 - **Brand Council**: Weekly approval for new Λ usage
+
+## Authentication & Security Policies
+
+### Biometric Authentication
+- **Platform-Only**: Biometric auth is exclusively platform-provided (WebAuthn)
+- **No Template Processing**: LUKHAS never receives or processes biometric templates
+- **Device-Bound**: All biometric data remains on user devices (Face ID, Touch ID, Windows Hello)
+- **Cryptographic Proof**: We only receive cryptographic attestations, never raw biometrics
+- **Transparency Required**: All auth pages must display biometric privacy disclosure
+
+### Secure Payment Confirmation (SPC)
+- **High-Value Threshold**: SPC used for payments over configurable threshold (default $500)
+- **Transaction Binding**: Payment approval cryptographically bound to amount/currency/payee
+- **Progressive Enhancement**: Chrome/Edge first, graceful fallback to WebAuthn step-up
+- **Clear Consent UI**: Amount and payee must be clearly displayed in SPC dialog
+
+### Adaptive MFA
+- **Risk-Based**: Challenge selection based on calculated risk score (0-100)
+- **Non-PII Factors**: Uses emoji/word challenges, never personal information
+- **Accessibility First**: All challenges support keyboard nav, screen readers, high contrast
+- **Transparent Adaptation**: Users informed that "Challenge types vary with context to protect you"
+- **No Random Challenges**: Risk-driven selection, not arbitrary friction

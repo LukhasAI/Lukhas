@@ -87,7 +87,15 @@ policy-tone-visibility:
 	@echo "👁️  Checking tone visibility words (warn-only)..."
 	@npm run -s policy:tone-visibility || true
 
-policy: policy-transparency policy-registries policy-brand policy-tone policy-tone-visibility
+policy-challenges:
+	@echo "🎮 Checking challenge accessibility..."
+	@npm run -s policy:challenges || true
+
+policy-routes:
+	@echo "🛣️ Checking API route security..."
+	@npm run -s policy:routes || true
+
+policy: policy-transparency policy-registries policy-brand policy-tone policy-tone-visibility policy-challenges
 	@echo "✅ All policy checks passed"
 
 # Start Redis for development
@@ -104,6 +112,16 @@ prisma-studio:
 
 prisma-push:
 	npx prisma db push
+
+# Database commands (from PR requirements)
+db-generate:
+	@npx prisma generate
+
+db-migrate:
+	@npx prisma migrate dev --name "auth_identity_init"
+
+db: db-generate db-migrate
+	@echo "✅ Database setup complete"
 
 # Quick development setup
 setup: install db-migrate

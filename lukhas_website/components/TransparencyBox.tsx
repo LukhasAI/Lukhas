@@ -34,6 +34,8 @@ const L = {
     limitations: 'Limitations',
     dependencies: 'Dependencies',
     dataHandling: 'Data handling',
+    biometrics: 'Biometric Authentication',
+    adaptiveMFA: 'Adaptive Security',
   },
   es: {
     title: 'Transparencia',
@@ -41,6 +43,8 @@ const L = {
     limitations: 'Limitaciones',
     dependencies: 'Dependencias',
     dataHandling: 'Tratamiento de datos',
+    biometrics: 'Autenticación Biométrica',
+    adaptiveMFA: 'Seguridad Adaptativa',
   },
 }
 
