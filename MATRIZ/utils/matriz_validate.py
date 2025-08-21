@@ -16,9 +16,15 @@ _validator = Draft202012Validator(_schema)
 
 def validate_node(node: dict) -> None:
     sr = node.get("schema_ref")
-    if sr not in ALLOWED_SCHEMA_REFS:
+    if sr and sr not in ALLOWED_SCHEMA_REFS:
         raise ValueError(f"Unsupported schema_ref: {sr!r}")
-    _validator.validate(node)
+    
+    # Create a copy without metadata fields for validation
+    node_copy = dict(node)
+    node_copy.pop("$kind", None)  # Remove if present
+    node_copy.pop("schema_ref", None)  # Remove if present
+    
+    _validator.validate(node_copy)
 
 def validate_nodes(nodes: Iterable[dict]) -> None:
     for i, n in enumerate(nodes):

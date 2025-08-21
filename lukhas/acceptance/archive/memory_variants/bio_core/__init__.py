@@ -1,3 +1,0 @@
-"""
-Bio Core Module
-"""

@@ -1,3 +1,0 @@
-"""
-Abstract Reasoning Module
-"""

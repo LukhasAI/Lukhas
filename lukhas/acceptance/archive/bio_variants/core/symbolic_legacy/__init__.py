@@ -1,3 +1,0 @@
-"""
-Symbolic Legacy Module
-"""

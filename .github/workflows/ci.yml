@@ -47,8 +47,30 @@ jobs:
             lint-imports || echo "⚠️ Import contract violations (non-blocking)"
           fi
 
+  # Phase Gate: MATRIZ Schema Validation
+  matriz-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install jsonschema
+        run: pip install jsonschema
+      - name: MATRIZ schema validation (examples + inbox if present)
+        run: |
+          python - <<'PY'
+          import sys, subprocess, pathlib
+          targets = ["MATRIZ/examples"]
+          if pathlib.Path("memory/inbox").exists():
+              targets.append("memory/inbox")
+          cmd = [sys.executable, "-m", "MATRIZ.utils.matriz_validate", *targets]
+          print("Running:", " ".join(cmd))
+          sys.exit(subprocess.call(cmd))
+          PY
+
   lint:
-    needs: [quarantine-guard, pii-scan]
+    needs: [quarantine-guard, pii-scan, matriz-validation]
     runs-on: ubuntu-latest
     strategy:
       matrix:

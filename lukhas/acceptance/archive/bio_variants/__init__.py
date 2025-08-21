@@ -1,3 +1,0 @@
-"""
-Bio Variants Module
-"""

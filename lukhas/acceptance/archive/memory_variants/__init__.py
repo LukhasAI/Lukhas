@@ -1,3 +1,0 @@
-"""
-Memory Variants Module
-"""

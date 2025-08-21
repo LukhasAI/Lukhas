@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
 """
-=á LUKHAS AI Governance Module
+ LUKHAS AI Governance Module
 ==============================
 
 Complete governance framework for LUKHAS AI including the Guardian System,
-authentication governance, constitutional AI, and Phase 7 ›iD integration.
+authentication governance, constitutional AI, and Phase 7 ID integration.
 
 This module provides:
 - Guardian System v1.0.0 with ethical oversight
-- ›iD Authentication governance integration
+- ID Authentication governance integration
 - Constitutional AI validation and compliance
 - GLYPH-based symbolic governance
-- Trinity Framework alignment (›>à=á)
+- Trinity Framework alignment (Identity-Consciousness-Guardian)
 - Comprehensive audit trail and compliance tracking
 
 Modules:
@@ -25,7 +25,7 @@ Modules:
 
 Author: LUKHAS AI System
 Version: 1.0.0
-Trinity Framework: ›>à=á
+Trinity Framework: Identity-Consciousness-Guardian
 Phase: Phase 7 - Registry Updates and Policy Integration
 """
 
@@ -61,7 +61,7 @@ except ImportError:
     AuditLogger = None
     AuditTrail = None
 
-# Phase 7 ›iD Authentication Integration imports
+# Phase 7 ID Authentication Integration imports
 try:
     from .auth_guardian_integration import (
         AuthenticationGuardian,
@@ -137,13 +137,13 @@ except ImportError as e:
     AuthIntegrationMetrics = None
     lukhas_auth_integration_system = None
     PHASE_7_AVAILABLE = False
-    print(f"Phase 7 ›iD integration not available: {e}")
+    print(f"Phase 7 ID integration not available: {e}")
 
 
 # Version and capability information
 __version__ = "1.0.0"
 __phase__ = "Phase 7 - Registry Updates and Policy Integration"
-__trinity_framework__ = "›>à=á"
+__trinity_framework__ = "Identity-Consciousness-Guardian"
 
 GOVERNANCE_INFO = {
     'version': __version__,
@@ -155,10 +155,10 @@ GOVERNANCE_INFO = {
     'phase_7_integration': PHASE_7_AVAILABLE,
     'capabilities': [
         'Guardian System v1.0.0 ethical oversight',
-        '›iD authentication governance integration',
+        'ID authentication governance integration',
         'Constitutional AI validation and compliance',
         'GLYPH-based symbolic governance communication',
-        'Trinity Framework alignment (›>à=á)',
+        'Trinity Framework alignment (Identity-Consciousness-Guardian)',
         'Real-time drift detection and bias prevention',
         'Cross-module authentication context propagation',
         'Comprehensive audit trail and compliance tracking',
@@ -180,7 +180,7 @@ GOVERNANCE_INFO = {
         'SOC 2 Audit Controls'
     ],
     'integration_points': [
-        'Authentication System (›iD)',
+        'Authentication System (ID)',
         'GLYPH Registry and Symbolic Communication',
         'Cross-Module Context Propagation',
         'Guardian System Monitoring',
@@ -237,7 +237,7 @@ def initialize_governance_system(config=None):
             print(f"LUKHAS Governance System initialized: {__phase__}")
             print(f"Trinity Framework: {__trinity_framework__}")
             print(f"Guardian System v1.0.0 with drift threshold: 0.15")
-            print(f"Phase 7 ›iD integration: {' Available' if PHASE_7_AVAILABLE else 'L Not Available'}")
+            print(f"Phase 7 ID integration: {' Available' if PHASE_7_AVAILABLE else 'L Not Available'}")
             
             return integration_system
         
@@ -275,7 +275,7 @@ __all__ = [
     'AuditTrail',
 ]
 
-# Phase 7 ›iD Integration exports (only if available)
+# Phase 7 ID Integration exports (only if available)
 if PHASE_7_AVAILABLE:
     __all__.extend([
         # Authentication Guardian Integration
@@ -320,12 +320,12 @@ if PHASE_7_AVAILABLE:
 # Initialize on import if possible
 try:
     if PHASE_7_AVAILABLE and lukhas_auth_integration_system:
-        print(f"=á LUKHAS AI Governance Module loaded: {__phase__}")
+        print(f" LUKHAS AI Governance Module loaded: {__phase__}")
         print(f"< Trinity Framework: {__trinity_framework__}")
-        print(f" Phase 7 ›iD Integration: Available")
+        print(f" Phase 7 ID Integration: Available")
     else:
-        print(f"=á LUKHAS AI Governance Module loaded: Basic functionality")
-        print(f"  Phase 7 ›iD Integration: Not available")
+        print(f" LUKHAS AI Governance Module loaded: Basic functionality")
+        print(f"  Phase 7 ID Integration: Not available")
         
 except Exception as e:
-    print(f"  Governance module initialization warning: {e}")
+    print(f"  Governance module initialization warning: {e}")

@@ -1,3 +1,0 @@
-"""
-Memory Brain Module
-"""

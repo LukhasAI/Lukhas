@@ -1,3 +1,0 @@
-"""
-Awareness Module
-"""
