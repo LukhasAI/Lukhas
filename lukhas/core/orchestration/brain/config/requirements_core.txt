@@ -1,0 +1,10 @@
+# Core requirements for Lukhas
+sounddevice
+numpy
+scipy
+vosk
+pandas
+streamlit
+# Note: gettext is typically installed with the system, not via pip
+pyaudio
+requests

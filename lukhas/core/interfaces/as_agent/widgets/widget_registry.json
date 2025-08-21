@@ -1,0 +1,60 @@
+{
+  "registry_version": "1.0.0",
+  "last_updated": "2025-04-22",
+  "widget_types": {
+    "travel": {
+      "required_tier": 3,
+      "ethics_scored": true,
+      "vendor_synced": true,
+      "example_vendor": "Uber",
+      "token_cost": 4.5,
+      "status": "live"
+    },
+    "dining": {
+      "required_tier": 2,
+      "ethics_scored": true,
+      "vendor_synced": true,
+      "example_vendor": "OpenTable",
+      "token_cost": 3.0,
+      "status": "live"
+    },
+    "dream": {
+      "required_tier": 4,
+      "ethics_scored": false,
+      "vendor_synced": false,
+      "token_cost": 2.0,
+      "status": "beta"
+    },
+    "checkout": {
+      "required_tier": 3,
+      "ethics_scored": true,
+      "vendor_synced": true,
+      "example_vendor": "Stripe",
+      "token_cost": 5.0,
+      "status": "live"
+    },
+    "reminder": {
+      "required_tier": 1,
+      "ethics_scored": false,
+      "vendor_synced": false,
+      "token_cost": 0.5,
+      "status": "live"
+    },
+    "event_ticket": {
+      "required_tier": 3,
+      "ethics_scored": true,
+      "vendor_synced": true,
+      "example_vendor": "Ticketmaster",
+      "token_cost": 6.0,
+      "status": "waitlist"
+    },
+    "delivery_tracking": {
+      "required_tier": 2,
+      "ethics_scored": true,
+      "vendor_synced": true,
+      "example_vendor": "FedEx",
+      "token_cost": 3.5,
+      "status": "live"
+    }
+  }
+}

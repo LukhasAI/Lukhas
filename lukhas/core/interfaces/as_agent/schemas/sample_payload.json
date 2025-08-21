@@ -1,0 +1,16 @@
+{
+  "message_id": "msg_2025_001",
+  "content": "Hey 👁️ maybe it’s time to pause and reflect on what you’re feeling right now.",
+  "tags": ["mindfulness", "pause", "inner_loop"],
+  "required_tier": 2,
+  "emotion_vector": {
+    "joy": 0.2,
+    "stress": 0.7,
+    "calm": 0.1,
+    "longing": 0.5
+  },
+  "source_widget": "inner_reflection_widget",
+  "dream_fallback": true,
+  "timestamp": "2025-04-16T14:33:00Z",
+  "allow_replay": true
+}

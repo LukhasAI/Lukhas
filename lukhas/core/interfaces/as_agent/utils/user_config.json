@@ -1,0 +1,18 @@
+{
+  "lukhas_user_profile": {
+    "user_id": "guest_user_001",
+    "tier": 3,
+    "signed_contributor_agreement": true,
+    "license_version": "1.0",
+    "voice_enabled": true,
+    "preferred_emoji": "🌙",
+    "default_tag_filter": ["calm", "dream"],
+    "allow_feedback_loops": true,
+    "debug_mode": false
+  },
+  "session_preferences": {
+    "show_splash_on_launch": true,
+    "auto_narrate_dreams": false,
+    "streamlit_default_tab": "Replay Dashboard"
+  }
+}

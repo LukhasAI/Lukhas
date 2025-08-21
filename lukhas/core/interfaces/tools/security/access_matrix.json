@@ -1,0 +1,35 @@
+{
+  "admin": [
+    "dev_dashboard",
+    "research_dashboard",
+    "compliance_logs",
+    "trace_tools",
+    "session_logger",
+    "red_team_interface",
+    "symbolic_validator"
+  ],
+  "developer": [
+    "dev_dashboard",
+    "trace_tools",
+    "session_logger"
+  ],
+  "researcher": [
+    "research_dashboard",
+    "compliance_logs",
+    "symbolic_trace_viewer"
+  ],
+  "red_team": [
+    "research_dashboard",
+    "trace_tools",
+    "ethical_flags",
+    "compliance_digest"
+  ],
+  "lukhas_agent": [
+    "symbolic_validator",
+    "memory_folds",
+    "voice_safety_guard"
+  ],
+  "public_user": [
+    "user_dashboard"
+  ]
+}

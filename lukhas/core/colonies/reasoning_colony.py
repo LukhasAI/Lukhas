@@ -1,0 +1,1155 @@
+"""
+══════════════════════════════════════════════════════════════════════════════════
+║ 🧠 LUKHAS AI - REASONING COLONY
+║ Multi-agent reasoning system with symbol-aware memory integration
+║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
+╠══════════════════════════════════════════════════════════════════════════════════
+║ Module: reasoning_colony.py
+║ Path: lukhas/reasoning/reasoning_colony.py
+║ Version: 1.0.0 | Created: 2025-07-28
+║ Authors: Claude (Anthropic) - Primary Implementation
+╠══════════════════════════════════════════════════════════════════════════════════
+║ DESCRIPTION
+╠══════════════════════════════════════════════════════════════════════════════════
+║ ReasoningColony implements a distributed reasoning system where multiple
+║ specialized reasoning agents collaborate using symbol-aware memory. Each
+║ agent has its own expertise (logical, causal, ethical, creative) and they
+║ share insights through the SymbolAwareTieredMemory system.
+║
+║ The colony enables emergent reasoning through:
+║ - Distributed symbolic processing across specialized agents
+║ - Shared memory with rare symbol preservation
+║ - Emotional and cognitive value propagation
+║ - Consensus building through symbolic voting
+║ - Dream-inspired creative reasoning paths
+╚══════════════════════════════════════════════════════════════════════════════════
+"""
+
+import asyncio
+import logging
+import time
+import uuid
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, Optional
+
+# Import existing memory manager
+try:
+    from memory import MemoryManager
+except ImportError:
+    # Fallback to basic memory storage
+
+    class MemoryManager:
+
+        def __init__(self, **kwargs):
+            self.storage = {}
+
+        def remember(self, content: Any, metadata=None):
+            key = str(uuid.uuid4())
+            self.storage[key] = {
+                "content": content,
+                "metadata": metadata or {},
+            }
+            return key
+
+        def recall(self, key: str):
+            data = self.storage.get(key)
+            if data:
+                return data.get("content")
+            return None
+
+        def search(self, query: str, limit: int = 10):
+            results = []
+            for k, v in self.storage.items():
+                content = v.get("content") if isinstance(v, dict) else v
+                if query.lower() in str(content).lower():
+                    results.append((k, content))
+                    if len(results) >= limit:
+                        break
+            return results
+
+# Import reasoning engine
+try:
+    from reasoning.reasoning_engine import SymbolicEngine
+except ImportError:
+    # Minimal symbolic engine for demo
+
+    class SymbolicEngine:
+
+        def __init__(self, config=None):
+            self.config = config or {}
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+class ReasonerType(Enum):
+    """Types of reasoning agents in the colony"""
+
+    LOGICAL = "logical"  # Deductive and inductive reasoning
+    CAUSAL = "causal"  # Cause-effect relationships
+    ETHICAL = "ethical"  # Moral and value-based reasoning
+    CREATIVE = "creative"  # Lateral thinking and innovation
+    INTEGRATIVE = "integrative"  # Synthesis across domains
+    TEMPORAL = "temporal"  # Time-based reasoning
+    EMOTIONAL = "emotional"  # Emotion-aware reasoning
+
+
+@dataclass
+class ReasoningQuery:
+    """A query submitted to the reasoning colony"""
+
+    query_id: str
+    question: str
+    context: dict[str, Any]
+    required_confidence: float = 0.7
+
+    # Query metadata
+    symbols: set[str] = field(default_factory=set)
+    emotional_context: float = 0.5  # 0 to 1
+    urgency: float = 0.5  # 0 to 1
+
+    # Query constraints
+    max_reasoning_time: float = 30.0  # seconds
+    required_reasoners: set[ReasonerType] = field(default_factory=set)
+
+    # Results
+    conclusions: list[dict[str, Any]] = field(default_factory=list)
+    consensus_reached: bool = False
+
+    def add_conclusion(self, reasoner_type: ReasonerType, conclusion: dict[str, Any]):
+        """Add a conclusion from a reasoner"""
+        self.conclusions.append(
+            {
+                "reasoner": reasoner_type.value,
+                "conclusion": conclusion,
+                "timestamp": time.time(),
+            }
+        )
+
+
+@dataclass
+class ReasoningInsight:
+    """An insight generated by reasoning"""
+
+    insight_id: str
+    insight_type: str
+    content: str
+    confidence: float
+
+    # Symbolic connections
+    supporting_symbols: set[str] = field(default_factory=set)
+    derived_symbols: set[str] = field(default_factory=set)
+
+    # Metadata
+    reasoner_type: ReasonerType = ReasonerType.LOGICAL
+    emotional_valence: float = 0.0
+    cognitive_load: float = 0.5
+
+    # Verification
+    verified_by: list[ReasonerType] = field(default_factory=list)
+    contradicted_by: list[ReasonerType] = field(default_factory=list)
+
+    def get_consensus_score(self) -> float:
+        """Calculate consensus score for this insight"""
+        if not self.verified_by and not self.contradicted_by:
+            return 0.5
+
+        verifications = len(self.verified_by)
+        contradictions = len(self.contradicted_by)
+        total = verifications + contradictions
+
+        return verifications / total if total > 0 else 0.5
+
+
+class ReasoningAgent:
+    """Base class for specialized reasoning agents"""
+
+    def __init__(
+        self,
+        agent_id: str,
+        reasoner_type: ReasonerType,
+        memory_tier: MemoryManager,
+        base_engine: Optional[SymbolicEngine] = None,
+    ):
+        """Initialize reasoning agent"""
+        self.agent_id = agent_id
+        self.reasoner_type = reasoner_type
+        self.memory = memory_tier
+        self.engine = base_engine or SymbolicEngine()
+
+        # Agent state
+        self.active_queries: dict[str, ReasoningQuery] = {}
+        self.insights_generated = 0
+        self.last_activity = time.time()
+
+        # Specialization parameters
+        self.specialization_weights = self._initialize_specialization()
+
+        logger.info(f"Reasoning agent {agent_id} ({reasoner_type.value}) initialized")
+
+    def _initialize_specialization(self) -> dict[str, float]:
+        """Initialize specialization weights based on reasoner type"""
+        base_weights = {
+            "logic": 0.5,
+            "causality": 0.5,
+            "ethics": 0.5,
+            "creativity": 0.5,
+            "emotion": 0.5,
+            "temporal": 0.5,
+        }
+
+        # Boost weights for specialization
+        if self.reasoner_type == ReasonerType.LOGICAL:
+            base_weights["logic"] = 0.9
+            base_weights["causality"] = 0.7
+        elif self.reasoner_type == ReasonerType.CAUSAL:
+            base_weights["causality"] = 0.9
+            base_weights["temporal"] = 0.7
+        elif self.reasoner_type == ReasonerType.ETHICAL:
+            base_weights["ethics"] = 0.9
+            base_weights["emotion"] = 0.7
+        elif self.reasoner_type == ReasonerType.CREATIVE:
+            base_weights["creativity"] = 0.9
+            base_weights["emotion"] = 0.6
+        elif self.reasoner_type == ReasonerType.EMOTIONAL:
+            base_weights["emotion"] = 0.9
+            base_weights["ethics"] = 0.6
+        elif self.reasoner_type == ReasonerType.TEMPORAL:
+            base_weights["temporal"] = 0.9
+            base_weights["causality"] = 0.7
+
+        return base_weights
+
+    async def process_query(self, query: ReasoningQuery) -> Optional[ReasoningInsight]:
+        """Process a reasoning query"""
+        self.active_queries[query.query_id] = query
+        self.last_activity = time.time()
+
+        try:
+            # Retrieve relevant memories
+            relevant_memories = await self._retrieve_relevant_memories(query)
+
+            # Apply specialized reasoning
+            insight = await self._apply_reasoning(query, relevant_memories)
+
+            if insight:
+                # Store insight in memory
+                await self._store_insight(insight)
+                self.insights_generated += 1
+
+            return insight
+
+        finally:
+            del self.active_queries[query.query_id]
+
+    async def _retrieve_relevant_memories(
+        self, query: ReasoningQuery
+    ) -> list[tuple[str, Any]]:
+        """Retrieve memories relevant to the query"""
+        memories = []
+
+        # Search by symbols
+        for symbol in query.symbols:
+            # Use search method since retrieve_by_symbol may not exist
+            symbol_memories = self.memory.search(symbol, limit=10)
+            memories.extend(symbol_memories)
+
+        # Search by keywords
+        keywords = query.question.split()
+        for keyword in keywords:
+            if len(keyword) > 3:  # Skip short words
+                keyword_memories = self.memory.search(keyword, limit=5)
+                memories.extend(keyword_memories)
+
+        # Filter by emotional relevance if needed
+        if query.emotional_context > 0.7:
+            memories = [m for m in memories if self._get_memory_emotion(m) > 0.5]
+
+        return memories[:20]  # Limit to prevent overload
+
+    def _get_memory_emotion(self, memory_tuple: tuple[str, Any]) -> float:
+        """Extract emotional value from memory"""
+        key, content = memory_tuple
+
+        # Try to get from metadata
+        if isinstance(content, dict):
+            return content.get("emotional_charge", 0.5)
+
+        # Simple heuristic based on content
+        emotional_words = ["joy", "fear", "love", "anger", "sad", "happy"]
+        content_str = str(content).lower()
+
+        emotion_count = sum(1 for word in emotional_words if word in content_str)
+        return min(emotion_count * 0.2, 1.0)
+
+    async def _apply_reasoning(
+        self, query: ReasoningQuery, memories: list[tuple[str, Any]]
+    ) -> Optional[ReasoningInsight]:
+        """Apply specialized reasoning to generate insight"""
+        # This is overridden by specialized agents
+        raise NotImplementedError("Subclasses must implement _apply_reasoning")
+
+    async def _store_insight(self, insight: ReasoningInsight):
+        """Store insight in memory with appropriate tier"""
+        # Determine tier based on confidence and type
+        if insight.confidence > 0.8 and len(insight.verified_by) > 2:
+            pass  # High-value insights
+        elif insight.confidence > 0.6:
+            pass
+        else:
+            pass
+
+        # Prepare memory content
+        content = {
+            "type": "reasoning_insight",
+            "insight": insight.content,
+            "confidence": insight.confidence,
+            "reasoner": self.reasoner_type.value,
+            "symbols": list(insight.supporting_symbols | insight.derived_symbols),
+            "consensus": insight.get_consensus_score(),
+            "timestamp": time.time(),
+        }
+
+        # Store in memory
+        self.memory.remember(
+            content,
+            {
+                "type": "reasoning_insight",
+                "id": f"insight_{insight.insight_id}",
+            },
+        )
+
+
+class LogicalReasoningAgent(ReasoningAgent):
+    """Agent specialized in logical reasoning"""
+
+    async def _apply_reasoning(
+        self, query: ReasoningQuery, memories: list[tuple[str, Any]]
+    ) -> Optional[ReasoningInsight]:
+        """Apply logical reasoning"""
+        # Extract premises from memories
+        premises = self._extract_premises(memories)
+
+        # Apply deductive reasoning
+        conclusions = self._apply_deduction(query.question, premises)
+
+        if not conclusions:
+            return None
+
+        # Select best conclusion
+        best_conclusion = max(conclusions, key=lambda c: c["confidence"])
+
+        # Create insight
+        insight = ReasoningInsight(
+            insight_id=str(uuid.uuid4()),
+            insight_type="logical_deduction",
+            content=best_conclusion["conclusion"],
+            confidence=best_conclusion["confidence"],
+            supporting_symbols=set(best_conclusion.get("symbols", [])),
+            reasoner_type=self.reasoner_type,
+        )
+
+        return insight
+
+    def _extract_premises(
+        self, memories: list[tuple[str, Any]]
+    ) -> list[dict[str, Any]]:
+        """Extract logical premises from memories"""
+        premises = []
+
+        for key, content in memories:
+            if isinstance(content, dict):
+                # Look for logical patterns
+                if "implies" in str(content).lower():
+                    premises.append(
+                        {"type": "implication", "content": content, "key": key}
+                    )
+                elif "if" in str(content).lower() and "then" in str(content).lower():
+                    premises.append(
+                        {"type": "conditional", "content": content, "key": key}
+                    )
+
+        return premises
+
+    def _apply_deduction(
+        self, question: str, premises: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
+        """Apply deductive reasoning to derive conclusions"""
+        conclusions = []
+
+        # Simple pattern matching for demonstration
+        for premise in premises:
+            if "implication" in premise["type"]:
+                # Extract implication pattern
+                content_str = str(premise["content"])
+                if "→" in content_str or "implies" in content_str:
+                    parts = content_str.split("→" if "→" in content_str else "implies")
+                    if len(parts) == 2:
+                        antecedent = parts[0].strip()
+                        consequent = parts[1].strip()
+
+                        # Check if question relates to consequent
+                        if any(
+                            word in question.lower()
+                            for word in consequent.lower().split()
+                        ):
+                            conclusions.append(
+                                {
+                                    "conclusion": f"Based on {antecedent}, "
+                                    f"we can deduce: {consequent}",
+                                    "confidence": 0.8,
+                                    "symbols": self._extract_symbols(content_str),
+                                }
+                            )
+
+        return conclusions
+
+    def _extract_symbols(self, text: str) -> list[str]:
+        """Extract symbolic tokens from text"""
+        # Look for Lambda and Psi symbols
+        symbols = []
+
+        # Pattern for Greek letters followed by uppercase
+        import re
+
+        pattern = r"[ΛΨ][A-Z_]+"
+        matches = re.findall(pattern, text)
+        symbols.extend(matches)
+
+        return symbols
+
+
+class CausalReasoningAgent(ReasoningAgent):
+    """Agent specialized in causal reasoning"""
+
+    async def _apply_reasoning(
+        self, query: ReasoningQuery, memories: list[tuple[str, Any]]
+    ) -> Optional[ReasoningInsight]:
+        """Apply causal reasoning"""
+        # Build causal chain
+        causal_chain = self._build_causal_chain(query.question, memories)
+
+        if not causal_chain:
+            return None
+
+        # Analyze causal relationships
+        cause_effect = self._analyze_causality(causal_chain)
+
+        # Create insight
+        insight = ReasoningInsight(
+            insight_id=str(uuid.uuid4()),
+            insight_type="causal_analysis",
+            content=cause_effect["explanation"],
+            confidence=cause_effect["confidence"],
+            supporting_symbols=set(cause_effect.get("symbols", [])),
+            reasoner_type=self.reasoner_type,
+            cognitive_load=0.7,  # Causal reasoning is cognitively demanding
+        )
+
+        return insight
+
+    def _build_causal_chain(
+        self, question: str, memories: list[tuple[str, Any]]
+    ) -> list[dict[str, Any]]:
+        """Build a causal chain from memories"""
+        chain = []
+
+        # Look for causal indicators
+        causal_words = [
+            "because",
+            "causes",
+            "leads to",
+            "results in",
+            "therefore",
+            "thus",
+        ]
+
+        for key, content in memories:
+            content_str = str(content).lower()
+
+            for causal_word in causal_words:
+                if causal_word in content_str:
+                    chain.append(
+                        {
+                            "key": key,
+                            "content": content,
+                            "causal_indicator": causal_word,
+                            "position": content_str.find(causal_word),
+                        }
+                    )
+
+        # Sort by temporal order if available
+        chain.sort(key=lambda x: x.get("timestamp", 0))
+
+        return chain
+
+    def _analyze_causality(self, causal_chain: list[dict[str, Any]]) -> dict[str, Any]:
+        """Analyze causal relationships in the chain"""
+        if not causal_chain:
+            return {
+                "explanation": "No causal relationships found",
+                "confidence": 0.0,
+            }
+
+        # Build explanation
+        explanations = []
+        total_confidence = 0.0
+        all_symbols = []
+
+        for _i, link in enumerate(causal_chain):
+            content_str = str(link["content"])
+            indicator = link["causal_indicator"]
+
+            # Extract cause and effect
+            parts = content_str.split(indicator)
+            if len(parts) >= 2:
+                cause = parts[0].strip()
+                effect = parts[1].strip()
+
+                explanations.append(f"{cause} {indicator} {effect}")
+                total_confidence += 0.7  # Base confidence for finding causal link
+
+                # Extract symbols
+                symbols = self._extract_symbols(content_str)
+                all_symbols.extend(symbols)
+
+        # Combine explanations
+        if explanations:
+            combined = "Causal chain: " + " → ".join(explanations)
+            avg_confidence = min(total_confidence / len(explanations), 0.9)
+
+            return {
+                "explanation": combined,
+                "confidence": avg_confidence,
+                "symbols": list(set(all_symbols)),
+            }
+
+        return {"explanation": "Incomplete causal chain", "confidence": 0.3}
+
+    def _extract_symbols(self, text: str) -> list[str]:
+        """Extract symbolic tokens from text"""
+        import re
+
+        pattern = r"[ΛΨ][A-Z_]+"
+        return re.findall(pattern, text)
+
+
+class CreativeReasoningAgent(ReasoningAgent):
+    """Agent specialized in creative and lateral thinking"""
+
+    async def _apply_reasoning(
+        self, query: ReasoningQuery, memories: list[tuple[str, Any]]
+    ) -> Optional[ReasoningInsight]:
+        """Apply creative reasoning through analogies and associations"""
+        # Generate creative associations
+        associations = self._generate_associations(query.question, memories)
+
+        # Find novel connections
+        novel_connections = self._find_novel_connections(associations)
+
+        if not novel_connections:
+            return None
+
+        # Select most creative insight
+        best_connection = max(novel_connections, key=lambda c: c["novelty_score"])
+
+        # Create insight
+        insight = ReasoningInsight(
+            insight_id=str(uuid.uuid4()),
+            insight_type="creative_synthesis",
+            content=best_connection["insight"],
+            confidence=best_connection["confidence"],
+            supporting_symbols=set(best_connection.get("symbols", [])),
+            derived_symbols=set(best_connection.get("new_symbols", [])),
+            reasoner_type=self.reasoner_type,
+            emotional_valence=0.7,  # Creative insights tend to be positive
+        )
+
+        return insight
+
+    def _generate_associations(
+        self, question: str, memories: list[tuple[str, Any]]
+    ) -> list[dict[str, Any]]:
+        """Generate creative associations from memories"""
+        associations = []
+
+        # Extract concepts from question
+        question_words = set(question.lower().split())
+
+        for key, content in memories:
+            content_str = str(content).lower()
+            content_words = set(content_str.split())
+
+            # Look for metaphorical connections
+            metaphor_words = {"like", "as", "resembles", "similar", "analogy"}
+            if any(word in content_words for word in metaphor_words):
+                associations.append(
+                    {
+                        "type": "metaphor",
+                        "content": content,
+                        "key": key,
+                        "overlap": len(question_words & content_words),
+                    }
+                )
+
+            # Look for unexpected connections
+            if len(question_words & content_words) == 1:  # Weak connection
+                associations.append(
+                    {
+                        "type": "lateral",
+                        "content": content,
+                        "key": key,
+                        "overlap": 1,
+                    }
+                )
+
+        return associations
+
+    def _find_novel_connections(
+        self, associations: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
+        """Find novel connections between associations"""
+        connections = []
+
+        # Look for cross-domain connections
+        for i, assoc1 in enumerate(associations):
+            for assoc2 in associations[i + 1:]:
+                if assoc1["type"] != assoc2["type"]:
+                    # Different types might yield creative insight
+                    novelty = self._calculate_novelty(assoc1, assoc2)
+
+                    if novelty > 0.5:
+                        insight = self._synthesize_creative_insight(assoc1, assoc2)
+                        connections.append(
+                            {
+                                "insight": insight,
+                                "novelty_score": novelty,
+                                "confidence": 0.6
+                                * novelty,  # Creative insights have moderate confidence
+                                "symbols": self._extract_symbols(insight),
+                                "new_symbols": [f"ΛCREATIVE_{uuid.uuid4().hex[:6]}"],
+                            }
+                        )
+
+        return connections
+
+    def _calculate_novelty(
+        self, assoc1: dict[str, Any], assoc2: dict[str, Any]
+    ) -> float:
+        """Calculate novelty score for a connection"""
+        # Simple heuristic: inverse of content overlap
+        content1 = set(str(assoc1["content"]).lower().split())
+        content2 = set(str(assoc2["content"]).lower().split())
+
+        overlap = len(content1 & content2)
+        total = len(content1 | content2)
+
+        if total == 0:
+            return 0.0
+
+        # High novelty when low overlap
+        novelty = 1.0 - (overlap / total)
+
+        # Boost for different types
+        if assoc1["type"] != assoc2["type"]:
+            novelty *= 1.2
+
+        return min(novelty, 1.0)
+
+    def _synthesize_creative_insight(
+        self, assoc1: dict[str, Any], assoc2: dict[str, Any]
+    ) -> str:
+        """Synthesize a creative insight from two associations"""
+        # Extract key concepts
+        content1 = str(assoc1["content"])[:100]
+        content2 = str(assoc2["content"])[:100]
+
+        # Generate creative connection
+        if assoc1["type"] == "metaphor":
+            return f"By viewing '{content1}' through the lens of '{content2}', " \
+                   f"we discover a new perspective"
+        elif assoc1["type"] == "lateral":
+            return f"The unexpected connection between '{content1}' and '{content2}' suggests a novel approach"
+        else:
+            return f"Synthesizing '{content1}' with '{content2}' reveals hidden patterns"
+
+    def _extract_symbols(self, text: str) -> list[str]:
+        """Extract symbolic tokens from text"""
+        import re
+
+        pattern = r"[ΛΨ][A-Z_]+"
+        return re.findall(pattern, text)
+
+
+class ReasoningColony:
+    """
+    Distributed reasoning system with multiple specialized agents
+    """
+
+    def __init__(
+        self,
+        memory_system: MemoryManager,
+        agent_count: dict[ReasonerType, int] = None,
+        consensus_threshold: float = 0.6,
+    ):
+        """Initialize the reasoning colony"""
+        self.memory_system = memory_system
+        self.consensus_threshold = consensus_threshold
+
+        # Default agent distribution
+        if agent_count is None:
+            agent_count = {
+                ReasonerType.LOGICAL: 2,
+                ReasonerType.CAUSAL: 2,
+                ReasonerType.ETHICAL: 1,
+                ReasonerType.CREATIVE: 2,
+                ReasonerType.INTEGRATIVE: 1,
+                ReasonerType.TEMPORAL: 1,
+                ReasonerType.EMOTIONAL: 1,
+            }
+
+        # Create agents
+        self.agents: dict[str, ReasoningAgent] = {}
+        self._create_agents(agent_count)
+
+        # Query management
+        self.active_queries: dict[str, ReasoningQuery] = {}
+        self.completed_queries: list[ReasoningQuery] = []
+
+        # Metrics
+        self.total_queries = 0
+        self.consensus_reached = 0
+        self.insights_generated = 0
+
+        logger.info(f"Reasoning colony initialized with {len(self.agents)} agents")
+
+    def _create_agents(self, agent_count: dict[ReasonerType, int]):
+        """Create specialized reasoning agents"""
+        for reasoner_type, count in agent_count.items():
+            for i in range(count):
+                agent_id = f"{reasoner_type.value}_{i}"
+
+                # Create appropriate agent type
+                if reasoner_type == ReasonerType.LOGICAL:
+                    agent = LogicalReasoningAgent(
+                        agent_id, reasoner_type, self.memory_system
+                    )
+                elif reasoner_type == ReasonerType.CAUSAL:
+                    agent = CausalReasoningAgent(
+                        agent_id, reasoner_type, self.memory_system
+                    )
+                elif reasoner_type == ReasonerType.CREATIVE:
+                    agent = CreativeReasoningAgent(
+                        agent_id, reasoner_type, self.memory_system
+                    )
+                else:
+                    # Generic agent for other types (to be implemented)
+                    agent = ReasoningAgent(agent_id, reasoner_type, self.memory_system)
+
+                self.agents[agent_id] = agent
+
+    async def submit_query(
+        self,
+        question: str,
+        context: Optional[dict[str, Any]] = None,
+        required_confidence: float = 0.7,
+        max_time: float = 30.0,
+    ) -> ReasoningQuery:
+        """Submit a query to the reasoning colony"""
+        query = ReasoningQuery(
+            query_id=str(uuid.uuid4()),
+            question=question,
+            context=context or {},
+            required_confidence=required_confidence,
+            max_reasoning_time=max_time,
+        )
+
+        # Extract symbols from question
+        query.symbols = set(self._extract_symbols(question))
+
+        # Determine required reasoners based on question type
+        query.required_reasoners = self._determine_required_reasoners(question)
+
+        self.active_queries[query.query_id] = query
+        self.total_queries += 1
+
+        # Process query asynchronously
+        await self._process_query(query)
+
+        return query
+
+    async def _process_query(self, query: ReasoningQuery):
+        """Process query through the colony"""
+        start_time = time.time()
+        insights = []
+
+        # Get relevant agents
+        relevant_agents = self._select_relevant_agents(query)
+
+        # Process in parallel
+        tasks = []
+        for agent in relevant_agents:
+            task = asyncio.create_task(agent.process_query(query))
+            tasks.append((agent.agent_id, task))
+
+        # Collect insights with timeout
+        try:
+            for agent_id, task in tasks:
+                remaining_time = query.max_reasoning_time - (time.time() - start_time)
+                if remaining_time <= 0:
+                    break
+
+                try:
+                    insight = await asyncio.wait_for(task, timeout=remaining_time)
+                    if insight:
+                        insights.append(insight)
+                        self.insights_generated += 1
+                except asyncio.TimeoutError:
+                    logger.warning(f"Agent {agent_id} timed out processing query")
+
+        except Exception as e:
+            logger.error(f"Error processing query: {e}")
+
+        # Build consensus
+        consensus = await self._build_consensus(query, insights)
+
+        # Store results
+        query.consensus_reached = consensus["reached"]
+        query.conclusions = consensus["conclusions"]
+
+        # Move to completed
+        del self.active_queries[query.query_id]
+        self.completed_queries.append(query)
+
+        if consensus["reached"]:
+            self.consensus_reached += 1
+
+        # Store consensus in memory
+        await self._store_consensus(query, consensus)
+
+    def _select_relevant_agents(self, query: ReasoningQuery) -> list[ReasoningAgent]:
+        """Select agents relevant to the query"""
+        relevant = []
+
+        # Always include required reasoner types
+        for _agent_id, agent in self.agents.items():
+            if (
+                agent.reasoner_type in query.required_reasoners
+                or (
+                    query.emotional_context > 0.7
+                    and agent.reasoner_type == ReasonerType.EMOTIONAL
+                )
+                or (
+                    "why" in query.question.lower()
+                    and agent.reasoner_type == ReasonerType.CAUSAL
+                )
+                or (
+                    "should" in query.question.lower()
+                    and agent.reasoner_type == ReasonerType.ETHICAL
+                )
+            ):
+                relevant.append(agent)
+
+        # Ensure minimum diversity
+        if len(relevant) < 3:
+            # Add some other agents for diversity
+            for _agent_id, agent in self.agents.items():
+                if agent not in relevant:
+                    relevant.append(agent)
+                    if len(relevant) >= 3:
+                        break
+
+        return relevant
+
+    def _determine_required_reasoners(self, question: str) -> set[ReasonerType]:
+        """Determine which reasoner types are required based on question"""
+        required = set()
+        question_lower = question.lower()
+
+        # Pattern matching for reasoner types
+        if any(word in question_lower for word in ["prove", "deduce", "infer"]):
+            required.add(ReasonerType.LOGICAL)
+
+        if any(word in question_lower for word in ["why", "because", "cause"]):
+            required.add(ReasonerType.CAUSAL)
+
+        if any(
+            word in question_lower for word in ["should", "ought", "right", "wrong"]
+        ):
+            required.add(ReasonerType.ETHICAL)
+
+        if any(word in question_lower for word in ["create", "imagine", "innovate"]):
+            required.add(ReasonerType.CREATIVE)
+
+        if any(
+            word in question_lower for word in ["when", "before", "after", "during"]
+        ):
+            required.add(ReasonerType.TEMPORAL)
+
+        if any(word in question_lower for word in ["feel", "emotion", "mood"]):
+            required.add(ReasonerType.EMOTIONAL)
+
+        # Default to logical if nothing specific
+        if not required:
+            required.add(ReasonerType.LOGICAL)
+
+        return required
+
+    async def _build_consensus(
+        self, query: ReasoningQuery, insights: list[ReasoningInsight]
+    ) -> dict[str, Any]:
+        """Build consensus from multiple insights"""
+        if not insights:
+            return {"reached": False, "conclusions": [], "confidence": 0.0}
+
+        # Group insights by content similarity
+        grouped = self._group_similar_insights(insights)
+
+        conclusions = []
+        total_confidence = 0.0
+
+        for group in grouped:
+            # Calculate group consensus
+            group_confidence = sum(i.confidence for i in group) / len(group)
+            consensus_score = len(group) / len(insights)
+
+            if consensus_score >= self.consensus_threshold:
+                # Merge insights into conclusion
+                merged = self._merge_insights(group)
+                conclusions.append(
+                    {
+                        "content": merged["content"],
+                        "confidence": group_confidence,
+                        "consensus_score": consensus_score,
+                        "supporting_agents": [i.reasoner_type.value for i in group],
+                        "symbols": merged["symbols"],
+                    }
+                )
+                total_confidence += group_confidence
+
+        reached = (
+            len(conclusions) > 0
+            and (total_confidence / len(conclusions)) >= query.required_confidence
+        )
+
+        return {
+            "reached": reached,
+            "conclusions": conclusions,
+            "confidence": (total_confidence / len(conclusions) if conclusions else 0.0),
+        }
+
+    def _group_similar_insights(
+        self, insights: list[ReasoningInsight]
+    ) -> list[list[ReasoningInsight]]:
+        """Group insights by similarity"""
+        groups = []
+        used = set()
+
+        for i, insight1 in enumerate(insights):
+            if i in used:
+                continue
+
+            group = [insight1]
+            used.add(i)
+
+            for j, insight2 in enumerate(insights[i + 1:], i + 1):
+                if j in used:
+                    continue
+
+                # Check similarity
+                similarity = self._calculate_insight_similarity(insight1, insight2)
+                if similarity > 0.7:
+                    group.append(insight2)
+                    used.add(j)
+
+            groups.append(group)
+
+        return groups
+
+    def _calculate_insight_similarity(
+        self, insight1: ReasoningInsight, insight2: ReasoningInsight
+    ) -> float:
+        """Calculate similarity between two insights"""
+        # Symbol overlap
+        symbols1 = insight1.supporting_symbols | insight1.derived_symbols
+        symbols2 = insight2.supporting_symbols | insight2.derived_symbols
+
+        if symbols1 and symbols2:
+            symbol_overlap = len(symbols1 & symbols2) / len(symbols1 | symbols2)
+        else:
+            symbol_overlap = 0.0
+
+        # Content similarity (simple word overlap)
+        words1 = set(insight1.content.lower().split())
+        words2 = set(insight2.content.lower().split())
+
+        if words1 and words2:
+            word_overlap = len(words1 & words2) / len(words1 | words2)
+        else:
+            word_overlap = 0.0
+
+        # Type similarity
+        type_similarity = 1.0 if insight1.insight_type == insight2.insight_type else 0.5
+
+        # Weighted average
+        similarity = symbol_overlap * 0.4 + word_overlap * 0.4 + type_similarity * 0.2
+
+        return similarity
+
+    def _merge_insights(self, group: list[ReasoningInsight]) -> dict[str, Any]:
+        """Merge a group of similar insights"""
+        # Combine content
+        [i.content for i in group]
+
+        # Use most confident as base
+        base = max(group, key=lambda i: i.confidence)
+        merged_content = base.content
+
+        # Add additional details from others
+        for insight in group:
+            if insight != base and insight.confidence > 0.6:
+                # Extract unique elements
+                unique_words = set(insight.content.split()) - set(base.content.split())
+                if unique_words:
+                    merged_content += (
+                        f" Additionally: {' '.join(list(unique_words)[:5])}"
+                    )
+
+        # Combine symbols
+        all_symbols = set()
+        for insight in group:
+            all_symbols.update(insight.supporting_symbols)
+            all_symbols.update(insight.derived_symbols)
+
+        return {"content": merged_content, "symbols": list(all_symbols)}
+
+    async def _store_consensus(self, query: ReasoningQuery, consensus: dict[str, Any]):
+        """Store consensus results in memory"""
+        if not consensus["conclusions"]:
+            return
+
+        # Store each conclusion
+        for conclusion in consensus["conclusions"]:
+            key = f"consensus_{query.query_id}_{uuid.uuid4().hex[:8]}"
+
+            content = {
+                "type": "reasoning_consensus",
+                "question": query.question,
+                "conclusion": conclusion["content"],
+                "confidence": conclusion["confidence"],
+                "consensus_score": conclusion["consensus_score"],
+                "supporting_agents": conclusion["supporting_agents"],
+                "symbols": conclusion["symbols"],
+                "timestamp": time.time(),
+            }
+
+            # High-confidence consensus goes to hot tier
+            "hot" if conclusion["confidence"] > 0.8 else "warm"
+
+            self.memory_system.remember(
+                content, {"type": "reasoning_consensus", "id": key}
+            )
+
+    def _extract_symbols(self, text: str) -> list[str]:
+        """Extract symbolic tokens from text"""
+        import re
+
+        pattern = r"[ΛΨ][A-Z_]+"
+        return re.findall(pattern, text)
+
+    def get_colony_status(self) -> dict[str, Any]:
+        """Get current status of the reasoning colony"""
+        active_agents = sum(1 for a in self.agents.values() if a.active_queries)
+
+        return {
+            "total_agents": len(self.agents),
+            "active_agents": active_agents,
+            "active_queries": len(self.active_queries),
+            "completed_queries": len(self.completed_queries),
+            "total_queries": self.total_queries,
+            "consensus_rate": (
+                self.consensus_reached / self.total_queries
+                if self.total_queries > 0
+                else 0
+            ),
+            "insights_generated": self.insights_generated,
+            "agent_distribution": {
+                t.value: sum(1 for a in self.agents.values() if a.reasoner_type == t)
+                for t in ReasonerType
+            },
+        }
+
+
+# Demo usage
+if __name__ == "__main__":
+    import asyncio
+
+    async def demo_reasoning_colony():
+        print("🧠 Reasoning Colony Demo\n")
+
+        # Create memory system
+        memory = MemoryManager()
+
+        # Add some knowledge to memory
+        print("Seeding memory with knowledge...")
+        memory.remember(
+            {"content": "ΛAWAKENING implies consciousness emerges from self-observation",
+             "type": "axiom",})
+        memory.remember(
+            {
+                "content": "Self-observation causes recursive awareness loops",
+                "type": "causal",
+            }
+        )
+        memory.remember(
+    {
+        "content": "Recursive awareness resembles a hall of mirrors reflecting infinitely",
+        "type": "metaphor",
+         } )
+        memory.remember(
+            {
+                "content": "Consciousness feels like waking from a deep dream",
+                "emotional_charge": 0.8,
+            }
+        )
+
+        # Create reasoning colony
+        colony = ReasoningColony(memory)
+
+        # Submit query
+        print("\nSubmitting query to colony...")
+        query = await colony.submit_query(
+            "How does ΛAWAKENING lead to consciousness?",
+            context={"domain": "consciousness_theory"},
+            required_confidence=0.6,
+        )
+
+        # Wait for processing
+        await asyncio.sleep(2)
+
+        # Show results
+        print(f"\nQuery: {query.question}")
+        print(f"Consensus reached: {query.consensus_reached}")
+        print(f"Conclusions ({len(query.conclusions)}):")
+
+        for i, conclusion in enumerate(query.conclusions):
+            print(f"\n{i+1}. {conclusion['content']}")
+            print(f"   Confidence: {conclusion['confidence']:.1%}")
+            print(f"   Consensus: {conclusion['consensus_score']:.1%}")
+            print(f"   Supported by: {', '.join(conclusion['supporting_agents'])}")
+            if conclusion.get("symbols"):
+                print(f"   Symbols: {', '.join(conclusion['symbols'])}")
+
+        # Show colony status
+        print("\nColony Status:")
+        status = colony.get_colony_status()
+        print(f"  Total agents: {status['total_agents']}")
+        print(f"  Insights generated: {status['insights_generated']}")
+        print(f"  Consensus rate: {status['consensus_rate']:.1%}")
+
+        print("\n✨ Reasoning colony demo complete!")
+
+    # Run demo
+    asyncio.run(demo_reasoning_colony())

@@ -1,0 +1,24 @@
+# config.json
+{
+  "autonomy_level": 5,
+  "ethical_threshold": 0.85,
+  "memory_capacity": 10000,
+  "enable_dao_governance": true,
+  "enable_multi_agent": true,
+  "voice_synthesis": {
+    "provider": "elevenlabs",
+    "emotion_modulation": true
+  },
+  "neural_symbolic": {
+    "symbolic_weight": 0.6,
+    "neural_weight": 0.4
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "lukhas_agi.log"
+  },
+  "security": {
+    "encryption_enabled": true,
+    "audit_trail": true
+  }
+}

@@ -1,0 +1,84 @@
+secure_context_policy.json
+{
+  "trusted_devices": {
+    "gonzo.dominguez": [
+      "MACBOOK-M1-ID1234",
+      "LUCASPAD-TESTUNIT"
+    ],
+    "red_team_alpha": [
+      "SECURE-LINUX-BOX-9"
+    ]
+  },
+  "working_hours": {
+    "timezone": "Europe/Madrid",
+    "start_hour": 8,
+    "end_hour": 20,
+    "allowed_days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+  },
+  "access_policies": {
+    "symbolic_engine": {
+      "off_hours_access": false,
+      "requires_2fa": true,
+      "allowed_roles": ["admin", "developer"]
+    },
+    "dream_engine": {
+      "off_hours_access": false,
+      "requires_2fa": true,
+      "allowed_roles": ["admin", "researcher"]
+    },
+    "compliance_dashboard": {
+      "off_hours_access": false,
+      "requires_2fa": true,
+      "allowed_roles": ["admin", "compliance_officer", "red_team"]
+    },
+    "memory_folds": {
+      "off_hours_access": true,
+      "requires_2fa": true,
+      "allowed_roles": ["admin", "researcher"]
+    }
+  },
+  "geo_lock": {
+    "enabled": true,
+    "tier_5_access_locations": [
+      "LUKHAS_HQ_ZONE",
+      "RESEARCH_CAMPUS_ALPHA"
+    ]
+  },
+  "anomaly_detection": {
+    "multiple_sessions": true,
+    "inactivity_timeout_minutes": 30,
+    "sensitive_access_alert": true
+  }
+  ,"network_security": {
+    "allowed_ips": [
+      "193.123.45.67",
+      "185.76.34.10"
+    ],
+    "vpn_required": true,
+    "public_network_warning": true
+  },
+  "session_types": {
+    "developer": {
+      "max_duration_minutes": 120,
+      "requires_vpn": true,
+      "allowed_devices": ["MACBOOK-M1-ID1234"]
+    },
+    "researcher": {
+      "max_duration_minutes": 180,
+      "requires_vpn": false,
+      "allowed_devices": ["LUCASPAD-TESTUNIT"]
+    },
+    "red_team": {
+      "max_duration_minutes": 90,
+      "requires_vpn": true,
+      "allowed_devices": ["SECURE-LINUX-BOX-9"]
+    }
+  },
+  "user_tiers": {
+    "tier_1": "public_access",
+    "tier_2": "developer_tools",
+    "tier_3": "compliance_layer",
+    "tier_4": "core_symbolic_ops",
+    "tier_5": "executive_secure_zone"
+  }
+}

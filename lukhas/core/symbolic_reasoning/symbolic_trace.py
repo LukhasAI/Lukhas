@@ -1,0 +1,2 @@
+class SymbolicTrace:
+    pass

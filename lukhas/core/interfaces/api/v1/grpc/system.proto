@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package lukhas.v1;
+
+option go_package = "github.com/lukhas/api/v1;lukhasv1";
+option java_package = "com.lukhas.api.v1";
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+enum ProcessingMode {
+  PROCESSING_MODE_UNSPECIFIED = 0;
+  PROCESSING_MODE_SYMBOLIC = 1;
+  PROCESSING_MODE_CAUSAL = 2;
+  PROCESSING_MODE_HYBRID = 3;
+}
+
+message ProcessRequest {
+  string input_text = 1;
+  ProcessingMode mode = 2;
+  google.protobuf.Struct context = 3;
+  google.protobuf.Struct options = 4;
+}
+
+message SymbolicState {
+  repeated string glyphs = 1;
+  double resonance = 2;
+  double drift_score = 3;
+  double entropy = 4;
+}
+
+message ProcessResponse {
+  string request_id = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  google.protobuf.Struct result = 3;
+  SymbolicState symbolic_state = 4;
+  google.protobuf.Struct metadata = 5;
+  double processing_time_ms = 6;
+}
+
+message HealthRequest {}
+
+message HealthResponse {
+  string status = 1;
+  string version = 2;
+  double uptime_seconds = 3;
+  map<string, bool> components = 4;
+}
+
+service LukhasService {
+  rpc Process(ProcessRequest) returns (ProcessResponse);
+  rpc StreamProcess(stream ProcessRequest) returns (stream ProcessResponse);
+  rpc CheckHealth(HealthRequest) returns (HealthResponse);
+}

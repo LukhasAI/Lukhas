@@ -1,37 +1,19 @@
 """
-Glyph module shim for lukhas.accepted.core.glyph imports
-Trinity Framework: ⚛️🧠🛡️
+Compatibility shim for core.glyph
+DEPRECATED: This module will be removed on 2025-11-01
+Please update imports to: lukhas.core.glyph
 """
 
-# Import the actual glyph implementation
-import os
-import sys
+import warnings
 
-# Add the project root to path
-sys.path.insert(
-    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+from .glyph.glyph import *
+
+warnings.warn(
+    "Import 'core.glyph' is deprecated and will be removed on 2025-11-01. "
+    "Please update to 'lukhas.core.glyph'",
+    DeprecationWarning,
+    stacklevel=2
 )
 
-# Import from the actual core.glyph module
-try:
-    from core.glyph.glyph_engine import GlyphEngine
-    from core.glyph.glyphs import GLYPHS
-except ImportError:
-    # Fallback definitions for testing
-    class GlyphEngine:
-        """Mock GlyphEngine for testing"""
-
-        def __init__(self):
-            self.glyphs = {}
-
-        def process(self, text):
-            return text
-
-    GLYPHS = {
-        "IDENTITY": "⚛️",
-        "CONSCIOUSNESS": "🧠",
-        "GUARDIAN": "🛡️",
-        "TRINITY": "⚛️🧠🛡️",
-    }
-
-__all__ = ["GlyphEngine", "GLYPHS"]
+# Re-export everything for backward compatibility
+__all__ = dir()

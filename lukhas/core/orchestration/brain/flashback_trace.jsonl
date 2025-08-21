@@ -1,0 +1,11 @@
+@@ -dream_engine.py
+@@
+-        if args.trigger_flashback:
+-            fb = generate_flashback(...)
+-            # existing code handling fb
++        if args.trigger_flashback:
++            fb = generate_flashback(...)
++            # existing code handling fb
++            with open("logs/flashback_trace.jsonl", "a", encoding="utf-8") as log_file:
++                json.dump(fb, log_file)
++                log_file.write("\n")
