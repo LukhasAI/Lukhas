@@ -1,0 +1,53 @@
+{
+  "root": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+  "lanes": {
+    "accepted": {
+      "exists": true,
+      "is_package": true,
+      "files": 572,
+      "loc": 137460,
+      "examples": [
+        "lukhas/metrics.py",
+        "lukhas/branding_bridge.py",
+        "lukhas/flags.py",
+        "lukhas/client.py",
+        "lukhas/__init__.py",
+        "lukhas/ai_client.py",
+        "lukhas/modulation/dispatcher.py",
+        "lukhas/modulation/__init__.py",
+        "lukhas/modulation/lut_adapter.py",
+        "lukhas/branding/__init__.py",
+        "lukhas/branding/terminology.py",
+        "lukhas/tools/__init__.py"
+      ]
+    },
+    "candidate": {
+      "exists": true,
+      "is_package": false,
+      "files": 0,
+      "loc": 0,
+      "examples": []
+    },
+    "quarantine": {
+      "exists": true,
+      "is_package": false,
+      "files": 0,
+      "loc": 0,
+      "examples": []
+    },
+    "archive": {
+      "exists": true,
+      "is_package": false,
+      "files": 0,
+      "loc": 0,
+      "examples": []
+    }
+  },
+  "accepted_illegal_imports": [],
+  "summary": {
+    "accepted": 572,
+    "candidate": 0,
+    "quarantine": 0,
+    "archive": 0
+  }
+}

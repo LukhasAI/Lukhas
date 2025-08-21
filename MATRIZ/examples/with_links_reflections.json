@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "schema_ref": "lukhas://schemas/matada_node_v1.json",
+  "id": "LT-xyz789",
+  "type": "HYPOTHESIS",
+  "labels": ["colony:role=planner@3", "policy:beta"],
+  "state": { "confidence": 0.55, "salience": 0.8, "urgency": 0.2, "novelty": 0.6 },
+  "timestamps": { "created_ts": 1724219999999, "observed_ts": 1724219900000 },
+  "provenance": {
+    "producer": "lukhas.candidate.colonies.planner",
+    "capabilities": ["plan:compose"],
+    "tenant": "default",
+    "trace_id": "LT-run-42",
+    "consent_scopes": ["planning:internal"],
+    "policy_version": "v2025.08.21",
+    "colony": { "id": "planner-squad", "role": "planner", "iteration": 3 }
+  },
+  "links": [
+    { "target_node_id": "LT-abc123", "link_type": "semantic", "weight": 0.66, "direction": "bidirectional" }
+  ],
+  "reflections": [
+    {
+      "reflection_type": "affirmation",
+      "timestamp": 1724220000123,
+      "old_state": { "confidence": 0.5, "salience": 0.7 },
+      "new_state": { "confidence": 0.55, "salience": 0.8 },
+      "cause": "Cross-evidence alignment improved"
+    }
+  ]
+}

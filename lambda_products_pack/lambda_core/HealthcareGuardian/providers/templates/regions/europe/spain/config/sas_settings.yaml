@@ -1,0 +1,89 @@
+# Servicio Andaluz de Salud (SAS) Configuration Template
+
+# Provider Information
+provider:
+  name: "Centro de Salud"
+  centro_salud_id: "CS-XXXXX"
+  provincia: "SEVILLA"
+  tipo_centro: "CENTRO_SALUD"  # CENTRO_SALUD, HOSPITAL, CONSULTORIO
+
+# SAS System Configuration
+sas:
+  environment: "produccion"  # produccion, pruebas
+  certificado_digital: "/path/to/certificado.p12"
+  password_certificado: "encrypted:PASSWORD"
+  api_endpoints:
+    base_url: "https://api.sas.junta-andalucia.es"
+    historia_clinica: "/api/v1/historia"
+    citas: "/api/v1/citas"
+    prescripcion: "/api/v1/recetas"
+    
+# Authorization
+autorizacion:
+  roles_permitidos:
+    - MEDICO
+    - ENFERMERO
+    - ADMINISTRATIVO
+  niveles_acceso:
+    historia_clinica: ["MEDICO", "ENFERMERO"]
+    citas: ["MEDICO", "ENFERMERO", "ADMINISTRATIVO"]
+    prescripcion: ["MEDICO"]
+
+# Integration Settings
+integracion:
+  timeout_segundos: 30
+  reintentos: 3
+  intervalo_sincronizacion: 15  # minutos
+  tamano_lote: 100
+
+# Security
+seguridad:
+  cifrado: "AES-256-GCM"
+  rotacion_claves_dias: 90
+  tiempo_sesion_minutos: 30
+  retencion_registros_dias: 730  # 2 años
+
+# Compliance
+cumplimiento:
+  ley_proteccion_datos: true
+  lopd_enabled: true
+  auditoria_nivel: "detallado"
+  campos_sensibles:
+    - nombre_paciente
+    - nuhsa
+    - dni
+    - historia_clinica
+
+# Logging
+registro:
+  nivel: "INFO"
+  formato: "json"
+  destinos:
+    - tipo: "archivo"
+      ruta: "/var/log/sas-plugin.log"
+    - tipo: "syslog"
+      facility: "local0"
+
+# Features
+funcionalidades:
+  receta_electronica: true
+  cita_previa: true
+  historia_clinica_digital: true
+  telemedicina: true
+  alertas_tiempo_real: true
+
+# Emergency Services
+emergencias:
+  enabled: true
+  numero_emergencias: "112"
+  protocolo_derivacion: true
+  notificacion_automatica: true
+
+# Performance
+rendimiento:
+  conexiones_maximas: 100
+  timeout_peticion_segundos: 30
+  cache_ttl_minutos: 15
+  limites_velocidad:
+    peticiones_por_minuto: 60
+    tamano_rafaga: 10

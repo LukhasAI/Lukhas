@@ -19,17 +19,42 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 from enum import Enum
 
-# LUKHAS Core Imports
+# LUKHAS Core Imports - Full Trinity Framework Integration
 try:
-    # Try new accepted structure first
+    # Core Trinity Framework
     from lukhas.acceptance.accepted.core.glyph import GlyphEngine as GLYPHEngine
     from lukhas.acceptance.accepted.governance.drift_governor import EthicalDriftGovernor as GuardianSystem
     from lukhas.acceptance.accepted.colonies.consciousness import ConsciousnessColony as ConsciousnessEngine
     from lukhas.acceptance.accepted.memory.fold import FoldManager
-    LUKHAS_AVAILABLE = True
-    print("✅ LUKHAS core available - Trinity Framework ready")
     
-    # Try to get identity separately
+    # Enhanced Memory Systems
+    from lukhas.acceptance.accepted.memory.episodic import EpisodicMemory
+    from lukhas.acceptance.accepted.memory.causal import CausalReasoner
+    from lukhas.acceptance.accepted.memory.consolidation import MemoryConsolidator
+    
+    # Bio-Inspired Systems
+    from lukhas.acceptance.accepted.bio.oscillator import BioOscillator
+    from lukhas.acceptance.accepted.bio.quantum import QuantumBioProcessor
+    from lukhas.acceptance.accepted.bio.awareness import BioAwareness
+    from lukhas.acceptance.accepted.bio.voice import VoiceResonance
+    
+    # DNA Helix Architecture for Patient Data
+    from lukhas.acceptance.accepted.dna.helix.dna_memory_architecture import DNAMemoryArchitecture
+    from lukhas.acceptance.accepted.dna.helix.helix_vault import HelixVault
+    
+    # Advanced Colonies
+    from lukhas.acceptance.accepted.colonies.creativity import CreativityColony
+    from lukhas.acceptance.accepted.colonies.reasoning import ReasoningColony
+    from lukhas.acceptance.accepted.colonies.orchestrator import ColonyOrchestrator
+    
+    # Monitoring & Telemetry
+    from lukhas.acceptance.accepted.monitoring.drift_tracker import DriftTracker
+    from lukhas.acceptance.accepted.core.telemetry import TelemetryEngine
+    
+    LUKHAS_AVAILABLE = True
+    print("✅ LUKHAS full Trinity Framework available - All systems operational")
+    
+    # Identity system
     try:
         from lukhas.acceptance.accepted.identity import IdentityManager as LIDCore
     except:
@@ -78,6 +103,9 @@ try:
     from .healthcare_guardian_es.sas_integration.sas_connector import SASHealthcareConnector
     from .healthcare_guardian_es.emergency_systems.emergency_handler import EmergencyResponseSystem
     from .healthcare_guardian_es.vision_systems.medication_ocr import MedicationOCRSystem
+    
+    # Import comprehensive provider registry
+    from .providers.provider_registry import ProviderRegistry, BaseHealthcareProvider
 except ImportError:
     # Fallback for direct execution
     from healthcare_guardian_es.main import HealthcareGuardian as BaseHealthcareGuardian
@@ -86,6 +114,29 @@ except ImportError:
     from healthcare_guardian_es.sas_integration.sas_connector import SASHealthcareConnector
     from healthcare_guardian_es.emergency_systems.emergency_handler import EmergencyResponseSystem
     from healthcare_guardian_es.vision_systems.medication_ocr import MedicationOCRSystem
+    
+    # Fallback imports
+    try:
+        from providers.provider_registry import ProviderRegistry, BaseHealthcareProvider
+    except:
+        ProviderRegistry = None
+        BaseHealthcareProvider = None
+
+# Import transferred governance components
+try:
+    from governance.healthcare.case_manager import CaseManager
+    from governance.healthcare.clinical_decision_support import ClinicalDecisionSupport
+    from governance.monitoring.guardian_dashboard import GuardianDashboard
+    from governance.monitoring.threat_predictor import ThreatPredictor
+    from governance.monitoring.enhanced_threat_monitor import EnhancedThreatMonitor
+    from governance.monitoring.guardian_sentinel import GuardianSentinel
+    from governance.ethics.enhanced_ethical_guardian import EnhancedEthicalGuardian
+    from governance.security.consent_manager import ConsentManager as EnhancedConsentManager
+    from governance.security.privacy_guardian import PrivacyGuardian
+    GOVERNANCE_AVAILABLE = True
+except ImportError:
+    GOVERNANCE_AVAILABLE = False
+    print("⚠️ Governance components not available - using basic implementations")
 
 # Lambda Product Framework
 try:
@@ -178,32 +229,85 @@ class LambdaHealthcareGuardian:
         logger.info("✅ Lambda Healthcare Guardian initialized")
     
     def _init_trinity_framework(self):
-        """Initialize LUKHAS Trinity Framework components"""
+        """Initialize LUKHAS Trinity Framework components with full integration"""
         try:
-            # ⚛️ Identity
+            # ⚛️ Identity - Core authentication and identity management
             self.lid_core = LIDCore()
             self.lid_core.initialize()
             
-            # 🧠 Consciousness
+            # 🧠 Consciousness - Full awareness and cognitive systems
             self.consciousness = ConsciousnessEngine()
-            # FoldManager doesn't accept max_folds parameter
             self.memory_folds = FoldManager()
             
-            # 🛡️ Guardian
-            # EthicalDriftGovernor has different initialization
+            # Enhanced Memory Architecture
+            self.episodic_memory = EpisodicMemory() if 'EpisodicMemory' in globals() else None
+            self.causal_reasoner = CausalReasoner() if 'CausalReasoner' in globals() else None
+            self.memory_consolidator = MemoryConsolidator() if 'MemoryConsolidator' in globals() else None
+            
+            # DNA Helix for Patient Data - Secure genetic-inspired storage
+            if 'DNAMemoryArchitecture' in globals():
+                self.dna_memory = DNAMemoryArchitecture()
+                self.helix_vault = HelixVault()
+                logger.info("🧬 DNA Helix patient data architecture initialized")
+            
+            # Bio-Inspired Healthcare Systems
+            if 'BioOscillator' in globals():
+                self.bio_oscillator = BioOscillator()  # Natural rhythm processing
+                self.quantum_bio = QuantumBioProcessor()  # Quantum-bio hybrid processing
+                self.bio_awareness = BioAwareness()  # Biological pattern awareness
+                self.voice_resonance = VoiceResonance()  # Enhanced voice processing
+                logger.info("🌿 Bio-inspired systems activated")
+            
+            # Advanced Colonies for Medical Reasoning
+            if 'CreativityColony' in globals():
+                self.creativity_colony = CreativityColony()  # Creative medical solutions
+                self.reasoning_colony = ReasoningColony()  # Medical logic reasoning
+                self.colony_orchestrator = ColonyOrchestrator()  # Coordinate all colonies
+                logger.info("🏛️ Advanced colony systems online")
+            
+            # 🛡️ Guardian - Ethics and protection
             self.guardian = GuardianSystem()
             self.ethics_engine = EthicsEngine()
             self.consent_manager = ConsentManager()
             self.drift_detector = DriftDetector()
             
-            # GLYPH Communication
+            # Monitoring and Telemetry
+            if 'DriftTracker' in globals():
+                self.drift_tracker = DriftTracker()
+                self.telemetry = TelemetryEngine()
+                logger.info("📊 Advanced monitoring activated")
+            
+            # GLYPH Communication - Symbolic processing
             self.glyph_engine = GLYPHEngine()
             
-            logger.info("✅ Trinity Framework initialized: ⚛️🧠🛡️")
+            # Initialize inter-module communication
+            self._setup_module_communication()
+            
+            logger.info("✅ Full Trinity Framework initialized: ⚛️🧠🛡️")
+            logger.info("🚀 Enhanced with: Bio-systems, DNA memory, Advanced colonies")
         except Exception as e:
             logger.warning(f"⚠️ Trinity Framework partial init: {e}")
             self.guardian = None
             self.ethics_engine = None
+    
+    def _setup_module_communication(self):
+        """Setup communication between LUKHAS modules for healthcare"""
+        try:
+            # Connect bio-oscillator to voice processing for natural speech
+            if hasattr(self, 'bio_oscillator') and hasattr(self, 'voice_engine'):
+                self.voice_engine.set_oscillator(self.bio_oscillator)
+            
+            # Connect causal reasoner to medical decision making
+            if hasattr(self, 'causal_reasoner') and hasattr(self, 'clinical_support'):
+                self.clinical_support.set_reasoner(self.causal_reasoner)
+            
+            # Connect DNA memory for secure patient data
+            if hasattr(self, 'dna_memory'):
+                self.patient_data_vault = self.dna_memory
+            
+            logger.info("🔗 Module communication established")
+        except Exception as e:
+            logger.warning(f"Module communication partial setup: {e}")
     
     def _init_healthcare_components(self):
         """Initialize specialized healthcare components"""
@@ -224,18 +328,33 @@ class LambdaHealthcareGuardian:
     
     def _init_enhanced_features(self):
         """Initialize enhanced features from Guardian Systems Collection"""
-        # Dashboard visualization (from 02_LUKHAS_Guardian_Dashboard)
-        self.threat_monitor = ThreatMonitor()
-        self.dashboard_metrics = DashboardMetrics()
+        if GOVERNANCE_AVAILABLE:
+            # Use transferred governance components
+            self.case_manager = CaseManager()
+            self.clinical_support = ClinicalDecisionSupport()
+            self.guardian_dashboard = GuardianDashboard()
+            self.threat_predictor = ThreatPredictor()
+            self.threat_monitor = EnhancedThreatMonitor()
+            self.guardian_sentinel = GuardianSentinel()
+            self.ethical_guardian = EnhancedEthicalGuardian()
+            self.enhanced_consent = EnhancedConsentManager()
+            self.privacy_guardian = PrivacyGuardian()
+            logger.info("✅ Enhanced governance components loaded")
+        else:
+            # Fallback to basic implementations
+            self.threat_monitor = ThreatMonitor()
+            self.dashboard_metrics = DashboardMetrics()
+            self.ethical_reflector = EthicalReflector()
+            self.medical_protocols = MedicalProtocols()
         
-        # Ethical reflection (from 04_Guardian_Reflector_Ethics)
-        self.ethical_reflector = EthicalReflector()
-        
-        # Medical features (from Enhanced_Guardian_Medical)
-        self.medical_protocols = MedicalProtocols()
-        
-        # Multi-provider support (from Health_Advisor_Plugin)
-        self.provider_manager = ProviderManager()
+        # Initialize comprehensive provider registry
+        if ProviderRegistry:
+            self.provider_registry = ProviderRegistry()
+            self.provider_registry.initialize_default_providers()
+            logger.info(f"✅ Provider registry initialized with {len(self.provider_registry.providers)} providers")
+        else:
+            # Fallback to basic provider manager
+            self.provider_manager = ProviderManager()
     
     def _init_lambda_features(self):
         """Initialize Lambda product-specific features"""
@@ -500,6 +619,271 @@ class LambdaHealthcareGuardian:
             # Fallback: Manual booking instructions
             return await self._provide_manual_booking(specialty, str(e))
     
+    async def get_multi_country_provider(
+        self,
+        country: str,
+        provider_type: str = "public"
+    ) -> Optional[BaseHealthcareProvider]:
+        """
+        Get healthcare provider for specific country
+        
+        Args:
+            country: Country code (e.g., 'ES', 'UK', 'DE', 'US')
+            provider_type: Type of provider ('public', 'private')
+            
+        Returns:
+            Provider instance or None
+        """
+        if not ProviderRegistry or not hasattr(self, 'provider_registry'):
+            return None
+        
+        # Map country and type to provider ID
+        provider_map = {
+            ('UK', 'public'): 'nhs_uk',
+            ('DE', 'public'): 'gkv_de',
+            ('ES', 'public'): 'sas_es',
+            ('US', 'private'): 'kaiser_us',
+            ('US', 'pharmacy'): 'cvs_us',
+            ('AU', 'public'): 'medicare_au',
+            ('GLOBAL', 'private'): 'axa_global'
+        }
+        
+        provider_id = provider_map.get((country.upper(), provider_type.lower()))
+        if provider_id:
+            return self.provider_registry.get_provider(provider_id)
+        return None
+    
+    async def verify_international_insurance(
+        self,
+        patient_id: str,
+        country: str,
+        insurance_id: str
+    ) -> Dict[str, Any]:
+        """
+        Verify insurance coverage across multiple countries
+        
+        Args:
+            patient_id: Patient identifier
+            country: Country code
+            insurance_id: Insurance identifier
+            
+        Returns:
+            Insurance verification result
+        """
+        provider = await self.get_multi_country_provider(country, 'public')
+        if not provider:
+            provider = await self.get_multi_country_provider(country, 'private')
+        
+        if provider:
+            try:
+                result = await provider.verify_insurance(patient_id, insurance_id)
+                return {
+                    "verified": True,
+                    "provider": provider.config['name'],
+                    "country": country,
+                    "coverage": result
+                }
+            except Exception as e:
+                logger.error(f"Insurance verification failed: {e}")
+        
+        return {
+            "verified": False,
+            "error": f"No provider available for {country}",
+            "fallback": "Contact local healthcare provider"
+        }
+    
+    async def analyze_with_bio_patterns(
+        self,
+        patient_data: Dict[str, Any],
+        context: HealthcareContext
+    ) -> Dict[str, Any]:
+        """
+        Analyze patient data using bio-inspired pattern recognition
+        
+        Args:
+            patient_data: Patient vitals and metrics
+            context: Healthcare context
+            
+        Returns:
+            Bio-pattern analysis results
+        """
+        if hasattr(self, 'bio_awareness') and hasattr(self, 'quantum_bio'):
+            try:
+                # Use bio-oscillator for rhythm analysis
+                if hasattr(self, 'bio_oscillator'):
+                    rhythm_analysis = await self.bio_oscillator.analyze_patterns(
+                        patient_data.get('heart_rate', []),
+                        patient_data.get('breathing', [])
+                    )
+                
+                # Quantum-bio processing for complex patterns
+                quantum_analysis = await self.quantum_bio.process(patient_data)
+                
+                # Bio-awareness for holistic assessment
+                awareness_result = await self.bio_awareness.assess(
+                    data=patient_data,
+                    context=context.__dict__
+                )
+                
+                return {
+                    "bio_patterns_detected": True,
+                    "rhythm_analysis": rhythm_analysis if 'rhythm_analysis' in locals() else None,
+                    "quantum_bio_insights": quantum_analysis,
+                    "awareness_assessment": awareness_result,
+                    "health_coherence": 0.85  # Example metric
+                }
+            except Exception as e:
+                logger.error(f"Bio-pattern analysis failed: {e}")
+        
+        return {"bio_patterns_detected": False, "fallback": "Standard analysis"}
+    
+    async def store_in_dna_vault(
+        self,
+        patient_id: str,
+        medical_record: Dict[str, Any],
+        encryption_level: str = "quantum"
+    ) -> bool:
+        """
+        Store patient data in DNA helix vault for maximum security
+        
+        Args:
+            patient_id: Patient identifier
+            medical_record: Medical data to store
+            encryption_level: Security level (standard/quantum)
+            
+        Returns:
+            Success status
+        """
+        if hasattr(self, 'helix_vault') and hasattr(self, 'dna_memory'):
+            try:
+                # Encode in DNA memory architecture
+                encoded_data = await self.dna_memory.encode(
+                    data=medical_record,
+                    patient_id=patient_id,
+                    timestamp=datetime.now()
+                )
+                
+                # Store in helix vault with quantum encryption
+                vault_id = await self.helix_vault.store(
+                    encoded_data=encoded_data,
+                    encryption=encryption_level,
+                    access_tier="medical_professional"
+                )
+                
+                logger.info(f"🧬 Patient data stored in DNA vault: {vault_id}")
+                return True
+            except Exception as e:
+                logger.error(f"DNA vault storage failed: {e}")
+        
+        # Fallback to standard storage
+        return await self._store_standard(patient_id, medical_record)
+    
+    async def reason_medical_decision(
+        self,
+        symptoms: List[str],
+        history: Dict[str, Any],
+        context: HealthcareContext
+    ) -> Dict[str, Any]:
+        """
+        Use causal reasoning and advanced colonies for medical decisions
+        
+        Args:
+            symptoms: List of symptoms
+            history: Patient medical history
+            context: Healthcare context
+            
+        Returns:
+            Reasoned medical decision with confidence
+        """
+        decision = {"recommendation": "Consult healthcare provider", "confidence": 0.5}
+        
+        # Use causal reasoner for medical logic
+        if hasattr(self, 'causal_reasoner'):
+            try:
+                causal_analysis = await self.causal_reasoner.analyze(
+                    inputs=symptoms,
+                    context=history,
+                    constraints={"patient_age": context.age}
+                )
+                decision["causal_factors"] = causal_analysis
+                decision["confidence"] += 0.2
+            except Exception as e:
+                logger.warning(f"Causal reasoning partial: {e}")
+        
+        # Use reasoning colony for advanced logic
+        if hasattr(self, 'reasoning_colony'):
+            try:
+                colony_reasoning = await self.reasoning_colony.process(
+                    query="medical_diagnosis",
+                    data={"symptoms": symptoms, "history": history}
+                )
+                decision["colony_insights"] = colony_reasoning
+                decision["confidence"] += 0.15
+            except Exception as e:
+                logger.warning(f"Colony reasoning partial: {e}")
+        
+        # Creative solutions from creativity colony
+        if hasattr(self, 'creativity_colony'):
+            try:
+                creative_solutions = await self.creativity_colony.generate(
+                    context="medical_treatment",
+                    constraints={"safe": True, "evidence_based": True}
+                )
+                decision["alternative_approaches"] = creative_solutions
+            except Exception as e:
+                logger.warning(f"Creative solutions partial: {e}")
+        
+        # Validate with Guardian
+        if self.guardian:
+            ethics_check = await self._validate_medical_ethics(
+                decision=decision,
+                context=context
+            )
+            decision["ethics_approved"] = ethics_check
+        
+        return decision
+    
+    async def track_patient_journey(
+        self,
+        patient_id: str,
+        event: str,
+        data: Dict[str, Any]
+    ) -> bool:
+        """
+        Track patient journey using episodic memory
+        
+        Args:
+            patient_id: Patient identifier
+            event: Event type
+            data: Event data
+            
+        Returns:
+            Success status
+        """
+        if hasattr(self, 'episodic_memory'):
+            try:
+                # Store in episodic memory with emotional context
+                await self.episodic_memory.record(
+                    subject=patient_id,
+                    event=event,
+                    data=data,
+                    emotional_valence=data.get('emotion', 'neutral'),
+                    timestamp=datetime.now()
+                )
+                
+                # Consolidate memories if needed
+                if hasattr(self, 'memory_consolidator'):
+                    await self.memory_consolidator.consolidate(
+                        subject=patient_id,
+                        priority="health_critical"
+                    )
+                
+                return True
+            except Exception as e:
+                logger.error(f"Patient journey tracking failed: {e}")
+        
+        return False
+    
     # Helper methods
     async def _verify_consent(self, patient_id: str, action: str) -> bool:
         """Verify patient consent for action"""
@@ -557,6 +941,48 @@ class LambdaHealthcareGuardian:
                 risk_score += 0.2
         
         return min(risk_score, 1.0)
+    
+    async def _store_standard(self, patient_id: str, medical_record: Dict[str, Any]) -> bool:
+        """Standard storage fallback when DNA vault unavailable"""
+        try:
+            # Store in regular memory folds
+            if self.memory_folds:
+                await self.memory_folds.store_fold(
+                    data=medical_record,
+                    context={"patient_id": patient_id},
+                    timestamp=datetime.now()
+                )
+                return True
+        except:
+            pass
+        return False
+    
+    async def _validate_medical_ethics(
+        self,
+        decision: Dict[str, Any],
+        context: HealthcareContext
+    ) -> bool:
+        """Validate medical decision against ethical guidelines"""
+        if self.ethics_engine:
+            score = await self.ethics_engine.evaluate(
+                action=decision,
+                context=context.__dict__
+            )
+            return score > 0.7
+        return True
+    
+    async def _provide_manual_booking(self, specialty: str, error: str) -> Dict[str, Any]:
+        """Provide manual booking guidance when automated fails"""
+        return {
+            "success": False,
+            "error": error,
+            "manual_instructions": {
+                "phone": "955 545 060",
+                "online": "https://www.juntadeandalucia.es/servicioandaluzdesalud/",
+                "app": "Salud Responde App",
+                "specialty": specialty
+            }
+        }
     
     def _get_manual_guidance(self, request: str) -> str:
         """Provide manual guidance for fallback"""

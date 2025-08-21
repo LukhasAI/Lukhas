@@ -1,3 +1,18 @@
 """
-Security Module
+Governance Security Module
+
+Provides comprehensive security and privacy protection systems
+for LUKHAS AI governance with Trinity Framework integration.
 """
+
+from .consent_manager import ConsentManager, ConsentRequest, ConsentStatus
+from .privacy_guardian import PrivacyGuardian, DataClassification, PrivacyPolicy
+
+__all__ = [
+    "ConsentManager",
+    "ConsentRequest", 
+    "ConsentStatus",
+    "PrivacyGuardian",
+    "DataClassification",
+    "PrivacyPolicy"
+]

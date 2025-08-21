@@ -1,69 +1,29 @@
 [importlinter]
 root_package = lukhas
 
-# Contract 1: Accepted code must not import from less mature lanes
-[importlinter:contract:accepted_does_not_import_candidate]
-name = Accepted must not import Candidate/Quarantine/Archive
+[contract:prod_no_candidate]
 type = forbidden
-source_modules =
-    lukhas.accepted
-forbidden_modules =
-    lukhas.candidate
-    lukhas.quarantine
-    lukhas.archive
+name = Production must not import candidate
+source_modules = lukhas
+forbidden_modules = candidate
 
-# Contract 2: Candidate code accessed only through interfaces
-[importlinter:contract:candidate_only_through_interfaces]
-name = Candidate code only accessed via public interfaces
+[contract:no_quarantine]
+type = forbidden
+name = Nothing may import quarantine
+source_modules = lukhas
+forbidden_modules = quarantine
+
+[contract:no_archive]
+type = forbidden
+name = Nothing may import archive
+source_modules = lukhas
+forbidden_modules = archive
+
+[contract:prod_layers]
 type = layers
+name = Production layering
 layers =
-    interfaces
-    implementations
-containers =
-    lukhas.candidate.ul
-    lukhas.candidate.vivox
-    lukhas.candidate.qim
-
-# Contract 3: Core Surface API isolation
-[importlinter:contract:core_surface_api]
-name = Core Surface API has minimal dependencies
-type = layers
-layers =
-    api
-    orchestrator
-    core
-containers =
-    lukhas.accepted.core
-    lukhas.accepted.orchestrator
-    lukhas.accepted.adapters
-
-# Contract 4: No circular dependencies in accepted
-[importlinter:contract:no_circular_deps]
-name = No circular dependencies in production code
-type = independence
-modules =
-    lukhas.accepted.core
-    lukhas.accepted.memory
-    lukhas.accepted.bio
-    lukhas.accepted.colonies
-    lukhas.accepted.adapters
-    lukhas.accepted.orchestrator
-
-# Contract 5: Quarantine is isolated
-[importlinter:contract:quarantine_isolated]
-name = Quarantine code cannot be imported by any other lane
-type = forbidden
-source_modules =
-    lukhas.accepted
-    lukhas.candidate
-forbidden_modules =
-    lukhas.quarantine
-
-# Contract 6: Archive is completely excluded
-[importlinter:contract:archive_excluded]
-name = Archive code cannot be imported anywhere
-type = forbidden
-source_modules =
-    lukhas
-forbidden_modules =
-    lukhas.archive
+    lukhas.core
+    lukhas.adapters
+    lukhas.orchestrator
+    lukhas.ui

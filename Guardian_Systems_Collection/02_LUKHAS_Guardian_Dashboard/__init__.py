@@ -1,4 +1,0 @@
-"""
-Guardian Module
-"""
-

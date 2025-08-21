@@ -1,3 +1,15 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lukhas"
+version = "0.1.0"
+requires-python = ">=3.10"
+
+[tool.setuptools]
+packages = ["lukhas"]
+
 [tool.black]
 line-length = 88  # More reasonable, matches flake8
 target-version = ['py39', 'py310', 'py311']
