@@ -1,4 +1,4 @@
-.PHONY: help install dev build test clean db-migrate db-seed policy rate-test
+.PHONY: help install dev build test clean db-migrate db-seed policy rate-test lint
 
 # Default target
 help:
@@ -14,6 +14,7 @@ help:
 	@echo "  make db-migrate    - Run database migrations"
 	@echo "  make db-seed       - Seed database with test data"
 	@echo "  make policy        - Run all policy checks"
+	@echo "  make lint          - Run ESLint (includes TransparencyBox check)"
 	@echo "  make redis         - Start Redis server (dev)"
 
 # Install dependencies
@@ -97,6 +98,10 @@ policy-routes:
 
 policy: policy-transparency policy-registries policy-brand policy-tone policy-tone-visibility policy-challenges
 	@echo "✅ All policy checks passed"
+
+# ESLint (includes TransparencyBox check)
+lint:
+	@npx eslint .
 
 # Start Redis for development
 redis:

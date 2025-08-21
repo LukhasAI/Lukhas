@@ -53,6 +53,8 @@ model User {
   guardians          Guardian[]
   recoveryTickets    RecoveryTicket[]
   onboardingSessions OnboardingSession[]
+  qrgSessions        QrgSession[]
+  walletPasses       WalletPass[]
 }
 
 // Verified phone/email etc. (NOT public)
@@ -242,4 +244,40 @@ model OnboardingSession {
   expiresAt       DateTime
   
   @@index([identifierNorm])
+}
+
+// QRG sessions for JWS-signed approvals
+model QrgSession {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  txId       String   @db.VarChar(64)
+  scope      String   @db.VarChar(128)
+  nonce      String   @db.VarChar(64)
+  jws        String   @db.Text
+  status     String   @db.VarChar(16) // 'open','approved','expired','consumed'
+  issuedAt   DateTime @default(now())
+  expiresAt  DateTime
+  consumedAt DateTime?
+  
+  @@index([userId, txId])
+  @@index([status, expiresAt])
+}
+
+// Wallet passes for out-of-band approvals
+model WalletPass {
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  platform       String   @db.VarChar(16) // 'apple','google'
+  serialNumber   String   @unique @db.VarChar(64)
+  deviceId       String?  @db.VarChar(64)
+  status         String   @default("active") @db.VarChar(16) // 'active','used','expired','revoked'
+  lastRotatedAt  DateTime @default(now())
+  createdAt      DateTime @default(now())
+  expiresAt      DateTime?
+  revokedAt      DateTime?
+  
+  @@index([userId, status])
+  @@index([serialNumber])
 }
