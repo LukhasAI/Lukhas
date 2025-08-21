@@ -1,0 +1,143 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===== Authentication & Identity =====
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  emailVerified DateTime?
+  plan          String   @default("free") // free, plus, team, enterprise, core
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  passkeys      Passkey[]
+  refreshTokens RefreshToken[]
+  sessions      Session[]
+  auditLogs     AuditLog[]
+  
+  @@index([email])
+  @@index([plan])
+}
+
+model Passkey {
+  id              String   @id @default(uuid())
+  userId          String
+  credentialId    String   @unique
+  publicKey       String
+  counter         BigInt   @default(0)
+  deviceType      String?
+  transports      String[] // ["internal", "usb", "nfc", "ble"]
+  createdAt       DateTime @default(now())
+  lastUsedAt      DateTime?
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model RefreshTokenFamily {
+  id         String    @id @default(uuid())
+  userId     String
+  createdAt  DateTime  @default(now())
+  revokedAt  DateTime?
+  reason     String?   // revocation reason (reuse, admin, etc.)
+  
+  tokens     RefreshToken[]
+  
+  @@index([userId])
+}
+
+model RefreshToken {
+  id            String    @id @default(uuid())
+  familyId      String
+  userId        String
+  jti           String    @unique
+  deviceId      String?
+  ip            String?
+  userAgent     String?
+  issuedAt      DateTime  @default(now())
+  expiresAt     DateTime
+  usedAt        DateTime? // set once used to rotate
+  reused        Boolean   @default(false) // true if token seen twice
+  invalidatedAt DateTime?
+  
+  family RefreshTokenFamily @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  user   User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([familyId])
+  @@index([userId])
+  @@index([jti])
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  deviceId  String?
+  ip        String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([token])
+}
+
+// ===== Audit & Compliance =====
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  action    String   // login, logout, passkey_created, token_rotated, etc.
+  resource  String?  // resource being accessed
+  ip        String?
+  userAgent String?
+  metadata  Json?    // additional context
+  createdAt DateTime @default(now())
+  
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+// ===== SCIM & Enterprise =====
+
+model ScimUser {
+  id         String    @id @default(uuid())
+  externalId String    @unique
+  userName   String    @unique
+  active     Boolean   @default(true)
+  emails     Json      // Array of {value, primary, type}
+  name       Json?     // {givenName, familyName, formatted}
+  metadata   Json?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  
+  @@index([externalId])
+  @@index([userName])
+}
+
+model ScimGroup {
+  id         String   @id @default(uuid())
+  displayName String  @unique
+  members    Json[]   // Array of user references
+  metadata   Json?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  @@index([displayName])
+}

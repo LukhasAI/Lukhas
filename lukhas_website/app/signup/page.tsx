@@ -3,9 +3,9 @@
 import React, { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ChevronLeftIcon, EnvelopeIcon, KeyIcon, CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline'
-import TransparencyBox from '@/components/transparency-box'
-import { threeLayerTone } from '@/lib/toneSystem'
+import { ChevronLeftIcon, EnvelopeIcon, KeyIcon, CheckCircleIcon, ExclamationCircleIcon, LanguageIcon } from '@heroicons/react/24/outline'
+import TransparencyBox from '@/components/TransparencyBox'
+import { SignupCopy } from '@/components/auth/SignupCopy'
 import { AnnouncementManager, FocusManager } from '@/lib/accessibility'
 
 // Registration flow steps
@@ -17,6 +17,86 @@ const supportsPasskeys = () => {
   return !!(window.PublicKeyCredential && window.navigator.credentials && window.navigator.credentials.create)
 }
 
+// Bilingual UI text
+const UI_TEXT = {
+  en: {
+    backToLukhas: 'Back to LUKHAS AI',
+    alreadyHaveAccount: 'Already have an account?',
+    signIn: 'Sign in',
+    createYourLid: 'Create your ΛiD',
+    joinPlatform: 'Join the LUKHAS AI platform',
+    protectedBy: 'Protected by quantum-inspired identity protocols and bio-inspired security adaptation',
+    registrationError: 'Registration Error',
+    signInToExisting: 'Sign in to existing account',
+    checkEmail: 'Check your email',
+    emailSentTo: 'We sent a verification code to',
+    verificationCode: 'Verification code',
+    enterCode: 'Enter the 6-digit verification code sent to your email',
+    verifyEmail: 'Verify email',
+    verifying: 'Verifying...',
+    useDifferentEmail: 'Use different email',
+    createPasskey: 'Create your passkey',
+    secureWithBiometric: 'Secure your account with biometric authentication',
+    creatingPasskey: 'Creating passkey...',
+    skipForNow: 'Skip for now (you can add it later)',
+    welcomeToLukhas: 'Welcome to LUKHAS AI',
+    lidCreatedSuccess: 'Your ΛiD has been created successfully',
+    continueToSignIn: 'Continue to sign in',
+    emailAddress: 'Email address',
+    enterEmailAddress: 'Enter your email address',
+    continueWithEmail: 'Continue with email',
+    sending: 'Sending...',
+    pleaseEnterEmail: 'Please enter your email address',
+    pleaseEnterCode: 'Please enter the verification code',
+    step: 'Step',
+    of: 'of',
+    emailStep: 'Email Address',
+    verifyStep: 'Email Verification',
+    passkeyStep: 'Create Passkey',
+    completeStep: 'Complete',
+    current: 'current',
+    completed: 'completed'
+  },
+  es: {
+    backToLukhas: 'Volver a LUKHAS AI',
+    alreadyHaveAccount: '¿Ya tienes una cuenta?',
+    signIn: 'Iniciar sesión',
+    createYourLid: 'Crea tu ΛiD',
+    joinPlatform: 'Únete a la plataforma LUKHAS AI',
+    protectedBy: 'Protegido por protocolos de identidad cuántico-inspirados y adaptación de seguridad bio-inspirada',
+    registrationError: 'Error de registro',
+    signInToExisting: 'Iniciar sesión en cuenta existente',
+    checkEmail: 'Revisa tu correo',
+    emailSentTo: 'Enviamos un código de verificación a',
+    verificationCode: 'Código de verificación',
+    enterCode: 'Ingresa el código de 6 dígitos enviado a tu correo',
+    verifyEmail: 'Verificar correo',
+    verifying: 'Verificando...',
+    useDifferentEmail: 'Usar correo diferente',
+    createPasskey: 'Crea tu passkey',
+    secureWithBiometric: 'Asegura tu cuenta con autenticación biométrica',
+    creatingPasskey: 'Creando passkey...',
+    skipForNow: 'Omitir por ahora (puedes añadirlo después)',
+    welcomeToLukhas: 'Bienvenido a LUKHAS AI',
+    lidCreatedSuccess: 'Tu ΛiD ha sido creado exitosamente',
+    continueToSignIn: 'Continuar para iniciar sesión',
+    emailAddress: 'Correo electrónico',
+    enterEmailAddress: 'Ingresa tu correo electrónico',
+    continueWithEmail: 'Continuar con correo',
+    sending: 'Enviando...',
+    pleaseEnterEmail: 'Por favor ingresa tu correo electrónico',
+    pleaseEnterCode: 'Por favor ingresa el código de verificación',
+    step: 'Paso',
+    of: 'de',
+    emailStep: 'Correo electrónico',
+    verifyStep: 'Verificación de correo',
+    passkeyStep: 'Crear Passkey',
+    completeStep: 'Completar',
+    current: 'actual',
+    completed: 'completado'
+  }
+}
+
 export default function SignupPage() {
   const router = useRouter()
   const [step, setStep] = useState<RegistrationStep>('email')
@@ -26,6 +106,9 @@ export default function SignupPage() {
   const [error, setError] = useState('')
   const [passkeySupported] = useState(() => supportsPasskeys())
   const [userId, setUserId] = useState('')
+  const [locale, setLocale] = useState<'en' | 'es'>('en')
+  
+  const t = UI_TEXT[locale]
 
   // Step 1: Email submission
   const handleEmailSubmit = useCallback(async (e: React.FormEvent) => {
@@ -216,12 +299,6 @@ export default function SignupPage() {
     router.push('/login')
   }, [router])
 
-  const toneContent = threeLayerTone(
-    "Begin with your own key; the rest follows. Λ consciousness awakens through authentic identity, guided by Superior Consciousness principles.",
-    "First, we'll verify your email address with a secure code. Then you can create a passkey using your device's biometric security. Consider adding a second device for backup access. Your account will be protected by quantum-inspired security protocols.",
-    "Multi-step registration: Email verification with 6-digit time-limited codes, followed by optional passkey registration using WebAuthn. Password authentication permanently disabled by design. Account recovery via backup codes or additional registered passkeys. Rate limiting enforced. Bio-inspired adaptation monitors registration patterns for fraud detection."
-  )
-
   // JSON-LD structured data for registration page
   const structuredData = {
     "@context": "https://schema.org",
@@ -259,10 +336,21 @@ export default function SignupPage() {
       <header className="flex items-center justify-between p-6" role="banner">
         <Link href="/" className="flex items-center text-white/80 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-consciousness focus:ring-offset-2 focus:ring-offset-bg-primary rounded">
           <ChevronLeftIcon className="w-5 h-5 mr-2" aria-hidden="true" />
-          Back to LUKHAS AI
+          {t.backToLukhas}
         </Link>
-        <div className="text-sm text-white/60">
-          Already have an account? <Link href="/login" className="text-trinity-identity hover:text-trinity-consciousness transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-consciousness focus:ring-offset-2 focus:ring-offset-bg-primary rounded px-1">Sign in</Link>
+        <div className="flex items-center gap-4">
+          {/* Language selector */}
+          <button
+            onClick={() => setLocale(locale === 'en' ? 'es' : 'en')}
+            className="flex items-center text-white/60 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-consciousness focus:ring-offset-2 focus:ring-offset-bg-primary rounded px-2 py-1"
+            aria-label={locale === 'en' ? 'Cambiar a español' : 'Switch to English'}
+          >
+            <LanguageIcon className="w-4 h-4 mr-1" />
+            {locale === 'en' ? 'ES' : 'EN'}
+          </button>
+          <div className="text-sm text-white/60">
+            {t.alreadyHaveAccount} <Link href="/login" className="text-trinity-identity hover:text-trinity-consciousness transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-consciousness focus:ring-offset-2 focus:ring-offset-bg-primary rounded px-1">{t.signIn}</Link>
+          </div>
         </div>
       </header>
 
@@ -275,13 +363,13 @@ export default function SignupPage() {
               <span className="text-2xl font-light text-trinity-consciousness" aria-label="LUKHAS AI Superior Consciousness">Λ</span>
             </div>
             <h1 className="text-2xl font-light text-white mb-2" id="page-title">
-              Create your ΛiD
+              {t.createYourLid}
             </h1>
             <p className="text-white/60 text-sm">
-              Join the LUKHAS AI platform
+              {t.joinPlatform}
             </p>
             <div className="mt-2 text-xs text-white/40">
-              Protected by quantum-inspired identity protocols and bio-inspired security adaptation
+              {t.protectedBy}
             </div>
           </div>
 
@@ -289,7 +377,7 @@ export default function SignupPage() {
           <div className="mb-8" role="progressbar" aria-valuenow={['email', 'verify', 'passkey', 'complete'].indexOf(step) + 1} aria-valuemin={1} aria-valuemax={4} aria-label="Registration progress">
             <div className="flex items-center justify-center space-x-2">
               {['email', 'verify', 'passkey', 'complete'].map((stepName, index) => {
-                const stepLabels = ['Email', 'Verify', 'Passkey', 'Complete']
+                const stepLabels = [t.emailStep, t.verifyStep, t.passkeyStep, t.completeStep]
                 const isComplete = (['email', 'verify'].indexOf(step) > index || step === 'complete') && stepName !== step
                 const isCurrent = step === stepName
                 
@@ -303,7 +391,7 @@ export default function SignupPage() {
                           ? 'bg-trinity-guardian text-white'
                           : 'bg-white/10 text-white/40'
                       }`}
-                      aria-label={`Step ${index + 1}: ${stepLabels[index]}${isCurrent ? ' (current)' : isComplete ? ' (completed)' : ''}`}
+                      aria-label={`${t.step} ${index + 1}: ${stepLabels[index]}${isCurrent ? ` (${t.current})` : isComplete ? ` (${t.completed})` : ''}`}
                       role="img"
                     >
                       {isComplete ? (
@@ -325,7 +413,7 @@ export default function SignupPage() {
             </div>
             <div className="text-center mt-2">
               <span className="text-xs text-white/60" aria-live="polite">
-                Step {['email', 'verify', 'passkey', 'complete'].indexOf(step) + 1} of 4: {step === 'email' ? 'Email Address' : step === 'verify' ? 'Email Verification' : step === 'passkey' ? 'Create Passkey' : 'Complete'}
+                {t.step} {['email', 'verify', 'passkey', 'complete'].indexOf(step) + 1} {t.of} 4: {step === 'email' ? t.emailStep : step === 'verify' ? t.verifyStep : step === 'passkey' ? t.passkeyStep : t.completeStep}
               </span>
             </div>
           </div>
@@ -336,12 +424,12 @@ export default function SignupPage() {
               <div className="flex items-start">
                 <ExclamationCircleIcon className="w-5 h-5 mr-2 mt-0.5 flex-shrink-0" aria-hidden="true" />
                 <div>
-                  <p className="font-medium mb-1">Registration Error</p>
+                  <p className="font-medium mb-1">{t.registrationError}</p>
                   <p>{error}</p>
                   {error.includes('already exists') && (
                     <p className="mt-2 text-sm">
                       <Link href="/login" className="text-red-300 hover:text-red-200 underline">
-                        Sign in to existing account
+                        {t.signInToExisting}
                       </Link>
                     </p>
                   )}
@@ -357,7 +445,7 @@ export default function SignupPage() {
               <form onSubmit={handleEmailSubmit} className="space-y-4">
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">
-                    Email address
+                    {t.emailAddress}
                   </label>
                   <input
                     type="email"
@@ -365,14 +453,14 @@ export default function SignupPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full px-4 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-trinity-consciousness focus:border-transparent"
-                    placeholder="Enter your email address"
+                    placeholder={t.enterEmailAddress}
                     disabled={loading}
                     required
                     aria-describedby="email-signup-help"
                     autoComplete="email"
                   />
                   <div id="email-signup-help" className="sr-only">
-                    Enter a valid email address to create your LUKHAS AI account
+                    {t.enterEmailAddress}
                   </div>
                 </div>
                 <button
@@ -383,12 +471,12 @@ export default function SignupPage() {
                   {loading ? (
                     <>
                       <div className="w-5 h-5 mr-3 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
-                      <span>Sending...</span>
+                      <span>{t.sending}</span>
                     </>
                   ) : (
                     <>
                       <EnvelopeIcon className="w-5 h-5 mr-3" />
-                      <span>Continue with email</span>
+                      <span>{t.continueWithEmail}</span>
                     </>
                   )}
                 </button>
@@ -399,15 +487,15 @@ export default function SignupPage() {
             {step === 'verify' && (
               <div className="space-y-4">
                 <div className="text-center mb-6">
-                  <p className="text-white/80 mb-2">Check your email</p>
+                  <p className="text-white/80 mb-2">{t.checkEmail}</p>
                   <p className="text-white/60 text-sm">
-                    We sent a verification code to <span className="text-trinity-consciousness">{email}</span>
+                    {t.emailSentTo} <span className="text-trinity-consciousness">{email}</span>
                   </p>
                 </div>
                 <form onSubmit={handleEmailVerification} className="space-y-4">
                   <div>
                     <label htmlFor="code" className="block text-sm font-medium text-white/80 mb-2">
-                      Verification code
+                      {t.verificationCode}
                     </label>
                     <input
                       type="text"
@@ -423,7 +511,7 @@ export default function SignupPage() {
                       autoComplete="one-time-code"
                     />
                     <div id="code-help" className="sr-only">
-                      Enter the 6-digit verification code sent to your email
+                      {t.enterCode}
                     </div>
                   </div>
                   <button
@@ -434,10 +522,10 @@ export default function SignupPage() {
                     {loading ? (
                       <>
                         <div className="w-5 h-5 mr-3 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
-                        <span>Verifying...</span>
+                        <span>{t.verifying}</span>
                       </>
                     ) : (
-                      <span>Verify email</span>
+                      <span>{t.verifyEmail}</span>
                     )}
                   </button>
                 </form>
@@ -446,7 +534,7 @@ export default function SignupPage() {
                   className="w-full text-sm text-white/60 hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-consciousness focus:ring-offset-2 focus:ring-offset-bg-primary rounded px-2 py-1"
                   type="button"
                 >
-                  Use different email
+                  {t.useDifferentEmail}
                 </button>
               </div>
             )}
@@ -456,9 +544,9 @@ export default function SignupPage() {
               <div className="space-y-4">
                 <div className="text-center mb-6">
                   <KeyIcon className="w-12 h-12 text-trinity-consciousness mx-auto mb-4" />
-                  <p className="text-white/80 mb-2">Create your passkey</p>
+                  <p className="text-white/80 mb-2">{t.createPasskey}</p>
                   <p className="text-white/60 text-sm">
-                    Secure your account with biometric authentication
+                    {t.secureWithBiometric}
                   </p>
                 </div>
                 <button
@@ -469,12 +557,12 @@ export default function SignupPage() {
                   {loading ? (
                     <>
                       <div className="w-5 h-5 mr-3 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
-                      <span>Creating passkey...</span>
+                      <span>{t.creatingPasskey}</span>
                     </>
                   ) : (
                     <>
                       <KeyIcon className="w-5 h-5 mr-3" />
-                      <span>Create passkey</span>
+                      <span>{t.createPasskey}</span>
                     </>
                   )}
                 </button>
@@ -483,7 +571,7 @@ export default function SignupPage() {
                   className="w-full text-sm text-white/60 hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-consciousness focus:ring-offset-2 focus:ring-offset-bg-primary rounded px-2 py-1"
                   type="button"
                 >
-                  Skip for now (you can add it later)
+                  {t.skipForNow}
                 </button>
               </div>
             )}
@@ -496,25 +584,25 @@ export default function SignupPage() {
                 </div>
                 <div>
                   <h2 className="text-xl font-light text-white mb-2">
-                    Welcome to LUKHAS AI
+                    {t.welcomeToLukhas}
                   </h2>
                   <p className="text-white/60 text-sm mb-6">
-                    Your ΛiD has been created successfully
+                    {t.lidCreatedSuccess}
                   </p>
                 </div>
                 <button
                   onClick={handleComplete}
                   className="w-full flex items-center justify-center px-6 py-4 bg-trinity-guardian hover:bg-trinity-consciousness transition-colors rounded-lg text-white font-medium"
                 >
-                  Continue to sign in
+                  {t.continueToSignIn}
                 </button>
               </div>
             )}
           </div>
 
-          {/* Tone Content */}
-          <div className="mt-8 text-xs text-white/40 leading-relaxed whitespace-pre-line">
-            {toneContent}
+          {/* 3-Layer Tone Content */}
+          <div className="mt-8">
+            <SignupCopy language={locale} />
           </div>
         </div>
       </main>
@@ -522,32 +610,71 @@ export default function SignupPage() {
       {/* Transparency Box */}
       <div className="px-6 pb-6">
         <TransparencyBox
+          locale={locale}
           capabilities={[
-            "Email verification with secure 6-digit codes",
-            "Passkey (WebAuthn) registration with biometric verification",
-            "Progressive registration flow with optional steps",
-            "Account creation with LUKHAS AI tier system integration",
-            "Secure session establishment upon completion"
+            locale === 'en' 
+              ? "Email verification with secure 6-digit codes"
+              : "Verificación de correo con códigos seguros de 6 dígitos",
+            locale === 'en'
+              ? "Passkey (WebAuthn) registration with biometric verification"
+              : "Registro de passkey (WebAuthn) con verificación biométrica",
+            locale === 'en'
+              ? "Progressive registration flow with optional steps"
+              : "Flujo de registro progresivo con pasos opcionales",
+            locale === 'en'
+              ? "Account creation with LUKHAS AI tier system integration"
+              : "Creación de cuenta con integración del sistema de niveles LUKHAS AI",
+            locale === 'en'
+              ? "Secure session establishment upon completion"
+              : "Establecimiento de sesión segura al completar"
           ]}
           limitations={[
-            "Email verification required for all accounts",
-            "Passkey creation requires compatible browser/device",
-            "Verification codes expire after 10 minutes",
-            "One account per email address",
-            "Some features require tier upgrades after registration"
+            locale === 'en'
+              ? "Email verification required for all accounts"
+              : "Verificación de correo requerida para todas las cuentas",
+            locale === 'en'
+              ? "Passkey creation requires compatible browser/device"
+              : "La creación de passkey requiere navegador/dispositivo compatible",
+            locale === 'en'
+              ? "Verification codes expire after 10 minutes"
+              : "Los códigos de verificación expiran después de 10 minutos",
+            locale === 'en'
+              ? "One account per email address"
+              : "Una cuenta por dirección de correo",
+            locale === 'en'
+              ? "Some features require tier upgrades after registration"
+              : "Algunas funciones requieren actualización de nivel después del registro"
           ]}
           dependencies={[
-            "Email service for verification code delivery",
-            "WebAuthn API for passkey creation (optional)",
-            "LUKHAS AI identity system and database",
-            "Browser support for credential management API"
+            locale === 'en'
+              ? "Email service for verification code delivery"
+              : "Servicio de correo para entrega de códigos de verificación",
+            locale === 'en'
+              ? "WebAuthn API for passkey creation (optional)"
+              : "API WebAuthn para creación de passkey (opcional)",
+            locale === 'en'
+              ? "LUKHAS AI identity system and database"
+              : "Sistema de identidad y base de datos LUKHAS AI",
+            locale === 'en'
+              ? "Browser support for credential management API"
+              : "Soporte del navegador para API de gestión de credenciales"
           ]}
           dataHandling={[
-            "Email addresses verified before account creation with secure 6-digit codes",
-            "Passkey credentials encoded → GLYPH symbolic format for enhanced interoperability (data representation, not cryptographic security)",
-            "No passwords collected, stored, or transmitted at any point",
-            "Account data encrypted at rest with AES-256 encryption",
-            "Registration events logged for security monitoring and fraud prevention"
+            locale === 'en'
+              ? "Email addresses verified before account creation with secure 6-digit codes"
+              : "Direcciones de correo verificadas antes de crear cuenta con códigos seguros de 6 dígitos",
+            locale === 'en'
+              ? "Passkey credentials encoded → GLYPH symbolic format for enhanced interoperability (data representation, not cryptographic security)"
+              : "Credenciales passkey codificadas → formato simbólico GLYPH para interoperabilidad mejorada (representación de datos, no seguridad criptográfica)",
+            locale === 'en'
+              ? "No passwords collected, stored, or transmitted at any point"
+              : "No se recopilan, almacenan o transmiten contraseñas en ningún momento",
+            locale === 'en'
+              ? "Account data encrypted at rest with AES-256 encryption"
+              : "Datos de cuenta cifrados en reposo con cifrado AES-256",
+            locale === 'en'
+              ? "Registration events logged for security monitoring and fraud prevention"
+              : "Eventos de registro registrados para monitoreo de seguridad y prevención de fraude"
           ]}
           className="max-w-4xl mx-auto"
         />

@@ -60,7 +60,7 @@ export function glyphToTargets(
     jitter = 0.02,
     centerBias = 0.35,
     deterministic = true,
-    rng = Math.random,  // default to Math.random
+    rng,  // Use provided RNG or fallback in logic
   } = opts;
 
   if (typeof window === 'undefined') return; // SSR guard
@@ -80,7 +80,7 @@ export function glyphToTargets(
   if (t === _lastGlyph) return;
 
   // Use provided RNG or create deterministic one if enabled
-  const random = rng || (deterministic ? mulberry32(hashString(t)) : Math.random);
+  const random = rng || (deterministic ? mulberry32(hashString(t)) : mulberry32(Date.now()));
 
   // OffscreenCanvas if available, else regular canvas
   const cnv = (typeof (window as any).OffscreenCanvas !== 'undefined')

@@ -40,7 +40,11 @@ const nextConfig = {
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()'
+            value: 'camera=(), microphone=(self), geolocation=()'
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; img-src 'self' data: blob:; media-src 'self' blob: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.openai.com https://api.anthropic.com https://generativelanguage.googleapis.com; worker-src 'self' blob:; frame-src 'none';"
           },
         ],
       },
@@ -109,14 +113,6 @@ const nextConfig = {
       {
         source: '/api/:path*',
         destination: 'http://localhost:8000/:path*', // LUKHAS backend
-      },
-      {
-        source: '/proteus',
-        destination: 'http://localhost:8080', // PR0T3US visualizer (served separately)
-      },
-      {
-        source: '/proteus/:path*',
-        destination: 'http://localhost:8080/:path*', // PR0T3US assets
       },
     ]
   },

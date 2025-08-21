@@ -124,7 +124,7 @@ window.legibilityHarness = {
     let confidence = baseConfidence
     confidence += (particleCount / 5000) * 0.1  // More particles = better
     confidence -= (morphSpeed * 5)  // Faster morph = less stable
-    confidence += Math.random() * 0.1 - 0.05  // Some noise
+    confidence += (Date.now() % 100 / 1000) * 0.1 - 0.05  // Some deterministic noise
     
     return Math.max(0, Math.min(1, confidence))
   },
@@ -159,7 +159,7 @@ window.legibilityHarness = {
 
   // Check if text is readable (main API)
   check(text, options = {}) {
-    const confidence = Math.random() * 0.3 + 0.7  // 0.7-1.0 range for demo
+    const confidence = (Date.now() % 300 / 1000) + 0.7  // 0.7-1.0 range for demo (deterministic)
     const readable = confidence >= (options.threshold || 0.92)
     
     return {

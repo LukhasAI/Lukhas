@@ -6,6 +6,7 @@ import { OrbitControls, Sphere, Box, MeshDistortMaterial, Float, Trail } from '@
 import { motion, AnimatePresence } from 'framer-motion'
 import * as THREE from 'three'
 import { Atom, Brain, Shield } from 'lucide-react'
+import { mulberry32, seedFromString } from '@/lib/prng'
 
 interface TrinityNodeProps {
   position: [number, number, number]
@@ -102,10 +103,11 @@ function ParticleField() {
   
   const positions = React.useMemo(() => {
     const pos = new Float32Array(particleCount * 3)
+    const rng = mulberry32(seedFromString('trinity-particles'))
     for (let i = 0; i < particleCount * 3; i += 3) {
-      pos[i] = (Math.random() - 0.5) * 20
-      pos[i + 1] = (Math.random() - 0.5) * 20
-      pos[i + 2] = (Math.random() - 0.5) * 20
+      pos[i] = (rng() - 0.5) * 20
+      pos[i + 1] = (rng() - 0.5) * 20
+      pos[i + 2] = (rng() - 0.5) * 20
     }
     return pos
   }, [])

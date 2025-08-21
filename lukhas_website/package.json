@@ -43,7 +43,19 @@
     "test:load:report": "artillery run tests/load/load-test.yml --output test-results/load-report.json",
     "test:security:audit": "npm audit && npm run test:security",
     "test:validate": "npm run lint && npm run test:phase6 && npm run test:e2e",
-    "test:quality": "npm run test:coverage && npm run test:accessibility && npm run test:load"
+    "test:quality": "npm run test:coverage && npm run test:accessibility && npm run test:load",
+    "policy:transparency": "node scripts/check-transparency.js",
+    "policy:registries": "npm run lint:brand",
+    "policy:brand": "npm run lint:brand",
+    "policy:tone": "npm run lint:tone",
+    "policy:tone-visibility": "node scripts/lint-tone-visibility.js",
+    "policy": "npm run policy:transparency && npm run policy:registries && npm run policy:brand && npm run policy:tone && npm run policy:tone-visibility",
+    "db:migrate": "prisma migrate deploy",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio",
+    "db:seed": "prisma db seed",
+    "test:auth": "jest packages/auth/__tests__",
+    "test:rate": "jest packages/middleware/__tests__"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.60.0",

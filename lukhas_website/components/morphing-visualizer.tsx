@@ -6,6 +6,7 @@ import { OrbitControls, Environment, Float, MeshDistortMaterial } from '@react-t
 import * as THREE from 'three'
 import { glyphToTargets, makeGlyphSamplerCache, getOptimalRenderMode } from '@/lib/glyphSampler'
 import { mulberry32, seedFromString } from '@/lib/prng'
+import { SimpleParticles } from './simple-particles'
 
 interface ParticleFormProps {
   voiceData: { intensity: number; frequency: number }
@@ -37,24 +38,28 @@ function ParticleForm({
   renderMode = 'particles',
   glyphText
 }: ParticleFormProps) {
-  const particlesRef = useRef<THREE.Points>(null)
+  const particlesRef = useRef<THREE.Group>(null)
+  const geometryRef = useRef<THREE.BufferGeometry>(null)
   const meshRef = useRef<THREE.Mesh>(null)
   const [morphProgress, setMorphProgress] = useState(0)
   const [currentPositions, setCurrentPositions] = useState<Float32Array>()
   const [targetPositions, setTargetPositions] = useState<Float32Array>()
+  const [needsGeometryUpdate, setNeedsGeometryUpdate] = useState(false)
 
   // Simplified sphere-based form generation (no complex shapes)
   const generateSpherePositions = (count: number): Float32Array => {
     const positions = new Float32Array(count * 3)
     const baseRadius = 3.0
+    // Use deterministic RNG for consistent sphere generation
+    const rng = mulberry32(seedFromString('sphere-base'))
     
     for (let i = 0; i < count * 3; i += 3) {
       // Uniform sphere distribution using Marsaglia method
-      const u1 = Math.random()
-      const u2 = Math.random()
+      const u1 = rng()
+      const u2 = rng()
       const theta = 2 * Math.PI * u1
       const phi = Math.acos(2 * u2 - 1)
-      const radius = baseRadius * Math.cbrt(Math.random()) // Uniform volume distribution
+      const radius = baseRadius * Math.cbrt(rng()) // Uniform volume distribution
       
       positions[i] = radius * Math.sin(phi) * Math.cos(theta)
       positions[i + 1] = radius * Math.sin(phi) * Math.sin(theta)
@@ -98,9 +103,11 @@ function ParticleForm({
 
   // Initialize particle positions and create morphing system
   React.useEffect(() => {
+    console.log(`[ParticleForm] Initializing with ${particleCount} particles`)
     const current = glyphText ? generateGlyphPositions(glyphText, particleCount) : generateSpherePositions(particleCount)
     setCurrentPositions(current)
     setTargetPositions(current.slice()) // Copy for morphing
+    setNeedsGeometryUpdate(true) // Flag for geometry recreation
   }, [particleCount])
 
   // Generate new target positions when glyph text changes
@@ -119,9 +126,9 @@ function ParticleForm({
     }
   }, [glyphText, particleCount])
 
-  // Main animation loop - particles only, no mesh
+  // Main animation loop for rotation and scaling
   useFrame((state) => {
-    if (!particlesRef.current || !currentPositions || !targetPositions) return
+    if (!particlesRef.current) return
 
     // Voice-reactive parameters
     const voiceIntensity = (voiceData.intensity || 0) * voiceSensitivity
@@ -142,53 +149,56 @@ function ParticleForm({
       setMorphProgress((prev) => Math.min(1, prev + morphSpeed * 3))
     }
     
-    // Update particle positions in real-time
-    const geometry = particlesRef.current.geometry
-    const positions = geometry.attributes.position.array as Float32Array
-    
-    for (let i = 0; i < positions.length; i += 3) {
-      const particleIndex = i / 3
+    // Update particle positions if we have a points object
+    const points = particlesRef.current.children[0] as THREE.Points
+    if (points && points.geometry && currentPositions && targetPositions) {
+      const positions = points.geometry.attributes.position.array as Float32Array
       
-      // Get current and target positions
-      const currentX = currentPositions[i]
-      const currentY = currentPositions[i + 1]
-      const currentZ = currentPositions[i + 2]
-      const targetX = targetPositions[i]
-      const targetY = targetPositions[i + 1]
-      const targetZ = targetPositions[i + 2]
+      for (let i = 0; i < positions.length; i += 3) {
+        const particleIndex = i / 3
+        
+        // Get current and target positions
+        const currentX = currentPositions[i]
+        const currentY = currentPositions[i + 1]
+        const currentZ = currentPositions[i + 2]
+        const targetX = targetPositions[i]
+        const targetY = targetPositions[i + 1]
+        const targetZ = targetPositions[i + 2]
+        
+        // Interpolate between current and target (morphing)
+        let x = currentX + (targetX - currentX) * morphProgress
+        let y = currentY + (targetY - currentY) * morphProgress
+        let z = currentZ + (targetZ - currentZ) * morphProgress
+        
+        // Voice-reactive particle movement
+        const time = state.clock.elapsedTime
+        const particlePhase = particleIndex * 0.01
+        const waveAmplitude = voiceIntensity * 0.1
+        
+        x += Math.sin(time * 1.2 + particlePhase) * waveAmplitude
+        y += Math.cos(time * 0.8 + particlePhase * 1.5) * waveAmplitude
+        z += Math.sin(time * 1.0 + particlePhase * 2) * waveAmplitude
+        
+        // Frequency-based particle dispersion (deterministic per particle)
+        const dispersion = voiceFrequency * 0.0001
+        const particleRng = mulberry32(particleIndex + Math.floor(time * 2)) // Time-varying but deterministic
+        x += (particleRng() - 0.5) * dispersion
+        y += (particleRng() - 0.5) * dispersion
+        z += (particleRng() - 0.5) * dispersion
+        
+        positions[i] = x
+        positions[i + 1] = y
+        positions[i + 2] = z
+      }
       
-      // Interpolate between current and target (morphing)
-      let x = currentX + (targetX - currentX) * morphProgress
-      let y = currentY + (targetY - currentY) * morphProgress
-      let z = currentZ + (targetZ - currentZ) * morphProgress
-      
-      // Voice-reactive particle movement
-      const time = state.clock.elapsedTime
-      const particlePhase = particleIndex * 0.01
-      const waveAmplitude = voiceIntensity * 0.1
-      
-      x += Math.sin(time * 1.2 + particlePhase) * waveAmplitude
-      y += Math.cos(time * 0.8 + particlePhase * 1.5) * waveAmplitude
-      z += Math.sin(time * 1.0 + particlePhase * 2) * waveAmplitude
-      
-      // Frequency-based particle dispersion
-      const dispersion = voiceFrequency * 0.0001
-      x += (Math.random() - 0.5) * dispersion
-      y += (Math.random() - 0.5) * dispersion
-      z += (Math.random() - 0.5) * dispersion
-      
-      positions[i] = x
-      positions[i + 1] = y
-      positions[i + 2] = z
+      points.geometry.attributes.position.needsUpdate = true
     }
     
     // Complete morphing transition
-    if (morphProgress >= 1) {
+    if (morphProgress >= 1 && targetPositions) {
       setCurrentPositions(targetPositions.slice()) // Update current to target
       setMorphProgress(1) // Keep at 1 until new shape selected
     }
-    
-    geometry.attributes.position.needsUpdate = true
   })
 
   // Advanced dynamic color system with voice reactivity and configuration
@@ -281,32 +291,66 @@ function ParticleForm({
     </Float>
   )
 
-  // Enhanced metallic particle system with proper sizing
-  const renderParticles = currentPositions && (
-    <points ref={particlesRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={particleCount}
-          array={currentPositions}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.8 + morphProgress * 0.2 + (voiceData.intensity || 0) * voiceSensitivity * 0.3}
-        color={getParticleColor()}
-        transparent
-        opacity={0.7 + (voiceData.intensity || 0) * voiceSensitivity * 0.2}
-        sizeAttenuation
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
+  // Enhanced particle system with proper Points object
+  React.useEffect(() => {
+    if (currentPositions && particlesRef.current) {
+      console.log(`[ParticleForm] Creating Points object with ${particleCount} particles, size: ${0.15 + morphProgress * 0.05}`)
+      // Create or update THREE.Points object
+      const geometry = new THREE.BufferGeometry()
+      const colors = new Float32Array(particleCount * 3)
+      
+      // Generate colors for each particle
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3
+        colors[i3] = 0.0 + (i / particleCount) * 0.3     // R
+        colors[i3 + 1] = 0.8 + (i / particleCount) * 0.2 // G 
+        colors[i3 + 2] = 1.0 - (i / particleCount) * 0.2 // B
+      }
+      
+      geometry.setAttribute('position', new THREE.BufferAttribute(currentPositions, 3))
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+      
+      const material = new THREE.PointsMaterial({
+        size: 0.15 + morphProgress * 0.05 + (voiceData.intensity || 0) * voiceSensitivity * 0.1,
+        transparent: true,
+        opacity: 0.8 + (voiceData.intensity || 0) * voiceSensitivity * 0.15,
+        sizeAttenuation: true,
+        vertexColors: true,
+        blending: THREE.AdditiveBlending,
+        alphaTest: 0.001,
+        depthWrite: false
+      })
+      
+      const points = new THREE.Points(geometry, material)
+      
+      // Replace existing object
+      if (particlesRef.current.children.length > 0) {
+        const oldPoints = particlesRef.current.children[0]
+        if (oldPoints) {
+          (oldPoints as any).geometry?.dispose()
+          ;(oldPoints as any).material?.dispose()
+          particlesRef.current.remove(oldPoints)
+        }
+      }
+      
+      particlesRef.current.add(points)
+    }
+  }, [currentPositions, particleCount, morphProgress, voiceData.intensity, voiceSensitivity])
+
+  const renderParticles = (
+    <group ref={particlesRef} />
   )
 
   return (
     <>
       {renderMesh}
-      {renderParticles}
+      <SimpleParticles 
+        count={particleCount} 
+        size={0.05} 
+        color="#00d4ff" 
+        voiceData={voiceData}
+        morphSpeed={morphSpeed}
+      />
     </>
   )
 }
@@ -497,23 +541,10 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
           color="#00d4ff"
         />
         
-        {/* Dynamic Environment with sync support */}
-        <Environment 
-          preset={(() => {
-            const environmentSync = config.environmentSync || 0.2
-            const textureStyle = config.textureStyle || 'smooth'
-            
-            if (environmentSync < 0.3) return "city"
-            
-            // Choose environment based on texture style and sync level
-            switch (textureStyle) {
-              case 'neural': return "dawn"
-              case 'geometric': return "warehouse"
-              case 'ethereal': return "night"
-              default: return "city"
-            }
-          })()} 
-        />
+        {/* Simplified lighting instead of Environment to avoid HDR loading issues */}
+        <ambientLight intensity={0.6} />
+        <pointLight position={[10, 10, 10]} intensity={0.8} />
+        <pointLight position={[-10, -10, -10]} intensity={0.4} color="#00d4ff" />
         
         {/* Enhanced particle form system */}
         <ParticleForm

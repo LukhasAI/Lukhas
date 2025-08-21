@@ -11,6 +11,9 @@ import { callAI, type ApiResponse } from '@/lib/api/aiProviders'
 import { calmDefaults, isViolent } from '@/lib/safety'
 import { estimateTokensAndCost } from '@/lib/tokenEstimator'
 import { mapKeywordsToColorTempo, sentimentScore } from '@/lib/toneSystem'
+import { createVoiceAnalyzer, isVoiceAnalysisSupported, type VoiceMetrics, type VoiceAnalyzer } from '@/lib/voice-analyzer'
+import { processMessageForGlyph, globalGlyphQueue } from '@/lib/intentGlyph'
+import { mulberry32, seedFromString } from '@/lib/prng'
 import Footer from '@/components/footer'
 
 // Toast helper for API error notifications
@@ -241,6 +244,12 @@ export default function ExperiencePage() {
   // Advanced visualizer state
   const [currentMode, setCurrentMode] = useState<'AI' | 'Human'>('AI')
   const [quotedText, setQuotedText] = useState<string>('')
+  
+  // Voice analyzer state
+  const [voiceAnalyzer, setVoiceAnalyzer] = useState<VoiceAnalyzer | null>(null)
+  const [voiceMetrics, setVoiceMetrics] = useState<VoiceMetrics | null>(null)
+  const [voiceEnabled, setVoiceEnabled] = useState(false)
+  const [voiceSupported, setVoiceSupported] = useState(false)
 
   // New state for enhanced features
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
@@ -474,10 +483,11 @@ export default function ExperiencePage() {
         response = await callAI(message, 'perplexity', 'pplx-70b-online', apiKeys.perplexity)
       }
       
-      // Update voice data and processing state
+      // Update voice data and processing state (fallback simulation)
+      const fallbackRng = mulberry32(Date.now())
       setVoiceData({
-        intensity: Math.random() * 0.8 + 0.2,
-        frequency: Math.random() * 1000 + 200
+        intensity: fallbackRng() * 0.8 + 0.2,
+        frequency: fallbackRng() * 1000 + 200
       })
       
       // Update usage tracking with real data if available
@@ -522,10 +532,11 @@ export default function ExperiencePage() {
           'The particle field responds to your intention.'
         ]
         
+        const responseRng = mulberry32(Date.now())
         const fallbackMessage = {
           id: `msg-${Date.now()}`,
           role: 'assistant' as const,
-          content: fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)],
+          content: fallbackResponses[Math.floor(responseRng() * fallbackResponses.length)],
           timestamp: new Date(),
           model: 'LUKHAS'
         }
@@ -551,20 +562,73 @@ export default function ExperiencePage() {
     }
   }
 
-  // Simulate voice data updates when mic is enabled
+  // Initialize voice analyzer on component mount
   useEffect(() => {
-    if (config.micEnabled) {
-      const interval = setInterval(() => {
-        setVoiceData({
-          intensity: Math.random() * 0.6,
-          frequency: Math.random() * 800 + 100
-        })
-      }, 100)
-      return () => clearInterval(interval)
-    } else {
-      setVoiceData({ intensity: 0, frequency: 0 })
+    setVoiceSupported(isVoiceAnalysisSupported())
+  }, [])
+
+  // Voice analyzer lifecycle management
+  useEffect(() => {
+    let mounted = true
+
+    const initializeVoice = async () => {
+      if (config.micEnabled && voiceSupported && !voiceAnalyzer) {
+        try {
+          const analyzer = await createVoiceAnalyzer()
+          if (analyzer && mounted) {
+            setVoiceAnalyzer(analyzer)
+            setVoiceEnabled(true)
+            
+            // Start real-time analysis
+            analyzer.start((metrics: VoiceMetrics) => {
+              if (mounted) {
+                setVoiceMetrics(metrics)
+                setVoiceData({
+                  intensity: metrics.intensity,
+                  frequency: metrics.dominantFreq
+                })
+              }
+            })
+            
+            showToast('Voice analysis active', 'Particles will react to your voice', 'success')
+          }
+        } catch (error) {
+          console.error('[Experience] Voice analyzer failed:', error)
+          showToast('Voice analysis failed', 'Using fallback mode', 'error')
+        }
+      } else if (!config.micEnabled && voiceAnalyzer) {
+        // Clean up voice analyzer
+        voiceAnalyzer.dispose()
+        setVoiceAnalyzer(null)
+        setVoiceEnabled(false)
+        setVoiceMetrics(null)
+        setVoiceData({ intensity: 0, frequency: 0 })
+      }
     }
-  }, [config.micEnabled])
+
+    initializeVoice()
+
+    return () => {
+      mounted = false
+      if (voiceAnalyzer) {
+        voiceAnalyzer.dispose()
+      }
+    }
+  }, [config.micEnabled, voiceSupported])
+
+  // Glyph render event listener
+  useEffect(() => {
+    const handleGlyphRender = (event: CustomEvent) => {
+      const { text, intent, duration } = event.detail
+      setQuotedText(text)
+      
+      // Show glyph status
+      showToast('Morphing to glyph', `"${text}" (${duration/1000}s)`, 'info')
+    }
+    
+    window.addEventListener('lukhas-render-glyph', handleGlyphRender as EventListener)
+    return () => window.removeEventListener('lukhas-render-glyph', handleGlyphRender as EventListener)
+  }, [])
 
   // Queue system event listener
   useEffect(() => {
@@ -619,12 +683,12 @@ export default function ExperiencePage() {
             key={i}
             className="absolute rounded-full bg-white/20 star"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${mulberry32(i * 123 + 456)() * 100}%`,
+              top: `${mulberry32(i * 789 + 101)() * 100}%`,
               width: '2px',
               height: '2px',
-              animationDelay: `${Math.random() * 30}s`,
-              animationDuration: `${20 + Math.random() * 30}s`
+              animationDelay: `${mulberry32(i * 112 + 131)() * 30}s`,
+              animationDuration: `${20 + mulberry32(i * 415 + 161)() * 30}s`
             }}
           />
         ))}
@@ -770,11 +834,12 @@ export default function ExperiencePage() {
                       voiceIntensity={voiceData.intensity}
                       showStats={false}
                       config={{
-                        particleCount: config.particleCount || 12000,
+                        particleCount: config.particleCount || 500,
                         baseSize: 0.02,
                         colorIntensity: config.colorIntensity || 0.8,
                         morphSpeed: config.morphSpeed || 0.05,
-                        voiceSensitivity: config.voiceSensitivity || 1.0
+                        voiceSensitivity: config.voiceSensitivity || 1.0,
+                        renderMode: 'particles'
                       }}
                     />
                     <VoiceMorphingBridge 
@@ -880,6 +945,10 @@ export default function ExperiencePage() {
         onTyping={() => { setSidebarCollapsed(true); setRightPanelOpen(true) }}
         onMessage={(m) => {
           setMessages(prev => [...prev, m])
+          
+          // Process message for intent detection and glyph morphing
+          processMessageForGlyph(m.content, m.role)
+          
           // Extract quoted text from messages for visualization
           if (m.role === 'assistant') {
             const quoteMatch = m.content.match(/["'](.*?)["']/)
@@ -985,6 +1054,66 @@ export default function ExperiencePage() {
             >
               Queue it (keep motion)
             </button>
+          </div>
+        </div>
+      )}
+      
+      {/* Dev Telemetry Overlay */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="fixed bottom-4 left-4 pointer-events-none">
+          <div className="bg-black/80 backdrop-blur-xl border border-white/10 rounded-lg p-3 text-xs font-mono">
+            <div className="text-white/60 mb-2">🔧 DEV TELEMETRY</div>
+            
+            {/* Voice Analytics */}
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${voiceEnabled ? 'bg-green-500' : 'bg-red-500'}`} />
+                <span className="text-white/80">
+                  Voice: {voiceEnabled ? 'Active' : 'Inactive'}
+                </span>
+              </div>
+              
+              {voiceMetrics && (
+                <>
+                  <div className="text-green-400">
+                    Intensity: {(voiceMetrics.intensity * 100).toFixed(1)}%
+                  </div>
+                  <div className="text-blue-400">
+                    Frequency: {Math.round(voiceMetrics.dominantFreq)}Hz
+                  </div>
+                  <div className="text-purple-400">
+                    Clarity: {(voiceMetrics.clarity * 100).toFixed(1)}%
+                  </div>
+                </>
+              )}
+            </div>
+            
+            {/* Particle System */}
+            <div className="mt-3 pt-2 border-t border-white/10">
+              <div className="text-cyan-400">
+                Particles: {config.particleCount || 12000}
+              </div>
+              <div className="text-yellow-400">
+                Mode: {currentMode}
+              </div>
+              {quotedText && (
+                <div className="text-pink-400">
+                  Glyph: "{quotedText.slice(0, 15)}..."
+                </div>
+              )}
+            </div>
+            
+            {/* Glyph Queue Status */}
+            <div className="mt-3 pt-2 border-t border-white/10">
+              <div className="text-orange-400">
+                Queue: {globalGlyphQueue.getStatus().queued} pending
+              </div>
+              {globalGlyphQueue.getCurrentText() && (
+                <div className="text-green-400">
+                  Current: "{globalGlyphQueue.getCurrentText()}"
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
