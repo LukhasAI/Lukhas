@@ -75,7 +75,7 @@ from dream.core.snapshot_redirection_controller import (
     SnapshotRedirectionController,
 )
 
-from emotion.mood_regulator import MoodRegulator
+from lukhas.emotion.mood_regulator import MoodRegulator
 from identity.interface import IdentityClient, check_consent, verify_access
 from memory.core_memory.fold_lineage_tracker import (
     CausationType,

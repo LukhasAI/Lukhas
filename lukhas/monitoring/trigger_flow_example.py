@@ -15,7 +15,7 @@ from bio.endocrine_integration import EndocrineIntegration
 
 # Import LUKHAS modules to demonstrate data integration
 from consciousness.unified.auto_consciousness import AutoConsciousness
-from emotion.service import EmotionService
+from lukhas.emotion.service import EmotionService
 from memory.memoria import Memoria
 
 # Import our monitoring system

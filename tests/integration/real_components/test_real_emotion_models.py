@@ -13,7 +13,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 # Import the REAL LUKHAS emotion components
-from emotion.models import VADModel, EmotionalState, Affect
+from lukhas.emotion.models import VADModel, EmotionalState, Affect
 
 
 class TestRealEmotionModels:
