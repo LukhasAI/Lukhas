@@ -1,0 +1,105 @@
+# Farmacia Connect App Configuration
+
+# Pharmacy Information
+pharmacy:
+  license_number: "28/ABC/1234"  # Official pharmacy license
+  name: "Farmacia Example"
+  address: "Calle Example 123"
+  region: "ES-MD"                # Region code (e.g., Madrid)
+  nif: "B12345678"
+  owner: "Dr. Example"
+
+# SNS Integration
+sns:
+  environment: "production"    # production, test
+  digital_cert_path: "/path/to/cert.p12"
+  api_credentials:
+    client_id: "encrypted:SNS_CLIENT_ID"
+    client_secret: "encrypted:SNS_CLIENT_SECRET"
+
+# App Configuration
+app:
+  version: "1.0.0"
+  update_check_interval_hours: 24
+  language: "es"
+  night_mode: false
+  printer:
+    enabled: true
+    default_printer: "EPSON_TM88"
+    receipt_width_mm: 80
+
+# Integration Settings
+integration:
+  timeout_seconds: 30
+  retry_attempts: 3
+  batch_size: 50
+  sync_interval_minutes: 15
+
+# Security
+security:
+  encryption: "AES-256-GCM"
+  key_rotation_days: 90
+  session_timeout_minutes: 30
+  audit_retention_days: 3650  # 10 years
+  require_fingerprint: true
+  pin_required: true
+
+# User Access
+users:
+  roles:
+    - PHARMACIST
+    - TECHNICIAN
+    - ASSISTANT
+  permissions:
+    dispense: ["PHARMACIST", "TECHNICIAN"]
+    counseling: ["PHARMACIST"]
+    admin: ["PHARMACIST"]
+
+# Notifications
+notifications:
+  enabled: true
+  channels:
+    - email
+    - push
+    - sms
+  priority_alerts:
+    stock_low: true
+    prescription_errors: true
+    system_updates: true
+
+# Inventory
+inventory:
+  auto_reorder: true
+  low_stock_threshold: 5
+  preferred_suppliers:
+    - "COFARES"
+    - "ALLIANCE"
+  sync_frequency_minutes: 60
+
+# Compliance
+compliance:
+  rgpd_enabled: true
+  sns_validation: true
+  data_retention_years: 10
+  audit_logging: true
+
+# Reporting
+reporting:
+  daily_summary: true
+  weekly_stats: true
+  monthly_analysis: true
+  custom_reports: false
+
+# Error Handling
+error_handling:
+  retry_count: 3
+  backoff_seconds: 5
+  alert_threshold: 5
+  notify_support: true
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARN, ERROR
+  file_enabled: true
+  max_file_size_mb: 10
+  rotation_days: 30

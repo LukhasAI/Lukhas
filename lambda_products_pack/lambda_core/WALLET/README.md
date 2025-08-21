@@ -2,7 +2,7 @@
 
 ## Your Sovereign Digital Identity, Secured by Lambda
 
-WΛLLET is a revolutionary digital identity and wallet system that combines Self-Sovereign Identity (SSI) principles with NFT verification and a symbolic currency ecosystem. Built on the ΛiD (Lambda ID) framework, it provides users complete control over their digital identity and assets.
+WΛLLET is an advanced digital identity and wallet system that combines Self-Sovereign Identity (SSI) principles with NFT verification and a symbolic currency ecosystem. Built on the ΛiD (Lambda ID) framework, it provides users complete control over their digital identity and assets.
 
 ## ✨ Features
 

@@ -1,0 +1,330 @@
+# Enhanced Guardian System Configuration
+# Complete configuration file for all Guardian subsystems
+
+# Core Guardian Settings
+guardian:
+  system_name: "Enhanced Guardian System"
+  version: "2.0.0"
+  mode: "production"  # development, testing, production
+  debug_level: "info"  # debug, info, warning, error
+  max_concurrent_operations: 100
+  health_check_interval: 300  # seconds
+  
+  # Symbolic AI Protection
+  symbolic_ai:
+    enabled: true
+    protection_level: "high"  # low, medium, high, maximum
+    consciousness_monitoring: true
+    entropy_threshold: 0.8
+    drift_detection: true
+    
+  # System Integration
+  subsystems:
+    threat_monitor: true
+    consent_manager: true
+    medical_assistance: true
+    accessibility_support: true
+    privacy_protection: true
+
+# Threat Monitoring Configuration
+threat_monitoring:
+  enabled: true
+  sensitivity_level: "high"
+  real_time_analysis: true
+  threat_response:
+    auto_containment: true
+    notification_threshold: "medium"
+    escalation_timeout: 300  # seconds
+  
+  # Monitoring Sources
+  sources:
+    system_metrics: true
+    user_behavior: true
+    network_traffic: true
+    file_system: true
+    application_logs: true
+  
+  # Alert Thresholds
+  thresholds:
+    cpu_usage: 80
+    memory_usage: 85
+    disk_usage: 90
+    network_anomaly: 0.7
+    failed_login_attempts: 5
+
+# Consent Management Configuration
+consent_management:
+  enabled: true
+  default_consent_level: "informed"  # basic, informed, explicit
+  consent_tracking: true
+  auto_renewal: false
+  
+  # Trust Levels
+  trust_levels:
+    unknown: 0.0
+    basic: 0.3
+    verified: 0.7
+    trusted: 0.9
+    
+  # Escalation Rules
+  escalation:
+    time_threshold: 3600  # seconds
+    complexity_threshold: 0.8
+    trust_threshold: 0.6
+
+# Medical Assistance Configuration
+medical:
+  enabled: true
+  emergency_detection: true
+  medication_reminders: true
+  health_apis: true
+  
+  # OCR Settings
+  ocr:
+    enabled: true
+    confidence_threshold: 0.8
+    supported_formats: ["jpg", "png", "pdf"]
+    max_file_size: "10MB"
+  
+  # Emergency Settings
+  emergency:
+    auto_detection: true
+    contact_notification: true
+    emergency_services: true
+    response_timeout: 180  # seconds
+  
+  # Health API Configuration
+  health_apis:
+    clicsalud:
+      enabled: true
+      api_key: "your_clicsalud_api_key_here"
+      region: "ES"
+      rate_limit: 1000
+    
+    fda_orange_book:
+      enabled: true
+      api_key: "your_fda_api_key_here"
+      region: "US"
+      rate_limit: 240
+    
+    local_pharmacy:
+      enabled: false
+      api_key: "your_pharmacy_api_key_here"
+      base_url: "https://your-pharmacy-api.com/v1"
+      rate_limit: 100
+
+# Accessibility Configuration
+accessibility:
+  enabled: true
+  auto_adaptation: true
+  
+  # Vision Assistance
+  vision_assist:
+    enabled: true
+    screen_reader: true
+    audio_descriptions: true
+    voice_navigation: true
+    
+    # Enhancement Options
+    visual_enhancements:
+      high_contrast: false
+      large_text: false
+      focus_highlight: true
+      motion_reduction: false
+      color_inversion: false
+      zoom_enhancement: false
+  
+  # Cognitive Assistance
+  cognitive_aid:
+    enabled: true
+    memory_aids: true
+    interface_simplification: true
+    guidance_provision: true
+    
+    # Simplification Settings
+    simplification:
+      level: "moderate"  # minimal, moderate, high, maximum
+      interface_complexity: 0.6
+      attention_span: 15  # minutes
+  
+  # Multi-Language Support
+  multi_language:
+    enabled: true
+    auto_detect_language: true
+    translation_quality: "high"  # low, medium, high
+    cultural_adaptation: "moderate"  # minimal, moderate, high
+    
+    # Enabled Languages
+    enabled_languages:
+      - "en"  # English
+      - "es"  # Spanish
+      - "fr"  # French
+      - "de"  # German
+      - "pt"  # Portuguese
+
+# Privacy and Security Configuration
+privacy_security:
+  enabled: true
+  encryption_enabled: true
+  
+  # Privacy Settings
+  privacy:
+    data_retention_default: 365  # days
+    encryption_algorithm: "AES-256"
+    audit_level: "comprehensive"  # basic, standard, comprehensive
+    consent_tracking: true
+    incident_auto_detection: true
+    compliance_monitoring: true
+    
+    # Active Regulations
+    active_regulations:
+      - "GDPR"
+      - "HIPAA"
+      - "CCPA"
+  
+  # Encryption Settings
+  encryption:
+    algorithm: "AES-256"
+    key_rotation_days: 90
+    secure_key_storage: true
+  
+  # Anonymization Settings
+  anonymization:
+    default_level: "basic"  # none, basic, advanced, full
+    techniques:
+      - "masking"
+      - "hashing"
+      - "tokenization"
+      - "generalization"
+      - "suppression"
+    quality_threshold: 0.8
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  # Log Files
+  files:
+    main_log: "logs/guardian.log"
+    error_log: "logs/guardian_errors.log"
+    audit_log: "logs/guardian_audit.log"
+    privacy_log: "logs/privacy_audit.log"
+  
+  # Log Rotation
+  rotation:
+    max_size: "100MB"
+    backup_count: 5
+    compress: true
+
+# Database Configuration
+database:
+  type: "sqlite"  # sqlite, postgresql, mysql
+  path: "data/guardian.db"
+  
+  # Connection Pool (for PostgreSQL/MySQL)
+  pool:
+    min_connections: 5
+    max_connections: 20
+    connection_timeout: 30
+
+# External Integrations
+integrations:
+  # Healthcare Systems
+  healthcare:
+    ehr_integration: false
+    pharmacy_systems: false
+    insurance_verification: false
+  
+  # Emergency Services
+  emergency:
+    emergency_services_api: false
+    notification_systems: true
+    contact_management: true
+  
+  # Accessibility Services
+  accessibility_services:
+    screen_reader_apis: true
+    voice_synthesis: true
+    translation_services: false
+
+# Performance Settings
+performance:
+  cache:
+    enabled: true
+    max_size: "500MB"
+    ttl: 3600  # seconds
+  
+  # Rate Limiting
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 100
+    burst_allowance: 20
+  
+  # Resource Limits
+  resource_limits:
+    max_memory: "2GB"
+    max_cpu_percent: 80
+    max_disk_io: "100MB/s"
+
+# Development Settings (only used in development mode)
+development:
+  mock_external_apis: true
+  enable_debug_endpoints: true
+  detailed_error_messages: true
+  disable_rate_limiting: true
+  fast_health_checks: true
+
+# User Interface Settings
+ui:
+  theme: "default"  # default, high_contrast, dark, light
+  language: "en"
+  timezone: "UTC"
+  
+  # Accessibility UI
+  accessibility_ui:
+    large_buttons: false
+    high_contrast: false
+    simplified_navigation: false
+    voice_commands: true
+    keyboard_navigation: true
+
+# Notification Settings
+notifications:
+  enabled: true
+  channels:
+    email: true
+    sms: false
+    push: true
+    voice: true
+  
+  # Notification Types
+  types:
+    emergency: true
+    medication_reminders: true
+    appointment_reminders: true
+    security_alerts: true
+    privacy_notifications: true
+  
+  # Delivery Settings
+  delivery:
+    retry_attempts: 3
+    retry_interval: 300  # seconds
+    priority_escalation: true
+
+# Backup and Recovery
+backup:
+  enabled: true
+  frequency: "daily"  # hourly, daily, weekly
+  retention: 30  # days
+  
+  # Backup Locations
+  locations:
+    local: "backups/"
+    cloud: false
+    
+  # Recovery Settings
+  recovery:
+    auto_recovery: true
+    integrity_checks: true
+    rollback_capability: true

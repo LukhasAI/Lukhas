@@ -1,0 +1,12 @@
+name: Enhanced Guardian System
+domain: security_safety
+maturity: TRL4
+capabilities:
+  - threat detection
+  - safety guardrails
+  - medical safeguards
+  - accessibility enforcement
+entrypoints:
+  - enhanced_guardian_system/demo.py
+  - enhanced_guardian_system/README.md
+tags: [guardian, safety, medical, accessibility]

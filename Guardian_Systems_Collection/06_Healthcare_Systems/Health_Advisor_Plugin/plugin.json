@@ -1,0 +1,80 @@
+{
+    "name": "HealthAdvisor",
+    "version": "1.0.0",
+    "description": "AI-powered health advisory system with medical knowledge integration",
+    "type": "commercial",
+    "author": "LUKHAS AGI Development Team",
+    "license": "Commercial",
+    "main": "src/index.js",
+    "dependencies": {
+        "lucas-core": "^3.0.0",
+        "lucas-symbolic-engine": "^3.0.0",
+        "lucas-safety": "^3.0.0"
+    },
+    "capabilities": [
+        "health_monitoring",
+        "symptom_analysis",
+        "medical_knowledge_integration",
+        "wellness_tracking",
+        "emergency_detection"
+    ],
+    "compliance": {
+        "hipaa": true,
+        "gdpr": true,
+        "medical_device_regulations": true
+    },
+    "pricing": {
+        "tiers": [
+            {
+                "name": "personal",
+                "features": [
+                    "Basic health tracking",
+                    "Wellness recommendations",
+                    "Symptom checker",
+                    "Health journal"
+                ]
+            },
+            {
+                "name": "professional",
+                "features": [
+                    "All personal features",
+                    "Detailed health analytics",
+                    "Medical knowledge integration",
+                    "Provider communication",
+                    "Emergency alerts"
+                ]
+            },
+            {
+                "name": "enterprise",
+                "features": [
+                    "All professional features",
+                    "Custom deployment",
+                    "EHR integration",
+                    "HIPAA compliance",
+                    "Medical staff dashboard"
+                ]
+            }
+        ]
+    },
+    "integration": {
+        "api_version": "3.0",
+        "entry_points": {
+            "health": "/api/v1/health",
+            "analytics": "/api/v1/analytics",
+            "provider": "/api/v1/provider",
+            "admin": "/api/v1/admin"
+        }
+    },
+    "safety": {
+        "required_certifications": [
+            "medical_safety",
+            "data_privacy",
+            "emergency_protocols"
+        ],
+        "monitoring": {
+            "realtime": true,
+            "audit_logging": true,
+            "error_reporting": true
+        }
+    }
+}

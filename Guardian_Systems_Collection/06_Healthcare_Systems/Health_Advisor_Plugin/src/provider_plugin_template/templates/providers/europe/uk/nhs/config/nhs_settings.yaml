@@ -1,0 +1,116 @@
+# NHS (National Health Service) Configuration Template
+
+# Provider Information
+provider:
+  name: "NHS Trust Name"
+  trust_id: "RXX"  # NHS Trust identifier
+  org_code: "XXX"  # Organisation code
+  type: "TRUST"    # TRUST, GP, CLINIC
+
+# NHS System Configuration
+nhs:
+  environment: "production"  # production, sandbox
+  api_key: "encrypted:NHS_DIGITAL_API_KEY"
+  spine_asid: "XXXXX"  # Spine Advanced Service Integration ID
+  smart_card:
+    enabled: true
+    certificate_path: "/path/to/smart_card.p12"
+  api_endpoints:
+    base_url: "https://api.nhs.uk"
+    pds: "/api/v1/demographics"
+    appointments: "/api/v1/appointments"
+    prescriptions: "/api/v1/prescriptions"
+    
+# Authorization
+authorization:
+  allowed_roles:
+    - DOCTOR
+    - NURSE
+    - ADMIN
+  access_levels:
+    medical_records: ["DOCTOR", "NURSE"]
+    appointments: ["DOCTOR", "NURSE", "ADMIN"]
+    prescriptions: ["DOCTOR"]
+
+# Integration Settings
+integration:
+  timeout_seconds: 30
+  retry_attempts: 3
+  sync_interval_minutes: 15
+  batch_size: 100
+  spine_settings:
+    timeout_seconds: 45
+    connection_pool_size: 10
+
+# Security
+security:
+  encryption: "AES-256-GCM"
+  key_rotation_days: 90
+  session_timeout_minutes: 30
+  audit_retention_days: 2555  # 7 years (NHS requirement)
+  smart_card:
+    validation_interval_minutes: 60
+    automatic_logout: true
+
+# Compliance
+compliance:
+  data_protection_act: true
+  gdpr_enabled: true
+  caldicott_principles: true
+  audit_level: "detailed"
+  sensitive_fields:
+    - patient_name
+    - nhs_number
+    - date_of_birth
+    - medical_record
+
+# Logging
+logging:
+  level: "INFO"
+  format: "json"
+  destinations:
+    - type: "file"
+      path: "/var/log/nhs-plugin.log"
+    - type: "syslog"
+      facility: "local0"
+
+# Features
+features:
+  electronic_prescribing: true
+  appointment_booking: true
+  electronic_health_records: true
+  telemedicine: true
+  real_time_alerts: true
+  nhs_app_integration: true
+
+# Emergency Services
+emergency:
+  enabled: true
+  emergency_number: "999"
+  nhs_111_integration: true
+  automatic_notification: true
+  crisis_team_alert: true
+
+# Performance
+performance:
+  max_connections: 100
+  request_timeout_seconds: 30
+  cache_ttl_minutes: 15
+  rate_limits:
+    requests_per_minute: 60
+    burst_size: 10
+
+# NHS Specific Services
+nhs_services:
+  summary_care_record:
+    enabled: true
+    access_level: "detailed"
+  gp_connect:
+    enabled: true
+    api_version: "1.2.7"
+  e_referral:
+    enabled: true
+    service_id: "XXX"
+  nhs_mail:
+    enabled: true
+    integration_type: "smtp"

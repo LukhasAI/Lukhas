@@ -351,7 +351,7 @@ async def predict_next_context(current_context: ContextSnapshot) -> List[str]:
     
     elif current_context.primary_activity == "deep-work":
         if current_context.stability_score > 0.8:  # Stable focus
-            return ["continued-focus", "breakthrough", "flow-state"]
+            return ["continued-focus", "progress", "flow-state"]
         else:  # Unstable focus
             return ["break", "context-switch", "planning"]
     
