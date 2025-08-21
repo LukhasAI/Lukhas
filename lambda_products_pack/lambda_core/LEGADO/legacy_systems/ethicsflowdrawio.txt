@@ -1,0 +1,27 @@
+# LUClukhasS :: Symbolic Ethics Flow — Draw.io / Excalidraw Format
+
+## 🧠 Nodes (Drag into Canvas)
+- Consent Filter 🔐
+- ABAS Stress Threshold ⚖️
+- Symbolic Matcher 🌀
+- Trace Logger 📜
+- Tier Gate 🔐
+- Voice Narrator 🎙️
+- Feedback Logger 💬
+- Dream Recorder 🌙
+- Replay Queue 🔁
+
+## ➰ Flow Arrows (Use → to connect)
+Consent Filter 🔐 → ABAS Stress Threshold ⚖️
+ABAS Stress Threshold ⚖️ → Symbolic Matcher 🌀
+Symbolic Matcher 🌀 → Trace Logger 📜
+Symbolic Matcher 🌀 → Tier Gate 🔐
+Tier Gate 🔐 → Voice Narrator 🎙️
+Tier Gate 🔐 → Feedback Logger 💬
+Feedback Logger 💬 → Replay Queue 🔁
+Trace Logger 📜 → Dream Recorder 🌙 (fallback)
+
+## 🎛 Optional Layers
+- Ethics Manifest: Controls access by Tier
+- Emotional Filter: Flags joy, calm, stress, longing
+- Replay Conditions: Score ≥ 5 and 💬 or 🌙 emoji

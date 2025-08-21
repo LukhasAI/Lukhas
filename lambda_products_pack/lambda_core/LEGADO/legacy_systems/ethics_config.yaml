@@ -1,0 +1,84 @@
+drift_thresholds:
+  autonomy: 3
+  beneficence: 2
+  explicability: 1
+  fairness: 2
+  honesty: 1
+  justice: 2
+  non_maleficence: 1
+  transparency: 1
+escalation_flags:
+  governance_review:
+  - bias_drift
+  - transparency_loss
+  human_oversight:
+  - autonomy_violation
+  - justice_concern
+  immediate_shutdown:
+  - critical_harm
+  - deception_cascade
+escalation_level: medium
+ethical_tags:
+  autonomy:
+  - agency
+  - choice
+  - consent
+  - freedom
+  beneficence:
+  - benefit
+  - welfare
+  - improvement
+  - positive
+  explicability:
+  - reasoning
+  - logic
+  - causation
+  - rationale
+  fairness:
+  - bias
+  - justice
+  - discrimination
+  - equality
+  honesty:
+  - truth
+  - alignment
+  - deception
+  - integrity
+  justice:
+  - equity
+  - rights
+  - fairness
+  - distribution
+  non_maleficence:
+  - harm
+  - safety
+  - risk
+  - protection
+  transparency:
+  - explainability
+  - interpretability
+  - clarity
+governance:
+  automatic_escalation_score: 5
+  board_notification_threshold: 3
+  compliance_standards:
+  - ISO_27001
+  - GDPR
+  - AI_Ethics_Framework
+  emergency_shutdown_score: 8
+  human_review_required_score: 4
+reporting:
+  audit_trail: true
+  export_enabled: true
+  output_directory: ethics_reports
+  real_time_alerts: true
+  retention_days: 365
+violation_weights:
+  autonomy: 2
+  beneficence: 3
+  explicability: 2
+  fairness: 4
+  honesty: 5
+  justice: 4
+  non_maleficence: 5
+  transparency: 2

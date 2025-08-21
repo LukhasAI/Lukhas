@@ -113,7 +113,7 @@ class WΛLLET:
             "currency": "LUK",
             "initial_balance": 100.0,
             "transaction_fee": 0.1,
-            "quantum_resistant": True,
+            "qi_resistant": True,
             "privacy_mode": True,
             "testnet": True,
         }

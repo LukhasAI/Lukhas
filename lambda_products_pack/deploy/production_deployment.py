@@ -91,7 +91,7 @@ class EliteProductionDeployment:
             "autonomous_agents": True,
             "openai_integration": True,
             "consciousness_layer": False,  # Start disabled
-            "quantum_encryption": False,  # Start disabled
+            "qi_encryption": False,  # Start disabled
             "auto_scaling": True,
         }
 
@@ -220,7 +220,7 @@ class EliteProductionDeployment:
 
         # Enable all features
         self.feature_flags["consciousness_layer"] = True
-        self.feature_flags["quantum_encryption"] = True
+        self.feature_flags["qi_encryption"] = True
 
         self.stage = DeploymentStage.PRODUCTION
         logger.info("✅ Production deployed")
@@ -311,7 +311,7 @@ class EliteProductionDeployment:
 
         # Disable new features
         self.feature_flags["consciousness_layer"] = False
-        self.feature_flags["quantum_encryption"] = False
+        self.feature_flags["qi_encryption"] = False
 
         # Scale down to minimum
         self.deployment_config["replicas"]["current"] = 3

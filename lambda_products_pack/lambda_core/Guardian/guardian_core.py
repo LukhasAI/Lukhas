@@ -255,7 +255,7 @@ class LambdaGuardianEngine:
             "audit_logging": True,
             "encryption_level": "Lambda-AES-256",
             "privacy_protection": True,
-            "quantum_ready": True,
+            "qi_ready": True,
         },
         "emergency": {
             "auto_detection": True,

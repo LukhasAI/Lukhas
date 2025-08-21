@@ -65,8 +65,8 @@ setup(
             # Dependencies for Lukhas  integration
             "lukhas->=1.0.0",
         ],
-        "quantum": [
-            # Quantum computing features
+        "qi": [
+            # QI computing features
             "qiskit>=0.39.0",
             "cirq>=1.0.0",
         ],
