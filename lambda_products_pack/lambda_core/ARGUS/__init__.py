@@ -191,7 +191,7 @@ def create_monitoring_system_from_config(
 QUICK_START_EXAMPLE = """
 # Quick Start Example - Enhanced LUKHAS Monitoring
 
-from monitoring import start_complete_monitoring_system, MonitoringProfile
+from lukhas.monitoring import start_complete_monitoring_system, MonitoringProfile
 from orchestration.signals.signal_bus import SignalBus
 import asyncio
 

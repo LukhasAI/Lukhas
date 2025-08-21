@@ -19,7 +19,7 @@ from emotion.service import EmotionService
 from memory.memoria import Memoria
 
 # Import our monitoring system
-from monitoring import (
+from lukhas.monitoring import (
     MonitoringProfile,
     PlasticityTriggerType,
     start_complete_monitoring_system,
