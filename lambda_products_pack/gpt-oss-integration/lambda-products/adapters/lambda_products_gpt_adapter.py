@@ -1146,7 +1146,7 @@ async def test_lambda_products_adapter():
     test_requests = [
         LambdaProductRequest(
             product_type=LambdaProductType.QRG,
-            content="Analyze the implications of quantum computing on cryptography",
+            content="Analyze the implications of QI computing on cryptography",
             processing_mode=ProcessingMode.REASONING,
             context={"domain": "cybersecurity", "complexity": "high"},
         ),

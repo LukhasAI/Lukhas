@@ -1,0 +1,22 @@
+{
+  "auto_apply_threshold": 0.5,
+  "max_concurrent_stabilizations": 2,
+  "log_file": "logs/tuner_actions.jsonl",
+  "enable_cascade_intervention": true,
+  "stabilizer_preferences": {
+    "emotion": ["ΛCALM", "ΛREFLECT", "ΛBALANCE"],
+    "memory": ["ΛANCHOR", "ΛFOCUS", "ΛCLARITY"],
+    "reasoning": ["ΛHARMONY", "ΛFOCUS", "ΛREFLECT"],
+    "dream": ["ΛBALANCE", "ΛCLARITY", "ΛMEANING"]
+  },
+  "emergency_thresholds": {
+    "strength_critical": 0.2,
+    "conflict_risk_critical": 0.8,
+    "cascade_intervention": 0.6
+  },
+  "monitoring": {
+    "trend_window_size": 15,
+    "instability_cooldown_seconds": 180,
+    "min_datapoints_for_trend": 3
+  }
+}

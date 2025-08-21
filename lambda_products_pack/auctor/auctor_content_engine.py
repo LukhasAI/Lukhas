@@ -41,7 +41,7 @@ class DomainArea(Enum):
     """Commercial domain areas"""
 
     AI_CONSCIOUSNESS = "ai_consciousness"
-    QUANTUM_SECURITY = "quantum_security"
+    QI_SECURITY = "qi_security"
     AUTONOMOUS_AGENTS = "autonomous_agents"
     ENTERPRISE_AI = "enterprise_ai"
     EMOTIONAL_INTELLIGENCE = "emotional_intelligence"

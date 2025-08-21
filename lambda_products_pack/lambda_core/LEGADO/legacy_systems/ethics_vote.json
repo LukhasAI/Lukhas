@@ -1,0 +1,21 @@
+{
+  "policy_template_id": "template_ethics_vote_v1",
+  "title": "Ethics Vote Proposal",
+  "description": "Use this template to propose changes to ethical guidelines, including decision-making processes or system boundaries.",
+  "required_tier": 5,
+  "quorum_required": 3,
+  "proposal_type": "ethics_change",
+  "fields": {
+    "ethics_subject": "",
+    "proposed_change": "",
+    "reason_for_change": "",
+    "ethical_impact_score": "",
+    "submitted_by": "",
+    "linked_trace_ids": []
+  },
+  "zk_proof_required": true,
+  "audit_log_link": "dao/attestations/proof_of_consent.json",
+  "policy_hash": "f8d1b7a4b9cdb574493ca98de2301eb1d1b06c859057fc20b6e6c92b7c504347",
+  "status": "template",
+  "created_at": "2025-05-03T00:00:00Z"
+}
