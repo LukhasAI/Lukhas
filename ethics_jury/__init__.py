@@ -1,3 +1,0 @@
-"""
-Ethics_Jury Module
-"""

@@ -1,3 +1,0 @@
-"""
-Emotion_Mapper Module
-"""

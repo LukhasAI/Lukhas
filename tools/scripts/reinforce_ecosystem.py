@@ -37,9 +37,9 @@ class EcosystemReinforcer:
 
         # Import mappings from reorganization
         import_mappings = {
-            "from api import": "from bridge.api_legacy import",
+            "from api import": "from lukhas.bridge.api_legacy import",
             "from architectures import": "from core.architectures import",
-            "from bio import": "from qi.bio_legacy import",
+            "from bio import": "from lukhas.qi.bio_legacy import",
             "from creativity import": "from lukhas.consciousness.creativity import",
             "from dream import": "from lukhas.consciousness.dream import",
             "from ethics import": "from lukhas.governance.ethics_legacy import",
@@ -48,19 +48,19 @@ class EcosystemReinforcer:
             "from orchestration import": "from core.orchestration import",
             "from reasoning import": "from lukhas.consciousness.reasoning import",
             "from symbolic import": "from core.symbolic_legacy import",
-            "from voice import": "from bridge.voice import",
-            "import api": "import bridge.api_legacy as api",
+            "from voice import": "from lukhas.bridge.voice import",
+            "import api": "import lukhas.bridge.api_legacy as api",
             "import architectures": "import core.architectures as architectures",
-            "import bio": "import qi.bio_legacy as bio",
+            "import bio": "import lukhas.qi.bio_legacy as bio",
             "import creativity": "import lukhas.consciousness.creativity as creativity",
             "import dream": "import lukhas.consciousness.dream as dream",
             "import ethics": "import lukhas.governance.ethics_legacy as ethics",
             "import identity": "import lukhas.governance.identity as identity",
             "import learning": "import lukhas.memory.learning as learning",
-            "import orchestration": "import core.orchestration as orchestration",
+            "import lukhas.orchestration": "import core.orchestration as orchestration",
             "import reasoning": "import lukhas.consciousness.reasoning as reasoning",
             "import symbolic": "import core.symbolic_legacy as symbolic",
-            "import voice": "import bridge.voice as voice",
+            "import voice": "import lukhas.bridge.voice as voice",
         }
 
         fixed_count = 0

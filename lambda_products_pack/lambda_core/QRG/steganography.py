@@ -133,7 +133,7 @@ class ExtractionResult:
     error_message: Optional[str] = None
 
 
-class QuantumSteganographyEngine:
+class QISteganographyEngine:
     """
     🔮 Quantum Steganography Engine - The Invisible Revolution
 
@@ -1062,7 +1062,7 @@ class QuantumSteganographyEngine:
 # Supporting Classes
 
 
-class QuantumRandomGenerator:
+class QIRandomGenerator:
     """Quantum random number generator for maximum entropy"""
 
     def generate_quantum_key(self, length: int) -> bytes:
@@ -1083,7 +1083,7 @@ class PostQuantumCrypto:
         """Initialize PQC systems"""
 
 
-class QuantumEntanglementSimulator:
+class QIEntanglementSimulator:
     """Simulate quantum entanglement for correlated embedding"""
 
     def generate_signature(self, data: bytes) -> str:

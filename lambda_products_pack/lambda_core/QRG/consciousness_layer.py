@@ -189,7 +189,7 @@ class ConsciousnessLayer:
 
         # Quantum coherence measurement (theoretical)
         if ConsciousnessSource.QUANTUM_RESONANCE in self.consciousness_sources:
-            self.quantum_detector = QuantumCoherenceDetector()
+            self.quantum_detector = QICoherenceDetector()
 
         logger.info(
             f"🔧 Initialized {len(self.consciousness_sources)} consciousness detection systems"
@@ -1179,7 +1179,7 @@ class SymbolicResonanceDetector:
         return resonance_data
 
 
-class QuantumCoherenceDetector:
+class QICoherenceDetector:
     """
     ⚛️ Theoretical quantum coherence measurement
 

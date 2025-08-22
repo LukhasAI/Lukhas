@@ -11,9 +11,9 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
-from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
-from orchestration.signals.homeostasis import ModulationParams
+from lukhas.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
+from lukhas.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+from lukhas.orchestration.signals.homeostasis import ModulationParams
 
 load_dotenv()
 sys.path.insert(0, str(Path.cwd()))

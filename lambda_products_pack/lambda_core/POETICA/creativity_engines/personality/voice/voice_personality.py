@@ -60,7 +60,7 @@ except ImportError:
     )
 
 try:
-    from orchestration.brain.personality.personality_refiner import (
+    from lukhas.orchestration.brain.personality.personality_refiner import (
         PersonalityRefiner,
     )
 
@@ -72,7 +72,7 @@ except ImportError:
     )
 
 try:
-    from orchestration.brain.orchestration.emotional_oscillator import (
+    from lukhas.orchestration.brain.orchestration.emotional_oscillator import (
         EmotionalOscillator,
     )
 

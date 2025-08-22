@@ -21,14 +21,14 @@ from typing import Any, Dict, List, Optional
 import psutil
 
 from lukhas.governance.intelligence_safety_validator import SafetyLevel, get_safety_validator
-from orchestration.agent_orchestrator.intelligence_bridge import (
+from lukhas.orchestration.agent_orchestrator.intelligence_bridge import (
     AgentType,
     IntelligenceRequestType,
     create_agent_request,
     get_agent_bridge,
 )
-from orchestration.brain.monitoring.intelligence_monitor import get_monitor
-from orchestration.intelligence_adapter import get_orchestration_adapter
+from lukhas.orchestration.brain.monitoring.intelligence_monitor import get_monitor
+from lukhas.orchestration.intelligence_adapter import get_orchestration_adapter
 
 logger = logging.getLogger("LUKHAS.Tools.Benchmarking.Intelligence")
 

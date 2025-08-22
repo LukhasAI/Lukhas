@@ -83,7 +83,7 @@ class EconomicRealityManipulator(CoreInterface):
         try:
             self.kernel_bus = container.get_service("symbolic_kernel_bus")
         except:
-            from orchestration.symbolic_kernel_bus import SymbolicKernelBus
+            from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus
             self.kernel_bus = SymbolicKernelBus()
 
         try:

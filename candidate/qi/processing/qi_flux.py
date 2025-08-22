@@ -1,0 +1,17 @@
+from __future__ import annotations
+
+import random
+from dataclasses import dataclass
+
+
+@dataclass
+class QIFlux:
+    """# ΛTAG: quantum_entropy
+    Provides entropy metrics for dream variability."""
+
+    seed: int | None = None
+
+    def measure_entropy(self) -> float:
+        """Return a pseudo-random entropy value between 0 and 1."""
+        rng = random.Random(self.seed)
+        return rng.random()

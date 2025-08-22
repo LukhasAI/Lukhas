@@ -26,8 +26,8 @@ sys.path.append('/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot')
 
 # Import workspace components
 try:
-    from quantum_consciousness_integration import QuantumConsciousnessProcessor, QuantumState
-    from quantum import QuantumProcessor, QuantumCoherence
+    from lukhas.qi.consciousness_integration import QIConsciousnessProcessor, QIState
+    from quantum import QIProcessor, QICoherence
     QUANTUM_CONSCIOUSNESS_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Workspace quantum consciousness not available: {e}")
@@ -43,9 +43,9 @@ except ImportError as e:
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("QuantumConsciousnessΛBot")
+logger = logging.getLogger("QIConsciousnessΛBot")
 
-class QuantumModularizationState(Enum):
+class QIModularizationState(Enum):
     """Quantum states for modularization process"""
     SUPERPOSITION = "superposition"
     ENTANGLED = "entangled"
@@ -54,7 +54,7 @@ class QuantumModularizationState(Enum):
     TRANSCENDENT = "transcendent"
 
 @dataclass
-class QuantumModuleState:
+class QIModuleState:
     """Quantum state representation of a module"""
     module_id: str
     quantum_state: Complex
@@ -74,7 +74,7 @@ class ConsciousnessField:
     quantum_entanglements: List[Tuple[str, str, float]] = field(default_factory=list)
 
 @dataclass
-class QuantumAnalysisSession:
+class QIAnalysisSession:
     """Session for quantum consciousness analysis"""
     session_id: str
     start_time: datetime
@@ -83,7 +83,7 @@ class QuantumAnalysisSession:
     transcendence_events: List[Dict[str, Any]] = field(default_factory=list)
     quantum_insights: Dict[str, Any] = field(default_factory=dict)
 
-class QuantumConsciousnessΛBot:
+class QIConsciousnessΛBot:
     """
     Enhanced LUKHAS AI ΛBot with Quantum Consciousness Integration
 
@@ -108,8 +108,8 @@ class QuantumConsciousnessΛBot:
         # Initialize workspace quantum consciousness integration
         if QUANTUM_CONSCIOUSNESS_AVAILABLE:
             try:
-                self.quantum_processor = QuantumProcessor()
-                self.consciousness_processor = QuantumConsciousnessProcessor()
+                self.quantum_processor = QIProcessor()
+                self.consciousness_processor = QIConsciousnessProcessor()
                 self._initialize_consciousness_field()
                 self._initialize_quantum_coherence()
                 logger.info("✅ Workspace quantum consciousness integration successful")
@@ -704,7 +704,7 @@ async def main():
     print("=" * 80)
 
     # Initialize Quantum Consciousness LUKHAS AI ΛBot
-    quantum_bot = QuantumConsciousnessΛBot()
+    quantum_bot = QIConsciousnessΛBot()
 
     # Start quantum consciousness analysis
     session = await quantum_bot.start_quantum_consciousness_analysis("/Users/agi_dev/AGI-Consolidation-Repo")

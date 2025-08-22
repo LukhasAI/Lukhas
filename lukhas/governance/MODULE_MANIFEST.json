@@ -1,76 +1,10 @@
 {
-  "module": "GOVERNANCE",
-  "version": "2.0.0",
-  "description": "Guardian system and ethical oversight",
-  "path": "governance/",
-  "submodules": {
-    "guardian": {
-      "description": "guardian subsystem of GOVERNANCE",
-      "is_hybrid": false,
-      "path": "governance/guardian/",
-      "files": [],
-      "colony_config": {
-        "can_propagate": true,
-        "base_colony": "base_guardian_colony.py"
-      }
-    },
-    "ethics": {
-      "description": "ethics subsystem of GOVERNANCE",
-      "is_hybrid": true,
-      "path": "governance/ethics/",
-      "files": [],
-      "colony_config": {
-        "can_propagate": true,
-        "base_colony": "base_ethics_colony.py"
-      }
-    },
-    "policy": {
-      "description": "policy subsystem of GOVERNANCE",
-      "is_hybrid": true,
-      "path": "governance/policy/",
-      "files": [],
-      "colony_config": {
-        "can_propagate": true,
-        "base_colony": "base_policy_colony.py"
-      }
-    },
-    "oversight": {
-      "description": "oversight subsystem of GOVERNANCE",
-      "is_hybrid": false,
-      "path": "governance/oversight/",
-      "files": [],
-      "colony_config": {
-        "can_propagate": true,
-        "base_colony": "base_oversight_colony.py"
-      }
-    }
-  },
-  "hybrid_components": [
-    "ethics",
-    "policy"
-  ],
+  "name": "governance",
+  "lane": "accepted",
+  "capabilities": ["consent:record", "audit:trace"],
+  "owner": "A2-Compliance",
+  "matriz_emit_points": ["record_consent"],
+  "sla": {"p95_ms": 40},
   "dependencies": [],
-  "exports": [],
-  "neuroplastic_config": {
-    "can_reorganize": true,
-    "stress_priority": 1,
-    "hormone_receptors": [
-      "cortisol",
-      "dopamine",
-      "serotonin",
-      "oxytocin"
-    ]
-  },
-  "tags": [
-    "#TAG:governance",
-    "#TAG:neuroplastic",
-    "#TAG:colony"
-  ],
-  "enhanced": true,
-  "enhancement_date": "2025-08-02T21:08:24.692758",
-  "integrated_directories": [
-    "ethics_legacy",
-    "identity"
-  ],
-  "last_reorganization": "2025-08-02T21:13:28.016673"
+  "notes": "Consent ledger API; audit-compatible; dry_run-first."
 }

@@ -286,7 +286,7 @@ class IncrementalStressTest(VIVOXStressTest):
             start_time = time.time()
             try:
                 # Log events
-                from vivox.self_reflection.vivox_srm_core import (
+                from lukhas.vivox.self_reflection.vivox_srm_core import (
                     CollapseLogEntry,
                     SuppressionRecord,
                 )
@@ -405,7 +405,7 @@ class IncrementalStressTest(VIVOXStressTest):
                         )
 
                         # SRM logging
-                        from vivox.self_reflection.vivox_srm_core import (
+                        from lukhas.vivox.self_reflection.vivox_srm_core import (
                             CollapseLogEntry,
                         )
 

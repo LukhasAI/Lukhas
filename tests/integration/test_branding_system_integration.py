@@ -139,7 +139,7 @@ class TestOrchestrationIntegration:
     
     def test_symbolic_kernel_bus_branding(self):
         """Test that symbolic kernel bus integrates branding"""
-        from orchestration.symbolic_kernel_bus import SymbolicKernelBus
+        from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus
         
         bus = SymbolicKernelBus()
         
@@ -151,7 +151,7 @@ class TestOrchestrationIntegration:
     
     def test_event_branding_application(self):
         """Test branding is applied to orchestration events"""
-        from orchestration.symbolic_kernel_bus import SymbolicKernelBus, SymbolicEvent, SymbolicEffect
+        from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus, SymbolicEvent, SymbolicEffect
         
         bus = SymbolicKernelBus()
         
@@ -168,7 +168,7 @@ class TestOrchestrationIntegration:
     
     def test_orchestration_module_branding_imports(self):
         """Test orchestration module exposes branding functions"""
-        import orchestration
+        import lukhas.orchestration
         
         # Check that branding is available in orchestration module  
         assert hasattr(orchestration, 'ORCHESTRATION_BRANDING_AVAILABLE')
@@ -229,7 +229,7 @@ class TestAPIBridgeIntegration:
     
     def test_unified_router_branding_import(self):
         """Test unified router imports branding"""
-        from bridge.api.unified_router import BRANDING_AVAILABLE, apply_api_branding
+        from lukhas.bridge.api.unified_router import BRANDING_AVAILABLE, apply_api_branding
         
         # Check branding availability
         if BRANDING_AVAILABLE:
@@ -237,7 +237,7 @@ class TestAPIBridgeIntegration:
     
     def test_api_response_branding(self):
         """Test API responses are branded"""
-        from bridge.api.unified_router import apply_api_branding, BRANDING_AVAILABLE
+        from lukhas.bridge.api.unified_router import apply_api_branding, BRANDING_AVAILABLE
         
         if not BRANDING_AVAILABLE:
             pytest.skip("Branding not available for API")
@@ -262,7 +262,7 @@ class TestAPIBridgeIntegration:
     @pytest.mark.asyncio
     async def test_health_check_branding(self):
         """Test health check endpoint includes branding"""
-        from bridge.api.unified_router import health_check
+        from lukhas.bridge.api.unified_router import health_check
         
         response = await health_check()
         
@@ -332,7 +332,7 @@ class TestEndToEndIntegration:
         # Import all modules with branding
         from lukhas.branding_bridge import get_system_signature
         import lukhas.consciousness
-        import orchestration
+        import lukhas.orchestration
         
         # Get system signature from bridge
         signature = get_system_signature()

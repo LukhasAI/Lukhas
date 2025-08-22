@@ -1,0 +1,10 @@
+{
+  "name": "identity",
+  "lane": "accepted",
+  "capabilities": ["identity:auth", "identity:lambda-id"],
+  "owner": "A1-Identity",
+  "matriz_emit_points": ["authenticate"],
+  "sla": {"p95_ms": 100},
+  "dependencies": [],
+  "notes": "ΛID interfaces; no PII storage; passkey-friendly."
+}

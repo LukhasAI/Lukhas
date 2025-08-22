@@ -1,4 +1,0 @@
-"""
-Identity_Core Module
-"""
-

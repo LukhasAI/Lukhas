@@ -1,0 +1,10 @@
+{
+  "name": "orchestration",
+  "lane": "accepted",
+  "capabilities": ["orchestrator:context", "orchestrator:handoff"],
+  "owner": "A4-Orchestration",
+  "matriz_emit_points": ["build_context", "handoff"],
+  "sla": {"p95_ms": 50},
+  "dependencies": ["lukhas/identity", "lukhas/core/policy"],
+  "notes": "Context bus interfaces; zero vendor SDKs inline."
+}

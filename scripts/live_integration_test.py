@@ -28,7 +28,7 @@ except Exception:
 
 # --- LUKHΛS  imports ------------------------------------------------------
 try:
-    from bridge.llm_wrappers.openai_modulated_service import (
+    from lukhas.bridge.llm_wrappers.openai_modulated_service import (
         run_modulated_completion,
     )
 except Exception:

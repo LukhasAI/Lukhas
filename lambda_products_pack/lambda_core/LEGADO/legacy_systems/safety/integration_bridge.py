@@ -6,7 +6,7 @@ Unified access to all safety and compliance systems
 from backend.security.privacy_manager import PrivacyManager
 
 from compliance.ai_compliance import AICompliance
-from orchestration.brain.safety_guardrails import SafetyGuardrails
+from lukhas.orchestration.brain.safety_guardrails import SafetyGuardrails
 
 
 class LUKHASSafetyBridge:

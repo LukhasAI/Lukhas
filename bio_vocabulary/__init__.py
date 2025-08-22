@@ -1,3 +1,0 @@
-"""
-Bio_Vocabulary Module
-"""

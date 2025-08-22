@@ -117,10 +117,10 @@ class TestOrchestrationIntegration:
     def test_symbolic_kernel_bus_branding(self):
         """Test branding integration in symbolic kernel bus"""
         try:
-            from orchestration.symbolic_kernel_bus import SymbolicKernelBus
+            from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus
             
             # Check that the module has branding imports
-            import orchestration.symbolic_kernel_bus as bus_module
+            import lukhas.orchestration.symbolic_kernel_bus as bus_module
             assert hasattr(bus_module, 'BRANDING_AVAILABLE'), "Kernel bus should have BRANDING_AVAILABLE flag"
             
         except ImportError as e:
@@ -165,7 +165,7 @@ class TestBridgeAPIIntegration:
         """Test branding integration in API hub"""
         try:
             # Check that API hub imports branding
-            import bridge.api.api_hub as api_module
+            import lukhas.bridge.api.api_hub as api_module
             assert hasattr(api_module, 'BRANDING_AVAILABLE'), "API hub should have BRANDING_AVAILABLE flag"
             
         except ImportError as e:
@@ -284,7 +284,7 @@ class TestIntegrationCoverage:
         
         # Test orchestration kernel
         try:
-            import orchestration.symbolic_kernel_bus
+            import lukhas.orchestration.symbolic_kernel_bus
             integration_points["orchestration_kernel"] = hasattr(
                 orchestration.symbolic_kernel_bus, 
                 'BRANDING_AVAILABLE'
@@ -302,7 +302,7 @@ class TestIntegrationCoverage:
         
         # Test bridge API
         try:
-            import bridge.api.api_hub
+            import lukhas.bridge.api.api_hub
             integration_points["bridge_api"] = hasattr(
                 bridge.api.api_hub, 
                 'BRANDING_AVAILABLE'

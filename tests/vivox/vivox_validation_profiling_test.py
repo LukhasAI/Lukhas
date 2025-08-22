@@ -447,7 +447,7 @@ class ValidationProfiler:
         profiler = cProfile.Profile()
 
         profiler.enable()
-        from vivox.self_reflection.vivox_srm_core import CollapseLogEntry
+        from lukhas.vivox.self_reflection.vivox_srm_core import CollapseLogEntry
 
         for i in range(100):
             entry = CollapseLogEntry(

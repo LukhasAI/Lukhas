@@ -94,7 +94,7 @@ class MarketDisruptionLevel(Enum):
 
 
 @dataclass
-class QuantumGlyphConfig:
+class QIGlyphConfig:
     """
     ⚙️ Configuration for Quantum Resonance Glyph generation
 
@@ -147,7 +147,7 @@ class ConsciousnessContext:
 
 
 @dataclass
-class QuantumGlyph:
+class QIGlyph:
     """
     💎 A generated Quantum Resonance Glyph - DIGITAL SOVEREIGNTY INCARNATE
 
@@ -189,7 +189,7 @@ class QuantumGlyph:
         }
 
 
-class QuantumResonanceGlyph:
+class QIResonanceGlyph:
     """
     🌌 Quantum Resonance Glyph Generator - THE AUTHENTICATION REVOLUTION
 

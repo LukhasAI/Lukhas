@@ -18,10 +18,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 try:
-    from orchestration.brain.brain_integration import BrainIntegrator, CognitiveBridge
-    from orchestration.brain.main_node import MainNode, NodeCoordinator
-    from orchestration.symbolic_kernel_bus import SymbolicKernelBus, BusMessage
-    from orchestration.core_modules.workflow_engine import WorkflowEngine, WorkflowStep
+    from lukhas.orchestration.brain.brain_integration import BrainIntegrator, CognitiveBridge
+    from lukhas.orchestration.brain.main_node import MainNode, NodeCoordinator
+    from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus, BusMessage
+    from lukhas.orchestration.core_modules.workflow_engine import WorkflowEngine, WorkflowStep
     from core.glyph import Glyph
 except ImportError:
     # Create mock classes for testing if imports fail

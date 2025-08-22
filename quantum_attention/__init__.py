@@ -1,4 +1,0 @@
-"""
-Quantum_Attention Module
-"""
-

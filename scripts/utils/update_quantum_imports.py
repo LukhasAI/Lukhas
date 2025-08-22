@@ -12,14 +12,14 @@ def update_file(filepath):
 
     # Update import patterns
     patterns = [
-        (r'from qim\.', 'from qi.'),
-        (r'import qi\.', 'import qi.'),
+        (r'from qim\.', 'from lukhas.qi.'),
+        (r'import lukhas.qi\.', 'import lukhas.qi.'),
         (r'from qi ', 'from qi '),
-        (r'import qi\b', 'import qi'),
-        (r'from quantum\.', 'from qi.'),
-        (r'import qi\.', 'import qi.'),
+        (r'import lukhas.qi\b', 'import lukhas.qi'),
+        (r'from quantum\.', 'from lukhas.qi.'),
+        (r'import lukhas.qi\.', 'import lukhas.qi.'),
         (r'from qi ', 'from qi '),
-        (r'import qi\b', 'import qi'),
+        (r'import lukhas.qi\b', 'import lukhas.qi'),
     ]
 
     for pattern, replacement in patterns:

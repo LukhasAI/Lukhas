@@ -474,7 +474,7 @@ class LukhasUnifiedContentPlatform:
         bots = [
             "ContentAutomationBot", "ContentAnalytics", "ContentRevenue",
             "SecurityCompliance", "NamingAuditorBot", "PRReviewer",
-            "QuantumConsciousness", "MultiBrain", "BioSymbolic",
+            "QIConsciousness", "MultiBrain", "BioSymbolic",
             "AGIController", "AutonomousHealer", "DocumentationHub"
         ]
         return bots

@@ -1,4 +1,0 @@
-"""
-Personas Module
-"""
-

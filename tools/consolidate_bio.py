@@ -245,7 +245,7 @@ from . import adapters
 
 # Optional quantum features (feature-flagged)
 try:
-    from . import qi
+    from . import lukhas.qi
 except ImportError:
     quantum = None
 

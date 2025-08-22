@@ -1,8 +1,8 @@
 """
 CRITICAL FILE - DO NOT MODIFY WITHOUT APPROVAL
 lukhas AI System - Core Memory Component
-File: QuantumMemoryManager.py
-Path: core/memory/QuantumMemoryManager.py
+File: QIMemoryManager.py
+Path: core/memory/QIMemoryManager.py
 Created: 2025-06-20
 Author: lukhas AI Team
 
@@ -55,7 +55,7 @@ class MemoryQuantumConfig:
     retrieval_frequency: float = 5.0  # Hz
     storage_sync_interval: int = 200  # ms
 
-class QuantumMemoryManager:
+class QIMemoryManager:
     """Quantum-enhanced memory management system"""
     
     def __init__(self,

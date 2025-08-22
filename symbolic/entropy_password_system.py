@@ -43,7 +43,7 @@ class EntropySource:
 
 
 @dataclass
-class QuantumResistantPassword:
+class QIResistantPassword:
     """Password designed to resist quantum computing attacks"""
 
     password_id: str

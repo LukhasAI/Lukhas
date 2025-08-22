@@ -95,7 +95,7 @@ PRODUCTION_IMPLEMENTATIONS = {
     superposition = self._create_superposition(quantum_state, universe_count)
 
     # Explore each universe in parallel
-    with QuantumProcessor() as qp:
+    with QIProcessor() as qp:
         for i in range(universe_count):
             # Branch quantum state
             branch_state = qp.branch(superposition, i)

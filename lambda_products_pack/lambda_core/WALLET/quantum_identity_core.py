@@ -21,7 +21,7 @@ import numpy as np
 logger = logging.getLogger("WΛLLET.QuantumIdentity")
 
 
-class QuantumTier(Enum):
+class QITier(Enum):
     """Quantum-secured access tiers for WΛLLET"""
 
     GUEST = auto()
@@ -44,7 +44,7 @@ class IdentityType(Enum):
 
 
 @dataclass
-class QuantumStateVector:
+class QIStateVector:
     """Quantum state vector for WΛLLET identity verification"""
 
     amplitudes: np.ndarray
@@ -72,10 +72,10 @@ class QuantumStateVector:
         outcome_idx = np.random.choice(len(self.amplitudes), p=probabilities)
         return self.basis_states[outcome_idx]
 
-    def evolve(self, unitary: np.ndarray) -> "QuantumStateVector":
+    def evolve(self, unitary: np.ndarray) -> "QIStateVector":
         """Evolves the state through a unitary transformation"""
         new_amplitudes = unitary @ self.amplitudes
-        return QuantumStateVector(new_amplitudes, self.basis_states.copy())
+        return QIStateVector(new_amplitudes, self.basis_states.copy())
 
 
 @dataclass
@@ -84,7 +84,7 @@ class LambdaWalletIdentity:
 
     lambda_id: str
     tier: QuantumTier
-    quantum_state: QuantumStateVector
+    quantum_state: QIStateVector
     creation_time: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     last_verified: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     biometric_hash: Optional[str] = None
@@ -103,7 +103,7 @@ class LambdaWalletIdentity:
         # Create quantum state from emoji seed
         seed_hash = hashlib.sha256(emoji_seed.encode()).digest()
         amplitudes = np.array([x / 255 for x in seed_hash[:8]], dtype=np.complex128)
-        quantum_state = QuantumStateVector(amplitudes)
+        quantum_state = QIStateVector(amplitudes)
 
         # Generate lambda ID with wallet prefix
         timestamp = int(time.time() * 1000)
@@ -181,7 +181,7 @@ class PostQuantumCrypto:
         return hmac.compare_digest(signature, expected)
 
 
-class QuantumWalletEngine:
+class QIWalletEngine:
     """Quantum-Enhanced Identity and Wallet Engine for WΛLLET"""
 
     def __init__(self):

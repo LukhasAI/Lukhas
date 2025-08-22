@@ -17,9 +17,9 @@ from typing import Dict, List, Optional
 # Add LUKHAS modules to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from bridge.local_llm_fixer import LocalLLMFixer
+from lukhas.bridge.local_llm_fixer import LocalLLMFixer
 from core.agi.code_quality_healer import CodeQualityHealer
-from orchestration.symbolic_kernel_bus import SymbolicEffect, SymbolicKernelBus
+from lukhas.orchestration.symbolic_kernel_bus import SymbolicEffect, SymbolicKernelBus
 
 logging.basicConfig(
     level=logging.INFO,

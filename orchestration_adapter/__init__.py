@@ -1,4 +1,0 @@
-"""
-Orchestration_Adapter Module
-"""
-

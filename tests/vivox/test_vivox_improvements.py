@@ -9,7 +9,7 @@ import os
 import random
 
 from vivox import ActionProposal, create_vivox_system
-from vivox.moral_alignment.precedent_seeds import seed_precedent_database
+from lukhas.vivox.moral_alignment.precedent_seeds import seed_precedent_database
 
 
 async def test_improvements():

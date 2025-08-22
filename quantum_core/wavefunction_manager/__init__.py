@@ -1,4 +1,0 @@
-"""
-Wavefunction_Manager Module
-"""
-

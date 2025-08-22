@@ -813,7 +813,7 @@ class AdvancedHaikuGenerator:
 
 
 # Legacy class aliases for backward compatibility
-class QuantumHaikuGenerator(AdvancedHaikuGenerator):
+class QIHaikuGenerator(AdvancedHaikuGenerator):
     """Legacy alias for QuantumHaikuGenerator"""
 
 

@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass
-class QuantumGlyphConfig:
+class QIGlyphConfig:
     """Configuration for Quantum Resonance Glyph generation"""
 
     # Visual parameters
@@ -58,7 +58,7 @@ class ConsciousnessContext:
 
 
 @dataclass
-class QuantumGlyph:
+class QIGlyph:
     """A generated Quantum Resonance Glyph"""
 
     glyph_id: str
@@ -80,7 +80,7 @@ class QuantumGlyph:
         }
 
 
-class QuantumResonanceGlyph:
+class QIResonanceGlyph:
     """
     🌌 Quantum Resonance Glyph Generator
 

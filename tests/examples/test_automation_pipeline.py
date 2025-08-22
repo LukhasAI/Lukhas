@@ -26,7 +26,7 @@ async def test_complete_pipeline():
     # 1. Test Local LLM Fixer
     print("\n1️⃣ Testing Local LLM Code Fixer...")
     try:
-        from bridge.local_llm_fixer import CodeIssue, FixType, LocalLLMFixer
+        from lukhas.bridge.local_llm_fixer import CodeIssue, FixType, LocalLLMFixer
 
         # Simple test that doesn't require full Ollama interaction
         fixer = LocalLLMFixer(model="qwen2.5-coder:1.5b")

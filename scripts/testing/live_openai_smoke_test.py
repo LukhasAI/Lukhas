@@ -15,11 +15,11 @@ from typing import Any, Dict, List
 
 import httpx
 
-from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
+from lukhas.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 from lukhas.audit.store import audit_log_write
 from lukhas.feedback.store import record_feedback
-from orchestration.signals.homeostasis import ModulationParams
-from orchestration.signals.signal_bus import Signal, SignalType
+from lukhas.orchestration.signals.homeostasis import ModulationParams
+from lukhas.orchestration.signals.signal_bus import Signal, SignalType
 
 # Add project root to path
 project_root = Path(__file__).parent

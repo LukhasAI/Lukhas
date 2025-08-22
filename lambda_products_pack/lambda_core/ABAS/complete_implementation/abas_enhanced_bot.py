@@ -51,7 +51,7 @@ logging.basicConfig(
 logger = logging.getLogger("EnhancedAGI")
 
 # Quantum-Biological Components
-class QuantumTunnelingEthics:
+class QITunnelingEthics:
     """Quantum tunneling inspired ethical arbitration system"""
 
     def __init__(self):
@@ -825,7 +825,7 @@ class AGIResponse:
     capability_level: AGICapabilityLevel = AGICapabilityLevel.BASIC
     quantum_biological_metrics: Optional[Dict] = None
 
-class QuantumInspiredAttention:
+class QIInspiredAttention:
     """Quantum-inspired attention mechanism enhanced with bio-components"""
     
     def __init__(self):

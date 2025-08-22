@@ -1,4 +1,0 @@
-"""
-Emotional_Filter Module
-"""
-

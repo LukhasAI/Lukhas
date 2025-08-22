@@ -1,4 +1,0 @@
-"""
-Qi_Engine Module
-"""
-

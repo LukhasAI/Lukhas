@@ -95,7 +95,7 @@ def main() -> int:
 
     # 3) Import LLM wrapper symbol
     try:
-        from bridge.llm_wrappers.openai_modulated_service import (
+        from lukhas.bridge.llm_wrappers.openai_modulated_service import (
             OpenAIModulatedService,
         )
 
@@ -112,7 +112,7 @@ def main() -> int:
 
     # 4) SignalBus sanity
     try:
-        from orchestration.signals.signal_bus import (
+        from lukhas.orchestration.signals.signal_bus import (
             Signal,
             SignalType,
             get_signal_bus,
@@ -138,7 +138,7 @@ def main() -> int:
 
     # 5) Offline blocked-tool governance test
     try:
-        from orchestration.signals.homeostasis import ModulationParams
+        from lukhas.orchestration.signals.homeostasis import ModulationParams
 
         class DummyClient:
             def __init__(self) -> None:
@@ -172,7 +172,7 @@ def main() -> int:
         try:
             OpenAIModulatedService  # noqa: F401  # type: ignore
         except NameError:
-            from bridge.llm_wrappers.openai_modulated_service import (
+            from lukhas.bridge.llm_wrappers.openai_modulated_service import (
                 OpenAIModulatedService,  # type: ignore
             )
 

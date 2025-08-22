@@ -1,4 +1,0 @@
-"""
-Governance_Colony Module
-"""
-

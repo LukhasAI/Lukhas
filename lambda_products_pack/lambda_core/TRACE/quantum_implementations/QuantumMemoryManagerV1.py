@@ -28,7 +28,7 @@ class MemoryQuantumConfig:
     retrieval_frequency: float = 5.0  # Hz
     storage_sync_interval: int = 200  # ms
 
-class QuantumMemoryManager:
+class QIMemoryManager:
     """Quantum-enhanced memory management system"""
     
     def __init__(self,

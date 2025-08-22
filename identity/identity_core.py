@@ -410,7 +410,7 @@ class IdentityCore:
             logger.info(f"Created token for user {user_id} with tier {tier.value}")
             # Emit token creation event to event bus
             try:
-                from bridge.message_bus import MessageBus, MessageType
+                from lukhas.bridge.message_bus import MessageBus, MessageType
                 MessageBus().emit(MessageType.TOKEN_CREATED, {
                     "user_id": user_id,
                     "tier": tier.value,
@@ -454,7 +454,7 @@ class IdentityCore:
                 logger.info(f"Revoked token for user {user_id}")
                 # Emit token revocation event
                 try:
-                    from bridge.message_bus import MessageBus, MessageType
+                    from lukhas.bridge.message_bus import MessageBus, MessageType
                     MessageBus().emit(MessageType.TOKEN_REVOKED, {
                         "user_id": user_id,
                         "timestamp": datetime.now(timezone.utc).isoformat()

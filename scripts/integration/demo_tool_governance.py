@@ -22,7 +22,7 @@ from lukhas.openai.tooling import (
     get_all_tools,
     get_tool_names,
 )
-from orchestration.signals.homeostasis import ModulationParams
+from lukhas.orchestration.signals.homeostasis import ModulationParams
 
 # Add project root to path
 project_root = Path(__file__).parent

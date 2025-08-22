@@ -1005,7 +1005,7 @@ class TemporalAnimationEngine:
 # Supporting Classes (Simplified for demo)
 
 
-class QuantumClock:
+class QIClock:
     """Quantum time measurement"""
 
     def get_quantum_time(self) -> float:
@@ -1031,7 +1031,7 @@ class WaveFunctionCollapser:
     """Collapse quantum wave functions"""
 
 
-class QuantumInterpolator:
+class QIInterpolator:
     """Quantum frame interpolation"""
 
 

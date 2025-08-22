@@ -19,7 +19,7 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 
-class QuantumEntropySource(Enum):
+class QIEntropySource(Enum):
     """Available quantum entropy sources"""
 
     HARDWARE_RNG = "hardware_rng"

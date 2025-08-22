@@ -20,10 +20,10 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent / "bridge"))
 
-from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
-from bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper  
-from bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
-from bridge.llm_wrappers.perplexity_wrapper import PerplexityWrapper
+from lukhas.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+from lukhas.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper  
+from lukhas.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
+from lukhas.bridge.llm_wrappers.perplexity_wrapper import PerplexityWrapper
 
 logger = logging.getLogger(__name__)
 

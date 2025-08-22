@@ -16,7 +16,7 @@ import time
 from pathlib import Path
 from typing import Optional
 
-from quantum_core.wavefunction_manager import WavefunctionManager
+from lukhas.qi.core.wavefunction_manager import WavefunctionManager
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))

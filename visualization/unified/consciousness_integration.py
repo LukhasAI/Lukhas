@@ -18,7 +18,7 @@ try:
     from lukhas.memory.folds.memory_fold import MemoryFold
     from emotion.service import EmotionService
     from core.glyph.glyph_engine import GlyphEngine
-    from qi.engines.consciousness.engine import ConsciousnessEngine
+    from lukhas.qi.engines.consciousness.engine import ConsciousnessEngine
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")
 

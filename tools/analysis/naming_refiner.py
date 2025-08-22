@@ -309,7 +309,7 @@ class LukhasNamingRefiner:
                 "examples": [
                     "MemoryFold",
                     "DreamEngine",
-                    "QuantumState",
+                    "QIState",
                     "LUKHASCore",
                     "Guardian",
                     "SGIProcessor",

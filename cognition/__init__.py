@@ -1,4 +1,0 @@
-"""
-Cognition Module
-"""
-

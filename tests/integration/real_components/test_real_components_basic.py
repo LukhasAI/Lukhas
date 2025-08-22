@@ -18,7 +18,7 @@ class TestRealComponentsBasic:
     def test_import_symbolic_kernel_bus(self):
         """Test that we can import and use the real symbolic kernel bus"""
         try:
-            from orchestration.symbolic_kernel_bus import SymbolicKernelBus, SymbolicEvent, emit, subscribe
+            from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus, SymbolicEvent, emit, subscribe
             
             # Create instances
             bus = SymbolicKernelBus()
@@ -114,9 +114,9 @@ class TestRealComponentsBasic:
             pytest.fail(f"Reasoning real module failed: {e}")
     
     def test_import_orchestration_brain(self):
-        """Test that we can import orchestration brain"""
+        """Test that we can import lukhas.orchestration brain"""
         try:
-            import orchestration.brain
+            import lukhas.orchestration.brain
             
             # Basic import test
             assert orchestration.brain is not None
@@ -129,7 +129,7 @@ class TestRealComponentsBasic:
     def test_real_symbolic_event_creation(self):
         """Test creating real symbolic events"""
         try:
-            from orchestration.symbolic_kernel_bus import SymbolicEvent, EventPriority
+            from lukhas.orchestration.symbolic_kernel_bus import SymbolicEvent, EventPriority
             
             # Test basic event
             event1 = SymbolicEvent(

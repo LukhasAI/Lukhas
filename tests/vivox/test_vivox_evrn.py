@@ -8,7 +8,7 @@ from datetime import datetime
 import numpy as np
 import pytest
 
-from vivox.encrypted_perception import (
+from lukhas.vivox.encrypted_perception import (
     AnomalyDetector,
     AnomalySignature,
     EncryptedPerception,

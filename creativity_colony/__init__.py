@@ -1,4 +1,0 @@
-"""
-Creativity_Colony Module
-"""
-

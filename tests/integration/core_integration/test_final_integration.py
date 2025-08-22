@@ -12,8 +12,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from bridge.llm_wrappers.openai_modulated_service import run_modulated_completion
-from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+from lukhas.bridge.llm_wrappers.openai_modulated_service import run_modulated_completion
+from lukhas.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
 
 load_dotenv()
 sys.path.insert(0, str(Path.cwd()))

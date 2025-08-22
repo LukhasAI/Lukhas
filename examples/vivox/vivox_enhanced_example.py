@@ -8,10 +8,10 @@ import asyncio
 import os
 
 from vivox import ActionProposal, create_vivox_system
-from vivox.consciousness.state_variety_enhancement import (
+from lukhas.vivox.consciousness.state_variety_enhancement import (
     create_enhanced_state_determination,
 )
-from vivox.moral_alignment.decision_strictness_enhancement import (
+from lukhas.vivox.moral_alignment.decision_strictness_enhancement import (
     create_strict_decision_maker,
 )
 

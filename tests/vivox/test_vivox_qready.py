@@ -5,17 +5,17 @@ Tests for VIVOX.QREADY - Quantum Readiness Interface
 import numpy as np
 import pytest
 
-from vivox.quantum_readiness import (
+from lukhas.vivox.quantum_readiness import (
     CollapseField,
     CollapseType,
     EntanglementBridge,
     EthicalDimension,
-    EthicalQuantumState,
+    EthicalQIState,
     MoralSuperposition,
     ProbabilisticConvergence,
     QSyncEvent,
-    QuantumState,
-    QuantumStateType,
+    QIState,
+    QIStateType,
     QuantumSubstrate,
     QuantumSynchronizer,
     QubitCollapseEngine,
@@ -23,7 +23,7 @@ from vivox.quantum_readiness import (
     SyncType,
     create_quantum_readiness_system,
 )
-from vivox.quantum_readiness.integration.vivox_bridge import VIVOXQuantumBridge
+from lukhas.vivox.quantum_readiness.integration.vivox_bridge import VIVOXQuantumBridge
 
 
 class TestQuantumSubstrate:
@@ -37,22 +37,22 @@ class TestQuantumSubstrate:
     def test_create_quantum_state(self, substrate):
         """Test quantum state creation"""
         # Create pure state
-        pure_state = substrate.create_quantum_state(QuantumStateType.PURE)
+        pure_state = substrate.create_quantum_state(QIStateType.PURE)
 
-        assert isinstance(pure_state, QuantumState)
-        assert pure_state.state_type == QuantumStateType.PURE
+        assert isinstance(pure_state, QIState)
+        assert pure_state.state_type == QIStateType.PURE
         assert len(pure_state.state_vector) == 2 ** substrate.config["num_qubits"]
         assert np.abs(np.linalg.norm(pure_state.state_vector) - 1.0) < 1e-10
         assert pure_state.fidelity == 1.0
 
         # Create superposition state
-        superposition = substrate.create_quantum_state(QuantumStateType.SUPERPOSITION)
+        superposition = substrate.create_quantum_state(QIStateType.SUPERPOSITION)
         assert np.all(np.abs(superposition.state_vector) > 0)  # All components non-zero
 
     def test_quantum_noise_application(self, substrate):
         """Test quantum noise effects"""
         # Create initial state
-        state = substrate.create_quantum_state(QuantumStateType.PURE)
+        state = substrate.create_quantum_state(QIStateType.PURE)
         initial_vector = state.state_vector.copy()
 
         # Apply noise
@@ -69,7 +69,7 @@ class TestQuantumSubstrate:
     def test_state_stabilization(self, substrate):
         """Test quantum state stabilization"""
         # Create noisy state
-        state = substrate.create_quantum_state(QuantumStateType.SUPERPOSITION)
+        state = substrate.create_quantum_state(QIStateType.SUPERPOSITION)
         noisy_state = substrate.apply_quantum_noise(state, time_evolution=1.0)
 
         # Stabilize
@@ -85,8 +85,8 @@ class TestQuantumSubstrate:
         """Test creation of entangled quantum states"""
         state1, state2 = substrate.create_entangled_pair()
 
-        assert state1.state_type == QuantumStateType.ENTANGLED
-        assert state2.state_type == QuantumStateType.ENTANGLED
+        assert state1.state_type == QIStateType.ENTANGLED
+        assert state2.state_type == QIStateType.ENTANGLED
         assert state2.state_id in state1.entanglement_map
         assert state1.state_id in state2.entanglement_map
         assert state1.entanglement_map[state2.state_id] == 1.0
@@ -145,8 +145,8 @@ class TestQubitCollapseEngine:
             ethical_scenario, uncertainty_level=0.3
         )
 
-        assert isinstance(superposition, QuantumState)
-        assert superposition.state_type == QuantumStateType.SUPERPOSITION
+        assert isinstance(superposition, QIState)
+        assert superposition.state_type == QIStateType.SUPERPOSITION
         assert superposition.fidelity > 0.5
         assert "ethical_scenario" in superposition.metadata
 
@@ -170,7 +170,7 @@ class TestQubitCollapseEngine:
         assert convergence.collapse_type == CollapseType.ETHICAL
         assert 0 <= convergence.ethical_score <= 1
         assert len(convergence.convergence_path) > 0
-        assert convergence.final_state.state_type == QuantumStateType.COLLAPSED
+        assert convergence.final_state.state_type == QIStateType.COLLAPSED
 
     def test_collapse_field_application(self, collapse_engine):
         """Test collapse field effects"""
@@ -407,7 +407,7 @@ class TestMoralSuperposition:
             ethical_scenario, uncertainty=0.3
         )
 
-        assert isinstance(state, EthicalQuantumState)
+        assert isinstance(state, EthicalQIState)
         assert len(state.superposition) == moral_superposition.dimension
         assert np.abs(np.linalg.norm(state.superposition) - 1.0) < 1e-10
         assert state.uncertainty_level == 0.3

@@ -1,4 +1,0 @@
-"""
-Quantum_Core Module
-"""
-

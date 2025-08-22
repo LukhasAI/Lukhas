@@ -1,4 +1,0 @@
-"""
-Core_Interface Module
-"""
-

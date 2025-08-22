@@ -1,0 +1,10 @@
+{
+  "name": "policy",
+  "lane": "accepted",
+  "capabilities": ["policy:decide", "policy:explain"],
+  "owner": "A2-Compliance",
+  "matriz_emit_points": ["decide", "explain"],
+  "sla": {"p95_ms": 25},
+  "dependencies": ["lukhas/orchestration", "lukhas/governance"],
+  "notes": "Interfaces-only in accepted; heavy logic promoted from candidate later."
+}

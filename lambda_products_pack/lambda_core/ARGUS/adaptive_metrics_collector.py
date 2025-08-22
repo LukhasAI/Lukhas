@@ -18,11 +18,11 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import structlog
 
-from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Optional import of global bus getter for default wiring
 try:
-    from orchestration.signals.signal_bus import (
+    from lukhas.orchestration.signals.signal_bus import (
         get_signal_bus as _get_global_signal_bus,
     )
 except Exception:

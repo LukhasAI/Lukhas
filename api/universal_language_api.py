@@ -19,14 +19,14 @@ from lukhas.consciousness.reflection.openai_modulated_service import (
 )
 from core.colonies.consensus_mechanisms import ConsensusMethod
 from core.colonies.enhanced_colony import EnhancedReasoningColony
-from orchestration.gpt_colony_orchestrator import (
+from lukhas.orchestration.gpt_colony_orchestrator import (
     GPTColonyOrchestrator,
     OrchestrationMode,
     OrchestrationTask,
 )
 
 # Import LUKHAS components
-from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 from symbolic.exchange.universal_exchange import (
     ExchangeProtocol,
     UniversalSymbolExchange,

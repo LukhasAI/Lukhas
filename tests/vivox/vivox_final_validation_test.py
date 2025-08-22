@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from vivox import ActionProposal, PotentialState, create_vivox_system
-from vivox.moral_alignment.precedent_seeds import seed_precedent_database
+from lukhas.vivox.moral_alignment.precedent_seeds import seed_precedent_database
 
 
 async def validate_all_improvements():

@@ -42,7 +42,7 @@ except ImportError as e:
     BIO_SYMBOLIC_AVAILABLE = False
 
 try:
-    from quantum_consciousness_lambda_bot import QuantumConsciousnessΛBot, QuantumConsciousnessMode
+    from lukhas.qi.consciousness_lambda_bot import QIConsciousnessΛBot, QIConsciousnessMode
     QUANTUM_CONSCIOUSNESS_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Quantum Consciousness LUKHAS AI ΛBot not available: {e}")
@@ -143,7 +143,7 @@ class MasterΛBotOrchestrator:
 
         if QUANTUM_CONSCIOUSNESS_AVAILABLE:
             try:
-                self.quantum_consciousness_bot = QuantumConsciousnessΛBot()
+                self.quantum_consciousness_bot = QIConsciousnessΛBot()
                 logger.info("✅ Quantum Consciousness LUKHAS AI ΛBot integrated")
             except Exception as e:
                 logger.error(f"❌ Quantum Consciousness integration failed: {e}")
@@ -255,7 +255,7 @@ class MasterΛBotOrchestrator:
         if self.quantum_consciousness_bot:
             quantum_session = await self.quantum_consciousness_bot.start_quantum_consciousness_session(
                 self.current_session.target_path,
-                QuantumConsciousnessMode.TRANSCENDENT_QUANTUM
+                QIConsciousnessMode.TRANSCENDENT_QUANTUM
             )
             self.current_session.lambda_bot_sessions['quantum_consciousness'] = quantum_session
             self.current_session.active_lambda_bots.append('quantum_consciousness')

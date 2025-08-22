@@ -14,7 +14,7 @@ from lukhas.audit.store import audit_log_write
 from lukhas.audit.tool_analytics import get_analytics
 from lukhas.feedback.store import record_feedback
 from lukhas.openai.tooling import build_tools_from_allowlist
-from orchestration.signals.homeostasis import ModulationParams
+from lukhas.orchestration.signals.homeostasis import ModulationParams
 
 # Add project root to path
 project_root = Path(__file__).parent

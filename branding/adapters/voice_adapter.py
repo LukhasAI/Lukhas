@@ -24,9 +24,9 @@ except ImportError as e:
 
 # Import voice systems with fallback
 try:
-    from bridge.voice.personality import VoicePersonalityIntegrator
-    from bridge.voice.voice_integration import VoiceIntegration
-    from bridge.voice.emotional_modulator import EmotionalModulator
+    from lukhas.bridge.voice.personality import VoicePersonalityIntegrator
+    from lukhas.bridge.voice.voice_integration import VoiceIntegration
+    from lukhas.bridge.voice.emotional_modulator import EmotionalModulator
     VOICE_SYSTEMS_AVAILABLE = True
 except ImportError:
     logging.warning("Core voice systems not available, using compatibility layer")
@@ -64,7 +64,7 @@ class BrandVoiceAdapter:
             
         # Initialize voice systems
         if VOICE_SYSTEMS_AVAILABLE:
-            from bridge.voice.voice_profiling import VoiceProfileManager
+            from lukhas.bridge.voice.voice_profiling import VoiceProfileManager
             profile_manager = VoiceProfileManager()
             self.core_voice_personality = VoicePersonalityIntegrator(profile_manager)
         else:

@@ -45,7 +45,7 @@ class QIAssociativeMemoryBank:
     async def store_quantum_state(
         self,
         memory_id: str,
-        quantum_state: QuantumState,
+        quantum_state: QIState,
         associations: List[str]
     ):
         """

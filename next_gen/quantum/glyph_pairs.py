@@ -68,7 +68,7 @@ class GlyphPair:
 
 
 @dataclass
-class QuantumAuthentication:
+class QIAuthentication:
     """Quantum authentication challenge-response"""
 
     auth_id: str
@@ -82,7 +82,7 @@ class QuantumAuthentication:
     verification_time: Optional[datetime] = None
 
 
-class QuantumGlyphSystem:
+class QIGlyphSystem:
     """
     Quantum-inspired glyph authentication system
     Creates entangled glyph pairs for secure authentication protocols

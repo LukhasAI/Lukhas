@@ -6,7 +6,7 @@ import json
 import tempfile
 import unittest
 from unittest.mock import patch, MagicMock
-from qi.safety.provenance_links import (
+from lukhas.qi.safety.provenance_links import (
     _parse_storage_url,
     _load_record_by_sha,
     _file_link,

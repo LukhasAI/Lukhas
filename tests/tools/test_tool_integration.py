@@ -10,9 +10,9 @@ import os
 import sys
 from pathlib import Path
 
-from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
+from lukhas.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 from lukhas.openai.tooling import get_all_tools, get_tool_names
-from orchestration.signals.homeostasis import ModulationParams
+from lukhas.orchestration.signals.homeostasis import ModulationParams
 
 # Add the project root to Python path
 project_root = Path(__file__).parent

@@ -22,7 +22,7 @@ from dotenv import load_dotenv
 from lukhas.audit.store import audit_log_write
 from lukhas.audit.tool_analytics import get_analytics
 from lukhas.metrics import get_metrics_collector
-from orchestration.signals.homeostasis import ModulationParams
+from lukhas.orchestration.signals.homeostasis import ModulationParams
 
 load_dotenv()
 
