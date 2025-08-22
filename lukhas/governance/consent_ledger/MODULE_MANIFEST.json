@@ -1,0 +1,16 @@
+{
+  "module": "lukhas.governance.consent_ledger",
+  "owner": "@consent-compliance-specialist",
+  "capabilities": ["record_consent"],
+  "feature_flag": "FEATURE_GOVERNANCE_LEDGER",
+  "dependencies": [],
+  "slas": { "p95_ms": 50 },
+  "matriz_emit_points": ["CONSENT:governance:record"],
+  "acceptance_checklist": [
+    "No static imports from candidate/",
+    "MATRIZ decorated public APIs",
+    "DRY_RUN/OFFLINE supported",
+    "Unit & smoke tests present",
+    "PII logging avoided"
+  ]
+}

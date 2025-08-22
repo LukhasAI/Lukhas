@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).parents[1]))
 
 from lukhas.identity.lambda_id import authenticate
 from lukhas.governance.consent_ledger import record_consent
-from lukhas.orchestration.context_bus import build_context
+from lukhas.orchestration.context import handoff_context
 from lukhas.core.core_wrapper import decide
 
 
@@ -43,20 +43,16 @@ def test_e2e_dryrun():
         "Should indicate dry-run mode"
     
     # Test 2: Consent recording in dry-run mode
-    consent_result = record_consent({
-        "subject": "LID-demo",
-        "scopes": ["ctx:build", "policy:read"]
-    }, mode="dry_run")
+    consent_result = record_consent("LID-demo", "ctx:build", {"scopes": ["ctx:build", "policy:read"]})
     assert consent_result.get("ok", True), "Consent recording should succeed in dry-run"
     
-    # Test 3: Context building in dry-run mode
-    context_result = build_context({
+    # Test 3: Context handoff in dry-run mode
+    context_result = handoff_context({
         "session_id": "test_session_001",
         "tenant": "default",
         "user": "LID-demo"
-    }, mode="dry_run")
-    assert "session" in context_result or context_result.get("ok", True), \
-        "Context building should provide session info"
+    })
+    assert context_result.get("ok", True), "Context handoff should succeed in dry-run"
     
     # Test 4: Policy decision in dry-run mode
     decision_result = decide({
