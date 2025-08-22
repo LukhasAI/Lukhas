@@ -1,0 +1,73 @@
+{
+  "module": "MEMORY",
+  "version": "1.0.0",
+  "description": "Production-safe fold-based memory with cascade prevention",
+  "path": "lukhas/memory/",
+  "status": "promoted",
+  "promoted_from": "candidate/memory/",
+  "capabilities": [
+    "memory:fold:create",
+    "memory:fold:retrieve",
+    "memory:consolidation", 
+    "memory:causal_chain",
+    "memory:emotional_valence",
+    "memory:cascade_prevention",
+    "memory:dry_run"
+  ],
+  "feature_flags": {
+    "MEMORY_ACTIVE": {
+      "default": false,
+      "description": "Activates live memory operations (defaults to dry-run)"
+    }
+  },
+  "performance_targets": {
+    "fold_creation": "<10ms",
+    "memory_access": "<50ms", 
+    "consolidation": "<100ms",
+    "cascade_prevention_rate": "99.7%",
+    "max_folds": 1000
+  },
+  "matriz_emit_points": [
+    "create_fold",
+    "consolidate_memory",
+    "access_memory",
+    "get_status"
+  ],
+  "integration_interfaces": [
+    "consciousness",
+    "identity",
+    "guardian"
+  ],
+  "dependencies": [
+    "lukhas.observability",
+    "lukhas.core"
+  ],
+  "exports": [
+    "MemoryWrapper",
+    "MemoryFold",
+    "FoldManager", 
+    "MemoryMatrizAdapter",
+    "create_fold",
+    "consolidate_memory",
+    "access_memory"
+  ],
+  "safety_features": [
+    "dry_run_default",
+    "feature_flag_protection",
+    "error_handling",
+    "cascade_prevention",
+    "performance_limits"
+  ],
+  "validation": {
+    "emotional_valence_range": [-1.0, 1.0],
+    "importance_range": [0.0, 1.0],
+    "max_fold_limit": 1000,
+    "cascade_threshold": 0.997
+  },
+  "tags": [
+    "#TAG:memory",
+    "#TAG:fold_based",
+    "#TAG:production_safe", 
+    "#TAG:trinity_framework"
+  ]
+}

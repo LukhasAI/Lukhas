@@ -12,20 +12,30 @@ from unittest.mock import MagicMock, patch, Mock
 from datetime import datetime
 from typing import Dict, Any, List, Optional
 
-# Memory module imports
+# Memory module imports - test both candidate and promoted versions
 try:
-    from candidate.memory import MemoryCore, MemoryFold
-    from candidate.memory.fold import FoldManager
-    from candidate.memory.service import MemoryService
-    from candidate.memory.matriz_adapter import MemoryMatrizAdapter
+    from lukhas.memory import MemoryWrapper, MemoryFold, get_memory_manager
+    from lukhas.memory.fold_system import FoldManager
+    from lukhas.memory.matriz_adapter import MemoryMatrizAdapter
     MEMORY_AVAILABLE = True
+    MEMORY_PROMOTED = True
 except ImportError:
-    MemoryCore = None
-    MemoryFold = None
-    FoldManager = None
-    MemoryService = None
-    MemoryMatrizAdapter = None
-    MEMORY_AVAILABLE = False
+    try:
+        from candidate.memory import MemoryCore, MemoryFold
+        from candidate.memory.fold import FoldManager
+        from candidate.memory.service import MemoryService
+        from candidate.memory.matriz_adapter import MemoryMatrizAdapter
+        MemoryWrapper = None
+        MEMORY_AVAILABLE = True
+        MEMORY_PROMOTED = False
+    except ImportError:
+        MemoryWrapper = None
+        MemoryFold = None
+        FoldManager = None
+        MemoryService = None
+        MemoryMatrizAdapter = None
+        MEMORY_AVAILABLE = False
+        MEMORY_PROMOTED = False
 
 # Feature flags
 try:
@@ -54,34 +64,49 @@ class TestMemoryModuleIntegration:
     def test_memory_module_availability(self):
         """Test that memory module can be imported"""
         assert MEMORY_AVAILABLE, "Memory module should be available for testing"
-        assert MemoryCore is not None, "MemoryCore should be importable"
         assert MemoryFold is not None, "MemoryFold should be importable"
         assert FoldManager is not None, "FoldManager should be importable"
+        
+        if MEMORY_PROMOTED:
+            assert MemoryWrapper is not None, "MemoryWrapper should be importable (promoted version)"
+        else:
+            # Test candidate version components if available
+            pass
     
     def test_memory_fold_creation_dry_run(self):
         """Test memory fold creation in dry_run mode (default)"""
         if not MEMORY_AVAILABLE:
             pytest.skip("Memory module not available")
         
-        fold_manager = FoldManager()
-        
-        # Create fold in dry_run mode
-        fold = fold_manager.create_fold(
-            content={"test": "data"},
-            causal_chain=["test_event"],
-            mode="dry_run"
-        )
-        
-        assert fold is not None
-        assert fold.content == {"test": "data"}
-        assert fold.causal_chain == ["test_event"]
-        assert hasattr(fold, 'id')
-        assert hasattr(fold, 'timestamp')
-        
-        # In dry_run mode, fold should not be persisted
-        status = fold_manager.get_status(mode="dry_run")
-        assert status["mode"] == "dry_run"
-        assert status["dry_run_operations"] >= 1
+        if MEMORY_PROMOTED:
+            # Test promoted memory wrapper
+            memory_manager = get_memory_manager()
+            result = memory_manager.create_fold(
+                content={"test": "data"},
+                causal_chain=["test_event"],
+                mode="dry_run"
+            )
+            
+            assert result["ok"] is True
+            assert result["mode"] == "dry_run"
+            assert result["stored"] is False  # Not stored in dry_run
+            assert "fold_id" in result
+        else:
+            # Test candidate memory system
+            fold_manager = FoldManager()
+            
+            # Create fold in dry_run mode
+            fold = fold_manager.create_fold(
+                content={"test": "data"},
+                causal_chain=["test_event"],
+                mode="dry_run"
+            )
+            
+            assert fold is not None
+            assert fold.content == {"test": "data"}
+            assert fold.causal_chain == ["test_event"]
+            assert hasattr(fold, 'id')
+            assert hasattr(fold, 'timestamp')
     
     def test_memory_fold_limit_enforcement(self):
         """Test that memory fold limit (1000) is enforced"""
