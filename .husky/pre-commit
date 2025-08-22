@@ -1,0 +1,12 @@
+python3 tools/acceptance_gate.py || {
+  echo "❌ Acceptance gate failed - commit blocked"
+  exit 1
+}
+
+# Quick static grep as a belt-and-suspenders (only check Python import lines)
+if grep -R --include="*.py" -E "^(from|import)\\s+(candidate|quarantine|archive)\\b" lukhas/ 2>/dev/null; then
+  echo "❌ Illegal imports detected - commit blocked"
+  exit 1
+fi
+
+echo "✅ Pre-commit checks passed"

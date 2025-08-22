@@ -2,6 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 🚨 CRITICAL: Execution Standards
+
+**MANDATORY**: Always follow `EXECUTION_STANDARDS.md` for all system changes. This is our 3rd attempt - no more mistakes allowed.
+
+### Required References
+- **`EXECUTION_STANDARDS.md`** - Master checklist and quality standards
+- **`reality_check_phase_1_and_beyond.md`** - Complete Phase 1-3 implementation plan  
+- **`phase_beyond.md`** - Security fixes and execution order
+
+**Quality Target**: Execute at the level that would make Sam Altman (scale), Dario Amodei (safety), and Demis Hassabis (rigor) proud.
+
 ## Test Commitment
 **Important**: Always run tests and linters after making changes. Aim for 100% test pass rate, with 85% as the minimum acceptable threshold. Fix all failures before committing. Run `npm run validate:all` to check all policies.
 

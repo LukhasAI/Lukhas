@@ -19,11 +19,12 @@ Version: 1.0.0
 """
 
 import asyncio
+import os
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union, Protocol
 
 try:
     from ..observability.matriz_decorators import matriz_trace
@@ -68,14 +69,29 @@ except ImportError:
     MEMORY_AVAILABLE = False
 
 # Feature flags with safe defaults
-CONSCIOUSNESS_ACTIVE = False  # Master switch - DRY RUN by default
-AWARENESS_ACTIVE = False      # Awareness subsystem
-REFLECTION_ACTIVE = False     # Reflection subsystem  
-UNIFIED_ACTIVE = False        # Unified consciousness
-STATES_ACTIVE = False         # States management
-CREATIVITY_ACTIVE = False     # Creativity subsystem
-DREAM_ACTIVE = False          # Dream processing
-REASONING_ACTIVE = False      # Reasoning subsystem
+LUKHAS_DRY_RUN_MODE = os.getenv("LUKHAS_DRY_RUN_MODE", "true").lower() == "true"
+CONSCIOUSNESS_ACTIVE = os.getenv("CONSCIOUSNESS_ACTIVE", "false").lower() == "true"
+AWARENESS_ACTIVE = os.getenv("AWARENESS_ACTIVE", "false").lower() == "true"
+REFLECTION_ACTIVE = os.getenv("REFLECTION_ACTIVE", "false").lower() == "true"
+UNIFIED_ACTIVE = os.getenv("UNIFIED_ACTIVE", "false").lower() == "true"
+STATES_ACTIVE = os.getenv("STATES_ACTIVE", "false").lower() == "true"
+CREATIVITY_ACTIVE = os.getenv("CREATIVITY_ACTIVE", "false").lower() == "true"
+DREAM_ACTIVE = os.getenv("DREAM_ACTIVE", "false").lower() == "true"
+REASONING_ACTIVE = os.getenv("REASONING_ACTIVE", "false").lower() == "true"
+
+# Protocol for consciousness system implementations
+class ConsciousnessSystem(Protocol):
+    """Protocol for consciousness system implementations"""
+    def process_awareness(self, stimulus: Dict[str, Any]) -> Dict[str, Any]: ...
+    def reflect(self, thought: str) -> Dict[str, Any]: ...
+    def dream(self, seed: Any) -> Dict[str, Any]: ...
+
+# Registry for consciousness implementations
+_CONSCIOUSNESS_REGISTRY: Dict[str, ConsciousnessSystem] = {}
+
+def register_consciousness_system(name: str, impl: ConsciousnessSystem) -> None:
+    """Register a consciousness system implementation"""
+    _CONSCIOUSNESS_REGISTRY[name] = impl
 
 
 class SafetyMode(Enum):
@@ -143,16 +159,9 @@ class ConsciousnessWrapper:
     
     def _initialize_candidate_system(self):
         """Lazy initialization of candidate consciousness system"""
-        try:
-            # Only import and initialize if explicitly activated
-            from ...candidate.consciousness.unified.auto_consciousness import AutoConsciousness
-            self.candidate_system = AutoConsciousness(
-                enable_awareness=AWARENESS_ACTIVE,
-                enable_reasoning=REASONING_ACTIVE
-            )
-        except ImportError:
-            # Graceful fallback if candidate system not available
-            self.candidate_system = None
+        # System is now loaded from registry instead of static import
+        # Implementations register themselves at runtime
+        self.candidate_system = _CONSCIOUSNESS_REGISTRY.get("default")
     
     @matriz_trace("consciousness.check_awareness")
     async def check_awareness(self, stimulus: Dict[str, Any], mode: str = "dry_run") -> Dict[str, Any]:

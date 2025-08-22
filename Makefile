@@ -2,6 +2,7 @@
 .PHONY: lint format fix fix-imports setup-hooks ci-local monitor test-cov deep-clean quick bootstrap
 .PHONY: security security-scan security-update security-audit security-fix
 .PHONY: policy policy-review policy-brand policy-tone policy-registries
+.PHONY: verify phase1 status hook-install
 
 # Default target
 help:
@@ -223,7 +224,7 @@ admin:
 	open http://127.0.0.1:8000/admin || true
 
 # Check linting status
-status:
+lint-status:
 	@python tools/scripts/check_progress.py
 
 # API specification
@@ -512,3 +513,17 @@ policy-routes:
 policy-vocab:
 	@echo "📚 Validating vocabulary compliance..."
 	@npm run vocab:validate
+
+# Phase 1 Verification
+verify: phase1
+phase1:
+	bash tools/verification/run_all_checks.sh
+status:
+	@sha=$$(git rev-parse HEAD); \
+	cat verification_artifacts/$$sha/system_status/summary.md || echo "No artifacts for $$sha"
+hook-install:
+	npm install --save-dev husky
+	npx husky install
+	npx husky add .husky/pre-commit "python3 tools/acceptance_gate.py" >/dev/null
+	npx husky add .husky/post-commit "make verify" >/dev/null
+	chmod +x .husky/pre-commit .husky/post-commit

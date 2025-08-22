@@ -1,0 +1,53 @@
+class GlyphEngine(Protocol):
+    """Protocol for GLYPH engine implementations"""
+    def encode_concept(self, concept: str, emotion: Optional[Dict[str, float]] = None) -> Any: ...
+    def decode_glyph(self, glyph_repr: Any) -> Any: ...
+    def create_trinity_glyph(self, emphasis: str) -> Any: ...
+
+
+class ActorSystem(Protocol):
+    """Protocol for actor system implementations"""
+    def send(self, actor_id: str, message: Any) -> None: ...
+    def register(self, actor_id: str, actor: Any) -> None: ...
+
+
+class SymbolicWorld(Protocol):
+    """Protocol for symbolic world implementations"""
+    symbols: Dict[str, Any]
+    def create_symbol(self, name: str, properties: Dict[str, Any]) -> None: ...
+    def link_symbols(self, symbol1: Any, symbol2: Any, relationship_type: str, properties: Dict[str, Any]) -> None: ...
+    def get_related_symbols(self, symbol: Any) -> List[Any]: ...
+
+
+class SymbolicReasoner(Protocol):
+    """Protocol for symbolic reasoner implementations"""
+    def reason(self, symbol: Any) -> Dict[str, Any]: ...
+    def find_patterns(self, symbols: List[Any]) -> List[Dict[str, Any]]: ...
+
+
+# Registry for implementations (populated by candidate modules at runtime)
+_REGISTRY: Dict[str, Any] = {
+    "glyph_engine": None,
+    "actor_system": None,
+    "symbolic_world": None,
+--
+class DecisionEngine(Protocol):
+    """Protocol for decision engine implementations"""
+    def decide(self, policy_input: Dict[str, Any]) -> Dict[str, Any]: ...
+
+
+_DECISION_REGISTRY: Dict[str, DecisionEngine] = {}
+
+
+def register_decision_engine(name: str, impl: DecisionEngine) -> None:
+    """Register a decision engine implementation"""
+    _DECISION_REGISTRY[name] = impl
+
+
+=== Registry Functions ===
+def register_glyph_engine(impl: GlyphEngine) -> None:
+def register_actor_system(impl: ActorSystem) -> None:
+def register_symbolic_world(impl: SymbolicWorld) -> None:
+def register_symbolic_reasoner(impl: SymbolicReasoner) -> None:
+    def register_actor(self, actor_id: str, actor: Any, mode: str = "dry_run") -> bool:
+def register_decision_engine(name: str, impl: DecisionEngine) -> None:

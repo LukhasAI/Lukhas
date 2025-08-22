@@ -1,0 +1,28 @@
+Fixed Illegal Imports - Registry Pattern Implementation
+========================================================
+
+Files Updated:
+1. lukhas/core/core_wrapper.py
+   - Removed: from candidate.core.glyph.glyph_engine import GlyphEngine
+   - Removed: from candidate.core.actor_system import ActorSystem
+   - Removed: from candidate.core.symbolic.symbolic_core import SymbolicWorld
+   - Added: Registry pattern with Protocol definitions
+   - Added: register_glyph_engine(), register_actor_system(), etc.
+
+2. lukhas/consciousness/consciousness_wrapper.py
+   - Removed: from candidate.consciousness.unified.auto_consciousness import AutoConsciousness
+   - Added: ConsciousnessSystem Protocol
+   - Added: _CONSCIOUSNESS_REGISTRY and register_consciousness_system()
+
+3. lukhas/vivox/vivox_wrapper.py
+   - Removed: from candidate.vivox.memory_expansion.vivox_me_core import VIVOXMemoryExpansion
+   - Removed: from candidate.vivox.moral_alignment.vivox_mae_core import VIVOXMoralAlignmentEngine
+   - Removed: from candidate.vivox.consciousness.vivox_cil_core import VIVOXConsciousnessInterpretationLayer
+   - Removed: from candidate.vivox.self_reflection.vivox_srm_core import VIVOXSelfReflectiveMemory
+   - Removed: from candidate.vivox.consciousness.vivox_cil_core import SimulationBranch
+   - Added: Protocol definitions for all VIVOX components
+   - Added: _VIVOX_REGISTRY with registration functions
+
+Total Illegal Imports Removed: 8
+Total Files Fixed: 3
+Pattern Used: Registry Pattern with Protocol typing

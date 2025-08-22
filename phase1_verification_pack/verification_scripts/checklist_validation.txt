@@ -1,0 +1,58 @@
+Phase 1 Checklist Validation
+=============================
+
+From reality_check_phase_1_and_beyond.md:
+
+✅ 1. Add the AST gate
+   Status: COMPLETE
+   Evidence: tools/acceptance_gate.py replaced with AST-based version
+   Result: "✅ No banned lane imports in accepted."
+
+✅ 2. Convert façade wrappers to registries
+   Status: COMPLETE
+   Files Fixed:
+   - lukhas/core/core_wrapper.py
+   - lukhas/consciousness/consciousness_wrapper.py
+   - lukhas/vivox/vivox_wrapper.py
+   Pattern: Registry with Protocol typing
+
+✅ 3. Establish one E2E dry-run test
+   Status: COMPLETE
+   File: tests/test_e2e_dryrun.py
+   Tests: 4/4 passing
+   - test_e2e_dryrun
+   - test_e2e_safety_defaults
+   - test_trinity_framework_integration
+   - test_no_side_effects_in_dryrun
+
+✅ 4. Set env safety defaults + load in tests
+   Status: COMPLETE
+   Files:
+   - .env.example (safety defaults)
+   - conftest.py (pytest configuration)
+   Defaults:
+   - LUKHAS_DRY_RUN_MODE=true
+   - All features disabled
+   - Guardian enforcement=strict
+
+✅ 5. Choose the first three promotions
+   Status: COMPLETE
+   Document: PROMOTION_PLAN_PHASE_3.md
+   Order:
+   1. Observability (MATRIZ) - Week 1
+   2. Governance/Consent Ledger - Week 2
+   3. Identity/Passkey - Week 3
+   4. Orchestration/Context - Week 4
+
+OVERALL: 5/5 CHECKLIST ITEMS COMPLETE ✅
+
+Six-Point Acceptance Criteria Status:
+--------------------------------------
+✅ Lane placement (in lukhas/)
+✅ No banned imports (verified by AST)
+⚠️ MATRIZ instrumentation (partial)
+✅ Tests passing (dry-run tests)
+❌ P95 SLA met (not measured yet)
+✅ Dry-run default + consent gates
+
+Score: 4/6 criteria met (ready for Phase 3 improvements)

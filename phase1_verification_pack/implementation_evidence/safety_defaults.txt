@@ -378,3 +378,39 @@ LUKHAS_SSL_KEY=/path/to/key.pem
 
 # CORS Origins (production - restrict as needed)
 LUKHAS_CORS_ORIGINS=https://yourdomain.com,https://app.yourdomain.com
+
+
+=== Conftest.py Safety Defaults ===
+def pytest_configure(config):
+    """
+    Configure pytest with safety-first defaults.
+    These settings ensure tests run in dry-run mode by default.
+    """
+    # Safety-first environment defaults
+    os.environ.setdefault("LUKHAS_DRY_RUN_MODE", "true")
+    os.environ.setdefault("LUKHAS_OFFLINE", "true")
+    os.environ.setdefault("LUKHAS_FEATURE_MATRIX_EMIT", "true")
+    
+    # Disable all features by default (safety first)
+    os.environ.setdefault("FEATURE_POLICY_DECIDER", "false")
+    os.environ.setdefault("FEATURE_ORCHESTRATION_HANDOFF", "false")
+    os.environ.setdefault("FEATURE_IDENTITY_PASSKEY", "false")
+    os.environ.setdefault("FEATURE_GOVERNANCE_LEDGER", "false")
+    
+--
+def pytest_configure(config):
+    """Register custom markers"""
+    config.addinivalue_line(
+        "markers", "unit: Unit tests (fast, isolated)"
+    )
+    config.addinivalue_line(
+        "markers", "integration: Integration tests (may require setup)"
+    )
+    config.addinivalue_line(
+        "markers", "e2e: End-to-end tests (full system)"
+    )
+    config.addinivalue_line(
+        "markers", "dry_run: Tests that verify dry-run mode"
+    )
+    config.addinivalue_line(
+        "markers", "safety: Tests that verify safety features"

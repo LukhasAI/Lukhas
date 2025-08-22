@@ -1,0 +1,46 @@
+Feature Flags Configuration - All Disabled by Default
+======================================================
+
+Safety Flags (Always True):
+---------------------------
+LUKHAS_DRY_RUN_MODE=true
+LUKHAS_OFFLINE=true
+LUKHAS_FEATURE_MATRIX_EMIT=true
+
+Feature Flags (All False by Default):
+--------------------------------------
+FEATURE_POLICY_DECIDER=false
+FEATURE_ORCHESTRATION_HANDOFF=false
+FEATURE_IDENTITY_PASSKEY=false
+FEATURE_GOVERNANCE_LEDGER=false
+
+Core System Flags (All False by Default):
+------------------------------------------
+CORE_ACTIVE=false
+CONSCIOUSNESS_ACTIVE=false
+VIVOX_ACTIVE=false
+QI_ACTIVE=false
+MEMORY_ACTIVE=false
+AWARENESS_ACTIVE=false
+REFLECTION_ACTIVE=false
+UNIFIED_ACTIVE=false
+STATES_ACTIVE=false
+CREATIVITY_ACTIVE=false
+DREAM_ACTIVE=false
+REASONING_ACTIVE=false
+VIVOX_ME_ACTIVE=false
+VIVOX_MAE_ACTIVE=false
+VIVOX_CIL_ACTIVE=false
+VIVOX_SRM_ACTIVE=false
+VIVOX_INTEGRATION_ACTIVE=false
+
+Guardian Settings:
+------------------
+GUARDIAN_ENFORCEMENT=strict
+ETHICS_ENFORCEMENT_LEVEL=strict
+SYMBOLIC_DRIFT_THRESHOLD=0.15
+TRINITY_COHERENCE_MIN=0.3
+MEMORY_FOLD_LIMIT=1000
+
+Status: ALL FEATURES DISABLED FOR SAFETY
+Result: System runs in dry-run mode only

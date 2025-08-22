@@ -1,0 +1,12 @@
+make verify || {
+  echo "❌ Post-commit verification failed"
+  exit 1
+}
+
+SHA=$(git rev-parse HEAD)
+cat > LUKHAS_SYSTEM_STATUS.md <<EOF
+# LUKHAS System Status — Reality (SHA: ${SHA})
+Generated: $(date)
+Artifacts: verification_artifacts/${SHA}/
+EOF
+echo "📦 Verification artifacts created for ${SHA}"

@@ -120,14 +120,25 @@
     ]
   },
   "promotion_status": {
+    "lane": "accepted",
     "source": "candidate/core/",
     "target": "lukhas/core/",
     "files_count": 926,
-    "completion_date": "2025-08-22",
     "wrapper_created": true,
-    "tests_created": true,
-    "final_module": true,
-    "system_completion": "11/11 modules promoted"
+    "implementation_wired": false,
+    "actual_status": "Interface only - no real implementation loaded"
+  },
+  "promotion_checklist": {
+    "lane_placement": true,
+    "no_banned_imports": true,
+    "matriz_instrumentation": false,
+    "tests_passing": true,
+    "p95_sla_met": false,
+    "dry_run_default": true,
+    "consent_gates": false,
+    "checklist_score": "3/7",
+    "promotion_ready": false,
+    "notes": "Registry pattern implemented but candidate modules not wired to registries"
   },
   "scientific_approach": {
     "methodology": "Graph-based protein folding analysis approach",

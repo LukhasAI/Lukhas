@@ -16,11 +16,12 @@ Version: 1.0.0
 """
 
 import asyncio
+import os
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union, Protocol
 
 try:
     from ..observability.matriz_decorators import matriz_trace
@@ -65,12 +66,64 @@ except ImportError:
     MEMORY_AVAILABLE = False
 
 # Feature flags with safe defaults (all disabled for safety)
-VIVOX_ACTIVE = False          # Master VIVOX system switch - DRY RUN by default
-VIVOX_ME_ACTIVE = False       # Memory Expansion subsystem
-VIVOX_MAE_ACTIVE = False      # Moral Alignment Engine
-VIVOX_CIL_ACTIVE = False      # Consciousness Interpretation Layer  
-VIVOX_SRM_ACTIVE = False      # Self-Reflective Memory
-VIVOX_INTEGRATION_ACTIVE = False  # Integration with consciousness/memory systems
+LUKHAS_DRY_RUN_MODE = os.getenv("LUKHAS_DRY_RUN_MODE", "true").lower() == "true"
+VIVOX_ACTIVE = os.getenv("VIVOX_ACTIVE", "false").lower() == "true"
+VIVOX_ME_ACTIVE = os.getenv("VIVOX_ME_ACTIVE", "false").lower() == "true"
+VIVOX_MAE_ACTIVE = os.getenv("VIVOX_MAE_ACTIVE", "false").lower() == "true"
+VIVOX_CIL_ACTIVE = os.getenv("VIVOX_CIL_ACTIVE", "false").lower() == "true"
+VIVOX_SRM_ACTIVE = os.getenv("VIVOX_SRM_ACTIVE", "false").lower() == "true"
+VIVOX_INTEGRATION_ACTIVE = os.getenv("VIVOX_INTEGRATION_ACTIVE", "false").lower() == "true"
+
+# Protocols for VIVOX component implementations
+class VIVOXMemoryExpansion(Protocol):
+    """Protocol for VIVOX Memory Expansion implementations"""
+    def store_memory(self, data: Dict[str, Any]) -> str: ...
+    def retrieve_memory(self, key: str) -> Dict[str, Any]: ...
+
+class VIVOXMoralAlignmentEngine(Protocol):
+    """Protocol for VIVOX Moral Alignment Engine implementations"""
+    def evaluate_ethics(self, action: Dict[str, Any]) -> Dict[str, Any]: ...
+
+class VIVOXConsciousnessInterpretationLayer(Protocol):
+    """Protocol for VIVOX Consciousness Interpretation Layer implementations"""
+    def interpret_consciousness(self, state: Dict[str, Any]) -> Dict[str, Any]: ...
+
+class VIVOXSelfReflectiveMemory(Protocol):
+    """Protocol for VIVOX Self-Reflective Memory implementations"""
+    def reflect(self, memory: Dict[str, Any]) -> Dict[str, Any]: ...
+
+class SimulationBranch(Protocol):
+    """Protocol for simulation branch implementations"""
+    pass
+
+# Registry for VIVOX implementations
+_VIVOX_REGISTRY: Dict[str, Any] = {
+    "me": None,
+    "mae": None,
+    "cil": None,
+    "srm": None,
+    "simulation_branch_class": None
+}
+
+def register_vivox_me(impl: VIVOXMemoryExpansion) -> None:
+    """Register VIVOX Memory Expansion implementation"""
+    _VIVOX_REGISTRY["me"] = impl
+
+def register_vivox_mae(impl: VIVOXMoralAlignmentEngine) -> None:
+    """Register VIVOX Moral Alignment Engine implementation"""
+    _VIVOX_REGISTRY["mae"] = impl
+
+def register_vivox_cil(impl: VIVOXConsciousnessInterpretationLayer) -> None:
+    """Register VIVOX Consciousness Interpretation Layer implementation"""
+    _VIVOX_REGISTRY["cil"] = impl
+
+def register_vivox_srm(impl: VIVOXSelfReflectiveMemory) -> None:
+    """Register VIVOX Self-Reflective Memory implementation"""
+    _VIVOX_REGISTRY["srm"] = impl
+
+def register_simulation_branch_class(cls: type) -> None:
+    """Register SimulationBranch class implementation"""
+    _VIVOX_REGISTRY["simulation_branch_class"] = cls
 
 
 class SafetyMode(Enum):
@@ -164,34 +217,27 @@ class VivoxWrapper:
     def _initialize_candidate_system(self):
         """Lazy initialization of candidate VIVOX system"""
         try:
-            # Only import and initialize if explicitly activated
-            # Import each VIVOX component as needed
+            # Load implementations from registry instead of static imports
+            # Implementations register themselves at runtime
             if VIVOX_ME_ACTIVE:
-                from ...candidate.vivox.memory_expansion.vivox_me_core import VIVOXMemoryExpansion
-                self.vivox_me = VIVOXMemoryExpansion()
-                self.state.me_status = "active"
+                self.vivox_me = _VIVOX_REGISTRY.get("me")
+                if self.vivox_me:
+                    self.state.me_status = "active"
             
             if VIVOX_MAE_ACTIVE:
-                from ...candidate.vivox.moral_alignment.vivox_mae_core import VIVOXMoralAlignmentEngine
-                self.vivox_mae = VIVOXMoralAlignmentEngine(
-                    vivox_me=getattr(self, 'vivox_me', None)
-                )
-                self.state.mae_status = "active"
+                self.vivox_mae = _VIVOX_REGISTRY.get("mae")
+                if self.vivox_mae:
+                    self.state.mae_status = "active"
             
             if VIVOX_CIL_ACTIVE:
-                from ...candidate.vivox.consciousness.vivox_cil_core import VIVOXConsciousnessInterpretationLayer
-                self.vivox_cil = VIVOXConsciousnessInterpretationLayer(
-                    vivox_me=getattr(self, 'vivox_me', None),
-                    vivox_mae=getattr(self, 'vivox_mae', None)
-                )
-                self.state.cil_status = "active"
+                self.vivox_cil = _VIVOX_REGISTRY.get("cil")
+                if self.vivox_cil:
+                    self.state.cil_status = "active"
             
             if VIVOX_SRM_ACTIVE:
-                from ...candidate.vivox.self_reflection.vivox_srm_core import VIVOXSelfReflectiveMemory
-                self.vivox_srm = VIVOXSelfReflectiveMemory(
-                    vivox_me=getattr(self, 'vivox_me', None)
-                )
-                self.state.srm_status = "active"
+                self.vivox_srm = _VIVOX_REGISTRY.get("srm")
+                if self.vivox_srm:
+                    self.state.srm_status = "active"
             
             self.candidate_system = True
             
@@ -719,13 +765,13 @@ class VivoxWrapper:
     
     def _create_simulation_branches(self, context: Dict[str, Any]) -> List[Any]:
         """Create simulation branches for reflection processing"""
-        # Simplified branch creation for production safety
-        from ...candidate.vivox.consciousness.vivox_cil_core import SimulationBranch
+        # Get SimulationBranch class from registry
+        SimulationBranch = _VIVOX_REGISTRY.get("simulation_branch_class")
         
         branches = []
         
         # Create basic branches based on context
-        if "reflection_options" in context:
+        if "reflection_options" in context and SimulationBranch:
             for i, option in enumerate(context["reflection_options"][:3]):  # Limit to 3 branches
                 branch = SimulationBranch(
                     branch_id=f"branch_{i}",

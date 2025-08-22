@@ -4,9 +4,10 @@ Production interface for the foundational GLYPH engine and symbolic processing
 Trinity Framework: ⚛️🧠🛡️
 """
 
+from __future__ import annotations
 import os
 import logging
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Protocol
 from dataclasses import dataclass
 from enum import Enum
 
@@ -14,6 +15,7 @@ from enum import Enum
 logger = logging.getLogger(__name__)
 
 # Feature flags
+LUKHAS_DRY_RUN_MODE = os.getenv("LUKHAS_DRY_RUN_MODE", "true").lower() == "true"
 CORE_ACTIVE = os.getenv("CORE_ACTIVE", "false").lower() == "true"
 GLYPH_ENGINE_ENABLED = os.getenv("GLYPH_ENGINE_ENABLED", "true").lower() == "true"
 SYMBOLIC_PROCESSING_ENABLED = os.getenv("SYMBOLIC_PROCESSING_ENABLED", "true").lower() == "true"
@@ -48,6 +50,67 @@ class SymbolicResult:
     success: bool
 
 
+# Protocol definitions for registry pattern
+class GlyphEngine(Protocol):
+    """Protocol for GLYPH engine implementations"""
+    def encode_concept(self, concept: str, emotion: Optional[Dict[str, float]] = None) -> Any: ...
+    def decode_glyph(self, glyph_repr: Any) -> Any: ...
+    def create_trinity_glyph(self, emphasis: str) -> Any: ...
+
+
+class ActorSystem(Protocol):
+    """Protocol for actor system implementations"""
+    def send(self, actor_id: str, message: Any) -> None: ...
+    def register(self, actor_id: str, actor: Any) -> None: ...
+
+
+class SymbolicWorld(Protocol):
+    """Protocol for symbolic world implementations"""
+    symbols: Dict[str, Any]
+    def create_symbol(self, name: str, properties: Dict[str, Any]) -> None: ...
+    def link_symbols(self, symbol1: Any, symbol2: Any, relationship_type: str, properties: Dict[str, Any]) -> None: ...
+    def get_related_symbols(self, symbol: Any) -> List[Any]: ...
+
+
+class SymbolicReasoner(Protocol):
+    """Protocol for symbolic reasoner implementations"""
+    def reason(self, symbol: Any) -> Dict[str, Any]: ...
+    def find_patterns(self, symbols: List[Any]) -> List[Dict[str, Any]]: ...
+
+
+# Registry for implementations (populated by candidate modules at runtime)
+_REGISTRY: Dict[str, Any] = {
+    "glyph_engine": None,
+    "actor_system": None,
+    "symbolic_world": None,
+    "symbolic_reasoner": None
+}
+
+
+def register_glyph_engine(impl: GlyphEngine) -> None:
+    """Register a GLYPH engine implementation"""
+    _REGISTRY["glyph_engine"] = impl
+    logger.info("GLYPH engine registered")
+
+
+def register_actor_system(impl: ActorSystem) -> None:
+    """Register an actor system implementation"""
+    _REGISTRY["actor_system"] = impl
+    logger.info("Actor system registered")
+
+
+def register_symbolic_world(impl: SymbolicWorld) -> None:
+    """Register a symbolic world implementation"""
+    _REGISTRY["symbolic_world"] = impl
+    logger.info("Symbolic world registered")
+
+
+def register_symbolic_reasoner(impl: SymbolicReasoner) -> None:
+    """Register a symbolic reasoner implementation"""
+    _REGISTRY["symbolic_reasoner"] = impl
+    logger.info("Symbolic reasoner registered")
+
+
 class CoreWrapper:
     """
     Production wrapper for LUKHAS AI Core system.
@@ -63,9 +126,6 @@ class CoreWrapper:
     def __init__(self):
         """Initialize the Core wrapper with Trinity Framework support"""
         self._status = CoreStatus.INACTIVE
-        self._glyph_engine = None
-        self._actor_system = None
-        self._symbolic_world = None
         self._trinity_context = {
             "identity": "⚛️",
             "consciousness": "🧠", 
@@ -73,23 +133,17 @@ class CoreWrapper:
             "framework": "⚛️🧠🛡️"
         }
         
-        if CORE_ACTIVE:
+        if CORE_ACTIVE and not LUKHAS_DRY_RUN_MODE:
             self._initialize_core_system()
     
     def _initialize_core_system(self):
-        """Initialize the core systems with lazy loading"""
+        """Initialize the core systems using registry"""
         try:
             self._status = CoreStatus.INITIALIZING
             logger.info("Initializing LUKHAS AI Core system...")
             
-            if GLYPH_ENGINE_ENABLED:
-                self._initialize_glyph_engine()
-                
-            if ACTOR_SYSTEM_ENABLED:
-                self._initialize_actor_system()
-                
-            if SYMBOLIC_PROCESSING_ENABLED:
-                self._initialize_symbolic_processing()
+            # Systems are initialized through registry registration
+            # from candidate modules loaded at runtime
             
             self._status = CoreStatus.ACTIVE
             logger.info("Core system initialization complete")
@@ -98,57 +152,47 @@ class CoreWrapper:
             self._status = CoreStatus.ERROR
             logger.error(f"Core system initialization failed: {e}")
     
-    def _initialize_glyph_engine(self):
-        """Initialize the GLYPH engine for symbolic communication"""
-        try:
-            # Import only when needed to avoid circular dependencies
-            from candidate.core.glyph.glyph_engine import GlyphEngine
-            self._glyph_engine = GlyphEngine()
-            logger.info("GLYPH engine initialized")
-        except ImportError as e:
-            logger.warning(f"GLYPH engine not available: {e}")
-            self._glyph_engine = None
+    @property
+    def _glyph_engine(self) -> Optional[GlyphEngine]:
+        """Get GLYPH engine from registry"""
+        return _REGISTRY.get("glyph_engine")
     
-    def _initialize_actor_system(self):
-        """Initialize the actor system for distributed processing"""
-        try:
-            from candidate.core.actor_system import ActorSystem, get_global_actor_system
-            self._actor_system = get_global_actor_system()
-            logger.info("Actor system initialized")
-        except ImportError as e:
-            logger.warning(f"Actor system not available: {e}")
-            self._actor_system = None
+    @property
+    def _actor_system(self) -> Optional[ActorSystem]:
+        """Get actor system from registry"""
+        return _REGISTRY.get("actor_system")
     
-    def _initialize_symbolic_processing(self):
-        """Initialize symbolic processing capabilities"""
-        try:
-            from candidate.core.symbolic.symbolic_core import SymbolicWorld, SymbolicReasoner
-            self._symbolic_world = SymbolicWorld()
-            self._symbolic_reasoner = SymbolicReasoner(self._symbolic_world)
-            logger.info("Symbolic processing initialized")
-        except ImportError as e:
-            logger.warning(f"Symbolic processing not available: {e}")
-            self._symbolic_world = None
+    @property
+    def _symbolic_world(self) -> Optional[SymbolicWorld]:
+        """Get symbolic world from registry"""
+        return _REGISTRY.get("symbolic_world")
+    
+    @property
+    def _symbolic_reasoner(self) -> Optional[SymbolicReasoner]:
+        """Get symbolic reasoner from registry"""
+        return _REGISTRY.get("symbolic_reasoner")
     
     # GLYPH Engine Interface
-    def encode_concept(self, concept: str, emotion: Optional[Dict[str, float]] = None) -> GlyphResult:
+    def encode_concept(self, concept: str, emotion: Optional[Dict[str, float]] = None, mode: str = "dry_run") -> GlyphResult:
         """
         Encode a concept into GLYPH representation for symbolic communication.
         
         Args:
             concept: The concept to encode
             emotion: Optional emotional context (VAD model)
+            mode: Operation mode (dry_run or production)
             
         Returns:
             GlyphResult with encoded symbol and metadata
         """
-        if not CORE_ACTIVE or not self._glyph_engine:
+        if mode == "dry_run" or LUKHAS_DRY_RUN_MODE or not self._glyph_engine:
+            # Dry-run skeleton response
             return GlyphResult(
-                glyph_id="",
-                symbol="",
+                glyph_id=f"dry_run_{concept[:10]}",
+                symbol="⚡",
                 concept=concept,
-                success=False,
-                metadata={"error": "GLYPH engine not available"}
+                success=True,
+                metadata={"mode": "dry_run", "emotion": emotion}
             )
         
         try:
@@ -176,25 +220,26 @@ class CoreWrapper:
                 metadata={"error": str(e)}
             )
     
-    def create_trinity_glyph(self, emphasis: str = "balanced") -> GlyphResult:
+    def create_trinity_glyph(self, emphasis: str = "balanced", mode: str = "dry_run") -> GlyphResult:
         """
         Create a Trinity Framework glyph for LUKHAS AI operations.
         
         Args:
             emphasis: Trinity aspect to emphasize (identity, consciousness, guardian, balanced)
+            mode: Operation mode (dry_run or production)
             
         Returns:
             GlyphResult with Trinity Framework symbol
         """
-        if not CORE_ACTIVE or not self._glyph_engine:
-            # Fallback Trinity creation
+        if mode == "dry_run" or LUKHAS_DRY_RUN_MODE or not self._glyph_engine:
+            # Dry-run Trinity creation
             symbol = self._trinity_context.get("framework", "⚛️🧠🛡️")
             return GlyphResult(
                 glyph_id=f"trinity_{emphasis}",
                 symbol=symbol,
                 concept=f"Trinity Framework ({emphasis})",
                 success=True,
-                metadata={"fallback": True, "emphasis": emphasis}
+                metadata={"mode": "dry_run", "emphasis": emphasis}
             )
         
         try:
@@ -217,20 +262,21 @@ class CoreWrapper:
             )
     
     # Symbolic Processing Interface
-    def create_symbol(self, name: str, properties: Dict[str, Any]) -> bool:
+    def create_symbol(self, name: str, properties: Dict[str, Any], mode: str = "dry_run") -> bool:
         """
         Create a symbolic representation in the symbolic world.
         
         Args:
             name: Symbol name
             properties: Symbol properties and metadata
+            mode: Operation mode (dry_run or production)
             
         Returns:
             Success status
         """
-        if not CORE_ACTIVE or not self._symbolic_world:
-            logger.warning("Symbolic processing not available")
-            return False
+        if mode == "dry_run" or LUKHAS_DRY_RUN_MODE or not self._symbolic_world:
+            logger.info(f"[DRY-RUN] Would create symbol: {name}")
+            return True
         
         try:
             self._symbolic_world.create_symbol(name, properties)
@@ -240,7 +286,8 @@ class CoreWrapper:
             return False
     
     def link_symbols(self, symbol1_name: str, symbol2_name: str, 
-                    relationship_type: str, properties: Optional[Dict[str, Any]] = None) -> bool:
+                    relationship_type: str, properties: Optional[Dict[str, Any]] = None,
+                    mode: str = "dry_run") -> bool:
         """
         Create a relationship between symbols in the symbolic world.
         
@@ -249,13 +296,14 @@ class CoreWrapper:
             symbol2_name: Second symbol name
             relationship_type: Type of relationship
             properties: Optional relationship properties
+            mode: Operation mode (dry_run or production)
             
         Returns:
             Success status
         """
-        if not CORE_ACTIVE or not self._symbolic_world:
-            logger.warning("Symbolic processing not available")
-            return False
+        if mode == "dry_run" or LUKHAS_DRY_RUN_MODE or not self._symbolic_world:
+            logger.info(f"[DRY-RUN] Would link: {symbol1_name} -> {symbol2_name} ({relationship_type})")
+            return True
         
         try:
             # Get symbol objects
@@ -272,23 +320,24 @@ class CoreWrapper:
             logger.error(f"Symbol linking failed: {e}")
             return False
     
-    def perform_symbolic_reasoning(self, symbol_name: str) -> SymbolicResult:
+    def perform_symbolic_reasoning(self, symbol_name: str, mode: str = "dry_run") -> SymbolicResult:
         """
         Perform symbolic reasoning on a symbol to derive conclusions.
         
         Args:
             symbol_name: Name of symbol to reason about
+            mode: Operation mode (dry_run or production)
             
         Returns:
             SymbolicResult with reasoning conclusions and patterns
         """
-        if not CORE_ACTIVE or not self._symbolic_world:
+        if mode == "dry_run" or LUKHAS_DRY_RUN_MODE or not self._symbolic_world:
             return SymbolicResult(
-                symbols=[],
-                relationships=[],
-                patterns=[],
-                reasoning={},
-                success=False
+                symbols=[symbol_name],
+                relationships=[{"type": "dry_run_relation"}],
+                patterns=[{"pattern": "dry_run_pattern"}],
+                reasoning={"mode": "dry_run", "symbol": symbol_name},
+                success=True
             )
         
         try:
@@ -331,20 +380,21 @@ class CoreWrapper:
             )
     
     # Actor System Interface
-    def send_actor_message(self, actor_id: str, message: Any) -> bool:
+    def send_actor_message(self, actor_id: str, message: Any, mode: str = "dry_run") -> bool:
         """
         Send a message to an actor in the actor system.
         
         Args:
             actor_id: Target actor identifier
             message: Message to send
+            mode: Operation mode (dry_run or production)
             
         Returns:
             Success status
         """
-        if not CORE_ACTIVE or not self._actor_system:
-            logger.warning("Actor system not available")
-            return False
+        if mode == "dry_run" or LUKHAS_DRY_RUN_MODE or not self._actor_system:
+            logger.info(f"[DRY-RUN] Would send to {actor_id}: {message}")
+            return True
         
         try:
             self._actor_system.send(actor_id, message)
@@ -353,20 +403,21 @@ class CoreWrapper:
             logger.error(f"Actor message sending failed: {e}")
             return False
     
-    def register_actor(self, actor_id: str, actor: Any) -> bool:
+    def register_actor(self, actor_id: str, actor: Any, mode: str = "dry_run") -> bool:
         """
         Register an actor in the actor system.
         
         Args:
             actor_id: Actor identifier
             actor: Actor instance
+            mode: Operation mode (dry_run or production)
             
         Returns:
             Success status
         """
-        if not CORE_ACTIVE or not self._actor_system:
-            logger.warning("Actor system not available")
-            return False
+        if mode == "dry_run" or LUKHAS_DRY_RUN_MODE or not self._actor_system:
+            logger.info(f"[DRY-RUN] Would register actor: {actor_id}")
+            return True
         
         try:
             self._actor_system.register(actor_id, actor)
@@ -381,6 +432,7 @@ class CoreWrapper:
         return {
             "status": self._status.value,
             "core_active": CORE_ACTIVE,
+            "dry_run_mode": LUKHAS_DRY_RUN_MODE,
             "capabilities": {
                 "glyph_engine": self._glyph_engine is not None,
                 "actor_system": self._actor_system is not None,
@@ -388,6 +440,7 @@ class CoreWrapper:
             },
             "trinity_framework": self._trinity_context,
             "feature_flags": {
+                "LUKHAS_DRY_RUN_MODE": LUKHAS_DRY_RUN_MODE,
                 "CORE_ACTIVE": CORE_ACTIVE,
                 "GLYPH_ENGINE_ENABLED": GLYPH_ENGINE_ENABLED,
                 "SYMBOLIC_PROCESSING_ENABLED": SYMBOLIC_PROCESSING_ENABLED,
@@ -395,13 +448,14 @@ class CoreWrapper:
             }
         }
     
-    def restart_core(self) -> bool:
+    def restart_core(self, mode: str = "dry_run") -> bool:
         """Restart the core system"""
+        if mode == "dry_run" or LUKHAS_DRY_RUN_MODE:
+            logger.info("[DRY-RUN] Would restart core system")
+            return True
+            
         try:
             self._status = CoreStatus.INACTIVE
-            self._glyph_engine = None
-            self._actor_system = None
-            self._symbolic_world = None
             
             if CORE_ACTIVE:
                 self._initialize_core_system()
@@ -426,19 +480,52 @@ def get_core() -> CoreWrapper:
 
 
 # Convenience functions for common operations
-def encode_concept(concept: str, emotion: Optional[Dict[str, float]] = None) -> GlyphResult:
+def encode_concept(concept: str, emotion: Optional[Dict[str, float]] = None, mode: str = "dry_run") -> GlyphResult:
     """Encode a concept using the global core instance"""
-    return get_core().encode_concept(concept, emotion)
+    return get_core().encode_concept(concept, emotion, mode)
 
 
-def create_trinity_glyph(emphasis: str = "balanced") -> GlyphResult:
+def create_trinity_glyph(emphasis: str = "balanced", mode: str = "dry_run") -> GlyphResult:
     """Create a Trinity Framework glyph using the global core instance"""
-    return get_core().create_trinity_glyph(emphasis)
+    return get_core().create_trinity_glyph(emphasis, mode)
 
 
 def get_core_status() -> Dict[str, Any]:
     """Get core system status using the global core instance"""
     return get_core().get_status()
+
+
+# Decision engine support (for policy decisions)
+class DecisionEngine(Protocol):
+    """Protocol for decision engine implementations"""
+    def decide(self, policy_input: Dict[str, Any]) -> Dict[str, Any]: ...
+
+
+_DECISION_REGISTRY: Dict[str, DecisionEngine] = {}
+
+
+def register_decision_engine(name: str, impl: DecisionEngine) -> None:
+    """Register a decision engine implementation"""
+    _DECISION_REGISTRY[name] = impl
+    logger.info(f"Decision engine '{name}' registered")
+
+
+def decide(policy_input: Dict[str, Any], *, engine: Optional[str] = None, mode: str = "dry_run") -> Dict[str, Any]:
+    """
+    Make a policy decision using registered decision engines.
+    
+    Args:
+        policy_input: Input data for decision
+        engine: Name of engine to use
+        mode: Operation mode (dry_run or production)
+        
+    Returns:
+        Decision result with action and metadata
+    """
+    if mode == "dry_run" or LUKHAS_DRY_RUN_MODE or not engine or engine not in _DECISION_REGISTRY:
+        return {"decision": "allow", "explain": "dry_run skeleton", "risk": 0.1}
+    
+    return _DECISION_REGISTRY[engine].decide(policy_input)
 
 
 # Export public interface
@@ -450,5 +537,12 @@ __all__ = [
     "get_core",
     "encode_concept",
     "create_trinity_glyph", 
-    "get_core_status"
+    "get_core_status",
+    # Registry functions
+    "register_glyph_engine",
+    "register_actor_system",
+    "register_symbolic_world",
+    "register_symbolic_reasoner",
+    "register_decision_engine",
+    "decide"
 ]

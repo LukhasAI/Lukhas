@@ -84,3 +84,17 @@ All modules default to dry-run mode for safety.
 🤖 Generated with [Claude Code](https://claude.ai/code)
 
 Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}
+{"timestamp":"2025-08-22T04:04:48Z","commit":"5a706243eee3c34d1479d07d245b48d1423128d6","branch":"main","author":"LUKHΛS AGI Developer","message":"chore: Move all backup directories to lukhas-archive
+
+Moved the following backup directories to ~/LOCAL-REPOS/lukhas-archive/2025-08-22-backups/:
+- archive/lanes_experiment (5.5M) - From today's lane model migration work
+- tests_backup_20250817_221326 (3.0M) - Old test backup from Aug 17
+- candidate/monitoring.backup (8K) - Small monitoring backup
+- branding/legacy_docs_backup (28K) - Legacy documentation
+- docs/archive (556K) - Documentation archive
+
+This cleanup reduces workspace clutter while preserving all historical data.
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}

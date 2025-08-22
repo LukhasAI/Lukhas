@@ -1,0 +1,25 @@
+name: Verify Phase 1
+on: [push, workflow_dispatch]
+
+jobs:
+  gate-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: pip install -U pip pytest import-linter
+      - name: Acceptance gate (fail-fast)
+        run: python3 tools/acceptance_gate.py
+      - name: Phase-1 verification harness
+        run: bash tools/verification/run_all_checks.sh
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase1-artifacts-${{ github.sha }}
+          path: verification_artifacts/${{ github.sha }}/
+          retention-days: 14

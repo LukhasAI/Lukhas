@@ -216,3 +216,6 @@ identity/qrg_schemas/*.json
 # Security backup directories (temporary)
 .security_backup_*
 security_backup_cleanup_report_*.txt
+
+# Phase 1 Verification Artifacts
+verification_artifacts/

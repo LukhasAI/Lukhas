@@ -1,0 +1,23 @@
+
+  # Acceptance Gate - MUST pass before any tests
+  acceptance-gate:
+    name: Acceptance Gate & Import Validation
+    runs-on: ubuntu-latest
+    needs: smoke-check
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Run AST-based acceptance gate
+        run: |
+          echo "🔍 Running acceptance gate to check for illegal imports..."
+          python3 tools/acceptance_gate.py
+          
+      - name: Install import-linter
+        run: |
+          pip install import-linter
+          
