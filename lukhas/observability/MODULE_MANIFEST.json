@@ -1,0 +1,10 @@
+{
+  "name": "observability",
+  "lane": "accepted",
+  "capabilities": ["matriz:emit", "matriz:validate", "matriz:decorate"],
+  "owner": "A3-Infrastructure",
+  "matriz_emit_points": [],
+  "sla": {"p95_ms": 5},
+  "dependencies": ["MATRIZ"],
+  "notes": "Shared MATRIZ utilities for node emission and validation; used by all modules."
+}

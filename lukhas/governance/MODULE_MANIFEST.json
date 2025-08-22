@@ -1,10 +1,13 @@
 {
   "name": "governance",
   "lane": "accepted",
-  "capabilities": ["consent:record", "audit:trace"],
+  "capabilities": ["consent:record", "consent:verify", "consent:withdraw", "audit:trace"],
   "owner": "A2-Compliance",
-  "matriz_emit_points": ["record_consent"],
+  "matriz_emit_points": ["record_consent", "verify_consent", "withdraw_consent"],
   "sla": {"p95_ms": 40},
   "dependencies": [],
-  "notes": "Consent ledger API; audit-compatible; dry_run-first."
+  "notes": "Consent ledger with GDPR compliance; feature-flagged real implementation; dry_run-first.",
+  "feature_flags": {
+    "CONSENT_LEDGER_ACTIVE": "Enable real consent ledger implementation"
+  }
 }
