@@ -33,7 +33,7 @@ class SymbolicWorld:
         self.symbols[name] = symbol
         return symbol
 
-    def link_symbols(:
+    def link_symbols(
         self,
         symbol1: "Symbol",
         symbol2: "Symbol",
@@ -116,7 +116,7 @@ class Symbol:
 class Relationship:
     """Represents a relationship between two symbols"""
 
-    def __init__(:
+    def __init__(
         self,
         symbol1: Symbol,
         symbol2: Symbol,
@@ -141,7 +141,7 @@ class SymbolicReasoner:
         self.world = world
         self.inference_rules = []
 
-    def add_inference_rule(:
+    def add_inference_rule(
         self,
         pattern: dict[str, Any],
         conclusion: dict[str, Any],
@@ -161,9 +161,8 @@ class SymbolicReasoner:
         conclusions = []
         dot_lines = [
             "digraph ReasoningProcess {",
-            "  rankdir=LR; // Layout from Left to Right", '  node [shape = box, style = "rounded,filled", fontname = "Helvetica",'
-                                                                   fontsize = 10]
-            ',
+            "  rankdir=LR;",
+            '  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10];',
             '  edge [fontname="Helvetica", fontsize=9];',
             f'  S_{symbol.name} [label="{symbol.name}\\n{self._format_props(symbol.properties)}", shape=ellipse, fillcolor="#A9D0F5"];',
         ]
@@ -200,9 +199,7 @@ class SymbolicReasoner:
 
                 conc_label = f"Conclusion {conclusion_counter}\\n{self._format_props(derived_conclusion_props)}\\nConfidence: {conclusion_data['overall_confidence']:.2f}"
                 dot_lines.append(
-                    f'  {conclusion_id} [label= "{conc_label}", fillcolor = "#D0F5A9",
-                                         shape= ellipse]
-                    '
+                    f'  {conclusion_id} [label="{conc_label}", fillcolor="#D0F5A9", shape=ellipse];'
                 )
                 dot_lines.append(f'  {rule_id} -> {conclusion_id} [label="leads to"];')
 
@@ -276,7 +273,7 @@ class SymbolicReasoner:
 
         return patterns
 
-    def _find_relationship_patterns(:
+    def _find_relationship_patterns(
         self, symbols: list[Symbol]
     ) -> list[dict[str, Any]]:
         """Find patterns in symbol relationships"""
