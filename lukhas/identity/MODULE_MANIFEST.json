@@ -1,9 +1,22 @@
 {
   "name": "identity",
   "lane": "accepted",
-  "capabilities": ["identity:auth", "identity:lambda-id"],
+  "capabilities": [
+    "identity:auth",
+    "identity:lambda-id",
+    "identity:register",
+    "identity:passkey",
+    "identity:list",
+    "identity:revoke"
+  ],
   "owner": "A1-Identity",
-  "matriz_emit_points": ["authenticate"],
+  "matriz_emit_points": [
+    "authenticate",
+    "register_passkey",
+    "verify_passkey",
+    "list_credentials",
+    "revoke_credential"
+  ],
   "sla": {"p95_ms": 100},
   "dependencies": [],
   "notes": "ΛID interfaces; no PII storage; passkey-friendly."
