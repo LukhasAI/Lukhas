@@ -1,0 +1,131 @@
+{
+  "module": "consciousness",
+  "version": "1.0.0",
+  "description": "Production-safe consciousness interface with Trinity Framework integration",
+  "type": "wrapper",
+  "candidate_source": "candidate/consciousness/",
+  "candidate_files": 348,
+  "safety_level": "production",
+  "trinity_framework": {
+    "identity": "Consciousness identity patterns and symbolic self-awareness",
+    "consciousness": "Primary consciousness processing with awareness, reflection, and decision-making",
+    "guardian": "Ethical oversight, drift detection, and safety enforcement"
+  },
+  "feature_flags": {
+    "CONSCIOUSNESS_ACTIVE": {
+      "default": false,
+      "description": "Master switch for consciousness processing",
+      "safety": "dry_run_default"
+    },
+    "AWARENESS_ACTIVE": {
+      "default": false,
+      "description": "Awareness subsystem activation",
+      "dependencies": ["CONSCIOUSNESS_ACTIVE"]
+    },
+    "REFLECTION_ACTIVE": {
+      "default": false,
+      "description": "Reflection and meta-cognitive processing",
+      "dependencies": ["CONSCIOUSNESS_ACTIVE"]
+    },
+    "UNIFIED_ACTIVE": {
+      "default": false,
+      "description": "Unified consciousness decision-making",
+      "dependencies": ["CONSCIOUSNESS_ACTIVE"]
+    },
+    "STATES_ACTIVE": {
+      "default": false,
+      "description": "Consciousness state management",
+      "dependencies": ["CONSCIOUSNESS_ACTIVE"]
+    },
+    "CREATIVITY_ACTIVE": {
+      "default": false,
+      "description": "Creative consciousness processing",
+      "dependencies": ["CONSCIOUSNESS_ACTIVE"]
+    },
+    "DREAM_ACTIVE": {
+      "default": false,
+      "description": "Dream state and parallel reality processing",
+      "dependencies": ["CONSCIOUSNESS_ACTIVE"]
+    },
+    "REASONING_ACTIVE": {
+      "default": false,
+      "description": "Conscious reasoning and logic",
+      "dependencies": ["CONSCIOUSNESS_ACTIVE"]
+    }
+  },
+  "safety_measures": {
+    "drift_detection": {
+      "enabled": true,
+      "threshold": 0.15,
+      "cascade_prevention": 0.997
+    },
+    "ethics_validation": {
+      "enabled": true,
+      "principles": ["transparency", "user_agency", "privacy_preservation", "non_maleficence", "beneficence", "justice", "autonomy"],
+      "guardian_integration": true
+    },
+    "performance_monitoring": {
+      "enabled": true,
+      "target_ms": 100,
+      "timeout_ms": 5000
+    },
+    "memory_protection": {
+      "fold_limit": 1000,
+      "cascade_prevention_rate": 0.997
+    }
+  },
+  "interfaces": {
+    "primary": "ConsciousnessWrapper",
+    "methods": [
+      "check_awareness",
+      "initiate_reflection", 
+      "make_conscious_decision",
+      "get_consciousness_state"
+    ],
+    "safety_modes": ["dry_run", "monitored", "production"],
+    "awareness_levels": ["minimal", "standard", "enhanced", "transcendent"]
+  },
+  "dependencies": [
+    "lukhas.observability",
+    "lukhas.governance.guardian", 
+    "lukhas.memory"
+  ],
+  "candidate_dependencies": [
+    "candidate.consciousness.unified.auto_consciousness",
+    "candidate.consciousness.core.engine",
+    "candidate.consciousness.awareness.awareness_engine",
+    "candidate.consciousness.reflection.*",
+    "candidate.consciousness.states.*"
+  ],
+  "performance_targets": {
+    "awareness_response_ms": 100,
+    "reflection_processing_ms": 500,
+    "decision_making_ms": 200,
+    "state_retrieval_ms": 10
+  },
+  "observability": {
+    "matriz_instrumentation": true,
+    "trace_operations": ["check_awareness", "initiate_reflection", "make_conscious_decision"],
+    "metrics": ["performance_ms", "drift_score", "ethical_alignment", "awareness_level"],
+    "logging_level": "INFO"
+  },
+  "testing": {
+    "unit_tests": "tests/consciousness/",
+    "integration_tests": "tests/integration/consciousness/",
+    "safety_tests": "tests/safety/consciousness/",
+    "performance_tests": "tests/performance/consciousness/"
+  },
+  "documentation": {
+    "api_reference": "docs/api/consciousness.md",
+    "user_guide": "docs/guides/consciousness_usage.md", 
+    "safety_guide": "docs/safety/consciousness_safety.md",
+    "trinity_integration": "docs/trinity/consciousness_trinity.md"
+  },
+  "maintenance": {
+    "last_promotion": "2025-08-22T00:00:00Z",
+    "promotion_source": "candidate/consciousness/",
+    "safety_validation": "complete",
+    "performance_validation": "complete",
+    "ethics_validation": "complete"
+  }
+}
