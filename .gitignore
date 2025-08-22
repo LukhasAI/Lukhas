@@ -212,3 +212,7 @@ identity/qrg_schemas/*.json
 
 # GPT-5 audit packages (external review)
 /Users/agi_dev/gpt5-audit-packages/
+
+# Security backup directories (temporary)
+.security_backup_*
+security_backup_cleanup_report_*.txt
