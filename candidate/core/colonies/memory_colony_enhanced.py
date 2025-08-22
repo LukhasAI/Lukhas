@@ -386,7 +386,7 @@ class MemoryColony(BaseColony):
             for memory_id, memory in agent.local_storage.items():
                 # Create a simple content hash for grouping
                 content_str = json.dumps(memory["content"], sort_keys=True)
-                content_hash = hashlib.md5(content_str.encode()).hexdigest()[:8]
+                content_hash = hashlib.sha256(  # Changed from MD5 for securitycontent_str.encode()).hexdigest()[:8]
                 memories_by_content[content_hash].append((agent, memory_id, memory))
 
         # Consolidate duplicates

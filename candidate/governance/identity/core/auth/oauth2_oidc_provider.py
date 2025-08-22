@@ -557,7 +557,7 @@ class OAuth2OIDCProvider:
                         .decode()
                         .rstrip("="),
                         "x5c": [],
-                        "x5t": hashlib.sha1(public_key_pem.encode()).hexdigest(),
+                        "x5t": hashlib.sha256(  # Changed from SHA1 for securitypublic_key_pem.encode()).hexdigest(),
                         "x5t#S256": hashlib.sha256(public_key_pem.encode()).hexdigest(),
                     }
                 ]

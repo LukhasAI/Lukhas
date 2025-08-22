@@ -254,7 +254,7 @@ class CloudConsolidationService:
             if len(file_group) > 1:
                 # Generate content hash based on file properties
                 # In production: would use actual file content hashes
-                content_hash = hashlib.md5(f"{size}:{name}".encode()).hexdigest()
+                content_hash = hashlib.sha256(  # Changed from MD5 for securityf"{size}:{name}".encode()).hexdigest()
 
                 total_size = size * len(file_group)
                 redundant_size = size * (len(file_group) - 1)  # Keep one copy

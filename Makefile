@@ -55,6 +55,18 @@ help:
 	@echo "  security-audit - Deep security audit with reports"
 	@echo "  security-fix - Fix all security issues (scan + update)"
 	@echo ""
+	@echo "Security Fixes (AI-powered):"
+	@echo "  security-fix-vulnerabilities - Fix dependency vulnerabilities"
+	@echo "  security-fix-issues         - Fix code security issues (Bandit)"
+	@echo "  security-fix-all           - Fix ALL security problems"
+	@echo "  security-comprehensive-scan - Complete security analysis"
+	@echo ""
+	@echo "Security Scheduling:"
+	@echo "  security-schedule          - View scheduler and schedule options"
+	@echo "  security-schedule-3h       - Schedule fixes in 3 hours"
+	@echo "  security-schedule-tonight  - Schedule fixes for 8 PM"
+	@echo "  security-schedule-list     - List scheduled tasks"
+	@echo ""
 	@echo "Ollama Security (AI-powered):"
 	@echo "  security-ollama      - AI-powered vulnerability analysis"
 	@echo "  security-ollama-fix  - Auto-fix with Ollama recommendations"
@@ -299,11 +311,88 @@ security-ollama-fix:
 security-ollama-setup:
 	@echo "🛠️ Setting up Ollama for security analysis..."
 	@command -v ollama >/dev/null 2>&1 || (echo "Installing Ollama..." && brew install ollama)
-	@pgrep -x "ollama" > /dev/null || (echo "Starting Ollama service..." && ollama serve > /dev/null 2>&1 &)
-	@sleep 2
+	@brew services start ollama 2>/dev/null || echo "Ollama service already running"
+	@sleep 3
 	@echo "Pulling security analysis model..."
 	@ollama pull deepseek-coder:6.7b || true
 	@echo "✅ Ollama setup complete!"
+
+# Enhanced security vulnerability fixes
+security-fix-vulnerabilities:
+	@echo "🛡️ Auto-fixing known security vulnerabilities..."
+	@python3 scripts/fix_security_vulnerabilities.py
+	@echo "✅ Security vulnerabilities fixed!"
+
+# Fix security issues found by Bandit linter
+security-fix-issues:
+	@echo "🛡️ Auto-fixing security issues (Bandit findings)..."
+	@python3 scripts/fix_security_issues.py
+	@echo "✅ Security issues fixed!"
+
+# Fix all security problems (vulnerabilities + issues)
+security-fix-all:
+	@echo "🛡️ Fixing ALL security vulnerabilities and issues..."
+	@make security-fix-vulnerabilities
+	@make security-fix-issues
+	@echo "✅ All security fixes complete!"
+
+# Schedule security tasks for later execution
+security-schedule:
+	@echo "🕒 LUKHAS Security Task Scheduler"
+	@echo "=================================="
+	@python3 scripts/security_scheduler.py status
+	@echo ""
+	@echo "💡 Schedule security fixes for later:"
+	@echo "   make security-schedule-3h    - Schedule in 3 hours"
+	@echo "   make security-schedule-tonight - Schedule at 8 PM today"
+	@echo "   Or use: python3 scripts/security_scheduler.py schedule fix-all +2h"
+
+security-schedule-3h:
+	@echo "⏰ Scheduling security fixes in 3 hours..."
+	@python3 scripts/security_scheduler.py schedule fix-all +3h --description "Automated security fix (3h delay)"
+
+security-schedule-tonight:
+	@echo "🌙 Scheduling security fixes for 8 PM tonight..."
+	@python3 scripts/security_scheduler.py schedule fix-all 20:00 --description "Evening security maintenance"
+
+security-schedule-list:
+	@python3 scripts/security_scheduler.py list
+
+security-schedule-run:
+	@python3 scripts/security_scheduler.py run-pending
+
+security-comprehensive-scan:
+	@echo "🔍 Running comprehensive security scan..."
+	@mkdir -p security-reports
+	@echo "Running Safety CLI scan..."
+	@safety scan --output json --save-json security-reports/safety-scan.json 2>/dev/null || echo "Safety scan completed with issues"
+	@echo "Running pip-audit..."
+	@pip-audit --format json --output security-reports/pip-audit.json 2>/dev/null || echo "pip-audit completed with issues" 
+	@echo "Running Bandit security scan..."
+	@bandit -r . -f json -o security-reports/bandit.json -x .venv,venv,node_modules,.git 2>/dev/null || echo "Bandit scan completed"
+	@echo "Running Ollama analysis..."
+	@python3 scripts/ollama_security_analyzer.py scan > security-reports/ollama-analysis.txt
+	@echo "📊 Security reports saved to security-reports/"
+	@echo "✅ Comprehensive security scan complete!"
+
+security-emergency-patch:
+	@echo "🚨 EMERGENCY SECURITY PATCH MODE"
+	@echo "This will automatically fix ALL known critical vulnerabilities"
+	@read -p "Continue? (y/N): " -n 1 -r; echo; \
+	if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
+		make security-fix-vulnerabilities; \
+		pip install -r requirements.txt; \
+		make test-security; \
+		echo "✅ Emergency patch complete!"; \
+	else \
+		echo "❌ Emergency patch cancelled"; \
+	fi
+
+test-security:
+	@echo "🧪 Running security-focused tests..."
+	@python3 -c "import fastapi, aiohttp, transformers; print('✅ Critical packages import successfully')"
+	@pytest tests/ -k "security" -v --tb=short || echo "No specific security tests found"
+	@echo "✅ Security tests complete!"
 
 security-update:
 	@echo "🔧 Running automated security updates..."

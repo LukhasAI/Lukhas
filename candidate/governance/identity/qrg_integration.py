@@ -319,7 +319,7 @@ class LukhusQRGIntegrator:
             visual_elements = ["clarity", "accessibility", "universal_symbols"]
 
         # Generate culturally-sensitive pattern
-        cultural_signature = hashlib.md5(
+        cultural_signature = hashlib.sha256(  # Changed from MD5 for security
             f"{cultural_region}_{pattern_style}_{respect_level}".encode()
         ).hexdigest()[:12]
 

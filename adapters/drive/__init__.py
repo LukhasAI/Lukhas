@@ -529,7 +529,7 @@ File size: {metadata.size} bytes
     ) -> str:
         """Mock file upload"""
         # Generate mock file ID based on content hash
-        content_hash = hashlib.md5(content).hexdigest()[:16]
+        content_hash = hashlib.sha256(  # Changed from MD5 for securitycontent).hexdigest()[:16]
         file_id = f"upload_{content_hash}"
         return file_id
 

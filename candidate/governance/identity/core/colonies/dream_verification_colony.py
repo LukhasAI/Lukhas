@@ -358,7 +358,7 @@ class DreamAnalysisAgent(SwarmAgent):
         branch_elements = self._extract_branch_elements(branch)
 
         for element in branch_elements:
-            element_hash = hashlib.md5(str(element).encode()).hexdigest()[:8]
+            element_hash = hashlib.sha256(  # Changed from MD5 for securitystr(element).encode()).hexdigest()[:8]
             if element_hash in self.convergence_patterns:
                 self.convergence_patterns[element_hash] += 1
                 convergence_points.append(

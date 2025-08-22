@@ -378,7 +378,7 @@ class DefaultAwarenessAssessor(AwarenessAssessor):
     def _generate_request_id(self, input_data: AwarenessInput) -> str:
         """Generate unique request ID"""
         data = f"{input_data.user_id}:{input_data.session_id}:{time.time()}"
-        return hashlib.md5(data.encode()).hexdigest()[:12]
+        return hashlib.sha256(  # Changed from MD5 for securitydata.encode()).hexdigest()[:12]
 
     def _generate_symbolic_signature(self, tier: TierLevel) -> str:
         """Generate symbolic signature for tier"""

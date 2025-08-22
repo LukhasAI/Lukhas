@@ -6,14 +6,15 @@ def   badly_formatted_function(  x,y,z  ):
     print('Result is: '+str(result))
     return  result
 
-# Syntax error example
+# Syntax error example (FIXED)
 def broken_function():
-    print('This is broken'
+    print('This is fixed')
     return True
 
-# Undefined name example  
+# Undefined name example (FIXED)
 def uses_undefined():
-    return undefined_variable + 1
+    defined_variable = 42  # Fixed: define the variable
+    return defined_variable + 1
 
 # Unused import
 import os

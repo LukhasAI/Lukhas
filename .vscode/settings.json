@@ -24,6 +24,40 @@
   // Python Environment
   "python.defaultInterpreterPath": "./.venv/bin/python",
   "python.terminal.activateEnvironment": true,
+  // Python Type Checking & Analysis (Pylance)
+  "python.analysis.typeCheckingMode": "strict",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.completeFunctionParens": true,
+  "python.analysis.autoFormatStrings": true,
+  "python.analysis.inlayHints.variableTypes": true,
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "python.analysis.inlayHints.callArgumentNames": "partial",
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.indexing": true,
+  "python.analysis.packageIndexDepths": [
+    {
+      "name": "",
+      "depth": 2
+    }
+  ],
+  // Enhanced Python IntelliSense for LUKHAS
+  "python.analysis.include": [
+    "lambda_products_pack/**",
+    "core/**",
+    "vivox/**",
+    "consciousness/**",
+    "orchestration/**",
+    "governance/**"
+  ],
+  "python.analysis.exclude": [
+    "**/.venv",
+    "**/node_modules",
+    "**/__pycache__",
+    "**/.*",
+    "recovery/**",
+    "._cleanup_archive/**",
+    "archive/**"
+  ],
   // File Exclusions for LUKHAS_PWM
   "files.exclude": {
     "**/.git": true,

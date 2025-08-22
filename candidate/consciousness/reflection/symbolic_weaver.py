@@ -1313,7 +1313,7 @@ class SymbolicWeaver:
             + str(thread.ethical_alignment)
         )
 
-        return hashlib.md5(content_string.encode()).hexdigest()[:16]
+        return hashlib.sha256(  # Changed from MD5 for securitycontent_string.encode()).hexdigest()[:16]
 
     def evaluate_thread_alignment(
         self, thread: NarrativeThread = None

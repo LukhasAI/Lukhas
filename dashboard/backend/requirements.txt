@@ -1,9 +1,9 @@
 # LUKHAS AGI Dashboard Backend Requirements
 
 # Core Framework
-fastapi==0.104.1
+fastapi==0.116.1
 uvicorn[standard]==0.24.0
-python-multipart==0.0.6
+python-multipart==0.0.20
 
 # WebSocket Support
 websockets==12.0
@@ -39,6 +39,6 @@ pytest-asyncio==0.21.1
 httpx==0.25.1
 
 # Development
-black==23.11.0
+black==25.1.0
 ruff==0.1.5
 mypy==1.7.0
