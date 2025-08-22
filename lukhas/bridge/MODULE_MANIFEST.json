@@ -1,0 +1,76 @@
+{
+  "module": "BRIDGE",
+  "version": "2.0.0",
+  "description": "External API connections and interfaces",
+  "path": "bridge/",
+  "submodules": {
+    "api": {
+      "description": "api subsystem of BRIDGE",
+      "is_hybrid": false,
+      "path": "bridge/api/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_api_colony.py"
+      }
+    },
+    "external": {
+      "description": "external subsystem of BRIDGE",
+      "is_hybrid": false,
+      "path": "bridge/external/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_external_colony.py"
+      }
+    },
+    "protocols": {
+      "description": "protocols subsystem of BRIDGE",
+      "is_hybrid": true,
+      "path": "bridge/protocols/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_protocols_colony.py"
+      }
+    },
+    "adapters": {
+      "description": "adapters subsystem of BRIDGE",
+      "is_hybrid": true,
+      "path": "bridge/adapters/",
+      "files": [],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "base_adapters_colony.py"
+      }
+    }
+  },
+  "hybrid_components": [
+    "protocols",
+    "adapters"
+  ],
+  "dependencies": [],
+  "exports": [],
+  "neuroplastic_config": {
+    "can_reorganize": true,
+    "stress_priority": 1,
+    "hormone_receptors": [
+      "cortisol",
+      "dopamine",
+      "serotonin",
+      "oxytocin"
+    ]
+  },
+  "tags": [
+    "#TAG:bridge",
+    "#TAG:neuroplastic",
+    "#TAG:colony"
+  ],
+  "enhanced": true,
+  "enhancement_date": "2025-08-02T21:08:24.694043",
+  "integrated_directories": [
+    "api_legacy",
+    "voice"
+  ],
+  "last_reorganization": "2025-08-02T21:13:28.016946"
+}

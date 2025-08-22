@@ -1,0 +1,139 @@
+{
+  "module_name": "core",
+  "version": "2.0.0",
+  "description": "LUKHAS AI foundational systems - GLYPH engine, symbolic processing, Trinity Framework",
+  "trinity_framework": "⚛️🧠🛡️",
+  "primary_capabilities": [
+    "GLYPH engine for symbolic communication",
+    "Actor system for distributed processing", 
+    "Symbolic reasoning and pattern recognition",
+    "Trinity Framework integration",
+    "Graph-based processing capabilities"
+  ],
+  "backbone_components": {
+    "glyph_engine": {
+      "description": "Symbolic communication and concept encoding",
+      "source": "candidate/core/glyph/glyph_engine.py",
+      "capabilities": [
+        "Concept encoding to GLYPH representations",
+        "Trinity Framework glyph creation", 
+        "Emotional context integration",
+        "Memory, emotion, and action glyph types"
+      ]
+    },
+    "actor_system": {
+      "description": "Distributed actor model for scalable processing",
+      "source": "candidate/core/actor_system.py", 
+      "capabilities": [
+        "ActorRef and ActorSystem management",
+        "AIAgentActor for intelligent processing",
+        "Message passing between actors",
+        "Location transparency"
+      ]
+    },
+    "symbolic_processing": {
+      "description": "Symbolic world representation and reasoning",
+      "source": "candidate/core/symbolic/symbolic_core.py",
+      "capabilities": [
+        "Symbol creation and relationship mapping",
+        "Pattern recognition in symbol networks",
+        "Formal reasoning with inference rules", 
+        "Temporal chain management"
+      ]
+    }
+  },
+  "integration_points": {
+    "consciousness_bridge": "bidirectional communication with consciousness systems",
+    "memory_bridge": "integration with fold-based memory systems",
+    "quantum_bridge": "quantum-inspired processing integration", 
+    "bio_bridge": "bio-inspired adaptation integration",
+    "identity_bridge": "identity and authentication integration",
+    "safety_bridge": "ethical oversight and safety validation"
+  },
+  "graph_architecture": {
+    "binding_sites": [
+      "bridges/ - module interconnection points",
+      "integration/ - system coordination hubs", 
+      "orchestration/ - brain and workflow coordination",
+      "colonies/ - swarm intelligence networks"
+    ],
+    "communication_patterns": [
+      "GLYPH-based symbolic messaging",
+      "Actor model message passing",
+      "Event bus for cross-module events",
+      "Bridge patterns for system integration"
+    ]
+  },
+  "feature_flags": {
+    "CORE_ACTIVE": {
+      "default": false,
+      "description": "Enable core system functionality",
+      "env_var": "CORE_ACTIVE"
+    },
+    "GLYPH_ENGINE_ENABLED": {
+      "default": true,
+      "description": "Enable GLYPH engine for symbolic communication",
+      "env_var": "GLYPH_ENGINE_ENABLED"
+    },
+    "SYMBOLIC_PROCESSING_ENABLED": {
+      "default": true, 
+      "description": "Enable symbolic reasoning and pattern recognition",
+      "env_var": "SYMBOLIC_PROCESSING_ENABLED"
+    },
+    "ACTOR_SYSTEM_ENABLED": {
+      "default": true,
+      "description": "Enable actor system for distributed processing",
+      "env_var": "ACTOR_SYSTEM_ENABLED"
+    }
+  },
+  "dependencies": {
+    "internal": [],
+    "external": [
+      "typing",
+      "dataclasses", 
+      "enum",
+      "logging",
+      "os"
+    ],
+    "candidate_modules": [
+      "candidate.core.glyph.glyph_engine",
+      "candidate.core.actor_system",
+      "candidate.core.symbolic.symbolic_core"
+    ]
+  },
+  "performance_targets": {
+    "glyph_encoding": "<10ms per concept",
+    "symbolic_reasoning": "<100ms for basic inference", 
+    "actor_message_passing": "<5ms per message",
+    "memory_operations": "<10ms per operation"
+  },
+  "testing": {
+    "test_file": "tests/test_core_promotion.py",
+    "coverage_target": "100%",
+    "test_categories": [
+      "GLYPH engine functionality",
+      "Actor system operations",
+      "Symbolic reasoning accuracy", 
+      "Trinity Framework integration",
+      "Feature flag behavior",
+      "Error handling and fallbacks"
+    ]
+  },
+  "promotion_status": {
+    "source": "candidate/core/",
+    "target": "lukhas/core/",
+    "files_count": 926,
+    "completion_date": "2025-08-22",
+    "wrapper_created": true,
+    "tests_created": true,
+    "final_module": true,
+    "system_completion": "11/11 modules promoted"
+  },
+  "scientific_approach": {
+    "methodology": "Graph-based protein folding analysis approach",
+    "backbone_identification": "GLYPH engine as primary structural component",
+    "binding_sites": "Bridge patterns for cross-module integration",
+    "interconnection_analysis": "Actor model and symbolic networks",
+    "emergence_detection": "Pattern recognition in symbolic reasoning"
+  }
+}
