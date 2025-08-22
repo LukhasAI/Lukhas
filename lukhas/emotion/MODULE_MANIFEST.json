@@ -1,0 +1,119 @@
+{
+  "module": "EMOTION",
+  "version": "1.0.0",
+  "description": "VAD affect processing, mood regulation, and emotional intelligence",
+  "path": "lukhas/emotion/",
+  "submodules": {
+    "vad": {
+      "description": "Valence, Arousal, Dominance affect processing",
+      "is_hybrid": false,
+      "path": "lukhas/emotion/",
+      "files": ["__init__.py", "emotion_wrapper.py"],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "emotion_colony.py"
+      }
+    },
+    "mood": {
+      "description": "Mood regulation with hormone receptors",
+      "is_hybrid": true,
+      "path": "lukhas/emotion/",
+      "files": ["__init__.py", "emotion_wrapper.py"],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "mood_colony.py"
+      }
+    },
+    "regulation": {
+      "description": "Emotional regulation and stability",
+      "is_hybrid": false,
+      "path": "lukhas/emotion/",
+      "files": ["__init__.py", "emotion_wrapper.py"],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "regulation_colony.py"
+      }
+    },
+    "integration": {
+      "description": "Memory and consciousness integration",
+      "is_hybrid": true,
+      "path": "lukhas/emotion/",
+      "files": ["emotion_wrapper.py"],
+      "colony_config": {
+        "can_propagate": true,
+        "base_colony": "integration_colony.py"
+      }
+    }
+  },
+  "hybrid_components": [
+    "mood",
+    "integration"
+  ],
+  "dependencies": [
+    "lukhas.memory",
+    "lukhas.consciousness",
+    "lukhas.observability"
+  ],
+  "exports": [
+    "EmotionWrapper",
+    "AdvancedEmotionWrapper",
+    "process_emotion",
+    "regulate_mood",
+    "track_valence",
+    "get_emotion_wrapper",
+    "get_advanced_emotion_wrapper"
+  ],
+  "neuroplastic_config": {
+    "can_reorganize": true,
+    "stress_priority": 1,
+    "hormone_receptors": [
+      "cortisol",
+      "dopamine", 
+      "serotonin",
+      "oxytocin"
+    ]
+  },
+  "feature_flags": {
+    "EMOTION_ACTIVE": {
+      "default": false,
+      "description": "Enable active emotion processing (dry-run by default)",
+      "type": "boolean"
+    }
+  },
+  "matriz_instrumentation": {
+    "enabled": true,
+    "events": [
+      "emotion_initialization",
+      "emotion_process",
+      "emotion_regulate_mood", 
+      "emotion_track_valence",
+      "emotion_memory_init",
+      "emotion_store_memory",
+      "emotion_recall_patterns",
+      "emotion_consciousness_sync",
+      "advanced_emotion_init",
+      "advanced_emotion_process",
+      "advanced_mood_regulate"
+    ]
+  },
+  "trinity_framework": {
+    "component": "🧠 Consciousness",
+    "supports_identity": true,
+    "supports_consciousness": true,
+    "supports_guardian": true
+  },
+  "tags": [
+    "#TAG:emotion",
+    "#TAG:vad",
+    "#TAG:neuroplastic",
+    "#TAG:consciousness",
+    "#TAG:memory",
+    "#TAG:trinity"
+  ],
+  "budget_optimized": true,
+  "dry_run_safe": true,
+  "promoted_from": "candidate/emotion/",
+  "promotion_date": "2025-08-22T00:00:00.000000Z",
+  "enhanced": true,
+  "enhancement_date": "2025-08-22T00:00:00.000000Z"
+}
