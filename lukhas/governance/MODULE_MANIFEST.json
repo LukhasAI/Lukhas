@@ -1,13 +1,31 @@
 {
   "name": "governance",
   "lane": "accepted",
-  "capabilities": ["consent:record", "consent:verify", "consent:withdraw", "audit:trace"],
+  "capabilities": [
+    "consent:record", 
+    "consent:verify", 
+    "consent:withdraw", 
+    "audit:trace",
+    "guardian:drift:detect",
+    "guardian:ethics:evaluate",
+    "guardian:safety:validate",
+    "guardian:monitor"
+  ],
   "owner": "A2-Compliance",
-  "matriz_emit_points": ["record_consent", "verify_consent", "withdraw_consent"],
+  "matriz_emit_points": [
+    "record_consent", 
+    "verify_consent", 
+    "withdraw_consent",
+    "detect_drift",
+    "evaluate_ethics",
+    "check_safety",
+    "get_guardian_status"
+  ],
   "sla": {"p95_ms": 40},
   "dependencies": [],
-  "notes": "Consent ledger with GDPR compliance; feature-flagged real implementation; dry_run-first.",
+  "notes": "Governance module with consent ledger (GDPR compliance) and Guardian system (drift detection, ethics, safety). Feature-flagged implementations with dry_run-first approach.",
   "feature_flags": {
-    "CONSENT_LEDGER_ACTIVE": "Enable real consent ledger implementation"
+    "CONSENT_LEDGER_ACTIVE": "Enable real consent ledger implementation",
+    "GUARDIAN_ACTIVE": "Enable Guardian system (drift detection, ethics engine, safety validation)"
   }
 }

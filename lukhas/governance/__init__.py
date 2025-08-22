@@ -41,6 +41,34 @@ except ImportError:
     GuardianShadowFilter = None
     Guardian = None
 
+# Promoted Guardian System (lukhas/governance/guardian)
+try:
+    from .guardian import (
+        detect_drift,
+        evaluate_ethics,
+        check_safety,
+        get_guardian_status,
+        EthicalSeverity,
+        GovernanceAction,
+        EthicalDecision,
+        DriftResult,
+        SafetyResult,
+        GUARDIAN_ACTIVE
+    )
+    GUARDIAN_PROMOTED = True
+except ImportError:
+    detect_drift = None
+    evaluate_ethics = None
+    check_safety = None
+    get_guardian_status = None
+    EthicalSeverity = None
+    GovernanceAction = None
+    EthicalDecision = None
+    DriftResult = None
+    SafetyResult = None
+    GUARDIAN_ACTIVE = False
+    GUARDIAN_PROMOTED = False
+
 # Ethics and compliance imports
 try:
     from .ethics.constitutional_ai import ConstitutionalAI
@@ -263,6 +291,19 @@ __all__ = [
     'GuardianSentinel', 
     'GuardianShadowFilter',
     'Guardian',
+    
+    # Promoted Guardian System Functions
+    'detect_drift',
+    'evaluate_ethics',
+    'check_safety',
+    'get_guardian_status',
+    'EthicalSeverity',
+    'GovernanceAction',
+    'EthicalDecision',
+    'DriftResult',
+    'SafetyResult',
+    'GUARDIAN_ACTIVE',
+    'GUARDIAN_PROMOTED',
     
     # Ethics and Constitutional AI
     'ConstitutionalAI',
