@@ -38,7 +38,7 @@ class MemoryServiceAdapter(IMemoryService):
             try:
                 # Import existing memory components
                 from memory import AGIMemory, MemoryFoldManager
-                from memory.fold_system.memory_fold import (
+                from lukhas.memory.fold_system.memory_fold import (
                     HybridMemoryFold as MemoryFoldSystem,
                 )
 
@@ -174,8 +174,8 @@ class ConsciousnessServiceAdapter(IConsciousnessService):
         if not self._initialized:
             try:
                 # Import existing consciousness components
-                from consciousness.awareness import AwarenessModule
-                from consciousness.unified.auto_consciousness import (
+                from lukhas.consciousness.awareness import AwarenessModule
+                from lukhas.consciousness.unified.auto_consciousness import (
                     UnifiedConsciousness,
                 )
 
@@ -272,7 +272,7 @@ class DreamServiceAdapter(IDreamService):
         """Lazy load dream components"""
         if not self._initialized:
             try:
-                from consciousness.dream.core.dream_engine import DreamEngine
+                from lukhas.consciousness.dream.core.dream_engine import DreamEngine
 
                 self._dream_engine = DreamEngine()
                 self._initialized = True
@@ -525,8 +525,8 @@ class GovernanceServiceAdapter(IGovernanceService):
         """Lazy load governance components"""
         if not self._initialized:
             try:
-                from governance.guardian.guardian_system import GuardianSystem
-                from governance.reflector.guardian_reflector import GuardianReflector
+                from lukhas.governance.guardian.guardian_system import GuardianSystem
+                from lukhas.governance.reflector.guardian_reflector import GuardianReflector
 
                 self._guardian = GuardianSystem() if GuardianSystem else None
                 self._reflector = GuardianReflector() if GuardianReflector else None

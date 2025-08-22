@@ -29,7 +29,7 @@ logger = structlog.get_logger(__name__)
 
 # Try to import identity client
 try:
-    from governance.identity.interface import IdentityClient
+    from lukhas.governance.identity.interface import IdentityClient
 
     IDENTITY_AVAILABLE = True
 except ImportError:

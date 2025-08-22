@@ -63,9 +63,9 @@ from core.common import get_logger
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
 
-# Try to import consciousness integration
+# Try to import lukhas.consciousness integration
 try:
-    from consciousness.core_consciousness.quantum_consciousness_integration import (
+    from lukhas.consciousness.core_consciousness.quantum_consciousness_integration import (
         QuantumCreativeConsciousness,
     )
 

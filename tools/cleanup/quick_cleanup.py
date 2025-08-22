@@ -60,10 +60,10 @@ def cleanup_imports() -> int:
 
     # Common import fixes
     replacements = [
-        ("from identity.interface", "from governance.identity.interface"),
-        ("from identity.core", "from governance.identity.core"),
-        ("from identity.auth", "from governance.identity.auth"),
-        ("import identity.", "import governance.identity."),
+        ("from identity.interface", "from lukhas.governance.identity.interface"),
+        ("from identity.core", "from lukhas.governance.identity.core"),
+        ("from identity.auth", "from lukhas.governance.identity.auth"),
+        ("import identity.", "import lukhas.governance.identity."),
     ]
 
     # Only fix in main modules, not backups

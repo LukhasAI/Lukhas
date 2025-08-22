@@ -47,7 +47,7 @@ MODULE_NAME = "explainability_interface_layer"
 try:
     from ethics.meta_ethics_governor import MetaEthicsGovernor
     from ethics.self_reflective_debugger import SelfReflectiveDebugger
-    from memory.emotional import EmotionalMemory
+    from lukhas.memory.emotional import EmotionalMemory
     from reasoning.reasoning_engine import SymbolicEngine
 
     LUKHAS_INTEGRATION = True

@@ -20,6 +20,6 @@ This module provides RESTful API access to:
 All endpoints require proper authentication and respect tier-based access controls.
 """
 
-from . import consciousness, dream, emotion, glyph_exchange, memory
+from . import lukhas.consciousness, dream, emotion, glyph_exchange, memory
 
 __all__ = ["memory", "dream", "emotion", "consciousness", "glyph_exchange"]

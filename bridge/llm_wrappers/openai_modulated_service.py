@@ -475,7 +475,7 @@ class OpenAIModulatedService:
         """Guardian pre-check; provider fallback is a no-op."""
         # Guardian
         try:
-            from governance.guardian_sentinel import (
+            from lukhas.governance.guardian_sentinel import (
                 get_guardian_sentinel,  # lazy import
             )
 
@@ -505,7 +505,7 @@ class OpenAIModulatedService:
             content = None
         # Guardian
         try:
-            from governance.guardian_sentinel import (
+            from lukhas.governance.guardian_sentinel import (
                 get_guardian_sentinel,  # lazy import
             )
 

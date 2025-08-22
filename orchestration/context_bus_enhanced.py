@@ -26,7 +26,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 from core.identity.lambda_id_core import LukhasIdentityService  # noqa: E402
 
 # Import Agent 2's consent and policy
-from governance.consent_ledger.ledger_v1 import (  # noqa: E402
+from lukhas.governance.consent_ledger.ledger_v1 import (  # noqa: E402
     ConsentLedgerV1,
     PolicyEngine,
     PolicyVerdict,

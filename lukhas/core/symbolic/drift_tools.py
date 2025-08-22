@@ -51,8 +51,8 @@ logger = get_logger(__name__)
 
 # Import current LUKHAS modules
 try:
-    from memory.core import MemoryFold
-    from memory.core_memory.symbolic_glyphs import GlyphManager, SymbolicGlyph
+    from lukhas.memory.core import MemoryFold
+    from lukhas.memory.core_memory.symbolic_glyphs import GlyphManager, SymbolicGlyph
 except ImportError:
     logger.warning("Memory modules not available, using fallback")
     MemoryFold = None

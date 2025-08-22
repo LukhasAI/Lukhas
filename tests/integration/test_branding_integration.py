@@ -85,7 +85,7 @@ class TestConsciousnessIntegration:
     def test_consciousness_creativity_branding(self):
         """Test branding integration in consciousness creativity modules"""
         try:
-            from consciousness.creativity.advanced_haiku_generator import AdvancedHaikuGenerator
+            from lukhas.consciousness.creativity.advanced_haiku_generator import AdvancedHaikuGenerator
             
             # Create generator
             generator = AdvancedHaikuGenerator()
@@ -100,7 +100,7 @@ class TestConsciousnessIntegration:
         """Test branding integration in consciousness core engine"""
         try:
             # Check that consciousness engine imports branding
-            from consciousness.core import engine
+            from lukhas.consciousness.core import engine
             
             # Look for branding imports in the module
             assert hasattr(engine, 'BRANDING_AVAILABLE'), "Consciousness engine should have BRANDING_AVAILABLE flag"
@@ -264,7 +264,7 @@ class TestIntegrationCoverage:
         
         # Test consciousness creativity
         try:
-            import consciousness.creativity.advanced_haiku_generator
+            import lukhas.consciousness.creativity.advanced_haiku_generator
             integration_points["consciousness_creativity"] = hasattr(
                 consciousness.creativity.advanced_haiku_generator, 
                 'BRANDING_BRIDGE_AVAILABLE'
@@ -274,7 +274,7 @@ class TestIntegrationCoverage:
         
         # Test consciousness core
         try:
-            import consciousness.core.engine
+            import lukhas.consciousness.core.engine
             integration_points["consciousness_core"] = hasattr(
                 consciousness.core.engine, 
                 'BRANDING_AVAILABLE'

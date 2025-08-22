@@ -27,9 +27,9 @@ governance_path = os.path.join(os.path.dirname(__file__), '..', '..', 'governanc
 sys.path.extend([identity_path, governance_path])
 
 try:
-    from governance.identity.auth_backend.qr_entropy_generator import QREntropyGenerator
-    from governance.identity.core.auth.oauth2_oidc_provider import OAuth2OIDCProvider
-    from governance.identity.core.auth.webauthn_manager import WebAuthnManager
+    from lukhas.governance.identity.auth_backend.qr_entropy_generator import QREntropyGenerator
+    from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuth2OIDCProvider
+    from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnManager
     from identity_core import AccessTier, IdentityCore
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -181,7 +181,7 @@ class TestIdentityModuleIntegration:
         )
 
         # Mock WebAuthn credential registration (simplified)
-        from governance.identity.core.auth.webauthn_manager import WebAuthnCredential
+        from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnCredential
         mock_credential = WebAuthnCredential({
             'credential_id': 'mock_credential_for_integration',
             'user_id': user_data['user_id'],
@@ -192,7 +192,7 @@ class TestIdentityModuleIntegration:
         webauthn_manager.credentials[user_data['user_id']] = [mock_credential]
 
         # Register OAuth client
-        from governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
+        from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
         oauth_client = OAuthClient({
             'client_id': 'integration_test_client',
             'client_secret': 'integration_test_secret',
@@ -376,7 +376,7 @@ class TestIdentityModuleIntegration:
         )
 
         # Add WebAuthn credential
-        from governance.identity.core.auth.webauthn_manager import WebAuthnCredential
+        from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnCredential
         credential = WebAuthnCredential({
             'credential_id': 'security_test_credential',
             'user_id': user_data['user_id'],

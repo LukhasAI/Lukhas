@@ -11,7 +11,7 @@
 
 from typing import Any, Dict, Optional
 
-from memory.emotional import EmotionalMemory, EmotionVector
+from lukhas.memory.emotional import EmotionalMemory, EmotionVector
 
 log = logging.getLogger(__name__)
 

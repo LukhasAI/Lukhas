@@ -7,23 +7,23 @@ import warnings
 
 # Import real implementations from governance
 try:
-    from governance.ethics.ethics_engine import EthicsEngine
-    from governance.policy.base import Decision, RiskLevel
+    from lukhas.governance.ethics.ethics_engine import EthicsEngine
+    from lukhas.governance.policy.base import Decision, RiskLevel
 except ImportError as e:
-    warnings.warn(f"Could not import governance ethics components: {e}")
+    warnings.warn(f"Could not import lukhas.governance ethics components: {e}")
     # Fall back to stubs if needed
     from .stubs import Decision, EthicsEngine, RiskLevel
 
 # Import or create MEGPolicyBridge
 try:
-    from governance.policy.meg_bridge import MEGPolicyBridge, create_meg_bridge
+    from lukhas.governance.policy.meg_bridge import MEGPolicyBridge, create_meg_bridge
 except ImportError:
     # MEGPolicyBridge doesn't exist in governance, use stub
     from .stubs import MEGPolicyBridge, create_meg_bridge
 
 # Import or create SafetyChecker
 try:
-    from governance.ethics.safety_checks import SafetyChecker
+    from lukhas.governance.ethics.safety_checks import SafetyChecker
 except ImportError:
     # SafetyChecker doesn't exist, use stub
     from .stubs import SafetyChecker

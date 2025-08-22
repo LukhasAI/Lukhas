@@ -247,7 +247,7 @@ class LUKHASSystem:
         identity_module = self.module_manager.get_module("identity_system")
         if identity_module:
             try:
-                from governance.identity.interface import IdentityClient
+                from lukhas.governance.identity.interface import IdentityClient
 
                 IdentityClient()
                 self.logger.info("Identity system initialized")

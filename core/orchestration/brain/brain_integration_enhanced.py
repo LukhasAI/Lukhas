@@ -79,8 +79,8 @@ try:
 
         from compliance.ai_compliance_manager import AIComplianceManager
         from ethics.ethical_hierarchy import EthicalHierarchy
-        from governance.dao_governance_node import DAOGovernanceNode
-        from memory.enhanced_memory_manager import EnhancedMemoryManager
+        from lukhas.governance.dao_governance_node import DAOGovernanceNode
+        from lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
         from reasoning.causal_reasoning_module import CausalReasoningModule
         ADVANCED_AGI_COMPONENTS = True
                             except ImportError:

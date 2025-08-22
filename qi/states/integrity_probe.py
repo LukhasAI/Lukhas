@@ -17,7 +17,7 @@ Runs consistency checks on DriftScore deltas and collapse recovery logic.
 from dataclasses import dataclass
 
 from core.symbolic_diagnostics.trace_repair_engine import TraceRepairEngine
-from memory.core_memory.memory_collapse_verifier import MemoryCollapseVerifier
+from lukhas.memory.core_memory.memory_collapse_verifier import MemoryCollapseVerifier
 
 
 @dataclass

@@ -27,9 +27,9 @@ governance_path = os.path.join(os.path.dirname(__file__), '..', '..', 'governanc
 sys.path.extend([identity_path, governance_path])
 
 try:
-    from governance.identity.auth_backend.qr_entropy_generator import QREntropyGenerator
-    from governance.identity.core.auth.oauth2_oidc_provider import OAuth2OIDCProvider
-    from governance.identity.core.auth.webauthn_manager import WebAuthnManager
+    from lukhas.governance.identity.auth_backend.qr_entropy_generator import QREntropyGenerator
+    from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuth2OIDCProvider
+    from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnManager
     from identity_core import AccessTier, IdentityCore
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -293,7 +293,7 @@ class TestIdentityPerformance:
         num_iterations = 500
 
         # Pre-populate some credentials for authentication testing
-        from governance.identity.core.auth.webauthn_manager import WebAuthnCredential
+        from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnCredential
         for i in range(0, min(50, num_iterations), 5):  # Every 5th user gets credentials
             user_id = f'webauthn_user_{i:08d}'
             credential = WebAuthnCredential({
@@ -332,7 +332,7 @@ class TestIdentityPerformance:
         num_iterations = 300
 
         # Pre-register OAuth clients
-        from governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
+        from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
         clients = []
         for i in range(10):  # 10 clients for testing
             client_data = {
@@ -388,7 +388,7 @@ class TestIdentityPerformance:
         num_iterations = 200
 
         # Pre-setup client
-        from governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
+        from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
         client = OAuthClient({
             'client_id': 'token_perf_client',
             'client_secret': 'token_perf_secret',

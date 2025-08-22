@@ -210,7 +210,7 @@ class SymbolicFeedbackLoop:
 
     async def read_last_dream(self) -> Optional[Dict[str, Any]]:
         """
-        Read the last dream from memory.
+        Read the last dream from lukhas.memory.
 
         Returns:
             Dream data or None if not found

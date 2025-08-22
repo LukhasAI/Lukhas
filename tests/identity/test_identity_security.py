@@ -27,9 +27,9 @@ governance_path = os.path.join(os.path.dirname(__file__), '..', '..', 'governanc
 sys.path.extend([identity_path, governance_path])
 
 try:
-    from governance.identity.auth_backend.qr_entropy_generator import QREntropyGenerator
-    from governance.identity.core.auth.oauth2_oidc_provider import OAuth2OIDCProvider
-    from governance.identity.core.auth.webauthn_manager import WebAuthnManager
+    from lukhas.governance.identity.auth_backend.qr_entropy_generator import QREntropyGenerator
+    from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuth2OIDCProvider
+    from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnManager
     from identity_core import AccessTier, IdentityCore
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -412,7 +412,7 @@ class TestWebAuthnSecurityValidation:
         user_id = 'replay_test_user_12345678'
 
         # Create mock credential
-        from governance.identity.core.auth.webauthn_manager import WebAuthnCredential
+        from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnCredential
         credential = WebAuthnCredential({
             'credential_id': 'replay_test_credential',
             'user_id': user_id,
@@ -504,7 +504,7 @@ class TestOAuth2SecurityValidation:
     @pytest.fixture
     def test_client(self, oauth_provider):
         """Create test OAuth client"""
-        from governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
+        from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
         client = OAuthClient({
             'client_id': 'security_test_client',
             'client_secret': 'security_test_secret',
@@ -884,7 +884,7 @@ class TestCrossComponentSecurityIntegration:
         assert not permissions['can_access_guardian']
 
         # Attempt privilege escalation via OAuth scope manipulation
-        from governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
+        from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
         client = OAuthClient({
             'client_id': 'escalation_client',
             'client_secret': 'escalation_secret',

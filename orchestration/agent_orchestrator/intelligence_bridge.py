@@ -16,7 +16,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, Optional
 
-from consciousness.reasoning.advanced_engines.intelligence_engines import (
+from lukhas.consciousness.reasoning.advanced_engines.intelligence_engines import (
     LukhasAutonomousGoalEngine,
     LukhasCausalReasoningEngine,
     LukhasCuriosityEngine,

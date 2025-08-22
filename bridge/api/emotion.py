@@ -28,7 +28,7 @@ from pydantic import BaseModel
 from pydantic import Field
 
 try:
-    from consciousness.reflection.unified_memory_manager import MemoryFoldSystem
+    from lukhas.consciousness.reflection.unified_memory_manager import MemoryFoldSystem
 except ImportError:
     MemoryFoldSystem = None
 

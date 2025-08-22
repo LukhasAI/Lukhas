@@ -106,7 +106,7 @@ class SymbolicLoopController:
         # Get loop instances from service registry
         try:
             # Meta-learning loop
-            from consciousness.loop_meta_learning import get_meta_learning_loop
+            from lukhas.consciousness.loop_meta_learning import get_meta_learning_loop
 
             self._loop_handlers[LoopType.META_LEARNING] = get_meta_learning_loop()
 

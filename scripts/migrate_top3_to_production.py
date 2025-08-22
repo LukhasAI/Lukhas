@@ -92,9 +92,9 @@ def update_module_paths(file_path: Path):
     # Update common hardcoded paths
     replacements = [
         ("/Users/agi_dev/Downloads/Consolidation-Repo/logs/", "logs/"),
-        ("from memory.", "from lukhas.acceptance.accepted.memory."),
+        ("from lukhas.memory.", "from lukhas.acceptance.accepted.memory."),
         ("from core.", "from lukhas.acceptance.accepted.core."),
-        ("from governance.", "from lukhas.acceptance.accepted.governance."),
+        ("from lukhas.governance.", "from lukhas.acceptance.accepted.governance."),
     ]
 
     for old, new in replacements:

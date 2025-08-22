@@ -10,7 +10,7 @@ without risking the integrity of the live system.
 
 from typing import Any, Optional
 
-from consciousness.reflection.unified_memory_manager import (
+from lukhas.consciousness.reflection.unified_memory_manager import (
     EnhancedMemoryManager as MemoryManager,
 )
 

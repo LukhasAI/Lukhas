@@ -66,10 +66,10 @@ except ImportError as e1:
     try:
         # Try alternative imports from root core
         from core.glyph import GLYPH as GLYPHEngine
-        from governance.guardian_system import GuardianSystem
+        from lukhas.governance.guardian_system import GuardianSystem
         from identity.lid_core import LIDCore
-        from consciousness.awareness import ConsciousnessEngine
-        from memory.fold_manager import FoldManager
+        from lukhas.consciousness.awareness import ConsciousnessEngine
+        from lukhas.memory.fold_manager import FoldManager
         LUKHAS_AVAILABLE = True
         print("✅ LUKHAS core available via legacy paths")
     except ImportError as e2:
@@ -124,15 +124,15 @@ except ImportError:
 
 # Import transferred governance components
 try:
-    from governance.healthcare.case_manager import CaseManager
-    from governance.healthcare.clinical_decision_support import ClinicalDecisionSupport
-    from governance.monitoring.guardian_dashboard import GuardianDashboard
-    from governance.monitoring.threat_predictor import ThreatPredictor
-    from governance.monitoring.enhanced_threat_monitor import EnhancedThreatMonitor
-    from governance.monitoring.guardian_sentinel import GuardianSentinel
-    from governance.ethics.enhanced_ethical_guardian import EnhancedEthicalGuardian
-    from governance.security.consent_manager import ConsentManager as EnhancedConsentManager
-    from governance.security.privacy_guardian import PrivacyGuardian
+    from lukhas.governance.healthcare.case_manager import CaseManager
+    from lukhas.governance.healthcare.clinical_decision_support import ClinicalDecisionSupport
+    from lukhas.governance.monitoring.guardian_dashboard import GuardianDashboard
+    from lukhas.governance.monitoring.threat_predictor import ThreatPredictor
+    from lukhas.governance.monitoring.enhanced_threat_monitor import EnhancedThreatMonitor
+    from lukhas.governance.monitoring.guardian_sentinel import GuardianSentinel
+    from lukhas.governance.ethics.enhanced_ethical_guardian import EnhancedEthicalGuardian
+    from lukhas.governance.security.consent_manager import ConsentManager as EnhancedConsentManager
+    from lukhas.governance.security.privacy_guardian import PrivacyGuardian
     GOVERNANCE_AVAILABLE = True
 except ImportError:
     GOVERNANCE_AVAILABLE = False

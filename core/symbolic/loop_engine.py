@@ -18,7 +18,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from bio.core import BioProcessor
-from consciousness.bridge import ConsciousnessBridge
+from lukhas.consciousness.bridge import ConsciousnessBridge
 from qi.engines.consciousness import QuantumProcessor
 
 # These imports form an intentional cycle for symbolic grounding

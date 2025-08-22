@@ -8,7 +8,7 @@ Integration Date: 2025-05-31T07:55:28.018572
 from datetime import datetime
 from typing import Any
 
-from memory.systems.helix_mapper import HelixMapper
+from lukhas.memory.systems.helix_mapper import HelixMapper
 
 
 class CognitiveVoiceEngine:

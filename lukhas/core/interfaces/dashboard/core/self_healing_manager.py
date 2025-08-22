@@ -61,7 +61,7 @@ from dashboard.core.dashboard_colony_agent import (
     DashboardAgentRole,
     DashboardColonyAgent,
 )
-from memory.systems.healix_memory_core import HealixMemoryCore
+from lukhas.memory.systems.healix_memory_core import HealixMemoryCore
 
 logger = logging.getLogger("ΛTRACE.self_healing_manager")
 
@@ -818,7 +818,7 @@ class SelfHealingManager:
         # Implementation for coordination setup
 
     async def _load_healing_patterns(self):
-        """Load healing patterns from memory."""
+        """Load healing patterns from lukhas.memory."""
         # Implementation to load from Healix memory
 
 

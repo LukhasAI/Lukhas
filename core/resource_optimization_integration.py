@@ -36,7 +36,7 @@ from typing import Any, Callable, Optional
 
 from core.interfaces.core_interface import MessagePriority
 from core.interfaces.dependency_injection import get_service
-from memory.memory_optimization import MemoryOptimizer, MemoryTier
+from lukhas.memory.memory_optimization import MemoryOptimizer, MemoryTier
 
 # Import our resource management modules
 from .energy_consumption_analysis import (

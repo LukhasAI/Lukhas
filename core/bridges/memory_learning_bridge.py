@@ -40,7 +40,7 @@ class MemoryLearningBridge:
             # Get system hubs
             from learning.learning_hub import get_learning_hub
 
-            from consciousness.reflection.memory_hub import get_memory_hub
+            from lukhas.consciousness.reflection.memory_hub import get_memory_hub
 
             self.memory_hub = get_memory_hub()
             self.learning_hub = get_learning_hub()

@@ -58,7 +58,7 @@ except ImportError:
 from ethics.ethics_guard import LegalComplianceAssistant
 
 # Memory & emotion components
-from memory.adapters.creativity_adapter import EmotionalModulator
+from lukhas.memory.adapters.creativity_adapter import EmotionalModulator
 
 # from ..emotional_resonance import EmotionalOscillator
 

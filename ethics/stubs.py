@@ -45,7 +45,7 @@ class MEGPolicyBridge:
     def _try_load_guardian(self) -> bool:
         """Try to load real Guardian system"""
         try:
-            from governance.ethics.guardian_reflector import GuardianReflector
+            from lukhas.governance.ethics.guardian_reflector import GuardianReflector
             self._guardian = GuardianReflector(self.config)
             return True
         except ImportError:
@@ -121,7 +121,7 @@ class EthicsEngine:
     def _try_load_guardian(self) -> bool:
         """Try to load real Guardian system"""
         try:
-            from governance.ethics.guardian_reflector import GuardianReflector
+            from lukhas.governance.ethics.guardian_reflector import GuardianReflector
             self._guardian = GuardianReflector(self.config)
             return True
         except ImportError:

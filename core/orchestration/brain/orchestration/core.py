@@ -56,14 +56,14 @@ import uuid
 from datetime import datetime
 from typing import Any, Optional
 
-from consciousness.awareness.awareness_engine import (
+from lukhas.consciousness.awareness.awareness_engine import (
     ΛAwarenessEngine as BioAwarenessSystem,
 )
-from governance.ethics.EthicsGuardian import EthicsGuardian as EthicsCore
+from lukhas.governance.ethics.EthicsGuardian import EthicsGuardian as EthicsCore
 from identity.backend.app.compliance import (
     ComplianceEngine,  # Sourced from ethical_engine.py via __init__.py
 )
-from memory.core_memory.MemoryManager import MemoryManager
+from lukhas.memory.core_memory.MemoryManager import MemoryManager
 from quantum_attention.__init__ import DreamEngineMerged as DreamEngine
 
 # TODO: Create or find existing ModuleRegistry and uncomment.

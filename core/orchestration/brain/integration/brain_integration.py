@@ -85,7 +85,7 @@ try:
     VoiceIntegrator = None
 
                                         try:
-    from consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
+    from lukhas.consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
         DreamReflectionLoop,
     )
                                             except ImportError:

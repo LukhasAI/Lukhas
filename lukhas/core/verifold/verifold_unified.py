@@ -42,7 +42,7 @@ except ImportError:
 from lukhas.core.tier_unification_adapter import TierMappingConfig
 
 # Core LUKHAS imports
-from governance.identity.interface import IdentityClient, verify_access
+from lukhas.governance.identity.interface import IdentityClient, verify_access
 
 logger = structlog.get_logger(__name__)
 

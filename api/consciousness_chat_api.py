@@ -14,7 +14,7 @@ from fastapi import Body, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from consciousness.interfaces.natural_language_interface import (
+from lukhas.consciousness.interfaces.natural_language_interface import (
     ConversationManager,
     NaturalLanguageConsciousnessInterface,
 )

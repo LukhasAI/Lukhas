@@ -85,10 +85,10 @@ except ImportError:
     EmotionVector = None
 
 try:
-    from memory.folds.memory_fold import MemoryFoldConfig, MemoryFoldSystem
+    from lukhas.memory.folds.memory_fold import MemoryFoldConfig, MemoryFoldSystem
 except ImportError:
     try:
-        from consciousness.reflection.unified_memory_manager import MemoryFoldSystem
+        from lukhas.consciousness.reflection.unified_memory_manager import MemoryFoldSystem
 
         MemoryFoldConfig = None
     except ImportError:

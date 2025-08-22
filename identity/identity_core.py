@@ -178,7 +178,7 @@ class IdentityCore:
                     logger.error("Symbolic integrity check failed for token")
                     # Alert Guardian system of potential breach
             try:
-                from governance.guardian_system import guardian_system
+                from lukhas.governance.guardian_system import guardian_system
                 guardian_system.alert_security_breach(
                     event_type="symbolic_integrity_failure",
                     token_hash=hashlib.sha256(token.encode()).hexdigest()[:16],
@@ -198,7 +198,7 @@ class IdentityCore:
             logger.error(f"Error validating token: {e}")
             # Log to security audit trail
             try:
-                from governance.audit_trail import audit_trail
+                from lukhas.governance.audit_trail import audit_trail
                 audit_trail.log_security_event(
                     event_type="token_validation_error",
                     details={"error": str(e), "token_prefix": token[:20] if token else "None"},
@@ -421,7 +421,7 @@ class IdentityCore:
                 
             # Log to audit trail
             try:
-                from governance.audit_trail import audit_trail
+                from lukhas.governance.audit_trail import audit_trail
                 audit_trail.log_security_event(
                     event_type="token_created",
                     details={"user_id": user_id, "tier": tier.value},
@@ -464,7 +464,7 @@ class IdentityCore:
                     
                 # Update audit trail
                 try:
-                    from governance.audit_trail import audit_trail
+                    from lukhas.governance.audit_trail import audit_trail
                     audit_trail.log_security_event(
                         event_type="token_revoked",
                         details={"user_id": user_id, "token_hash": hashlib.sha256(token.encode()).hexdigest()[:16]},

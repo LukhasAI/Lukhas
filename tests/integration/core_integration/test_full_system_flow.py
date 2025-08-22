@@ -22,7 +22,7 @@ from core.events.typed_event_bus import get_typed_event_bus
 # Import all enhanced components
 from core.glyph.glyph_engine_enhanced import get_enhanced_glyph_engine
 from core.glyph.universal_symbol_protocol import SymbolDomain
-from memory.folds.optimized_fold_engine import OptimizedFoldEngine
+from lukhas.memory.folds.optimized_fold_engine import OptimizedFoldEngine
 from orchestration.brain.unified_cognitive_orchestrator import (
     UnifiedCognitiveOrchestrator,
 )

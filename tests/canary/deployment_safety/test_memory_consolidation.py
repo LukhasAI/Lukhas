@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 def test_memory_imports():
     """Test that memory modules can be imported"""
-    from lukhas.accepted import memory
+    from lukhas.accepted import lukhas.memory
     assert memory is not None
     assert hasattr(memory, '__trinity__')
 

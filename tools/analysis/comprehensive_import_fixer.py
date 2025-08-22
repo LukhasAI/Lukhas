@@ -52,9 +52,9 @@ class ImportErrorFixer:
         self.import_fixes = {
             # Core module fixes
             "core.common": "from core.common import",
-            "memory.core": "from memory.core import",
-            "consciousness.unified": "from consciousness.unified import",
-            "governance.guardian_system": "from governance.guardian_system import",
+            "memory.core": "from lukhas.memory.core import",
+            "consciousness.unified": "from lukhas.consciousness.unified import",
+            "governance.guardian_system": "from lukhas.governance.guardian_system import",
             "quantum.algorithms": "from qi.algorithms import",
             "orchestration.brain": "from orchestration.brain import",
             # Interface fixes
@@ -428,16 +428,16 @@ class ImportErrorFixer:
             ("from core.common.logger import", "from core.common.logger import"),
             ("from core.common.config import", "from core.common.config import"),
             # Memory imports
-            ("from memory.core import", "from memory.core import"),
+            ("from lukhas.memory.core import", "from lukhas.memory.core import"),
             (
-                "from memory.core.unified_memory_orchestrator import",
-                "from memory.core.unified_memory_orchestrator import",
+                "from lukhas.memory.core.unified_memory_orchestrator import",
+                "from lukhas.memory.core.unified_memory_orchestrator import",
             ),
             # Consciousness imports
-            ("from consciousness.unified import", "from consciousness.unified import"),
+            ("from lukhas.consciousness.unified import", "from lukhas.consciousness.unified import"),
             (
-                "from consciousness.unified.auto_consciousness import",
-                "from consciousness.unified.auto_consciousness import",
+                "from lukhas.consciousness.unified.auto_consciousness import",
+                "from lukhas.consciousness.unified.auto_consciousness import",
             ),
             # Interface imports
             ("from core.interfaces import", "from core.interfaces import"),

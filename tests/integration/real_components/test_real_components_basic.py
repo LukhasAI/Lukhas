@@ -38,7 +38,7 @@ class TestRealComponentsBasic:
     def test_import_memory_folds(self):
         """Test that we can import and use real memory folds"""
         try:
-            from memory.folds.memory_fold import MemoryFold
+            from lukhas.memory.folds.memory_fold import MemoryFold
             
             # Create a memory fold
             fold = MemoryFold(
@@ -88,9 +88,9 @@ class TestRealComponentsBasic:
             pytest.fail(f"Emotion models real components failed: {e}")
     
     def test_import_consciousness(self):
-        """Test that we can import consciousness module"""
+        """Test that we can import lukhas.consciousness module"""
         try:
-            import consciousness
+            import lukhas.consciousness
             
             # Basic import test
             assert consciousness is not None

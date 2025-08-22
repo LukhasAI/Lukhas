@@ -21,8 +21,8 @@ class MemoryConsciousnessBridge:
     async def connect(self) -> bool:
         """Establish connection between systems"""
         try:
-            from consciousness.reflection.consciousness_hub import get_consciousness_hub
-            from consciousness.reflection.memory_hub import get_memory_hub
+            from lukhas.consciousness.reflection.consciousness_hub import get_consciousness_hub
+            from lukhas.consciousness.reflection.memory_hub import get_memory_hub
 
             self.memory_hub = get_memory_hub()
             self.consciousness_hub = get_consciousness_hub()

@@ -52,7 +52,7 @@ async def initialize_agi_supremacy_modules() -> Dict[str, Any]:
 
     # 2. Consciousness Expansion Engine
     try:
-        from consciousness.expansion.consciousness_expansion_engine import (
+        from lukhas.consciousness.expansion.consciousness_expansion_engine import (
             ConsciousnessExpansionEngine,
         )
         consciousness_expander = ConsciousnessExpansionEngine()

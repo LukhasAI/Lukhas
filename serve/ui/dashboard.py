@@ -19,7 +19,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
 
 # Import other agents' components
 from core.identity.lambda_id_core import LukhasIdentityService
-from governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyEngine
+from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyEngine
 from orchestration.context_bus_enhanced import ContextBusOrchestrator, WorkflowPipelines
 
 # Initialize FastAPI app

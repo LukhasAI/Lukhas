@@ -20,7 +20,7 @@ Purpose:
 """
 
 
-from memory.emotional import EmotionalMemory
+from lukhas.memory.emotional import EmotionalMemory
 
 
 class DriftAlignmentController:

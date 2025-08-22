@@ -45,8 +45,8 @@ from typing import Any, Dict, List, Optional
 import numpy as np
 
 # LUKHAS Core Imports
-from memory.emotional import EmotionalMemory
-from memory.governance.ethical_drift_governor import (
+from lukhas.memory.emotional import EmotionalMemory
+from lukhas.memory.governance.ethical_drift_governor import (
     EthicalDriftGovernor,
     create_ethical_governor,
 )

@@ -30,14 +30,14 @@ class LUKHASNeuralNetwork:
         try:
             # Import module connectors
             from bridge.neuroplastic_connector import BridgeConnector
-            from consciousness.neuroplastic_connector import ConsciousnessConnector
+            from lukhas.consciousness.neuroplastic_connector import ConsciousnessConnector
 
             # Import bridges
             from core.neural_bridge import neural_bridge
             from core.neuroplastic_connector import CoreConnector
             from emotion.neuroplastic_connector import EmotionConnector
-            from governance.neuroplastic_connector import GovernanceConnector
-            from memory.neuroplastic_connector import MemoryConnector
+            from lukhas.governance.neuroplastic_connector import GovernanceConnector
+            from lukhas.memory.neuroplastic_connector import MemoryConnector
             from qi.neuroplastic_connector import QimConnector
 
             # Register all modules with neural bridge

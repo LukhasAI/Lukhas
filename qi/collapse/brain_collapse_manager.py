@@ -17,8 +17,8 @@ from typing import Any, Optional
 
 import structlog
 
-from consciousness.awareness.symbolic_trace_logger import SymbolicTraceLogger
-from memory.systems.memory_collapse_verifier import MemoryCollapseVerifier
+from lukhas.consciousness.awareness.symbolic_trace_logger import SymbolicTraceLogger
+from lukhas.memory.systems.memory_collapse_verifier import MemoryCollapseVerifier
 from orchestration.brain.collapse_chain_integrity import CollapseChainIntegrity
 from orchestration.brain.integrity_probe import IntegrityProbe
 from orchestration.brain.mesh.collapse_mesh import CollapseMesh

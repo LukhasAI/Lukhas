@@ -10,7 +10,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from consciousness.dream.parallel_reality_simulator import (
+from lukhas.consciousness.dream.parallel_reality_simulator import (
     ParallelRealitySimulator,
     RealityType,
 )

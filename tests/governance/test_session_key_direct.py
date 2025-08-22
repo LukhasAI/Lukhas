@@ -7,7 +7,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from governance.identity.gateway.stargate_gateway import GlyphPayload, StargateGateway
+from lukhas.governance.identity.gateway.stargate_gateway import GlyphPayload, StargateGateway
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))

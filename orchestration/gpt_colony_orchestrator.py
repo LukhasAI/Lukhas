@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-from consciousness.reflection.openai_modulated_service import (
+from lukhas.consciousness.reflection.openai_modulated_service import (
     OpenAICapability,
     OpenAIModulatedService,
 )

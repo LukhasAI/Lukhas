@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
 from identity.interface import IdentityClient, check_consent, verify_access
-from memory.emotional import EmotionalMemory
+from lukhas.memory.emotional import EmotionalMemory
 
 log = logging.getLogger(__name__)
 

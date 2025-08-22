@@ -41,11 +41,11 @@ MODULE_NAME = "affect_stagnation_detector"
 
 # LUKHAS imports with compatibility fallback
 try:
-    from memory.emotional import EmotionalMemory
+    from lukhas.memory.emotional import EmotionalMemory
 except ImportError:
     # Fallback to memory module if emotion module not available
     try:
-        from memory.emotional import EmotionalMemory
+        from lukhas.memory.emotional import EmotionalMemory
     except ImportError:
         # Create a minimal placeholder if neither exists
         class EmotionalMemory:

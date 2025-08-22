@@ -13,7 +13,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 # Import the REAL LUKHAS memory components
-from memory.folds.memory_fold import MemoryFold
+from lukhas.memory.folds.memory_fold import MemoryFold
 
 
 class TestRealMemoryFolds:

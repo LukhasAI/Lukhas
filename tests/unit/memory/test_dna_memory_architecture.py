@@ -7,7 +7,7 @@ Verify immutability, temporal evolution, and causal chains.
 import numpy as np
 import pytest
 
-from memory.dna_helix import (
+from lukhas.memory.dna_helix import (
     CognitiveState,
     DNAHelixMemory,
     LinkType,

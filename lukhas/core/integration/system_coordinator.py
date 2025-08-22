@@ -50,7 +50,7 @@ from typing import Any, Callable, Optional
 
 # Import core components
 try:
-    from consciousness.core_consciousness.consciousness_integrator import (
+    from lukhas.consciousness.core_consciousness.consciousness_integrator import (
         ConsciousnessEvent,
         ConsciousnessIntegrator,
         IntegrationPriority,
@@ -62,7 +62,7 @@ try:
         NeuralMode,
     )
     from creativity.emotion.brain_integration_emotion_engine import EmotionEngine
-    from memory.enhanced_memory_manager import EnhancedMemoryManager
+    from lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
     from personas.persona_manager import PersonaManager
     from voice.processor import VoiceProcessor
 except ImportError as e:
@@ -213,7 +213,7 @@ class SystemCoordinator:
 
         try:
             # Initialize consciousness integrator
-            from consciousness.core_consciousness.consciousness_integrator import (
+            from lukhas.consciousness.core_consciousness.consciousness_integrator import (
                 ConsciousnessIntegrator,
             )
 
@@ -229,7 +229,7 @@ class SystemCoordinator:
             logger.info("Neural integrator initialized")
 
             # Initialize memory manager
-            from memory.enhanced_memory_manager import EnhancedMemoryManager
+            from lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
 
             self.memory_manager = EnhancedMemoryManager()
             self.active_components["memory"] = True

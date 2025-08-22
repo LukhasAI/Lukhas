@@ -173,7 +173,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
         # Get user's lambda tier
         user_tier = "LAMBDA_TIER_1"  # Default
         try:
-            from governance.identity.core.user_tier_mapping import get_user_tier
+            from lukhas.governance.identity.core.user_tier_mapping import get_user_tier
 
             user_tier = get_user_tier(user_id)
         except BaseException:

@@ -45,7 +45,7 @@ from core.glyph.universal_symbol_protocol import (
     SymbolModality,
     UniversalSymbol,
 )
-from memory.folds.optimized_fold_engine import OptimizedFoldEngine
+from lukhas.memory.folds.optimized_fold_engine import OptimizedFoldEngine
 from qi.engines.consciousness.quantum_processor_enhanced import (
     QuantumProcessor,
     QuantumState,

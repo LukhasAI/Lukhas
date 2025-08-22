@@ -52,19 +52,19 @@ MODULE_NAME = "orchestration_core"
 # Integration imports (TODO: Update paths per CODEX_ENHANCEMENT_PLAN.md)
 # Updated imports for lukhas namespace
 try:
-    from consciousness.awareness.awareness_engine import (
+    from lukhas.consciousness.awareness.awareness_engine import (
         ΛAwarenessEngine as BioAwarenessSystem,
     )
 except ImportError:
     BioAwarenessSystem = None
 
 try:
-    from memory.systems.MemoryManager import MemoryManager
+    from lukhas.memory.systems.MemoryManager import MemoryManager
 except ImportError:
     MemoryManager = None
 
 try:
-    from consciousness.systems.dream_engine import DreamEngine
+    from lukhas.consciousness.systems.dream_engine import DreamEngine
 except ImportError:
     DreamEngine = None
 

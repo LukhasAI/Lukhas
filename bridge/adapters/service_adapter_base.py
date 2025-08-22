@@ -28,7 +28,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../../orchestration'))
 
 # Import LUKHAS AI modules - Trinity Framework Integration
 try:
-    from governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyVerdict
+    from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyVerdict
 except ImportError:
     ConsentLedgerV1 = None
     PolicyVerdict = None
@@ -47,19 +47,19 @@ except ImportError:
 
 try:
     # 🛡️ Guardian system integration
-    from governance.guardian_system import GuardianSystem
+    from lukhas.governance.guardian_system import GuardianSystem
 except ImportError:
     GuardianSystem = None
 
 try:
     # Memory integration for adapter state persistence
-    from memory.service import MemoryService
+    from lukhas.memory.service import MemoryService
 except ImportError:
     MemoryService = None
 
 try:
     # Guardian system integration - import Guardian class
-    from governance.guardian_system import GuardianSystem as GuardianSystemClass
+    from lukhas.governance.guardian_system import GuardianSystem as GuardianSystemClass
 except ImportError:
     GuardianSystemClass = None
 

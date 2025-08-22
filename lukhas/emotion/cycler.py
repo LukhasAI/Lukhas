@@ -6,7 +6,7 @@ Cycles emotional states to stabilize drift feedback loops.
 
 from typing import List, Optional
 
-from memory.emotional import EmotionalMemory
+from lukhas.memory.emotional import EmotionalMemory
 
 # ΛTAG: codex, emotion, drift
 

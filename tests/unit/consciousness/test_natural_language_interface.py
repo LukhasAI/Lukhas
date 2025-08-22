@@ -10,7 +10,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from consciousness.interfaces.natural_language_interface import (
+from lukhas.consciousness.interfaces.natural_language_interface import (
     ConversationContext,
     ConversationIntent,
     ConversationManager,

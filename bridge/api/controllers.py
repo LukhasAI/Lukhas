@@ -69,11 +69,11 @@ try:
     # or installed as part of a larger package.
     # For example: from core_modules.ethics.ethics_service import EthicsService
     # For now, using the provided relative-like import paths.
-    from consciousness.consciousness_service import ConsciousnessService
+    from lukhas.consciousness.consciousness_service import ConsciousnessService
     from creativity.creativity_service import CreativityService
     from ethics.ethics_service import EthicsService
-    from governance.identity.interface import IdentityClient  # Needs to be a defined interface
-    from memory.memory_service import MemoryService
+    from lukhas.governance.identity.interface import IdentityClient  # Needs to be a defined interface
+    from lukhas.memory.memory_service import MemoryService
 
     # Learning service is now obtained through the service registry
     from qi.quantum_service import QuantumService

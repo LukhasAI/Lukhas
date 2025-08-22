@@ -248,7 +248,7 @@ class BaseModule(ABC):
         """Initialize Guardian client"""
         try:
             # Import Guardian client if available
-            from governance.client import GuardianClient
+            from lukhas.governance.client import GuardianClient
 
             self.guardian = GuardianClient(self.module_name)
             await self.guardian.initialize()

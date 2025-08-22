@@ -60,7 +60,7 @@ from pydantic import BaseModel, Field
 
 # Import core components
 try:
-    from governance.identity.interface import (
+    from lukhas.governance.identity.interface import (
         IdentityClient,
         check_consent,
         verify_access,

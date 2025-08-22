@@ -47,7 +47,7 @@ except ImportError:
 
 
 try:
-    from consciousness.unified.auto_consciousness import UnifiedConsciousness
+    from lukhas.consciousness.unified.auto_consciousness import UnifiedConsciousness
 except ImportError:
 
     class UnifiedConsciousness:
@@ -60,7 +60,7 @@ except ImportError:
 
 
 try:
-    from memory.systems.memory_manager import MemoryManager
+    from lukhas.memory.systems.memory_manager import MemoryManager
 except ImportError:
 
     class MemoryManager:
@@ -73,7 +73,7 @@ except ImportError:
 
 
 try:
-    from governance.guardian_system import GuardianSystem
+    from lukhas.governance.guardian_system import GuardianSystem
 except ImportError:
 
     class GuardianSystem:

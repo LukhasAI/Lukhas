@@ -164,7 +164,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
         """Lazy load consent ledger module"""
         if not self._initialized:
             try:
-                from governance.consent_ledger.ledger_v1 import (
+                from lukhas.governance.consent_ledger.ledger_v1 import (
                     ConsentLedgerV1,
                     ConsentRecord,
                     PolicyEngine,

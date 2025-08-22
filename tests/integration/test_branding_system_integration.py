@@ -85,7 +85,7 @@ class TestConsciousnessIntegration:
     @pytest.mark.asyncio
     async def test_natural_language_interface_branding(self):
         """Test that natural language interface integrates branding"""
-        from consciousness.interfaces.natural_language_interface import NaturalLanguageConsciousnessInterface
+        from lukhas.consciousness.interfaces.natural_language_interface import NaturalLanguageConsciousnessInterface
         
         # Mock dependencies
         with patch('core.interfaces.dependency_injection.get_service') as mock_get_service:
@@ -102,7 +102,7 @@ class TestConsciousnessIntegration:
     @pytest.mark.asyncio  
     async def test_consciousness_branded_response(self):
         """Test that consciousness responses are branded"""
-        from consciousness.interfaces.natural_language_interface import NaturalLanguageConsciousnessInterface
+        from lukhas.consciousness.interfaces.natural_language_interface import NaturalLanguageConsciousnessInterface
         
         # Mock dependencies
         with patch('core.interfaces.dependency_injection.get_service') as mock_get_service:
@@ -124,7 +124,7 @@ class TestConsciousnessIntegration:
     
     def test_consciousness_module_branding_imports(self):
         """Test consciousness module exposes branding functions"""
-        import consciousness
+        import lukhas.consciousness
         
         # Check that branding is available in consciousness module
         assert hasattr(consciousness, 'CONSCIOUSNESS_BRANDING_AVAILABLE')
@@ -331,7 +331,7 @@ class TestEndToEndIntegration:
         """Test branding consistency across modules"""
         # Import all modules with branding
         from lukhas.branding_bridge import get_system_signature
-        import consciousness
+        import lukhas.consciousness
         import orchestration
         
         # Get system signature from bridge

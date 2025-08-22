@@ -88,7 +88,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
         try:
             self.guardian = container.get_service("guardian_system")
         except:
-            from governance.guardian_system import GuardianSystem
+            from lukhas.governance.guardian_system import GuardianSystem
             self.guardian = GuardianSystem()
 
         # Initialize sub-components

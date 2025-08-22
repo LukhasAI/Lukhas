@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 try:
     # Import the canonical governance identity package
-    import governance.identity as _gov_identity
+    import lukhas.governance.identity as _gov_identity
 
     # Expose identity_core symbols on the governance identity module
     _exports: dict[str, Any] = {

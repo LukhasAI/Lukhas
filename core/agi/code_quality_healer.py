@@ -22,7 +22,7 @@ from core.agi.self_healing import (
     SystemFailure,
 )
 
-# from governance.guardian import GuardianSystem  # TODO: Fix import
+# from lukhas.governance.guardian import GuardianSystem  # TODO: Fix import
 
 # Temporary mock for Guardian System
 class GuardianSystem:

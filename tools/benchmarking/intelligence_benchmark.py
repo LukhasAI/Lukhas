@@ -20,7 +20,7 @@ from typing import Any, Dict, List, Optional
 
 import psutil
 
-from governance.intelligence_safety_validator import SafetyLevel, get_safety_validator
+from lukhas.governance.intelligence_safety_validator import SafetyLevel, get_safety_validator
 from orchestration.agent_orchestrator.intelligence_bridge import (
     AgentType,
     IntelligenceRequestType,

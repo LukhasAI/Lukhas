@@ -9,7 +9,7 @@ import asyncio
 import sys
 from datetime import datetime
 
-from consciousness.interfaces.natural_language_interface import (
+from lukhas.consciousness.interfaces.natural_language_interface import (
     ConversationManager,
     NaturalLanguageConsciousnessInterface,
 )

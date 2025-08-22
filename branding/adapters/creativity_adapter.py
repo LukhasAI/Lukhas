@@ -11,8 +11,8 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent / "consciousness"))
 
 try:
-    from consciousness.creativity.creative_engine import CreativeEngine
-    from consciousness.creativity.personality.voice.voice_personality import VoicePersonality
+    from lukhas.consciousness.creativity.creative_engine import CreativeEngine
+    from lukhas.consciousness.creativity.personality.voice.voice_personality import VoicePersonality
 except ImportError:
     # Fallback for development/testing
     print("Warning: Core creativity systems not available, using mock implementations")

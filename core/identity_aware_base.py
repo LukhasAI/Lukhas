@@ -29,7 +29,7 @@ from typing import Optional
 
 import structlog
 
-from governance.identity.interface import IdentityClient
+from lukhas.governance.identity.interface import IdentityClient
 
 logger = structlog.get_logger(__name__)
 
@@ -177,7 +177,7 @@ class IdentityAwareService(ABC):
             return self._user_cache[user_id]
 
         try:
-            from governance.identity.core.user_tier_mapping import (
+            from lukhas.governance.identity.core.user_tier_mapping import (
                 get_tier_mapping_service,
             )
 

@@ -14,8 +14,8 @@ from enum import Enum
 
 # Import LUKHAS core systems
 try:
-    from consciousness.unified.auto_consciousness import AutoConsciousness
-    from memory.folds.memory_fold import MemoryFold
+    from lukhas.consciousness.unified.auto_consciousness import AutoConsciousness
+    from lukhas.memory.folds.memory_fold import MemoryFold
     from emotion.service import EmotionService
     from core.glyph.glyph_engine import GlyphEngine
     from qi.engines.consciousness.engine import ConsciousnessEngine

@@ -10,10 +10,10 @@ import asyncio
 import json
 from typing import Any, Dict
 
-from consciousness.dream.parallel_reality_safety import (
+from lukhas.consciousness.dream.parallel_reality_safety import (
     SafetyLevel,
 )
-from consciousness.dream.parallel_reality_simulator import (
+from lukhas.consciousness.dream.parallel_reality_simulator import (
     ParallelRealitySimulator,
     RealityType,
 )

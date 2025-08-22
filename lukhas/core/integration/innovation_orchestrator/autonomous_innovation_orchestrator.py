@@ -83,7 +83,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         try:
             self.guardian = container.get_service("guardian_system")
         except:
-            from governance.guardian_system import GuardianSystem
+            from lukhas.governance.guardian_system import GuardianSystem
             self.guardian = GuardianSystem()
 
         # Initialize innovation engines
@@ -572,7 +572,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     def _get_quantum_consciousness_engine(self) -> Optional[Any]:
         """Get quantum consciousness engine if available"""
         try:
-            from consciousness.quantum_consciousness_integration import (
+            from lukhas.consciousness.quantum_consciousness_integration import (
                 QuantumConsciousnessIntegration,
             )
             return QuantumConsciousnessIntegration()
@@ -590,7 +590,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     def _get_consciousness_expansion_engine(self) -> Optional[Any]:
         """Get consciousness expansion engine"""
         try:
-            from consciousness.expansion.consciousness_expansion_engine import (
+            from lukhas.consciousness.expansion.consciousness_expansion_engine import (
                 ConsciousnessExpansionEngine,
             )
             return ConsciousnessExpansionEngine()

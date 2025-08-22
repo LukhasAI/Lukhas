@@ -23,11 +23,11 @@ from nias.integration.nias_integration_hub import NIASIntegrationHub
 from bio.bio_engine import get_bio_engine
 from bio.bio_integration_hub import get_bio_integration_hub
 from bio.core.symbolic_mito_ethics_sync import MitoEthicsSync
-from consciousness.reflection.consciousness_hub import ConsciousnessHub
-from consciousness.reflection.memory_hub import MemoryHub
+from lukhas.consciousness.reflection.consciousness_hub import ConsciousnessHub
+from lukhas.consciousness.reflection.memory_hub import MemoryHub
 
 # Consciousness integration
-from consciousness.systems.unified_consciousness_engine import (
+from lukhas.consciousness.systems.unified_consciousness_engine import (
     get_unified_consciousness_engine,
 )
 

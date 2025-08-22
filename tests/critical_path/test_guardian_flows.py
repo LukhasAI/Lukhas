@@ -23,7 +23,7 @@ class TestGuardianSystemCorePaths:
     def test_guardian_imports(self):
         """Test that Guardian components import correctly"""
         try:
-            from governance.guardian_system import GuardianReflector, GuardianSystem
+            from lukhas.governance.guardian_system import GuardianReflector, GuardianSystem
 
             assert GuardianSystem is not None
             assert GuardianReflector is not None
@@ -34,7 +34,7 @@ class TestGuardianSystemCorePaths:
     async def test_ethical_validation_path(self):
         """Test ethical validation critical path"""
         try:
-            from governance.guardian_system import GuardianReflector
+            from lukhas.governance.guardian_system import GuardianReflector
 
             # Create Guardian Reflector
             reflector = GuardianReflector()

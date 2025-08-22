@@ -68,7 +68,7 @@ except ImportError:
 
 # Import consciousness integration
 try:
-    from consciousness.systems.consciousness_colony_integration import (
+    from lukhas.consciousness.systems.consciousness_colony_integration import (
         DistributedConsciousnessEngine,
     )
 

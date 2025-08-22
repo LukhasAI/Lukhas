@@ -165,7 +165,7 @@ identity_governance = IdentityGovernance()
 
 # Import identity components
 try:
-    from governance.identity.auth.cognitive_sync_adapter import CognitiveSyncAdapter
+    from lukhas.governance.identity.auth.cognitive_sync_adapter import CognitiveSyncAdapter
     identity_governance.register_auth_provider('cognitive_sync', CognitiveSyncAdapter())
 except ImportError:
     pass
@@ -315,16 +315,16 @@ class LUKHASNeuralNetwork:
         try:
             # Import module connectors
             from core.neuroplastic_connector import CoreConnector
-            from consciousness.neuroplastic_connector import ConsciousnessConnector
-            from memory.neuroplastic_connector import MemoryConnector
+            from lukhas.consciousness.neuroplastic_connector import ConsciousnessConnector
+            from lukhas.memory.neuroplastic_connector import MemoryConnector
             from qi.neuroplastic_connector import QimConnector
             from emotion.neuroplastic_connector import EmotionConnector
-            from governance.neuroplastic_connector import GovernanceConnector
+            from lukhas.governance.neuroplastic_connector import GovernanceConnector
             from bridge.neuroplastic_connector import BridgeConnector
 
             # Import bridges
-            from consciousness.orchestration_bridge import orchestration_bridge
-            from governance.identity_integration import identity_governance
+            from lukhas.consciousness.orchestration_bridge import orchestration_bridge
+            from lukhas.governance.identity_integration import identity_governance
             from core.neural_bridge import neural_bridge
 
             # Register all modules with neural bridge

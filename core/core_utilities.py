@@ -15,7 +15,7 @@ import structlog
 from core.swarm import AgentColony
 from core.symbolic_diagnostics.trace_repair_engine import TraceRepairEngine
 from core.tiered_state_management import StateType, TieredStateManager
-from memory.core_memory.memory_collapse_verifier import MemoryCollapseVerifier
+from lukhas.memory.core_memory.memory_collapse_verifier import MemoryCollapseVerifier
 
 
 def echo_behavior(actor, message):
