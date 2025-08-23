@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lukhas.ai/schemas/alias-zones.json",
+  "title": "ΛiD Identity Zones Registry",
+  "description": "Canonical registry of allowed ZONE values for LUKHAS identity system with geographic and regulatory compliance mapping",
+  "type": "object",
+  "properties": {
+    "zones": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/zone"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "maintainer": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "zone": {
+      "type": "object",
+      "required": ["code", "name", "description", "active", "dataResidency"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "pattern": "^[A-Z]{2,5}$",
+          "description": "Uppercase zone identifier (2-5 characters)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable zone name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed zone description"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether this zone accepts new alias registrations"
+        },
+        "deprecated": {
+          "type": "boolean",
+          "description": "Whether this zone is deprecated (but still valid)"
+        },
+        "dataResidency": {
+          "type": "object",
+          "properties": {
+            "countries": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Z]{2}$"
+              },
+              "description": "ISO 3166-1 alpha-2 country codes for data residency"
+            },
+            "cloudRegions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Cloud provider regions for data storage"
+            },
+            "primary": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$",
+              "description": "Primary country for legal jurisdiction"
+            }
+          }
+        },
+        "compliance": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["GDPR", "SOC2", "CCPA", "PIPEDA", "LGPD", "PDPA"]
+          },
+          "description": "Regional compliance frameworks"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z]{2}(-[A-Z]{2})?$"
+          },
+          "description": "Supported languages (ISO 639-1 with optional country code)"
+        },
+        "timezone": {
+          "type": "object",
+          "properties": {
+            "primary": {
+              "type": "string",
+              "description": "Primary timezone for the zone"
+            },
+            "supported": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "All timezones supported in this zone"
+            }
+          }
+        },
+        "created": {
+          "type": "string",
+          "format": "date"
+        },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "team": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            }
+          }
+        }
+      }
+    }
+  },
+  "zones": [
+    {
+      "code": "EU",
+      "name": "European Union",
+      "description": "European Union member states with GDPR compliance requirements and EU data residency",
+      "active": true,
+      "deprecated": false,
+      "dataResidency": {
+        "countries": ["AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "GR", "HR", "HU", "IE", "IT", "LT", "LU", "LV", "MT", "NL", "PL", "PT", "RO", "SE", "SI", "SK"],
+        "cloudRegions": ["eu-west-1", "eu-central-1", "eu-north-1", "europe-west1", "europe-west3"],
+        "primary": "DE"
+      },
+      "compliance": ["GDPR", "SOC2"],
+      "languages": ["en", "de", "fr", "es", "it", "pl", "nl"],
+      "timezone": {
+        "primary": "Europe/Berlin",
+        "supported": [
+          "Europe/London",
+          "Europe/Berlin", 
+          "Europe/Paris",
+          "Europe/Rome",
+          "Europe/Madrid",
+          "Europe/Amsterdam",
+          "Europe/Warsaw"
+        ]
+      },
+      "created": "2025-01-01",
+      "contact": {
+        "team": "EU Compliance Team",
+        "email": "eu-compliance@lukhas.ai"
+      }
+    },
+    {
+      "code": "US",
+      "name": "United States",
+      "description": "United States with SOC2, CCPA compliance and US data residency requirements",
+      "active": true,
+      "deprecated": false,
+      "dataResidency": {
+        "countries": ["US"],
+        "cloudRegions": ["us-east-1", "us-west-1", "us-west-2", "us-central1", "us-east1"],
+        "primary": "US"
+      },
+      "compliance": ["SOC2", "CCPA"],
+      "languages": ["en", "es-US"],
+      "timezone": {
+        "primary": "America/New_York",
+        "supported": [
+          "America/New_York",
+          "America/Chicago",
+          "America/Denver", 
+          "America/Los_Angeles",
+          "America/Phoenix",
+          "Pacific/Honolulu"
+        ]
+      },
+      "created": "2025-01-01",
+      "contact": {
+        "team": "US Compliance Team", 
+        "email": "us-compliance@lukhas.ai"
+      }
+    },
+    {
+      "code": "APAC",
+      "name": "Asia-Pacific",
+      "description": "Asia-Pacific region with diverse regulatory requirements and regional data residency",
+      "active": true,
+      "deprecated": false,
+      "dataResidency": {
+        "countries": ["AU", "NZ", "SG", "JP", "KR", "IN", "HK", "TW", "TH", "MY", "PH", "VN", "ID"],
+        "cloudRegions": ["ap-southeast-1", "ap-southeast-2", "ap-northeast-1", "ap-south-1", "asia-southeast1", "asia-northeast1"],
+        "primary": "SG"
+      },
+      "compliance": ["SOC2", "PDPA"],
+      "languages": ["en", "zh", "ja", "ko", "th", "vi", "id", "ms"],
+      "timezone": {
+        "primary": "Asia/Singapore",
+        "supported": [
+          "Asia/Singapore",
+          "Asia/Tokyo",
+          "Asia/Seoul", 
+          "Asia/Hong_Kong",
+          "Asia/Shanghai",
+          "Asia/Bangkok",
+          "Asia/Kuala_Lumpur",
+          "Asia/Manila",
+          "Asia/Jakarta",
+          "Asia/Ho_Chi_Minh",
+          "Australia/Sydney",
+          "Australia/Melbourne",
+          "Pacific/Auckland"
+        ]
+      },
+      "created": "2025-01-01",
+      "contact": {
+        "team": "APAC Compliance Team",
+        "email": "apac-compliance@lukhas.ai"
+      }
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-08-23T00:00:00Z",
+    "maintainer": "LUKHAS Identity & Authentication Team"
+  }
+}
