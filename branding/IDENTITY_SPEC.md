@@ -8,7 +8,7 @@ The **Λid** (Lambda Identity) system provides secure, privacy-preserving identi
 
 ### Canonical Structure
 
-```
+```text
 ΛiD#REALM/ZONE/TOKEN-CHECKSUM
 ```
 
@@ -22,7 +22,7 @@ The **Λid** (Lambda Identity) system provides secure, privacy-preserving identi
 ### Display Rules
 
 **Display Context (UI/Logos):**
-```
+```text
 ΛiD#LUKHAS/EU/v2.a7f3d9e1-4b2c
 ```
 

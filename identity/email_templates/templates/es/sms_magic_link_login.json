@@ -1,0 +1,8 @@
+{
+  "subject": "",
+  "preheader": "",
+  "plain_text": "LUKHAS Acceso: {{magic_link_url}} (expira {{expires_at}}, un solo uso)",
+  "html": "",
+  "language": "es",
+  "template_type": "sms_magic_link_login"
+}
