@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { useStateMachineActions } from '@/hooks/use-state-machine'
 
 interface CookiePreferences {
   necessary: boolean
@@ -16,7 +17,9 @@ interface CookieConsentProps {
 }
 
 export default function CookiesConsent({ onAccept, onDecline }: CookieConsentProps) {
-  const [showModal, setShowModal] = useState(false)
+  const { giveConsent } = useStateMachineActions()
+  const [showModal, setShowModal] = useState(true) // Always show initially
+  const [isVisible, setIsVisible] = useState(false) // Control animation
   const [consentState, setConsentState] = useState<'initial' | 'choosing' | 'rewarded'>('initial')
   const [preferences, setPreferences] = useState<CookiePreferences>({
     necessary: true,
@@ -27,12 +30,15 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
   const [privacyPoints, setPrivacyPoints] = useState(6)
   const [rewardTier, setRewardTier] = useState(3)
   
-  // Check if consent has already been given
+  // Smooth entry animation and check storage
   useEffect(() => {
     const storedConsent = localStorage.getItem('lukhas_cookie_consent')
-    if (!storedConsent) {
-      // Show consent after a short delay
-      setTimeout(() => setShowModal(true), 1000)
+    if (storedConsent) {
+      setShowModal(false)
+    } else {
+      // Smooth entry animation
+      const timer = setTimeout(() => setIsVisible(true), 800)
+      return () => clearTimeout(timer)
     }
   }, [])
   
@@ -70,7 +76,7 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
   }
   
   // Submit cookie consent
-  const submitConsent = () => {
+  const submitConsent = async () => {
     setConsentState('rewarded')
     
     // Store consent in localStorage
@@ -86,6 +92,9 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
       onAccept(preferences)
     }
     
+    // Trigger state machine transition to marketing mode
+    await giveConsent()
+    
     // Close modal after showing reward
     setTimeout(() => {
       setShowModal(false)
@@ -93,7 +102,7 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
   }
   
   // Decline all optional cookies
-  const declineAll = () => {
+  const declineAll = async () => {
     const minimalPreferences = {
       necessary: true,
       functional: false,
@@ -116,21 +125,30 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
       onDecline()
     }
     
+    // Trigger state machine transition to marketing mode
+    await giveConsent()
+    
     setTimeout(() => setShowModal(false), 3000)
   }
   
   if (!showModal) return null
   
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-500 ${
+      isVisible ? 'opacity-100' : 'opacity-0'
+    }`}>
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className={`absolute inset-0 bg-black/50 backdrop-blur-md transition-all duration-500 ${
+          isVisible ? 'opacity-100' : 'opacity-0'
+        }`}
         onClick={() => consentState === 'rewarded' && setShowModal(false)}
       />
       
       {/* Modal */}
-      <div className="relative max-w-md w-full bg-black/50 backdrop-blur-xl border border-white/20 rounded-lg overflow-hidden">
+      <div className={`relative max-w-md w-full glass-modal rounded-xl overflow-hidden transform transition-all duration-500 ${
+        isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
+      }`}>
         {/* Close button (only show after consent) */}
         {consentState === 'rewarded' && (
           <button

@@ -1,13 +1,13 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
+import { useStateMachineState } from '@/hooks/use-state-machine'
 import { Atom, Brain, Shield, Settings, Sparkles } from 'lucide-react'
 import { TrinityFramework } from '@/components/sections/trinity-framework'
 import { TrinityShowcase } from '@/components/trinity-showcase'
+import Link from 'next/link'
 
 export default function Home() {
-  const [showLoginModal, setShowLoginModal] = useState(false)
+  const { isMarketingMode, isStudioActive } = useStateMachineState()
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -16,30 +16,26 @@ export default function Home() {
     }
   }
 
+  // Debug logging
+  console.log('🏠 Home page render:', { isMarketingMode, isStudioActive })
+
+  // For now, always render something so we don't get 404
+  // The StateLayout will handle showing the right state
+  if (isStudioActive) {
+    console.log('🎬 Studio active - not rendering home content')
+    return null
+  }
+
+  // Always render the marketing content, StateLayout will overlay state-specific UI
+  if (!isMarketingMode) {
+    // Return minimal placeholder to avoid 404, StateLayout handles states
+    return <div className="min-h-screen" />
+  }
+
   return (
     <>
-      <main className="min-h-screen bg-gradient-to-b from-gray-900 to-black">
-        {/* Navigation */}
-        <nav className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-xl border-b border-white/10">
-          <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center">
-                <span className="text-2xl font-thin tracking-[0.3em] text-white">LUKHAS</span>
-              </div>
-              <div className="hidden md:flex items-center space-x-8">
-                <a href="#products" className="text-sm uppercase tracking-wider text-white/90 hover:text-blue-400 transition">Products</a>
-                <a href="#technology" className="text-sm uppercase tracking-wider text-white/90 hover:text-blue-400 transition">Technology</a>
-                <a href="#pricing" className="text-sm uppercase tracking-wider text-white/90 hover:text-blue-400 transition">Pricing</a>
-                <button 
-                  onClick={() => setShowLoginModal(true)}
-                  className="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:opacity-90 transition"
-                >
-                  LUKHAS ID
-                </button>
-              </div>
-            </div>
-          </div>
-        </nav>
+      <main className="min-h-screen relative">
+        {/* Navigation handled by StateLayout */}
 
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center justify-center">
@@ -320,77 +316,7 @@ export default function Home() {
         </footer>
       </main>
 
-      {/* Login Modal */}
-      {showLoginModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-          <div 
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-            onClick={() => setShowLoginModal(false)}
-          />
-          <div className="relative bg-gray-900 border border-white/10 rounded-2xl p-8 w-full max-w-md">
-            <button
-              onClick={() => setShowLoginModal(false)}
-              className="absolute top-4 right-4 text-white/70 hover:text-white transition"
-            >
-              ✕
-            </button>
-            
-            <h2 className="text-2xl font-thin tracking-[0.2em] mb-2 text-white">LUKHAS ID</h2>
-            <p className="text-white/70 mb-8">Sign in to your account</p>
-            
-            <form onSubmit={(e) => e.preventDefault()}>
-              <div className="mb-6">
-                <label className="block text-sm uppercase tracking-wider mb-2">Email</label>
-                <input
-                  type="email"
-                  className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 focus:border-blue-400 focus:outline-none transition"
-                  placeholder="you@example.com"
-                />
-              </div>
-              
-              <div className="mb-6">
-                <label className="block text-sm uppercase tracking-wider mb-2">Password</label>
-                <input
-                  type="password"
-                  className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 focus:border-blue-400 focus:outline-none transition"
-                  placeholder="••••••••"
-                />
-              </div>
-              
-              <div className="flex items-center mb-6">
-                <input type="checkbox" id="remember" className="mr-2" />
-                <label htmlFor="remember" className="text-sm text-white/70">Remember me</label>
-              </div>
-              
-              <button
-                type="submit"
-                className="w-full py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:opacity-90 transition mb-4"
-              >
-                Sign In
-              </button>
-              
-              <div className="text-center">
-                <p className="text-sm text-white/70">
-                  Don't have an account? 
-                  <a href="#" className="text-blue-400 hover:text-blue-300 ml-1">Create one</a>
-                </p>
-              </div>
-            </form>
-            
-            <div className="mt-8 pt-8 border-t border-white/10">
-              <p className="text-sm text-white/70 text-center mb-4">Or sign in with</p>
-              <div className="grid grid-cols-2 gap-4">
-                <button className="py-2 border border-white/10 rounded-lg hover:bg-white/5 transition">
-                  GitHub
-                </button>
-                <button className="py-2 border border-white/10 rounded-lg hover:bg-white/5 transition">
-                  Google
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Login modal handled by StateLayout */}
     </>
   )
 }

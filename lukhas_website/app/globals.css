@@ -161,3 +161,138 @@ body.calm-mode *::after {
     border-width: 2px !important;
   }
 }
+
+/* State Machine Animations */
+@layer components {
+  /* Fade in animation */
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+  }
+  
+  /* Character-by-character fade in for quote */
+  @keyframes fadeInByChar {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* State-specific body classes */
+  body.state-boot {
+    overflow: hidden;
+  }
+  
+  body.state-quote_in {
+    overflow: hidden;
+  }
+  
+  body.state-consent_pending {
+    overflow: hidden;
+  }
+  
+  body.state-marketing_mode {
+    overflow-x: hidden;
+  }
+  
+  body.state-login_flow {
+    overflow: hidden;
+  }
+  
+  body.state-studio {
+    overflow: hidden;
+  }
+  
+  /* Loading spinner effects */
+  .loading-spinner {
+    animation: pulse 2s infinite;
+  }
+  
+  /* Quote dissolve in effect */
+  .quote-dissolve-in blockquote {
+    animation: fadeIn 2s ease-out forwards;
+  }
+  
+  /* Consent modal active */
+  .consent-modal-active {
+    backdrop-filter: blur(8px);
+  }
+  
+  /* Marketing mode effects */
+  .marketing-active .top-bar-visible nav {
+    transform: translateY(0);
+    transition: transform 0.3s ease-out;
+  }
+  
+  /* Login modal active */
+  .login-modal-active {
+    backdrop-filter: blur(12px);
+  }
+  
+  /* Studio active effects */
+  .studio-active {
+    background: linear-gradient(135deg, #0b1020 0%, #112a6b 100%);
+  }
+  
+  /* Top bar auto-hide for studio */
+  .top-bar-auto-hide .studio-topbar {
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-out;
+  }
+  
+  .top-bar-auto-hide .studio-topbar:hover,
+  .top-bar-auto-hide .studio-topbar.show {
+    transform: translateY(0);
+  }
+  
+  /* Cinematic quote animation */
+  .quote-cinematic {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    text-align: center;
+  }
+  
+  .quote-cinematic span {
+    display: inline-block;
+    opacity: 0;
+    animation: fadeInByChar 0.1s ease-out forwards;
+  }
+  
+  /* Stagger animation for each character */
+  .quote-cinematic span:nth-child(1) { animation-delay: 0.1s; }
+  .quote-cinematic span:nth-child(2) { animation-delay: 0.15s; }
+  .quote-cinematic span:nth-child(3) { animation-delay: 0.2s; }
+  .quote-cinematic span:nth-child(4) { animation-delay: 0.25s; }
+  .quote-cinematic span:nth-child(5) { animation-delay: 0.3s; }
+  /* Continue pattern as needed */
+  
+  /* Glassmorphism effects for modals */
+  .glass-modal {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Subtle parallax for neural background */
+  .parallax-background {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .parallax-background {
+      animation: subtleFloat 20s ease-in-out infinite;
+    }
+  }
+  
+  @keyframes subtleFloat {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-10px) scale(1.02); }
+  }
+}

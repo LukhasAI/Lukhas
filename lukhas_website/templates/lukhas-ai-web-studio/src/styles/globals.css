@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* CSS Variables and Design System */
+    --color-background: #0a0c14;
+    --color-surface: #111318;
+    --color-surface-raised: #1a1d24;
+    --color-surface-elevated: #242832;
+    --color-surface-hover: #2a2e3a;
+
+    --color-text-primary: #EAECEF;
+    --color-text-secondary: #a1a6b0;
+    --color-text-tertiary: #71767d;
+
+    --color-accent-primary: #3a64ff;
+    --color-accent-secondary: #a7b4ff;
+    --color-accent-success: #10b981;
+    --color-accent-warning: #f59e0b;
+    --color-accent-error: #ef4444;
+
+    --color-border: #21262d;
+    --color-border-light: #30363d;
+    --color-border-hover: #424a53;
+
+    /* Dock specific */
+    --dock-background: #0f1117;
+    --dock-border: #1f2328;
+    --dock-width: 280px;
+    --dock-width-collapsed: 70px;
+  }
+
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Accessibility improvements */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent-primary/50;
+  }
+  
+  .btn-primary {
+    @apply bg-accent-primary text-white hover:bg-accent-primary/90;
+  }
+  
+  .btn-secondary {
+    @apply bg-surface-raised text-text-primary hover:bg-surface-hover;
+    @apply border border-border-light;
+  }
+  
+  .card {
+    @apply bg-surface-raised border border-border-light rounded-lg p-6;
+  }
+}
