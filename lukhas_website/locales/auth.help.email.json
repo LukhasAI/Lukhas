@@ -1,0 +1,210 @@
+{
+  "en": {
+    "emailHelp": {
+      "title": "Didn't Get Your Email?",
+      "subtitle": "Here's how to find your verification code",
+      "toggle": {
+        "show": "Show Help",
+        "hide": "Hide Help"
+      },
+      "steps": {
+        "wait": {
+          "title": "Wait a Few Minutes",
+          "description": "Emails can take up to 5 minutes to arrive",
+          "detail": "Network conditions and email processing can cause delays"
+        },
+        "checkSpam": {
+          "title": "Check Your Spam Folder",
+          "description": "Look for emails from {senderDomain}",
+          "detail": "Verification emails are sometimes filtered by spam protection"
+        },
+        "searchInbox": {
+          "title": "Search Your Inbox",
+          "description": "Search for '{searchTerm}' or '{senderDomain}'",
+          "detail": "Use your email client's search function to locate the message"
+        },
+        "checkFilters": {
+          "title": "Review Email Filters",
+          "description": "Corporate or personal filters might redirect emails",
+          "detail": "Check your email rules and automatic sorting settings"
+        },
+        "corporateBlocking": {
+          "title": "Corporate Email Issues",
+          "description": "Some organizations block external verification emails",
+          "detail": "Contact your IT administrator if using a work email address",
+          "alternatives": "Try using a personal email address instead"
+        },
+        "tryAgain": {
+          "title": "Request a New Code",
+          "description": "Codes expire after {ttlMinutes} minutes",
+          "detail": "Click the resend button to generate a fresh verification code"
+        }
+      },
+      "alternatives": {
+        "title": "Alternative Options",
+        "description": "If email delivery continues to fail",
+        "options": {
+          "magicLink": {
+            "title": "Try Magic Link",
+            "description": "Use a secure login link instead of a code",
+            "action": "Switch to Magic Link"
+          },
+          "differentEmail": {
+            "title": "Use Different Email",
+            "description": "Try with a personal email address",
+            "action": "Change Email Address"
+          },
+          "support": {
+            "title": "Contact Support",
+            "description": "Get help from our technical team",
+            "action": "Open Support Ticket"
+          }
+        }
+      },
+      "technical": {
+        "title": "Technical Details",
+        "sender": "Emails are sent from: {senderEmail}",
+        "domain": "Sender domain: {senderDomain}",
+        "ttl": "Codes expire after: {ttlMinutes} minutes",
+        "rateLimit": "Rate limit: {limit} codes per hour",
+        "ipWhitelist": "For corporate networks, whitelist: {ipRanges}"
+      },
+      "poetic": {
+        "waiting": "In the digital realm, patience becomes a virtue as messages traverse the invisible highways of cyberspace.",
+        "searching": "Like finding constellations in the night sky, your verification code awaits discovery in the vast expanse of your inbox.",
+        "alternatives": "When one path proves challenging, consciousness adapts, finding new routes to its destination."
+      }
+    },
+    "troubleshooting": {
+      "title": "Troubleshooting Guide",
+      "common": {
+        "title": "Common Issues",
+        "email": "Email not received",
+        "expired": "Code has expired", 
+        "invalid": "Code not working",
+        "blocked": "Corporate email blocking"
+      },
+      "solutions": {
+        "checkTime": "Verify your system time is correct",
+        "clearCache": "Clear your browser cache and try again",
+        "disableVPN": "Temporarily disable VPN or proxy",
+        "contactIT": "Contact your IT administrator about email filtering"
+      }
+    },
+    "accessibility": {
+      "expandButton": "Expand email help section",
+      "collapseButton": "Collapse email help section",
+      "stepsList": "Troubleshooting steps",
+      "alternativesList": "Alternative authentication options"
+    },
+    "meta": {
+      "lastUpdated": "2025-08-23",
+      "version": "1.0.0",
+      "maintainer": "identity-auth-specialist"
+    }
+  },
+  "es": {
+    "emailHelp": {
+      "title": "¿No Recibiste tu Email?",
+      "subtitle": "Así es como encontrar tu código de verificación",
+      "toggle": {
+        "show": "Mostrar Ayuda",
+        "hide": "Ocultar Ayuda"
+      },
+      "steps": {
+        "wait": {
+          "title": "Espera Unos Minutos",
+          "description": "Los emails pueden tardar hasta 5 minutos en llegar",
+          "detail": "Las condiciones de red y el procesamiento de email pueden causar retrasos"
+        },
+        "checkSpam": {
+          "title": "Revisa tu Carpeta de Spam",
+          "description": "Busca emails de {senderDomain}",
+          "detail": "Los emails de verificación a veces son filtrados por protección antispam"
+        },
+        "searchInbox": {
+          "title": "Busca en tu Bandeja",
+          "description": "Busca '{searchTerm}' o '{senderDomain}'",
+          "detail": "Usa la función de búsqueda de tu cliente de email para localizar el mensaje"
+        },
+        "checkFilters": {
+          "title": "Revisa Filtros de Email",
+          "description": "Filtros corporativos o personales pueden redirigir emails",
+          "detail": "Verifica tus reglas de email y configuraciones de ordenamiento automático"
+        },
+        "corporateBlocking": {
+          "title": "Problemas con Email Corporativo",
+          "description": "Algunas organizaciones bloquean emails de verificación externos",
+          "detail": "Contacta a tu administrador de TI si usas un email de trabajo",
+          "alternatives": "Intenta usar una dirección de email personal en su lugar"
+        },
+        "tryAgain": {
+          "title": "Solicita un Nuevo Código",
+          "description": "Los códigos expiran después de {ttlMinutes} minutos",
+          "detail": "Haz clic en el botón de reenviar para generar un nuevo código de verificación"
+        }
+      },
+      "alternatives": {
+        "title": "Opciones Alternativas",
+        "description": "Si la entrega de email continúa fallando",
+        "options": {
+          "magicLink": {
+            "title": "Probar Enlace Mágico",
+            "description": "Usa un enlace de inicio de sesión seguro en lugar de un código",
+            "action": "Cambiar a Enlace Mágico"
+          },
+          "differentEmail": {
+            "title": "Usar Email Diferente",
+            "description": "Intenta con una dirección de email personal",
+            "action": "Cambiar Dirección de Email"
+          },
+          "support": {
+            "title": "Contactar Soporte",
+            "description": "Obtén ayuda de nuestro equipo técnico",
+            "action": "Abrir Ticket de Soporte"
+          }
+        }
+      },
+      "technical": {
+        "title": "Detalles Técnicos",
+        "sender": "Los emails son enviados desde: {senderEmail}",
+        "domain": "Dominio del remitente: {senderDomain}",
+        "ttl": "Los códigos expiran después de: {ttlMinutes} minutos",
+        "rateLimit": "Límite de velocidad: {limit} códigos por hora",
+        "ipWhitelist": "Para redes corporativas, agregar a whitelist: {ipRanges}"
+      },
+      "poetic": {
+        "waiting": "En el reino digital, la paciencia se convierte en virtud mientras los mensajes atraviesan las autopistas invisibles del ciberespacio.",
+        "searching": "Como encontrar constelaciones en el cielo nocturno, tu código de verificación espera ser descubierto en la vasta extensión de tu bandeja.",
+        "alternatives": "Cuando un camino resulta desafiante, la consciencia se adapta, encontrando nuevas rutas hacia su destino."
+      }
+    },
+    "troubleshooting": {
+      "title": "Guía de Solución de Problemas",
+      "common": {
+        "title": "Problemas Comunes",
+        "email": "Email no recibido",
+        "expired": "Código ha expirado",
+        "invalid": "Código no funciona",
+        "blocked": "Email corporativo bloqueando"
+      },
+      "solutions": {
+        "checkTime": "Verifica que la hora de tu sistema sea correcta",
+        "clearCache": "Limpia el caché de tu navegador e intenta de nuevo",
+        "disableVPN": "Desactiva temporalmente VPN o proxy",
+        "contactIT": "Contacta a tu administrador de TI sobre filtrado de email"
+      }
+    },
+    "accessibility": {
+      "expandButton": "Expandir sección de ayuda de email",
+      "collapseButton": "Contraer sección de ayuda de email",
+      "stepsList": "Pasos de solución de problemas",
+      "alternativesList": "Opciones alternativas de autenticación"
+    },
+    "meta": {
+      "lastUpdated": "2025-08-23",
+      "version": "1.0.0",
+      "maintainer": "identity-auth-specialist"
+    }
+  }
+}
