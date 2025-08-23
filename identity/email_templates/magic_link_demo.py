@@ -133,8 +133,8 @@ def main():
     try:
         rendered = engine.render_template('magic_link_login', 'en', variables)
         if rendered.tone_layers:
-            # Test the validation methods
-            from identity.email_templates.engine import EmailTemplate
+            # Test the validation methods  
+            from engine import EmailTemplate
             
             print(f"✅ Tone layers found: {list(rendered.tone_layers.keys())}")
             

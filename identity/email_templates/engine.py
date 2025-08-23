@@ -39,7 +39,7 @@ class EmailTemplate:
                 issues.append("Images missing alt text")
                 
         # Check for semantic HTML structure
-        if self.html and not any(tag in self.html for tag in ['<main>', '<header>', '<article>']):
+        if self.html and not any(tag in self.html for tag in ['<main', '<header', '<article', 'role="main"', 'role="header"', 'role="banner"']):
             issues.append("Missing semantic HTML structure")
             
         # Check for LUKHΛS vs Lukhas usage
