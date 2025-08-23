@@ -10,13 +10,7 @@ const nextConfig = {
     optimizeCss: true,
     scrollRestoration: true,
   },
-  // HTTPS development configuration for WebAuthn support
-  server: {
-    https: process.env.NODE_ENV === 'development' && process.env.DEV_HTTPS_ENABLED === 'true' ? {
-      key: process.env.DEV_SSL_KEY || './certs/localhost.key',
-      cert: process.env.DEV_SSL_CERT || './certs/localhost.crt',
-    } : undefined,
-  },
+  // Note: For HTTPS in development, use: next dev --experimental-https
   async headers() {
     return [
       {
