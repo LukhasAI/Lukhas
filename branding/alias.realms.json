@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lukhas.ai/schemas/alias-realms.json",
+  "title": "ΛiD Identity Realms Registry",
+  "description": "Canonical registry of allowed REALM values for LUKHAS identity system",
+  "type": "object",
+  "properties": {
+    "realms": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/realm"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "maintainer": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "realm": {
+      "type": "object",
+      "required": ["code", "name", "description", "active"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9]{2,7}$",
+          "description": "Uppercase alphanumeric realm identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable realm name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed realm description"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether this realm accepts new alias registrations"
+        },
+        "deprecated": {
+          "type": "boolean",
+          "description": "Whether this realm is deprecated (but still valid)"
+        },
+        "services": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Services that operate within this realm"
+        },
+        "compliance": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["GDPR", "SOC2", "CCPA", "HIPAA", "SOX"]
+          },
+          "description": "Compliance frameworks applicable to this realm"
+        },
+        "created": {
+          "type": "string",
+          "format": "date"
+        },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "team": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            }
+          }
+        }
+      }
+    }
+  },
+  "realms": [
+    {
+      "code": "LUKHAS",
+      "name": "LUKHAS AI Platform",
+      "description": "Core LUKHAS AI platform services including authentication, consciousness systems, and identity management",
+      "active": true,
+      "deprecated": false,
+      "services": [
+        "authentication",
+        "consciousness",
+        "identity-management",
+        "orchestration",
+        "guardian-system",
+        "api-gateway"
+      ],
+      "compliance": ["GDPR", "SOC2", "CCPA"],
+      "created": "2025-01-01",
+      "contact": {
+        "team": "Identity & Authentication Specialists",
+        "email": "identity@lukhas.ai"
+      }
+    },
+    {
+      "code": "MATRIZ",
+      "name": "MATRIZ Cognitive Architecture",
+      "description": "Cognitive node management, symbolic processing, and knowledge graph operations within the MATRIZ system",
+      "active": true,
+      "deprecated": false,
+      "services": [
+        "cognitive-nodes",
+        "symbolic-processing",
+        "knowledge-graphs",
+        "reasoning-engine",
+        "memory-systems",
+        "dream-weaving"
+      ],
+      "compliance": ["GDPR", "SOC2"],
+      "created": "2025-01-01",
+      "contact": {
+        "team": "MATRIZ Development Team",
+        "email": "matriz@lukhas.ai"
+      }
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-08-23T00:00:00Z",
+    "maintainer": "LUKHAS Identity & Authentication Team"
+  }
+}
