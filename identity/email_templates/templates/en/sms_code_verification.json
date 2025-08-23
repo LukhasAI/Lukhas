@@ -1,0 +1,8 @@
+{
+  "subject": "",
+  "preheader": "",
+  "plain_text": "LUKHAS code: {{verification_code}} (expires in 10 min, single-use only)",
+  "html": "",
+  "language": "en",
+  "template_type": "sms_code_verification"
+}

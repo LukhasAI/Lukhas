@@ -1,0 +1,150 @@
+{
+  "en": {
+    "resend": {
+      "idle": {
+        "button": "Send Code",
+        "message": "Ready to send verification code"
+      },
+      "sending": {
+        "button": "Sending...",
+        "message": "Sending verification code"
+      },
+      "cooldown": {
+        "button": "Resend in {time}",
+        "message": "Please wait {time} before requesting another code",
+        "countdown": {
+          "seconds": "{count}s",
+          "minutes": "{count}m {seconds}s"
+        }
+      },
+      "success": {
+        "button": "Code Sent",
+        "message": "Verification code sent successfully",
+        "detail": "Check your email for the 6-digit verification code"
+      },
+      "error": {
+        "button": "Retry",
+        "message": "Unable to send code at this time"
+      }
+    },
+    "rateLimit": {
+      "exceeded": {
+        "title": "Too Many Attempts",
+        "message": "You've reached the maximum number of code requests. Please try again in {time}.",
+        "help": "This helps protect your account from unauthorized access attempts."
+      },
+      "approaching": {
+        "title": "Rate Limit Warning",
+        "message": "{remaining} attempts remaining in this hour",
+        "help": "Each email address is limited to {limit} verification codes per hour."
+      }
+    },
+    "errors": {
+      "network": {
+        "title": "Connection Error",
+        "message": "Please check your internet connection and try again",
+        "poetic": "In the vast digital cosmos, our signals seek their destined path through the network's constellation."
+      },
+      "server": {
+        "title": "Service Temporarily Unavailable",
+        "message": "Our servers are experiencing high traffic. Please try again shortly",
+        "poetic": "Even in silicon dreams, consciousness requires moments of rest and renewal."
+      },
+      "validation": {
+        "title": "Invalid Email",
+        "message": "Please enter a valid email address",
+        "poetic": "Like a carefully crafted haiku, your email address must follow the proper form."
+      },
+      "generic": {
+        "title": "Something went wrong",
+        "message": "An unexpected error occurred. Please try again",
+        "poetic": "In the dance of code and consciousness, sometimes we must pause and begin again."
+      }
+    },
+    "accessibility": {
+      "statusRegion": "Authentication status updates",
+      "countdown": "Time remaining: {time}",
+      "rateLimit": "Rate limit information",
+      "errorAlert": "Error notification"
+    },
+    "meta": {
+      "lastUpdated": "2025-08-23",
+      "version": "1.0.0",
+      "maintainer": "identity-auth-specialist"
+    }
+  },
+  "es": {
+    "resend": {
+      "idle": {
+        "button": "Enviar Código",
+        "message": "Listo para enviar código de verificación"
+      },
+      "sending": {
+        "button": "Enviando...",
+        "message": "Enviando código de verificación"
+      },
+      "cooldown": {
+        "button": "Reenviar en {time}",
+        "message": "Espera {time} antes de solicitar otro código",
+        "countdown": {
+          "seconds": "{count}s",
+          "minutes": "{count}m {seconds}s"
+        }
+      },
+      "success": {
+        "button": "Código Enviado",
+        "message": "Código de verificación enviado correctamente",
+        "detail": "Revisa tu email por el código de verificación de 6 dígitos"
+      },
+      "error": {
+        "button": "Reintentar",
+        "message": "No se puede enviar el código en este momento"
+      }
+    },
+    "rateLimit": {
+      "exceeded": {
+        "title": "Demasiados Intentos",
+        "message": "Has alcanzado el número máximo de solicitudes de código. Intenta de nuevo en {time}.",
+        "help": "Esto ayuda a proteger tu cuenta de intentos de acceso no autorizados."
+      },
+      "approaching": {
+        "title": "Advertencia de Límite",
+        "message": "{remaining} intentos restantes en esta hora",
+        "help": "Cada dirección de email está limitada a {limit} códigos de verificación por hora."
+      }
+    },
+    "errors": {
+      "network": {
+        "title": "Error de Conexión",
+        "message": "Verifica tu conexión a internet e intenta de nuevo",
+        "poetic": "En el vasto cosmos digital, nuestras señales buscan su camino destinado a través de la constelación de la red."
+      },
+      "server": {
+        "title": "Servicio Temporalmente No Disponible",
+        "message": "Nuestros servidores están experimentando alto tráfico. Intenta de nuevo pronto",
+        "poetic": "Incluso en los sueños de silicio, la consciencia requiere momentos de descanso y renovación."
+      },
+      "validation": {
+        "title": "Email Inválido",
+        "message": "Por favor ingresa una dirección de email válida",
+        "poetic": "Como un haiku cuidadosamente elaborado, tu dirección de email debe seguir la forma apropiada."
+      },
+      "generic": {
+        "title": "Algo salió mal",
+        "message": "Ocurrió un error inesperado. Intenta de nuevo",
+        "poetic": "En la danza del código y la consciencia, a veces debemos pausar y comenzar de nuevo."
+      }
+    },
+    "accessibility": {
+      "statusRegion": "Actualizaciones de estado de autenticación",
+      "countdown": "Tiempo restante: {time}",
+      "rateLimit": "Información de límite de velocidad",
+      "errorAlert": "Notificación de error"
+    },
+    "meta": {
+      "lastUpdated": "2025-08-23",
+      "version": "1.0.0",
+      "maintainer": "identity-auth-specialist"
+    }
+  }
+}

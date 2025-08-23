@@ -919,6 +919,72 @@ export type {
   ThrottleConfig,
   MagicLinkToken,
   
+  // Verification code types
+  VerificationCodeOptions,
+  VerificationCodeResult,
+  VerificationCodeValidationResult,
+  VerificationCodeEntry,
+
+// =============================================================================
+// VERIFICATION CODE TYPES
+// =============================================================================
+
+/**
+ * Verification code options
+ */
+export interface VerificationCodeOptions {
+  userId?: string;
+  userTier?: UserTier;
+  ipAddress: string;
+  userAgent: string;
+  maxAttempts?: number;
+  metadata?: Record<string, any>;
+}
+
+/**
+ * Verification code result
+ */
+export interface VerificationCodeResult {
+  success: boolean;
+  reason?: string;
+  code?: string;  // Only returned for sending, never stored
+  expiresAt?: string;
+  expiresIn?: number;
+  resetTime?: number;
+}
+
+/**
+ * Verification code validation result
+ */
+export interface VerificationCodeValidationResult {
+  valid: boolean;
+  reason?: string;
+  email?: string;
+  userId?: string;
+  purpose?: 'login' | 'register' | 'password-reset' | 'email-verification' | 'phone-verification';
+  metadata?: Record<string, any>;
+}
+
+/**
+ * Verification code entry (no raw codes stored)
+ */
+export interface VerificationCodeEntry {
+  id: string;
+  userId?: string;
+  codeHash: string;  // HMAC hash, never the actual code
+  email: string;
+  purpose: 'login' | 'register' | 'password-reset' | 'email-verification' | 'phone-verification';
+  ipAddress?: string;
+  userAgent?: string;
+  maxAttempts: number;
+  attempts: number;
+  verifiedAt?: string;
+  verifiedIpAddress?: string;
+  createdAt: string;
+  expiresAt: string;
+  metadata: Record<string, any>;
+}
+  
   // Session types
   Session,
   DeviceHandle,

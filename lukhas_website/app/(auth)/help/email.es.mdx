@@ -1,0 +1,231 @@
+# ¿No Recibiste tu Email?
+
+<div data-tone="poetic" className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-400 italic">
+  En el vasto cosmos digital, los mensajes atraviesan autopistas invisibles de luz y datos, buscando sus bandejas de entrada destinadas como constelaciones encontrando su lugar en el cielo nocturno.
+</div>
+
+<div data-tone="plain">
+  La entrega de emails puede a veces retrasarse o bloquearse por varios factores. Esta guía te ayudará a localizar tu código de verificación y resolver problemas comunes de entrega de emails.
+</div>
+
+## Lista de Verificación Rápida
+
+<div data-tone="plain">
+  Antes de profundizar en la solución de problemas detallada, prueba estos pasos rápidos:
+
+  1. **Espera 5 minutos** - La entrega de email puede tomar tiempo
+  2. **Revisa tu carpeta de spam** - Busca emails de `lukhas.ai`
+  3. **Busca en tu bandeja** "LUKHAS" o "verification"
+  4. **Revisa filtros de email** - Reglas corporativas o personales pueden redirigir emails
+</div>
+
+## Solución de Problemas Paso a Paso
+
+### 1. Esperar la Entrega del Email
+
+<div data-tone="plain">
+  Los sistemas de email pueden experimentar retrasos, especialmente durante períodos de alto tráfico. Los mensajes típicamente llegan en 1-2 minutos pero pueden tomar hasta 5 minutos bajo ciertas condiciones.
+</div>
+
+<div data-tone="technical">
+  **Detalles Técnicos:**
+  - Tiempo de procesamiento SMTP: 30-120 segundos
+  - Retrasos de propagación DNS: 1-5 minutos
+  - Procesamiento de cola ISP: 2-5 minutos
+  - Retrasos de gateway de email corporativo: 1-10 minutos
+</div>
+
+### 2. Revisar tu Carpeta de Spam/Correo No Deseado
+
+<div data-tone="plain">
+  Los emails de verificación automáticos son a veces clasificados como spam por los proveedores de email. Esto es especialmente común con:
+
+  - Direcciones de email nuevas
+  - Sistemas de email corporativo
+  - Filtros de spam agresivos
+</div>
+
+**Qué buscar:**
+- Remitente: `verify@lukhas.ai`
+- Línea de asunto que contenga: "LUKHAS" o "Verification"
+- Marca de tiempo reciente (los códigos expiran después de 15 minutos)
+
+<div data-tone="poetic">
+  Como tesoros ocultos esperando ser descubiertos, tu código de verificación puede descansar silenciosamente en los rincones olvidados de tu reino digital.
+</div>
+
+### 3. Buscar en tu Bandeja
+
+<div data-tone="plain">
+  Usa la función de búsqueda de tu cliente de email para localizar el mensaje:
+
+  **Términos de búsqueda a probar:**
+  - `LUKHAS`
+  - `lukhas.ai`
+  - `código de verificación`
+  - `verify@lukhas.ai`
+</div>
+
+<div data-tone="technical">
+  **Operadores de búsqueda avanzada (Gmail):**
+  - `from:lukhas.ai`
+  - `subject:verification`
+  - `newer_than:1h`
+  - `has:attachment` (si aplica)
+</div>
+
+### 4. Revisar Filtros y Reglas de Email
+
+<div data-tone="plain">
+  Los filtros de email personales y corporativos pueden automáticamente ordenar o redirigir mensajes. Verifica:
+
+  - **Filtros personales** - Reglas que has creado
+  - **Políticas corporativas** - Restricciones del departamento de TI
+  - **Ordenamiento automático** - Bandeja prioritaria, categorías, carpetas
+  - **Aplicaciones de terceros** - Herramientas de gestión de email
+</div>
+
+### 5. Consideraciones de Email Corporativo
+
+<div data-tone="plain">
+  Muchas organizaciones tienen políticas estrictas de seguridad de email que pueden bloquear o retrasar emails de verificación:
+
+  **Restricciones corporativas comunes:**
+  - Emails de autenticación externa bloqueados
+  - Dominios de remitentes nuevos en cuarentena
+  - Mensajes automáticos filtrados
+  - Retrasos de escaneo de enlaces
+</div>
+
+**Soluciones para email corporativo:**
+- Contacta a tu administrador de TI
+- Solicita agregar el dominio `lukhas.ai` a la lista blanca
+- Intenta usar una dirección de email personal
+- Usa métodos de autenticación alternativos
+
+<div data-tone="technical">
+  **Información para Administrador de TI:**
+  - Dominio remitente: `lukhas.ai`
+  - Rangos IP del remitente: `203.0.113.0/24`
+  - Registro SPF: `v=spf1 include:lukhas.ai ~all`
+  - Selector DKIM: `lukhas._domainkey.lukhas.ai`
+</div>
+
+### 6. Solicitar un Nuevo Código
+
+<div data-tone="plain">
+  Los códigos de verificación expiran después de 15 minutos por razones de seguridad. Si no puedes localizar tu código original, puedes solicitar uno nuevo:
+
+  1. Haz clic en el botón "Reenviar Código"
+  2. Espera el período de enfriamiento (30 segundos)
+  3. Revisa tu email nuevamente siguiendo los pasos anteriores
+</div>
+
+## Métodos de Autenticación Alternativos
+
+<div data-tone="plain">
+  Si la entrega de email continúa fallando, considera estas alternativas:
+</div>
+
+### Enlaces Mágicos
+
+<div data-tone="plain">
+  En lugar de ingresar un código de 6 dígitos, puedes usar un enlace de inicio de sesión seguro enviado a tu email. Este método:
+
+  - Funciona con sistemas de email corporativo
+  - No requiere entrada manual de código
+  - Proporciona el mismo nivel de seguridad
+  - Tiene un período de validez más largo (30 minutos)
+</div>
+
+### Dirección de Email Diferente
+
+<div data-tone="plain">
+  Si estás usando un proveedor de email corporativo o restrictivo, intenta:
+
+  - Cuenta personal de Gmail, Yahoo, o Outlook
+  - Proveedor de email con menos restricciones
+  - Dominio alternativo (si está disponible)
+</div>
+
+### Verificación por SMS (Próximamente)
+
+<div data-tone="technical">
+  La verificación por SMS estará disponible en futuras actualizaciones, proporcionando un canal alternativo para códigos de verificación.
+</div>
+
+## Solución de Problemas Técnicos
+
+<div data-tone="technical">
+  ### Problemas Específicos del Cliente de Email
+
+  **Gmail:**
+  - Revisa la carpeta "Todos los correos"
+  - Revisa las pestañas "Actualizaciones" y "Promociones"
+  - Verifica el algoritmo de aprendizaje de spam de Gmail
+
+  **Outlook/Hotmail:**
+  - Revisa la carpeta "Correo no deseado"
+  - Revisa bandeja "Prioritarios" vs "Otros"
+  - Verifica configuraciones anti-phishing de Outlook
+
+  **Apple Mail:**
+  - Revisa buzón "Correo no deseado"
+  - Revisa mensajes VIP y filtrados
+  - Verifica configuraciones de correo iCloud
+
+  **Exchange Corporativo:**
+  - Revisa notificaciones de cuarentena
+  - Revisa reglas de transporte
+  - Contacta TI para rastreo de mensajes
+</div>
+
+### Problemas de Red y Sistema
+
+<div data-tone="technical">
+  **Problemas técnicos comunes:**
+
+  - **Sincronización de tiempo:** Asegurar que el reloj del sistema sea exacto
+  - **Interferencia VPN:** Algunas VPNs pueden afectar la entrega de email
+  - **Problemas DNS:** Intenta limpiar la caché DNS
+  - **Caché del navegador:** Limpia caché del navegador y cookies
+  - **Reglas de firewall:** Verifica si los puertos de email están bloqueados
+</div>
+
+### Información de Límite de Velocidad
+
+<div data-tone="technical">
+  Para prevenir abuso, los códigos de verificación tienen límite de velocidad:
+
+  - **Intentos máximos:** 5 códigos por email por hora
+  - **Período de enfriamiento:** 30 segundos entre solicitudes
+  - **Validez del código:** 15 minutos desde la generación
+  - **Límite de IP:** 10 solicitudes por IP por hora
+</div>
+
+## ¿Necesitas Más Ayuda?
+
+<div data-tone="plain">
+  Si has probado todos los pasos anteriores y aún no puedes recibir tu email de verificación:
+
+  1. **Contactar Soporte** - Abre un ticket de soporte con detalles sobre tu problema
+  2. **Chat en Vivo** - Usa nuestro chat de soporte en tiempo real (horario comercial)
+  3. **Foro de la Comunidad** - Verifica si otros han experimentado problemas similares
+</div>
+
+<div data-tone="poetic">
+  Cuando la tecnología presenta desafíos, la conexión humana se convierte en el puente que cruza la brecha entre la complejidad digital y las soluciones simples.
+</div>
+
+---
+
+<div data-tone="technical" className="mt-8 p-4 bg-gray-50 border border-gray-200 rounded-lg text-sm">
+  **Información del Sistema:**
+  - Dominio Remitente: `lukhas.ai`
+  - Remitente de Verificación: `verify@lukhas.ai`
+  - Expiración de Código: 15 minutos
+  - Límite de Velocidad: 5 por hora por email
+  - Soporte: `support@lukhas.ai`
+  
+  Última Actualización: 23 de Agosto, 2025 | Versión: 1.0.0
+</div>
