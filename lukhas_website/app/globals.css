@@ -37,6 +37,13 @@
     color: rgb(255, 255, 255);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   }
+
+  /* LUKHΛS Brand Typography */
+  .lukhas-brand {
+    font-family: 'Helvetica Neue UltraLight', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 100;
+    letter-spacing: 0.05em;
+  }
   
   /* Force text to be visible with important flag */
   h1, h2, h3, h4, h5, h6, p, span, div, a, button, label, input, li, td, th {

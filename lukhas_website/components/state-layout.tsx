@@ -2,148 +2,227 @@
 
 /**
  * State-aware Layout Component
- * Renders different UI based on the current state machine state
+ * Clean 5-state flow: BOOT → QUOTE_IN → CONSENT_PENDING → QUOTE_WITH_OPTIONS → MARKETING_MODE
  */
 
-import { useEffect } from 'react'
-import { useStateMachine } from '@/hooks/use-state-machine'
-import NeuralBackground from '@/components/neural-background'
+import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import CookiesBanner from '@/components/cookies-banner'
-import CinematicQuote from '@/components/cinematic-quote'
-import QuoteOptions from '@/components/quote-options'
-import { getWelcomeQuote } from '@/lib/quote-bank'
+import Quote from '@/components/Quote'
+import EssentialModeBanner from '@/components/essential-mode-banner'
+
+type LayoutState = 'BOOT' | 'QUOTE_IN' | 'CONSENT_PENDING' | 'QUOTE_WITH_OPTIONS' | 'MARKETING_MODE'
 
 interface StateLayoutProps {
   children?: React.ReactNode
 }
 
 export default function StateLayout({ children }: StateLayoutProps) {
-  const {
-    currentState,
-    activeEffects,
-    isBootState,
-    isQuoteState,
-    isConsentPending,
-    isQuoteWithOptions,
-    isMarketingMode,
-    isLoginFlow,
-    isStudioActive,
-    transition,
-    completeQuote
-  } = useStateMachine()
+  const pathname = usePathname()
+  const isStudioRoute = pathname.startsWith('/studio')
+  const [currentState, setCurrentState] = useState<LayoutState>('BOOT')
+  const [consentGiven, setConsentGiven] = useState(false)
+  const [consentType, setConsentType] = useState<'none' | 'essential' | 'full'>('none')
 
-  // Get a quote for this session
-  const quote = getWelcomeQuote()
+  // Check if consent was already given and URL parameters
+  useEffect(() => {
+    const storedConsent = localStorage.getItem('lukhas_cookie_consent')
+    const storedType = localStorage.getItem('lukhas_cookie_type') as 'essential' | 'full' | null
+    
+    if (storedConsent) {
+      setConsentGiven(true)
+      setConsentType(storedType || 'essential')
+    }
 
-  // Handle quote completion - wait for user to read before showing cookies
+    // Check for direct marketing mode (e.g., from Studio)
+    const urlParams = new URLSearchParams(window.location.search)
+    if (urlParams.get('mode') === 'marketing' && storedConsent) {
+      setCurrentState('MARKETING_MODE')
+    }
+  }, [])
+
+  // State machine transitions with timer-based flow
+  useEffect(() => {
+    let timer: NodeJS.Timeout
+
+    switch (currentState) {
+      case 'BOOT':
+        timer = setTimeout(() => setCurrentState('QUOTE_IN'), 800)
+        break
+      
+      case 'QUOTE_IN':
+        // Quote component will call handleQuoteComplete after animation
+        break
+      
+      case 'CONSENT_PENDING':
+        // Wait for user interaction with cookie banner
+        break
+      
+      case 'QUOTE_WITH_OPTIONS':
+        timer = setTimeout(() => setCurrentState('MARKETING_MODE'), 3800)
+        break
+      
+      case 'MARKETING_MODE':
+        // Final state - user can interact with the full website
+        break
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer)
+    }
+  }, [currentState])
+
+  // Handle quote animation completion
   const handleQuoteComplete = () => {
-    console.log('📝 Quote animation complete, current state:', currentState)
-    console.log('📝 Waiting for user to absorb quote (3 seconds)...')
-    // Give user time to read and appreciate the quote (3 seconds)
-    setTimeout(() => {
-      console.log('🍪 Absorption time complete, transitioning to CONSENT_REQUIRED')
-      const success = transition('CONSENT_REQUIRED')
-      console.log('🍪 Transition result:', success)
-    }, 3000)
+    if (consentGiven) {
+      setCurrentState('QUOTE_WITH_OPTIONS')
+    } else {
+      setCurrentState('CONSENT_PENDING')
+    }
   }
 
-  // Auto-start the state machine on mount
-  useEffect(() => {
-    if (isBootState) {
-      // Auto-transition from BOOT to QUOTE_IN after initialization
-      console.log('🚀 Auto-starting state machine transition')
-      const timer = setTimeout(() => {
-        console.log('🔄 Triggering SYSTEM_READY transition')
-        transition('SYSTEM_READY')
-      }, 1500)
-      
-      return () => clearTimeout(timer)
-    }
-  }, [isBootState, transition])
+  // Handle cookie consent
+  const handleConsentAccepted = () => {
+    setConsentGiven(true)
+    setConsentType('full')
+    setCurrentState('QUOTE_WITH_OPTIONS')
+    
+    // Store full consent
+    localStorage.setItem('lukhas_cookie_type', 'full')
+    
+    // Emit event for external systems that might be listening
+    window.dispatchEvent(new CustomEvent('lukhas:cookies:accepted'))
+  }
 
-  // Quote state is now handled by the onComplete callback
-  // No automatic transitions from quote state
+  const handleConsentDeclined = () => {
+    setConsentGiven(true)
+    setConsentType('essential')
+    setCurrentState('QUOTE_WITH_OPTIONS')
+    
+    // Store essential-only consent
+    localStorage.setItem('lukhas_cookie_type', 'essential')
+    
+    // Emit event for external systems that might be listening
+    window.dispatchEvent(new CustomEvent('lukhas:cookies:declined'))
+  }
+
+  // Handle preference change request
+  const handleChangePreferences = () => {
+    setCurrentState('CONSENT_PENDING')
+  }
 
   // Apply state-based CSS classes to body
   useEffect(() => {
-    const bodyClasses = [
-      `state-${currentState.toLowerCase()}`,
-      ...activeEffects
-    ]
-
-    // Add classes
-    bodyClasses.forEach(className => {
-      document.body.classList.add(className)
-    })
-
-    // Cleanup on unmount or state change
+    const className = `state-${currentState.toLowerCase()}`
+    document.body.classList.add(className)
+    
     return () => {
-      bodyClasses.forEach(className => {
-        document.body.classList.remove(className)
-      })
+      document.body.classList.remove(className)
     }
-  }, [currentState, activeEffects])
+  }, [currentState])
 
-  // Debug logging
-  console.log('🎭 StateLayout render:', { currentState, activeEffects })
+  // Early return for Studio routes - they handle their own layout
+  if (isStudioRoute) {
+    return <>{children}</>
+  }
+
+  // Debug logging in development
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🎭 StateLayout:', { currentState, consentGiven })
+  }
 
   return (
     <div className={`state-layout state-${currentState.toLowerCase()}`}>
-      {/* Neural background - always present */}
-      <NeuralBackground />
-      
-      {/* Boot State - Loading */}
-      {isBootState && (
+      {/* Boot State - Simple loading */}
+      {currentState === 'BOOT' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-4" />
-            <p className="text-blue-200 text-sm">Initializing Lukhas...</p>
+            <p className="text-blue-200 text-sm">Initializing LUKHAS...</p>
           </div>
         </div>
       )}
 
-      {/* Quote State - Cinematic Quote Display */}
-      {isQuoteState && (
+      {/* Quote In State - Show quote with fade-in animation */}
+      {currentState === 'QUOTE_IN' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
           <div className="w-full max-w-5xl">
-            <blockquote className="text-2xl md:text-4xl lg:text-5xl text-white leading-relaxed">
-              <CinematicQuote text={quote.text} delay={40} onComplete={handleQuoteComplete} />
-            </blockquote>
+            <Quote onComplete={handleQuoteComplete} />
           </div>
         </div>
       )}
 
-      {/* Consent Pending State - Bottom Banner */}
-      {isConsentPending && (
-        <CookiesBanner 
-          onAccept={() => transition('CONSENT_GIVEN')}
-          onDecline={() => transition('CONSENT_GIVEN')}
-        />
-      )}
-
-      {/* Quote with Options State - Show quote and navigation options */}
-      {isQuoteWithOptions && (
+      {/* Consent Pending State - Show quote with cookie banner */}
+      {currentState === 'CONSENT_PENDING' && (
         <>
           <div className="fixed inset-0 z-40 flex items-center justify-center px-4">
             <div className="w-full max-w-5xl">
-              <blockquote className="text-2xl md:text-4xl lg:text-5xl text-white leading-relaxed">
-                <CinematicQuote text={quote.text} delay={40} />
-              </blockquote>
+              <Quote />
             </div>
           </div>
-          <QuoteOptions />
+          <CookiesBanner 
+            onAccept={handleConsentAccepted}
+            onDecline={handleConsentDeclined}
+          />
+        </>
+      )}
+
+      {/* Quote with Options State - Show quote with navigation options */}
+      {currentState === 'QUOTE_WITH_OPTIONS' && (
+        <>
+          <div className="fixed inset-0 z-40 flex items-center justify-center px-4">
+            <div className="w-full max-w-5xl">
+              <Quote />
+            </div>
+          </div>
+          
+          {/* Navigation Options */}
+          <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
+            <div className="flex items-center space-x-4 bg-black/20 backdrop-blur-md rounded-full px-6 py-3 border border-white/10">
+              <button
+                onClick={() => setCurrentState('MARKETING_MODE')}
+                className="px-4 py-2 text-white/80 hover:text-white transition-colors text-sm"
+              >
+                Explore LUKHAS
+              </button>
+              <div className="w-px h-4 bg-white/20" />
+              {consentType === 'full' ? (
+                <a
+                  href="/studio"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors text-sm"
+                >
+                  Enter LUKHΛS Studio
+                </a>
+              ) : (
+                <button
+                  onClick={handleChangePreferences}
+                  className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 rounded-full transition-colors text-sm border border-white/20"
+                  title="Full consent required for Studio access"
+                >
+                  Studio (Requires Consent)
+                </button>
+              )}
+            </div>
+          </div>
         </>
       )}
 
       {/* Marketing Mode - Full Website */}
-      {isMarketingMode && (
+      {currentState === 'MARKETING_MODE' && (
         <div className="min-h-screen">
+          {/* Essential Mode Banner */}
+          {consentType === 'essential' && (
+            <EssentialModeBanner onChangePreferences={handleChangePreferences} />
+          )}
+          
           {/* Top navigation bar */}
-          <nav className="fixed top-0 left-0 right-0 z-30 bg-black/20 backdrop-blur-md border-b border-white/10">
+          <nav className={`fixed left-0 right-0 z-30 bg-black/20 backdrop-blur-md border-b border-white/10 ${
+            consentType === 'essential' ? 'top-12' : 'top-0'
+          }`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between items-center h-16">
                 <div className="flex items-center">
-                  <span className="text-2xl font-bold text-white">LUKHλS</span>
+                  <span className="text-2xl text-white lukhas-brand">LUKHΛS</span>
                 </div>
                 <div className="hidden md:block">
                   <div className="flex items-center space-x-8">
@@ -155,72 +234,33 @@ export default function StateLayout({ children }: StateLayoutProps) {
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <button
-                    onClick={() => transition('LOGIN_INITIATED')}
+                  <a
+                    href="/login"
                     className="text-white/80 hover:text-white transition-colors"
                   >
                     Sign In
-                  </button>
-                  <button
-                    onClick={() => transition('ENTER_STUDIO')}
+                  </a>
+                  <a
+                    href="/studio"
                     className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors"
                   >
-                    Enter Studio
-                  </button>
+                    Enter LUKHΛS Studio
+                  </a>
                 </div>
               </div>
             </div>
           </nav>
 
           {/* Marketing content */}
-          <main className="pt-16">
+          <main className={consentType === 'essential' ? 'pt-28' : 'pt-16'}>
             {children}
           </main>
         </div>
       )}
 
-      {/* Login Flow State */}
-      {isLoginFlow && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="bg-white/10 backdrop-blur-md rounded-lg p-8 max-w-md w-full mx-4 border border-white/20">
-            <h2 className="text-2xl font-bold text-white mb-6 text-center">Welcome to Lukhas</h2>
-            
-            <div className="space-y-4">
-              <button
-                onClick={() => transition('LOGIN_SUCCESS')}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-md transition-colors flex items-center justify-center space-x-2"
-              >
-                <span>🔐</span>
-                <span>Sign in with Passkey</span>
-              </button>
-              
-              <div className="text-center">
-                <span className="text-white/60 text-sm">or</span>
-              </div>
-              
-              <button
-                onClick={() => transition('LOGIN_SUCCESS')}
-                className="w-full border border-white/20 text-white py-3 px-4 rounded-md transition-colors hover:bg-white/5"
-              >
-                Continue with Email
-              </button>
-            </div>
-
-            <div className="mt-6 text-center">
-              <button
-                onClick={() => transition('MARKETING_COMPLETE')}
-                className="text-white/60 hover:text-white/80 text-sm transition-colors"
-              >
-                Back to main site
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Studio State */}
-      {isStudioActive && (
-        <div className="h-screen overflow-hidden">
+      {/* Always render children for routes that need them */}
+      {currentState !== 'BOOT' && currentState !== 'QUOTE_IN' && (
+        <div className={currentState === 'MARKETING_MODE' ? '' : 'invisible'}>
           {children}
         </div>
       )}

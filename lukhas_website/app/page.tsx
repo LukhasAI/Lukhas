@@ -1,35 +1,16 @@
 'use client'
 
-import { useStateMachineState } from '@/hooks/use-state-machine'
 import { Atom, Brain, Shield, Settings, Sparkles } from 'lucide-react'
 import { TrinityFramework } from '@/components/sections/trinity-framework'
 import { TrinityShowcase } from '@/components/trinity-showcase'
 import Link from 'next/link'
 
 export default function Home() {
-  const { isMarketingMode, isStudioActive } = useStateMachineState()
-
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
-  }
-
-  // Debug logging
-  console.log('🏠 Home page render:', { isMarketingMode, isStudioActive })
-
-  // For now, always render something so we don't get 404
-  // The StateLayout will handle showing the right state
-  if (isStudioActive) {
-    console.log('🎬 Studio active - not rendering home content')
-    return null
-  }
-
-  // Always render the marketing content, StateLayout will overlay state-specific UI
-  if (!isMarketingMode) {
-    // Return minimal placeholder to avoid 404, StateLayout handles states
-    return <div className="min-h-screen" />
   }
 
   return (

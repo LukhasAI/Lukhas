@@ -121,7 +121,7 @@ export default function CookiesBanner({ onAccept, onDecline }: CookieBannerProps
                         onClick={() => setShowDetails(true)}
                         className="text-blue-400 hover:text-blue-300 ml-2 underline text-sm"
                       >
-                        Customize
+                        Cookie preferences
                       </button>
                     )}
                   </p>
@@ -148,7 +148,7 @@ export default function CookiesBanner({ onAccept, onDecline }: CookieBannerProps
                 onClick={handleDeclineAll}
                 className="px-4 py-2 text-sm text-white/80 hover:text-white border border-white/20 rounded-md hover:bg-white/5 transition-colors"
               >
-                Essential Only
+                Decline non-essential cookies
               </button>
               <button
                 onClick={handleAccept}

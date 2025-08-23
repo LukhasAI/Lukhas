@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import BackgroundSettings from '@/components/background-settings'
+import LaunchChecklist from '@/components/launch-checklist'
 import { 
   ChevronLeftIcon, 
   ChevronRightIcon,
@@ -85,16 +87,18 @@ export default function StudioPage() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        // Check for session token
+        // For now, skip auth check and go directly to studio
+        // In production, you would check for proper authentication here
         const token = localStorage.getItem('lukhas_session')
-        if (!token) {
-          router.push('/login')
-          return
-        }
+        // if (!token) {
+        //   router.push('/login')
+        //   return
+        // }
         setIsAuthenticated(true)
       } catch (error) {
         console.error('Auth check failed:', error)
-        router.push('/login')
+        // router.push('/login')
+        setIsAuthenticated(true) // Allow access for development
       } finally {
         setLoading(false)
       }
@@ -225,7 +229,10 @@ export default function StudioPage() {
         <div className="h-full flex items-center justify-between px-4">
           <div className="flex items-center gap-4">
             {/* Logo */}
-            <Link href="/" className="text-lg font-light tracking-[0.2em]">
+            <Link 
+              href="/?mode=marketing" 
+              className="text-lg hover:text-blue-400 transition-colors lukhas-brand"
+            >
               LUKHΛS
             </Link>
             
@@ -255,10 +262,8 @@ export default function StudioPage() {
               <UserCircleIcon className="w-5 h-5" />
             </button>
             
-            {/* Settings */}
-            <button className="text-white/60 hover:text-white">
-              <Cog6ToothIcon className="w-5 h-5" />
-            </button>
+            {/* Background Settings */}
+            <BackgroundSettings />
           </div>
         </div>
       </div>
@@ -327,7 +332,7 @@ export default function StudioPage() {
               {canvasState === 'chat_timeline' && (
                 <div className="max-w-3xl w-full px-8">
                   <div className="text-center mb-8">
-                    <div className="text-6xl font-light tracking-[0.3em] mb-4 text-white/20">
+                    <div className="text-6xl mb-4 text-white/20 lukhas-brand">
                       LUKHΛS
                     </div>
                     <p className="text-white/60">Ready to assist. Type below or press Cmd+K for commands.</p>
@@ -524,6 +529,11 @@ export default function StudioPage() {
             </div>
           </div>
         </div>
+      )}
+      
+      {/* Development Tools */}
+      {process.env.NODE_ENV === 'development' && (
+        <LaunchChecklist />
       )}
     </div>
   )
