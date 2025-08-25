@@ -254,10 +254,39 @@ async def understand_symbols(
             }
         )
 
+        # Implement universal symbol lookup
+        universal_symbol = None
+        try:
+            # Get the Universal Language translator
+            from universal_language.translator import UniversalTranslator
+            translator = UniversalTranslator()
+            
+            # Try to find the universal symbol for this input
+            # First convert to symbol if it's text
+            if isinstance(request.input, str):
+                # Look for existing symbol or create one
+                from universal_language.vocabulary import get_unified_vocabulary
+                vocabulary = get_unified_vocabulary()
+                symbol = vocabulary.manager.find_symbol(request.input)
+                
+                if symbol and symbol.glyph:
+                    universal_symbol = symbol.glyph
+                elif result.final_decision:
+                    # Try to translate the decision to a universal symbol
+                    translation_result = translator.translate(
+                        str(result.final_decision), 
+                        target_type="glyph"
+                    )
+                    if translation_result and translation_result.is_successful():
+                        universal_symbol = str(translation_result.target)
+        except Exception as lookup_error:
+            logger.debug(f"Universal symbol lookup failed: {lookup_error}")
+            # Continue without universal symbol
+        
         return SymbolUnderstandingResponse(
             meaning=str(result.final_decision) if result.final_decision else "unknown",
             confidence=result.confidence,
-            universal_symbol=None,  # TODO: implement universal symbol lookup
+            universal_symbol=universal_symbol,
             entropy_bits=entropy,
             metadata={
                 "processing_time": result.processing_time,

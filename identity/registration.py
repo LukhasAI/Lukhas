@@ -1,19 +1,58 @@
 """
-Registration wrapper for backward compatibility
-Routes to identity_core.py
+Registration wrapper with proper security implementation
+Routes to identity_core.py with password hashing and user storage
 """
 
+import hashlib
+import secrets
+import json
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Dict, Optional
 
 from .identity_core import AccessTier, identity_core
 
 
+def _hash_password(password: str, salt: bytes) -> bytes:
+    """Hash password using PBKDF2-SHA256 with salt"""
+    return hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+
+
+def _store_user_data(user_id: str, user_data: Dict[str, Any]) -> None:
+    """Store user data securely to file system"""
+    # Create users directory if it doesn't exist
+    users_dir = Path("data/users")
+    users_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Store user data as JSON file
+    user_file = users_dir / f"{user_id}.json"
+    with open(user_file, 'w') as f:
+        json.dump(user_data, f, indent=2)
+
+
 def register_user(
     email: str, password: str, requested_tier: Optional[str] = None
 ) -> Dict[str, Any]:
-    """Legacy registration function - routes to identity_core"""
-    # TODO: Implement proper user storage and password hashing
+    """Secure registration function with proper password hashing and user storage"""
+    
+    # Implement secure password hashing
+    salt = secrets.token_bytes(32)
+    password_hash = _hash_password(password, salt)
+    
+    # Implement proper user storage
+    user_data = {
+        "email": email,
+        "password_hash": password_hash.hex(),
+        "salt": salt.hex(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "is_active": True,
+        "login_attempts": 0,
+        "last_login": None
+    }
+    
+    # Store user securely
+    user_id = email.split("@")[0].replace(".", "_").lower()
+    _store_user_data(user_id, user_data)
 
     # Determine tier (default to T2 for new users)
     tier_map = {

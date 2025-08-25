@@ -144,15 +144,62 @@ class ConceptMapper:
 
         # Get parent concepts
         for parent_id in concept.parent_concepts:
-            # TODO: Implement concept lookup by ID
-            pass
+            parent_concept = self.lookup_concept_by_id(parent_id)
+            if parent_concept and parent_concept not in related:
+                related.append(parent_concept)
+                # Recursively find related concepts if within depth limit
+                if max_depth > 1:
+                    nested = self.find_related_concepts(parent_concept, max_depth - 1)
+                    related.extend([c for c in nested if c not in related])
 
         # Get child concepts
         for child_id in concept.child_concepts:
-            # TODO: Implement concept lookup by ID
-            pass
+            child_concept = self.lookup_concept_by_id(child_id)
+            if child_concept and child_concept not in related:
+                related.append(child_concept)
+                # Recursively find related concepts if within depth limit
+                if max_depth > 1:
+                    nested = self.find_related_concepts(child_concept, max_depth - 1)
+                    related.extend([c for c in nested if c not in related])
 
         return related
+
+    def lookup_concept_by_id(self, concept_id: str) -> Optional[Concept]:
+        """Look up a concept by its ID"""
+        # Check cache first
+        if concept_id in self.concept_cache:
+            return self.concept_cache[concept_id]
+        
+        # Try to find in vocabulary
+        try:
+            # Parse concept ID for domain lookup
+            if "." in concept_id:
+                domain_str, name = concept_id.split(".", 1)
+                try:
+                    domain = SymbolicDomain[domain_str]
+                    # Search for symbol with matching concept in that domain
+                    domain_vocab = self.vocabulary.manager.get_vocabulary(domain)
+                    for symbol in domain_vocab.symbols:
+                        if symbol.name.upper() in name.upper() or name.upper() in symbol.name.upper():
+                            concept = self.symbol_to_concept(symbol)
+                            self.concept_cache[concept_id] = concept
+                            return concept
+                except KeyError:
+                    pass
+            
+            # Fallback: search all vocabularies
+            for domain in SymbolicDomain:
+                domain_vocab = self.vocabulary.manager.get_vocabulary(domain)
+                for symbol in domain_vocab.symbols:
+                    if symbol.id == concept_id or concept_id in symbol.name:
+                        concept = self.symbol_to_concept(symbol)
+                        self.concept_cache[concept_id] = concept
+                        return concept
+                        
+        except Exception as e:
+            logger.warning(f"Error looking up concept {concept_id}: {e}")
+            
+        return None
 
 
 class CrossModalTranslator:
@@ -434,11 +481,25 @@ class UniversalTranslator:
         private_tokens = []
 
         for concept_id in concept_ids:
-            # Look up concept
-            # TODO: Implement concept registry lookup
-
-            # For now, create a default representation
-            if "." in concept_id:
+            # Look up concept using the concept registry
+            concept = self.concept_mapper.lookup_concept_by_id(concept_id)
+            
+            if concept:
+                # Use the actual concept for private representation
+                if concept.symbols:
+                    symbol = concept.symbols[0]  # Use primary symbol
+                    # Use user preference if available
+                    if user_preferences and "render_mode" in user_preferences:
+                        if user_preferences["render_mode"] == "glyph" and symbol.glyph:
+                            private_tokens.append(symbol.glyph)
+                        else:
+                            private_tokens.append(symbol.name)
+                    else:
+                        private_tokens.append(symbol)
+                else:
+                    private_tokens.append(concept.meaning)
+            # Fallback to parsing concept ID if lookup fails
+            elif "." in concept_id:
                 domain_str, concept_name = concept_id.split(".", 1)
 
                 # Find matching symbol

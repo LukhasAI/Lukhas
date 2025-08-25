@@ -423,8 +423,67 @@ class PrivateSymbolVault:
             decrypted = self.encryption._xor_encrypt(encrypted_data, import_key)
             vault_data = json.loads(decrypted.decode())
 
-            # Restore symbols and bindings
-            # TODO: Implement merge logic for existing data
+            # Restore symbols and bindings with merge logic
+            imported_symbols = vault_data.get("symbols", {})
+            imported_bindings = vault_data.get("bindings", {})
+            imported_stats = vault_data.get("stats", {})
+            
+            # Merge symbols with conflict resolution
+            for symbol_id, symbol_data in imported_symbols.items():
+                if symbol_id in self.symbols:
+                    # Symbol exists - merge by choosing more recent or comprehensive version
+                    existing_symbol = self.symbols[symbol_id]
+                    imported_symbol = symbol_data
+                    
+                    # Compare modification times if available
+                    existing_time = existing_symbol.get("modified", 0)
+                    imported_time = imported_symbol.get("modified", 0)
+                    
+                    if imported_time > existing_time:
+                        self.symbols[symbol_id] = imported_symbol
+                        logger.info(f"Updated existing symbol {symbol_id} with imported version")
+                    else:
+                        logger.info(f"Kept existing symbol {symbol_id} (more recent)")
+                else:
+                    # New symbol - add it
+                    self.symbols[symbol_id] = symbol_data
+                    logger.info(f"Added new imported symbol {symbol_id}")
+            
+            # Merge bindings similarly
+            for binding_key, binding_data in imported_bindings.items():
+                if binding_key in self.bindings:
+                    # Binding exists - merge values
+                    existing_binding = self.bindings[binding_key]
+                    imported_binding = binding_data
+                    
+                    # For bindings, we can merge the values if they're different
+                    if existing_binding != imported_binding:
+                        # Create a merged binding with both values
+                        if isinstance(existing_binding, list) and isinstance(imported_binding, list):
+                            merged_values = list(set(existing_binding + imported_binding))
+                            self.bindings[binding_key] = merged_values
+                        else:
+                            # Keep the imported version
+                            self.bindings[binding_key] = imported_binding
+                        logger.info(f"Merged binding {binding_key}")
+                    else:
+                        logger.info(f"Binding {binding_key} unchanged (same values)")
+                else:
+                    # New binding - add it
+                    self.bindings[binding_key] = binding_data
+                    logger.info(f"Added new imported binding {binding_key}")
+            
+            # Update stats by merging counters
+            for stat_key, stat_value in imported_stats.items():
+                if stat_key in self.stats:
+                    if isinstance(stat_value, (int, float)) and isinstance(self.stats[stat_key], (int, float)):
+                        # Sum numeric stats
+                        self.stats[stat_key] += stat_value
+                    else:
+                        # Use imported value for non-numeric stats
+                        self.stats[stat_key] = stat_value
+                else:
+                    self.stats[stat_key] = stat_value
 
             self._log_event("import", {"timestamp": vault_data.get("timestamp")})
             return True
