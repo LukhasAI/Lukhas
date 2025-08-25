@@ -1,6 +1,6 @@
 """
-Memoria System
-==============
+Memory System
+=============
 
 Core memory system implementation for LUKHAS AI.
 Handles symbolic traces, pattern recognition, and memory evolution.
@@ -13,7 +13,7 @@ from candidate.core.common import get_logger
 logger = get_logger(__name__)
 
 
-class MemoriaSystem:
+class MemorySystem:
     """
     Core symbolic memory system for LUKHAS AI.
 
@@ -25,13 +25,13 @@ class MemoriaSystem:
     """
 
     def __init__(self, config: Optional[dict] = None):
-        """Initialize memoria system with configuration"""
+        """Initialize memory system with configuration"""
         self.config = config or {}
         self.traces = {}
         self.patterns = {}
         self.consolidation_queue = []
         self.drift_threshold = self.config.get("drift_threshold", 0.8)
-        logger.info("Memoria system initialized")
+        logger.info("Memory system initialized")
 
     def store_trace(
         self, trace_id: str, data: dict, user_id: Optional[str] = None
@@ -155,4 +155,4 @@ class MemoriaSystem:
         }
 
 
-__all__ = ["MemoriaSystem"]
+__all__ = ["MemorySystem"]

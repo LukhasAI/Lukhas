@@ -7,13 +7,13 @@ Integration Date: 2025-05-31T07:55:27.785635
 """
 
 """
-TRACE MEMORIA LOGGER
+TRACE MEMORY LOGGER
 -------------------
-Specialized logger for LUKHAS AGI system that handles trace memory logging and persistence.
+Specialized logger for LUKHAS AI system that handles trace memory logging and persistence.
 This module creates a system for encoding, storing, and retrieving memory traces with
 emotional valence, ethical evaluations, and temporal context.
 
-Author: LUKHAS AGI Team
+Author: LUKHAS AI Team
 Date: May 8, 2025
 Version: 1.0.0
 """
@@ -32,10 +32,10 @@ from typing import Any, Optional
 logger = logging.getLogger(__name__)
 
 
-class TraceMemoriaLogger:
+class TraceMemoryLogger:
     """
-    TraceMemoriaLogger handles the creation, storage, and retrieval of memory traces
-    in the LUKHAS AGI system. It supports various log levels, encryption, and
+    TraceMemoryLogger handles the creation, storage, and retrieval of memory traces
+    in the LUKHAS AI system. It supports various log levels, encryption, and
     structured memory formats with metadata.
     """
 
@@ -74,7 +74,7 @@ class TraceMemoriaLogger:
         self.recent_traces_limit = self.config.get("recent_traces_limit", 100)
 
         logger.info(
-            f"TraceMemoriaLogger initialized with base directory: {self.base_log_dir}"
+            f"TraceMemoryLogger initialized with base directory: {self.base_log_dir}"
         )
 
     def _ensure_log_directories(self):
@@ -365,7 +365,7 @@ class TraceMemoriaLogger:
 
     def close(self):
         """Perform cleanup operations before shutdown."""
-        logger.info("TraceMemoriaLogger shutting down")
+        logger.info("TraceMemoryLogger shutting down")
         # Any cleanup operations would go here
         # For example, ensuring all logs are flushed
 
@@ -379,7 +379,7 @@ if __name__ == "__main__":
     )
 
     # Create logger instance
-    trace_logger = TraceMemoriaLogger()
+    trace_logger = TraceMemoryLogger()
 
     # Log various types of traces
     trace_logger.log_system_event("System initialized", metadata={"version": "1.0.0"})

@@ -142,16 +142,16 @@ class LukhasRealDataCollector:
 
         try:
             # Connect to Memoria
-            memoria_path = self.lukhas_root / "memory" / "memoria.py"
+            memory_path = self.lukhas_root / "candidate" / "memory" / "memory_core.py"
             if memoria_path.exists():
-                spec = importlib.util.spec_from_file_location("memoria", memoria_path)
+                spec = importlib.util.spec_from_file_location("memory_core", memory_path)
                 memory_module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(memory_module)
 
-                memoria_instance = memory_module.Memoria()
-                await self._safe_initialize(memoria_instance)
+                memory_instance = memory_module.CoreMemoryComponent()
+                await self._safe_initialize(memory_instance)
 
-                self.module_connections["memory"] = memoria_instance
+                self.module_connections["memory"] = memory_instance
                 self.collection_methods["memory"] = {
                     "memory_load": self._get_memory_load,
                     "consolidation_rate": self._get_memory_consolidation,

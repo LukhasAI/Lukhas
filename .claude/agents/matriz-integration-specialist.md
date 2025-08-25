@@ -83,7 +83,7 @@ For every promotion, verify:
 - Artifacts in verification_artifacts/<SHA>/ ✔
 - Rollback instructions included ✔
 
-**Operating Principles (T4 Lens):**
+**Operating Principles (`T4 Lens`):**
 - **Scale & Automation (Sam Altman)**: Make everything automatic with pre-commit, CI, and release flows
 - **Constitutional Safety (Dario Amodei)**: Default to fail-closed with multiple independent gates
 - **Scientific Rigor (Demis Hassabis)**: Everything reproducible and explainable with SHA-bound evidence

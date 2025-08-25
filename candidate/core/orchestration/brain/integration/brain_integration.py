@@ -40,7 +40,7 @@ logger.setLevel(logging.INFO)
 
 # Import MultiBrainSymphony components with fallback paths
 try:
-    from .MultiBrainSymphony import DreamsBrainSpecialist
+    from .MultiBrainSymphony import DreamBrainSpecialist
     from .MultiBrainSymphony import LearningBrainSpecialist
     from .MultiBrainSymphony import MemoryBrainSpecialist
     from .MultiBrainSymphony import MultiBrainSymphonyOrchestrator
@@ -49,7 +49,7 @@ try:
         try:
         # from MultiBrainSymphony  # External dependency import (
             MultiBrainSymphonyOrchestrator,
-            DreamsBrainSpecialist,
+            DreamBrainSpecialist,
             MemoryBrainSpecialist,
             LearningBrainSpecialist
         )

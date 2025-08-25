@@ -46,7 +46,7 @@ except Exception:  # pragma: no cover - fallback if quantum_mind is unavailable
             return True
 
     def get_quantum_mind():
-        return QuantumMindInterface()
+        return QIMindInterface()
 
     QUANTUM_MIND_AVAILABLE = False
 
@@ -68,22 +68,22 @@ except Exception:  # pragma: no cover - fallback when structlog or core is unava
 
 
 MODULE_VERSION = "1.0.0"
-MODULE_NAME = "memoria"
+MODULE_NAME = "memory"
 
 
 @dataclass
-class CoreMemoriaConfig:
+class CoreMemoryConfig:
     enabled: bool = True
     debug_mode: bool = False
     max_trace_history: int = 10000
     default_hash_algorithm: str = "sha256"
 
 
-class CoreMemoriaComponent:
+class CoreMemoryComponent:
     """Manage symbolic trace hashes with consciousness phase tracking."""
 
     def __init__(self, config: Optional[dict[str, Any]] = None) -> None:
-        self.config = CoreMemoriaConfig(**(config or {}))
+        self.config = CoreMemoryConfig(**(config or {}))
         if hasattr(logger, "bind"):
             self.logger = logger.bind(class_name=self.__class__.__name__)
         else:  # pragma: no cover - fallback when using stdlib logger
@@ -97,9 +97,9 @@ class CoreMemoriaComponent:
         self.use_quantum_mind = QUANTUM_MIND_AVAILABLE
 
         if self.use_quantum_mind:
-            self.logger.info("CoreMemoria initialized with quantum mind integration")
+            self.logger.info("CoreMemory initialized with quantum mind integration")
         else:
-            self.logger.info("CoreMemoria initialized with fallback consciousness tracking")
+            self.logger.info("CoreMemory initialized with fallback consciousness tracking")
 
     def record_consciousness_phase(self) -> str:
         """Enhanced consciousness phase recording with quantum mind integration"""
@@ -167,16 +167,16 @@ class CoreMemoriaComponent:
         return status
 
 
-def create_core_memoria_component(
+def create_core_memory_component(
     initial_config: Optional[dict[str, Any]] = None,
-) -> CoreMemoriaComponent:
-    return CoreMemoriaComponent(config=initial_config)
+) -> CoreMemoryComponent:
+    return CoreMemoryComponent(config=initial_config)
 
 
 __all__ = [
-    "CoreMemoriaComponent",
-    "create_core_memoria_component",
-    "CoreMemoriaConfig",
+    "CoreMemoryComponent",
+    "create_core_memory_component",
+    "CoreMemoryConfig",
     "ConsciousnessPhase",
     "get_current_phase",
 ]

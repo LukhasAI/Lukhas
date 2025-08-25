@@ -14,7 +14,7 @@ from ...core.errors import SymbolicIntegrityError
 from ...quantum.quantum_processing.quantum_engine import QuantumOscillator
 from ...symbolic_ai.assistant import assistant_node
 from ...symbolic_ai.filter import check_intent
-from ...symbolic_ai.memoria import memoria
+from ...symbolic_ai.memory import memory
 from ..bio_awareness.enhanced_awareness import EnhancedSystemAwareness
 
 logger = logging.getLogger(__name__)
@@ -119,7 +119,7 @@ class EnhancedDASTOrchestrator:
         self, intent: dict[str, Any], result: dict[str, Any]
     ) -> None:
         """Handle blocked intents with enhanced logging"""
-        await memoria.store(
+        await memory.store(
             tag="enhanced_ethical_block",
             data={
                 "intent": intent,
@@ -172,7 +172,7 @@ class EnhancedDASTOrchestrator:
 # DEPENDENCIES:
 # - bio_awareness.enhanced_awareness.EnhancedSystemAwareness
 # - quantum_processing.quantum_engine.QuantumOscillator
-# - symbolic_ai.memoria.memoria
+# - symbolic_ai.memory.memory
 # - symbolic_ai.assistant.assistant_node
 # - symbolic_ai.filter.check_intent
 # INTERFACES:

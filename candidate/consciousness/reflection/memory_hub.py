@@ -404,7 +404,7 @@ class MemoryHub:
     def _register_memory_systems(self):
         """Register memory system services"""
         system_services = [
-            ("memoria_system", "MemoriaSystem"),
+            ("memory_system", "MemorySystem"),
             ("memory_orchestrator", "MemoryOrchestrator"),
             ("memory_engine", "MemoryEngine"),
             ("memory_core", "MemoryCore"),
@@ -412,9 +412,9 @@ class MemoryHub:
 
         for service_name, class_name in system_services:
             try:
-                if service_name == "memoria_system":
+                if service_name == "memory_system":
                     module = __import__(
-                        "memory.systems.memoria_system", fromlist=[class_name]
+                        "memory.systems.memory_system", fromlist=[class_name]
                     )
                 elif service_name == "memory_orchestrator":
                     module = __import__(
@@ -570,7 +570,7 @@ class MemoryHub:
             # Register key services globally for cross-hub access
             key_services = [
                 "memory_manager",
-                "memoria_system",
+                "memory_system",
                 "memory_orchestrator",
                 "hippocampal_buffer",
                 "neocortical_network",

@@ -66,11 +66,11 @@ class SpecializedBrainCore:
         }
 
 
-class DreamsBrainSpecialist(SpecializedBrainCore):
-    """Dreams Brain - Creative & Symbolic Processing Specialist"""
+class DreamBrainSpecialist(SpecializedBrainCore):
+    """Dream Brain - Creative & Symbolic Processing Specialist"""
 
     def __init__(self, dream_engine=None):
-        super().__init__("dreams_brain", "creative processing", 0.1)
+        super().__init__("dream_brain", "creative processing", 0.1)
         self.dream_engine = dream_engine
         self.symbolic_patterns = {}
         self.creative_insights = []

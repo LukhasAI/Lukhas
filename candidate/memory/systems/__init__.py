@@ -16,27 +16,27 @@ except ImportError:
 
 # Import core memory components
 try:
-    from ..memoria import CoreMemoriaComponent
+    from ..memory_core import CoreMemoryComponent
 
-    logger.debug("Imported CoreMemoriaComponent from memoria")
+    logger.debug("Imported CoreMemoryComponent from memory_core")
 except ImportError as e:
-    logger.warning(f"Could not import CoreMemoriaComponent: {e}")
-    CoreMemoriaComponent = None
+    logger.warning(f"Could not import CoreMemoryComponent: {e}")
+    CoreMemoryComponent = None
 
 try:
-    from .memoria_system import MemoriaSystem
+    from .memory_system import MemorySystem
 
-    logger.debug("Imported MemoriaSystem from memoria_system")
+    logger.debug("Imported MemorySystem from memory_system")
 except ImportError as e:
-    logger.warning(f"Could not import MemoriaSystem: {e}")
+    logger.warning(f"Could not import MemorySystem: {e}")
 
-    # Create a basic MemoriaSystem if not found
-    class MemoriaSystem:
+    # Create a basic MemorySystem if not found
+    class MemorySystem:
         """Basic memory system for symbolic trace management"""
 
         def __init__(self):
             self.traces = {}
-            logger.info("Basic MemoriaSystem initialized")
+            logger.info("Basic MemorySystem initialized")
 
         def store_trace(self, trace_id: str, data: dict):
             """Store a memory trace"""
@@ -55,7 +55,7 @@ except ImportError as e:
     logger.warning(f"Could not import MemoryOrchestrator: {e}")
     MemoryOrchestrator = None
 
-__all__ = ["CoreMemoriaComponent", "MemoriaSystem", "MemoryOrchestrator"]
+__all__ = ["CoreMemoryComponent", "MemorySystem", "MemoryOrchestrator"]
 
 # Filter out None values from __all__ if imports failed
 __all__ = [name for name in __all__ if globals().get(name) is not None]
