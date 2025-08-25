@@ -1,4 +1,4 @@
-"""Memoria core component for symbolic trace management."""
+"""Memory core component for symbolic trace management."""
 
 from dataclasses import dataclass
 from typing import Any, Optional

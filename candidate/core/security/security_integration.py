@@ -8,8 +8,8 @@ from datetime import datetime, timezone
 from typing import Any, Callable, Optional
 
 from .agi_security import AGISecuritySystem, SecurityContext, SecurityLevel
-from .enhanced_auth import get_auth_system
-from .enhanced_crypto import get_encryption_manager
+from .auth import get_auth_system
+from .crypto import get_encryption_manager
 
 
 class SecurityIntegration:

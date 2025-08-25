@@ -16,9 +16,9 @@ except ImportError as e:
     MemoryColony = None
 
 try:
-    from .governance_colony_enhanced import GovernanceColonyEnhanced
+    from .governance_colony import GovernanceColonyEnhanced
 
-    logger.debug("Imported GovernanceColonyEnhanced from .governance_colony_enhanced")
+    logger.debug("Imported GovernanceColonyEnhanced from .governance_colony")
 except ImportError as e:
     logger.warning(f"Could not import GovernanceColonyEnhanced: {e}")
     GovernanceColonyEnhanced = None
@@ -63,13 +63,8 @@ except ImportError as e:
     logger.warning(f"Could not import GovernanceColony: {e}")
     GovernanceColony = None
 
-try:
-    from .memory_colony_enhanced import MemoryColonyEnhanced
-
-    logger.debug("Imported MemoryColonyEnhanced from .memory_colony_enhanced")
-except ImportError as e:
-    logger.warning(f"Could not import MemoryColonyEnhanced: {e}")
-    MemoryColonyEnhanced = None
+# MemoryColonyEnhanced is now part of the main MemoryColony
+MemoryColonyEnhanced = MemoryColony
 
 try:
     from .supervisor_agent import SupervisorAgent
@@ -104,13 +99,13 @@ except ImportError as e:
     EthicsSwarmColony = None
 
 try:
-    from .enhanced_colony import EnhancedReasoningColony, SwarmSignalNetwork
+    from .colony import EnhancedReasoningColony, SwarmSignalNetwork
 
     logger.debug(
-        "Imported EnhancedReasoningColony and SwarmSignalNetwork from .enhanced_colony"
+        "Imported EnhancedReasoningColony and SwarmSignalNetwork from .colony"
     )
 except ImportError as e:
-    logger.warning(f"Could not import from enhanced_colony: {e}")
+    logger.warning(f"Could not import from colony: {e}")
     EnhancedReasoningColony = None
     SwarmSignalNetwork = None
 

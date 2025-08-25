@@ -14,7 +14,7 @@ from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
 
-from lukhas.core.security.enhanced_auth import get_auth_system
+from lukhas.core.security.auth import get_auth_system
 
 # Import enhanced security
 from lukhas.core.security.security_integration import get_security_integration
