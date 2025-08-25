@@ -189,7 +189,7 @@ class IdentityCore:
                         # Implement token refresh mechanism
                         logger.info(f"Token expired, attempting refresh for user: {metadata.get('user_id', 'unknown')}")
                         # Mark for refresh rather than immediate failure
-                        metadata[\"needs_refresh\"] = True
+                        metadata["needs_refresh"] = True
                         self._token_store[token] = metadata
                         return False, None
 
@@ -197,22 +197,24 @@ class IdentityCore:
                 if not self._validate_symbolic_integrity(metadata):
                     logger.error("Symbolic integrity check failed for token")
                     # Alert Guardian system of potential breach
-            try:
-                from lukhas.governance.guardian_system import guardian_system
-                guardian_system.alert_security_breach(
-                    event_type="symbolic_integrity_failure",
-                    token_hash=hashlib.sha256(token.encode()).hexdigest()[:16],
-                    severity="HIGH"
-                )
-            except ImportError:
-                logger.warning("Guardian system not available for breach alert")
+                    try:
+                        from lukhas.governance.guardian_system import guardian_system
+                        guardian_system.alert_security_breach(
+                            event_type="symbolic_integrity_failure",
+                            token_hash=hashlib.sha256(token.encode()).hexdigest()[:16],
+                            severity="HIGH"
+                        )
+                    except ImportError:
+                        logger.warning("Guardian system not available for breach alert")
+                    
                     return False, None
-
+                
+                # Token validation successful
                 return True, metadata
-
-            # Token not found
-            logger.warning(f"Token not found in store: {token[:30]}...")
-            return False, None
+            else:
+                # Token not found
+                logger.warning(f"Token not found in store: {token[:30]}...")
+                return False, None
 
         except Exception as e:
             logger.error(f"Error validating token: {e}")

@@ -1,6 +1,6 @@
 """
-LUKHΛS LucasID (ΛID) Resolver + OIDC Provider
-=============================================
+LUKHΛS ID (ΛID) Resolver + OIDC Provider
+=========================================
 System-wide guardrails applied:
 1. Canonical identity is ΛID = {namespace?}:{username}; no raw PII as usernames
 2. Primary auth = Passkeys/WebAuthn. OAuth aliases are optional convenience
@@ -23,10 +23,10 @@ from pydantic import BaseModel, Field, validator
 
 
 # ABNF Grammar Implementation for ΛID
-class LucasIDParser:
+class LukhasIDParser:
     """
-    ABNF-compliant parser for LucasID (ΛID) format:
-    LUCASID = [NAMESPACE ":"] USERNAME [SP PROVIDER] [SP LOCALE] [SP EMOJI]
+    ABNF-compliant parser for LukhasID (ΛID) format:
+    LUKHASID = [NAMESPACE ":"] USERNAME [SP PROVIDER] [SP LOCALE] [SP EMOJI]
     """
 
     # Validation regex for canonical core (namespace:username)
@@ -112,7 +112,7 @@ class LucasIDParser:
         }
 
 
-class LucasIDResolver:
+class LukhasIDResolver:
     """
     ΛID Resolver that maps canonical identities to provider authentication flows.
     Acts as OIDC Provider for "Sign in with LUKHΛS" functionality.
@@ -190,7 +190,7 @@ class LucasIDResolver:
 
         try:
             # Parse canonical ΛID
-            parsed = LucasIDParser.parse_full(input_str)
+            parsed = LukhasIDParser.parse_full(input_str)
             canonical_lid = parsed['canonical_lid']
 
             # Determine provider
@@ -300,7 +300,7 @@ class ResolveLoginResponse(BaseModel):
 
 # FastAPI Router
 router = APIRouter(prefix="/identity", tags=["ΛID Resolver"])
-resolver = LucasIDResolver()
+resolver = LukhasIDResolver()
 
 
 @router.post("/resolve-login", response_model=ResolveLoginResponse)
@@ -344,10 +344,10 @@ async def jwks_endpoint():
 
 
 # Validation and testing utilities
-def validate_lucas_id(input_str: str) -> bool:
+def validate_lukhas_id(input_str: str) -> bool:
     """Utility function to validate ΛID format."""
     try:
-        LucasIDParser.parse_canonical(input_str)
+        LukhasIDParser.parse_canonical(input_str)
         return True
     except ValueError:
         return False
@@ -368,7 +368,7 @@ def benchmark_parser():
     for test_input in test_cases:
         start = time.perf_counter()
         try:
-            LucasIDParser.parse_canonical(test_input)
+            LukhasIDParser.parse_canonical(test_input)
             end = time.perf_counter()
             parse_time = (end - start) * 1000  # Convert to ms
             times.append(parse_time)
@@ -391,7 +391,7 @@ if __name__ == "__main__":
 
     # Test resolution
     print("\n🔍 Testing Resolution...")
-    resolver = LucasIDResolver()
+    resolver = LukhasIDResolver()
 
     test_cases = [
         ("gonzo", None),
