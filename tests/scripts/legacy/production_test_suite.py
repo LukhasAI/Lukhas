@@ -20,11 +20,11 @@ from typing import Any, Dict, List, Optional
 # Load environment variables
 from dotenv import load_dotenv
 
-from lukhas.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
-from lukhas.audit.store import audit_log_write
-from lukhas.metrics import get_metrics_collector
-from lukhas.orchestration.signals.homeostasis import ModulationParams
-from lukhas.orchestration.signals.signal_bus import Signal, SignalType, emit_signal
+from candidate.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
+from candidate.audit.store import audit_log_write
+from candidate.metrics import get_metrics_collector
+from candidate.orchestration.signals.homeostasis import ModulationParams
+from candidate.orchestration.signals.signal_bus import Signal, SignalType, emit_signal
 
 load_dotenv()
 

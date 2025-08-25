@@ -34,7 +34,7 @@ logger.info("ΛTRACE: Initializing lukhas_core_integrator module.")
 BRAIN_INTEGRATION_AVAILABLE = False
 LUKHASBrainIntegration = None  # Placeholder
 try:
-    from orchestration.brain.integration.brain_integration import (
+    from candidate.orchestration.brain.integration.brain_integration import (
         LUKHASBrainIntegration,  # This is a non-standard import
     )
 
@@ -44,7 +44,7 @@ try:
     )
 except ImportError:
     logger.warning(
-        "ΛTRACE: Could not import LUKHASBrainIntegration from core.brain_integration. Advanced memory functions might be limited."
+        "ΛTRACE: Could not import LUKHASBrainIntegration from candidate.core.brain_integration. Advanced memory functions might be limited."
     )
 except Exception as e_brain_import:  # Catch other potential errors during this import
     logger.error(
@@ -911,7 +911,7 @@ class LUKHASCoreIntegrator:
 # AUTHENTICATION: Relies on LUKHASAwarenessProtocol for internal access control based on AccessTier.
 #                 Global tier checks via @lukhas_tier_required would depend on external user auth.
 # HOW TO USE:
-#   from core.advanced.brain.lukhas_core_integrator import LUKHASCoreIntegrator, CoreMessageType, AccessTier
+#   from candidate.core.advanced.brain.lukhas_core_integrator import LUKHASCoreIntegrator, CoreMessageType, AccessTier
 #   integrator = LUKHASCoreIntegrator(config_path="path/to/config.json")
 #   integrator.register_component("my_component", my_instance, my_handler)
 #   integrator.send_message("my_component", {"action": "do_something"})

@@ -13,10 +13,10 @@ from typing import Any, Optional
 
 import numpy as np
 
-from core.colonies.memory_colony import MemoryColony
-from core.common import get_logger
-from core.event_sourcing import EventStore
-from core.swarm import SwarmHub
+from candidate.core.colonies.memory_colony import MemoryColony
+from candidate.core.common import get_logger
+from candidate.core.event_sourcing import EventStore
+from candidate.core.swarm import SwarmHub
 from memory.distributed_state_manager import DistributedStateManager, StateType
 
 logger = get_logger(__name__)

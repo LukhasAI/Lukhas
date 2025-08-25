@@ -16,7 +16,7 @@ capabilities with prot2's quantum features.
 from dataclasses import dataclass
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 try:
     from bio.quantum_bio_components import ProtonGradient

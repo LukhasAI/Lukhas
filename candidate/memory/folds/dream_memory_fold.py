@@ -22,7 +22,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 logger = get_logger(__name__)
 

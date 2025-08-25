@@ -27,8 +27,8 @@ import uuid
 from datetime import datetime
 from typing import Optional
 
-from orchestration.brain.core.capability_levels import AGICapabilityLevel
-from orchestration.brain.core.response_types import AGIResponse
+from candidate.orchestration.brain.core.capability_levels import AGICapabilityLevel
+from candidate.orchestration.brain.core.response_types import AGIResponse
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
@@ -36,7 +36,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 # Try to import available components
 try:
-    from orchestration.brain.attention.quantum_attention import QuantumInspiredAttention
+    from candidate.orchestration.brain.attention.quantum_attention import QuantumInspiredAttention
 
     QUANTUM_ATTENTION_AVAILABLE = True
 except ImportError:
@@ -57,14 +57,14 @@ except ImportError:
     SYMBOLIC_REASONING_AVAILABLE = False
 
 try:
-    from orchestration.agents.MetaCognitiveOrchestrator import MetaCognitiveOrchestrator
+    from candidate.orchestration.agents.MetaCognitiveOrchestrator import MetaCognitiveOrchestrator
 
     ORCHESTRATOR_AVAILABLE = True
 except ImportError:
     ORCHESTRATOR_AVAILABLE = False
 
 try:
-    from orchestration.brain.compliance.ethical_engine import ComplianceEngine
+    from candidate.orchestration.brain.compliance.ethical_engine import ComplianceEngine
 
     COMPLIANCE_AVAILABLE = True
 except ImportError:
@@ -79,7 +79,7 @@ except ImportError:
     DREAMS_AVAILABLE = False
 
 try:
-    from orchestration.brain.visualization.golden_healix_mapper import GoldenHelixMapper
+    from candidate.orchestration.brain.visualization.golden_healix_mapper import GoldenHelixMapper
 
     HEALIX_AVAILABLE = True
 except ImportError:

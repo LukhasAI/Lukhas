@@ -76,7 +76,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
-from core.common.logger import get_logger
+from candidate.core.common.logger import get_logger
 
 try:
     import structlog
@@ -86,7 +86,7 @@ except ImportError:
 
 # GLYPH system integration for LUKHAS agent workflows
 try:
-    from core.glyph.glyph_engine import GlyphEngine
+    from candidate.core.glyph.glyph_engine import GlyphEngine
     GLYPH_AVAILABLE = True
 except ImportError:
     GLYPH_AVAILABLE = False

@@ -18,7 +18,7 @@ class TestRealComponentsBasic:
     def test_import_symbolic_kernel_bus(self):
         """Test that we can import and use the real symbolic kernel bus"""
         try:
-            from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus, SymbolicEvent, emit, subscribe
+            from candidate.orchestration.symbolic_kernel_bus import SymbolicKernelBus, SymbolicEvent, emit, subscribe
             
             # Create instances
             bus = SymbolicKernelBus()
@@ -38,7 +38,7 @@ class TestRealComponentsBasic:
     def test_import_memory_folds(self):
         """Test that we can import and use real memory folds"""
         try:
-            from lukhas.memory.folds.memory_fold import MemoryFold
+            from candidate.memory.folds.memory_fold import MemoryFold
             
             # Create a memory fold
             fold = MemoryFold(
@@ -88,9 +88,9 @@ class TestRealComponentsBasic:
             pytest.fail(f"Emotion models real components failed: {e}")
     
     def test_import_consciousness(self):
-        """Test that we can import lukhas.consciousness module"""
+        """Test that we can import candidate.consciousness module"""
         try:
-            import lukhas.consciousness
+            import candidate.consciousness
             
             # Basic import test
             assert consciousness is not None
@@ -114,9 +114,9 @@ class TestRealComponentsBasic:
             pytest.fail(f"Reasoning real module failed: {e}")
     
     def test_import_orchestration_brain(self):
-        """Test that we can import lukhas.orchestration brain"""
+        """Test that we can import candidate.orchestration brain"""
         try:
-            import lukhas.orchestration.brain
+            import candidate.orchestration.brain
             
             # Basic import test
             assert orchestration.brain is not None
@@ -129,7 +129,7 @@ class TestRealComponentsBasic:
     def test_real_symbolic_event_creation(self):
         """Test creating real symbolic events"""
         try:
-            from lukhas.orchestration.symbolic_kernel_bus import SymbolicEvent, EventPriority
+            from candidate.orchestration.symbolic_kernel_bus import SymbolicEvent, EventPriority
             
             # Test basic event
             event1 = SymbolicEvent(

@@ -40,7 +40,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional, Union
 
-# Try to import from core.common if available
+# Try to import from candidate.core.common if available
 try:
     from candidate.core.common import get_logger
 

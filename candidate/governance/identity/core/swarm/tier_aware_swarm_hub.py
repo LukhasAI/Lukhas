@@ -12,10 +12,10 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-from core.enhanced_swarm import EnhancedSwarmHub
+from candidate.core.enhanced_swarm import EnhancedSwarmHub
 
 # Import swarm infrastructure
-from core.swarm import SwarmTask, TaskPriority
+from candidate.core.swarm import SwarmTask, TaskPriority
 from governance.identity.core.colonies import (
     BiometricVerificationColony,
     ConsciousnessVerificationColony,

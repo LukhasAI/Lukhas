@@ -7,11 +7,11 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Import endocrine system
 try:
-    from core.endocrine.hormone_system import (
+    from candidate.core.endocrine.hormone_system import (
         HormoneSystem,
         HormoneType,
     )

@@ -46,7 +46,7 @@ def evaluate_emotional_state(user_context):
 ──────────────────────────────────────────────────────────────────────────────────────
 EXECUTION:
     - Import using:
-        from core.modules.nias.emotional_sorter import evaluate_emotional_state
+        from candidate.core.modules.nias.emotional_sorter import evaluate_emotional_state
 
 USED BY:
     - nias_core.py

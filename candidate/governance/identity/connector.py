@@ -9,7 +9,7 @@ from typing import Any, Callable
 from identity.audit_logger import AuditLogger
 from identity.safety_monitor import SafetyMonitor
 from identity.tiered_access import TieredAccessControl
-from orchestration.integration_hub import get_integration_hub
+from candidate.orchestration.integration_hub import get_integration_hub
 
 
 class IdentityConnector:

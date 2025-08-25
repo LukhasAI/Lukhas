@@ -26,7 +26,7 @@
 from dataclasses import dataclass
 from typing import Any
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from .base import Decision, PolicyRegistry, RiskLevel
 from .examples import GPT4Config, GPT4Policy, ThreeLawsPolicy

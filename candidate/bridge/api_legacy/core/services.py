@@ -12,7 +12,7 @@ from typing import Optional
 
 from hub.service_registry import get_service
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 logger = get_logger(__name__)
 

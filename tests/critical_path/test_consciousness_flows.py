@@ -23,7 +23,7 @@ class TestConsciousnessCorePaths:
     def test_consciousness_imports(self):
         """Test that consciousness components import correctly"""
         try:
-            from lukhas.consciousness.unified.auto_consciousness import AutoConsciousness
+            from candidate.consciousness.unified.auto_consciousness import AutoConsciousness
 
             assert AutoConsciousness is not None
         except ImportError as e:
@@ -33,7 +33,7 @@ class TestConsciousnessCorePaths:
     async def test_awareness_assessment_path(self):
         """Test awareness assessment critical path"""
         try:
-            from lukhas.consciousness.unified.auto_consciousness import AutoConsciousness
+            from candidate.consciousness.unified.auto_consciousness import AutoConsciousness
 
             # Create consciousness instance
             consciousness = AutoConsciousness()

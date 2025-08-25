@@ -55,7 +55,7 @@ except Exception:  # pragma: no cover - fallback if quantum_mind is unavailable
 try:
     import structlog  # type: ignore  # noqa: F401
 
-    from core.common import get_logger
+    from candidate.core.common import get_logger
 
     logger = get_logger(__name__)
 except Exception:  # pragma: no cover - fallback when structlog or core is unavailable

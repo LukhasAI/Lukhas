@@ -50,14 +50,14 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from core.identity_integration import (
+from candidate.core.identity_integration import (
     TierMappingConfig,
     get_identity_client,
     require_identity,
 )
 
 # Unified tier system imports
-from core.tier_unification_adapter import (
+from candidate.core.tier_unification_adapter import (
     EmotionalTierAdapter,
     get_unified_adapter,
 )

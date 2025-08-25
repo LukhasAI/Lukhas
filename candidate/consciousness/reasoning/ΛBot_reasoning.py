@@ -37,13 +37,13 @@ sys.path.append(brain_path)
 
 # Import the advanced reasoning systems
 try:
-    from orchestration.brain.abstract_reasoning.bio_quantum_engine import (
+    from candidate.orchestration.brain.abstract_reasoning.bio_quantum_engine import (
         BioQuantumSymbolicReasoner,
     )
-    from orchestration.brain.abstract_reasoning.confidence_calibrator import (
+    from candidate.orchestration.brain.abstract_reasoning.confidence_calibrator import (
         AdvancedConfidenceCalibrator,
     )
-    from orchestration.brain.MultiBrainSymphony import (
+    from candidate.orchestration.brain.MultiBrainSymphony import (
         MultiBrainSymphonyOrchestrator,
     )
 

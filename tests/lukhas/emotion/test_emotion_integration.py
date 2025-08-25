@@ -12,7 +12,7 @@ minimal API usage.
 import pytest
 import os
 from unittest.mock import patch, MagicMock
-from lukhas.emotion import (
+from candidate.emotion import (
     EmotionWrapper,
     get_emotion_wrapper,
     process_emotion,
@@ -20,7 +20,7 @@ from lukhas.emotion import (
     track_valence,
     EMOTION_ACTIVE
 )
-from lukhas.emotion.emotion_wrapper import (
+from candidate.emotion.emotion_wrapper import (
     AdvancedEmotionWrapper,
     get_advanced_emotion_wrapper
 )
@@ -177,7 +177,7 @@ class TestAdvancedEmotionWrapper:
         """Setup for each test"""
         os.environ["EMOTION_ACTIVE"] = "false"  # Safe testing
     
-    @patch('lukhas.emotion.emotion_wrapper.EmotionMemoryIntegration')
+    @patch('candidate.emotion.emotion_wrapper.EmotionMemoryIntegration')
     def test_advanced_wrapper_initialization(self, mock_integration):
         """Test advanced wrapper initialization"""
         wrapper = AdvancedEmotionWrapper()
@@ -186,7 +186,7 @@ class TestAdvancedEmotionWrapper:
         result = wrapper.initialize()
         assert result is True
     
-    @patch('lukhas.emotion.emotion_wrapper.EmotionMemoryIntegration')
+    @patch('candidate.emotion.emotion_wrapper.EmotionMemoryIntegration')
     def test_advanced_emotion_processing(self, mock_integration):
         """Test advanced emotion processing with mocked integrations"""
         # Mock integration methods
@@ -223,7 +223,7 @@ class TestEmotionIntegration:
         """Setup for integration tests"""
         os.environ["EMOTION_ACTIVE"] = "false"
     
-    @patch('lukhas.memory.get_memory_wrapper')
+    @patch('candidate.memory.get_memory_wrapper')
     def test_memory_integration_mock(self, mock_memory):
         """Test emotion-memory integration with mocked memory system"""
         # Mock memory wrapper
@@ -232,7 +232,7 @@ class TestEmotionIntegration:
         mock_memory_wrapper.query_memories.return_value = {"memories": []}
         mock_memory.return_value = mock_memory_wrapper
         
-        from lukhas.emotion.emotion_wrapper import EmotionMemoryIntegration
+        from candidate.emotion.emotion_wrapper import EmotionMemoryIntegration
         integration = EmotionMemoryIntegration()
         integration.initialize_integrations()
         
@@ -248,7 +248,7 @@ class TestEmotionIntegration:
         assert result is True
         mock_memory_wrapper.store_memory.assert_called_once()
     
-    @patch('lukhas.consciousness.get_consciousness_wrapper')  
+    @patch('candidate.consciousness.get_consciousness_wrapper')  
     def test_consciousness_integration_mock(self, mock_consciousness):
         """Test emotion-consciousness integration with mocked consciousness system"""
         # Mock consciousness wrapper
@@ -256,7 +256,7 @@ class TestEmotionIntegration:
         mock_consciousness_wrapper.process_awareness.return_value = {"status": "processed"}
         mock_consciousness.return_value = mock_consciousness_wrapper
         
-        from lukhas.emotion.emotion_wrapper import EmotionMemoryIntegration
+        from candidate.emotion.emotion_wrapper import EmotionMemoryIntegration
         integration = EmotionMemoryIntegration()
         integration.initialize_integrations()
         

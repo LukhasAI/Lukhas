@@ -7,7 +7,7 @@ import time
 from datetime import datetime, timedelta
 from typing import Any
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 
 class LukhasTrustScorer:

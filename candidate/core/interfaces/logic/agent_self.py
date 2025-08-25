@@ -68,7 +68,7 @@ st.markdown("> A modular AGI interface designed to reflect, assist, and adapt.")
 # ─── Symbolic Identity Preview ────────────────────────────────────────────────
 if agent_enabled:
     try:
-        from core.lukhas_self import who_am_i
+        from candidate.core.lukhas_self import who_am_i
 
         st.success("🧠 Agent Online: " + who_am_i())
     except Exception as e:

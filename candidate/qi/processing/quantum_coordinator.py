@@ -11,7 +11,7 @@ import asyncio
 import logging
 from typing import Any, Optional
 
-from core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
+from candidate.core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
 from qi.bio.bio_optimizer import (
     MockBioOrchestrator,
     MockQIBioCoordinator,
@@ -227,7 +227,7 @@ class QIHub:
     def _register_bridge_services(self):
         """Register cross-system bridge services"""
         try:
-            from core.bridges.consciousness_quantum_bridge import (
+            from candidate.core.bridges.consciousness_quantum_bridge import (
                 get_consciousness_quantum_bridge,
             )
 
@@ -240,7 +240,7 @@ class QIHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from core.integration.service_discovery import (
+            from candidate.core.integration.service_discovery import (
                 get_service_discovery,
             )
 

@@ -9,7 +9,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # TAG:consciousness
 # TAG:states

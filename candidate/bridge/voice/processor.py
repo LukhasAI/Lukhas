@@ -17,7 +17,7 @@ from typing import Any, Optional, Union
 import pyttsx3
 import speech_recognition as sr
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 logger = get_logger(__name__)
 

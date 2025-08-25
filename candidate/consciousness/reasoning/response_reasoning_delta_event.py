@@ -41,7 +41,7 @@ during a response generation process.
 from typing_extensions import Literal
 
 # Initialize ΛTRACE logger for this module
-# AIMPORT_TODO: Verify the location of `_models.BaseModel`. The relative import `from core.models import BaseModel`
+# AIMPORT_TODO: Verify the location of `_models.BaseModel`. The relative import `from candidate.core.models import BaseModel`
 # suggests a dependency three levels up from the current `reasoning` directory.
 # This path might be fragile if the directory structure changes.
 # If `_models.BaseModel` is part of a core LUKHAS framework library, an absolute import
@@ -49,7 +49,7 @@ from typing_extensions import Literal
 # ΛCAUTION: An incorrect or fragile import path for a base model can lead to runtime errors
 # and hinder maintainability, especially if this auto-generated code is
 # part of a larger system.
-from core.models import (
+from candidate.core.models import (
     BaseModel,  # Assuming this path is correct within the project structure.
 )
 

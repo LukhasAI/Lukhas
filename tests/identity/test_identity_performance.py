@@ -27,9 +27,9 @@ governance_path = os.path.join(os.path.dirname(__file__), '..', '..', 'governanc
 sys.path.extend([identity_path, governance_path])
 
 try:
-    from lukhas.governance.identity.auth_backend.qr_entropy_generator import QREntropyGenerator
-    from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuth2OIDCProvider
-    from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnManager
+    from candidate.governance.identity.auth_backend.qr_entropy_generator import QREntropyGenerator
+    from candidate.governance.identity.core.auth.oauth2_oidc_provider import OAuth2OIDCProvider
+    from candidate.governance.identity.core.auth.webauthn_manager import WebAuthnManager
     from identity_core import AccessTier, IdentityCore
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -111,9 +111,9 @@ class TestIdentityPerformance:
     def webauthn_manager(self):
         """Create WebAuthn manager for performance testing"""
         config = {
-            'rp_id': 'perf.lukhas.ai',
+            'rp_id': 'perf.candidate.ai',
             'rp_name': 'LUKHAS Performance Test',
-            'origin': 'https://perf.lukhas.ai'
+            'origin': 'https://perf.candidate.ai'
         }
         return WebAuthnManager(config=config)
 
@@ -121,8 +121,8 @@ class TestIdentityPerformance:
     def oauth_provider(self):
         """Create OAuth provider for performance testing"""
         config = {
-            'issuer': 'https://perf.lukhas.ai',
-            'rp_id': 'perf.lukhas.ai'
+            'issuer': 'https://perf.candidate.ai',
+            'rp_id': 'perf.candidate.ai'
         }
         return OAuth2OIDCProvider(config=config)
 
@@ -293,7 +293,7 @@ class TestIdentityPerformance:
         num_iterations = 500
 
         # Pre-populate some credentials for authentication testing
-        from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnCredential
+        from candidate.governance.identity.core.auth.webauthn_manager import WebAuthnCredential
         for i in range(0, min(50, num_iterations), 5):  # Every 5th user gets credentials
             user_id = f'webauthn_user_{i:08d}'
             credential = WebAuthnCredential({
@@ -332,7 +332,7 @@ class TestIdentityPerformance:
         num_iterations = 300
 
         # Pre-register OAuth clients
-        from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
+        from candidate.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
         clients = []
         for i in range(10):  # 10 clients for testing
             client_data = {
@@ -388,7 +388,7 @@ class TestIdentityPerformance:
         num_iterations = 200
 
         # Pre-setup client
-        from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
+        from candidate.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
         client = OAuthClient({
             'client_id': 'token_perf_client',
             'client_secret': 'token_perf_secret',

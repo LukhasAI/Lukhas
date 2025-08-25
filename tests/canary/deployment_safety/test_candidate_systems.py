@@ -21,7 +21,7 @@ class TestFeatureFlags:
         if "UL_ENABLED" in os.environ:
             del os.environ["UL_ENABLED"]
 
-        from lukhas.candidate.ul import get_universal_language
+        from candidate.candidate.ul import get_universal_language
 
         ul = get_universal_language()
         assert ul.enabled == False
@@ -36,7 +36,7 @@ class TestFeatureFlags:
         if "VIVOX_LITE" in os.environ:
             del os.environ["VIVOX_LITE"]
 
-        from lukhas.candidate.vivox import get_vivox_system
+        from candidate.candidate.vivox import get_vivox_system
 
         vivox = get_vivox_system()
         assert vivox.enabled == False
@@ -51,7 +51,7 @@ class TestFeatureFlags:
         if "QIM_SANDBOX" in os.environ:
             del os.environ["QIM_SANDBOX"]
 
-        from lukhas.candidate.qim import get_qim_processor
+        from candidate.candidate.qim import get_qim_processor
 
         qim = get_qim_processor()
         assert qim.enabled == False
@@ -74,7 +74,7 @@ class TestUniversalLanguageEnabled:
 
     def test_ul_imports_when_enabled(self):
         """Test UL imports when enabled"""
-        from lukhas.candidate.ul import get_universal_language
+        from candidate.candidate.ul import get_universal_language
 
         ul = get_universal_language()
         assert ul is not None
@@ -86,7 +86,7 @@ class TestUniversalLanguageEnabled:
 
     def test_ul_glyph_parsing(self):
         """Test UL glyph parsing"""
-        from lukhas.candidate.ul import get_universal_language
+        from candidate.candidate.ul import get_universal_language
 
         ul = get_universal_language()
 
@@ -98,8 +98,8 @@ class TestUniversalLanguageEnabled:
 
     def test_ul_expression_generation(self):
         """Test UL expression generation"""
-        from lukhas.candidate.ul import get_universal_language
-        from lukhas.candidate.ul.core import ModalityType
+        from candidate.candidate.ul import get_universal_language
+        from candidate.candidate.ul.core import ModalityType
 
         ul = get_universal_language()
 
@@ -110,7 +110,7 @@ class TestUniversalLanguageEnabled:
 
     def test_ul_translation(self):
         """Test UL translation capabilities"""
-        from lukhas.candidate.ul import get_universal_language
+        from candidate.candidate.ul import get_universal_language
 
         ul = get_universal_language()
 
@@ -125,7 +125,7 @@ class TestUniversalLanguageEnabled:
 
     def test_ul_trinity_integration(self):
         """Test UL Trinity integration"""
-        from lukhas.candidate.ul import trinity_sync
+        from candidate.candidate.ul import trinity_sync
 
         sync_result = trinity_sync()
         assert sync_result['identity'] == '⚛️'
@@ -147,7 +147,7 @@ class TestVivoxEnabled:
 
     def test_vivox_imports_when_enabled(self):
         """Test VIVOX imports when enabled"""
-        from lukhas.candidate.vivox import get_vivox_system
+        from candidate.candidate.vivox import get_vivox_system
 
         vivox = get_vivox_system()
         assert vivox is not None
@@ -159,8 +159,8 @@ class TestVivoxEnabled:
 
     def test_vivox_experience_processing(self):
         """Test VIVOX experience processing"""
-        from lukhas.candidate.vivox import get_vivox_system
-        from lukhas.candidate.vivox.core import ExperienceType
+        from candidate.candidate.vivox import get_vivox_system
+        from candidate.candidate.vivox.core import ExperienceType
 
         vivox = get_vivox_system()
 
@@ -179,7 +179,7 @@ class TestVivoxEnabled:
 
     def test_vivox_optimization(self):
         """Test VIVOX intelligence optimization"""
-        from lukhas.candidate.vivox import get_vivox_system
+        from candidate.candidate.vivox import get_vivox_system
 
         vivox = get_vivox_system()
 
@@ -190,8 +190,8 @@ class TestVivoxEnabled:
 
     def test_vivox_consciousness_levels(self):
         """Test VIVOX consciousness level management"""
-        from lukhas.candidate.vivox import get_vivox_system
-        from lukhas.candidate.vivox.core import ExperienceType
+        from candidate.candidate.vivox import get_vivox_system
+        from candidate.candidate.vivox.core import ExperienceType
 
         vivox = get_vivox_system()
 
@@ -209,7 +209,7 @@ class TestVivoxEnabled:
 
     def test_vivox_trinity_integration(self):
         """Test VIVOX Trinity integration"""
-        from lukhas.candidate.vivox import trinity_sync
+        from candidate.candidate.vivox import trinity_sync
 
         sync_result = trinity_sync()
         assert sync_result['identity'] == '⚛️'
@@ -231,7 +231,7 @@ class TestQimEnabled:
 
     def test_qim_imports_when_enabled(self):
         """Test QIM imports when enabled"""
-        from lukhas.candidate.qim import get_qim_processor
+        from candidate.candidate.qim import get_qim_processor
 
         qim = get_qim_processor()
         assert qim is not None
@@ -243,7 +243,7 @@ class TestQimEnabled:
 
     def test_qim_superposition_creation(self):
         """Test QIM superposition creation"""
-        from lukhas.candidate.qim import get_qim_processor
+        from candidate.candidate.qim import get_qim_processor
 
         qim = get_qim_processor()
 
@@ -259,8 +259,8 @@ class TestQimEnabled:
 
     def test_qim_entanglement(self):
         """Test QIM quantum entanglement"""
-        from lukhas.candidate.qim import get_qim_processor
-        from lukhas.candidate.qim.core import EntanglementType
+        from candidate.candidate.qim import get_qim_processor
+        from candidate.candidate.qim.core import EntanglementType
 
         qim = get_qim_processor()
 
@@ -275,7 +275,7 @@ class TestQimEnabled:
 
     def test_qim_quantum_algorithms(self):
         """Test QIM quantum algorithms"""
-        from lukhas.candidate.qim import get_qim_processor
+        from candidate.candidate.qim import get_qim_processor
 
         qim = get_qim_processor()
 
@@ -292,7 +292,7 @@ class TestQimEnabled:
 
     def test_qim_quantum_tunneling(self):
         """Test QIM quantum tunneling"""
-        from lukhas.candidate.qim import get_qim_processor
+        from candidate.candidate.qim import get_qim_processor
 
         qim = get_qim_processor()
 
@@ -305,7 +305,7 @@ class TestQimEnabled:
 
     def test_qim_trinity_integration(self):
         """Test QIM Trinity integration"""
-        from lukhas.candidate.qim import trinity_sync
+        from candidate.candidate.qim import trinity_sync
 
         sync_result = trinity_sync()
         assert sync_result['identity'] == '⚛️'
@@ -330,9 +330,9 @@ class TestCandidateSystemIntegration:
 
     def test_all_candidate_systems_enabled(self):
         """Test all candidate systems can be enabled together"""
-        from lukhas.candidate.qim import get_qim_processor
-        from lukhas.candidate.ul import get_universal_language
-        from lukhas.candidate.vivox import get_vivox_system
+        from candidate.candidate.qim import get_qim_processor
+        from candidate.candidate.ul import get_universal_language
+        from candidate.candidate.vivox import get_vivox_system
 
         ul = get_universal_language()
         vivox = get_vivox_system()
@@ -345,9 +345,9 @@ class TestCandidateSystemIntegration:
 
     def test_trinity_sync_across_systems(self):
         """Test Trinity synchronization across all candidate systems"""
-        from lukhas.candidate.qim import trinity_sync as qim_sync
-        from lukhas.candidate.ul import trinity_sync as ul_sync
-        from lukhas.candidate.vivox import trinity_sync as vivox_sync
+        from candidate.candidate.qim import trinity_sync as qim_sync
+        from candidate.candidate.ul import trinity_sync as ul_sync
+        from candidate.candidate.vivox import trinity_sync as vivox_sync
 
         ul_result = ul_sync()
         vivox_result = vivox_sync()

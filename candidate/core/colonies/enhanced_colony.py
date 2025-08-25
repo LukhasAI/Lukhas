@@ -11,14 +11,14 @@ import uuid
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
-from orchestration.signals.homeostasis import HomeostasisController
+from candidate.orchestration.signals.homeostasis import HomeostasisController
 
 # Import our signal system
-from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Import base colony
 try:
-    from core.colonies.base_colony import BaseColony
+    from candidate.core.colonies.base_colony import BaseColony
 except ImportError:
     # Simplified base colony for now
 

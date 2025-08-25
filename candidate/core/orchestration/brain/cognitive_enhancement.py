@@ -143,7 +143,7 @@ def enhance_cognitive_core():
     """
     try:
         # Import the existing cognitive core
-        from orchestration.brain.cognitive_core import CognitiveEngine
+        from candidate.orchestration.brain.cognitive_core import CognitiveEngine
 
         # Add AGI enhancement methods to the CognitiveEngine class
 

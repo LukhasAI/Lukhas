@@ -94,7 +94,7 @@ async def initialize_agi_supremacy_modules() -> Dict[str, Any]:
 
     # 4. Breakthrough Detector V2
     try:
-        from core.consciousness.innovation.breakthrough_detector_v2 import (
+        from candidate.core.consciousness.innovation.breakthrough_detector_v2 import (
             BreakthroughDetectorV2,
         )
         breakthrough_detector_v2 = BreakthroughDetectorV2()
@@ -115,7 +115,7 @@ async def initialize_agi_supremacy_modules() -> Dict[str, Any]:
 
     # 5. Autonomous Innovation Orchestrator
     try:
-        from core.integration.innovation_orchestrator.autonomous_innovation_orchestrator import (
+        from candidate.core.integration.innovation_orchestrator.autonomous_innovation_orchestrator import (
             AutonomousInnovationOrchestrator,
         )
         innovation_orchestrator = AutonomousInnovationOrchestrator()

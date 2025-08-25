@@ -102,7 +102,7 @@ class MythicSystem(Enum):
 
 @dataclass
 class SymbolicElement:
-    """Represents a symbolic element extracted from core.common systems."""
+    """Represents a symbolic element extracted from candidate.core.common systems."""
 
     symbol: str
     source_file: str

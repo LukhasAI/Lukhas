@@ -51,7 +51,7 @@ import asyncio
 from datetime import datetime
 from typing import Any, Optional
 
-from bridge.openai_core_service import (
+from candidate.bridge.openai_core_service import (
     ModelType,
     OpenAICapability,
     OpenAICoreService,

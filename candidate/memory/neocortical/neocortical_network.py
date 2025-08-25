@@ -56,7 +56,7 @@ import numpy as np
 
 # Import LUKHAS components
 try:
-    from core.colonies.base_colony import BaseColony
+    from candidate.core.colonies.base_colony import BaseColony
     from memory.proteome.symbolic_proteome import ProteinType
 
     LUKHAS_AVAILABLE = True

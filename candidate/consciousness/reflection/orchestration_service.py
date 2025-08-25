@@ -44,9 +44,9 @@ All operations respect user consent, tier access, and LUKHAS identity requiremen
 
 # === CONSOLIDATED IMPORTS ===
 # from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
-# from core.common.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
-# from core.common.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
-# from core.common.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
+# from candidate.core.common.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
+# from candidate.core.common.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
+# from candidate.core.common.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
 # from MODULES_GOLDEN.bio.core import BioModule
 # from MODULES_GOLDEN.common.base_module import SymbolicLogger
 # from MODULES_GOLDEN.core.registry import core_registry
@@ -82,7 +82,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 # Import message bus for cross-module communication
 message_bus_available = True
 try:
-    from bridge.message_bus import (
+    from candidate.bridge.message_bus import (
         Message,
         MessageBus,
         MessagePriority,
@@ -95,7 +95,7 @@ except ImportError:
 # Import performance orchestrator for TODO #8 integration
 performance_orchestrator_available = True
 try:
-    from core.performance.performance_orchestrator import (
+    from candidate.core.performance.performance_orchestrator import (
         OptimizationStrategy,
         PerformanceOrchestrator,
         PerformanceStatus,

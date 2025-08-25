@@ -39,7 +39,7 @@ import random
 from datetime import datetime
 from typing import Any
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -50,7 +50,7 @@ MODULE_NAME = "voice_personality"
 
 # Import personality components
 try:
-    from core.personality.creative_expressions import NeuroHaikuGenerator
+    from candidate.core.personality.creative_expressions import NeuroHaikuGenerator
 
     HAIKU_AVAILABLE = True
 except ImportError:
@@ -60,7 +60,7 @@ except ImportError:
     )
 
 try:
-    from orchestration.brain.personality.personality_refiner import (
+    from candidate.orchestration.brain.personality.personality_refiner import (
         PersonalityRefiner,
     )
 
@@ -72,7 +72,7 @@ except ImportError:
     )
 
 try:
-    from orchestration.brain.orchestration.emotional_oscillator import (
+    from candidate.orchestration.brain.orchestration.emotional_oscillator import (
         EmotionalOscillator,
     )
 

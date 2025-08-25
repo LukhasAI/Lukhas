@@ -21,8 +21,8 @@ from flask import jsonify
 from flask import request
 
 # Import service registry to get learning service without circular dependency
-from orchestration.service_registry import get_service
-from orchestration.service_registry import ServiceNames
+from candidate.orchestration.service_registry import get_service
+from candidate.orchestration.service_registry import ServiceNames
 
 # Initialize logger for ΛTRACE using structlog
 # Assumes structlog is configured in a higher-level __init__.py (e.g., core/__init__.py)

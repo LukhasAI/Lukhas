@@ -9,7 +9,7 @@ import logging
 from datetime import datetime
 from typing import Any, Callable, Optional
 
-from core.event_bus import EventBus, get_global_event_bus
+from candidate.core.event_bus import EventBus, get_global_event_bus
 
 from .identity_event_types import (
     AuthenticationContext,

@@ -15,22 +15,22 @@ from core.colonies.consensus_mechanisms import (
     VoteType,
 )
 from core.colonies.enhanced_colony import EnhancedReasoningColony
-from lukhas.orchestration.gpt_colony_orchestrator import (
+from candidate.orchestration.gpt_colony_orchestrator import (
     GPTColonyOrchestrator,
     OrchestrationMode,
     OrchestrationTask,
 )
-from lukhas.orchestration.signals.homeostasis import HomeostasisController
+from candidate.orchestration.signals.homeostasis import HomeostasisController
 
 # Import all our new components
-from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 from symbolic.exchange.universal_exchange import (
     ExchangeProtocol,
     UniversalSymbolExchange,
 )
 from symbolic.personal.symbol_dictionary import GestureType, PersonalSymbolDictionary
 
-# from lukhas.orchestration.signals.feedback_cards import FeedbackCardSystem,
+# from candidate.orchestration.signals.feedback_cards import FeedbackCardSystem,
 # FeedbackCard  # TODO: implement
 
 

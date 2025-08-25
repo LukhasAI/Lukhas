@@ -26,7 +26,7 @@ from typing import Any, Optional, Union
 import numpy as np
 
 # Import logging
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -55,7 +55,7 @@ except ImportError:
 # Import memory system components
 try:
     # Import through interface to break circular dependency
-    from core.interfaces.memory_interface import get_test_module
+    from candidate.core.interfaces.memory_interface import get_test_module
 
     from ..consolidation.consolidation_orchestrator import (
         ConsolidationOrchestrator,

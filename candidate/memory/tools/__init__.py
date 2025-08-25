@@ -3,8 +3,8 @@ Tools Module
 Auto-generated module initialization file
 """
 
-from from from from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
-from core.common import get_logger
+from from from from candidate.core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+from candidate.core.common import get_logger
 
 logger = get_logger(__name__)
 

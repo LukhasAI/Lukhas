@@ -19,7 +19,7 @@ logger = structlog.get_logger(__name__)
 
 # Fix hardcoded plugin import with try/except
 try:
-    from core.lukhas_render_ai import generate_image as dalle_generate
+    from candidate.core.lukhas_render_ai import generate_image as dalle_generate
 except ImportError:
     logger.warning("LUKHAS_AGENT_PLUGIN not found, using placeholder function")
 

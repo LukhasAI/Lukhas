@@ -9,14 +9,14 @@ from pathlib import Path
 
 import pytest
 
-from lukhas.memory.dna_helix import (
+from candidate.memory.dna_helix import (
     DNAHealixCore,
     MemoryHelix,
     RepairMethod,
     SymbolicRepairLoop,
     SymbolicStrand,
 )
-from lukhas.memory.dna_helix.helix_vault import HelixVault
+from candidate.memory.dna_helix.helix_vault import HelixVault
 
 
 class TestSymbolicStrand:

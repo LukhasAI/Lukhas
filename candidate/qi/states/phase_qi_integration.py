@@ -34,9 +34,9 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://lukhas.ai/docs
 """
 
-from core.identity.identity_engine import QuantumIdentityEngine
-from core.integration.governance.__init__ import QuantumEthicsEngine
-from core.testing.plugin_test_framework import QuantumTestOracle
+from candidate.core.identity.identity_engine import QuantumIdentityEngine
+from candidate.core.integration.governance.__init__ import QuantumEthicsEngine
+from candidate.core.testing.plugin_test_framework import QuantumTestOracle
 from qi.quantum_processing_core import BaseOscillator
 from reasoning.symbolic_reasoning import SymbolicEngine
 from tools.documentation.symbolic_knowledge_core.knowledge_graph import (

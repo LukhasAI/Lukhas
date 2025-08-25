@@ -18,7 +18,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from core.interfaces.voice.core.sayit import (
+from candidate.core.interfaces.voice.core.sayit import (
     trace_tools,  # assuming trace_tools.py is importable
 )
 

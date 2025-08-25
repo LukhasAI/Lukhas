@@ -16,7 +16,7 @@ from typing import Any, Optional
 
 import aiofiles
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from .dna_healix import (
     MemoryHelix,

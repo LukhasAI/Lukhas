@@ -20,7 +20,7 @@ logger = logging.getLogger("BotAGISystem")
 
 # Import the new Lukhas AGI Orchestrator
 try:
-    # SYNTAX_ERROR_FIXED:     from orchestration.brain.lukhas_agi_orchestrator
+    # SYNTAX_ERROR_FIXED:     from candidate.orchestration.brain.lukhas_agi_orchestrator
     # import orchestration.brain.lukhas_agi_orchestrator, LukhasAGIConfig
     AGI_ORCHESTRATOR_AVAILABLE = True
     logger.info(" Lukhas AGI Orchestrator available")

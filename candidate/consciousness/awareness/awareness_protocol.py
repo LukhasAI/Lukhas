@@ -19,7 +19,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Module imports
 from .bio_symbolic_awareness_adapter import BioSymbolicAwarenessAdapter
@@ -417,7 +417,7 @@ class LUKHASAwarenessProtocol:
 # LOGGING: ΛTRACE_ENABLED using hierarchical loggers for protocol operations.
 # AUTHENTICATION: Takes user_id as input. Tier checks are conceptual placeholders.
 # HOW TO USE:
-#   from core.advanced.brain.awareness.lukhas_awareness_protocol import LUKHASAwarenessProtocol
+#   from candidate.core.advanced.brain.awareness.lukhas_awareness_protocol import LUKHASAwarenessProtocol
 #   # Assuming symbolic_tracer and memory_ctx are available instances:
 #   protocol = LUKHASAwarenessProtocol(user_id="test_user", session_data={"timestamp": datetime.utcnow().isoformat()},
 #                                     symbolic_trace_engine=symbolic_tracer, memory_context=memory_ctx)

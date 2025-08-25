@@ -65,7 +65,7 @@ def record_feedback(
 """
 ──────────────────────────────────────────────────────────────────────────────────────
 USAGE:
-    from core.modules.nias.feedback_loop import record_feedback
+    from candidate.core.modules.nias.feedback_loop import record_feedback
 
     record_feedback(
         message_id="msg_2025_001",

@@ -15,10 +15,10 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parents[1]))
 
-from lukhas.identity.lambda_id import authenticate
-from lukhas.governance.consent_ledger import record_consent
-from lukhas.orchestration.context import handoff_context
-from lukhas.core.core_wrapper import decide
+from candidate.identity.lambda_id import authenticate
+from candidate.governance.consent_ledger import record_consent
+from candidate.orchestration.context import handoff_context
+from candidate.core.core_wrapper import decide
 
 
 @pytest.mark.e2e
@@ -113,7 +113,7 @@ def test_trinity_framework_integration():
     - Consciousness (🧠): Awareness and processing
     - Guardian (🛡️): Ethics and safety
     """
-    from lukhas.core.core_wrapper import create_trinity_glyph, get_core_status
+    from candidate.core.core_wrapper import create_trinity_glyph, get_core_status
     
     # Test Trinity glyph creation
     trinity_glyph = create_trinity_glyph(emphasis="balanced", mode="dry_run")

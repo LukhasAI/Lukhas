@@ -38,8 +38,8 @@ class NIASDreamBridge:
         """Establish connection between NIAS and Dream systems"""
         try:
             # Get system hubs
-            from core.modules.nias.nias_hub import get_nias_hub
-            from orchestration.dream.dream_hub import get_dream_hub
+            from candidate.core.modules.nias.nias_hub import get_nias_hub
+            from candidate.orchestration.dream.dream_hub import get_dream_hub
 
             self.nias_hub = get_nias_hub()
             self.dream_hub = get_dream_hub()

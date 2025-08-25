@@ -20,7 +20,7 @@ from typing import Optional
 from lukhas.core.swarm import SwarmHub
 from ethics.core.shared_ethics_engine import SharedEthicsEngine
 from ethics.seedra.seedra_core import SEEDRACore
-from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 from symbolic.core.symbolic_language import SymbolicLanguageFramework
 
 

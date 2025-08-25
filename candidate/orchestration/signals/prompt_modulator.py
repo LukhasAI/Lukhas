@@ -12,7 +12,7 @@ from typing import Any, Dict, List, Optional
 
 import yaml
 
-from orchestration.signals.signal_bus import Signal
+from candidate.orchestration.signals.signal_bus import Signal
 
 logger = logging.getLogger(__name__)
 

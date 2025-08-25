@@ -13,13 +13,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 def test_colony_imports():
     """Test that colony modules can be imported"""
-    from lukhas.accepted import colonies
+    from candidate.accepted import colonies
     assert colonies is not None
     assert hasattr(colonies, '__trinity__')
 
 def test_colony_registry():
     """Test colony registry functionality"""
-    from lukhas.accepted.colonies.base import get_colony_registry
+    from candidate.accepted.colonies.base import get_colony_registry
 
     registry = get_colony_registry()
     assert registry is not None
@@ -34,7 +34,7 @@ def test_colony_registry():
 
 def test_governance_colony():
     """Test governance colony operations"""
-    from lukhas.accepted.colonies.governance import get_governance_colony
+    from candidate.accepted.colonies.governance import get_governance_colony
 
     colony = get_governance_colony()
     assert colony.name == "governance"
@@ -63,7 +63,7 @@ def test_governance_colony():
 
 def test_reasoning_colony():
     """Test reasoning colony operations"""
-    from lukhas.accepted.colonies.reasoning import get_reasoning_colony
+    from candidate.accepted.colonies.reasoning import get_reasoning_colony
 
     colony = get_reasoning_colony()
     assert colony.name == "reasoning"
@@ -89,7 +89,7 @@ def test_reasoning_colony():
 
 def test_memory_colony():
     """Test memory colony operations"""
-    from lukhas.accepted.colonies.memory import get_memory_colony
+    from candidate.accepted.colonies.memory import get_memory_colony
 
     colony = get_memory_colony()
     assert colony.name == "memory"
@@ -105,7 +105,7 @@ def test_memory_colony():
 
 def test_consciousness_colony():
     """Test consciousness colony operations"""
-    from lukhas.accepted.colonies.consciousness import get_consciousness_colony
+    from candidate.accepted.colonies.consciousness import get_consciousness_colony
 
     colony = get_consciousness_colony()
     assert colony.name == "consciousness"
@@ -122,7 +122,7 @@ def test_consciousness_colony():
 
 def test_orchestrator_colony():
     """Test orchestrator colony coordination"""
-    from lukhas.accepted.colonies.orchestrator import get_orchestrator_colony
+    from candidate.accepted.colonies.orchestrator import get_orchestrator_colony
 
     orchestrator = get_orchestrator_colony()
     assert orchestrator.name == "orchestrator"
@@ -138,9 +138,9 @@ def test_orchestrator_colony():
 
 def test_multi_colony_workflow():
     """Test workflow across multiple colonies"""
-    from lukhas.accepted.colonies.governance import get_governance_colony
-    from lukhas.accepted.colonies.memory import get_memory_colony
-    from lukhas.accepted.colonies.orchestrator import get_orchestrator_colony
+    from candidate.accepted.colonies.governance import get_governance_colony
+    from candidate.accepted.colonies.memory import get_memory_colony
+    from candidate.accepted.colonies.orchestrator import get_orchestrator_colony
 
     # Ensure colonies are initialized
     governance = get_governance_colony()
@@ -174,7 +174,7 @@ def test_multi_colony_workflow():
 
 def test_trinity_integration():
     """Test Trinity Framework integration across colonies"""
-    from lukhas.accepted.colonies import trinity_sync
+    from candidate.accepted.colonies import trinity_sync
 
     sync_result = trinity_sync()
     assert sync_result['identity'] == '⚛️'
@@ -185,7 +185,7 @@ def test_trinity_integration():
 
 def test_task_routing():
     """Test task routing through registry"""
-    from lukhas.accepted.colonies.base import get_colony_registry
+    from candidate.accepted.colonies.base import get_colony_registry
 
     registry = get_colony_registry()
 

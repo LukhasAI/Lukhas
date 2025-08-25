@@ -15,7 +15,7 @@ from typing import Any, Dict, List, Optional
 
 import structlog
 
-from orchestration.signals.signal_bus import (
+from candidate.orchestration.signals.signal_bus import (
     Signal,
     SignalBus,
     SignalType,

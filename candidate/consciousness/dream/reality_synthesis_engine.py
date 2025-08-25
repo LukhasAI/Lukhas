@@ -21,10 +21,10 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List
 
-from core.common import GLYPHToken, get_logger
-from core.common.exceptions import LukhasError
-from core.interfaces import CoreInterface
-from core.interfaces.dependency_injection import register_service
+from candidate.core.common import GLYPHToken, get_logger
+from candidate.core.common.exceptions import LukhasError
+from candidate.core.interfaces import CoreInterface
+from candidate.core.interfaces.dependency_injection import register_service
 
 logger = get_logger(__name__)
 

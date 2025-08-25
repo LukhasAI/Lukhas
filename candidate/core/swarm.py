@@ -17,9 +17,9 @@ from lukhas.core.minimal_actor import Actor
 
 # Import enhanced implementations for better functionality
 try:
-    from core.enhanced_swarm import EnhancedColony as AgentColonyEnhanced
-    from core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgentEnhanced
-    from core.enhanced_swarm import EnhancedSwarmHub as SwarmHubEnhanced
+    from candidate.core.enhanced_swarm import EnhancedColony as AgentColonyEnhanced
+    from candidate.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgentEnhanced
+    from candidate.core.enhanced_swarm import EnhancedSwarmHub as SwarmHubEnhanced
 
     ENHANCED_AVAILABLE = True
 except ImportError:

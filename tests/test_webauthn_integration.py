@@ -6,7 +6,7 @@ without requiring the full WebAuthn implementation to be active.
 """
 import os
 import pytest
-from lukhas.identity import lambda_id
+from candidate.identity import lambda_id
 
 
 class TestWebAuthnIntegration:

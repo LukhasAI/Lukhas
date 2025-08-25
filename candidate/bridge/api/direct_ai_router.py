@@ -25,13 +25,13 @@ from typing import used
 from typing import useful
 
 # ΛTAG: core, router, config
-from core.common.config import config
+from candidate.core.common.config import config
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.core.direct_ai_router")
 logger.info("ΛTRACE: Initializing direct_ai_router module.")
 
-# ΛCORE: Configuration now loaded from core.config instead of hardcoded defaults
+# ΛCORE: Configuration now loaded from candidate.core.config instead of hardcoded defaults
 # TODO: Legacy constants kept for backward compatibility
 DEFAULT_ROUTER_PATH = config.ai_router_path
 DEFAULT_PYTHON_PATH = config.python_path
@@ -329,7 +329,7 @@ if __name__ == "__main__":
 # LOGGING: ΛTRACE_ENABLED for router initialization, request routing, and availability checks.
 # AUTHENTICATION: Not applicable directly; authentication is handled by the external AI router.
 # HOW TO USE:
-#   from core.direct_ai_router import route_ai_request, is_ai_available
+#   from candidate.core.direct_ai_router import route_ai_request, is_ai_available
 #   if is_ai_available():
 #       response = route_ai_request("Translate 'hello' to Spanish.")
 #       print(response)

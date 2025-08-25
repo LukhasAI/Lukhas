@@ -56,9 +56,9 @@ except ImportError:
 
 
 try:
-    from core.unified.bio_signals import QuantumBioOscillator
-    from core.unified.integration import UnifiedIntegration
-    from core.unified.orchestration import BioOrchestrator
+    from candidate.core.unified.bio_signals import QuantumBioOscillator
+    from candidate.core.unified.integration import UnifiedIntegration
+    from candidate.core.unified.orchestration import BioOrchestrator
 except ImportError:
     # Create placeholders if the modules don't exist
     class BioOrchestrator:

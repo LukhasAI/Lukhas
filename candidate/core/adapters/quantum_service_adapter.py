@@ -90,7 +90,7 @@ class QIServiceAdapter(IQuantumService):
 
 def register_quantum_service(container) -> None:
     """Register quantum service with container"""
-    from core.interfaces.services import IQuantumService
+    from candidate.core.interfaces.services import IQuantumService
 
     container.register(
         IQuantumService,

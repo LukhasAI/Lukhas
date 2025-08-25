@@ -55,7 +55,7 @@ from uuid import uuid4
 
 # Import LUKHAS components
 try:
-    from core.symbolism.tags import TagScope
+    from candidate.core.symbolism.tags import TagScope
     from memory.integrity.collapse_hash import IntegrityStatus
     from memory.persistence.orthogonal_persistence import OrthogonalPersistence
     from memory.proteome.symbolic_proteome import (

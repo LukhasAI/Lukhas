@@ -13,21 +13,21 @@ from datetime import datetime
 from typing import Any, Optional
 
 try:
-    from core.bio_symbolic_swarm_hub import BioSymbolicSwarmHub
-    from core.cluster_sharding import ShardManager
-    from core.core_system import LukhasCore
-    from core.enhanced_swarm import EnhancedSwarmHub
+    from candidate.core.bio_symbolic_swarm_hub import BioSymbolicSwarmHub
+    from candidate.core.cluster_sharding import ShardManager
+    from candidate.core.core_system import LukhasCore
+    from candidate.core.enhanced_swarm import EnhancedSwarmHub
 
     # Agent 1 Task 2: Add event replay and snapshot system imports
-    from core.event_replay_snapshot import (
+    from candidate.core.event_replay_snapshot import (
         ActorStateSnapshot,
         Event,
         EventStore,
         EventType,
         SnapshotStore,
     )
-    from core.id import LukhosIDManager
-    from core.integrator import (
+    from candidate.core.id import LukhosIDManager
+    from candidate.core.integrator import (
         BioOrchestrator,
         CoreMessageType,
         EnhancedCoreConfig,
@@ -35,14 +35,14 @@ try:
     )
 
     # Agent 1 Task 5: Add resource efficiency analyzer imports
-    from core.resource_efficiency_analyzer import (
+    from candidate.core.resource_efficiency_analyzer import (
         EfficiencyReport,
         ResourceEfficiencyAnalyzer,
         ResourceSnapshot,
         ResourceTrend,
         ResourceType,
     )
-    from core.swarm import SwarmHub
+    from candidate.core.swarm import SwarmHub
 except Exception as e:
     logging.error(f"Failed to import LUKHΛS CORE components: {e}")
     SwarmHub = object
@@ -80,13 +80,13 @@ from lukhas.core.bridges.core_safety_bridge import CoreSafetyBridge
 
 # Task 3A: Add connectivity imports
 try:
-    from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+    from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 except ImportError:
     TrioOrchestrator = None
     logging.warning("TrioOrchestrator not available")
 
 try:
-    from bridge.integration_bridge import IntegrationBridge
+    from candidate.bridge.integration_bridge import IntegrationBridge
 except ImportError:
     IntegrationBridge = None
     logging.warning("IntegrationBridge not available")
@@ -338,7 +338,7 @@ class CoreHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from core.integration.service_discovery import get_service_discovery
+            from candidate.core.integration.service_discovery import get_service_discovery
 
             discovery = get_service_discovery()
 
@@ -543,7 +543,7 @@ class CoreHub:
         import time
         import uuid
 
-        from core.event_replay_snapshot import Event, EventType
+        from candidate.core.event_replay_snapshot import Event, EventType
 
         # Convert string event_type to EventType enum if needed
         if isinstance(event_type, str):
@@ -592,7 +592,7 @@ class CoreHub:
             logger.warning("Snapshot store not available")
             return False
 
-        from core.event_replay_snapshot import ActorStateSnapshot
+        from candidate.core.event_replay_snapshot import ActorStateSnapshot
 
         try:
             snapshot = ActorStateSnapshot.create_from_actor(actor, event_id)

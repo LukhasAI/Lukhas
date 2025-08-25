@@ -18,8 +18,8 @@ import logging
 import time
 from typing import Any, Callable, Optional
 
-from orchestration.signal_router import route_signal
-from orchestration.signals import SignalType, SymbolicSignal
+from candidate.orchestration.signal_router import route_signal
+from candidate.orchestration.signals import SignalType, SymbolicSignal
 
 logger = logging.getLogger("SymbolicHandshake")
 

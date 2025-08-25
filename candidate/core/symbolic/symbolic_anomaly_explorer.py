@@ -233,7 +233,7 @@ class SymbolicAnomalyExplorer:
         self.drift_tracker = None
         if drift_integration:
             try:
-                from core.symbolic.drift.symbolic_drift_tracker import (
+                from candidate.core.symbolic.drift.symbolic_drift_tracker import (
                     SymbolicDriftTracker,
                 )
 

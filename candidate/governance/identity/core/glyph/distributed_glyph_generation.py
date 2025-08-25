@@ -19,8 +19,8 @@ import numpy as np
 from PIL import Image
 
 # Import colony infrastructure
-from core.colonies.base_colony import BaseColony
-from core.swarm import AgentState, SwarmAgent
+from candidate.core.colonies.base_colony import BaseColony
+from candidate.core.swarm import AgentState, SwarmAgent
 
 # Import identity components
 from governance.identity.core.events import (

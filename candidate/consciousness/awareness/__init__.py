@@ -17,7 +17,7 @@
 import logging
 
 # Module imports
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -69,7 +69,7 @@ __all__ = [
     "LucasAwarenessProtocol",
     "BioSymbolicAwarenessAdapter",
     "SymbolicTraceLogger",
-    # Add other names to be exported by 'from core.advanced.brain.awareness import *'
+    # Add other names to be exported by 'from candidate.core.advanced.brain.awareness import *'
 ]
 
 logger.info(
@@ -92,7 +92,7 @@ logger.info(
 # LOGGING: ΛTRACE_ENABLED via Python's logging module for package initialization and imports.
 # AUTHENTICATION: Not applicable at package initialization level.
 # HOW TO USE:
-#   from core.advanced.brain.awareness import LucasAwarenessProtocol
+#   from candidate.core.advanced.brain.awareness import LucasAwarenessProtocol
 #   awareness_protocol = LucasAwarenessProtocol()
 # INTEGRATION NOTES: This package is central to system self-monitoring and potentially
 #                    higher-level cognitive functions. Ensure all exported classes are stable.

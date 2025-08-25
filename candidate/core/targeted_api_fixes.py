@@ -238,7 +238,7 @@ def update_validation_script():
     # Fix import - add DistributedAIAgent import
     if (
         "DistributedAIAgent" in content
-        and "from core.integrated_system import" in content
+        and "from candidate.core.integrated_system import" in content
     ):
         # Import pattern already exists, make sure DistributedAIAgent is included
         import_pattern = r"from core\.core\.integrated_system import ([^\n]*)"
@@ -247,7 +247,7 @@ def update_validation_script():
             imports = match.group(1)
             if "DistributedAIAgent" not in imports:
                 return (
-                    f"from core.integrated_system import {imports}, DistributedAIAgent"
+                    f"from candidate.core.integrated_system import {imports}, DistributedAIAgent"
                 )
             return match.group(0)
 

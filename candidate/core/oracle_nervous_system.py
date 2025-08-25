@@ -210,7 +210,7 @@ class OracleNervousSystem:
     async def _initialize_oracle_colony(self):
         """Initialize the Oracle Colony integration."""
         try:
-            from core.colonies.oracle_colony import get_oracle_colony
+            from candidate.core.colonies.oracle_colony import get_oracle_colony
 
             self.oracle_colony = await get_oracle_colony()
             self.providers["oracle_colony"] = self.oracle_colony
@@ -467,7 +467,7 @@ class OracleNervousSystem:
         if not self.oracle_colony:
             raise RuntimeError("Oracle Colony not available")
 
-        from core.colonies.oracle_colony import OracleQuery
+        from candidate.core.colonies.oracle_colony import OracleQuery
 
         query = OracleQuery(
             query_type="prophecy",

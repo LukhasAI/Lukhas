@@ -22,7 +22,7 @@ import mimetypes
 import os.path
 from typing import Final, NamedTuple
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 # from streamlit.runtime.media_file_storage import (  # TODO: Install or
 # implement streamlit
     MediaFileKind,

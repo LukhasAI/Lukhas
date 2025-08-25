@@ -116,7 +116,7 @@ class XORMigration:
             "file": str(file_path),
             "patches": patches,
             "imports_needed": [
-                "from core.security.enhanced_crypto import get_encryption_manager"
+                "from candidate.core.security.enhanced_crypto import get_encryption_manager"
             ],
         }
 

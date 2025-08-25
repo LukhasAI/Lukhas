@@ -24,7 +24,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from core.lukhas_emotion_log import get_emotion_state
+from candidate.core.lukhas_emotion_log import get_emotion_state
 
 
 def synthesize_voice(text, tone=None, actor="Lukhas"):

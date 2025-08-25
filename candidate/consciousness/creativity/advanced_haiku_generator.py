@@ -58,7 +58,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Import LUKHAS AI branding system through centralized bridge
 try:

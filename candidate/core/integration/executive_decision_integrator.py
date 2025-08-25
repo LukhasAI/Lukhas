@@ -59,7 +59,7 @@ try:
     from dream.hyperspace_dream_simulator import HyperspaceDreamSimulator
 
     from lukhas.memory.privacy_preserving_memory_vault import PrivacyPreservingMemoryVault
-    from orchestration.human_in_the_loop_orchestrator import HumanInTheLoopOrchestrator
+    from candidate.orchestration.human_in_the_loop_orchestrator import HumanInTheLoopOrchestrator
     from reasoning.causal_program_inducer import CausalProgramInducer
 
     CEO_MODULES_AVAILABLE = True
@@ -73,7 +73,7 @@ except ImportError as e:
 
 # Import core Lukhas systems
 try:
-    from core.integration.dynamic_modality_broker import DynamicModalityBroker
+    from candidate.core.integration.dynamic_modality_broker import DynamicModalityBroker
     from ethics.meta_ethics_governor import MetaEthicsGovernor
     from ethics.self_reflective_debugger import SelfReflectiveDebugger
     from lukhas.memory.emotional import EmotionalMemory

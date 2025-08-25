@@ -55,6 +55,6 @@ def summarize_emotion_vector(ev):
 #
 # Example:
 #
-#    from core.utils.symbolic_utils import tier_label, summarize_emotion_vector
+#    from candidate.core.utils.symbolic_utils import tier_label, summarize_emotion_vector
 #
 # 🖤 These tools help Lukhas express symbolically what is hidden emotionally.

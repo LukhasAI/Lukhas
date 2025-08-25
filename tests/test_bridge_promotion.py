@@ -19,8 +19,8 @@ from typing import Dict, Any
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 try:
-    from lukhas.bridge import get_bridge_wrapper, get_bridge_status, BRIDGE_ACTIVE, BRIDGE_DRY_RUN
-    from lukhas.bridge.bridge_wrapper import (
+    from candidate.bridge import get_bridge_wrapper, get_bridge_status, BRIDGE_ACTIVE, BRIDGE_DRY_RUN
+    from candidate.bridge.bridge_wrapper import (
         BridgeWrapper, 
         ExternalServiceIntegration, 
         MultiModelOrchestrator
@@ -87,7 +87,7 @@ class TestBridgeFeatureFlags:
             pytest.skip("Bridge module not available")
         
         # Test manual activation (simulating env var)
-        from lukhas.bridge.bridge_wrapper import ExternalServiceIntegration
+        from candidate.bridge.bridge_wrapper import ExternalServiceIntegration
         integration = ExternalServiceIntegration()
         
         # Test activation
@@ -104,7 +104,7 @@ class TestBridgeFeatureFlags:
             pytest.skip("Bridge module not available")
         
         # Test manual production mode setting (simulating env var)
-        from lukhas.bridge.bridge_wrapper import ExternalServiceIntegration
+        from candidate.bridge.bridge_wrapper import ExternalServiceIntegration
         integration = ExternalServiceIntegration()
         
         # Test production mode
@@ -450,7 +450,7 @@ class TestBridgeSafetyMeasures:
 class TestBridgeObservability:
     """Test Bridge observability and monitoring"""
     
-    @patch('lukhas.bridge.bridge_wrapper.emit')
+    @patch('candidate.bridge.bridge_wrapper.emit')
     def test_bridge_emits_telemetry(self, mock_emit):
         """Test that Bridge emits telemetry events"""
         if not BRIDGE_AVAILABLE:
@@ -462,7 +462,7 @@ class TestBridgeObservability:
         # Should have emitted initialization events
         mock_emit.assert_called()
     
-    @patch('lukhas.bridge.bridge_wrapper.emit')
+    @patch('candidate.bridge.bridge_wrapper.emit')
     @pytest.mark.asyncio
     async def test_multi_model_telemetry(self, mock_emit):
         """Test multi-model query telemetry"""

@@ -20,16 +20,16 @@ import uuid
 from typing import Any
 from typing import Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Import relevant components
-from core.voice_profiling import VoiceProfile
-from core.voice_profiling import VoiceProfileManager
-from core.voice_safety_guard import VoiceSafetyFilter
+from candidate.core.voice_profiling import VoiceProfile
+from candidate.core.voice_profiling import VoiceProfileManager
+from candidate.core.voice_safety_guard import VoiceSafetyFilter
 
 # Import personality integration
 try:
-    from core.personality.voice_personality import VoicePersonalityIntegrator
+    from candidate.core.personality.voice_personality import VoicePersonalityIntegrator
 
     PERSONALITY_AVAILABLE = True
 except ImportError:
@@ -38,7 +38,7 @@ except ImportError:
 
 # Import memory helix for accent learning and word curiosity
 try:
-    from core.voice_memory_helix import VoiceMemoryHelix
+    from candidate.core.voice_memory_helix import VoiceMemoryHelix
 
     MEMORY_HELIX_AVAILABLE = True
 except ImportError:

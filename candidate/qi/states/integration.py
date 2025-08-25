@@ -44,7 +44,7 @@ import unittest
 import numpy as np
 
 from bio.symbolic import BioSymbolicOrchestrator as BioOrchestrator
-from core.bio_systems.quantum_inspired_layer import QIBioOscillator
+from candidate.core.bio_systems.quantum_inspired_layer import QIBioOscillator
 
 
 class TestQuantumIntegration(unittest.TestCase):

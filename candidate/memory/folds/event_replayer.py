@@ -16,8 +16,8 @@ from __future__ import annotations
 
 import json
 
-from core.common import get_logger
-from core.event_sourcing import AIAgentAggregate, Event, EventStore
+from candidate.core.common import get_logger
+from candidate.core.event_sourcing import AIAgentAggregate, Event, EventStore
 
 logger = get_logger(__name__)
 

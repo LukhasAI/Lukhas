@@ -55,7 +55,7 @@ try:
     from compliance_engine import ComplianceEngine
 
     # Utils and config
-    from core.orchestration.brain.config.settings import load_settings
+    from candidate.core.orchestration.brain.config.settings import load_settings
     from memory_manager import MemoryManager
     from voice.modulator import VoiceModulator
     from voice.safety.voice_safety_guard import VoiceSafetyGuard

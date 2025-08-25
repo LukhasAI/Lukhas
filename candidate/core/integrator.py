@@ -39,14 +39,14 @@ try:
     # ΛNOTE: Attempting to import core components. Placeholders used if imports fail.
     #        These imports suggest a dependency on a 'CORE' package structure.
     from bio.core import BioOrchestrator  # type: ignore
-    from core.bio_systems.quantum_layer import QuantumBioOscillator
-    from core.security.access_control import (
+    from candidate.core.bio_systems.quantum_layer import QuantumBioOscillator
+    from candidate.core.security.access_control import (
         AccessController,  # type: ignore
         AccessTier,
     )
-    from core.security.compliance import ComplianceMonitor  # type: ignore
-    from core.security.quantum_auth import QuantumAuthenticator  # type: ignore
-    from core.unified_integration import UnifiedIntegration  # type: ignore
+    from candidate.core.security.compliance import ComplianceMonitor  # type: ignore
+    from candidate.core.security.quantum_auth import QuantumAuthenticator  # type: ignore
+    from candidate.core.unified_integration import UnifiedIntegration  # type: ignore
 
     CORE_COMPONENTS_LOADED_FLAG_ECI = True
     log.debug(

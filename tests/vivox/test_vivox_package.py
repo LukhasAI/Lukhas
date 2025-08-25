@@ -18,7 +18,7 @@ async def test_package():
     print("\n1️⃣ Testing imports...")
     try:
         from vivox import ActionProposal, create_vivox_system
-        from lukhas.vivox.moral_alignment import MAEDecision
+        from candidate.vivox.moral_alignment import MAEDecision
 
         print("✅ Core imports successful")
     except Exception as e:
@@ -87,10 +87,10 @@ async def test_package():
     # Test 5: Check enhancements
     print("\n5️⃣ Testing enhancements...")
     try:
-        from lukhas.vivox.consciousness.state_variety_enhancement import (
+        from candidate.vivox.consciousness.state_variety_enhancement import (
             create_enhanced_state_determination,
         )
-        from lukhas.vivox.moral_alignment.decision_strictness_enhancement import (
+        from candidate.vivox.moral_alignment.decision_strictness_enhancement import (
             create_strict_decision_maker,
         )
 

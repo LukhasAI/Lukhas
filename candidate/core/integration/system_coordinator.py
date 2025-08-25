@@ -55,8 +55,8 @@ try:
         ConsciousnessIntegrator,
         IntegrationPriority,
     )
-    from core.identity.identity_manager import IdentityManager
-    from core.neural_architectures.neural_integrator import (
+    from candidate.core.identity.identity_manager import IdentityManager
+    from candidate.core.neural_architectures.neural_integrator import (
         NeuralContext,
         NeuralIntegrator,
         NeuralMode,
@@ -222,7 +222,7 @@ class SystemCoordinator:
             logger.info("Consciousness integrator initialized")
 
             # Initialize neural integrator
-            from core.neural_architectures.neural_integrator import NeuralIntegrator
+            from candidate.core.neural_architectures.neural_integrator import NeuralIntegrator
 
             self.neural_integrator = NeuralIntegrator()
             self.active_components["neural"] = True

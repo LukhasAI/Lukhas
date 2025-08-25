@@ -1770,7 +1770,7 @@ class SymbolicWeaver:
         # Thematic drift (low symbol/emotion continuity)
         thematic_drift = 1.0 - self._calculate_thematic_coherence(thread)
 
-        # Identity drift (deviation from core.common values)
+        # Identity drift (deviation from candidate.core.common values)
         identity_drift = 1.0 - thread.identity_alignment
 
         # Emotional drift (erratic emotional changes)

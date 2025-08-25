@@ -14,7 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 # Import the REAL LUKHAS components
-from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus, SymbolicEvent, dispatch, emit, subscribe
+from candidate.orchestration.symbolic_kernel_bus import SymbolicKernelBus, SymbolicEvent, dispatch, emit, subscribe
 
 
 class TestRealSymbolicKernelBus:

@@ -45,9 +45,9 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-# Try to import from core.common if available
+# Try to import from candidate.core.common if available
 try:
-    from core.common import get_logger
+    from candidate.core.common import get_logger
 
     logger = get_logger("consciousness")
 except ImportError:

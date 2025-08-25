@@ -19,11 +19,11 @@ from consciousness.reflection.openai_core_service import (
     OpenAIRequest,
     OpenAIResponse,
 )
-from orchestration.signals.homeostasis import HomeostasisController
-from orchestration.signals.modulator import PromptModulator
+from candidate.orchestration.signals.homeostasis import HomeostasisController
+from candidate.orchestration.signals.modulator import PromptModulator
 
 # Import modulation components
-from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 logger = logging.getLogger(__name__)
 

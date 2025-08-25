@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Add CORE to Python path
 sys.path.insert(0, str(Path(__file__).parent / "CORE"))

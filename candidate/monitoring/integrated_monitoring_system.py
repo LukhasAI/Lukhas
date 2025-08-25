@@ -18,10 +18,10 @@ from typing import Any, Dict, List, Optional
 
 import structlog
 
-from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 try:
-    from orchestration.signals.homeostasis_controller import (
+    from candidate.orchestration.signals.homeostasis_controller import (
         HomeostasisController,
         HomeostasisState,
     )

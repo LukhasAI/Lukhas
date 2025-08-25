@@ -40,7 +40,7 @@ class ConflictDetector:
 
     def __init__(self) -> None:
         try:
-            from orchestration.golden_trio import get_trio_orchestrator
+            from candidate.orchestration.golden_trio import get_trio_orchestrator
 
             self.orchestrator = get_trio_orchestrator()
         except Exception:

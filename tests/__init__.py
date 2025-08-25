@@ -20,7 +20,7 @@ __all__ = ["TestOrchestrator"]
 
 # Try to import real GuardianReflector, fallback to mock
 try:
-    from lukhas.governance.ethics.guardian_reflector import (
+    from candidate.governance.ethics.guardian_reflector import (
         GuardianReflector as RealGuardianReflector,
     )
 

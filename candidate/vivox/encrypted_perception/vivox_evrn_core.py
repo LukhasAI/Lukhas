@@ -14,7 +14,7 @@ from typing import Any, Optional, Union
 
 import numpy as np
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -155,7 +155,7 @@ class VIVOXEncryptedPerceptionNode:
         self.ethical_thresholds = self._initialize_ethical_thresholds()
 
         # Initialize sub-components
-        from core.interfaces.dependency_injection import get_service
+        from candidate.core.interfaces.dependency_injection import get_service
 
         from .ethical_perception import EthicalPerceptionFilter
         from .vector_encryption import PerceptualEncryptor

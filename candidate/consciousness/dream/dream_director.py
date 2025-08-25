@@ -1,6 +1,6 @@
 from typing import Any
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from .immersive_ingestion import dream_breath
 

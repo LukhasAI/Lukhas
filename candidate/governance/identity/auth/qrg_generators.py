@@ -37,7 +37,7 @@ from PIL import Image, ImageDraw
 try:
     from utils.cultural_safety_checker import CulturalSafetyChecker
 
-    from core.interfaces.as_agent.core.gatekeeper import (
+    from candidate.core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
     from governance.identity.auth.entropy_synchronizer import EntropySynchronizer

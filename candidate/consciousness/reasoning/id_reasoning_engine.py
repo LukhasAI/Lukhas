@@ -13,7 +13,7 @@ Compliance: EU AI Act, GDPR, US NIST AI Framework
 
 import hashlib
 import json
-from core.common import get_logger
+from candidate.core.common import get_logger
 import asyncio
 import uuid
 from datetime import datetime, timedelta

@@ -7,7 +7,7 @@ Common patterns for using the new kernel bus in LUKHΛS components.
 
 import time
 
-from orchestration.symbolic_kernel_bus import (
+from candidate.orchestration.symbolic_kernel_bus import (
     EventPriority,
     SymbolicEffect,
     kernel_bus,

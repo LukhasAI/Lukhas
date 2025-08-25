@@ -41,7 +41,7 @@ from typing import Any, Callable, Dict, List, Optional
 
 # Trinity Framework and LUKHAS integrations
 try:
-    from core.glyph.glyph_engine import GlyphEngine
+    from candidate.core.glyph.glyph_engine import GlyphEngine
 except ImportError:
     # Fallback for testing/development
     GlyphEngine = None

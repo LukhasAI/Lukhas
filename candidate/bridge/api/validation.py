@@ -36,7 +36,7 @@ logger.info("ΛTRACE: Initializing final_validation script.")
 current_script_path = Path(__file__).resolve()
 # Assuming this script is in 'core/', so 'core.automatic_testing_system' should be importable
 # If 'core' is not in PYTHONPATH, its parent directory might need to be added.
-# For this setup, direct import 'from .automatic_testing_system' or 'from core.automatic_testing_system'
+# For this setup, direct import 'from .automatic_testing_system' or 'from candidate.core.automatic_testing_system'
 # should work if the script is run correctly relative to the project structure.
 # We'll assume 'core' is part of a package or the parent is in sys.path for now.
 
@@ -61,16 +61,16 @@ async def main() -> bool:
         logger.info("-" * 30)
         ats_module_imported = False
         try:
-            # Explicitly import from core.automatic_testing_system
-            from core.automatic_testing_system import AutomaticTestingSystem
-            from core.automatic_testing_system import capture
-            from core.automatic_testing_system import TestOperation
+            # Explicitly import from candidate.core.automatic_testing_system
+            from candidate.core.automatic_testing_system import AutomaticTestingSystem
+            from candidate.core.automatic_testing_system import capture
+            from candidate.core.automatic_testing_system import TestOperation
 
             logger.info(
-                "ΛTRACE: Successfully imported components from core.automatic_testing_system."
+                "ΛTRACE: Successfully imported components from candidate.core.automatic_testing_system."
             )
             logger.info(
-                "✅ Successfully imported all autotest components from core.automatic_testing_system"
+                "✅ Successfully imported all autotest components from candidate.core.automatic_testing_system"
             )
             logger.info("   📋 Available: run(), watch(), report(), capture()")
             logger.info("   🏗️  Classes: AutomaticTestingSystem, TestOperation")

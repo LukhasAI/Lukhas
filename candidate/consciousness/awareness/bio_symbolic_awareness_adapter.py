@@ -17,7 +17,7 @@ from collections import deque
 from datetime import datetime
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 try:
     import numpy as np

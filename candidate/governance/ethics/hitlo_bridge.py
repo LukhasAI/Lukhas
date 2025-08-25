@@ -50,7 +50,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from ..orchestration_src.human_in_the_loop_orchestrator import (
     DecisionContext,

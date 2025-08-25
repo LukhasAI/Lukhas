@@ -48,7 +48,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)

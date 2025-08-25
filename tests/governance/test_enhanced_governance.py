@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 print("🧪 Testing Enhanced  Governance with Superior Ethics...")
 
 try:
-    from lukhas.governance.enhanced_guardian import EnhancedWorkspaceGuardian
+    from candidate.governance.enhanced_guardian import EnhancedWorkspaceGuardian
 
     print("✅ Enhanced governance modules imported successfully")
     enhanced_available = True
@@ -26,7 +26,7 @@ except ImportError as e:
     enhanced_available = False
 
     try:
-        from lukhas.governance._workspace_guardian import WorkspaceGuardian
+        from candidate.governance._workspace_guardian import WorkspaceGuardian
 
         print("✅ Basic governance available as fallback")
         basic_available = True

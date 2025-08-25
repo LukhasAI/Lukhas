@@ -4,7 +4,7 @@ import logging
 import sys
 from datetime import datetime
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Configure logging
 logging.basicConfig(

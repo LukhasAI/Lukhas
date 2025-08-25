@@ -2,7 +2,7 @@
 
 import os
 import pytest
-from lukhas.governance.consent_ledger import (
+from candidate.governance.consent_ledger import (
     record_consent,
     verify_consent,
     withdraw_consent

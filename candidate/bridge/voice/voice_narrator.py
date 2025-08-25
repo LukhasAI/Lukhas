@@ -17,8 +17,8 @@ DESCRIPTION:
 import json
 from pathlib import Path
 
-from core.common import get_logger
-from core.utils.symbolic_utils import summarize_emotion_vector, tier_label
+from candidate.core.common import get_logger
+from candidate.core.utils.symbolic_utils import summarize_emotion_vector, tier_label
 
 # Configure logging
 logger = get_logger(__name__)

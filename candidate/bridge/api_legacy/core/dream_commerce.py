@@ -85,7 +85,7 @@ except ImportError:
     ZKP_AVAILABLE = False
 
 try:
-    from core.event_bus import DreamEventType, get_global_event_bus
+    from candidate.core.event_bus import DreamEventType, get_global_event_bus
 
     EVENT_BUS_AVAILABLE = True
 except ImportError:

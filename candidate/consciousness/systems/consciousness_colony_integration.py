@@ -9,15 +9,15 @@ from typing import Any, Optional
 
 import numpy as np
 
-from bridge.shared_state import SharedStateManager
+from candidate.bridge.shared_state import SharedStateManager
 from consciousness.systems.engine import (
     LUKHASConsciousnessEngine,
 )
-from core.colonies.creativity_colony import CreativityColony
-from core.colonies.memory_colony import MemoryColony
-from core.colonies.reasoning_colony import ReasoningColony
-from core.common import get_logger
-from core.swarm import SwarmHub
+from candidate.core.colonies.creativity_colony import CreativityColony
+from candidate.core.colonies.memory_colony import MemoryColony
+from candidate.core.colonies.reasoning_colony import ReasoningColony
+from candidate.core.common import get_logger
+from candidate.core.swarm import SwarmHub
 
 logger = get_logger(__name__)
 

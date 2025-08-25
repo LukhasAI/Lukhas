@@ -46,8 +46,8 @@ DESCRIPTION:
 # AIMPORTS_START
 
 # AIMPORT_TODO: These imports are commented out in the original or point to future modules.
-# from core.utils.constants import *  # SYMBOLIC_TIERS, DEFAULT_TAGS, etc. (future)
-# from core.utils.symbolic_utils import *  # Tag helpers, emotion utilities (future)
+# from candidate.core.utils.constants import *  # SYMBOLIC_TIERS, DEFAULT_TAGS, etc. (future)
+# from candidate.core.utils.symbolic_utils import *  # Tag helpers, emotion utilities (future)
 # AIMPORTS_END
 
 # ΛCONFIG_START
@@ -108,7 +108,7 @@ log.info("context_builder_module_loaded")
 ──────────────────────────────────────────────────────────────────────────────────────
 EXECUTION: (Original Comments)
     - Import using:
-        from core.context.context_builder import build_user_context (Path might be core.interfaces.logic.context.context_builder)
+        from candidate.core.context.context_builder import build_user_context (Path might be core.interfaces.logic.context.context_builder)
 
 USED BY: (Original Comments)
     - nias_core.py

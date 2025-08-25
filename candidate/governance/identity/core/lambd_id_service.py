@@ -34,7 +34,7 @@ from enum import Enum, IntEnum
 from pathlib import Path
 from typing import Any, Optional, Union
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

@@ -2,7 +2,7 @@
 import importlib
 from pathlib import Path
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # TAG:bridge
 # TAG:protocols

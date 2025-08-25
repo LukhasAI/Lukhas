@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 from reasoning.adaptive_reasoning_loop import (
     AdaptiveReasoningLoop,
     ReasoningContext,

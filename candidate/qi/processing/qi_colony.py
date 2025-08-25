@@ -12,9 +12,9 @@ from typing import Any
 import numpy as np
 
 from bio.oscillator import PrimeOscillator
-from core.colonies.base_colony import BaseColony
-from core.efficient_communication import MessagePriority
-from core.swarm import SwarmAgent
+from candidate.core.colonies.base_colony import BaseColony
+from candidate.core.efficient_communication import MessagePriority
+from candidate.core.swarm import SwarmAgent
 from qi.quantum_layer import QIBioOscillator
 
 logger = logging.getLogger(__name__)

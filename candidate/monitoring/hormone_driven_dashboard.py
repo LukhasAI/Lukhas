@@ -15,7 +15,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import structlog
 
-from orchestration.signals.signal_bus import SignalBus
+from candidate.orchestration.signals.signal_bus import SignalBus
 
 # Support both package and direct module execution import styles
 try:
@@ -145,7 +145,7 @@ class HormoneDrivenDashboard:
         # Lazy import for global bus getter to avoid circulars
         if signal_bus is None:
             try:
-                from orchestration.signals.signal_bus import get_signal_bus as _get_bus
+                from candidate.orchestration.signals.signal_bus import get_signal_bus as _get_bus
 
                 signal_bus = _get_bus()
             except Exception:

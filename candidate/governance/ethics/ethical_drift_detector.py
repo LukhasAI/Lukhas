@@ -29,7 +29,7 @@ from typing import Any, Optional
 
 import yaml
 
-from core.symbolic.symbolic_tracer import (
+from candidate.core.symbolic.symbolic_tracer import (
     SymbolicTracer,  # CLAUDE_EDIT_v0.1: Updated import path
 )
 

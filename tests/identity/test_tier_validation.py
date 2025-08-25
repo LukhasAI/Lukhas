@@ -24,7 +24,7 @@ try:
     from identity.core.tier_system import AccessTier, IdentityCore
 except ImportError:
     try:
-        from lukhas.governance.identity.core.tier.tier_system import AccessTier, IdentityCore
+        from candidate.governance.identity.core.tier.tier_system import AccessTier, IdentityCore
     except ImportError:
         # Create mock classes for testing
         from enum import Enum

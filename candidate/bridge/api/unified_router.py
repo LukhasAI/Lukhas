@@ -12,7 +12,7 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Import LUKHAS AI branding system for API responses
 try:

@@ -86,7 +86,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Initialize logger for consciousness tracing
 logger = logging.getLogger("ΛTRACE.consciousness.engine")

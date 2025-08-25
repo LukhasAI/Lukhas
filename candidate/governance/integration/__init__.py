@@ -40,7 +40,7 @@ logger.info("ΛTRACE: core.integration.governance package initialized.", exports
 # LOGGING: ΛTRACE_ENABLED via structlog.
 # AUTHENTICATION: Not applicable.
 # HOW TO USE:
-#   from core.integration.governance import PolicyBoardConnector # Example
+#   from candidate.core.integration.governance import PolicyBoardConnector # Example
 # INTEGRATION NOTES: Connects core AGI to governance and ethics layers.
 #                    May involve #ΛEXTERNAL interfaces to compliance systems.
 # MAINTENANCE: Update __all__ as components are added/refactored.

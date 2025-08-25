@@ -190,7 +190,7 @@ class GlobalSystemInitializer:
     async def _cross_register_services(self):
         """Perform cross-hub service registration"""
         try:
-            from core.integration.service_discovery import get_service_discovery
+            from candidate.core.integration.service_discovery import get_service_discovery
 
             discovery = get_service_discovery()
 
@@ -273,7 +273,7 @@ async def initialize_with_safety() -> dict[str, Any]:
 
     # Initialize safety first
     try:
-        from core.safety.safety_hub import get_safety_hub
+        from candidate.core.safety.safety_hub import get_safety_hub
 
         safety_hub = get_safety_hub()
         (await safety_hub.initialize() if hasattr(safety_hub, "initialize") else None)

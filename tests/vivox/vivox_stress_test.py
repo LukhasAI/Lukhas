@@ -16,8 +16,8 @@ from datetime import datetime, timedelta
 import numpy as np
 
 from vivox import ActionProposal, PotentialState, create_vivox_system
-from lukhas.vivox.consciousness.vivox_cil_core import SimulationBranch
-from lukhas.vivox.self_reflection.vivox_srm_core import CollapseLogEntry, SuppressionRecord
+from candidate.vivox.consciousness.vivox_cil_core import SimulationBranch
+from candidate.vivox.self_reflection.vivox_srm_core import CollapseLogEntry, SuppressionRecord
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 

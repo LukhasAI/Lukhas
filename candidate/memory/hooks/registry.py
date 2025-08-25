@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from enum import IntEnum
 from typing import Optional
 
-from core.common import LukhasError, get_logger
+from candidate.core.common import LukhasError, get_logger
 
 from .base import HookExecutionError, MemoryHook, MemoryItem
 

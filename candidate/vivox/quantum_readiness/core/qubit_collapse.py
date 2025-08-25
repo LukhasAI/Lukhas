@@ -11,7 +11,7 @@ from typing import Any
 
 import numpy as np
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from .quantum_substrate import QIState, QIStateType
 

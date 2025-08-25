@@ -8,8 +8,8 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-from core.common.config import config
-from core.common.config import (
+from candidate.core.common.config import config
+from candidate.core.common.config import (
     LukhasConfig,  # Import LukhasConfig for type hinting if needed
 )
 
@@ -89,7 +89,7 @@ logger.info(
 # LOGGING: ΛTRACE_ENABLED for initialization and function calls.
 # AUTHENTICATION: Not applicable.
 # HOW TO USE:
-#   from core.config_manager import config, get_config
+#   from candidate.core.config_manager import config, get_config
 #   current_cfg = get_config()
 #   # Direct use of 'config' is often preferred:
 #   # print(config.openai_api_key)

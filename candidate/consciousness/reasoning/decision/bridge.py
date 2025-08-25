@@ -58,12 +58,12 @@ import uuid
 
 # Import Lukhas core components
 try:
-    from core.integration.neuro_symbolic_fusion_layer import NeuroSymbolicFusionLayer
-    from core.utils.orchestration_energy_aware_execution_planner import EnergyAwareExecutionPlanner
+    from candidate.core.integration.neuro_symbolic_fusion_layer import NeuroSymbolicFusionLayer
+    from candidate.core.utils.orchestration_energy_aware_execution_planner import EnergyAwareExecutionPlanner
     from lukhas.memory.governance.ethical_drift_governor import EthicalDriftGovernor
     from reasoning.symbolic_reasoning import SymbolicEngine
 except ImportError as e:
-from from from from core.common import get_logger
+from from from from candidate.core.common import get_logger
 
 
 class DecisionType(Enum):

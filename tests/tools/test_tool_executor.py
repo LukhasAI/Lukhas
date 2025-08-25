@@ -12,7 +12,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from lukhas.tools.tool_executor import get_tool_executor
+from candidate.tools.tool_executor import get_tool_executor
 
 load_dotenv()
 sys.path.insert(0, str(Path.cwd()))

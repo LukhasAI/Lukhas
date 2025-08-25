@@ -21,7 +21,7 @@ from lukhas.core.security.security_integration import get_security_integration
 
 # Import core LUKHAS modules (with fallback for missing modules)
 try:
-    from core.symbolic.symbolic_reasoning import SymbolicEngine
+    from candidate.core.symbolic.symbolic_reasoning import SymbolicEngine
 except ImportError:
 
     class SymbolicEngine:
@@ -34,7 +34,7 @@ except ImportError:
 
 
 try:
-    from orchestration.brain.primary_hub import CoordinationManager
+    from candidate.orchestration.brain.primary_hub import CoordinationManager
 except ImportError:
 
     class CoordinationManager:

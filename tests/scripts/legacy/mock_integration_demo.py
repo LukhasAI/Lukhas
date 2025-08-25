@@ -10,11 +10,11 @@ import time
 import uuid
 from pathlib import Path
 
-from lukhas.audit.store import audit_log_write
-from lukhas.audit.tool_analytics import get_analytics
-from lukhas.feedback.store import record_feedback
-from lukhas.openai.tooling import build_tools_from_allowlist
-from lukhas.orchestration.signals.homeostasis import ModulationParams
+from candidate.audit.store import audit_log_write
+from candidate.audit.tool_analytics import get_analytics
+from candidate.feedback.store import record_feedback
+from candidate.openai.tooling import build_tools_from_allowlist
+from candidate.orchestration.signals.homeostasis import ModulationParams
 
 # Add project root to path
 project_root = Path(__file__).parent
@@ -317,7 +317,7 @@ def main():
 
     print(f"\n{BLUE}View Results:{RESET}")
     print("Start the API server to view audit bundles:")
-    print("  uvicorn lukhas.api.app:app --reload\n")
+    print("  uvicorn candidate.api.app:app --reload\n")
 
     for audit_id in audit_ids:
         print(f"  http://127.0.0.1:8000/audit/view/{audit_id}")

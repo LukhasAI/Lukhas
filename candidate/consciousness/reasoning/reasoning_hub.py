@@ -51,7 +51,7 @@ class ReasoningHub:
     async def _register_with_service_discovery(self) -> None:
         """Register services globally for cross-hub access"""
         try:
-            from core.integration.service_discovery import (
+            from candidate.core.integration.service_discovery import (
                 get_service_discovery,
             )
 

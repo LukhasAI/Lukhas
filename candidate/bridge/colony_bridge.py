@@ -1,8 +1,8 @@
 import asyncio
 from typing import Any, Callable, Optional
 
-from bridge.message_bus import MessageBus
-from core.colonies.base_colony import BaseColony
+from candidate.bridge.message_bus import MessageBus
+from candidate.core.colonies.base_colony import BaseColony
 
 
 class InterColonyBridge:

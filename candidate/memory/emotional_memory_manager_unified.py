@@ -25,8 +25,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-from core.identity_integration import require_identity
-from core.tier_unification_adapter import (
+from candidate.core.identity_integration import require_identity
+from candidate.core.tier_unification_adapter import (
     emotional_tier_required,
     get_unified_adapter,
 )

@@ -79,12 +79,12 @@ except ImportError:
     ComplianceEngine = None
 
 try:
-    from core.module_registry import ModuleRegistry
+    from candidate.core.module_registry import ModuleRegistry
 except ImportError:
     ModuleRegistry = None
 
 try:
-    from core.bio_systems.bio_core import BioCore
+    from candidate.core.bio_systems.bio_core import BioCore
 except ImportError:
     BioCore = None
 

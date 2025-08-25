@@ -56,7 +56,7 @@ except ImportError:
 
 # Import collapse tracker for integration
 try:
-    from core.monitoring.collapse_tracker import get_global_tracker
+    from candidate.core.monitoring.collapse_tracker import get_global_tracker
 except ImportError:
     get_global_tracker = None
     logger.warning("Collapse tracker not available")

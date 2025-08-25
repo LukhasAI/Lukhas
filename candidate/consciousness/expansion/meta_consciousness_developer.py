@@ -9,7 +9,7 @@ import logging
 from dataclasses import dataclass
 from typing import Any, Dict, List
 
-from core.interfaces import CoreInterface
+from candidate.core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)
 

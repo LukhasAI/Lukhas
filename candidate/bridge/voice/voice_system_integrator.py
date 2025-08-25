@@ -13,7 +13,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-from core.interfaces.voice.core.sayit import VoiceProfile, VoiceProfileManager
+from candidate.core.interfaces.voice.core.sayit import VoiceProfile, VoiceProfileManager
 
 # Import voice systems
 from voice.synthesis import VoiceSynthesis

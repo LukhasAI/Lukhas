@@ -190,8 +190,8 @@ class DashboardColonyAgent(BaseColony):
         """Connect to core LUKHAS AI systems."""
         try:
             # Import and connect to systems (avoiding circular imports)
-            from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
-            from core.oracle_nervous_system import get_oracle_nervous_system
+            from candidate.core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
+            from candidate.core.oracle_nervous_system import get_oracle_nervous_system
 
             self.oracle_nervous_system = await get_oracle_nervous_system()
             self.ethics_swarm = await get_ethics_swarm_colony()

@@ -55,7 +55,7 @@ import numpy as np
 
 # Import LUKHAS components
 try:
-    from core.symbolism.tags import TagScope
+    from candidate.core.symbolism.tags import TagScope
     from memory.persistence.orthogonal_persistence import (
         PersistenceMode,
     )

@@ -54,7 +54,7 @@
 ```
 """
 
-from from from from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+from from from from candidate.core.common import LukhasError, GuardianRejectionError, MemoryDriftError
 import asyncio  # For asynchronous operations, simulating work.
 from datetime import datetime, timezone  # For timestamping events.
 from typing import Dict, Any, Optional, List
@@ -68,7 +68,7 @@ import structlog  # ΛTRACE: Standardized logging.
 
 # ΛTRACE: Initialize logger for this module. #ΛTEMPORAL_HOOK (Logger init
 # time) #AIDENTITY_BRIDGE (Module identity as 'dream_memory_manager')
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # --- LUKHAS Tier System Placeholder ---
 # ΛNOTE: Placeholder for LUKHAS tier system decorator.

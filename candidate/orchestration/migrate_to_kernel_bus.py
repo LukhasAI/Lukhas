@@ -26,15 +26,15 @@ class KernelBusMigration:
             # Old event bus imports
             (
                 r"from core\.event_bus import EventBus",
-                "from orchestration.symbolic_kernel_bus import kernel_bus",
+                "from candidate.orchestration.symbolic_kernel_bus import kernel_bus",
             ),
             (
                 r"from system\.common\.event_bus import EventBus",
-                "from orchestration.symbolic_kernel_bus import kernel_bus",
+                "from candidate.orchestration.symbolic_kernel_bus import kernel_bus",
             ),
             (
                 r"from \.\.event_bus import",
-                "from orchestration.symbolic_kernel_bus import",
+                "from candidate.orchestration.symbolic_kernel_bus import",
             ),
             # Old publish methods
             (r"event_bus\.publish\((.*?)\)", r"kernel_bus.emit(\1)"),
@@ -176,7 +176,7 @@ Symbolic Kernel Bus Integration Examples
 Common patterns for using the new kernel bus in LUKHΛS components.
 """
 
-from orchestration.symbolic_kernel_bus import (
+from candidate.orchestration.symbolic_kernel_bus import (
     kernel_bus,
     SymbolicEffect,
     EventPriority

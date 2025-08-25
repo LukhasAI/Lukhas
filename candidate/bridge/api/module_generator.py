@@ -117,7 +117,7 @@ Core processing engine with LUKHAS concepts
 """
 
 from typing import Any, Dict, List, Optional
-from core.common import get_logger, GLYPHToken, create_glyph
+from candidate.core.common import get_logger, GLYPHToken, create_glyph
 from ..models import {module_class_name}Model
 
 logger = get_logger(__name__)

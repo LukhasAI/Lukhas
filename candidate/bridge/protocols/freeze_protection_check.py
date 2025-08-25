@@ -1,7 +1,7 @@
 # LUKHAS_TAG: freeze_protection, core_trace
 import inspect
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # TAG:bridge
 # TAG:protocols

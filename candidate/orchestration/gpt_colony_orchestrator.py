@@ -19,16 +19,16 @@ from lukhas.consciousness.reflection.openai_modulated_service import (
     OpenAICapability,
     OpenAIModulatedService,
 )
-from core.colonies.consensus_mechanisms import (
+from candidate.core.colonies.consensus_mechanisms import (
     ColonyConsensus,
 )
 
 # Import our components
-from core.colonies.enhanced_colony import (
+from candidate.core.colonies.enhanced_colony import (
     ConsensusResult,
     EnhancedReasoningColony,
 )
-from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 logger = logging.getLogger(__name__)
 

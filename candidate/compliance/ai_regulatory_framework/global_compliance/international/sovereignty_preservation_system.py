@@ -7,7 +7,7 @@ Ensures data sovereignty and jurisdictional compliance.
 import logging
 from typing import Any, Dict
 
-from core.interfaces import CoreInterface
+from candidate.core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)
 

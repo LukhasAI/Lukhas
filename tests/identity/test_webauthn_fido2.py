@@ -88,9 +88,9 @@ class TestWebAuthnManager:
     def webauthn_manager(self):
         """Create WebAuthn manager instance"""
         config = {
-            'rp_id': 'test.lukhas.ai',
+            'rp_id': 'test.candidate.ai',
             'rp_name': 'LUKHAS Test Environment',
-            'origin': 'https://test.lukhas.ai'
+            'origin': 'https://test.candidate.ai'
         }
         return WebAuthnManager(config=config)
 
@@ -99,7 +99,7 @@ class TestWebAuthnManager:
         """Sample user data for testing"""
         return {
             'user_id': 'webauthn_test_user_12345678',
-            'user_name': 'test@lukhas.ai',
+            'user_name': 'test@candidate.ai',
             'user_display_name': 'WebAuthn Test User',
             'user_tier': 3
         }
@@ -114,7 +114,7 @@ class TestWebAuthnManager:
                 'clientDataJSON': base64.b64encode(json.dumps({
                     'type': 'webauthn.create',
                     'challenge': 'mock_challenge_value',
-                    'origin': 'https://test.lukhas.ai'
+                    'origin': 'https://test.candidate.ai'
                 }).encode()).decode(),
                 'attestationObject': base64.b64encode(b'mock_attestation_object').decode(),
                 'publicKey': 'mock_public_key_data'
@@ -132,7 +132,7 @@ class TestWebAuthnManager:
                 'clientDataJSON': base64.b64encode(json.dumps({
                     'type': 'webauthn.get',
                     'challenge': 'mock_challenge_value',
-                    'origin': 'https://test.lukhas.ai'
+                    'origin': 'https://test.candidate.ai'
                 }).encode()).decode(),
                 'authenticatorData': base64.b64encode(b'mock_authenticator_data').decode(),
                 'signature': base64.b64encode(b'mock_signature').decode()
@@ -141,9 +141,9 @@ class TestWebAuthnManager:
 
     def test_webauthn_manager_initialization(self, webauthn_manager):
         """Test WebAuthn manager initialization"""
-        assert webauthn_manager.rp_id == 'test.lukhas.ai'
+        assert webauthn_manager.rp_id == 'test.candidate.ai'
         assert webauthn_manager.rp_name == 'LUKHAS Test Environment'
-        assert webauthn_manager.origin == 'https://test.lukhas.ai'
+        assert webauthn_manager.origin == 'https://test.candidate.ai'
 
         # Check tier requirements are properly configured
         assert len(webauthn_manager.tier_requirements) == 6  # Tiers 0-5
@@ -198,7 +198,7 @@ class TestWebAuthnManager:
 
         # Verify RP information
         assert options['rp']['name'] == 'LUKHAS Test Environment'
-        assert options['rp']['id'] == 'test.lukhas.ai'
+        assert options['rp']['id'] == 'test.candidate.ai'
 
         # Verify user information
         user_info = options['user']

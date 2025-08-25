@@ -11,7 +11,7 @@ from typing import Optional
 
 from integrations.openai.dalle_client import DALLEClient
 
-from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient as GPTClient
+from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient as GPTClient
 
 logger = logging.getLogger(__name__)
 

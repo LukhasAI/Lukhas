@@ -12,9 +12,9 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Dict, List
 
-from core.container.service_container import ServiceContainer
-from core.interfaces import CoreInterface
-from core.symbolic_engine import SymbolicEffect, SymbolicEvent
+from candidate.core.container.service_container import ServiceContainer
+from candidate.core.interfaces import CoreInterface
+from candidate.core.symbolic_engine import SymbolicEffect, SymbolicEvent
 
 logger = logging.getLogger(__name__)
 
@@ -82,7 +82,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
         try:
             self.kernel_bus = container.get_service("symbolic_kernel_bus")
         except:
-            from orchestration.symbolic_kernel_bus import SymbolicKernelBus
+            from candidate.orchestration.symbolic_kernel_bus import SymbolicKernelBus
             self.kernel_bus = SymbolicKernelBus()
 
         try:

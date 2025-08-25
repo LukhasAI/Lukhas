@@ -13,13 +13,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 def test_bio_imports():
     """Test that bio modules can be imported"""
-    from lukhas.accepted import bio
+    from candidate.accepted import bio
     assert bio is not None
     assert hasattr(bio, '__trinity__')
 
 def test_bio_core_components():
     """Test core bio components are available"""
-    from lukhas.accepted.bio import awareness, oscillator, symbolic
+    from candidate.accepted.bio import awareness, oscillator, symbolic
 
     # Check modules exist
     assert oscillator is not None
@@ -28,14 +28,14 @@ def test_bio_core_components():
 
 def test_bio_engine():
     """Test bio engine initialization"""
-    from lukhas.accepted.bio import get_bio_engine
+    from candidate.accepted.bio import get_bio_engine
 
     engine = get_bio_engine()
     assert engine is not None
 
 def test_trinity_integration():
     """Test Trinity Framework integration"""
-    from lukhas.accepted.bio import trinity_sync
+    from candidate.accepted.bio import trinity_sync
 
     sync_status = trinity_sync()
     assert sync_status['identity'] == '⚛️'

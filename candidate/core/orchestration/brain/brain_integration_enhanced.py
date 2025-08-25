@@ -89,10 +89,10 @@ try:
 
                                 # Import core components with fallbacks
                                 try:
-    from core.spine.fold_engine import AGIMemory
-    from core.spine.fold_engine import MemoryFold
-    from core.spine.fold_engine import MemoryPriority
-    from core.spine.fold_engine import MemoryType
+    from candidate.core.spine.fold_engine import AGIMemory
+    from candidate.core.spine.fold_engine import MemoryFold
+    from candidate.core.spine.fold_engine import MemoryPriority
+    from candidate.core.spine.fold_engine import MemoryType
                                     except ImportError:
                                         try:
                                             pass

@@ -16,7 +16,7 @@ from cognition.symbolic_feedback_loop import SymbolicState
 from identity.identity_core import AccessTier
 
 # Import existing LUKHΛS components
-from orchestration.symbolic_kernel_bus import emit, kernel_bus
+from candidate.orchestration.symbolic_kernel_bus import emit, kernel_bus
 
 # We'll only take what enhances our system
 

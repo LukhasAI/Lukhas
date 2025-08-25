@@ -41,7 +41,7 @@ from typing import Any, Optional
 from dream.quantum_dream_adapter import DreamQuantumConfig, QuantumDreamAdapter
 
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
-from core.unified_integration import UnifiedIntegration
+from candidate.core.unified_integration import UnifiedIntegration
 from qi.awareness_system import (
     AwarenessQuantumConfig,
     QuantumAwarenessSystem,

@@ -15,7 +15,7 @@ and the Meta-Ethics Governor for comprehensive ethical governance.
 
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from .meta_ethics_governor import (
     CulturalContext,

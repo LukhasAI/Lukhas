@@ -39,7 +39,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Import LUKHAS core components
 # Import lukhas core components

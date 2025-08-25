@@ -11,13 +11,13 @@ from typing import Literal
 
 import openai
 
-from bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
-from bridge.llm_wrappers.azure_openai_wrapper import AzureOpenaiWrapper
-from bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
+from candidate.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
+from candidate.bridge.llm_wrappers.azure_openai_wrapper import AzureOpenaiWrapper
+from candidate.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
 
 # === Initialize wrapper instances ===
-from bridge.llm_wrappers.openai_wrapper import OpenaiWrapper
-from bridge.llm_wrappers.perplexity_wrapper import PerplexityWrapper
+from candidate.bridge.llm_wrappers.openai_wrapper import OpenaiWrapper
+from candidate.bridge.llm_wrappers.perplexity_wrapper import PerplexityWrapper
 
 openai = OpenaiWrapper()
 anthropic = AnthropicWrapper()

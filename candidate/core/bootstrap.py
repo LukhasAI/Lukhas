@@ -26,7 +26,7 @@ from lukhas.core.interfaces.services import (
     IMemoryService,
     IQuantumService,
 )
-from orchestration.brain.unified_cognitive_orchestrator import (
+from candidate.orchestration.brain.unified_cognitive_orchestrator import (
     UnifiedCognitiveOrchestrator,
 )
 

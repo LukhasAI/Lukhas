@@ -20,15 +20,15 @@ from typing import Any, Dict, List, Optional, Set
 
 import numpy as np
 
-from core.colonies.advanced_consensus_algorithms import (
+from candidate.core.colonies.advanced_consensus_algorithms import (
     AdvancedColonyConsensus,
     AdvancedConsensusMethod,
     VoteType,
 )
 
 # Import existing services
-from core.container.service_container import get_container
-from core.events.contracts import (
+from candidate.core.container.service_container import get_container
+from candidate.core.events.contracts import (
     ConsensusReached,
     GlyphCreated,
     MemoryFoldCreated,
@@ -36,11 +36,11 @@ from core.events.contracts import (
 )
 
 # Import event system
-from core.events.typed_event_bus import get_typed_event_bus
+from candidate.core.events.typed_event_bus import get_typed_event_bus
 
 # Import enhanced core components
-from core.glyph.glyph_engine_enhanced import get_enhanced_glyph_engine
-from core.glyph.universal_symbol_protocol import (
+from candidate.core.glyph.glyph_engine_enhanced import get_enhanced_glyph_engine
+from candidate.core.glyph.universal_symbol_protocol import (
     SymbolDomain,
     SymbolModality,
     UniversalSymbol,

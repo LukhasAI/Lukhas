@@ -12,8 +12,8 @@ from typing import Any, Optional
 
 import aiohttp
 
-from core.common import get_logger
-from core.common.config import settings
+from candidate.core.common import get_logger
+from candidate.core.common.config import settings
 
 logger = get_logger(__name__)
 

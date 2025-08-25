@@ -68,7 +68,7 @@ def generate_symbolic_reply(score, emoji=None, notes=None):
 """
 ──────────────────────────────────────────────────────────────────────────────────────
 USAGE:
-    from core.modules.nias.symbolic_reply_generator import generate_symbolic_reply
+    from candidate.core.modules.nias.symbolic_reply_generator import generate_symbolic_reply
 
     print(generate_symbolic_reply(score=2, emoji="⚠️", notes="Felt disconnected"))
 ──────────────────────────────────────────────────────────────────────────────────────

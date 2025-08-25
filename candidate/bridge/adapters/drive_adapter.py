@@ -12,7 +12,7 @@ from typing import Dict, Optional
 
 import aiohttp
 
-from bridge.adapters.service_adapter_base import (
+from candidate.bridge.adapters.service_adapter_base import (
     BaseServiceAdapter,
     CapabilityToken,
     DryRunPlanner,

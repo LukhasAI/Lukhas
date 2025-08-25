@@ -16,7 +16,7 @@
 """
 
 # Module imports
-from from from from core.common import get_logger
+from from from from candidate.core.common import get_logger
 import structlog
 from typing import List
 from pathlib import Path

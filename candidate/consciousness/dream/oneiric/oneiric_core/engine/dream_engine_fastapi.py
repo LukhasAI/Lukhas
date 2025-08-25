@@ -46,8 +46,8 @@ try:
     from consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
         DreamReflectionLoop,
     )
-    from core.bio_systems.quantum_inspired_layer import QuantumBioOscillator
-    from core.unified_integration import UnifiedIntegration
+    from candidate.core.bio_systems.quantum_inspired_layer import QuantumBioOscillator
+    from candidate.core.unified_integration import UnifiedIntegration
     from lukhas.memory.core_memory.dream_memory_manager import DreamMemoryManager
 
     BIO_CORE_AVAILABLE = True

@@ -17,7 +17,7 @@ def test_imports():
     print("🔍 Testing imports...")
 
     try:
-        from bridge.adapters.service_adapter_base import (
+        from candidate.bridge.adapters.service_adapter_base import (
             AdapterState,
             BaseServiceAdapter,
             CapabilityToken,
@@ -39,7 +39,7 @@ def test_adapter_creation():
     print("\n🏗️  Testing adapter creation...")
 
     try:
-        from bridge.adapters.service_adapter_base import BaseServiceAdapter
+        from candidate.bridge.adapters.service_adapter_base import BaseServiceAdapter
 
         # Create a simple test adapter
         class TestAdapter(BaseServiceAdapter):
@@ -68,7 +68,7 @@ def test_health_status():
     print("\n🏥 Testing health status...")
 
     try:
-        from bridge.adapters.service_adapter_base import BaseServiceAdapter
+        from candidate.bridge.adapters.service_adapter_base import BaseServiceAdapter
 
         class TestAdapter(BaseServiceAdapter):
             async def authenticate(self, credentials):
@@ -94,7 +94,7 @@ async def test_consciousness_integration():
     print("\n🧠 Testing consciousness integration...")
 
     try:
-        from bridge.adapters.service_adapter_base import BaseServiceAdapter
+        from candidate.bridge.adapters.service_adapter_base import BaseServiceAdapter
 
         class TestAdapter(BaseServiceAdapter):
             async def authenticate(self, credentials):

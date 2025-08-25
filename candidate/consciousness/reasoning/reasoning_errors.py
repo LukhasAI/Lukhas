@@ -1,7 +1,7 @@
 # Desc: Custom error types for the reasoning module.
 # LUKHAS_TAG: reasoning_error
 
-from core.common import LukhasError
+from candidate.core.common import LukhasError
 
 
 class ReasoningError(LukhasError):

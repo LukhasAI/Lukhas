@@ -20,7 +20,7 @@ class TestBrandingBridgeIntegration:
     def test_branding_bridge_import(self):
         """Test that branding bridge can be imported from lukhas package"""
         try:
-            from lukhas.branding_bridge import (
+            from candidate.branding_bridge import (
                 get_system_signature, get_trinity_context, get_brand_voice,
                 validate_output, normalize_output_text, initialize_branding,
                 BrandContext, LUKHASBrandingBridge
@@ -46,7 +46,7 @@ class TestBrandingBridgeIntegration:
     async def test_branding_initialization(self):
         """Test branding system initialization"""
         try:
-            from lukhas.branding_bridge import initialize_branding, get_bridge
+            from candidate.branding_bridge import initialize_branding, get_bridge
             
             # Initialize branding
             success = await initialize_branding()
@@ -62,7 +62,7 @@ class TestBrandingBridgeIntegration:
     def test_trinity_framework_integration(self):
         """Test Trinity Framework symbol integration"""
         try:
-            from lukhas.branding_bridge import get_trinity_context, TRINITY_FRAMEWORK
+            from candidate.branding_bridge import get_trinity_context, TRINITY_FRAMEWORK
             
             # Get Trinity context
             context = get_trinity_context()
@@ -85,7 +85,7 @@ class TestConsciousnessIntegration:
     def test_consciousness_creativity_branding(self):
         """Test branding integration in consciousness creativity modules"""
         try:
-            from lukhas.consciousness.creativity.advanced_haiku_generator import AdvancedHaikuGenerator
+            from candidate.consciousness.creativity.advanced_haiku_generator import AdvancedHaikuGenerator
             
             # Create generator
             generator = AdvancedHaikuGenerator()
@@ -100,7 +100,7 @@ class TestConsciousnessIntegration:
         """Test branding integration in consciousness core engine"""
         try:
             # Check that consciousness engine imports branding
-            from lukhas.consciousness.core import engine
+            from candidate.consciousness.core import engine
             
             # Look for branding imports in the module
             assert hasattr(engine, 'BRANDING_AVAILABLE'), "Consciousness engine should have BRANDING_AVAILABLE flag"
@@ -117,10 +117,10 @@ class TestOrchestrationIntegration:
     def test_symbolic_kernel_bus_branding(self):
         """Test branding integration in symbolic kernel bus"""
         try:
-            from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus
+            from candidate.orchestration.symbolic_kernel_bus import SymbolicKernelBus
             
             # Check that the module has branding imports
-            import lukhas.orchestration.symbolic_kernel_bus as bus_module
+            import candidate.orchestration.symbolic_kernel_bus as bus_module
             assert hasattr(bus_module, 'BRANDING_AVAILABLE'), "Kernel bus should have BRANDING_AVAILABLE flag"
             
         except ImportError as e:
@@ -165,7 +165,7 @@ class TestBridgeAPIIntegration:
         """Test branding integration in API hub"""
         try:
             # Check that API hub imports branding
-            import lukhas.bridge.api.api_hub as api_module
+            import candidate.bridge.api.api_hub as api_module
             assert hasattr(api_module, 'BRANDING_AVAILABLE'), "API hub should have BRANDING_AVAILABLE flag"
             
         except ImportError as e:
@@ -184,7 +184,7 @@ class TestMainSystemIntegration:
             with open('/Users/agi_dev/LOCAL-REPOS/Lukhas/main.py', 'r') as f:
                 main_content = f.read()
             
-            assert 'from lukhas.branding_bridge import' in main_content, "main.py should import branding bridge"
+            assert 'from candidate.branding_bridge import' in main_content, "main.py should import branding bridge"
             assert 'initialize_branding' in main_content, "main.py should call initialize_branding"
             assert 'get_system_signature' in main_content, "main.py should use get_system_signature"
             
@@ -198,7 +198,7 @@ class TestBrandVoiceCompliance:
     def test_brand_voice_application(self):
         """Test brand voice application through bridge"""
         try:
-            from lukhas.branding_bridge import get_brand_voice, BrandContext
+            from candidate.branding_bridge import get_brand_voice, BrandContext
             
             # Test brand voice with different contexts
             test_content = "The LUKHAS AGI system uses quantum processing for advanced capabilities."
@@ -218,7 +218,7 @@ class TestBrandVoiceCompliance:
     def test_terminology_normalization(self):
         """Test terminology normalization through bridge"""
         try:
-            from lukhas.branding_bridge import normalize_output_text
+            from candidate.branding_bridge import normalize_output_text
             
             # Test terminology normalization
             test_content = "LUKHAS AGI uses quantum processing"
@@ -233,7 +233,7 @@ class TestBrandVoiceCompliance:
     def test_brand_validation(self):
         """Test brand compliance validation"""
         try:
-            from lukhas.branding_bridge import validate_output
+            from candidate.branding_bridge import validate_output
             
             # Test with compliant content
             compliant_content = "LUKHAS AI uses quantum-inspired processing for consciousness enhancement"
@@ -264,7 +264,7 @@ class TestIntegrationCoverage:
         
         # Test consciousness creativity
         try:
-            import lukhas.consciousness.creativity.advanced_haiku_generator
+            import candidate.consciousness.creativity.advanced_haiku_generator
             integration_points["consciousness_creativity"] = hasattr(
                 consciousness.creativity.advanced_haiku_generator, 
                 'BRANDING_BRIDGE_AVAILABLE'
@@ -274,7 +274,7 @@ class TestIntegrationCoverage:
         
         # Test consciousness core
         try:
-            import lukhas.consciousness.core.engine
+            import candidate.consciousness.core.engine
             integration_points["consciousness_core"] = hasattr(
                 consciousness.core.engine, 
                 'BRANDING_AVAILABLE'
@@ -284,7 +284,7 @@ class TestIntegrationCoverage:
         
         # Test orchestration kernel
         try:
-            import lukhas.orchestration.symbolic_kernel_bus
+            import candidate.orchestration.symbolic_kernel_bus
             integration_points["orchestration_kernel"] = hasattr(
                 orchestration.symbolic_kernel_bus, 
                 'BRANDING_AVAILABLE'
@@ -302,7 +302,7 @@ class TestIntegrationCoverage:
         
         # Test bridge API
         try:
-            import lukhas.bridge.api.api_hub
+            import candidate.bridge.api.api_hub
             integration_points["bridge_api"] = hasattr(
                 bridge.api.api_hub, 
                 'BRANDING_AVAILABLE'

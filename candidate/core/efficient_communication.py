@@ -589,7 +589,7 @@ class EnergyMonitor:
 async def demo_efficient_communication():
     """Demonstrate the efficient communication system with resource optimization"""
     # Import resource optimizer
-    from core.interfaces.dependency_injection import get_service
+    from candidate.core.interfaces.dependency_injection import get_service
 
     # Get resource optimizer through dependency injection
     try:

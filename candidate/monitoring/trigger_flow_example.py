@@ -24,7 +24,7 @@ from monitoring import (
     PlasticityTriggerType,
     start_complete_monitoring_system,
 )
-from orchestration.signals.signal_bus import SignalBus
+from candidate.orchestration.signals.signal_bus import SignalBus
 from reasoning.causal.causal_inference import CausalInferenceEngine
 
 

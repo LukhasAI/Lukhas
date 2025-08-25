@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from .qrg_100_percent_coverage import (
     TestIntegrationBoundaries,

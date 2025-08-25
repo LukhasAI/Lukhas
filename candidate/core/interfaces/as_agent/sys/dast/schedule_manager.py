@@ -42,7 +42,7 @@ def is_time_to_deliver(message_meta, last_sent_timestamp, current_time):
 ──────────────────────────────────────────────────────────────────────────────────────
 EXECUTION:
     - Import via:
-        from core.modules.dast.schedule_manager import is_time_to_deliver
+        from candidate.core.modules.dast.schedule_manager import is_time_to_deliver
 
 USED BY:
     - delivery_loop.py

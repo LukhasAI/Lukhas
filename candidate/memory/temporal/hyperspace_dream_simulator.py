@@ -68,7 +68,7 @@ from uuid import uuid4
 import numpy as np
 
 try:
-    from core.integration.dynamic_modality_broker import (
+    from candidate.core.integration.dynamic_modality_broker import (
         DataType,
         ModalityData,
         get_dmb,

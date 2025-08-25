@@ -29,12 +29,12 @@ class LUKHASNeuralNetwork:
         """Initialize and connect all modules"""
         try:
             # Import module connectors
-            from bridge.neuroplastic_connector import BridgeConnector
+            from candidate.bridge.neuroplastic_connector import BridgeConnector
             from lukhas.consciousness.neuroplastic_connector import ConsciousnessConnector
 
             # Import bridges
-            from core.neural_bridge import neural_bridge
-            from core.neuroplastic_connector import CoreConnector
+            from candidate.core.neural_bridge import neural_bridge
+            from candidate.core.neuroplastic_connector import CoreConnector
             from emotion.neuroplastic_connector import EmotionConnector
             from lukhas.governance.neuroplastic_connector import GovernanceConnector
             from lukhas.memory.neuroplastic_connector import MemoryConnector
@@ -67,7 +67,7 @@ class LUKHASNeuralNetwork:
 
     def _create_neural_pathways(self):
         """Create connections between modules"""
-        from core.neural_bridge import neural_bridge
+        from candidate.core.neural_bridge import neural_bridge
 
         # Core pathways
         neural_bridge.create_synapse("consciousness", "memory")

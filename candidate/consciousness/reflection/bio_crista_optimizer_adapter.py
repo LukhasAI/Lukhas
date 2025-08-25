@@ -51,7 +51,7 @@ import numpy as np
 
 # AIMPORT_TODO: Define or import the actual `CristaOptimizerBase` or similar type
 #               that `self.crista_optimizer` is expected to be.
-# from core.bio.crista_optimizer import CristaOptimizerBase # Conceptual import
+# from candidate.core.bio.crista_optimizer import CristaOptimizerBase # Conceptual import
 CristaOptimizerBase = Any  # Placeholder type
 
 

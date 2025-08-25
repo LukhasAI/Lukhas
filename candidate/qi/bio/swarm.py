@@ -16,8 +16,8 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-from core.colonies.base_colony import BaseColony
-from core.enhanced_swarm import EnhancedSwarmHub
+from candidate.core.colonies.base_colony import BaseColony
+from candidate.core.enhanced_swarm import EnhancedSwarmHub
 
 # Import bio-symbolic colonies
 try:
@@ -36,7 +36,7 @@ except ImportError:
 
 # Import oracle colony
 try:
-    from core.colonies.oracle_colony import OracleColony, OracleQuery
+    from candidate.core.colonies.oracle_colony import OracleColony, OracleQuery
 
     ORACLE_AVAILABLE = True
 except ImportError:

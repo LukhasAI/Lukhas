@@ -86,7 +86,7 @@ from typing import (
     Union,
 )
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Try to import optional dependencies
 try:
@@ -777,7 +777,7 @@ async def integrate_with_energy_analyzer():
     """
     Demonstrate integration between memory optimization and energy analysis
     """
-    from core.energy_consumption_analysis import (
+    from candidate.core.energy_consumption_analysis import (
         EnergyComponent,
         EnergyConsumptionAnalyzer,
     )

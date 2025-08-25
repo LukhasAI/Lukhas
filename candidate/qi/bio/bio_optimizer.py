@@ -75,7 +75,7 @@ try:
     from bio.symbolic.architectures import (
         BioSymbolicOrchestrator as BioOrchestrator,  # type: ignore
     )
-    from core.bio_systems.quantum_inspired_layer import (  # type: ignore
+    from candidate.core.bio_systems.quantum_inspired_layer import (  # type: ignore
         QIBioOscillator,
         QuantumConfig,
         QuantumLikeState,

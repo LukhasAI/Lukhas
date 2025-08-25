@@ -181,7 +181,7 @@ class CollapseEntropyTracker:
     def _init_drift_integration(self):
         """Initialize integration with unified drift monitor."""
         try:
-            from core.monitoring import create_drift_monitor
+            from candidate.core.monitoring import create_drift_monitor
 
             self.drift_monitor = create_drift_monitor()
             logger.info("Drift monitor integration initialized", tag="ΛCOLLAPSE")

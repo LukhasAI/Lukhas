@@ -6,7 +6,7 @@ Verifies dry_run mode, feature flag activation, and event dispatch.
 import os
 import pytest
 from unittest.mock import MagicMock, patch
-from lukhas.orchestration import (
+from candidate.orchestration import (
     KernelBus,
     EventPriority,
     get_kernel_bus,

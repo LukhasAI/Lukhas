@@ -2,7 +2,7 @@
 feedback_collector.py
 ----------------------
 
-Collects symbolic and natural feedback from core.common users following
+Collects symbolic and natural feedback from candidate.core.common users following
 introspective modules (dreams, reflections, memory recalls).
 
 This module supports future symbolic fine-tuning through compliant channels.

@@ -1,8 +1,8 @@
 import asyncio
 from typing import Any
 
-from core.swarm import AgentColony as SymbioticSwarm  # reuse simple colony
-from core.swarm import SwarmAgent
+from candidate.core.swarm import AgentColony as SymbioticSwarm  # reuse simple colony
+from candidate.core.swarm import SwarmAgent
 from voice.synthesis import VoiceSynthesis
 
 

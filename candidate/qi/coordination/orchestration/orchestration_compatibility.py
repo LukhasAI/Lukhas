@@ -13,7 +13,7 @@ from old import *  # TODO: Specify imports
 
 Usage:
     # Old import (deprecated):
-    from orchestration.brain.bio_symbolic.bio_orchestrator import BioOrchestrator
+    from candidate.orchestration.brain.bio_symbolic.bio_orchestrator import BioOrchestrator
 
     # New import:
     from bio.core import BioOrchestrator

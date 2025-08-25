@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 
 # Import personality components
 try:
-    from core.personality.creative_expressions import NeuroHaikuGenerator
+    from candidate.core.personality.creative_expressions import NeuroHaikuGenerator
 
     HAIKU_AVAILABLE = True
 except ImportError:
@@ -40,7 +40,7 @@ except ImportError:
     )
 
 try:
-    from orchestration.brain.personality.personality_refiner import PersonalityRefiner
+    from candidate.orchestration.brain.personality.personality_refiner import PersonalityRefiner
 
     PERSONALITY_REFINER_AVAILABLE = True
 except ImportError:
@@ -50,7 +50,7 @@ except ImportError:
     )
 
 try:
-    from orchestration.brain.orchestration.emotional_oscillator import (
+    from candidate.orchestration.brain.orchestration.emotional_oscillator import (
         EmotionalOscillator,
     )
 

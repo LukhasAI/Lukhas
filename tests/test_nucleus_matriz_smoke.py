@@ -1,7 +1,7 @@
-from lukhas.core.policy.decision import decide
-from lukhas.orchestration.context_bus import build_context
-from lukhas.identity.lambda_id import authenticate
-from lukhas.governance.consent_ledger import record_consent
+from candidate.core.policy.decision import decide
+from candidate.orchestration.context_bus import build_context
+from candidate.identity.lambda_id import authenticate
+from candidate.governance.consent_ledger import record_consent
 
 def test_matriz_smoke():
     assert isinstance(decide({"x":1}, mode="dry_run"), dict)

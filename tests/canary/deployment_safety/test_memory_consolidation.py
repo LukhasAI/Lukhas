@@ -15,7 +15,7 @@ def test_memory_imports():
     """Test that memory modules can be imported"""
     try:
         # Fixed import syntax
-        from lukhas.accepted.lukhas import memory
+        from candidate.accepted.lukhas import memory
         assert memory is not None
         assert hasattr(memory, '__trinity__')
     except ImportError:
@@ -27,7 +27,7 @@ def test_memory_imports():
 
 def test_memory_systems():
     """Test core memory systems are available"""
-    from lukhas.accepted.memory import causal, colonies, consolidation, episodic, fold
+    from candidate.accepted.memory import causal, colonies, consolidation, episodic, fold
 
     assert fold is not None
     assert causal is not None
@@ -37,7 +37,7 @@ def test_memory_systems():
 
 def test_fold_manager():
     """Test fold manager functionality"""
-    from lukhas.accepted.memory import get_fold_manager
+    from candidate.accepted.memory import get_fold_manager
 
     manager = get_fold_manager()
     assert manager is not None
@@ -52,7 +52,7 @@ def test_fold_manager():
 
 def test_episodic_memory():
     """Test episodic memory storage"""
-    from lukhas.accepted.memory import get_episodic_memory
+    from candidate.accepted.memory import get_episodic_memory
 
     episodic = get_episodic_memory()
 
@@ -66,7 +66,7 @@ def test_episodic_memory():
 
 def test_memory_colony():
     """Test colony-based distributed memory"""
-    from lukhas.accepted.memory import get_memory_colony
+    from candidate.accepted.memory import get_memory_colony
 
     colony = get_memory_colony()
     status = colony.get_colony_status()
@@ -80,7 +80,7 @@ def test_memory_colony():
 
 def test_unified_memory():
     """Test unified memory interface"""
-    from lukhas.accepted.memory import get_unified_memory
+    from candidate.accepted.memory import get_unified_memory
 
     memory = get_unified_memory()
 
@@ -95,7 +95,7 @@ def test_unified_memory():
 
 def test_trinity_integration():
     """Test Trinity Framework integration"""
-    from lukhas.accepted.memory import trinity_sync
+    from candidate.accepted.memory import trinity_sync
 
     sync_status = trinity_sync()
     assert sync_status['identity'] == '⚛️'

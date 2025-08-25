@@ -23,7 +23,7 @@ def test_vivox_import():
     print("🧠 Testing VIVOX module import...")
     
     try:
-        from lukhas.vivox import VivoxWrapper, VivoxConfig, ConsciousnessLevel
+        from candidate.vivox import VivoxWrapper, VivoxConfig, ConsciousnessLevel
         print("✅ VIVOX module imported successfully")
         
         # Test basic configuration
@@ -199,8 +199,8 @@ def test_consciousness_integration():
     print("\n🧠 Testing consciousness integration...")
     
     try:
-        from lukhas.consciousness import ConsciousnessWrapper
-        from lukhas.vivox import VivoxWrapper
+        from candidate.consciousness import ConsciousnessWrapper
+        from candidate.vivox import VivoxWrapper
         
         # Initialize both systems
         consciousness = ConsciousnessWrapper()

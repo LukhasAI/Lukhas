@@ -13,25 +13,25 @@ from unittest.mock import AsyncMock, Mock
 
 import pytest
 
-from lukhas.vivox.emotional_regulation import create_complete_vivox_ern_system
-from lukhas.vivox.emotional_regulation.endocrine_integration import VIVOXEndocrineIntegration
-from lukhas.vivox.emotional_regulation.event_integration import (
+from candidate.vivox.emotional_regulation import create_complete_vivox_ern_system
+from candidate.vivox.emotional_regulation.endocrine_integration import VIVOXEndocrineIntegration
+from candidate.vivox.emotional_regulation.event_integration import (
     VIVOXEmotionalShift,
     VIVOXERNIntegratedSystem,
     VIVOXEventBusIntegration,
 )
-from lukhas.vivox.emotional_regulation.neuroplastic_integration import (
+from candidate.vivox.emotional_regulation.neuroplastic_integration import (
     ColonyLearningPattern,
     EmotionalPattern,
     VIVOXNeuroplasticLearner,
 )
-from lukhas.vivox.emotional_regulation.transparency_audit import (
+from candidate.vivox.emotional_regulation.transparency_audit import (
     AuditEventType,
     TransparencyLevel,
     UserTransparencyReport,
     VIVOXAuditSystem,
 )
-from lukhas.vivox.emotional_regulation.vivox_ern_core import (
+from candidate.vivox.emotional_regulation.vivox_ern_core import (
     EmotionalMemory,
     RegulationResponse,
     RegulationStrategy,

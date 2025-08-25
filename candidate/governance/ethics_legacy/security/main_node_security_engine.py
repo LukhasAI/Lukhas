@@ -4,7 +4,7 @@ import logging
 import sys
 from datetime import datetime
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Configure logging
 logging.basicConfig(
@@ -34,7 +34,7 @@ try:
     from frontend.multimodal.image_generator import AdaptiveImageGenerator
 
     # Utils and config
-    from core.orchestration.brain.config.settings import load_settings
+    from candidate.core.orchestration.brain.config.settings import load_settings
     from voice.speech_processor import SpeechProcessor
 
 except ImportError as e:

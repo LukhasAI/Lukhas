@@ -13,11 +13,11 @@ from pathlib import Path
 
 import httpx
 
-from lukhas.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
-from lukhas.audit.store import audit_log_write
-from lukhas.feedback.store import record_feedback
-from lukhas.orchestration.signals.homeostasis import ModulationParams
-from lukhas.orchestration.signals.signal_bus import Signal, SignalType
+from candidate.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
+from candidate.audit.store import audit_log_write
+from candidate.feedback.store import record_feedback
+from candidate.orchestration.signals.homeostasis import ModulationParams
+from candidate.orchestration.signals.signal_bus import Signal, SignalType
 
 # Add project root to path
 project_root = Path(__file__).parent
@@ -392,7 +392,7 @@ async def main():
                 )
     except Exception as e:
         print(f"{RED}❌ API server not reachable at http://127.0.0.1:8000{RESET}")
-        print("Start it with: uvicorn lukhas.api.app:app --reload")
+        print("Start it with: uvicorn candidate.api.app:app --reload")
         print(f"Error: {e}")
         return
 

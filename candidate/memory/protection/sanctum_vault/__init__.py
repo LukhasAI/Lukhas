@@ -3,7 +3,7 @@ Sanctum Vault Module
 Auto-generated module initialization file
 """
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 logger = get_logger(__name__)
 

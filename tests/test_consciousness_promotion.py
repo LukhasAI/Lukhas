@@ -31,7 +31,7 @@ sys.path.insert(0, '/Users/agi_dev/LOCAL-REPOS/Lukhas')
 def test_consciousness_import():
     """Test that consciousness module imports safely"""
     try:
-        from lukhas.consciousness import (
+        from candidate.consciousness import (
             ConsciousnessWrapper,
             ConsciousnessConfig,
             ConsciousnessState,
@@ -47,7 +47,7 @@ def test_consciousness_import():
 def test_consciousness_instantiation():
     """Test consciousness wrapper instantiation with safety defaults"""
     try:
-        from lukhas.consciousness import ConsciousnessWrapper, ConsciousnessConfig, SafetyMode
+        from candidate.consciousness import ConsciousnessWrapper, ConsciousnessConfig, SafetyMode
         
         # Test default configuration (should be safe)
         wrapper = ConsciousnessWrapper()
@@ -68,7 +68,7 @@ def test_consciousness_instantiation():
 def test_feature_flags_default_safe():
     """Test that all feature flags default to safe (disabled) state"""
     try:
-        from lukhas.consciousness.consciousness_wrapper import (
+        from candidate.consciousness.consciousness_wrapper import (
             CONSCIOUSNESS_ACTIVE,
             AWARENESS_ACTIVE,
             REFLECTION_ACTIVE,
@@ -98,7 +98,7 @@ def test_feature_flags_default_safe():
 async def test_dry_run_responses():
     """Test that dry-run mode returns safe mock responses"""
     try:
-        from lukhas.consciousness import ConsciousnessWrapper
+        from candidate.consciousness import ConsciousnessWrapper
         
         wrapper = ConsciousnessWrapper()  # Defaults to DRY_RUN
         
@@ -133,7 +133,7 @@ async def test_dry_run_responses():
 def test_consciousness_state_retrieval():
     """Test consciousness state retrieval with safety metadata"""
     try:
-        from lukhas.consciousness import ConsciousnessWrapper
+        from candidate.consciousness import ConsciousnessWrapper
         
         wrapper = ConsciousnessWrapper()
         state = wrapper.get_consciousness_state()
@@ -169,7 +169,7 @@ def test_consciousness_state_retrieval():
 async def test_performance_monitoring():
     """Test performance monitoring and boundaries"""
     try:
-        from lukhas.consciousness import ConsciousnessWrapper
+        from candidate.consciousness import ConsciousnessWrapper
         
         wrapper = ConsciousnessWrapper()
         
@@ -196,7 +196,7 @@ async def test_performance_monitoring():
 def test_trinity_framework_compliance():
     """Test Trinity Framework (⚛️🧠🛡️) compliance"""
     try:
-        from lukhas.consciousness import ConsciousnessWrapper, ConsciousnessConfig
+        from candidate.consciousness import ConsciousnessWrapper, ConsciousnessConfig
         
         # Test Identity (⚛️) - Authenticity and symbolic self
         config = ConsciousnessConfig(enable_trinity_validation=True)
@@ -225,7 +225,7 @@ def test_trinity_framework_compliance():
 async def test_safety_thresholds():
     """Test safety threshold enforcement"""
     try:
-        from lukhas.consciousness import ConsciousnessWrapper, ConsciousnessConfig
+        from candidate.consciousness import ConsciousnessWrapper, ConsciousnessConfig
         
         # Test drift threshold enforcement
         config = ConsciousnessConfig(drift_threshold=0.15)

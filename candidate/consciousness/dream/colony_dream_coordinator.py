@@ -55,7 +55,7 @@ from typing import Any, Optional
 
 # Import colony and orchestration systems
 try:
-    from orchestration.colony_orchestrator import (
+    from candidate.orchestration.colony_orchestrator import (
         ColonyOrchestrator,
         ColonyPriority,
         ColonyTask,
@@ -89,7 +89,7 @@ except ImportError as e:
 
 # Import swarm systems
 try:
-    from core.swarm import SwarmHub
+    from candidate.core.swarm import SwarmHub
 
     SWARM_SYSTEM_AVAILABLE = True
 except ImportError as e:
@@ -109,7 +109,7 @@ except ImportError as e:
 
 # Import event bus
 try:
-    from orchestration.symbolic_kernel_bus import (
+    from candidate.orchestration.symbolic_kernel_bus import (
         get_global_event_bus,
     )
 

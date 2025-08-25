@@ -105,7 +105,7 @@ def replay_recent_dreams(
 """
 ──────────────────────────────────────────────────────────────────────────────────────
 USAGE:
-    from core.modules.nias.dream_replay import replay_recent_dreams
+    from candidate.core.modules.nias.dream_replay import replay_recent_dreams
 
     replay_recent_dreams(limit=5, only_replay_candidates=True)
     replay_recent_dreams(limit=10, sort_by_emotion="calm")

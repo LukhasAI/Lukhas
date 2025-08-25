@@ -15,7 +15,7 @@ from typing import Any, Optional
 from integrations.elevenlabs.elevenlabs_client import ElevenLabsClient
 from integrations.openai.whisper_client import WhisperClient
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 logger = get_logger(__name__)
 

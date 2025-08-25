@@ -11,7 +11,7 @@ import time
 import uuid
 from pathlib import Path
 
-from lukhas.audit.tool_analytics import (
+from candidate.audit.tool_analytics import (
     ToolAnalytics,
     enforce_tool_governance,
     get_analytics,
@@ -289,7 +289,7 @@ def main():
     print("   • Cost attribution by tool usage")
 
     print("\n🚀 Ready for production deployment!")
-    print("   Start API: uvicorn lukhas.api.app:app --reload")
+    print("   Start API: uvicorn candidate.api.app:app --reload")
     print("   View incidents: GET /tools/incidents")
     print("   See enhanced audits: GET /audit/view/{audit_id}")
 

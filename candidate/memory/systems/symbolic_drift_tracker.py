@@ -6,7 +6,7 @@
 """
 
 # ΛTAGS: ΛALIAS, ΛMEMORY_CORE, ΛSYMBOLIC_DRIFT
-from core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
+from candidate.core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
 
 logger.debug("memory.core_memory.symbolic_drift_tracker alias loaded")
 

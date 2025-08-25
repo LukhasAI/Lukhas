@@ -15,7 +15,7 @@ import os
 import subprocess
 from typing import Any, Optional
 
-from core.common import LukhasError, get_logger
+from candidate.core.common import LukhasError, get_logger
 
 logger = get_logger(__name__)
 

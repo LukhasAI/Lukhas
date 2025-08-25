@@ -23,9 +23,9 @@ class TestPhase4FeatureFlags:
 
         # Clear any cached modules
         modules_to_clear = [
-            'lukhas.candidate.ul',
-            'lukhas.candidate.vivox',
-            'lukhas.candidate.qim'
+            'candidate.candidate.ul',
+            'candidate.candidate.vivox',
+            'candidate.candidate.qim'
         ]
         for module in modules_to_clear:
             if module in sys.modules:
@@ -33,7 +33,7 @@ class TestPhase4FeatureFlags:
 
     def test_feature_flag_configuration(self):
         """Test feature flag configuration is properly set up"""
-        from lukhas.candidate import FEATURE_FLAGS, get_all_feature_flags
+        from candidate.candidate import FEATURE_FLAGS, get_all_feature_flags
 
         # Verify all required flags are defined
         assert "UL_ENABLED" in FEATURE_FLAGS
@@ -49,7 +49,7 @@ class TestPhase4FeatureFlags:
     def test_ul_disabled_by_default(self):
         """Test UL returns stub when disabled"""
         # Import after environment cleanup
-        from lukhas.candidate.ul import get_universal_language
+        from candidate.candidate.ul import get_universal_language
 
         ul = get_universal_language()
         assert hasattr(ul, 'enabled')
@@ -63,7 +63,7 @@ class TestPhase4FeatureFlags:
 
     def test_vivox_disabled_by_default(self):
         """Test VIVOX returns stub when disabled"""
-        from lukhas.candidate.vivox import get_vivox_system
+        from candidate.candidate.vivox import get_vivox_system
 
         vivox = get_vivox_system()
         assert hasattr(vivox, 'enabled')
@@ -77,7 +77,7 @@ class TestPhase4FeatureFlags:
 
     def test_qim_disabled_by_default(self):
         """Test QIM returns stub when disabled"""
-        from lukhas.candidate.qim import get_qim_processor
+        from candidate.candidate.qim import get_qim_processor
 
         qim = get_qim_processor()
         assert hasattr(qim, 'enabled')
@@ -91,9 +91,9 @@ class TestPhase4FeatureFlags:
 
     def test_trinity_sync_disabled(self):
         """Test Trinity synchronization when systems are disabled"""
-        from lukhas.candidate.qim import trinity_sync as qim_sync
-        from lukhas.candidate.ul import trinity_sync as ul_sync
-        from lukhas.candidate.vivox import trinity_sync as vivox_sync
+        from candidate.candidate.qim import trinity_sync as qim_sync
+        from candidate.candidate.ul import trinity_sync as ul_sync
+        from candidate.candidate.vivox import trinity_sync as vivox_sync
 
         ul_result = ul_sync()
         vivox_result = vivox_sync()
@@ -120,12 +120,12 @@ class TestPhase4EnabledSystems:
 
         try:
             # Force fresh import
-            if 'lukhas.candidate.ul' in sys.modules:
-                del sys.modules['lukhas.candidate.ul']
-            if 'lukhas.candidate.ul.core' in sys.modules:
-                del sys.modules['lukhas.candidate.ul.core']
+            if 'candidate.candidate.ul' in sys.modules:
+                del sys.modules['candidate.candidate.ul']
+            if 'candidate.candidate.ul.core' in sys.modules:
+                del sys.modules['candidate.candidate.ul.core']
 
-            from lukhas.candidate.ul import get_universal_language
+            from candidate.candidate.ul import get_universal_language
 
             ul = get_universal_language()
             assert ul is not None
@@ -148,12 +148,12 @@ class TestPhase4EnabledSystems:
 
         try:
             # Force fresh import
-            if 'lukhas.candidate.vivox' in sys.modules:
-                del sys.modules['lukhas.candidate.vivox']
-            if 'lukhas.candidate.vivox.core' in sys.modules:
-                del sys.modules['lukhas.candidate.vivox.core']
+            if 'candidate.candidate.vivox' in sys.modules:
+                del sys.modules['candidate.candidate.vivox']
+            if 'candidate.candidate.vivox.core' in sys.modules:
+                del sys.modules['candidate.candidate.vivox.core']
 
-            from lukhas.candidate.vivox import get_vivox_system
+            from candidate.candidate.vivox import get_vivox_system
 
             vivox = get_vivox_system()
             assert vivox is not None
@@ -174,12 +174,12 @@ class TestPhase4EnabledSystems:
 
         try:
             # Force fresh import
-            if 'lukhas.candidate.qim' in sys.modules:
-                del sys.modules['lukhas.candidate.qim']
-            if 'lukhas.candidate.qim.core' in sys.modules:
-                del sys.modules['lukhas.candidate.qim.core']
+            if 'candidate.candidate.qim' in sys.modules:
+                del sys.modules['candidate.candidate.qim']
+            if 'candidate.candidate.qim.core' in sys.modules:
+                del sys.modules['candidate.candidate.qim.core']
 
-            from lukhas.candidate.qim import get_qim_processor
+            from candidate.candidate.qim import get_qim_processor
 
             qim = get_qim_processor()
             assert qim is not None
@@ -200,7 +200,7 @@ class TestPhase4Integration:
 
     def test_candidate_system_info(self):
         """Test candidate systems information"""
-        from lukhas.candidate import get_candidate_systems_info
+        from candidate.candidate import get_candidate_systems_info
 
         info = get_candidate_systems_info()
 
@@ -218,7 +218,7 @@ class TestPhase4Integration:
 
     def test_trinity_sync_all(self):
         """Test Trinity synchronization across all systems"""
-        from lukhas.candidate import trinity_sync_all
+        from candidate.candidate import trinity_sync_all
 
         sync_result = trinity_sync_all()
 
@@ -243,17 +243,17 @@ class TestPhase4Integration:
 
         # Clear cached modules to force fresh imports
         modules_to_clear = [
-            'lukhas.candidate.ul',
-            'lukhas.candidate.vivox',
-            'lukhas.candidate.qim'
+            'candidate.candidate.ul',
+            'candidate.candidate.vivox',
+            'candidate.candidate.qim'
         ]
         for module in modules_to_clear:
             if module in sys.modules:
                 del sys.modules[module]
 
-        from lukhas.candidate.qim import get_qim_processor
-        from lukhas.candidate.ul import get_universal_language
-        from lukhas.candidate.vivox import get_vivox_system
+        from candidate.candidate.qim import get_qim_processor
+        from candidate.candidate.ul import get_universal_language
+        from candidate.candidate.vivox import get_vivox_system
 
         # Get system instances (all should be stubs when disabled)
         ul = get_universal_language()
@@ -282,7 +282,7 @@ class TestPhase4Integration:
 
     def test_feature_flag_validation(self):
         """Test feature flag validation system"""
-        from lukhas.candidate import validate_feature_flags
+        from candidate.candidate import validate_feature_flags
 
         validation = validate_feature_flags()
 

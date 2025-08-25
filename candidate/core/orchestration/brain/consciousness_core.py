@@ -9,7 +9,7 @@ from datetime import datetime
 from typing import Any
 
 from lukhas.core.common.config import LukhasConfig
-from orchestration.core_modules.orchestration_service import ConsciousnessLevel
+from candidate.orchestration.core_modules.orchestration_service import ConsciousnessLevel
 
 logger = logging.getLogger("LukhasConsciousness")
 

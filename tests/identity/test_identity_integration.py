@@ -27,9 +27,9 @@ governance_path = os.path.join(os.path.dirname(__file__), '..', '..', 'governanc
 sys.path.extend([identity_path, governance_path])
 
 try:
-    from lukhas.governance.identity.auth_backend.qr_entropy_generator import QREntropyGenerator
-    from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuth2OIDCProvider
-    from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnManager
+    from candidate.governance.identity.auth_backend.qr_entropy_generator import QREntropyGenerator
+    from candidate.governance.identity.core.auth.oauth2_oidc_provider import OAuth2OIDCProvider
+    from candidate.governance.identity.core.auth.webauthn_manager import WebAuthnManager
     from identity_core import AccessTier, IdentityCore
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -47,15 +47,15 @@ class TestIdentityModuleIntegration:
         identity_core = IdentityCore(data_dir="test_data")
 
         webauthn_config = {
-            'rp_id': 'test.lukhas.ai',
+            'rp_id': 'test.candidate.ai',
             'rp_name': 'LUKHAS Test Integration',
-            'origin': 'https://test.lukhas.ai'
+            'origin': 'https://test.candidate.ai'
         }
         webauthn_manager = WebAuthnManager(config=webauthn_config)
 
         oauth_config = {
-            'issuer': 'https://test.lukhas.ai',
-            'rp_id': 'test.lukhas.ai'
+            'issuer': 'https://test.candidate.ai',
+            'rp_id': 'test.candidate.ai'
         }
         oauth_provider = OAuth2OIDCProvider(config=oauth_config)
 
@@ -73,7 +73,7 @@ class TestIdentityModuleIntegration:
         """Test user data for integration scenarios"""
         return {
             'user_id': 'integration_test_user_12345678',
-            'email': 'test@lukhas.ai',
+            'email': 'test@candidate.ai',
             'display_name': 'Integration Test User',
             'tier': 3,
             'consent': True,
@@ -181,7 +181,7 @@ class TestIdentityModuleIntegration:
         )
 
         # Mock WebAuthn credential registration (simplified)
-        from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnCredential
+        from candidate.governance.identity.core.auth.webauthn_manager import WebAuthnCredential
         mock_credential = WebAuthnCredential({
             'credential_id': 'mock_credential_for_integration',
             'user_id': user_data['user_id'],
@@ -192,7 +192,7 @@ class TestIdentityModuleIntegration:
         webauthn_manager.credentials[user_data['user_id']] = [mock_credential]
 
         # Register OAuth client
-        from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
+        from candidate.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
         oauth_client = OAuthClient({
             'client_id': 'integration_test_client',
             'client_secret': 'integration_test_secret',
@@ -229,7 +229,7 @@ class TestIdentityModuleIntegration:
                 'clientDataJSON': base64.b64encode(json.dumps({
                     'type': 'webauthn.get',
                     'challenge': pending_auth['challenge_b64'],
-                    'origin': 'https://test.lukhas.ai'
+                    'origin': 'https://test.candidate.ai'
                 }).encode()).decode(),
                 'authenticatorData': base64.b64encode(b'mock_auth_data').decode(),
                 'signature': base64.b64encode(b'mock_signature').decode()
@@ -376,7 +376,7 @@ class TestIdentityModuleIntegration:
         )
 
         # Add WebAuthn credential
-        from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnCredential
+        from candidate.governance.identity.core.auth.webauthn_manager import WebAuthnCredential
         credential = WebAuthnCredential({
             'credential_id': 'security_test_credential',
             'user_id': user_data['user_id'],
@@ -475,7 +475,7 @@ class TestIdentityModuleIntegration:
         for i in range(num_users):
             user_data = {
                 'user_id': f'load_test_user_{i:08d}',
-                'email': f'loadtest{i}@lukhas.ai',
+                'email': f'loadtest{i}@candidate.ai',
                 'display_name': f'Load Test User {i}',
                 'tier': (i % 5) + 1  # Distribute across tiers 1-5
             }

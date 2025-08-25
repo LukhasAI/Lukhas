@@ -19,8 +19,8 @@ from typing import Any, Optional
 
 import numpy as np
 
-from core.colonies.base_colony import BaseColony
-from core.symbolism.tags import TagPermission, TagScope
+from candidate.core.colonies.base_colony import BaseColony
+from candidate.core.symbolism.tags import TagPermission, TagScope
 
 logger = logging.getLogger("ΛTRACE.bio.anomaly")
 

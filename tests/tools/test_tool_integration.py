@@ -10,9 +10,9 @@ import os
 import sys
 from pathlib import Path
 
-from lukhas.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
-from lukhas.openai.tooling import get_all_tools, get_tool_names
-from lukhas.orchestration.signals.homeostasis import ModulationParams
+from candidate.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
+from candidate.openai.tooling import get_all_tools, get_tool_names
+from candidate.orchestration.signals.homeostasis import ModulationParams
 
 # Add the project root to Python path
 project_root = Path(__file__).parent
@@ -131,7 +131,7 @@ def main():
         print("✅ Audit logging includes tool governance")
 
         print("\n🚀 Next Steps:")
-        print("1. Start the API server: python -m lukhas.api.app")
+        print("1. Start the API server: python -m candidate.api.app")
         print("2. Test endpoints:")
         print("   - GET /tools/registry - View all available tools")
         print("   - GET /tools/available - List tool names")

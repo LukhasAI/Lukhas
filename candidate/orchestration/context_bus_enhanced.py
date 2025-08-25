@@ -23,7 +23,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 # Import Agent 1's identity system
 
 # Import Agent 3's adapters
-from core.identity.lambda_id_core import LukhasIdentityService  # noqa: E402
+from candidate.core.identity.lambda_id_core import LukhasIdentityService  # noqa: E402
 
 # Import Agent 2's consent and policy
 from lukhas.governance.consent_ledger.ledger_v1 import (  # noqa: E402

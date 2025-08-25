@@ -14,7 +14,7 @@ from typing import Any
 
 import requests
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 """
 Advanced Voice Synthesis Module

@@ -34,11 +34,11 @@ from consciousness.states.symbolic_drift_tracker import (
 )
 
 # Core LUKHAS imports
-from core.common import GLYPHToken, get_logger
-from core.common.exceptions import LukhasError, ValidationError
-from core.interfaces import CoreInterface
-from core.interfaces.dependency_injection import get_service, register_service
-from core.monitoring.drift_monitor import (
+from candidate.core.common import GLYPHToken, get_logger
+from candidate.core.common.exceptions import LukhasError, ValidationError
+from candidate.core.interfaces import CoreInterface
+from candidate.core.interfaces.dependency_injection import get_service, register_service
+from candidate.core.monitoring.drift_monitor import (
     DriftType,
     InterventionType,
     UnifiedDriftMonitor,

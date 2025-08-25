@@ -26,7 +26,7 @@ class TestBrandingBridgeIntegration:
     
     def test_branding_bridge_import(self):
         """Test that branding bridge can be imported"""
-        from lukhas.branding_bridge import (
+        from candidate.branding_bridge import (
             get_bridge, initialize_branding, get_system_signature,
             get_trinity_context, validate_output, get_brand_voice
         )
@@ -36,7 +36,7 @@ class TestBrandingBridgeIntegration:
     
     def test_system_signature_generation(self):
         """Test system signature generation"""
-        from lukhas.branding_bridge import get_system_signature
+        from candidate.branding_bridge import get_system_signature
         
         signature = get_system_signature()
         assert "LUKHAS AI" in signature
@@ -44,7 +44,7 @@ class TestBrandingBridgeIntegration:
     
     def test_trinity_context_generation(self):
         """Test Trinity Framework context generation"""
-        from lukhas.branding_bridge import get_trinity_context
+        from candidate.branding_bridge import get_trinity_context
         
         context = get_trinity_context("consciousness")
         assert "framework" in context
@@ -53,7 +53,7 @@ class TestBrandingBridgeIntegration:
     
     def test_brand_voice_application(self):
         """Test brand voice application to content"""
-        from lukhas.branding_bridge import get_brand_voice, BrandContext
+        from candidate.branding_bridge import get_brand_voice, BrandContext
         
         content = "This is a test of quantum processing with bio processes."
         brand_context = BrandContext()
@@ -65,7 +65,7 @@ class TestBrandingBridgeIntegration:
     
     def test_output_validation(self):
         """Test brand compliance validation"""
-        from lukhas.branding_bridge import validate_output, BrandContext
+        from candidate.branding_bridge import validate_output, BrandContext
         
         # Test compliant content
         compliant_content = "LUKHAS AI provides quantum-inspired and bio-inspired solutions."
@@ -85,7 +85,7 @@ class TestConsciousnessIntegration:
     @pytest.mark.asyncio
     async def test_natural_language_interface_branding(self):
         """Test that natural language interface integrates branding"""
-        from lukhas.consciousness.interfaces.natural_language_interface import NaturalLanguageConsciousnessInterface
+        from candidate.consciousness.interfaces.natural_language_interface import NaturalLanguageConsciousnessInterface
         
         # Mock dependencies
         with patch('core.interfaces.dependency_injection.get_service') as mock_get_service:
@@ -102,7 +102,7 @@ class TestConsciousnessIntegration:
     @pytest.mark.asyncio  
     async def test_consciousness_branded_response(self):
         """Test that consciousness responses are branded"""
-        from lukhas.consciousness.interfaces.natural_language_interface import NaturalLanguageConsciousnessInterface
+        from candidate.consciousness.interfaces.natural_language_interface import NaturalLanguageConsciousnessInterface
         
         # Mock dependencies
         with patch('core.interfaces.dependency_injection.get_service') as mock_get_service:
@@ -124,7 +124,7 @@ class TestConsciousnessIntegration:
     
     def test_consciousness_module_branding_imports(self):
         """Test consciousness module exposes branding functions"""
-        import lukhas.consciousness
+        import candidate.consciousness
         
         # Check that branding is available in consciousness module
         assert hasattr(consciousness, 'CONSCIOUSNESS_BRANDING_AVAILABLE')
@@ -139,7 +139,7 @@ class TestOrchestrationIntegration:
     
     def test_symbolic_kernel_bus_branding(self):
         """Test that symbolic kernel bus integrates branding"""
-        from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus
+        from candidate.orchestration.symbolic_kernel_bus import SymbolicKernelBus
         
         bus = SymbolicKernelBus()
         
@@ -151,7 +151,7 @@ class TestOrchestrationIntegration:
     
     def test_event_branding_application(self):
         """Test branding is applied to orchestration events"""
-        from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus, SymbolicEvent, SymbolicEffect
+        from candidate.orchestration.symbolic_kernel_bus import SymbolicKernelBus, SymbolicEvent, SymbolicEffect
         
         bus = SymbolicKernelBus()
         
@@ -168,7 +168,7 @@ class TestOrchestrationIntegration:
     
     def test_orchestration_module_branding_imports(self):
         """Test orchestration module exposes branding functions"""
-        import lukhas.orchestration
+        import candidate.orchestration
         
         # Check that branding is available in orchestration module  
         assert hasattr(orchestration, 'ORCHESTRATION_BRANDING_AVAILABLE')
@@ -229,7 +229,7 @@ class TestAPIBridgeIntegration:
     
     def test_unified_router_branding_import(self):
         """Test unified router imports branding"""
-        from lukhas.bridge.api.unified_router import BRANDING_AVAILABLE, apply_api_branding
+        from candidate.bridge.api.unified_router import BRANDING_AVAILABLE, apply_api_branding
         
         # Check branding availability
         if BRANDING_AVAILABLE:
@@ -237,7 +237,7 @@ class TestAPIBridgeIntegration:
     
     def test_api_response_branding(self):
         """Test API responses are branded"""
-        from lukhas.bridge.api.unified_router import apply_api_branding, BRANDING_AVAILABLE
+        from candidate.bridge.api.unified_router import apply_api_branding, BRANDING_AVAILABLE
         
         if not BRANDING_AVAILABLE:
             pytest.skip("Branding not available for API")
@@ -262,7 +262,7 @@ class TestAPIBridgeIntegration:
     @pytest.mark.asyncio
     async def test_health_check_branding(self):
         """Test health check endpoint includes branding"""
-        from lukhas.bridge.api.unified_router import health_check
+        from candidate.bridge.api.unified_router import health_check
         
         response = await health_check()
         
@@ -294,7 +294,7 @@ class TestMainSystemIntegration:
         # Check branding bridge availability
         assert hasattr(lukhas, 'BRANDING_BRIDGE_AVAILABLE')
         
-        if lukhas.BRANDING_BRIDGE_AVAILABLE:
+        if candidate.BRANDING_BRIDGE_AVAILABLE:
             assert hasattr(lukhas, 'get_system_signature')
             assert hasattr(lukhas, 'get_trinity_context')
             assert hasattr(lukhas, 'get_brand_voice')
@@ -306,7 +306,7 @@ class TestMainSystemIntegration:
         """Test Trinity status function"""
         import lukhas
         
-        status = lukhas.get_trinity_status()
+        status = candidate.get_trinity_status()
         
         assert "identity" in status
         assert "consciousness" in status
@@ -322,7 +322,7 @@ class TestEndToEndIntegration:
     @pytest.mark.asyncio
     async def test_branding_initialization(self):
         """Test branding system can be initialized"""
-        from lukhas.branding_bridge import initialize_branding
+        from candidate.branding_bridge import initialize_branding
         
         success = await initialize_branding()
         assert success is True
@@ -330,9 +330,9 @@ class TestEndToEndIntegration:
     def test_cross_module_branding_consistency(self):
         """Test branding consistency across modules"""
         # Import all modules with branding
-        from lukhas.branding_bridge import get_system_signature
-        import lukhas.consciousness
-        import lukhas.orchestration
+        from candidate.branding_bridge import get_system_signature
+        import candidate.consciousness
+        import candidate.orchestration
         
         # Get system signature from bridge
         signature = get_system_signature()
@@ -353,7 +353,7 @@ class TestEndToEndIntegration:
     
     def test_brand_compliance_across_systems(self):
         """Test brand compliance validation works across systems"""
-        from lukhas.branding_bridge import validate_output, normalize_output_text, BrandContext
+        from candidate.branding_bridge import validate_output, normalize_output_text, BrandContext
         
         # Test content that should trigger compliance issues
         test_content = "LUKHAS AGI provides quantum processing and bio processing capabilities"

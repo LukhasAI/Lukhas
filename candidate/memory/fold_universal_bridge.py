@@ -50,7 +50,7 @@ except ImportError:
 
 # Bio-simulation
 try:
-    from core.bio_systems.bio_simulation_controller import (
+    from candidate.core.bio_systems.bio_simulation_controller import (
         BioSimulationController,
     )
 
@@ -100,7 +100,7 @@ except ImportError:
 
 # Orchestration
 try:
-    from orchestration.orchestrator_core import OrchestrationCore
+    from candidate.orchestration.orchestrator_core import OrchestrationCore
 
     orchestration_available = True
 except ImportError:

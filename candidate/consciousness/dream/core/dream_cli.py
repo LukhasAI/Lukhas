@@ -12,7 +12,7 @@ import argparse
 import logging
 import subprocess
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Configure logging
 logger = get_logger(__name__)

@@ -40,7 +40,7 @@ try:
     from lukhas.consciousness.core_consciousness.quantum_consciousness_visualizer import (
         QIConsciousnessVisualizer,
     )
-    from core.interfaces.as_agent.core.gatekeeper import (
+    from candidate.core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
     from governance.identity.auth.cultural_profile_manager import CulturalProfileManager

@@ -19,10 +19,10 @@ from typing import Any, Dict, List
 # Load environment variables
 from dotenv import load_dotenv
 
-from lukhas.audit.store import audit_log_write
-from lukhas.audit.tool_analytics import get_analytics
-from lukhas.metrics import get_metrics_collector
-from lukhas.orchestration.signals.homeostasis import ModulationParams
+from candidate.audit.store import audit_log_write
+from candidate.audit.tool_analytics import get_analytics
+from candidate.metrics import get_metrics_collector
+from candidate.orchestration.signals.homeostasis import ModulationParams
 
 load_dotenv()
 

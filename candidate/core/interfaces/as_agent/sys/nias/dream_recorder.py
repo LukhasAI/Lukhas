@@ -68,7 +68,7 @@ def record_dream_message(message, user_context=None):
 ──────────────────────────────────────────────────────────────────────────────────────
 EXECUTION:
     - Import via:
-        from core.modules.nias.dream_recorder import record_dream_message
+        from candidate.core.modules.nias.dream_recorder import record_dream_message
 
 USED BY:
     - inject_message_simulator.py

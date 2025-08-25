@@ -229,7 +229,7 @@ class LUKHASSystem:
             try:
                 import asyncio
 
-                from orchestration.signals import get_signal_bus
+                from candidate.orchestration.signals import get_signal_bus
 
                 # Create event loop if needed
                 try:

@@ -40,7 +40,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from orchestration.brain.spine.trait_manager import load_traits
+from candidate.orchestration.brain.spine.trait_manager import load_traits
 
 # CONFIG
 NODE_ID = "lukhas_london"

@@ -49,8 +49,8 @@ from typing import Any, Optional
 # or if 'lukhas' is an installed package.
 LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = False
 try:
-    from core.registry import core_registry  # type: ignore # Assuming core is in path
-    from core.utils.base_module import (
+    from candidate.core.registry import core_registry  # type: ignore # Assuming core is in path
+    from candidate.core.utils.base_module import (
         BaseLucasModule,  # type: ignore # Assuming core is in path
     )
 
@@ -61,7 +61,7 @@ try:
     from .plugin_loader import PluginLoader  # Assuming relative import
 
     # Remove SymbolicLogger if BaseLucasModule no longer uses it or provides its own structlog-based logger.
-    # from core.utils.base_module import SymbolicLogger
+    # from candidate.core.utils.base_module import SymbolicLogger
     LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = True
     log.info("LUKHΛS framework components for IntegrationBridge imported successfully.")
 except ImportError as e:

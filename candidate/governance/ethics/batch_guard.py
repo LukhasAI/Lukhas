@@ -14,7 +14,7 @@ import json
 from dataclasses import dataclass
 from enum import Enum
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 
 class EthicsLevel(Enum):

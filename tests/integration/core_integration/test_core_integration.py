@@ -9,7 +9,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from lukhas.orchestration.symbolic_kernel_bus import kernel_bus
+from candidate.orchestration.symbolic_kernel_bus import kernel_bus
 from tests.test_framework import (
     PERFORMANCE_BENCHMARKS,
     TEST_DATASETS,

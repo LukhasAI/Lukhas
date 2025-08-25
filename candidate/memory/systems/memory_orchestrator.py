@@ -8,7 +8,7 @@ Coordinates between different memory types: symbolic, quantum, and bio-inspired.
 
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 logger = get_logger(__name__)
 

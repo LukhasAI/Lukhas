@@ -56,7 +56,7 @@ from dream.core import DreamPhase
 from bio.quantum_inspired_layer import QuantumBioOscillator
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
 from consciousness.awareness.awareness_engine import AwarenessEngine
-from core.unified.integration import UnifiedIntegration
+from candidate.core.unified.integration import UnifiedIntegration
 from ethics.engine import EthicalFramework, EthicalRiskLevel, QuantumEthics
 from qi.processing_core import QuantumProcessingCore
 
@@ -1234,7 +1234,7 @@ class QIAwarenessSystem:
 #                     Ensured datetime objects in state responses are ISO strings.
 # 2025-07-27: Claude - Fixed import paths:
 #                     Changed from bio.quantum_inspired_layer to lukhas.bio.quantum_inspired_layer
-#                     Changed from core.unified_integration to lukhas.core.unified.integration
+#                     Changed from candidate.core.unified_integration to lukhas.core.unified.integration
 #                     Added missing asdict import from dataclasses
 # 2025-07-27: Claude - Added consciousness/dream/ethics integration:
 #                     Integrated with consciousness engine for awareness synchronization

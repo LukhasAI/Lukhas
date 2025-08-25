@@ -1,4 +1,4 @@
-from lukhas.client import Lukhas
+from candidate.client import Lukhas
 
 
 class FakeResp:

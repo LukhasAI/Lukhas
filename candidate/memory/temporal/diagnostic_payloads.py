@@ -8,8 +8,8 @@
 
 from typing import Optional
 
-from core.helpers import get_utc_timestamp  # ΛUTIL: UTC timestamp utility
-from core.utils import SystemStatus  # ΛSHARED: System status enumeration
+from candidate.core.helpers import get_utc_timestamp  # ΛUTIL: UTC timestamp utility
+from candidate.core.utils import SystemStatus  # ΛSHARED: System status enumeration
 
 # ΛTRACE: Initializing logger for diagnostic payloads
 
@@ -29,7 +29,7 @@ def create_diagnostic_payload(
     """
     Creates a standardized diagnostic payload for LUKHAS components.
     # ΛNOTE: This utility helps in creating consistent diagnostic messages across the system.
-    #        Moved from core.lukhas_utils for better organization within diagnostic_engine.
+    #        Moved from candidate.core.lukhas_utils for better organization within diagnostic_engine.
     # ΛECHO: Reflects the state of a component for diagnostic purposes.
     """
     # ΛTRACE: Creating diagnostic payload
@@ -38,9 +38,9 @@ def create_diagnostic_payload(
     )
     payload = {
         "lukhas_diagnostic_version": "1.0",
-        "timestamp_utc": get_utc_timestamp(),  # ΛUTIL (from core.helpers)
+        "timestamp_utc": get_utc_timestamp(),  # ΛUTIL (from candidate.core.helpers)
         "component_id": component_id,
-        "status": status.value,  # ΛSHARED (enum from core.common)
+        "status": status.value,  # ΛSHARED (enum from candidate.core.common)
         "message": message,
         "data": additional_data or {},
     }
@@ -62,9 +62,9 @@ def create_diagnostic_payload(
 # LOGGING: ΛTRACE_ENABLED
 # AUTHENTICATION: None required
 # HOW TO USE:
-#   from core.diagnostic_engine.diagnostic_payloads import create_diagnostic_payload
+#   from candidate.core.diagnostic_engine.diagnostic_payloads import create_diagnostic_payload
 #   payload = create_diagnostic_payload("ComponentName", SystemStatus.OK, "All systems operational")
-# INTEGRATION NOTES: Moved from core.lukhas_utils for better organization
+# INTEGRATION NOTES: Moved from candidate.core.lukhas_utils for better organization
 # MAINTENANCE: Update diagnostic_version when payload format changes
 # CONTACT: LUKHAS DEVELOPMENT TEAM
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED

@@ -70,21 +70,21 @@ orchestration_bridge = OrchestrationBridge()
 
 # Import cognitive components
 try:
-    from orchestration.brain.cognitive.cognitive_updater import CognitiveUpdater
+    from candidate.orchestration.brain.cognitive.cognitive_updater import CognitiveUpdater
     orchestration_bridge.register_brain_component('cognitive_updater', CognitiveUpdater())
 except ImportError:
     pass
 
 # Import monitoring components
 try:
-    from orchestration.brain.monitoring.rate_modulator import RateModulator
+    from candidate.orchestration.brain.monitoring.rate_modulator import RateModulator
     orchestration_bridge.register_brain_component('rate_modulator', RateModulator())
 except ImportError:
     pass
 
 # Import personality components
 try:
-    from orchestration.brain.personality.personality import PersonalityEngine
+    from candidate.orchestration.brain.personality.personality import PersonalityEngine
     orchestration_bridge.register_brain_component('personality', PersonalityEngine())
 except ImportError:
     pass
@@ -314,18 +314,18 @@ class LUKHASNeuralNetwork:
         """Initialize and connect all modules"""
         try:
             # Import module connectors
-            from core.neuroplastic_connector import CoreConnector
+            from candidate.core.neuroplastic_connector import CoreConnector
             from lukhas.consciousness.neuroplastic_connector import ConsciousnessConnector
             from lukhas.memory.neuroplastic_connector import MemoryConnector
             from qi.neuroplastic_connector import QimConnector
             from emotion.neuroplastic_connector import EmotionConnector
             from lukhas.governance.neuroplastic_connector import GovernanceConnector
-            from bridge.neuroplastic_connector import BridgeConnector
+            from candidate.bridge.neuroplastic_connector import BridgeConnector
 
             # Import bridges
             from lukhas.consciousness.orchestration_bridge import orchestration_bridge
             from lukhas.governance.identity_integration import identity_governance
-            from core.neural_bridge import neural_bridge
+            from candidate.core.neural_bridge import neural_bridge
 
             # Register all modules with neural bridge
             self.modules = {
@@ -354,7 +354,7 @@ class LUKHASNeuralNetwork:
 
     def _create_neural_pathways(self):
         """Create connections between modules"""
-        from core.neural_bridge import neural_bridge
+        from candidate.core.neural_bridge import neural_bridge
 
         # Core pathways
         neural_bridge.create_synapse('consciousness', 'memory')
@@ -419,7 +419,7 @@ def get_neural_network():
                 content = f.read()
 
             # Add neural network import after other imports
-            import_line = "from core.master_integration import get_neural_network"
+            import_line = "from candidate.core.master_integration import get_neural_network"
             if import_line not in content:
                 # Find imports section
                 lines = content.split("\n")

@@ -8,7 +8,7 @@ Ensures symbolic memory collapses maintain structural and semantic integrity.
 
 from dataclasses import dataclass
 
-from core.symbolic.symbolic_tracer import (
+from candidate.core.symbolic.symbolic_tracer import (
     SymbolicTracer,  # CLAUDE_EDIT_v0.1: Updated import path
 )
 

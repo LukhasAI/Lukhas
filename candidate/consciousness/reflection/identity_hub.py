@@ -18,7 +18,7 @@ import time
 from dataclasses import asdict
 from typing import Any, Optional
 
-from core.bridges.identity_core_bridge import IdentityCoreBridge
+from candidate.core.bridges.identity_core_bridge import IdentityCoreBridge
 from candidate.core.common import get_logger
 from lukhas.governance.identity.auth_backend.trust_scorer import LukhasTrustScorer
 from lukhas.governance.identity.core.auth.biometric_integration import (
@@ -169,7 +169,7 @@ except ImportError as e:
 
 # Agent 1 Task 12: Add persona engine imports
 try:
-    from core.identity.persona_engine import (
+    from candidate.core.identity.persona_engine import (
         PersonaEngine,
         create_and_initialize_identity_component,
         create_identity_component,
@@ -207,7 +207,7 @@ except ImportError as e:
 
 # Task 3B: Add connectivity imports
 try:
-    from core.core_hub import get_core_hub
+    from candidate.core.core_hub import get_core_hub
 except ImportError:
     get_core_hub = None
     logging.warning("CoreHub not available")

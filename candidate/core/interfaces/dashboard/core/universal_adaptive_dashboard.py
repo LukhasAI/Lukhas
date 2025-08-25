@@ -59,7 +59,7 @@ from lukhas.core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
 from lukhas.core.monitoring.drift_monitor import UnifiedDriftMonitor
 from lukhas.core.oracle_nervous_system import get_oracle_nervous_system
 from lukhas.memory.systems.healix_memory_core import HealixMemoryCore
-from orchestration.brain.dynamic_adaptive_dashboard import AdaptiveDashboard
+from candidate.orchestration.brain.dynamic_adaptive_dashboard import AdaptiveDashboard
 
 logger = logging.getLogger("ΛTRACE.universal_adaptive_dashboard")
 

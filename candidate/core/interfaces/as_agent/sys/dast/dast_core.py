@@ -45,7 +45,7 @@ def remove_tag(tag):
 ──────────────────────────────────────────────────────────────────────────────────────
 EXECUTION:
     - Import using:
-        from core.modules.dast.dast_core import get_current_tags, add_tag, remove_tag
+        from candidate.core.modules.dast.dast_core import get_current_tags, add_tag, remove_tag
 
 USED BY:
     - context_builder.py

@@ -14,9 +14,9 @@ from typing import Dict, Any, List, Optional
 
 # Memory module imports - test both candidate and promoted versions
 try:
-    from lukhas.memory import MemoryWrapper, MemoryFold, get_memory_manager
-    from lukhas.memory.fold_system import FoldManager
-    from lukhas.memory.matriz_adapter import MemoryMatrizAdapter
+    from candidate.memory import MemoryWrapper, MemoryFold, get_memory_manager
+    from candidate.memory.fold_system import FoldManager
+    from candidate.memory.matriz_adapter import MemoryMatrizAdapter
     MEMORY_AVAILABLE = True
     MEMORY_PROMOTED = True
 except ImportError:

@@ -23,7 +23,7 @@ class TestMemoryDNAHelixPath:
     def test_dna_helix_imports(self):
         """Test that DNA helix components import correctly"""
         try:
-            from lukhas.memory.dna_helix.dna_healix import (
+            from candidate.memory.dna_helix.dna_healix import (
                 DNAHealixCore,
                 MemoryHelix,
                 SymbolicStrand,
@@ -39,7 +39,7 @@ class TestMemoryDNAHelixPath:
         """Test symbolic strand creation and operations"""
         try:
             from core.common.glyph import GLYPHSymbol, GLYPHToken
-            from lukhas.memory.dna_helix.dna_healix import SymbolicStrand
+            from candidate.memory.dna_helix.dna_healix import SymbolicStrand
 
             # Create test GLYPH token
             test_token = GLYPHToken(
@@ -69,7 +69,7 @@ class TestMemoryDNAHelixPath:
         """Test memory helix storage and retrieval path"""
         try:
             from core.common.glyph import GLYPHSymbol, GLYPHToken
-            from lukhas.memory.dna_helix.dna_healix import MemoryHelix, SymbolicStrand
+            from candidate.memory.dna_helix.dna_healix import MemoryHelix, SymbolicStrand
 
             # Create memory helix with correct constructor parameters
             helix = MemoryHelix(memory_id="test_helix", initial_glyphs=["test", "helix", "storage"])
@@ -105,7 +105,7 @@ class TestMemoryDNAHelixPath:
     async def test_drift_detection_path(self):
         """Test memory drift detection critical path"""
         try:
-            from lukhas.memory.dna_helix.dna_healix import DNAHealixCore, SymbolicStrand
+            from candidate.memory.dna_helix.dna_healix import DNAHealixCore, SymbolicStrand
 
             # Create origin strand for DNAHealixCore
             origin_strand = SymbolicStrand(["memory", "test", "drift"])
@@ -197,7 +197,7 @@ class TestMemorySystemIntegration:
             mock_get_test.return_value = mock_test_module
 
             try:
-                from lukhas.memory.core.unified_memory_orchestrator import (
+                from candidate.memory.core.unified_memory_orchestrator import (
                     UnifiedMemoryOrchestrator,
                 )
 
@@ -220,7 +220,7 @@ class TestMemoryPerformancePaths:
     def test_memory_vector_operations(self):
         """Test memory vector operations path"""
         try:
-            from lukhas.memory.dna_helix.dna_healix import DNAHealixCore, SymbolicStrand
+            from candidate.memory.dna_helix.dna_healix import DNAHealixCore, SymbolicStrand
 
             # Create origin strand for DNAHealixCore
             origin_strand = SymbolicStrand(["vector", "test", "operations"])
@@ -240,7 +240,7 @@ class TestMemoryPerformancePaths:
         """Test concurrent memory access path"""
         try:
             from core.common.glyph import GLYPHSymbol, GLYPHToken
-            from lukhas.memory.dna_helix.dna_healix import MemoryHelix, SymbolicStrand
+            from candidate.memory.dna_helix.dna_healix import MemoryHelix, SymbolicStrand
 
             helix = MemoryHelix(memory_id="concurrent_test", initial_glyphs=["concurrent", "test", "helix"])
 
@@ -290,7 +290,7 @@ class TestMemoryErrorRecoveryPaths:
     async def test_memory_corruption_detection(self):
         """Test memory corruption detection path"""
         try:
-            from lukhas.memory.dna_helix.dna_healix import DNAHealixCore, SymbolicStrand
+            from candidate.memory.dna_helix.dna_healix import DNAHealixCore, SymbolicStrand
 
             # Create origin and corrupted strands
             origin_strand = SymbolicStrand(["memory", "integrity", "test"])
@@ -309,7 +309,7 @@ class TestMemoryErrorRecoveryPaths:
     async def test_memory_repair_mechanisms(self):
         """Test memory repair mechanisms path"""
         try:
-            from lukhas.memory.dna_helix.dna_healix import MemoryHelix
+            from candidate.memory.dna_helix.dna_healix import MemoryHelix
 
             # Use correct constructor parameters
             helix = MemoryHelix(memory_id="repair_test", initial_glyphs=["repair", "test", "memory"])

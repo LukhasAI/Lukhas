@@ -9,7 +9,7 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 import json
-from core.common import get_logger
+from candidate.core.common import get_logger
 from datetime import datetime
 from typing import Dict, List, Any, Optional
 from pathlib import Path

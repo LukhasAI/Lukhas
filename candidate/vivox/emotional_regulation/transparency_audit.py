@@ -11,7 +11,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from .vivox_ern_core import RegulationResponse, RegulationStrategy
 

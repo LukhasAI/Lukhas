@@ -9,7 +9,7 @@ from dream.engine import DreamEngine
 
 from consciousness.bridge import ConsciousnessBridge
 from lukhas.memory.core import MemoryCore
-from orchestration.integration_hub import get_integration_hub
+from candidate.orchestration.integration_hub import get_integration_hub
 
 
 class DreamConsciousnessBridge:

@@ -43,7 +43,7 @@ logger.info(
 # LOGGING: ΛTRACE_ENABLED via structlog.
 # AUTHENTICATION: Not applicable.
 # HOW TO USE:
-#   from core.integration.meta_cognitive import MetaCognitiveController # Example
+#   from candidate.core.integration.meta_cognitive import MetaCognitiveController # Example
 # INTEGRATION NOTES: Connects core cognitive functions with self-monitoring and
 #                    adaptive learning strategy systems.
 # MAINTENANCE: Update __all__ as components are added/refactored.

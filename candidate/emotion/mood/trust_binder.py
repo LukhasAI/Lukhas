@@ -51,9 +51,9 @@ import json
 from datetime import datetime
 from typing import Dict
 
-from core.bio_systems.stability_anchor import StabilityAnchor
-from core.bio_systems.stress_signal import StressSignal
-from core.bio_systems.symbolic_entropy import entropy_state_snapshot
+from candidate.core.bio_systems.stability_anchor import StabilityAnchor
+from candidate.core.bio_systems.stress_signal import StressSignal
+from candidate.core.bio_systems.symbolic_entropy import entropy_state_snapshot
 
 
 # LUKHAS_TAG: hormonal_feedback

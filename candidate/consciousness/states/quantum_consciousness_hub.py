@@ -22,8 +22,8 @@ import numpy as np
 from contracts import ProcessingResult
 from openai import AsyncOpenAI
 
-from core.common import get_logger
-from orchestration.brain.consciousness_core import ConsciousnessCore
+from candidate.core.common import get_logger
+from candidate.orchestration.brain.consciousness_core import ConsciousnessCore
 from qi.attention_economics import QuantumAttentionEconomics
 
 logger = get_logger(__name__)

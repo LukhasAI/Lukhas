@@ -4,13 +4,13 @@ import asyncio
 from dataclasses import dataclass
 from typing import Any
 
-from core.colonies.base_colony import BaseColony
-from core.colonies.creativity_colony import CreativityColony
-from core.colonies.memory_colony import MemoryColony
-from core.colonies.reasoning_colony import ReasoningColony
-from core.colonies.tensor_colony_ops import batch_propagate
-from core.common import get_logger
-from core.symbolism.tags import TagPermission, TagScope
+from candidate.core.colonies.base_colony import BaseColony
+from candidate.core.colonies.creativity_colony import CreativityColony
+from candidate.core.colonies.memory_colony import MemoryColony
+from candidate.core.colonies.reasoning_colony import ReasoningColony
+from candidate.core.colonies.tensor_colony_ops import batch_propagate
+from candidate.core.common import get_logger
+from candidate.core.symbolism.tags import TagPermission, TagScope
 
 logger = get_logger(__name__)
 

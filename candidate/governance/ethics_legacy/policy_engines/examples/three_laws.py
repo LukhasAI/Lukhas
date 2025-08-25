@@ -19,7 +19,7 @@
 import time
 from typing import Any
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from ..base import Decision, EthicsEvaluation, EthicsPolicy, RiskLevel
 

@@ -5,8 +5,8 @@
 # TAG:colony
 
 
-from core.common import get_logger
-from orchestration.brain.spine.fold_engine import AGIMemory
+from candidate.core.common import get_logger
+from candidate.orchestration.brain.spine.fold_engine import AGIMemory
 import os  # LUKHAS_TAG: file_operations
 import hashlib  # LUKHAS_TAG: memory_integrity
 import structlog  # ΛTRACE: Standardized logging.

@@ -47,7 +47,7 @@ from ethics.self_reflective_debugger import SelfReflectiveDebugger
 # Ethics system imports
 from ethics.service import EthicsService
 from identity.identity_hub import IdentityHub
-from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 
 # Oscillator and mito patterns
 from qi.oscillator import BaseOscillator

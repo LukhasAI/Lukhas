@@ -31,7 +31,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
-from bridge.openai_core_service import (
+from candidate.bridge.openai_core_service import (
     ModelType,
     OpenAICoreService,
     OpenAIRequest,

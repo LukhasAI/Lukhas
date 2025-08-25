@@ -117,7 +117,7 @@ class LukhasAGIIntegrationManager:
     async def _initialize_cognitive_enhancement(self):
         """Initialize cognitive core AGI enhancement"""
         try:
-            from orchestration.brain.cognitive_agi_enhancement import (
+            from candidate.orchestration.brain.cognitive_agi_enhancement import (
                 CognitiveAGIEnhancement,
                 enhancement_success,
             )

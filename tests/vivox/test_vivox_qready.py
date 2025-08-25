@@ -5,7 +5,7 @@ Tests for VIVOX.QREADY - Quantum Readiness Interface
 import numpy as np
 import pytest
 
-from lukhas.vivox.quantum_readiness import (
+from candidate.vivox.quantum_readiness import (
     CollapseField,
     CollapseType,
     EntanglementBridge,
@@ -23,7 +23,7 @@ from lukhas.vivox.quantum_readiness import (
     SyncType,
     create_quantum_readiness_system,
 )
-from lukhas.vivox.quantum_readiness.integration.vivox_bridge import VIVOXQuantumBridge
+from candidate.vivox.quantum_readiness.integration.vivox_bridge import VIVOXQuantumBridge
 
 
 class TestQuantumSubstrate:

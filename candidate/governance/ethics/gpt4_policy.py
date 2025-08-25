@@ -28,7 +28,7 @@ import time
 from dataclasses import dataclass
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from ..base import (
     Decision,

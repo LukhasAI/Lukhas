@@ -3,9 +3,9 @@
 Unified access to all cognitive and reasoning systems
 """
 
-from orchestration.brain.lukhas_brain import LUKHASBrain
-from orchestration.brain.neuro_symbolic.neuro_symbolic_engine import NeuroSymbolicEngine
-from orchestration.meta_cognitive_orchestrator import MetaCognitiveOrchestrator
+from candidate.orchestration.brain.lukhas_brain import LUKHASBrain
+from candidate.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import NeuroSymbolicEngine
+from candidate.orchestration.meta_cognitive_orchestrator import MetaCognitiveOrchestrator
 
 
 class LUKHASBrainBridge:

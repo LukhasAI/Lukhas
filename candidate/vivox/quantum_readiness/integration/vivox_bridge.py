@@ -9,7 +9,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from ..coherence.qsync_events import QuantumSynchronizer, SyncType
 from ..collapse.moral_superposition import EthicalDimension, MoralSuperposition

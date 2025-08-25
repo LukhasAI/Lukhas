@@ -42,12 +42,12 @@ from typing_extensions import Literal
 
 # Initialize ΛTRACE logger for this module
 # AIMPORT_TODO: Verify the location of `_models.BaseModel`.
-# ΛAUTO_GEN_PATH: This relative import `from core.models import BaseModel` is likely from auto-generation.
+# ΛAUTO_GEN_PATH: This relative import `from candidate.core.models import BaseModel` is likely from auto-generation.
 # See reasoning/README_reasoning_trace.md -> Auto-Gen Import Note
 # If `_models.BaseModel` is part of a core LUKHAS framework library, an absolute import
 # (e.g., `from core_framework.core.models import BaseModel`) would be more robust.
 # ΛCAUTION: Fragile import path can lead to runtime errors and maintenance issues.
-from core.models import (
+from candidate.core.models import (
     BaseModel,  # Assuming this path is correct within the project structure.
 )
 

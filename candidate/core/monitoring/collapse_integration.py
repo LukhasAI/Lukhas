@@ -268,7 +268,7 @@ def integrate_collapse_tracking(
 ║   - Collapse Tracker: lukhas/core/monitoring/collapse_tracker.py
 ║
 ║ USAGE:
-║   from core.monitoring.collapse_integration import integrate_collapse_tracking
+║   from candidate.core.monitoring.collapse_integration import integrate_collapse_tracking
 ║   integration = integrate_collapse_tracking(orchestrator, ethics_sentinel)
 ║
 ║ MONITORING:

@@ -20,6 +20,12 @@ import pytest
 # Add project paths
 sys.path.append(str(Path(__file__).parent.parent))
 
+# Import and apply the test logger patch to handle keyword arguments
+from candidate.core.common.test_logger import patch_logger_for_tests
+
+# Apply the patch globally for all tests
+original_logger = patch_logger_for_tests()
+
 # Test configuration
 pytest_plugins = ["pytest_asyncio"]
 
@@ -56,7 +62,7 @@ def lid_user():
     return {
         'user_id': f'lid_{uuid.uuid4().hex[:8]}',
         'namespace': 'test',
-        'email': 'test@lukhas.ai',
+        'email': 'test@candidate.ai',
         'webauthn_registered': False,
         'created_at': time.time(),
         'perf_target_ms': 100
@@ -68,7 +74,7 @@ def webauthn_assertion():
     """WebAuthn assertion fixture for passkey testing"""
     return {
         'credential_id': uuid.uuid4().bytes,
-        'client_data': b'{"challenge":"test_challenge","origin":"https://lukhas.ai"}',
+        'client_data': b'{"challenge":"test_challenge","origin":"https://candidate.ai"}',
         'authenticator_data': b'\x00' * 37,  # Minimal valid authenticator data
         'signature': b'\x00' * 64,  # Placeholder signature
         'user_handle': uuid.uuid4().bytes

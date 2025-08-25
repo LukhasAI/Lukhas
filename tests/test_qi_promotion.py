@@ -20,10 +20,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 def test_qi_module_imports():
     """Test that QI module can be imported successfully"""
     try:
-        import lukhas.qi
-        assert hasattr(lukhas.qi, 'get_qi_wrapper')
-        assert hasattr(lukhas.qi, 'QI_ACTIVE')
-        assert hasattr(lukhas.qi, 'QI_DRY_RUN')
+        import candidate.qi
+        assert hasattr(candidate.qi, 'get_qi_wrapper')
+        assert hasattr(candidate.qi, 'QI_ACTIVE')
+        assert hasattr(candidate.qi, 'QI_DRY_RUN')
         print("✓ QI module imports successfully")
     except ImportError as e:
         pytest.skip(f"QI module import failed: {e}")
@@ -31,7 +31,7 @@ def test_qi_module_imports():
 def test_qi_wrapper_initialization():
     """Test QI wrapper initialization"""
     try:
-        from lukhas.qi import get_qi_wrapper
+        from candidate.qi import get_qi_wrapper
         
         wrapper = get_qi_wrapper()
         assert wrapper is not None
@@ -47,7 +47,7 @@ def test_qi_wrapper_initialization():
 def test_qi_feature_flags():
     """Test QI feature flag behavior"""
     try:
-        from lukhas.qi import QI_ACTIVE, QI_DRY_RUN
+        from candidate.qi import QI_ACTIVE, QI_DRY_RUN
         
         # Default values should be safe
         assert QI_DRY_RUN == True, "Default should be dry-run mode for safety"
@@ -56,8 +56,8 @@ def test_qi_feature_flags():
         with patch.dict(os.environ, {'QI_ACTIVE': 'true', 'QI_DRY_RUN': 'false'}):
             # Re-import to get updated values
             import importlib
-            import lukhas.qi
-            importlib.reload(lukhas.qi)
+            import candidate.qi
+            importlib.reload(candidate.qi)
             
         print("✓ Feature flags behave correctly")
     except Exception as e:
@@ -69,7 +69,7 @@ class TestConstitutionalSafety:
     def test_safety_guard_initialization(self):
         """Test constitutional safety guard can be created"""
         try:
-            from lukhas.qi.qi_wrapper import ConstitutionalSafetyGuard
+            from candidate.qi.qi_wrapper import ConstitutionalSafetyGuard
             
             guard = ConstitutionalSafetyGuard()
             assert guard is not None
@@ -83,7 +83,7 @@ class TestConstitutionalSafety:
     def test_pii_detection(self):
         """Test PII detection in constitutional safety"""
         try:
-            from lukhas.qi.qi_wrapper import ConstitutionalSafetyGuard
+            from candidate.qi.qi_wrapper import ConstitutionalSafetyGuard
             
             guard = ConstitutionalSafetyGuard()
             
@@ -117,7 +117,7 @@ class TestConstitutionalSafety:
     def test_harmful_content_detection(self):
         """Test harmful content detection"""
         try:
-            from lukhas.qi.qi_wrapper import ConstitutionalSafetyGuard
+            from candidate.qi.qi_wrapper import ConstitutionalSafetyGuard
             
             guard = ConstitutionalSafetyGuard()
             
@@ -152,7 +152,7 @@ class TestQuantumInspiredProcessing:
     def test_quantum_processor_initialization(self):
         """Test quantum processor initialization"""
         try:
-            from lukhas.qi.qi_wrapper import QuantumInspiredProcessor
+            from candidate.qi.qi_wrapper import QuantumInspiredProcessor
             
             processor = QuantumInspiredProcessor()
             assert processor is not None
@@ -166,7 +166,7 @@ class TestQuantumInspiredProcessing:
     def test_superposition_creation(self):
         """Test quantum superposition creation"""
         try:
-            from lukhas.qi.qi_wrapper import QuantumInspiredProcessor
+            from candidate.qi.qi_wrapper import QuantumInspiredProcessor
             
             processor = QuantumInspiredProcessor()
             options = ["option_a", "option_b", "option_c"]
@@ -192,7 +192,7 @@ class TestQuantumInspiredProcessing:
     def test_entanglement_creation(self):
         """Test quantum entanglement creation"""
         try:
-            from lukhas.qi.qi_wrapper import QuantumInspiredProcessor
+            from candidate.qi.qi_wrapper import QuantumInspiredProcessor
             
             processor = QuantumInspiredProcessor()
             
@@ -215,7 +215,7 @@ class TestQuantumInspiredProcessing:
     def test_superposition_collapse(self):
         """Test quantum superposition collapse"""
         try:
-            from lukhas.qi.qi_wrapper import QuantumInspiredProcessor
+            from candidate.qi.qi_wrapper import QuantumInspiredProcessor
             
             processor = QuantumInspiredProcessor()
             options = ["option_a", "option_b", "option_c"]
@@ -243,7 +243,7 @@ class TestBioInspiredProcessing:
     def test_bio_processor_initialization(self):
         """Test bio processor initialization"""
         try:
-            from lukhas.qi.qi_wrapper import BioInspiredProcessor
+            from candidate.qi.qi_wrapper import BioInspiredProcessor
             
             processor = BioInspiredProcessor()
             assert processor is not None
@@ -258,7 +258,7 @@ class TestBioInspiredProcessing:
     def test_neural_oscillator_creation(self):
         """Test neural oscillator creation"""
         try:
-            from lukhas.qi.qi_wrapper import BioInspiredProcessor
+            from candidate.qi.qi_wrapper import BioInspiredProcessor
             
             processor = BioInspiredProcessor()
             
@@ -280,7 +280,7 @@ class TestBioInspiredProcessing:
     def test_homeostasis_regulation(self):
         """Test homeostasis regulation"""
         try:
-            from lukhas.qi.qi_wrapper import BioInspiredProcessor
+            from candidate.qi.qi_wrapper import BioInspiredProcessor
             
             processor = BioInspiredProcessor()
             
@@ -307,7 +307,7 @@ class TestBioInspiredProcessing:
     def test_swarm_intelligence(self):
         """Test swarm intelligence processing"""
         try:
-            from lukhas.qi.qi_wrapper import BioInspiredProcessor
+            from candidate.qi.qi_wrapper import BioInspiredProcessor
             
             processor = BioInspiredProcessor()
             
@@ -342,7 +342,7 @@ class TestQIIntegration:
     def test_qi_wrapper_initialization(self):
         """Test full QI wrapper initialization"""
         try:
-            from lukhas.qi import get_qi_wrapper
+            from candidate.qi import get_qi_wrapper
             
             wrapper = get_qi_wrapper()
             result = wrapper.initialize()
@@ -356,7 +356,7 @@ class TestQIIntegration:
     def test_constitutional_safety_processing(self):
         """Test processing with constitutional safety checks"""
         try:
-            from lukhas.qi import get_qi_wrapper
+            from candidate.qi import get_qi_wrapper
             
             wrapper = get_qi_wrapper()
             wrapper.initialize()
@@ -398,7 +398,7 @@ class TestQIIntegration:
     def test_quantum_decision_making(self):
         """Test quantum-inspired decision making"""
         try:
-            from lukhas.qi import get_qi_wrapper
+            from candidate.qi import get_qi_wrapper
             
             wrapper = get_qi_wrapper()
             wrapper.initialize()
@@ -431,7 +431,7 @@ class TestQIIntegration:
     def test_bio_inspired_adaptation(self):
         """Test bio-inspired adaptation"""
         try:
-            from lukhas.qi import get_qi_wrapper
+            from candidate.qi import get_qi_wrapper
             
             wrapper = get_qi_wrapper()
             wrapper.initialize()
@@ -462,7 +462,7 @@ class TestQIIntegration:
     def test_qi_status_reporting(self):
         """Test QI status reporting"""
         try:
-            from lukhas.qi import get_qi_wrapper, get_qi_status, validate_qi_module
+            from candidate.qi import get_qi_wrapper, get_qi_status, validate_qi_module
             
             wrapper = get_qi_wrapper()
             wrapper.initialize()
@@ -496,7 +496,7 @@ class TestQIPerformance:
         """Test quantum processing performance"""
         try:
             import time
-            from lukhas.qi.qi_wrapper import QuantumInspiredProcessor
+            from candidate.qi.qi_wrapper import QuantumInspiredProcessor
             
             processor = QuantumInspiredProcessor()
             
@@ -525,7 +525,7 @@ class TestQIPerformance:
         """Test bio processing performance"""
         try:
             import time
-            from lukhas.qi.qi_wrapper import BioInspiredProcessor
+            from candidate.qi.qi_wrapper import BioInspiredProcessor
             
             processor = BioInspiredProcessor()
             
@@ -583,7 +583,7 @@ def test_feature_flag_safety():
         assert os.getenv("QI_DRY_RUN", "true").lower() == "true", "QI_DRY_RUN should default to true"
         
         # Test that dry-run mode is enforced when active
-        from lukhas.qi import get_qi_wrapper
+        from candidate.qi import get_qi_wrapper
         
         wrapper = get_qi_wrapper()
         wrapper.initialize()

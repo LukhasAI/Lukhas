@@ -32,7 +32,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
-from bridge.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
+from candidate.bridge.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
 from lukhas.core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger("ΛTRACE.oracle_colony")
@@ -595,7 +595,7 @@ async def prophecy(
 ║ • Prophetic insights with actionable recommendations
 ║
 ║ Usage:
-║   from core.colonies.oracle_colony import get_oracle_colony, predict, dream, prophecy
+║   from candidate.core.colonies.oracle_colony import get_oracle_colony, predict, dream, prophecy
 ║
 ║   # Direct usage
 ║   prediction = await predict({"system_state": "stable"})

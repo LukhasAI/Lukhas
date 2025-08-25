@@ -18,7 +18,7 @@
 from datetime import datetime
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from .voice_profiling import VoiceProfile, VoiceProfileManager
 

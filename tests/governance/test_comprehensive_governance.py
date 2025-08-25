@@ -44,7 +44,7 @@ except ImportError as e:
 
 # Try importing Enhanced Governance
 try:
-    from lukhas.governance.enhanced_guardian import EnhancedWorkspaceGuardian
+    from candidate.governance.enhanced_guardian import EnhancedWorkspaceGuardian
 
     modules_available["enhanced_governance"] = True
     print("✅ Enhanced  Governance loaded")
@@ -53,7 +53,7 @@ except ImportError as e:
 
 # Try importing Basic Governance
 try:
-    from lukhas.governance._workspace_guardian import WorkspaceGuardian
+    from candidate.governance._workspace_guardian import WorkspaceGuardian
 
     modules_available["basic_governance"] = True
     print("✅ Basic  Governance loaded")

@@ -58,18 +58,18 @@ from typing import Any, Optional
 
 # Import orchestration components
 try:
-    from orchestration.bio_symbolic_orchestrator import (
+    from candidate.orchestration.bio_symbolic_orchestrator import (
         BioSymbolicMode,
         BioSymbolicOrchestrator,
         BioSymbolicTask,
     )
-    from orchestration.colony_orchestrator import (
+    from candidate.orchestration.colony_orchestrator import (
         ColonyConfig,
         ColonyOrchestrator,
         ColonyTask,
         ColonyType,
     )
-    from orchestration.swarm_orchestration_adapter import (
+    from candidate.orchestration.swarm_orchestration_adapter import (
         SwarmOperationType,
         SwarmOrchestrationAdapter,
     )
@@ -81,10 +81,10 @@ except ImportError as e:
 
 # Import energy and workflow components
 try:
-    from core.utils.orchestration_energy_aware_execution_planner import (
+    from candidate.core.utils.orchestration_energy_aware_execution_planner import (
         EnergyAwareExecutionPlanner,
     )
-    from orchestration.workflow_engine import WorkflowEngine
+    from candidate.orchestration.workflow_engine import WorkflowEngine
 
     WORKFLOW_COMPONENTS_AVAILABLE = True
 except ImportError as e:

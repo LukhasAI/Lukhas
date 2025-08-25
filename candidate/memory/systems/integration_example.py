@@ -30,7 +30,7 @@ from lukhas.consciousness.reflection.unified_memory_manager import (
 )
 
 # Existing systems to integrate with
-from core.integration.connectivity_engine import ConnectivityEngine
+from candidate.core.integration.connectivity_engine import ConnectivityEngine
 
 # New memory systems
 from memory.core import create_hybrid_memory_fold

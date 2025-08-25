@@ -47,23 +47,23 @@ from typing import Optional
 
 import numpy as np
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Lukhas core imports
 try:
-    from core.docututor.memory_evolution.bio_oscillator import (
+    from candidate.core.docututor.memory_evolution.bio_oscillator import (
         BioOscillatorAdapter,
     )
-    from core.docututor.memory_evolution.document_analyzer import (
+    from candidate.core.docututor.memory_evolution.document_analyzer import (
         DocumentStructureAnalyzer,
     )
-    from core.docututor.memory_evolution.knowledge_adaptation import (
+    from candidate.core.docututor.memory_evolution.knowledge_adaptation import (
         KnowledgeAdaptation,
     )
-    from core.docututor.memory_evolution.usage_learning import (
+    from candidate.core.docututor.memory_evolution.usage_learning import (
         UsageBasedLearning,
     )
-    from core.docututor.memory_evolution.version_control import (
+    from candidate.core.docututor.memory_evolution.version_control import (
         DocumentVersionControl,
     )
 except ImportError as e:

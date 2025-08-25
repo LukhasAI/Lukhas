@@ -10,7 +10,7 @@
 from datetime import datetime
 from typing import Any
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # TAG:memory
 # TAG:temporal

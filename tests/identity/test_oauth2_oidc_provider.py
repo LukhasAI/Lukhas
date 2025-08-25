@@ -90,8 +90,8 @@ class TestOAuth2OIDCProvider:
     def oauth_provider(self):
         """Create OAuth2/OIDC provider instance"""
         config = {
-            'issuer': 'https://test.lukhas.ai',
-            'rp_id': 'test.lukhas.ai'
+            'issuer': 'https://test.candidate.ai',
+            'rp_id': 'test.candidate.ai'
         }
         return OAuth2OIDCProvider(config=config)
 
@@ -130,7 +130,7 @@ class TestOAuth2OIDCProvider:
 
     def test_oauth_provider_initialization(self, oauth_provider):
         """Test OAuth2/OIDC provider initialization"""
-        assert oauth_provider.issuer == 'https://test.lukhas.ai'
+        assert oauth_provider.issuer == 'https://test.candidate.ai'
         assert oauth_provider.key_id == 'lukhas-signing-key-2024'
 
         # Check supported features
@@ -159,11 +159,11 @@ class TestOAuth2OIDCProvider:
         metadata = oauth_provider.get_authorization_endpoint_metadata()
 
         # Check required OAuth2/OIDC endpoints
-        assert metadata['issuer'] == 'https://test.lukhas.ai'
-        assert metadata['authorization_endpoint'] == 'https://test.lukhas.ai/oauth2/authorize'
-        assert metadata['token_endpoint'] == 'https://test.lukhas.ai/oauth2/token'
-        assert metadata['userinfo_endpoint'] == 'https://test.lukhas.ai/oauth2/userinfo'
-        assert metadata['jwks_uri'] == 'https://test.lukhas.ai/.well-known/jwks.json'
+        assert metadata['issuer'] == 'https://test.candidate.ai'
+        assert metadata['authorization_endpoint'] == 'https://test.candidate.ai/oauth2/authorize'
+        assert metadata['token_endpoint'] == 'https://test.candidate.ai/oauth2/token'
+        assert metadata['userinfo_endpoint'] == 'https://test.candidate.ai/oauth2/userinfo'
+        assert metadata['jwks_uri'] == 'https://test.candidate.ai/.well-known/jwks.json'
 
         # Check supported features
         assert 'openid' in metadata['scopes_supported']

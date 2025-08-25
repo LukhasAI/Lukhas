@@ -36,7 +36,7 @@ from typing import Any, Optional
 
 # Import base colony infrastructure
 try:
-    from core.colonies.base_colony import BaseColony
+    from candidate.core.colonies.base_colony import BaseColony
 
     BASE_COLONY_AVAILABLE = True
 except ImportError:
@@ -59,8 +59,8 @@ except ImportError:
 
 # Import Oracle & Ethics integration
 try:
-    from core.colonies.ethics_swarm_colony import EthicsSwarmColony
-    from core.oracle_nervous_system import OracleNervousSystemHub
+    from candidate.core.colonies.ethics_swarm_colony import EthicsSwarmColony
+    from candidate.core.oracle_nervous_system import OracleNervousSystemHub
 
     ORACLE_ETHICS_AVAILABLE = True
 except ImportError:

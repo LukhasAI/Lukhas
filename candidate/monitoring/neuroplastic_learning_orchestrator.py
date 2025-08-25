@@ -16,7 +16,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import structlog
 
-from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Flexible imports for direct-module execution and package usage
 # Endocrine engine types

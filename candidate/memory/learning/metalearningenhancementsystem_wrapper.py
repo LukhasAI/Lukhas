@@ -5,7 +5,7 @@ Integration wrapper for meta-learning enhancement system
 import logging
 from typing import Any, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 try:
     from .metalearningenhancementsystem import (

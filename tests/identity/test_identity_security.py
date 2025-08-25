@@ -27,9 +27,9 @@ governance_path = os.path.join(os.path.dirname(__file__), '..', '..', 'governanc
 sys.path.extend([identity_path, governance_path])
 
 try:
-    from lukhas.governance.identity.auth_backend.qr_entropy_generator import QREntropyGenerator
-    from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuth2OIDCProvider
-    from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnManager
+    from candidate.governance.identity.auth_backend.qr_entropy_generator import QREntropyGenerator
+    from candidate.governance.identity.core.auth.oauth2_oidc_provider import OAuth2OIDCProvider
+    from candidate.governance.identity.core.auth.webauthn_manager import WebAuthnManager
     from identity_core import AccessTier, IdentityCore
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -323,9 +323,9 @@ class TestWebAuthnSecurityValidation:
     def webauthn_manager(self):
         """Create WebAuthn manager for security testing"""
         config = {
-            'rp_id': 'security.test.lukhas.ai',
+            'rp_id': 'security.test.candidate.ai',
             'rp_name': 'LUKHAS Security Test',
-            'origin': 'https://security.test.lukhas.ai'
+            'origin': 'https://security.test.candidate.ai'
         }
         return WebAuthnManager(config=config)
 
@@ -377,8 +377,8 @@ class TestWebAuthnSecurityValidation:
         # Test with malicious origins
         malicious_origins = [
             'https://evil.com',
-            'http://security.test.lukhas.ai',  # Wrong protocol
-            'https://security.test.lukhas.ai.evil.com',  # Subdomain attack
+            'http://security.test.candidate.ai',  # Wrong protocol
+            'https://security.test.candidate.ai.evil.com',  # Subdomain attack
             'javascript:alert("xss")',
             'data:text/html,<script>alert("xss")</script>',
             'file:///etc/passwd',
@@ -412,7 +412,7 @@ class TestWebAuthnSecurityValidation:
         user_id = 'replay_test_user_12345678'
 
         # Create mock credential
-        from lukhas.governance.identity.core.auth.webauthn_manager import WebAuthnCredential
+        from candidate.governance.identity.core.auth.webauthn_manager import WebAuthnCredential
         credential = WebAuthnCredential({
             'credential_id': 'replay_test_credential',
             'user_id': user_id,
@@ -433,7 +433,7 @@ class TestWebAuthnSecurityValidation:
                 'clientDataJSON': base64.b64encode(json.dumps({
                     'type': 'webauthn.get',
                     'challenge': pending_auth['challenge_b64'],
-                    'origin': 'https://security.test.lukhas.ai'
+                    'origin': 'https://security.test.candidate.ai'
                 }).encode()).decode(),
                 'authenticatorData': base64.b64encode(b'mock_auth_data').decode(),
                 'signature': base64.b64encode(b'mock_signature').decode()
@@ -496,15 +496,15 @@ class TestOAuth2SecurityValidation:
     def oauth_provider(self):
         """Create OAuth provider for security testing"""
         config = {
-            'issuer': 'https://security.test.lukhas.ai',
-            'rp_id': 'security.test.lukhas.ai'
+            'issuer': 'https://security.test.candidate.ai',
+            'rp_id': 'security.test.candidate.ai'
         }
         return OAuth2OIDCProvider(config=config)
 
     @pytest.fixture
     def test_client(self, oauth_provider):
         """Create test OAuth client"""
-        from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
+        from candidate.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
         client = OAuthClient({
             'client_id': 'security_test_client',
             'client_secret': 'security_test_secret',
@@ -840,15 +840,15 @@ class TestCrossComponentSecurityIntegration:
         identity_core = IdentityCore(data_dir="security_integration_test")
 
         webauthn_config = {
-            'rp_id': 'security.lukhas.ai',
+            'rp_id': 'security.candidate.ai',
             'rp_name': 'LUKHAS Security Test',
-            'origin': 'https://security.lukhas.ai'
+            'origin': 'https://security.candidate.ai'
         }
         webauthn_manager = WebAuthnManager(config=webauthn_config)
 
         oauth_config = {
-            'issuer': 'https://security.lukhas.ai',
-            'rp_id': 'security.lukhas.ai'
+            'issuer': 'https://security.candidate.ai',
+            'rp_id': 'security.candidate.ai'
         }
         oauth_provider = OAuth2OIDCProvider(config=oauth_config)
 
@@ -884,7 +884,7 @@ class TestCrossComponentSecurityIntegration:
         assert not permissions['can_access_guardian']
 
         # Attempt privilege escalation via OAuth scope manipulation
-        from lukhas.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
+        from candidate.governance.identity.core.auth.oauth2_oidc_provider import OAuthClient
         client = OAuthClient({
             'client_id': 'escalation_client',
             'client_secret': 'escalation_secret',

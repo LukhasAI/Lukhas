@@ -233,7 +233,7 @@ try:
 
         # Check if Ollama is running
         try:
-            from core.common.config import get_config
+            from candidate.core.common.config import get_config
 
             config = get_config()
             response = requests.get(f"{config.ollama_url}/api/tags", timeout=2)
@@ -1773,7 +1773,7 @@ class OllamaCodeFixer(CodeFixerBase):
     """Ollama-based code fixing engine."""
 
     def __init__(self):
-        from core.common.config import get_config
+        from candidate.core.common.config import get_config
 
         config = get_config()
         self.base_url = config.ollama_url

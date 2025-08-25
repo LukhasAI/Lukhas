@@ -9,7 +9,7 @@ This module provides a centralized signal routing and logging mechanism.
 
 import logging
 
-from orchestration.signals import DiagnosticSignalType, SymbolicSignal
+from candidate.orchestration.signals import DiagnosticSignalType, SymbolicSignal
 
 logger = logging.getLogger(__name__)
 

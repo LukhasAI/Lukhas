@@ -20,10 +20,10 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from core.common import GLYPHSymbol, GLYPHToken, get_logger
-from core.common.exceptions import LukhasError
-from core.interfaces import CoreInterface
-from core.interfaces.dependency_injection import get_service, register_service
+from candidate.core.common import GLYPHSymbol, GLYPHToken, get_logger
+from candidate.core.common.exceptions import LukhasError
+from candidate.core.interfaces import CoreInterface
+from candidate.core.interfaces.dependency_injection import get_service, register_service
 
 # LUKHAS Branding Integration
 from lukhas.branding_bridge import get_bridge, BrandContext, initialize_branding
@@ -1080,7 +1080,7 @@ async def demo_natural_language_interface():
         }
     )
 
-    from core.interfaces.dependency_injection import register_service
+    from candidate.core.interfaces.dependency_injection import register_service
 
     register_service("consciousness_service", mock_consciousness)
 

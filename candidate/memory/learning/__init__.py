@@ -7,7 +7,7 @@ Total entities: 220
 # Lazy imports to avoid circular dependencies
 import importlib
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 logger = get_logger(__name__)
 
