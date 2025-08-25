@@ -535,7 +535,7 @@ class QIMemoryEngine:
 
 
 # Initialize engine
-memory_engine = QuantumMemoryEngine()
+memory_engine = QIMemoryEngine()
 
 
 @app.post("/api/v1/memory-fold", response_model=MemoryFold)

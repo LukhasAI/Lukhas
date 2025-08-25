@@ -18,7 +18,7 @@ class BaseLukhasModule(ABC):
         pass
 
 
-class BaseLucasConfig:
+class BaseLukhasConfig:
     """Base configuration class"""
 
     def __init__(self):
@@ -31,7 +31,7 @@ class BaseLucasConfig:
         self.config[key] = value
 
 
-class BaseLucasHealth:
+class BaseLukhasHealth:
     """Base health monitoring class"""
 
     def __init__(self):

@@ -24,7 +24,7 @@ from openai import AsyncOpenAI
 
 from candidate.core.common import get_logger
 from candidate.orchestration.brain.consciousness_core import ConsciousnessCore
-from qi.attention_economics import QuantumAttentionEconomics
+from qi.attention_economics import QIAttentionEconomics
 
 logger = get_logger(__name__)
 
@@ -89,7 +89,7 @@ class QIConsciousnessHub:
         self.dast_router = None
 
         # Initialize Quantum Attention Economics
-        self.quantum_attention_economics = QuantumAttentionEconomics(
+        self.quantum_attention_economics = QIAttentionEconomics(
             openai_api_key=openai_api_key
         )
 
@@ -114,7 +114,7 @@ class QIConsciousnessHub:
         quantum_processor: Any = None,
         abas_gate: Any = None,
         dast_router: Any = None,
-        quantum_attention_economics: Optional[QuantumAttentionEconomics] = None,
+        quantum_attention_economics: Optional[QIAttentionEconomics] = None,
         consciousness_core: Optional[ConsciousnessCore] = None,
     ) -> None:
         """Inject component dependencies"""

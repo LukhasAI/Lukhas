@@ -293,9 +293,9 @@ def update_imports():
                         content = f.read()
 
                     # Check for old import patterns
-                    if "from quantum" in content and "from qim" not in content:
+                    if "from qi" in content and "from qim" not in content:
                         updates_needed.append(
-                            {"file": filepath, "old": "from quantum", "new": "from qim"}
+                            {"file": filepath, "old": "from qi", "new": "from qim"}
                         )
                 except BaseException:
                     pass

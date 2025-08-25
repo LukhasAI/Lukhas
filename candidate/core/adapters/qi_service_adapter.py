@@ -27,7 +27,7 @@ class QIServiceAdapter(IQuantumService):
         if not self._initialized:
             try:
                 # Try to import QIM components
-                from qi.engines.consciousness.engine import QuantumEngine
+                from qi.engines.consciousness.engine import QIEngine
                 from qi.processing.quantum_bio_coordinator import (
                     MockQuantumBioCoordinator,
                 )

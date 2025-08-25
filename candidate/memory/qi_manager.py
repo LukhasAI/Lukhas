@@ -61,7 +61,7 @@ from datetime import timezone
 ║   implementation and adoption.                                                  ║
 ╠═══════════════════════════════════════════════════════════════════════════════
 ║                                   ΛTAG KEYWORDS                                   ║
-║                       #QuantumMemory #MemoryManagement #AI #LUKHAS #Python      ║
+║                       #QIMemory #MemoryManagement #AI #LUKHAS #Python      ║
 ║                        #AdvancedComputing #DataIntegrity #FoldOperations       ║
 ╚═══════════════════════════════════════════════════════════════════════════════
 ```

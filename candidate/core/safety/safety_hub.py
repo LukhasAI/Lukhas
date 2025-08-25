@@ -202,7 +202,7 @@ class SafetyHub:
         bridges = [
             (
                 "safety_quantum_bridge",
-                "SafetyQuantumBridge",
+                "SafetyQIBridge",
                 "safety.bridges.safety_quantum_bridge",
             ),
             (

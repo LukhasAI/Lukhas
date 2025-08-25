@@ -17,7 +17,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from ..bio_symbolic import CristaFilter, ProtonGradient, QuantumAttentionGate
+from ..bio_symbolic import CristaFilter, ProtonGradient, QIAttentionGate
 from .unified_node import UnifiedNode
 
 logger = logging.getLogger(__name__)
@@ -36,7 +36,7 @@ class OscillatorAdapter:
         # Core components
         self.nodes: list[UnifiedNode] = []
         self.proton_gradient = ProtonGradient()
-        self.quantum_inspired_gate = QuantumAttentionGate()
+        self.quantum_inspired_gate = QIAttentionGate()
         self.crista_filter = CristaFilter()
 
         # Oscillation parameters

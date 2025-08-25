@@ -152,7 +152,7 @@ class QIHealixMapper:
         self.quantum_enabled = quantum_enabled
 
         # Memory structure
-        self.memory_strands: dict[MemoryStrand, list[QuantumMemoryFold]] = {
+        self.memory_strands: dict[MemoryStrand, list[QIMemoryFold]] = {
             strand: [] for strand in MemoryStrand
         }
 
@@ -313,7 +313,7 @@ class QIHealixMapper:
         )
 
         # Create quantum memory fold
-        memory_fold = QuantumMemoryFold(
+        memory_fold = QIMemoryFold(
             fold_id=fold_id,
             sequence=sequence,
             emotional_vector=emotional_vector,
@@ -794,7 +794,7 @@ class QIHealixMapper:
         return success
 
     async def _apply_point_mutation(
-        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[dict[str, Any]]
+        self, memory_fold: QIMemoryFold, mutation_data: Optional[dict[str, Any]]
     ) -> bool:
         """Apply point mutation (single nucleotide change)"""
 
@@ -829,7 +829,7 @@ class QIHealixMapper:
         return True
 
     async def _apply_insertion_mutation(
-        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[dict[str, Any]]
+        self, memory_fold: QIMemoryFold, mutation_data: Optional[dict[str, Any]]
     ) -> bool:
         """Apply insertion mutation (add nucleotides)"""
 
@@ -866,7 +866,7 @@ class QIHealixMapper:
         return True
 
     async def _apply_deletion_mutation(
-        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[dict[str, Any]]
+        self, memory_fold: QIMemoryFold, mutation_data: Optional[dict[str, Any]]
     ) -> bool:
         """Apply deletion mutation (remove nucleotides)"""
 
@@ -889,7 +889,7 @@ class QIHealixMapper:
         return True
 
     async def _apply_crossover_mutation(
-        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[dict[str, Any]]
+        self, memory_fold: QIMemoryFold, mutation_data: Optional[dict[str, Any]]
     ) -> bool:
         """Apply crossover mutation (exchange with another memory)"""
 
@@ -932,7 +932,7 @@ class QIHealixMapper:
         return True
 
     async def _apply_quantum_collapse(
-        self, memory_fold: QuantumMemoryFold, mutation_data: Optional[dict[str, Any]]
+        self, memory_fold: QIMemoryFold, mutation_data: Optional[dict[str, Any]]
     ) -> bool:
         """Apply quantum collapse mutation (collapse superposition states)"""
 
@@ -961,7 +961,7 @@ class QIHealixMapper:
 
         return True
 
-    async def _find_memory_fold(self, fold_id: str) -> Optional[QuantumMemoryFold]:
+    async def _find_memory_fold(self, fold_id: str) -> Optional[QIMemoryFold]:
         """Find memory fold by ID across all strands"""
 
         for strand_folds in self.memory_strands.values():
@@ -972,7 +972,7 @@ class QIHealixMapper:
         return None
 
     async def _store_fold_in_db(
-        self, memory_fold: QuantumMemoryFold, strand: MemoryStrand
+        self, memory_fold: QIMemoryFold, strand: MemoryStrand
     ):
         """Store memory fold in database"""
 
@@ -1008,7 +1008,7 @@ class QIHealixMapper:
         conn.commit()
         conn.close()
 
-    async def _update_fold_in_db(self, memory_fold: QuantumMemoryFold):
+    async def _update_fold_in_db(self, memory_fold: QIMemoryFold):
         """Update existing memory fold in database"""
 
         conn = sqlite3.connect(self.db_path)

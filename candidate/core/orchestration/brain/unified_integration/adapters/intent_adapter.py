@@ -33,7 +33,7 @@ class IntentNodeAdapter:
     def __init__(self, agi_system=None):
         # Initialize bio components
         self.proton_gradient = ProtonGradient()
-        self.attention_gate = QuantumAttentionGate()
+        self.attention_gate = QIAttentionGate()
         self.crista_filter = CristaFilter()
         self.identity_encoder = CardiolipinEncoder()
 

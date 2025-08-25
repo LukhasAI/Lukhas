@@ -36,7 +36,7 @@ try:
         CardiolipinEncoder,
         CristaFilter,
         ProtonGradient,
-        QuantumAttentionGate,
+        QIAttentionGate,
     )
 
     logger.info("Successfully imported bio-awareness components and dependencies.")
@@ -110,7 +110,7 @@ class EnhancedSystemAwareness:
                 else None
             )
             self.attention_gate = (
-                QuantumAttentionGate(self.bio_oscillator)
+                QIAttentionGate(self.bio_oscillator)
                 if self.bio_oscillator
                 else None
             )

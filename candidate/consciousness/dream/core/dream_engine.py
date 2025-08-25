@@ -20,7 +20,7 @@
 ║ - Dream storage and retrieval with emotional context                    ║
 ║ - Integration with brain systems                                        ║
 ║ - Async dream cycle management                                          ║
-║ - Dream insight extraction from quantum-like states                          ║
+║ - Dream insight extraction from qi-like states                          ║
 ║ - Enhanced memory processing with coherence-inspired processing                     ║
 ║ - Production-grade error handling and logging                           ║
 ║                                                                          ║
@@ -368,7 +368,7 @@ class EnhancedDreamEngine:
         insights = []
 
         try:
-            # Extract patterns from quantum-like state
+            # Extract patterns from qi-like state
             coherence = quantum_like_state.get("coherence", 0)
             entanglement = quantum_like_state.get("entanglement", 0)
 
@@ -575,7 +575,7 @@ __all__ = ['DreamEngine', 'EnhancedDreamEngine', 'AdvancedDreamEngine', 'SimpleD
 ║ CAPABILITIES:
 ║   - Quantum-enhanced dream processing
 ║   - Memory consolidation during dream cycles
-║   - Dream insight extraction from quantum-like states
+║   - Dream insight extraction from qi-like states
 ║   - Emotional context enhancement
 ║   - Async dream cycle management
 ║

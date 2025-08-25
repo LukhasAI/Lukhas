@@ -63,7 +63,7 @@ try:
         CardiolipinEncoder,
         CristaFilter,
         ProtonGradient,
-        QuantumAttentionGate,
+        QIAttentionGate,
     )
 
     bio_symbolic_available = True
@@ -111,7 +111,7 @@ class BioSymbolicAwarenessAdapter:
     def __init__(self, config: Optional[dict[str, Any]] = None):
         # Core bio components
         self.proton_gradient = ProtonGradient()
-        self.attention_gate = QuantumAttentionGate()
+        self.attention_gate = QIAttentionGate()
         self.crista_filter = CristaFilter()
         self.identity_encoder = CardiolipinEncoder()
 

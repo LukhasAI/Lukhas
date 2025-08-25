@@ -47,7 +47,7 @@ log = structlog.get_logger(__name__)
 LUKHAS_BQ_SUBMODULES_IMPORTED = False
 try:
     from bio_awareness.advanced_qi_bio import (
-        MitochondrialQuantumBridge,
+        MitochondrialQIBridge,
         NeuroplasticityModulator,
         QuantumSynapticGate,
     )
@@ -62,7 +62,7 @@ except ImportError as e:
     log.error(
         "QIBioCoordinator: Failed to import one or more submodules. Coordination capabilities will be limited.",
         error_message=str(e),
-        import_details="Check paths for EnhancedQIEngine, MitochondrialQuantumBridge, QuantumSynapticGate, NeuroplasticityModulator.",
+        import_details="Check paths for EnhancedQIEngine, MitochondrialQIBridge, QuantumSynapticGate, NeuroplasticityModulator.",
         exc_info=True,
     )
 
@@ -77,7 +77,7 @@ except ImportError as e:
                 "metadata": {"coherence": 0.0, "status": "mocked_qi_engine"},
             }
 
-    class MockMitochondrialQuantumBridge:
+    class MockMitochondrialQIBridge:
         async def process_quantum_signal(
             self, signal: Any, context: Any
         ) -> tuple[np.ndarray, dict[str, Any]]:
@@ -100,8 +100,8 @@ except ImportError as e:
 
     if "EnhancedQIEngine" not in globals():
         EnhancedQIEngine = MockEnhancedQIEngine  # type: ignore
-    if "MitochondrialQuantumBridge" not in globals():
-        MitochondrialQuantumBridge = MockMitochondrialQuantumBridge  # type: ignore
+    if "MitochondrialQIBridge" not in globals():
+        MitochondrialQIBridge = MockMitochondrialQIBridge  # type: ignore
     if "QuantumSynapticGate" not in globals():
         QuantumSynapticGate = MockQuantumSynapticGate  # type: ignore
     if "NeuroplasticityModulator" not in globals():
@@ -151,8 +151,8 @@ class QIBioCoordinator:
         self.log = log.bind(coordinator_id=hex(id(self))[-6:])
 
         self.qi_engine: EnhancedQIEngine = EnhancedQIEngine()
-        self.mitochondrial_bridge: MitochondrialQuantumBridge = (
-            MitochondrialQuantumBridge()
+        self.mitochondrial_bridge: MitochondrialQIBridge = (
+            MitochondrialQIBridge()
         )
         self.synaptic_gate: QuantumSynapticGate = QuantumSynapticGate()
         self.plasticity_modulator: NeuroplasticityModulator = NeuroplasticityModulator()
@@ -277,7 +277,7 @@ class QIBioCoordinator:
                 )
             )
             self.log.debug(
-                "MitochondrialQuantumBridge processing complete.",
+                "MitochondrialQIBridge processing complete.",
                 output_shape_str=str(bridge_output_signal.shape),
             )  # type: ignore
 

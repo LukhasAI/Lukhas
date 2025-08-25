@@ -57,7 +57,7 @@ from ..bio_core.bio_symbolic import (
     CardiolipinEncoder,
     CristaFilter,
     ProtonGradient,
-    QuantumAttentionGate,
+    QIAttentionGate,
 )
 
 logger = get_logger(__name__)
@@ -77,7 +77,7 @@ class SystemAwareness:
     def __init__(self):
         # Core bio components
         self.proton_gradient = ProtonGradient()
-        self.attention_gate = QuantumAttentionGate()
+        self.attention_gate = QIAttentionGate()
         self.crista_filter = CristaFilter()
         self.identity_encoder = CardiolipinEncoder()
 

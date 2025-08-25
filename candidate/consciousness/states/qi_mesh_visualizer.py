@@ -1049,7 +1049,7 @@ Examples:
     args = parser.parse_args()
 
     # Initialize visualizer
-    visualizer = QuantumMeshVisualizer(output_dir=args.output_dir)
+    visualizer = QIMeshVisualizer(output_dir=args.output_dir)
 
     try:
         # Load data

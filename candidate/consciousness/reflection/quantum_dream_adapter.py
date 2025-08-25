@@ -188,7 +188,7 @@ class QIDreamAdapter:
         return await self.dream_oscillator.encode_memory(quantum_like_state)
 
     async def _extract_insights(self, quantum_like_state: Any) -> list[dict]:
-        """Extract insights from quantum-like state"""
+        """Extract insights from qi-like state"""
         insights = []
         try:
             # Measure quantum-like state while preserving entanglement

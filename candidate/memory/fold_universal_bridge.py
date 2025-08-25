@@ -60,7 +60,7 @@ except ImportError:
 
 # Quantum engine
 try:
-    from qi.systems.quantum_engine import QuantumEngine
+    from qi.systems.quantum_engine import QIEngine
 
     quantum_available = True
 except ImportError:
@@ -190,7 +190,7 @@ class MemoryFoldUniversalBridge:
 
         # Quantum
         if self.config.enable_quantum and quantum_available:
-            self.quantum_engine = QuantumEngine()
+            self.quantum_engine = QIEngine()
             self.active_bridges.add("quantum")
 
         # Ethics

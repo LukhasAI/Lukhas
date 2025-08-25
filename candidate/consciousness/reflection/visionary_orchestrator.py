@@ -71,7 +71,7 @@ try:
     #     from system.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
     #     from system.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
     #     from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
-    # from system.CORE.quantum.quantum_processor import QuantumEngine  # TODO:
+    # from system.CORE.quantum.quantum_processor import QIEngine  # TODO:
     # Install or implement CORE
 except ImportError as e:
     # Graceful degradation for development/testing
@@ -179,7 +179,7 @@ class VisionaryAGIOrchestrator:
         self.dream_engine: Optional[DreamEngine] = None
         self.emotional_engine: Optional[EmotionalResonanceEngine] = None
         self.identity_system: Optional[IdentitySystem] = None
-        self.quantum_engine: Optional[QuantumEngine] = None
+        self.quantum_engine: Optional[QIEngine] = None
 
         # Safety and monitoring
         self.safety_monitors: list[Callable] = []
@@ -405,7 +405,7 @@ class VisionaryAGIOrchestrator:
                 config=self.config["consciousness"]
             )
             self.identity_system = IdentitySystem(config=self.config["consciousness"])
-            self.quantum_engine = QuantumEngine(config=self.config["consciousness"])
+            self.quantum_engine = QIEngine(config=self.config["consciousness"])
 
             self.logger.info("🧠 Core intelligence systems initialized")
 

@@ -10,7 +10,7 @@ QIM - qi_states Submodule
 from typing import Any
 
 
-class Quantum_StatesColony:
+class QI_StatesColony:
     """Base colony for qi_states components"""
 
     def __init__(self):

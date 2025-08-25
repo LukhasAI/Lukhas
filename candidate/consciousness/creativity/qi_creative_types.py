@@ -285,7 +285,7 @@ class QICreativeComponent(ABC):
         """Process input through the component."""
 
 
-class QIImaginationProcessor(QuantumCreativeComponent):
+class QIImaginationProcessor(QICreativeComponent):
     """Processes imagination through superposition-like state."""
 
     async def initialize(self) -> None:
@@ -296,7 +296,7 @@ class QIImaginationProcessor(QuantumCreativeComponent):
         return np.random.random(256) + 1j * np.random.random(256)
 
 
-class QIEmotionEncoder(QuantumCreativeComponent):
+class QIEmotionEncoder(QICreativeComponent):
     """Encodes emotions into quantum-like states."""
 
     async def initialize(self) -> None:
@@ -316,7 +316,7 @@ class QIEmotionEncoder(QuantumCreativeComponent):
         return np.random.random(64) + 1j * np.random.random(64)
 
 
-class CulturalQuantumMemory(QuantumCreativeComponent):
+class CulturalQIMemory(QICreativeComponent):
     """Quantum-enhanced cultural memory system."""
 
     async def initialize(self) -> None:
@@ -326,7 +326,7 @@ class CulturalQuantumMemory(QuantumCreativeComponent):
         return {"patterns": [], "associations": [], "historical_context": ""}
 
 
-class NeuralCreativityNetwork(QuantumCreativeComponent):
+class NeuralCreativityNetwork(QICreativeComponent):
     """Neural network for creativity enhancement."""
 
     async def initialize(self) -> None:
@@ -336,7 +336,7 @@ class NeuralCreativityNetwork(QuantumCreativeComponent):
         return np.random.random(128)
 
 
-class SynapticInspirationPool(QuantumCreativeComponent):
+class SynapticInspirationPool(QICreativeComponent):
     """Pool of synaptic inspirations."""
 
     async def initialize(self) -> None:
@@ -346,7 +346,7 @@ class SynapticInspirationPool(QuantumCreativeComponent):
         return [np.random.random(64) for _ in range(10)]
 
 
-class DopamineRewardSystem(QuantumCreativeComponent):
+class DopamineRewardSystem(QICreativeComponent):
     """Dopamine-based reward system for creativity."""
 
     async def initialize(self) -> None:
@@ -356,7 +356,7 @@ class DopamineRewardSystem(QuantumCreativeComponent):
         return np.random.random()
 
 
-class ZeroKnowledgeCreativityValidator(QuantumCreativeComponent):
+class ZeroKnowledgeCreativityValidator(QICreativeComponent):
     """Zero-knowledge validator for creative authenticity."""
 
     async def initialize(self) -> None:
@@ -369,7 +369,7 @@ class ZeroKnowledgeCreativityValidator(QuantumCreativeComponent):
 # Specialized creative artists
 
 
-class QIVisualArtist(QuantumCreativeComponent):
+class QIVisualArtist(QICreativeComponent):
     """Quantum-enhanced visual artist."""
 
     async def initialize(self) -> None:
@@ -383,7 +383,7 @@ class QIVisualArtist(QuantumCreativeComponent):
         }
 
 
-class QIStoryWeaver(QuantumCreativeComponent):
+class QIStoryWeaver(QICreativeComponent):
     """Quantum narrative generator."""
 
     async def initialize(self) -> None:
@@ -393,7 +393,7 @@ class QIStoryWeaver(QuantumCreativeComponent):
         return f"A quantum story about {prompt}..."
 
 
-class QICodePoet(QuantumCreativeComponent):
+class QICodePoet(QICreativeComponent):
     """Quantum code poetry generator."""
 
     async def initialize(self) -> None:
@@ -403,7 +403,7 @@ class QICodePoet(QuantumCreativeComponent):
         return f"# Quantum code poem\n# Theme: {theme}\nwhile True:\n    beauty += quantum_uncertainty"
 
 
-class QIChoreographer(QuantumCreativeComponent):
+class QIChoreographer(QICreativeComponent):
     """Quantum dance choreographer."""
 
     async def initialize(self) -> None:
@@ -418,7 +418,7 @@ class QIChoreographer(QuantumCreativeComponent):
         return ["quantum_spiral(0.5)", "entangled_duet(2.0)", "probability_wave(1.0)"]
 
 
-class Quantum3DSculptor(QuantumCreativeComponent):
+class QI3DSculptor(QICreativeComponent):
     """Quantum 3D sculptor."""
 
     async def initialize(self) -> None:
@@ -435,7 +435,7 @@ class Quantum3DSculptor(QuantumCreativeComponent):
 # Advanced systems
 
 
-class SwarmCreativityOrchestrator(QuantumCreativeComponent):
+class SwarmCreativityOrchestrator(QICreativeComponent):
     """Orchestrates swarm creativity."""
 
     async def initialize(self) -> None:
@@ -446,7 +446,7 @@ class SwarmCreativityOrchestrator(QuantumCreativeComponent):
         return []
 
 
-class CrossCulturalSynthesizer(QuantumCreativeComponent):
+class CrossCulturalSynthesizer(QICreativeComponent):
     """Synthesizes across cultural boundaries."""
 
     async def initialize(self) -> None:
@@ -459,7 +459,7 @@ class CrossCulturalSynthesizer(QuantumCreativeComponent):
 # Haiku-specific components
 
 
-class QISyllableCounter(QuantumCreativeComponent):
+class QISyllableCounter(QICreativeComponent):
     """Quantum syllable counting system."""
 
     async def initialize(self) -> None:
@@ -469,7 +469,7 @@ class QISyllableCounter(QuantumCreativeComponent):
         return len(text.split())  # Simplified
 
 
-class SemanticEntangler(QuantumCreativeComponent):
+class SemanticEntangler(QICreativeComponent):
     """Creates semantic entanglements between words."""
 
     async def initialize(self) -> None:
@@ -479,7 +479,7 @@ class SemanticEntangler(QuantumCreativeComponent):
         return {word: [] for word in words}
 
 
-class EmotionImageryQuantumMapper(QuantumCreativeComponent):
+class EmotionImageryQuantumMapper(QICreativeComponent):
     """Maps emotions to quantum imagery."""
 
     async def initialize(self) -> None:
@@ -489,7 +489,7 @@ class EmotionImageryQuantumMapper(QuantumCreativeComponent):
         return ["quantum_ripple", "probability_cloud", "coherence_wave"]
 
 
-class PhoneticHarmonyAnalyzer(QuantumCreativeComponent):
+class PhoneticHarmonyAnalyzer(QICreativeComponent):
     """Analyzes phonetic harmony in quantum space."""
 
     async def initialize(self) -> None:
@@ -499,7 +499,7 @@ class PhoneticHarmonyAnalyzer(QuantumCreativeComponent):
         return np.random.random()
 
 
-class KirejiQuantumSelector(QuantumCreativeComponent):
+class KirejiQuantumSelector(QICreativeComponent):
     """Selects kireji (cutting words) using quantum methods."""
 
     async def initialize(self) -> None:
@@ -509,7 +509,7 @@ class KirejiQuantumSelector(QuantumCreativeComponent):
         return np.random.choice(self.kireji_library)
 
 
-class SeasonalReferenceEncoder(QuantumCreativeComponent):
+class SeasonalReferenceEncoder(QICreativeComponent):
     """Encodes seasonal references."""
 
     async def initialize(self) -> None:
@@ -522,7 +522,7 @@ class SeasonalReferenceEncoder(QuantumCreativeComponent):
 # Music components
 
 
-class HarmonicQuantumInspiredProcessor(QuantumCreativeComponent):
+class HarmonicQuantumInspiredProcessor(QICreativeComponent):
     """Processes harmonic structures quantum-mechanically."""
 
     async def initialize(self) -> None:
@@ -532,7 +532,7 @@ class HarmonicQuantumInspiredProcessor(QuantumCreativeComponent):
         return np.random.random(12)
 
 
-class RhythmPatternSuperposer(QuantumCreativeComponent):
+class RhythmPatternSuperposer(QICreativeComponent):
     """Creates rhythm patterns through superposition."""
 
     async def initialize(self) -> None:
@@ -542,7 +542,7 @@ class RhythmPatternSuperposer(QuantumCreativeComponent):
         return [0.5, 1.0, 0.5, 1.0] * 4
 
 
-class EmotionalMelodyWeaver(QuantumCreativeComponent):
+class EmotionalMelodyWeaver(QICreativeComponent):
     """Weaves emotional content into melodies."""
 
     async def initialize(self) -> None:
@@ -552,7 +552,7 @@ class EmotionalMelodyWeaver(QuantumCreativeComponent):
         return [("C4", 0.5), ("E4", 0.5), ("G4", 1.0)]
 
 
-class CulturalScaleQuantumLibrary(QuantumCreativeComponent):
+class CulturalScaleQuantumLibrary(QICreativeComponent):
     """Library of cultural scales in superposition-like state."""
 
     async def initialize(self) -> None:
@@ -565,7 +565,7 @@ class CulturalScaleQuantumLibrary(QuantumCreativeComponent):
 # Bio-cognitive components
 
 
-class NeuralOscillator(QuantumCreativeComponent):
+class NeuralOscillator(QICreativeComponent):
     """Simulates neural oscillations."""
 
     async def initialize(self) -> None:
@@ -575,7 +575,7 @@ class NeuralOscillator(QuantumCreativeComponent):
         return self.oscillation_frequencies
 
 
-class DopamineCreativityModulator(QuantumCreativeComponent):
+class DopamineCreativityModulator(QICreativeComponent):
     """Modulates creativity through dopamine simulation."""
 
     async def initialize(self) -> None:
@@ -585,7 +585,7 @@ class DopamineCreativityModulator(QuantumCreativeComponent):
         return np.random.random()
 
 
-class SerotoninMoodHarmonizer(QuantumCreativeComponent):
+class SerotoninMoodHarmonizer(QICreativeComponent):
     """Harmonizes mood through serotonin simulation."""
 
     async def initialize(self) -> None:
@@ -595,7 +595,7 @@ class SerotoninMoodHarmonizer(QuantumCreativeComponent):
         return np.random.random()
 
 
-class NorepinephrineFocusEnhancer(QuantumCreativeComponent):
+class NorepinephrineFocusEnhancer(QICreativeComponent):
     """Enhances focus through norepinephrine simulation."""
 
     async def initialize(self) -> None:
@@ -605,7 +605,7 @@ class NorepinephrineFocusEnhancer(QuantumCreativeComponent):
         return np.random.random()
 
 
-class AcetylcholineLearningBridge(QuantumCreativeComponent):
+class AcetylcholineLearningBridge(QICreativeComponent):
     """Bridges learning through acetylcholine simulation."""
 
     async def initialize(self) -> None:
@@ -615,7 +615,7 @@ class AcetylcholineLearningBridge(QuantumCreativeComponent):
         return {"plasticity": 0.5, "attention": 0.7}
 
 
-class SynapticPlasticityEngine(QuantumCreativeComponent):
+class SynapticPlasticityEngine(QICreativeComponent):
     """Engine for synaptic plasticity simulation."""
 
     async def initialize(self) -> None:
@@ -625,7 +625,7 @@ class SynapticPlasticityEngine(QuantumCreativeComponent):
         return np.random.random(256)
 
 
-class REMDreamSynthesizer(QuantumCreativeComponent):
+class REMDreamSynthesizer(QICreativeComponent):
     """Synthesizes REM dream content."""
 
     async def initialize(self) -> None:
@@ -638,7 +638,7 @@ class REMDreamSynthesizer(QuantumCreativeComponent):
 # IP Protection components
 
 
-class CreativeBlockchain(QuantumCreativeComponent):
+class CreativeBlockchain(QICreativeComponent):
     """Blockchain for creative work protection."""
 
     async def initialize(self) -> None:
@@ -648,7 +648,7 @@ class CreativeBlockchain(QuantumCreativeComponent):
         return f"hash_{len(self.blockchain)}"
 
 
-class QIWatermarkEmbedder(QuantumCreativeComponent):
+class QIWatermarkEmbedder(QICreativeComponent):
     """Embeds quantum watermarks in creative works."""
 
     async def initialize(self) -> None:
@@ -661,7 +661,7 @@ class QIWatermarkEmbedder(QuantumCreativeComponent):
 # Collaborative components
 
 
-class CreativityMeshNetwork(QuantumCreativeComponent):
+class CreativityMeshNetwork(QICreativeComponent):
     """Mesh network for collaborative creativity."""
 
     async def initialize(self) -> None:
@@ -671,7 +671,7 @@ class CreativityMeshNetwork(QuantumCreativeComponent):
         return {"connections": [], "communication_channels": []}
 
 
-class QIIdeaSynthesizer(QuantumCreativeComponent):
+class QIIdeaSynthesizer(QICreativeComponent):
     """Synthesizes ideas through quantum processes."""
 
     async def initialize(self) -> None:
@@ -681,7 +681,7 @@ class QIIdeaSynthesizer(QuantumCreativeComponent):
         return "Synthesized quantum idea"
 
 
-class CreativeConflictHarmonizer(QuantumCreativeComponent):
+class CreativeConflictHarmonizer(QICreativeComponent):
     """Harmonizes creative conflicts."""
 
     async def initialize(self) -> None:
@@ -691,7 +691,7 @@ class CreativeConflictHarmonizer(QuantumCreativeComponent):
         return {"resolution": "", "harmony_score": 0.8}
 
 
-class EmergenceDetector(QuantumCreativeComponent):
+class EmergenceDetector(QICreativeComponent):
     """Detects emergent creative properties."""
 
     async def initialize(self) -> None:
@@ -704,7 +704,7 @@ class EmergenceDetector(QuantumCreativeComponent):
 # Personalization components
 
 
-class QIAestheticProfiler(QuantumCreativeComponent):
+class QIAestheticProfiler(QICreativeComponent):
     """Profiles aesthetic preferences quantum-mechanically."""
 
     async def initialize(self) -> None:
@@ -714,7 +714,7 @@ class QIAestheticProfiler(QuantumCreativeComponent):
         return {"beauty": 0.8, "novelty": 0.6, "emotional_resonance": 0.9}
 
 
-class CulturalResonanceTuner(QuantumCreativeComponent):
+class CulturalResonanceTuner(QICreativeComponent):
     """Tunes cultural resonance."""
 
     async def initialize(self) -> None:
@@ -724,7 +724,7 @@ class CulturalResonanceTuner(QuantumCreativeComponent):
         return np.random.random()
 
 
-class EmotionalPreferenceLearner(QuantumCreativeComponent):
+class EmotionalPreferenceLearner(QICreativeComponent):
     """Learns emotional preferences."""
 
     async def initialize(self) -> None:
@@ -736,7 +736,7 @@ class EmotionalPreferenceLearner(QuantumCreativeComponent):
         return {"emotional_weights": {}}
 
 
-class CreativityStyleEvolver(QuantumCreativeComponent):
+class CreativityStyleEvolver(QICreativeComponent):
     """Evolves creativity styles."""
 
     async def initialize(self) -> None:
@@ -749,7 +749,7 @@ class CreativityStyleEvolver(QuantumCreativeComponent):
 # Monitoring components
 
 
-class CreativityMonitor(QuantumCreativeComponent):
+class CreativityMonitor(QICreativeComponent):
     """Monitors creativity processes."""
 
     async def initialize(self) -> None:
@@ -759,7 +759,7 @@ class CreativityMonitor(QuantumCreativeComponent):
         return {"creativity_level": 0.8, "innovation_index": 0.7}
 
 
-class CreativeEvolutionEngine(QuantumCreativeComponent):
+class CreativeEvolutionEngine(QICreativeComponent):
     """Engine for creative evolution."""
 
     async def initialize(self) -> None:
@@ -772,7 +772,7 @@ class CreativeEvolutionEngine(QuantumCreativeComponent):
 # Legacy components (for compatibility)
 
 
-class NeuroHaikuGenerator(QuantumCreativeComponent):
+class NeuroHaikuGenerator(QICreativeComponent):
     """Legacy neural haiku generator."""
 
     async def initialize(self) -> None:

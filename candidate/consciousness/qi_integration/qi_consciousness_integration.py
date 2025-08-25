@@ -404,13 +404,13 @@ async def generate_conscious_content(
     content_type: str, theme: str, style: str = "professional"
 ) -> dict[str, Any]:
     """Convenience function for generating conscious content."""
-    consciousness = QuantumCreativeConsciousness()
+    consciousness = QICreativeConsciousness()
     return await consciousness.generate_conscious_content(content_type, theme, style)
 
 
 def get_consciousness_integration_status() -> dict[str, Any]:
     """Get the current status of consciousness integration."""
-    consciousness = QuantumCreativeConsciousness()
+    consciousness = QICreativeConsciousness()
     return consciousness.get_consciousness_status()
 
 
@@ -420,7 +420,7 @@ async def main():
     print("🧠 Quantum Consciousness Integration Demo")
     print("=" * 50)
 
-    consciousness = QuantumCreativeConsciousness()
+    consciousness = QICreativeConsciousness()
 
     # Show status
     status = consciousness.get_consciousness_status()

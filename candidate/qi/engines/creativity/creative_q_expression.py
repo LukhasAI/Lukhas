@@ -126,7 +126,7 @@ class QICreativeEngine:
         # Quantum components
         self.quantum_imagination = QuantumImaginationProcessor()
         self.quantum_emotion_encoder = QuantumEmotionEncoder()
-        self.cultural_quantum_memory = CulturalQuantumMemory()
+        self.cultural_quantum_memory = CulturalQIMemory()
 
         # Bio-inspired components
         self.neural_creativity_network = NeuralCreativityNetwork()
@@ -426,7 +426,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
 
     async def _collapse_to_haiku(self, state: QuantumWordState) -> QuantumHaiku:
         """Collapse quantum-like state to specific haiku"""
-        # Mock collapse - extract haiku from quantum-like state
+        # Mock collapse - extract haiku from qi-like state
         lines = [
             "Quantum thoughts arise",  # 5 syllables
             "In superposition of mind",  # 7 syllables
@@ -535,7 +535,7 @@ class QIMusicComposer(CreativeExpressionProtocol):
         self, melody_state, chord_superposition, rhythm_state
     ) -> QuantumMusicalPiece:
         """Synthesize quantum music from component states"""
-        # Mock synthesis - create musical piece from quantum-like states
+        # Mock synthesis - create musical piece from qi-like states
         notes = [("C4", 0.5, 0.8), ("E4", 0.5, 0.7), ("G4", 1.0, 0.9), ("C5", 0.5, 0.6)]
 
         return QuantumMusicalPiece(
@@ -880,7 +880,7 @@ class LukhasCreativeExpressionEngine:
 
     def __init__(self, config: dict[str, Any]):
         # Core engines
-        self.qi_engine = QuantumCreativeEngine(config)
+        self.qi_engine = QICreativeEngine(config)
         self.bio_cognitive_layer = BioCognitiveCreativityLayer()
         self.collaborative_orchestrator = CollaborativeCreativityOrchestrator()
         self.personalization_engine = AdaptiveCreativePersonalization()

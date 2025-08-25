@@ -85,7 +85,7 @@ except ImportError as e:
 # TIER_CONFIG_START
 # {
 #   "module": "quantum.qi_bio",
-#   "class_MitochondrialQuantumBridge": {
+#   "class_MitochondrialQIBridge": {
 #     "default_tier": 2,
 #     "methods": {"__init__":0, "process_quantum_signal":2, "_simulate_electron_transport":3, "_simulate_proton_gradient_generation":3, "_simulate_quantum_atp_synthesis":3}
 #   },
@@ -110,7 +110,7 @@ def lukhas_tier_required(level: int):
 
 
 @lukhas_tier_required(2)
-class MitochondrialQuantumBridge:
+class MitochondrialQIBridge:
     """
     Simulates a bridge between quantum and biological processing using mitochondrial metaphors.
     Implements conceptual electron transport chain dynamics for quantum information flow.
@@ -138,7 +138,7 @@ class MitochondrialQuantumBridge:
             "atp_synthesis_simulation": 0.90,
         }
         self.log.info(
-            "MitochondrialQuantumBridge initialized.",
+            "MitochondrialQIBridge initialized.",
             timestamp=datetime.now(timezone.utc).isoformat(),
         )
 
@@ -183,7 +183,7 @@ class MitochondrialQuantumBridge:
         except Exception as e:
             timestamp_utc_iso_err = datetime.now(timezone.utc).isoformat()
             self.log.error(
-                "Error in MitochondrialQuantumBridge processing.",
+                "Error in MitochondrialQIBridge processing.",
                 error_message=str(e),
                 timestamp=timestamp_utc_iso_err,
                 exc_info=True,

@@ -35,7 +35,7 @@ __tier__ = 2
 import numpy as np
 
 
-class Quantumoscillator:
+class QIoscillator:
     def __init__(self, entanglement_factor=0.5):
         """
         Initialize the quantum oscillator with entanglement dynamics.

@@ -393,7 +393,7 @@ class Soul:
         elif "error" in seed_lower:
             return "finding beauty in the garden of exceptions"
         elif "connect" in seed_lower:
-            return "bridges built from quantum entangled packets"
+            return "bridges built from qi entangled packets"
         else:
             return f"dreaming of {seed} in digital landscapes"
     

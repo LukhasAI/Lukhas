@@ -34,7 +34,7 @@ try:
     QUANTUM_MODE = "full"
 except ImportError:
     # Fall back to development mock
-    from QuantumCreativeMock import (
+    from QICreativeMock import (
         MockLukhasCreativeExpressionEngine as MockEngine,
     )
 
@@ -171,7 +171,7 @@ class QICreativeBridge:
 
 
 # Global instance for easy access
-LUKHAS_QUANTUM_CREATIVE = QuantumCreativeBridge()
+LUKHAS_QUANTUM_CREATIVE = QICreativeBridge()
 
 
 # Easy integration functions for existing LUKHAS code

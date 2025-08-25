@@ -23,7 +23,7 @@ from candidate.vivox.quantum_readiness import (
     SyncType,
     create_quantum_readiness_system,
 )
-from candidate.vivox.quantum_readiness.integration.vivox_bridge import VIVOXQuantumBridge
+from candidate.vivox.quantum_readiness.integration.vivox_bridge import VIVOXQIBridge
 
 
 class TestQuantumSubstrate:
@@ -512,13 +512,13 @@ class TestSuperpositionResolver:
             assert len(decision["trajectory"]) > 0
 
 
-class TestVIVOXQuantumBridge:
+class TestVIVOXQIBridge:
     """Test quantum bridge integration"""
 
     @pytest.fixture
     def bridge(self):
         """Create VIVOX quantum bridge"""
-        return VIVOXQuantumBridge()
+        return VIVOXQIBridge()
 
     def test_cil_quantum_collapse(self, bridge):
         """Test quantum collapse for CIL"""

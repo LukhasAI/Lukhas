@@ -34,7 +34,7 @@
 ║
 ║ Integration Points:
 ║ • ElevatedConsciousnessModule for consciousness states
-║ • QuantumCreativeIntegration for content generation
+║ • QICreativeIntegration for content generation
 ║ • Tier system for access control
 ║ • ΛTRACE for comprehensive logging
 ║
@@ -136,7 +136,7 @@ try:
 
     CREATIVE_ENGINE_AVAILABLE = True
     logger.info(
-        "ΛTRACE: LukhasCreativeExpressionEngine imported successfully from creativity.lukhasQuantumCreativeIntegration."
+        "ΛTRACE: LukhasCreativeExpressionEngine imported successfully from creativity.lukhasQICreativeIntegration."
     )
 except ImportError as e_cre:
     logger.warning(
@@ -169,23 +169,23 @@ class QICreativeConsciousness:
     applying consciousness-derived boosts and context to creative output.
     """
 
-    # Human-readable comment: Initializes the QuantumCreativeConsciousness system.
+    # Human-readable comment: Initializes the QICreativeConsciousness system.
     @lukhas_tier_required(
         level=4
     )  # Instantiation of this system is likely Guardian tier
     def __init__(self, user_id_context: Optional[str] = None):
         """
-        Initializes the QuantumCreativeConsciousness system, setting up
+        Initializes the QICreativeConsciousness system, setting up
         consciousness and creative engine integrations if available.
         Args:
             user_id_context (Optional[str]): Contextual user ID for logging.
         """
         self.user_id_context = user_id_context
         self.instance_logger = logger.getChild(
-            f"QuantumCreativeConsciousness.{self.user_id_context or 'system'}"
+            f"QICreativeConsciousness.{self.user_id_context or 'system'}"
         )
         self.instance_logger.info(
-            "ΛTRACE: Initializing QuantumCreativeConsciousness instance."
+            "ΛTRACE: Initializing QICreativeConsciousness instance."
         )
 
         self.consciousness_level_achieved: float = (
@@ -237,7 +237,7 @@ class QICreativeConsciousness:
             )
 
         self.instance_logger.info(
-            f"ΛTRACE: QuantumCreativeConsciousness initialized. Consciousness Module: {'Active' if self.consciousness_module else 'Inactive'}. Creative Engine: {'Active' if self.creative_engine else 'Inactive'}."
+            f"ΛTRACE: QICreativeConsciousness initialized. Consciousness Module: {'Active' if self.consciousness_module else 'Inactive'}. Creative Engine: {'Active' if self.creative_engine else 'Inactive'}."
         )
 
     # Human-readable comment: Generates content with consciousness-enhanced creativity.
@@ -661,7 +661,7 @@ async def generate_conscious_content(
 ) -> dict[str, Any]:
     """
     Convenience function for generating conscious content using a default
-    QuantumCreativeConsciousness instance.
+    QICreativeConsciousness instance.
     Args:
         content_type (str): Type of content.
         theme (str): Theme for content.
@@ -674,7 +674,7 @@ async def generate_conscious_content(
         f"ΛTRACE: Module-level generate_conscious_content called by user '{user_id}'. Type: '{content_type}'."
     )
     # Pass user_id to instance for its internal context if needed
-    consciousness_integrator = QuantumCreativeConsciousness(user_id_context=user_id)
+    consciousness_integrator = QICreativeConsciousness(user_id_context=user_id)
     # Pass user_id again for the method's tier check itself
     return await consciousness_integrator.generate_conscious_content(
         content_type, theme, style, user_id=user_id
@@ -697,7 +697,7 @@ def get_consciousness_integration_status(
     logger.info(
         f"ΛTRACE: Module-level get_consciousness_integration_status called by user '{user_id}'."
     )
-    consciousness_integrator = QuantumCreativeConsciousness(user_id_context=user_id)
+    consciousness_integrator = QICreativeConsciousness(user_id_context=user_id)
     return consciousness_integrator.get_consciousness_status(user_id=user_id)
 
 
@@ -716,7 +716,7 @@ async def main_example():  # Renamed from main
     print("=" * 50)
 
     # Instantiate with a test user context
-    consciousness_integrator_instance = QuantumCreativeConsciousness(
+    consciousness_integrator_instance = QICreativeConsciousness(
         user_id_context="demo_user"
     )
 
@@ -774,12 +774,12 @@ if __name__ == "__main__":
 #               applying quantum-inspired and consciousness-driven enhancements.
 #               Supports various content types like haikus, articles, social posts.
 # FUNCTIONS: generate_conscious_content (module API), get_consciousness_integration_status (module API).
-# CLASSES: QuantumCreativeConsciousness.
+# CLASSES: QICreativeConsciousness.
 # DECORATORS: @lukhas_tier_required (conceptual placeholder).
 # DEPENDENCIES: asyncio, typing, pathlib, logging, datetime, torch (optional),
 #               core.consciousness.lukhasElevatedConsciousnessModule,
-#               creativity.lukhasQuantumCreativeIntegration.
-# INTERFACES: Public methods of QuantumCreativeConsciousness and module-level API functions.
+#               creativity.lukhasQICreativeIntegration.
+# INTERFACES: Public methods of QICreativeConsciousness and module-level API functions.
 # ERROR HANDLING: Includes try-except blocks for module imports and consciousness processing.
 #                 Logs warnings or errors via ΛTRACE. Fallbacks for unavailable modules.
 # LOGGING: ΛTRACE_ENABLED using hierarchical loggers for class and module operations.

@@ -1,4 +1,11 @@
 """
+
+#TAG:consciousness
+#TAG:states
+#TAG:neuroplastic
+#TAG:colony
+
+
 🧠⚛️ Bio-Quantum-Inspired Symbolic Reasoning Engine
 Revolutionary implementation of abstract reasoning for AI systems
 
@@ -6,7 +13,6 @@ This module implements the groundbreaking theories from abstract_resoaning.md,
 creating a Bio-Quantum-Inspired Symbolic Reasoning Engine that orchestrates the Multi-Brain
 Symphony Architecture for advanced abstract reasoning capabilities.
 """
-
 import logging
 import time
 from dataclasses import dataclass
@@ -15,7 +21,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-# Import existing LUKHlukhasS multi-brain components - with graceful fallback
+# Import existing LUKHAS multi-brain components - with graceful fallback
 try:
     from ...dreams_brain.core.dreams_brain_core import DreamsBrainCore
     from ...emotional_brain.core.emotional_brain_core import EmotionalBrainCore
@@ -60,14 +66,9 @@ except ImportError:
             return await self.process(input_data)
 
         def get_status(self) -> dict[str, Any]:
-            return {
-                "active": self.active,
-                "brain_type": self.brain_type,
-                "mock": True,
-            }
+            return {"active": self.active, "brain_type": self.brain_type, "mock": True}
 
     # Create mock brain cores
-
     def DreamsBrainCore():
         return MockBrainCore("dreams")
 
@@ -85,7 +86,7 @@ except ImportError:
 # Import quantum-inspired bio components - with graceful fallback
 try:
     from ....core.qi_bio.QI_BIO_advanced_qi_bio import (
-        MitochondrialQuantumBridge,
+        MitochondrialQIBridge,
         QuantumSynapticGate,
     )
     from ....integration.oscillators.qi_enhanced_oscillator import (
@@ -96,7 +97,7 @@ try:
 except ImportError:
     print("🔄 Quantum Bio components not available, using mock implementations")
 
-    class MockQuantumBridge:
+    class MockQIBridge:
         async def process_qi_signal(self, signal, metadata):
             return signal, metadata
 
@@ -107,11 +108,12 @@ except ImportError:
     class MockOscillator:
         pass
 
-    MitochondrialQuantumBridge = MockQuantumBridge
+    MitochondrialQIBridge = MockQIBridge
     QuantumSynapticGate = MockSynapticGate
     EnhancedBaseOscillator = MockOscillator
     QUANTUM_BIO_AVAILABLE = False
 
+logger = logging.getLogger("LUKHAS.AbstractReasoning")
 logger = logging.getLogger("AbstractReasoning")
 
 
@@ -402,12 +404,7 @@ class BrainSymphony:
         try:
             # Collect brain states
             brain_states = []
-            for brain in [
-                self.dreams,
-                self.emotional,
-                self.memory,
-                self.learning,
-            ]:
+            for brain in [self.dreams, self.emotional, self.memory, self.learning]:
                 if hasattr(brain, "active") and brain.active:
                     # Simulate brain state as frequency signature
                     state_signature = np.random.random(
@@ -497,9 +494,7 @@ class BioQuantumSymbolicReasoner:
         logger.info("🚀 Bio-Quantum Symbolic Reasoning Engine initialized")
 
     async def abstract_reason(
-        self,
-        problem_space: dict[str, Any],
-        context: Optional[dict[str, Any]] = None,
+        self, problem_space: dict[str, Any], context: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Execute the complete Bio-Quantum Abstract Reasoning process
@@ -541,12 +536,7 @@ class BioQuantumSymbolicReasoner:
 
             # Phase 5: Quantum superposition of reasoning pathways
             quantum_superposition = await self._create_quantum_superposition_of_paths(
-                [
-                    dream_patterns,
-                    emotional_signals,
-                    analogies,
-                    reasoning_paths,
-                ]
+                [dream_patterns, emotional_signals, analogies, reasoning_paths]
             )
 
             # Phase 6: Cross-brain coherence achievement
@@ -858,7 +848,7 @@ class BioQuantumSymbolicReasoner:
         return evidence
 
     def _generate_alternative_hypotheses(self, combined_state: np.ndarray) -> list[str]:
-        """Generate alternative hypotheses from quantum-like state analysis"""
+        """Generate alternative hypotheses from qi-like state analysis"""
         hypotheses = []
 
         # Find multiple peaks in the probability distribution

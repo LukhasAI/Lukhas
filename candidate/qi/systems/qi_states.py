@@ -38,7 +38,7 @@ ENTANGLED = "entangled"  # Quantum entanglement with another oscillator
 
 
 @dataclass
-class Quantumconfig:
+class QIconfig:
     """Configuration for quantum operation"""
 
     coherence_threshold: float = 0.85  # Min coherence for quantum transition

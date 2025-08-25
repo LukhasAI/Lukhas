@@ -29,15 +29,15 @@ import numpy as np
 
 # Bio-symbolic components
 from bio.core.symbolic_mito_ethics_sync import MitoEthicsSync
-from bio.core.symbolic_mito_quantum_attention import MitoQuantumAttention
+from bio.core.symbolic_mito_quantum_attention import MitoQIAttention
 from bio.core.systems_mitochondria_model import MitochondriaModel
 from candidate.core.common import get_logger
 
 # Quantum bio integration
 try:
-    from qi.bio_system import MitochondrialQuantumBridge
+    from qi.bio_system import MitochondrialQIBridge
 except ImportError:
-    MitochondrialQuantumBridge = None
+    MitochondrialQIBridge = None
 
 logger = get_logger(__name__)
 
@@ -75,12 +75,12 @@ class BioEngine:
 
         # Core bio components
         self.mito_sync = MitoEthicsSync(base_frequency=0.1)
-        self.mito_attention = MitoQuantumAttention()
+        self.mito_attention = MitoQIAttention()
         self.mitochondria = MitochondriaModel()
 
         # Quantum bridge if available
         self.quantum_bridge = (
-            MitochondrialQuantumBridge() if MitochondrialQuantumBridge else None
+            MitochondrialQIBridge() if MitochondrialQIBridge else None
         )
 
         # Hormonal system state

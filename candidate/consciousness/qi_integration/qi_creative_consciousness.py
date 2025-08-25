@@ -379,7 +379,7 @@ class QICreativeDemo:
 
 async def interactive_demo():
     """Run the interactive quantum creative consciousness demo"""
-    demo = QuantumCreativeDemo()
+    demo = QICreativeDemo()
 
     # Display banner
     await demo.display_banner()

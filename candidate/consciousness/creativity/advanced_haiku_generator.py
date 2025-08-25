@@ -88,7 +88,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 # Try to import consciousness integration
 try:
     from consciousness.core_consciousness.quantum_consciousness_integration import (
-        QuantumCreativeConsciousness,
+        QICreativeConsciousness,
     )
 
     CONSCIOUSNESS_AVAILABLE = True
@@ -118,7 +118,7 @@ class AdvancedHaikuGenerator:
     def __init__(self, symbolic_db=None, federated_model=None):
         # Quantum consciousness integration
         self.consciousness = (
-            QuantumCreativeConsciousness() if CONSCIOUSNESS_AVAILABLE else None
+            QICreativeConsciousness() if CONSCIOUSNESS_AVAILABLE else None
         )
         self.logger = get_logger(__name__)
         

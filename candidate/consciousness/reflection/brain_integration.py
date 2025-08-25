@@ -95,10 +95,10 @@ except ImportError:
         TIER_5 = 5
 
 try:
-#     from BIO_SYMBOLIC.quantum_attention import QuantumAttention  # TODO: Install or implement BIO_SYMBOLIC
+#     from BIO_SYMBOLIC.quantum_attention import QIAttention  # TODO: Install or implement BIO_SYMBOLIC
 except ImportError:
     logger.warning("Could not import qi attention. Cognitive integration will be limited.")
-    QuantumAttention = None
+    QIAttention = None
 
 try:
 #     from AID.dream_engine.dream_reflection_loop import DreamReflectionLoop  # TODO: Install or implement AID
@@ -887,7 +887,7 @@ class LucasBrainIntegration:
         )
         
         # Initialize quantum attention if available
-        self.quantum_attention = QuantumAttention() if QuantumAttention else None
+        self.quantum_attention = QIAttention() if QIAttention else None
         
         # Initialize ID system integration
         try:

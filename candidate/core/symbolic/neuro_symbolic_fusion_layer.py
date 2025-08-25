@@ -62,7 +62,7 @@ try:
     from candidate.core.symbolic_legacy.bio.bio_symbolic import (
         CristaFilter,
         ProtonGradient,
-        QuantumAttentionGate,
+        QIAttentionGate,
     )
 except ImportError as e:
     # Graceful fallback for missing dependencies
@@ -149,7 +149,7 @@ class NeuroSymbolicFusionLayer:
             ProtonGradient() if "ProtonGradient" in globals() else None
         )
         self.attention_gate = (
-            QuantumAttentionGate() if "QuantumAttentionGate" in globals() else None
+            QIAttentionGate() if "QIAttentionGate" in globals() else None
         )
         self.crista_filter = CristaFilter() if "CristaFilter" in globals() else None
 

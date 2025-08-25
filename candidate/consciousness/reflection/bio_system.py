@@ -48,7 +48,7 @@ from qi.systems.quantum_engine import (
 logger = get_logger(__name__)
 
 
-class MitochondrialQuantumBridge:
+class MitochondrialQIBridge:
     """
     Bridge between quantum and biological processing using mitochondrial metaphors.
     Implements electron transport chain concepts for quantum information flow.
@@ -414,8 +414,8 @@ class SelfAwareAgent:
         }
 
 
-# Integrate self-awareness into MitochondrialQuantumBridge
-class EnhancedMitochondrialQuantumBridge(MitochondrialQuantumBridge):
+# Integrate self-awareness into MitochondrialQIBridge
+class EnhancedMitochondrialQIBridge(MitochondrialQIBridge):
     """Enhanced version with self-awareness capabilitie"""
 
     def __init__(self, quantum_oscillator: Optional[QuantumOscillator] = None):

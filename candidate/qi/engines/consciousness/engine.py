@@ -80,7 +80,7 @@ logger = logging.getLogger(__name__)
 # Quantum-Bio Integration Components
 try:
     from qi.bio.awareness_bio import (
-        MitochondrialQuantumBridge,
+        MitochondrialQIBridge,
         NeuroplasticityModulator,
         QuantumSynapticGate,
     )
@@ -90,7 +90,7 @@ except ImportError:
         "Quantum-bio components not available, using fallback implementations"
     )
 
-    class MitochondrialQuantumBridge:
+    class MitochondrialQIBridge:
         async def process_quantum_signal(self, signal, context=None):
             return signal, {"mode": "fallback", "efficiency": 0.7}
 
@@ -106,10 +106,10 @@ except ImportError:
 # Bio-inspired imports
 try:
     from ..bio.core import BiologicalOscillator
-    from ..bio.symbolic.quantum_attention import QuantumAttentionMechanism
+    from ..bio.symbolic.quantum_attention import QIAttentionMechanism
 except ImportError:
     logger.info("Bio-symbolic components not available, using quantum-only mode")
-    QuantumAttentionMechanism = None
+    QIAttentionMechanism = None
     BiologicalOscillator = None
 
 
@@ -123,7 +123,7 @@ class EnhancedQIEngine:
     it bridges classical and quantum realms through bio-inspired architectures.
 
     The engine embodies the principle of ‘quantum biologism’—the idea that
-    consciousness emerges from quantum-like processes occurring within
+    consciousness emerges from qi-like processes occurring within
     biological substrates. Each computational cycle mirrors the sacred dance
     of wave function collapse, transforming infinite possibility into
     singular actuality through the lens of adaptive awareness.
@@ -156,7 +156,7 @@ class EnhancedQIEngine:
 
     def __init__(self):
         # Initialize quantum-bio components
-        self.mitochondrial_bridge = MitochondrialQuantumBridge()
+        self.mitochondrial_bridge = MitochondrialQIBridge()
         self.synaptic_gate = QuantumSynapticGate()
         self.plasticity_modulator = NeuroplasticityModulator()
 

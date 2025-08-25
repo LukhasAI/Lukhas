@@ -75,7 +75,7 @@ class ProtonGradient:
 
 
 class QIAttentionGate:
-    """Bio awareness - QuantumAttentionGate"""
+    """Bio awareness - QIAttentionGate"""
 
     pass
 

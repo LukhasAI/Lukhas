@@ -58,7 +58,7 @@ class NeuroplasticConsolidator:
                 ],
             },
             "QIM": {
-                "path": "qim/",  # Already renamed from quantum
+                "path": "qim/",  # Already renamed from qi
                 "description": "Quantum-Inspired Metaphors and algorithms",
                 "absorbs": ["quantum", "probabilistic", "oscillator", "wave"],
             },

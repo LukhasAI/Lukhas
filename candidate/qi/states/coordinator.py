@@ -132,7 +132,7 @@ class QICoordinator:
                 quantum_result, bio_quantum_result
             )
 
-            # Generate consciousness insights from quantum-inspired processing
+            # Generate consciousness insights from qi-inspired processing
             consciousness_insights = self._extract_consciousness_insights(
                 combined_output
             )
@@ -292,7 +292,7 @@ class QICoordinator:
     def _combine_quantum_outputs(
         self, quantum_result: dict, bio_quantum_result: dict
     ) -> dict[str, Any]:
-        """Combine outputs from quantum-inspired processing pathways"""
+        """Combine outputs from qi-inspired processing pathways"""
         return {
             "quantum_coherence": quantum_result.get("coherence", 0.5),
             "quantum_advantage": quantum_result.get("quantum_advantage", 0.0),
@@ -311,7 +311,7 @@ class QICoordinator:
     def _extract_consciousness_insights(
         self, combined_output: dict[str, Any]
     ) -> dict[str, Any]:
-        """Extract consciousness insights from quantum-inspired processing results"""
+        """Extract consciousness insights from qi-inspired processing results"""
         quantum_coherence = combined_output.get("quantum_coherence", 0.5)
         bio_stability = combined_output.get("bio_stability", 0.5)
         integration_efficiency = combined_output.get("integration_efficiency", 0.5)

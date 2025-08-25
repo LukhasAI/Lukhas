@@ -514,7 +514,7 @@ class EnhancedDreamEngine:
         insights = []
 
         try:
-            # Extract patterns from quantum-like state
+            # Extract patterns from qi-like state
             coherence = quantum_like_state.get("coherence", 0)
             entanglement = quantum_like_state.get("entanglement", 0)
 

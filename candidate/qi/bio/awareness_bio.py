@@ -32,7 +32,7 @@ __version__ = "2.0.0"
 __tier__ = 2
 
 
-class MitochondrialQuantumBridge:
+class MitochondrialQIBridge:
     async def initialize(self):
         pass
 

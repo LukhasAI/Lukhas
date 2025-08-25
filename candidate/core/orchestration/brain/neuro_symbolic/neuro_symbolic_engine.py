@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 class QIInspiredAttention:
     """
     Implements quantum-inspired attention mechanisms for enhanced context understanding.
-    This leverages concepts from quantum-inspired computing to improve attention allocation.
+    This leverages concepts from qi-inspired computing to improve attention allocation.
     """
 
     def __init__(self):

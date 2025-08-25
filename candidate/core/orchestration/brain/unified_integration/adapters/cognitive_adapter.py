@@ -34,7 +34,7 @@ class CognitiveAdapter:
     def __init__(self):
         # Core bio components
         self.proton_gradient = ProtonGradient()
-        self.attention_gate = QuantumAttentionGate()
+        self.attention_gate = QIAttentionGate()
         self.crista_filter = CristaFilter()
         self.identity_encoder = CardiolipinEncoder()
 

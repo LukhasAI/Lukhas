@@ -36,7 +36,7 @@ class QIBridgeEvent:
     success: bool
 
 
-class VIVOXQuantumBridge:
+class VIVOXQIBridge:
     """
     Bridge between VIVOX.QREADY and other VIVOX modules
     Handles quantum-classical interface translation
@@ -58,7 +58,7 @@ class VIVOXQuantumBridge:
 
         # Bridge configuration
         self.translation_fidelity = 0.95
-        self.bridge_events: list[QuantumBridgeEvent] = []
+        self.bridge_events: list[QIBridgeEvent] = []
 
         # Module mappings
         self.module_quantum_map = {
@@ -70,7 +70,7 @@ class VIVOXQuantumBridge:
             "VIVOX.EVRN": self._bridge_to_perception,
         }
 
-        logger.info("VIVOXQuantumBridge initialized")
+        logger.info("VIVOXQIBridge initialized")
 
     def process_quantum_collapse_for_cil(
         self, consciousness_state: dict[str, Any], ethical_scenario: dict[str, float]
@@ -473,7 +473,7 @@ class VIVOXQuantumBridge:
         self, target_module: str, operation: str, data: dict[str, Any], success: bool
     ):
         """Log quantum bridge event"""
-        event = QuantumBridgeEvent(
+        event = QIBridgeEvent(
             event_id=f"bridge_{datetime.now().timestamp()}",
             source_module="VIVOX.QREADY",
             target_module=target_module,

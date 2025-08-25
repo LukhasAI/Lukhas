@@ -166,8 +166,8 @@ class QIHub:
     def _register_attention_services(self):
         """Register quantum attention system services"""
         attention_services = [
-            ("quantum_attention_economics", "QuantumAttentionEconomics"),
-            ("attention_allocator", "QuantumAttentionAllocator"),
+            ("quantum_attention_economics", "QIAttentionEconomics"),
+            ("attention_allocator", "QIAttentionAllocator"),
             ("focus_manager", "QuantumFocusManager"),
         ]
 

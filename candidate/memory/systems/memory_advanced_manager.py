@@ -51,7 +51,7 @@ from learning.memory_learning.memory_manager import (
 # Conceptual imports - These systems are not defined in the current scope but represent integration points.
 # from ..core.decorators import core_tier_required # Conceptual
 # from ..core.emotional_system import EmotionalOscillator # Conceptual, if it's a separate component #ΛLINK_CONCEPTUAL: EmotionalSystem
-# from ..core.attention_system import QuantumAttention # Conceptual #ΛLINK_CONCEPTUAL: AttentionSystem
+# from ..core.attention_system import QIAttention # Conceptual #ΛLINK_CONCEPTUAL: AttentionSystem
 # ΛTRACE: Initialize logger for the AdvancedMemoryManager module.
 # #ΛTEMPORAL_HOOK (Logger init time) #AIDENTITY_BRIDGE (Module identity)
 from .fold_engine import (  # ΛNOTE: MemoryFoldEngine is used here but AGIMemory was defined in fold_engine.py. Assuming MemoryFoldEngine is a typo and AGIMemory is intended or that MemoryFoldEngine is defined elsewhere. For this pass, I'll assume `self.fold_engine` is an instance of `AGIMemory` from `fold_engine.py`.
@@ -84,7 +84,7 @@ class AdvancedMemoryManager:
     This class utilizes a base MemoryManager for foundational storage and
     a FoldEngine (assumed to be AGIMemory from fold_engine.py) for structured,
     fold-based memory. It also interacts with conceptual specialized components
-    like an EmotionalOscillator and QuantumAttention mechanism.
+    like an EmotionalOscillator and QIAttention mechanism.
     #ΛMEMORY_TIER: Orchestration Layer - Coordinates multiple memory components.
     # #ΛCOLLAPSE_POINT (General): If underlying `fold_engine` or `base_memory_manager` fails or is misconfigured,
     # this entire manager's functionality collapses.
@@ -1219,7 +1219,7 @@ if __name__ == "__main__":  # ΛSIM_TRACE: Main execution block for demo purpose
 #   - Critical dependencies on a functional base `MemoryManager` and `fold_engine.AGIMemory`. The current import
 #     `from .memory_manager import MemoryManager` might need adjustment based on actual project structure to avoid
 #     circularity if this file *is* the intended `memory_manager.py` for the base class.
-#   - Interactions with `EmotionalOscillator` and `QuantumAttention` are conceptual and depend on external implementations.
+#   - Interactions with `EmotionalOscillator` and `QIAttention` are conceptual and depend on external implementations.
 #   - Several methods in `AdvancedMemoryManager` rely on corresponding (currently conceptual or missing) async methods
 #     in the `fold_engine` (e.g., `search_folds`, `retrieve_by_emotion`, `consolidate_memories`). These need to be
 #     implemented in `AGIMemory` (or the actual fold engine class) and made async if this manager is to be fully async.
@@ -1233,7 +1233,7 @@ if __name__ == "__main__":  # ΛSIM_TRACE: Main execution block for demo purpose
 # MAINTENANCE:
 #   - Clarify and implement the base `MemoryManager` dependency.
 #   - Implement the conceptual methods in `AGIMemory` (or the fold engine) and ensure async compatibility if needed.
-#   - Develop concrete implementations for `EmotionalOscillator` and `QuantumAttention`.
+#   - Develop concrete implementations for `EmotionalOscillator` and `QIAttention`.
 #   - Enhance memory clustering and search capabilities (e.g., with NLP, vector embeddings).
 # CONTACT: LUKHAS ADVANCED COGNITIVE SYSTEMS TEAM
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED

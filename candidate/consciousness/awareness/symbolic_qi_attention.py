@@ -20,7 +20,7 @@ from bio.core import BioOrchestrator, ResourcePriority
 # TODO: Re-enable when quantum_attention is properly implemented
 # from candidate.orchestration.brain.attention.quantum_attention import *
 
-logger = logging.getLogger("QuantumAttention")
+logger = logging.getLogger("QIAttention")
 
 
 class QIInspiredAttention:
@@ -479,7 +479,7 @@ use_ensemble = True  # Set to False for single module
 
 if use_ensemble:
     # Register ensemble for better stability
-    quantum_attn = QuantumAttentionEnsemble(
+    quantum_attn = QIAttentionEnsemble(
         dimension=CONFIG.embedding_size, ensemble_size=3
     )
     bio_orchestrator.register_module(

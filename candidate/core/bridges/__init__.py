@@ -1,6 +1,6 @@
 from typing import Optional
 
-from .consciousness_quantum_bridge import ConsciousnessQuantumBridge
+from .consciousness_quantum_bridge import ConsciousnessQIBridge
 from .core_consciousness_bridge import CoreConsciousnessBridge
 from .core_safety_bridge import CoreSafetyBridge
 from .identity_core_bridge import IdentityCoreBridge
@@ -18,7 +18,7 @@ class BridgeRegistry:
     def __init__(self) -> None:
         self.bridges = {
             "core_consciousness": CoreConsciousnessBridge,
-            "consciousness_quantum": ConsciousnessQuantumBridge,
+            "consciousness_quantum": ConsciousnessQIBridge,
             "core_safety": CoreSafetyBridge,
             "memory_consciousness": get_memory_consciousness_bridge,
             "nias_dream": get_nias_dream_bridge,
@@ -69,7 +69,7 @@ def get_bridge_registry() -> BridgeRegistry:
 
 __all__ = [
     "CoreConsciousnessBridge",
-    "ConsciousnessQuantumBridge",
+    "ConsciousnessQIBridge",
     "CoreSafetyBridge",
     "MemoryLearningBridge",
     "get_memory_learning_bridge",

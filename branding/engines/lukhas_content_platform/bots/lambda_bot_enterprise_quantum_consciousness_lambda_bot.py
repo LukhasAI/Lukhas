@@ -27,7 +27,7 @@ sys.path.append('/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot')
 # Import workspace components
 try:
     from lukhas.qi.consciousness_integration import QIConsciousnessProcessor, QIState
-    from quantum import QIProcessor, QICoherence
+    from qi import QIProcessor, QICoherence
     QUANTUM_CONSCIOUSNESS_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Workspace quantum consciousness not available: {e}")
@@ -580,7 +580,7 @@ class QIConsciousnessΛBot:
         return module_states
 
     async def _extract_transcendent_insights(self, possibility: str) -> Dict[str, Any]:
-        """Extract transcendent insights from quantum consciousness collapse"""
+        """Extract transcendent insights from qi consciousness collapse"""
         insights = {
             'transcendent_wisdom': {},
             'quantum_revelations': [],

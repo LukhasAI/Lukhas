@@ -58,7 +58,7 @@ class LUKHASKnowledgeServer:
             LUKHASPattern(
                 category="class_naming",
                 pattern="CamelCase with symbolic integration",
-                example="ConsciousnessEngine, QuantumMemoryFold",
+                example="ConsciousnessEngine, QIMemoryFold",
                 description="Class names that reflect LUKHAS architectural concepts",
                 symbols=[QUANTUM_SYMBOL, CONSCIOUSNESS_SYMBOL],
             ),

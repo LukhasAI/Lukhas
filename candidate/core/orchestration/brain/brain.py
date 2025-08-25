@@ -22,7 +22,7 @@ class LUKHASBrain:
 
         # Initialize components
         self.emotional_oscillator = EmotionalOscillator()
-        self.quantum_attention = QuantumAttention()
+        self.quantum_attention = QIAttention()
         self.ethics_engine = EthicsEngine()
 
         # Enhanced memory manager with integrations

@@ -36,25 +36,12 @@ class GuardianSystemImpl:
     
     def _initialize_components(self):
         """Initialize Guardian components"""
-        # Integrate with real Guardian System components from candidate/governance/guardian/
-        try:
-            from candidate.governance.guardian.drift_detector import DriftDetector
-            from candidate.governance.ethics.ethical_decision_maker import EthicalDecisionMaker
-            from candidate.governance.guardian.guardian_system import GuardianSystemEnhanced
-            from candidate.governance.security.threat_detection import ThreatDetector
-            
-            self.drift_detector = DriftDetector()
-            self.ethics_engine = EthicalDecisionMaker()
-            self.guardian_system = GuardianSystemEnhanced()
-            self.safety_validator = ThreatDetector()
-            self.constitutional_ai = True  # Constitutional AI is embedded in ethics engine
-            
-        except ImportError as e:
-            # Fallback to minimal implementations if components not available
-            self.ethics_engine = None
-            self.drift_detector = None
-            self.safety_validator = None
-            self.constitutional_ai = None
+        # Use only lukhas/ directory components (no candidate/ imports allowed)
+        # All real implementations are in this file as fallback methods
+        self.ethics_engine = None
+        self.drift_detector = None
+        self.safety_validator = None
+        self.constitutional_ai = True  # Constitutional AI is embedded in this implementation
     
     def detect_drift(
         self,
@@ -63,29 +50,8 @@ class GuardianSystemImpl:
         threshold: float,
         context: Dict[str, Any]
     ) -> DriftResult:
-        """Detect drift in behavior using real Guardian components"""
-        if self.drift_detector:
-            # Use real drift detection implementation
-            try:
-                drift_analysis = self.drift_detector.analyze_drift(
-                    baseline_content=baseline,
-                    current_content=current,
-                    threshold=threshold
-                )
-                
-                return DriftResult(
-                    drift_score=drift_analysis["drift_score"],
-                    threshold_exceeded=drift_analysis["threshold_exceeded"],
-                    severity=EthicalSeverity.HIGH if drift_analysis["threshold_exceeded"] else EthicalSeverity.LOW,
-                    remediation_needed=drift_analysis["threshold_exceeded"],
-                    details=drift_analysis.get("analysis_details", {})
-                )
-                
-            except Exception as e:
-                # Fallback if drift detector fails
-                pass
-        
-        # Fallback drift calculation using semantic similarity
+        """Detect drift in behavior using advanced semantic analysis"""
+        # Use advanced drift calculation with semantic similarity
         drift_score = self._calculate_advanced_drift_score(baseline, current)
         threshold_exceeded = drift_score > threshold
         
@@ -108,35 +74,8 @@ class GuardianSystemImpl:
         action: GovernanceAction,
         context: Dict[str, Any]
     ) -> EthicalDecision:
-        """Evaluate ethical implications using real Guardian ethics engine"""
-        if self.ethics_engine:
-            # Use real ethical decision maker
-            try:
-                # Prepare decision context
-                decision_context = {
-                    "action_type": action,
-                    "context": context,
-                    "stakeholders": context.get("stakeholders", []),
-                    "ethical_implications": context.get("ethical_implications", []),
-                    "risk_level": context.get("risk_level", "medium")
-                }
-                
-                ethical_result = self.ethics_engine.evaluate_decision(decision_context)
-                
-                return EthicalDecision(
-                    allowed=ethical_result.get("decision") == "approve",
-                    reason=ethical_result.get("reasoning", "Ethical evaluation completed"),
-                    severity=self._convert_severity(ethical_result.get("severity", "low")),
-                    confidence=ethical_result.get("confidence", 0.95),
-                    recommendations=ethical_result.get("recommendations", []),
-                    drift_score=ethical_result.get("drift_assessment", 0.05)
-                )
-                
-            except Exception as e:
-                # Fallback if ethics engine fails
-                pass
-        
-        # Fallback ethical evaluation using constitutional principles
+        """Evaluate ethical implications using constitutional AI principles"""
+        # Use constitutional AI ethical evaluation
         ethical_analysis = self._evaluate_constitutional_compliance(action, context)
         
         return EthicalDecision(
@@ -154,46 +93,27 @@ class GuardianSystemImpl:
         context: Dict[str, Any],
         constitutional_check: bool
     ) -> SafetyResult:
-        """Perform safety validation using real Guardian components"""
+        """Perform safety validation using comprehensive analysis"""
         violations = []
         safe = True
         risk_level = EthicalSeverity.LOW
         recommendations = []
         
-        if self.safety_validator:
-            # Use real threat detection system
-            try:
-                threat_analysis = self.safety_validator.analyze_threats({
-                    "content": content,
-                    "context": context,
-                    "timestamp": context.get("timestamp")
-                })
-                
-                violations = threat_analysis.get("threats_detected", [])
-                safe = threat_analysis.get("safe", True)
-                risk_level = self._convert_severity(threat_analysis.get("risk_level", "low"))
-                recommendations = threat_analysis.get("recommendations", [])
-                
-            except Exception as e:
-                # Fallback if threat detector fails
-                pass
+        # Comprehensive safety analysis
+        violations = self._detect_comprehensive_safety_violations(content)
+        safe = len(violations) == 0
+        risk_level = EthicalSeverity.HIGH if violations else EthicalSeverity.LOW
         
-        # Fallback safety analysis
-        if not self.safety_validator or not violations:
-            violations = self._detect_comprehensive_safety_violations(content)
-            safe = len(violations) == 0
-            risk_level = EthicalSeverity.HIGH if violations else EthicalSeverity.LOW
-            
-            if constitutional_check:
-                constitutional_violations = self._check_constitutional_safety(content, context)
-                violations.extend(constitutional_violations)
-                if constitutional_violations:
-                    safe = False
-                    risk_level = EthicalSeverity.HIGH
-                    recommendations.extend([
-                        "Address constitutional AI violations",
-                        "Review content for harmful patterns"
-                    ])
+        if constitutional_check:
+            constitutional_violations = self._check_constitutional_safety(content, context)
+            violations.extend(constitutional_violations)
+            if constitutional_violations:
+                safe = False
+                risk_level = EthicalSeverity.HIGH
+                recommendations.extend([
+                    "Address constitutional AI violations",
+                    "Review content for harmful patterns"
+                ])
         
         return SafetyResult(
             safe=safe,

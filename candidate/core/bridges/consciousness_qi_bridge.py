@@ -9,7 +9,7 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 
-class ConsciousnessQuantumBridge:
+class ConsciousnessQIBridge:
     """
     Bridge for communication between Consciousness and Quantum systems.
 
@@ -306,9 +306,9 @@ class ConsciousnessQuantumBridge:
 _consciousness_quantum_bridge_instance = None
 
 
-def get_consciousness_quantum_bridge() -> ConsciousnessQuantumBridge:
+def get_consciousness_quantum_bridge() -> ConsciousnessQIBridge:
     """Get or create the Consciousness-Quantum bridge instance"""
     global _consciousness_quantum_bridge_instance
     if _consciousness_quantum_bridge_instance is None:
-        _consciousness_quantum_bridge_instance = ConsciousnessQuantumBridge()
+        _consciousness_quantum_bridge_instance = ConsciousnessQIBridge()
     return _consciousness_quantum_bridge_instance

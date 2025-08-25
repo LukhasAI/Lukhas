@@ -7,11 +7,11 @@ Includes quantum-inspired attention and biological orchestration mechanisms.
 
 from .bio_orchestrator import BioSymbolicOrchestrator
 from .bio_symbolic import BioSymbolic, bio_symbolic
-from .quantum_attention import QuantumAttentionSystem
+from .quantum_attention import QIAttentionSystem
 
 __all__ = [
     "BioSymbolic",
     "bio_symbolic",
     "BioSymbolicOrchestrator",
-    "QuantumAttentionSystem",
+    "QIAttentionSystem",
 ]

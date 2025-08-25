@@ -70,7 +70,7 @@ class QIAssociativeMemoryBank:
 
     async def quantum_associative_recall(
         self, query: QuantumQuery, num_iterations: Optional[int] = None
-    ) -> list[QuantumMemory]:
+    ) -> list[QIMemory]:
         """
         Retrieve memories using quantum parallelism
         """

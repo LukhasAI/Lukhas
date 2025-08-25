@@ -29,7 +29,7 @@ from .core.qubit_collapse import (
     ProbabilisticConvergence,
     QubitCollapseEngine,
 )
-from .integration.vivox_bridge import QuantumBridgeEvent, VIVOXQuantumBridge
+from .integration.vivox_bridge import QIBridgeEvent, VIVOXQIBridge
 
 
 # Main factory function
@@ -75,8 +75,8 @@ __all__ = [
     "SuperpositionPath",
     "SuperpositionResolver",
     # Integration
-    "VIVOXQuantumBridge",
-    "QuantumBridgeEvent",
+    "VIVOXQIBridge",
+    "QIBridgeEvent",
     # Factory
     "create_quantum_readiness_system",
 ]

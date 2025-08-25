@@ -238,7 +238,7 @@ class ReflectionLayer:
         self.symbolic_vocabulary = self._initialize_symbolic_vocabulary()
 
         # Integration components (placeholders for LUKHAS infrastructure)
-        # ΛNOTE: LUKHAS infrastructure components (QuantumMemory, IntentNode,
+        # ΛNOTE: LUKHAS infrastructure components (QIMemory, IntentNode,
         # VoicePack, DreamReplayer) are currently initialized as placeholders.
         # Full functionality requires integration with the actual LUKHAS system
         # components.

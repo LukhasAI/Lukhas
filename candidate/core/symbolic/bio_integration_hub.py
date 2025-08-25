@@ -17,7 +17,7 @@ from typing import Any
 from bio.bio_engine import get_bio_engine
 from bio.core.symbolic_bio_symbolic_architectures import BioSymbolicArchitectures
 from bio.core.symbolic_crista_optimizer import CristaOptimizer
-from bio.core.symbolic_mito_quantum_attention import MitoQuantumAttention
+from bio.core.symbolic_mito_quantum_attention import MitoQIAttention
 from bio.core.systems_mitochondria_model import MitochondriaModel
 
 logger = logging.getLogger(__name__)
@@ -34,7 +34,7 @@ class BioSymbolicIntegrationHub:
 
         # Symbolic components
         self.architectures = BioSymbolicArchitectures()
-        self.quantum_attention = MitoQuantumAttention()
+        self.quantum_attention = MitoQIAttention()
         self.crista_optimizer = CristaOptimizer()
         self.mitochondria_model = MitochondriaModel()
 

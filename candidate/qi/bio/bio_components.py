@@ -90,7 +90,7 @@ except ImportError as e:
 #   "class_ProtonGradient": {
 #     "default_tier": 2, "methods": {"__init__":0, "process":2, "_apply_gradient_to_data":3}
 #   },
-#   "class_QuantumAttentionGate": {
+#   "class_QIAttentionGate": {
 #     "default_tier": 2, "methods": {"__init__":0, "attend":2, "_normalize_attention_weights":3}
 #   },
 #   "class_CristaFilter": {
@@ -219,7 +219,7 @@ class QIAttentionGate:
         self.bio_oscillator: QIBioOscillator = (
             bio_oscillator or QIBioOscillator()
         )
-        self.log.info("QuantumAttentionGate initialized.")
+        self.log.info("QIAttentionGate initialized.")
 
     @lukhas_tier_required(2)
     async def attend(
@@ -283,7 +283,7 @@ class QIAttentionGate:
                 error_message=str(e),
                 exc_info=True,
             )
-            return {"error": f"QuantumAttentionGate failed: {str(e)}", **input_data}
+            return {"error": f"QIAttentionGate failed: {str(e)}", **input_data}
 
     @lukhas_tier_required(3)
     def _normalize_attention_weights(

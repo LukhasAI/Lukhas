@@ -16,7 +16,7 @@ class QIMemoryBridge:
         self.memory_hub = None
         self.event_mappings: dict[str, str] = {}
         self.is_connected = False
-        logger.info("QuantumMemoryBridge initialized")
+        logger.info("QIMemoryBridge initialized")
 
     async def connect(self) -> bool:
         """Establish connection between systems"""
@@ -110,12 +110,12 @@ class QIMemoryBridge:
 
 
 # Singleton instance
-_quantum_memory_bridge_instance: Optional[QuantumMemoryBridge] = None
+_quantum_memory_bridge_instance: Optional[QIMemoryBridge] = None
 
 
-def get_quantum_memory_bridge() -> QuantumMemoryBridge:
+def get_quantum_memory_bridge() -> QIMemoryBridge:
     """Get or create the Quantum-Memory bridge instance"""
     global _quantum_memory_bridge_instance
     if _quantum_memory_bridge_instance is None:
-        _quantum_memory_bridge_instance = QuantumMemoryBridge()
+        _quantum_memory_bridge_instance = QIMemoryBridge()
     return _quantum_memory_bridge_instance

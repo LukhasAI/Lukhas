@@ -75,7 +75,7 @@ class MockRespiModule:
         return x  # Simple passthrough
 
 
-class MitoQuantumAttention:
+class MitoQIAttention:
     """
     Adapter for integrating mitochondrial quantum attention components
     Provides both PyTorch and fallback implementations
@@ -223,10 +223,10 @@ class MockMitochondrialConductor:
 
 def create_mito_quantum_attention(
     ethical_threshold: float = 0.7,
-) -> MitoQuantumAttention:
+) -> MitoQIAttention:
     """Factory function to create quantum attention system"""
-    return MitoQuantumAttention(ethical_threshold)
+    return MitoQIAttention(ethical_threshold)
 
 
 # Export for symbolic hub
-__all__ = ["MitoQuantumAttention", "create_mito_quantum_attention"]
+__all__ = ["MitoQIAttention", "create_mito_quantum_attention"]

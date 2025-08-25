@@ -655,9 +655,9 @@ _economics_instance = None
 
 def get_quantum_attention_economics(
     openai_api_key: Optional[str] = None,
-) -> QuantumAttentionEconomics:
+) -> QIAttentionEconomics:
     """Get or create the singleton Quantum Attention Economics instance"""
     global _economics_instance
     if _economics_instance is None:
-        _economics_instance = QuantumAttentionEconomics(openai_api_key)
+        _economics_instance = QIAttentionEconomics(openai_api_key)
     return _economics_instance

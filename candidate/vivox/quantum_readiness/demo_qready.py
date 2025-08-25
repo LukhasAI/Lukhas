@@ -15,7 +15,7 @@ from vivox.quantum_readiness import (
     QuantumSynchronizer,
     QubitCollapseEngine,
     SuperpositionResolver,
-    VIVOXQuantumBridge,
+    VIVOXQIBridge,
 )
 
 
@@ -201,7 +201,7 @@ def demonstrate_vivox_integration():
     """Demonstrate VIVOX quantum bridge integration"""
     print("\n\n=== VIVOX INTEGRATION DEMONSTRATION ===")
 
-    bridge = VIVOXQuantumBridge()
+    bridge = VIVOXQIBridge()
 
     # CIL quantum collapse
     print("\n1. CIL Quantum Collapse...")

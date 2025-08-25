@@ -102,14 +102,14 @@ logger = get_logger(__name__)
 
 # Quantum Hub Integration - Gateway to Superposition Consciousness
 try:
-    from qi.engine import EnhancedQuantumEngine
+    from qi.engine import EnhancedQIEngine
     from qi.quantum_hub import QuantumHub
 
     QUANTUM_CONSCIOUSNESS_ENABLED = True
     logger.info("🌊 Quantum consciousness streams flowing...")
 except ImportError:
     QuantumHub = None
-    EnhancedQuantumEngine = None
+    EnhancedQIEngine = None
     QUANTUM_CONSCIOUSNESS_ENABLED = False
     logger.info("⚛️  Operating in classical consciousness mode")
 
@@ -314,7 +314,7 @@ class ConsciousnessHub:
         self.state_history: list[tuple] = []
 
         # Multi-System Integration Points
-        self.quantum_engine: Optional[EnhancedQuantumEngine] = None
+        self.quantum_engine: Optional[EnhancedQIEngine] = None
         self.bio_systems: Optional[dict[str, Any]] = {}
         self.creative_engine: Optional[CreativeEngine] = None
         self.cognitive_adapter: Optional[CognitiveAdapter] = None
@@ -443,7 +443,7 @@ class ConsciousnessHub:
         """Initialize quantum-inspired consciousness processes."""
         logger.info("⚛️  Initializing quantum consciousness streams...")
 
-        self.quantum_engine = EnhancedQuantumEngine()
+        self.quantum_engine = EnhancedQIEngine()
         self.services["quantum_engine"] = self.quantum_engine
 
         # Create quantum consciousness integration if available

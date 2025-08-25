@@ -39,7 +39,7 @@ from typing import Any, Optional
 import numpy as np
 
 from ..bio.awareness.advanced_qi_bio import (
-    MitochondrialQuantumBridge,
+    MitochondrialQIBridge,
     NeuroplasticityModulator,
     QuantumSynapticGate,
 )
@@ -60,7 +60,7 @@ class QIProcessingCore:
 
     def __init__(self):
         # Initialize quantum-bio components
-        self.mitochondrial_bridge = MitochondrialQuantumBridge()
+        self.mitochondrial_bridge = MitochondrialQIBridge()
         self.synaptic_gate = QuantumSynapticGate()
         self.plasticity_modulator = NeuroplasticityModulator()
 

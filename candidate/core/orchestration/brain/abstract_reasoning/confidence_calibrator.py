@@ -536,7 +536,7 @@ class UncertaintyDecomposer:
         self, reasoning_result: dict[str, Any], context: dict[str, Any]
     ) -> float:
         """Estimate quantum (indeterminacy) uncertainty"""
-        # Extract quantum uncertainty from quantum-like state information
+        # Extract quantum uncertainty from qi-like state information
         if "quantum_like_state" in reasoning_result:
             quantum_like_state = reasoning_result["quantum_like_state"]
             if isinstance(quantum_like_state, dict):
