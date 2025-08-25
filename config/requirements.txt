@@ -4,7 +4,7 @@ aiohttp==3.12.15
 cryptography==44.0.3
 edge_tts==7.0.2
 elevenlabs==1.58.1
-fastapi==0.115.12
+fastapi==0.116.1
 Flask==3.2.0
 h2==4.2.0
 huggingface_hub==0.31.1
