@@ -1101,9 +1101,7 @@ class ExplainabilityInterfaceLayer:
 
         ΛTAG: interactive, dialogue, clarification
         """
-        # ΛSTUB: Implement interactive explanation system
-        # ΛTODO: Add dialogue management and follow-up questions
-        # AIDEA: Integration with conversational AI for natural follow-ups
+        # Interactive explanation system with dialogue management
 
         session_id = str(uuid.uuid4())
 
@@ -1124,14 +1122,52 @@ class ExplainabilityInterfaceLayer:
 
         initial_explanation = await self.explain_decision(decision_id, request, context)
 
+        # Generate intelligent follow-up questions based on decision context
+        followup_questions = await self._generate_contextual_followups(
+            decision_id, initial_explanation, context
+        )
+        
+        # Initialize dialogue state for session management
+        dialogue_state = {
+            "session_id": session_id,
+            "decision_id": decision_id,
+            "conversation_history": [
+                {
+                    "type": "initial_explanation",
+                    "content": initial_explanation.natural_language,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
+            ],
+            "context_understanding": {
+                "decision_type": context.get("decision_type", "unknown"),
+                "complexity_level": self._assess_decision_complexity(initial_explanation),
+                "stakeholder_count": len(context.get("stakeholders", [])),
+                "ethical_dimensions": len(context.get("ethical_factors", [])),
+            },
+            "user_intent_model": {
+                "clarification_seeking": 0.7,
+                "detail_preference": "medium", 
+                "technical_level": "general",
+            },
+        }
+        
+        # Store dialogue state for follow-up interactions
+        if not hasattr(self, 'active_dialogues'):
+            self.active_dialogues = {}
+        self.active_dialogues[session_id] = dialogue_state
+
         return {
             "session_id": session_id,
             "initial_explanation": initial_explanation.natural_language,
-            "followup_questions": [
-                "Can you explain this in more detail?",
-                "What were the key factors in this decision?",
-                "How confident is the system in this decision?",
-                "What ethical considerations were involved?",
+            "followup_questions": followup_questions,
+            "suggested_actions": await self._generate_suggested_actions(context),
+            "dialogue_state": "initialized",
+            "conversation_capabilities": [
+                "ask_detailed_questions",
+                "request_alternatives", 
+                "explore_consequences",
+                "challenge_assumptions",
+                "seek_examples",
             ],
             "status": "active",
         }
@@ -1147,9 +1183,7 @@ class ExplainabilityInterfaceLayer:
 
         ΛTAG: audit, compliance, reporting
         """
-        # ΛSTUB: Implement comprehensive audit reporting
-        # ΛTODO: Add statistical analysis and pattern detection
-        # AIDEA: Integration with compliance frameworks and regulations
+        # Comprehensive audit reporting with statistical analysis
 
         report_id = str(uuid.uuid4())
 
@@ -1195,6 +1229,17 @@ class ExplainabilityInterfaceLayer:
             else 0.0
         )
 
+        # Perform statistical analysis on audit results
+        stats_analysis = await self._perform_audit_statistical_analysis(audit_results)
+        
+        # Detect patterns across decisions  
+        patterns = await self._detect_audit_patterns(audit_results, context_data)
+        
+        # Enhanced recommendations based on analysis
+        recommendations = await self._generate_enhanced_audit_recommendations(
+            audit_results, stats_analysis, patterns
+        )
+
         return {
             "report_id": report_id,
             "report_type": report_type,
@@ -1207,12 +1252,20 @@ class ExplainabilityInterfaceLayer:
                 ),
                 "average_compliance_score": avg_compliance,
             },
+            "statistical_analysis": stats_analysis,
+            "pattern_analysis": patterns,
             "detailed_results": audit_results,
-            "recommendations": [
-                "Ensure all critical decisions are SRD-signed",
-                "Monitor compliance scores below 0.7",
-                "Review unsigned decisions for security implications",
-            ],
+            "recommendations": recommendations,
+            "quality_metrics": {
+                "explanation_completeness": stats_analysis.get("avg_completeness", 0.0),
+                "technical_accuracy": stats_analysis.get("avg_accuracy", 0.0),
+                "consistency_score": patterns.get("consistency_score", 0.0),
+            },
+            "compliance_assessment": {
+                "overall_status": self._assess_overall_compliance(stats_analysis),
+                "risk_areas": patterns.get("risk_areas", []),
+                "improvement_areas": patterns.get("improvement_opportunities", []),
+            },
         }
 
     def get_metrics(self) -> dict[str, Any]:
@@ -1379,6 +1432,317 @@ class ExplainabilityInterfaceLayer:
             logger.debug(f"Theorem prover verification failed: {e}")
             # Return conservative estimate based on step consistency
             return 0.7
+
+    # Helper methods for audit analysis and reporting
+    async def _perform_audit_statistical_analysis(
+        self, audit_results: list[dict]
+    ) -> dict[str, Any]:
+        """Perform statistical analysis on audit results"""
+        
+        if not audit_results:
+            return {"error": "No audit data available"}
+            
+        # Extract quality metrics
+        compliance_scores = [r["compliance_score"] for r in audit_results]
+        signing_rates = [1.0 if r["signed"] else 0.0 for r in audit_results]
+        
+        # Calculate explanation quality metrics
+        completeness_scores = []
+        accuracy_scores = []
+        
+        for result in audit_results:
+            explanation = result.get("explanation")
+            if explanation and hasattr(explanation, 'quality_metrics'):
+                metrics = explanation.quality_metrics
+                completeness_scores.append(metrics.get("completeness", 0.0))
+                accuracy_scores.append(metrics.get("accuracy", 0.0))
+        
+        stats = {
+            "total_decisions": len(audit_results),
+            "compliance_statistics": self._calculate_basic_stats(compliance_scores),
+            "signing_statistics": {
+                "signing_rate": sum(signing_rates) / len(signing_rates),
+                "signed_count": sum(signing_rates),
+                "unsigned_count": len(signing_rates) - sum(signing_rates),
+            },
+            "quality_statistics": {
+                "avg_completeness": sum(completeness_scores) / len(completeness_scores) if completeness_scores else 0.0,
+                "avg_accuracy": sum(accuracy_scores) / len(accuracy_scores) if accuracy_scores else 0.0,
+                "completeness_distribution": self._calculate_basic_stats(completeness_scores) if completeness_scores else {},
+                "accuracy_distribution": self._calculate_basic_stats(accuracy_scores) if accuracy_scores else {},
+            },
+        }
+        
+        return stats
+    
+    async def _detect_audit_patterns(
+        self, audit_results: list[dict], context_data: dict[str, dict]
+    ) -> dict[str, Any]:
+        """Detect patterns in audit results"""
+        
+        patterns = {
+            "consistency_score": 0.0,
+            "risk_areas": [],
+            "improvement_opportunities": [],
+            "trends": {},
+        }
+        
+        if not audit_results:
+            return patterns
+            
+        # Analyze consistency in compliance scores
+        compliance_scores = [r["compliance_score"] for r in audit_results]
+        if compliance_scores:
+            import statistics
+            std_dev = statistics.stdev(compliance_scores) if len(compliance_scores) > 1 else 0
+            patterns["consistency_score"] = max(0.0, 1.0 - std_dev)  # High consistency = low deviation
+        
+        # Identify risk areas
+        low_compliance_decisions = [
+            r["decision_id"] for r in audit_results 
+            if r["compliance_score"] < 0.6
+        ]
+        if low_compliance_decisions:
+            patterns["risk_areas"].append({
+                "type": "low_compliance",
+                "description": f"{len(low_compliance_decisions)} decisions have compliance scores below 0.6",
+                "affected_decisions": low_compliance_decisions[:5],  # Limit for brevity
+                "severity": "high" if len(low_compliance_decisions) > len(audit_results) * 0.2 else "medium",
+            })
+        
+        # Identify unsigned decisions
+        unsigned_decisions = [
+            r["decision_id"] for r in audit_results if not r["signed"]
+        ]
+        if unsigned_decisions:
+            patterns["risk_areas"].append({
+                "type": "unsigned_decisions",
+                "description": f"{len(unsigned_decisions)} decisions are not SRD-signed",
+                "affected_decisions": unsigned_decisions[:5],
+                "severity": "medium" if len(unsigned_decisions) < len(audit_results) * 0.1 else "high",
+            })
+        
+        # Improvement opportunities
+        avg_compliance = sum(compliance_scores) / len(compliance_scores)
+        if avg_compliance < 0.8:
+            patterns["improvement_opportunities"].append({
+                "type": "overall_compliance",
+                "description": f"Average compliance score ({avg_compliance:.2f}) could be improved",
+                "priority": "high",
+                "suggested_actions": [
+                    "Review decision-making processes",
+                    "Enhance training for decision makers",
+                    "Implement additional quality checks",
+                ],
+            })
+        
+        return patterns
+    
+    async def _generate_enhanced_audit_recommendations(
+        self, audit_results: list[dict], stats: dict, patterns: dict
+    ) -> list[dict[str, str]]:
+        """Generate enhanced recommendations based on statistical analysis"""
+        
+        recommendations = []
+        
+        # Base recommendations
+        recommendations.extend([
+            {
+                "category": "signing_compliance",
+                "recommendation": "Ensure all critical decisions are SRD-signed",
+                "priority": "high",
+                "rationale": "Digital signatures provide authenticity and non-repudiation",
+            },
+            {
+                "category": "quality_monitoring",
+                "recommendation": "Monitor compliance scores below 0.7",
+                "priority": "medium",
+                "rationale": "Low compliance scores indicate potential issues",
+            },
+        ])
+        
+        # Statistical analysis based recommendations
+        signing_rate = stats.get("signing_statistics", {}).get("signing_rate", 1.0)
+        if signing_rate < 0.9:
+            recommendations.append({
+                "category": "process_improvement",
+                "recommendation": f"Improve signing rate from {signing_rate:.1%} to >90%",
+                "priority": "high",
+                "rationale": "Low signing rate indicates process gaps",
+            })
+        
+        # Pattern-based recommendations
+        for risk_area in patterns.get("risk_areas", []):
+            if risk_area["type"] == "low_compliance":
+                recommendations.append({
+                    "category": "compliance_improvement",
+                    "recommendation": f"Address {len(risk_area['affected_decisions'])} low-compliance decisions",
+                    "priority": risk_area["severity"],
+                    "rationale": "Low compliance decisions pose regulatory and operational risks",
+                })
+        
+        # Quality-based recommendations
+        avg_completeness = stats.get("quality_statistics", {}).get("avg_completeness", 1.0)
+        if avg_completeness < 0.8:
+            recommendations.append({
+                "category": "explanation_quality",
+                "recommendation": f"Improve explanation completeness from {avg_completeness:.1%}",
+                "priority": "medium",
+                "rationale": "Incomplete explanations reduce transparency and auditability",
+            })
+        
+        return recommendations
+    
+    def _assess_overall_compliance(self, stats: dict) -> str:
+        """Assess overall compliance status based on statistics"""
+        
+        compliance_stats = stats.get("compliance_statistics", {})
+        avg_compliance = compliance_stats.get("mean", 0.0)
+        signing_rate = stats.get("signing_statistics", {}).get("signing_rate", 0.0)
+        
+        if avg_compliance > 0.8 and signing_rate > 0.9:
+            return "compliant"
+        elif avg_compliance > 0.6 and signing_rate > 0.7:
+            return "partially_compliant"
+        else:
+            return "non_compliant"
+    
+    def _calculate_basic_stats(self, values: list[float]) -> dict[str, float]:
+        """Calculate basic statistical measures for a list of values"""
+        
+        if not values:
+            return {}
+            
+        import statistics
+        
+        return {
+            "count": len(values),
+            "mean": statistics.mean(values),
+            "median": statistics.median(values),
+            "std_dev": statistics.stdev(values) if len(values) > 1 else 0.0,
+            "min": min(values),
+            "max": max(values),
+        }
+
+    # Helper methods for dialogue management and interactive explanations
+    async def _generate_contextual_followups(
+        self, decision_id: str, explanation: Any, context: dict[str, Any]
+    ) -> list[str]:
+        """Generate intelligent follow-up questions based on decision context"""
+        
+        followups = [
+            "Can you explain this in more detail?",
+            "What were the key factors in this decision?",
+            "How confident is the system in this decision?",
+        ]
+        
+        # Context-aware question generation
+        if context.get("ethical_factors"):
+            followups.append("What ethical considerations were involved?")
+            followups.append("How were competing ethical principles balanced?")
+            
+        if context.get("uncertainty_level", 0) > 0.5:
+            followups.append("What are the main sources of uncertainty?")
+            followups.append("What would change your confidence in this decision?")
+            
+        if context.get("stakeholders"):
+            followups.append("How does this affect different stakeholders?")
+            followups.append("Were all relevant perspectives considered?")
+            
+        if context.get("alternatives"):
+            followups.append("What alternatives were considered?")
+            followups.append("Why wasn't the second-best option chosen?")
+            
+        if context.get("timeline_pressure"):
+            followups.append("How did time constraints affect this decision?")
+            
+        if context.get("resource_constraints"):
+            followups.append("How did resource limitations influence the choice?")
+            
+        # Decision type specific questions
+        decision_type = context.get("decision_type", "")
+        if "financial" in decision_type.lower():
+            followups.extend([
+                "What are the financial implications?",
+                "How was risk assessed?",
+            ])
+        elif "technical" in decision_type.lower():
+            followups.extend([
+                "What technical factors were most important?",
+                "Are there any technical risks?",
+            ])
+        elif "policy" in decision_type.lower():
+            followups.extend([
+                "What policy implications should be considered?",
+                "How does this align with existing policies?",
+            ])
+            
+        return followups[:8]  # Limit to most relevant questions
+
+    async def _generate_suggested_actions(
+        self, context: dict[str, Any]
+    ) -> list[dict[str, str]]:
+        """Generate suggested actions user can take based on context"""
+        
+        actions = [
+            {
+                "action": "request_detailed_analysis",
+                "description": "Get a more detailed technical analysis",
+                "icon": "📊",
+            },
+            {
+                "action": "explore_alternatives",
+                "description": "Explore alternative decisions and their outcomes",
+                "icon": "🔄",
+            },
+            {
+                "action": "stakeholder_impact",
+                "description": "Analyze impact on different stakeholders",
+                "icon": "👥",
+            },
+        ]
+        
+        if context.get("can_modify"):
+            actions.append({
+                "action": "propose_modification",
+                "description": "Propose modifications to the decision",
+                "icon": "✏️",
+            })
+            
+        if context.get("reversible"):
+            actions.append({
+                "action": "simulate_reversal",
+                "description": "Simulate reversing this decision",
+                "icon": "↩️",
+            })
+            
+        return actions
+
+    def _assess_decision_complexity(
+        self, explanation: Any
+    ) -> str:
+        """Assess the complexity level of a decision for dialogue adaptation"""
+        
+        if not hasattr(explanation, 'natural_language'):
+            return "medium"
+            
+        text = explanation.natural_language
+        word_count = len(text.split())
+        
+        # Simple heuristic based on explanation length and complexity indicators
+        complexity_indicators = [
+            "multiple factors", "complex interaction", "trade-off", "uncertainty",
+            "competing", "interdependent", "cascading", "non-linear",
+        ]
+        
+        complexity_score = sum(1 for indicator in complexity_indicators if indicator in text.lower())
+        
+        if word_count > 300 or complexity_score > 3:
+            return "high"
+        elif word_count > 150 or complexity_score > 1:
+            return "medium"
+        else:
+            return "low"
 
 
 """
