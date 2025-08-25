@@ -133,7 +133,7 @@ class QICrypto:
 
     @staticmethod
     @lukhas_tier_required(level=4)  # ΛTRACE_ADD
-    def encrypt_api_key(:
+    def encrypt_api_key(
         api_key: str, λid: str
     ) -> tuple[str, str]:  # ΛTRACE_CHANGE: Added Tuple return type
         """Encrypt API key with ΛiD-derived key."""
@@ -141,7 +141,7 @@ class QICrypto:
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat(), λid=λid)
         log.debug("Encrypting API key.")
         salt = secrets.token_bytes(16)
-        key = QuantumCrypto.derive_key_from_λid(λid, salt)
+        key = QICrypto.derive_key_from_λid(λid, salt)
         fernet = Fernet(base64.urlsafe_b64encode(key))
 
         encrypted_key = fernet.encrypt(api_key.encode())
@@ -158,7 +158,7 @@ class QICrypto:
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat(), λid=λid)
         log.debug("Decrypting API key.")
         salt_bytes = base64.b64decode(salt)
-        key = QuantumCrypto.derive_key_from_λid(λid, salt_bytes)
+        key = QICrypto.derive_key_from_λid(λid, salt_bytes)
         fernet = Fernet(base64.urlsafe_b64encode(key))
 
         encrypted_bytes = base64.b64decode(encrypted_key)
@@ -169,7 +169,7 @@ class VeriFoldGlyphGenerator:
     """Generate visual glyphs with hidden API authentication data."""
 
     @lukhas_tier_required(level=3)  # ΛTRACE_ADD
-    def create_animated_glyph(:
+    def create_animated_glyph(
         self, api_key_data: dict[str, Any], λid_profile: ΛiDProfile
     ) -> VeriFoldGlyph:
         """Create animated glyph with hidden API key data."""
@@ -292,7 +292,7 @@ class VeriFoldGlyphGenerator:
             lines += f'<path d="M{x1:.2f},{y1:.2f} Q200,200 {x2:.2f},{y2:.2f}" stroke="#FFFFFF" stroke-width="1" opacity="0.3" fill="none"/>'
         return lines
 
-    def _embed_qr_in_visual(:
+    def _embed_qr_in_visual(
         self, api_data: dict[str, Any], visual: str
     ) -> str:  # ΛTRACE_CHANGE: visual arg added, type hint for api_data
         """Embed QR code data in visual layers."""
@@ -310,7 +310,7 @@ class VeriFoldGlyphGenerator:
         }
         return base64.b64encode(json.dumps(qr_payload).encode()).decode()
 
-    def _create_steganographic_layer(:
+    def _create_steganographic_layer(
         self, api_data: dict[str, Any]
     ) -> str:  # ΛTRACE_CHANGE: Type hint
         """Create hidden steganographic data layer."""
@@ -326,7 +326,7 @@ class VeriFoldGlyphGenerator:
         }
         return base64.b64encode(json.dumps(hidden_data).encode()).decode()
 
-    def _generate_animation_sequence(:
+    def _generate_animation_sequence(
         self, tier: int
     ) -> list[dict[str, Any]]:  # ΛTRACE_CHANGE: More specific type
         """Generate animation frames for glyph."""
@@ -343,7 +343,7 @@ class VeriFoldGlyphGenerator:
             )
         return frames
 
-    def _generate_quantum_signature(:
+    def _generate_quantum_signature(
         self, data: dict[str, Any], user_id: str
     ) -> str:  # ΛTRACE_CHANGE: Type hint
         """Generate quantum signature for verification (placeholder)."""
@@ -667,7 +667,7 @@ class LUKHASAPIManager:
             )
             return None
 
-    def _verify_glyph_integrity(:
+    def _verify_glyph_integrity(
         self, glyph_data: VeriFoldGlyph | dict[str, Any]
     ) -> bool:  # ΛTRACE_CHANGE: Accept Dict or VeriFoldGlyph
         """Verify glyph integrity using quantum signatures (placeholder)."""
@@ -675,7 +675,7 @@ class LUKHASAPIManager:
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
         log.debug("Verifying glyph integrity.")
 
-        if isinstance(:
+        if isinstance(
             glyph_data, VeriFoldGlyph
         ):  # ΛTRACE_ADD: Handle dataclass instance
             glyph_dict = asdict(glyph_data)
@@ -713,7 +713,7 @@ class LUKHASAPIManager:
             log.debug("Glyph integrity check successful.")
         return is_valid
 
-    def _update_usage_tracking(:
+    def _update_usage_tracking(
         self, key_id: str
     ) -> None:  # ΛTRACE_CHANGE: Return type None
         """Update API key usage statistics."""
@@ -729,7 +729,7 @@ class LUKHASAPIManager:
             return
 
         try:  # ΛTRACE_ADD: Error handling for file operations
-            with open(:
+            with open(
                 key_file, "r+"
             ) as f:  # ΛTRACE_CHANGE: Open in r+ for read and write
                 key_data: dict[str, Any] = json.load(f)  # ΛTRACE_CHANGE: Type hint
