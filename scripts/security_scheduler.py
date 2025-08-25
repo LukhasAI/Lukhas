@@ -303,12 +303,12 @@ def status():
     scheduler = SecurityTaskScheduler()
     
     # Check if we have pending vulnerabilities
-    if Path("security-reports/bandit.json").exists():
+    if Path("reports/security/bandit.json").exists():
         click.echo("📊 SECURITY STATUS:")
         
         # Count issues from bandit report
         try:
-            with open("security-reports/bandit.json", 'r') as f:
+            with open("reports/security/bandit.json", 'r') as f:
                 data = json.load(f)
                 total_issues = len(data.get('results', []))
                 high_issues = len([i for i in data['results'] if i.get('issue_severity') == 'HIGH'])

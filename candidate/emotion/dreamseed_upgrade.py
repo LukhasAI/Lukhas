@@ -291,8 +291,9 @@ class DreamSeedEmotionEngine:
         trust_score = context.get("trust_score", 0.5)
         dream_phase = context.get("dream_phase")
         safety_override = context.get("safety_override", False)
+        # Changed from MD5 for security
         session_id = context.get(
-            "session_id", f"session_{hashlib.sha256(  # Changed from MD5 for securityuser_id.encode()).hexdigest()[:8]}"
+            "session_id", f"session_{hashlib.sha256(user_id.encode()).hexdigest()[:8]}"
         )
 
         # Base tier calculation from trust score
@@ -768,9 +769,8 @@ class DreamSeedEmotionEngine:
 
         # Log safety assessment
         safety_assessment = {
-            "emotion_state_id": hashlib.sha256(  # Changed from MD5 for securitystr(emotion_state).encode()).hexdigest()[
-                :12
-            ],
+            # Changed from MD5 for security
+            "emotion_state_id": hashlib.sha256(str(emotion_state).encode()).hexdigest()[:12],
             "safety_level": safety_level.value,
             "safety_violations": safety_violations,
             "intervention_required": intervention_required,

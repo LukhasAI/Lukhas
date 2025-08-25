@@ -60,7 +60,7 @@ class SecurityAutopilot:
         self.project_root = project_root or Path.cwd()
         self.requirements_file = self.project_root / "requirements.txt"
         self.venv_path = self.project_root / ".venv"
-        self.reports_dir = self.project_root / "security-reports"
+        self.reports_dir = self.project_root / "reports" / "security"
         self.backup_dir = self.project_root / ".security-backups"
         self.config_file = self.project_root / ".security-autopilot.json"
 

@@ -25,7 +25,7 @@ async def generate_and_save_dream_images():
     client = OpenAI()
 
     # Create directory for dream images
-    images_dir = Path("dream_images")
+    images_dir = Path("assets/dreams")
     images_dir.mkdir(exist_ok=True)
 
     # Define dream scenarios

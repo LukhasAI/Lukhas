@@ -32,7 +32,7 @@ class SecurityIssueFixer:
         
     async def analyze_security_issues(self):
         """Load and analyze security issues from Bandit report"""
-        report_path = Path("security-reports/bandit.json")
+        report_path = Path("reports/security/bandit.json")
         
         if not report_path.exists():
             click.echo("❌ Bandit security report not found. Run 'make security-comprehensive-scan' first.")

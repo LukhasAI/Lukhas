@@ -68,7 +68,7 @@ class SocialMediaOrchestrator:
     
     def __init__(self):
         self.base_path = Path(__file__).parent.parent
-        self.dream_images_path = self.base_path.parent / "dream_images"
+        self.dream_images_path = self.base_path.parent / "assets" / "dreams"
         self.content_queue_path = self.base_path / "automation" / "content_queue.json"
         self.config_path = self.base_path / "automation" / "social_config.json"
         self.logs_path = self.base_path / "logs"
