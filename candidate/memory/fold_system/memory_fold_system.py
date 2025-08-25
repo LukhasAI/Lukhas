@@ -45,9 +45,12 @@ import json
 import struct
 import uuid
 from collections import defaultdict
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 from typing import Any, Optional
 
 # Import fold import/export modules

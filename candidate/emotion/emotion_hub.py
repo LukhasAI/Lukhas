@@ -18,7 +18,10 @@ Agent 10 Advanced Systems Implementation
 """
 
 import asyncio
+import logging
 from typing import Any, Dict, List, Optional
+
+logger = logging.getLogger(__name__)
 
 # Import priority emotion components with fallbacks
 try:

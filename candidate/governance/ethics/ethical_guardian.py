@@ -54,9 +54,10 @@ def ethical_check(
     for keyword in ETHICAL_KEYWORDS_BLACKLIST:
         if keyword in user_input.lower():
             # Check if the keyword is allowed in the current context (very simplified)
+            context_name = current_context.get("context_name")
             if (
-                current_context in ETHICAL_CONTEXT_WHITELIST
-                and keyword in ETHICAL_CONTEXT_WHITELIST[current_context]
+                context_name in ETHICAL_CONTEXT_WHITELIST
+                and keyword in ETHICAL_CONTEXT_WHITELIST[context_name]
             ):
                 logging.info(
                     f"Ethical Guardian: Keyword '{keyword}' found, but allowed in context '{current_context}'."

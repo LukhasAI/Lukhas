@@ -42,6 +42,7 @@
 
 import hashlib
 import math
+import logging
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -51,6 +52,8 @@ import numpy as np
 
 # Base memory fold system
 from .memory_fold_system import MemoryFoldSystem, MemoryItem
+
+logger = logging.getLogger(__name__)
 
 # Neural components (stubbed for now - would use PyTorch/TensorFlow in production)
 try:
