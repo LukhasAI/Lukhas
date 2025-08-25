@@ -1,4 +1,0 @@
-"""
-Consent-Compliance-Specialist Module
-"""
-

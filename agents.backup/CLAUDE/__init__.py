@@ -1,4 +1,0 @@
-"""
-Claude Army Module
-"""
-

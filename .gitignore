@@ -58,7 +58,14 @@ logs/
 *.bak
 *.evalbak
 *.picklebak
+*.backup
 *~
+*backup/
+.backup/
+*-backup/
+*.old
+*_backup*
+.git-agent-backups/
 
 # Virtual environments
 .venv/
