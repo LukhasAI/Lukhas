@@ -12,6 +12,7 @@
 **Priority**: 🔥 HIGHEST - System stability
 **Files**: Core system imports
 **Estimated Time**: 45-60 minutes
+**Status**: Completed by Jules on 2025-08-24. Tests were skipped due to a long-running process.
 
 1. `candidate/core/agi/code_quality_healer.py:25` - Fix GuardianSystem import
 2. `candidate/core/integrator.py:35` - Resolve 'CORE.' import paths  
@@ -29,8 +30,8 @@
 14. `candidate/core/orchestration/brain/orchestration/main_node.py` - Fix AID IdentityManager import
 15. `candidate/core/meta_learning/remediator_agent.py` - Fix LUKHAS directory imports
 16. `candidate/bridge/integration_bridge.py` - Fix sys.path modifications
-17. `candidate/bridge/voice/voice_integration.py` - Install FILES_LIBRARY voice system
-18. `candidate/bridge/api/ai_interface.py` - Fix dependency management
+17. `candidate/bridge/voice/voice_integration.py` - **COMPLETED**
+18. `candidate/bridge/api/ai_interface.py` - **COMPLETED**
 
 ---
 

@@ -15,7 +15,7 @@
 
 # ΛTAGS: [Framework, Integration, PluginManagement, Adapter, Bridge, CoreRegistry, ΛTRACE_DONE]
 # ΛNOTE: This bridge is a key component for LUKHΛS extensibility via plugins.
-#        It relies on `plugin_base`, `plugin_loader`, `BaseLucasModule`, and `core_registry`.
+#        It relies on `plugin_base`, `plugin_loader`, `BaseModule`, and `core_registry`.
 #        Ensure these dependencies are correctly structured and importable.
 #        The `SymbolicLogger` is being phased out in favor of `structlog`.
 
@@ -50,8 +50,8 @@ from typing import Any, Optional
 LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = False
 try:
     from core.registry import core_registry  # type: ignore # Assuming core is in path
-    from core.utils.base_module import (
-        BaseLucasModule,  # type: ignore # Assuming core is in path
+    from candidate.core.base.base_module import (
+        BaseModule,  # type: ignore # Assuming core is in path
     )
 
     from .plugin_base import (
@@ -60,7 +60,7 @@ try:
     )
     from .plugin_loader import PluginLoader  # Assuming relative import
 
-    # Remove SymbolicLogger if BaseLucasModule no longer uses it or provides its own structlog-based logger.
+    # Remove SymbolicLogger if BaseModule no longer uses it or provides its own structlog-based logger.
     # from core.utils.base_module import SymbolicLogger
     LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = True
     log.info("LUKHΛS framework components for IntegrationBridge imported successfully.")
@@ -74,20 +74,7 @@ except ImportError as e:
     # Define fallbacks if necessary for the script to parse, though
     # functionality will be broken.
 
-    class BaseLucasModule:
-
-        def __init__(self, *args, **kwargs):
-            self.is_running = False
-            self.log = log.bind(module_type="BaseLucasModule_Fallback")
-
-        async def startup(self):
-            self.is_running = True
-
-        async def shutdown(self):
-            self.is_running = False
-
-        async def get_health_status(self):
-            return {"status": "unknown_fallback"}
+    from candidate.core.base.base_module import BaseModule
 
     class LucasPlugin:
         pass
@@ -164,9 +151,9 @@ def lukhas_tier_required(level: int):  # Placeholder
 
 
 @lukhas_tier_required(1)
-class PluginModuleAdapter(BaseLucasModule):
+class PluginModuleAdapter(BaseModule):
     """
-    Adapts a LUKHΛS Plugin (LucasPlugin) to conform to the BaseLucasModule interface.
+    Adapts a LUKHΛS Plugin (LucasPlugin) to conform to the BaseModule interface.
     This allows plugins to be registered and managed within the LUKHΛS core module registry
     and participate in the system's lifecycle and communication patterns.
     """
@@ -178,10 +165,10 @@ class PluginModuleAdapter(BaseLucasModule):
             plugin: The plugin instance to adapt.
             manifest: The manifest data associated with the plugin.
         """
-        super().__init__()  # Initializes self.log via BaseLucasModule if it uses structlog
+        super().__init__(name=manifest.name, config=manifest.config)
         self.plugin = plugin
         self.manifest = manifest
-        # If BaseLucasModule doesn't init self.log, or uses SymbolicLogger:
+        # If BaseModule doesn't init self.log, or uses SymbolicLogger:
         # self.log = log.bind(adapter_for_plugin=manifest.name, plugin_version=manifest.version)
         # Ensure self.log is structlog-compatible
         if not hasattr(self, "log") or not hasattr(self.log, "bind"):  # Basic check
@@ -204,7 +191,7 @@ class PluginModuleAdapter(BaseLucasModule):
         )
 
     @lukhas_tier_required(1)
-    async def startup(self) -> None:
+    async def initialize(self) -> None:
         """Starts the adapted plugin, calling its 'initialize' method if present."""
         self.log.info(f"Starting plugin '{self.manifest.name}' as a LUKHΛS module.")
         try:
@@ -215,7 +202,7 @@ class PluginModuleAdapter(BaseLucasModule):
             elif hasattr(self.plugin, "initialize"):
                 self.plugin.initialize()  # For non-async initialize
 
-            self.is_running = True  # Assuming BaseLucasModule has this attribute
+            self._initialized = True
             self.log.info(
                 f"Plugin '{self.manifest.name}' started successfully.",
                 plugin_name=self.manifest.name,
@@ -227,7 +214,7 @@ class PluginModuleAdapter(BaseLucasModule):
                 plugin_name=self.manifest.name,
                 exc_info=True,
             )
-            self.is_running = False
+            self._initialized = False
             raise  # Re-raise to indicate startup failure
 
     @lukhas_tier_required(1)
@@ -245,7 +232,7 @@ class PluginModuleAdapter(BaseLucasModule):
             elif hasattr(self.plugin, "cleanup"):
                 self.plugin.cleanup()  # For non-async cleanup
 
-            self.is_running = False
+            self._initialized = False
             self.log.info(
                 f"Plugin '{self.manifest.name}' shutdown successfully.",
                 plugin_name=self.manifest.name,
@@ -260,7 +247,7 @@ class PluginModuleAdapter(BaseLucasModule):
             # Should not re-raise during shutdown unless critical
 
     @lukhas_tier_required(0)
-    async def get_health_status(self) -> dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """
         Retrieves the health status of the adapted plugin.
         Uses the plugin's 'get_health' method if available, otherwise provides a default status.
@@ -278,7 +265,7 @@ class PluginModuleAdapter(BaseLucasModule):
                 "healthy" if plugin_health.get("status") == "ok" else "unhealthy"
             )
             if not plugin_health:  # If get_health doesn't exist or returns empty
-                base_status = "healthy" if self.is_running else "stopped"
+                base_status = "healthy" if self._initialized else "stopped"
 
             return {
                 "status": base_status,
@@ -286,7 +273,7 @@ class PluginModuleAdapter(BaseLucasModule):
                 "plugin_name": self.manifest.name,
                 "plugin_version": self.manifest.version,
                 "capabilities": self.manifest.capabilities,
-                "is_adapter_running": self.is_running,  # From BaseLucasModule
+                "is_adapter_running": self._initialized,  # From BaseModule
                 "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
@@ -304,7 +291,7 @@ class PluginModuleAdapter(BaseLucasModule):
             }
 
     @lukhas_tier_required(1)
-    async def process_symbolic_input(
+    async def process(
         self, input_data: dict[str, Any]
     ) -> dict[str, Any]:
         """
@@ -534,7 +521,7 @@ class IntegrationBridge:
         statuses: dict[str, dict[str, Any]] = {}
         for plugin_name, adapter in self.plugin_adapters.items():
             try:
-                health_details = await adapter.get_health_status()
+                health_details = await adapter.get_status()
                 statuses[plugin_name] = {
                     "health_report": health_details,
                     "manifest_summary": {
@@ -543,7 +530,7 @@ class IntegrationBridge:
                         "description": adapter.manifest.description,
                         "capabilities": adapter.manifest.capabilities,
                     },
-                    "is_adapter_marked_running": adapter.is_running,  # From BaseLucasModule state
+                    "is_adapter_marked_running": adapter._initialized,
                     "module_registry_id": f"plugin::{plugin_name}",
                 }
             except Exception as e:
@@ -556,7 +543,7 @@ class IntegrationBridge:
                 statuses[plugin_name] = {
                     "error_message": f"Failed to retrieve status: {str(e)}",
                     "is_adapter_marked_running": (
-                        adapter.is_running if adapter else "unknown"
+                        adapter._initialized if adapter else "unknown"
                     ),
                     "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
                 }

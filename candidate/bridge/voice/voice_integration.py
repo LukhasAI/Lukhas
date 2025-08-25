@@ -9,10 +9,8 @@ import logging
 from typing import Any
 
 from ..voice_profiling import VoiceProfileManager
-
-# from FILES_LIBRARY.voice_modularity_system import LucasVoiceSystem  # TODO: Install or implement FILES_LIBRARY
-# from FILES_LIBRARY.voice_modulator import VoiceModulator  # TODO:
-# Install or implement FILES_LIBRARY
+from candidate.bridge.voice.modulator import VoiceModulator
+from candidate.core.interfaces.voice.voice_emotional.context_aware_modular_voice import LucasVoiceSystem as VoiceSystem
 
 
 class VoiceIntegrationLayer:
@@ -21,7 +19,7 @@ class VoiceIntegrationLayer:
     def __init__(self):
         self.logger = logging.getLogger("voice_integration")
         self.profile_manager = VoiceProfileManager()
-        self.voice_system = LucasVoiceSystem(
+        self.voice_system = VoiceSystem(
             {
                 "gdpr_enabled": True,
                 "data_retention_days": 30,
