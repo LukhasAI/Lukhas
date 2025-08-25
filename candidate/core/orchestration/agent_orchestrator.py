@@ -251,9 +251,22 @@ class AgentOrchestrator:
 
             if active_agent_tasks:
                 self._logger.warning(
-                    f"Agent {agent_id} has {len(active_agent_tasks)} active tasks"
+                    f"Agent {agent_id} has {len(active_agent_tasks)} active tasks. Reassigning or cancelling."
                 )
-                # TODO: Reassign or cancel tasks
+                for task_id in active_agent_tasks:
+                    if task_id in self.active_tasks:
+                        task, _ = self.active_tasks[task_id]
+                        new_agent_id = self._find_suitable_agent(task)
+                        if new_agent_id:
+                            # Reassign task
+                            self.active_tasks[task_id] = (task, new_agent_id)
+                            new_agent = self.agents[new_agent_id]
+                            new_agent.context.active_tasks.append(task.task_id)
+                            asyncio.create_task(self._execute_agent_task(new_agent, task))
+                            self._logger.info(f"Task {task_id} reassigned to agent {new_agent_id}")
+                        else:
+                            # Cancel task
+                            await self.cancel_task(task_id, "Agent un-registered and no replacement found.")
 
             # Shutdown agent
             await agent.shutdown()
@@ -467,6 +480,26 @@ class AgentOrchestrator:
     async def get_task_result(self, task_id: str) -> Optional[TaskResult]:
         """Get the result of a completed task."""
         return self.task_results.get(task_id)
+
+    async def cancel_task(self, task_id: str, reason: str) -> None:
+        """Cancel an active task."""
+        if task_id in self.active_tasks:
+            task, agent_id = self.active_tasks.pop(task_id)
+            agent = self.agents.get(agent_id)
+            if agent and task_id in agent.context.active_tasks:
+                agent.context.active_tasks.remove(task_id)
+
+            result = TaskResult(
+                task_id=task_id,
+                status="cancelled",
+                error=reason,
+                execution_time=0,
+            )
+            self.task_results[task_id] = result
+            await self.protocol.send_message(
+                MessageBuilder.task_complete(task.task_id, result)
+            )
+            self._logger.info(f"Task {task_id} cancelled: {reason}")
 
     async def _handle_agent_messages(self, agent: AgentInterface) -> None:
         """Handle messages from an agent"""

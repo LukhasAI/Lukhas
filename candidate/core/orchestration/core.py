@@ -78,10 +78,7 @@ try:
 except ImportError:
     ComplianceEngine = None
 
-try:
-    from core.module_registry import ModuleRegistry
-except ImportError:
-    ModuleRegistry = None
+from candidate.core.module_registry import ModuleRegistry
 
 try:
     from core.bio_systems.bio_core import BioCore
@@ -245,12 +242,24 @@ class OrchestrationCore:
             "dreams": self.dream_engine,
         }
 
+        if not self.module_registry:
+            logger.warning("ModuleRegistry not available. Skipping module registration.")
+            self.active_modules = core_modules
+            return
+
         for name, module in core_modules.items():
-            # await self.module_registry.register_module(name, module) #TODO: See above
-            self.active_modules[name] = module
+            if module:
+                await self.module_registry.register_module(
+                    module_id=name,
+                    module_instance=module,
+                    name=getattr(module, "MODULE_NAME", name),
+                    version=getattr(module, "MODULE_VERSION", "1.0.0"),
+                    path=f"candidate.core.{name}", # Simplified path
+                )
+                self.active_modules[name] = module
 
         logger.info(
-            f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)"
+            f"Registered {len(self.active_modules)} core modules in ModuleRegistry."
         )
 
     async def _initiate_consciousness_loop(self):

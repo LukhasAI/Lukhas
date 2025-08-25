@@ -262,14 +262,29 @@ class NIASDreamBridge:
 
     async def _is_dream_ready(self, dream_msg: DreamMessage) -> bool:
         """Check if conditions are right for dream injection"""
-        # TODO: Check actual dream state from dream adapter
-        # For now, simple time-based check
-        age = (datetime.now() - dream_msg.created_at).total_seconds()
+        if not self.dream_adapter:
+            logger.warning("Dream adapter not available, cannot check dream readiness.")
+            return False
 
-        # High priority messages can be injected sooner
-        min_age = 60 * (1 - dream_msg.priority)  # 0-60 seconds based on priority
+        try:
+            # Check the actual dream state from the adapter
+            dream_state_info = self.dream_adapter.get_state()
+            dream_state = dream_state_info.get("state")
 
-        return age >= min_age
+            # For now, we consider 'idle' as a receptive state.
+            # This could be expanded to include other states like 'light_sleep'.
+            is_receptive = dream_state == "idle"
+
+            if is_receptive:
+                logger.info(f"Dream state is '{dream_state}', ready for injection.")
+                return True
+            else:
+                logger.info(f"Dream state is '{dream_state}', not ready for injection. Re-queueing message.")
+                return False
+
+        except Exception as e:
+            logger.error(f"Error checking dream state: {e}", exc_info=True)
+            return False
 
     async def _inject_into_dream(self, dream_msg: DreamMessage) -> None:
         """Inject message into dream processing"""

@@ -295,14 +295,16 @@ app = FastAPI()
 
 class {endpoint_name.capitalize()}Request(BaseModel):
     """Request model for {endpoint_name} endpoint"""
-    # Add fields based on requirements
+    # Example field:
+    # user_id: str
+    # data: dict[str, Any]
     pass
 
 class {endpoint_name.capitalize()}Response(BaseModel):
     """Response model for {endpoint_name} endpoint"""
     success: bool
     message: str
-    data: Optional[Dict[str, Any]] = None
+    data: Optional[dict[str, Any]] = None
 
 @app.{method.lower()}("/{endpoint_name}")
 async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request):
@@ -310,17 +312,40 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
     {request.description}
 
     # Notes: Generated endpoint following FastAPI patterns
-    # TODO: Implement business logic based on requirements
     """
-    try:
-        # Implement endpoint logic here
-        logger.info("LUKHAS{endpoint_name.upper()}: Processing request",
-    request=request.dict())
+    logger.info("LUKHAS_{endpoint_name.upper()}_ENDPOINT: Received request", request_data=request.dict())
 
+    try:
+        # ----------------------------------------------------------------------
+        # TODO: Implement your business logic here.
+        # This is where you would process the request, interact with databases,
+        # call other services, etc.
+        #
+        # Example:
+        #
+        # 1. Validate input
+        # if not request.user_id:
+        #     raise ValueError("user_id is required")
+        #
+        # 2. Perform some action
+        # processed_data = {{key: value.upper() for key, value in request.data.items()}}
+        #
+        # 3. Prepare result
+        # result = {{
+        #     "status": "processed",
+        #     "original_request": request.dict(),
+        #     "processed_data": processed_data,
+        #     "timestamp": datetime.now().isoformat(),
+        # }}
+        # ----------------------------------------------------------------------
+
+        # Placeholder result
         result = {{
             "processed": True,
             "timestamp": datetime.now().isoformat()
         }}
+
+        logger.info("LUKHAS_{endpoint_name.upper()}_ENDPOINT: Processing successful", result_data=result)
 
         return {endpoint_name.capitalize()}Response(
             success=True,
@@ -329,8 +354,8 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
         )
 
     except Exception as e:
-        logger.error("LUKHAS{endpoint_name.upper()}: Processing failed", error=str(e))
-        raise HTTPException(status_code=500, detail=str(e))'''
+        logger.error("LUKHAS_{endpoint_name.upper()}_ENDPOINT: Processing failed", error=str(e), exc_info=True)
+        raise HTTPException(status_code=500, detail=f"An internal error occurred: {{e}}")'''
 
     async def _generate_data_processor(self, request: CodeGenerationRequest) -> str:
         """Generate data processing function"""
