@@ -41,12 +41,28 @@ from datetime import datetime
 """
 
 import json
+import gzip
+import logging
+from logging.handlers import RotatingFileHandler
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any
+from collections import Counter
 
 # ΛTRACE injection point
 logger = logging.getLogger("bridge.trace_logger")
+
+
+class JsonFormatter(logging.Formatter):
+    def format(self, record):
+        log_record = {
+            "timestamp": self.formatTime(record, self.datefmt),
+            "level": record.levelname,
+            "message": record.getMessage(),
+        }
+        if hasattr(record, 'structured_data'):
+            log_record.update(record.structured_data)
+        return json.dumps(log_record)
 
 
 class TraceLevel(Enum):
@@ -105,10 +121,26 @@ class BridgeTraceLogger:
 
     def _setup_file_logging(self):
         """Setup file-based trace logging"""
-        # PLACEHOLDER: Implement file logging setup
-        # TODO: Configure file rotation
-        # TODO: Setup JSON formatting
-        # TODO: Implement log compression
+        handler = RotatingFileHandler(
+            self.log_file, maxBytes=10*1024*1024, backupCount=5
+        )
+        handler.setFormatter(JsonFormatter())
+
+        # Add a namer to gzip the old logs
+        handler.namer = lambda name: name + ".gz"
+
+        # Add a rotator to compress the log file
+        def rotator(source, dest):
+            with open(source, 'rb') as f_in:
+                with gzip.open(dest, 'wb') as f_out:
+                    f_out.writelines(f_in)
+            import os
+            os.remove(source)
+
+        handler.rotator = rotator
+
+        logger.addHandler(handler)
+        logger.setLevel(logging.INFO)
 
     def log_bridge_event(
         self,
@@ -238,14 +270,39 @@ class BridgeTraceLogger:
         Returns:
             Dict: Trace summary statistics and recent events
         """
-        # PLACEHOLDER: Implement trace summary generation
         logger.debug("Generating bridge trace summary")
 
-        # TODO: Aggregate trace statistics
-        # TODO: Identify trace patterns
-        # TODO: Generate summary report
+        if not hasattr(self, "_event_history") or not self._event_history:
+            return {"total_events": 0, "patterns": {}, "summary": "No events logged."}
 
-        return {"total_events": len(self.trace_events), "placeholder": True}
+        # Aggregate trace statistics
+        total_events = len(self._event_history)
+        events_by_level = Counter(event['level'] for event in self._event_history)
+        events_by_category = Counter(event['category'] for event in self._event_history)
+
+        # Identify trace patterns (simple example: most common component)
+        most_common_component = Counter(event['component'] for event in self._event_history).most_common(1)
+        patterns = {
+            "most_active_component": most_common_component[0] if most_common_component else None
+        }
+
+        # Generate summary report
+        summary_report = (
+            f"Trace Summary: {total_events} events. "
+            f"Levels: {dict(events_by_level)}. "
+            f"Categories: {dict(events_by_category)}. "
+            f"Most active component: {patterns['most_active_component']}"
+        )
+
+        return {
+            "total_events": total_events,
+            "statistics": {
+                "by_level": dict(events_by_level),
+                "by_category": dict(events_by_category),
+            },
+            "patterns": patterns,
+            "summary": summary_report,
+        }
 
     def export_trace_data(self, format_type: str = "json") -> str:
         """

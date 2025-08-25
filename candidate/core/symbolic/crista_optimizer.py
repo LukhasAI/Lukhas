@@ -14,6 +14,7 @@ from typing import Any
 from typing import Optional
 from typing import TYPE_CHECKING  # Added Any
 
+import random
 import numpy as np
 import structlog
 
@@ -335,23 +336,28 @@ class SymbolicNetwork:
         """
         self.logger.debug("ΛTRACE: Starting relink of drifted edges.")
         active_node_ids = set(self.nodes.keys())
-        original_connection_count = len(self.connections)
+        original_connections = list(self.connections)
+        self.connections = []
+        relinked_count = 0
 
-        # Filter out connections where source or destination node no longer exists
-        valid_connections = [
-            (src, dst)
-            for src, dst in self.connections:
+        for src, dst in original_connections:
             if src in active_node_ids and dst in active_node_ids:
-        ]
-        self.connections = valid_connections
-        removed_count = original_connection_count - len(self.connections)
+                self.connections.append((src, dst))
+            elif src in active_node_ids:
+                # Destination is missing, find a new one
+                potential_targets = list(active_node_ids - {src})
+                if potential_targets:
+                    new_dst = random.choice(potential_targets)
+                    self.connections.append((src, new_dst))
+                    relinked_count += 1
+                    self.logger.debug(f"Relinked orphaned edge from {src} to new target {new_dst}")
 
-        # TODO: Potentially implement more sophisticated relinking logic here,
-        # e.g., finding nearest neighbors for orphaned connections if desired.
-        # ΛNOTE: Relinking logic for drifted edges is currently basic (removal).
-        # Future enhancements could include finding nearest neighbors.
+        removed_count = len(original_connections) - len(self.connections)
+
         self.logger.info(
-            f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections. Current connections: {len(self.connections)}."
+            f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections, "
+            f"relinked {relinked_count} orphaned connections. "
+            f"Current connections: {len(self.connections)}."
         )
 
 
