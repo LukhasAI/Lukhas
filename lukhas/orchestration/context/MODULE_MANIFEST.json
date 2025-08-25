@@ -1,0 +1,16 @@
+{
+  "module": "lukhas.orchestration.context",
+  "owner": "@context-orchestrator-specialist",
+  "capabilities": ["handoff_context"],
+  "feature_flag": "FEATURE_ORCHESTRATION_HANDOFF",
+  "dependencies": [],
+  "slas": { "p95_ms": 250 },
+  "matriz_emit_points": ["CONTEXT:orchestration:handoff"],
+  "acceptance_checklist": [
+    "No static imports from candidate/",
+    "MATRIZ decorated public APIs",
+    "DRY_RUN/OFFLINE supported",
+    "Unit & smoke tests present",
+    "Backpressure/rate-limit path covered"
+  ]
+}

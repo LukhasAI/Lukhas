@@ -1,0 +1,16 @@
+{
+  "module": "lukhas.identity.passkey",
+  "owner": "@identity-auth-specialist",
+  "capabilities": ["verify_passkey"],
+  "feature_flag": "FEATURE_IDENTITY_PASSKEY",
+  "dependencies": [],
+  "slas": { "p95_ms": 30 },
+  "matriz_emit_points": ["DECISION:identity:passkey.verify"],
+  "acceptance_checklist": [
+    "No static imports from candidate/",
+    "MATRIZ decorated public APIs",
+    "DRY_RUN/OFFLINE supported",
+    "Unit & smoke tests present",
+    "No PII logging"
+  ]
+}
