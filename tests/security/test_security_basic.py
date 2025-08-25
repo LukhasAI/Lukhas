@@ -98,7 +98,7 @@ def test_requirements_files_exist():
 def test_security_reports_directory():
     """Test that security reports can be written."""
     root_path = Path(__file__).parent.parent.parent
-    security_reports_dir = root_path / "security-reports"
+    security_reports_dir = root_path / "/Users/agi_dev/LOCAL-REPOS/Lukhas/reports/security"
     
     # Create directory if it doesn't exist
     security_reports_dir.mkdir(exist_ok=True)

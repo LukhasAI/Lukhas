@@ -43,7 +43,7 @@ class ActiveImportAnalyzer:
         "consciousness",
         "core",
         "creativity",
-        "deployments",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/deployment/platforms",
         "docs",
         "emotion",
         "ethics",

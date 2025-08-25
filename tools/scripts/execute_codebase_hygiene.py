@@ -35,7 +35,7 @@ class CodebaseHygieneExecutor:
             "lambda_identity": "lambda_identity",
             "next_gen": "next_gen",
             "orb": "orb",
-            "demo_suite": "demo_suite",
+            "/Users/agi_dev/LOCAL-REPOS/Lukhas/demos": "/Users/agi_dev/LOCAL-REPOS/Lukhas/demos",
             "dna_link": "dna_link",
             "config_legacy": "config_legacy",
             "data_legacy": "data_legacy",

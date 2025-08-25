@@ -1,3 +1,4 @@
+from lukhas_paths import paths
 #!/usr/bin/env python3
 """
 LUKHAS AI Path Manager
@@ -161,12 +162,12 @@ paths = LukhasPathManager()
 
 # Legacy path mapping for migration
 DEPRECATED_PATHS = {
-    'deployments': paths.deployment_platforms,
-    'demo_suite': paths.demos,
-    'perf': paths.performance,
-    'security-reports': paths.reports_security,
+    '/Users/agi_dev/LOCAL-REPOS/Lukhas/deployment/platforms': paths.deployment_platforms,
+    '/Users/agi_dev/LOCAL-REPOS/Lukhas/demos': paths.demos,
+    '/Users/agi_dev/LOCAL-REPOS/Lukhas/performance': paths.performance,
+    '/Users/agi_dev/LOCAL-REPOS/Lukhas/reports/security': paths.reports_security,
     'node_configs': paths.config_node,
-    'dream_images': paths.assets_dreams,
+    '/Users/agi_dev/LOCAL-REPOS/Lukhas/assets/dreams': paths.assets_dreams,
     'meta_dashboard': paths.root / 'dashboard' / 'meta'
 }
 
