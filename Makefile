@@ -25,6 +25,11 @@ help:
 	@echo "  fix          - Auto-fix all possible issues"
 	@echo "  fix-imports  - Fix import issues specifically"
 	@echo ""
+	@echo "AI-Powered Analysis (Ollama):"
+	@echo "  ai-setup     - Setup Ollama for AI analysis"
+	@echo "  ai-analyze   - AI-powered code analysis"
+	@echo "  ai-workflow  - Complete AI workflow (fix + analyze + test)"
+	@echo ""
 	@echo "Testing:"
 	@echo "  test         - Run test suite"
 	@echo "  test-cov     - Run tests with coverage"
@@ -146,6 +151,38 @@ format:
 fix:
 	@echo "🔧 Running Smart Fix (safe mode)..."
 	@python tools/scripts/smart_fix.py
+
+# Ollama-powered AI analysis and fixes
+ai-analyze:
+	@echo "🤖 Running AI-powered code analysis with Ollama..."
+	@if [ -x "./tools/local-llm-helper.sh" ]; then \
+		./tools/local-llm-helper.sh analyze; \
+	else \
+		echo "❌ AI analysis not available. Run 'make ai-setup' first."; \
+		exit 1; \
+	fi
+
+# Setup Ollama for AI analysis
+ai-setup:
+	@echo "🤖 Setting up Ollama for AI analysis..."
+	@if ! command -v ollama >/dev/null 2>&1; then \
+		echo "❌ Ollama not installed. Please install Ollama first: https://ollama.ai"; \
+		exit 1; \
+	fi
+	@if ! ollama list | grep -q "deepseek-coder:6.7b"; then \
+		echo "📥 Downloading deepseek-coder:6.7b model..."; \
+		ollama pull deepseek-coder:6.7b; \
+	fi
+	@chmod +x ./tools/local-llm-helper.sh
+	@echo "✅ AI analysis setup complete!"
+
+# Complete AI-powered development workflow
+ai-workflow:
+	@echo "🚀 Running complete AI-powered development workflow..."
+	@make fix
+	@make ai-analyze
+	@make test
+	@echo "✅ AI workflow complete!"
 
 # Aggressive fix (use with caution - will fix 90% of issues)
 fix-all:
