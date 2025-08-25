@@ -4,6 +4,8 @@ LUKHAS Enterprise API Framework
 Production-grade API with versioning, type safety, and OpenAPI documentation
 """
 
+import hashlib
+import logging
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime
@@ -36,9 +38,32 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 
 # Configure structured logging
+logger = logging.getLogger("ΛTRACE.bridge.adapters.api_framework")
 
 # Type variables for generic responses
 T = TypeVar("T")
+
+# Mock metrics (imports unavailable)
+class Counter:
+    def __init__(self, name, desc, labels=None):
+        self.name = name
+        self.labels = lambda **kw: self
+        
+    def inc(self):
+        pass
+
+class Histogram:
+    def __init__(self, name, desc, labels=None):
+        self.name = name
+        self.labels = lambda **kw: self
+        
+    def observe(self, val):
+        pass
+
+def generate_latest():
+    return ""
+
+CONTENT_TYPE_LATEST = "text/plain"
 
 # Metrics
 request_count = Counter(
@@ -244,8 +269,8 @@ class RequestTracingMiddleware(BaseHTTPMiddleware):
         endpoint = request.url.path.split("/")
         version = (
             endpoint[2]
-            if len(endpoint) > 2 and endpoint[2] in ["v1", "v2", "v3"]:
-            else "unknown":
+            if len(endpoint) > 2 and endpoint[2] in ["v1", "v2", "v3"]
+            else "unknown"
         )
 
         request_count.labels(
@@ -322,20 +347,88 @@ async def verify_token(
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> dict[str, Any]:
     """Verify JWT token and extract claims"""
+    import jwt
+    import os
+    from datetime import datetime, timezone
+    
     token = credentials.credentials
-
-    # TODO: Implement proper JWT verification
-    # For now, mock verification
-    if not token or token == "invalid":
+    
+    # JWT secret from environment (fallback for development)
+    jwt_secret = os.getenv("LUKHAS_JWT_SECRET", "dev-secret-key-change-in-production")
+    jwt_algorithm = os.getenv("LUKHAS_JWT_ALGORITHM", "HS256")
+    
+    if not token:
         raise HTTPException(
-            status_code=401, detail="Invalid authentication credentials"
+            status_code=401, 
+            detail="Missing authentication token"
         )
-
-    return {
-        "user_id": "user_123",
-        "tier_level": TierLevel.ADVANCED,
-        "permissions": ["read", "write"],
-    }
+    
+    try:
+        # Decode and verify JWT token
+        payload = jwt.decode(
+            token, 
+            jwt_secret, 
+            algorithms=[jwt_algorithm],
+            options={"verify_exp": True, "verify_iat": True}
+        )
+        
+        # Extract user information from payload
+        user_id = payload.get("user_id") or payload.get("sub")
+        tier_level_str = payload.get("tier_level", "BASIC")
+        permissions = payload.get("permissions", ["read"])
+        
+        # Convert tier level string to enum
+        tier_mapping = {
+            "PUBLIC": TierLevel.PUBLIC,
+            "BASIC": TierLevel.BASIC,
+            "ADVANCED": TierLevel.ADVANCED,
+            "PREMIUM": TierLevel.PREMIUM,
+            "ELITE": TierLevel.ELITE
+        }
+        tier_level = tier_mapping.get(tier_level_str, TierLevel.BASIC)
+        
+        # Validate required fields
+        if not user_id:
+            raise HTTPException(
+                status_code=401, 
+                detail="Invalid token: missing user_id"
+            )
+        
+        # Check token expiration
+        exp = payload.get("exp")
+        if exp and datetime.fromtimestamp(exp, tz=timezone.utc) < datetime.now(timezone.utc):
+            raise HTTPException(
+                status_code=401, 
+                detail="Token has expired"
+            )
+        
+        logger.info(f"Token verified successfully for user: {user_id}")
+        
+        return {
+            "user_id": user_id,
+            "tier_level": tier_level,
+            "permissions": permissions,
+            "token_payload": payload
+        }
+        
+    except jwt.ExpiredSignatureError:
+        logger.warning("JWT token has expired")
+        raise HTTPException(
+            status_code=401, 
+            detail="Token has expired"
+        )
+    except jwt.InvalidTokenError as e:
+        logger.warning(f"Invalid JWT token: {str(e)}")
+        raise HTTPException(
+            status_code=401, 
+            detail="Invalid authentication token"
+        )
+    except Exception as e:
+        logger.error(f"Error verifying JWT token: {str(e)}")
+        raise HTTPException(
+            status_code=401, 
+            detail="Authentication failed"
+        )
 
 
 async def get_current_user(
@@ -523,8 +616,7 @@ async def fold_memory_v2(
     if request.tier_level > user_tier:
         raise HTTPException(
             status_code=403,
-            detail=f"Insufficient tier level. Required: {request.tier_level.name},"
-            Current: {user_tier.name}",
+            detail=f"Insufficient tier level. Required: {request.tier_level.name}, Current: {user_tier.name}",
         )
 
     # Process fold (mock implementation)

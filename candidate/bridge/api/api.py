@@ -32,6 +32,8 @@ from enum import Enum  # Added for QRGType fallback
 from typing import Any
 from typing import Optional
 
+import logging
+
 # Initialize ΛTRACE logger for this module
 logger = logging.getLogger("ΛTRACE.lukhas_id.api.unified_api")
 logger.info("ΛTRACE: Initializing unified_api module.")
@@ -193,8 +195,8 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             ...,
             description="A list of symbolic entries for the user's vault. Each entry is a dictionary.",
         )
-        if FASTAPI_AVAILABLE:
-        else []:
+        if FASTAPI_AVAILABLE
+        else []
     )
     consciousness_level: float = (
         Field(
@@ -203,43 +205,41 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             le=1.0,
             description="User's estimated consciousness level (normalized 0.0 to 1.0).",
         )
-        if FASTAPI_AVAILABLE:
-        else 0.5:
+        if FASTAPI_AVAILABLE
+        else 0.5
     )
     cultural_context: Optional[str] = (
         Field(
             None,
-            description="Identifier for the user's primary cultural context(e.g.,'"
-                                                                            'east_asian', 'universal').",
+            description="Identifier for the user's primary cultural context (e.g., 'east_asian', 'universal').",
         )
-        if FASTAPI_AVAILABLE:
-        else None:
+        if FASTAPI_AVAILABLE
+        else None
     )
     biometric_enrolled: bool = (
         Field(
             False,
             description="Flag indicating if biometrics are already enrolled for this user.",
         )
-        if FASTAPI_AVAILABLE:
-        else False:
+        if FASTAPI_AVAILABLE
+        else False
     )
     qrg_enabled: bool = (
         Field(
             True,
             description="Flag to enable Quantum Resonance Glyph (QRG) generation with the ΛiD.",
         )
-        if FASTAPI_AVAILABLE:
-        else True:
+        if FASTAPI_AVAILABLE
+        else True
     )
     location_prefix: Optional[str] = (
         Field(
             "USR",
             max_length=5,
-            description="Optional location prefix for public hash generation(e.g.,
-                                                                             country code).",
+            description="Optional location prefix for public hash generation (e.g., country code).",
         )
-        if FASTAPI_AVAILABLE:
-        else "USR":
+        if FASTAPI_AVAILABLE
+        else "USR"
     )
     org_code: Optional[str] = (
         Field(
@@ -247,8 +247,8 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             max_length=10,
             description="Optional organization code associated with the ΛiD.",
         )
-        if FASTAPI_AVAILABLE:
-        else "LUKH":
+        if FASTAPI_AVAILABLE
+        else "LUKH"
     )
     favorite_emoji: Optional[str] = (
         Field(
@@ -256,8 +256,8 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             max_length=5,
             description="A favorite emoji to personalize aspects of the ΛiD or QRG.",
         )
-        if FASTAPI_AVAILABLE:
-        else "✨":
+        if FASTAPI_AVAILABLE
+        else "✨"
     )
     logger.debug("ΛTRACE: UserProfileRequest Pydantic model defined.")
 
@@ -273,16 +273,16 @@ class SymbolicAuthRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: 
             min_length=5,
             description="The LUKHAS ΛiD to be authenticated.",
         )
-        if FASTAPI_AVAILABLE:
-        else "":
+        if FASTAPI_AVAILABLE
+        else ""
     )
     challenge_response: dict[str, Any] = (
         Field(
             ...,
             description="The user's response to a symbolic challenge, typically structured data.",
         )
-        if FASTAPI_AVAILABLE:
-        else {}:
+        if FASTAPI_AVAILABLE
+        else {}
     )
     requested_tier: int = (
         Field(
@@ -291,8 +291,8 @@ class SymbolicAuthRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: 
             le=5,
             description="The access tier level being requested upon successful authentication.",
         )
-        if FASTAPI_AVAILABLE:
-        else 0:
+        if FASTAPI_AVAILABLE
+        else 0
     )
     logger.debug("ΛTRACE: SymbolicAuthRequest Pydantic model defined.")
 
@@ -307,26 +307,24 @@ class QRGGenerationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type:
             ...,
             description="The LUKHAS ΛiD for which the QRG is to be generated.",
         )
-        if FASTAPI_AVAILABLE:
-        else "":
+        if FASTAPI_AVAILABLE
+        else ""
     )
     qrg_type: str = (
         Field(
             "authentication_challenge",
-            description="The type of QRG to generate(e.g., 'authentication_challenge',
-                                                     'data_capsule').",
+            description="The type of QRG to generate (e.g., 'authentication_challenge', 'data_capsule').",
         )
-        if FASTAPI_AVAILABLE:
-        else "authentication_challenge":
+        if FASTAPI_AVAILABLE
+        else "authentication_challenge"
     )
     security_level: str = (
         Field(
             "standard",
-            description="Desired security level for the QRG(e.g., 'standard',
-                                                            'enhanced', 'quantum_resistant').",
+            description="Desired security level for the QRG (e.g., 'standard', 'enhanced', 'quantum_resistant').",
         )
-        if FASTAPI_AVAILABLE:
-        else "standard":
+        if FASTAPI_AVAILABLE
+        else "standard"
     )
     expiry_minutes: int = (
         Field(
@@ -335,16 +333,16 @@ class QRGGenerationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type:
             le=10080,
             description="QRG validity period in minutes (1 min to 1 week).",
         )
-        if FASTAPI_AVAILABLE:
-        else 60:
+        if FASTAPI_AVAILABLE
+        else 60
     )
     challenge_elements: Optional[list[str]] = (
         Field(
             None,
             description="Specific symbolic elements to include in a challenge-type QRG.",
         )
-        if FASTAPI_AVAILABLE:
-        else None:
+        if FASTAPI_AVAILABLE
+        else None
     )
     logger.debug("ΛTRACE: QRGGenerationRequest Pydantic model defined.")
 
@@ -359,16 +357,16 @@ class QRGValidationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type:
             ...,
             description="The complete data payload of the QRG being validated.",
         )
-        if FASTAPI_AVAILABLE:
-        else {}:
+        if FASTAPI_AVAILABLE
+        else {}
     )
     auth_response: dict[str, Any] = (
         Field(
             ...,
             description="The user's response data for the QRG authentication challenge.",
         )
-        if FASTAPI_AVAILABLE:
-        else {}:
+        if FASTAPI_AVAILABLE
+        else {}
     )
     logger.debug("ΛTRACE: QRGValidationRequest Pydantic model defined.")
 
@@ -383,8 +381,8 @@ class VaultUpdateRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             ...,
             description="The LUKHAS ΛiD whose symbolic vault is to be updated.",
         )
-        if FASTAPI_AVAILABLE:
-        else "":
+        if FASTAPI_AVAILABLE
+        else ""
     )
     new_entries: list[dict[str, Any]] = (
         Field(
@@ -392,17 +390,15 @@ class VaultUpdateRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
             min_items=1,
             description="A list of new symbolic entries to add to the vault.",
         )
-        if FASTAPI_AVAILABLE:
-        else []:
+        if FASTAPI_AVAILABLE
+        else []
     )
     logger.debug("ΛTRACE: VaultUpdateRequest Pydantic model defined.")
 
 # Human-readable comment: Pydantic model for biometric enrollment requests.
 
 
-class BiometricEnrollRequest(:
-    BaseModel if FASTAPI_AVAILABLE else object
-):  # type: ignore
+class BiometricEnrollRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: ignore
     """Request model for enrolling a new biometric modality for a LUKHAS ΛiD."""
 
     lambda_id: str = (
@@ -410,34 +406,31 @@ class BiometricEnrollRequest(:
             ...,
             description="The LUKHAS ΛiD for which biometric enrollment is requested.",
         )
-        if FASTAPI_AVAILABLE:
-        else "":
+        if FASTAPI_AVAILABLE
+        else ""
     )
     biometric_type: str = (
         Field(
             ...,
-            description="Type of biometric being enrolled(e.g., 'face', 'voice',
-                                                          'fingerprint').",
+            description="Type of biometric being enrolled (e.g., 'face', 'voice', 'fingerprint').",
         )
-        if FASTAPI_AVAILABLE:
-        else "":
+        if FASTAPI_AVAILABLE
+        else ""
     )
     biometric_data: dict[str, Any] = (
         Field(
             ...,
             description="The biometric data payload for enrollment (format depends on type).",
         )
-        if FASTAPI_AVAILABLE:
-        else {}:
+        if FASTAPI_AVAILABLE
+        else {}
     )
     logger.debug("ΛTRACE: BiometricEnrollRequest Pydantic model defined.")
 
 # Human-readable comment: Pydantic model for biometric verification requests.
 
 
-class BiometricVerifyRequest(:
-    BaseModel if FASTAPI_AVAILABLE else object
-):  # type: ignore
+class BiometricVerifyRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: ignore
     """Request model for verifying a user's identity using an enrolled biometric modality."""
 
     lambda_id: str = (
@@ -445,23 +438,23 @@ class BiometricVerifyRequest(:
             ...,
             description="The LUKHAS ΛiD for which biometric verification is requested.",
         )
-        if FASTAPI_AVAILABLE:
-        else "":
+        if FASTAPI_AVAILABLE
+        else ""
     )
     biometric_type: str = (
         Field(..., description="Type of biometric being verified.")
-        if FASTAPI_AVAILABLE:
-        else "":
+        if FASTAPI_AVAILABLE
+        else ""
     )
     verification_data: dict[str, Any] = (
         Field(..., description="The biometric data payload for verification.")
-        if FASTAPI_AVAILABLE:
-        else {}:
+        if FASTAPI_AVAILABLE
+        else {}
     )
     logger.debug("ΛTRACE: BiometricVerifyRequest Pydantic model defined.")
 
 
-if (:
+if (
     FASTAPI_AVAILABLE and BaseModel.__subclasses__()
 ):  # Check if any Pydantic models were actually defined
     logger.info(
@@ -527,13 +520,12 @@ class LukhasUnifiedAPI:
 
         # Initialize FastAPI app instance if FastAPI is available
         self.app: Optional[FastAPI] = None
-        if (:
+        if (
             FASTAPI_AVAILABLE and FastAPI is not None
         ):  # Ensure FastAPI itself is not None
             self.app = FastAPI(
                 title="LUKHAS ΛiD Unified API",
-                description="Consolidated API for the LUKHAS ΛiD, QRS, Tier,
-                and Biometric ecosystem.",
+                description="Consolidated API for the LUKHAS ΛiD, QRS, Tier, and Biometric ecosystem.",
                 version=os.environ.get(
                     "LUKHAS_API_VERSION", "2.1.0-dev"
                 ),  # Example version from ENV
@@ -541,8 +533,7 @@ class LukhasUnifiedAPI:
                 redoc_url="/api/v2/id/redoc",
             )
             self.logger.info(
-                f"ΛTRACE: FastAPI app created. Title: {self.app.title},
-                Version: {self.app.version}."
+                f"ΛTRACE: FastAPI app created. Title: {self.app.title}, Version: {self.app.version}."
             )
             self._setup_fastapi_middleware()
             self._setup_fastapi_routes()
@@ -570,7 +561,7 @@ class LukhasUnifiedAPI:
 
     def _setup_fastapi_middleware(self) -> None:
         """Sets up middleware for the FastAPI application (e.g., CORS)."""
-        if (:
+        if (
             not self.app or not FASTAPI_AVAILABLE or not CORSMiddleware
         ):  # Check all dependencies
             self.logger.debug(
@@ -700,8 +691,8 @@ class LukhasUnifiedAPI:
             # dict
             user_profile_dict = (
                 request_data.model_dump()
-                if hasattr(request_data, "model_dump"):
-                else request_data.__dict__:
+                if hasattr(request_data, "model_dump")
+                else request_data.__dict__
             )  # Pydantic v1/v2 compatibility
 
             # Call the core QRS manager to create the ΛiD
@@ -826,53 +817,229 @@ class LukhasUnifiedAPI:
     # fully fleshed out.
     async def _get_profile_endpoint_impl(self, lambda_id: str) -> dict[str, Any]:
         self.logger.info(f"ΛTRACE: Fetching profile for {lambda_id[:10]}...")
-        # TODO: Implement actual logic with self.qrs_manager or other relevant manager
-        return {
-            "lambda_id": lambda_id,
-            "profile_data": "Sample profile data - Not Implemented Yet",
-        }
+        try:
+            # Get profile data from QRS manager
+            profile_result = await self.qrs_manager.get_lambda_id_profile(lambda_id)
+            
+            if profile_result.get("success"):
+                profile_data = profile_result.get("profile", {})
+                
+                # Get additional tier information
+                tier_info = await self.tier_manager.get_user_tier(lambda_id)
+                tier_benefits = await self.tier_manager.get_tier_benefits(tier_info)
+                
+                # Get symbolic status
+                symbolic_status = await self.tier_manager.get_symbolic_tier_status(lambda_id)
+                
+                return {
+                    "success": True,
+                    "lambda_id": lambda_id,
+                    "profile_data": {
+                        "basic_info": profile_data,
+                        "tier_level": tier_info,
+                        "tier_benefits": tier_benefits,
+                        "symbolic_status": symbolic_status,
+                        "profile_created": profile_data.get("created_at"),
+                        "last_updated": profile_data.get("updated_at"),
+                        "account_status": profile_data.get("status", "active")
+                    }
+                }
+            else:
+                return {
+                    "success": False,
+                    "error": profile_result.get("error", "Profile not found"),
+                    "lambda_id": lambda_id
+                }
+                
+        except Exception as e:
+            self.logger.error(f"Error fetching profile for {lambda_id}: {str(e)}")
+            return {
+                "success": False,
+                "error": f"Internal error: {str(e)}",
+                "lambda_id": lambda_id
+            }
 
     async def _update_vault_endpoint_impl(
         self, request_data: VaultUpdateRequest
     ) -> dict[str, Any]:
         self.logger.info(f"ΛTRACE: Updating vault for {request_data.lambda_id[:10]}...")
-        # TODO: Implement
-        return {
-            "success": True,
-            "message": "Vault update processed (Not Implemented Yet)",
-        }
+        try:
+            # Validate input
+            if not request_data.new_entries:
+                return {
+                    "success": False,
+                    "error": "No vault entries provided for update"
+                }
+            
+            # Process vault update through QRS manager
+            vault_result = await self.qrs_manager.update_symbolic_vault(
+                lambda_id=request_data.lambda_id,
+                new_entries=request_data.new_entries
+            )
+            
+            if vault_result.get("success"):
+                # Log successful vault update
+                entries_count = len(request_data.new_entries)
+                self.logger.info(f"Vault updated successfully for {request_data.lambda_id[:10]} with {entries_count} entries")
+                
+                return {
+                    "success": True,
+                    "message": "Vault updated successfully",
+                    "lambda_id": request_data.lambda_id,
+                    "entries_added": entries_count,
+                    "vault_stats": vault_result.get("vault_stats", {}),
+                    "update_timestamp": vault_result.get("timestamp")
+                }
+            else:
+                return {
+                    "success": False,
+                    "error": vault_result.get("error", "Failed to update vault"),
+                    "lambda_id": request_data.lambda_id
+                }
+                
+        except Exception as e:
+            self.logger.error(f"Error updating vault for {request_data.lambda_id}: {str(e)}")
+            return {
+                "success": False,
+                "error": f"Internal error during vault update: {str(e)}",
+                "lambda_id": request_data.lambda_id
+            }
 
     async def _generate_qrg_endpoint_impl(
         self, request_data: QRGGenerationRequest
     ) -> dict[str, Any]:
         self.logger.info(
-            f"ΛTRACE: Generating QRG for {request_data.lambda_id[:10]}...,
-            Type: {request_data.qrg_type}"
+            f"ΛTRACE: Generating QRG for {request_data.lambda_id[:10]}, Type: {request_data.qrg_type}"
         )
-        # TODO: Implement
-        return {
-            "success": True,
-            "qrg_data": "Sample QRG data (Not Implemented Yet)",
-        }
+        try:
+            # Generate QRG using QRS manager
+            qrg_result = await self.qrs_manager.generate_qrg_for_lambda_id(
+                lambda_id=request_data.lambda_id,
+                qrg_type=request_data.qrg_type,
+                security_level=request_data.security_level,
+                expiry_minutes=request_data.expiry_minutes,
+                challenge_elements=request_data.challenge_elements
+            )
+            
+            if qrg_result.get("success"):
+                qrg_data = qrg_result.get("qrg_data", {})
+                
+                self.logger.info(f"QRG generated successfully for {request_data.lambda_id[:10]}")
+                
+                return {
+                    "success": True,
+                    "lambda_id": request_data.lambda_id,
+                    "qrg_data": {
+                        "qrg_id": qrg_data.get("qrg_id"),
+                        "qrg_type": request_data.qrg_type,
+                        "security_level": request_data.security_level,
+                        "generated_at": qrg_data.get("generated_at"),
+                        "expires_at": qrg_data.get("expires_at"),
+                        "challenge_data": qrg_data.get("challenge_data", {}),
+                        "verification_hint": qrg_data.get("hint"),
+                        "qrg_signature": qrg_data.get("signature")
+                    },
+                    "usage_instructions": qrg_result.get("instructions", [])
+                }
+            else:
+                return {
+                    "success": False,
+                    "error": qrg_result.get("error", "Failed to generate QRG"),
+                    "lambda_id": request_data.lambda_id
+                }
+                
+        except Exception as e:
+            self.logger.error(f"Error generating QRG for {request_data.lambda_id}: {str(e)}")
+            return {
+                "success": False,
+                "error": f"Internal error during QRG generation: {str(e)}",
+                "lambda_id": request_data.lambda_id
+            }
 
     async def _validate_qrg_endpoint_impl(
         self, request_data: QRGValidationRequest
     ) -> dict[str, Any]:
         self.logger.info("ΛTRACE: Validating QRG...")
-        # TODO: Implement
-        return {
-            "success": True,
-            "validation_status": "QRG Validated (Not Implemented Yet)",
-        }
+        try:
+            # Validate QRG using QRS manager
+            validation_result = await self.qrs_manager.validate_qrg_authentication(
+                qrg_data=request_data.qrg_data,
+                auth_response=request_data.auth_response
+            )
+            
+            if validation_result.get("success"):
+                validation_data = validation_result.get("validation", {})
+                
+                self.logger.info(f"QRG validation successful. Score: {validation_data.get('confidence_score', 0)}")
+                
+                return {
+                    "success": True,
+                    "validation_status": "valid",
+                    "lambda_id": validation_data.get("lambda_id"),
+                    "validation_details": {
+                        "confidence_score": validation_data.get("confidence_score", 0.0),
+                        "qrg_type": validation_data.get("qrg_type"),
+                        "validation_timestamp": validation_data.get("timestamp"),
+                        "challenge_passed": validation_data.get("challenge_passed", False),
+                        "signature_valid": validation_data.get("signature_valid", False),
+                        "expiry_status": validation_data.get("expiry_status", "unknown")
+                    },
+                    "access_granted": validation_data.get("access_granted", False),
+                    "session_data": validation_data.get("session_data", {})
+                }
+            else:
+                return {
+                    "success": False,
+                    "validation_status": "invalid",
+                    "error": validation_result.get("error", "QRG validation failed"),
+                    "error_details": validation_result.get("error_details", {})
+                }
+                
+        except Exception as e:
+            self.logger.error(f"Error validating QRG: {str(e)}")
+            return {
+                "success": False,
+                "validation_status": "error",
+                "error": f"Internal error during QRG validation: {str(e)}"
+            }
 
     async def _get_tier_info_endpoint_impl(self, lambda_id: str) -> dict[str, Any]:
         self.logger.info(f"ΛTRACE: Getting tier info for {lambda_id[:10]}...")
-        # TODO: Implement
-        return {
-            "lambda_id": lambda_id,
-            "current_tier": 1,
-            "benefits": ["Benefit A (Not Implemented Yet)"],
-        }
+        try:
+            # Get current tier information
+            current_tier = await self.tier_manager.get_user_tier(lambda_id)
+            tier_benefits = await self.tier_manager.get_tier_benefits(current_tier)
+            tier_upgrade_info = await self.tier_manager.get_tier_upgrade_info(current_tier)
+            symbolic_status = await self.tier_manager.get_symbolic_tier_status(lambda_id)
+            
+            return {
+                "success": True,
+                "lambda_id": lambda_id,
+                "current_tier": current_tier,
+                "tier_name": f"LAMBDA_TIER_{current_tier}",
+                "benefits": tier_benefits,
+                "upgrade_info": {
+                    "next_tier": current_tier + 1 if current_tier < 5 else None,
+                    "upgrade_requirements": tier_upgrade_info.get("requirements", []),
+                    "estimated_cost": tier_upgrade_info.get("cost"),
+                    "upgrade_available": current_tier < 5
+                },
+                "symbolic_status": symbolic_status,
+                "tier_features": {
+                    "api_rate_limit": tier_benefits.get("api_calls_per_hour", 100),
+                    "storage_quota": tier_benefits.get("storage_gb", 1),
+                    "advanced_features": tier_benefits.get("advanced_features", []),
+                    "support_level": tier_benefits.get("support_level", "basic")
+                }
+            }
+            
+        except Exception as e:
+            self.logger.error(f"Error getting tier info for {lambda_id}: {str(e)}")
+            return {
+                "success": False,
+                "error": f"Unable to retrieve tier information: {str(e)}",
+                "lambda_id": lambda_id
+            }
 
     async def _upgrade_tier_endpoint_impl(
         self, lambda_id: str, target_tier: int
@@ -880,57 +1047,345 @@ class LukhasUnifiedAPI:
         self.logger.info(
             f"ΛTRACE: Upgrading tier for {lambda_id[:10]} to {target_tier}..."
         )
-        # TODO: Implement
-        return {
-            "success": True,
-            "new_tier": target_tier,
-            "message": "Tier upgrade processed (Not Implemented Yet)",
-        }
+        try:
+            # Validate tier upgrade request
+            current_tier = await self.tier_manager.get_user_tier(lambda_id)
+            
+            if target_tier <= current_tier:
+                return {
+                    "success": False,
+                    "error": f"Target tier {target_tier} must be higher than current tier {current_tier}",
+                    "current_tier": current_tier
+                }
+            
+            if target_tier > 5:
+                return {
+                    "success": False,
+                    "error": "Maximum tier level is 5",
+                    "current_tier": current_tier
+                }
+            
+            # Check upgrade eligibility and requirements
+            upgrade_info = await self.tier_manager.get_tier_upgrade_info(current_tier)
+            upgrade_eligible = await self.tier_manager.check_upgrade_eligibility(
+                lambda_id, target_tier
+            )
+            
+            if not upgrade_eligible.get("eligible", False):
+                return {
+                    "success": False,
+                    "error": "Tier upgrade requirements not met",
+                    "requirements_missing": upgrade_eligible.get("missing_requirements", []),
+                    "current_tier": current_tier
+                }
+            
+            # Process tier upgrade
+            upgrade_result = await self.tier_manager.upgrade_user_tier(
+                lambda_id, target_tier
+            )
+            
+            if upgrade_result.get("success"):
+                # Get new tier benefits
+                new_benefits = await self.tier_manager.get_tier_benefits(target_tier)
+                
+                self.logger.info(f"Tier upgrade successful for {lambda_id[:10]}: {current_tier} -> {target_tier}")
+                
+                return {
+                    "success": True,
+                    "lambda_id": lambda_id,
+                    "previous_tier": current_tier,
+                    "new_tier": target_tier,
+                    "upgrade_timestamp": upgrade_result.get("timestamp"),
+                    "new_benefits": new_benefits,
+                    "message": f"Successfully upgraded to LAMBDA_TIER_{target_tier}",
+                    "effective_immediately": True
+                }
+            else:
+                return {
+                    "success": False,
+                    "error": upgrade_result.get("error", "Tier upgrade failed"),
+                    "current_tier": current_tier
+                }
+                
+        except Exception as e:
+            self.logger.error(f"Error upgrading tier for {lambda_id}: {str(e)}")
+            return {
+                "success": False,
+                "error": f"Internal error during tier upgrade: {str(e)}",
+                "lambda_id": lambda_id
+            }
 
     async def _enroll_biometric_endpoint_impl(
         self, request_data: BiometricEnrollRequest
     ) -> dict[str, Any]:
         self.logger.info(
-            f"ΛTRACE: Enrolling biometric for {request_data.lambda_id[:10]}...,
-            Type: {request_data.biometric_type}"
+            f"ΛTRACE: Enrolling biometric for {request_data.lambda_id[:10]}, Type: {request_data.biometric_type}"
         )
-        # TODO: Implement
-        return {
-            "success": True,
-            "enrollment_status": "Biometric enrolled (Not Implemented Yet)",
-        }
+        try:
+            # Validate biometric type
+            supported_types = ['face', 'voice', 'fingerprint', 'behavioral', 'gait']
+            if request_data.biometric_type not in supported_types:
+                return {
+                    "success": False,
+                    "error": f"Unsupported biometric type: {request_data.biometric_type}",
+                    "supported_types": supported_types
+                }
+            
+            # Process biometric enrollment
+            enrollment_result = await self.biometric_manager.enroll_biometric(
+                lambda_id=request_data.lambda_id,
+                biometric_type=request_data.biometric_type,
+                biometric_data=request_data.biometric_data
+            )
+            
+            if enrollment_result.get("success"):
+                enrollment_data = enrollment_result.get("enrollment", {})
+                
+                self.logger.info(f"Biometric enrollment successful for {request_data.lambda_id[:10]}: {request_data.biometric_type}")
+                
+                return {
+                    "success": True,
+                    "lambda_id": request_data.lambda_id,
+                    "biometric_type": request_data.biometric_type,
+                    "enrollment_status": "completed",
+                    "enrollment_details": {
+                        "enrollment_id": enrollment_data.get("enrollment_id"),
+                        "quality_score": enrollment_data.get("quality_score", 0.0),
+                        "enrollment_timestamp": enrollment_data.get("timestamp"),
+                        "template_generated": enrollment_data.get("template_created", False),
+                        "backup_created": enrollment_data.get("backup_template", False)
+                    },
+                    "verification_ready": enrollment_data.get("ready_for_verification", False),
+                    "message": f"{request_data.biometric_type.title()} biometric enrolled successfully"
+                }
+            else:
+                return {
+                    "success": False,
+                    "error": enrollment_result.get("error", "Biometric enrollment failed"),
+                    "error_details": enrollment_result.get("error_details", {}),
+                    "lambda_id": request_data.lambda_id,
+                    "biometric_type": request_data.biometric_type
+                }
+                
+        except Exception as e:
+            self.logger.error(f"Error enrolling biometric for {request_data.lambda_id}: {str(e)}")
+            return {
+                "success": False,
+                "error": f"Internal error during biometric enrollment: {str(e)}",
+                "lambda_id": request_data.lambda_id,
+                "biometric_type": request_data.biometric_type
+            }
 
     async def _verify_biometric_endpoint_impl(
         self, request_data: BiometricVerifyRequest
     ) -> dict[str, Any]:
         self.logger.info(
-            f"ΛTRACE: Verifying biometric for {request_data.lambda_id[:10]}...,
-            Type: {request_data.biometric_type}"
+            f"ΛTRACE: Verifying biometric for {request_data.lambda_id[:10]}, Type: {request_data.biometric_type}"
         )
-        # TODO: Implement
-        return {
-            "success": True,
-            "verification_status": "Biometric verified (Not Implemented Yet)",
-        }
+        try:
+            # Verify biometric using biometric manager
+            verification_result = await self.biometric_manager.verify_biometric(
+                lambda_id=request_data.lambda_id,
+                biometric_type=request_data.biometric_type,
+                verification_data=request_data.verification_data
+            )
+            
+            # Process verification result
+            if verification_result and hasattr(verification_result, 'success'):
+                if verification_result.success:
+                    self.logger.info(f"Biometric verification successful for {request_data.lambda_id[:10]}: {request_data.biometric_type}")
+                    
+                    return {
+                        "success": True,
+                        "lambda_id": request_data.lambda_id,
+                        "biometric_type": request_data.biometric_type,
+                        "verification_status": "verified",
+                        "verification_details": {
+                            "confidence_score": verification_result.confidence_score,
+                            "match_quality": verification_result.match_quality.value if hasattr(verification_result.match_quality, 'value') else str(verification_result.match_quality),
+                            "tier_requirement_met": verification_result.tier_requirement_met,
+                            "cultural_context_verified": verification_result.cultural_context_verified,
+                            "consciousness_validated": verification_result.consciousness_validated,
+                            "verification_timestamp": verification_result.verification_timestamp
+                        },
+                        "access_granted": verification_result.confidence_score > 0.8,
+                        "session_token": f"bio_session_{int(verification_result.verification_timestamp)}" if verification_result.confidence_score > 0.8 else None
+                    }
+                else:
+                    return {
+                        "success": False,
+                        "lambda_id": request_data.lambda_id,
+                        "biometric_type": request_data.biometric_type,
+                        "verification_status": "failed",
+                        "error": verification_result.error_message,
+                        "verification_details": {
+                            "confidence_score": verification_result.confidence_score,
+                            "verification_timestamp": verification_result.verification_timestamp
+                        }
+                    }
+            else:
+                return {
+                    "success": False,
+                    "error": "Invalid verification result format",
+                    "lambda_id": request_data.lambda_id,
+                    "biometric_type": request_data.biometric_type
+                }
+                
+        except Exception as e:
+            self.logger.error(f"Error verifying biometric for {request_data.lambda_id}: {str(e)}")
+            return {
+                "success": False,
+                "error": f"Internal error during biometric verification: {str(e)}",
+                "lambda_id": request_data.lambda_id,
+                "biometric_type": request_data.biometric_type
+            }
 
     async def _get_enrolled_biometrics_endpoint_impl(
         self, lambda_id: str
     ) -> dict[str, Any]:
         self.logger.info(f"ΛTRACE: Getting enrolled biometrics for {lambda_id[:10]}...")
-        # TODO: Implement
-        return {
-            "lambda_id": lambda_id,
-            "enrolled_types": ["face (Not Implemented Yet)"],
-        }
+        try:
+            # Get enrolled biometrics from biometric manager
+            enrolled_result = await self.biometric_manager.get_enrolled_biometrics(lambda_id)
+            
+            if enrolled_result.get("success"):
+                enrolled_data = enrolled_result.get("enrolled_biometrics", [])
+                
+                # Format enrolled biometrics data
+                enrolled_types = []
+                enrollment_details = {}
+                
+                for biometric in enrolled_data:
+                    bio_type = biometric.get("type")
+                    enrolled_types.append(bio_type)
+                    enrollment_details[bio_type] = {
+                        "enrollment_date": biometric.get("enrollment_date"),
+                        "last_verified": biometric.get("last_verified"),
+                        "quality_score": biometric.get("quality_score", 0.0),
+                        "verification_count": biometric.get("verification_count", 0),
+                        "status": biometric.get("status", "active")
+                    }
+                
+                return {
+                    "success": True,
+                    "lambda_id": lambda_id,
+                    "enrolled_types": enrolled_types,
+                    "enrollment_count": len(enrolled_types),
+                    "enrollment_details": enrollment_details,
+                    "available_types": ['face', 'voice', 'fingerprint', 'behavioral', 'gait'],
+                    "enrollment_status": "active" if enrolled_types else "none"
+                }
+            else:
+                return {
+                    "success": False,
+                    "error": enrolled_result.get("error", "Unable to retrieve enrolled biometrics"),
+                    "lambda_id": lambda_id
+                }
+                
+        except Exception as e:
+            self.logger.error(f"Error getting enrolled biometrics for {lambda_id}: {str(e)}")
+            return {
+                "success": False,
+                "error": f"Internal error retrieving enrolled biometrics: {str(e)}",
+                "lambda_id": lambda_id
+            }
 
     async def _get_analytics_endpoint_impl(self, lambda_id: str) -> dict[str, Any]:
         self.logger.info(f"ΛTRACE: Getting analytics for {lambda_id[:10]}...")
-        # TODO: Implement
-        return {
-            "lambda_id": lambda_id,
-            "usage_stats": {"logins": 0, "transactions": 0},
-            "message": "Not Implemented Yet",
-        }
+        try:
+            # Get analytics data from multiple sources
+            import time
+            from datetime import datetime, timedelta
+            
+            # Get basic usage statistics
+            current_time = time.time()
+            week_ago = current_time - (7 * 24 * 60 * 60)
+            month_ago = current_time - (30 * 24 * 60 * 60)
+            
+            # Collect analytics from various managers
+            analytics_data = {
+                "lambda_id": lambda_id,
+                "report_generated_at": datetime.utcnow().isoformat(),
+                "usage_stats": {
+                    "total_logins": 0,
+                    "api_calls_7d": 0,
+                    "api_calls_30d": 0,
+                    "qrg_generations": 0,
+                    "biometric_verifications": 0,
+                    "vault_updates": 0
+                },
+                "performance_metrics": {
+                    "average_response_time": 0.0,
+                    "success_rate": 0.0,
+                    "error_rate": 0.0
+                },
+                "security_metrics": {
+                    "failed_authentications": 0,
+                    "suspicious_activities": 0,
+                    "tier_violations": 0
+                }
+            }
+            
+            # Try to get real analytics from QRS manager
+            try:
+                qrs_analytics = await self.qrs_manager.get_user_analytics(lambda_id)
+                if qrs_analytics.get("success"):
+                    qrs_data = qrs_analytics.get("analytics", {})
+                    analytics_data["usage_stats"].update(qrs_data.get("usage", {}))
+                    analytics_data["performance_metrics"].update(qrs_data.get("performance", {}))
+            except Exception as e:
+                self.logger.debug(f"QRS analytics not available: {e}")
+            
+            # Try to get biometric analytics
+            try:
+                bio_analytics = await self.biometric_manager.get_user_analytics(lambda_id)
+                if bio_analytics.get("success"):
+                    bio_data = bio_analytics.get("analytics", {})
+                    analytics_data["usage_stats"]["biometric_verifications"] = bio_data.get("verification_count", 0)
+                    analytics_data["security_metrics"]["failed_authentications"] = bio_data.get("failed_attempts", 0)
+            except Exception as e:
+                self.logger.debug(f"Biometric analytics not available: {e}")
+            
+            # Try to get tier analytics
+            try:
+                tier_analytics = await self.tier_manager.get_user_analytics(lambda_id)
+                if tier_analytics.get("success"):
+                    tier_data = tier_analytics.get("analytics", {})
+                    analytics_data["tier_info"] = {
+                        "current_tier": tier_data.get("current_tier", 1),
+                        "tier_upgrades": tier_data.get("upgrade_history", []),
+                        "tier_benefits_used": tier_data.get("benefits_usage", {})
+                    }
+            except Exception as e:
+                self.logger.debug(f"Tier analytics not available: {e}")
+            
+            # Calculate derived metrics
+            total_activities = sum([
+                analytics_data["usage_stats"]["api_calls_30d"],
+                analytics_data["usage_stats"]["qrg_generations"],
+                analytics_data["usage_stats"]["biometric_verifications"],
+                analytics_data["usage_stats"]["vault_updates"]
+            ])
+            
+            analytics_data["summary"] = {
+                "total_activities": total_activities,
+                "most_active_period": "recent" if analytics_data["usage_stats"]["api_calls_7d"] > 0 else "inactive",
+                "engagement_score": min(100, total_activities * 2),  # Simple engagement metric
+                "account_health": "good" if analytics_data["security_metrics"]["failed_authentications"] < 5 else "needs_attention"
+            }
+            
+            return {
+                "success": True,
+                **analytics_data
+            }
+            
+        except Exception as e:
+            self.logger.error(f"Error getting analytics for {lambda_id}: {str(e)}")
+            return {
+                "success": False,
+                "error": f"Internal error retrieving analytics: {str(e)}",
+                "lambda_id": lambda_id
+            }
 
     async def _get_system_stats_endpoint_impl(self) -> dict[str, Any]:
         self.logger.info("ΛTRACE: Getting system API stats.")
@@ -945,7 +1400,7 @@ class LukhasUnifiedAPI:
 
     # Human-readable comment: Utility method to get the FastAPI app instance.
 
-    def get_fastapi_app_instance(:
+    def get_fastapi_app_instance(
         self,
     ) -> Optional[FastAPI]:  # Renamed for clarity
         """Returns the configured FastAPI application instance, or None if FastAPI is not available."""
@@ -1002,7 +1457,7 @@ def get_lukhas_unified_api_app() -> Optional[FastAPI]:  # Renamed for clarity:
             logger.info(
                 "ΛTRACE: New LukhasUnifiedAPI instance created and assigned globally."
             )
-        except (:
+        except (
             Exception
         ) as e_create:  # Catch errors during LukhasUnifiedAPI instantiation
             logger.critical(
@@ -1016,8 +1471,8 @@ def get_lukhas_unified_api_app() -> Optional[FastAPI]:  # Renamed for clarity:
 
     return (
         _lukhas_unified_api_instance.get_fastapi_app_instance()
-        if _lukhas_unified_api_instance:
-        else None:
+        if _lukhas_unified_api_instance
+        else None
     )
 
 
