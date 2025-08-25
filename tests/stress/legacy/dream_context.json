@@ -1,0 +1,82 @@
+{
+  "timestamp": 1754569814.6957362,
+  "symbolic_state": {
+    "timestamp": 1754569814.6391811,
+    "memory_coherence": 1.0,
+    "active_folds": [],
+    "memory_pressure": 0.3,
+    "last_dream_id": null,
+    "dream_coherence": 0.7,
+    "dream_symbols": [],
+    "dream_emotional_valence": -0.725747758416845,
+    "entropy_level": 0.5559111333275468,
+    "entropy_gradient": 0.0,
+    "information_density": 0.6,
+    "ethical_alignment": 0.9,
+    "drift_score": 0.2179609098279856,
+    "guardian_trust": 0.85,
+    "ethical_violations": 0,
+    "active_glyphs": [
+      "\ud83d\udd17",
+      "\ud83d\udd2e",
+      "\ud83d\udc8e",
+      "\ud83d\udd12",
+      "\ud83e\ude9e",
+      "\ud83d\udcad",
+      "\u269b\ufe0f",
+      "\u2696\ufe0f",
+      "\ud83e\udde0",
+      "\ud83d\udee1\ufe0f"
+    ],
+    "glyph_coherence": 1.0,
+    "glyph_resonance": {},
+    "awareness_level": 1.0,
+    "reflection_depth": 8,
+    "learning_rate": 0.1
+  },
+  "active_glyphs": [
+    "\ud83d\udd17",
+    "\ud83d\udd2e",
+    "\ud83d\udc8e",
+    "\ud83d\udd12",
+    "\ud83e\ude9e",
+    "\ud83d\udcad",
+    "\u269b\ufe0f",
+    "\u2696\ufe0f",
+    "\ud83e\udde0",
+    "\ud83d\udee1\ufe0f"
+  ],
+  "entropy_level": 0.5559111333275468,
+  "emotional_context": {
+    "valence": -0.725747758416845,
+    "coherence": 0.7
+  },
+  "drift_summary": [
+    {
+      "type": "symbolic",
+      "magnitude": 1.0,
+      "severity": "critical"
+    },
+    {
+      "type": "emotional",
+      "magnitude": 0.946110689438495,
+      "severity": "critical"
+    },
+    {
+      "type": "symbolic",
+      "magnitude": 1.0,
+      "severity": "critical"
+    },
+    {
+      "type": "emotional",
+      "magnitude": 0.8715774799979017,
+      "severity": "critical"
+    },
+    {
+      "type": "symbolic",
+      "magnitude": 1.0,
+      "severity": "critical"
+    }
+  ],
+  "stability_score": 0.9128271702782466
+}
