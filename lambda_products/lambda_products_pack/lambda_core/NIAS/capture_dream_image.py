@@ -59,10 +59,10 @@ async def generate_and_save_dream_images():
     generated_images = []
 
     for i, scenario in enumerate(dream_prompts, 1):
-        print(f"\n{'─'*60}")
+        print(f"\n{'─' * 60}")
         print(f"Scenario {i}: {scenario['name'].replace('_', ' ').title()}")
         print(f"Product: {scenario['product']}")
-        print(f"{'─'*60}")
+        print(f"{'─' * 60}")
 
         print("\n⏳ Generating dream image with DALL-E 3...")
         print(f"Prompt: '{scenario['prompt'][:100]}...'")
@@ -127,7 +127,7 @@ async def generate_and_save_dream_images():
 
     # Create HTML gallery
     if generated_images:
-        print(f"\n\n{'='*80}")
+        print(f"\n\n{'=' * 80}")
         print("📸 CREATING DREAM GALLERY")
         print("=" * 80)
 
@@ -217,11 +217,11 @@ async def generate_and_save_dream_images():
             dream_title = img["scenario"].replace("_", " ").title()
             html_content += f"""
             <div class="dream-card">
-                <img src="{img['filename']}" alt="{dream_title}" class="dream-image">
+                <img src="{img["filename"]}" alt="{dream_title}" class="dream-image">
                 <div class="dream-title">{dream_title}</div>
-                <div class="dream-product">Product: {img['product']}</div>
-                <div class="dream-prompt">{img['original_prompt']}</div>
-                <div class="timestamp">Generated: {img['timestamp']}</div>
+                <div class="dream-product">Product: {img["product"]}</div>
+                <div class="dream-prompt">{img["original_prompt"]}</div>
+                <div class="timestamp">Generated: {img["timestamp"]}</div>
             </div>
 """
 
@@ -253,7 +253,7 @@ async def generate_and_save_dream_images():
             json.dump(generated_images, f, indent=2)
         print(f"\n📄 Metadata saved: {metadata_path}")
 
-    print(f"\n\n{'='*80}")
+    print(f"\n\n{'=' * 80}")
     print("✅ DREAM IMAGE CAPTURE COMPLETE")
     print("=" * 80)
     print(f"\n📁 Images saved in: {images_dir.absolute()}")

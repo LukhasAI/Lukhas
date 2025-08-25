@@ -11,47 +11,46 @@ Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 import json
 import os
 import subprocess
-import sys
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict
 
 
 class SecurityTaskScheduler:
     """Scheduler for automated security tasks"""
-    
+
     def __init__(self):
         self.schedule_file = Path("security-schedule.json")
         self.log_file = Path("security-scheduler.log")
-        
+
     def log(self, message: str):
         """Log message with timestamp"""
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         log_msg = f"[{timestamp}] {message}\n"
-        
+
         # Print to console
         click.echo(log_msg.strip())
-        
+
         # Write to log file
-        with open(self.log_file, 'a') as f:
+        with open(self.log_file, "a") as f:
             f.write(log_msg)
-    
+
     def load_schedule(self) -> Dict:
         """Load existing schedule"""
         if self.schedule_file.exists():
-            with open(self.schedule_file, 'r') as f:
+            with open(self.schedule_file) as f:
                 return json.load(f)
         return {"tasks": [], "last_run": None}
-    
+
     def save_schedule(self, schedule: Dict):
         """Save schedule to file"""
-        with open(self.schedule_file, 'w') as f:
+        with open(self.schedule_file, "w") as f:
             json.dump(schedule, f, indent=2)
-    
+
     def schedule_task(self, task_type: str, run_time: str, description: str = ""):
         """Schedule a security task"""
         schedule = self.load_schedule()
-        
+
         # Parse run time
         try:
             if ":" in run_time:
@@ -62,7 +61,7 @@ class SecurityTaskScheduler:
                     today = datetime.now().date()
                     time_part = datetime.strptime(run_time, "%H:%M").time()
                     scheduled_time = datetime.combine(today, time_part)
-                    
+
                     # If time is in the past, schedule for tomorrow
                     if scheduled_time <= datetime.now():
                         scheduled_time += timedelta(days=1)
@@ -70,7 +69,7 @@ class SecurityTaskScheduler:
                 # Relative time like "+2h", "+30m"
                 if run_time.startswith("+"):
                     run_time = run_time[1:]
-                
+
                 if run_time.endswith("h"):
                     hours = int(run_time[:-1])
                     scheduled_time = datetime.now() + timedelta(hours=hours)
@@ -79,12 +78,12 @@ class SecurityTaskScheduler:
                     scheduled_time = datetime.now() + timedelta(minutes=minutes)
                 else:
                     raise ValueError("Invalid time format")
-                    
-        except ValueError as e:
+
+        except ValueError:
             click.echo(f"❌ Invalid time format: {run_time}")
             click.echo("Examples: '14:30', '+2h', '+30m', '2025-08-22 20:00'")
             return False
-        
+
         # Create task
         task = {
             "id": f"security_{int(datetime.now().timestamp())}",
@@ -92,129 +91,144 @@ class SecurityTaskScheduler:
             "scheduled_time": scheduled_time.isoformat(),
             "description": description or f"Scheduled {task_type}",
             "status": "pending",
-            "created": datetime.now().isoformat()
+            "created": datetime.now().isoformat(),
         }
-        
+
         schedule["tasks"].append(task)
         self.save_schedule(schedule)
-        
-        self.log(f"✅ Scheduled {task_type} for {scheduled_time.strftime('%Y-%m-%d %H:%M:%S')}")
+
+        self.log(
+            f"✅ Scheduled {task_type} for {scheduled_time.strftime('%Y-%m-%d %H:%M:%S')}"
+        )
         click.echo(f"Task ID: {task['id']}")
         return True
-    
+
     def list_tasks(self):
         """List all scheduled tasks"""
         schedule = self.load_schedule()
         tasks = schedule.get("tasks", [])
-        
+
         if not tasks:
             click.echo("📅 No scheduled security tasks")
             return
-        
+
         click.echo("📅 SCHEDULED SECURITY TASKS:")
         click.echo("=" * 50)
-        
+
         for task in tasks:
             scheduled_time = datetime.fromisoformat(task["scheduled_time"])
             status_emoji = {
                 "pending": "⏳",
                 "running": "🔄",
-                "completed": "✅", 
-                "failed": "❌"
+                "completed": "✅",
+                "failed": "❌",
             }.get(task["status"], "❓")
-            
+
             click.echo(f"{status_emoji} {task['id']}")
             click.echo(f"   Type: {task['type']}")
             click.echo(f"   Time: {scheduled_time.strftime('%Y-%m-%d %H:%M:%S')}")
             click.echo(f"   Description: {task['description']}")
             click.echo(f"   Status: {task['status']}")
             click.echo()
-    
+
     def run_pending_tasks(self):
         """Check and run any pending tasks"""
         schedule = self.load_schedule()
         tasks = schedule.get("tasks", [])
         now = datetime.now()
-        
+
         executed_tasks = 0
-        
+
         for task in tasks:
             if task["status"] != "pending":
                 continue
-                
+
             scheduled_time = datetime.fromisoformat(task["scheduled_time"])
-            
+
             if scheduled_time <= now:
                 self.log(f"🚀 Executing task: {task['id']} ({task['type']})")
                 task["status"] = "running"
                 task["started"] = now.isoformat()
                 self.save_schedule(schedule)
-                
+
                 # Execute the task
                 success = self.execute_task(task)
-                
+
                 # Update status
                 task["status"] = "completed" if success else "failed"
                 task["finished"] = datetime.now().isoformat()
                 self.save_schedule(schedule)
-                
+
                 executed_tasks += 1
-        
+
         if executed_tasks > 0:
             self.log(f"✅ Executed {executed_tasks} pending task(s)")
-        
+
         return executed_tasks
-    
+
     def execute_task(self, task: Dict) -> bool:
         """Execute a specific security task"""
         task_type = task["type"]
-        
+
         try:
             if task_type == "fix-vulnerabilities":
-                result = subprocess.run([
-                    "make", "security-fix-vulnerabilities"
-                ], capture_output=True, text=True, timeout=300)
-                
+                result = subprocess.run(
+                    ["make", "security-fix-vulnerabilities"],
+                    capture_output=True,
+                    text=True,
+                    timeout=300,
+                )
+
             elif task_type == "fix-issues":
                 # Skip Ollama-dependent tasks for now
-                self.log("⚠️ Skipping Ollama-dependent security issue fixes (Ollama not available)")
+                self.log(
+                    "⚠️ Skipping Ollama-dependent security issue fixes (Ollama not available)"
+                )
                 return True
-                
+
             elif task_type == "fix-all":
                 # Run vulnerabilities fix only (skip issues due to Ollama)
-                result = subprocess.run([
-                    "make", "security-fix-vulnerabilities"
-                ], capture_output=True, text=True, timeout=300)
-                
+                result = subprocess.run(
+                    ["make", "security-fix-vulnerabilities"],
+                    capture_output=True,
+                    text=True,
+                    timeout=300,
+                )
+
             elif task_type == "comprehensive-scan":
-                result = subprocess.run([
-                    "make", "security-comprehensive-scan"
-                ], capture_output=True, text=True, timeout=600)
-                
+                result = subprocess.run(
+                    ["make", "security-comprehensive-scan"],
+                    capture_output=True,
+                    text=True,
+                    timeout=600,
+                )
+
             else:
                 self.log(f"❌ Unknown task type: {task_type}")
                 return False
-            
+
             if result.returncode == 0:
                 self.log(f"✅ Task {task['id']} completed successfully")
                 return True
             else:
-                self.log(f"❌ Task {task['id']} failed with exit code {result.returncode}")
+                self.log(
+                    f"❌ Task {task['id']} failed with exit code {result.returncode}"
+                )
                 self.log(f"Error output: {result.stderr}")
                 return False
-                
+
         except subprocess.TimeoutExpired:
             self.log(f"⏰ Task {task['id']} timed out")
             return False
         except Exception as e:
             self.log(f"❌ Task {task['id']} failed with exception: {e}")
             return False
-    
+
     def cancel_task(self, task_id: str):
         """Cancel a scheduled task"""
         schedule = self.load_schedule()
         tasks = schedule.get("tasks", [])
-        
+
         for task in tasks:
             if task["id"] == task_id:
                 if task["status"] == "pending":
@@ -225,16 +239,18 @@ class SecurityTaskScheduler:
                     click.echo(f"✅ Task {task_id} cancelled")
                     return True
                 else:
-                    click.echo(f"⚠️ Cannot cancel task {task_id} (status: {task['status']})")
+                    click.echo(
+                        f"⚠️ Cannot cancel task {task_id} (status: {task['status']})"
+                    )
                     return False
-        
+
         click.echo(f"❌ Task {task_id} not found")
         return False
-    
+
     def setup_cron_job(self):
         """Set up a cron job to check for pending tasks every 15 minutes"""
         cron_command = f"*/15 * * * * cd {os.getcwd()} && python3 scripts/security_scheduler.py run-pending >> security-scheduler.log 2>&1"
-        
+
         click.echo("🕒 Setting up automated task runner...")
         click.echo("Add this line to your crontab (run 'crontab -e'):")
         click.echo()
@@ -251,14 +267,17 @@ def cli():
 
 
 @cli.command()
-@click.argument('task_type', type=click.Choice([
-    'fix-vulnerabilities', 'fix-issues', 'fix-all', 'comprehensive-scan'
-]))
-@click.argument('time')
-@click.option('--description', '-d', help='Task description')
+@click.argument(
+    "task_type",
+    type=click.Choice(
+        ["fix-vulnerabilities", "fix-issues", "fix-all", "comprehensive-scan"]
+    ),
+)
+@click.argument("time")
+@click.option("--description", "-d", help="Task description")
 def schedule(task_type, time, description):
     """Schedule a security task
-    
+
     Examples:
         schedule fix-all +3h
         schedule fix-vulnerabilities 20:00
@@ -283,7 +302,7 @@ def run_pending():
 
 
 @cli.command()
-@click.argument('task_id')
+@click.argument("task_id")
 def cancel(task_id):
     """Cancel a scheduled task"""
     scheduler = SecurityTaskScheduler()
@@ -301,31 +320,37 @@ def setup_cron():
 def status():
     """Show scheduler status and recommendations"""
     scheduler = SecurityTaskScheduler()
-    
+
     # Check if we have pending vulnerabilities
     if Path("reports/security/bandit.json").exists():
         click.echo("📊 SECURITY STATUS:")
-        
+
         # Count issues from bandit report
         try:
-            with open("reports/security/bandit.json", 'r') as f:
+            with open("reports/security/bandit.json") as f:
                 data = json.load(f)
-                total_issues = len(data.get('results', []))
-                high_issues = len([i for i in data['results'] if i.get('issue_severity') == 'HIGH'])
-                medium_issues = len([i for i in data['results'] if i.get('issue_severity') == 'MEDIUM'])
-                
+                total_issues = len(data.get("results", []))
+                high_issues = len(
+                    [i for i in data["results"] if i.get("issue_severity") == "HIGH"]
+                )
+                medium_issues = len(
+                    [i for i in data["results"] if i.get("issue_severity") == "MEDIUM"]
+                )
+
             click.echo(f"🔥 HIGH severity: {high_issues} issues")
-            click.echo(f"⚠️  MEDIUM severity: {medium_issues} issues") 
+            click.echo(f"⚠️  MEDIUM severity: {medium_issues} issues")
             click.echo(f"📊 Total issues: {total_issues}")
-            
+
             if high_issues + medium_issues > 0:
                 click.echo("\n💡 RECOMMENDATIONS:")
                 click.echo("   Schedule security fixes when Ollama is available:")
-                click.echo("   python3 scripts/security_scheduler.py schedule fix-all +3h")
-                
+                click.echo(
+                    "   python3 scripts/security_scheduler.py schedule fix-all +3h"
+                )
+
         except Exception as e:
             click.echo(f"❌ Could not read security report: {e}")
-    
+
     # Show current schedule
     click.echo("\n📅 CURRENT SCHEDULE:")
     scheduler.list_tasks()

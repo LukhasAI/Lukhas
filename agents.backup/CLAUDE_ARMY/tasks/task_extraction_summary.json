@@ -1,0 +1,38 @@
+{
+  "extraction_date": "2025-08-12T04:50:37.489579",
+  "source_file": "scripts/Claude_6.yml",
+  "agents_processed": [
+    {
+      "agent": "agent_1",
+      "name": "identity-auth-specialist",
+      "file": "CLAUDE_ARMY/tasks/identity-auth-specialist_tasks.md"
+    },
+    {
+      "agent": "agent_2",
+      "name": "consent-compliance-specialist",
+      "file": "CLAUDE_ARMY/tasks/consent-compliance-specialist_tasks.md"
+    },
+    {
+      "agent": "agent_3",
+      "name": "adapter-integration-specialist",
+      "file": "CLAUDE_ARMY/tasks/adapter-integration-specialist_tasks.md"
+    },
+    {
+      "agent": "agent_4",
+      "name": "context-orchestrator-specialist",
+      "file": "CLAUDE_ARMY/tasks/context-orchestrator-specialist_tasks.md"
+    },
+    {
+      "agent": "agent_5",
+      "name": "ux-feedback-specialist",
+      "file": "CLAUDE_ARMY/tasks/ux-feedback-specialist_tasks.md"
+    },
+    {
+      "agent": "agent_6",
+      "name": "testing-devops-specialist",
+      "file": "CLAUDE_ARMY/tasks/testing-devops-specialist_tasks.md"
+    }
+  ],
+  "coordination_file": "CLAUDE_ARMY/tasks/coordination_framework_tasks.md",
+  "total_agents": 6
+}

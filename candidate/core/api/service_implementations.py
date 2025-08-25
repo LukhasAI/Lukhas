@@ -44,12 +44,12 @@ except ImportError:
     GUARDIAN_SYSTEM_AVAILABLE = False
 
 try:
-    from candidate.emotion.emotion_hub import EmotionEngine
+    from candidate.emotion.emotion_hub import DreamSeedEmotionEngine as EmotionEngine
     EMOTION_ENGINE_AVAILABLE = True
 except ImportError:
     try:
         # Try alternative emotion system
-        from lukhas.emotion import EmotionEngine
+        from lukhas.emotion import EmotionWrapper as EmotionEngine
         EMOTION_ENGINE_AVAILABLE = True
     except ImportError as e:
         warnings.warn(f"Real EmotionEngine not available: {e}, using fallback", UserWarning)

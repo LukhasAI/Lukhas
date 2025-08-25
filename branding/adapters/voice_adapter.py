@@ -440,7 +440,8 @@ class BrandVoiceAdapter:
         """Generate cache key for voice responses"""
         import hashlib
         key_components = f"{content}:{tone_layer}:{emotional_context}:{audience_context}"
-        return hashlib.sha256(  # Changed from MD5 for securitykey_components.encode()).hexdigest()
+        # Changed from MD5 for security
+        return hashlib.sha256(key_components.encode()).hexdigest()
     
     def _cache_result(self, cache_key: str, result: Dict[str, Any]):
         """Cache voice generation result"""

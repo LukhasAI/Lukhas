@@ -52,11 +52,14 @@ from typing import Any, Optional, Union
 # from core.common import LukhasError
 # Use built-in Exception if core.common not available
 try:
-    from core.common import LukhasError
+    from candidate.core.common import LukhasError
 except ImportError:
-    class LukhasError(Exception):
-        """Fallback error class"""
-        pass
+    try:
+        from core.common import LukhasError
+    except ImportError:
+        class LukhasError(Exception):
+            """Fallback error class"""
+            pass
 
 # Import memory components
 # TODO: Resolve import paths if these files are moved or structure changes.
@@ -89,6 +92,27 @@ except ImportError:
 
 # from AID.core.lambda_id import ID, AccessTier  # TODO: Install or implement AID
 # from AID.core.memory_identity import MemoryIdentityIntegration, MemoryAccessPolicy  # TODO: Install or implement AID
+
+# Create fallback classes for missing AID components
+class MemoryIdentityIntegration:
+    """Fallback class for AID MemoryIdentityIntegration"""
+    def __init__(self, *args, **kwargs):
+        pass
+
+class MemoryAccessPolicy:
+    """Fallback class for AID MemoryAccessPolicy"""
+    def __init__(self, *args, **kwargs):
+        pass
+
+class ID:
+    """Fallback class for AID ID"""
+    def __init__(self, *args, **kwargs):
+        pass
+
+class AccessTier:
+    """Fallback class for AID AccessTier"""
+    PRIVATE = "private"
+    PUBLIC = "public"
 # Assuming dream_reflection_loop is in CORE/dream_engine
 # from lukhas.consciousness.core_consciousness.dream_engine.dream_reflection_loop
 # import DreamReflectionLoop # Removed DREAM_CLUSTERING_AVAILABLE as it's

@@ -1,0 +1,49 @@
+# Identity & Authentication Service Contract
+name: identity-auth-service
+version: 1.0.0
+provider: identity-auth-specialist
+consumers:
+  - consent-compliance-specialist
+  - ux-feedback-specialist
+  - context-orchestrator-specialist
+
+endpoints:
+  authenticate:
+    method: POST
+    path: /auth/login
+    input:
+      - username: string
+      - passkey: WebAuthnCredential
+    output:
+      - lid: string  # LUKHAS ID
+      - token: JWT
+      - success: boolean
+    
+  validate_token:
+    method: POST
+    path: /auth/validate
+    input:
+      - token: JWT
+    output:
+      - valid: boolean
+      - lid: string
+      - permissions: array
+  
+  generate_lid:
+    method: POST
+    path: /identity/generate
+    input:
+      - namespace: string
+      - metadata: object
+    output:
+      - lid: string
+      - namespace_path: string
+
+performance_requirements:
+  - p95_latency: <100ms
+  - availability: 99.9%
+  
+security_requirements:
+  - zero_pii_leaks: true
+  - secure_token_storage: true
+  - passkey_compliance: WebAuthn2.0

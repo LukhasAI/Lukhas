@@ -1,0 +1,11 @@
+{
+  "demo_run": 1755487550.466362,
+  "user_lid": "USR-1755487549243-b194df85ed304b29-24ab0759",
+  "auth_success": true,
+  "trace_id": "LT-2d80d95fec954deaa2626de048d342ff",
+  "feedback_rating": 5,
+  "performance_metrics": {
+    "auth_ms": 0.08106231689453125,
+    "meets_target": true
+  }
+}

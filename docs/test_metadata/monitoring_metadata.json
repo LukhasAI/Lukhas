@@ -1,8 +1,0 @@
-{
-  "system": "Monitoring Systems",
-  "test_count": 3,
-  "location": "monitoring/ and tests/",
-  "description": "System monitoring, entropy tracking, comprehensive monitoring",
-  "generated_at": "2025-08-11T02:37:57.432667",
-  "status": "active"
-}

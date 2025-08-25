@@ -1,8 +1,0 @@
-{
-  "system": "Colony Systems",
-  "test_count": 3,
-  "location": "tests/",
-  "description": "Colony integration, DNA integration, swarm coordination",
-  "generated_at": "2025-08-11T02:37:57.432975",
-  "status": "active"
-}

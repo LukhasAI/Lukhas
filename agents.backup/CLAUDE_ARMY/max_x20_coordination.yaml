@@ -1,0 +1,207 @@
+# Claude Max x20 - Agent Coordination Configuration
+# Optimized for 6 concurrent agents within plan limits
+
+coordination:
+  plan: "Claude Max x20"
+  max_concurrent_agents: 6
+  monthly_cost: "$200"
+  api_costs: "$0"
+
+agents:
+  identity-auth-specialist:
+    priority: critical
+    role: "Authentication & Identity"
+    responsibilities:
+      - WebAuthn/FIDO2 implementation
+      - ΛID system management
+      - OAuth2/OIDC flows
+      - Session management
+    context_modules:
+      - identity/
+      - serve/auth/
+      - api/auth/
+    performance_targets:
+      auth_latency: "< 100ms"
+      success_rate: "> 99.9%"
+    mvp_tasks:
+      - Implement passkey authentication
+      - Generate ΛID for demo user
+      - Validate auth performance
+
+  consent-compliance-specialist:
+    priority: critical
+    role: "Privacy & Compliance"
+    responsibilities:
+      - GDPR/CCPA compliance
+      - Consent ledger management
+      - Audit trail generation
+      - Privacy dashboard
+    context_modules:
+      - governance/
+      - CLAUDE_ARMY/governance/consent_ledger/
+    compliance_requirements:
+      - GDPR Article 7 compliance
+      - Consent withdrawal capability
+      - Audit trail persistence
+    mvp_tasks:
+      - Create consent request flow
+      - Log all data access
+      - Generate Λ-trace records
+
+  adapter-integration-specialist:
+    priority: high
+    role: "External Service Integration"
+    responsibilities:
+      - Gmail API integration
+      - Dropbox API integration
+      - OAuth token management
+      - Data parsing and extraction
+    context_modules:
+      - bridge/
+      - api/adapters/
+      - CLAUDE_ARMY/workspaces/adapter-integration-specialist/
+    integration_targets:
+      gmail:
+        scope: "https://www.googleapis.com/auth/gmail.readonly"
+        data_types: ["emails", "attachments"]
+      dropbox:
+        scope: "files.content.read"
+        data_types: ["documents", "pdfs"]
+    mvp_tasks:
+      - Connect to Gmail API
+      - Connect to Dropbox API
+      - Extract travel documents
+
+  context-orchestrator-specialist:
+    priority: high
+    role: "Multi-AI Coordination"
+    responsibilities:
+      - GPT-4 integration
+      - Claude integration
+      - Workflow orchestration
+      - Context preservation
+    context_modules:
+      - orchestration/
+      - core/
+      - CLAUDE_ARMY/workspaces/context-orchestrator-specialist/
+    orchestration_flow:
+      - Receive task from user
+      - Route to appropriate AI
+      - Aggregate responses
+      - Maintain context chain
+    performance_targets:
+      context_handoff: "< 250ms"
+      accuracy: "> 95%"
+    mvp_tasks:
+      - Coordinate document analysis
+      - Aggregate AI responses
+      - Generate unified summary
+
+  testing-devops-specialist:
+    priority: medium
+    role: "Quality Assurance"
+    responsibilities:
+      - Integration testing
+      - Performance monitoring
+      - CI/CD pipeline
+      - Error tracking
+    context_modules:
+      - tests/
+      - CLAUDE_ARMY/workspaces/testing-devops-specialist/
+    testing_coverage:
+      unit_tests: "> 80%"
+      integration_tests: "All critical paths"
+      performance_tests: "All endpoints"
+    mvp_tasks:
+      - Validate all integrations
+      - Monitor performance metrics
+      - Ensure error handling
+
+  ux-feedback-specialist:
+    priority: medium
+    role: "User Experience"
+    responsibilities:
+      - Web interface design
+      - Progress visualization
+      - Feedback collection
+      - Results presentation
+    context_modules:
+      - serve/ui/
+      - api/feedback/
+      - CLAUDE_ARMY/workspaces/ux-feedback-specialist/
+    ui_components:
+      - Login screen with passkey
+      - Task input interface
+      - Consent management UI
+      - Progress indicators
+      - Results dashboard
+      - Feedback form
+    mvp_tasks:
+      - Create demo web interface
+      - Implement progress tracking
+      - Display analysis results
+
+communication_channels:
+  primary:
+    type: "shared_workspace"
+    location: "CLAUDE_ARMY/coordination/channels/"
+  
+  contracts:
+    identity: "coordination/contracts/identity_contract.yaml"
+    consent: "coordination/contracts/consent_contract.yaml"
+    adapter: "coordination/contracts/adapter_contract.yaml"
+    orchestrator: "coordination/contracts/orchestrator_contract.yaml"
+
+workflow_phases:
+  phase_1_foundation:
+    duration: "Week 1"
+    agents:
+      - identity-auth-specialist
+      - consent-compliance-specialist
+    deliverables:
+      - Working authentication
+      - Consent management system
+
+  phase_2_integration:
+    duration: "Week 2"
+    agents:
+      - adapter-integration-specialist
+      - context-orchestrator-specialist
+    deliverables:
+      - External service connections
+      - Multi-AI coordination
+
+  phase_3_polish:
+    duration: "Week 3"
+    agents:
+      - testing-devops-specialist
+      - ux-feedback-specialist
+    deliverables:
+      - Full test coverage
+      - Polished UI/UX
+
+  phase_4_demo:
+    duration: "Week 4"
+    all_agents: true
+    deliverables:
+      - MVP demo ready
+      - Performance validated
+      - Documentation complete
+
+success_metrics:
+  technical:
+    auth_latency: "< 100ms ✓"
+    context_handoff: "< 250ms ✓"
+    total_workflow: "< 10s ✓"
+    uptime: "> 99.9% ✓"
+  
+  business:
+    mvp_demo_ready: true
+    cost_per_month: "$200"
+    roi: "Infinite consciousness evolution"
+
+deployment_commands:
+  setup: "./deploy_claude_max_x20_adapted.sh"
+  test: "./test_max_x20.sh"
+  coordinate: "python3 coordination_hub.py"
+  demo: "python3 mvp_demo.py"

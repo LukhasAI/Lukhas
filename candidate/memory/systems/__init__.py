@@ -3,9 +3,16 @@ Memory Systems Module
 Unified memory system components for LUKHAS AI
 """
 
-from core.common import get_logger
-
-logger = get_logger(__name__)
+try:
+    from candidate.core.common import get_logger
+    logger = get_logger(__name__)
+except ImportError:
+    try:
+        from core.common import get_logger
+        logger = get_logger(__name__)
+    except ImportError:
+        import logging
+        logger = logging.getLogger(__name__)
 
 # Import core memory components
 try:

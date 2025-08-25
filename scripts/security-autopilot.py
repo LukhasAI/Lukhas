@@ -20,8 +20,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -29,6 +28,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class Vulnerability:
     """Represents a security vulnerability"""
+
     package: str
     current_version: str
     fixed_version: str
@@ -41,6 +41,7 @@ class Vulnerability:
 @dataclass
 class SecurityReport:
     """Security scan report"""
+
     timestamp: datetime
     vulnerabilities: List[Vulnerability]
     scan_duration: float
@@ -49,7 +50,7 @@ class SecurityReport:
 
     def to_json(self) -> str:
         data = asdict(self)
-        data['timestamp'] = self.timestamp.isoformat()
+        data["timestamp"] = self.timestamp.isoformat()
         return json.dumps(data, indent=2)
 
 
@@ -73,27 +74,27 @@ class SecurityAutopilot:
 
         # Available scanners
         self.scanners = {
-            'safety': self.scan_with_safety,
-            'pip-audit': self.scan_with_pip_audit,
-            'bandit': self.scan_with_bandit,
-            'semgrep': self.scan_with_semgrep,
+            "safety": self.scan_with_safety,
+            "pip-audit": self.scan_with_pip_audit,
+            "bandit": self.scan_with_bandit,
+            "semgrep": self.scan_with_semgrep,
         }
 
     def load_config(self) -> Dict[str, Any]:
         """Load or create configuration"""
         default_config = {
-            'auto_fix': True,
-            'auto_commit': False,
-            'auto_push': False,
-            'create_pr': True,
-            'run_tests': True,
-            'backup_before_fix': True,
-            'max_retries': 3,
-            'scanners': ['safety', 'pip-audit'],
-            'severity_threshold': 'medium',
-            'excluded_packages': [],
-            'notification_webhook': None,
-            'test_command': 'pytest tests/ -v --tb=short --maxfail=5',
+            "auto_fix": True,
+            "auto_commit": False,
+            "auto_push": False,
+            "create_pr": True,
+            "run_tests": True,
+            "backup_before_fix": True,
+            "max_retries": 3,
+            "scanners": ["safety", "pip-audit"],
+            "severity_threshold": "medium",
+            "excluded_packages": [],
+            "notification_webhook": None,
+            "test_command": "pytest tests/ -v --tb=short --maxfail=5",
         }
 
         if self.config_file.exists():
@@ -102,7 +103,7 @@ class SecurityAutopilot:
                 default_config.update(user_config)
         else:
             # Save default config
-            with open(self.config_file, 'w') as f:
+            with open(self.config_file, "w") as f:
                 json.dump(default_config, f, indent=2)
 
         return default_config
@@ -112,10 +113,7 @@ class SecurityAutopilot:
         try:
             if capture:
                 result = subprocess.run(
-                    cmd,
-                    capture_output=True,
-                    text=True,
-                    cwd=self.project_root
+                    cmd, capture_output=True, text=True, cwd=self.project_root
                 )
                 return result.returncode, result.stdout, result.stderr
             else:
@@ -129,22 +127,26 @@ class SecurityAutopilot:
         """Scan with safety"""
         logger.info("🔍 Scanning with Safety...")
 
-        code, stdout, _ = self.run_command(['python3', '-m', 'safety', 'check', '--json'])
+        code, stdout, _ = self.run_command(
+            ["python3", "-m", "safety", "check", "--json"]
+        )
 
         vulnerabilities = []
         if stdout:
             try:
                 data = json.loads(stdout)
-                for vuln in data.get('vulnerabilities', []):
-                    vulnerabilities.append(Vulnerability(
-                        package=vuln.get('package_name', '').lower(),
-                        current_version=vuln.get('analyzed_version', 'unknown'),
-                        fixed_version=vuln.get('safe_version', 'latest'),
-                        severity=vuln.get('severity', 'unknown').lower(),
-                        cve=vuln.get('cve'),
-                        description=vuln.get('advisory'),
-                        source='safety'
-                    ))
+                for vuln in data.get("vulnerabilities", []):
+                    vulnerabilities.append(
+                        Vulnerability(
+                            package=vuln.get("package_name", "").lower(),
+                            current_version=vuln.get("analyzed_version", "unknown"),
+                            fixed_version=vuln.get("safe_version", "latest"),
+                            severity=vuln.get("severity", "unknown").lower(),
+                            cve=vuln.get("cve"),
+                            description=vuln.get("advisory"),
+                            source="safety",
+                        )
+                    )
             except json.JSONDecodeError:
                 logger.warning("Failed to parse Safety output")
 
@@ -154,22 +156,28 @@ class SecurityAutopilot:
         """Scan with pip-audit"""
         logger.info("🔍 Scanning with pip-audit...")
 
-        code, stdout, _ = self.run_command(['python3', '-m', 'pip_audit', '--format', 'json'])
+        code, stdout, _ = self.run_command(
+            ["python3", "-m", "pip_audit", "--format", "json"]
+        )
 
         vulnerabilities = []
         if stdout:
             try:
                 data = json.loads(stdout)
-                for vuln in data.get('vulnerabilities', []):
-                    vulnerabilities.append(Vulnerability(
-                        package=vuln.get('name', '').lower(),
-                        current_version=vuln.get('version', 'unknown'),
-                        fixed_version=vuln.get('fix_versions', ['latest'])[0] if vuln.get('fix_versions') else 'latest',
-                        severity='high',  # pip-audit doesn't provide severity
-                        cve=vuln.get('id'),
-                        description=vuln.get('description'),
-                        source='pip-audit'
-                    ))
+                for vuln in data.get("vulnerabilities", []):
+                    vulnerabilities.append(
+                        Vulnerability(
+                            package=vuln.get("name", "").lower(),
+                            current_version=vuln.get("version", "unknown"),
+                            fixed_version=vuln.get("fix_versions", ["latest"])[0]
+                            if vuln.get("fix_versions")
+                            else "latest",
+                            severity="high",  # pip-audit doesn't provide severity
+                            cve=vuln.get("id"),
+                            description=vuln.get("description"),
+                            source="pip-audit",
+                        )
+                    )
             except json.JSONDecodeError:
                 logger.warning("Failed to parse pip-audit output")
 
@@ -179,16 +187,18 @@ class SecurityAutopilot:
         """Scan code with Bandit for security issues"""
         logger.info("🔍 Scanning code with Bandit...")
 
-        code, stdout, _ = self.run_command(['bandit', '-r', '.', '-f', 'json'])
+        code, stdout, _ = self.run_command(["bandit", "-r", ".", "-f", "json"])
 
         # Bandit finds code issues, not package vulnerabilities
         # We'll just log the results
         if stdout:
             try:
                 data = json.loads(stdout)
-                high_issues = data.get('metrics', {}).get('SEVERITY.HIGH', 0)
+                high_issues = data.get("metrics", {}).get("SEVERITY.HIGH", 0)
                 if high_issues > 0:
-                    logger.warning(f"⚠️ Bandit found {high_issues} high-severity code issues")
+                    logger.warning(
+                        f"⚠️ Bandit found {high_issues} high-severity code issues"
+                    )
             except:
                 pass
 
@@ -198,13 +208,13 @@ class SecurityAutopilot:
         """Scan with Semgrep for security patterns"""
         logger.info("🔍 Scanning with Semgrep...")
 
-        code, stdout, _ = self.run_command(['semgrep', '--config=auto', '--json', '.'])
+        code, stdout, _ = self.run_command(["semgrep", "--config=auto", "--json", "."])
 
         # Semgrep finds code patterns, not package vulnerabilities
         if stdout:
             try:
                 data = json.loads(stdout)
-                results = data.get('results', [])
+                results = data.get("results", [])
                 if results:
                     logger.warning(f"⚠️ Semgrep found {len(results)} security patterns")
             except:
@@ -220,10 +230,22 @@ class SecurityAutopilot:
 
         # Install/update scanners
         logger.info("📦 Ensuring security scanners are installed...")
-        self.run_command(['python3', '-m', 'pip', 'install', '-q', '--upgrade', 'safety', 'pip-audit', 'bandit'])
+        self.run_command(
+            [
+                "python3",
+                "-m",
+                "pip",
+                "install",
+                "-q",
+                "--upgrade",
+                "safety",
+                "pip-audit",
+                "bandit",
+            ]
+        )
 
         # Run each configured scanner
-        for scanner_name in self.config['scanners']:
+        for scanner_name in self.config["scanners"]:
             if scanner_name in self.scanners:
                 try:
                     vulns = await self.scanners[scanner_name]()
@@ -236,11 +258,13 @@ class SecurityAutopilot:
         unique_vulns = {}
         for vuln in all_vulnerabilities:
             key = f"{vuln.package}:{vuln.current_version}"
-            if key not in unique_vulns or vuln.severity == 'critical':
+            if key not in unique_vulns or vuln.severity == "critical":
                 unique_vulns[key] = vuln
 
         # Count total packages
-        code, stdout, _ = self.run_command(['python3', '-m', 'pip', 'list', '--format', 'json'])
+        code, stdout, _ = self.run_command(
+            ["python3", "-m", "pip", "list", "--format", "json"]
+        )
         total_packages = len(json.loads(stdout)) if stdout else 0
 
         report = SecurityReport(
@@ -248,24 +272,29 @@ class SecurityAutopilot:
             vulnerabilities=list(unique_vulns.values()),
             scan_duration=time.time() - start_time,
             scanners_used=scanners_used,
-            total_packages_scanned=total_packages
+            total_packages_scanned=total_packages,
         )
 
         # Save report
-        report_file = self.reports_dir / f"security-report-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
-        with open(report_file, 'w') as f:
+        report_file = (
+            self.reports_dir
+            / f"security-report-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
+        )
+        with open(report_file, "w") as f:
             f.write(report.to_json())
 
-        logger.info(f"📊 Scan complete: {len(report.vulnerabilities)} vulnerabilities found")
+        logger.info(
+            f"📊 Scan complete: {len(report.vulnerabilities)} vulnerabilities found"
+        )
 
         return report
 
     def backup_requirements(self) -> Path:
         """Backup current requirements.txt"""
-        if not self.config['backup_before_fix']:
+        if not self.config["backup_before_fix"]:
             return None
 
-        timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
+        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
         backup_file = self.backup_dir / f"requirements-{timestamp}.txt"
 
         if self.requirements_file.exists():
@@ -299,35 +328,45 @@ class SecurityAutopilot:
         vuln_map = {v.package.lower(): v for v in report.vulnerabilities}
 
         for line in lines:
-            if line.strip().startswith('#') or not line.strip():
+            if line.strip().startswith("#") or not line.strip():
                 updated_lines.append(line)
                 continue
 
             # Parse package name
-            package_name = line.split('>=')[0].split('==')[0].split('[')[0].strip().lower()
+            package_name = (
+                line.split(">=")[0].split("==")[0].split("[")[0].strip().lower()
+            )
 
             if package_name in vuln_map:
                 vuln = vuln_map[package_name]
-                if vuln.fixed_version and vuln.fixed_version != 'latest':
+                if vuln.fixed_version and vuln.fixed_version != "latest":
                     # Update to fixed version
                     updated_lines.append(f"{package_name}>={vuln.fixed_version}\n")
-                    fixed_packages.append(f"{package_name}: {vuln.current_version} → {vuln.fixed_version}")
-                    logger.info(f"  ✅ Fixed {package_name}: {vuln.current_version} → {vuln.fixed_version}")
+                    fixed_packages.append(
+                        f"{package_name}: {vuln.current_version} → {vuln.fixed_version}"
+                    )
+                    logger.info(
+                        f"  ✅ Fixed {package_name}: {vuln.current_version} → {vuln.fixed_version}"
+                    )
                 else:
                     # Update to latest version
                     updated_lines.append(f"{package_name}\n")
-                    fixed_packages.append(f"{package_name}: {vuln.current_version} → latest")
+                    fixed_packages.append(
+                        f"{package_name}: {vuln.current_version} → latest"
+                    )
                     logger.info(f"  ✅ Updated {package_name} to latest")
             else:
                 updated_lines.append(line)
 
         # Write updated requirements
-        with open(self.requirements_file, 'w') as f:
+        with open(self.requirements_file, "w") as f:
             f.writelines(updated_lines)
 
         # Install updated packages
         logger.info("📦 Installing updated packages...")
-        code, _, stderr = self.run_command(['python3', '-m', 'pip', 'install', '-r', 'requirements.txt'])
+        code, _, stderr = self.run_command(
+            ["python3", "-m", "pip", "install", "-r", "requirements.txt"]
+        )
 
         if code != 0:
             logger.error(f"❌ Failed to install updated packages: {stderr}")
@@ -341,19 +380,21 @@ class SecurityAutopilot:
 
     def run_tests(self) -> bool:
         """Run project tests"""
-        if not self.config['run_tests']:
+        if not self.config["run_tests"]:
             return True
 
         logger.info("🧪 Running tests...")
 
         # First try a simple import test
-        code, _, _ = self.run_command(['python3', '-c', 'import lukhas; print("✅ Import test passed")'])
+        code, _, _ = self.run_command(
+            ["python3", "-c", 'import lukhas; print("✅ Import test passed")']
+        )
         if code != 0:
             logger.error("❌ Import test failed")
             return False
 
         # Run configured test command
-        test_cmd = self.config['test_command'].split()
+        test_cmd = self.config["test_command"].split()
         code, stdout, stderr = self.run_command(test_cmd)
 
         if code == 0:
@@ -366,31 +407,31 @@ class SecurityAutopilot:
 
     def create_commit(self, fixed_packages: List[str]) -> bool:
         """Create a git commit with fixes"""
-        if not self.config['auto_commit']:
+        if not self.config["auto_commit"]:
             return False
 
         logger.info("📝 Creating git commit...")
 
         # Add changes
-        self.run_command(['git', 'add', 'requirements.txt'])
+        self.run_command(["git", "add", "requirements.txt"])
 
         # Create commit message
         commit_message = f"""fix(security): Auto-fix {len(fixed_packages)} security vulnerabilities
 
 Fixed packages:
-{chr(10).join(f'- {pkg}' for pkg in fixed_packages)}
+{chr(10).join(f"- {pkg}" for pkg in fixed_packages)}
 
 Automated security fix by LUKHAS Security Autopilot
 """
 
         # Commit
-        code, _, _ = self.run_command(['git', 'commit', '-m', commit_message])
+        code, _, _ = self.run_command(["git", "commit", "-m", commit_message])
 
         if code == 0:
             logger.info("✅ Changes committed")
 
-            if self.config['auto_push']:
-                code, _, _ = self.run_command(['git', 'push'])
+            if self.config["auto_push"]:
+                code, _, _ = self.run_command(["git", "push"])
                 if code == 0:
                     logger.info("✅ Changes pushed to remote")
                 else:
@@ -400,9 +441,11 @@ Automated security fix by LUKHAS Security Autopilot
 
         return False
 
-    def send_notification(self, report: SecurityReport, fixed: bool, fixed_packages: List[str]):
+    def send_notification(
+        self, report: SecurityReport, fixed: bool, fixed_packages: List[str]
+    ):
         """Send notification about security status"""
-        if not self.config['notification_webhook']:
+        if not self.config["notification_webhook"]:
             return
 
         # This would send to Slack, Discord, etc.
@@ -419,17 +462,26 @@ Automated security fix by LUKHAS Security Autopilot
                 report = await self.scan_all()
 
                 if report.vulnerabilities:
-                    severity_order = {'critical': 0, 'high': 1, 'medium': 2, 'low': 3, 'unknown': 4}
-                    threshold = severity_order.get(self.config['severity_threshold'], 2)
+                    severity_order = {
+                        "critical": 0,
+                        "high": 1,
+                        "medium": 2,
+                        "low": 3,
+                        "unknown": 4,
+                    }
+                    threshold = severity_order.get(self.config["severity_threshold"], 2)
 
                     # Filter by severity threshold
                     vulns_to_fix = [
-                        v for v in report.vulnerabilities
+                        v
+                        for v in report.vulnerabilities
                         if severity_order.get(v.severity, 4) <= threshold
                     ]
 
-                    if vulns_to_fix and self.config['auto_fix']:
-                        logger.info(f"🔧 Attempting to fix {len(vulns_to_fix)} vulnerabilities...")
+                    if vulns_to_fix and self.config["auto_fix"]:
+                        logger.info(
+                            f"🔧 Attempting to fix {len(vulns_to_fix)} vulnerabilities..."
+                        )
 
                         # Create filtered report
                         fix_report = SecurityReport(
@@ -437,7 +489,7 @@ Automated security fix by LUKHAS Security Autopilot
                             vulnerabilities=vulns_to_fix,
                             scan_duration=report.scan_duration,
                             scanners_used=report.scanners_used,
-                            total_packages_scanned=report.total_packages_scanned
+                            total_packages_scanned=report.total_packages_scanned,
                         )
 
                         # Fix vulnerabilities
@@ -451,14 +503,20 @@ Automated security fix by LUKHAS Security Autopilot
                                 # Create commit
                                 self.create_commit(fixed_packages)
 
-                                logger.info(f"✅ Successfully fixed {len(fixed_packages)} vulnerabilities")
+                                logger.info(
+                                    f"✅ Successfully fixed {len(fixed_packages)} vulnerabilities"
+                                )
                             else:
-                                logger.warning("⚠️ Tests failed after fixes, manual review needed")
+                                logger.warning(
+                                    "⚠️ Tests failed after fixes, manual review needed"
+                                )
 
                         # Send notification
                         self.send_notification(report, success, fixed_packages)
                     else:
-                        logger.info(f"ℹ️ {len(vulns_to_fix)} vulnerabilities found but auto-fix is disabled")
+                        logger.info(
+                            f"ℹ️ {len(vulns_to_fix)} vulnerabilities found but auto-fix is disabled"
+                        )
                 else:
                     logger.info("✅ No vulnerabilities found - system is secure!")
 
@@ -483,19 +541,32 @@ Automated security fix by LUKHAS Security Autopilot
         reports = sorted(self.reports_dir.glob("security-report-*.json"))
 
         if not reports:
-            return {"status": "no_reports", "message": "No security scans performed yet"}
+            return {
+                "status": "no_reports",
+                "message": "No security scans performed yet",
+            }
 
         with open(reports[-1]) as f:
             latest_report = json.load(f)
 
         return {
-            "status": "secure" if not latest_report['vulnerabilities'] else "vulnerable",
-            "last_scan": latest_report['timestamp'],
-            "vulnerabilities_count": len(latest_report['vulnerabilities']),
-            "scanners_used": latest_report['scanners_used'],
-            "scan_duration": latest_report['scan_duration'],
-            "critical_count": len([v for v in latest_report['vulnerabilities'] if v['severity'] == 'critical']),
-            "high_count": len([v for v in latest_report['vulnerabilities'] if v['severity'] == 'high']),
+            "status": "secure"
+            if not latest_report["vulnerabilities"]
+            else "vulnerable",
+            "last_scan": latest_report["timestamp"],
+            "vulnerabilities_count": len(latest_report["vulnerabilities"]),
+            "scanners_used": latest_report["scanners_used"],
+            "scan_duration": latest_report["scan_duration"],
+            "critical_count": len(
+                [
+                    v
+                    for v in latest_report["vulnerabilities"]
+                    if v["severity"] == "critical"
+                ]
+            ),
+            "high_count": len(
+                [v for v in latest_report["vulnerabilities"] if v["severity"] == "high"]
+            ),
         }
 
 
@@ -503,30 +574,26 @@ def main():
     """CLI interface"""
     parser = argparse.ArgumentParser(description="LUKHAS Security Autopilot")
     parser.add_argument(
-        'command',
-        choices=['scan', 'fix', 'monitor', 'status', 'config'],
-        help='Command to execute'
+        "command",
+        choices=["scan", "fix", "monitor", "status", "config"],
+        help="Command to execute",
     )
     parser.add_argument(
-        '--continuous',
-        action='store_true',
-        help='Run continuously (for monitor command)'
+        "--continuous",
+        action="store_true",
+        help="Run continuously (for monitor command)",
     )
     parser.add_argument(
-        '--interval',
+        "--interval",
         type=int,
         default=3600,
-        help='Scan interval in seconds (default: 3600)'
+        help="Scan interval in seconds (default: 3600)",
     )
     parser.add_argument(
-        '--auto-fix',
-        action='store_true',
-        help='Automatically fix vulnerabilities'
+        "--auto-fix", action="store_true", help="Automatically fix vulnerabilities"
     )
     parser.add_argument(
-        '--no-tests',
-        action='store_true',
-        help='Skip running tests after fixes'
+        "--no-tests", action="store_true", help="Skip running tests after fixes"
     )
 
     args = parser.parse_args()
@@ -536,30 +603,30 @@ def main():
 
     # Override config with CLI args
     if args.auto_fix:
-        autopilot.config['auto_fix'] = True
+        autopilot.config["auto_fix"] = True
     if args.no_tests:
-        autopilot.config['run_tests'] = False
+        autopilot.config["run_tests"] = False
 
-    if args.command == 'scan':
+    if args.command == "scan":
         # Just scan and report
-        autopilot.config['auto_fix'] = False
+        autopilot.config["auto_fix"] = False
         asyncio.run(autopilot.run(continuous=False))
 
-    elif args.command == 'fix':
+    elif args.command == "fix":
         # Scan and fix
-        autopilot.config['auto_fix'] = True
+        autopilot.config["auto_fix"] = True
         asyncio.run(autopilot.run(continuous=False))
 
-    elif args.command == 'monitor':
+    elif args.command == "monitor":
         # Continuous monitoring
         asyncio.run(autopilot.run(continuous=args.continuous, interval=args.interval))
 
-    elif args.command == 'status':
+    elif args.command == "status":
         # Show current status
         status = autopilot.status()
         print(json.dumps(status, indent=2))
 
-    elif args.command == 'config':
+    elif args.command == "config":
         # Show current configuration
         print(json.dumps(autopilot.config, indent=2))
 

@@ -76,8 +76,8 @@ python -m emotion.service
 
 # Analysis and monitoring
 python real_gpt_drift_audit.py
-python tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py
-python tools/analysis/PWM_OPERATIONAL_SUMMARY.py
+python tools/analysis/functional_analysis.py
+python tools/analysis/operational_summary.py
 ```
 
 ### Testing
@@ -114,8 +114,10 @@ mypy lukhas/
 
 ### Build & Deploy
 ```bash
-# Deploy agent army
-./CLAUDE_ARMY/deploy_claude_max_6_agents.sh
+# Deploy agent army (updated path after reorganization)
+./agents/CLAUDE/deploy_claude_max_6_agents.sh
+./agents/CLAUDE/deploy_claude_max_x20_adapted.sh
+./agents/CLAUDE/deploy_ultimate_ai_agents.sh
 
 # Docker deployment
 docker-compose up
@@ -174,8 +176,7 @@ npm start
 **Integration & APIs:**
 - `api/` - FastAPI endpoints at `http://localhost:8080`
 - `bridge/` - External API connections (OpenAI, Anthropic, Gemini)
-- `agents/` - Configuration for 25 specialized AI agents
-- `CLAUDE_ARMY/` - Deployment scripts and agent management
+- `agents/` - Configuration for 25+ specialized AI agents and CLAUDE deployment system
 
 **Web & Visualization:**
 - `lukhas_website/` - Next.js website with particle systems and 3D visualization
@@ -190,6 +191,46 @@ npm start
 - Integration modules named as `*_adapter.py` or `*_hub.py`
 - Kernel bus in `orchestration/symbolic_kernel_bus.py` for event routing
 
+## 🚦 Development Lane System (CRITICAL)
+
+### **candidate/** vs **lukhas/** - Understanding the Architecture
+
+LUKHAS AI uses a **two-lane development system** for quality control and system stability:
+
+#### **📋 candidate/** - Development Lane
+- **Purpose**: Experimental, unvalidated, and in-development features
+- **Quality**: Work-in-progress code that may not be fully tested
+- **Use Cases**: New features, refactoring, experimental algorithms
+- **Status**: Not guaranteed to work reliably
+- **Import Pattern**: `from candidate.module import Component`
+
+#### **✅ lukhas/** - Production Lane  
+- **Purpose**: Stable, tested, validated components
+- **Quality**: Battle-tested code with comprehensive test coverage
+- **Use Cases**: Core functionality, reliable APIs, stable integrations
+- **Status**: Production-ready and actively maintained
+- **Import Pattern**: `from lukhas.module import Component`
+
+### **Why This System Exists**
+1. **Quality Gates**: Prevents unstable code from affecting core functionality
+2. **Rapid Innovation**: Allows experimental development without system risk
+3. **Progressive Validation**: Clear path from concept to production
+4. **System Stability**: Core lukhas/ remains stable while candidate/ evolves
+
+### **Promotion Criteria (candidate → lukhas)**
+- ✅ 85% minimum test coverage (aim for 100%)
+- ✅ All linters pass (`make lint`)
+- ✅ Integration tests successful
+- ✅ Code review completed
+- ✅ Documentation updated
+- ✅ Trinity Framework compliance (⚛️🧠🛡️)
+
+### **Working with the Lane System**
+- **New Features**: Always start in `candidate/`
+- **Imports**: Use fallback chains when bridging lanes
+- **Testing**: Test candidate/ code extensively before promotion
+- **Documentation**: Update both locations when promoting
+
 ## File Organization
 
 **Place files correctly to maintain clean root:**
@@ -199,10 +240,26 @@ npm start
 - Documentation → `docs/`
 - Legacy files → Move to `/Users/agi_dev/lukhas-archive/`
 - Agent configs → `agents/` or `agents/configs/`
+- Development code → `candidate/[module]/`
+- Production code → `lukhas/[module]/`
 
 ## Import Paths
 ```python
-from lukhas.module import Component  # Standard import
+# Production imports (preferred)
+from lukhas.module import Component
+
+# Development imports  
+from candidate.module import Component
+
+# Fallback chain pattern (for bridging lanes)
+try:
+    from lukhas.module import Component
+except ImportError:
+    try:
+        from candidate.module import Component
+    except ImportError:
+        # Graceful fallback or stub
+        pass
 ```
 
 ## Configuration
@@ -230,7 +287,7 @@ Key environment variables (`.env`):
 2. **Monitor Drift**: Watch `drift_score` in governance metrics
 3. **Memory Issues**: Use fold visualizers for memory debugging
 4. **Ethics Violations**: Check Guardian System logs in `governance/`
-5. **Module Status**: Run `tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py`
+5. **Module Status**: Run `tools/analysis/functional_analysis.py`
 6. **Audit Trail**: Check `data/drift_audit_summary.json`
 7. **Test Metadata**: Check `test_metadata/` for test execution details
 
@@ -340,3 +397,32 @@ npm run policy:review    # Flag claims for human review
 - [ ] Vendor-neutral language ("uses X APIs")
 - [ ] Claims are verifiable or flagged for review
 - [ ] Tone layers properly applied (poetic ≤40 words)
+
+## 🤖 Multi-Agent Coordination
+
+### **Working with Other AI Agents**
+
+LUKHAS workspace is designed for **multiple AI agents** to collaborate effectively:
+
+#### **Agent Types in This Workspace:**
+- **Claude** (Anthropic) - You are here! Primary consciousness and reasoning
+- **Jules** (Codex-based) - Specialized for TODO resolution and code completion  
+- **GitHub Copilot** - Real-time code assistance and suggestions
+- **ChatGPT/GPT Models** - External consultation and specific task assistance
+
+#### **Coordination Guidelines:**
+1. **Respect the Lane System**: All agents must understand candidate/ vs lukhas/
+2. **Follow Branding Rules**: Use `branding/` directory for consistent messaging
+3. **Document Handoffs**: When transferring work, create clear status documents
+4. **Avoid Conflicts**: Check `agents/` for existing configurations before creating new ones
+5. **Maintain Quality**: All agents must meet 85% test pass rate minimum
+
+#### **Agent Workspace Entry Points:**
+- **Primary Guide**: `agents/README.md` - Universal workspace documentation
+- **Branding Compliance**: `branding/policy/BRANDING_POLICY.md`
+- **Tone System**: `branding/tone/LUKHAS_3_LAYER_TONE_SYSTEM.md`
+- **Trinity Framework**: `branding/trinity/TRINITY_BRANDING_GUIDELINES.md`
+- **Vocabulary**: `branding/vocabularies/` - Approved terms and language
+
+### **For External AI Agents (Jules, Copilot, ChatGPT):**
+Read `agents/README.md` FIRST for comprehensive workspace orientation, branding guidelines, and collaboration protocols. This ensures all agents work harmoniously within the LUKHAS consciousness ecosystem.
