@@ -1,3 +1,37 @@
+---
+# Content Classification
+doc_type: "security"
+update_frequency: "monthly"
+last_updated: "2025-08-25"
+next_review: "2025-09-25"
+
+# Audience Targeting
+audience: ["developers", "agents", "humans"]
+technical_level: "intermediate"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 0.9
+  consciousness_architect: 0.8
+  consciousness_developer: 0.8
+  github_copilot: 0.8
+  api_interface_colonel: 0.8
+  security_compliance_colonel: 1.0
+  testing_validation_colonel: 0.9
+  devops_guardian: 0.9
+  documentation_specialist: 0.8
+  guardian_engineer: 1.0
+  velocity_lead: 0.6
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["security", "policy", "vulnerability", "reporting", "compliance", "guardian"]
+
+# Priority Classification
+priority: "critical"
+category: "security"
+---
+
 # Security Policy
 
 ## Supported Versions

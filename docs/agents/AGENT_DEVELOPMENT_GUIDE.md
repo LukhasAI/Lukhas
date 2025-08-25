@@ -1,3 +1,37 @@
+---
+# Content Classification
+doc_type: "guide"
+update_frequency: "monthly"
+last_updated: "2025-08-25"
+next_review: "2025-09-25"
+
+# Audience Targeting
+audience: ["developers", "agents"]
+technical_level: "advanced"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 1.0
+  consciousness_architect: 1.0
+  consciousness_developer: 1.0
+  github_copilot: 0.9
+  api_interface_colonel: 0.8
+  security_compliance_colonel: 0.8
+  testing_validation_colonel: 0.9
+  devops_guardian: 0.8
+  documentation_specialist: 0.9
+  guardian_engineer: 0.8
+  velocity_lead: 0.8
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["development", "guide", "agents", "component", "template", "workflow", "nias", "dast", "abas"]
+
+# Priority Classification
+priority: "critical"
+category: "agents"
+---
+
 # 🤖 LUKHAS AI Agent Development Guide
 **Complete Development Context for Any LUKHAS Component**
 

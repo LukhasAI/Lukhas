@@ -1,3 +1,37 @@
+---
+# Content Classification
+doc_type: "architecture"
+update_frequency: "quarterly"
+last_updated: "2025-08-25"
+next_review: "2025-11-25"
+
+# Audience Targeting
+audience: ["developers", "agents"]
+technical_level: "expert"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 1.0
+  consciousness_architect: 1.0
+  consciousness_developer: 0.9
+  github_copilot: 0.8
+  api_interface_colonel: 0.7
+  security_compliance_colonel: 0.8
+  testing_validation_colonel: 0.8
+  devops_guardian: 0.7
+  documentation_specialist: 0.9
+  guardian_engineer: 0.8
+  velocity_lead: 0.8
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["architecture", "neuroplastic", "modules", "consolidation", "hybrid components", "superposition", "hormone system"]
+
+# Priority Classification
+priority: "critical"
+category: "architecture"
+---
+
 # LUKHAS  Neuroplastic Architecture
 *Version 2.0.0 - Post-Consolidation*
 

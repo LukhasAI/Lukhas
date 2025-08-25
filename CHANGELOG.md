@@ -1,3 +1,37 @@
+---
+# Content Classification
+doc_type: "development"
+update_frequency: "release"
+last_updated: "2025-08-25"
+next_review: "2025-09-25"
+
+# Audience Targeting
+audience: ["developers", "agents", "humans"]
+technical_level: "intermediate"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 0.7
+  consciousness_architect: 0.7
+  consciousness_developer: 0.8
+  github_copilot: 0.8
+  api_interface_colonel: 0.7
+  security_compliance_colonel: 0.7
+  testing_validation_colonel: 0.8
+  devops_guardian: 0.9
+  documentation_specialist: 0.9
+  guardian_engineer: 0.6
+  velocity_lead: 0.8
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["changelog", "releases", "versions", "updates", "history"]
+
+# Priority Classification
+priority: "critical"
+category: "development"
+---
+
 # Changelog
 
 All notable changes to LUKHAS AI will be documented in this file.

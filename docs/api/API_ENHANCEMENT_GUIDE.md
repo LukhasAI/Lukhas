@@ -1,3 +1,37 @@
+---
+# Content Classification
+doc_type: "api"
+update_frequency: "fixed"
+last_updated: "2025-08-25"
+next_review: "2026-08-25"
+
+# Audience Targeting
+audience: ["developers", "agents"]
+technical_level: "advanced"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 0.8
+  consciousness_architect: 0.8
+  consciousness_developer: 0.9
+  github_copilot: 0.8
+  api_interface_colonel: 1.0
+  security_compliance_colonel: 0.8
+  testing_validation_colonel: 0.9
+  devops_guardian: 0.8
+  documentation_specialist: 0.9
+  guardian_engineer: 0.7
+  velocity_lead: 0.7
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["api", "enhancement", "guide", "v2", "endpoints", "sdk", "client", "restful"]
+
+# Priority Classification
+priority: "critical"
+category: "api"
+---
+
 # LUKHAS API Enhancement Guide
 
 ## Overview

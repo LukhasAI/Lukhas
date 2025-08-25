@@ -1,3 +1,37 @@
+---
+# Content Classification
+doc_type: "guide"
+update_frequency: "monthly"
+last_updated: "2025-08-25"
+next_review: "2025-09-25"
+
+# Audience Targeting
+audience: ["agents", "developers"]
+technical_level: "intermediate"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 1.0
+  consciousness_architect: 1.0
+  consciousness_developer: 1.0
+  github_copilot: 1.0
+  api_interface_colonel: 1.0
+  security_compliance_colonel: 1.0
+  testing_validation_colonel: 1.0
+  devops_guardian: 1.0
+  documentation_specialist: 1.0
+  guardian_engineer: 1.0
+  velocity_lead: 1.0
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["navigation", "guide", "agents", "directory", "structure", "components", "files", "map"]
+
+# Priority Classification
+priority: "critical"
+category: "agents"
+---
+
 # LUKHAS AI - Agent Navigation Guide
 
 **Comprehensive Directory Structure & Component Location Guide for AI Agents**
