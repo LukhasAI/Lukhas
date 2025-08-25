@@ -20,6 +20,8 @@ interface StateLayoutProps {
 export default function StateLayout({ children }: StateLayoutProps) {
   const pathname = usePathname()
   const isStudioRoute = pathname.startsWith('/studio')
+  const isSettingsRoute = pathname.startsWith('/settings')
+  const isAppRoute = isStudioRoute || isSettingsRoute
   const [currentState, setCurrentState] = useState<LayoutState>('BOOT')
   const [consentGiven, setConsentGiven] = useState(false)
   const [consentType, setConsentType] = useState<'none' | 'essential' | 'full'>('none')
@@ -121,8 +123,8 @@ export default function StateLayout({ children }: StateLayoutProps) {
     }
   }, [currentState])
 
-  // Early return for Studio routes - they handle their own layout
-  if (isStudioRoute) {
+  // Early return for app routes - they handle their own layout
+  if (isAppRoute) {
     return <>{children}</>
   }
 
@@ -186,22 +188,18 @@ export default function StateLayout({ children }: StateLayoutProps) {
                 Explore LUKHAS
               </button>
               <div className="w-px h-4 bg-white/20" />
-              {consentType === 'full' ? (
-                <a
-                  href="/studio"
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors text-sm"
-                >
-                  Enter LUKHΛS Studio
-                </a>
-              ) : (
-                <button
-                  onClick={handleChangePreferences}
-                  className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white/80 rounded-full transition-colors text-sm border border-white/20"
-                  title="Full consent required for Studio access"
-                >
-                  Studio (Requires Consent)
-                </button>
-              )}
+              <a
+                href="/studio"
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors text-sm"
+              >
+                Enter LUKHΛS Studio
+              </a>
+              <a
+                href="/settings/layout"
+                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-colors text-sm"
+              >
+                Settings
+              </a>
             </div>
           </div>
         </>

@@ -1,15 +1,15 @@
 {
   // GitHub Copilot Integration - Secondary AI Assistant
-  "github.copilot.enable": true,
-  "github.copilot.inlineSuggest.enable": true,
+  "github.copilot.enable": false, // Temporarily disabled to reduce AI assistant conflicts
+  "github.copilot.inlineSuggest.enable": false, // Temporarily disabled
   "github.copilot.suggestionDelay": 500,
   "github.copilot.advanced": false,
-  "github.copilot.enableCompletions": true,
-  "github.copilot.enablePanel": true,
+  "github.copilot.enableCompletions": false, // Temporarily disabled
+  "github.copilot.enablePanel": false, // Temporarily disabled
   "github.copilot.enableAutoCompletions": false,
   "github.copilot.enableTabCompletions": false,
-  "github.copilot.enableStatusBar": true,
-  "github.copilot.enableSuggestions": true,
+  "github.copilot.enableStatusBar": false, // Temporarily disabled
+  "github.copilot.enableSuggestions": false, // Temporarily disabled
   "github.copilot.enableInNotebooks": true,
   "github.copilot.enableInTerminal": false,
   "github.copilot.enableInComments": false,
@@ -152,7 +152,7 @@
   "editor.tabCompletion": "on",
   // Enhanced Autosave Configuration - PREVENT DATA LOSS
   "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000,
+  "files.autoSaveDelay": 3000, // Increased from 1000ms to reduce disk I/O
   "files.autoGuessEncoding": true,
   "files.hotExit": "onExitAndWindowClose",
   "workbench.editor.restoreViewState": true,
@@ -160,7 +160,7 @@
   "workbench.editor.enablePreviewFromQuickOpen": false,
   // Backup and Recovery Enhancement
   "files.enableTrash": true,
-  "editor.largeFileOptimizations": false,
+  "editor.largeFileOptimizations": true, // Enabled for better memory handling
   "workbench.editor.untitled.hint": "hidden",
   "workbench.editor.closeOnFileDelete": false,
   // Session Recovery
@@ -249,5 +249,22 @@
       "strings": "off",
       "other": "off"
     }
-  }
+  },
+  // Performance and Memory Optimizations
+  "extensions.experimental.affinity": {
+    "charliermarsh.ruff": 1,
+    "ms-python.python": 1,
+    "ms-python.vscode-pylance": 2
+  },
+  "files.maxMemoryForLargeFilesMB": 2048,
+  "editor.maxTokenizationLineLength": 20000,
+  "terminal.integrated.scrollback": 1000,
+  "search.followSymlinks": false,
+  "search.maxResults": 10000,
+  "typescript.tsserver.maxTsServerMemory": 2048,
+  "window.zoomLevel": 0,
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.value": 10,
+  "extensions.autoUpdate": false,
+  "update.mode": "manual"
 }

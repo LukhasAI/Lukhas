@@ -104,6 +104,12 @@ const nextConfig = {
   },
   async rewrites() {
     return [
+      // New API service rewrites for development - all point to dev server
+      { source: "/api/identity/:path*", destination: "http://localhost:7402/:path*" },
+      { source: "/api/wallet/:path*",   destination: "http://localhost:7402/:path*" },
+      { source: "/api/qrg/:path*",      destination: "http://localhost:7402/:path*" },
+      { source: "/api/consent/:path*",  destination: "http://localhost:7402/:path*" },
+      // Legacy LUKHAS backend fallback
       {
         source: '/api/:path*',
         destination: 'http://localhost:8000/:path*', // LUKHAS backend

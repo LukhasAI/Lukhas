@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Inter Variable Font */
+@font-face {
+  font-family: "InterVar";
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/InterVariable.woff2?v=4.1") format("woff2");
+}
+
 @layer base {
   :root {
     --background: 0 0% 0%;
@@ -19,6 +28,31 @@
     --trinity-consciousness: 168, 85, 247;
     --trinity-guardian: 34, 197, 94;
     --accent-gold: 251, 191, 36;
+    
+    /* Glass morphism theme tokens - dimmer, not pitch-black; subtle blue lift */
+    --bg: #0c1018;
+    --panel: rgba(16,20,29,0.55);         /* translucent */
+    --panel-heavy: rgba(16,20,29,0.75);   /* for side rails */
+    --line: #1d2440;
+    --line2: #2a395a;
+    --text: #e9eefb;
+    --muted: #a9b4d2;
+    --radius-lg: 18px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+    --shadow-1: 0 20px 60px rgba(0,0,0,.45);
+    --shadow-2: 0 30px 80px rgba(0,0,0,.55);
+    --shadow-inset: inset 0 1px 0 rgba(255,255,255,.05);
+    
+    /* motion budget */
+    --ease: cubic-bezier(.2,.8,.2,1);
+    --dur-quick: 120ms;
+    --dur: 200ms;
+    --dur-slow: 220ms;
+    
+    /* type ramp */
+    --fs-11: 11px; --fs-13: 13px; --fs-15: 15px; --fs-18: 18px; --fs-22: 22px; --fs-28: 28px;
+    --lh-tight: 1.15; --lh-normal: 1.35;
   }
 
   * {
@@ -33,9 +67,41 @@
   }
 
   body {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "InterVar", ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  /* "Glass" utility for panels that should show the neural bg */
+  .glass {
+    background: var(--panel);
+    backdrop-filter: saturate(140%) blur(18px);
+    -webkit-backdrop-filter: saturate(140%) blur(18px);
+    box-shadow: var(--shadow-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+  }
+
+  /* Type utilities */
+  .t-11 { font-size: var(--fs-11); line-height: var(--lh-normal); }
+  .t-13 { font-size: var(--fs-13); line-height: var(--lh-normal); }
+  .t-15 { font-size: var(--fs-15); line-height: var(--lh-normal); }
+  .t-18 { font-size: var(--fs-18); line-height: var(--lh-normal); }
+  .t-22 { font-size: var(--fs-22); line-height: var(--lh-tight); }
+  .t-28 { font-size: var(--fs-28); line-height: var(--lh-tight); }
+
+  /* Focus visibility */
+  *:focus-visible { 
+    outline: 2px solid #5b8aff; 
+    outline-offset: 2px; 
+    border-radius: 8px;
+  }
+
+  /* Motion audit */
+  * { 
+    transition: background var(--dur) var(--ease), 
+                border-color var(--dur) var(--ease), 
+                color var(--dur) var(--ease);
   }
 
   /* LUKHΛS Brand Typography */
@@ -99,9 +165,8 @@
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation: none !important;
+    transition: none !important;
     scroll-behavior: auto !important;
   }
   

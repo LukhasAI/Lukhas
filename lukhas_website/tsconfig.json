@@ -24,7 +24,10 @@
       "@/lib/*": ["./lib/*"],
       "@/styles/*": ["./styles/*"],
       "@/hooks/*": ["./hooks/*"],
-      "@/types/*": ["./types/*"]
+      "@/types/*": ["./types/*"],
+      "@lukhas/models/*": ["./packages/models/*"],
+      "@lukhas/orchestrator/*": ["./packages/orchestrator/*"],
+      "@lukhas/agent-commands/*": ["./packages/agent-commands/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

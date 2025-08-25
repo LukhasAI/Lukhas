@@ -3,11 +3,11 @@
     "name": "lukhas-website",
     "description": "Unified AI-powered workspace with one input, context-aware UI, multi-agent orchestration, and an extensible widget ecosystem.",
     "version": "1.0.0",
-  "created": "2025-06-26",
-  "last_updated": "2025-08-23",
-  "aliases": ["Lukhas Studio", "LucasStudio"],
-  "domains": ["lukhas.ai", "lukhas.io"],
-  "status": "web→studio journey; wallet/token planned"
+    "created": "2025-06-26",
+    "last_updated": "2025-08-23",
+    "aliases": ["Lukhas Studio", "LucasStudio"],
+    "domains": ["lukhas.ai", "lukhas.io"],
+    "status": "web→studio journey; wallet/token planned"
   },
   "vision": {
     "tagline": "One box. One brain. All your tools.",
@@ -25,7 +25,12 @@
     ]
   },
   "product_scope": {
-    "personas": ["Solo developer", "Agency team", "Power user/creator", "Enterprise admin"],
+    "personas": [
+      "Solo developer",
+      "Agency team",
+      "Power user/creator",
+      "Enterprise admin"
+    ],
     "initial_use_cases": [
       "Author once → route to GPT-4o/O3/DALL·E/Sora in parallel and unify responses.",
       "Unified inbox: aggregate email/DM/agent replies into one ranked thread.",
@@ -35,20 +40,30 @@
   },
   "ux": {
     "layout": {
-      "regions": ["top_context_area", "unified_input", "left_sidebar", "right_dock", "status_bar"],
-  "transitions": "smooth, 120fps target; reversible collapse/restore for chat, docks, and top bar; theatrical staged entrance across landing → studio"
+      "regions": [
+        "top_context_area",
+        "unified_input",
+        "left_sidebar",
+        "right_dock",
+        "status_bar"
+      ],
+      "transitions": "smooth, 120fps target; reversible collapse/restore for chat, docks, and top bar; theatrical staged entrance across landing → studio"
     },
     "unified_input": {
       "modes": ["chat", "code", "edit", "command"],
-      "mode_detection": ["slash-commands", "code heuristics", "document focus", "user override"],
+      "mode_detection": [
+        "slash-commands",
+        "code heuristics",
+        "document focus",
+        "user override"
+      ],
       "shortcuts": {
         "toggle_fullscreen_context": "Space",
         "command_palette": "Cmd/Ctrl+K",
         "switch_mode": "Cmd/Ctrl+1..4"
-      }
-  ,
-  "send_targets": ["agent", "email", "sms", "doc", "notes"],
-  "send_button_behavior": { "hover_menu": true, "default_target": "agent" }
+      },
+      "send_targets": ["agent", "email", "sms", "doc", "notes"],
+      "send_button_behavior": { "hover_menu": true, "default_target": "agent" }
     },
     "context_area": {
       "states": ["canvas", "preview", "player", "dashboard"],
@@ -69,7 +84,11 @@
     },
     "accessibility": {
       "targets": ["WCAG 2.2 AA"],
-      "features": ["keyboard-first navigation", "screen-reader roles", "reduced-motion mode"]
+      "features": [
+        "keyboard-first navigation",
+        "screen-reader roles",
+        "reduced-motion mode"
+      ]
     }
   },
   "routes": {
@@ -92,7 +111,14 @@
     "sessions": {
       "token_type": "short-lived JWT + rotating refresh",
       "aud": ["studio", "wallet", "api_gateway"],
-      "scopes": ["read", "write", "admin", "wallet:transact", "qrg:issue", "nias:consent"]
+      "scopes": [
+        "read",
+        "write",
+        "admin",
+        "wallet:transact",
+        "qrg:issue",
+        "nias:consent"
+      ]
     },
     "consent": {
       "namespace": "ΛSENT",
@@ -101,7 +127,12 @@
     },
     "mfa_policy": {
       "default": "adaptive",
-      "signals": ["new_device", "risky_geo", "high_value_tx", "policy_override"],
+      "signals": [
+        "new_device",
+        "risky_geo",
+        "high_value_tx",
+        "policy_override"
+      ],
       "ui": ["inline_prompt", "QR_scan_for_QRG", "hardware_key"]
     },
     "identity_graph_links": {
@@ -211,33 +242,73 @@
   },
   "architecture": {
     "frontend": {
-      "stack": ["React", "Vite", "TypeScript", "Web Components for shared primitives"],
-      "composition": ["micro-frontends (single-spa / module federation)", "client-side composition"],
+      "stack": [
+        "React",
+        "Vite",
+        "TypeScript",
+        "Web Components for shared primitives"
+      ],
+      "composition": [
+        "micro-frontends (single-spa / module federation)",
+        "client-side composition"
+      ],
       "state": ["event bus", "CRDT/OT for collaborative edits (future)"]
     },
     "backend": {
-      "services": ["core-api gateway", "orchestration engine", "message-processor", "widget-registry", "auth-service", "cloud-adapters"],
-      "patterns": ["API gateway", "event-driven (Kafka/Kinesis)", "Change Data Capture for sync"]
+      "services": [
+        "core-api gateway",
+        "orchestration engine",
+        "message-processor",
+        "widget-registry",
+        "auth-service",
+        "cloud-adapters"
+      ],
+      "patterns": [
+        "API gateway",
+        "event-driven (Kafka/Kinesis)",
+        "Change Data Capture for sync"
+      ]
     },
     "ai_orchestration": {
       "providers_initial": ["OpenAI: GPT-4o, O3, DALL·E, Sora"],
-      "routing": ["intent detection", "tool invocation", "parallel fan-out", "result unification"],
+      "routing": [
+        "intent detection",
+        "tool invocation",
+        "parallel fan-out",
+        "result unification"
+      ],
       "explanations": "Every privileged action emits Λ-trace + natural language rationale."
     },
     "integration_first": {
       "cloud": ["Google Drive", "Dropbox", "OneDrive"],
       "communications": ["Gmail (read/compose)", "generic IMAP (phase 2)"],
-  "media": ["YouTube", "Netflix (partner)"]
+      "media": ["YouTube", "Netflix (partner)"]
     }
   },
   "security_compliance": {
     "identity": ["ΛID namespace", "WebAuthn/passkeys", "OIDC"],
-    "consent": ["capability tokens per adapter", "scopes mapped to least privilege", "auditable consent ledger"],
-    "policy_hot_path": ["rate limits", "jailbreak hygiene", "duress/shadow gesture", "require_step_up (GTΨ)"],
-    "pii": ["client-side redaction", "server-side detectors", "encrypted-at-rest"],
-    "telemetry": ["structured events", "opt-in analytics", "privacy budgets"]
-  ,
-  "rewards_consents": ["NIAS opt-in recorded", "Affiliate attribution transparent", "Revocable at any time"]
+    "consent": [
+      "capability tokens per adapter",
+      "scopes mapped to least privilege",
+      "auditable consent ledger"
+    ],
+    "policy_hot_path": [
+      "rate limits",
+      "jailbreak hygiene",
+      "duress/shadow gesture",
+      "require_step_up (GTΨ)"
+    ],
+    "pii": [
+      "client-side redaction",
+      "server-side detectors",
+      "encrypted-at-rest"
+    ],
+    "telemetry": ["structured events", "opt-in analytics", "privacy budgets"],
+    "rewards_consents": [
+      "NIAS opt-in recorded",
+      "Affiliate attribution transparent",
+      "Revocable at any time"
+    ]
   },
   "performance": {
     "targets": {
@@ -251,17 +322,22 @@
     "UL_ENABLED": false,
     "VIVOX_LITE": false,
     "QIM_SANDBOX": false,
-    "MARKETPLACE_ENABLED": true
-  ,
-  "STUDIO_LANDING": true,
-  "COMMUNICATIONS_HUB": true,
-  "WALLET_ENABLED": true,
-  "TOKEN_ENABLED": true,
-  "NIAS_ENABLED": true
+    "MARKETPLACE_ENABLED": true,
+    "STUDIO_LANDING": true,
+    "COMMUNICATIONS_HUB": true,
+    "WALLET_ENABLED": true,
+    "TOKEN_ENABLED": true,
+    "NIAS_ENABLED": true
   },
   "roadmap_week1": {
-    "day1": ["Generate code index & import map", "Define bus_schema_version=v1"],
-    "day2": ["Establish accepted/candidate structure", "Add compatibility shims"],
+    "day1": [
+      "Generate code index & import map",
+      "Define bus_schema_version=v1"
+    ],
+    "day2": [
+      "Establish accepted/candidate structure",
+      "Add compatibility shims"
+    ],
     "day3": ["CI guardrails (import-linter, PII scan)", "Canary: bio"],
     "day4": ["Canary: memory & colony interfaces"],
     "day5": ["Adapters security canary", "Policy tripwires"],
@@ -273,17 +349,18 @@
     "Zero quarantine imports in production",
     "No PII linter findings",
     "Auth p95 < 100ms; context p95 < 250ms",
-    "User CSAT ≥ 4.5/5 for first cohort"
-  ,
-  "First token earn→spend loop completed by ≥30% of new users",
-  "≥50% of NIAS payouts correctly attributed and settled in under 24h"
+    "User CSAT ≥ 4.5/5 for first cohort",
+    "First token earn→spend loop completed by ≥30% of new users",
+    "≥50% of NIAS payouts correctly attributed and settled in under 24h"
   ],
   "changelog": [
     {
       "date": "2025-08-12",
       "change": "Replaced narrative draft with structured, production-ready specification JSON."
+    },
+    {
+      "date": "2025-08-23",
+      "change": "Added WΛLLET, LUK token economy (Solana default with XRPL bridge), NIAS consented payouts, routes, feature flags, security consents, and journey clarifications."
     }
-  ,
-  { "date": "2025-08-23", "change": "Added WΛLLET, LUK token economy (Solana default with XRPL bridge), NIAS consented payouts, routes, feature flags, security consents, and journey clarifications." }
   ]
 }
