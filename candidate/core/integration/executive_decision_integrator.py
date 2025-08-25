@@ -57,9 +57,11 @@ try:
         ExplainabilityInterfaceLayer,
     )
     from dream.hyperspace_dream_simulator import HyperspaceDreamSimulator
-
-    from lukhas.memory.privacy_preserving_memory_vault import PrivacyPreservingMemoryVault
     from orchestration.human_in_the_loop_orchestrator import HumanInTheLoopOrchestrator
+
+    from lukhas.memory.privacy_preserving_memory_vault import (
+        PrivacyPreservingMemoryVault,
+    )
     from reasoning.causal_program_inducer import CausalProgramInducer
 
     CEO_MODULES_AVAILABLE = True
@@ -651,32 +653,85 @@ class WorkflowOrchestrator:
 
     # Helper methods for creating module-specific requests
     async def _create_ethical_decision_from_request(self, request: IntegrationRequest):
-        """ΛSTUB: Create MEG ethical decision from integration request."""
-        # ΛTODO: Implement proper MEG decision creation
+        """Create MEG ethical decision from integration request."""
+        # A mock decision object. In a real scenario, this would be a structured object.
+        decision = {
+            "decision_id": request.request_id,
+            "context": "Ethical evaluation of initial request",
+            "proposed_action": request.input_data.get("action", "unknown_action"),
+            "parameters": request.input_data,
+            "metadata": request.metadata,
+        }
+        return decision
 
     async def _create_explanation_request(
         self, request: IntegrationRequest, results: dict[str, Any]
     ):
-        """ΛSTUB: Create XIL explanation request."""
-        # ΛTODO: Implement proper XIL request creation
+        """Create XIL explanation request."""
+        # A mock explanation request.
+        explanation_request = {
+            "decision_id": request.request_id,
+            "complexity": "medium",
+            "target_audience": "technical_auditor",
+            "related_data": {
+                "ethical_evaluation": results.get("ethical_evaluation"),
+                "input_data": request.input_data,
+            },
+        }
+        return explanation_request
 
     async def _create_hitlo_decision_context(
         self, request: IntegrationRequest, results: dict[str, Any]
     ):
-        """ΛSTUB: Create HITLO decision context."""
-        # ΛTODO: Implement proper HITLO context creation
+        """Create HITLO decision context."""
+        # A mock HITLO context.
+        context = {
+            "decision_id": request.request_id,
+            "summary": f"Review required for workflow {request.workflow_type.value}",
+            "details": {
+                "input": request.input_data,
+                "ethical_verdict": results.get("ethical_evaluation", {}).get("verdict"),
+                "explanation": results.get("explanation", {}).get("natural_language"),
+            },
+            "priority": request.priority,
+            "assignee_pool": "level_2_ethics_officers",
+        }
+        return context
 
     async def _create_ethical_decision_from_causal_analysis(
         self, request: IntegrationRequest, results: dict[str, Any]
     ):
-        """ΛSTUB: Create MEG decision from causal analysis."""
-        # ΛTODO: Implement causal-to-ethical decision mapping
+        """Create MEG decision from causal analysis."""
+        # A mock decision object based on causal analysis.
+        decision = {
+            "decision_id": f"{request.request_id}_causal",
+            "context": "Ethical evaluation of causal analysis results",
+            "proposed_action": "log_causal_findings",
+            "parameters": {
+                "causal_graph": results.get("causal_graph"),
+                "intervention_analysis": results.get("intervention_analysis"),
+            },
+            "metadata": request.metadata,
+        }
+        return decision
 
     async def _create_privacy_decision_context(
         self, request: IntegrationRequest, results: dict[str, Any]
     ):
-        """ΛSTUB: Create privacy-focused decision context."""
-        # ΛTODO: Implement privacy decision context creation
+        """Create privacy-focused decision context for HITLO."""
+        # A mock privacy-focused HITLO context.
+        context = {
+            "decision_id": f"{request.request_id}_privacy",
+            "summary": "Review of privacy-sensitive operations",
+            "details": {
+                "query_results": results.get("query_results"),
+                "privacy_explanation": results.get("privacy_explanation"),
+                "data_sensitivity": request.input_data.get("data_sensitivity"),
+            },
+            "priority": "high",
+            "assignee_pool": "privacy_compliance_officers",
+        }
+        return context
 
 
 class CEOAttitudeIntegrationHub:

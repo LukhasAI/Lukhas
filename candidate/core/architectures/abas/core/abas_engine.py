@@ -49,10 +49,40 @@ class ConflictDetector:
     async def detect_conflicts(
         self, current: dict[str, Any], proposed: dict[str, Any]
     ) -> list[str]:
-        # TODO: integrate dependency analysis
+        """Detects conflicts by analyzing dependencies between state dictionaries."""
+        conflicts = []
         if self.orchestrator:
+            # In a real scenario, full context might be used for deeper analysis.
             _ = await self.orchestrator.context_manager.get_full_context()
-        return []
+
+        # Basic dependency analysis simulation
+        conflicts.extend(self._analyze_dependencies(current, proposed))
+
+        logger.info(f"Conflict detection found {len(conflicts)} conflicts.")
+        return conflicts
+
+    def _analyze_dependencies(
+        self, current: dict[str, Any], proposed: dict[str, Any]
+    ) -> list[str]:
+        """
+        A simple dependency analysis simulation.
+        Checks for overlapping keys with different values.
+        """
+        conflicts = []
+        current_keys = set(current.keys())
+        proposed_keys = set(proposed.keys())
+
+        overlapping_keys = current_keys.intersection(proposed_keys)
+
+        for key in overlapping_keys:
+            if current[key] != proposed[key]:
+                conflict_msg = (
+                    f"Dependency conflict on key '{key}': "
+                    f"current value '{current[key]}' vs proposed value '{proposed[key]}'"
+                )
+                conflicts.append(conflict_msg)
+
+        return conflicts
 
 
 class ResolutionAlgorithm:

@@ -46,7 +46,9 @@ AIDEA: Add circadian rhythm patterns for natural energy cycles
 
 import asyncio
 import json
+import os
 import threading
+import time
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
@@ -222,8 +224,17 @@ class EnergyAwareExecutionPlanner:
             "reliability": 0.3,
         }
 
+        # For distributed coordination
+        self.node_id = f"node_{threading.get_ident()}"
+        self.node_energy_states = {}  # Stores energy states of other nodes
+        self.simulation_mode = (
+            os.getenv("LUKHAS_SIMULATION_MODE", "true").lower() == "true"
+        )
+
         self.logger.info(
             "Energy-Aware Execution Planner initialized",
+            node_id=self.node_id,
+            simulation_mode=self.simulation_mode,
             total_capacity=self.energy_budget.total_capacity,
             initial_energy=self.energy_budget.current_available,
         )
@@ -453,14 +464,27 @@ class EnergyAwareExecutionPlanner:
 
             # Energy level optimization
             if energy_utilization > 0.9:
-                recommendations.append(
-                    {
-                        "type": "energy_conservation",
-                        "action": "switch_to_conservation_profile",
-                        "priority": "high",
-                        "reason": "Energy utilization above 90%",
-                    }
-                )
+                # If energy is low, first try to get some from peers
+                energy_needed = self.energy_budget.total_capacity * 0.2
+                received_energy = self._request_energy_from_peers(energy_needed)
+                if received_energy > 0:
+                    self.energy_budget.current_available += received_energy
+                    recommendations.append(
+                        {
+                            "type": "distributed_coordination",
+                            "action": "received_energy_from_peer",
+                            "amount": received_energy,
+                        }
+                    )
+                else:
+                    recommendations.append(
+                        {
+                            "type": "energy_conservation",
+                            "action": "switch_to_conservation_profile",
+                            "priority": "high",
+                            "reason": "Energy utilization above 90% and no peer energy available",
+                        }
+                    )
             elif energy_utilization < 0.3:
                 recommendations.append(
                     {
@@ -528,6 +552,9 @@ class EnergyAwareExecutionPlanner:
     def get_energy_metrics(self) -> dict[str, Any]:
         """Get comprehensive energy usage metrics"""
         try:
+            # Simulate sharing state with other nodes before getting metrics
+            self._share_energy_state()
+
             current_time = datetime.now(timezone.utc)
 
             # Update metrics
@@ -977,6 +1004,44 @@ class EnergyAwareExecutionPlanner:
         return (
             datetime.now(timezone.utc) + timedelta(seconds=estimated_delay)
         ).isoformat()
+
+    # --- Distributed Energy Coordination Methods ---
+
+    def _share_energy_state(self):
+        """Simulates sharing the current node's energy state with other nodes."""
+        # In a real system, this would use a messaging queue like Redis Pub/Sub
+        state_payload = {
+            "node_id": self.node_id,
+            "available_energy": self.energy_budget.current_available,
+            "utilization": (
+                1
+                - self.energy_budget.current_available
+                / self.energy_budget.total_capacity
+            ),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
+        # Simulate other nodes receiving this state
+        # For this simulation, we'll just log it.
+        self.logger.debug("Simulating energy state broadcast", state=state_payload)
+
+    def _receive_energy_state(self, node_id: str, state: dict[str, Any]):
+        """Simulates receiving an energy state update from another node."""
+        self.node_energy_states[node_id] = state
+        self.logger.debug(f"Received energy state from {node_id}", state=state)
+
+    def _request_energy_from_peers(self, amount_needed: float) -> float:
+        """Simulates requesting energy from peer nodes."""
+        # Simple simulation: find a node with surplus energy
+        for node_id, state in self.node_energy_states.items():
+            if (
+                state.get("available_energy", 0) > amount_needed * 2
+            ):  # Has plenty to spare
+                self.logger.info(
+                    f"Simulating energy transfer of {amount_needed} from {node_id}"
+                )
+                # In reality, this would involve a complex transaction
+                return amount_needed  # Successfully "received" energy
+        return 0.0
 
 
 # Factory function for Lukhas integration

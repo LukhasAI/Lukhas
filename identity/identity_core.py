@@ -169,7 +169,7 @@ class IdentityCore:
                         # Implement token refresh mechanism
                         logger.info(f"Token expired, attempting refresh for user: {metadata.get('user_id', 'unknown')}")
                         # Mark for refresh rather than immediate failure
-                        metadata[\"needs_refresh\"] = True
+                        metadata["needs_refresh"] = True
                         self._token_store[token] = metadata
                         return False, None
 

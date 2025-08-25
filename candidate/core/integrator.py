@@ -538,9 +538,6 @@ class EnhancedCoreIntegrator:
         )
         return status_report
 
-    # ΛTODO: Implement broadcast_event and subscribe_to_event methods more fully.
-    # These are currently stubs and require proper implementation for
-    # event-driven architecture.
     @lukhas_tier_required(1)
     def broadcast_event(
         self,
@@ -549,21 +546,59 @@ class EnhancedCoreIntegrator:
         source_component_id: Optional[str] = None,
     ) -> int:
         """
-        Broadcasts an event to all subscribed components. (Currently a STUB)
+        Broadcasts an event to all subscribed components.
+        Supports both synchronous and asynchronous callbacks.
         """
+        import asyncio
+
         event_id = f"evt_{uuid.uuid4().hex[:10]}"
-        log.warning(
-            "broadcast_event is a STUB and not fully implemented.",
+        log.info(
+            "Broadcasting event.",
             event_id=event_id,
             event_type=event_type,
-            source_component_id=source_component_id or "CoreIntegrator",
+            source_id=source_component_id or "CoreIntegrator",
         )
-        # Actual implementation would iterate self.event_subscribers[event_type]
-        # and call their callbacks, possibly asynchronously.
-        # For now, it simulates no subscribers.
-        # if self.bio_orchestrator and hasattr(self.bio_orchestrator, 'process_event'):
-        #    self.bio_orchestrator.process_event({"id": event_id, "type": event_type, "data": event_data, "source": source_component_id})
-        return 0  # Number of components notified
+
+        subscribers = self.event_subscribers.get(event_type, [])
+        if not subscribers:
+            log.debug("No subscribers for event type.", event_type=event_type)
+            return 0
+
+        full_event_data = {
+            "id": event_id,
+            "type": event_type,
+            "source_id": source_component_id,
+            "data": event_data,
+            "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
+        }
+
+        notification_count = 0
+        for sub in subscribers:
+            try:
+                callback = sub["callback"]
+                if asyncio.iscoroutinefunction(callback):
+                    asyncio.create_task(callback(full_event_data))
+                else:
+                    callback(full_event_data)
+                notification_count += 1
+            except Exception as e:
+                log.error(
+                    "Error calling event subscriber callback.",
+                    event_type=event_type,
+                    component_id=sub.get("component_id"),
+                    error=str(e),
+                    exc_info=True,
+                )
+
+        if self.bio_orchestrator and hasattr(self.bio_orchestrator, "process_event"):
+            self.bio_orchestrator.process_event(full_event_data)
+
+        log.info(
+            "Event broadcast complete.",
+            event_id=event_id,
+            notified_count=notification_count,
+        )
+        return notification_count
 
     @lukhas_tier_required(0)
     def subscribe_to_event(
@@ -573,18 +608,26 @@ class EnhancedCoreIntegrator:
         component_id: Optional[str] = None,
     ) -> bool:
         """
-        Subscribes a component's callback to a specific event type. (Currently a STUB)
+        Subscribes a component's callback to a specific event type.
         """
-        log.warning(
-            "subscribe_to_event is a STUB and not fully implemented.",
+        if not callable(callback_function):
+            log.error("Provided callback is not callable.", component_id=component_id)
+            return False
+
+        subscriber_info = {
+            "component_id": component_id,
+            "callback": callback_function,
+            "subscribed_at_utc_iso": datetime.now(timezone.utc).isoformat(),
+        }
+        self.event_subscribers[event_type].append(subscriber_info)
+
+        log.info(
+            "Component subscribed to event.",
             event_type=event_type,
             component_id=component_id or "UnknownSubscriber",
             callback_name=getattr(callback_function, "__name__", "unnamed_callback"),
         )
-        # Actual implementation:
-        # subscriber_info = {"component_id": component_id, "callback": callback_function, "subscribed_at_utc_iso": datetime.now(timezone.utc).isoformat()}
-        # self.event_subscribers[event_type].append(subscriber_info)
-        return True  # Simulates successful subscription
+        return True
 
 
 # --- LUKHΛS AI Standard Footer ---

@@ -43,14 +43,34 @@ class TemporalColony(BaseColony):
     def _apply_operations(
         self, state: dict[str, Any], operations: list[dict[str, Any]]
     ) -> None:
+        if "glyphs" not in state:
+            state["glyphs"] = []
+        if "metadata" not in state:
+            state["metadata"] = {}
+
         for op in operations:
-            if op.get("type") == "add_glyph":
-                state.setdefault("glyphs", []).append(op.get("value"))
-            elif op.get("type") == "remove_glyph" and op.get("value") in state.get(
-                "glyphs", []
-            ):
-                state["glyphs"].remove(op.get("value"))
-            # ✅ TODO: implement more operation types
+            op_type = op.get("type")
+            value = op.get("value")
+
+            if op_type == "add_glyph":
+                state["glyphs"].append(value)
+            elif op_type == "remove_glyph" and value in state["glyphs"]:
+                state["glyphs"].remove(value)
+            elif op_type == "update_glyph":
+                old_value = op.get("old_value")
+                if old_value in state["glyphs"]:
+                    index = state["glyphs"].index(old_value)
+                    state["glyphs"][index] = value
+            elif op_type == "clear_glyphs":
+                state["glyphs"] = []
+            elif op_type == "set_metadata":
+                key = op.get("key")
+                if key:
+                    state["metadata"][key] = value
+            elif op_type == "remove_metadata":
+                key = op.get("key")
+                if key in state["metadata"]:
+                    del state["metadata"][key]
 
     def simulate_future_state(
         self,
