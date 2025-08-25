@@ -19,9 +19,10 @@ import datetime
 import logging
 from typing import Any
 
-from orchestration_src.brain.context_analyzer import ContextAnalyzer
-from orchestration_src.brain.memory.memory_manager import MemoryManager
-from orchestration_src.brain.subsystems.compliance_engine import ComplianceEngine
+# Import actual implementations
+from candidate.memory.voice_memory_manager import MemoryManager
+from candidate.memory.temporal.ContextAnalyzer import ContextAnalyzer
+from candidate.core.interfaces.voice.voice_emotional.context_aware_modular_voice import ComplianceEngine
 
 from .modulator import VoiceModulator
 from .safety.voice_safety_guard import SafetyGuard

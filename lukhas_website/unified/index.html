@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUKHAS Unified Consciousness Visualizer</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #e8eef5;
+            overflow: hidden;
+        }
+        
+        #lukhas-visualizer {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(180deg, rgba(10,10,15,1) 0%, rgba(10,10,15,0) 100%);
+            z-index: 1000;
+            pointer-events: none;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, #FF6B9D, #00D4FF, #7C3AED);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            pointer-events: auto;
+        }
+        
+        .controls-panel {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 320px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            z-index: 1001;
+        }
+        
+        .control-section {
+            margin-bottom: 24px;
+        }
+        
+        .control-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .control-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #8b92a1;
+        }
+        
+        .control-input {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #e8eef5;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .control-input:focus {
+            outline: none;
+            border-color: #00D4FF;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        select.control-input {
+            cursor: pointer;
+        }
+        
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        
+        .btn {
+            padding: 10px 16px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #e8eef5;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #00D4FF, #7C3AED);
+            border: none;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #00D4FF, #FF6B9D);
+        }
+        
+        .slider-container {
+            margin-top: 8px;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #00D4FF;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: #00D4FF;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .stats-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px 20px;
+            z-index: 1000;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            min-width: 200px;
+        }
+        
+        .stat-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .stat-label {
+            color: #8b92a1;
+        }
+        
+        .stat-value {
+            color: #00D4FF;
+            font-weight: 600;
+        }
+        
+        .voice-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,212,255,0.3), rgba(0,212,255,0));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        
+        .voice-indicator.active {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #0a0a0f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+        
+        .loading-content {
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #00D4FF;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 14px;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="lukhas-visualizer"></div>
+    
+    <div class="header">
+        <h1>LUKHAS UNIFIED CONSCIOUSNESS VISUALIZER</h1>
+    </div>
+    
+    <div class="controls-panel">
+        <div class="control-section">
+            <label class="control-label">Visualization Mode</label>
+            <select id="mode-select" class="control-input">
+                <option value="sphere">Sphere</option>
+                <option value="cube">Cube</option>
+                <option value="torus">Torus</option>
+                <option value="helix">DNA Helix</option>
+                <option value="heart">Heart</option>
+                <option value="dna">Double Helix</option>
+                <option value="galaxy">Galaxy</option>
+            </select>
+        </div>
+        
+        <div class="control-section">
+            <label class="control-label">Text Morphing</label>
+            <input type="text" id="text-input" class="control-input" placeholder="Enter text to visualize...">
+            <div class="button-group" style="margin-top: 8px;">
+                <button class="btn" onclick="morphToText()">Morph</button>
+                <button class="btn" onclick="clearText()">Clear</button>
+            </div>
+        </div>
+        
+        <div class="control-section">
+            <label class="control-label">Voice Control</label>
+            <div class="button-group">
+                <button id="voice-btn" class="btn" onclick="toggleVoice()">Enable Voice</button>
+                <button class="btn" onclick="calibrateVoice()">Calibrate</button>
+            </div>
+        </div>
+        
+        <div class="control-section">
+            <label class="control-label">Consciousness Controls</label>
+            <div class="slider-container">
+                <label style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span>Awareness</span>
+                    <span id="awareness-value">0.5</span>
+                </label>
+                <input type="range" id="awareness-slider" class="slider" min="0" max="1" step="0.01" value="0.5">
+            </div>
+            <div class="slider-container" style="margin-top: 12px;">
+                <label style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span>Coherence</span>
+                    <span id="coherence-value">0.5</span>
+                </label>
+                <input type="range" id="coherence-slider" class="slider" min="0" max="1" step="0.01" value="0.5">
+            </div>
+            <div class="slider-container" style="margin-top: 12px;">
+                <label style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span>Morph Speed</span>
+                    <span id="speed-value">0.02</span>
+                </label>
+                <input type="range" id="speed-slider" class="slider" min="0.001" max="0.1" step="0.001" value="0.02">
+            </div>
+        </div>
+        
+        <div class="control-section">
+            <label class="control-label">Presets</label>
+            <div class="button-group">
+                <button class="btn" onclick="loadPreset('meditation')">Meditation</button>
+                <button class="btn" onclick="loadPreset('creative')">Creative</button>
+                <button class="btn" onclick="loadPreset('emotional')">Emotional</button>
+                <button class="btn" onclick="loadPreset('balanced')">Balanced</button>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary" style="width: 100%; margin-top: 16px;" onclick="resetVisualization()">
+            Reset Visualization
+        </button>
+    </div>
+    
+    <div class="stats-panel">
+        <div class="stat-row">
+            <span class="stat-label">Particles:</span>
+            <span class="stat-value" id="particle-count">20000</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">FPS:</span>
+            <span class="stat-value" id="fps">60</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Shape:</span>
+            <span class="stat-value" id="current-shape">sphere</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Voice:</span>
+            <span class="stat-value" id="voice-status">inactive</span>
+        </div>
+    </div>
+    
+    <div class="voice-indicator" id="voice-indicator">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+        </svg>
+    </div>
+    
+    <div class="loading-overlay" id="loading">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div>Initializing LUKHAS Consciousness...</div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    
+    <!-- Load visualization modules -->
+    <script src="unified_consciousness_visualizer.js"></script>
+    
+    <script>
+        let visualizer = null;
+        let voiceEnabled = false;
+        let fpsCounter = 0;
+        let lastFpsUpdate = Date.now();
+        
+        // Initialize visualizer
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Create visualizer instance
+                visualizer = new UnifiedConsciousnessVisualizer({
+                    containerId: 'lukhas-visualizer',
+                    particleCount: 20000,
+                    enableVoice: false,
+                    enableText: true,
+                    enableConsciousness: true
+                });
+                
+                // Hide loading overlay
+                setTimeout(() => {
+                    const loading = document.getElementById('loading');
+                    loading.style.opacity = '0';
+                    setTimeout(() => loading.style.display = 'none', 500);
+                }, 1000);
+                
+                // Setup controls
+                setupControls();
+                
+                // Start FPS counter
+                updateStats();
+                
+                showNotification('LUKHAS Visualizer Ready');
+                
+            } catch (error) {
+                console.error('Failed to initialize visualizer:', error);
+                showNotification('Error: ' + error.message, 'error');
+            }
+        });
+        
+        function setupControls() {
+            // Mode select
+            document.getElementById('mode-select').addEventListener('change', (e) => {
+                if (visualizer) {
+                    visualizer.morphToShape(e.target.value);
+                    document.getElementById('current-shape').textContent = e.target.value;
+                }
+            });
+            
+            // Awareness slider
+            document.getElementById('awareness-slider').addEventListener('input', (e) => {
+                const value = parseFloat(e.target.value);
+                document.getElementById('awareness-value').textContent = value.toFixed(2);
+                if (visualizer) {
+                    visualizer.updateConsciousnessState({ awareness: value });
+                }
+            });
+            
+            // Coherence slider
+            document.getElementById('coherence-slider').addEventListener('input', (e) => {
+                const value = parseFloat(e.target.value);
+                document.getElementById('coherence-value').textContent = value.toFixed(2);
+                if (visualizer) {
+                    visualizer.updateConsciousnessState({ coherence: value });
+                }
+            });
+            
+            // Speed slider
+            document.getElementById('speed-slider').addEventListener('input', (e) => {
+                const value = parseFloat(e.target.value);
+                document.getElementById('speed-value').textContent = value.toFixed(3);
+                if (visualizer) {
+                    visualizer.morphSpeed = value;
+                }
+            });
+            
+            // Text input
+            document.getElementById('text-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    morphToText();
+                }
+            });
+        }
+        
+        function morphToText() {
+            const text = document.getElementById('text-input').value;
+            if (text && visualizer) {
+                visualizer.morphToText(text);
+                showNotification(`Morphing to: "${text}"`);
+            }
+        }
+        
+        function clearText() {
+            document.getElementById('text-input').value = '';
+            if (visualizer) {
+                visualizer.morphToShape('sphere');
+            }
+        }
+        
+        async function toggleVoice() {
+            const btn = document.getElementById('voice-btn');
+            const indicator = document.getElementById('voice-indicator');
+            
+            if (!voiceEnabled) {
+                try {
+                    // Request microphone permission
+                    await navigator.mediaDevices.getUserMedia({ audio: true });
+                    
+                    if (visualizer && visualizer.voiceAnalyzer) {
+                        voiceEnabled = true;
+                        btn.textContent = 'Disable Voice';
+                        btn.style.background = 'linear-gradient(135deg, #00D4FF, #7C3AED)';
+                        indicator.classList.add('active');
+                        document.getElementById('voice-status').textContent = 'active';
+                        showNotification('Voice control enabled');
+                    }
+                } catch (error) {
+                    showNotification('Microphone access denied', 'error');
+                }
+            } else {
+                voiceEnabled = false;
+                btn.textContent = 'Enable Voice';
+                btn.style.background = '';
+                indicator.classList.remove('active');
+                document.getElementById('voice-status').textContent = 'inactive';
+                showNotification('Voice control disabled');
+            }
+        }
+        
+        function calibrateVoice() {
+            if (voiceEnabled) {
+                showNotification('Voice calibration in progress...');
+                // Implement voice calibration logic
+            } else {
+                showNotification('Enable voice first', 'error');
+            }
+        }
+        
+        function loadPreset(preset) {
+            const presets = {
+                meditation: {
+                    shape: 'sphere',
+                    awareness: 0.9,
+                    coherence: 0.8,
+                    speed: 0.01
+                },
+                creative: {
+                    shape: 'galaxy',
+                    awareness: 0.7,
+                    coherence: 0.6,
+                    speed: 0.03
+                },
+                emotional: {
+                    shape: 'heart',
+                    awareness: 0.5,
+                    coherence: 0.7,
+                    speed: 0.025
+                },
+                balanced: {
+                    shape: 'torus',
+                    awareness: 0.5,
+                    coherence: 0.5,
+                    speed: 0.02
+                }
+            };
+            
+            const config = presets[preset];
+            if (config && visualizer) {
+                // Apply preset
+                document.getElementById('mode-select').value = config.shape;
+                document.getElementById('awareness-slider').value = config.awareness;
+                document.getElementById('coherence-slider').value = config.coherence;
+                document.getElementById('speed-slider').value = config.speed;
+                
+                // Update displays
+                document.getElementById('awareness-value').textContent = config.awareness.toFixed(2);
+                document.getElementById('coherence-value').textContent = config.coherence.toFixed(2);
+                document.getElementById('speed-value').textContent = config.speed.toFixed(3);
+                
+                // Apply to visualizer
+                visualizer.morphToShape(config.shape);
+                visualizer.updateConsciousnessState({
+                    awareness: config.awareness,
+                    coherence: config.coherence
+                });
+                visualizer.morphSpeed = config.speed;
+                
+                showNotification(`Loaded ${preset} preset`);
+            }
+        }
+        
+        function resetVisualization() {
+            if (visualizer) {
+                // Reset to defaults
+                visualizer.morphToShape('sphere');
+                visualizer.updateConsciousnessState({
+                    awareness: 0.5,
+                    coherence: 0.5,
+                    depth: 2
+                });
+                visualizer.morphSpeed = 0.02;
+                
+                // Reset UI
+                document.getElementById('mode-select').value = 'sphere';
+                document.getElementById('awareness-slider').value = 0.5;
+                document.getElementById('coherence-slider').value = 0.5;
+                document.getElementById('speed-slider').value = 0.02;
+                document.getElementById('awareness-value').textContent = '0.50';
+                document.getElementById('coherence-value').textContent = '0.50';
+                document.getElementById('speed-value').textContent = '0.020';
+                document.getElementById('text-input').value = '';
+                
+                showNotification('Visualization reset');
+            }
+        }
+        
+        function updateStats() {
+            setInterval(() => {
+                if (visualizer) {
+                    const state = visualizer.getState();
+                    document.getElementById('particle-count').textContent = state.particleCount;
+                    document.getElementById('current-shape').textContent = state.currentShape;
+                    
+                    // Calculate FPS
+                    const now = Date.now();
+                    const delta = now - lastFpsUpdate;
+                    if (delta >= 1000) {
+                        const fps = Math.round(state.fps);
+                        document.getElementById('fps').textContent = fps;
+                        lastFpsUpdate = now;
+                    }
+                }
+            }, 100);
+        }
+        
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification show';
+            
+            if (type === 'error') {
+                notification.style.background = 'rgba(255, 0, 0, 0.1)';
+                notification.style.borderColor = 'rgba(255, 0, 0, 0.3)';
+            } else {
+                notification.style.background = 'rgba(0, 212, 255, 0.1)';
+                notification.style.borderColor = 'rgba(0, 212, 255, 0.3)';
+            }
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'r' && e.ctrlKey) {
+                e.preventDefault();
+                resetVisualization();
+            } else if (e.key === 'v' && e.ctrlKey) {
+                e.preventDefault();
+                toggleVoice();
+            }
+        });
+    </script>
+</body>
+</html>

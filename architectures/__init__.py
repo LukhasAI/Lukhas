@@ -1,4 +1,0 @@
-"""
-Architectures Module
-"""
-

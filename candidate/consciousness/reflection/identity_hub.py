@@ -19,7 +19,7 @@ from dataclasses import asdict
 from typing import Any, Optional
 
 from core.bridges.identity_core_bridge import IdentityCoreBridge
-from core.common import get_logger
+from candidate.core.common import get_logger
 from lukhas.governance.identity.auth_backend.trust_scorer import LukhasTrustScorer
 from lukhas.governance.identity.core.auth.biometric_integration import (
     BiometricIntegrationManager,

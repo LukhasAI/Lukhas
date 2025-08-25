@@ -38,7 +38,7 @@ from typing import Any, Optional
 import numpy as np
 
 from bio.quantum_inspired_layer import QuantumBioOscillator
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Use existing quantum engines - fixed import paths
 from qi.systems.quantum_engine import (

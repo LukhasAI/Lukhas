@@ -17,7 +17,8 @@ from typing import Any, Optional
 import numpy as np
 
 from bio.core import BioOrchestrator, ResourcePriority
-from orchestration_src.brain.attention.quantum_attention import *  # TODO: Specify imports
+# TODO: Re-enable when quantum_attention is properly implemented
+# from candidate.orchestration.brain.attention.quantum_attention import *
 
 logger = logging.getLogger("QuantumAttention")
 

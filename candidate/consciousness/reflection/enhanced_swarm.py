@@ -22,7 +22,7 @@ from typing import Any, Callable, Optional, Union
 import numpy as np
 
 from core.actor_system import Actor
-from core.common import get_logger
+from candidate.core.common import get_logger
 from core.distributed_tracing import AIAgentTracer, get_global_tracer
 
 # Import BaseColony infrastructure for coherence

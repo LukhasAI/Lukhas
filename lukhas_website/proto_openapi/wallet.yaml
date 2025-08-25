@@ -1,0 +1,71 @@
+openapi: 3.0.3
+info: 
+  title: Lukhas Wallet API
+  version: 0.1.0
+paths:
+  /balance:
+    get:
+      operationId: balance
+      responses:
+        "200": 
+          description: OK
+          content: 
+            application/json: 
+              schema: 
+                type: object
+                properties: 
+                  currency: 
+                    type: string
+                  amount: 
+                    type: number
+                required: [currency, amount]
+  /earn:
+    post:
+      operationId: earn
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              type: object
+              properties: 
+                reason: 
+                  type: string
+                amount: 
+                  type: number
+              required: [reason]
+      responses:
+        "200": 
+          $ref: "#/components/responses/Balance"
+  /spend:
+    post:
+      operationId: spend
+      requestBody: 
+        required: true
+        content: 
+          application/json: 
+            schema: 
+              type: object
+              properties: 
+                reason: 
+                  type: string
+                amount: 
+                  type: number
+              required: [reason, amount]
+      responses:
+        "200": 
+          $ref: "#/components/responses/Balance"
+components:
+  responses:
+    Balance:
+      description: OK
+      content:
+        application/json:
+          schema: 
+            type: object
+            properties: 
+              currency: 
+                type: string
+              amount: 
+                type: number
+            required: [currency, amount]

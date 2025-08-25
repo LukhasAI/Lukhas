@@ -60,7 +60,7 @@ from enum import Enum
 from typing import Any, Optional
 
 from core.cluster_sharding import ShardManager
-from core.common import get_logger
+from candidate.core.common import get_logger
 from core.event_sourcing import Event, EventStore, get_global_event_store
 
 # Set up logging

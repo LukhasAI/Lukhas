@@ -24,7 +24,7 @@ from interfaces.api.v1.rest.routers import (
     tasks_router,
 )
 
-from orchestration_src.dast.api import API_PREFIX
+from interfaces.api import API_PREFIX
 
 app = FastAPI(
     title="LUKHAS AGI API",

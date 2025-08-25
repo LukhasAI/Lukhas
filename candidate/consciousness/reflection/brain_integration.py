@@ -24,7 +24,7 @@
    - BIO_SYMBOLIC.quantum_attention
 """
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 import time
 from typing import Dict, Any, List, Optional, Union, Set, Tuple
 from datetime import datetime

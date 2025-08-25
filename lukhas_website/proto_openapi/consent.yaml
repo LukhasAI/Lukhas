@@ -1,0 +1,59 @@
+openapi: 3.0.3
+info:
+  title: Lukhas Consent API
+  version: 0.1.0
+paths:
+  /record:
+    post:
+      operationId: record_consent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                scope:
+                  type: string
+                granted:
+                  type: boolean
+              required: [scope, granted]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  scope:
+                    type: string
+                  granted:
+                    type: boolean
+                  timestamp:
+                    type: string
+                required: [userId, scope, granted, timestamp]
+  /records:
+    get:
+      operationId: get_consents
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    userId:
+                      type: string
+                    scope:
+                      type: string
+                    granted:
+                      type: boolean
+                    timestamp:
+                      type: string
+                  required: [userId, scope, granted, timestamp]

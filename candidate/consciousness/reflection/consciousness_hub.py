@@ -91,7 +91,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Callable, Optional
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Set up logger first
 logger = get_logger(__name__)

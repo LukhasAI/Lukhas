@@ -45,7 +45,7 @@ from typing import (
 
 import numpy as np
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

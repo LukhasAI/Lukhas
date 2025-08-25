@@ -13,6 +13,12 @@ const customJestConfig = {
   // Test environment
   testEnvironment: 'jest-environment-jsdom',
   
+  // Ignore patterns to resolve naming conflicts
+  modulePathIgnorePatterns: [
+    '<rootDir>/past-prototypes/',
+    '<rootDir>/node_modules/',
+  ],
+  
   // Module name mapping for absolute imports
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
@@ -34,6 +40,7 @@ const customJestConfig = {
     'lib/**/*.{js,ts,tsx}',
     '!**/*.d.ts',
     '!**/node_modules/**',
+    '!**/past-prototypes/**',
     '!**/.next/**',
     '!**/coverage/**',
     '!**/dist/**',
@@ -96,16 +103,16 @@ const customJestConfig = {
     },
   ],
   
-  // Global setup and teardown
-  globalSetup: '<rootDir>/tests/global-setup.ts',
-  globalTeardown: '<rootDir>/tests/global-teardown.ts',
+  // Global setup and teardown (temporarily disabled for cleanup)
+  // globalSetup: '<rootDir>/tests/global-setup.ts',
+  // globalTeardown: '<rootDir>/tests/global-teardown.ts',
   
-  // Transform configuration
-  transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': ['ts-jest', {
-      tsconfig: 'tsconfig.json',
-    }],
-  },
+  // Transform configuration - let Next.js handle transforms
+  // transform: {
+  //   '^.+\\.(js|jsx|ts|tsx)$': ['ts-jest', {
+  //     tsconfig: 'tsconfig.json',
+  //   }],
+  // },
   
   // Mock configuration
   clearMocks: true,

@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info: 
+  title: Lukhas QRG API
+  version: 0.1.0
+paths:
+  /issue:
+    post:
+      operationId: qrg_issue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties: 
+                purpose: 
+                  type: string
+                ttl_ms: 
+                  type: integer
+              required: [purpose]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties: 
+                  glyphSvg: 
+                    type: string
+                  nonce: 
+                    type: string
+                  traceId: 
+                    type: string
+                required: [glyphSvg, traceId]

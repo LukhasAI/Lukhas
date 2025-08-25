@@ -42,7 +42,7 @@ from typing import Any, Optional, Union
 
 # Try to import from core.common if available
 try:
-    from core.common import get_logger
+    from candidate.core.common import get_logger
 
     logger = get_logger("ΛTRACE.bridge.openai_core")
 except ImportError:

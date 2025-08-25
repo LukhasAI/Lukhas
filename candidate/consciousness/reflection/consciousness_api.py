@@ -99,7 +99,7 @@ class ConsciousnessPlatformAPI:
         # Import appropriate engines based on level
         if self.consciousness_level == ConsciousnessLevel.QUANTUM:
             try:
-                from consciousness.quantum_integration.quantum_consciousness_integration import (
+                from consciousness.qi_integration.qi_consciousness_integration import (
                     QIConsciousness,
                 )
 

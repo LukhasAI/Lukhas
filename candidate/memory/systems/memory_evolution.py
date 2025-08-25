@@ -123,7 +123,7 @@ except ImportError as e:
 
 # Voice synthesis adapter
 try:
-    from orchestration_src.brain.interfaces.voice.synthesis import (
+    from candidate.bridge.voice.systems.synthesis import (
         AdaptiveVoiceSynthesis as VoiceSynthesisAdapter,
     )
 except ImportError:

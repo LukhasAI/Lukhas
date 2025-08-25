@@ -1,5 +1,5 @@
 """
-LUKHAS AI Bio Module - Quantum
+LUKHAS AI Bio Module - Quantum-Inspired
 Consolidated from 14 variants
 Generated: 2025-08-12T19:38:03.072451
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
@@ -10,8 +10,8 @@ __module__ = "bio.quantum"
 __trinity__ = "⚛️🧠🛡️"
 
 
-class VoiceQuantumConfig:
-    """Bio quantum - VoiceQuantumConfig"""
+class VoiceQIConfig:
+    """Bio quantum-inspired - VoiceQIConfig"""
 
     pass
 
@@ -26,8 +26,8 @@ class QIVoiceEnhancer:
         raise NotImplementedError("Bio consolidation in progress")
 
 
-class MitochondrialQuantumBridge:
-    """Bio quantum - MitochondrialQuantumBridge"""
+class MitochondrialQIBridge:
+    """Bio quantum-inspired - MitochondrialQIBridge"""
 
     pass
 

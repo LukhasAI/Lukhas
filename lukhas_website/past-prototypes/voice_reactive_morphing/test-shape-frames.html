@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shape Frame System Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .test-section h2 {
+            margin-top: 0;
+            color: #ffd700;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .test-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .test-card h3 {
+            margin-top: 0;
+            color: #87ceeb;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: rgba(46, 204, 113, 0.3);
+            border: 1px solid #2ecc71;
+        }
+        
+        .status.error {
+            background: rgba(231, 76, 60, 0.3);
+            border: 1px solid #e74c3c;
+        }
+        
+        .status.info {
+            background: rgba(52, 152, 219, 0.3);
+            border: 1px solid #3498db;
+        }
+        
+        .canvas-container {
+            width: 100%;
+            height: 400px;
+            background: #000;
+            border-radius: 10px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #test-canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .log {
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+        
+        .shape-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .info-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .info-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Shape Frame System Test</h1>
+        
+        <!-- System Status -->
+        <div class="test-section">
+            <h2>📊 System Status</h2>
+            <div id="system-status" class="status info">Initializing...</div>
+            <div class="shape-info">
+                <div class="info-item">
+                    <div class="info-label">Loaded Shapes</div>
+                    <div class="info-value" id="loaded-shapes-count">0</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Current Shape</div>
+                    <div class="info-value" id="current-shape-name">None</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">FPS</div>
+                    <div class="info-value" id="fps-display">0</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Memory Usage</div>
+                    <div class="info-value" id="memory-usage">0 MB</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- WebGL Canvas -->
+        <div class="test-section">
+            <h2>🎮 3D Visualization</h2>
+            <div class="canvas-container">
+                <canvas id="test-canvas"></canvas>
+            </div>
+        </div>
+        
+        <!-- Shape Loading Tests -->
+        <div class="test-section">
+            <h2>📦 Shape Loading Tests</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>Default Shapes</h3>
+                    <button onclick="loadDefaultShape()">Load Default Sphere</button>
+                    <button onclick="loadHappyShape()">Load Happy Sphere</button>
+                    <button onclick="loadSadShape()">Load Sad Droop</button>
+                    <div id="default-status" class="status info">Ready to test</div>
+                </div>
+                
+                <div class="test-card">
+                    <h3>File Loading</h3>
+                    <input type="file" id="shape-file-input" accept=".obj,.json,.stl,.dae" style="margin: 10px 0;">
+                    <button onclick="loadCustomShape()">Load Custom Shape</button>
+                    <div id="file-status" class="status info">Select a file to test</div>
+                </div>
+                
+                <div class="test-card">
+                    <h3>Morphing Tests</h3>
+                    <button onclick="testMorphing()">Test Morphing</button>
+                    <button onclick="testVoiceMorphing()">Test Voice Reactivity</button>
+                    <div id="morph-status" class="status info">Ready to test morphing</div>
+                </div>
+                
+                <div class="test-card">
+                    <h3>Performance Tests</h3>
+                    <button onclick="testPerformance()">Run Performance Test</button>
+                    <button onclick="testMemoryUsage()">Check Memory</button>
+                    <div id="perf-status" class="status info">Ready for performance tests</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Console Log -->
+        <div class="test-section">
+            <h2>📝 Console Log</h2>
+            <div id="console-log" class="log"></div>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/shape-frame-manager.js"></script>
+    <script src="js/shape-frames.js"></script>
+    <script>
+        // Test variables
+        let shapeFrameManager;
+        let currentShapeFrame;
+        let testCanvas;
+        let testContext;
+        let isInitialized = false;
+        
+        // Initialize test system
+        async function initTest() {
+            try {
+                log('Initializing Shape Frame Test System...');
+                
+                // Initialize shape frame manager
+                shapeFrameManager = new ShapeFrameManager();
+                
+                // Initialize test canvas
+                testCanvas = document.getElementById('test-canvas');
+                testContext = testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl');
+                
+                if (!testContext) {
+                    throw new Error('WebGL not supported');
+                }
+                
+                // Set canvas size
+                testCanvas.width = testCanvas.offsetWidth;
+                testCanvas.height = testCanvas.offsetHeight;
+                
+                // Load default shape
+                await loadDefaultShape();
+                
+                isInitialized = true;
+                updateStatus('System ready for testing', 'success');
+                log('Test system initialized successfully');
+                
+                // Start render loop
+                startRenderLoop();
+                
+            } catch (error) {
+                log(`Initialization failed: ${error.message}`, 'error');
+                updateStatus('Initialization failed', 'error');
+            }
+        }
+        
+        // Load default shape
+        async function loadDefaultShape() {
+            try {
+                log('Loading default sphere...');
+                
+                const geometry = createSphereGeometry(1.0, 16, 16);
+                const material = {
+                    color: '#4A90E2',
+                    opacity: 0.8,
+                    transparent: true
+                };
+                
+                currentShapeFrame = new ShapeFrame(geometry, [material], {
+                    name: 'Test Sphere',
+                    category: 'test'
+                });
+                
+                updateShapeInfo();
+                updateStatus('Default shape loaded', 'success');
+                log('Default sphere loaded successfully');
+                
+            } catch (error) {
+                log(`Failed to load default shape: ${error.message}`, 'error');
+                updateStatus('Failed to load default shape', 'error');
+            }
+        }
+        
+        // Create sphere geometry
+        function createSphereGeometry(radius, widthSegments, heightSegments) {
+            const geometry = {
+                vertices: [],
+                faces: [],
+                normals: [],
+                uvs: []
+            };
+            
+            for (let y = 0; y <= heightSegments; y++) {
+                const u = y / heightSegments;
+                const phi = u * Math.PI;
+                
+                for (let x = 0; x <= widthSegments; x++) {
+                    const v = x / widthSegments;
+                    const theta = v * Math.PI * 2;
+                    
+                    const x1 = radius * Math.sin(phi) * Math.cos(theta);
+                    const y1 = radius * Math.cos(phi);
+                    const z1 = radius * Math.sin(phi) * Math.sin(theta);
+                    
+                    geometry.vertices.push({ x: x1, y: y1, z: z1 });
+                    geometry.normals.push({ x: x1 / radius, y: y1 / radius, z: z1 / radius });
+                    geometry.uvs.push({ u: v, v: u });
+                }
+            }
+            
+            // Create faces
+            for (let y = 0; y < heightSegments; y++) {
+                for (let x = 0; x < widthSegments; x++) {
+                    const a = y * (widthSegments + 1) + x;
+                    const b = a + widthSegments + 1;
+                    const c = a + 1;
+                    const d = b + 1;
+                    
+                    geometry.faces.push([a, b, c]);
+                    geometry.faces.push([b, d, c]);
+                }
+            }
+            
+            return geometry;
+        }
+        
+        // Load happy shape
+        async function loadHappyShape() {
+            try {
+                log('Loading happy sphere...');
+                
+                const response = await fetch('shapes/emotions/happy_sphere.obj');
+                if (response.ok) {
+                    const objData = await response.text();
+                    currentShapeFrame = await shapeFrameManager.loadShapeFrame('obj', objData, {
+                        name: 'Happy Sphere',
+                        category: 'emotions'
+                    });
+                    
+                    updateShapeInfo();
+                    updateStatus('Happy sphere loaded', 'success');
+                    log('Happy sphere loaded successfully');
+                } else {
+                    throw new Error('Happy sphere file not found');
+                }
+                
+            } catch (error) {
+                log(`Failed to load happy shape: ${error.message}`, 'error');
+                updateStatus('Failed to load happy shape', 'error');
+            }
+        }
+        
+        // Load sad shape
+        async function loadSadShape() {
+            try {
+                log('Loading sad droop...');
+                
+                const response = await fetch('shapes/emotions/sad_droop.obj');
+                if (response.ok) {
+                    const objData = await response.text();
+                    currentShapeFrame = await shapeFrameManager.loadShapeFrame('obj', objData, {
+                        name: 'Sad Droop',
+                        category: 'emotions'
+                    });
+                    
+                    updateShapeInfo();
+                    updateStatus('Sad droop loaded', 'success');
+                    log('Sad droop loaded successfully');
+                } else {
+                    throw new Error('Sad droop file not found');
+                }
+                
+            } catch (error) {
+                log(`Failed to load sad shape: ${error.message}`, 'error');
+                updateStatus('Failed to load sad shape', 'error');
+            }
+        }
+        
+        // Load custom shape
+        async function loadCustomShape() {
+            try {
+                const fileInput = document.getElementById('shape-file-input');
+                const file = fileInput.files[0];
+                
+                if (!file) {
+                    throw new Error('No file selected');
+                }
+                
+                log(`Loading custom shape: ${file.name}`);
+                
+                currentShapeFrame = await shapeFrameManager.loadShapeFrameFromFile(file);
+                
+                updateShapeInfo();
+                updateStatus(`Custom shape loaded: ${file.name}`, 'success');
+                log(`Custom shape loaded successfully: ${file.name}`);
+                
+            } catch (error) {
+                log(`Failed to load custom shape: ${error.message}`, 'error');
+                updateStatus('Failed to load custom shape', 'error');
+            }
+        }
+        
+        // Test morphing
+        async function testMorphing() {
+            try {
+                log('Testing morphing between shapes...');
+                
+                if (!currentShapeFrame) {
+                    throw new Error('No shape loaded');
+                }
+                
+                // Test basic morphing
+                currentShapeFrame.setScale(1.5);
+                currentShapeFrame.setRotation(0, Math.PI / 4, 0);
+                
+                updateStatus('Morphing test completed', 'success');
+                log('Morphing test completed successfully');
+                
+            } catch (error) {
+                log(`Morphing test failed: ${error.message}`, 'error');
+                updateStatus('Morphing test failed', 'error');
+            }
+        }
+        
+        // Test voice morphing
+        async function testVoiceMorphing() {
+            try {
+                log('Testing voice-reactive morphing...');
+                
+                if (!currentShapeFrame) {
+                    throw new Error('No shape loaded');
+                }
+                
+                // Simulate voice input
+                const voiceIntensity = 0.7;
+                currentShapeFrame.applyVoiceContext({
+                    intensity: voiceIntensity,
+                    frequency: 440,
+                    amplitude: 0.5
+                });
+                
+                updateStatus('Voice morphing test completed', 'success');
+                log('Voice morphing test completed successfully');
+                
+            } catch (error) {
+                log(`Voice morphing test failed: ${error.message}`, 'error');
+                updateStatus('Voice morphing test failed', 'error');
+            }
+        }
+        
+        // Test performance
+        async function testPerformance() {
+            try {
+                log('Running performance test...');
+                
+                const startTime = performance.now();
+                
+                // Load multiple shapes
+                for (let i = 0; i < 5; i++) {
+                    const geometry = createSphereGeometry(1.0, 8, 8);
+                    const shape = new ShapeFrame(geometry, [{ color: '#ff0000' }], {
+                        name: `Test Shape ${i}`,
+                        category: 'performance'
+                    });
+                }
+                
+                const endTime = performance.now();
+                const duration = endTime - startTime;
+                
+                updateStatus(`Performance test completed in ${duration.toFixed(2)}ms`, 'success');
+                log(`Performance test completed: ${duration.toFixed(2)}ms`);
+                
+            } catch (error) {
+                log(`Performance test failed: ${error.message}`, 'error');
+                updateStatus('Performance test failed', 'error');
+            }
+        }
+        
+        // Test memory usage
+        async function testMemoryUsage() {
+            try {
+                log('Checking memory usage...');
+                
+                if (performance.memory) {
+                    const memory = performance.memory;
+                    const usedMB = (memory.usedJSHeapSize / 1024 / 1024).toFixed(2);
+                    const totalMB = (memory.totalJSHeapSize / 1024 / 1024).toFixed(2);
+                    
+                    document.getElementById('memory-usage').textContent = `${usedMB} MB`;
+                    
+                    updateStatus(`Memory usage: ${usedMB}MB / ${totalMB}MB`, 'success');
+                    log(`Memory usage: ${usedMB}MB / ${totalMB}MB`);
+                } else {
+                    updateStatus('Memory info not available', 'info');
+                    log('Memory information not available in this browser');
+                }
+                
+            } catch (error) {
+                log(`Memory test failed: ${error.message}`, 'error');
+                updateStatus('Memory test failed', 'error');
+            }
+        }
+        
+        // Start render loop
+        function startRenderLoop() {
+            let frameCount = 0;
+            let lastTime = 0;
+            
+            function render(currentTime) {
+                if (!isInitialized) return;
+                
+                // Calculate FPS
+                frameCount++;
+                if (currentTime - lastTime >= 1000) {
+                    const fps = frameCount;
+                    document.getElementById('fps-display').textContent = fps;
+                    frameCount = 0;
+                    lastTime = currentTime;
+                }
+                
+                // Update shape animations
+                if (currentShapeFrame) {
+                    currentShapeFrame.updateAnimations();
+                }
+                
+                // Continue render loop
+                requestAnimationFrame(render);
+            }
+            
+            requestAnimationFrame(render);
+        }
+        
+        // Update shape information
+        function updateShapeInfo() {
+            if (currentShapeFrame) {
+                document.getElementById('current-shape-name').textContent = currentShapeFrame.name;
+                document.getElementById('loaded-shapes-count').textContent = 
+                    shapeFrameManager ? shapeFrameManager.loadedShapes.size : 1;
+            }
+        }
+        
+        // Update status
+        function updateStatus(message, type = 'info') {
+            const statusElement = document.getElementById('system-status');
+            statusElement.textContent = message;
+            statusElement.className = `status ${type}`;
+        }
+        
+        // Log function
+        function log(message, type = 'info') {
+            const logElement = document.getElementById('console-log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            
+            logEntry.style.color = type === 'error' ? '#ff6b6b' : 
+                                 type === 'success' ? '#51cf66' : '#74c0fc';
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            
+            logElement.appendChild(logEntry);
+            logElement.scrollTop = logElement.scrollHeight;
+            
+            // Keep only last 50 entries
+            while (logElement.children.length > 50) {
+                logElement.removeChild(logElement.firstChild);
+            }
+        }
+        
+        // Clear log
+        function clearLog() {
+            document.getElementById('console-log').innerHTML = '';
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initTest);
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (testCanvas) {
+                testCanvas.width = testCanvas.offsetWidth;
+                testCanvas.height = testCanvas.offsetHeight;
+            }
+        });
+    </script>
+</body>
+</html> 

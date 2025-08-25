@@ -34,7 +34,7 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any, Callable, Optional, Union
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from .p2p_communication import P2PNode
 

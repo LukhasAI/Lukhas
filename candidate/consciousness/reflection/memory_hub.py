@@ -23,7 +23,7 @@ from core.bridges.memory_consciousness_bridge import (
     get_memory_consciousness_bridge,
 )
 from core.bridges.memory_learning_bridge import MemoryLearningBridge
-from core.common import get_logger
+from candidate.core.common import get_logger
 from lukhas.memory.core.base_manager import BaseMemoryManager
 
 # Task 3C: Add connectivity imports

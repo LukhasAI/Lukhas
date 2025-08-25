@@ -23,7 +23,7 @@ from typing import Any, Optional
 from ..bio_core.oscillator.orchestrator import BioOrchestrator
 from ..bio_core.voice.quantum_voice_enhancer import (
     QuantumVoiceEnhancer,
-    VoiceQuantumConfig,
+    VoiceQIConfig,
 )
 from ..security.voice_safety_guard import VoiceSafetyGuard
 from ..voice.emotional_modulator import VoiceEmotionalModulator
@@ -37,7 +37,7 @@ logger = logging.getLogger("enhanced_voice")
 class EnhancedVoiceConfig:
     """Configuration for enhanced voice integration"""
 
-    quantum_config: VoiceQuantumConfig
+    quantum_config: VoiceQIConfig
     safety_threshold: float = 0.95
     emotion_confidence_threshold: float = 0.7
     voice_confidence_threshold: float = 0.8
@@ -68,7 +68,7 @@ class EnhancedVoiceIntegrator:
             config: Optional configuration
         """
         self.core = core_interface
-        self.config = config or EnhancedVoiceConfig(quantum_config=VoiceQuantumConfig())
+        self.config = config or EnhancedVoiceConfig(quantum_config=VoiceQIConfig())
 
         # Core voice components
         self.profile_manager = VoiceProfileManager()

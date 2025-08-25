@@ -17,7 +17,7 @@
 
 # Module imports
 
-from core.common import get_logger
+from candidate.core.common import get_logger
 
 from .lambda_mirror import (
     AlignmentScore,
