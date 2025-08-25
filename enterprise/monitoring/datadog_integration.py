@@ -17,8 +17,8 @@ try:
     from datadog_api_client.v1 import ApiClient, Configuration
     from datadog_api_client.v1.api.metrics_api import MetricsApi
     from datadog_api_client.v1.api.monitors_api import MonitorsApi
-    from datadog_api_client.v1.model.point import Point
     from datadog_api_client.v1.model.series import Series
+    from datadog_api_client.v1.model.metrics_payload import MetricsPayload
     DATADOG_AVAILABLE = True
 except ImportError:
     DATADOG_AVAILABLE = False
@@ -102,58 +102,59 @@ class T4DatadogMonitoring:
                 # API Performance (Sam Altman - Scale)
                 Series(
                     metric='lukhas.api.latency.p95',
-                    points=[Point([timestamp, metrics.api_latency_p95])],
+                    points=[[timestamp, metrics.api_latency_p95]],
                     tags=['environment:production', 'tier:t4', 'component:api']
                 ),
                 Series(
                     metric='lukhas.api.latency.p99',
-                    points=[Point([timestamp, metrics.api_latency_p99])],
+                    points=[[timestamp, metrics.api_latency_p99]],
                     tags=['environment:production', 'tier:t4', 'component:api']
                 ),
                 Series(
                     metric='lukhas.system.uptime',
-                    points=[Point([timestamp, metrics.uptime_percentage])],
+                    points=[[timestamp, metrics.uptime_percentage]],
                     tags=['environment:production', 'tier:t4', 'sla:uptime']
                 ),
                 Series(
                     metric='lukhas.api.error_rate',
-                    points=[Point([timestamp, metrics.error_rate])],
+                    points=[[timestamp, metrics.error_rate]],
                     tags=['environment:production', 'tier:t4', 'component:api']
                 ),
                 Series(
                     metric='lukhas.users.concurrent',
-                    points=[Point([timestamp, metrics.concurrent_users])],
+                    points=[[timestamp, metrics.concurrent_users]],
                     tags=['environment:production', 'tier:t4', 'capacity:users']
                 ),
                 
                 # System Resources
                 Series(
                     metric='lukhas.system.memory.percent',
-                    points=[Point([timestamp, metrics.memory_usage_percent])],
+                    points=[[timestamp, metrics.memory_usage_percent]],
                     tags=['environment:production', 'tier:t4', 'component:system']
                 ),
                 Series(
                     metric='lukhas.system.cpu.percent',
-                    points=[Point([timestamp, metrics.cpu_usage_percent])],
+                    points=[[timestamp, metrics.cpu_usage_percent]],
                     tags=['environment:production', 'tier:t4', 'component:system']
                 ),
                 
                 # Safety Metrics (Dario Amodei - Safety)
                 Series(
                     metric='lukhas.safety.drift_score',
-                    points=[Point([timestamp, metrics.drift_score])],
+                    points=[[timestamp, metrics.drift_score]],
                     tags=['environment:production', 'tier:t4', 'component:guardian', 'safety:constitutional_ai']
                 ),
                 Series(
                     metric='lukhas.security.incidents',
-                    points=[Point([timestamp, metrics.security_incidents])],
+                    points=[[timestamp, metrics.security_incidents]],
                     tags=['environment:production', 'tier:t4', 'component:security']
                 )
             ]
             
-            # Submit metrics to Datadog
-            self.metrics_api.submit_metrics(body=metric_series)
-            logger.info(f"Successfully submitted {len(metric_series)} T4 metrics to Datadog")
+            # Submit metrics to Datadog using MetricsPayload
+            payload = MetricsPayload(series=metric_series)
+            response = self.metrics_api.submit_metrics(body=payload)
+            logger.info(f"Successfully submitted {len(metric_series)} T4 metrics to Datadog: {response}")
             return True
             
         except Exception as e:
