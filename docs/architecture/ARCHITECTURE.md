@@ -461,12 +461,12 @@ Supporting Services:
 
 ### Performance Metrics
 
-| Component | Response Time | Throughput | CPU Usage | Memory |
-|-----------|--------------|------------|-----------|---------|
-| Brain Hub | < 50ms | 10K req/s | 40% | 2GB |
-| Guardian | < 100ms | 5K req/s | 60% | 4GB |
-| Memory | < 20ms | 50K ops/s | 30% | 8GB |
-| API Gateway | < 10ms | 20K req/s | 20% | 1GB |
+| Component   | Response Time | Throughput | CPU Usage | Memory |
+| ----------- | ------------- | ---------- | --------- | ------ |
+| Brain Hub   | < 50ms        | 10K req/s  | 40%       | 2GB    |
+| Guardian    | < 100ms       | 5K req/s   | 60%       | 4GB    |
+| Memory      | < 20ms        | 50K ops/s  | 30%       | 8GB    |
+| API Gateway | < 10ms        | 20K req/s  | 20%       | 1GB    |
 
 ### Scalability Patterns
 

@@ -22,6 +22,7 @@ import numpy as np
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class SimpleQIProcessor:
     """Simplified QI processor for demonstrations"""
 
@@ -31,17 +32,17 @@ class SimpleQIProcessor:
             "privacy": 0.8,
             "transparency": 0.7,
             "fairness": 0.6,
-            "safety": 0.9
+            "safety": 0.9,
         }
         self.decisions_log = []
 
     def process_quantum_inspired_decision(self, context):
         """
         Process a decision using quantum-inspired algorithms
-        
+
         Args:
             context (dict): Decision context with relevant parameters
-            
+
         Returns:
             dict: Decision result with explanation
         """
@@ -61,7 +62,7 @@ class SimpleQIProcessor:
             "timestamp": datetime.now().isoformat(),
             "context": context,
             "decision": final_decision,
-            "confidence": final_decision.get("confidence", 0.5)
+            "confidence": final_decision.get("confidence", 0.5),
         }
         self.decisions_log.append(decision_record)
 
@@ -77,11 +78,13 @@ class SimpleQIProcessor:
             phase = (i * np.pi / 2) + (self.oscillator_freq * 0.1)
             probability = (np.sin(phase) + 1) / 2  # Normalize to 0-1
 
-            states.append({
-                "option": f"decision_path_{i}",
-                "probability": probability,
-                "ethical_score": np.random.uniform(0.3, 1.0)
-            })
+            states.append(
+                {
+                    "option": f"decision_path_{i}",
+                    "probability": probability,
+                    "ethical_score": np.random.uniform(0.3, 1.0),
+                }
+            )
 
         return states
 
@@ -123,7 +126,9 @@ class SimpleQIProcessor:
         normalized_states = []
         for state in weighted_states:
             normalized_state = state.copy()
-            normalized_state["normalized_probability"] = state["probability"] / total_prob
+            normalized_state["normalized_probability"] = (
+                state["probability"] / total_prob
+            )
             normalized_states.append(normalized_state)
 
         # Select decision based on highest normalized probability
@@ -134,7 +139,7 @@ class SimpleQIProcessor:
             "confidence": best_state["normalized_probability"],
             "ethical_score": best_state["ethical_score"],
             "explanation": f"Selected {best_state['option']} with {best_state['normalized_probability']:.2f} confidence",
-            "all_options": normalized_states
+            "all_options": normalized_states,
         }
 
     def get_decision_history(self):
@@ -145,6 +150,7 @@ class SimpleQIProcessor:
         """Update ethical weighting parameters"""
         self.ethical_weights.update(new_weights)
         logger.info(f"Updated ethical weights: {self.ethical_weights}")
+
 
 def demonstrate_qi_processing():
     """Demonstrate basic QI processing capabilities"""
@@ -159,7 +165,7 @@ def demonstrate_qi_processing():
     context1 = {
         "task": "data_analysis",
         "involves_personal_data": False,
-        "public_facing": True
+        "public_facing": True,
     }
 
     result1 = qi_processor.process_quantum_inspired_decision(context1)
@@ -174,7 +180,7 @@ def demonstrate_qi_processing():
         "task": "user_profiling",
         "involves_personal_data": True,
         "affects_vulnerable": True,
-        "safety_critical": False
+        "safety_critical": False,
     }
 
     result2 = qi_processor.process_quantum_inspired_decision(context2)
@@ -187,13 +193,16 @@ def demonstrate_qi_processing():
     print("\n✅ QI Module demonstration complete!")
     return qi_processor
 
+
 def main():
     """Main function - fixed version for Jules 10"""
     try:
         # Run the demonstration
         processor = demonstrate_qi_processing()
 
-        print(f"\n📊 Total decisions processed: {len(processor.get_decision_history())}")
+        print(
+            f"\n📊 Total decisions processed: {len(processor.get_decision_history())}"
+        )
         print("🚀 QI Example completed successfully!")
 
     except Exception as e:
@@ -204,6 +213,7 @@ def main():
         print("Quantum-inspired processing: ✅")
         print("Ethical framework: ✅")
         print("Decision logging: ✅")
+
 
 if __name__ == "__main__":
     main()

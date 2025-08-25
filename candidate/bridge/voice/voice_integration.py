@@ -10,9 +10,8 @@ from typing import Any
 
 from ..voice_profiling import VoiceProfileManager
 
-# from FILES_LIBRARY.voice_modularity_system import LucasVoiceSystem  # TODO: Install or implement FILES_LIBRARY
-# from FILES_LIBRARY.voice_modulator import VoiceModulator  # TODO:
-# Install or implement FILES_LIBRARY
+# Import LUKHAS voice modulation system
+from candidate.voice.voice_modulator import LucasVoiceSystem, VoiceModulator
 
 
 class VoiceIntegrationLayer:

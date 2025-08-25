@@ -323,7 +323,7 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
         # Lazy import edge-tts
         if not self.edge_tts:
             try:
-                #                 import edge_tts  # TODO: Install or implement edge_tts
+                import edge_tts
                 self.edge_tts = edge_tts
             except ImportError:
                 self.logger.error("edge-tts package not installed")
@@ -393,7 +393,7 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
     def is_available(self) -> bool:
         """Check if Edge TTS is available"""
         try:
-            #             import edge_tts  # TODO: Install or implement edge_tts
+            import edge_tts
             self.edge_tts = edge_tts
             return True
         except ImportError:

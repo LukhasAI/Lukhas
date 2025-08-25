@@ -588,16 +588,16 @@ GLYPH tokens are the symbolic communication units used internally by LUKHAS .
 
 ### Common GLYPH Symbols
 
-| Symbol | Meaning | Used By |
-|--------|---------|---------|
-| TRUST | Establish trust relationship | Identity, Guardian |
-| LEARN | Learning event | Consciousness, Memory |
-| ADAPT | System adaptation needed | Bio, Consciousness |
-| CREATE | Creative generation | Dream Engine |
-| PROTECT | Security action | Guardian, Security |
-| REMEMBER | Memory storage | Memory |
-| REFLECT | Self-reflection | Consciousness |
-| CONNECT | Establish connection | Bridge, API |
+| Symbol   | Meaning                      | Used By               |
+| -------- | ---------------------------- | --------------------- |
+| TRUST    | Establish trust relationship | Identity, Guardian    |
+| LEARN    | Learning event               | Consciousness, Memory |
+| ADAPT    | System adaptation needed     | Bio, Consciousness    |
+| CREATE   | Creative generation          | Dream Engine          |
+| PROTECT  | Security action              | Guardian, Security    |
+| REMEMBER | Memory storage               | Memory                |
+| REFLECT  | Self-reflection              | Consciousness         |
+| CONNECT  | Establish connection         | Bridge, API           |
 
 ## WebSocket APIs
 
@@ -674,15 +674,15 @@ ws.onmessage = (event) => {
 
 ### Common Error Codes
 
-| Code | HTTP Status | Description |
-|------|-------------|-------------|
-| INVALID_TOKEN | 401 | Authentication token invalid or expired |
-| INSUFFICIENT_PERMISSIONS | 403 | User lacks required permissions |
-| GUARDIAN_REJECTION | 403 | Guardian system rejected the request |
-| MODULE_TIMEOUT | 504 | Module failed to respond in time |
-| MEMORY_DRIFT_EXCESSIVE | 422 | Memory drift too high to process |
-| RATE_LIMIT_EXCEEDED | 429 | Too many requests |
-| INTERNAL_ERROR | 500 | Internal system error |
+| Code                     | HTTP Status | Description                             |
+| ------------------------ | ----------- | --------------------------------------- |
+| INVALID_TOKEN            | 401         | Authentication token invalid or expired |
+| INSUFFICIENT_PERMISSIONS | 403         | User lacks required permissions         |
+| GUARDIAN_REJECTION       | 403         | Guardian system rejected the request    |
+| MODULE_TIMEOUT           | 504         | Module failed to respond in time        |
+| MEMORY_DRIFT_EXCESSIVE   | 422         | Memory drift too high to process        |
+| RATE_LIMIT_EXCEEDED      | 429         | Too many requests                       |
+| INTERNAL_ERROR           | 500         | Internal system error                   |
 
 ### Error Recovery
 
@@ -712,13 +712,13 @@ except MemoryDrift as e:
 
 ### Default Limits
 
-| Endpoint | Limit | Window |
-|----------|-------|--------|
-| /process | 60 | 1 minute |
-| /memory/* | 100 | 1 minute |
-| /consciousness/* | 100 | 1 minute |
-| /dream/generate | 10 | 1 minute |
-| WebSocket | 1000 messages | 1 minute |
+| Endpoint         | Limit         | Window   |
+| ---------------- | ------------- | -------- |
+| /process         | 60            | 1 minute |
+| /memory/*        | 100           | 1 minute |
+| /consciousness/* | 100           | 1 minute |
+| /dream/generate  | 10            | 1 minute |
+| WebSocket        | 1000 messages | 1 minute |
 
 ### Rate Limit Headers
 
