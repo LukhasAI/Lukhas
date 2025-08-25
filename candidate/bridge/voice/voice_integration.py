@@ -9,10 +9,7 @@ import logging
 from typing import Any
 
 from ..voice_profiling import VoiceProfileManager
-
-# from FILES_LIBRARY.voice_modularity_system import LucasVoiceSystem  # TODO: Install or implement FILES_LIBRARY
-# from FILES_LIBRARY.voice_modulator import VoiceModulator  # TODO:
-# Install or implement FILES_LIBRARY
+from candidate.core.interfaces.voice.voice_emotional.context_aware_modular_voice import LucasVoiceSystem, VoiceModulator
 
 
 class VoiceIntegrationLayer:

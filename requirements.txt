@@ -76,6 +76,12 @@ docker>=7.0.0
 mkdocs>=1.5.0
 mkdocs-material>=9.5.0
 
+# Visualization
+streamlit>=1.33.0
+
+# Text-to-Speech
+edge-tts>=6.1.8
+
 # Utilities
 click>=8.1.0
 tenacity>=8.2.0

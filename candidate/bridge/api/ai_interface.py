@@ -26,24 +26,23 @@ logger.info("ΛTRACE: Initializing lukhas_ai_interface module.")
 # --- External Router Path Configuration ---
 # TODO: Consider a more robust way to manage this dependency, e.g.,
 # through a plugin system or service discovery.
-DEFAULT_AI_ROUTER_PATH = "/Users/A_G_I/Lukhas/Lukhas-ecosystem/ABot_beta/LukhasBot_beta"
-AI_ROUTER_PATH = os.getenv("LUKHAS_AI_ROUTER_PATH", DEFAULT_AI_ROUTER_PATH)
+AI_ROUTER_PATH = os.getenv("LUKHAS_AI_ROUTER_PATH")
 
-if AI_ROUTER_PATH == DEFAULT_AI_ROUTER_PATH:
-    logger.warning(
-        f"ΛTRACE: Using default AI router path: '{DEFAULT_AI_ROUTER_PATH}'. Consider configuring LUKHAS_AI_ROUTER_PATH environment variable."
-    )
-
-if Path(AI_ROUTER_PATH).is_dir():
-    # Modifying sys.path is generally discouraged, but might be necessary for
-    # unmanaged external dependencies.
-    logger.info(
-        f"ΛTRACE: Adding AI Router path '{AI_ROUTER_PATH}' to sys.path to attempt import of 'router.llm_multiverse_router'."
-    )
-    sys.path.insert(0, AI_ROUTER_PATH)
+if AI_ROUTER_PATH:
+    if Path(AI_ROUTER_PATH).is_dir():
+        # Modifying sys.path is generally discouraged, but might be necessary for
+        # unmanaged external dependencies.
+        logger.info(
+            f"ΛTRACE: Adding AI Router path '{AI_ROUTER_PATH}' to sys.path to attempt import of 'router.llm_multiverse_router'."
+        )
+        sys.path.insert(0, AI_ROUTER_PATH)
+    else:
+        logger.error(
+            f"ΛTRACE: LUKHAS_AI_ROUTER_PATH '{AI_ROUTER_PATH}' does not exist or is not a directory. 'multiverse_route' import will likely fail."
+        )
 else:
-    logger.error(
-        f"ΛTRACE: LUKHAS_AI_ROUTER_PATH '{AI_ROUTER_PATH}' does not exist or is not a directory. 'multiverse_route' import will likely fail."
+    logger.warning(
+        "ΛTRACE: LUKHAS_AI_ROUTER_PATH environment variable not set. External AI router will not be available."
     )
 
 # --- Attempt to import from External Router ---

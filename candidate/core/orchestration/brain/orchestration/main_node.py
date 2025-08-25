@@ -33,8 +33,7 @@ try:
     # Backend components
     from backend.learning.meta_learning import MetaLearningSystem
 
-    # from AID.service.identity_manager import IdentityManager  # TODO:
-    # Install or implement AID
+    from candidate.core.orchestration.brain.identity_manager import IdentityManager
     from backend.security.privacy_manager import PrivacyManager
     from frontend.interface.adaptive_interface_generator import (
         AdaptiveInterfaceGenerator,

@@ -6,7 +6,7 @@
 
 import json
 
-# import streamlit as st  # TODO: Install or implement streamlit
+import streamlit as st
 from dna_link import LucasDNALink
 
 st.sidebar.title("⚙️ Settings & Compliance")

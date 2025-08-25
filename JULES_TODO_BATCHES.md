@@ -20,7 +20,7 @@
 5. `candidate/core/notion_sync.py` - Specify imports from notion_client
 6. `candidate/core/orchestration/integration_hub.py` - Implement quantum AGI system import
 7. `candidate/core/orchestration/brain/visualization/memory_helix_visualizer.py` - Fix AID import
-8. `candidate/core/orchestration/brain/dynamic_adaptive_dashboard.py` - Install AGENT widgets
+8. `candidate/core/orchestration/brain/dynamic_adaptive_dashboard.py` - Install AGENT widgets - **SKIPPED**: Missing `lukhas_widget_engine.py` and `lukhas_nias_filter.py` files.
 9. `candidate/core/orchestration/brain/spine/main_loop.py` - Install edge_tts
 10. `candidate/core/orchestration/brain/config/settings_editor.py` - Install streamlit
 11. `candidate/core/orchestration/brain/integration/brain_integration.py` - Fix DASHBOARD imports

@@ -4,7 +4,7 @@ streamlit_lidar.py
 Streamlit interface for visualizing Lucs' symbolic dreams and LiDAR-derived emotional states.
 """
 
-# import streamlit as st  # TODO: Install or implement streamlit
+import streamlit as st
 # Mock implementations for missing functions
 
 

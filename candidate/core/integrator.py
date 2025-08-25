@@ -38,8 +38,10 @@ CORE_COMPONENTS_LOADED_FLAG_ECI = False  # Unique flag
 try:
     # ΛNOTE: Attempting to import core components. Placeholders used if imports fail.
     #        These imports suggest a dependency on a 'CORE' package structure.
-    from bio.core import BioOrchestrator  # type: ignore
-    from core.bio_systems.quantum_layer import QuantumBioOscillator
+    #        JULES: Corrected BioOrchestrator and QuantumBioOscillator imports.
+    #        Other modules could not be found, leaving them to fall back to placeholders.
+    from candidate.bio.oscillator import BioOrchestrator
+    from candidate.consciousness.reflection.quantum_layer import QIBioOscillator as QuantumBioOscillator
     from core.security.access_control import (
         AccessController,  # type: ignore
         AccessTier,

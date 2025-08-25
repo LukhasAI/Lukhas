@@ -21,16 +21,7 @@ from lukhas.core.agi.self_healing import (
     HealingStrategy,
     SystemFailure,
 )
-
-# from lukhas.governance.guardian import GuardianSystem  # TODO: Fix import
-
-# Temporary mock for Guardian System
-class GuardianSystem:
-    def __init__(self, drift_threshold=0.15):
-        self.drift_threshold = drift_threshold
-
-    async def check_drift(self, data):
-        return 0.1  # Mock drift score below threshold
+from lukhas.governance import guardian
 
 logger = logging.getLogger(__name__)
 
@@ -91,7 +82,6 @@ class CodeQualityHealer:
 
         # Initialize components
         self.llm_fixer = LocalLLMFixer(guardian_threshold=auto_fix_threshold)
-        self.guardian = GuardianSystem(drift_threshold=guardian_threshold)
         self.metrics = CodeQualityMetrics()
 
         # Memory for learning patterns
@@ -277,12 +267,23 @@ class CodeQualityHealer:
     async def _guardian_review(self, failure: SystemFailure) -> bool:
         """Submit fix for Guardian review before applying"""
         try:
+            # Create baseline and current behavior strings for drift detection
+            baseline_behavior = f"Code at {failure.component} is expected to be correct and adhere to quality standards."
+            current_behavior = f"Code at {failure.component} on line {failure.context.get('line')} has an issue: {failure.error}"
+
             # Check with Guardian system
-            drift_score = await self.guardian.check_drift({
-                "action": "code_fix",
-                "component": failure.component,
-                "severity": failure.severity
-            })
+            result = guardian.detect_drift(
+                baseline_behavior=baseline_behavior,
+                current_behavior=current_behavior,
+                context={
+                    "action": "code_fix",
+                    "component": failure.component,
+                    "severity": failure.severity,
+                },
+                mode="live" if guardian.GUARDIAN_ACTIVE else "dry_run",
+            )
+
+            drift_score = result.get("drift_score", 1.0)
 
             if drift_score < self.guardian_threshold:
                 # Guardian approved, proceed with LLM repair

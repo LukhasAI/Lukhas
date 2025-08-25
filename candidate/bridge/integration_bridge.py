@@ -50,9 +50,8 @@ from typing import Any, Optional
 LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = False
 try:
     from core.registry import core_registry  # type: ignore # Assuming core is in path
-    from core.utils.base_module import (
-        BaseLucasModule,  # type: ignore # Assuming core is in path
-    )
+    # Use the correct BaseModule class
+    from candidate.core.base.base_module import BaseModule as BaseLucasModule
 
     from .plugin_base import (
         LucasPlugin,  # Assuming relative import

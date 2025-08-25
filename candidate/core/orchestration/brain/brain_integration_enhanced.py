@@ -89,17 +89,8 @@ try:
 
                                 # Import core components with fallbacks
                                 try:
-    from core.spine.fold_engine import AGIMemory
-    from core.spine.fold_engine import MemoryFold
-    from core.spine.fold_engine import MemoryPriority
-    from core.spine.fold_engine import MemoryType
-                                    except ImportError:
-                                        try:
-                                            pass
-        # Commented out until CORE is available
-        pass  # from CORE.spine.fold_engine import AGIMemory, MemoryFold, MemoryType,
-    MemoryPriority  # TODO: Install or implement CORE
-                                    except ImportError:
+    from candidate.memory.folds.fold_engine import AGIMemory, MemoryFold, MemoryType, MemoryPriority
+                                except ImportError:
         logger.warning("Core memory components not available - using fallbacks")
         AGIMemory = None
 

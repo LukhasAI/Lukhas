@@ -72,9 +72,7 @@ logger = structlog.get_logger().bind(tag="remediator_agent")
 # Robust error handling and clear documentation of these dependencies are crucial.
 # Core LUKHAS Infrastructure Imports (with fallbacks for standalone execution/testing)
 try:
-    from ...brain.memory.AdvancedMemoryManager import (
-        AdvancedMemoryManager,  # Conceptual
-    )
+    from candidate.memory.systems.memory_advanced_manager import AdvancedMemoryManager
 
     # from ...AID.dream_engine.dream_replay import replay_dream_by_id,
     # replay_recent_dreams # Conceptual  # TODO: Install or implement AID

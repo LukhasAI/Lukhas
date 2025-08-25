@@ -53,7 +53,7 @@ from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 from qi.oscillator import BaseOscillator
 from qi.quantum_hub import QuantumHub
 
-# from qi.system_orchestrator import QuantumAGISystem  # TODO: Implement quantum AGI system
+from candidate.qi.states.system_orchestrator import QIAGISystem as QuantumAGISystem
 
 logger = logging.getLogger(__name__)
 
@@ -98,7 +98,10 @@ class SystemIntegrationHub:
 
         # Learning and quantum orchestration
         self.learning_engine = Learningengine()
-        self.quantum_orchestrator = QuantumAGISystem(config=None)  # Will be configured
+        # TODO: JULES - The constructor for QuantumAGISystem (QIAGISystem) requires a 'SystemConfig' object that is not defined.
+        # Commenting out until SystemConfig is available.
+        # self.quantum_orchestrator = QuantumAGISystem(config=None)  # Will be configured
+        self.quantum_orchestrator = None
 
         # Bio engine
         self.bio_engine = get_bio_engine()

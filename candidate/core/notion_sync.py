@@ -52,7 +52,7 @@ from typing import Any, Optional
 from dotenv import load_dotenv
 
 # Core Notion and AI imports
-from notion_client import *  # TODO: Specify imports
+from notion_client import Client
 
 # Security and reflection imports
 
