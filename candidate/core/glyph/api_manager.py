@@ -364,29 +364,26 @@ class LUKHASAPIManager:
     """Main API key management system with ΛiD integration."""
 
     @lukhas_tier_required(level=3)  # ΛTRACE_ADD
-    def __init__(self):
-        # ΛCONFIG_TODO: Hardcoded path, should be configurable.
-        self.storage_path: Path = Path(
-            os.getenv(
-                "LUKHAS_API_VAULT_PATH",
-                "/Users/A_G_I/Lukhas/ΛWebEcosystem/quantum-secure/enhanced-agi/api_vault",
-            ))
+    def __init__(self, storage_path: Path):
+        """
+        Initializes the LUKHASAPIManager.
+        Args:
+            storage_path: The path to the directory for storing API keys and glyphs.
+        """
+        self.storage_path: Path = storage_path
         try:
             self.storage_path.mkdir(
                 parents=True, exist_ok=True
-            )  # ΛTRACE_CHANGE: Added parents=True
+            )
         except OSError as e:
-            # ΛTRACE_ADD
             logger.error(
                 "Failed to create API vault directory.",
                 path=str(self.storage_path),
                 error=str(e),
                 timestamp=datetime.now(timezone.utc).isoformat(),
             )
-            # Potentially raise a custom exception here or handle more gracefully
             raise
         self.glyph_generator: VeriFoldGlyphGenerator = VeriFoldGlyphGenerator()
-        # ΛTRACE_ADD
         logger.info(
             "LUKHAS API Manager initialized.",
             storage_path=str(self.storage_path),
@@ -772,7 +769,11 @@ def demo_quantum_api_management():
         timestamp=datetime.now(timezone.utc).isoformat(),
     )  # ΛTRACE_CHANGE
 
-    api_manager = LUKHASAPIManager()
+    # Create a temporary directory for the demo storage
+    temp_storage_path = Path("./temp_api_vault")
+    temp_storage_path.mkdir(exist_ok=True)
+
+    api_manager = LUKHASAPIManager(storage_path=temp_storage_path)
 
     doctor_λid = "dr_quantum_smith_001"
     try:  # ΛTRACE_ADD: Add try-except for demo robustness
@@ -835,6 +836,11 @@ def demo_quantum_api_management():
             error_type=type(e).__name__,
             timestamp=datetime.now(timezone.utc).isoformat(),
         )
+    finally:
+        # Clean up the temporary directory
+        import shutil
+        shutil.rmtree(temp_storage_path)
+        demo_log.info("Cleaned up temporary storage directory.", path=str(temp_storage_path))
 
 
 if __name__ == "__main__":
