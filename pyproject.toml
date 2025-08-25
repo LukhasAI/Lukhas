@@ -8,7 +8,7 @@ version = "0.1.0"
 requires-python = ">=3.10"
 
 [tool.setuptools]
-packages = ["lukhas"]
+packages = ["lukhas", "candidate"]
 
 [tool.black]
 line-length = 88  # More reasonable, matches flake8
@@ -110,7 +110,7 @@ testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-addopts = "-q -n auto --maxfail=1 --disable-warnings --strict-markers --strict-config --cov=lukhas --cov-report=term-missing"
+addopts = "-q -n auto --maxfail=1 --disable-warnings --strict-markers --strict-config --cov=lukhas --cov=candidate --cov-report=term-missing"
 markers = [
     "unit: Unit tests",
     "integration: Integration tests",

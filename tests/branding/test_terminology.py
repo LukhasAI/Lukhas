@@ -1,4 +1,4 @@
-from lukhas.branding.terminology import normalize_output
+from candidate.branding.terminology import normalize_output
 
 
 def test_normalize_quantum_and_bio():

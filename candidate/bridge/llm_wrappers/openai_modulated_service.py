@@ -21,18 +21,18 @@ import time
 import uuid
 from typing import Any, cast
 
-from bridge.llm_wrappers.tool_executor import execute_tool as bridged_execute_tool
-from lukhas.audit.tool_analytics import get_analytics
-from lukhas.branding.terminology import normalize_chunk, normalize_output
-from lukhas.metrics import get_metrics_collector
-from lukhas.openai.tooling import build_tools_from_allowlist, get_all_tools
-from orchestration.signals.homeostasis import (
+from .tool_executor import execute_tool as bridged_execute_tool
+from candidate.audit.tool_analytics import get_analytics
+from candidate.branding.terminology import normalize_chunk, normalize_output
+from candidate.metrics import get_metrics_collector
+from candidate.openai.tooling import build_tools_from_allowlist, get_all_tools
+from candidate.orchestration.signals.homeostasis import (
     HomeostasisController,
     ModulationParams,
     SystemEvent,
 )
-from orchestration.signals.modulator import PromptModulation, PromptModulator
-from orchestration.signals.signal_bus import Signal, get_signal_bus
+from candidate.orchestration.signals.modulator import PromptModulation, PromptModulator
+from candidate.orchestration.signals.signal_bus import Signal, get_signal_bus
 
 from .unified_openai_client import UnifiedOpenAIClient
 
@@ -475,7 +475,7 @@ class OpenAIModulatedService:
         """Guardian pre-check; provider fallback is a no-op."""
         # Guardian
         try:
-            from lukhas.governance.guardian_sentinel import (
+            from candidate.governance.guardian_sentinel import (
                 get_guardian_sentinel,  # lazy import
             )
 
@@ -567,11 +567,11 @@ async def _run_modulated_completion_impl(
     # local imports avoided if not required; tolerate missing audit store
     # in tests
     try:
-        from lukhas.audit.store import audit_log_write as _audit_log_write
+        from candidate.audit.store import audit_log_write as _audit_log_write
     except Exception:  # pragma: no cover - optional in offline tests
         _audit_log_write = None  # type: ignore
-    from orchestration.signals.homeostasis import ModulationParams
-    from orchestration.signals.signal_bus import Signal, SignalType
+    from candidate.orchestration.signals.homeostasis import ModulationParams
+    from candidate.orchestration.signals.signal_bus import Signal, SignalType
 
     ctx_snips = ctx_snips or []
     endocrine_signals = endocrine_signals or {}
@@ -834,8 +834,8 @@ def resume_with_tools(
     import asyncio
     import json
 
-    from lukhas.audit.tool_analytics import get_analytics
-    from lukhas.tools.tool_executor import get_tool_executor
+    from candidate.audit.tool_analytics import get_analytics
+    from candidate.tools.tool_executor import get_tool_executor
 
     analytics = get_analytics()
     executor = get_tool_executor()

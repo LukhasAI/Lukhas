@@ -272,3 +272,7 @@ def get_setting(key: str, default: Any = None, module: Optional[str] = None) -> 
                 return default
 
         return value
+
+# Create default instances that imports expect
+config = get_config_loader()
+settings = get_global_config()

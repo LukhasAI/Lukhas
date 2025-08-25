@@ -1,8 +1,8 @@
 import pytest
 
-from lukhas.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
-from lukhas.orchestration.signals.homeostasis import ModulationParams
-from lukhas.orchestration.signals.signal_bus import Signal, SignalType, get_signal_bus
+from candidate.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
+from candidate.orchestration.signals.homeostasis import ModulationParams
+from candidate.orchestration.signals.signal_bus import Signal, SignalType, get_signal_bus
 
 
 class FakeOpenAIClient:

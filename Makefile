@@ -210,7 +210,7 @@ fix-imports:
 
 # Run tests
 test:
-	pytest tests/ -v
+	PYTHONPATH=. pytest tests/ -v
 
 # Run tests with coverage
 test-cov:

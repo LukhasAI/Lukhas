@@ -822,115 +822,75 @@ class LukhasUnifiedAPI:
 
     # ... (Implementations for other _endpoint_impl methods would follow a similar pattern) ...
     # Each would: generate request_id, log entry, increment stats, call manager, handle result, log exit.
-    # Placeholder for other endpoint implementations - these would need to be
-    # fully fleshed out.
     async def _get_profile_endpoint_impl(self, lambda_id: str) -> dict[str, Any]:
         self.logger.info(f"ΛTRACE: Fetching profile for {lambda_id[:10]}...")
-        # TODO: Implement actual logic with self.qrs_manager or other relevant manager
-        return {
-            "lambda_id": lambda_id,
-            "profile_data": "Sample profile data - Not Implemented Yet",
-        }
+        profile_data = await self.qrs_manager.get_user_profile(lambda_id)
+        if not profile_data:
+            raise HTTPException(status_code=404, detail="Profile not found")
+        return {"lambda_id": lambda_id, "profile_data": profile_data}
 
-    async def _update_vault_endpoint_impl(
-        self, request_data: VaultUpdateRequest
-    ) -> dict[str, Any]:
+    async def _update_vault_endpoint_impl(self, request_data: VaultUpdateRequest) -> dict[str, Any]:
         self.logger.info(f"ΛTRACE: Updating vault for {request_data.lambda_id[:10]}...")
-        # TODO: Implement
-        return {
-            "success": True,
-            "message": "Vault update processed (Not Implemented Yet)",
-        }
+        result = await self.qrs_manager.update_symbolic_vault(request_data.lambda_id, request_data.new_entries)
+        if not result.get("success"):
+            raise HTTPException(status_code=400, detail=result.get("error", "Vault update failed"))
+        return result
 
-    async def _generate_qrg_endpoint_impl(
-        self, request_data: QRGGenerationRequest
-    ) -> dict[str, Any]:
-        self.logger.info(
-            f"ΛTRACE: Generating QRG for {request_data.lambda_id[:10]}...,
-            Type: {request_data.qrg_type}"
-        )
-        # TODO: Implement
-        return {
-            "success": True,
-            "qrg_data": "Sample QRG data (Not Implemented Yet)",
-        }
+    async def _generate_qrg_endpoint_impl(self, request_data: QRGGenerationRequest) -> dict[str, Any]:
+        self.logger.info(f"ΛTRACE: Generating QRG for {request_data.lambda_id[:10]}..., Type: {request_data.qrg_type}")
+        result = await self.qrs_manager.generate_qrg_for_lambda_id(request_data)
+        if not result.get("success"):
+            raise HTTPException(status_code=400, detail=result.get("error", "QRG generation failed"))
+        self.api_stats["qrgs_generated_count"] += 1
+        return result
 
-    async def _validate_qrg_endpoint_impl(
-        self, request_data: QRGValidationRequest
-    ) -> dict[str, Any]:
+    async def _validate_qrg_endpoint_impl(self, request_data: QRGValidationRequest) -> dict[str, Any]:
         self.logger.info("ΛTRACE: Validating QRG...")
-        # TODO: Implement
-        return {
-            "success": True,
-            "validation_status": "QRG Validated (Not Implemented Yet)",
-        }
+        result = await self.qrs_manager.validate_qrg_authentication(request_data)
+        if not result.get("success"):
+            raise HTTPException(status_code=401, detail=result.get("error", "QRG validation failed"))
+        return result
 
     async def _get_tier_info_endpoint_impl(self, lambda_id: str) -> dict[str, Any]:
         self.logger.info(f"ΛTRACE: Getting tier info for {lambda_id[:10]}...")
-        # TODO: Implement
-        return {
-            "lambda_id": lambda_id,
-            "current_tier": 1,
-            "benefits": ["Benefit A (Not Implemented Yet)"],
-        }
+        tier = await self.tier_manager.get_user_tier(lambda_id)
+        benefits = await self.tier_manager.get_tier_benefits(tier)
+        return {"lambda_id": lambda_id, "current_tier": tier, "benefits": benefits}
 
-    async def _upgrade_tier_endpoint_impl(
-        self, lambda_id: str, target_tier: int
-    ) -> dict[str, Any]:
-        self.logger.info(
-            f"ΛTRACE: Upgrading tier for {lambda_id[:10]} to {target_tier}..."
-        )
-        # TODO: Implement
-        return {
-            "success": True,
-            "new_tier": target_tier,
-            "message": "Tier upgrade processed (Not Implemented Yet)",
-        }
+    async def _upgrade_tier_endpoint_impl(self, lambda_id: str, target_tier: int) -> dict[str, Any]:
+        self.logger.info(f"ΛTRACE: Upgrading tier for {lambda_id[:10]} to {target_tier}...")
+        result = await self.tier_manager.request_tier_upgrade(lambda_id, target_tier)
+        if not result.get("success"):
+            raise HTTPException(status_code=400, detail=result.get("error", "Tier upgrade failed"))
+        self.api_stats["tier_upgrades_processed_count"] += 1
+        return result
 
-    async def _enroll_biometric_endpoint_impl(
-        self, request_data: BiometricEnrollRequest
-    ) -> dict[str, Any]:
-        self.logger.info(
-            f"ΛTRACE: Enrolling biometric for {request_data.lambda_id[:10]}...,
-            Type: {request_data.biometric_type}"
-        )
-        # TODO: Implement
-        return {
-            "success": True,
-            "enrollment_status": "Biometric enrolled (Not Implemented Yet)",
-        }
+    async def _enroll_biometric_endpoint_impl(self, request_data: BiometricEnrollRequest) -> dict[str, Any]:
+        self.logger.info(f"ΛTRACE: Enrolling biometric for {request_data.lambda_id[:10]}..., Type: {request_data.biometric_type}")
+        result = await self.biometric_manager.enroll_biometric(request_data)
+        if not result.get("success"):
+            raise HTTPException(status_code=400, detail=result.get("error", "Biometric enrollment failed"))
+        self.api_stats["biometric_enrollments_count"] += 1
+        return result
 
-    async def _verify_biometric_endpoint_impl(
-        self, request_data: BiometricVerifyRequest
-    ) -> dict[str, Any]:
-        self.logger.info(
-            f"ΛTRACE: Verifying biometric for {request_data.lambda_id[:10]}...,
-            Type: {request_data.biometric_type}"
-        )
-        # TODO: Implement
-        return {
-            "success": True,
-            "verification_status": "Biometric verified (Not Implemented Yet)",
-        }
+    async def _verify_biometric_endpoint_impl(self, request_data: BiometricVerifyRequest) -> dict[str, Any]:
+        self.logger.info(f"ΛTRACE: Verifying biometric for {request_data.lambda_id[:10]}..., Type: {request_data.biometric_type}")
+        result = await self.biometric_manager.verify_biometric(request_data)
+        if not result.success:
+            raise HTTPException(status_code=401, detail=result.error_message)
+        return {"success": True, "verification_status": "Biometric verified", "details": result}
 
-    async def _get_enrolled_biometrics_endpoint_impl(
-        self, lambda_id: str
-    ) -> dict[str, Any]:
+    async def _get_enrolled_biometrics_endpoint_impl(self, lambda_id: str) -> dict[str, Any]:
         self.logger.info(f"ΛTRACE: Getting enrolled biometrics for {lambda_id[:10]}...")
-        # TODO: Implement
-        return {
-            "lambda_id": lambda_id,
-            "enrolled_types": ["face (Not Implemented Yet)"],
-        }
+        enrolled_types = await self.biometric_manager.get_enrolled_modalities(lambda_id)
+        return {"lambda_id": lambda_id, "enrolled_types": enrolled_types}
 
     async def _get_analytics_endpoint_impl(self, lambda_id: str) -> dict[str, Any]:
         self.logger.info(f"ΛTRACE: Getting analytics for {lambda_id[:10]}...")
-        # TODO: Implement
-        return {
-            "lambda_id": lambda_id,
-            "usage_stats": {"logins": 0, "transactions": 0},
-            "message": "Not Implemented Yet",
-        }
+        analytics_data = await self.qrs_manager.get_user_analytics(lambda_id)
+        if not analytics_data:
+            raise HTTPException(status_code=404, detail="Analytics data not found")
+        return {"lambda_id": lambda_id, "usage_stats": analytics_data}
 
     async def _get_system_stats_endpoint_impl(self) -> dict[str, Any]:
         self.logger.info("ΛTRACE: Getting system API stats.")
