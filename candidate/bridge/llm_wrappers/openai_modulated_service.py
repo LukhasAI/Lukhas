@@ -21,18 +21,18 @@ import time
 import uuid
 from typing import Any, cast
 
-from bridge.llm_wrappers.tool_executor import execute_tool as bridged_execute_tool
-from lukhas.audit.tool_analytics import get_analytics
-from lukhas.branding.terminology import normalize_chunk, normalize_output
-from lukhas.metrics import get_metrics_collector
-from lukhas.openai.tooling import build_tools_from_allowlist, get_all_tools
-from orchestration.signals.homeostasis import (
+from .tool_executor import execute_tool as bridged_execute_tool
+from candidate.audit.tool_analytics import get_analytics
+from candidate.branding.terminology import normalize_chunk, normalize_output
+from candidate.metrics import get_metrics_collector
+from candidate.openai.tooling import build_tools_from_allowlist, get_all_tools
+from candidate.orchestration.signals.homeostasis import (
     HomeostasisController,
     ModulationParams,
     SystemEvent,
 )
-from orchestration.signals.modulator import PromptModulation, PromptModulator
-from orchestration.signals.signal_bus import Signal, get_signal_bus
+from candidate.orchestration.signals.modulator import PromptModulation, PromptModulator
+from candidate.orchestration.signals.signal_bus import Signal, get_signal_bus
 
 from .unified_openai_client import UnifiedOpenAIClient
 

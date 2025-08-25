@@ -39,7 +39,10 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional, Union
 
+import sys
+sys.path.pop(0)
 from openai import AsyncOpenAI, OpenAI
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
 
 logger = logging.getLogger("ΛTRACE.bridge.unified_openai")
 
@@ -90,7 +93,7 @@ class UnifiedOpenAIClient:
         "general": "gpt-3.5-turbo",
     }
 
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: Optional[str] = None, organization: Optional[str] = None, project: Optional[str] = None):
         """
         Initialize the unified OpenAI client.
 
@@ -99,12 +102,12 @@ class UnifiedOpenAIClient:
         """
         # Get API key from parameter or environment
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
-        self.organization = os.getenv("ORGANIZATION_ID")
-        self.project = os.getenv("PROJECT_ID")
+        self.organization = organization or os.getenv("ORGANIZATION_ID")
+        self.project = project or os.getenv("PROJECT_ID")
 
         if not self.api_key:
             raise ValueError(
-                "OpenAI API key not found. Set OPENAI_API_KEY environment variable."
+                "OpenAI API key not found. Set OPENAI_API_KEY environment variable or pass it as an argument."
             )
 
         # Initialize clients with organization from .env

@@ -11,7 +11,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Optional
 
-from lukhas.flags import get_flags
+from ..flags.ff import Flags
 
 # Storage paths
 AUDIT_DIR = Path(".lukhas_audit")
@@ -83,7 +83,7 @@ class ToolAnalytics:
     def start_tool_call(self, tool_name: str, arguments: dict[str, Any]) -> str:
         """Record the start of a tool invocation"""
         # Check if analytics is disabled via flag
-        if not get_flags().get("tool_analytics", True):
+        if not Flags.get("tool_analytics", True):
             # Return a dummy ID but don't track
             return f"tool_{uuid.uuid4().hex[:8]}"
 
@@ -102,7 +102,7 @@ class ToolAnalytics:
     ):
         """Record completion of a tool invocation"""
         # Check if analytics is disabled via flag
-        if not get_flags().get("tool_analytics", True):
+        if not Flags.get("tool_analytics", True):
             # No-op if analytics is disabled
             return
 
@@ -133,7 +133,7 @@ class ToolAnalytics:
         self.incidents.append(incident)
 
         # Only persist to file if analytics is enabled
-        if get_flags().get("tool_analytics", True):
+        if Flags.get("tool_analytics", True):
             with _INCIDENT_LOCK:
                 write_incident(incident)
 

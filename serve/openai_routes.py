@@ -5,7 +5,7 @@ import logging
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse, StreamingResponse
 
-from lukhas.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
+from candidate.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 
 from .schemas import ModulatedChatRequest, ModulatedChatResponse
 

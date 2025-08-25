@@ -19,7 +19,10 @@ Agent 10 Advanced Systems Implementation
 """
 
 import asyncio
+import logging
 from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
 
 # Import high-priority voice components
 from .context_aware_voice_modular import ContextAwareVoiceSystem
@@ -34,7 +37,10 @@ class VoiceHub:
         self.initialized = False
 
         # Initialize high-priority components
-        self._initialize_core_services()
+        try:
+            self._initialize_core_services()
+        except Exception as e:
+            print(f"Error during VoiceHub initialization: {e}")
 
     def _initialize_core_services(self) -> None:
         """Initialize core voice services"""
@@ -51,12 +57,12 @@ class VoiceHub:
             logger.info("voice_core_services_initialized")
 
         except Exception as e:
-            logger.error("voice_service_initialization_failed", error=str(e))
+            logger.error(f"voice_service_initialization_failed: {e}")
 
     def register_service(self, name: str, service: Any) -> None:
         """Register a voice service"""
         self.services[name] = service
-        logger.debug("voice_service_registered", service=name)
+        logger.debug(f"voice_service_registered, service={name}")
 
     async def initialize(self) -> None:
         """Initialize voice hub"""
@@ -69,7 +75,7 @@ class VoiceHub:
             logger.info("voice_hub_initialized")
 
         except Exception as e:
-            logger.warning("voice_hub_initialization_failed", error=str(e))
+            logger.warning("voice_hub_initialization_failed: %s", e)
 
     def get_service(self, name: str) -> Optional[Any]:
         """Get a registered voice service"""
@@ -107,7 +113,7 @@ class VoiceHub:
             return results
 
         except Exception as e:
-            logger.error("voice_processing_failed", error=str(e))
+            logger.error(f"voice_processing_failed: {e}")
             return {"error": str(e)}
 
     async def shutdown(self) -> None:

@@ -175,9 +175,7 @@ class MemoryFoldSystem:
         }
 
         logger.info(
-            "Memory Fold System initialized",
-            has_conscience=bool(structural_conscience),
-            auto_tagging=enable_auto_tagging,
+            f"Memory Fold System initialized, has_conscience={bool(structural_conscience)}, auto_tagging={enable_auto_tagging}"
         )
 
     def _generate_item_id(self) -> str:
@@ -298,11 +296,7 @@ class MemoryFoldSystem:
             )
 
         logger.info(
-            "Memory folded in successfully",
-            item_id=item_id,
-            tags=tags,
-            emotional_weight=emotional_weight,
-            colony_source=colony_source,
+            f"Memory folded in successfully, item_id={item_id}, tags={tags}, emotional_weight={emotional_weight}, colony_source={colony_source}"
         )
 
         return item_id

@@ -271,11 +271,7 @@ class ContinuousLearningEngine:
         self.tag_weights[tag] = max(self.min_weight, min(new_weight, self.max_weight))
 
         logger.debug(
-            "Updated tag weight",
-            tag=tag,
-            old_weight=current_weight,
-            new_weight=self.tag_weights[tag],
-            feedback=feedback,
+            f"Updated tag weight, tag={tag}, old_weight={current_weight}, new_weight={self.tag_weights[tag]}, feedback={feedback}"
         )
 
     def get_tag_importance(self, tag: str) -> float:
@@ -328,10 +324,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         self.causal_graph = defaultdict(lambda: {"causes": [], "effects": []})
 
         logger.info(
-            "Hybrid Memory Fold initialized",
-            embedding_dim=embedding_dim,
-            attention_enabled=enable_attention,
-            learning_enabled=enable_continuous_learning,
+            f"Hybrid Memory Fold initialized, embedding_dim={embedding_dim}, attention_enabled={enable_attention}, learning_enabled={enable_continuous_learning}"
         )
 
     async def fold_in_with_embedding(
@@ -380,10 +373,7 @@ class HybridMemoryFold(MemoryFoldSystem):
                 self.learning_engine.update_tag_importance(tag, 0.1, {})
 
         logger.info(
-            "Hybrid memory folded in",
-            memory_id=memory_id,
-            has_embedding=embedding is not None,
-            num_tags=len(tags),
+            f"Hybrid memory folded in, memory_id={memory_id}, has_embedding={embedding is not None}, num_tags={len(tags)}"
         )
 
         return memory_id
@@ -498,7 +488,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         )
 
         logger.info(
-            "Causal link added", cause=cause_id, effect=effect_id, strength=strength
+            f"Causal link added, cause={cause_id}, effect={effect_id}, strength={strength}"
         )
 
     async def trace_causal_chain(
@@ -580,10 +570,7 @@ class HybridMemoryFold(MemoryFoldSystem):
                     )
 
         logger.debug(
-            "Updated memory importance",
-            memory_id=memory_id,
-            feedback=feedback,
-            access_count=memory.access_count,
+            f"Updated memory importance, memory_id={memory_id}, feedback={feedback}, access_count={memory.access_count}"
         )
 
     async def _generate_embedding(

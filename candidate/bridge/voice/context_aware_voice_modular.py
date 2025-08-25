@@ -40,7 +40,10 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
+import logging
+
 # Initialize structured logger
+logger = logging.getLogger(__name__)
 
 
 class EmotionState(Enum):
@@ -177,11 +180,7 @@ class ContextAnalyzer:
         )
 
         logger.debug(
-            "ΛVOICE: Context analysis completed",
-            intent=context.intent,
-            emotion=context.emotion.value,
-            urgency=context.urgency.value,
-            confidence=context.confidence,
+            f"ΛVOICE: Context analysis completed, intent={context.intent}, emotion={context.emotion.value}, urgency={context.urgency.value}, confidence={context.confidence}"
         )
 
         return context
@@ -443,11 +442,7 @@ class VoiceModulator:
         )
 
         logger.debug(
-            "ΛVOICE: Parameters determined",
-            pitch=voice_params.pitch,
-            speed=voice_params.speed,
-            energy=voice_params.energy,
-            emotion=voice_params.emotion,
+            f"ΛVOICE: Parameters determined, pitch={voice_params.pitch}, speed={voice_params.speed}, energy={voice_params.energy}, emotion={voice_params.emotion}"
         )
 
         return voice_params
@@ -476,7 +471,7 @@ class MemoryManager:
         self.memories: dict[str, list[dict[str, Any]]] = {}
         self.max_memories = max_memories
 
-        logger.info("ΛVOICE: Memory manager initialized", max_memories=max_memories)
+        logger.info(f"ΛVOICE: Memory manager initialized, max_memories={max_memories}")
 
     def store_interaction(
         self,
@@ -515,9 +510,7 @@ class MemoryManager:
             )[: self.max_memories]
 
         logger.debug(
-            "ΛVOICE: Interaction stored",
-            user_id=user_id,
-            importance=memory["importance"],
+            f"ΛVOICE: Interaction stored, user_id={user_id}, importance={memory['importance']}"
         )
 
     def get_relevant_memories(
@@ -581,9 +574,7 @@ class ContextAwareVoiceSystem:
         self.enable_adaptation = config.get("enable_adaptation", True)
 
         logger.info(
-            "ΛVOICE: Context-aware voice system initialized",
-            enable_memory=self.enable_memory,
-            enable_adaptation=self.enable_adaptation,
+            f"ΛVOICE: Context-aware voice system initialized, enable_memory={self.enable_memory}, enable_adaptation={self.enable_adaptation}"
         )
 
     async def process_input(
@@ -643,11 +634,7 @@ class ContextAwareVoiceSystem:
         }
 
         logger.info(
-            "ΛVOICE: Input processed",
-            user_id=user_id,
-            intent=context.intent,
-            emotion=context.emotion.value,
-            confidence=context.confidence,
+            f"ΛVOICE: Input processed, user_id={user_id}, intent={context.intent}, emotion={context.emotion.value}, confidence={context.confidence}"
         )
 
         return result
