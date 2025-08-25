@@ -1,3 +1,34 @@
+---
+# Content Classification
+doc_type: "api"
+update_frequency: "monthly"
+last_updated: "2025-08-25"
+next_review: "2025-09-25"
+
+# Audience Targeting
+audience: ["developers", "agents"]
+technical_level: "advanced"
+
+# Agent Routing
+agent_relevance:
+  api_interface_colonel: 1.0
+  consciousness_developer: 0.9
+  github_copilot: 0.8
+  supreme_consciousness_architect: 0.7
+  documentation_specialist: 0.9
+  devops_guardian: 0.8
+  consciousness_architect: 0.6
+  guardian_engineer: 0.6
+
+# Trinity Framework
+trinity_component: ["consciousness", "guardian"]
+search_keywords: ["api", "endpoints", "authentication", "glyph", "websocket", "reference"]
+
+# Priority Classification
+priority: "critical"
+category: "api"
+---
+
 # LUKHAS  API Reference
 
 ## Table of Contents

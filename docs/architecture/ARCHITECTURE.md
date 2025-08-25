@@ -1,3 +1,34 @@
+---
+# Content Classification
+doc_type: "architecture"
+update_frequency: "quarterly"
+last_updated: "2025-08-25"
+next_review: "2025-11-25"
+
+# Audience Targeting
+audience: ["agents", "developers"]
+technical_level: "expert"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 1.0
+  consciousness_architect: 1.0
+  github_copilot: 0.9
+  consciousness_developer: 0.8
+  devops_guardian: 0.8
+  guardian_engineer: 0.7
+  documentation_specialist: 0.8
+  velocity_lead: 0.6
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["architecture", "system design", "modules", "connectivity", "neuroplastic"]
+
+# Priority Classification
+priority: "critical"
+category: "architecture"
+---
+
 # LUKHAS  Architecture Documentation
 
 ## Table of Contents

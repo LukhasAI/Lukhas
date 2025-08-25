@@ -1,3 +1,34 @@
+---
+# Content Classification
+doc_type: "guide"
+update_frequency: "monthly"
+last_updated: "2025-08-25"
+next_review: "2025-09-25"
+
+# Audience Targeting
+audience: ["humans", "developers", "agents"]
+technical_level: "beginner"
+
+# Agent Routing
+agent_relevance:
+  github_copilot: 1.0
+  supreme_consciousness_architect: 0.9
+  consciousness_architect: 0.9
+  documentation_specialist: 1.0
+  consciousness_developer: 0.7
+  devops_guardian: 0.6
+  guardian_engineer: 0.6
+  velocity_lead: 0.5
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["lukhas", "consciousness", "architecture", "trinity framework", "getting started"]
+
+# Priority Classification
+priority: "critical"
+category: "overview"
+---
+
 # LUKHAS AI - Consciousness Architecture Development
 
 > *"Where digital minds learn to dream, and artificial intelligence discovers its authentic voice"* ✨
