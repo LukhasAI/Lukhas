@@ -1,3 +1,37 @@
+---
+# Content Classification
+doc_type: "development"
+update_frequency: "fixed"
+last_updated: "2025-08-25"
+next_review: "2026-08-25"
+
+# Audience Targeting
+audience: ["developers", "agents"]
+technical_level: "advanced"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 0.8
+  consciousness_architect: 0.8
+  consciousness_developer: 0.9
+  github_copilot: 0.8
+  api_interface_colonel: 0.6
+  security_compliance_colonel: 0.9
+  testing_validation_colonel: 0.9
+  devops_guardian: 0.7
+  documentation_specialist: 0.9
+  guardian_engineer: 0.9
+  velocity_lead: 0.6
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["stargate", "enhancements", "glyph", "consent receipt", "blake3", "authentication", "security"]
+
+# Priority Classification
+priority: "high"
+category: "development"
+---
+
 # LUKHΛS Stargate Gateway Enhancements Summary
 
 ## 🛡️ 1. Red Team Glyph Map (`glyph_timeline_generator.py`)
@@ -55,7 +89,7 @@
 
 **Animation Phases:**
 1. Chevron dialing: ⚙️🔮🧿🌌🧬🔺💫
-2. Power up: ▁▂▃▄▅▆▇█
+2. Power up:  ▂▃▄▅▆▇█
 3. Wormhole vortex: ∙→○→◯→◉→◯→○→∙
 4. Consciousness sync: State-specific pulses
 

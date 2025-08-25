@@ -15,9 +15,12 @@ agent_relevance:
   consciousness_architect: 1.0
   consciousness_developer: 0.9
   github_copilot: 0.8
-  guardian_engineer: 0.8
-  documentation_specialist: 0.7
+  api_interface_colonel: 0.6
+  security_compliance_colonel: 0.8
+  testing_validation_colonel: 0.9
   devops_guardian: 0.7
+  documentation_specialist: 0.7
+  guardian_engineer: 0.8
   velocity_lead: 0.6
 
 # Trinity Framework

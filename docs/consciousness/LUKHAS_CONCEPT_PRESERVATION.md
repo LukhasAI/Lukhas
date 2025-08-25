@@ -1,3 +1,37 @@
+---
+# Content Classification
+doc_type: "development"
+update_frequency: "quarterly"
+last_updated: "2025-08-25"
+next_review: "2025-11-25"
+
+# Audience Targeting
+audience: ["developers", "agents"]
+technical_level: "intermediate"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 1.0
+  consciousness_architect: 1.0
+  consciousness_developer: 1.0
+  github_copilot: 0.9
+  api_interface_colonel: 0.6
+  security_compliance_colonel: 0.5
+  testing_validation_colonel: 0.7
+  devops_guardian: 0.5
+  documentation_specialist: 1.0
+  guardian_engineer: 0.6
+  velocity_lead: 0.7
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["concept preservation", "guidelines", "development", "refactoring", "naming", "memory_fold", "dream_recall"]
+
+# Priority Classification
+priority: "high"
+category: "development"
+---
+
 # LUKHAS Concept Preservation Guidelines
 
 ## Critical Concepts to Preserve

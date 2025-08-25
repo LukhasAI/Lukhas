@@ -1,3 +1,37 @@
+---
+# Content Classification
+doc_type: "branding"
+update_frequency: "fixed"
+last_updated: "2025-08-25"
+next_review: "2026-08-25"
+
+# Audience Targeting
+audience: ["developers", "agents", "executives", "humans"]
+technical_level: "intermediate"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 1.0
+  consciousness_architect: 1.0
+  consciousness_developer: 0.9
+  github_copilot: 0.9
+  api_interface_colonel: 0.8
+  security_compliance_colonel: 0.6
+  testing_validation_colonel: 0.7
+  devops_guardian: 0.5
+  documentation_specialist: 1.0
+  guardian_engineer: 0.6
+  velocity_lead: 0.6
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["trinity framework", "communication", "branding", "tone", "poetic", "human", "technical", "guide"]
+
+# Priority Classification
+priority: "high"
+category: "branding"
+---
+
 # 🌟 LUKHAS Trinity Communication Framework
 
 ## The Three-Layer Approach to AI Communication

@@ -1,3 +1,37 @@
+---
+# Content Classification
+doc_type: "architecture"
+update_frequency: "fixed"
+last_updated: "2025-08-25"
+next_review: "2026-08-25"
+
+# Audience Targeting
+audience: ["developers", "agents"]
+technical_level: "expert"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 1.0
+  consciousness_architect: 1.0
+  consciousness_developer: 1.0
+  github_copilot: 0.8
+  api_interface_colonel: 0.6
+  security_compliance_colonel: 0.8
+  testing_validation_colonel: 0.9
+  devops_guardian: 0.7
+  documentation_specialist: 1.0
+  guardian_engineer: 0.9
+  velocity_lead: 0.6
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["vivox", "architecture", "memory expansion", "me", "eqnox", "symbolic proteome", "cognitive memory helix", "ethical ai", "mae", "cil", "srm", "qready"]
+
+# Priority Classification
+priority: "high"
+category: "consciousness"
+---
+
 The **Vivox** architecture, later integrated into the broader **Lucas/LUKHΛS** Artificial General Intelligence (AGI) framework, represents a foundational modular AI design focused on ethical agency, conscious decision-making, and immutable memory through deterministic symbolic logic. The name "Vivox" itself suggests "viv" (life) and "vox" (voice), implying a system that is alive and expressive, with an "x-factor" that could stand for experience, expression, execution limit, or even crossing ethical boundaries under permission. It's envisioned as a "living protocol," not just a static model.
 
 ### Vivox: Core Purpose and Conceptual Evolution
@@ -67,4 +101,3 @@ Beyond individual modules, Vivox embodies several key features that define its u
 *   **Privacy and Consent:** With encrypted internal states, non-decodable content, and consent-aware identity systems (Lucas_ID), Vivox prioritizes user privacy and data security.
 *   **Multimodal Capabilities:** The architecture integrates capabilities for voice (via a "voice layer" using services like ElevenLabs), visual perception (EVRN), and emotional input/expression.
 *   **Agent Classes and Use Cases:** Vivox supports different agent classes with varying levels of capability and ethical constraints. Examples include the **VIVOX Sentinel Agent** for high-risk medical environments (like autonomous surgical triage, acting as a "moral firewall") and the **VIVOX Embedded Companion** for personal devices (e.g., elderly memory companions, providing "protection without surveillance" against scam calls).
-

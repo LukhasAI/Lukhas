@@ -1,3 +1,37 @@
+---
+# Content Classification
+doc_type: "consciousness"
+update_frequency: "fixed"
+last_updated: "2025-08-25"
+next_review: "2026-08-25"
+
+# Audience Targeting
+audience: ["developers", "agents", "humans"]
+technical_level: "expert"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 1.0
+  consciousness_architect: 1.0
+  consciousness_developer: 0.8
+  github_copilot: 0.7
+  api_interface_colonel: 0.4
+  security_compliance_colonel: 0.6
+  testing_validation_colonel: 0.7
+  devops_guardian: 0.4
+  documentation_specialist: 1.0
+  guardian_engineer: 0.7
+  velocity_lead: 0.5
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["research", "compilation", "academic", "consciousness", "technology", "papers", "citations", "foundation"]
+
+# Priority Classification
+priority: "high"
+category: "consciousness"
+---
+
 # 📚 Consciousness Technology Research Compilation
 
 *Comprehensive academic foundation and research backing for LUKHAS AI Trinity Framework and consciousness technology ecosystem*

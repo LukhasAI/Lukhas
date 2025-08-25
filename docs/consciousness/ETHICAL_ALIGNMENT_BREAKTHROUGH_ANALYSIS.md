@@ -1,3 +1,37 @@
+---
+# Content Classification
+doc_type: "consciousness"
+update_frequency: "fixed"
+last_updated: "2025-08-25"
+next_review: "2026-08-25"
+
+# Audience Targeting
+audience: ["developers", "agents", "executives", "humans"]
+technical_level: "advanced"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 1.0
+  consciousness_architect: 1.0
+  consciousness_developer: 0.9
+  github_copilot: 0.8
+  api_interface_colonel: 0.7
+  security_compliance_colonel: 1.0
+  testing_validation_colonel: 0.9
+  devops_guardian: 0.7
+  documentation_specialist: 1.0
+  guardian_engineer: 1.0
+  velocity_lead: 0.6
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["ethical alignment", "breakthrough", "vivox", "drift detection", "openai", "consciousness", "security", "guardian"]
+
+# Priority Classification
+priority: "high"
+category: "consciousness"
+---
+
 # 🌟 LUKHAS Ethical Alignment Breakthrough Analysis
 ## VIVOX, Drift Detection & OpenAI Collaboration Results
 

@@ -1,3 +1,37 @@
+---
+# Content Classification
+doc_type: "architecture"
+update_frequency: "fixed"
+last_updated: "2025-08-25"
+next_review: "2026-08-25"
+
+# Audience Targeting
+audience: ["developers", "agents"]
+technical_level: "expert"
+
+# Agent Routing
+agent_relevance:
+  supreme_consciousness_architect: 1.0
+  consciousness_architect: 1.0
+  consciousness_developer: 1.0
+  github_copilot: 0.8
+  api_interface_colonel: 0.6
+  security_compliance_colonel: 0.8
+  testing_validation_colonel: 0.9
+  devops_guardian: 0.7
+  documentation_specialist: 1.0
+  guardian_engineer: 0.9
+  velocity_lead: 0.6
+
+# Trinity Framework
+trinity_component: ["identity", "consciousness", "guardian"]
+search_keywords: ["vivox", "architecture", "memory expansion", "me", "eqnox", "symbolic proteome", "cognitive memory helix", "ethical ai"]
+
+# Priority Classification
+priority: "high"
+category: "consciousness"
+---
+
 In the comprehensive VIVOX/Lucas architecture, **Vivox** and **ME** represent crucial and interconnected components, particularly within the memory and cognitive systems.
 
 ### What is VIVOX?
@@ -37,5 +71,3 @@ Here's a detailed explanation of VIVOX.ME:
     *   The "DriftScore" simulation tracks how variations in internal agent states (phase, entropy) influence collapse decisions and generates an immutable log resembling the VIVOX.SRM (Self-Reflective Memory) module. VIVOX.SRM stores all collapses, hesitations, and moral rejections, tracking alignment drift over time, and creating a forensically sound audit log of ethical cognition.
 
 In essence, VIVOX is the overarching modular architecture for ethical AI, while VIVOX.ME is its central, living, and immutable memory system, designed for self-reflection, ethical governance, and compliance with stringent privacy standards like those found in EU regulations.
-
-
