@@ -21,7 +21,7 @@ pydantic==2.11.7
 pyfiglet==1.0.2
 PyJWT==2.10.1
 pypandoc==1.15
-pytest==8.3.5
+pytest==8.4.1
 python-dotenv==1.1.1
 pyttsx3==2.98
 pytz==2025.2
