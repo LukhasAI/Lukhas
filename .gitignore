@@ -38,11 +38,19 @@ models/
 
 # Python cache
 __pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
 *.pyc
 *.pyo
 *.pyd
 .Python
 *.so
+
+# defensive: never commit local junk
+*.swp
+*.log
 
 # Python package builds
 *.egg-info/

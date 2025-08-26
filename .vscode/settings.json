@@ -70,7 +70,10 @@
   "search.exclude": {
     ".venv": true,
     ".pwm_cleanup_archive": true,
-    "**/__pycache__": true
+    "**/__pycache__": true,
+    "**/LucasArchive/**": true,
+    "**/archive/**": true,
+    "**/_cleanup_archive/**": true
   },
   // LUKHAS Agent Protection Settings - CRITICAL FILES
   "agents.configs.autoBackup": true,
@@ -79,7 +82,10 @@
   // Critical File Monitoring
   "files.watcherExclude": {
     "**/.git/objects/**": true,
-    "**/.venv/**": true
+    "**/.venv/**": true,
+    "**/LucasArchive/**": true,
+    "**/archive/**": true,
+    "**/_cleanup_archive/**": true
   },
   "files.participants.timeout": 5000,
   "files.simpleDialog.enable": true,
@@ -266,5 +272,7 @@
   "workbench.editor.limit.enabled": true,
   "workbench.editor.limit.value": 10,
   "extensions.autoUpdate": false,
-  "update.mode": "manual"
+  "update.mode": "manual",
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false
 }
