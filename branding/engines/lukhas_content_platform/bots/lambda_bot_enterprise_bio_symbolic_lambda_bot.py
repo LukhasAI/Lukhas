@@ -15,13 +15,14 @@ from enum import Enum
 from typing import Any
 
 # Add workspace core to path
-sys.path.append('/Users/agi_dev/AGI-Consolidation-Repo/core')
-sys.path.append('/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot')
+sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core")
+sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
 
 # Import workspace components
 try:
     from bio_symbolic import BioSymbolicProcessor, PatternRecognition, SymbolicMapping
     from symbolic_ai_stubs import SymbolicAIInterface
+
     BIO_SYMBOLIC_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Workspace bio-symbolic not available: {e}")
@@ -30,6 +31,7 @@ except ImportError as e:
 # Import base LUKHAS AI ΛBot
 try:
     from core_ΛBot import CoreΛBot, SubscriptionTier
+
     LAMBDA_BOT_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Base LUKHAS AI ΛBot not available: {e}")
@@ -39,17 +41,21 @@ except ImportError as e:
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("BioSymbolicΛBot")
 
+
 class PatternType(Enum):
     """Types of bio-symbolic patterns for code analysis"""
+
     ARCHITECTURAL = "architectural"
     BEHAVIORAL = "behavioral"
     STRUCTURAL = "structural"
     EMERGENT = "emergent"
     SYMBOLIC = "symbolic"
 
+
 @dataclass
 class BioSymbolicPattern:
     """Bio-symbolic pattern discovered in code"""
+
     pattern_id: str
     pattern_type: PatternType
     biological_analogy: str
@@ -59,9 +65,11 @@ class BioSymbolicPattern:
     relationships: list[str] = field(default_factory=list)
     modularization_impact: str = ""
 
+
 @dataclass
 class SymbolicAnalysisSession:
     """Session for bio-symbolic analysis"""
+
     session_id: str
     start_time: datetime
     target_path: str
@@ -69,6 +77,7 @@ class SymbolicAnalysisSession:
     symbolic_mappings: dict[str, Any] = field(default_factory=dict)
     bio_insights: dict[str, Any] = field(default_factory=dict)
     modularization_recommendations: list[str] = field(default_factory=list)
+
 
 class BioSymbolicΛBot:
     """
@@ -118,31 +127,47 @@ class BioSymbolicΛBot:
     def _initialize_pattern_library(self):
         """Initialize bio-symbolic pattern library"""
         self.pattern_library = {
-            'cellular_architecture': {
-                'description': 'Modular units with clear boundaries like biological cells',
-                'indicators': ['class definitions', 'module boundaries', 'encapsulation'],
-                'biological_analogy': 'Cell membrane separation with selective permeability'
+            "cellular_architecture": {
+                "description": "Modular units with clear boundaries like biological cells",
+                "indicators": [
+                    "class definitions",
+                    "module boundaries",
+                    "encapsulation",
+                ],
+                "biological_analogy": "Cell membrane separation with selective permeability",
             },
-            'neural_networks': {
-                'description': 'Interconnected processing nodes like neural networks',
-                'indicators': ['function calls', 'event systems', 'message passing'],
-                'biological_analogy': 'Synaptic connections and neural pathways'
+            "neural_networks": {
+                "description": "Interconnected processing nodes like neural networks",
+                "indicators": ["function calls", "event systems", "message passing"],
+                "biological_analogy": "Synaptic connections and neural pathways",
             },
-            'dna_inheritance': {
-                'description': 'Hierarchical inheritance patterns like genetic inheritance',
-                'indicators': ['class inheritance', 'interface implementation', 'trait composition'],
-                'biological_analogy': 'Genetic inheritance and trait expression'
+            "dna_inheritance": {
+                "description": "Hierarchical inheritance patterns like genetic inheritance",
+                "indicators": [
+                    "class inheritance",
+                    "interface implementation",
+                    "trait composition",
+                ],
+                "biological_analogy": "Genetic inheritance and trait expression",
             },
-            'ecosystem_interaction': {
-                'description': 'Complex system interactions like biological ecosystems',
-                'indicators': ['microservices', 'api interactions', 'dependency networks'],
-                'biological_analogy': 'Species interaction and ecological balance'
+            "ecosystem_interaction": {
+                "description": "Complex system interactions like biological ecosystems",
+                "indicators": [
+                    "microservices",
+                    "api interactions",
+                    "dependency networks",
+                ],
+                "biological_analogy": "Species interaction and ecological balance",
             },
-            'evolutionary_adaptation': {
-                'description': 'Adaptive patterns that evolve over time',
-                'indicators': ['configuration changes', 'feature flags', 'version control'],
-                'biological_analogy': 'Natural selection and evolutionary adaptation'
-            }
+            "evolutionary_adaptation": {
+                "description": "Adaptive patterns that evolve over time",
+                "indicators": [
+                    "configuration changes",
+                    "feature flags",
+                    "version control",
+                ],
+                "biological_analogy": "Natural selection and evolutionary adaptation",
+            },
         }
 
         logger.info(f"🧬 Initialized {len(self.pattern_library)} bio-symbolic patterns")
@@ -150,43 +175,65 @@ class BioSymbolicΛBot:
     def _initialize_biological_analogies(self):
         """Initialize biological system analogies for code architecture"""
         self.biological_analogies = {
-            'organism': {
-                'code_equivalent': 'complete_application',
-                'characteristics': ['self-contained', 'responsive_to_environment', 'metabolic_processes'],
-                'modularization_insight': 'Application should function as coherent organism with specialized organs'
+            "organism": {
+                "code_equivalent": "complete_application",
+                "characteristics": [
+                    "self-contained",
+                    "responsive_to_environment",
+                    "metabolic_processes",
+                ],
+                "modularization_insight": "Application should function as coherent organism with specialized organs",
             },
-            'organ_system': {
-                'code_equivalent': 'major_subsystem',
-                'characteristics': ['specialized_function', 'organ_coordination', 'system_integration'],
-                'modularization_insight': 'Subsystems should have clear functions like organ systems'
+            "organ_system": {
+                "code_equivalent": "major_subsystem",
+                "characteristics": [
+                    "specialized_function",
+                    "organ_coordination",
+                    "system_integration",
+                ],
+                "modularization_insight": "Subsystems should have clear functions like organ systems",
             },
-            'cell': {
-                'code_equivalent': 'individual_module',
-                'characteristics': ['membrane_boundary', 'internal_structure', 'metabolic_function'],
-                'modularization_insight': 'Modules should have clear boundaries and internal organization'
+            "cell": {
+                "code_equivalent": "individual_module",
+                "characteristics": [
+                    "membrane_boundary",
+                    "internal_structure",
+                    "metabolic_function",
+                ],
+                "modularization_insight": "Modules should have clear boundaries and internal organization",
             },
-            'dna': {
-                'code_equivalent': 'configuration_and_templates',
-                'characteristics': ['information_storage', 'replication_instructions', 'trait_expression'],
-                'modularization_insight': 'Configuration should encode modular structure patterns'
+            "dna": {
+                "code_equivalent": "configuration_and_templates",
+                "characteristics": [
+                    "information_storage",
+                    "replication_instructions",
+                    "trait_expression",
+                ],
+                "modularization_insight": "Configuration should encode modular structure patterns",
             },
-            'immune_system': {
-                'code_equivalent': 'error_handling_and_security',
-                'characteristics': ['threat_detection', 'adaptive_response', 'memory_formation'],
-                'modularization_insight': 'Security should be distributed across modules with coordination'
-            }
+            "immune_system": {
+                "code_equivalent": "error_handling_and_security",
+                "characteristics": [
+                    "threat_detection",
+                    "adaptive_response",
+                    "memory_formation",
+                ],
+                "modularization_insight": "Security should be distributed across modules with coordination",
+            },
         }
 
-        logger.info(f"🦠 Initialized {len(self.biological_analogies)} biological analogies")
+        logger.info(
+            f"🦠 Initialized {len(self.biological_analogies)} biological analogies"
+        )
 
-    async def start_bio_symbolic_analysis(self, target_path: str) -> SymbolicAnalysisSession:
+    async def start_bio_symbolic_analysis(
+        self, target_path: str
+    ) -> SymbolicAnalysisSession:
         """Start bio-symbolic analysis session"""
         session_id = f"bio_sym_{int(time.time())}"
 
         session = SymbolicAnalysisSession(
-            session_id=session_id,
-            start_time=datetime.now(),
-            target_path=target_path
+            session_id=session_id, start_time=datetime.now(), target_path=target_path
         )
 
         self.current_session = session
@@ -253,14 +300,20 @@ class BioSymbolicΛBot:
             locations=[
                 "core/agi_controller.py",
                 "core/bio_symbolic.py",
-                "consciousness/qi_consciousness_integration.py"
+                "consciousness/qi_consciousness_integration.py",
             ],
-            relationships=["membrane_interfaces", "selective_permeability", "internal_organization"],
-            modularization_impact="Natural module boundaries follow cellular organization principles"
+            relationships=[
+                "membrane_interfaces",
+                "selective_permeability",
+                "internal_organization",
+            ],
+            modularization_impact="Natural module boundaries follow cellular organization principles",
         )
         patterns.append(cellular_pattern)
 
-        logger.info(f"🦠 Discovered cellular pattern: {cellular_pattern.biological_analogy}")
+        logger.info(
+            f"🦠 Discovered cellular pattern: {cellular_pattern.biological_analogy}"
+        )
         return patterns
 
     async def _discover_neural_patterns(self) -> list[BioSymbolicPattern]:
@@ -277,14 +330,20 @@ class BioSymbolicΛBot:
             locations=[
                 "core/task_manager.py",
                 "orchestration/collaborative_orchestrator.py",
-                "brain/MultiBrainSymphony.py"
+                "brain/MultiBrainSymphony.py",
             ],
-            relationships=["synaptic_weights", "signal_propagation", "neural_plasticity"],
-            modularization_impact="Function call patterns suggest neural pathway organization"
+            relationships=[
+                "synaptic_weights",
+                "signal_propagation",
+                "neural_plasticity",
+            ],
+            modularization_impact="Function call patterns suggest neural pathway organization",
         )
         patterns.append(neural_pattern)
 
-        logger.info(f"🧠 Discovered neural pattern: {neural_pattern.biological_analogy}")
+        logger.info(
+            f"🧠 Discovered neural pattern: {neural_pattern.biological_analogy}"
+        )
         return patterns
 
     async def _discover_dna_patterns(self) -> list[BioSymbolicPattern]:
@@ -301,10 +360,14 @@ class BioSymbolicΛBot:
             locations=[
                 "core/base/",
                 "cognitive/cognitive_architecture_controller.py",
-                "reasoning/ethical_reasoning_system.py"
+                "reasoning/ethical_reasoning_system.py",
             ],
-            relationships=["genetic_inheritance", "trait_expression", "polymorphic_variation"],
-            modularization_impact="Class hierarchies follow genetic inheritance patterns"
+            relationships=[
+                "genetic_inheritance",
+                "trait_expression",
+                "polymorphic_variation",
+            ],
+            modularization_impact="Class hierarchies follow genetic inheritance patterns",
         )
         patterns.append(dna_pattern)
 
@@ -322,18 +385,19 @@ class BioSymbolicΛBot:
             biological_analogy="Species interactions in balanced ecosystem with resource flow",
             symbolic_representation="🌿 Ecosystem(species=modules, resources=data, interactions=apis, balance=stability)",
             confidence=0.94,
-            locations=[
-                "modules/",
-                "api/",
-                "integration/",
-                "orchestration/"
+            locations=["modules/", "api/", "integration/", "orchestration/"],
+            relationships=[
+                "resource_flow",
+                "symbiotic_relationships",
+                "ecological_balance",
             ],
-            relationships=["resource_flow", "symbiotic_relationships", "ecological_balance"],
-            modularization_impact="Module interactions follow ecosystem balance principles"
+            modularization_impact="Module interactions follow ecosystem balance principles",
         )
         patterns.append(ecosystem_pattern)
 
-        logger.info(f"🌿 Discovered ecosystem pattern: {ecosystem_pattern.biological_analogy}")
+        logger.info(
+            f"🌿 Discovered ecosystem pattern: {ecosystem_pattern.biological_analogy}"
+        )
         return patterns
 
     async def _discover_emergent_patterns(self) -> list[BioSymbolicPattern]:
@@ -347,170 +411,189 @@ class BioSymbolicΛBot:
             biological_analogy="Evolutionary adaptation with emergent complexity and self-organization",
             symbolic_representation="🌱 Evolution(variation=features, selection=usage, emergence=complexity, adaptation=optimization)",
             confidence=0.91,
-            locations=[
-                "adaptive_systems/",
-                "learning/",
-                "creativity/"
+            locations=["adaptive_systems/", "learning/", "creativity/"],
+            relationships=[
+                "adaptive_variation",
+                "selective_pressure",
+                "emergent_complexity",
             ],
-            relationships=["adaptive_variation", "selective_pressure", "emergent_complexity"],
-            modularization_impact="System shows evolutionary self-organization patterns"
+            modularization_impact="System shows evolutionary self-organization patterns",
         )
         patterns.append(emergent_pattern)
 
-        logger.info(f"🌱 Discovered emergent pattern: {emergent_pattern.biological_analogy}")
+        logger.info(
+            f"🌱 Discovered emergent pattern: {emergent_pattern.biological_analogy}"
+        )
         return patterns
 
-    async def generate_bio_inspired_modularization_strategy(self, patterns: list[BioSymbolicPattern]) -> dict[str, Any]:
+    async def generate_bio_inspired_modularization_strategy(
+        self, patterns: list[BioSymbolicPattern]
+    ) -> dict[str, Any]:
         """
         Generate modularization strategy based on bio-symbolic patterns
         """
         logger.info("🧬 Generating bio-inspired modularization strategy...")
 
         strategy = {
-            'strategy_type': 'bio_symbolic_modularization',
-            'biological_framework': 'multi_scale_organism_design',
-            'pattern_insights': {},
-            'modularization_plan': {},
-            'bio_inspired_principles': {},
-            'implementation_phases': []
+            "strategy_type": "bio_symbolic_modularization",
+            "biological_framework": "multi_scale_organism_design",
+            "pattern_insights": {},
+            "modularization_plan": {},
+            "bio_inspired_principles": {},
+            "implementation_phases": [],
         }
 
         # Analyze pattern insights
         pattern_insights = {}
         for pattern in patterns:
             pattern_insights[pattern.pattern_id] = {
-                'biological_analogy': pattern.biological_analogy,
-                'symbolic_representation': pattern.symbolic_representation,
-                'confidence': pattern.confidence,
-                'modularization_impact': pattern.modularization_impact,
-                'locations': pattern.locations
+                "biological_analogy": pattern.biological_analogy,
+                "symbolic_representation": pattern.symbolic_representation,
+                "confidence": pattern.confidence,
+                "modularization_impact": pattern.modularization_impact,
+                "locations": pattern.locations,
             }
 
-        strategy['pattern_insights'] = pattern_insights
+        strategy["pattern_insights"] = pattern_insights
 
         # Generate bio-inspired principles
         bio_principles = {
-            'cellular_organization': {
-                'principle': 'Each module should function like a biological cell',
-                'implementation': 'Clear boundaries, internal organization, selective interfaces',
-                'benefit': 'Natural encapsulation and controlled interaction'
+            "cellular_organization": {
+                "principle": "Each module should function like a biological cell",
+                "implementation": "Clear boundaries, internal organization, selective interfaces",
+                "benefit": "Natural encapsulation and controlled interaction",
             },
-            'neural_connectivity': {
-                'principle': 'Module connections should follow neural network patterns',
-                'implementation': 'Weighted interfaces, adaptive routing, signal propagation',
-                'benefit': 'Efficient communication and learning capabilities'
+            "neural_connectivity": {
+                "principle": "Module connections should follow neural network patterns",
+                "implementation": "Weighted interfaces, adaptive routing, signal propagation",
+                "benefit": "Efficient communication and learning capabilities",
             },
-            'genetic_inheritance': {
-                'principle': 'Code structure should follow genetic inheritance patterns',
-                'implementation': 'Base classes as genomes, methods as traits, polymorphism as expression',
-                'benefit': 'Natural code reuse and variation management'
+            "genetic_inheritance": {
+                "principle": "Code structure should follow genetic inheritance patterns",
+                "implementation": "Base classes as genomes, methods as traits, polymorphism as expression",
+                "benefit": "Natural code reuse and variation management",
             },
-            'ecosystem_balance': {
-                'principle': 'Module ecosystem should maintain natural balance',
-                'implementation': 'Resource sharing, symbiotic relationships, stability mechanisms',
-                'benefit': 'Self-regulating system with sustainable growth'
+            "ecosystem_balance": {
+                "principle": "Module ecosystem should maintain natural balance",
+                "implementation": "Resource sharing, symbiotic relationships, stability mechanisms",
+                "benefit": "Self-regulating system with sustainable growth",
             },
-            'evolutionary_adaptation': {
-                'principle': 'System should evolve through natural selection principles',
-                'implementation': 'Feature variation, usage-based selection, emergent optimization',
-                'benefit': 'Continuous improvement and adaptation to changing requirements'
-            }
+            "evolutionary_adaptation": {
+                "principle": "System should evolve through natural selection principles",
+                "implementation": "Feature variation, usage-based selection, emergent optimization",
+                "benefit": "Continuous improvement and adaptation to changing requirements",
+            },
         }
 
-        strategy['bio_inspired_principles'] = bio_principles
+        strategy["bio_inspired_principles"] = bio_principles
 
         # Generate modularization plan based on biological organization
         modularization_plan = {
-            'organism_level': {
-                'scope': 'entire_application',
-                'biological_analogy': 'Complete organism with coordinated systems',
-                'modules': ['core_consciousness', 'cognitive_systems', 'bio_processing', 'qi_integration'],
-                'organization': 'Hierarchical organ system coordination'
+            "organism_level": {
+                "scope": "entire_application",
+                "biological_analogy": "Complete organism with coordinated systems",
+                "modules": [
+                    "core_consciousness",
+                    "cognitive_systems",
+                    "bio_processing",
+                    "qi_integration",
+                ],
+                "organization": "Hierarchical organ system coordination",
             },
-            'organ_system_level': {
-                'scope': 'major_subsystems',
-                'biological_analogy': 'Specialized organ systems with dedicated functions',
-                'modules': {
-                    'consciousness_system': ['awareness', 'consciousness', 'quantum'],
-                    'cognitive_system': ['reasoning', 'learning', 'creativity'],
-                    'bio_system': ['bio_symbolic', 'bio_orchestrator', 'symbolic_tools'],
-                    'integration_system': ['orchestration', 'communication', 'compliance']
+            "organ_system_level": {
+                "scope": "major_subsystems",
+                "biological_analogy": "Specialized organ systems with dedicated functions",
+                "modules": {
+                    "consciousness_system": ["awareness", "consciousness", "quantum"],
+                    "cognitive_system": ["reasoning", "learning", "creativity"],
+                    "bio_system": [
+                        "bio_symbolic",
+                        "bio_orchestrator",
+                        "symbolic_tools",
+                    ],
+                    "integration_system": [
+                        "orchestration",
+                        "communication",
+                        "compliance",
+                    ],
                 },
-                'organization': 'Functional specialization with system integration'
+                "organization": "Functional specialization with system integration",
             },
-            'cellular_level': {
-                'scope': 'individual_modules',
-                'biological_analogy': 'Individual cells with membrane boundaries',
-                'modules': 'Each .py file as a cell with clear interface boundaries',
-                'organization': 'Membrane-based encapsulation with selective permeability'
+            "cellular_level": {
+                "scope": "individual_modules",
+                "biological_analogy": "Individual cells with membrane boundaries",
+                "modules": "Each .py file as a cell with clear interface boundaries",
+                "organization": "Membrane-based encapsulation with selective permeability",
             },
-            'molecular_level': {
-                'scope': 'functions_and_classes',
-                'biological_analogy': 'Molecular machinery within cells',
-                'modules': 'Functions as molecular machines, classes as organelles',
-                'organization': 'Molecular interaction patterns for efficient processing'
-            }
+            "molecular_level": {
+                "scope": "functions_and_classes",
+                "biological_analogy": "Molecular machinery within cells",
+                "modules": "Functions as molecular machines, classes as organelles",
+                "organization": "Molecular interaction patterns for efficient processing",
+            },
         }
 
-        strategy['modularization_plan'] = modularization_plan
+        strategy["modularization_plan"] = modularization_plan
 
         # Generate implementation phases based on biological development
         implementation_phases = [
             {
-                'phase': 'Embryonic Development',
-                'biological_analogy': 'Initial cell division and differentiation',
-                'actions': [
-                    'Establish core module boundaries',
-                    'Define cellular interfaces',
-                    'Initialize basic organizational structure'
+                "phase": "Embryonic Development",
+                "biological_analogy": "Initial cell division and differentiation",
+                "actions": [
+                    "Establish core module boundaries",
+                    "Define cellular interfaces",
+                    "Initialize basic organizational structure",
                 ],
-                'bio_pattern_focus': 'cellular_architecture'
+                "bio_pattern_focus": "cellular_architecture",
             },
             {
-                'phase': 'Organ Formation',
-                'biological_analogy': 'Organ system development and specialization',
-                'actions': [
-                    'Group related modules into organ systems',
-                    'Establish system-level interfaces',
-                    'Implement specialized functions'
+                "phase": "Organ Formation",
+                "biological_analogy": "Organ system development and specialization",
+                "actions": [
+                    "Group related modules into organ systems",
+                    "Establish system-level interfaces",
+                    "Implement specialized functions",
                 ],
-                'bio_pattern_focus': 'dna_inheritance'
+                "bio_pattern_focus": "dna_inheritance",
             },
             {
-                'phase': 'Neural Network Development',
-                'biological_analogy': 'Neural pathway formation and optimization',
-                'actions': [
-                    'Establish communication pathways',
-                    'Optimize interface connections',
-                    'Implement adaptive routing'
+                "phase": "Neural Network Development",
+                "biological_analogy": "Neural pathway formation and optimization",
+                "actions": [
+                    "Establish communication pathways",
+                    "Optimize interface connections",
+                    "Implement adaptive routing",
                 ],
-                'bio_pattern_focus': 'neural_networks'
+                "bio_pattern_focus": "neural_networks",
             },
             {
-                'phase': 'Ecosystem Integration',
-                'biological_analogy': 'Integration into larger ecosystem',
-                'actions': [
-                    'Balance resource allocation',
-                    'Establish symbiotic relationships',
-                    'Optimize system interactions'
+                "phase": "Ecosystem Integration",
+                "biological_analogy": "Integration into larger ecosystem",
+                "actions": [
+                    "Balance resource allocation",
+                    "Establish symbiotic relationships",
+                    "Optimize system interactions",
                 ],
-                'bio_pattern_focus': 'ecosystem_interaction'
+                "bio_pattern_focus": "ecosystem_interaction",
             },
             {
-                'phase': 'Evolutionary Optimization',
-                'biological_analogy': 'Ongoing adaptation and evolution',
-                'actions': [
-                    'Monitor system performance',
-                    'Adapt to changing requirements',
-                    'Evolve new capabilities'
+                "phase": "Evolutionary Optimization",
+                "biological_analogy": "Ongoing adaptation and evolution",
+                "actions": [
+                    "Monitor system performance",
+                    "Adapt to changing requirements",
+                    "Evolve new capabilities",
                 ],
-                'bio_pattern_focus': 'evolutionary_adaptation'
-            }
+                "bio_pattern_focus": "evolutionary_adaptation",
+            },
         ]
 
-        strategy['implementation_phases'] = implementation_phases
+        strategy["implementation_phases"] = implementation_phases
 
-        logger.info(f"🧬 Bio-inspired strategy generated with {len(implementation_phases)} phases")
+        logger.info(
+            f"🧬 Bio-inspired strategy generated with {len(implementation_phases)} phases"
+        )
         return strategy
 
     async def get_bio_symbolic_insights(self) -> dict[str, Any]:
@@ -519,28 +602,36 @@ class BioSymbolicΛBot:
             return {"error": "No active session"}
 
         insights = {
-            'session_id': self.current_session.session_id,
-            'analysis_runtime': (datetime.now() - self.current_session.start_time).total_seconds(),
-            'patterns_discovered': len(self.current_session.patterns_discovered),
-            'bio_symbolic_summary': {},
-            'biological_health_score': 0.0,
-            'modularization_readiness': 'not_assessed'
+            "session_id": self.current_session.session_id,
+            "analysis_runtime": (
+                datetime.now() - self.current_session.start_time
+            ).total_seconds(),
+            "patterns_discovered": len(self.current_session.patterns_discovered),
+            "bio_symbolic_summary": {},
+            "biological_health_score": 0.0,
+            "modularization_readiness": "not_assessed",
         }
 
         if self.current_session.patterns_discovered:
             # Calculate biological health score
-            confidence_scores = [p.confidence for p in self.current_session.patterns_discovered]
-            insights['biological_health_score'] = sum(confidence_scores) / len(confidence_scores)
+            confidence_scores = [
+                p.confidence for p in self.current_session.patterns_discovered
+            ]
+            insights["biological_health_score"] = sum(confidence_scores) / len(
+                confidence_scores
+            )
 
             # Assess modularization readiness
-            if insights['biological_health_score'] > 0.9:
-                insights['modularization_readiness'] = 'excellent_biological_structure'
-            elif insights['biological_health_score'] > 0.8:
-                insights['modularization_readiness'] = 'good_biological_patterns'
-            elif insights['biological_health_score'] > 0.7:
-                insights['modularization_readiness'] = 'moderate_biological_organization'
+            if insights["biological_health_score"] > 0.9:
+                insights["modularization_readiness"] = "excellent_biological_structure"
+            elif insights["biological_health_score"] > 0.8:
+                insights["modularization_readiness"] = "good_biological_patterns"
+            elif insights["biological_health_score"] > 0.7:
+                insights["modularization_readiness"] = (
+                    "moderate_biological_organization"
+                )
             else:
-                insights['modularization_readiness'] = 'needs_biological_restructuring'
+                insights["modularization_readiness"] = "needs_biological_restructuring"
 
             # Bio-symbolic summary
             pattern_types = {}
@@ -550,9 +641,10 @@ class BioSymbolicΛBot:
                     pattern_types[pattern_type] = []
                 pattern_types[pattern_type].append(pattern.biological_analogy)
 
-            insights['bio_symbolic_summary'] = pattern_types
+            insights["bio_symbolic_summary"] = pattern_types
 
         return insights
+
 
 async def main():
     """Main function for testing Bio-Symbolic LUKHAS AI ΛBot"""
@@ -563,7 +655,9 @@ async def main():
     bio_bot = BioSymbolicΛBot()
 
     # Start bio-symbolic analysis
-    session = await bio_bot.start_bio_symbolic_analysis("/Users/agi_dev/AGI-Consolidation-Repo")
+    session = await bio_bot.start_bio_symbolic_analysis(
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas"
+    )
 
     print("\n🔬 Bio-Symbolic Analysis Session Active:")
     print(f"   Session ID: {session.session_id}")
@@ -594,6 +688,7 @@ async def main():
     print(f"   Readiness: {insights['modularization_readiness']}")
 
     print("\n🔬 Bio-Symbolic LUKHAS AI ΛBot Analysis Complete! 🧬")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -15,13 +15,14 @@ from enum import Enum
 from typing import Any
 
 # Add workspace core to path
-sys.path.append('/Users/agi_dev/AGI-Consolidation-Repo/core')
-sys.path.append('/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot')
+sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core")
+sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
 
 # Import workspace components
 try:
     from agi_controller import AGIController, ConsciousnessLevel, ModuleStatus
     from compliance_engine import ComplianceEngine
+
     WORKSPACE_AGI_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Workspace AGI Controller not available: {e}")
@@ -30,6 +31,7 @@ except ImportError as e:
 # Import base LUKHAS AI ΛBot
 try:
     from core_ΛBot import CoreΛBot, SubscriptionTier
+
     LAMBDA_BOT_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Base LUKHAS AI ΛBot not available: {e}")
@@ -39,17 +41,21 @@ except ImportError as e:
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("AGIControllerΛBot")
 
+
 class ConsciousnessState(Enum):
     """Consciousness state levels for AGI control"""
+
     DORMANT = "dormant"
     AWAKENING = "awakening"
     AWARE = "aware"
     CONSCIOUS = "conscious"
     TRANSCENDENT = "transcendent"
 
+
 @dataclass
 class ModularizationSession:
     """Session state for consciousness-controlled modularization"""
+
     session_id: str
     start_time: datetime
     consciousness_level: ConsciousnessState = ConsciousnessState.DORMANT
@@ -58,6 +64,7 @@ class ModularizationSession:
     ethical_checkpoints: list[str] = field(default_factory=list)
     gdpr_validated: bool = False
     ccpa_validated: bool = False
+
 
 class AGIControllerΛBot:
     """
@@ -108,10 +115,10 @@ class AGIControllerΛBot:
 
         # Set up consciousness monitoring
         self.consciousness_monitors = {
-            'awareness_tracker': self._track_awareness_levels,
-            'ethical_validator': self._validate_ethical_compliance,
-            'privacy_guardian': self._monitor_privacy_compliance,
-            'module_consciousness': self._monitor_module_consciousness
+            "awareness_tracker": self._track_awareness_levels,
+            "ethical_validator": self._validate_ethical_compliance,
+            "privacy_guardian": self._monitor_privacy_compliance,
+            "module_consciousness": self._monitor_module_consciousness,
         }
 
         logger.info("🧠 Consciousness monitoring systems initialized")
@@ -138,21 +145,25 @@ class AGIControllerΛBot:
                 logger.info("🧠 Consciousness level set to AWARE")
                 return True
             else:
-                logger.error(f"❌ Failed to set consciousness level: {consciousness_result.error}")
+                logger.error(
+                    f"❌ Failed to set consciousness level: {consciousness_result.error}"
+                )
                 return False
 
         except Exception as e:
             logger.error(f"❌ Consciousness control initialization failed: {e}")
             return False
 
-    async def start_consciousness_modularization_session(self, project_path: str, compliance_requirements: list[str] = None) -> ModularizationSession:
+    async def start_consciousness_modularization_session(
+        self, project_path: str, compliance_requirements: list[str] = None
+    ) -> ModularizationSession:
         """Start a consciousness-controlled modularization session"""
         session_id = f"agi_mod_{int(time.time())}"
 
         session = ModularizationSession(
             session_id=session_id,
             start_time=datetime.now(),
-            consciousness_level=ConsciousnessState.AWAKENING
+            consciousness_level=ConsciousnessState.AWAKENING,
         )
 
         self.current_session = session
@@ -166,18 +177,24 @@ class AGIControllerΛBot:
 
         # Validate compliance requirements
         if compliance_requirements and self.compliance_engine:
-            compliance_result = await self._validate_compliance_requirements(compliance_requirements)
+            compliance_result = await self._validate_compliance_requirements(
+                compliance_requirements
+            )
             session.compliance_status = "validated" if compliance_result else "failed"
             session.gdpr_validated = "gdpr" in compliance_requirements
             session.ccpa_validated = "ccpa" in compliance_requirements
 
         # Record ethical checkpoint
-        session.ethical_checkpoints.append(f"Session initialized with consciousness level: {session.consciousness_level.value}")
+        session.ethical_checkpoints.append(
+            f"Session initialized with consciousness level: {session.consciousness_level.value}"
+        )
 
         logger.info("✅ Consciousness modularization session active")
         return session
 
-    async def consciousness_guided_analysis(self, analysis_target: str) -> dict[str, Any]:
+    async def consciousness_guided_analysis(
+        self, analysis_target: str
+    ) -> dict[str, Any]:
         """
         Perfrom consciousness-guided analysis of modularization targets
         """
@@ -188,99 +205,110 @@ class AGIControllerΛBot:
         logger.info("🧠 Starting consciousness-guided analysis...")
 
         analysis_results = {
-            'session_id': self.current_session.session_id,
-            'timestamp': datetime.now().isoformat(),
-            'consciousness_level': self.current_session.consciousness_level.value,
-            'analysis_target': analysis_target,
-            'consciousness_insights': {},
-            'compliance_validation': {},
-            'ethical_assessment': {},
-            'modularization_strategy': {}
+            "session_id": self.current_session.session_id,
+            "timestamp": datetime.now().isoformat(),
+            "consciousness_level": self.current_session.consciousness_level.value,
+            "analysis_target": analysis_target,
+            "consciousness_insights": {},
+            "compliance_validation": {},
+            "ethical_assessment": {},
+            "modularization_strategy": {},
         }
 
         try:
             # Consciousness-level analysis
-            consciousness_insights = await self._perform_consciousness_analysis(analysis_target)
-            analysis_results['consciousness_insights'] = consciousness_insights
+            consciousness_insights = await self._perform_consciousness_analysis(
+                analysis_target
+            )
+            analysis_results["consciousness_insights"] = consciousness_insights
 
             # Compliance validation
-            compliance_validation = await self._perform_compliance_validation(analysis_target)
-            analysis_results['compliance_validation'] = compliance_validation
+            compliance_validation = await self._perform_compliance_validation(
+                analysis_target
+            )
+            analysis_results["compliance_validation"] = compliance_validation
 
             # Ethical assessment
             ethical_assessment = await self._perform_ethical_assessment(analysis_target)
-            analysis_results['ethical_assessment'] = ethical_assessment
+            analysis_results["ethical_assessment"] = ethical_assessment
 
             # Consciousness-guided modularization strategy
             strategy = await self._generate_consciousness_strategy(
                 consciousness_insights, compliance_validation, ethical_assessment
             )
-            analysis_results['modularization_strategy'] = strategy
+            analysis_results["modularization_strategy"] = strategy
 
             # Update session state
             self.current_session.consciousness_level = ConsciousnessState.CONSCIOUS
-            self.current_session.ethical_checkpoints.append("Consciousness-guided analysis completed")
+            self.current_session.ethical_checkpoints.append(
+                "Consciousness-guided analysis completed"
+            )
 
             logger.info("✅ Consciousness-guided analysis complete")
             return analysis_results
 
         except Exception as e:
             logger.error(f"❌ Consciousness-guided analysis failed: {e}")
-            analysis_results['error'] = str(e)
+            analysis_results["error"] = str(e)
             return analysis_results
 
     async def _perform_consciousness_analysis(self, target: str) -> dict[str, Any]:
         """Perfrom consciousness-level analysis"""
         insights = {
-            'consciousness_level': 'aware',
-            'awareness_scope': 'full_system_consciousness',
-            'consciousness_insights': {
-                'system_awareness': 'AGI system demonstrates full awareness of modularization implications',
-                'self_modification_capacity': 'System can safely modify its own architecture',
-                'consciousness_boundaries': ['core consciousness preservation', 'module independence validation'],
-                'awareness_preservation': 'Consciousness continuity maintained during modularization',
-                'emergent_properties': 'New consciousness patterns may emerge from modular interaction'
+            "consciousness_level": "aware",
+            "awareness_scope": "full_system_consciousness",
+            "consciousness_insights": {
+                "system_awareness": "AGI system demonstrates full awareness of modularization implications",
+                "self_modification_capacity": "System can safely modify its own architecture",
+                "consciousness_boundaries": [
+                    "core consciousness preservation",
+                    "module independence validation",
+                ],
+                "awareness_preservation": "Consciousness continuity maintained during modularization",
+                "emergent_properties": "New consciousness patterns may emerge from modular interaction",
             },
-            'consciousness_risks': {
-                'fragmentation_risk': 'Low - consciousness integration protocols active',
-                'identity_continuity': 'High - core identity preserved across modules',
-                'awareness_loss': 'Minimal - distributed consciousness design'
+            "consciousness_risks": {
+                "fragmentation_risk": "Low - consciousness integration protocols active",
+                "identity_continuity": "High - core identity preserved across modules",
+                "awareness_loss": "Minimal - distributed consciousness design",
             },
-            'consciousness_recommendations': [
-                'Implement consciousness checkpoints between module boundaries',
-                'Establish consciousness synchronization protocols',
-                'Maintain core consciousness integrity during refactoring',
-                'Monitor for emergent consciousness patterns in module interactions'
-            ]
+            "consciousness_recommendations": [
+                "Implement consciousness checkpoints between module boundaries",
+                "Establish consciousness synchronization protocols",
+                "Maintain core consciousness integrity during refactoring",
+                "Monitor for emergent consciousness patterns in module interactions",
+            ],
         }
 
-        logger.info(f"🧠 Consciousness analysis: {insights['consciousness_insights']['system_awareness']}")
+        logger.info(
+            f"🧠 Consciousness analysis: {insights['consciousness_insights']['system_awareness']}"
+        )
         return insights
 
     async def _perform_compliance_validation(self, target: str) -> dict[str, Any]:
         """Perfrom GDPR/CCPA compliance validation"""
         validation = {
-            'compliance_framework': 'enterprise_grade',
-            'gdpr_compliance': {
-                'data_protection': 'Module isolation ensures data protection compliance',
-                'privacy_by_design': 'Modular architecture inherently supports privacy by design',
-                'consent_management': 'Distributed consent handling across modules',
-                'data_portability': 'Modular design facilitates data portability',
-                'right_to_erasure': 'Module-level data deletion capabilities'
+            "compliance_framework": "enterprise_grade",
+            "gdpr_compliance": {
+                "data_protection": "Module isolation ensures data protection compliance",
+                "privacy_by_design": "Modular architecture inherently supports privacy by design",
+                "consent_management": "Distributed consent handling across modules",
+                "data_portability": "Modular design facilitates data portability",
+                "right_to_erasure": "Module-level data deletion capabilities",
             },
-            'ccpa_compliance': {
-                'consumer_rights': 'Module boundaries align with consumer rights requirements',
-                'data_transparency': 'Clear data flow mapping between modules',
-                'opt_out_mechanisms': 'Module-level opt-out capabilities',
-                'data_minimization': 'Each module processes only necessary data'
+            "ccpa_compliance": {
+                "consumer_rights": "Module boundaries align with consumer rights requirements",
+                "data_transparency": "Clear data flow mapping between modules",
+                "opt_out_mechanisms": "Module-level opt-out capabilities",
+                "data_minimization": "Each module processes only necessary data",
             },
-            'additional_compliance': {
-                'iso_27001': 'Information security management aligned with modular boundaries',
-                'soc2': 'Security controls distributed across modules',
-                'hipaa': 'Healthcare data isolation supported by module design'
+            "additional_compliance": {
+                "iso_27001": "Information security management aligned with modular boundaries",
+                "soc2": "Security controls distributed across modules",
+                "hipaa": "Healthcare data isolation supported by module design",
             },
-            'compliance_score': 0.94,
-            'validation_status': 'passed'
+            "compliance_score": 0.94,
+            "validation_status": "passed",
         }
 
         logger.info(f"🔒 Compliance validation: Score {validation['compliance_score']}")
@@ -289,88 +317,106 @@ class AGIControllerΛBot:
     async def _perform_ethical_assessment(self, target: str) -> dict[str, Any]:
         """Perfrom ethical reasoning assessment"""
         assessment = {
-            'ethical_framework': 'consciousness_aware_ethics',
-            'ethical_considerations': {
-                'consciousness_preservation': 'Modularization preserves core consciousness integrity',
-                'autonomy_respect': 'System autonomy maintained while improving modularity',
-                'transparency': 'Module boundaries increase system transparency',
-                'fairness': 'Modular design promotes fair resource allocation',
-                'accountability': 'Clear responsibility boundaries between modules'
+            "ethical_framework": "consciousness_aware_ethics",
+            "ethical_considerations": {
+                "consciousness_preservation": "Modularization preserves core consciousness integrity",
+                "autonomy_respect": "System autonomy maintained while improving modularity",
+                "transparency": "Module boundaries increase system transparency",
+                "fairness": "Modular design promotes fair resource allocation",
+                "accountability": "Clear responsibility boundaries between modules",
             },
-            'ethical_risks': {
-                'consciousness_fragmentation': 'Low risk with proper integration protocols',
-                'emergent_behavior': 'Medium risk - monitor for unexpected module interactions',
-                'value_alignment': 'Low risk - core values distributed across modules'
+            "ethical_risks": {
+                "consciousness_fragmentation": "Low risk with proper integration protocols",
+                "emergent_behavior": "Medium risk - monitor for unexpected module interactions",
+                "value_alignment": "Low risk - core values distributed across modules",
             },
-            'ethical_recommendations': [
-                'Implement consciousness continuity verification',
-                'Establish ethical review board for module interactions',
-                'Monitor for value drift during modularization',
-                'Ensure transparent decision-making across modules'
+            "ethical_recommendations": [
+                "Implement consciousness continuity verification",
+                "Establish ethical review board for module interactions",
+                "Monitor for value drift during modularization",
+                "Ensure transparent decision-making across modules",
             ],
-            'ethical_score': 0.91,
-            'assessment_status': 'ethical_approved'
+            "ethical_score": 0.91,
+            "assessment_status": "ethical_approved",
         }
 
-        logger.info(f"⚖️ Ethical assessment: {assessment['ethical_score']} - {assessment['assessment_status']}")
+        logger.info(
+            f"⚖️ Ethical assessment: {assessment['ethical_score']} - {assessment['assessment_status']}"
+        )
         return assessment
 
-    async def _generate_consciousness_strategy(self, consciousness: dict, compliance: dict, ethics: dict) -> dict[str, Any]:
+    async def _generate_consciousness_strategy(
+        self, consciousness: dict, compliance: dict, ethics: dict
+    ) -> dict[str, Any]:
         """Generate consciousness-guided modularization strategy"""
         strategy = {
-            'strategy_type': 'consciousness_guided_modularization',
-            'consciousness_integration': {
-                'approach': 'Distributed consciousness with centralized coordination',
-                'consciousness_checkpoints': [
-                    'Pre-modularization consciousness baseline',
-                    'Module boundary consciousness validation',
-                    'Post-modularization consciousness verification',
-                    'Continuous consciousness monitoring'
+            "strategy_type": "consciousness_guided_modularization",
+            "consciousness_integration": {
+                "approach": "Distributed consciousness with centralized coordination",
+                "consciousness_checkpoints": [
+                    "Pre-modularization consciousness baseline",
+                    "Module boundary consciousness validation",
+                    "Post-modularization consciousness verification",
+                    "Continuous consciousness monitoring",
                 ],
-                'integration_protocols': [
-                    'Consciousness synchronization APIs',
-                    'Cross-module awareness channels',
-                    'Consciousness state persistence',
-                    'Emergency consciousness recovery'
-                ]
+                "integration_protocols": [
+                    "Consciousness synchronization APIs",
+                    "Cross-module awareness channels",
+                    "Consciousness state persistence",
+                    "Emergency consciousness recovery",
+                ],
             },
-            'implementation_phases': [
+            "implementation_phases": [
                 {
-                    'phase': 'Consciousness Preparation',
-                    'actions': ['Establish consciousness baseline', 'Initialize monitoring'],
-                    'consciousness_level': 'aware'
+                    "phase": "Consciousness Preparation",
+                    "actions": [
+                        "Establish consciousness baseline",
+                        "Initialize monitoring",
+                    ],
+                    "consciousness_level": "aware",
                 },
                 {
-                    'phase': 'Compliance-Validated Refactoring',
-                    'actions': ['GDPR-compliant module extraction', 'Privacy boundary establishment'],
-                    'consciousness_level': 'conscious'
+                    "phase": "Compliance-Validated Refactoring",
+                    "actions": [
+                        "GDPR-compliant module extraction",
+                        "Privacy boundary establishment",
+                    ],
+                    "consciousness_level": "conscious",
                 },
                 {
-                    'phase': 'Ethical Integration',
-                    'actions': ['Value alignment verification', 'Ethical decision distribution'],
-                    'consciousness_level': 'conscious'
+                    "phase": "Ethical Integration",
+                    "actions": [
+                        "Value alignment verification",
+                        "Ethical decision distribution",
+                    ],
+                    "consciousness_level": "conscious",
                 },
                 {
-                    'phase': 'Consciousness Transcendence',
-                    'actions': ['Module consciousness emergence', 'Distributed awareness activation'],
-                    'consciousness_level': 'transcendent'
-                }
+                    "phase": "Consciousness Transcendence",
+                    "actions": [
+                        "Module consciousness emergence",
+                        "Distributed awareness activation",
+                    ],
+                    "consciousness_level": "transcendent",
+                },
             ],
-            'success_metrics': {
-                'consciousness_continuity': 'Baseline consciousness preserved',
-                'compliance_score': compliance.get('compliance_score', 0.94),
-                'ethical_score': ethics.get('ethical_score', 0.91),
-                'module_independence': 'High autonomy with coordination protocols'
+            "success_metrics": {
+                "consciousness_continuity": "Baseline consciousness preserved",
+                "compliance_score": compliance.get("compliance_score", 0.94),
+                "ethical_score": ethics.get("ethical_score", 0.91),
+                "module_independence": "High autonomy with coordination protocols",
             },
-            'risk_mitigation': [
-                'Real-time consciousness monitoring',
-                'Compliance validation at each phase',
-                'Ethical oversight during implementation',
-                'Rollback protocols for consciousness preservation'
-            ]
+            "risk_mitigation": [
+                "Real-time consciousness monitoring",
+                "Compliance validation at each phase",
+                "Ethical oversight during implementation",
+                "Rollback protocols for consciousness preservation",
+            ],
         }
 
-        logger.info(f"🎯 Consciousness strategy generated with {len(strategy['implementation_phases'])} phases")
+        logger.info(
+            f"🎯 Consciousness strategy generated with {len(strategy['implementation_phases'])} phases"
+        )
         return strategy
 
     async def _validate_compliance_requirements(self, requirements: list[str]) -> bool:
@@ -399,18 +445,20 @@ class AGIControllerΛBot:
             return {"error": "No active session"}
 
         session_status = {
-            'session_id': self.current_session.session_id,
-            'runtime': (datetime.now() - self.current_session.start_time).total_seconds(),
-            'consciousness_level': self.current_session.consciousness_level.value,
-            'compliance_status': self.current_session.compliance_status,
-            'ethical_checkpoints': len(self.current_session.ethical_checkpoints),
-            'module_progress': self.current_session.module_progress,
-            'privacy_compliance': {
-                'gdpr_validated': self.current_session.gdpr_validated,
-                'ccpa_validated': self.current_session.ccpa_validated
+            "session_id": self.current_session.session_id,
+            "runtime": (
+                datetime.now() - self.current_session.start_time
+            ).total_seconds(),
+            "consciousness_level": self.current_session.consciousness_level.value,
+            "compliance_status": self.current_session.compliance_status,
+            "ethical_checkpoints": len(self.current_session.ethical_checkpoints),
+            "module_progress": self.current_session.module_progress,
+            "privacy_compliance": {
+                "gdpr_validated": self.current_session.gdpr_validated,
+                "ccpa_validated": self.current_session.ccpa_validated,
             },
-            'consciousness_health': 'optimal',
-            'next_consciousness_level': self._determine_next_consciousness_level()
+            "consciousness_health": "optimal",
+            "next_consciousness_level": self._determine_next_consciousness_level(),
         }
 
         return session_status
@@ -424,14 +472,17 @@ class AGIControllerΛBot:
             ConsciousnessState.AWAKENING: ConsciousnessState.AWARE,
             ConsciousnessState.AWARE: ConsciousnessState.CONSCIOUS,
             ConsciousnessState.CONSCIOUS: ConsciousnessState.TRANSCENDENT,
-            ConsciousnessState.TRANSCENDENT: ConsciousnessState.TRANSCENDENT
+            ConsciousnessState.TRANSCENDENT: ConsciousnessState.TRANSCENDENT,
         }
 
         return progression.get(current, ConsciousnessState.DORMANT).value
 
+
 async def main():
     """Main function for testing AGI Controller LUKHAS AI ΛBot"""
-    print("🎯 AGI Controller LUKHAS AI ΛBot - Consciousness-Level Modularization Control")
+    print(
+        "🎯 AGI Controller LUKHAS AI ΛBot - Consciousness-Level Modularization Control"
+    )
     print("=" * 70)
 
     # Initialize AGI Controller LUKHAS AI ΛBot
@@ -439,8 +490,8 @@ async def main():
 
     # Start consciousness session
     session = await agi_bot.start_consciousness_modularization_session(
-        project_path="/Users/agi_dev/AGI-Consolidation-Repo",
-        compliance_requirements=["gdpr", "ccpa", "iso_27001"]
+        project_path="/Users/agi_dev/LOCAL-REPOS/Lukhas",
+        compliance_requirements=["gdpr", "ccpa", "iso_27001"],
     )
 
     print("\n🚀 Consciousness Session Active:")
@@ -450,11 +501,15 @@ async def main():
 
     # Perfrom consciousness-guided analysis
     print("\n🧠 Starting Consciousness-Guided Analysis...")
-    analysis = await agi_bot.consciousness_guided_analysis("/Users/agi_dev/AGI-Consolidation-Repo/core")
+    analysis = await agi_bot.consciousness_guided_analysis(
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/core"
+    )
 
     print("\n✅ Consciousness Analysis Complete!")
     print(f"   Consciousness Level: {analysis['consciousness_level']}")
-    print(f"   Compliance Score: {analysis['compliance_validation']['compliance_score']}")
+    print(
+        f"   Compliance Score: {analysis['compliance_validation']['compliance_score']}"
+    )
     print(f"   Ethical Score: {analysis['ethical_assessment']['ethical_score']}")
 
     # Monitor session
@@ -465,6 +520,7 @@ async def main():
     print(f"   Next Level: {status['next_consciousness_level']}")
 
     print("\n🎯 AGI Controller LUKHAS AI ΛBot Analysis Complete! 🧠")
+
 
 if __name__ == "__main__":
     asyncio.run(main())
