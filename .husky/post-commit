@@ -1,6 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 # Update LUKHAS System Status after commit
 SHA=$(git rev-parse HEAD)
 COMMIT_SHORT=$(echo $SHA | cut -c1-8)
