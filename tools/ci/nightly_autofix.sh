@@ -111,6 +111,33 @@ log "📊 Generating TODO summary..."
 
 } > "$REPORT_FILE"
 
+# 4.5. Add ownership routing if CODEOWNERS exists and we have TODOs
+if [[ -f "CODEOWNERS" ]] && [[ -f "reports/todos/index.json" ]]; then
+    python3 - << 'PY'
+from pathlib import Path
+import json
+import sys
+sys.path.insert(0, str(Path.cwd()))
+try:
+    from tools.ci.owners_from_codeowners import map_files_to_owners
+    todos = Path("reports/todos/index.json")
+    body = Path("reports/todos/summary.md")
+    if todos.exists() and body.exists():
+        data = json.loads(todos.read_text() or "{}")
+        files = sorted(list(data.get("files", {}).keys()))
+        if files:
+            mapping = map_files_to_owners(files)
+            lines = ["\n## Ownership Routing", "", "| File | Owners |", "|---|---|"]
+            for f in files:
+                owners = " ".join(mapping.get(f, [])) or "_unowned_"
+                lines.append(f"| `{f}` | {owners} |")
+            body.write_text(body.read_text() + "\n" + "\n".join(lines) + "\n")
+            print("✅ Added ownership routing to summary")
+except Exception as e:
+    print(f"⚠️ Could not add ownership routing: {e}")
+PY
+fi
+
 # 5. Check if we have meaningful changes
 final_changes=$(git diff --name-only | wc -l)
 total_changes=$((final_changes - initial_changes))
