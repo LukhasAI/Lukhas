@@ -24,11 +24,14 @@ class DomainVocabulary:
 
     Consolidates vocabularies from /symbolic/vocabularies/ and /core/symbolic/.
     """
+
     domain: SymbolicDomain
     symbols: Dict[str, Symbol] = field(default_factory=dict)
     concepts: Dict[str, Concept] = field(default_factory=dict)
     aliases: Dict[str, str] = field(default_factory=dict)  # alias -> symbol_id
-    relationships: Dict[str, List[str]] = field(default_factory=dict)  # symbol_id -> related_ids
+    relationships: Dict[str, List[str]] = field(
+        default_factory=dict
+    )  # symbol_id -> related_ids
     metadata: Dict[str, Any] = field(default_factory=dict)
 
     def add_symbol(self, symbol: Symbol) -> bool:
@@ -39,7 +42,9 @@ class DomainVocabulary:
             # Add name as alias
             self.aliases[symbol.name.lower()] = symbol.id
 
-            logger.debug(f"Added symbol {symbol.name} to {self.domain.value} vocabulary")
+            logger.debug(
+                f"Added symbol {symbol.name} to {self.domain.value} vocabulary"
+            )
             return True
         except Exception as e:
             logger.error(f"Failed to add symbol: {e}")
@@ -53,7 +58,9 @@ class DomainVocabulary:
             # Add meaning as alias
             self.aliases[concept.meaning.lower()] = concept.concept_id
 
-            logger.debug(f"Added concept {concept.meaning} to {self.domain.value} vocabulary")
+            logger.debug(
+                f"Added concept {concept.meaning} to {self.domain.value} vocabulary"
+            )
             return True
         except Exception as e:
             logger.error(f"Failed to add concept: {e}")
@@ -155,7 +162,7 @@ class VocabularyManager:
             ("disgust", "🤢", -0.7, "Rejection response"),
             ("contempt", "😒", -0.5, "Superiority feeling"),
             ("joy", "😄", 0.95, "Intense happiness"),
-            ("trust", "🤝", 0.7, "Confidence in reliability")
+            ("trust", "🤝", 0.7, "Confidence in reliability"),
         ]
 
         for name, glyph, value, description in emotions:
@@ -165,7 +172,7 @@ class VocabularyManager:
                 name=name,
                 value=value,
                 glyph=glyph,
-                attributes={"description": description, "valence": value}
+                attributes={"description": description, "valence": value},
             )
             vocab.add_symbol(symbol)
             self.global_index[symbol.id] = SymbolicDomain.EMOTION
@@ -184,7 +191,7 @@ class VocabularyManager:
             ("evolution", "🦋", "Adaptive change over time"),
             ("metabolism", "🔥", "Energy processing"),
             ("homeostasis", "⚖️", "Balance maintenance"),
-            ("adaptation", "🌱", "Environmental adjustment")
+            ("adaptation", "🌱", "Environmental adjustment"),
         ]
 
         for name, glyph, description in bio_terms:
@@ -194,7 +201,7 @@ class VocabularyManager:
                 name=name,
                 value=name,
                 glyph=glyph,
-                attributes={"description": description}
+                attributes={"description": description},
             )
             vocab.add_symbol(symbol)
             self.global_index[symbol.id] = SymbolicDomain.BIO
@@ -213,7 +220,7 @@ class VocabularyManager:
             ("fantasy", "🦄", "Imaginative creation"),
             ("vision", "✨", "Prophetic or insightful dream"),
             ("recursion", "🔁", "Self-referential dream"),
-            ("inception", "🌀", "Dream within dream")
+            ("inception", "🌀", "Dream within dream"),
         ]
 
         for name, glyph, description in dream_terms:
@@ -223,7 +230,7 @@ class VocabularyManager:
                 name=name,
                 value=name,
                 glyph=glyph,
-                attributes={"description": description}
+                attributes={"description": description},
             )
             vocab.add_symbol(symbol)
             self.global_index[symbol.id] = SymbolicDomain.DREAM
@@ -242,7 +249,7 @@ class VocabularyManager:
             ("signature", "✍️", "Unique identifier"),
             ("profile", "📋", "Identity attributes"),
             ("avatar", "👾", "Digital representation"),
-            ("persona", "🎨", "Projected identity")
+            ("persona", "🎨", "Projected identity"),
         ]
 
         for name, glyph, description in identity_terms:
@@ -252,7 +259,7 @@ class VocabularyManager:
                 name=name,
                 value=name,
                 glyph=glyph,
-                attributes={"description": description}
+                attributes={"description": description},
             )
             vocab.add_symbol(symbol)
             self.global_index[symbol.id] = SymbolicDomain.IDENTITY
@@ -271,7 +278,7 @@ class VocabularyManager:
             ("focus", "🔍", "Visual attention"),
             ("perspective", "🖼️", "Visual viewpoint"),
             ("recognition", "👀", "Visual identification"),
-            ("illusion", "🌀", "Visual deception")
+            ("illusion", "🌀", "Visual deception"),
         ]
 
         for name, glyph, description in vision_terms:
@@ -281,7 +288,7 @@ class VocabularyManager:
                 name=name,
                 value=name,
                 glyph=glyph,
-                attributes={"description": description}
+                attributes={"description": description},
             )
             vocab.add_symbol(symbol)
             self.global_index[symbol.id] = SymbolicDomain.VISION
@@ -300,7 +307,7 @@ class VocabularyManager:
             ("echo", "🔊", "Sound reflection"),
             ("tone", "🎶", "Voice quality"),
             ("accent", "🗨️", "Speech pattern"),
-            ("harmony", "🎼", "Sound agreement")
+            ("harmony", "🎼", "Sound agreement"),
         ]
 
         for name, glyph, description in voice_terms:
@@ -310,7 +317,7 @@ class VocabularyManager:
                 name=name,
                 value=name,
                 glyph=glyph,
-                attributes={"description": description}
+                attributes={"description": description},
             )
             vocab.add_symbol(symbol)
             self.global_index[symbol.id] = SymbolicDomain.VOICE
@@ -329,7 +336,7 @@ class VocabularyManager:
             ("stop", "⏹️", "End process"),
             ("pause", "⏸️", "Suspend process"),
             ("continue", "⏯️", "Resume process"),
-            ("transform", "🔄", "Change form")
+            ("transform", "🔄", "Change form"),
         ]
 
         for name, glyph, description in action_terms:
@@ -339,7 +346,7 @@ class VocabularyManager:
                 name=name,
                 value=name,
                 glyph=glyph,
-                attributes={"description": description}
+                attributes={"description": description},
             )
             vocab.add_symbol(symbol)
             self.global_index[symbol.id] = SymbolicDomain.ACTION
@@ -358,7 +365,7 @@ class VocabularyManager:
             ("stable", "⚖️", "Balanced state"),
             ("unstable", "🌪️", "Chaotic state"),
             ("transitioning", "🔄", "Changing state"),
-            ("unknown", "❓", "Undefined state")
+            ("unknown", "❓", "Undefined state"),
         ]
 
         for name, glyph, description in state_terms:
@@ -368,7 +375,7 @@ class VocabularyManager:
                 name=name,
                 value=name,
                 glyph=glyph,
-                attributes={"description": description}
+                attributes={"description": description},
             )
             vocab.add_symbol(symbol)
             self.global_index[symbol.id] = SymbolicDomain.STATE
@@ -377,7 +384,9 @@ class VocabularyManager:
         """Get vocabulary for a specific domain"""
         return self.vocabularies.get(domain)
 
-    def find_symbol(self, name: str, domain: Optional[SymbolicDomain] = None) -> Optional[Symbol]:
+    def find_symbol(
+        self, name: str, domain: Optional[SymbolicDomain] = None
+    ) -> Optional[Symbol]:
         """Find a symbol by name, optionally within a specific domain"""
         if domain:
             vocab = self.vocabularies.get(domain)
@@ -392,7 +401,9 @@ class VocabularyManager:
 
         return None
 
-    def find_concept(self, meaning: str, domain: Optional[SymbolicDomain] = None) -> Optional[Concept]:
+    def find_concept(
+        self, meaning: str, domain: Optional[SymbolicDomain] = None
+    ) -> Optional[Concept]:
         """Find a concept by meaning"""
         if domain:
             vocab = self.vocabularies.get(domain)
@@ -426,7 +437,7 @@ class VocabularyManager:
         stats = {
             "total_symbols": sum(len(v.symbols) for v in self.vocabularies.values()),
             "total_concepts": sum(len(v.concepts) for v in self.vocabularies.values()),
-            "domains": {}
+            "domains": {},
         }
 
         for domain, vocab in self.vocabularies.items():
@@ -434,7 +445,7 @@ class VocabularyManager:
                 "symbols": len(vocab.symbols),
                 "concepts": len(vocab.concepts),
                 "aliases": len(vocab.aliases),
-                "relationships": len(vocab.relationships)
+                "relationships": len(vocab.relationships),
             }
 
         return stats
@@ -474,12 +485,7 @@ class UnifiedVocabulary:
 
     def lookup(self, term: str) -> Dict[str, Any]:
         """Look up a term in the vocabulary"""
-        results = {
-            "term": term,
-            "symbols": [],
-            "concepts": [],
-            "glyphs": []
-        }
+        results = {"term": term, "symbols": [], "concepts": [], "glyphs": []}
 
         # Search for symbols
         symbol = self.manager.find_symbol(term)
@@ -509,7 +515,7 @@ class UnifiedVocabulary:
                 "symbols": [s.to_dict() for s in vocab.symbols.values()],
                 "concepts": [c.to_dict() for c in vocab.concepts.values()],
                 "aliases": vocab.aliases,
-                "metadata": vocab.metadata
+                "metadata": vocab.metadata,
             }
         return {}
 
@@ -518,14 +524,14 @@ class UnifiedVocabulary:
         export_data = {
             "version": "1.0.0",
             "statistics": self.manager.get_statistics(),
-            "domains": {}
+            "domains": {},
         }
 
         for domain in SymbolicDomain:
             export_data["domains"][domain.value] = self.get_domain_vocabulary(domain)
 
         if path:
-            with open(path, 'w') as f:
+            with open(path, "w") as f:
                 json.dump(export_data, f, indent=2, default=str)
 
         return export_data
@@ -535,7 +541,7 @@ class UnifiedVocabulary:
         try:
             # Import domain vocabularies
             if "domains" in data:
-                for domain_name, domain_data in data["domains"].items():
+                for domain_name, _domain_data in data["domains"].items():
                     # TODO: Implement import logic
                     pass
 
