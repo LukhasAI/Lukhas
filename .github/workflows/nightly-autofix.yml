@@ -1,0 +1,71 @@
+name: Nightly T4 Autofix
+
+on:
+  schedule:
+    # Run at 2:17 AM UTC daily (avoid common CI peak hours)
+    - cron: '17 2 * * *'
+  workflow_dispatch: # Allow manual triggering
+    inputs:
+      create_pr:
+        description: 'Create PR for significant changes'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  nightly-autofix:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'LukhasAI'
+    
+    permissions:
+      contents: write
+      pull-requests: write
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          # Install additional tools for nightly automation
+          pip install bandit jq ruff libcst
+      
+      - name: Configure git
+        run: |
+          git config --global user.name 'T4 Autofix Bot'
+          git config --global user.email 'autofix@lukhas.ai'
+      
+      - name: Run nightly autofix
+        env:
+          CREATE_NIGHTLY_PR: ${{ inputs.create_pr || 'false' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x tools/ci/nightly_autofix.sh
+          ./tools/ci/nightly_autofix.sh
+      
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: nightly-autofix-reports
+          path: |
+            data/nightly_autofix_*.log
+            data/security_scan.json
+            reports/todos/summary.md
+          retention-days: 30
+      
+      - name: Comment on recent PRs if issues found
+        if: failure()
+        run: |
+          echo "Nightly autofix failed. Consider adding autofix-pending labels to recent PRs."
+          # This could be extended to actually comment on PRs

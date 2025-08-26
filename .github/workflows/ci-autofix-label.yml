@@ -1,0 +1,23 @@
+name: Block Merge on Autofix Label
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+jobs:
+  check-autofix-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for autofix-pending label
+        if: contains(github.event.pull_request.labels.*.name, 'autofix-pending')
+        run: |
+          echo "❌ PR has 'autofix-pending' label - merge blocked"
+          echo "Please run local autofix first:"
+          echo "  ./tools/ci/run_autofix.sh"
+          echo "Or remove the label if autofix is not needed"
+          exit 1
+      
+      - name: Success
+        if: "!contains(github.event.pull_request.labels.*.name, 'autofix-pending')"
+        run: |
+          echo "✅ No autofix-pending label - merge allowed"
