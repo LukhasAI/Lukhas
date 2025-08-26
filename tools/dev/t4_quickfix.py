@@ -245,6 +245,16 @@ def main():
     # Call LLM to generate patch
     print("🤖 Generating patch with LLM...")
     patch = call_ollama(prompt, args.model)
+    
+    # Add LLM provenance header
+    from datetime import datetime
+    model_used = args.model or os.environ.get("T4_LLM_MODEL","deepseek-coder")
+    timeout = int(os.environ.get("T4_LLM_TIMEOUT","30"))
+    prov = f"# T4-QuickFix provenance: model={model_used} timeout={timeout}s ts={datetime.utcnow().isoformat()}Z\n"
+    if patch.startswith("--- a/"):
+        patch = prov + patch
+    else:
+        patch = prov + "# Non-standard patch payload below\n" + patch
 
     # Check if we got a stub (fallback)
     if "Quickfix stub:" in patch:
