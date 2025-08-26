@@ -51,7 +51,7 @@ class ImportErrorFixer:
         # Common fix patterns
         self.import_fixes = {
             # Core module fixes
-            "core.common": "from core.common import",
+            "core.common": "from lukhas.core.common import",
             "memory.core": "from lukhas.memory.core import",
             "consciousness.unified": "from lukhas.consciousness.unified import",
             "governance.guardian_system": "from lukhas.governance.guardian_system import",
@@ -423,8 +423,8 @@ class ImportErrorFixer:
 
         common_fixes = [
             # Core imports
-            ("from core.common import", "from core.common import"),
-            ("from core.common import", "from core.common import"),
+            ("from lukhas.core.common import", "from lukhas.core.common import"),
+            ("from lukhas.core.common import", "from lukhas.core.common import"),
             ("from core.common.logger import", "from core.common.logger import"),
             ("from core.common.config import", "from core.common.config import"),
             # Memory imports

@@ -15,7 +15,7 @@ from typing import Any, Optional, Dict
 
 # Use fallback imports
 try:
-    from core.common import get_logger
+    from lukhas.core.common import get_logger
     logger = get_logger(__name__, "BRIDGE")
 except ImportError:
     import logging

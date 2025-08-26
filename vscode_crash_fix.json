@@ -1,0 +1,25 @@
+{
+  // VS Code stability settings to prevent DNS/network crashes
+  "extensions.autoUpdate": false,
+  "extensions.autoCheckUpdates": false,
+  "typescript.surveys.enabled": false,
+  "telemetry.telemetryLevel": "off",
+  "update.mode": "manual",
+  
+  // Network/DNS stability fixes
+  "http.proxy": "",
+  "http.proxySupport": "off",
+  "http.systemCertificates": false,
+  "extensions.ignoreRecommendations": true,
+  
+  // Memory and performance
+  "extensions.experimental.affinity": {
+    "ms-python.python": 1,
+    "github.copilot": 1
+  },
+  "typescript.preferences.includePackageJsonAutoImports": "off",
+  
+  // Electron/Node.js stability
+  "terminal.integrated.experimentalUseTitleEvent": false,
+  "workbench.enableExperiments": false
+}

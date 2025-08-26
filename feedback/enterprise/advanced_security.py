@@ -19,7 +19,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-from core.common import get_logger
+from lukhas.core.common import get_logger
 from core.interfaces import CoreInterface
 from feedback.user_feedback_system import FeedbackItem
 

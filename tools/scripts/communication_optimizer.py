@@ -308,7 +308,7 @@ import logging
 from collections import defaultdict
 from functools import lru_cache
 
-from core.common import GLYPHSymbol
+from lukhas.core.common import GLYPHSymbol
 
 logger = logging.getLogger(__name__)
 

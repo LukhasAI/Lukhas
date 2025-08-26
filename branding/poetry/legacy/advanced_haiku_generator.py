@@ -58,7 +58,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-from core.common import get_logger
+from lukhas.core.common import get_logger
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))

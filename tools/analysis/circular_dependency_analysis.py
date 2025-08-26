@@ -337,7 +337,7 @@ Interface module to break circular dependencies between:
 
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional
-from core.common import GLYPHToken
+from lukhas.core.common import GLYPHToken
 
 class {interface_name.replace('_interface', '').title()}Interface(ABC):
     """Abstract interface for {interface_name.replace('_interface', '')} modules"""
