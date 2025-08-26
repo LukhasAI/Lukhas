@@ -1,0 +1,41 @@
+# Tool Execution System Dependencies
+# =================================
+# Additional requirements for the comprehensive tool execution system
+
+# Core dependencies (from main requirements.txt should already be installed)
+# python-dateutil>=2.8.2
+# aiohttp>=3.9.0
+# fastapi>=0.110.0
+# httpx>=0.25.0
+
+# Web scraping and content processing
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+html5lib>=1.1
+
+# Docker integration for sandboxed execution
+docker>=7.0.0
+
+# System monitoring
+psutil>=5.9.0
+
+# Security and cryptography
+cryptography>=41.0.0
+
+# Testing (development only)
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-mock>=3.12.0
+pytest-cov>=4.1.0
+
+# Optional: Enhanced web scraping
+# playwright>=1.40.0  # For more complex web scraping needs
+# selenium>=4.15.0    # Alternative web automation
+
+# Optional: Enhanced performance monitoring
+# prometheus-client>=0.19.0  # For Prometheus metrics export
+# grafana-api>=1.0.0         # For Grafana integration
+
+# Optional: Enhanced AI integration
+# opentelemetry-api>=1.20.0     # For distributed tracing
+# opentelemetry-sdk>=1.20.0     # For telemetry collection
