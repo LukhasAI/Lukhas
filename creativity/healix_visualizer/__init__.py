@@ -1,3 +1,0 @@
-"""
-Healix_Visualizer Module
-"""

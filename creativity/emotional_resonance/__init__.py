@@ -1,3 +1,0 @@
-"""
-Emotional_Resonance Module
-"""
